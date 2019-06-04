@@ -16,6 +16,7 @@ public enum WAFErrorType: AWSErrorType {
     case wAFNonexistentContainerException(message: String?)
     case wAFNonexistentItemException(message: String?)
     case wAFReferencedItemException(message: String?)
+    case wAFServiceLinkedRoleErrorException(message: String?)
     case wAFStaleDataException(message: String?)
     case wAFSubscriptionNotFoundException(message: String?)
 }
@@ -51,6 +52,8 @@ extension WAFErrorType {
             self = .wAFNonexistentItemException(message: message)
         case "WAFReferencedItemException":
             self = .wAFReferencedItemException(message: message)
+        case "WAFServiceLinkedRoleErrorException":
+            self = .wAFServiceLinkedRoleErrorException(message: message)
         case "WAFStaleDataException":
             self = .wAFStaleDataException(message: message)
         case "WAFSubscriptionNotFoundException":

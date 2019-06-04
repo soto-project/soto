@@ -32,8 +32,8 @@ public struct CognitoIdentityProvider {
     }
 
     ///  Adds the specified user to the specified group. Requires developer credentials.
-    public func adminAddUserToGroup(_ input: AdminAddUserToGroupRequest) throws {
-        _ = try client.send(operation: "AdminAddUserToGroup", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func adminAddUserToGroup(_ input: AdminAddUserToGroupRequest) throws -> Future<Void> {
+        return try client.send(operation: "AdminAddUserToGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Confirms user registration as an admin without using a confirmation code. Works on any user. Requires developer credentials.
@@ -47,8 +47,8 @@ public struct CognitoIdentityProvider {
     }
 
     ///  Deletes a user as an administrator. Works on any user. Requires developer credentials.
-    public func adminDeleteUser(_ input: AdminDeleteUserRequest) throws {
-        _ = try client.send(operation: "AdminDeleteUser", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func adminDeleteUser(_ input: AdminDeleteUserRequest) throws -> Future<Void> {
+        return try client.send(operation: "AdminDeleteUser", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the user attributes in a user pool as an administrator. Works on any user. Requires developer credentials.
@@ -72,8 +72,8 @@ public struct CognitoIdentityProvider {
     }
 
     ///  Forgets the device, as an administrator. Requires developer credentials.
-    public func adminForgetDevice(_ input: AdminForgetDeviceRequest) throws {
-        _ = try client.send(operation: "AdminForgetDevice", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func adminForgetDevice(_ input: AdminForgetDeviceRequest) throws -> Future<Void> {
+        return try client.send(operation: "AdminForgetDevice", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets the device, as an administrator. Requires developer credentials.
@@ -112,8 +112,8 @@ public struct CognitoIdentityProvider {
     }
 
     ///  Removes the specified user from the specified group. Requires developer credentials.
-    public func adminRemoveUserFromGroup(_ input: AdminRemoveUserFromGroupRequest) throws {
-        _ = try client.send(operation: "AdminRemoveUserFromGroup", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func adminRemoveUserFromGroup(_ input: AdminRemoveUserFromGroupRequest) throws -> Future<Void> {
+        return try client.send(operation: "AdminRemoveUserFromGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Resets the specified user's password in a user pool as an administrator. Works on any user. When a developer calls this API, the current password is invalidated, so it must be changed. If a user tries to sign in after the API is called, the app will get a PasswordResetRequiredException exception back and should direct the user down the flow to reset the password, which is the same as the forgot password flow. In addition, if the user pool has phone verification selected and a verified phone number exists for the user, or if email verification is selected and a verified email exists for the user, calling this API will also result in sending a message to the end user with the code to change their password. Requires developer credentials.
@@ -129,6 +129,10 @@ public struct CognitoIdentityProvider {
     ///  Sets the user's multi-factor authentication (MFA) preference.
     public func adminSetUserMFAPreference(_ input: AdminSetUserMFAPreferenceRequest) throws -> Future<AdminSetUserMFAPreferenceResponse> {
         return try client.send(operation: "AdminSetUserMFAPreference", path: "/", httpMethod: "POST", input: input)
+    }
+
+    public func adminSetUserPassword(_ input: AdminSetUserPasswordRequest) throws -> Future<AdminSetUserPasswordResponse> {
+        return try client.send(operation: "AdminSetUserPassword", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Sets all the user settings for a specified user name. Works on any user. Requires developer credentials.
@@ -217,23 +221,23 @@ public struct CognitoIdentityProvider {
     }
 
     ///  Deletes a group. Currently only groups with no members can be deleted. Requires developer credentials.
-    public func deleteGroup(_ input: DeleteGroupRequest) throws {
-        _ = try client.send(operation: "DeleteGroup", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteGroup(_ input: DeleteGroupRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an identity provider for a user pool.
-    public func deleteIdentityProvider(_ input: DeleteIdentityProviderRequest) throws {
-        _ = try client.send(operation: "DeleteIdentityProvider", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteIdentityProvider(_ input: DeleteIdentityProviderRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteIdentityProvider", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a resource server.
-    public func deleteResourceServer(_ input: DeleteResourceServerRequest) throws {
-        _ = try client.send(operation: "DeleteResourceServer", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteResourceServer(_ input: DeleteResourceServerRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteResourceServer", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Allows a user to delete himself or herself.
-    public func deleteUser(_ input: DeleteUserRequest) throws {
-        _ = try client.send(operation: "DeleteUser", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteUser(_ input: DeleteUserRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteUser", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the attributes for a user.
@@ -242,13 +246,13 @@ public struct CognitoIdentityProvider {
     }
 
     ///  Deletes the specified Amazon Cognito user pool.
-    public func deleteUserPool(_ input: DeleteUserPoolRequest) throws {
-        _ = try client.send(operation: "DeleteUserPool", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteUserPool(_ input: DeleteUserPoolRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteUserPool", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Allows the developer to delete the user pool client.
-    public func deleteUserPoolClient(_ input: DeleteUserPoolClientRequest) throws {
-        _ = try client.send(operation: "DeleteUserPoolClient", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteUserPoolClient(_ input: DeleteUserPoolClientRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteUserPoolClient", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a domain for a user pool.
@@ -292,8 +296,8 @@ public struct CognitoIdentityProvider {
     }
 
     ///  Forgets the specified device.
-    public func forgetDevice(_ input: ForgetDeviceRequest) throws {
-        _ = try client.send(operation: "ForgetDevice", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func forgetDevice(_ input: ForgetDeviceRequest) throws -> Future<Void> {
+        return try client.send(operation: "ForgetDevice", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Calling this API causes a message to be sent to the end user with a confirmation code that is required to change the user's password. For the Username parameter, you can use the username or user alias. If a verified phone number exists for the user, the confirmation code is sent to the phone number. Otherwise, if a verified email exists, the confirmation code is sent to the email. If neither a verified phone number nor a verified email exists, InvalidParameterException is thrown. To use the confirmation code for resetting the password, call .
@@ -376,6 +380,11 @@ public struct CognitoIdentityProvider {
         return try client.send(operation: "ListResourceServers", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Lists the tags that are assigned to an Amazon Cognito user pool. A tag is a label that you can apply to user pools to categorize and manage them in different ways, such as by purpose, owner, environment, or other criteria. You can use this action up to 10 times per second, per account.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> Future<ListTagsForResourceResponse> {
+        return try client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Lists the user import jobs.
     public func listUserImportJobs(_ input: ListUserImportJobsRequest) throws -> Future<ListUserImportJobsResponse> {
         return try client.send(operation: "ListUserImportJobs", path: "/", httpMethod: "POST", input: input)
@@ -451,6 +460,16 @@ public struct CognitoIdentityProvider {
         return try client.send(operation: "StopUserImportJob", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Assigns a set of tags to an Amazon Cognito user pool. A tag is a label that you can use to categorize and manage user pools in different ways, such as by purpose, owner, environment, or other criteria. Each tag consists of a key and value, both of which you define. A key is a general category for more specific values. For example, if you have two versions of a user pool, one for testing and another for production, you might assign an Environment tag key to both user pools. The value of this key might be Test for one user pool and Production for the other. Tags are useful for cost tracking and access control. You can activate your tags so that they appear on the Billing and Cost Management console, where you can track the costs associated with your user pools. In an IAM policy, you can constrain permissions for user pools based on specific tags or tag values. You can use this action up to 5 times per second, per account. A user pool can have as many as 50 tags.
+    public func tagResource(_ input: TagResourceRequest) throws -> Future<TagResourceResponse> {
+        return try client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes the specified tags from an Amazon Cognito user pool. You can use this action up to 5 times per second, per account
+    public func untagResource(_ input: UntagResourceRequest) throws -> Future<UntagResourceResponse> {
+        return try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Provides the feedback for an authentication event whether it was from a valid user or not. This feedback is used for improving the risk evaluation decision for the user pool as part of Amazon Cognito advanced security.
     public func updateAuthEventFeedback(_ input: UpdateAuthEventFeedbackRequest) throws -> Future<UpdateAuthEventFeedbackResponse> {
         return try client.send(operation: "UpdateAuthEventFeedback", path: "/", httpMethod: "POST", input: input)
@@ -489,6 +508,11 @@ public struct CognitoIdentityProvider {
     ///  Updates the specified user pool app client with the specified attributes. If you don't provide a value for an attribute, it will be set to the default value. You can get a list of the current user pool app client settings with .
     public func updateUserPoolClient(_ input: UpdateUserPoolClientRequest) throws -> Future<UpdateUserPoolClientResponse> {
         return try client.send(operation: "UpdateUserPoolClient", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the Secure Sockets Layer (SSL) certificate for the custom domain for your user pool. You can use this operation to provide the Amazon Resource Name (ARN) of a new certificate to Amazon Cognito. You cannot use it to change the domain for a user pool. A custom domain is used to host the Amazon Cognito hosted UI, which provides sign-up and sign-in pages for your application. When you set up a custom domain, you provide a certificate that you manage with AWS Certificate Manager (ACM). When necessary, you can use this operation to change the certificate that you applied to your custom domain. Usually, this is unnecessary following routine certificate renewal with ACM. When you renew your existing certificate in ACM, the ARN for your certificate remains the same, and your custom domain uses the new certificate automatically. However, if you replace your existing certificate with a new one, ACM gives the new certificate a new ARN. To apply the new certificate to your custom domain, you must provide this ARN to Amazon Cognito. When you add your new certificate in ACM, you must choose US East (N. Virginia) as the AWS Region. After you submit your request, Amazon Cognito requires up to 1 hour to distribute your new certificate to your custom domain. For more information about adding a custom domain to your user pool, see Using Your Own Domain for the Hosted UI.
+    public func updateUserPoolDomain(_ input: UpdateUserPoolDomainRequest) throws -> Future<UpdateUserPoolDomainResponse> {
+        return try client.send(operation: "UpdateUserPoolDomain", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Use this API to register a user's entered TOTP code and mark the user's software token MFA status as "verified" if successful. The request takes an access token or a session string, but not both.

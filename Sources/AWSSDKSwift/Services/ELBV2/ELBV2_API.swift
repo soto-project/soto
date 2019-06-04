@@ -5,7 +5,7 @@ import AWSSDKSwiftCore
 import NIO
 
 /**
-Elastic Load Balancing A load balancer distributes incoming traffic across targets, such as your EC2 instances. This enables you to increase the availability of your application. The load balancer also monitors the health of its registered targets and ensures that it routes traffic only to healthy targets. You configure your load balancer to accept incoming traffic by specifying one or more listeners, which are configured with a protocol and port number for connections from clients to the load balancer. You configure a target group with a protocol and port number for connections from the load balancer to the targets, and with health check settings to be used when checking the health status of the targets. Elastic Load Balancing supports the following types of load balancers: Application Load Balancers, Network Load Balancers, and Classic Load Balancers. An Application Load Balancer makes routing and load balancing decisions at the application layer (HTTP/HTTPS). A Network Load Balancer makes routing and load balancing decisions at the transport layer (TCP). Both Application Load Balancers and Network Load Balancers can route requests to one or more ports on each EC2 instance or container instance in your virtual private cloud (VPC). A Classic Load Balancer makes routing and load balancing decisions either at the transport layer (TCP/SSL) or the application layer (HTTP/HTTPS), and supports either EC2-Classic or a VPC. For more information, see the Elastic Load Balancing User Guide. This reference covers the 2015-12-01 API, which supports Application Load Balancers and Network Load Balancers. The 2012-06-01 API supports Classic Load Balancers. To get started, complete the following tasks:   Create a load balancer using CreateLoadBalancer.   Create a target group using CreateTargetGroup.   Register targets for the target group using RegisterTargets.   Create one or more listeners for your load balancer using CreateListener.   To delete a load balancer and its related resources, complete the following tasks:   Delete the load balancer using DeleteLoadBalancer.   Delete the target group using DeleteTargetGroup.   All Elastic Load Balancing operations are idempotent, which means that they complete at most one time. If you repeat an operation, it succeeds.
+Elastic Load Balancing A load balancer distributes incoming traffic across targets, such as your EC2 instances. This enables you to increase the availability of your application. The load balancer also monitors the health of its registered targets and ensures that it routes traffic only to healthy targets. You configure your load balancer to accept incoming traffic by specifying one or more listeners, which are configured with a protocol and port number for connections from clients to the load balancer. You configure a target group with a protocol and port number for connections from the load balancer to the targets, and with health check settings to be used when checking the health status of the targets. Elastic Load Balancing supports the following types of load balancers: Application Load Balancers, Network Load Balancers, and Classic Load Balancers. An Application Load Balancer makes routing and load balancing decisions at the application layer (HTTP/HTTPS). A Network Load Balancer makes routing and load balancing decisions at the transport layer (TCP/TLS). Both Application Load Balancers and Network Load Balancers can route requests to one or more ports on each EC2 instance or container instance in your virtual private cloud (VPC). A Classic Load Balancer makes routing and load balancing decisions either at the transport layer (TCP/SSL) or the application layer (HTTP/HTTPS), and supports either EC2-Classic or a VPC. For more information, see the Elastic Load Balancing User Guide. This reference covers the 2015-12-01 API, which supports Application Load Balancers and Network Load Balancers. The 2012-06-01 API supports Classic Load Balancers. To get started, complete the following tasks:   Create a load balancer using CreateLoadBalancer.   Create a target group using CreateTargetGroup.   Register targets for the target group using RegisterTargets.   Create one or more listeners for your load balancer using CreateListener.   To delete a load balancer and its related resources, complete the following tasks:   Delete the load balancer using DeleteLoadBalancer.   Delete the target group using DeleteTargetGroup.   All Elastic Load Balancing operations are idempotent, which means that they complete at most one time. If you repeat an operation, it succeeds.
 */
 public struct ELBV2 {
 
@@ -25,7 +25,7 @@ public struct ELBV2 {
         )
     }
 
-    ///  Adds the specified certificate to the specified secure listener. If the certificate was already added, the call is successful but the certificate is not added again. To list the certificates for your listener, use DescribeListenerCertificates. To remove certificates from your listener, use RemoveListenerCertificates. To specify the default SSL server certificate, use ModifyListener.
+    ///  Adds the specified certificate to the specified HTTPS listener. If the certificate was already added, the call is successful but the certificate is not added again. To list the certificates for your listener, use DescribeListenerCertificates. To remove certificates from your listener, use RemoveListenerCertificates. To specify the default SSL server certificate, use ModifyListener.
     public func addListenerCertificates(_ input: AddListenerCertificatesInput) throws -> Future<AddListenerCertificatesOutput> {
         return try client.send(operation: "AddListenerCertificates", path: "/", httpMethod: "POST", input: input)
     }
@@ -85,7 +85,7 @@ public struct ELBV2 {
         return try client.send(operation: "DescribeAccountLimits", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the certificates for the specified secure listener.
+    ///  Describes the certificates for the specified HTTPS listener.
     public func describeListenerCertificates(_ input: DescribeListenerCertificatesInput) throws -> Future<DescribeListenerCertificatesOutput> {
         return try client.send(operation: "DescribeListenerCertificates", path: "/", httpMethod: "POST", input: input)
     }
@@ -103,10 +103,6 @@ public struct ELBV2 {
     ///  Describes the specified load balancers or all of your load balancers. To describe the listeners for a load balancer, use DescribeListeners. To describe the attributes for a load balancer, use DescribeLoadBalancerAttributes.
     public func describeLoadBalancers(_ input: DescribeLoadBalancersInput) throws -> Future<DescribeLoadBalancersOutput> {
         return try client.send(operation: "DescribeLoadBalancers", path: "/", httpMethod: "POST", input: input)
-    }
-
-    public func describeProvisionedCapacity(_ input: DescribeProvisionedCapacityInput) throws -> Future<DescribeProvisionedCapacityOutput> {
-        return try client.send(operation: "DescribeProvisionedCapacity", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the specified rules or the rules for the specified listener. You must specify either a listener or one or more rules.
@@ -139,7 +135,7 @@ public struct ELBV2 {
         return try client.send(operation: "DescribeTargetHealth", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the specified properties of the specified listener. Any properties that you do not specify retain their current values. However, changing the protocol from HTTPS to HTTP removes the security policy and SSL certificate properties. If you change the protocol from HTTP to HTTPS, you must add the security policy and server certificate.
+    ///  Modifies the specified properties of the specified listener. Any properties that you do not specify retain their current values. However, changing the protocol from HTTPS to HTTP, or from TLS to TCP, removes the security policy and server certificate properties. If you change the protocol from HTTP to HTTPS, or from TCP to TLS, you must add the security policy and server certificate properties.
     public func modifyListener(_ input: ModifyListenerInput) throws -> Future<ModifyListenerOutput> {
         return try client.send(operation: "ModifyListener", path: "/", httpMethod: "POST", input: input)
     }
@@ -147,10 +143,6 @@ public struct ELBV2 {
     ///  Modifies the specified attributes of the specified Application Load Balancer or Network Load Balancer. If any of the specified attributes can't be modified as requested, the call fails. Any existing attributes that you do not modify retain their current values.
     public func modifyLoadBalancerAttributes(_ input: ModifyLoadBalancerAttributesInput) throws -> Future<ModifyLoadBalancerAttributesOutput> {
         return try client.send(operation: "ModifyLoadBalancerAttributes", path: "/", httpMethod: "POST", input: input)
-    }
-
-    public func modifyProvisionedCapacity(_ input: ModifyProvisionedCapacityInput) throws -> Future<ModifyProvisionedCapacityOutput> {
-        return try client.send(operation: "ModifyProvisionedCapacity", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies the specified rule. Any existing properties that you do not modify retain their current values. To modify the actions for the default rule, use ModifyListener.
@@ -173,7 +165,7 @@ public struct ELBV2 {
         return try client.send(operation: "RegisterTargets", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Removes the specified certificate from the specified secure listener. You can't remove the default certificate for a listener. To replace the default certificate, call ModifyListener. To list the certificates for your listener, use DescribeListenerCertificates.
+    ///  Removes the specified certificate from the specified HTTPS listener. You can't remove the default certificate for a listener. To replace the default certificate, call ModifyListener. To list the certificates for your listener, use DescribeListenerCertificates.
     public func removeListenerCertificates(_ input: RemoveListenerCertificatesInput) throws -> Future<RemoveListenerCertificatesOutput> {
         return try client.send(operation: "RemoveListenerCertificates", path: "/", httpMethod: "POST", input: input)
     }

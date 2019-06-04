@@ -5,7 +5,7 @@ import AWSSDKSwiftCore
 import NIO
 
 /**
-his section provides documentation for the AWS RoboMaker API operations.
+This section provides documentation for the AWS RoboMaker API operations.
 */
 public struct RoboMaker {
 
@@ -30,12 +30,17 @@ public struct RoboMaker {
         return try client.send(operation: "BatchDescribeSimulationJob", path: "/batchDescribeSimulationJob", httpMethod: "POST", input: input)
     }
 
+    ///  Cancels the specified deployment job.
+    public func cancelDeploymentJob(_ input: CancelDeploymentJobRequest) throws -> Future<CancelDeploymentJobResponse> {
+        return try client.send(operation: "CancelDeploymentJob", path: "/cancelDeploymentJob", httpMethod: "POST", input: input)
+    }
+
     ///  Cancels the specified simulation job.
     public func cancelSimulationJob(_ input: CancelSimulationJobRequest) throws -> Future<CancelSimulationJobResponse> {
         return try client.send(operation: "CancelSimulationJob", path: "/cancelSimulationJob", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a deployment job.
+    ///  Deploys a specific version of a robot application to robots in a fleet. The robot application must have a numbered applicationVersion for consistency reasons. To create a new version, use CreateRobotApplicationVersion or see Creating a Robot Application Version.   After 90 days, deployment jobs expire and will be deleted. They will no longer be accessible.  
     public func createDeploymentJob(_ input: CreateDeploymentJobRequest) throws -> Future<CreateDeploymentJobResponse> {
         return try client.send(operation: "CreateDeploymentJob", path: "/createDeploymentJob", httpMethod: "POST", input: input)
     }
@@ -70,7 +75,7 @@ public struct RoboMaker {
         return try client.send(operation: "CreateSimulationApplicationVersion", path: "/createSimulationApplicationVersion", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a simulation job.
+    ///  Creates a simulation job.  After 90 days, simulation jobs expire and will be deleted. They will no longer be accessible.  
     public func createSimulationJob(_ input: CreateSimulationJobRequest) throws -> Future<CreateSimulationJobResponse> {
         return try client.send(operation: "CreateSimulationJob", path: "/createSimulationJob", httpMethod: "POST", input: input)
     }
@@ -130,12 +135,12 @@ public struct RoboMaker {
         return try client.send(operation: "DescribeSimulationJob", path: "/describeSimulationJob", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs.
+    ///  Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs.     
     public func listDeploymentJobs(_ input: ListDeploymentJobsRequest) throws -> Future<ListDeploymentJobsResponse> {
         return try client.send(operation: "ListDeploymentJobs", path: "/listDeploymentJobs", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of fleets. You can optionally provide filters to retrieve specific fleets.
+    ///  Returns a list of fleets. You can optionally provide filters to retrieve specific fleets. 
     public func listFleets(_ input: ListFleetsRequest) throws -> Future<ListFleetsResponse> {
         return try client.send(operation: "ListFleets", path: "/listFleets", httpMethod: "POST", input: input)
     }
@@ -150,14 +155,19 @@ public struct RoboMaker {
         return try client.send(operation: "ListRobots", path: "/listRobots", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of simulation applications. You can optionally provide filters to retrieve specific simulation applications.
+    ///  Returns a list of simulation applications. You can optionally provide filters to retrieve specific simulation applications. 
     public func listSimulationApplications(_ input: ListSimulationApplicationsRequest) throws -> Future<ListSimulationApplicationsResponse> {
         return try client.send(operation: "ListSimulationApplications", path: "/listSimulationApplications", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of simulation jobs. You can optionally provide filters to retrieve specific simulation jobs.
+    ///  Returns a list of simulation jobs. You can optionally provide filters to retrieve specific simulation jobs. 
     public func listSimulationJobs(_ input: ListSimulationJobsRequest) throws -> Future<ListSimulationJobsResponse> {
         return try client.send(operation: "ListSimulationJobs", path: "/listSimulationJobs", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists all tags on a AWS RoboMaker resource.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> Future<ListTagsForResourceResponse> {
+        return try client.send(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: "GET", input: input)
     }
 
     ///  Registers a robot with a fleet.
@@ -173,6 +183,16 @@ public struct RoboMaker {
     ///  Syncrhonizes robots in a fleet to the latest deployment. This is helpful if robots were added after a deployment.
     public func syncDeploymentJob(_ input: SyncDeploymentJobRequest) throws -> Future<SyncDeploymentJobResponse> {
         return try client.send(operation: "SyncDeploymentJob", path: "/syncDeploymentJob", httpMethod: "POST", input: input)
+    }
+
+    ///  Adds or edits tags for a AWS RoboMaker resource. Each tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty strings.  For information about the rules that apply to tag keys and tag values, see User-Defined Tag Restrictions in the AWS Billing and Cost Management User Guide. 
+    public func tagResource(_ input: TagResourceRequest) throws -> Future<TagResourceResponse> {
+        return try client.send(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes the specified tags from the specified AWS RoboMaker resource. To remove a tag, specify the tag key. To change the tag value of an existing tag key, use  TagResource . 
+    public func untagResource(_ input: UntagResourceRequest) throws -> Future<UntagResourceResponse> {
+        return try client.send(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: "DELETE", input: input)
     }
 
     ///  Updates a robot application.

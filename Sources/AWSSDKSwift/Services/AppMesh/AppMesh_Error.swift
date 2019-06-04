@@ -13,6 +13,7 @@ public enum AppMeshErrorType: AWSErrorType {
     case resourceInUseException(message: String?)
     case serviceUnavailableException(message: String?)
     case tooManyRequestsException(message: String?)
+    case tooManyTagsException(message: String?)
 }
 
 extension AppMeshErrorType {
@@ -40,6 +41,8 @@ extension AppMeshErrorType {
             self = .serviceUnavailableException(message: message)
         case "TooManyRequestsException":
             self = .tooManyRequestsException(message: message)
+        case "TooManyTagsException":
+            self = .tooManyTagsException(message: message)
         default:
             return nil
         }

@@ -194,6 +194,11 @@ do {
      }
 } catch { print(error) }
 ```
+## upgrading from <3.0.x
+
+The simplest way to upgrade from an existing 1.0 or 2.0 implementation is to call `.wait()` on existing synchronous calls.
+
+However it is recommend to rewrite your synchronous code to work with the returned future objects. It is no longer necessary to use a DispatchQueue.
 
 ## Using the `aws-sdk-swift` with Vapor
 

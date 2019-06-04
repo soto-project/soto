@@ -7,7 +7,9 @@ public enum RDSDataServiceErrorType: AWSErrorType {
     case badRequestException(message: String?)
     case forbiddenException(message: String?)
     case internalServerErrorException(message: String?)
+    case notFoundException(message: String?)
     case serviceUnavailableError(message: String?)
+    case statementTimeoutException(message: String?)
 }
 
 extension RDSDataServiceErrorType {
@@ -23,8 +25,12 @@ extension RDSDataServiceErrorType {
             self = .forbiddenException(message: message)
         case "InternalServerErrorException":
             self = .internalServerErrorException(message: message)
+        case "NotFoundException":
+            self = .notFoundException(message: message)
         case "ServiceUnavailableError":
             self = .serviceUnavailableError(message: message)
+        case "StatementTimeoutException":
+            self = .statementTimeoutException(message: message)
         default:
             return nil
         }

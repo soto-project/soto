@@ -49,24 +49,24 @@ extension MarketplaceMetering {
 
     public struct MeterUsageRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DryRun", required: true, type: .boolean), 
+            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
             AWSShapeMember(label: "ProductCode", required: true, type: .string), 
             AWSShapeMember(label: "Timestamp", required: true, type: .timestamp), 
             AWSShapeMember(label: "UsageDimension", required: true, type: .string), 
-            AWSShapeMember(label: "UsageQuantity", required: true, type: .integer)
+            AWSShapeMember(label: "UsageQuantity", required: false, type: .integer)
         ]
-        /// Checks whether you have the permissions required for the action, but does not make the request. If you have the permissions, the request returns DryRunOperation; otherwise, it returns UnauthorizedException.
-        public let dryRun: Bool
+        /// Checks whether you have the permissions required for the action, but does not make the request. If you have the permissions, the request returns DryRunOperation; otherwise, it returns UnauthorizedException. Defaults to false if not specified.
+        public let dryRun: Bool?
         /// Product code is used to uniquely identify a product in AWS Marketplace. The product code should be the same as the one used during the publishing of a new product.
         public let productCode: String
-        /// Timestamp of the hour, recorded in UTC. The seconds and milliseconds portions of the timestamp will be ignored.
+        /// Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to one hour in the past. Make sure the timestamp value is not before the start of the software usage.
         public let timestamp: TimeStamp
         /// It will be one of the fcp dimension name provided during the publishing of the product.
         public let usageDimension: String
-        /// Consumption value for the hour.
-        public let usageQuantity: Int32
+        /// Consumption value for the hour. Defaults to 0 if not specified.
+        public let usageQuantity: Int32?
 
-        public init(dryRun: Bool, productCode: String, timestamp: TimeStamp, usageDimension: String, usageQuantity: Int32) {
+        public init(dryRun: Bool? = nil, productCode: String, timestamp: TimeStamp, usageDimension: String, usageQuantity: Int32? = nil) {
             self.dryRun = dryRun
             self.productCode = productCode
             self.timestamp = timestamp
@@ -187,19 +187,19 @@ extension MarketplaceMetering {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CustomerIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "Dimension", required: true, type: .string), 
-            AWSShapeMember(label: "Quantity", required: true, type: .integer), 
+            AWSShapeMember(label: "Quantity", required: false, type: .integer), 
             AWSShapeMember(label: "Timestamp", required: true, type: .timestamp)
         ]
         /// The CustomerIdentifier is obtained through the ResolveCustomer operation and represents an individual buyer in your application.
         public let customerIdentifier: String
         /// During the process of registering a product on AWS Marketplace, up to eight dimensions are specified. These represent different units of value in your application.
         public let dimension: String
-        /// The quantity of usage consumed by the customer for the given dimension and time.
-        public let quantity: Int32
-        /// Timestamp of the hour, recorded in UTC. The seconds and milliseconds portions of the timestamp will be ignored. Your application can meter usage for up to one hour in the past.
+        /// The quantity of usage consumed by the customer for the given dimension and time. Defaults to 0 if not specified.
+        public let quantity: Int32?
+        /// Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to one hour in the past. Make sure the timestamp value is not before the start of the software usage.
         public let timestamp: TimeStamp
 
-        public init(customerIdentifier: String, dimension: String, quantity: Int32, timestamp: TimeStamp) {
+        public init(customerIdentifier: String, dimension: String, quantity: Int32? = nil, timestamp: TimeStamp) {
             self.customerIdentifier = customerIdentifier
             self.dimension = dimension
             self.quantity = quantity

@@ -5,7 +5,7 @@ import AWSSDKSwiftCore
 import NIO
 
 /**
-AWS Systems Manager AWS Systems Manager is a collection of capabilities that helps you automate management tasks such as collecting system inventory, applying operating system (OS) patches, automating the creation of Amazon Machine Images (AMIs), and configuring operating systems (OSs) and applications at scale. Systems Manager lets you remotely and securely manage the configuration of your managed instances. A managed instance is any Amazon EC2 instance or on-premises machine in your hybrid environment that has been configured for Systems Manager. This reference is intended to be used with the AWS Systems Manager User Guide. To get started, verify prerequisites and configure managed instances. For more information, see Systems Manager Prerequisites in the AWS Systems Manager User Guide. For information about other API actions you can perform on Amazon EC2 instances, see the Amazon EC2 API Reference. For information about how to use a Query API, see Making API Requests. 
+AWS Systems Manager AWS Systems Manager is a collection of capabilities that helps you automate management tasks such as collecting system inventory, applying operating system (OS) patches, automating the creation of Amazon Machine Images (AMIs), and configuring operating systems (OSs) and applications at scale. Systems Manager lets you remotely and securely manage the configuration of your managed instances. A managed instance is any Amazon EC2 instance or on-premises machine in your hybrid environment that has been configured for Systems Manager. This reference is intended to be used with the AWS Systems Manager User Guide. To get started, verify prerequisites and configure managed instances. For more information, see Setting Up AWS Systems Manager in the AWS Systems Manager User Guide. For information about other API actions you can perform on Amazon EC2 instances, see the Amazon EC2 API Reference. For information about how to use a Query API, see Making API Requests. 
 */
 public struct SSM {
 
@@ -26,7 +26,7 @@ public struct SSM {
         )
     }
 
-    ///  Adds or overwrites one or more tags for the specified resource. Tags are metadata that you can assign to your documents, managed instances, Maintenance Windows, Parameter Store parameters, and patch baselines. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define. For example, you could define a set of tags for your account's managed instances that helps you track each instance's owner and stack level. For example: Key=Owner and Value=DbAdmin, SysAdmin, or Dev. Or Key=Stack and Value=Production, Pre-Production, or Test. Each resource can have a maximum of 50 tags.  We recommend that you devise a set of tag keys that meets your needs for each resource type. Using a consistent set of tag keys makes it easier for you to manage your resources. You can search and filter the resources based on the tags you add. Tags don't have any semantic meaning to Amazon EC2 and are interpreted strictly as a string of characters.  For more information about tags, see Tagging Your Amazon EC2 Resources in the Amazon EC2 User Guide.
+    ///  Adds or overwrites one or more tags for the specified resource. Tags are metadata that you can assign to your documents, managed instances, maintenance windows, Parameter Store parameters, and patch baselines. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define. For example, you could define a set of tags for your account's managed instances that helps you track each instance's owner and stack level. For example: Key=Owner and Value=DbAdmin, SysAdmin, or Dev. Or Key=Stack and Value=Production, Pre-Production, or Test. Each resource can have a maximum of 50 tags.  We recommend that you devise a set of tag keys that meets your needs for each resource type. Using a consistent set of tag keys makes it easier for you to manage your resources. You can search and filter the resources based on the tags you add. Tags don't have any semantic meaning to Amazon EC2 and are interpreted strictly as a string of characters.  For more information about tags, see Tagging Your Amazon EC2 Resources in the Amazon EC2 User Guide.
     public func addTagsToResource(_ input: AddTagsToResourceRequest) throws -> Future<AddTagsToResourceResult> {
         return try client.send(operation: "AddTagsToResource", path: "/", httpMethod: "POST", input: input)
     }
@@ -36,12 +36,12 @@ public struct SSM {
         return try client.send(operation: "CancelCommand", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Stops a Maintenance Window execution that is already in progress and cancels any tasks in the window that have not already starting running. (Tasks already in progress will continue to completion.)
+    ///  Stops a maintenance window execution that is already in progress and cancels any tasks in the window that have not already starting running. (Tasks already in progress will continue to completion.)
     public func cancelMaintenanceWindowExecution(_ input: CancelMaintenanceWindowExecutionRequest) throws -> Future<CancelMaintenanceWindowExecutionResult> {
         return try client.send(operation: "CancelMaintenanceWindowExecution", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Registers your on-premises server or virtual machine with Amazon EC2 so that you can manage these resources using Run Command. An on-premises server or virtual machine that has been registered with EC2 is called a managed instance. For more information about activations, see Setting Up Systems Manager in Hybrid Environments.
+    ///  Registers your on-premises server or virtual machine with Amazon EC2 so that you can manage these resources using Run Command. An on-premises server or virtual machine that has been registered with EC2 is called a managed instance. For more information about activations, see Setting Up AWS Systems Manager for Hybrid Environments.
     public func createActivation(_ input: CreateActivationRequest) throws -> Future<CreateActivationResult> {
         return try client.send(operation: "CreateActivation", path: "/", httpMethod: "POST", input: input)
     }
@@ -61,7 +61,7 @@ public struct SSM {
         return try client.send(operation: "CreateDocument", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new Maintenance Window.
+    ///  Creates a new maintenance window.
     public func createMaintenanceWindow(_ input: CreateMaintenanceWindowRequest) throws -> Future<CreateMaintenanceWindowResult> {
         return try client.send(operation: "CreateMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
     }
@@ -71,7 +71,7 @@ public struct SSM {
         return try client.send(operation: "CreatePatchBaseline", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a resource data sync configuration to a single bucket in Amazon S3. This is an asynchronous operation that returns immediately. After a successful initial sync is completed, the system continuously syncs data to the Amazon S3 bucket. To check the status of the sync, use the ListResourceDataSync. By default, data is not encrypted in Amazon S3. We strongly recommend that you enable encryption in Amazon S3 to ensure secure data storage. We also recommend that you secure access to the Amazon S3 bucket by creating a restrictive bucket policy. To view an example of a restrictive Amazon S3 bucket policy for Resource Data Sync, see Create a Resource Data Sync for Inventory in the AWS Systems Manager User Guide.
+    ///  Creates a resource data sync configuration to a single bucket in Amazon S3. This is an asynchronous operation that returns immediately. After a successful initial sync is completed, the system continuously syncs data to the Amazon S3 bucket. To check the status of the sync, use the ListResourceDataSync. By default, data is not encrypted in Amazon S3. We strongly recommend that you enable encryption in Amazon S3 to ensure secure data storage. We also recommend that you secure access to the Amazon S3 bucket by creating a restrictive bucket policy. For more information, see Configuring Resource Data Sync for Inventory in the AWS Systems Manager User Guide.
     public func createResourceDataSync(_ input: CreateResourceDataSyncRequest) throws -> Future<CreateResourceDataSyncResult> {
         return try client.send(operation: "CreateResourceDataSync", path: "/", httpMethod: "POST", input: input)
     }
@@ -96,7 +96,7 @@ public struct SSM {
         return try client.send(operation: "DeleteInventory", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a Maintenance Window.
+    ///  Deletes a maintenance window.
     public func deleteMaintenanceWindow(_ input: DeleteMaintenanceWindowRequest) throws -> Future<DeleteMaintenanceWindowResult> {
         return try client.send(operation: "DeleteMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
     }
@@ -131,12 +131,12 @@ public struct SSM {
         return try client.send(operation: "DeregisterPatchBaselineForPatchGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Removes a target from a Maintenance Window.
+    ///  Removes a target from a maintenance window.
     public func deregisterTargetFromMaintenanceWindow(_ input: DeregisterTargetFromMaintenanceWindowRequest) throws -> Future<DeregisterTargetFromMaintenanceWindowResult> {
         return try client.send(operation: "DeregisterTargetFromMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Removes a task from a Maintenance Window.
+    ///  Removes a task from a maintenance window.
     public func deregisterTaskFromMaintenanceWindow(_ input: DeregisterTaskFromMaintenanceWindowRequest) throws -> Future<DeregisterTaskFromMaintenanceWindowResult> {
         return try client.send(operation: "DeregisterTaskFromMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
     }
@@ -226,42 +226,42 @@ public struct SSM {
         return try client.send(operation: "DescribeInventoryDeletions", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves the individual task executions (one per target) for a particular task executed as part of a Maintenance Window execution.
+    ///  Retrieves the individual task executions (one per target) for a particular task run as part of a maintenance window execution.
     public func describeMaintenanceWindowExecutionTaskInvocations(_ input: DescribeMaintenanceWindowExecutionTaskInvocationsRequest) throws -> Future<DescribeMaintenanceWindowExecutionTaskInvocationsResult> {
         return try client.send(operation: "DescribeMaintenanceWindowExecutionTaskInvocations", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  For a given Maintenance Window execution, lists the tasks that were executed.
+    ///  For a given maintenance window execution, lists the tasks that were run.
     public func describeMaintenanceWindowExecutionTasks(_ input: DescribeMaintenanceWindowExecutionTasksRequest) throws -> Future<DescribeMaintenanceWindowExecutionTasksResult> {
         return try client.send(operation: "DescribeMaintenanceWindowExecutionTasks", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the executions of a Maintenance Window. This includes information about when the Maintenance Window was scheduled to be active, and information about tasks registered and run with the Maintenance Window.
+    ///  Lists the executions of a maintenance window. This includes information about when the maintenance window was scheduled to be active, and information about tasks registered and run with the maintenance window.
     public func describeMaintenanceWindowExecutions(_ input: DescribeMaintenanceWindowExecutionsRequest) throws -> Future<DescribeMaintenanceWindowExecutionsResult> {
         return try client.send(operation: "DescribeMaintenanceWindowExecutions", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves information about upcoming executions of a Maintenance Window.
+    ///  Retrieves information about upcoming executions of a maintenance window.
     public func describeMaintenanceWindowSchedule(_ input: DescribeMaintenanceWindowScheduleRequest) throws -> Future<DescribeMaintenanceWindowScheduleResult> {
         return try client.send(operation: "DescribeMaintenanceWindowSchedule", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the targets registered with the Maintenance Window.
+    ///  Lists the targets registered with the maintenance window.
     public func describeMaintenanceWindowTargets(_ input: DescribeMaintenanceWindowTargetsRequest) throws -> Future<DescribeMaintenanceWindowTargetsResult> {
         return try client.send(operation: "DescribeMaintenanceWindowTargets", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the tasks in a Maintenance Window.
+    ///  Lists the tasks in a maintenance window.
     public func describeMaintenanceWindowTasks(_ input: DescribeMaintenanceWindowTasksRequest) throws -> Future<DescribeMaintenanceWindowTasksResult> {
         return try client.send(operation: "DescribeMaintenanceWindowTasks", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves the Maintenance Windows in an AWS account.
+    ///  Retrieves the maintenance windows in an AWS account.
     public func describeMaintenanceWindows(_ input: DescribeMaintenanceWindowsRequest) throws -> Future<DescribeMaintenanceWindowsResult> {
         return try client.send(operation: "DescribeMaintenanceWindows", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves information about the Maintenance Windows targets or tasks that an instance is associated with.
+    ///  Retrieves information about the maintenance window targets or tasks that an instance is associated with.
     public func describeMaintenanceWindowsForTarget(_ input: DescribeMaintenanceWindowsForTargetRequest) throws -> Future<DescribeMaintenanceWindowsForTargetResult> {
         return try client.send(operation: "DescribeMaintenanceWindowsForTarget", path: "/", httpMethod: "POST", input: input)
     }
@@ -284,6 +284,11 @@ public struct SSM {
     ///  Lists all patch groups that have been registered with patch baselines.
     public func describePatchGroups(_ input: DescribePatchGroupsRequest) throws -> Future<DescribePatchGroupsResult> {
         return try client.send(operation: "DescribePatchGroups", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the properties of available patches organized by product, product family, classification, severity, and other properties of available patches. You can use the reported properties in the filters you specify in requests for actions such as CreatePatchBaseline, UpdatePatchBaseline, DescribeAvailablePatches, and DescribePatchBaselines. The following section lists the properties that can be used in filters for each major operating system type:  WINDOWS  Valid properties: PRODUCT, PRODUCT_FAMILY, CLASSIFICATION, MSRC_SEVERITY  AMAZON_LINUX  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  AMAZON_LINUX_2  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  UBUNTU   Valid properties: PRODUCT, PRIORITY  REDHAT_ENTERPRISE_LINUX  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  SUSE  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  CENTOS  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  
+    public func describePatchProperties(_ input: DescribePatchPropertiesRequest) throws -> Future<DescribePatchPropertiesResult> {
+        return try client.send(operation: "DescribePatchProperties", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a list of all active sessions (both connected and disconnected) or terminated sessions from the past 30 days.
@@ -331,27 +336,27 @@ public struct SSM {
         return try client.send(operation: "GetInventorySchema", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves a Maintenance Window.
+    ///  Retrieves a maintenance window.
     public func getMaintenanceWindow(_ input: GetMaintenanceWindowRequest) throws -> Future<GetMaintenanceWindowResult> {
         return try client.send(operation: "GetMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves details about a specific task executed as part of a Maintenance Window execution.
+    ///  Retrieves details about a specific task run as part of a maintenance window execution.
     public func getMaintenanceWindowExecution(_ input: GetMaintenanceWindowExecutionRequest) throws -> Future<GetMaintenanceWindowExecutionResult> {
         return try client.send(operation: "GetMaintenanceWindowExecution", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves the details about a specific task executed as part of a Maintenance Window execution.
+    ///  Retrieves the details about a specific task run as part of a maintenance window execution.
     public func getMaintenanceWindowExecutionTask(_ input: GetMaintenanceWindowExecutionTaskRequest) throws -> Future<GetMaintenanceWindowExecutionTaskResult> {
         return try client.send(operation: "GetMaintenanceWindowExecutionTask", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves a task invocation. A task invocation is a specific task executing on a specific target. Maintenance Windows report status for all invocations. 
+    ///  Retrieves a task invocation. A task invocation is a specific task running on a specific target. maintenance windows report status for all invocations. 
     public func getMaintenanceWindowExecutionTaskInvocation(_ input: GetMaintenanceWindowExecutionTaskInvocationRequest) throws -> Future<GetMaintenanceWindowExecutionTaskInvocationResult> {
         return try client.send(operation: "GetMaintenanceWindowExecutionTaskInvocation", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the tasks in a Maintenance Window.
+    ///  Lists the tasks in a maintenance window.
     public func getMaintenanceWindowTask(_ input: GetMaintenanceWindowTaskRequest) throws -> Future<GetMaintenanceWindowTaskResult> {
         return try client.send(operation: "GetMaintenanceWindowTask", path: "/", httpMethod: "POST", input: input)
     }
@@ -386,6 +391,11 @@ public struct SSM {
         return try client.send(operation: "GetPatchBaselineForPatchGroup", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///   ServiceSetting is an account-level setting for an AWS service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an AWS service charges money to the account based on feature or service usage, then the AWS service team might create a default setting of "false". This means the user can't use this feature unless they change the setting to "true" and intentionally opt in for a paid feature. Services map a SettingId object to a setting value. AWS services teams define the default value for a SettingId. You can't create a new SettingId, but you can overwrite the default value if you have the ssm:UpdateServiceSetting permission for the setting. Use the UpdateServiceSetting API action to change the default setting. Or use the ResetServiceSetting to change the value back to the original value defined by the AWS service team. Query the current service setting for the account. 
+    public func getServiceSetting(_ input: GetServiceSettingRequest) throws -> Future<GetServiceSettingResult> {
+        return try client.send(operation: "GetServiceSetting", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  A parameter label is a user-defined alias to help you manage different versions of a parameter. When you modify a parameter, Systems Manager automatically saves a new version and increments the version number by one. A label can help you remember the purpose of a parameter when there are multiple versions.  Parameter labels have the following requirements and restrictions.   A version of a parameter can have a maximum of 10 labels.   You can't attach the same label to different versions of the same parameter. For example, if version 1 has the label Production, then you can't attach Production to version 2.   You can move a label from one version of a parameter to another.   You can't create a label when you create a new parameter. You must attach a label to a specific version of a parameter.   You can't delete a parameter label. If you no longer want to use a parameter label, then you must move it to a different version of a parameter.   A label can have a maximum of 100 characters.   Labels can contain letters (case sensitive), numbers, periods (.), hyphens (-), or underscores (_).   Labels can't begin with a number, "aws," or "ssm" (not case sensitive). If a label fails to meet these requirements, then the label is not associated with a parameter and the system displays it in the list of InvalidLabels.  
     public func labelParameterVersion(_ input: LabelParameterVersionRequest) throws -> Future<LabelParameterVersionResult> {
         return try client.send(operation: "LabelParameterVersion", path: "/", httpMethod: "POST", input: input)
@@ -401,7 +411,7 @@ public struct SSM {
         return try client.send(operation: "ListAssociations", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  An invocation is copy of a command sent to a specific instance. A command can apply to one or more instances. A command invocation applies to one instance. For example, if a user executes SendCommand against three instances, then a command invocation is created for each requested instance ID. ListCommandInvocations provide status about command execution.
+    ///  An invocation is copy of a command sent to a specific instance. A command can apply to one or more instances. A command invocation applies to one instance. For example, if a user runs SendCommand against three instances, then a command invocation is created for each requested instance ID. ListCommandInvocations provide status about command execution.
     public func listCommandInvocations(_ input: ListCommandInvocationsRequest) throws -> Future<ListCommandInvocationsResult> {
         return try client.send(operation: "ListCommandInvocations", path: "/", httpMethod: "POST", input: input)
     }
@@ -481,12 +491,12 @@ public struct SSM {
         return try client.send(operation: "RegisterPatchBaselineForPatchGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Registers a target with a Maintenance Window.
+    ///  Registers a target with a maintenance window.
     public func registerTargetWithMaintenanceWindow(_ input: RegisterTargetWithMaintenanceWindowRequest) throws -> Future<RegisterTargetWithMaintenanceWindowResult> {
         return try client.send(operation: "RegisterTargetWithMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds a new task to a Maintenance Window.
+    ///  Adds a new task to a maintenance window.
     public func registerTaskWithMaintenanceWindow(_ input: RegisterTaskWithMaintenanceWindowRequest) throws -> Future<RegisterTaskWithMaintenanceWindowResult> {
         return try client.send(operation: "RegisterTaskWithMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
     }
@@ -494,6 +504,11 @@ public struct SSM {
     ///  Removes all tags from the specified resource.
     public func removeTagsFromResource(_ input: RemoveTagsFromResourceRequest) throws -> Future<RemoveTagsFromResourceResult> {
         return try client.send(operation: "RemoveTagsFromResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///   ServiceSetting is an account-level setting for an AWS service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an AWS service charges money to the account based on feature or service usage, then the AWS service team might create a default setting of "false". This means the user can't use this feature unless they change the setting to "true" and intentionally opt in for a paid feature. Services map a SettingId object to a setting value. AWS services teams define the default value for a SettingId. You can't create a new SettingId, but you can overwrite the default value if you have the ssm:UpdateServiceSetting permission for the setting. Use the GetServiceSetting API action to view the current value. Use the UpdateServiceSetting API action to change the default setting.  Reset the service setting for the account to the default value as provisioned by the AWS service team. 
+    public func resetServiceSetting(_ input: ResetServiceSettingRequest) throws -> Future<ResetServiceSettingResult> {
+        return try client.send(operation: "ResetServiceSetting", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Reconnects a session to an instance after it has been disconnected. Connections can be resumed for disconnected sessions, but not terminated sessions.  This command is primarily for use by client machines to automatically reconnect during intermittent network issues. It is not intended for any other use. 
@@ -506,12 +521,12 @@ public struct SSM {
         return try client.send(operation: "SendAutomationSignal", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Executes commands on one or more managed instances.
+    ///  Runs commands on one or more managed instances.
     public func sendCommand(_ input: SendCommandRequest) throws -> Future<SendCommandResult> {
         return try client.send(operation: "SendCommand", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Use this API action to execute an association immediately and only one time. This action can be helpful when troubleshooting associations.
+    ///  Use this API action to run an association immediately and only one time. This action can be helpful when troubleshooting associations.
     public func startAssociationsOnce(_ input: StartAssociationsOnceRequest) throws -> Future<StartAssociationsOnceResult> {
         return try client.send(operation: "StartAssociationsOnce", path: "/", httpMethod: "POST", input: input)
     }
@@ -526,7 +541,7 @@ public struct SSM {
         return try client.send(operation: "StartSession", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Stop an Automation that is currently executing.
+    ///  Stop an Automation that is currently running.
     public func stopAutomationExecution(_ input: StopAutomationExecutionRequest) throws -> Future<StopAutomationExecutionResult> {
         return try client.send(operation: "StopAutomationExecution", path: "/", httpMethod: "POST", input: input)
     }
@@ -536,7 +551,7 @@ public struct SSM {
         return try client.send(operation: "TerminateSession", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates an association. You can update the association name and version, the document version, schedule, parameters, and Amazon S3 output.
+    ///  Updates an association. You can update the association name and version, the document version, schedule, parameters, and Amazon S3 output.  When you update an association, the association immediately runs against the specified targets. 
     public func updateAssociation(_ input: UpdateAssociationRequest) throws -> Future<UpdateAssociationResult> {
         return try client.send(operation: "UpdateAssociation", path: "/", httpMethod: "POST", input: input)
     }
@@ -556,17 +571,17 @@ public struct SSM {
         return try client.send(operation: "UpdateDocumentDefaultVersion", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates an existing Maintenance Window. Only specified parameters are modified.
+    ///  Updates an existing maintenance window. Only specified parameters are modified.
     public func updateMaintenanceWindow(_ input: UpdateMaintenanceWindowRequest) throws -> Future<UpdateMaintenanceWindowResult> {
         return try client.send(operation: "UpdateMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the target of an existing Maintenance Window. You can't change the target type, but you can change the following: The target from being an ID target to a Tag target, or a Tag target to an ID target. IDs for an ID target. Tags for a Tag target. Owner. Name. Description. If a parameter is null, then the corresponding field is not modified.
+    ///  Modifies the target of an existing maintenance window. You can't change the target type, but you can change the following: The target from being an ID target to a Tag target, or a Tag target to an ID target. IDs for an ID target. Tags for a Tag target. Owner. Name. Description. If a parameter is null, then the corresponding field is not modified.
     public func updateMaintenanceWindowTarget(_ input: UpdateMaintenanceWindowTargetRequest) throws -> Future<UpdateMaintenanceWindowTargetResult> {
         return try client.send(operation: "UpdateMaintenanceWindowTarget", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies a task assigned to a Maintenance Window. You can't change the task type, but you can change the following values:   TaskARN. For example, you can change a RUN_COMMAND task from AWS-RunPowerShellScript to AWS-RunShellScript.   ServiceRoleArn   TaskInvocationParameters   Priority   MaxConcurrency   MaxErrors   If a parameter is null, then the corresponding field is not modified. Also, if you set Replace to true, then all fields required by the RegisterTaskWithMaintenanceWindow action are required for this request. Optional fields that aren't specified are set to null.
+    ///  Modifies a task assigned to a maintenance window. You can't change the task type, but you can change the following values:   TaskARN. For example, you can change a RUN_COMMAND task from AWS-RunPowerShellScript to AWS-RunShellScript.   ServiceRoleArn   TaskInvocationParameters   Priority   MaxConcurrency   MaxErrors   If a parameter is null, then the corresponding field is not modified. Also, if you set Replace to true, then all fields required by the RegisterTaskWithMaintenanceWindow action are required for this request. Optional fields that aren't specified are set to null.
     public func updateMaintenanceWindowTask(_ input: UpdateMaintenanceWindowTaskRequest) throws -> Future<UpdateMaintenanceWindowTaskResult> {
         return try client.send(operation: "UpdateMaintenanceWindowTask", path: "/", httpMethod: "POST", input: input)
     }
@@ -579,6 +594,11 @@ public struct SSM {
     ///  Modifies an existing patch baseline. Fields not specified in the request are left unchanged.  For information about valid key and value pairs in PatchFilters for each supported operating system type, see PatchFilter. 
     public func updatePatchBaseline(_ input: UpdatePatchBaselineRequest) throws -> Future<UpdatePatchBaselineResult> {
         return try client.send(operation: "UpdatePatchBaseline", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///   ServiceSetting is an account-level setting for an AWS service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an AWS service charges money to the account based on feature or service usage, then the AWS service team might create a default setting of "false". This means the user can't use this feature unless they change the setting to "true" and intentionally opt in for a paid feature. Services map a SettingId object to a setting value. AWS services teams define the default value for a SettingId. You can't create a new SettingId, but you can overwrite the default value if you have the ssm:UpdateServiceSetting permission for the setting. Use the GetServiceSetting API action to view the current value. Or, use the ResetServiceSetting to change the value back to the original value defined by the AWS service team. Update the service setting for the account. 
+    public func updateServiceSetting(_ input: UpdateServiceSettingRequest) throws -> Future<UpdateServiceSettingResult> {
+        return try client.send(operation: "UpdateServiceSetting", path: "/", httpMethod: "POST", input: input)
     }
 
 

@@ -28,8 +28,8 @@ public struct Translate {
     }
 
     ///  A synchronous action that deletes a custom terminology.
-    public func deleteTerminology(_ input: DeleteTerminologyRequest) throws {
-        _ = try client.send(operation: "DeleteTerminology", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteTerminology(_ input: DeleteTerminologyRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteTerminology", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a custom terminology.

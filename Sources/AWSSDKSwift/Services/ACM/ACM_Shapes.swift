@@ -87,7 +87,7 @@ extension ACM {
         public let notBefore: TimeStamp?
         /// Value that specifies whether to add the certificate to a transparency log. Certificate transparency makes it possible to detect SSL certificates that have been mistakenly or maliciously issued. A browser might respond to certificate that has not been logged by showing an error message. The logs are cryptographically secure. 
         public let options: CertificateOptions?
-        /// Specifies whether the certificate is eligible for renewal.
+        /// Specifies whether the certificate is eligible for renewal. At this time, only exported private certificates can be renewed with the RenewCertificate command.
         public let renewalEligibility: RenewalEligibility?
         /// Contains information about the status of ACM's managed renewal for the certificate. This field exists only when the certificate type is AMAZON_ISSUED.
         public let renewalSummary: RenewalSummary?
@@ -376,7 +376,7 @@ extension ACM {
         public let certificate: String?
         /// The base64 PEM-encoded certificate chain. This does not include the certificate that you are exporting.
         public let certificateChain: String?
-        /// The PEM-encoded private key associated with the public key in the certificate.
+        /// The encrypted private key associated with the public key in the certificate. The key is output in PKCS #8 format and is base64 PEM-encoded. 
         public let privateKey: String?
 
         public init(certificate: String? = nil, certificateChain: String? = nil, privateKey: String? = nil) {
@@ -434,6 +434,7 @@ extension ACM {
         case additionalVerificationRequired = "ADDITIONAL_VERIFICATION_REQUIRED"
         case domainNotAllowed = "DOMAIN_NOT_ALLOWED"
         case invalidPublicDomain = "INVALID_PUBLIC_DOMAIN"
+        case domainValidationDenied = "DOMAIN_VALIDATION_DENIED"
         case caaError = "CAA_ERROR"
         case pcaLimitExceeded = "PCA_LIMIT_EXCEEDED"
         case pcaInvalidArn = "PCA_INVALID_ARN"
@@ -441,6 +442,8 @@ extension ACM {
         case pcaRequestFailed = "PCA_REQUEST_FAILED"
         case pcaResourceNotFound = "PCA_RESOURCE_NOT_FOUND"
         case pcaInvalidArgs = "PCA_INVALID_ARGS"
+        case pcaInvalidDuration = "PCA_INVALID_DURATION"
+        case pcaAccessDenied = "PCA_ACCESS_DENIED"
         case other = "OTHER"
         public var description: String { return self.rawValue }
     }
@@ -706,6 +709,22 @@ extension ACM {
         }
     }
 
+    public struct RenewCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateArn", required: true, type: .string)
+        ]
+        /// String that contains the ARN of the ACM certificate to be renewed. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        public let certificateArn: String
+
+        public init(certificateArn: String) {
+            self.certificateArn = certificateArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+        }
+    }
+
     public enum RenewalEligibility: String, CustomStringConvertible, Codable {
         case eligible = "ELIGIBLE"
         case ineligible = "INELIGIBLE"
@@ -723,21 +742,31 @@ extension ACM {
     public struct RenewalSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainValidationOptions", required: true, type: .list), 
-            AWSShapeMember(label: "RenewalStatus", required: true, type: .enum)
+            AWSShapeMember(label: "RenewalStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "RenewalStatusReason", required: false, type: .enum), 
+            AWSShapeMember(label: "UpdatedAt", required: true, type: .timestamp)
         ]
         /// Contains information about the validation of each domain name in the certificate, as it pertains to ACM's managed renewal. This is different from the initial validation that occurs as a result of the RequestCertificate request. This field exists only when the certificate type is AMAZON_ISSUED.
         public let domainValidationOptions: [DomainValidation]
         /// The status of ACM's managed renewal of the certificate.
         public let renewalStatus: RenewalStatus
+        /// The reason that a renewal request was unsuccessful.
+        public let renewalStatusReason: FailureReason?
+        /// The time at which the renewal summary was last updated.
+        public let updatedAt: TimeStamp
 
-        public init(domainValidationOptions: [DomainValidation], renewalStatus: RenewalStatus) {
+        public init(domainValidationOptions: [DomainValidation], renewalStatus: RenewalStatus, renewalStatusReason: FailureReason? = nil, updatedAt: TimeStamp) {
             self.domainValidationOptions = domainValidationOptions
             self.renewalStatus = renewalStatus
+            self.renewalStatusReason = renewalStatusReason
+            self.updatedAt = updatedAt
         }
 
         private enum CodingKeys: String, CodingKey {
             case domainValidationOptions = "DomainValidationOptions"
             case renewalStatus = "RenewalStatus"
+            case renewalStatusReason = "RenewalStatusReason"
+            case updatedAt = "UpdatedAt"
         }
     }
 

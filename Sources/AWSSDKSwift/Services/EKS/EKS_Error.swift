@@ -6,6 +6,7 @@ import AWSSDKSwiftCore
 public enum EKSErrorType: AWSErrorType {
     case clientException(message: String?)
     case invalidParameterException(message: String?)
+    case invalidRequestException(message: String?)
     case resourceInUseException(message: String?)
     case resourceLimitExceededException(message: String?)
     case resourceNotFoundException(message: String?)
@@ -25,6 +26,8 @@ extension EKSErrorType {
             self = .clientException(message: message)
         case "InvalidParameterException":
             self = .invalidParameterException(message: message)
+        case "InvalidRequestException":
+            self = .invalidRequestException(message: message)
         case "ResourceInUseException":
             self = .resourceInUseException(message: message)
         case "ResourceLimitExceededException":

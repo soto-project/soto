@@ -17,10 +17,11 @@ public struct ECR {
             secretAccessKey: secretAccessKey,
             region: region,
             amzTarget: "AmazonEC2ContainerRegistry_V20150921",
-            service: "ecr",
+            service: "api.ecr",
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2015-09-21",
             endpoint: endpoint,
+            serviceEndpoints: ["ap-east-1": "api.ecr.ap-east-1.amazonaws.com", "ap-northeast-1": "api.ecr.ap-northeast-1.amazonaws.com", "ap-northeast-2": "api.ecr.ap-northeast-2.amazonaws.com", "ap-south-1": "api.ecr.ap-south-1.amazonaws.com", "ap-southeast-1": "api.ecr.ap-southeast-1.amazonaws.com", "ap-southeast-2": "api.ecr.ap-southeast-2.amazonaws.com", "ca-central-1": "api.ecr.ca-central-1.amazonaws.com", "eu-central-1": "api.ecr.eu-central-1.amazonaws.com", "eu-north-1": "api.ecr.eu-north-1.amazonaws.com", "eu-west-1": "api.ecr.eu-west-1.amazonaws.com", "eu-west-2": "api.ecr.eu-west-2.amazonaws.com", "eu-west-3": "api.ecr.eu-west-3.amazonaws.com", "sa-east-1": "api.ecr.sa-east-1.amazonaws.com", "us-east-1": "api.ecr.us-east-1.amazonaws.com", "us-east-2": "api.ecr.us-east-2.amazonaws.com", "us-west-1": "api.ecr.us-west-1.amazonaws.com", "us-west-2": "api.ecr.us-west-2.amazonaws.com"],
             middlewares: [],
             possibleErrorTypes: [ECRErrorType.self]
         )
@@ -111,6 +112,11 @@ public struct ECR {
         return try client.send(operation: "ListImages", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  List the tags for an Amazon ECR resource.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> Future<ListTagsForResourceResponse> {
+        return try client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Creates or updates the image manifest and tags associated with an image.  This operation is used by the Amazon ECR proxy, and it is not intended for general use by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. 
     public func putImage(_ input: PutImageRequest) throws -> Future<PutImageResponse> {
         return try client.send(operation: "PutImage", path: "/", httpMethod: "POST", input: input)
@@ -129,6 +135,16 @@ public struct ECR {
     ///  Starts a preview of the specified lifecycle policy. This allows you to see the results before creating the lifecycle policy.
     public func startLifecyclePolicyPreview(_ input: StartLifecyclePolicyPreviewRequest) throws -> Future<StartLifecyclePolicyPreviewResponse> {
         return try client.send(operation: "StartLifecyclePolicyPreview", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Adds specified tags to a resource with the specified ARN. Existing tags on a resource are not changed if they are not specified in the request parameters.
+    public func tagResource(_ input: TagResourceRequest) throws -> Future<TagResourceResponse> {
+        return try client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes specified tags from a resource.
+    public func untagResource(_ input: UntagResourceRequest) throws -> Future<UntagResourceResponse> {
+        return try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Uploads an image layer part to Amazon ECR.  This operation is used by the Amazon ECR proxy, and it is not intended for general use by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. 

@@ -12,6 +12,7 @@ public enum FSxErrorType: AWSErrorType {
     case fileSystemNotFound(message: String?)
     case incompatibleParameterError(message: String?)
     case internalServerError(message: String?)
+    case invalidExportPath(message: String?)
     case invalidImportPath(message: String?)
     case invalidNetworkSettings(message: String?)
     case missingFileSystemConfiguration(message: String?)
@@ -44,6 +45,8 @@ extension FSxErrorType {
             self = .incompatibleParameterError(message: message)
         case "InternalServerError":
             self = .internalServerError(message: message)
+        case "InvalidExportPath":
+            self = .invalidExportPath(message: message)
         case "InvalidImportPath":
             self = .invalidImportPath(message: message)
         case "InvalidNetworkSettings":

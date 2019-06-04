@@ -5,7 +5,7 @@ import AWSSDKSwiftCore
 import NIO
 
 /**
-AWS CodeBuild AWS CodeBuild is a fully managed build service in the cloud. AWS CodeBuild compiles your source code, runs unit tests, and produces artifacts that are ready to deploy. AWS CodeBuild eliminates the need to provision, manage, and scale your own build servers. It provides prepackaged build environments for the most popular programming languages and build tools, such as Apache Maven, Gradle, and more. You can also fully customize build environments in AWS CodeBuild to use your own build tools. AWS CodeBuild scales automatically to meet peak build requests. You pay only for the build time you consume. For more information about AWS CodeBuild, see the AWS CodeBuild User Guide. AWS CodeBuild supports these operations:    BatchDeleteBuilds: Deletes one or more builds.    BatchGetProjects: Gets information about one or more build projects. A build project defines how AWS CodeBuild runs a build. This includes information such as where to get the source code to build, the build environment to use, the build commands to run, and where to store the build output. A build environment is a representation of operating system, programming language runtime, and tools that AWS CodeBuild uses to run a build. You can add tags to build projects to help manage your resources and costs.    CreateProject: Creates a build project.    CreateWebhook: For an existing AWS CodeBuild build project that has its source code stored in a GitHub or Bitbucket repository, enables AWS CodeBuild to start rebuilding the source code every time a code change is pushed to the repository.    UpdateWebhook: Changes the settings of an existing webhook.    DeleteProject: Deletes a build project.    DeleteWebhook: For an existing AWS CodeBuild build project that has its source code stored in a GitHub or Bitbucket repository, stops AWS CodeBuild from rebuilding the source code every time a code change is pushed to the repository.    ListProjects: Gets a list of build project names, with each build project name representing a single build project.    UpdateProject: Changes the settings of an existing build project.    BatchGetBuilds: Gets information about one or more builds.    ListBuilds: Gets a list of build IDs, with each build ID representing a single build.    ListBuildsForProject: Gets a list of build IDs for the specified build project, with each build ID representing a single build.    StartBuild: Starts running a build.    StopBuild: Attempts to stop running a build.    ListCuratedEnvironmentImages: Gets information about Docker images that are managed by AWS CodeBuild.  
+AWS CodeBuild AWS CodeBuild is a fully managed build service in the cloud. AWS CodeBuild compiles your source code, runs unit tests, and produces artifacts that are ready to deploy. AWS CodeBuild eliminates the need to provision, manage, and scale your own build servers. It provides prepackaged build environments for the most popular programming languages and build tools, such as Apache Maven, Gradle, and more. You can also fully customize build environments in AWS CodeBuild to use your own build tools. AWS CodeBuild scales automatically to meet peak build requests. You pay only for the build time you consume. For more information about AWS CodeBuild, see the AWS CodeBuild User Guide. AWS CodeBuild supports these operations:    BatchDeleteBuilds: Deletes one or more builds.    BatchGetProjects: Gets information about one or more build projects. A build project defines how AWS CodeBuild runs a build. This includes information such as where to get the source code to build, the build environment to use, the build commands to run, and where to store the build output. A build environment is a representation of operating system, programming language runtime, and tools that AWS CodeBuild uses to run a build. You can add tags to build projects to help manage your resources and costs.    CreateProject: Creates a build project.    CreateWebhook: For an existing AWS CodeBuild build project that has its source code stored in a GitHub or Bitbucket repository, enables AWS CodeBuild to start rebuilding the source code every time a code change is pushed to the repository.    UpdateWebhook: Changes the settings of an existing webhook.    DeleteProject: Deletes a build project.    DeleteWebhook: For an existing AWS CodeBuild build project that has its source code stored in a GitHub or Bitbucket repository, stops AWS CodeBuild from rebuilding the source code every time a code change is pushed to the repository.    ListProjects: Gets a list of build project names, with each build project name representing a single build project.    UpdateProject: Changes the settings of an existing build project.    BatchGetBuilds: Gets information about one or more builds.    ListBuilds: Gets a list of build IDs, with each build ID representing a single build.    ListBuildsForProject: Gets a list of build IDs for the specified build project, with each build ID representing a single build.    StartBuild: Starts running a build.    StopBuild: Attempts to stop running a build.    ListCuratedEnvironmentImages: Gets information about Docker images that are managed by AWS CodeBuild.    DeleteSourceCredentials: Deletes a set of GitHub, GitHub Enterprise, or Bitbucket source credentials.    ImportSourceCredentials: Imports the source repository credentials for an AWS CodeBuild project that has its source code stored in a GitHub, GitHub Enterprise, or Bitbucket repository.    ListSourceCredentials: Returns a list of SourceCredentialsInfo objects. Each SourceCredentialsInfo object includes the authentication type, token ARN, and type of source provider for one set of credentials.  
 */
 public struct CodeBuild {
 
@@ -57,9 +57,19 @@ public struct CodeBuild {
         return try client.send(operation: "DeleteProject", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///   Deletes a set of GitHub, GitHub Enterprise, or Bitbucket source credentials. 
+    public func deleteSourceCredentials(_ input: DeleteSourceCredentialsInput) throws -> Future<DeleteSourceCredentialsOutput> {
+        return try client.send(operation: "DeleteSourceCredentials", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  For an existing AWS CodeBuild build project that has its source code stored in a GitHub or Bitbucket repository, stops AWS CodeBuild from rebuilding the source code every time a code change is pushed to the repository.
     public func deleteWebhook(_ input: DeleteWebhookInput) throws -> Future<DeleteWebhookOutput> {
         return try client.send(operation: "DeleteWebhook", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///   Imports the source repository credentials for an AWS CodeBuild project that has its source code stored in a GitHub, GitHub Enterprise, or Bitbucket repository. 
+    public func importSourceCredentials(_ input: ImportSourceCredentialsInput) throws -> Future<ImportSourceCredentialsOutput> {
+        return try client.send(operation: "ImportSourceCredentials", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Resets the cache for a project.
@@ -85,6 +95,11 @@ public struct CodeBuild {
     ///  Gets a list of build project names, with each build project name representing a single build project.
     public func listProjects(_ input: ListProjectsInput) throws -> Future<ListProjectsOutput> {
         return try client.send(operation: "ListProjects", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///   Returns a list of SourceCredentialsInfo objects. 
+    public func listSourceCredentials(_ input: ListSourceCredentialsInput) throws -> Future<ListSourceCredentialsOutput> {
+        return try client.send(operation: "ListSourceCredentials", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts running a build.

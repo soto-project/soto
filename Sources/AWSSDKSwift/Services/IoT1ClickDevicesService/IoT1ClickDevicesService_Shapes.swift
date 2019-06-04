@@ -34,8 +34,8 @@ extension IoT1ClickDevicesService {
         ]
         /// The claim code provided by the device manufacturer.
         public let claimCode: String?
-        /// The total number of devices associated with the claim code that has been processed
-        ///  in the claim request.
+        /// The total number of devices associated with the claim code that has been processed in
+        ///  the claim request.
         public let total: Int32?
 
         public init(claimCode: String? = nil, total: Int32? = nil) {
@@ -124,38 +124,47 @@ extension IoT1ClickDevicesService {
 
     public struct DeviceDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
             AWSShapeMember(label: "Attributes", location: .body(locationName: "attributes"), required: false, type: .map), 
             AWSShapeMember(label: "DeviceId", location: .body(locationName: "deviceId"), required: false, type: .string), 
             AWSShapeMember(label: "Enabled", location: .body(locationName: "enabled"), required: false, type: .boolean), 
             AWSShapeMember(label: "RemainingLife", location: .body(locationName: "remainingLife"), required: false, type: .double), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .string)
         ]
-        /// An array of zero or more elements of DeviceAttribute objects
-        ///  providing user specified device attributes.
+        /// The ARN of the device.
+        public let arn: String?
+        /// An array of zero or more elements of DeviceAttribute objects providing
+        ///  user specified device attributes.
         public let attributes: [String: String]?
         /// The unique identifier of the device.
         public let deviceId: String?
         /// A Boolean value indicating whether or not the device is enabled.
         public let enabled: Bool?
-        /// A value between 0 and 1 inclusive, representing the fraction of life remaining for
-        ///  the device.
+        /// A value between 0 and 1 inclusive, representing the fraction of life remaining for the
+        ///  device.
         public let remainingLife: Double?
+        public let tags: [String: String]?
         /// The type of the device, such as "button".
         public let `type`: String?
 
-        public init(attributes: [String: String]? = nil, deviceId: String? = nil, enabled: Bool? = nil, remainingLife: Double? = nil, type: String? = nil) {
+        public init(arn: String? = nil, attributes: [String: String]? = nil, deviceId: String? = nil, enabled: Bool? = nil, remainingLife: Double? = nil, tags: [String: String]? = nil, type: String? = nil) {
+            self.arn = arn
             self.attributes = attributes
             self.deviceId = deviceId
             self.enabled = enabled
             self.remainingLife = remainingLife
+            self.tags = tags
             self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
             case attributes = "attributes"
             case deviceId = "deviceId"
             case enabled = "enabled"
             case remainingLife = "remainingLife"
+            case tags = "tags"
             case `type` = "type"
         }
     }
@@ -233,16 +242,20 @@ extension IoT1ClickDevicesService {
 
     public struct FinalizeDeviceClaimRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceId", location: .uri(locationName: "deviceId"), required: true, type: .string)
+            AWSShapeMember(label: "DeviceId", location: .uri(locationName: "deviceId"), required: true, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         public let deviceId: String
+        public let tags: [String: String]?
 
-        public init(deviceId: String) {
+        public init(deviceId: String, tags: [String: String]? = nil) {
             self.deviceId = deviceId
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case deviceId = "deviceId"
+            case tags = "tags"
         }
     }
 
@@ -457,6 +470,55 @@ extension IoT1ClickDevicesService {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string)
+        ]
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resource-arn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+        ]
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: true, type: .map)
+        ]
+        public let resourceArn: String
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resource-arn"
+            case tags = "tags"
+        }
+    }
+
     public struct UnclaimDeviceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeviceId", location: .uri(locationName: "deviceId"), required: true, type: .string)
@@ -484,6 +546,25 @@ extension IoT1ClickDevicesService {
 
         private enum CodingKeys: String, CodingKey {
             case state = "state"
+        }
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+        ]
+        public let resourceArn: String
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resource-arn"
+            case tagKeys = "tagKeys"
         }
     }
 

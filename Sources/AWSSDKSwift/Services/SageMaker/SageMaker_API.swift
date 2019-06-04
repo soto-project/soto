@@ -5,7 +5,7 @@ import AWSSDKSwiftCore
 import NIO
 
 /**
-Definition of the public APIs exposed by SageMaker
+Provides APIs for creating and managing Amazon SageMaker resources.
 */
 public struct SageMaker {
 
@@ -21,12 +21,13 @@ public struct SageMaker {
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2017-07-24",
             endpoint: endpoint,
+            serviceEndpoints: ["us-east-1-fips": "api-fips.sagemaker.us-east-1.amazonaws.com", "us-east-2-fips": "api-fips.sagemaker.us-east-2.amazonaws.com", "us-west-1-fips": "api-fips.sagemaker.us-west-1.amazonaws.com", "us-west-2-fips": "api-fips.sagemaker.us-west-2.amazonaws.com"],
             middlewares: [],
             possibleErrorTypes: [SageMakerErrorType.self]
         )
     }
 
-    ///  Adds or overwrites one or more tags for the specified Amazon SageMaker resource. You can add tags to notebook instances, training jobs, hyperparameter tuning jobs, models, endpoint configurations, and endpoints. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see For more information, see AWS Tagging Strategies.  Tags that you add to a hyperparameter tuning job by calling this API are also added to any training jobs that the hyperparameter tuning job launches after you call this API, but not to training jobs that the hyperparameter tuning job launched before you called this API. To make sure that the tags associated with a hyperparameter tuning job are also added to all training jobs that the hyperparameter tuning job launches, add the tags when you first create the tuning job by specifying them in the Tags parameter of CreateHyperParameterTuningJob  
+    ///  Adds or overwrites one or more tags for the specified Amazon SageMaker resource. You can add tags to notebook instances, training jobs, hyperparameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see For more information, see AWS Tagging Strategies.  Tags that you add to a hyperparameter tuning job by calling this API are also added to any training jobs that the hyperparameter tuning job launches after you call this API, but not to training jobs that the hyperparameter tuning job launched before you called this API. To make sure that the tags associated with a hyperparameter tuning job are also added to all training jobs that the hyperparameter tuning job launches, add the tags when you first create the tuning job by specifying them in the Tags parameter of CreateHyperParameterTuningJob  
     public func addTags(_ input: AddTagsInput) throws -> Future<AddTagsOutput> {
         return try client.send(operation: "AddTags", path: "/", httpMethod: "POST", input: input)
     }
@@ -36,7 +37,7 @@ public struct SageMaker {
         return try client.send(operation: "CreateAlgorithm", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Create a git repository as a resource in your Amazon SageMaker account. You can associate the repository with notebook instances so that you can use git source control for the notebooks you create. The git repository is a resource in your Amazon SageMaker account, so it can be associated with more than one notebook instance, and it persists independently from the lifecycle of any notebook instances it is associated with. The repository can be hosted either in AWS CodeCommit or in any other git repository.
+    ///  Creates a Git repository as a resource in your Amazon SageMaker account. You can associate the repository with notebook instances so that you can use Git source control for the notebooks you create. The Git repository is a resource in your Amazon SageMaker account, so it can be associated with more than one notebook instance, and it persists independently from the lifecycle of any notebook instances it is associated with. The repository can be hosted either in AWS CodeCommit or in any other Git repository.
     public func createCodeRepository(_ input: CreateCodeRepositoryInput) throws -> Future<CreateCodeRepositoryOutput> {
         return try client.send(operation: "CreateCodeRepository", path: "/", httpMethod: "POST", input: input)
     }
@@ -46,7 +47,7 @@ public struct SageMaker {
         return try client.send(operation: "CreateCompilationJob", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an endpoint using the endpoint configuration specified in the request. Amazon SageMaker uses the endpoint to provision resources and deploy models. You create the endpoint configuration with the CreateEndpointConfig API.    Use this API only for hosting models using Amazon SageMaker hosting services.   The endpoint name must be unique within an AWS Region in your AWS account.  When it receives the request, Amazon SageMaker creates the endpoint, launches the resources (ML compute instances), and deploys the model(s) on them.  When Amazon SageMaker receives the request, it sets the endpoint status to Creating. After it creates the endpoint, it sets the status to InService. Amazon SageMaker can then process incoming requests for inferences. To check the status of an endpoint, use the DescribeEndpoint API. For an example, see Exercise 1: Using the K-Means Algorithm Provided by Amazon SageMaker.  If any of the models hosted at this endpoint get model data from an Amazon S3 location, Amazon SageMaker uses AWS Security Token Service to download model artifacts from the S3 path you provided. AWS STS is activated in your IAM user account by default. If you previously deactivated AWS STS for a region, you need to reactivate AWS STS for that region. For more information, see Activating and Deactivating AWS STS i an AWS Region in the AWS Identity and Access Management User Guide.
+    ///  Creates an endpoint using the endpoint configuration specified in the request. Amazon SageMaker uses the endpoint to provision resources and deploy models. You create the endpoint configuration with the CreateEndpointConfig API.    Use this API only for hosting models using Amazon SageMaker hosting services.   You must not delete an EndpointConfig in use by an endpoint that is live or while the UpdateEndpoint or CreateEndpoint operations are being performed on the endpoint. To update an endpoint, you must create a new EndpointConfig.  The endpoint name must be unique within an AWS Region in your AWS account.  When it receives the request, Amazon SageMaker creates the endpoint, launches the resources (ML compute instances), and deploys the model(s) on them.  When Amazon SageMaker receives the request, it sets the endpoint status to Creating. After it creates the endpoint, it sets the status to InService. Amazon SageMaker can then process incoming requests for inferences. To check the status of an endpoint, use the DescribeEndpoint API. For an example, see Exercise 1: Using the K-Means Algorithm Provided by Amazon SageMaker.  If any of the models hosted at this endpoint get model data from an Amazon S3 location, Amazon SageMaker uses AWS Security Token Service to download model artifacts from the S3 path you provided. AWS STS is activated in your IAM user account by default. If you previously deactivated AWS STS for a region, you need to reactivate AWS STS for that region. For more information, see Activating and Deactivating AWS STS i an AWS Region in the AWS Identity and Access Management User Guide.
     public func createEndpoint(_ input: CreateEndpointInput) throws -> Future<CreateEndpointOutput> {
         return try client.send(operation: "CreateEndpoint", path: "/", httpMethod: "POST", input: input)
     }
@@ -61,7 +62,7 @@ public struct SageMaker {
         return try client.send(operation: "CreateHyperParameterTuningJob", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a job that uses human workers to label the data objects in your input dataset. You can use the labeled data to train machine learning models You can select your workforce from one of three providers:   A private workforce that you create. It can include employees, contractors, and outside experts. Use a private workforce when the data is highly confidential or a specific set of skills is required.   One or more vendors that you select from the Amazon Marketplace. Vendors provide expertise in specific areas. Vendors are selected by AWS and meet a minimum standard of data security requirements.   The Amazon Mechanical Turk workforce. This is the largest workforce, but it should only be used for public data or data that has been stripped of any personally identifiable information.   You can also use automated data labeling to reduce the number of data objects that need to be labeled by a human. Automated data labeling uses active learning to determine if a data object can be labeled by machine or if it needs to be sent to a human worker. The data objects to be labeled are contained in an Amazon S3 bucket. You create a manifest file that describes the location of each object. For more information, see Using Input and Output Data. The output can be used as the manifest file for another labeling job or as training data for your machine learning models.
+    ///  Creates a job that uses workers to label the data objects in your input dataset. You can use the labeled data to train machine learning models. You can select your workforce from one of three providers:   A private workforce that you create. It can include employees, contractors, and outside experts. Use a private workforce when want the data to stay within your organization or when a specific set of skills is required.   One or more vendors that you select from the AWS Marketplace. Vendors provide expertise in specific areas.    The Amazon Mechanical Turk workforce. This is the largest workforce, but it should only be used for public data or data that has been stripped of any personally identifiable information.   You can also use automated data labeling to reduce the number of data objects that need to be labeled by a human. Automated data labeling uses active learning to determine if a data object can be labeled by machine or if it needs to be sent to a human worker. For more information, see Using Automated Data Labeling. The data objects to be labeled are contained in an Amazon S3 bucket. You create a manifest file that describes the location of each object. For more information, see Using Input and Output Data. The output can be used as the manifest file for another labeling job or as training data for your machine learning models.
     public func createLabelingJob(_ input: CreateLabelingJobRequest) throws -> Future<CreateLabelingJobResponse> {
         return try client.send(operation: "CreateLabelingJob", path: "/", httpMethod: "POST", input: input)
     }
@@ -71,7 +72,7 @@ public struct SageMaker {
         return try client.send(operation: "CreateModel", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a model package that you can use to create Amazon SageMaker models or list on AWS Marketplace. Buyers can subscribe to model packages listed on AWS Marketplace to create models in Amazon SageMaker.
+    ///  Creates a model package that you can use to create Amazon SageMaker models or list on AWS Marketplace. Buyers can subscribe to model packages listed on AWS Marketplace to create models in Amazon SageMaker. To create a model package by specifying a Docker container that contains your inference code and the Amazon S3 location of your model artifacts, provide values for InferenceSpecification. To create a model from an algorithm resource that you created or subscribed to in AWS Marketplace, provide a value for SourceAlgorithmSpecification.
     public func createModelPackage(_ input: CreateModelPackageInput) throws -> Future<CreateModelPackageOutput> {
         return try client.send(operation: "CreateModelPackage", path: "/", httpMethod: "POST", input: input)
     }
@@ -86,12 +87,12 @@ public struct SageMaker {
         return try client.send(operation: "CreateNotebookInstanceLifecycleConfig", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a URL that you can use to connect to the Jupyter server from a notebook instance. In the Amazon SageMaker console, when you choose Open next to a notebook instance, Amazon SageMaker opens a new tab showing the Jupyter server home page from the notebook instance. The console uses this API to get the URL and show the page. You can restrict access to this API and to the URL that it returns to a list of IP addresses that you specify. To restrict access, attach an IAM policy that denies access to this API unless the call comes from an IP address in the specified list to every AWS Identity and Access Management user, group, or role used to access the notebook instance. Use the NotIpAddress condition operator and the aws:SourceIP condition context key to specify the list of IP addresses that you want to have access to the notebook instance. For more information, see Limit Access to a Notebook Instance by IP Address.
+    ///  Returns a URL that you can use to connect to the Jupyter server from a notebook instance. In the Amazon SageMaker console, when you choose Open next to a notebook instance, Amazon SageMaker opens a new tab showing the Jupyter server home page from the notebook instance. The console uses this API to get the URL and show the page. You can restrict access to this API and to the URL that it returns to a list of IP addresses that you specify. To restrict access, attach an IAM policy that denies access to this API unless the call comes from an IP address in the specified list to every AWS Identity and Access Management user, group, or role used to access the notebook instance. Use the NotIpAddress condition operator and the aws:SourceIP condition context key to specify the list of IP addresses that you want to have access to the notebook instance. For more information, see Limit Access to a Notebook Instance by IP Address.  The URL that you get from a call to is valid only for 5 minutes. If you try to use the URL after the 5-minute limit expires, you are directed to the AWS console sign-in page. 
     public func createPresignedNotebookInstanceUrl(_ input: CreatePresignedNotebookInstanceUrlInput) throws -> Future<CreatePresignedNotebookInstanceUrlOutput> {
         return try client.send(operation: "CreatePresignedNotebookInstanceUrl", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Starts a model training job. After training completes, Amazon SageMaker saves the resulting model artifacts to an Amazon S3 location that you specify.  If you choose to host your model using Amazon SageMaker hosting services, you can use the resulting model artifacts as part of the model. You can also use the artifacts in a deep learning service other than Amazon SageMaker, provided that you know how to use them for inferences.  In the request body, you provide the following:     AlgorithmSpecification - Identifies the training algorithm to use.     HyperParameters - Specify these algorithm-specific parameters to influence the quality of the final model. For a list of hyperparameters for each training algorithm provided by Amazon SageMaker, see Algorithms.     InputDataConfig - Describes the training dataset and the Amazon S3 location where it is stored.    OutputDataConfig - Identifies the Amazon S3 location where you want Amazon SageMaker to save the results of model training.      ResourceConfig - Identifies the resources, ML compute instances, and ML storage volumes to deploy for model training. In distributed training, you specify more than one instance.     RoleARN - The Amazon Resource Number (ARN) that Amazon SageMaker assumes to perform tasks on your behalf during model training. You must grant this role the necessary permissions so that Amazon SageMaker can successfully complete model training.     StoppingCondition - Sets a duration for training. Use this parameter to cap model training costs.     For more information about Amazon SageMaker, see How It Works. 
+    ///  Starts a model training job. After training completes, Amazon SageMaker saves the resulting model artifacts to an Amazon S3 location that you specify.  If you choose to host your model using Amazon SageMaker hosting services, you can use the resulting model artifacts as part of the model. You can also use the artifacts in a machine learning service other than Amazon SageMaker, provided that you know how to use them for inferences.  In the request body, you provide the following:     AlgorithmSpecification - Identifies the training algorithm to use.     HyperParameters - Specify these algorithm-specific parameters to influence the quality of the final model. For a list of hyperparameters for each training algorithm provided by Amazon SageMaker, see Algorithms.     InputDataConfig - Describes the training dataset and the Amazon S3 location where it is stored.    OutputDataConfig - Identifies the Amazon S3 location where you want Amazon SageMaker to save the results of model training.      ResourceConfig - Identifies the resources, ML compute instances, and ML storage volumes to deploy for model training. In distributed training, you specify more than one instance.     RoleARN - The Amazon Resource Number (ARN) that Amazon SageMaker assumes to perform tasks on your behalf during model training. You must grant this role the necessary permissions so that Amazon SageMaker can successfully complete model training.     StoppingCondition - Sets a duration for training. Use this parameter to cap model training costs.     For more information about Amazon SageMaker, see How It Works. 
     public func createTrainingJob(_ input: CreateTrainingJobRequest) throws -> Future<CreateTrainingJobResponse> {
         return try client.send(operation: "CreateTrainingJob", path: "/", httpMethod: "POST", input: input)
     }
@@ -107,43 +108,43 @@ public struct SageMaker {
     }
 
     ///  Removes the specified algorithm from your account.
-    public func deleteAlgorithm(_ input: DeleteAlgorithmInput) throws {
-        _ = try client.send(operation: "DeleteAlgorithm", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteAlgorithm(_ input: DeleteAlgorithmInput) throws -> Future<Void> {
+        return try client.send(operation: "DeleteAlgorithm", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the specified git repository from your account.
-    public func deleteCodeRepository(_ input: DeleteCodeRepositoryInput) throws {
-        _ = try client.send(operation: "DeleteCodeRepository", path: "/", httpMethod: "POST", input: input)
+    ///  Deletes the specified Git repository from your account.
+    @discardableResult public func deleteCodeRepository(_ input: DeleteCodeRepositoryInput) throws -> Future<Void> {
+        return try client.send(operation: "DeleteCodeRepository", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an endpoint. Amazon SageMaker frees up all of the resources that were deployed when the endpoint was created.  Amazon SageMaker retires any custom KMS key grants associated with the endpoint, meaning you don't need to use the RevokeGrant API call.
-    public func deleteEndpoint(_ input: DeleteEndpointInput) throws {
-        _ = try client.send(operation: "DeleteEndpoint", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteEndpoint(_ input: DeleteEndpointInput) throws -> Future<Void> {
+        return try client.send(operation: "DeleteEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an endpoint configuration. The DeleteEndpointConfig API deletes only the specified configuration. It does not delete endpoints created using the configuration. 
-    public func deleteEndpointConfig(_ input: DeleteEndpointConfigInput) throws {
-        _ = try client.send(operation: "DeleteEndpointConfig", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteEndpointConfig(_ input: DeleteEndpointConfigInput) throws -> Future<Void> {
+        return try client.send(operation: "DeleteEndpointConfig", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a model. The DeleteModel API deletes only the model entry that was created in Amazon SageMaker when you called the CreateModel API. It does not delete model artifacts, inference code, or the IAM role that you specified when creating the model. 
-    public func deleteModel(_ input: DeleteModelInput) throws {
-        _ = try client.send(operation: "DeleteModel", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteModel(_ input: DeleteModelInput) throws -> Future<Void> {
+        return try client.send(operation: "DeleteModel", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a model package. A model package is used to create Amazon SageMaker models or list on AWS Marketplace. Buyers can subscribe to model packages listed on AWS Marketplace to create models in Amazon SageMaker.
-    public func deleteModelPackage(_ input: DeleteModelPackageInput) throws {
-        _ = try client.send(operation: "DeleteModelPackage", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteModelPackage(_ input: DeleteModelPackageInput) throws -> Future<Void> {
+        return try client.send(operation: "DeleteModelPackage", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Deletes an Amazon SageMaker notebook instance. Before you can delete a notebook instance, you must call the StopNotebookInstance API.   When you delete a notebook instance, you lose all of your data. Amazon SageMaker removes the ML compute instance, and deletes the ML storage volume and the network interface associated with the notebook instance.  
-    public func deleteNotebookInstance(_ input: DeleteNotebookInstanceInput) throws {
-        _ = try client.send(operation: "DeleteNotebookInstance", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteNotebookInstance(_ input: DeleteNotebookInstanceInput) throws -> Future<Void> {
+        return try client.send(operation: "DeleteNotebookInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a notebook instance lifecycle configuration.
-    public func deleteNotebookInstanceLifecycleConfig(_ input: DeleteNotebookInstanceLifecycleConfigInput) throws {
-        _ = try client.send(operation: "DeleteNotebookInstanceLifecycleConfig", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteNotebookInstanceLifecycleConfig(_ input: DeleteNotebookInstanceLifecycleConfigInput) throws -> Future<Void> {
+        return try client.send(operation: "DeleteNotebookInstanceLifecycleConfig", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified tags from an Amazon SageMaker resource. To list a resource's tags, use the ListTags API.   When you call this API to delete tags from a hyperparameter tuning job, the deleted tags are not removed from training jobs that the hyperparameter tuning job launched before you called this API. 
@@ -161,7 +162,7 @@ public struct SageMaker {
         return try client.send(operation: "DescribeAlgorithm", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets details about the specified git repository.
+    ///  Gets details about the specified Git repository.
     public func describeCodeRepository(_ input: DescribeCodeRepositoryInput) throws -> Future<DescribeCodeRepositoryOutput> {
         return try client.send(operation: "DescribeCodeRepository", path: "/", httpMethod: "POST", input: input)
     }
@@ -196,7 +197,7 @@ public struct SageMaker {
         return try client.send(operation: "DescribeModel", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a description of the specified model package, which is used to create Amazon SageMaker models or list on AWS Marketplace. Buyers can subscribe to model packages listed on AWS Marketplace to create models in Amazon SageMaker.
+    ///  Returns a description of the specified model package, which is used to create Amazon SageMaker models or list them on AWS Marketplace. To create models in Amazon SageMaker, buyers can subscribe to model packages listed on AWS Marketplace.
     public func describeModelPackage(_ input: DescribeModelPackageInput) throws -> Future<DescribeModelPackageOutput> {
         return try client.send(operation: "DescribeModelPackage", path: "/", httpMethod: "POST", input: input)
     }
@@ -231,7 +232,7 @@ public struct SageMaker {
         return try client.send(operation: "DescribeWorkteam", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns suggestions for the property name to use in Search queries. Provides suggestions for HyperParameters, Tags, and Metrics.
+    ///  An auto-complete API for the search functionality in the Amazon SageMaker console. It returns suggestions of possible matches for the property name to use in Search queries. Provides suggestions for HyperParameters, Tags, and Metrics.
     public func getSearchSuggestions(_ input: GetSearchSuggestionsRequest) throws -> Future<GetSearchSuggestionsResponse> {
         return try client.send(operation: "GetSearchSuggestions", path: "/", httpMethod: "POST", input: input)
     }
@@ -241,7 +242,7 @@ public struct SageMaker {
         return try client.send(operation: "ListAlgorithms", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets a list of the git repositories in your account.
+    ///  Gets a list of the Git repositories in your account.
     public func listCodeRepositories(_ input: ListCodeRepositoriesInput) throws -> Future<ListCodeRepositoriesOutput> {
         return try client.send(operation: "ListCodeRepositories", path: "/", httpMethod: "POST", input: input)
     }
@@ -331,52 +332,52 @@ public struct SageMaker {
         return try client.send(operation: "RenderUiTemplate", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Finds Amazon SageMaker resources that match a search query. Matching resource objects are returned as a list of SearchResult objects in the response. The search results can be sorted by any resrouce property in a ascending or descending order. You can query against the following value types: numerical, text, Booleans, and timestamps.
+    ///  Finds Amazon SageMaker resources that match a search query. Matching resource objects are returned as a list of SearchResult objects in the response. You can sort the search results by any resource property in a ascending or descending order. You can query against the following value types: numerical, text, Booleans, and timestamps.
     public func search(_ input: SearchRequest) throws -> Future<SearchResponse> {
         return try client.send(operation: "Search", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Launches an ML compute instance with the latest version of the libraries and attaches your ML storage volume. After configuring the notebook instance, Amazon SageMaker sets the notebook instance status to InService. A notebook instance's status must be InService before you can connect to your Jupyter notebook. 
-    public func startNotebookInstance(_ input: StartNotebookInstanceInput) throws {
-        _ = try client.send(operation: "StartNotebookInstance", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func startNotebookInstance(_ input: StartNotebookInstanceInput) throws -> Future<Void> {
+        return try client.send(operation: "StartNotebookInstance", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Stops a model compilation job.  To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal. This gracefully shuts the job down. If the job hasn’t stopped, it sends the SIGKILL signal. When it receives a StopCompilationJob request, Amazon SageMaker changes the CompilationJobSummary$CompilationJobStatus of the job to Stopping. After Amazon SageMaker stops the job, it sets the CompilationJobSummary$CompilationJobStatus to Stopped. 
-    public func stopCompilationJob(_ input: StopCompilationJobRequest) throws {
-        _ = try client.send(operation: "StopCompilationJob", path: "/", httpMethod: "POST", input: input)
+    ///  Stops a model compilation job.  To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal. This gracefully shuts the job down. If the job hasn't stopped, it sends the SIGKILL signal. When it receives a StopCompilationJob request, Amazon SageMaker changes the CompilationJobSummary$CompilationJobStatus of the job to Stopping. After Amazon SageMaker stops the job, it sets the CompilationJobSummary$CompilationJobStatus to Stopped. 
+    @discardableResult public func stopCompilationJob(_ input: StopCompilationJobRequest) throws -> Future<Void> {
+        return try client.send(operation: "StopCompilationJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stops a running hyperparameter tuning job and all running training jobs that the tuning job launched. All model artifacts output from the training jobs are stored in Amazon Simple Storage Service (Amazon S3). All data that the training jobs write to Amazon CloudWatch Logs are still available in CloudWatch. After the tuning job moves to the Stopped state, it releases all reserved resources for the tuning job.
-    public func stopHyperParameterTuningJob(_ input: StopHyperParameterTuningJobRequest) throws {
-        _ = try client.send(operation: "StopHyperParameterTuningJob", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func stopHyperParameterTuningJob(_ input: StopHyperParameterTuningJobRequest) throws -> Future<Void> {
+        return try client.send(operation: "StopHyperParameterTuningJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stops a running labeling job. A job that is stopped cannot be restarted. Any results obtained before the job is stopped are placed in the Amazon S3 output bucket.
-    public func stopLabelingJob(_ input: StopLabelingJobRequest) throws {
-        _ = try client.send(operation: "StopLabelingJob", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func stopLabelingJob(_ input: StopLabelingJobRequest) throws -> Future<Void> {
+        return try client.send(operation: "StopLabelingJob", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Terminates the ML compute instance. Before terminating the instance, Amazon SageMaker disconnects the ML storage volume from it. Amazon SageMaker preserves the ML storage volume.  To access data on the ML storage volume for a notebook instance that has been terminated, call the StartNotebookInstance API. StartNotebookInstance launches another ML compute instance, configures it, and attaches the preserved ML storage volume so you can continue your work. 
-    public func stopNotebookInstance(_ input: StopNotebookInstanceInput) throws {
-        _ = try client.send(operation: "StopNotebookInstance", path: "/", httpMethod: "POST", input: input)
+    ///  Terminates the ML compute instance. Before terminating the instance, Amazon SageMaker disconnects the ML storage volume from it. Amazon SageMaker preserves the ML storage volume. Amazon SageMaker stops charging you for the ML compute instance when you call StopNotebookInstance. To access data on the ML storage volume for a notebook instance that has been terminated, call the StartNotebookInstance API. StartNotebookInstance launches another ML compute instance, configures it, and attaches the preserved ML storage volume so you can continue your work. 
+    @discardableResult public func stopNotebookInstance(_ input: StopNotebookInstanceInput) throws -> Future<Void> {
+        return try client.send(operation: "StopNotebookInstance", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Stops a training job. To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms might use this 120-second window to save the model artifacts, so the results of the training is not lost.  Training algorithms provided by Amazon SageMaker save the intermediate results of a model training job. This intermediate data is a valid model artifact. You can use the model artifacts that are saved when Amazon SageMaker stops a training job to create a model.  When it receives a StopTrainingJob request, Amazon SageMaker changes the status of the job to Stopping. After Amazon SageMaker stops the job, it sets the status to Stopped.
-    public func stopTrainingJob(_ input: StopTrainingJobRequest) throws {
-        _ = try client.send(operation: "StopTrainingJob", path: "/", httpMethod: "POST", input: input)
+    ///  Stops a training job. To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms might use this 120-second window to save the model artifacts, so the results of the training is not lost.  When it receives a StopTrainingJob request, Amazon SageMaker changes the status of the job to Stopping. After Amazon SageMaker stops the job, it sets the status to Stopped.
+    @discardableResult public func stopTrainingJob(_ input: StopTrainingJobRequest) throws -> Future<Void> {
+        return try client.send(operation: "StopTrainingJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stops a transform job. When Amazon SageMaker receives a StopTransformJob request, the status of the job changes to Stopping. After Amazon SageMaker stops the job, the status is set to Stopped. When you stop a transform job before it is completed, Amazon SageMaker doesn't store the job's output in Amazon S3.
-    public func stopTransformJob(_ input: StopTransformJobRequest) throws {
-        _ = try client.send(operation: "StopTransformJob", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func stopTransformJob(_ input: StopTransformJobRequest) throws -> Future<Void> {
+        return try client.send(operation: "StopTransformJob", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the specified git repository with the specified values.
+    ///  Updates the specified Git repository with the specified values.
     public func updateCodeRepository(_ input: UpdateCodeRepositoryInput) throws -> Future<UpdateCodeRepositoryOutput> {
         return try client.send(operation: "UpdateCodeRepository", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   Deploys the new EndpointConfig specified in the request, switches to using newly created endpoint, and then deletes resources provisioned for the endpoint using the previous EndpointConfig (there is no availability loss).  When Amazon SageMaker receives the request, it sets the endpoint status to Updating. After updating the endpoint, it sets the status to InService. To check the status of an endpoint, use the DescribeEndpoint API.   You cannot update an endpoint with the current EndpointConfig. To update an endpoint, you must create a new EndpointConfig. 
+    ///  Deploys the new EndpointConfig specified in the request, switches to using newly created endpoint, and then deletes resources provisioned for the endpoint using the previous EndpointConfig (there is no availability loss).  When Amazon SageMaker receives the request, it sets the endpoint status to Updating. After updating the endpoint, it sets the status to InService. To check the status of an endpoint, use the DescribeEndpoint API.   You must not delete an EndpointConfig in use by an endpoint that is live or while the UpdateEndpoint or CreateEndpoint operations are being performed on the endpoint. To update an endpoint, you must create a new EndpointConfig. 
     public func updateEndpoint(_ input: UpdateEndpointInput) throws -> Future<UpdateEndpointOutput> {
         return try client.send(operation: "UpdateEndpoint", path: "/", httpMethod: "POST", input: input)
     }
@@ -386,7 +387,7 @@ public struct SageMaker {
         return try client.send(operation: "UpdateEndpointWeightsAndCapacities", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates a notebook instance. NotebookInstance updates include upgrading or downgrading the ML compute instance used for your notebook instance to accommodate changes in your workload requirements. You can also update the VPC security groups.
+    ///  Updates a notebook instance. NotebookInstance updates include upgrading or downgrading the ML compute instance used for your notebook instance to accommodate changes in your workload requirements.
     public func updateNotebookInstance(_ input: UpdateNotebookInstanceInput) throws -> Future<UpdateNotebookInstanceOutput> {
         return try client.send(operation: "UpdateNotebookInstance", path: "/", httpMethod: "POST", input: input)
     }

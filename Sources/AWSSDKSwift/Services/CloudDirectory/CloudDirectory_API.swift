@@ -136,8 +136,8 @@ public struct CloudDirectory {
     }
 
     ///  Detaches a typed link from a specified source and target object. For more information, see Typed Links.
-    public func detachTypedLink(_ input: DetachTypedLinkRequest) throws {
-        _ = try client.send(operation: "DetachTypedLink", path: "/amazonclouddirectory/2017-01-11/typedlink/detach", httpMethod: "PUT", input: input)
+    @discardableResult public func detachTypedLink(_ input: DetachTypedLinkRequest) throws -> Future<Void> {
+        return try client.send(operation: "DetachTypedLink", path: "/amazonclouddirectory/2017-01-11/typedlink/detach", httpMethod: "PUT", input: input)
     }
 
     ///  Disables the specified directory. Disabled directories cannot be read or written to. Only enabled directories can be disabled. Disabled directories may be reenabled.

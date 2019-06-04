@@ -4,6 +4,7 @@ import AWSSDKSwiftCore
 
 /// Error enum for DataSync
 public enum DataSyncErrorType: AWSErrorType {
+    case internalException(message: String?)
     case invalidRequestException(message: String?)
 }
 
@@ -14,6 +15,8 @@ extension DataSyncErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "InternalException":
+            self = .internalException(message: message)
         case "InvalidRequestException":
             self = .invalidRequestException(message: message)
         default:

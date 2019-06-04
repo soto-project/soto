@@ -26,8 +26,8 @@ public struct WorkDocs {
     }
 
     ///  Aborts the upload of the specified document version that was previously initiated by InitiateDocumentVersionUpload. The client should make this call only when it no longer intends to upload the document version, or fails to do so.
-    public func abortDocumentVersionUpload(_ input: AbortDocumentVersionUploadRequest) throws {
-        _ = try client.send(operation: "AbortDocumentVersionUpload", path: "/api/v1/documents/{DocumentId}/versions/{VersionId}", httpMethod: "DELETE", input: input)
+    @discardableResult public func abortDocumentVersionUpload(_ input: AbortDocumentVersionUploadRequest) throws -> Future<Void> {
+        return try client.send(operation: "AbortDocumentVersionUpload", path: "/api/v1/documents/{DocumentId}/versions/{VersionId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Activates the specified user. Only active users can access Amazon WorkDocs.
@@ -71,13 +71,13 @@ public struct WorkDocs {
     }
 
     ///  Deactivates the specified user, which revokes the user's access to Amazon WorkDocs.
-    public func deactivateUser(_ input: DeactivateUserRequest) throws {
-        _ = try client.send(operation: "DeactivateUser", path: "/api/v1/users/{UserId}/activation", httpMethod: "DELETE", input: input)
+    @discardableResult public func deactivateUser(_ input: DeactivateUserRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeactivateUser", path: "/api/v1/users/{UserId}/activation", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the specified comment from the document version.
-    public func deleteComment(_ input: DeleteCommentRequest) throws {
-        _ = try client.send(operation: "DeleteComment", path: "/api/v1/documents/{DocumentId}/versions/{VersionId}/comment/{CommentId}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteComment(_ input: DeleteCommentRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteComment", path: "/api/v1/documents/{DocumentId}/versions/{VersionId}/comment/{CommentId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes custom metadata from the specified resource.
@@ -86,18 +86,18 @@ public struct WorkDocs {
     }
 
     ///  Permanently deletes the specified document and its associated metadata.
-    public func deleteDocument(_ input: DeleteDocumentRequest) throws {
-        _ = try client.send(operation: "DeleteDocument", path: "/api/v1/documents/{DocumentId}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteDocument(_ input: DeleteDocumentRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteDocument", path: "/api/v1/documents/{DocumentId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Permanently deletes the specified folder and its contents.
-    public func deleteFolder(_ input: DeleteFolderRequest) throws {
-        _ = try client.send(operation: "DeleteFolder", path: "/api/v1/folders/{FolderId}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteFolder(_ input: DeleteFolderRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteFolder", path: "/api/v1/folders/{FolderId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the contents of the specified folder.
-    public func deleteFolderContents(_ input: DeleteFolderContentsRequest) throws {
-        _ = try client.send(operation: "DeleteFolderContents", path: "/api/v1/folders/{FolderId}/contents", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteFolderContents(_ input: DeleteFolderContentsRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteFolderContents", path: "/api/v1/folders/{FolderId}/contents", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the specified list of labels from a resource.
@@ -106,13 +106,13 @@ public struct WorkDocs {
     }
 
     ///  Deletes the specified subscription from the specified organization.
-    public func deleteNotificationSubscription(_ input: DeleteNotificationSubscriptionRequest) throws {
-        _ = try client.send(operation: "DeleteNotificationSubscription", path: "/api/v1/organizations/{OrganizationId}/subscriptions/{SubscriptionId}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteNotificationSubscription(_ input: DeleteNotificationSubscriptionRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteNotificationSubscription", path: "/api/v1/organizations/{OrganizationId}/subscriptions/{SubscriptionId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the specified user from a Simple AD or Microsoft AD directory.
-    public func deleteUser(_ input: DeleteUserRequest) throws {
-        _ = try client.send(operation: "DeleteUser", path: "/api/v1/users/{UserId}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteUser(_ input: DeleteUserRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteUser", path: "/api/v1/users/{UserId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Describes the user activities in a specified time period.
@@ -201,28 +201,28 @@ public struct WorkDocs {
     }
 
     ///  Removes all the permissions from the specified resource.
-    public func removeAllResourcePermissions(_ input: RemoveAllResourcePermissionsRequest) throws {
-        _ = try client.send(operation: "RemoveAllResourcePermissions", path: "/api/v1/resources/{ResourceId}/permissions", httpMethod: "DELETE", input: input)
+    @discardableResult public func removeAllResourcePermissions(_ input: RemoveAllResourcePermissionsRequest) throws -> Future<Void> {
+        return try client.send(operation: "RemoveAllResourcePermissions", path: "/api/v1/resources/{ResourceId}/permissions", httpMethod: "DELETE", input: input)
     }
 
     ///  Removes the permission for the specified principal from the specified resource.
-    public func removeResourcePermission(_ input: RemoveResourcePermissionRequest) throws {
-        _ = try client.send(operation: "RemoveResourcePermission", path: "/api/v1/resources/{ResourceId}/permissions/{PrincipalId}", httpMethod: "DELETE", input: input)
+    @discardableResult public func removeResourcePermission(_ input: RemoveResourcePermissionRequest) throws -> Future<Void> {
+        return try client.send(operation: "RemoveResourcePermission", path: "/api/v1/resources/{ResourceId}/permissions/{PrincipalId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Updates the specified attributes of a document. The user must have access to both the document and its parent folder, if applicable.
-    public func updateDocument(_ input: UpdateDocumentRequest) throws {
-        _ = try client.send(operation: "UpdateDocument", path: "/api/v1/documents/{DocumentId}", httpMethod: "PATCH", input: input)
+    @discardableResult public func updateDocument(_ input: UpdateDocumentRequest) throws -> Future<Void> {
+        return try client.send(operation: "UpdateDocument", path: "/api/v1/documents/{DocumentId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Changes the status of the document version to ACTIVE.  Amazon WorkDocs also sets its document container to ACTIVE. This is the last step in a document upload, after the client uploads the document to an S3-presigned URL returned by InitiateDocumentVersionUpload. 
-    public func updateDocumentVersion(_ input: UpdateDocumentVersionRequest) throws {
-        _ = try client.send(operation: "UpdateDocumentVersion", path: "/api/v1/documents/{DocumentId}/versions/{VersionId}", httpMethod: "PATCH", input: input)
+    @discardableResult public func updateDocumentVersion(_ input: UpdateDocumentVersionRequest) throws -> Future<Void> {
+        return try client.send(operation: "UpdateDocumentVersion", path: "/api/v1/documents/{DocumentId}/versions/{VersionId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates the specified attributes of the specified folder. The user must have access to both the folder and its parent folder, if applicable.
-    public func updateFolder(_ input: UpdateFolderRequest) throws {
-        _ = try client.send(operation: "UpdateFolder", path: "/api/v1/folders/{FolderId}", httpMethod: "PATCH", input: input)
+    @discardableResult public func updateFolder(_ input: UpdateFolderRequest) throws -> Future<Void> {
+        return try client.send(operation: "UpdateFolder", path: "/api/v1/folders/{FolderId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates the specified attributes of the specified user, and grants or revokes administrative privileges to the Amazon WorkDocs site.

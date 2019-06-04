@@ -52,18 +52,18 @@ public struct Inspector {
     }
 
     ///  Deletes the assessment run that is specified by the ARN of the assessment run.
-    public func deleteAssessmentRun(_ input: DeleteAssessmentRunRequest) throws {
-        _ = try client.send(operation: "DeleteAssessmentRun", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteAssessmentRun(_ input: DeleteAssessmentRunRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteAssessmentRun", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the assessment target that is specified by the ARN of the assessment target.
-    public func deleteAssessmentTarget(_ input: DeleteAssessmentTargetRequest) throws {
-        _ = try client.send(operation: "DeleteAssessmentTarget", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteAssessmentTarget(_ input: DeleteAssessmentTargetRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteAssessmentTarget", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the assessment template that is specified by the ARN of the assessment template.
-    public func deleteAssessmentTemplate(_ input: DeleteAssessmentTemplateRequest) throws {
-        _ = try client.send(operation: "DeleteAssessmentTemplate", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteAssessmentTemplate(_ input: DeleteAssessmentTemplateRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteAssessmentTemplate", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the assessment runs that are specified by the ARNs of the assessment runs.
@@ -172,8 +172,8 @@ public struct Inspector {
     }
 
     ///  Registers the IAM role that grants Amazon Inspector access to AWS Services needed to perform security assessments.
-    public func registerCrossAccountAccessRole(_ input: RegisterCrossAccountAccessRoleRequest) throws {
-        _ = try client.send(operation: "RegisterCrossAccountAccessRole", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func registerCrossAccountAccessRole(_ input: RegisterCrossAccountAccessRoleRequest) throws -> Future<Void> {
+        return try client.send(operation: "RegisterCrossAccountAccessRole", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes entire attributes (key and value pairs) from the findings that are specified by the ARNs of the findings where an attribute with the specified key exists.
@@ -182,8 +182,8 @@ public struct Inspector {
     }
 
     ///  Sets tags (key and value pairs) to the assessment template that is specified by the ARN of the assessment template.
-    public func setTagsForResource(_ input: SetTagsForResourceRequest) throws {
-        _ = try client.send(operation: "SetTagsForResource", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func setTagsForResource(_ input: SetTagsForResourceRequest) throws -> Future<Void> {
+        return try client.send(operation: "SetTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts the assessment run specified by the ARN of the assessment template. For this API to function properly, you must not exceed the limit of running up to 500 concurrent agents per AWS account.
@@ -192,23 +192,23 @@ public struct Inspector {
     }
 
     ///  Stops the assessment run that is specified by the ARN of the assessment run.
-    public func stopAssessmentRun(_ input: StopAssessmentRunRequest) throws {
-        _ = try client.send(operation: "StopAssessmentRun", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func stopAssessmentRun(_ input: StopAssessmentRunRequest) throws -> Future<Void> {
+        return try client.send(operation: "StopAssessmentRun", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Enables the process of sending Amazon Simple Notification Service (SNS) notifications about a specified event to a specified SNS topic.
-    public func subscribeToEvent(_ input: SubscribeToEventRequest) throws {
-        _ = try client.send(operation: "SubscribeToEvent", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func subscribeToEvent(_ input: SubscribeToEventRequest) throws -> Future<Void> {
+        return try client.send(operation: "SubscribeToEvent", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disables the process of sending Amazon Simple Notification Service (SNS) notifications about a specified event to a specified SNS topic.
-    public func unsubscribeFromEvent(_ input: UnsubscribeFromEventRequest) throws {
-        _ = try client.send(operation: "UnsubscribeFromEvent", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func unsubscribeFromEvent(_ input: UnsubscribeFromEventRequest) throws -> Future<Void> {
+        return try client.send(operation: "UnsubscribeFromEvent", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates the assessment target that is specified by the ARN of the assessment target. If resourceGroupArn is not specified, all EC2 instances in the current AWS account and region are included in the assessment target.
-    public func updateAssessmentTarget(_ input: UpdateAssessmentTargetRequest) throws {
-        _ = try client.send(operation: "UpdateAssessmentTarget", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func updateAssessmentTarget(_ input: UpdateAssessmentTargetRequest) throws -> Future<Void> {
+        return try client.send(operation: "UpdateAssessmentTarget", path: "/", httpMethod: "POST", input: input)
     }
 
 

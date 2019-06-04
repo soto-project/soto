@@ -26,6 +26,9 @@ public enum RDSErrorType: AWSErrorType {
     case dBInstanceAutomatedBackupNotFoundFault(message: String?)
     case dBInstanceAutomatedBackupQuotaExceededFault(message: String?)
     case dBInstanceNotFoundFault(message: String?)
+    case dBInstanceRoleAlreadyExistsFault(message: String?)
+    case dBInstanceRoleNotFoundFault(message: String?)
+    case dBInstanceRoleQuotaExceededFault(message: String?)
     case dBLogFileNotFoundFault(message: String?)
     case dBParameterGroupAlreadyExistsFault(message: String?)
     case dBParameterGroupNotFoundFault(message: String?)
@@ -147,6 +150,12 @@ extension RDSErrorType {
             self = .dBInstanceAutomatedBackupQuotaExceededFault(message: message)
         case "DBInstanceNotFoundFault":
             self = .dBInstanceNotFoundFault(message: message)
+        case "DBInstanceRoleAlreadyExistsFault":
+            self = .dBInstanceRoleAlreadyExistsFault(message: message)
+        case "DBInstanceRoleNotFoundFault":
+            self = .dBInstanceRoleNotFoundFault(message: message)
+        case "DBInstanceRoleQuotaExceededFault":
+            self = .dBInstanceRoleQuotaExceededFault(message: message)
         case "DBLogFileNotFoundFault":
             self = .dBLogFileNotFoundFault(message: message)
         case "DBParameterGroupAlreadyExistsFault":

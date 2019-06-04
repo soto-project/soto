@@ -31,6 +31,11 @@ public struct DatabaseMigrationService {
         return try client.send(operation: "AddTagsToResource", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Applies a pending maintenance action to a resource (for example, to a replication instance).
+    public func applyPendingMaintenanceAction(_ input: ApplyPendingMaintenanceActionMessage) throws -> Future<ApplyPendingMaintenanceActionResponse> {
+        return try client.send(operation: "ApplyPendingMaintenanceAction", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Creates an endpoint using the provided settings.
     public func createEndpoint(_ input: CreateEndpointMessage) throws -> Future<CreateEndpointResponse> {
         return try client.send(operation: "CreateEndpoint", path: "/", httpMethod: "POST", input: input)
@@ -129,6 +134,11 @@ public struct DatabaseMigrationService {
     ///  Returns information about the replication instance types that can be created in the specified region.
     public func describeOrderableReplicationInstances(_ input: DescribeOrderableReplicationInstancesMessage) throws -> Future<DescribeOrderableReplicationInstancesResponse> {
         return try client.send(operation: "DescribeOrderableReplicationInstances", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  For internal use only
+    public func describePendingMaintenanceActions(_ input: DescribePendingMaintenanceActionsMessage) throws -> Future<DescribePendingMaintenanceActionsResponse> {
+        return try client.send(operation: "DescribePendingMaintenanceActions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the status of the RefreshSchemas operation.

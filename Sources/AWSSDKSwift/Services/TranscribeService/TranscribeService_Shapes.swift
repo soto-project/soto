@@ -8,25 +8,30 @@ extension TranscribeService {
     public struct CreateVocabularyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
-            AWSShapeMember(label: "Phrases", required: true, type: .list), 
+            AWSShapeMember(label: "Phrases", required: false, type: .list), 
+            AWSShapeMember(label: "VocabularyFileUri", required: false, type: .string), 
             AWSShapeMember(label: "VocabularyName", required: true, type: .string)
         ]
         /// The language code of the vocabulary entries.
         public let languageCode: LanguageCode
         /// An array of strings that contains the vocabulary entries. 
-        public let phrases: [String]
+        public let phrases: [String]?
+        /// The S3 location of the text file that contains the definition of the custom vocabulary. The URI must be in the same region as the API endpoint that you are calling. The general form is    https://s3-&lt;aws-region&gt;.amazonaws.com/&lt;bucket-name&gt;/&lt;keyprefix&gt;/&lt;objectkey&gt;   For example:  https://s3-us-east-1.amazonaws.com/examplebucket/vocab.txt  For more information about S3 object names, see Object Keys in the Amazon S3 Developer Guide. For more information about custom vocabularies, see Custom Vocabularies.
+        public let vocabularyFileUri: String?
         /// The name of the vocabulary. The name must be unique within an AWS account. The name is case-sensitive.
         public let vocabularyName: String
 
-        public init(languageCode: LanguageCode, phrases: [String], vocabularyName: String) {
+        public init(languageCode: LanguageCode, phrases: [String]? = nil, vocabularyFileUri: String? = nil, vocabularyName: String) {
             self.languageCode = languageCode
             self.phrases = phrases
+            self.vocabularyFileUri = vocabularyFileUri
             self.vocabularyName = vocabularyName
         }
 
         private enum CodingKeys: String, CodingKey {
             case languageCode = "LanguageCode"
             case phrases = "Phrases"
+            case vocabularyFileUri = "VocabularyFileUri"
             case vocabularyName = "VocabularyName"
         }
     }
@@ -197,6 +202,12 @@ extension TranscribeService {
         case deDe = "de-DE"
         case ptBr = "pt-BR"
         case frFr = "fr-FR"
+        case itIt = "it-IT"
+        case koKr = "ko-KR"
+        case esEs = "es-ES"
+        case enIn = "en-IN"
+        case hiIn = "hi-IN"
+        case arSa = "ar-SA"
         public var description: String { return self.rawValue }
     }
 
@@ -213,7 +224,7 @@ extension TranscribeService {
         public let maxResults: Int32?
         /// If the result of the previous request to ListTranscriptionJobs was truncated, include the NextToken to fetch the next set of jobs.
         public let nextToken: String?
-        /// When specified, returns only transcription jobs with the specified status.
+        /// When specified, returns only transcription jobs with the specified status. Jobs are ordered by creation date, with the newest jobs returned first. If you don’t specify a status, Amazon Transcribe returns all transcription jobs ordered by creation date. 
         public let status: TranscriptionJobStatus?
 
         public init(jobNameContains: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, status: TranscriptionJobStatus? = nil) {
@@ -318,7 +329,7 @@ extension TranscribeService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MediaFileUri", required: false, type: .string)
         ]
-        /// The S3 location of the input media file. The URI must be in the same region as the API endpoint that you are calling. The general form is:   https://&lt;aws-region&gt;.amazonaws.com/&lt;bucket-name&gt;/&lt;keyprefix&gt;/&lt;objectkey&gt;   For example:  https://s3-us-east-1.amazonaws.com/examplebucket/example.mp4   https://s3-us-east-1.amazonaws.com/examplebucket/mediadocs/example.mp4  For more information about S3 object names, see Object Keys in the Amazon S3 Developer Guide.
+        /// The S3 location of the input media file. The URI must be in the same region as the API endpoint that you are calling. The general form is:   https://s3-&lt;aws-region&gt;.amazonaws.com/&lt;bucket-name&gt;/&lt;keyprefix&gt;/&lt;objectkey&gt;   For example:  https://s3-us-east-1.amazonaws.com/examplebucket/example.mp4   https://s3-us-east-1.amazonaws.com/examplebucket/mediadocs/example.mp4  For more information about S3 object names, see Object Keys in the Amazon S3 Developer Guide.
         public let mediaFileUri: String?
 
         public init(mediaFileUri: String? = nil) {
@@ -393,7 +404,7 @@ extension TranscribeService {
         public let mediaFormat: MediaFormat
         /// The sample rate, in Hertz, of the audio track in the input media file. 
         public let mediaSampleRateHertz: Int32?
-        /// The location where the transcription is stored. If you set the OutputBucketName, Amazon Transcribe puts the transcription in the specified S3 bucket. When you call the GetTranscriptionJob operation, the operation returns this location in the TranscriptFileUri field. The S3 bucket must have permissions that allow Amazon Transcribe to put files in the bucket. For more information, see Permissions Required for IAM User Roles. If you don't set the OutputBucketName, Amazon Transcribe generates a pre-signed URL, a shareable URL that provides secure access to your transcription, and returns it in the TranscriptFileUri field. Use this URL to download the transcription.
+        /// The location where the transcription is stored. If you set the OutputBucketName, Amazon Transcribe puts the transcription in the specified S3 bucket. When you call the GetTranscriptionJob operation, the operation returns this location in the TranscriptFileUri field. The S3 bucket must have permissions that allow Amazon Transcribe to put files in the bucket. For more information, see Permissions Required for IAM User Roles. Amazon Transcribe uses the default Amazon S3 key for server-side encryption of transcripts that are placed in your S3 bucket. You can't specify your own encryption key. If you don't set the OutputBucketName, Amazon Transcribe generates a pre-signed URL, a shareable URL that provides secure access to your transcription, and returns it in the TranscriptFileUri field. Use this URL to download the transcription.
         public let outputBucketName: String?
         /// A Settings object that provides optional settings for a transcription job.
         public let settings: Settings?
@@ -471,7 +482,7 @@ extension TranscribeService {
         public let completionTime: TimeStamp?
         /// A timestamp that shows when the job was created.
         public let creationTime: TimeStamp?
-        /// If the TranscriptionJobStatus field is FAILED, this field contains information about why the job failed.
+        /// If the TranscriptionJobStatus field is FAILED, this field contains information about why the job failed. The FailureReason field can contain one of the following values:    Unsupported media format - The media format specified in the MediaFormat field of the request isn't valid. See the description of the MediaFormat field for a list of valid values.    The media format provided does not match the detected media format - The media format of the audio file doesn't match the format specified in the MediaFormat field in the request. Check the media format of your media file and make sure that the two values match.    Invalid sample rate for audio file - The sample rate specified in the MediaSampleRateHertz of the request isn't valid. The sample rate must be between 8000 and 48000 Hertz.    The sample rate provided does not match the detected sample rate - The sample rate in the audio file doesn't match the sample rate specified in the MediaSampleRateHertz field in the request. Check the sample rate of your media file and make sure that the two values match.    Invalid file size: file size too large - The size of your audio file is larger than Amazon Transcribe can process. For more information, see Limits in the Amazon Transcribe Developer Guide.    Invalid number of channels: number of channels too large - Your audio contains more channels than Amazon Transcribe is configured to process. To request additional channels, see Amazon Transcribe Limits in the Amazon Web Services General Reference.  
         public let failureReason: String?
         /// The language code for the input speech.
         public let languageCode: LanguageCode?
@@ -575,25 +586,30 @@ extension TranscribeService {
     public struct UpdateVocabularyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
-            AWSShapeMember(label: "Phrases", required: true, type: .list), 
+            AWSShapeMember(label: "Phrases", required: false, type: .list), 
+            AWSShapeMember(label: "VocabularyFileUri", required: false, type: .string), 
             AWSShapeMember(label: "VocabularyName", required: true, type: .string)
         ]
         /// The language code of the vocabulary entries.
         public let languageCode: LanguageCode
         /// An array of strings containing the vocabulary entries.
-        public let phrases: [String]
+        public let phrases: [String]?
+        /// The S3 location of the text file that contains the definition of the custom vocabulary. The URI must be in the same region as the API endpoint that you are calling. The general form is    https://s3-&lt;aws-region&gt;.amazonaws.com/&lt;bucket-name&gt;/&lt;keyprefix&gt;/&lt;objectkey&gt;   For example:  https://s3-us-east-1.amazonaws.com/examplebucket/vocab.txt  For more information about S3 object names, see Object Keys in the Amazon S3 Developer Guide. For more information about custom vocabularies, see Custom Vocabularies.
+        public let vocabularyFileUri: String?
         /// The name of the vocabulary to update. The name is case-sensitive.
         public let vocabularyName: String
 
-        public init(languageCode: LanguageCode, phrases: [String], vocabularyName: String) {
+        public init(languageCode: LanguageCode, phrases: [String]? = nil, vocabularyFileUri: String? = nil, vocabularyName: String) {
             self.languageCode = languageCode
             self.phrases = phrases
+            self.vocabularyFileUri = vocabularyFileUri
             self.vocabularyName = vocabularyName
         }
 
         private enum CodingKeys: String, CodingKey {
             case languageCode = "LanguageCode"
             case phrases = "Phrases"
+            case vocabularyFileUri = "VocabularyFileUri"
             case vocabularyName = "VocabularyName"
         }
     }

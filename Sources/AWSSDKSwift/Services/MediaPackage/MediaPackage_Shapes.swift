@@ -17,7 +17,8 @@ extension MediaPackage {
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
             AWSShapeMember(label: "HlsIngest", location: .body(locationName: "hlsIngest"), required: false, type: .structure), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string)
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         /// The Amazon Resource Name (ARN) assigned to the Channel.
         public let arn: String?
@@ -26,12 +27,14 @@ extension MediaPackage {
         public let hlsIngest: HlsIngest?
         /// The ID of the Channel.
         public let id: String?
+        public let tags: [String: String]?
 
-        public init(arn: String? = nil, description: String? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil) {
+        public init(arn: String? = nil, description: String? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.description = description
             self.hlsIngest = hlsIngest
             self.id = id
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -39,28 +42,33 @@ extension MediaPackage {
             case description = "description"
             case hlsIngest = "hlsIngest"
             case id = "id"
+            case tags = "tags"
         }
     }
 
     public struct ChannelCreateParameters: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: true, type: .string)
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: true, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         /// A short text description of the Channel.
         public let description: String?
         /// The ID of the Channel. The ID must be unique within the region and it
         /// cannot be changed after a Channel is created.
         public let id: String
+        public let tags: [String: String]?
 
-        public init(description: String? = nil, id: String) {
+        public init(description: String? = nil, id: String, tags: [String: String]? = nil) {
             self.description = description
             self.id = id
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case id = "id"
+            case tags = "tags"
         }
     }
 
@@ -194,19 +202,23 @@ extension MediaPackage {
     public struct CreateChannelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: true, type: .string)
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: true, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         public let description: String?
         public let id: String
+        public let tags: [String: String]?
 
-        public init(description: String? = nil, id: String) {
+        public init(description: String? = nil, id: String, tags: [String: String]? = nil) {
             self.description = description
             self.id = id
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case id = "id"
+            case tags = "tags"
         }
     }
 
@@ -215,18 +227,21 @@ extension MediaPackage {
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
             AWSShapeMember(label: "HlsIngest", location: .body(locationName: "hlsIngest"), required: false, type: .structure), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string)
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         public let arn: String?
         public let description: String?
         public let hlsIngest: HlsIngest?
         public let id: String?
+        public let tags: [String: String]?
 
-        public init(arn: String? = nil, description: String? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil) {
+        public init(arn: String? = nil, description: String? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.description = description
             self.hlsIngest = hlsIngest
             self.id = id
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -234,6 +249,7 @@ extension MediaPackage {
             case description = "description"
             case hlsIngest = "hlsIngest"
             case id = "id"
+            case tags = "tags"
         }
     }
 
@@ -248,6 +264,7 @@ extension MediaPackage {
             AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string), 
             AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
             AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds"), required: false, type: .integer), 
             AWSShapeMember(label: "Whitelist", location: .body(locationName: "whitelist"), required: false, type: .list)
         ]
@@ -260,10 +277,11 @@ extension MediaPackage {
         public let manifestName: String?
         public let mssPackage: MssPackage?
         public let startoverWindowSeconds: Int32?
+        public let tags: [String: String]?
         public let timeDelaySeconds: Int32?
         public let whitelist: [String]?
 
-        public init(channelId: String, cmafPackage: CmafPackageCreateOrUpdateParameters? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String, manifestName: String? = nil, mssPackage: MssPackage? = nil, startoverWindowSeconds: Int32? = nil, timeDelaySeconds: Int32? = nil, whitelist: [String]? = nil) {
+        public init(channelId: String, cmafPackage: CmafPackageCreateOrUpdateParameters? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String, manifestName: String? = nil, mssPackage: MssPackage? = nil, startoverWindowSeconds: Int32? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int32? = nil, whitelist: [String]? = nil) {
             self.channelId = channelId
             self.cmafPackage = cmafPackage
             self.dashPackage = dashPackage
@@ -273,6 +291,7 @@ extension MediaPackage {
             self.manifestName = manifestName
             self.mssPackage = mssPackage
             self.startoverWindowSeconds = startoverWindowSeconds
+            self.tags = tags
             self.timeDelaySeconds = timeDelaySeconds
             self.whitelist = whitelist
         }
@@ -287,6 +306,7 @@ extension MediaPackage {
             case manifestName = "manifestName"
             case mssPackage = "mssPackage"
             case startoverWindowSeconds = "startoverWindowSeconds"
+            case tags = "tags"
             case timeDelaySeconds = "timeDelaySeconds"
             case whitelist = "whitelist"
         }
@@ -304,6 +324,7 @@ extension MediaPackage {
             AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string), 
             AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
             AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds"), required: false, type: .integer), 
             AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string), 
             AWSShapeMember(label: "Whitelist", location: .body(locationName: "whitelist"), required: false, type: .list)
@@ -318,11 +339,12 @@ extension MediaPackage {
         public let manifestName: String?
         public let mssPackage: MssPackage?
         public let startoverWindowSeconds: Int32?
+        public let tags: [String: String]?
         public let timeDelaySeconds: Int32?
         public let url: String?
         public let whitelist: [String]?
 
-        public init(arn: String? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, startoverWindowSeconds: Int32? = nil, timeDelaySeconds: Int32? = nil, url: String? = nil, whitelist: [String]? = nil) {
+        public init(arn: String? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, startoverWindowSeconds: Int32? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int32? = nil, url: String? = nil, whitelist: [String]? = nil) {
             self.arn = arn
             self.channelId = channelId
             self.cmafPackage = cmafPackage
@@ -333,6 +355,7 @@ extension MediaPackage {
             self.manifestName = manifestName
             self.mssPackage = mssPackage
             self.startoverWindowSeconds = startoverWindowSeconds
+            self.tags = tags
             self.timeDelaySeconds = timeDelaySeconds
             self.url = url
             self.whitelist = whitelist
@@ -349,6 +372,7 @@ extension MediaPackage {
             case manifestName = "manifestName"
             case mssPackage = "mssPackage"
             case startoverWindowSeconds = "startoverWindowSeconds"
+            case tags = "tags"
             case timeDelaySeconds = "timeDelaySeconds"
             case url = "url"
             case whitelist = "whitelist"
@@ -378,16 +402,20 @@ extension MediaPackage {
     public struct DashPackage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure), 
+            AWSShapeMember(label: "ManifestLayout", location: .body(locationName: "manifestLayout"), required: false, type: .enum), 
             AWSShapeMember(label: "ManifestWindowSeconds", location: .body(locationName: "manifestWindowSeconds"), required: false, type: .integer), 
             AWSShapeMember(label: "MinBufferTimeSeconds", location: .body(locationName: "minBufferTimeSeconds"), required: false, type: .integer), 
             AWSShapeMember(label: "MinUpdatePeriodSeconds", location: .body(locationName: "minUpdatePeriodSeconds"), required: false, type: .integer), 
             AWSShapeMember(label: "PeriodTriggers", location: .body(locationName: "periodTriggers"), required: false, type: .list), 
             AWSShapeMember(label: "Profile", location: .body(locationName: "profile"), required: false, type: .enum), 
             AWSShapeMember(label: "SegmentDurationSeconds", location: .body(locationName: "segmentDurationSeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "SegmentTemplateFormat", location: .body(locationName: "segmentTemplateFormat"), required: false, type: .enum), 
             AWSShapeMember(label: "StreamSelection", location: .body(locationName: "streamSelection"), required: false, type: .structure), 
             AWSShapeMember(label: "SuggestedPresentationDelaySeconds", location: .body(locationName: "suggestedPresentationDelaySeconds"), required: false, type: .integer)
         ]
         public let encryption: DashEncryption?
+        /// Determines the position of some tags in the Media Presentation Description (MPD).  When set to FULL, elements like SegmentTemplate and ContentProtection are included in each Representation.  When set to COMPACT, duplicate elements are combined and presented at the AdaptationSet level.
+        public let manifestLayout: ManifestLayout?
         /// Time window (in seconds) contained in each manifest.
         public let manifestWindowSeconds: Int32?
         /// Minimum duration (in seconds) that a player will buffer media before starting the presentation.
@@ -404,30 +432,36 @@ extension MediaPackage {
         /// Duration (in seconds) of each segment. Actual segments will be
         /// rounded to the nearest multiple of the source segment duration.
         public let segmentDurationSeconds: Int32?
+        /// Determines the type of SegmentTemplate included in the Media Presentation Description (MPD).  When set to NUMBER_WITH_TIMELINE, a full timeline is presented in each SegmentTemplate, with $Number$ media URLs.  When set to TIME_WITH_TIMELINE, a full timeline is presented in each SegmentTemplate, with $Time$ media URLs. When set to NUMBER_WITH_DURATION, only a duration is included in each SegmentTemplate, with $Number$ media URLs.
+        public let segmentTemplateFormat: SegmentTemplateFormat?
         public let streamSelection: StreamSelection?
         /// Duration (in seconds) to delay live content before presentation.
         public let suggestedPresentationDelaySeconds: Int32?
 
-        public init(encryption: DashEncryption? = nil, manifestWindowSeconds: Int32? = nil, minBufferTimeSeconds: Int32? = nil, minUpdatePeriodSeconds: Int32? = nil, periodTriggers: [Periodtriggerselement]? = nil, profile: Profile? = nil, segmentDurationSeconds: Int32? = nil, streamSelection: StreamSelection? = nil, suggestedPresentationDelaySeconds: Int32? = nil) {
+        public init(encryption: DashEncryption? = nil, manifestLayout: ManifestLayout? = nil, manifestWindowSeconds: Int32? = nil, minBufferTimeSeconds: Int32? = nil, minUpdatePeriodSeconds: Int32? = nil, periodTriggers: [Periodtriggerselement]? = nil, profile: Profile? = nil, segmentDurationSeconds: Int32? = nil, segmentTemplateFormat: SegmentTemplateFormat? = nil, streamSelection: StreamSelection? = nil, suggestedPresentationDelaySeconds: Int32? = nil) {
             self.encryption = encryption
+            self.manifestLayout = manifestLayout
             self.manifestWindowSeconds = manifestWindowSeconds
             self.minBufferTimeSeconds = minBufferTimeSeconds
             self.minUpdatePeriodSeconds = minUpdatePeriodSeconds
             self.periodTriggers = periodTriggers
             self.profile = profile
             self.segmentDurationSeconds = segmentDurationSeconds
+            self.segmentTemplateFormat = segmentTemplateFormat
             self.streamSelection = streamSelection
             self.suggestedPresentationDelaySeconds = suggestedPresentationDelaySeconds
         }
 
         private enum CodingKeys: String, CodingKey {
             case encryption = "encryption"
+            case manifestLayout = "manifestLayout"
             case manifestWindowSeconds = "manifestWindowSeconds"
             case minBufferTimeSeconds = "minBufferTimeSeconds"
             case minUpdatePeriodSeconds = "minUpdatePeriodSeconds"
             case periodTriggers = "periodTriggers"
             case profile = "profile"
             case segmentDurationSeconds = "segmentDurationSeconds"
+            case segmentTemplateFormat = "segmentTemplateFormat"
             case streamSelection = "streamSelection"
             case suggestedPresentationDelaySeconds = "suggestedPresentationDelaySeconds"
         }
@@ -497,18 +531,21 @@ extension MediaPackage {
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
             AWSShapeMember(label: "HlsIngest", location: .body(locationName: "hlsIngest"), required: false, type: .structure), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string)
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         public let arn: String?
         public let description: String?
         public let hlsIngest: HlsIngest?
         public let id: String?
+        public let tags: [String: String]?
 
-        public init(arn: String? = nil, description: String? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil) {
+        public init(arn: String? = nil, description: String? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.description = description
             self.hlsIngest = hlsIngest
             self.id = id
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -516,6 +553,7 @@ extension MediaPackage {
             case description = "description"
             case hlsIngest = "hlsIngest"
             case id = "id"
+            case tags = "tags"
         }
     }
 
@@ -546,6 +584,7 @@ extension MediaPackage {
             AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string), 
             AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
             AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds"), required: false, type: .integer), 
             AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string), 
             AWSShapeMember(label: "Whitelist", location: .body(locationName: "whitelist"), required: false, type: .list)
@@ -560,11 +599,12 @@ extension MediaPackage {
         public let manifestName: String?
         public let mssPackage: MssPackage?
         public let startoverWindowSeconds: Int32?
+        public let tags: [String: String]?
         public let timeDelaySeconds: Int32?
         public let url: String?
         public let whitelist: [String]?
 
-        public init(arn: String? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, startoverWindowSeconds: Int32? = nil, timeDelaySeconds: Int32? = nil, url: String? = nil, whitelist: [String]? = nil) {
+        public init(arn: String? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, startoverWindowSeconds: Int32? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int32? = nil, url: String? = nil, whitelist: [String]? = nil) {
             self.arn = arn
             self.channelId = channelId
             self.cmafPackage = cmafPackage
@@ -575,6 +615,7 @@ extension MediaPackage {
             self.manifestName = manifestName
             self.mssPackage = mssPackage
             self.startoverWindowSeconds = startoverWindowSeconds
+            self.tags = tags
             self.timeDelaySeconds = timeDelaySeconds
             self.url = url
             self.whitelist = whitelist
@@ -591,6 +632,7 @@ extension MediaPackage {
             case manifestName = "manifestName"
             case mssPackage = "mssPackage"
             case startoverWindowSeconds = "startoverWindowSeconds"
+            case tags = "tags"
             case timeDelaySeconds = "timeDelaySeconds"
             case url = "url"
             case whitelist = "whitelist"
@@ -963,6 +1005,42 @@ extension MediaPackage {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string)
+        ]
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resource-arn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+        ]
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
+    public enum ManifestLayout: String, CustomStringConvertible, Codable {
+        case full = "FULL"
+        case compact = "COMPACT"
+        public var description: String { return self.rawValue }
+    }
+
     public struct MssEncryption: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SpekeKeyProvider", location: .body(locationName: "spekeKeyProvider"), required: true, type: .structure)
@@ -1019,6 +1097,7 @@ extension MediaPackage {
             AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string), 
             AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
             AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds"), required: false, type: .integer), 
             AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string), 
             AWSShapeMember(label: "Whitelist", location: .body(locationName: "whitelist"), required: false, type: .list)
@@ -1040,6 +1119,7 @@ extension MediaPackage {
         /// Maximum duration (seconds) of content to retain for startover playback.
         /// If not specified, startover playback will be disabled for the OriginEndpoint.
         public let startoverWindowSeconds: Int32?
+        public let tags: [String: String]?
         /// Amount of delay (seconds) to enforce on the playback of live content.
         /// If not specified, there will be no time delay in effect for the OriginEndpoint.
         public let timeDelaySeconds: Int32?
@@ -1048,7 +1128,7 @@ extension MediaPackage {
         /// A list of source IP CIDR blocks that will be allowed to access the OriginEndpoint.
         public let whitelist: [String]?
 
-        public init(arn: String? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, startoverWindowSeconds: Int32? = nil, timeDelaySeconds: Int32? = nil, url: String? = nil, whitelist: [String]? = nil) {
+        public init(arn: String? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, startoverWindowSeconds: Int32? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int32? = nil, url: String? = nil, whitelist: [String]? = nil) {
             self.arn = arn
             self.channelId = channelId
             self.cmafPackage = cmafPackage
@@ -1059,6 +1139,7 @@ extension MediaPackage {
             self.manifestName = manifestName
             self.mssPackage = mssPackage
             self.startoverWindowSeconds = startoverWindowSeconds
+            self.tags = tags
             self.timeDelaySeconds = timeDelaySeconds
             self.url = url
             self.whitelist = whitelist
@@ -1075,6 +1156,7 @@ extension MediaPackage {
             case manifestName = "manifestName"
             case mssPackage = "mssPackage"
             case startoverWindowSeconds = "startoverWindowSeconds"
+            case tags = "tags"
             case timeDelaySeconds = "timeDelaySeconds"
             case url = "url"
             case whitelist = "whitelist"
@@ -1092,6 +1174,7 @@ extension MediaPackage {
             AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string), 
             AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
             AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds"), required: false, type: .integer), 
             AWSShapeMember(label: "Whitelist", location: .body(locationName: "whitelist"), required: false, type: .list)
         ]
@@ -1112,13 +1195,14 @@ extension MediaPackage {
         /// Maximum duration (seconds) of content to retain for startover playback.
         /// If not specified, startover playback will be disabled for the OriginEndpoint.
         public let startoverWindowSeconds: Int32?
+        public let tags: [String: String]?
         /// Amount of delay (seconds) to enforce on the playback of live content.
         /// If not specified, there will be no time delay in effect for the OriginEndpoint.
         public let timeDelaySeconds: Int32?
         /// A list of source IP CIDR blocks that will be allowed to access the OriginEndpoint.
         public let whitelist: [String]?
 
-        public init(channelId: String, cmafPackage: CmafPackageCreateOrUpdateParameters? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String, manifestName: String? = nil, mssPackage: MssPackage? = nil, startoverWindowSeconds: Int32? = nil, timeDelaySeconds: Int32? = nil, whitelist: [String]? = nil) {
+        public init(channelId: String, cmafPackage: CmafPackageCreateOrUpdateParameters? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String, manifestName: String? = nil, mssPackage: MssPackage? = nil, startoverWindowSeconds: Int32? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int32? = nil, whitelist: [String]? = nil) {
             self.channelId = channelId
             self.cmafPackage = cmafPackage
             self.dashPackage = dashPackage
@@ -1128,6 +1212,7 @@ extension MediaPackage {
             self.manifestName = manifestName
             self.mssPackage = mssPackage
             self.startoverWindowSeconds = startoverWindowSeconds
+            self.tags = tags
             self.timeDelaySeconds = timeDelaySeconds
             self.whitelist = whitelist
         }
@@ -1142,6 +1227,7 @@ extension MediaPackage {
             case manifestName = "manifestName"
             case mssPackage = "mssPackage"
             case startoverWindowSeconds = "startoverWindowSeconds"
+            case tags = "tags"
             case timeDelaySeconds = "timeDelaySeconds"
             case whitelist = "whitelist"
         }
@@ -1255,18 +1341,21 @@ extension MediaPackage {
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
             AWSShapeMember(label: "HlsIngest", location: .body(locationName: "hlsIngest"), required: false, type: .structure), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string)
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         public let arn: String?
         public let description: String?
         public let hlsIngest: HlsIngest?
         public let id: String?
+        public let tags: [String: String]?
 
-        public init(arn: String? = nil, description: String? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil) {
+        public init(arn: String? = nil, description: String? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.description = description
             self.hlsIngest = hlsIngest
             self.id = id
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1274,6 +1363,7 @@ extension MediaPackage {
             case description = "description"
             case hlsIngest = "hlsIngest"
             case id = "id"
+            case tags = "tags"
         }
     }
 
@@ -1301,18 +1391,21 @@ extension MediaPackage {
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
             AWSShapeMember(label: "HlsIngest", location: .body(locationName: "hlsIngest"), required: false, type: .structure), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string)
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         public let arn: String?
         public let description: String?
         public let hlsIngest: HlsIngest?
         public let id: String?
+        public let tags: [String: String]?
 
-        public init(arn: String? = nil, description: String? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil) {
+        public init(arn: String? = nil, description: String? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.description = description
             self.hlsIngest = hlsIngest
             self.id = id
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1320,7 +1413,15 @@ extension MediaPackage {
             case description = "description"
             case hlsIngest = "hlsIngest"
             case id = "id"
+            case tags = "tags"
         }
+    }
+
+    public enum SegmentTemplateFormat: String, CustomStringConvertible, Codable {
+        case numberWithTimeline = "NUMBER_WITH_TIMELINE"
+        case timeWithTimeline = "TIME_WITH_TIMELINE"
+        case numberWithDuration = "NUMBER_WITH_DURATION"
+        public var description: String { return self.rawValue }
     }
 
     public struct SpekeKeyProvider: AWSShape {
@@ -1395,6 +1496,59 @@ extension MediaPackage {
         }
     }
 
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: true, type: .map)
+        ]
+        public let resourceArn: String
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resource-arn"
+            case tags = "tags"
+        }
+    }
+
+    public struct TagsModel: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: true, type: .map)
+        ]
+        public let tags: [String: String]
+
+        public init(tags: [String: String]) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+        ]
+        public let resourceArn: String
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resource-arn"
+            case tagKeys = "tagKeys"
+        }
+    }
+
     public struct UpdateChannelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
@@ -1419,18 +1573,21 @@ extension MediaPackage {
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
             AWSShapeMember(label: "HlsIngest", location: .body(locationName: "hlsIngest"), required: false, type: .structure), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string)
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         public let arn: String?
         public let description: String?
         public let hlsIngest: HlsIngest?
         public let id: String?
+        public let tags: [String: String]?
 
-        public init(arn: String? = nil, description: String? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil) {
+        public init(arn: String? = nil, description: String? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.description = description
             self.hlsIngest = hlsIngest
             self.id = id
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1438,6 +1595,7 @@ extension MediaPackage {
             case description = "description"
             case hlsIngest = "hlsIngest"
             case id = "id"
+            case tags = "tags"
         }
     }
 
@@ -1504,6 +1662,7 @@ extension MediaPackage {
             AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string), 
             AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
             AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds"), required: false, type: .integer), 
             AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string), 
             AWSShapeMember(label: "Whitelist", location: .body(locationName: "whitelist"), required: false, type: .list)
@@ -1518,11 +1677,12 @@ extension MediaPackage {
         public let manifestName: String?
         public let mssPackage: MssPackage?
         public let startoverWindowSeconds: Int32?
+        public let tags: [String: String]?
         public let timeDelaySeconds: Int32?
         public let url: String?
         public let whitelist: [String]?
 
-        public init(arn: String? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, startoverWindowSeconds: Int32? = nil, timeDelaySeconds: Int32? = nil, url: String? = nil, whitelist: [String]? = nil) {
+        public init(arn: String? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, startoverWindowSeconds: Int32? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int32? = nil, url: String? = nil, whitelist: [String]? = nil) {
             self.arn = arn
             self.channelId = channelId
             self.cmafPackage = cmafPackage
@@ -1533,6 +1693,7 @@ extension MediaPackage {
             self.manifestName = manifestName
             self.mssPackage = mssPackage
             self.startoverWindowSeconds = startoverWindowSeconds
+            self.tags = tags
             self.timeDelaySeconds = timeDelaySeconds
             self.url = url
             self.whitelist = whitelist
@@ -1549,6 +1710,7 @@ extension MediaPackage {
             case manifestName = "manifestName"
             case mssPackage = "mssPackage"
             case startoverWindowSeconds = "startoverWindowSeconds"
+            case tags = "tags"
             case timeDelaySeconds = "timeDelaySeconds"
             case url = "url"
             case whitelist = "whitelist"

@@ -85,6 +85,11 @@ public struct XRay {
         return try client.send(operation: "GetServiceGraph", path: "/ServiceGraph", httpMethod: "POST", input: input)
     }
 
+    ///  Get an aggregation of service statistics defined by a specific time range.
+    public func getTimeSeriesServiceStatistics(_ input: GetTimeSeriesServiceStatisticsRequest) throws -> Future<GetTimeSeriesServiceStatisticsResult> {
+        return try client.send(operation: "GetTimeSeriesServiceStatistics", path: "/TimeSeriesServiceStatistics", httpMethod: "POST", input: input)
+    }
+
     ///  Retrieves a service graph for one or more specific trace IDs.
     public func getTraceGraph(_ input: GetTraceGraphRequest) throws -> Future<GetTraceGraphResult> {
         return try client.send(operation: "GetTraceGraph", path: "/TraceGraph", httpMethod: "POST", input: input)

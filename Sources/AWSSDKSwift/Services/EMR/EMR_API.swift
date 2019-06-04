@@ -117,13 +117,13 @@ public struct EMR {
     }
 
     ///  Modifies the target On-Demand and target Spot capacities for the instance fleet with the specified InstanceFleetID within the cluster specified using ClusterID. The call either succeeds or fails atomically.  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions. 
-    public func modifyInstanceFleet(_ input: ModifyInstanceFleetInput) throws {
-        _ = try client.send(operation: "ModifyInstanceFleet", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func modifyInstanceFleet(_ input: ModifyInstanceFleetInput) throws -> Future<Void> {
+        return try client.send(operation: "ModifyInstanceFleet", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  ModifyInstanceGroups modifies the number of nodes and configuration settings of an instance group. The input parameters include the new target instance count for the group and the instance group ID. The call will either succeed or fail atomically.
-    public func modifyInstanceGroups(_ input: ModifyInstanceGroupsInput) throws {
-        _ = try client.send(operation: "ModifyInstanceGroups", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func modifyInstanceGroups(_ input: ModifyInstanceGroupsInput) throws -> Future<Void> {
+        return try client.send(operation: "ModifyInstanceGroups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates or updates an automatic scaling policy for a core instance group or task instance group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group dynamically adds and terminates EC2 instances in response to the value of a CloudWatch metric.
@@ -147,18 +147,18 @@ public struct EMR {
     }
 
     ///  SetTerminationProtection locks a cluster (job flow) so the EC2 instances in the cluster cannot be terminated by user intervention, an API call, or in the event of a job-flow error. The cluster still terminates upon successful completion of the job flow. Calling SetTerminationProtection on a cluster is similar to calling the Amazon EC2 DisableAPITermination API on all EC2 instances in a cluster.  SetTerminationProtection is used to prevent accidental termination of a cluster and to ensure that in the event of an error, the instances persist so that you can recover any data stored in their ephemeral instance storage.  To terminate a cluster that has been locked by setting SetTerminationProtection to true, you must first unlock the job flow by a subsequent call to SetTerminationProtection in which you set the value to false.   For more information, seeManaging Cluster Termination in the Amazon EMR Management Guide. 
-    public func setTerminationProtection(_ input: SetTerminationProtectionInput) throws {
-        _ = try client.send(operation: "SetTerminationProtection", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func setTerminationProtection(_ input: SetTerminationProtectionInput) throws -> Future<Void> {
+        return try client.send(operation: "SetTerminationProtection", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Sets whether all AWS Identity and Access Management (IAM) users under your account can access the specified clusters (job flows). This action works on running clusters. You can also set the visibility of a cluster when you launch it using the VisibleToAllUsers parameter of RunJobFlow. The SetVisibleToAllUsers action can be called only by an IAM user who created the cluster or the AWS account that owns the cluster.
-    public func setVisibleToAllUsers(_ input: SetVisibleToAllUsersInput) throws {
-        _ = try client.send(operation: "SetVisibleToAllUsers", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func setVisibleToAllUsers(_ input: SetVisibleToAllUsersInput) throws -> Future<Void> {
+        return try client.send(operation: "SetVisibleToAllUsers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  TerminateJobFlows shuts a list of clusters (job flows) down. When a job flow is shut down, any step not yet completed is canceled and the EC2 instances on which the cluster is running are stopped. Any log files not already saved are uploaded to Amazon S3 if a LogUri was specified when the cluster was created. The maximum number of clusters allowed is 10. The call to TerminateJobFlows is asynchronous. Depending on the configuration of the cluster, it may take up to 1-5 minutes for the cluster to completely terminate and release allocated resources, such as Amazon EC2 instances.
-    public func terminateJobFlows(_ input: TerminateJobFlowsInput) throws {
-        _ = try client.send(operation: "TerminateJobFlows", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func terminateJobFlows(_ input: TerminateJobFlowsInput) throws -> Future<Void> {
+        return try client.send(operation: "TerminateJobFlows", path: "/", httpMethod: "POST", input: input)
     }
 
 

@@ -217,9 +217,9 @@ extension Rekognition {
         ]
         /// The minimum level of confidence in the face matches that a match must meet to be included in the FaceMatches array.
         public let similarityThreshold: Float?
-        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported. 
+        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let sourceImage: Image
-        /// The target image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported. 
+        /// The target image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let targetImage: Image
 
         public init(similarityThreshold: Float? = nil, sourceImage: Image, targetImage: Image) {
@@ -407,7 +407,7 @@ extension Rekognition {
         ]
         /// Kinesis video stream stream that provides the source streaming video. If you are using the AWS CLI, the parameter name is StreamProcessorInput.
         public let input: StreamProcessorInput
-        /// An identifier you assign to the stream processor. You can use Name to manage the stream processor. For example, you can get the current status of the stream processor by calling . Name is idempotent. 
+        /// An identifier you assign to the stream processor. You can use Name to manage the stream processor. For example, you can get the current status of the stream processor by calling DescribeStreamProcessor. Name is idempotent. 
         public let name: String
         /// Kinesis data stream stream to which Amazon Rekognition Video puts the analysis results. If you are using the AWS CLI, the parameter name is StreamProcessorOutput.
         public let output: StreamProcessorOutput
@@ -568,7 +568,7 @@ extension Rekognition {
         public let collectionARN: String?
         /// The number of milliseconds since the Unix epoch time until the creation of the collection. The Unix epoch time is 00:00:00 Coordinated Universal Time (UTC), Thursday, 1 January 1970.
         public let creationTimestamp: TimeStamp?
-        /// The number of faces that are indexed into the collection. To index faces into a collection, use .
+        /// The number of faces that are indexed into the collection. To index faces into a collection, use IndexFaces.
         public let faceCount: Int64?
         /// The version of the face model that's used by the collection for face detection. For more information, see Model Versioning in the Amazon Rekognition Developer Guide.
         public let faceModelVersion: String?
@@ -672,7 +672,7 @@ extension Rekognition {
         ]
         /// An array of facial attributes you want to be returned. This can be the default list of attributes or all attributes. If you don't specify a value for Attributes or if you specify ["DEFAULT"], the API returns the following subset of facial attributes: BoundingBox, Confidence, Pose, Quality, and Landmarks. If you provide ["ALL"], all facial attributes are returned, but the operation takes longer to complete. If you provide both, ["ALL", "DEFAULT"], the service uses a logical AND operator to determine which attributes to return (in this case, all attributes). 
         public let attributes: [Attribute]?
-        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported. 
+        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let image: Image
 
         public init(attributes: [Attribute]? = nil, image: Image) {
@@ -713,11 +713,11 @@ extension Rekognition {
             AWSShapeMember(label: "MaxLabels", required: false, type: .integer), 
             AWSShapeMember(label: "MinConfidence", required: false, type: .float)
         ]
-        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported. 
+        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes is not supported. Images stored in an S3 Bucket do not need to be base64-encoded. If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let image: Image
         /// Maximum number of labels you want the service to return in the response. The service returns the specified number of highest confidence labels. 
         public let maxLabels: Int32?
-        /// Specifies the minimum confidence level for the labels to return. Amazon Rekognition doesn't return any labels with confidence lower than this specified value. If MinConfidence is not specified, the operation returns labels with a confidence values greater than or equal to 50 percent.
+        /// Specifies the minimum confidence level for the labels to return. Amazon Rekognition doesn't return any labels with confidence lower than this specified value. If MinConfidence is not specified, the operation returns labels with a confidence values greater than or equal to 55 percent.
         public let minConfidence: Float?
 
         public init(image: Image, maxLabels: Int32? = nil, minConfidence: Float? = nil) {
@@ -764,7 +764,7 @@ extension Rekognition {
             AWSShapeMember(label: "Image", required: true, type: .structure), 
             AWSShapeMember(label: "MinConfidence", required: false, type: .float)
         ]
-        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported. 
+        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let image: Image
         /// Specifies the minimum confidence level for the labels to return. Amazon Rekognition doesn't return any labels with a confidence level lower than this specified value. If you don't specify MinConfidence, the operation returns labels with confidence values greater than or equal to 50 percent.
         public let minConfidence: Float?
@@ -782,17 +782,22 @@ extension Rekognition {
 
     public struct DetectModerationLabelsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ModerationLabels", required: false, type: .list)
+            AWSShapeMember(label: "ModerationLabels", required: false, type: .list), 
+            AWSShapeMember(label: "ModerationModelVersion", required: false, type: .string)
         ]
         /// Array of detected Moderation labels and the time, in millseconds from the start of the video, they were detected.
         public let moderationLabels: [ModerationLabel]?
+        /// Version number of the moderation detection model that was used to detect unsafe content.
+        public let moderationModelVersion: String?
 
-        public init(moderationLabels: [ModerationLabel]? = nil) {
+        public init(moderationLabels: [ModerationLabel]? = nil, moderationModelVersion: String? = nil) {
             self.moderationLabels = moderationLabels
+            self.moderationModelVersion = moderationModelVersion
         }
 
         private enum CodingKeys: String, CodingKey {
             case moderationLabels = "ModerationLabels"
+            case moderationModelVersion = "ModerationModelVersion"
         }
     }
 
@@ -800,7 +805,7 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Image", required: true, type: .structure)
         ]
-        /// The input image as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Rekognition operations, you can't pass image bytes. 
+        /// The input image as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Rekognition operations, you can't pass image bytes.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let image: Image
 
         public init(image: Image) {
@@ -1173,7 +1178,7 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", required: true, type: .string)
         ]
-        /// The ID for the celebrity. You get the celebrity ID from a call to the operation, which recognizes celebrities in an image. 
+        /// The ID for the celebrity. You get the celebrity ID from a call to the RecognizeCelebrities operation, which recognizes celebrities in an image. 
         public let id: String
 
         public init(id: String) {
@@ -1308,6 +1313,7 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
             AWSShapeMember(label: "ModerationLabels", required: false, type: .list), 
+            AWSShapeMember(label: "ModerationModelVersion", required: false, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
             AWSShapeMember(label: "VideoMetadata", required: false, type: .structure)
@@ -1316,6 +1322,8 @@ extension Rekognition {
         public let jobStatus: VideoJobStatus?
         /// The detected moderation labels and the time(s) they were detected.
         public let moderationLabels: [ContentModerationDetection]?
+        /// Version number of the moderation detection model that was used to detect unsafe content.
+        public let moderationModelVersion: String?
         /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of moderation labels. 
         public let nextToken: String?
         /// If the job fails, StatusMessage provides a descriptive error message.
@@ -1323,9 +1331,10 @@ extension Rekognition {
         /// Information about a video that Amazon Rekognition analyzed. Videometadata is returned in every page of paginated responses from GetContentModeration. 
         public let videoMetadata: VideoMetadata?
 
-        public init(jobStatus: VideoJobStatus? = nil, moderationLabels: [ContentModerationDetection]? = nil, nextToken: String? = nil, statusMessage: String? = nil, videoMetadata: VideoMetadata? = nil) {
+        public init(jobStatus: VideoJobStatus? = nil, moderationLabels: [ContentModerationDetection]? = nil, moderationModelVersion: String? = nil, nextToken: String? = nil, statusMessage: String? = nil, videoMetadata: VideoMetadata? = nil) {
             self.jobStatus = jobStatus
             self.moderationLabels = moderationLabels
+            self.moderationModelVersion = moderationModelVersion
             self.nextToken = nextToken
             self.statusMessage = statusMessage
             self.videoMetadata = videoMetadata
@@ -1334,6 +1343,7 @@ extension Rekognition {
         private enum CodingKeys: String, CodingKey {
             case jobStatus = "JobStatus"
             case moderationLabels = "ModerationLabels"
+            case moderationModelVersion = "ModerationModelVersion"
             case nextToken = "NextToken"
             case statusMessage = "StatusMessage"
             case videoMetadata = "VideoMetadata"
@@ -1445,7 +1455,7 @@ extension Rekognition {
         public let jobStatus: VideoJobStatus?
         /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of search results. 
         public let nextToken: String?
-        /// An array of persons, , in the video whose face(s) match the face(s) in an Amazon Rekognition collection. It also includes time information for when persons are matched in the video. You specify the input collection in an initial call to StartFaceSearch. Each Persons element includes a time the person was matched, face match details (FaceMatches) for matching faces in the collection, and person information (Person) for the matched person. 
+        /// An array of persons, PersonMatch, in the video whose face(s) match the face(s) in an Amazon Rekognition collection. It also includes time information for when persons are matched in the video. You specify the input collection in an initial call to StartFaceSearch. Each Persons element includes a time the person was matched, face match details (FaceMatches) for matching faces in the collection, and person information (Person) for the matched person. 
         public let persons: [PersonMatch]?
         /// If the job fails, StatusMessage provides a descriptive error message.
         public let statusMessage: String?
@@ -1503,6 +1513,7 @@ extension Rekognition {
     public struct GetLabelDetectionResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "LabelModelVersion", required: false, type: .string), 
             AWSShapeMember(label: "Labels", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
@@ -1510,6 +1521,8 @@ extension Rekognition {
         ]
         /// The current status of the label detection job.
         public let jobStatus: VideoJobStatus?
+        /// Version number of the label detection model that was used to detect labels.
+        public let labelModelVersion: String?
         /// An array of labels detected in the video. Each element contains the detected label and the time, in milliseconds from the start of the video, that the label was detected. 
         public let labels: [LabelDetection]?
         /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of labels.
@@ -1519,8 +1532,9 @@ extension Rekognition {
         /// Information about a video that Amazon Rekognition Video analyzed. Videometadata is returned in every page of paginated responses from a Amazon Rekognition video operation.
         public let videoMetadata: VideoMetadata?
 
-        public init(jobStatus: VideoJobStatus? = nil, labels: [LabelDetection]? = nil, nextToken: String? = nil, statusMessage: String? = nil, videoMetadata: VideoMetadata? = nil) {
+        public init(jobStatus: VideoJobStatus? = nil, labelModelVersion: String? = nil, labels: [LabelDetection]? = nil, nextToken: String? = nil, statusMessage: String? = nil, videoMetadata: VideoMetadata? = nil) {
             self.jobStatus = jobStatus
+            self.labelModelVersion = labelModelVersion
             self.labels = labels
             self.nextToken = nextToken
             self.statusMessage = statusMessage
@@ -1529,6 +1543,7 @@ extension Rekognition {
 
         private enum CodingKeys: String, CodingKey {
             case jobStatus = "JobStatus"
+            case labelModelVersion = "LabelModelVersion"
             case labels = "Labels"
             case nextToken = "NextToken"
             case statusMessage = "StatusMessage"
@@ -1660,7 +1675,7 @@ extension Rekognition {
         public let detectionAttributes: [Attribute]?
         /// The ID you want to assign to all the faces detected in the image.
         public let externalImageId: String?
-        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes isn't supported. 
+        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes isn't supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let image: Image
         /// The maximum number of faces to index. The value of MaxFaces must be greater than or equal to 1. IndexFaces returns no more than 100 detected faces in an image, even if you specify a larger value for MaxFaces. If IndexFaces detects more faces than the value of MaxFaces, the faces with the lowest quality are filtered out first. If there are still more faces than the value of MaxFaces, the faces with the smallest bounding boxes are filtered out (up to the number that's needed to satisfy the value of MaxFaces). Information about the unindexed faces is available in the UnindexedFaces array.  The faces that are returned by IndexFaces are sorted by the largest face bounding box size to the smallest size, in descending order.  MaxFaces can be used with a collection associated with any version of the face model.
         public let maxFaces: Int32?
@@ -1697,7 +1712,7 @@ extension Rekognition {
         public let faceModelVersion: String?
         /// An array of faces detected and added to the collection. For more information, see Searching Faces in a Collection in the Amazon Rekognition Developer Guide. 
         public let faceRecords: [FaceRecord]?
-        /// If your collection is associated with a face detection model that's later than version 3.0, the value of OrientationCorrection is always null and no orientation information is returned. If your collection is associated with a face detection model that's version 3.0 or earlier, the following applies:   If the input image is in .jpeg format, it might contain exchangeable image file format (Exif) metadata that includes the image's orientation. Amazon Rekognition uses this orientation information to perform image correction - the bounding box coordinates are translated to represent object locations after the orientation information in the Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata. The value of OrientationCorrection is null.   If the image doesn't contain orientation information in its Exif metadata, Amazon Rekognition returns an estimated orientation (ROTATE_0, ROTATE_90, ROTATE_180, ROTATE_270). Amazon Rekognition doesn’t perform image correction for images. The bounding box coordinates aren't translated and represent the object locations before the image is rotated.   Bounding box information is returned in the FaceRecords array. You can get the version of the face detection model by calling . 
+        /// If your collection is associated with a face detection model that's later than version 3.0, the value of OrientationCorrection is always null and no orientation information is returned. If your collection is associated with a face detection model that's version 3.0 or earlier, the following applies:   If the input image is in .jpeg format, it might contain exchangeable image file format (Exif) metadata that includes the image's orientation. Amazon Rekognition uses this orientation information to perform image correction - the bounding box coordinates are translated to represent object locations after the orientation information in the Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata. The value of OrientationCorrection is null.   If the image doesn't contain orientation information in its Exif metadata, Amazon Rekognition returns an estimated orientation (ROTATE_0, ROTATE_90, ROTATE_180, ROTATE_270). Amazon Rekognition doesn’t perform image correction for images. The bounding box coordinates aren't translated and represent the object locations before the image is rotated.   Bounding box information is returned in the FaceRecords array. You can get the version of the face detection model by calling DescribeCollection. 
         public let orientationCorrection: OrientationCorrection?
         /// An array of faces that were detected in the image but weren't indexed. They weren't indexed because the quality filter identified them as low quality, or the MaxFaces request parameter filtered them out. To use the quality filter, you specify the QualityFilter request parameter.
         public let unindexedFaces: [UnindexedFace]?
@@ -1724,7 +1739,7 @@ extension Rekognition {
         ]
         /// The position of the label instance on the image.
         public let boundingBox: BoundingBox?
-        /// The confidence that Amazon Rekognition Image has in the accuracy of the bounding box.
+        /// The confidence that Amazon Rekognition has in the accuracy of the bounding box.
         public let confidence: Float?
 
         public init(boundingBox: BoundingBox? = nil, confidence: Float? = nil) {
@@ -1779,11 +1794,11 @@ extension Rekognition {
         ]
         /// Level of confidence.
         public let confidence: Float?
-        /// If Label represents an object, Instances contains the bounding boxes for each instance of the detected object. Bounding boxes are returned for common object labels such as people, cars, furniture, apparel or pets.  Amazon Rekognition Video does not support bounding box information for detected labels. The value of Instances is returned as null by GetLabelDetection. 
+        /// If Label represents an object, Instances contains the bounding boxes for each instance of the detected object. Bounding boxes are returned for common object labels such as people, cars, furniture, apparel or pets.
         public let instances: [Instance]?
         /// The name (label) of the object or scene.
         public let name: String?
-        /// The parent labels for a label. The response includes all ancestor labels.  Amazon Rekognition Video does not support a hierarchical taxonomy of detected labels. The value of Parents is returned as null by GetLabelDetection. 
+        /// The parent labels for a label. The response includes all ancestor labels.
         public let parents: [Parent]?
 
         public init(confidence: Float? = nil, instances: [Instance]? = nil, name: String? = nil, parents: [Parent]? = nil) {
@@ -2288,7 +2303,7 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Image", required: true, type: .structure)
         ]
-        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported. 
+        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let image: Image
 
         public init(image: Image) {
@@ -2363,7 +2378,7 @@ extension Rekognition {
         public let collectionId: String
         /// (Optional) Specifies the minimum confidence in the face match to return. For example, don't return any matches where confidence in matches is less than 70%.
         public let faceMatchThreshold: Float?
-        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported. 
+        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let image: Image
         /// Maximum number of faces to return. The operation returns the maximum number of faces with the highest confidence in the match.
         public let maxFaces: Int32?
@@ -2826,7 +2841,7 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
-        /// The name of a stream processor created by .
+        /// The name of a stream processor created by CreateStreamProcessor.
         public let name: String
 
         public init(name: String) {

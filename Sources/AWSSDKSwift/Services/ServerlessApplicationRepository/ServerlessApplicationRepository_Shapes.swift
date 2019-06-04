@@ -27,8 +27,7 @@ extension ServerlessApplicationRepository {
         public let creationTime: String?
         /// The description of the application.Minimum length=1. Maximum length=256
         public let description: String
-        /// A URL with more information about the application, for example
-        ///  the location of your GitHub repository for the application.
+        /// A URL with more information about the application, for example the location of your GitHub repository for the application.
         public let homePageUrl: String?
         /// Labels to improve discovery of apps in search results.Minimum length=1. Maximum length=127. Maximum number of labels: 10Pattern: "^[a-zA-Z0-9+\\-_:\\/@]+$";
         public let labels: [String]?
@@ -160,7 +159,7 @@ extension ServerlessApplicationRepository {
         /// For the list of actions supported for this operation, see Application 
         ///  Permissions.
         public let actions: [String]
-        /// An AWS account ID, or * to make the application public.
+        /// An array of AWS account IDs, or * to make the application public.
         public let principals: [String]
         /// A unique ID for the statement.
         public let statementId: String?
@@ -197,8 +196,7 @@ extension ServerlessApplicationRepository {
         public let creationTime: String?
         /// The description of the application.Minimum length=1. Maximum length=256
         public let description: String
-        /// A URL with more information about the application, for example
-        ///  the location of your GitHub repository for the application.
+        /// A URL with more information about the application, for example the location of your GitHub repository for the application.
         public let homePageUrl: String?
         /// Labels to improve discovery of apps in search results.Minimum length=1. Maximum length=127. Maximum number of labels: 10Pattern: "^[a-zA-Z0-9+\\-_:\\/@]+$";
         public let labels: [String]?
@@ -304,6 +302,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "ReadmeBody", location: .body(locationName: "readmeBody"), required: false, type: .string), 
             AWSShapeMember(label: "ReadmeUrl", location: .body(locationName: "readmeUrl"), required: false, type: .string), 
             AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "SourceCodeArchiveUrl", location: .body(locationName: "sourceCodeArchiveUrl"), required: false, type: .string), 
             AWSShapeMember(label: "SourceCodeUrl", location: .body(locationName: "sourceCodeUrl"), required: false, type: .string), 
             AWSShapeMember(label: "SpdxLicenseId", location: .body(locationName: "spdxLicenseId"), required: false, type: .string), 
             AWSShapeMember(label: "TemplateBody", location: .body(locationName: "templateBody"), required: false, type: .string), 
@@ -313,8 +312,7 @@ extension ServerlessApplicationRepository {
         public let author: String
         /// The description of the application.Minimum length=1. Maximum length=256
         public let description: String
-        /// A URL with more information about the application, for example
-        ///  the location of your GitHub repository for the application.
+        /// A URL with more information about the application, for example the location of your GitHub repository for the application.
         public let homePageUrl: String?
         /// Labels to improve discovery of apps in search results.Minimum length=1. Maximum length=127. Maximum number of labels: 10Pattern: "^[a-zA-Z0-9+\\-_:\\/@]+$";
         public let labels: [String]?
@@ -334,7 +332,9 @@ extension ServerlessApplicationRepository {
         ///  https://semver.org/
         ///  
         public let semanticVersion: String?
-        /// A link to a public repository for the source code of your application.
+        /// A link to the S3 object that contains the ZIP archive of the source code for this version of your application.Maximum size 50 MB
+        public let sourceCodeArchiveUrl: String?
+        /// A link to a public repository for the source code of your application, for example the URL of a specific GitHub commit.
         public let sourceCodeUrl: String?
         /// A valid identifier from https://spdx.org/licenses/.
         public let spdxLicenseId: String?
@@ -344,7 +344,7 @@ extension ServerlessApplicationRepository {
         /// A link to the S3 object containing the packaged AWS SAM template of your application.You can specify only one of templateBody and templateUrl; otherwise an error results.
         public let templateUrl: String?
 
-        public init(author: String, description: String, homePageUrl: String? = nil, labels: [String]? = nil, licenseBody: String? = nil, licenseUrl: String? = nil, name: String, readmeBody: String? = nil, readmeUrl: String? = nil, semanticVersion: String? = nil, sourceCodeUrl: String? = nil, spdxLicenseId: String? = nil, templateBody: String? = nil, templateUrl: String? = nil) {
+        public init(author: String, description: String, homePageUrl: String? = nil, labels: [String]? = nil, licenseBody: String? = nil, licenseUrl: String? = nil, name: String, readmeBody: String? = nil, readmeUrl: String? = nil, semanticVersion: String? = nil, sourceCodeArchiveUrl: String? = nil, sourceCodeUrl: String? = nil, spdxLicenseId: String? = nil, templateBody: String? = nil, templateUrl: String? = nil) {
             self.author = author
             self.description = description
             self.homePageUrl = homePageUrl
@@ -355,6 +355,7 @@ extension ServerlessApplicationRepository {
             self.readmeBody = readmeBody
             self.readmeUrl = readmeUrl
             self.semanticVersion = semanticVersion
+            self.sourceCodeArchiveUrl = sourceCodeArchiveUrl
             self.sourceCodeUrl = sourceCodeUrl
             self.spdxLicenseId = spdxLicenseId
             self.templateBody = templateBody
@@ -372,6 +373,7 @@ extension ServerlessApplicationRepository {
             case readmeBody = "readmeBody"
             case readmeUrl = "readmeUrl"
             case semanticVersion = "semanticVersion"
+            case sourceCodeArchiveUrl = "sourceCodeArchiveUrl"
             case sourceCodeUrl = "sourceCodeUrl"
             case spdxLicenseId = "spdxLicenseId"
             case templateBody = "templateBody"
@@ -391,6 +393,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "ReadmeBody", location: .body(locationName: "readmeBody"), required: false, type: .string), 
             AWSShapeMember(label: "ReadmeUrl", location: .body(locationName: "readmeUrl"), required: false, type: .string), 
             AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "SourceCodeArchiveUrl", location: .body(locationName: "sourceCodeArchiveUrl"), required: false, type: .string), 
             AWSShapeMember(label: "SourceCodeUrl", location: .body(locationName: "sourceCodeUrl"), required: false, type: .string), 
             AWSShapeMember(label: "SpdxLicenseId", location: .body(locationName: "spdxLicenseId"), required: false, type: .string), 
             AWSShapeMember(label: "TemplateBody", location: .body(locationName: "templateBody"), required: false, type: .string), 
@@ -406,12 +409,13 @@ extension ServerlessApplicationRepository {
         public let readmeBody: String?
         public let readmeUrl: String?
         public let semanticVersion: String?
+        public let sourceCodeArchiveUrl: String?
         public let sourceCodeUrl: String?
         public let spdxLicenseId: String?
         public let templateBody: String?
         public let templateUrl: String?
 
-        public init(author: String, description: String, homePageUrl: String? = nil, labels: [String]? = nil, licenseBody: String? = nil, licenseUrl: String? = nil, name: String, readmeBody: String? = nil, readmeUrl: String? = nil, semanticVersion: String? = nil, sourceCodeUrl: String? = nil, spdxLicenseId: String? = nil, templateBody: String? = nil, templateUrl: String? = nil) {
+        public init(author: String, description: String, homePageUrl: String? = nil, labels: [String]? = nil, licenseBody: String? = nil, licenseUrl: String? = nil, name: String, readmeBody: String? = nil, readmeUrl: String? = nil, semanticVersion: String? = nil, sourceCodeArchiveUrl: String? = nil, sourceCodeUrl: String? = nil, spdxLicenseId: String? = nil, templateBody: String? = nil, templateUrl: String? = nil) {
             self.author = author
             self.description = description
             self.homePageUrl = homePageUrl
@@ -422,6 +426,7 @@ extension ServerlessApplicationRepository {
             self.readmeBody = readmeBody
             self.readmeUrl = readmeUrl
             self.semanticVersion = semanticVersion
+            self.sourceCodeArchiveUrl = sourceCodeArchiveUrl
             self.sourceCodeUrl = sourceCodeUrl
             self.spdxLicenseId = spdxLicenseId
             self.templateBody = templateBody
@@ -439,6 +444,7 @@ extension ServerlessApplicationRepository {
             case readmeBody = "readmeBody"
             case readmeUrl = "readmeUrl"
             case semanticVersion = "semanticVersion"
+            case sourceCodeArchiveUrl = "sourceCodeArchiveUrl"
             case sourceCodeUrl = "sourceCodeUrl"
             case spdxLicenseId = "spdxLicenseId"
             case templateBody = "templateBody"
@@ -503,24 +509,29 @@ extension ServerlessApplicationRepository {
 
     public struct CreateApplicationVersionInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceCodeArchiveUrl", location: .body(locationName: "sourceCodeArchiveUrl"), required: false, type: .string), 
             AWSShapeMember(label: "SourceCodeUrl", location: .body(locationName: "sourceCodeUrl"), required: false, type: .string), 
             AWSShapeMember(label: "TemplateBody", location: .body(locationName: "templateBody"), required: false, type: .string), 
             AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: false, type: .string)
         ]
-        /// A link to a public repository for the source code of your application.
+        /// A link to the S3 object that contains the ZIP archive of the source code for this version of your application.Maximum size 50 MB
+        public let sourceCodeArchiveUrl: String?
+        /// A link to a public repository for the source code of your application, for example the URL of a specific GitHub commit.
         public let sourceCodeUrl: String?
         /// The raw packaged AWS SAM template of your application.
         public let templateBody: String?
         /// A link to the packaged AWS SAM template of your application.
         public let templateUrl: String?
 
-        public init(sourceCodeUrl: String? = nil, templateBody: String? = nil, templateUrl: String? = nil) {
+        public init(sourceCodeArchiveUrl: String? = nil, sourceCodeUrl: String? = nil, templateBody: String? = nil, templateUrl: String? = nil) {
+            self.sourceCodeArchiveUrl = sourceCodeArchiveUrl
             self.sourceCodeUrl = sourceCodeUrl
             self.templateBody = templateBody
             self.templateUrl = templateUrl
         }
 
         private enum CodingKeys: String, CodingKey {
+            case sourceCodeArchiveUrl = "sourceCodeArchiveUrl"
             case sourceCodeUrl = "sourceCodeUrl"
             case templateBody = "templateBody"
             case templateUrl = "templateUrl"
@@ -531,19 +542,22 @@ extension ServerlessApplicationRepository {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string), 
             AWSShapeMember(label: "SemanticVersion", location: .uri(locationName: "semanticVersion"), required: true, type: .string), 
+            AWSShapeMember(label: "SourceCodeArchiveUrl", location: .body(locationName: "sourceCodeArchiveUrl"), required: false, type: .string), 
             AWSShapeMember(label: "SourceCodeUrl", location: .body(locationName: "sourceCodeUrl"), required: false, type: .string), 
             AWSShapeMember(label: "TemplateBody", location: .body(locationName: "templateBody"), required: false, type: .string), 
             AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: false, type: .string)
         ]
         public let applicationId: String
         public let semanticVersion: String
+        public let sourceCodeArchiveUrl: String?
         public let sourceCodeUrl: String?
         public let templateBody: String?
         public let templateUrl: String?
 
-        public init(applicationId: String, semanticVersion: String, sourceCodeUrl: String? = nil, templateBody: String? = nil, templateUrl: String? = nil) {
+        public init(applicationId: String, semanticVersion: String, sourceCodeArchiveUrl: String? = nil, sourceCodeUrl: String? = nil, templateBody: String? = nil, templateUrl: String? = nil) {
             self.applicationId = applicationId
             self.semanticVersion = semanticVersion
+            self.sourceCodeArchiveUrl = sourceCodeArchiveUrl
             self.sourceCodeUrl = sourceCodeUrl
             self.templateBody = templateBody
             self.templateUrl = templateUrl
@@ -552,6 +566,7 @@ extension ServerlessApplicationRepository {
         private enum CodingKeys: String, CodingKey {
             case applicationId = "applicationId"
             case semanticVersion = "semanticVersion"
+            case sourceCodeArchiveUrl = "sourceCodeArchiveUrl"
             case sourceCodeUrl = "sourceCodeUrl"
             case templateBody = "templateBody"
             case templateUrl = "templateUrl"
@@ -566,6 +581,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "RequiredCapabilities", location: .body(locationName: "requiredCapabilities"), required: false, type: .list), 
             AWSShapeMember(label: "ResourcesSupported", location: .body(locationName: "resourcesSupported"), required: false, type: .boolean), 
             AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "SourceCodeArchiveUrl", location: .body(locationName: "sourceCodeArchiveUrl"), required: false, type: .string), 
             AWSShapeMember(label: "SourceCodeUrl", location: .body(locationName: "sourceCodeUrl"), required: false, type: .string), 
             AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: false, type: .string)
         ]
@@ -575,16 +591,18 @@ extension ServerlessApplicationRepository {
         public let requiredCapabilities: [Capability]?
         public let resourcesSupported: Bool?
         public let semanticVersion: String?
+        public let sourceCodeArchiveUrl: String?
         public let sourceCodeUrl: String?
         public let templateUrl: String?
 
-        public init(applicationId: String? = nil, creationTime: String? = nil, parameterDefinitions: [ParameterDefinition]? = nil, requiredCapabilities: [Capability]? = nil, resourcesSupported: Bool? = nil, semanticVersion: String? = nil, sourceCodeUrl: String? = nil, templateUrl: String? = nil) {
+        public init(applicationId: String? = nil, creationTime: String? = nil, parameterDefinitions: [ParameterDefinition]? = nil, requiredCapabilities: [Capability]? = nil, resourcesSupported: Bool? = nil, semanticVersion: String? = nil, sourceCodeArchiveUrl: String? = nil, sourceCodeUrl: String? = nil, templateUrl: String? = nil) {
             self.applicationId = applicationId
             self.creationTime = creationTime
             self.parameterDefinitions = parameterDefinitions
             self.requiredCapabilities = requiredCapabilities
             self.resourcesSupported = resourcesSupported
             self.semanticVersion = semanticVersion
+            self.sourceCodeArchiveUrl = sourceCodeArchiveUrl
             self.sourceCodeUrl = sourceCodeUrl
             self.templateUrl = templateUrl
         }
@@ -596,6 +614,7 @@ extension ServerlessApplicationRepository {
             case requiredCapabilities = "requiredCapabilities"
             case resourcesSupported = "resourcesSupported"
             case semanticVersion = "semanticVersion"
+            case sourceCodeArchiveUrl = "sourceCodeArchiveUrl"
             case sourceCodeUrl = "sourceCodeUrl"
             case templateUrl = "templateUrl"
         }
@@ -621,7 +640,7 @@ extension ServerlessApplicationRepository {
         ///  account, for example, by creating new AWS Identity and Access Management (IAM) users.
         ///  For those applications, you must explicitly acknowledge their capabilities by
         ///  specifying this parameter.The only valid values are CAPABILITY_IAM, CAPABILITY_NAMED_IAM,
-        ///  and CAPABILITY_RESOURCE_POLICY.The following resources require you to specify CAPABILITY_IAM or
+        ///  CAPABILITY_RESOURCE_POLICY, and CAPABILITY_AUTO_EXPAND.The following resources require you to specify CAPABILITY_IAM or
         ///  CAPABILITY_NAMED_IAM:
         ///  AWS::IAM::Group,
         ///  AWS::IAM::InstanceProfile,
@@ -635,32 +654,40 @@ extension ServerlessApplicationRepository {
         ///  AWS::ApplicationAutoScaling::ScalingPolicy,
         ///  AWS::S3::BucketPolicy,
         ///  AWS::SQS::QueuePolicy, and
-        ///  AWS::SNS:TopicPolicy.If your application template contains any of the above resources, we recommend that you review
+        ///  AWS::SNS:TopicPolicy.Applications that contain one or more nested applications require you to specify
+        ///  CAPABILITY_AUTO_EXPAND.If your application template contains any of the above resources, we recommend that you review
         ///  all permissions associated with the application before deploying. If you don't specify
-        ///  this parameter for an application that requires capabilities, the call will fail.Valid values: CAPABILITY_IAM | CAPABILITY_NAMED_IAM | CAPABILITY_RESOURCE_POLICY
-        ///  
+        ///  this parameter for an application that requires capabilities, the call will fail.
         public let capabilities: [String]?
-        /// This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet API.
+        /// This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet
+        ///   API.
         public let changeSetName: String?
-        /// This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet API.
+        /// This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet
+        ///   API.
         public let clientToken: String?
-        /// This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet API.
+        /// This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet
+        ///   API.
         public let description: String?
-        /// This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet API.
+        /// This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet
+        ///   API.
         public let notificationArns: [String]?
         /// A list of parameter values for the parameters of the application.
         public let parameterOverrides: [ParameterValue]?
-        /// This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet API.
+        /// This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet
+        ///   API.
         public let resourceTypes: [String]?
-        /// This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet API.
+        /// This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet
+        ///   API.
         public let rollbackConfiguration: RollbackConfiguration?
         /// The semantic version of the application:
         ///  https://semver.org/
         ///  
         public let semanticVersion: String?
-        /// This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet API.
+        /// This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet
+        ///   API.
         public let stackName: String
-        /// This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet API.
+        /// This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet
+        ///   API.
         public let tags: [Tag]?
         /// The UUID returned by CreateCloudFormationTemplate.Pattern: [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
         public let templateId: String?
@@ -1301,9 +1328,11 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "MonitoringTimeInMinutes", location: .body(locationName: "monitoringTimeInMinutes"), required: false, type: .integer), 
             AWSShapeMember(label: "RollbackTriggers", location: .body(locationName: "rollbackTriggers"), required: false, type: .list)
         ]
-        /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackConfiguration Data Type.
+        /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackConfiguration
+        ///   Data Type.
         public let monitoringTimeInMinutes: Int32?
-        /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackConfiguration Data Type.
+        /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackConfiguration
+        ///   Data Type.
         public let rollbackTriggers: [RollbackTrigger]?
 
         public init(monitoringTimeInMinutes: Int32? = nil, rollbackTriggers: [RollbackTrigger]? = nil) {
@@ -1322,9 +1351,11 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: true, type: .string), 
             AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: true, type: .string)
         ]
-        /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackTrigger Data Type.
+        /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackTrigger
+        ///   Data Type.
         public let arn: String
-        /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackTrigger Data Type.
+        /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackTrigger
+        ///   Data Type.
         public let `type`: String
 
         public init(arn: String, type: String) {
@@ -1350,7 +1381,8 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "Key", location: .body(locationName: "key"), required: true, type: .string), 
             AWSShapeMember(label: "Value", location: .body(locationName: "value"), required: true, type: .string)
         ]
-        /// This property corresponds to the content of the same name for the AWS CloudFormation Tag Data Type.
+        /// This property corresponds to the content of the same name for the AWS CloudFormation Tag
+        ///   Data Type.
         public let key: String
         /// This property corresponds to the content of the same name for the AWS CloudFormation 
         ///  Tag
@@ -1391,6 +1423,7 @@ extension ServerlessApplicationRepository {
         ///  
         public let semanticVersion: String
         /// Status of the template creation workflow.Possible values: PREPARING | ACTIVE | EXPIRED
+        ///  
         public let status: Status
         /// The UUID returned by CreateCloudFormationTemplate.Pattern: [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
         public let templateId: String
@@ -1432,8 +1465,7 @@ extension ServerlessApplicationRepository {
         public let author: String?
         /// The description of the application.Minimum length=1. Maximum length=256
         public let description: String?
-        /// A URL with more information about the application, for example
-        ///  the location of your GitHub repository for the application.
+        /// A URL with more information about the application, for example the location of your GitHub repository for the application.
         public let homePageUrl: String?
         /// Labels to improve discovery of apps in search results.Minimum length=1. Maximum length=127. Maximum number of labels: 10Pattern: "^[a-zA-Z0-9+\\-_:\\/@]+$";
         public let labels: [String]?
@@ -1563,6 +1595,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "RequiredCapabilities", location: .body(locationName: "requiredCapabilities"), required: true, type: .list), 
             AWSShapeMember(label: "ResourcesSupported", location: .body(locationName: "resourcesSupported"), required: true, type: .boolean), 
             AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: true, type: .string), 
+            AWSShapeMember(label: "SourceCodeArchiveUrl", location: .body(locationName: "sourceCodeArchiveUrl"), required: false, type: .string), 
             AWSShapeMember(label: "SourceCodeUrl", location: .body(locationName: "sourceCodeUrl"), required: false, type: .string), 
             AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: true, type: .string)
         ]
@@ -1577,7 +1610,7 @@ extension ServerlessApplicationRepository {
         ///  account, for example, by creating new AWS Identity and Access Management (IAM) users.
         ///  For those applications, you must explicitly acknowledge their capabilities by
         ///  specifying this parameter.The only valid values are CAPABILITY_IAM, CAPABILITY_NAMED_IAM,
-        ///  and CAPABILITY_RESOURCE_POLICY.The following resources require you to specify CAPABILITY_IAM or
+        ///  CAPABILITY_RESOURCE_POLICY, and CAPABILITY_AUTO_EXPAND.The following resources require you to specify CAPABILITY_IAM or
         ///  CAPABILITY_NAMED_IAM:
         ///  AWS::IAM::Group,
         ///  AWS::IAM::InstanceProfile,
@@ -1591,10 +1624,10 @@ extension ServerlessApplicationRepository {
         ///  AWS::ApplicationAutoScaling::ScalingPolicy,
         ///  AWS::S3::BucketPolicy,
         ///  AWS::SQS::QueuePolicy, and
-        ///  AWS::SNS::TopicPolicy.If your application template contains any of the above resources, we recommend that you review
+        ///  AWS::SNS::TopicPolicy.Applications that contain one or more nested applications require you to specify
+        ///  CAPABILITY_AUTO_EXPAND.If your application template contains any of the above resources, we recommend that you review
         ///  all permissions associated with the application before deploying. If you don't specify
-        ///  this parameter for an application that requires capabilities, the call will fail.Valid values: CAPABILITY_IAM | CAPABILITY_NAMED_IAM | CAPABILITY_RESOURCE_POLICY
-        ///  
+        ///  this parameter for an application that requires capabilities, the call will fail.
         public let requiredCapabilities: [Capability]
         /// Whether all of the AWS resources contained in this application are supported in the region
         ///  in which it is being retrieved.
@@ -1603,18 +1636,21 @@ extension ServerlessApplicationRepository {
         ///  https://semver.org/
         ///  
         public let semanticVersion: String
-        /// A link to a public repository for the source code of your application.
+        /// A link to the S3 object that contains the ZIP archive of the source code for this version of your application.Maximum size 50 MB
+        public let sourceCodeArchiveUrl: String?
+        /// A link to a public repository for the source code of your application, for example the URL of a specific GitHub commit.
         public let sourceCodeUrl: String?
         /// A link to the packaged AWS SAM template of your application.
         public let templateUrl: String
 
-        public init(applicationId: String, creationTime: String, parameterDefinitions: [ParameterDefinition], requiredCapabilities: [Capability], resourcesSupported: Bool, semanticVersion: String, sourceCodeUrl: String? = nil, templateUrl: String) {
+        public init(applicationId: String, creationTime: String, parameterDefinitions: [ParameterDefinition], requiredCapabilities: [Capability], resourcesSupported: Bool, semanticVersion: String, sourceCodeArchiveUrl: String? = nil, sourceCodeUrl: String? = nil, templateUrl: String) {
             self.applicationId = applicationId
             self.creationTime = creationTime
             self.parameterDefinitions = parameterDefinitions
             self.requiredCapabilities = requiredCapabilities
             self.resourcesSupported = resourcesSupported
             self.semanticVersion = semanticVersion
+            self.sourceCodeArchiveUrl = sourceCodeArchiveUrl
             self.sourceCodeUrl = sourceCodeUrl
             self.templateUrl = templateUrl
         }
@@ -1626,6 +1662,7 @@ extension ServerlessApplicationRepository {
             case requiredCapabilities = "requiredCapabilities"
             case resourcesSupported = "resourcesSupported"
             case semanticVersion = "semanticVersion"
+            case sourceCodeArchiveUrl = "sourceCodeArchiveUrl"
             case sourceCodeUrl = "sourceCodeUrl"
             case templateUrl = "templateUrl"
         }
@@ -1646,7 +1683,7 @@ extension ServerlessApplicationRepository {
         ///  https://semver.org/
         ///  
         public let semanticVersion: String
-        /// A link to a public repository for the source code of your application.
+        /// A link to a public repository for the source code of your application, for example the URL of a specific GitHub commit.
         public let sourceCodeUrl: String?
 
         public init(applicationId: String, creationTime: String, semanticVersion: String, sourceCodeUrl: String? = nil) {

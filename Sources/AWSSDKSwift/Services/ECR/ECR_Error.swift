@@ -10,6 +10,7 @@ public enum ECRErrorType: AWSErrorType {
     case invalidLayerException(message: String?)
     case invalidLayerPartException(message: String?)
     case invalidParameterException(message: String?)
+    case invalidTagParameterException(message: String?)
     case layerAlreadyExistsException(message: String?)
     case layerInaccessibleException(message: String?)
     case layerPartTooSmallException(message: String?)
@@ -23,6 +24,7 @@ public enum ECRErrorType: AWSErrorType {
     case repositoryNotFoundException(message: String?)
     case repositoryPolicyNotFoundException(message: String?)
     case serverException(message: String?)
+    case tooManyTagsException(message: String?)
     case uploadNotFoundException(message: String?)
 }
 
@@ -45,6 +47,8 @@ extension ECRErrorType {
             self = .invalidLayerPartException(message: message)
         case "InvalidParameterException":
             self = .invalidParameterException(message: message)
+        case "InvalidTagParameterException":
+            self = .invalidTagParameterException(message: message)
         case "LayerAlreadyExistsException":
             self = .layerAlreadyExistsException(message: message)
         case "LayerInaccessibleException":
@@ -71,6 +75,8 @@ extension ECRErrorType {
             self = .repositoryPolicyNotFoundException(message: message)
         case "ServerException":
             self = .serverException(message: message)
+        case "TooManyTagsException":
+            self = .tooManyTagsException(message: message)
         case "UploadNotFoundException":
             self = .uploadNotFoundException(message: message)
         default:

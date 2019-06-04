@@ -5,7 +5,7 @@ import AWSSDKSwiftCore
 import NIO
 
 /**
-Amazon Simple Notification Service Amazon Simple Notification Service (Amazon SNS) is a web service that enables you to build distributed web-enabled applications. Applications can use Amazon SNS to easily push real-time notification messages to interested subscribers over multiple delivery protocols. For more information about this product see http://aws.amazon.com/sns. For detailed information about Amazon SNS features and their associated API calls, see the Amazon SNS Developer Guide.  We also provide SDKs that enable you to access Amazon SNS from your preferred programming language. The SDKs contain functionality that automatically takes care of tasks such as: cryptographically signing your service requests, retrying requests, and handling error responses. For a list of available SDKs, go to Tools for Amazon Web Services. 
+Amazon Simple Notification Service Amazon Simple Notification Service (Amazon SNS) is a web service that enables you to build distributed web-enabled applications. Applications can use Amazon SNS to easily push real-time notification messages to interested subscribers over multiple delivery protocols. For more information about this product see https://aws.amazon.com/sns. For detailed information about Amazon SNS features and their associated API calls, see the Amazon SNS Developer Guide.  We also provide SDKs that enable you to access Amazon SNS from your preferred programming language. The SDKs contain functionality that automatically takes care of tasks such as: cryptographically signing your service requests, retrying requests, and handling error responses. For a list of available SDKs, go to Tools for Amazon Web Services. 
 */
 public struct SNS {
 
@@ -26,8 +26,8 @@ public struct SNS {
     }
 
     ///  Adds a statement to a topic's access control policy, granting access for the specified AWS accounts to the specified actions.
-    public func addPermission(_ input: AddPermissionInput) throws {
-        _ = try client.send(operation: "AddPermission", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func addPermission(_ input: AddPermissionInput) throws -> Future<Void> {
+        return try client.send(operation: "AddPermission", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Accepts a phone number and indicates whether the phone holder has opted out of receiving SMS messages from your account. You cannot send SMS messages to a number that is opted out. To resume sending messages, you can opt in the number by using the OptInPhoneNumber action.
@@ -40,7 +40,7 @@ public struct SNS {
         return try client.send(operation: "ConfirmSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a platform application object for one of the supported push notification services, such as APNS and GCM, to which devices and mobile apps may register. You must specify PlatformPrincipal and PlatformCredential attributes when using the CreatePlatformApplication action. The PlatformPrincipal is received from the notification service. For APNS/APNS_SANDBOX, PlatformPrincipal is "SSL certificate". For GCM, PlatformPrincipal is not applicable. For ADM, PlatformPrincipal is "client id". The PlatformCredential is also received from the notification service. For WNS, PlatformPrincipal is "Package Security Identifier". For MPNS, PlatformPrincipal is "TLS certificate". For Baidu, PlatformPrincipal is "API key". For APNS/APNS_SANDBOX, PlatformCredential is "private key". For GCM, PlatformCredential is "API key". For ADM, PlatformCredential is "client secret". For WNS, PlatformCredential is "secret key". For MPNS, PlatformCredential is "private key". For Baidu, PlatformCredential is "secret key". The PlatformApplicationArn that is returned when using CreatePlatformApplication is then used as an attribute for the CreatePlatformEndpoint action. For more information, see Using Amazon SNS Mobile Push Notifications. For more information about obtaining the PlatformPrincipal and PlatformCredential for each of the supported push notification services, see Getting Started with Apple Push Notification Service, Getting Started with Amazon Device Messaging, Getting Started with Baidu Cloud Push, Getting Started with Google Cloud Messaging for Android, Getting Started with MPNS, or Getting Started with WNS. 
+    ///  Creates a platform application object for one of the supported push notification services, such as APNS and FCM, to which devices and mobile apps may register. You must specify PlatformPrincipal and PlatformCredential attributes when using the CreatePlatformApplication action. The PlatformPrincipal is received from the notification service. For APNS/APNS_SANDBOX, PlatformPrincipal is "SSL certificate". For GCM, PlatformPrincipal is not applicable. For ADM, PlatformPrincipal is "client id". The PlatformCredential is also received from the notification service. For WNS, PlatformPrincipal is "Package Security Identifier". For MPNS, PlatformPrincipal is "TLS certificate". For Baidu, PlatformPrincipal is "API key". For APNS/APNS_SANDBOX, PlatformCredential is "private key". For GCM, PlatformCredential is "API key". For ADM, PlatformCredential is "client secret". For WNS, PlatformCredential is "secret key". For MPNS, PlatformCredential is "private key". For Baidu, PlatformCredential is "secret key". The PlatformApplicationArn that is returned when using CreatePlatformApplication is then used as an attribute for the CreatePlatformEndpoint action. For more information, see Using Amazon SNS Mobile Push Notifications. For more information about obtaining the PlatformPrincipal and PlatformCredential for each of the supported push notification services, see Getting Started with Apple Push Notification Service, Getting Started with Amazon Device Messaging, Getting Started with Baidu Cloud Push, Getting Started with Google Cloud Messaging for Android, Getting Started with MPNS, or Getting Started with WNS. 
     public func createPlatformApplication(_ input: CreatePlatformApplicationInput) throws -> Future<CreatePlatformApplicationResponse> {
         return try client.send(operation: "CreatePlatformApplication", path: "/", httpMethod: "POST", input: input)
     }
@@ -50,24 +50,24 @@ public struct SNS {
         return try client.send(operation: "CreatePlatformEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a topic to which notifications can be published. Users can create at most 100,000 topics. For more information, see http://aws.amazon.com/sns. This action is idempotent, so if the requester already owns a topic with the specified name, that topic's ARN is returned without creating a new topic.
+    ///  Creates a topic to which notifications can be published. Users can create at most 100,000 topics. For more information, see https://aws.amazon.com/sns. This action is idempotent, so if the requester already owns a topic with the specified name, that topic's ARN is returned without creating a new topic.
     public func createTopic(_ input: CreateTopicInput) throws -> Future<CreateTopicResponse> {
         return try client.send(operation: "CreateTopic", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the endpoint for a device and mobile app from Amazon SNS. This action is idempotent. For more information, see Using Amazon SNS Mobile Push Notifications.  When you delete an endpoint that is also subscribed to a topic, then you must also unsubscribe the endpoint from the topic.
-    public func deleteEndpoint(_ input: DeleteEndpointInput) throws {
-        _ = try client.send(operation: "DeleteEndpoint", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteEndpoint(_ input: DeleteEndpointInput) throws -> Future<Void> {
+        return try client.send(operation: "DeleteEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a platform application object for one of the supported push notification services, such as APNS and GCM. For more information, see Using Amazon SNS Mobile Push Notifications. 
-    public func deletePlatformApplication(_ input: DeletePlatformApplicationInput) throws {
-        _ = try client.send(operation: "DeletePlatformApplication", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deletePlatformApplication(_ input: DeletePlatformApplicationInput) throws -> Future<Void> {
+        return try client.send(operation: "DeletePlatformApplication", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a topic and all its subscriptions. Deleting a topic might prevent some messages previously sent to the topic from being delivered to subscribers. This action is idempotent, so deleting a topic that does not exist does not result in an error.
-    public func deleteTopic(_ input: DeleteTopicInput) throws {
-        _ = try client.send(operation: "DeleteTopic", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteTopic(_ input: DeleteTopicInput) throws -> Future<Void> {
+        return try client.send(operation: "DeleteTopic", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the endpoint attributes for a device on one of the supported push notification services, such as GCM and APNS. For more information, see Using Amazon SNS Mobile Push Notifications. 
@@ -120,6 +120,11 @@ public struct SNS {
         return try client.send(operation: "ListSubscriptionsByTopic", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  List all tags added to the specified Amazon SNS topic. For an overview, see Amazon SNS Tags in the Amazon Simple Notification Service Developer Guide.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> Future<ListTagsForResourceResponse> {
+        return try client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns a list of the requester's topics. Each call returns a limited list of topics, up to 100. If there are more topics, a NextToken is also returned. Use the NextToken parameter in a new ListTopics call to get further results. This action is throttled at 30 transactions per second (TPS).
     public func listTopics(_ input: ListTopicsInput) throws -> Future<ListTopicsResponse> {
         return try client.send(operation: "ListTopics", path: "/", httpMethod: "POST", input: input)
@@ -136,18 +141,18 @@ public struct SNS {
     }
 
     ///  Removes a statement from a topic's access control policy.
-    public func removePermission(_ input: RemovePermissionInput) throws {
-        _ = try client.send(operation: "RemovePermission", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func removePermission(_ input: RemovePermissionInput) throws -> Future<Void> {
+        return try client.send(operation: "RemovePermission", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Sets the attributes for an endpoint for a device on one of the supported push notification services, such as GCM and APNS. For more information, see Using Amazon SNS Mobile Push Notifications. 
-    public func setEndpointAttributes(_ input: SetEndpointAttributesInput) throws {
-        _ = try client.send(operation: "SetEndpointAttributes", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func setEndpointAttributes(_ input: SetEndpointAttributesInput) throws -> Future<Void> {
+        return try client.send(operation: "SetEndpointAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Sets the attributes of the platform application object for the supported push notification services, such as APNS and GCM. For more information, see Using Amazon SNS Mobile Push Notifications. For information on configuring attributes for message delivery status, see Using Amazon SNS Application Attributes for Message Delivery Status. 
-    public func setPlatformApplicationAttributes(_ input: SetPlatformApplicationAttributesInput) throws {
-        _ = try client.send(operation: "SetPlatformApplicationAttributes", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func setPlatformApplicationAttributes(_ input: SetPlatformApplicationAttributesInput) throws -> Future<Void> {
+        return try client.send(operation: "SetPlatformApplicationAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Use this request to set the default settings for sending SMS messages and receiving daily SMS usage reports. You can override some of these settings for a single message when you use the Publish action with the MessageAttributes.entry.N parameter. For more information, see Sending an SMS Message in the Amazon SNS Developer Guide.
@@ -156,13 +161,13 @@ public struct SNS {
     }
 
     ///  Allows a subscription owner to set an attribute of the subscription to a new value.
-    public func setSubscriptionAttributes(_ input: SetSubscriptionAttributesInput) throws {
-        _ = try client.send(operation: "SetSubscriptionAttributes", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func setSubscriptionAttributes(_ input: SetSubscriptionAttributesInput) throws -> Future<Void> {
+        return try client.send(operation: "SetSubscriptionAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Allows a topic owner to set an attribute of the topic to a new value.
-    public func setTopicAttributes(_ input: SetTopicAttributesInput) throws {
-        _ = try client.send(operation: "SetTopicAttributes", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func setTopicAttributes(_ input: SetTopicAttributesInput) throws -> Future<Void> {
+        return try client.send(operation: "SetTopicAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Prepares to subscribe an endpoint by sending the endpoint a confirmation message. To actually create a subscription, the endpoint owner must call the ConfirmSubscription action with the token from the confirmation message. Confirmation tokens are valid for three days. This action is throttled at 100 transactions per second (TPS).
@@ -170,9 +175,19 @@ public struct SNS {
         return try client.send(operation: "Subscribe", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Add tags to the specified Amazon SNS topic. For an overview, see Amazon SNS Tags in the Amazon SNS Developer Guide. When you use topic tags, keep the following guidelines in mind:   Adding more than 50 tags to a topic isn't recommended.   Tags don't have any semantic meaning. Amazon SNS interprets tags as character strings.   Tags are case-sensitive.   A new tag with a key identical to that of an existing tag overwrites the existing tag.   Tagging actions are limited to 10 TPS per AWS account. If your application requires a higher throughput, file a technical support request.   For a full list of tag restrictions, see Limits Related to Topics in the Amazon SNS Developer Guide.
+    public func tagResource(_ input: TagResourceRequest) throws -> Future<TagResourceResponse> {
+        return try client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes a subscription. If the subscription requires authentication for deletion, only the owner of the subscription or the topic's owner can unsubscribe, and an AWS signature is required. If the Unsubscribe call does not require authentication and the requester is not the subscription owner, a final cancellation message is delivered to the endpoint, so that the endpoint owner can easily resubscribe to the topic if the Unsubscribe request was unintended. This action is throttled at 100 transactions per second (TPS).
-    public func unsubscribe(_ input: UnsubscribeInput) throws {
-        _ = try client.send(operation: "Unsubscribe", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func unsubscribe(_ input: UnsubscribeInput) throws -> Future<Void> {
+        return try client.send(operation: "Unsubscribe", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Remove tags from the specified Amazon SNS topic. For an overview, see Amazon SNS Tags in the Amazon SNS Developer Guide.
+    public func untagResource(_ input: UntagResourceRequest) throws -> Future<UntagResourceResponse> {
+        return try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
 
 

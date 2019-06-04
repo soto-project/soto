@@ -5,11 +5,82 @@ import AWSSDKSwiftCore
 
 extension S3Control {
 
+    public struct CreateJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string), 
+            AWSShapeMember(label: "ClientRequestToken", required: true, type: .string), 
+            AWSShapeMember(label: "ConfirmationRequired", required: false, type: .boolean), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Manifest", required: true, type: .structure), 
+            AWSShapeMember(label: "Operation", required: true, type: .structure), 
+            AWSShapeMember(label: "Priority", required: true, type: .integer), 
+            AWSShapeMember(label: "Report", required: true, type: .structure), 
+            AWSShapeMember(label: "RoleArn", required: true, type: .string)
+        ]
+        public let accountId: String
+        /// An idempotency token to ensure that you don't accidentally submit the same request twice. You can use any string up to the maximum length.
+        public let clientRequestToken: String
+        /// Indicates whether confirmation is required before Amazon S3 runs the job. Confirmation is only required for jobs created through the Amazon S3 console.
+        public let confirmationRequired: Bool?
+        /// A description for this job. You can use any string within the permitted length. Descriptions don't need to be unique and can be used for multiple jobs.
+        public let description: String?
+        /// Configuration parameters for the manifest.
+        public let manifest: JobManifest
+        /// The operation that you want this job to perform on each object listed in the manifest. For more information about the available operations, see Available Operations in the Amazon Simple Storage Service Developer Guide.
+        public let operation: JobOperation
+        /// The numerical priority for this job. Higher numbers indicate higher priority.
+        public let priority: Int32
+        /// Configuration parameters for the optional job-completion report.
+        public let report: JobReport
+        /// The Amazon Resource Name (ARN) for the Identity and Access Management (IAM) Role that batch operations will use to execute this job's operation on each object in the manifest.
+        public let roleArn: String
+
+        public init(accountId: String, clientRequestToken: String, confirmationRequired: Bool? = nil, description: String? = nil, manifest: JobManifest, operation: JobOperation, priority: Int32, report: JobReport, roleArn: String) {
+            self.accountId = accountId
+            self.clientRequestToken = clientRequestToken
+            self.confirmationRequired = confirmationRequired
+            self.description = description
+            self.manifest = manifest
+            self.operation = operation
+            self.priority = priority
+            self.report = report
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "x-amz-account-id"
+            case clientRequestToken = "ClientRequestToken"
+            case confirmationRequired = "ConfirmationRequired"
+            case description = "Description"
+            case manifest = "Manifest"
+            case operation = "Operation"
+            case priority = "Priority"
+            case report = "Report"
+            case roleArn = "RoleArn"
+        }
+    }
+
+    public struct CreateJobResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: false, type: .string)
+        ]
+        /// The ID for this job. Amazon S3 generates this ID automatically and returns it after a successful Create Job request.
+        public let jobId: String?
+
+        public init(jobId: String? = nil) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
     public struct DeletePublicAccessBlockRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string)
         ]
-        /// The Account ID for the Amazon Web Services account whose Public Access Block configuration you want to remove.
+        /// The account ID for the AWS account whose block public access configuration you want to delete.
         public let accountId: String
 
         public init(accountId: String) {
@@ -21,13 +92,48 @@ extension S3Control {
         }
     }
 
+    public struct DescribeJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string), 
+            AWSShapeMember(label: "JobId", location: .uri(locationName: "id"), required: true, type: .string)
+        ]
+        public let accountId: String
+        /// The ID for the job whose information you want to retrieve.
+        public let jobId: String
+
+        public init(accountId: String, jobId: String) {
+            self.accountId = accountId
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "x-amz-account-id"
+            case jobId = "id"
+        }
+    }
+
+    public struct DescribeJobResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Job", required: false, type: .structure)
+        ]
+        /// Contains the configuration parameters and status for the job specified in the Describe Job request.
+        public let job: JobDescriptor?
+
+        public init(job: JobDescriptor? = nil) {
+            self.job = job
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case job = "Job"
+        }
+    }
+
     public struct GetPublicAccessBlockOutput: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "PublicAccessBlockConfiguration"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PublicAccessBlockConfiguration", required: false, type: .structure)
         ]
-        /// The Public Access Block configuration currently in effect for this Amazon Web Services account.
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration?
 
         public init(publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil) {
@@ -43,7 +149,6 @@ extension S3Control {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string)
         ]
-        /// The Account ID for the Amazon Web Services account whose Public Access Block configuration you want to retrieve.
         public let accountId: String
 
         public init(accountId: String) {
@@ -55,6 +160,454 @@ extension S3Control {
         }
     }
 
+    public struct JobDescriptor: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfirmationRequired", required: false, type: .boolean), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "FailureReasons", required: false, type: .list), 
+            AWSShapeMember(label: "JobArn", required: false, type: .string), 
+            AWSShapeMember(label: "JobId", required: false, type: .string), 
+            AWSShapeMember(label: "Manifest", required: false, type: .structure), 
+            AWSShapeMember(label: "Operation", required: false, type: .structure), 
+            AWSShapeMember(label: "Priority", required: false, type: .integer), 
+            AWSShapeMember(label: "ProgressSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "Report", required: false, type: .structure), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "StatusUpdateReason", required: false, type: .string), 
+            AWSShapeMember(label: "SuspendedCause", required: false, type: .string), 
+            AWSShapeMember(label: "SuspendedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TerminationDate", required: false, type: .timestamp)
+        ]
+        /// Indicates whether confirmation is required before Amazon S3 begins running the specified job. Confirmation is required only for jobs created through the Amazon S3 console.
+        public let confirmationRequired: Bool?
+        /// A timestamp indicating when this job was created.
+        public let creationTime: TimeStamp?
+        /// The description for this job, if one was provided in this job's Create Job request.
+        public let description: String?
+        /// If the specified job failed, this field contains information describing the failure.
+        public let failureReasons: [JobFailure]?
+        /// The Amazon Resource Name (ARN) for this job.
+        public let jobArn: String?
+        /// The ID for the specified job.
+        public let jobId: String?
+        /// The configuration information for the specified job's manifest object.
+        public let manifest: JobManifest?
+        /// The operation that the specified job is configured to execute on the objects listed in the manifest.
+        public let operation: JobOperation?
+        /// The priority of the specified job.
+        public let priority: Int32?
+        /// Describes the total number of tasks that the specified job has executed, the number of tasks that succeeded, and the number of tasks that failed.
+        public let progressSummary: JobProgressSummary?
+        /// Contains the configuration information for the job-completion report if you requested one in the Create Job request.
+        public let report: JobReport?
+        /// The Amazon Resource Name (ARN) for the Identity and Access Management (IAM) Role assigned to execute the tasks for this job.
+        public let roleArn: String?
+        /// The current status of the specified job.
+        public let status: JobStatus?
+        public let statusUpdateReason: String?
+        /// The reason why the specified job was suspended. A job is only suspended if you create it through the Amazon S3 console. When you create the job, it enters the Suspended state to await confirmation before running. After you confirm the job, it automatically exits the Suspended state.
+        public let suspendedCause: String?
+        /// The timestamp when this job was suspended, if it has been suspended.
+        public let suspendedDate: TimeStamp?
+        /// A timestamp indicating when this job terminated. A job's termination date is the date and time when it succeeded, failed, or was canceled.
+        public let terminationDate: TimeStamp?
+
+        public init(confirmationRequired: Bool? = nil, creationTime: TimeStamp? = nil, description: String? = nil, failureReasons: [JobFailure]? = nil, jobArn: String? = nil, jobId: String? = nil, manifest: JobManifest? = nil, operation: JobOperation? = nil, priority: Int32? = nil, progressSummary: JobProgressSummary? = nil, report: JobReport? = nil, roleArn: String? = nil, status: JobStatus? = nil, statusUpdateReason: String? = nil, suspendedCause: String? = nil, suspendedDate: TimeStamp? = nil, terminationDate: TimeStamp? = nil) {
+            self.confirmationRequired = confirmationRequired
+            self.creationTime = creationTime
+            self.description = description
+            self.failureReasons = failureReasons
+            self.jobArn = jobArn
+            self.jobId = jobId
+            self.manifest = manifest
+            self.operation = operation
+            self.priority = priority
+            self.progressSummary = progressSummary
+            self.report = report
+            self.roleArn = roleArn
+            self.status = status
+            self.statusUpdateReason = statusUpdateReason
+            self.suspendedCause = suspendedCause
+            self.suspendedDate = suspendedDate
+            self.terminationDate = terminationDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confirmationRequired = "ConfirmationRequired"
+            case creationTime = "CreationTime"
+            case description = "Description"
+            case failureReasons = "FailureReasons"
+            case jobArn = "JobArn"
+            case jobId = "JobId"
+            case manifest = "Manifest"
+            case operation = "Operation"
+            case priority = "Priority"
+            case progressSummary = "ProgressSummary"
+            case report = "Report"
+            case roleArn = "RoleArn"
+            case status = "Status"
+            case statusUpdateReason = "StatusUpdateReason"
+            case suspendedCause = "SuspendedCause"
+            case suspendedDate = "SuspendedDate"
+            case terminationDate = "TerminationDate"
+        }
+    }
+
+    public struct JobFailure: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailureCode", required: false, type: .string), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .string)
+        ]
+        /// The failure code, if any, for the specified job.
+        public let failureCode: String?
+        /// The failure reason, if any, for the specified job.
+        public let failureReason: String?
+
+        public init(failureCode: String? = nil, failureReason: String? = nil) {
+            self.failureCode = failureCode
+            self.failureReason = failureReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureCode = "FailureCode"
+            case failureReason = "FailureReason"
+        }
+    }
+
+    public struct JobListDescriptor: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "JobId", required: false, type: .string), 
+            AWSShapeMember(label: "Operation", required: false, type: .enum), 
+            AWSShapeMember(label: "Priority", required: false, type: .integer), 
+            AWSShapeMember(label: "ProgressSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "TerminationDate", required: false, type: .timestamp)
+        ]
+        /// A timestamp indicating when the specified job was created.
+        public let creationTime: TimeStamp?
+        /// The user-specified description that was included in the specified job's Create Job request.
+        public let description: String?
+        /// The ID for the specified job.
+        public let jobId: String?
+        /// The operation that the specified job is configured to run on each object listed in the manifest.
+        public let operation: OperationName?
+        /// The current priority for the specified job.
+        public let priority: Int32?
+        /// Describes the total number of tasks that the specified job has executed, the number of tasks that succeeded, and the number of tasks that failed.
+        public let progressSummary: JobProgressSummary?
+        /// The specified job's current status.
+        public let status: JobStatus?
+        /// A timestamp indicating when the specified job terminated. A job's termination date is the date and time when it succeeded, failed, or was canceled.
+        public let terminationDate: TimeStamp?
+
+        public init(creationTime: TimeStamp? = nil, description: String? = nil, jobId: String? = nil, operation: OperationName? = nil, priority: Int32? = nil, progressSummary: JobProgressSummary? = nil, status: JobStatus? = nil, terminationDate: TimeStamp? = nil) {
+            self.creationTime = creationTime
+            self.description = description
+            self.jobId = jobId
+            self.operation = operation
+            self.priority = priority
+            self.progressSummary = progressSummary
+            self.status = status
+            self.terminationDate = terminationDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case description = "Description"
+            case jobId = "JobId"
+            case operation = "Operation"
+            case priority = "Priority"
+            case progressSummary = "ProgressSummary"
+            case status = "Status"
+            case terminationDate = "TerminationDate"
+        }
+    }
+
+    public struct JobManifest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Location", required: true, type: .structure), 
+            AWSShapeMember(label: "Spec", required: true, type: .structure)
+        ]
+        /// Contains the information required to locate the specified job's manifest.
+        public let location: JobManifestLocation
+        /// Describes the format of the specified job's manifest. If the manifest is in CSV format, also describes the columns contained within the manifest.
+        public let spec: JobManifestSpec
+
+        public init(location: JobManifestLocation, spec: JobManifestSpec) {
+            self.location = location
+            self.spec = spec
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case location = "Location"
+            case spec = "Spec"
+        }
+    }
+
+    public enum JobManifestFieldName: String, CustomStringConvertible, Codable {
+        case ignore = "Ignore"
+        case bucket = "Bucket"
+        case key = "Key"
+        case versionid = "VersionId"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobManifestFormat: String, CustomStringConvertible, Codable {
+        case s3batchoperationsCsv20180820 = "S3BatchOperations_CSV_20180820"
+        case s3inventoryreportCsv20161130 = "S3InventoryReport_CSV_20161130"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct JobManifestLocation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", required: true, type: .string), 
+            AWSShapeMember(label: "ObjectArn", required: true, type: .string), 
+            AWSShapeMember(label: "ObjectVersionId", required: false, type: .string)
+        ]
+        /// The ETag for the specified manifest object.
+        public let eTag: String
+        /// The Amazon Resource Name (ARN) for a manifest object.
+        public let objectArn: String
+        /// The optional version ID to identify a specific version of the manifest object.
+        public let objectVersionId: String?
+
+        public init(eTag: String, objectArn: String, objectVersionId: String? = nil) {
+            self.eTag = eTag
+            self.objectArn = objectArn
+            self.objectVersionId = objectVersionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case objectArn = "ObjectArn"
+            case objectVersionId = "ObjectVersionId"
+        }
+    }
+
+    public struct JobManifestSpec: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Fields", required: false, type: .list), 
+            AWSShapeMember(label: "Format", required: true, type: .enum)
+        ]
+        /// If the specified manifest object is in the S3BatchOperations_CSV_20180820 format, this element describes which columns contain the required data.
+        public let fields: [JobManifestFieldName]?
+        /// Indicates which of the available formats the specified manifest uses.
+        public let format: JobManifestFormat
+
+        public init(fields: [JobManifestFieldName]? = nil, format: JobManifestFormat) {
+            self.fields = fields
+            self.format = format
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "Fields"
+            case format = "Format"
+        }
+    }
+
+    public struct JobOperation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LambdaInvoke", required: false, type: .structure), 
+            AWSShapeMember(label: "S3InitiateRestoreObject", required: false, type: .structure), 
+            AWSShapeMember(label: "S3PutObjectAcl", required: false, type: .structure), 
+            AWSShapeMember(label: "S3PutObjectCopy", required: false, type: .structure), 
+            AWSShapeMember(label: "S3PutObjectTagging", required: false, type: .structure)
+        ]
+        /// Directs the specified job to invoke an AWS Lambda function on each object in the manifest.
+        public let lambdaInvoke: LambdaInvokeOperation?
+        /// Directs the specified job to execute an Initiate Glacier Restore call on each object in the manifest.
+        public let s3InitiateRestoreObject: S3InitiateRestoreObjectOperation?
+        /// Directs the specified job to execute a PUT Object acl call on each object in the manifest.
+        public let s3PutObjectAcl: S3SetObjectAclOperation?
+        /// Directs the specified job to execute a PUT Copy object call on each object in the manifest.
+        public let s3PutObjectCopy: S3CopyObjectOperation?
+        /// Directs the specified job to execute a PUT Object tagging call on each object in the manifest.
+        public let s3PutObjectTagging: S3SetObjectTaggingOperation?
+
+        public init(lambdaInvoke: LambdaInvokeOperation? = nil, s3InitiateRestoreObject: S3InitiateRestoreObjectOperation? = nil, s3PutObjectAcl: S3SetObjectAclOperation? = nil, s3PutObjectCopy: S3CopyObjectOperation? = nil, s3PutObjectTagging: S3SetObjectTaggingOperation? = nil) {
+            self.lambdaInvoke = lambdaInvoke
+            self.s3InitiateRestoreObject = s3InitiateRestoreObject
+            self.s3PutObjectAcl = s3PutObjectAcl
+            self.s3PutObjectCopy = s3PutObjectCopy
+            self.s3PutObjectTagging = s3PutObjectTagging
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lambdaInvoke = "LambdaInvoke"
+            case s3InitiateRestoreObject = "S3InitiateRestoreObject"
+            case s3PutObjectAcl = "S3PutObjectAcl"
+            case s3PutObjectCopy = "S3PutObjectCopy"
+            case s3PutObjectTagging = "S3PutObjectTagging"
+        }
+    }
+
+    public struct JobProgressSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NumberOfTasksFailed", required: false, type: .long), 
+            AWSShapeMember(label: "NumberOfTasksSucceeded", required: false, type: .long), 
+            AWSShapeMember(label: "TotalNumberOfTasks", required: false, type: .long)
+        ]
+        public let numberOfTasksFailed: Int64?
+        public let numberOfTasksSucceeded: Int64?
+        public let totalNumberOfTasks: Int64?
+
+        public init(numberOfTasksFailed: Int64? = nil, numberOfTasksSucceeded: Int64? = nil, totalNumberOfTasks: Int64? = nil) {
+            self.numberOfTasksFailed = numberOfTasksFailed
+            self.numberOfTasksSucceeded = numberOfTasksSucceeded
+            self.totalNumberOfTasks = totalNumberOfTasks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case numberOfTasksFailed = "NumberOfTasksFailed"
+            case numberOfTasksSucceeded = "NumberOfTasksSucceeded"
+            case totalNumberOfTasks = "TotalNumberOfTasks"
+        }
+    }
+
+    public struct JobReport: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "Format", required: false, type: .enum), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "ReportScope", required: false, type: .enum)
+        ]
+        /// The bucket where specified job-completion report will be stored.
+        public let bucket: String?
+        /// Indicates whether the specified job will generate a job-completion report.
+        public let enabled: Bool
+        /// The format of the specified job-completion report.
+        public let format: JobReportFormat?
+        /// An optional prefix to describe where in the specified bucket the job-completion report will be stored. Amazon S3 will store the job-completion report at &lt;prefix&gt;/job-&lt;job-id&gt;/report.json.
+        public let prefix: String?
+        /// Indicates whether the job-completion report will include details of all tasks or only failed tasks.
+        public let reportScope: JobReportScope?
+
+        public init(bucket: String? = nil, enabled: Bool, format: JobReportFormat? = nil, prefix: String? = nil, reportScope: JobReportScope? = nil) {
+            self.bucket = bucket
+            self.enabled = enabled
+            self.format = format
+            self.prefix = prefix
+            self.reportScope = reportScope
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case enabled = "Enabled"
+            case format = "Format"
+            case prefix = "Prefix"
+            case reportScope = "ReportScope"
+        }
+    }
+
+    public enum JobReportFormat: String, CustomStringConvertible, Codable {
+        case reportCsv20180820 = "Report_CSV_20180820"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobReportScope: String, CustomStringConvertible, Codable {
+        case alltasks = "AllTasks"
+        case failedtasksonly = "FailedTasksOnly"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobStatus: String, CustomStringConvertible, Codable {
+        case active = "Active"
+        case cancelled = "Cancelled"
+        case cancelling = "Cancelling"
+        case complete = "Complete"
+        case completing = "Completing"
+        case failed = "Failed"
+        case failing = "Failing"
+        case new = "New"
+        case paused = "Paused"
+        case pausing = "Pausing"
+        case preparing = "Preparing"
+        case ready = "Ready"
+        case suspended = "Suspended"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct LambdaInvokeOperation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FunctionArn", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) for the AWS Lambda function that the specified job will invoke for each object in the manifest.
+        public let functionArn: String?
+
+        public init(functionArn: String? = nil) {
+            self.functionArn = functionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionArn = "FunctionArn"
+        }
+    }
+
+    public struct ListJobsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string), 
+            AWSShapeMember(label: "JobStatuses", location: .querystring(locationName: "jobStatuses"), required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+        public let accountId: String
+        /// The List Jobs request returns jobs that match the statuses listed in this element.
+        public let jobStatuses: [JobStatus]?
+        /// The maximum number of jobs that Amazon S3 will include in the List Jobs response. If there are more jobs than this number, the response will include a pagination token in the NextToken field to enable you to retrieve the next page of results.
+        public let maxResults: Int32?
+        /// A pagination token to request the next page of results. Use the token that Amazon S3 returned in the NextToken element of the ListJobsResult from the previous List Jobs request.
+        public let nextToken: String?
+
+        public init(accountId: String, jobStatuses: [JobStatus]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.accountId = accountId
+            self.jobStatuses = jobStatuses
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "x-amz-account-id"
+            case jobStatuses = "jobStatuses"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListJobsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Jobs", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The list of current jobs and jobs that have ended within the last 30 days.
+        public let jobs: [JobListDescriptor]?
+        /// If the List Jobs request produced more than the maximum number of results, you can pass this value into a subsequent List Jobs request in order to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(jobs: [JobListDescriptor]? = nil, nextToken: String? = nil) {
+            self.jobs = jobs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobs = "Jobs"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public enum OperationName: String, CustomStringConvertible, Codable {
+        case lambdainvoke = "LambdaInvoke"
+        case s3putobjectcopy = "S3PutObjectCopy"
+        case s3putobjectacl = "S3PutObjectAcl"
+        case s3putobjecttagging = "S3PutObjectTagging"
+        case s3initiaterestoreobject = "S3InitiateRestoreObject"
+        public var description: String { return self.rawValue }
+    }
+
     public struct PublicAccessBlockConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BlockPublicAcls", location: .body(locationName: "BlockPublicAcls"), required: false, type: .boolean), 
@@ -62,13 +615,9 @@ extension S3Control {
             AWSShapeMember(label: "IgnorePublicAcls", location: .body(locationName: "IgnorePublicAcls"), required: false, type: .boolean), 
             AWSShapeMember(label: "RestrictPublicBuckets", location: .body(locationName: "RestrictPublicBuckets"), required: false, type: .boolean)
         ]
-        /// Specifies whether Amazon S3 should block public ACLs for buckets in this account. Setting this element to TRUE causes the following behavior:   PUT Bucket acl and PUT Object acl calls will fail if the specified ACL allows public access.   PUT Object calls will fail if the request includes an object ACL.   Note that enabling this setting doesn't affect existing policies or ACLs.
         public let blockPublicAcls: Bool?
-        /// Specifies whether Amazon S3 should block public bucket policies for buckets in this account. Setting this element to TRUE causes Amazon S3 to reject calls to PUT Bucket policy if the specified bucket policy allows public access.  Note that enabling this setting doesn't affect existing bucket policies.
         public let blockPublicPolicy: Bool?
-        /// Specifies whether Amazon S3 should ignore public ACLs for buckets in this account. Setting this element to TRUE causes Amazon S3 to ignore all public ACLs on buckets in this account and any objects that they contain.  Note that enabling this setting doesn't affect the persistence of any existing ACLs and doesn't prevent new public ACLs from being set.
         public let ignorePublicAcls: Bool?
-        /// Specifies whether Amazon S3 should restrict public bucket policies for buckets in this account. If this element is set to TRUE, then only the bucket owner and AWS Services can access buckets with public policies. Note that enabling this setting doesn't affect previously stored bucket policies, except that public and cross-account access within any public bucket policy, including non-public delegation to specific accounts, is blocked. 
         public let restrictPublicBuckets: Bool?
 
         public init(blockPublicAcls: Bool? = nil, blockPublicPolicy: Bool? = nil, ignorePublicAcls: Bool? = nil, restrictPublicBuckets: Bool? = nil) {
@@ -93,9 +642,7 @@ extension S3Control {
             AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string), 
             AWSShapeMember(label: "PublicAccessBlockConfiguration", location: .body(locationName: "PublicAccessBlockConfiguration"), required: true, type: .structure)
         ]
-        /// The Account ID for the Amazon Web Services account whose Public Access Block configuration you want to set.
         public let accountId: String
-        /// The Public Access Block configuration that you want to apply to this Amazon Web Services account.
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration
 
         public init(accountId: String, publicAccessBlockConfiguration: PublicAccessBlockConfiguration) {
@@ -106,6 +653,478 @@ extension S3Control {
         private enum CodingKeys: String, CodingKey {
             case accountId = "x-amz-account-id"
             case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
+        }
+    }
+
+    public enum RequestedJobStatus: String, CustomStringConvertible, Codable {
+        case cancelled = "Cancelled"
+        case ready = "Ready"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct S3AccessControlList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Grants", required: false, type: .list), 
+            AWSShapeMember(label: "Owner", required: true, type: .structure)
+        ]
+        public let grants: [S3Grant]?
+        public let owner: S3ObjectOwner
+
+        public init(grants: [S3Grant]? = nil, owner: S3ObjectOwner) {
+            self.grants = grants
+            self.owner = owner
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grants = "Grants"
+            case owner = "Owner"
+        }
+    }
+
+    public struct S3AccessControlPolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessControlList", required: false, type: .structure), 
+            AWSShapeMember(label: "CannedAccessControlList", required: false, type: .enum)
+        ]
+        public let accessControlList: S3AccessControlList?
+        public let cannedAccessControlList: S3CannedAccessControlList?
+
+        public init(accessControlList: S3AccessControlList? = nil, cannedAccessControlList: S3CannedAccessControlList? = nil) {
+            self.accessControlList = accessControlList
+            self.cannedAccessControlList = cannedAccessControlList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessControlList = "AccessControlList"
+            case cannedAccessControlList = "CannedAccessControlList"
+        }
+    }
+
+    public enum S3CannedAccessControlList: String, CustomStringConvertible, Codable {
+        case `private` = "private"
+        case publicRead = "public-read"
+        case publicReadWrite = "public-read-write"
+        case awsExecRead = "aws-exec-read"
+        case authenticatedRead = "authenticated-read"
+        case bucketOwnerRead = "bucket-owner-read"
+        case bucketOwnerFullControl = "bucket-owner-full-control"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct S3CopyObjectOperation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessControlGrants", required: false, type: .list), 
+            AWSShapeMember(label: "CannedAccessControlList", required: false, type: .enum), 
+            AWSShapeMember(label: "MetadataDirective", required: false, type: .enum), 
+            AWSShapeMember(label: "ModifiedSinceConstraint", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NewObjectMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "NewObjectTagging", required: false, type: .list), 
+            AWSShapeMember(label: "ObjectLockLegalHoldStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "ObjectLockMode", required: false, type: .enum), 
+            AWSShapeMember(label: "ObjectLockRetainUntilDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "RedirectLocation", required: false, type: .string), 
+            AWSShapeMember(label: "RequesterPays", required: false, type: .boolean), 
+            AWSShapeMember(label: "SSEAwsKmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "StorageClass", required: false, type: .enum), 
+            AWSShapeMember(label: "TargetKeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "TargetResource", required: false, type: .string), 
+            AWSShapeMember(label: "UnModifiedSinceConstraint", required: false, type: .timestamp)
+        ]
+        public let accessControlGrants: [S3Grant]?
+        public let cannedAccessControlList: S3CannedAccessControlList?
+        public let metadataDirective: S3MetadataDirective?
+        public let modifiedSinceConstraint: TimeStamp?
+        public let newObjectMetadata: S3ObjectMetadata?
+        public let newObjectTagging: [S3Tag]?
+        public let objectLockLegalHoldStatus: S3ObjectLockLegalHoldStatus?
+        public let objectLockMode: S3ObjectLockMode?
+        public let objectLockRetainUntilDate: TimeStamp?
+        public let redirectLocation: String?
+        public let requesterPays: Bool?
+        public let sSEAwsKmsKeyId: String?
+        public let storageClass: S3StorageClass?
+        public let targetKeyPrefix: String?
+        public let targetResource: String?
+        public let unModifiedSinceConstraint: TimeStamp?
+
+        public init(accessControlGrants: [S3Grant]? = nil, cannedAccessControlList: S3CannedAccessControlList? = nil, metadataDirective: S3MetadataDirective? = nil, modifiedSinceConstraint: TimeStamp? = nil, newObjectMetadata: S3ObjectMetadata? = nil, newObjectTagging: [S3Tag]? = nil, objectLockLegalHoldStatus: S3ObjectLockLegalHoldStatus? = nil, objectLockMode: S3ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, redirectLocation: String? = nil, requesterPays: Bool? = nil, sSEAwsKmsKeyId: String? = nil, storageClass: S3StorageClass? = nil, targetKeyPrefix: String? = nil, targetResource: String? = nil, unModifiedSinceConstraint: TimeStamp? = nil) {
+            self.accessControlGrants = accessControlGrants
+            self.cannedAccessControlList = cannedAccessControlList
+            self.metadataDirective = metadataDirective
+            self.modifiedSinceConstraint = modifiedSinceConstraint
+            self.newObjectMetadata = newObjectMetadata
+            self.newObjectTagging = newObjectTagging
+            self.objectLockLegalHoldStatus = objectLockLegalHoldStatus
+            self.objectLockMode = objectLockMode
+            self.objectLockRetainUntilDate = objectLockRetainUntilDate
+            self.redirectLocation = redirectLocation
+            self.requesterPays = requesterPays
+            self.sSEAwsKmsKeyId = sSEAwsKmsKeyId
+            self.storageClass = storageClass
+            self.targetKeyPrefix = targetKeyPrefix
+            self.targetResource = targetResource
+            self.unModifiedSinceConstraint = unModifiedSinceConstraint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessControlGrants = "AccessControlGrants"
+            case cannedAccessControlList = "CannedAccessControlList"
+            case metadataDirective = "MetadataDirective"
+            case modifiedSinceConstraint = "ModifiedSinceConstraint"
+            case newObjectMetadata = "NewObjectMetadata"
+            case newObjectTagging = "NewObjectTagging"
+            case objectLockLegalHoldStatus = "ObjectLockLegalHoldStatus"
+            case objectLockMode = "ObjectLockMode"
+            case objectLockRetainUntilDate = "ObjectLockRetainUntilDate"
+            case redirectLocation = "RedirectLocation"
+            case requesterPays = "RequesterPays"
+            case sSEAwsKmsKeyId = "SSEAwsKmsKeyId"
+            case storageClass = "StorageClass"
+            case targetKeyPrefix = "TargetKeyPrefix"
+            case targetResource = "TargetResource"
+            case unModifiedSinceConstraint = "UnModifiedSinceConstraint"
+        }
+    }
+
+    public enum S3GlacierJobTier: String, CustomStringConvertible, Codable {
+        case bulk = "BULK"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct S3Grant: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Grantee", required: false, type: .structure), 
+            AWSShapeMember(label: "Permission", required: false, type: .enum)
+        ]
+        public let grantee: S3Grantee?
+        public let permission: S3Permission?
+
+        public init(grantee: S3Grantee? = nil, permission: S3Permission? = nil) {
+            self.grantee = grantee
+            self.permission = permission
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grantee = "Grantee"
+            case permission = "Permission"
+        }
+    }
+
+    public struct S3Grantee: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "Identifier", required: false, type: .string), 
+            AWSShapeMember(label: "TypeIdentifier", required: false, type: .enum)
+        ]
+        public let displayName: String?
+        public let identifier: String?
+        public let typeIdentifier: S3GranteeTypeIdentifier?
+
+        public init(displayName: String? = nil, identifier: String? = nil, typeIdentifier: S3GranteeTypeIdentifier? = nil) {
+            self.displayName = displayName
+            self.identifier = identifier
+            self.typeIdentifier = typeIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayName = "DisplayName"
+            case identifier = "Identifier"
+            case typeIdentifier = "TypeIdentifier"
+        }
+    }
+
+    public enum S3GranteeTypeIdentifier: String, CustomStringConvertible, Codable {
+        case id = "id"
+        case emailaddress = "emailAddress"
+        case uri = "uri"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct S3InitiateRestoreObjectOperation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExpirationInDays", required: false, type: .integer), 
+            AWSShapeMember(label: "GlacierJobTier", required: false, type: .enum)
+        ]
+        public let expirationInDays: Int32?
+        public let glacierJobTier: S3GlacierJobTier?
+
+        public init(expirationInDays: Int32? = nil, glacierJobTier: S3GlacierJobTier? = nil) {
+            self.expirationInDays = expirationInDays
+            self.glacierJobTier = glacierJobTier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expirationInDays = "ExpirationInDays"
+            case glacierJobTier = "GlacierJobTier"
+        }
+    }
+
+    public enum S3MetadataDirective: String, CustomStringConvertible, Codable {
+        case copy = "COPY"
+        case replace = "REPLACE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3ObjectLockLegalHoldStatus: String, CustomStringConvertible, Codable {
+        case off = "OFF"
+        case on = "ON"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3ObjectLockMode: String, CustomStringConvertible, Codable {
+        case compliance = "COMPLIANCE"
+        case governance = "GOVERNANCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct S3ObjectMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheControl", required: false, type: .string), 
+            AWSShapeMember(label: "ContentDisposition", required: false, type: .string), 
+            AWSShapeMember(label: "ContentEncoding", required: false, type: .string), 
+            AWSShapeMember(label: "ContentLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "ContentLength", required: false, type: .long), 
+            AWSShapeMember(label: "ContentMD5", required: false, type: .string), 
+            AWSShapeMember(label: "ContentType", required: false, type: .string), 
+            AWSShapeMember(label: "HttpExpiresDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "RequesterCharged", required: false, type: .boolean), 
+            AWSShapeMember(label: "SSEAlgorithm", required: false, type: .enum), 
+            AWSShapeMember(label: "UserMetadata", required: false, type: .map)
+        ]
+        public let cacheControl: String?
+        public let contentDisposition: String?
+        public let contentEncoding: String?
+        public let contentLanguage: String?
+        public let contentLength: Int64?
+        public let contentMD5: String?
+        public let contentType: String?
+        public let httpExpiresDate: TimeStamp?
+        public let requesterCharged: Bool?
+        public let sSEAlgorithm: S3SSEAlgorithm?
+        public let userMetadata: [String: String]?
+
+        public init(cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, httpExpiresDate: TimeStamp? = nil, requesterCharged: Bool? = nil, sSEAlgorithm: S3SSEAlgorithm? = nil, userMetadata: [String: String]? = nil) {
+            self.cacheControl = cacheControl
+            self.contentDisposition = contentDisposition
+            self.contentEncoding = contentEncoding
+            self.contentLanguage = contentLanguage
+            self.contentLength = contentLength
+            self.contentMD5 = contentMD5
+            self.contentType = contentType
+            self.httpExpiresDate = httpExpiresDate
+            self.requesterCharged = requesterCharged
+            self.sSEAlgorithm = sSEAlgorithm
+            self.userMetadata = userMetadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheControl = "CacheControl"
+            case contentDisposition = "ContentDisposition"
+            case contentEncoding = "ContentEncoding"
+            case contentLanguage = "ContentLanguage"
+            case contentLength = "ContentLength"
+            case contentMD5 = "ContentMD5"
+            case contentType = "ContentType"
+            case httpExpiresDate = "HttpExpiresDate"
+            case requesterCharged = "RequesterCharged"
+            case sSEAlgorithm = "SSEAlgorithm"
+            case userMetadata = "UserMetadata"
+        }
+    }
+
+    public struct S3ObjectOwner: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "ID", required: false, type: .string)
+        ]
+        public let displayName: String?
+        public let id: String?
+
+        public init(displayName: String? = nil, id: String? = nil) {
+            self.displayName = displayName
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayName = "DisplayName"
+            case id = "ID"
+        }
+    }
+
+    public enum S3Permission: String, CustomStringConvertible, Codable {
+        case fullControl = "FULL_CONTROL"
+        case read = "READ"
+        case write = "WRITE"
+        case readAcp = "READ_ACP"
+        case writeAcp = "WRITE_ACP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3SSEAlgorithm: String, CustomStringConvertible, Codable {
+        case aes256 = "AES256"
+        case kms = "KMS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct S3SetObjectAclOperation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessControlPolicy", required: false, type: .structure)
+        ]
+        public let accessControlPolicy: S3AccessControlPolicy?
+
+        public init(accessControlPolicy: S3AccessControlPolicy? = nil) {
+            self.accessControlPolicy = accessControlPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessControlPolicy = "AccessControlPolicy"
+        }
+    }
+
+    public struct S3SetObjectTaggingOperation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagSet", required: false, type: .list)
+        ]
+        public let tagSet: [S3Tag]?
+
+        public init(tagSet: [S3Tag]? = nil) {
+            self.tagSet = tagSet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagSet = "TagSet"
+        }
+    }
+
+    public enum S3StorageClass: String, CustomStringConvertible, Codable {
+        case standard = "STANDARD"
+        case standardIa = "STANDARD_IA"
+        case onezoneIa = "ONEZONE_IA"
+        case glacier = "GLACIER"
+        case intelligentTiering = "INTELLIGENT_TIERING"
+        case deepArchive = "DEEP_ARCHIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct S3Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
+        ]
+        public let key: String
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct UpdateJobPriorityRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string), 
+            AWSShapeMember(label: "JobId", location: .uri(locationName: "id"), required: true, type: .string), 
+            AWSShapeMember(label: "Priority", location: .querystring(locationName: "priority"), required: true, type: .integer)
+        ]
+        public let accountId: String
+        /// The ID for the job whose priority you want to update.
+        public let jobId: String
+        /// The priority you want to assign to this job.
+        public let priority: Int32
+
+        public init(accountId: String, jobId: String, priority: Int32) {
+            self.accountId = accountId
+            self.jobId = jobId
+            self.priority = priority
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "x-amz-account-id"
+            case jobId = "id"
+            case priority = "priority"
+        }
+    }
+
+    public struct UpdateJobPriorityResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: true, type: .string), 
+            AWSShapeMember(label: "Priority", required: true, type: .integer)
+        ]
+        /// The ID for the job whose priority Amazon S3 updated.
+        public let jobId: String
+        /// The new priority assigned to the specified job.
+        public let priority: Int32
+
+        public init(jobId: String, priority: Int32) {
+            self.jobId = jobId
+            self.priority = priority
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+            case priority = "Priority"
+        }
+    }
+
+    public struct UpdateJobStatusRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string), 
+            AWSShapeMember(label: "JobId", location: .uri(locationName: "id"), required: true, type: .string), 
+            AWSShapeMember(label: "RequestedJobStatus", location: .querystring(locationName: "requestedJobStatus"), required: true, type: .enum), 
+            AWSShapeMember(label: "StatusUpdateReason", location: .querystring(locationName: "statusUpdateReason"), required: false, type: .string)
+        ]
+        public let accountId: String
+        /// The ID of the job whose status you want to update.
+        public let jobId: String
+        /// The status that you want to move the specified job to.
+        public let requestedJobStatus: RequestedJobStatus
+        /// A description of the reason why you want to change the specified job's status. This field can be any string up to the maximum length.
+        public let statusUpdateReason: String?
+
+        public init(accountId: String, jobId: String, requestedJobStatus: RequestedJobStatus, statusUpdateReason: String? = nil) {
+            self.accountId = accountId
+            self.jobId = jobId
+            self.requestedJobStatus = requestedJobStatus
+            self.statusUpdateReason = statusUpdateReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "x-amz-account-id"
+            case jobId = "id"
+            case requestedJobStatus = "requestedJobStatus"
+            case statusUpdateReason = "statusUpdateReason"
+        }
+    }
+
+    public struct UpdateJobStatusResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "StatusUpdateReason", required: false, type: .string)
+        ]
+        /// The ID for the job whose status was updated.
+        public let jobId: String?
+        /// The current status for the specified job.
+        public let status: JobStatus?
+        /// The reason that the specified job's status was updated.
+        public let statusUpdateReason: String?
+
+        public init(jobId: String? = nil, status: JobStatus? = nil, statusUpdateReason: String? = nil) {
+            self.jobId = jobId
+            self.status = status
+            self.statusUpdateReason = statusUpdateReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+            case status = "Status"
+            case statusUpdateReason = "StatusUpdateReason"
         }
     }
 

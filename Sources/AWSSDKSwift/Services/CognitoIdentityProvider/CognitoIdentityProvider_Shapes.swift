@@ -173,7 +173,7 @@ extension CognitoIdentityProvider {
         public let allowAdminCreateUserOnly: Bool?
         /// The message template to be used for the welcome message to new users. See also Customizing User Invitation Messages.
         public let inviteMessageTemplate: MessageTemplateType?
-        /// The user account expiration limit, in days, after which the account is no longer usable. To reset the account after that time limit, you must call AdminCreateUser again, specifying "RESEND" for the MessageAction parameter. The default value for this parameter is 7.
+        /// The user account expiration limit, in days, after which the account is no longer usable. To reset the account after that time limit, you must call AdminCreateUser again, specifying "RESEND" for the MessageAction parameter. The default value for this parameter is 7.   If you set a value for TemporaryPasswordValidityDays in PasswordPolicy, that value will be used and UnusedAccountValidityDays will be deprecated for that user pool.  
         public let unusedAccountValidityDays: Int32?
 
         public init(allowAdminCreateUserOnly: Bool? = nil, inviteMessageTemplate: MessageTemplateType? = nil, unusedAccountValidityDays: Int32? = nil) {
@@ -509,7 +509,7 @@ extension CognitoIdentityProvider {
         public let userLastModifiedDate: TimeStamp?
         /// The list of the user's MFA settings.
         public let userMFASettingList: [String]?
-        /// The user status. Can be one of the following:   UNCONFIRMED - User has been created but not confirmed.   CONFIRMED - User has been confirmed.   ARCHIVED - User is no longer active.   COMPROMISED - User is disabled due to a potential security threat.   UNKNOWN - User status is not known.  
+        /// The user status. Can be one of the following:   UNCONFIRMED - User has been created but not confirmed.   CONFIRMED - User has been confirmed.   ARCHIVED - User is no longer active.   COMPROMISED - User is disabled due to a potential security threat.   UNKNOWN - User status is not known.   RESET_REQUIRED - User is confirmed, but the user must request a code and reset his or her password before he or she can sign in.   FORCE_CHANGE_PASSWORD - The user is confirmed and the user can sign in using a temporary password, but on first sign-in, the user must change his or her password to a new value before doing anything else.   
         public let userStatus: UserStatusType?
         /// The user name of the user about whom you are receiving information.
         public let username: String
@@ -968,6 +968,40 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminSetUserMFAPreferenceResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct AdminSetUserPasswordRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Password", required: true, type: .string), 
+            AWSShapeMember(label: "Permanent", required: false, type: .boolean), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "Username", required: true, type: .string)
+        ]
+        public let password: String
+        public let permanent: Bool?
+        public let userPoolId: String
+        public let username: String
+
+        public init(password: String, permanent: Bool? = nil, userPoolId: String, username: String) {
+            self.password = password
+            self.permanent = permanent
+            self.userPoolId = userPoolId
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case password = "Password"
+            case permanent = "Permanent"
+            case userPoolId = "UserPoolId"
+            case username = "Username"
+        }
+    }
+
+    public struct AdminSetUserPasswordResponse: AWSShape {
 
         public init() {
         }
@@ -1956,11 +1990,11 @@ extension CognitoIdentityProvider {
         public let readAttributes: [String]?
         /// The time limit, in days, after which the refresh token is no longer valid and cannot be used.
         public let refreshTokenValidity: Int32?
-        /// A list of provider names for the identity providers that are supported on this client.
+        /// A list of provider names for the identity providers that are supported on this client. The following are supported: COGNITO, Facebook, Google and LoginWithAmazon.
         public let supportedIdentityProviders: [String]?
         /// The user pool ID for the user pool where you want to create a user pool client.
         public let userPoolId: String
-        /// The write attributes.
+        /// The user pool attributes that the app client can write to. If your app client allows users to sign in through an identity provider, this array must include all attributes that are mapped to identity provider attributes. Amazon Cognito updates mapped attributes when users sign in to your application through an identity provider. If your app client lacks write access to a mapped attribute, Amazon Cognito throws an error when it attempts to update the attribute. For more information, see Specifying Identity Provider Attribute Mappings for Your User Pool.
         public let writeAttributes: [String]?
 
         public init(allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, callbackURLs: [String]? = nil, clientName: String, defaultRedirectURI: String? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, generateSecret: Bool? = nil, logoutURLs: [String]? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int32? = nil, supportedIdentityProviders: [String]? = nil, userPoolId: String, writeAttributes: [String]? = nil) {
@@ -2022,7 +2056,7 @@ extension CognitoIdentityProvider {
             AWSShapeMember(label: "Domain", required: true, type: .string), 
             AWSShapeMember(label: "UserPoolId", required: true, type: .string)
         ]
-        /// The configuration for a custom domain that hosts the sign-up and sign-in webpages for your application. Provide this parameter only if you want to use own custom domain for your user pool. Otherwise, you can exclude this parameter and use the Amazon Cognito hosted domain instead. For more information about the hosted domain and custom domains, see Configuring a User Pool Domain.
+        /// The configuration for a custom domain that hosts the sign-up and sign-in webpages for your application. Provide this parameter only if you want to use a custom domain for your user pool. Otherwise, you can exclude this parameter and use the Amazon Cognito hosted domain instead. For more information about the hosted domain and custom domains, see Configuring a User Pool Domain.
         public let customDomainConfig: CustomDomainConfigType?
         /// The domain string.
         public let domain: String
@@ -2112,7 +2146,7 @@ extension CognitoIdentityProvider {
         public let smsVerificationMessage: String?
         /// Used to enable advanced security risk detection. Set the key AdvancedSecurityMode to the value "AUDIT".
         public let userPoolAddOns: UserPoolAddOnsType?
-        /// The cost allocation tags for the user pool. For more information, see Adding Cost Allocation Tags to Your User Pool 
+        /// The tag keys and values to assign to the user pool. A tag is a label that you can use to categorize and manage user pools in different ways, such as by purpose, owner, environment, or other criteria.
         public let userPoolTags: [String: String]?
         /// Specifies whether email addresses or phone numbers can be specified as usernames when a user signs up.
         public let usernameAttributes: [UsernameAttributeType]?
@@ -2728,6 +2762,7 @@ extension CognitoIdentityProvider {
         public let aWSAccountId: String?
         /// The ARN of the CloudFront distribution.
         public let cloudFrontDistribution: String?
+        /// The configuration for a custom domain that hosts the sign-up and sign-in webpages for your application.
         public let customDomainConfig: CustomDomainConfigType?
         /// The domain string.
         public let domain: String?
@@ -2774,23 +2809,34 @@ extension CognitoIdentityProvider {
 
     public struct EmailConfigurationType: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EmailSendingAccount", required: false, type: .enum), 
             AWSShapeMember(label: "ReplyToEmailAddress", required: false, type: .string), 
             AWSShapeMember(label: "SourceArn", required: false, type: .string)
         ]
+        /// Specifies whether Amazon Cognito emails your users by using its built-in email functionality or your Amazon SES email configuration. Specify one of the following values:  COGNITO_DEFAULT  When Amazon Cognito emails your users, it uses its built-in email functionality. When you use the default option, Amazon Cognito allows only a limited number of emails each day for your user pool. For typical production environments, the default email limit is below the required delivery volume. To achieve a higher delivery volume, specify DEVELOPER to use your Amazon SES email configuration. To look up the email delivery limit for the default option, see Limits in Amazon Cognito in the Amazon Cognito Developer Guide. The default FROM address is no-reply@verificationemail.com. To customize the FROM address, provide the ARN of an Amazon SES verified email address for the SourceArn parameter.  DEVELOPER  When Amazon Cognito emails your users, it uses your Amazon SES configuration. Amazon Cognito calls Amazon SES on your behalf to send email from your verified email address. When you use this option, the email delivery limits are the same limits that apply to your Amazon SES verified email address in your AWS account. If you use this option, you must provide the ARN of an Amazon SES verified email address for the SourceArn parameter. Before Amazon Cognito can email your users, it requires additional permissions to call Amazon SES on your behalf. When you update your user pool with this option, Amazon Cognito creates a service-linked role, which is a type of IAM role, in your AWS account. This role contains the permissions that allow Amazon Cognito to access Amazon SES and send email messages with your address. For more information about the service-linked role that Amazon Cognito creates, see Using Service-Linked Roles for Amazon Cognito in the Amazon Cognito Developer Guide.  
+        public let emailSendingAccount: EmailSendingAccountType?
         /// The destination to which the receiver of the email should reply to.
         public let replyToEmailAddress: String?
-        /// The Amazon Resource Name (ARN) of the email source.
+        /// The Amazon Resource Name (ARN) of a verified email address in Amazon SES. This email address is used in one of the following ways, depending on the value that you specify for the EmailSendingAccount parameter:   If you specify COGNITO_DEFAULT, Amazon Cognito uses this address as the custom FROM address when it emails your users by using its built-in email account.   If you specify DEVELOPER, Amazon Cognito emails your users with this address by calling Amazon SES on your behalf.  
         public let sourceArn: String?
 
-        public init(replyToEmailAddress: String? = nil, sourceArn: String? = nil) {
+        public init(emailSendingAccount: EmailSendingAccountType? = nil, replyToEmailAddress: String? = nil, sourceArn: String? = nil) {
+            self.emailSendingAccount = emailSendingAccount
             self.replyToEmailAddress = replyToEmailAddress
             self.sourceArn = sourceArn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case emailSendingAccount = "EmailSendingAccount"
             case replyToEmailAddress = "ReplyToEmailAddress"
             case sourceArn = "SourceArn"
         }
+    }
+
+    public enum EmailSendingAccountType: String, CustomStringConvertible, Codable {
+        case cognitoDefault = "COGNITO_DEFAULT"
+        case developer = "DEVELOPER"
+        public var description: String { return self.rawValue }
     }
 
     public struct EventContextDataType: AWSShape {
@@ -3801,6 +3847,38 @@ extension CognitoIdentityProvider {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the user pool that the tags are assigned to.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: false, type: .map)
+        ]
+        /// The tags that are assigned to the user pool.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
     public struct ListUserImportJobsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", required: true, type: .integer), 
@@ -4221,7 +4299,8 @@ extension CognitoIdentityProvider {
             AWSShapeMember(label: "RequireLowercase", required: false, type: .boolean), 
             AWSShapeMember(label: "RequireNumbers", required: false, type: .boolean), 
             AWSShapeMember(label: "RequireSymbols", required: false, type: .boolean), 
-            AWSShapeMember(label: "RequireUppercase", required: false, type: .boolean)
+            AWSShapeMember(label: "RequireUppercase", required: false, type: .boolean), 
+            AWSShapeMember(label: "TemporaryPasswordValidityDays", required: false, type: .integer)
         ]
         /// The minimum length of the password policy that you have set. Cannot be less than 6.
         public let minimumLength: Int32?
@@ -4233,13 +4312,15 @@ extension CognitoIdentityProvider {
         public let requireSymbols: Bool?
         /// In the password policy that you have set, refers to whether you have required users to use at least one uppercase letter in their password.
         public let requireUppercase: Bool?
+        public let temporaryPasswordValidityDays: Int32?
 
-        public init(minimumLength: Int32? = nil, requireLowercase: Bool? = nil, requireNumbers: Bool? = nil, requireSymbols: Bool? = nil, requireUppercase: Bool? = nil) {
+        public init(minimumLength: Int32? = nil, requireLowercase: Bool? = nil, requireNumbers: Bool? = nil, requireSymbols: Bool? = nil, requireUppercase: Bool? = nil, temporaryPasswordValidityDays: Int32? = nil) {
             self.minimumLength = minimumLength
             self.requireLowercase = requireLowercase
             self.requireNumbers = requireNumbers
             self.requireSymbols = requireSymbols
             self.requireUppercase = requireUppercase
+            self.temporaryPasswordValidityDays = temporaryPasswordValidityDays
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4248,6 +4329,7 @@ extension CognitoIdentityProvider {
             case requireNumbers = "RequireNumbers"
             case requireSymbols = "RequireSymbols"
             case requireUppercase = "RequireUppercase"
+            case temporaryPasswordValidityDays = "TemporaryPasswordValidityDays"
         }
     }
 
@@ -4595,7 +4677,7 @@ extension CognitoIdentityProvider {
         public let attributeDataType: AttributeDataType?
         /// Specifies whether the attribute type is developer only.
         public let developerOnlyAttribute: Bool?
-        /// Specifies whether the value of the attribute can be changed.
+        /// Specifies whether the value of the attribute can be changed. For any user pool attribute that's mapped to an identity provider attribute, you must set this parameter to true. Amazon Cognito updates mapped attributes when users sign in to your application through an identity provider. If an attribute is immutable, Amazon Cognito throws an error when it attempts to update the attribute. For more information, see Specifying Identity Provider Attribute Mappings for Your User Pool.
         public let mutable: Bool?
         /// A schema attribute of the name type.
         public let name: String?
@@ -5101,6 +5183,34 @@ extension CognitoIdentityProvider {
         }
     }
 
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .map)
+        ]
+        /// The Amazon Resource Name (ARN) of the user pool to assign the tags to.
+        public let resourceArn: String
+        /// The tags to assign to the user pool.
+        public let tags: [String: String]?
+
+        public init(resourceArn: String, tags: [String: String]? = nil) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
     public struct UICustomizationType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CSS", required: false, type: .string), 
@@ -5145,6 +5255,34 @@ extension CognitoIdentityProvider {
             case lastModifiedDate = "LastModifiedDate"
             case userPoolId = "UserPoolId"
         }
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: false, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) of the user pool that the tags are assigned to.
+        public let resourceArn: String
+        /// The keys of the tags to remove from the user pool.
+        public let tagKeys: [String]?
+
+        public init(resourceArn: String, tagKeys: [String]? = nil) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
     }
 
     public struct UpdateAuthEventFeedbackRequest: AWSShape {
@@ -5429,7 +5567,7 @@ extension CognitoIdentityProvider {
             AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
             AWSShapeMember(label: "WriteAttributes", required: false, type: .list)
         ]
-        /// Set to code to initiate a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the token endpoint. Set to token to specify that the client should get the access token (and, optionally, ID token, based on scopes) directly.
+        /// Set to code to initiate a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the token endpoint.
         public let allowedOAuthFlows: [OAuthFlowType]?
         /// Set to TRUE if the client is allowed to follow the OAuth protocol when interacting with Cognito user pools.
         public let allowedOAuthFlowsUserPoolClient: Bool?
@@ -5513,6 +5651,48 @@ extension CognitoIdentityProvider {
         }
     }
 
+    public struct UpdateUserPoolDomainRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomDomainConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "Domain", required: true, type: .string), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
+        ]
+        /// The configuration for a custom domain that hosts the sign-up and sign-in pages for your application. Use this object to specify an SSL certificate that is managed by ACM.
+        public let customDomainConfig: CustomDomainConfigType
+        /// The domain name for the custom domain that hosts the sign-up and sign-in pages for your application. For example: auth.example.com.  This string can include only lowercase letters, numbers, and hyphens. Do not use a hyphen for the first or last character. Use periods to separate subdomain names.
+        public let domain: String
+        /// The ID of the user pool that is associated with the custom domain that you are updating the certificate for.
+        public let userPoolId: String
+
+        public init(customDomainConfig: CustomDomainConfigType, domain: String, userPoolId: String) {
+            self.customDomainConfig = customDomainConfig
+            self.domain = domain
+            self.userPoolId = userPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customDomainConfig = "CustomDomainConfig"
+            case domain = "Domain"
+            case userPoolId = "UserPoolId"
+        }
+    }
+
+    public struct UpdateUserPoolDomainResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudFrontDomain", required: false, type: .string)
+        ]
+        /// The Amazon CloudFront endpoint that Amazon Cognito set up when you added the custom domain to your user pool.
+        public let cloudFrontDomain: String?
+
+        public init(cloudFrontDomain: String? = nil) {
+            self.cloudFrontDomain = cloudFrontDomain
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudFrontDomain = "CloudFrontDomain"
+        }
+    }
+
     public struct UpdateUserPoolRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AdminCreateUserConfig", required: false, type: .structure), 
@@ -5560,7 +5740,7 @@ extension CognitoIdentityProvider {
         public let userPoolAddOns: UserPoolAddOnsType?
         /// The user pool ID for the user pool you want to update.
         public let userPoolId: String
-        /// The cost allocation tags for the user pool. For more information, see Adding Cost Allocation Tags to Your User Pool 
+        /// The tag keys and values to assign to the user pool. A tag is a label that you can use to categorize and manage user pools in different ways, such as by purpose, owner, environment, or other criteria.
         public let userPoolTags: [String: String]?
         /// The template for verification messages.
         public let verificationMessageTemplate: VerificationMessageTemplateType?
@@ -5964,6 +6144,7 @@ extension CognitoIdentityProvider {
         public let autoVerifiedAttributes: [VerifiedAttributeType]?
         /// The date the user pool was created.
         public let creationDate: TimeStamp?
+        /// A custom domain name that you provide to Amazon Cognito. This parameter applies only if you use a custom domain to host the sign-up and sign-in pages for your application. For example: auth.example.com. For more information about adding a custom domain to your user pool, see Using Your Own Domain for the Hosted UI.
         public let customDomain: String?
         /// The device configuration.
         public let deviceConfiguration: DeviceConfigurationType?
@@ -6005,7 +6186,7 @@ extension CognitoIdentityProvider {
         public let status: StatusType?
         /// The user pool add-ons.
         public let userPoolAddOns: UserPoolAddOnsType?
-        /// The cost allocation tags for the user pool. For more information, see Adding Cost Allocation Tags to Your User Pool 
+        /// The tags that are assigned to the user pool. A tag is a label that you can apply to user pools to categorize and manage them in different ways, such as by purpose, owner, environment, or other criteria.
         public let userPoolTags: [String: String]?
         /// Specifies whether email addresses or phone numbers can be specified as usernames when a user signs up.
         public let usernameAttributes: [UsernameAttributeType]?
@@ -6108,7 +6289,7 @@ extension CognitoIdentityProvider {
         public let userCreateDate: TimeStamp?
         /// The last modified date of the user.
         public let userLastModifiedDate: TimeStamp?
-        /// The user status. Can be one of the following:   UNCONFIRMED - User has been created but not confirmed.   CONFIRMED - User has been confirmed.   ARCHIVED - User is no longer active.   COMPROMISED - User is disabled due to a potential security threat.   UNKNOWN - User status is not known.  
+        /// The user status. Can be one of the following:   UNCONFIRMED - User has been created but not confirmed.   CONFIRMED - User has been confirmed.   ARCHIVED - User is no longer active.   COMPROMISED - User is disabled due to a potential security threat.   UNKNOWN - User status is not known.   RESET_REQUIRED - User is confirmed, but the user must request a code and reset his or her password before he or she can sign in.   FORCE_CHANGE_PASSWORD - The user is confirmed and the user can sign in using a temporary password, but on first sign-in, the user must change his or her password to a new value before doing anything else.   
         public let userStatus: UserStatusType?
         /// The user name of the user you wish to describe.
         public let username: String?

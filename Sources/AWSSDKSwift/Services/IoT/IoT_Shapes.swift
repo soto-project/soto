@@ -920,25 +920,40 @@ extension IoT {
     public struct BehaviorCriteria: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "comparisonOperator", required: false, type: .enum), 
+            AWSShapeMember(label: "consecutiveDatapointsToAlarm", required: false, type: .integer), 
+            AWSShapeMember(label: "consecutiveDatapointsToClear", required: false, type: .integer), 
             AWSShapeMember(label: "durationSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "statisticalThreshold", required: false, type: .structure), 
             AWSShapeMember(label: "value", required: false, type: .structure)
         ]
-        /// The operator that relates the thing measured (metric) to the criteria (value).
+        /// The operator that relates the thing measured (metric) to the criteria (containing a value or statisticalThreshold).
         public let comparisonOperator: ComparisonOperator?
-        /// Use this to specify the period of time over which the behavior is evaluated, for those criteria which have a time dimension (for example, NUM_MESSAGES_SENT).
+        /// If a device is in violation of the behavior for the specified number of consecutive datapoints, an alarm occurs. If not specified, the default is 1.
+        public let consecutiveDatapointsToAlarm: Int32?
+        /// If an alarm has occurred and the offending device is no longer in violation of the behavior for the specified number of consecutive datapoints, the alarm is cleared. If not specified, the default is 1.
+        public let consecutiveDatapointsToClear: Int32?
+        /// Use this to specify the time duration over which the behavior is evaluated, for those criteria which have a time dimension (for example, NUM_MESSAGES_SENT). For a statisticalThreshhold metric comparison, measurements from all devices are accumulated over this time duration before being used to calculate percentiles, and later, measurements from an individual device are also accumulated over this time duration before being given a percentile rank.
         public let durationSeconds: Int32?
+        /// A statistical ranking (percentile) which indicates a threshold value by which a behavior is determined to be in compliance or in violation of the behavior.
+        public let statisticalThreshold: StatisticalThreshold?
         /// The value to be compared with the metric.
         public let value: MetricValue?
 
-        public init(comparisonOperator: ComparisonOperator? = nil, durationSeconds: Int32? = nil, value: MetricValue? = nil) {
+        public init(comparisonOperator: ComparisonOperator? = nil, consecutiveDatapointsToAlarm: Int32? = nil, consecutiveDatapointsToClear: Int32? = nil, durationSeconds: Int32? = nil, statisticalThreshold: StatisticalThreshold? = nil, value: MetricValue? = nil) {
             self.comparisonOperator = comparisonOperator
+            self.consecutiveDatapointsToAlarm = consecutiveDatapointsToAlarm
+            self.consecutiveDatapointsToClear = consecutiveDatapointsToClear
             self.durationSeconds = durationSeconds
+            self.statisticalThreshold = statisticalThreshold
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
             case comparisonOperator = "comparisonOperator"
+            case consecutiveDatapointsToAlarm = "consecutiveDatapointsToAlarm"
+            case consecutiveDatapointsToClear = "consecutiveDatapointsToClear"
             case durationSeconds = "durationSeconds"
+            case statisticalThreshold = "statisticalThreshold"
             case value = "value"
         }
     }
@@ -1922,6 +1937,7 @@ extension IoT {
             AWSShapeMember(label: "files", required: true, type: .list), 
             AWSShapeMember(label: "otaUpdateId", location: .uri(locationName: "otaUpdateId"), required: true, type: .string), 
             AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "targetSelection", required: false, type: .enum), 
             AWSShapeMember(label: "targets", required: true, type: .list)
         ]
@@ -1937,18 +1953,21 @@ extension IoT {
         public let otaUpdateId: String
         /// The IAM role that allows access to the AWS IoT Jobs service.
         public let roleArn: String
+        /// Metadata which can be used to manage updates.
+        public let tags: [Tag]?
         /// Specifies whether the update will continue to run (CONTINUOUS), or will be complete after all the things specified as targets have completed the update (SNAPSHOT). If continuous, the update may also be run on a thing when a change is detected in a target. For example, an update will run on a thing when the thing is added to a target group, even after the update was completed by all things originally in the group. Valid values: CONTINUOUS | SNAPSHOT.
         public let targetSelection: TargetSelection?
         /// The targeted devices to receive OTA updates.
         public let targets: [String]
 
-        public init(additionalParameters: [String: String]? = nil, awsJobExecutionsRolloutConfig: AwsJobExecutionsRolloutConfig? = nil, description: String? = nil, files: [OTAUpdateFile], otaUpdateId: String, roleArn: String, targetSelection: TargetSelection? = nil, targets: [String]) {
+        public init(additionalParameters: [String: String]? = nil, awsJobExecutionsRolloutConfig: AwsJobExecutionsRolloutConfig? = nil, description: String? = nil, files: [OTAUpdateFile], otaUpdateId: String, roleArn: String, tags: [Tag]? = nil, targetSelection: TargetSelection? = nil, targets: [String]) {
             self.additionalParameters = additionalParameters
             self.awsJobExecutionsRolloutConfig = awsJobExecutionsRolloutConfig
             self.description = description
             self.files = files
             self.otaUpdateId = otaUpdateId
             self.roleArn = roleArn
+            self.tags = tags
             self.targetSelection = targetSelection
             self.targets = targets
         }
@@ -1960,6 +1979,7 @@ extension IoT {
             case files = "files"
             case otaUpdateId = "otaUpdateId"
             case roleArn = "roleArn"
+            case tags = "tags"
             case targetSelection = "targetSelection"
             case targets = "targets"
         }
@@ -2163,6 +2183,7 @@ extension IoT {
             AWSShapeMember(label: "dayOfWeek", required: false, type: .enum), 
             AWSShapeMember(label: "frequency", required: true, type: .enum), 
             AWSShapeMember(label: "scheduledAuditName", location: .uri(locationName: "scheduledAuditName"), required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "targetCheckNames", required: true, type: .list)
         ]
         /// The day of the month on which the scheduled audit takes place. Can be "1" through "31" or "LAST". This field is required if the "frequency" parameter is set to "MONTHLY". If days 29-31 are specified, and the month does not have that many days, the audit takes place on the "LAST" day of the month.
@@ -2173,14 +2194,17 @@ extension IoT {
         public let frequency: AuditFrequency
         /// The name you want to give to the scheduled audit. (Max. 128 chars)
         public let scheduledAuditName: String
+        /// Metadata which can be used to manage the scheduled audit.
+        public let tags: [Tag]?
         /// Which checks are performed during the scheduled audit. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks including those that are enabled or UpdateAccountAuditConfiguration to select which checks are enabled.)
         public let targetCheckNames: [String]
 
-        public init(dayOfMonth: String? = nil, dayOfWeek: DayOfWeek? = nil, frequency: AuditFrequency, scheduledAuditName: String, targetCheckNames: [String]) {
+        public init(dayOfMonth: String? = nil, dayOfWeek: DayOfWeek? = nil, frequency: AuditFrequency, scheduledAuditName: String, tags: [Tag]? = nil, targetCheckNames: [String]) {
             self.dayOfMonth = dayOfMonth
             self.dayOfWeek = dayOfWeek
             self.frequency = frequency
             self.scheduledAuditName = scheduledAuditName
+            self.tags = tags
             self.targetCheckNames = targetCheckNames
         }
 
@@ -2189,6 +2213,7 @@ extension IoT {
             case dayOfWeek = "dayOfWeek"
             case frequency = "frequency"
             case scheduledAuditName = "scheduledAuditName"
+            case tags = "tags"
             case targetCheckNames = "targetCheckNames"
         }
     }
@@ -2211,16 +2236,19 @@ extension IoT {
 
     public struct CreateSecurityProfileRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "additionalMetricsToRetain", required: false, type: .list), 
             AWSShapeMember(label: "alertTargets", required: false, type: .map), 
-            AWSShapeMember(label: "behaviors", required: true, type: .list), 
+            AWSShapeMember(label: "behaviors", required: false, type: .list), 
             AWSShapeMember(label: "securityProfileDescription", required: false, type: .string), 
             AWSShapeMember(label: "securityProfileName", location: .uri(locationName: "securityProfileName"), required: true, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
+        /// A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors but it is also retained for any metric specified here.
+        public let additionalMetricsToRetain: [String]?
         /// Specifies the destinations to which alerts are sent. (Alerts are always sent to the console.) Alerts are generated when a device (thing) violates a behavior.
         public let alertTargets: [AlertTargetType: AlertTarget]?
         /// Specifies the behaviors that, when violated by a device (thing), cause an alert.
-        public let behaviors: [Behavior]
+        public let behaviors: [Behavior]?
         /// A description of the security profile.
         public let securityProfileDescription: String?
         /// The name you are giving to the security profile.
@@ -2228,7 +2256,8 @@ extension IoT {
         /// Metadata which can be used to manage the security profile.
         public let tags: [Tag]?
 
-        public init(alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior], securityProfileDescription: String? = nil, securityProfileName: String, tags: [Tag]? = nil) {
+        public init(additionalMetricsToRetain: [String]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, securityProfileDescription: String? = nil, securityProfileName: String, tags: [Tag]? = nil) {
+            self.additionalMetricsToRetain = additionalMetricsToRetain
             self.alertTargets = alertTargets
             self.behaviors = behaviors
             self.securityProfileDescription = securityProfileDescription
@@ -2237,6 +2266,7 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalMetricsToRetain = "additionalMetricsToRetain"
             case alertTargets = "alertTargets"
             case behaviors = "behaviors"
             case securityProfileDescription = "securityProfileDescription"
@@ -2271,7 +2301,8 @@ extension IoT {
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "files", required: true, type: .list), 
             AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "streamId", location: .uri(locationName: "streamId"), required: true, type: .string)
+            AWSShapeMember(label: "streamId", location: .uri(locationName: "streamId"), required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list)
         ]
         /// A description of the stream.
         public let description: String?
@@ -2281,12 +2312,15 @@ extension IoT {
         public let roleArn: String
         /// The stream ID.
         public let streamId: String
+        /// Metadata which can be used to manage streams.
+        public let tags: [Tag]?
 
-        public init(description: String? = nil, files: [StreamFile], roleArn: String, streamId: String) {
+        public init(description: String? = nil, files: [StreamFile], roleArn: String, streamId: String, tags: [Tag]? = nil) {
             self.description = description
             self.files = files
             self.roleArn = roleArn
             self.streamId = streamId
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2294,6 +2328,7 @@ extension IoT {
             case files = "files"
             case roleArn = "roleArn"
             case streamId = "streamId"
+            case tags = "tags"
         }
     }
 
@@ -2499,20 +2534,25 @@ extension IoT {
         public static let payloadPath: String? = "topicRulePayload"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string), 
+            AWSShapeMember(label: "tags", location: .header(locationName: "x-amz-tagging"), required: false, type: .string), 
             AWSShapeMember(label: "topicRulePayload", required: true, type: .structure)
         ]
         /// The name of the rule.
         public let ruleName: String
+        /// Metadata which can be used to manage the topic rule.  For URI Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format: --tags "key1=value1&amp;key2=value2..." For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..." 
+        public let tags: String?
         /// The rule payload.
         public let topicRulePayload: TopicRulePayload
 
-        public init(ruleName: String, topicRulePayload: TopicRulePayload) {
+        public init(ruleName: String, tags: String? = nil, topicRulePayload: TopicRulePayload) {
             self.ruleName = ruleName
+            self.tags = tags
             self.topicRulePayload = topicRulePayload
         }
 
         private enum CodingKeys: String, CodingKey {
             case ruleName = "ruleName"
+            case tags = "x-amz-tagging"
             case topicRulePayload = "topicRulePayload"
         }
     }
@@ -3465,7 +3505,7 @@ extension IoT {
         public let indexName: String?
         /// The index status.
         public let indexStatus: IndexStatus?
-        /// Contains a value that specifies the type of indexing performed. Valid values are:   REGISTRY – Your thing index will contain only registry data.   REGISTRY_AND_SHADOW - Your thing index will contain registry data and shadow data.   REGISTRY_AND_CONNECTIVITY_STATUS - Your thing index will contain registry data and thing connectivity status data.   REGISTRY_AND_SHADOW_AND_CONNECTIVITY_STATUS - Your thing index will contain registry data, shadow data, and thing connectivity status data.  
+        /// Contains a value that specifies the type of indexing performed. Valid values are:   REGISTRY – Your thing index contains only registry data.   REGISTRY_AND_SHADOW - Your thing index contains registry data and shadow data.   REGISTRY_AND_CONNECTIVITY_STATUS - Your thing index contains registry data and thing connectivity status data.   REGISTRY_AND_SHADOW_AND_CONNECTIVITY_STATUS - Your thing index contains registry data, shadow data, and thing connectivity status data.  
         public let schema: String?
 
         public init(indexName: String? = nil, indexStatus: IndexStatus? = nil, schema: String? = nil) {
@@ -3667,6 +3707,7 @@ extension IoT {
 
     public struct DescribeSecurityProfileResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "additionalMetricsToRetain", required: false, type: .list), 
             AWSShapeMember(label: "alertTargets", required: false, type: .map), 
             AWSShapeMember(label: "behaviors", required: false, type: .list), 
             AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
@@ -3676,6 +3717,8 @@ extension IoT {
             AWSShapeMember(label: "securityProfileName", required: false, type: .string), 
             AWSShapeMember(label: "version", required: false, type: .long)
         ]
+        /// A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors but it is also retained for any metric specified here.
+        public let additionalMetricsToRetain: [String]?
         /// Where the alerts are sent. (Alerts are always sent to the console.)
         public let alertTargets: [AlertTargetType: AlertTarget]?
         /// Specifies the behaviors that, when violated by a device (thing), cause an alert.
@@ -3693,7 +3736,8 @@ extension IoT {
         /// The version of the security profile. A new version is generated whenever the security profile is updated.
         public let version: Int64?
 
-        public init(alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, creationDate: TimeStamp? = nil, lastModifiedDate: TimeStamp? = nil, securityProfileArn: String? = nil, securityProfileDescription: String? = nil, securityProfileName: String? = nil, version: Int64? = nil) {
+        public init(additionalMetricsToRetain: [String]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, creationDate: TimeStamp? = nil, lastModifiedDate: TimeStamp? = nil, securityProfileArn: String? = nil, securityProfileDescription: String? = nil, securityProfileName: String? = nil, version: Int64? = nil) {
+            self.additionalMetricsToRetain = additionalMetricsToRetain
             self.alertTargets = alertTargets
             self.behaviors = behaviors
             self.creationDate = creationDate
@@ -3705,6 +3749,7 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalMetricsToRetain = "additionalMetricsToRetain"
             case alertTargets = "alertTargets"
             case behaviors = "behaviors"
             case creationDate = "creationDate"
@@ -4231,15 +4276,15 @@ extension IoT {
 
     public struct DynamoDBv2Action: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "putItem", required: false, type: .structure), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string)
+            AWSShapeMember(label: "putItem", required: true, type: .structure), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string)
         ]
         /// Specifies the DynamoDB table to which the message data will be written. For example:  { "dynamoDBv2": { "roleArn": "aws:iam:12341251:my-role" "putItem": { "tableName": "my-table" } } }  Each attribute in the message payload will be written to a separate column in the DynamoDB database.
-        public let putItem: PutItemInput?
+        public let putItem: PutItemInput
         /// The ARN of the IAM role that grants access to the DynamoDB table.
-        public let roleArn: String?
+        public let roleArn: String
 
-        public init(putItem: PutItemInput? = nil, roleArn: String? = nil) {
+        public init(putItem: PutItemInput, roleArn: String) {
             self.putItem = putItem
             self.roleArn = roleArn
         }
@@ -4778,6 +4823,53 @@ extension IoT {
         }
     }
 
+    public struct GetStatisticsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "aggregationField", required: false, type: .string), 
+            AWSShapeMember(label: "indexName", required: false, type: .string), 
+            AWSShapeMember(label: "queryString", required: true, type: .string), 
+            AWSShapeMember(label: "queryVersion", required: false, type: .string)
+        ]
+        /// The aggregation field name. Currently not supported.
+        public let aggregationField: String?
+        /// The name of the index to search. The default value is AWS_Things.
+        public let indexName: String?
+        /// The query used to search. You can specify "*" for the query string to get the count of all indexed things in your AWS account.
+        public let queryString: String
+        /// The version of the query used to search.
+        public let queryVersion: String?
+
+        public init(aggregationField: String? = nil, indexName: String? = nil, queryString: String, queryVersion: String? = nil) {
+            self.aggregationField = aggregationField
+            self.indexName = indexName
+            self.queryString = queryString
+            self.queryVersion = queryVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregationField = "aggregationField"
+            case indexName = "indexName"
+            case queryString = "queryString"
+            case queryVersion = "queryVersion"
+        }
+    }
+
+    public struct GetStatisticsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "statistics", required: false, type: .structure)
+        ]
+        /// The statistics returned by the Fleet Indexing service based on the query and aggregation field.
+        public let statistics: Statistics?
+
+        public init(statistics: Statistics? = nil) {
+            self.statistics = statistics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statistics = "statistics"
+        }
+    }
+
     public struct GetTopicRuleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string)
@@ -4968,9 +5060,9 @@ extension IoT {
         public let abortConfig: AbortConfig?
         /// If the job was updated, describes the reason for the update.
         public let comment: String?
-        /// The time, in milliseconds since the epoch, when the job was completed.
+        /// The time, in seconds since the epoch, when the job was completed.
         public let completedAt: TimeStamp?
-        /// The time, in milliseconds since the epoch, when the job was created.
+        /// The time, in seconds since the epoch, when the job was created.
         public let createdAt: TimeStamp?
         /// A short text description of the job.
         public let description: String?
@@ -4984,7 +5076,7 @@ extension IoT {
         public let jobId: String?
         /// Details about the job process.
         public let jobProcessDetails: JobProcessDetails?
-        /// The time, in milliseconds since the epoch, when the job was last updated.
+        /// The time, in seconds since the epoch, when the job was last updated.
         public let lastUpdatedAt: TimeStamp?
         /// Configuration for pre-signed S3 URLs.
         public let presignedUrlConfig: PresignedUrlConfig?
@@ -5062,11 +5154,11 @@ extension IoT {
         public let forceCanceled: Bool?
         /// The unique identifier you assigned to the job when it was created.
         public let jobId: String?
-        /// The time, in milliseconds since the epoch, when the job execution was last updated.
+        /// The time, in seconds since the epoch, when the job execution was last updated.
         public let lastUpdatedAt: TimeStamp?
-        /// The time, in milliseconds since the epoch, when the job execution was queued.
+        /// The time, in seconds since the epoch, when the job execution was queued.
         public let queuedAt: TimeStamp?
-        /// The time, in milliseconds since the epoch, when the job execution started.
+        /// The time, in seconds since the epoch, when the job execution started.
         public let startedAt: TimeStamp?
         /// The status of the job execution (IN_PROGRESS, QUEUED, FAILED, SUCCEEDED, TIMED_OUT, CANCELED, or REJECTED).
         public let status: JobExecutionStatus?
@@ -5152,11 +5244,11 @@ extension IoT {
         ]
         /// A string (consisting of the digits "0" through "9") which identifies this particular job execution on this particular device. It can be used later in commands which return or update job execution information.
         public let executionNumber: Int64?
-        /// The time, in milliseconds since the epoch, when the job execution was last updated.
+        /// The time, in seconds since the epoch, when the job execution was last updated.
         public let lastUpdatedAt: TimeStamp?
-        /// The time, in milliseconds since the epoch, when the job execution was queued.
+        /// The time, in seconds since the epoch, when the job execution was queued.
         public let queuedAt: TimeStamp?
-        /// The time, in milliseconds since the epoch, when the job execution started.
+        /// The time, in seconds since the epoch, when the job execution started.
         public let startedAt: TimeStamp?
         /// The status of the job execution.
         public let status: JobExecutionStatus?
@@ -5316,15 +5408,15 @@ extension IoT {
             AWSShapeMember(label: "targetSelection", required: false, type: .enum), 
             AWSShapeMember(label: "thingGroupId", required: false, type: .string)
         ]
-        /// The time, in milliseconds since the epoch, when the job completed.
+        /// The time, in seconds since the epoch, when the job completed.
         public let completedAt: TimeStamp?
-        /// The time, in milliseconds since the epoch, when the job was created.
+        /// The time, in seconds since the epoch, when the job was created.
         public let createdAt: TimeStamp?
         /// The job ARN.
         public let jobArn: String?
         /// The unique identifier you assigned to this job when it was created.
         public let jobId: String?
-        /// The time, in milliseconds since the epoch, when the job was last updated.
+        /// The time, in seconds since the epoch, when the job was last updated.
         public let lastUpdatedAt: TimeStamp?
         /// The job summary status.
         public let status: JobStatus?
@@ -7921,7 +8013,7 @@ extension IoT {
         public let caCertificatePem: String?
         /// The certificate data, in PEM format.
         public let certificatePem: String
-        /// A boolean value that specifies if the CA certificate is set to active.
+        /// A boolean value that specifies if the certificate is set to active.
         public let setAsActive: Bool?
         /// The status of the register certificate request.
         public let status: CertificateStatus?
@@ -8705,7 +8797,7 @@ extension IoT {
             AWSShapeMember(label: "roleArn", required: true, type: .string), 
             AWSShapeMember(label: "targetArn", required: true, type: .string)
         ]
-        /// (Optional) The message format of the message to publish. Accepted values are "JSON" and "RAW". The default value of the attribute is "RAW". SNS uses this setting to determine if the payload should be parsed and relevant platform-specific bits of the payload should be extracted. To read more about SNS message formats, see http://docs.aws.amazon.com/sns/latest/dg/json-formats.html refer to their official documentation.
+        /// (Optional) The message format of the message to publish. Accepted values are "JSON" and "RAW". The default value of the attribute is "RAW". SNS uses this setting to determine if the payload should be parsed and relevant platform-specific bits of the payload should be extracted. To read more about SNS message formats, see https://docs.aws.amazon.com/sns/latest/dg/json-formats.html refer to their official documentation.
         public let messageFormat: MessageFormat?
         /// The ARN of the IAM role that grants access.
         public let roleArn: String
@@ -8853,6 +8945,38 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case taskId = "taskId"
+        }
+    }
+
+    public struct StatisticalThreshold: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "statistic", required: false, type: .string)
+        ]
+        /// The percentile which resolves to a threshold value by which compliance with a behavior is determined. Metrics are collected over the specified period (durationSeconds) from all reporting devices in your account and statistical ranks are calculated. Then, the measurements from a device are collected over the same period. If the accumulated measurements from the device fall above or below (comparisonOperator) the value associated with the percentile specified, then the device is considered to be in compliance with the behavior, otherwise a violation occurs.
+        public let statistic: String?
+
+        public init(statistic: String? = nil) {
+            self.statistic = statistic
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statistic = "statistic"
+        }
+    }
+
+    public struct Statistics: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "count", required: false, type: .integer)
+        ]
+        /// The count of things that match the query.
+        public let count: Int32?
+
+        public init(count: Int32? = nil) {
+            self.count = count
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count = "count"
         }
     }
 
@@ -9299,9 +9423,9 @@ extension IoT {
             AWSShapeMember(label: "connected", required: false, type: .boolean), 
             AWSShapeMember(label: "timestamp", required: false, type: .long)
         ]
-        /// True if the thing is connected to the AWS IoT service, false if it is not connected.
+        /// True if the thing is connected to the AWS IoT service; false if it is not connected.
         public let connected: Bool?
-        /// The epoch time (in milliseconds) when the thing last connected or disconnected. Note that if the thing has been disconnected for more than a few weeks, the time value can be missing.
+        /// The epoch time (in milliseconds) when the thing last connected or disconnected. If the thing has been disconnected for more than a few weeks, the time value might be missing.
         public let timestamp: Int64?
 
         public init(connected: Bool? = nil, timestamp: Int64? = nil) {
@@ -9333,7 +9457,7 @@ extension IoT {
         ]
         /// The attributes.
         public let attributes: [String: String]?
-        /// Indicates whether or not the thing is connected to the AWS IoT service.
+        /// Indicates whether the thing is connected to the AWS IoT service.
         public let connectivity: ThingConnectivity?
         /// The shadow.
         public let shadow: String?
@@ -9477,9 +9601,9 @@ extension IoT {
             AWSShapeMember(label: "thingConnectivityIndexingMode", required: false, type: .enum), 
             AWSShapeMember(label: "thingIndexingMode", required: true, type: .enum)
         ]
-        /// Thing connectivity indexing mode. Valid values are:    STATUS – Your thing index will contain connectivity status. In order to enable thing connectivity indexing, thingIndexMode must not be set to OFF.   OFF - Thing connectivity status indexing is disabled.  
+        /// Thing connectivity indexing mode. Valid values are:    STATUS – Your thing index contains connectivity status. To enable thing connectivity indexing, thingIndexMode must not be set to OFF.   OFF - Thing connectivity status indexing is disabled.  
         public let thingConnectivityIndexingMode: ThingConnectivityIndexingMode?
-        /// Thing indexing mode. Valid values are:   REGISTRY – Your thing index will contain only registry data.   REGISTRY_AND_SHADOW - Your thing index will contain registry and shadow data.   OFF - Thing indexing is disabled.  
+        /// Thing indexing mode. Valid values are:   REGISTRY – Your thing index contains registry data only.   REGISTRY_AND_SHADOW - Your thing index contains registry and shadow data.   OFF - Thing indexing is disabled.  
         public let thingIndexingMode: ThingIndexingMode
 
         public init(thingConnectivityIndexingMode: ThingConnectivityIndexingMode? = nil, thingIndexingMode: ThingIndexingMode) {
@@ -10267,16 +10391,28 @@ extension IoT {
 
     public struct UpdateSecurityProfileRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "additionalMetricsToRetain", required: false, type: .list), 
             AWSShapeMember(label: "alertTargets", required: false, type: .map), 
             AWSShapeMember(label: "behaviors", required: false, type: .list), 
+            AWSShapeMember(label: "deleteAdditionalMetricsToRetain", required: false, type: .boolean), 
+            AWSShapeMember(label: "deleteAlertTargets", required: false, type: .boolean), 
+            AWSShapeMember(label: "deleteBehaviors", required: false, type: .boolean), 
             AWSShapeMember(label: "expectedVersion", location: .querystring(locationName: "expectedVersion"), required: false, type: .long), 
             AWSShapeMember(label: "securityProfileDescription", required: false, type: .string), 
             AWSShapeMember(label: "securityProfileName", location: .uri(locationName: "securityProfileName"), required: true, type: .string)
         ]
+        /// A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors but it is also retained for any metric specified here.
+        public let additionalMetricsToRetain: [String]?
         /// Where the alerts are sent. (Alerts are always sent to the console.)
         public let alertTargets: [AlertTargetType: AlertTarget]?
         /// Specifies the behaviors that, when violated by a device (thing), cause an alert.
         public let behaviors: [Behavior]?
+        /// If true, delete all additionalMetricsToRetain defined for this security profile. If any additionalMetricsToRetain are defined in the current invocation an exception occurs.
+        public let deleteAdditionalMetricsToRetain: Bool?
+        /// If true, delete all alertTargets defined for this security profile. If any alertTargets are defined in the current invocation an exception occurs.
+        public let deleteAlertTargets: Bool?
+        /// If true, delete all behaviors defined for this security profile. If any behaviors are defined in the current invocation an exception occurs.
+        public let deleteBehaviors: Bool?
         /// The expected version of the security profile. A new version is generated whenever the security profile is updated. If you specify a value that is different than the actual version, a VersionConflictException is thrown.
         public let expectedVersion: Int64?
         /// A description of the security profile.
@@ -10284,17 +10420,25 @@ extension IoT {
         /// The name of the security profile you want to update.
         public let securityProfileName: String
 
-        public init(alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, expectedVersion: Int64? = nil, securityProfileDescription: String? = nil, securityProfileName: String) {
+        public init(additionalMetricsToRetain: [String]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, deleteAdditionalMetricsToRetain: Bool? = nil, deleteAlertTargets: Bool? = nil, deleteBehaviors: Bool? = nil, expectedVersion: Int64? = nil, securityProfileDescription: String? = nil, securityProfileName: String) {
+            self.additionalMetricsToRetain = additionalMetricsToRetain
             self.alertTargets = alertTargets
             self.behaviors = behaviors
+            self.deleteAdditionalMetricsToRetain = deleteAdditionalMetricsToRetain
+            self.deleteAlertTargets = deleteAlertTargets
+            self.deleteBehaviors = deleteBehaviors
             self.expectedVersion = expectedVersion
             self.securityProfileDescription = securityProfileDescription
             self.securityProfileName = securityProfileName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalMetricsToRetain = "additionalMetricsToRetain"
             case alertTargets = "alertTargets"
             case behaviors = "behaviors"
+            case deleteAdditionalMetricsToRetain = "deleteAdditionalMetricsToRetain"
+            case deleteAlertTargets = "deleteAlertTargets"
+            case deleteBehaviors = "deleteBehaviors"
             case expectedVersion = "expectedVersion"
             case securityProfileDescription = "securityProfileDescription"
             case securityProfileName = "securityProfileName"
@@ -10303,6 +10447,7 @@ extension IoT {
 
     public struct UpdateSecurityProfileResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "additionalMetricsToRetain", required: false, type: .list), 
             AWSShapeMember(label: "alertTargets", required: false, type: .map), 
             AWSShapeMember(label: "behaviors", required: false, type: .list), 
             AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
@@ -10312,6 +10457,8 @@ extension IoT {
             AWSShapeMember(label: "securityProfileName", required: false, type: .string), 
             AWSShapeMember(label: "version", required: false, type: .long)
         ]
+        /// A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the security profile's behaviors but it is also retained for any metric specified here.
+        public let additionalMetricsToRetain: [String]?
         /// Where the alerts are sent. (Alerts are always sent to the console.)
         public let alertTargets: [AlertTargetType: AlertTarget]?
         /// Specifies the behaviors that, when violated by a device (thing), cause an alert.
@@ -10329,7 +10476,8 @@ extension IoT {
         /// The updated version of the security profile.
         public let version: Int64?
 
-        public init(alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, creationDate: TimeStamp? = nil, lastModifiedDate: TimeStamp? = nil, securityProfileArn: String? = nil, securityProfileDescription: String? = nil, securityProfileName: String? = nil, version: Int64? = nil) {
+        public init(additionalMetricsToRetain: [String]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, creationDate: TimeStamp? = nil, lastModifiedDate: TimeStamp? = nil, securityProfileArn: String? = nil, securityProfileDescription: String? = nil, securityProfileName: String? = nil, version: Int64? = nil) {
+            self.additionalMetricsToRetain = additionalMetricsToRetain
             self.alertTargets = alertTargets
             self.behaviors = behaviors
             self.creationDate = creationDate
@@ -10341,6 +10489,7 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalMetricsToRetain = "additionalMetricsToRetain"
             case alertTargets = "alertTargets"
             case behaviors = "behaviors"
             case creationDate = "creationDate"

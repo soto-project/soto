@@ -19,17 +19,27 @@ extension CostExplorer {
 
     public struct Coverage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CoverageHours", required: false, type: .structure)
+            AWSShapeMember(label: "CoverageCost", required: false, type: .structure), 
+            AWSShapeMember(label: "CoverageHours", required: false, type: .structure), 
+            AWSShapeMember(label: "CoverageNormalizedUnits", required: false, type: .structure)
         ]
-        /// The amount of instance usage that a reservation covered, in hours.
+        /// The amount of cost that the reservation covered.
+        public let coverageCost: CoverageCost?
+        /// The amount of instance usage that the reservation covered, in hours.
         public let coverageHours: CoverageHours?
+        /// The amount of instance usage that the reservation covered, in normalized units.
+        public let coverageNormalizedUnits: CoverageNormalizedUnits?
 
-        public init(coverageHours: CoverageHours? = nil) {
+        public init(coverageCost: CoverageCost? = nil, coverageHours: CoverageHours? = nil, coverageNormalizedUnits: CoverageNormalizedUnits? = nil) {
+            self.coverageCost = coverageCost
             self.coverageHours = coverageHours
+            self.coverageNormalizedUnits = coverageNormalizedUnits
         }
 
         private enum CodingKeys: String, CodingKey {
+            case coverageCost = "CoverageCost"
             case coverageHours = "CoverageHours"
+            case coverageNormalizedUnits = "CoverageNormalizedUnits"
         }
     }
 
@@ -39,9 +49,9 @@ extension CostExplorer {
             AWSShapeMember(label: "TimePeriod", required: false, type: .structure), 
             AWSShapeMember(label: "Total", required: false, type: .structure)
         ]
-        /// The groups of instances that are covered by a reservation.
+        /// The groups of instances that the reservation covered.
         public let groups: [ReservationCoverageGroup]?
-        /// The period over which this coverage was used.
+        /// The period that this coverage was used over.
         public let timePeriod: DateInterval?
         /// The total reservation coverage, in hours.
         public let total: Coverage?
@@ -59,6 +69,22 @@ extension CostExplorer {
         }
     }
 
+    public struct CoverageCost: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OnDemandCost", required: false, type: .string)
+        ]
+        /// How much an On-Demand instance cost.
+        public let onDemandCost: String?
+
+        public init(onDemandCost: String? = nil) {
+            self.onDemandCost = onDemandCost
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case onDemandCost = "OnDemandCost"
+        }
+    }
+
     public struct CoverageHours: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CoverageHoursPercentage", required: false, type: .string), 
@@ -66,11 +92,11 @@ extension CostExplorer {
             AWSShapeMember(label: "ReservedHours", required: false, type: .string), 
             AWSShapeMember(label: "TotalRunningHours", required: false, type: .string)
         ]
-        /// The percentage of instance hours that are covered by a reservation.
+        /// The percentage of instance hours that a reservation covered.
         public let coverageHoursPercentage: String?
-        /// The number of instance running hours that are covered by On-Demand Instances.
+        /// The number of instance running hours that On-Demand Instances covered.
         public let onDemandHours: String?
-        /// The number of instance running hours that are covered by reservations.
+        /// The number of instance running hours that reservations covered.
         public let reservedHours: String?
         /// The total instance usage, in hours.
         public let totalRunningHours: String?
@@ -87,6 +113,37 @@ extension CostExplorer {
             case onDemandHours = "OnDemandHours"
             case reservedHours = "ReservedHours"
             case totalRunningHours = "TotalRunningHours"
+        }
+    }
+
+    public struct CoverageNormalizedUnits: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CoverageNormalizedUnitsPercentage", required: false, type: .string), 
+            AWSShapeMember(label: "OnDemandNormalizedUnits", required: false, type: .string), 
+            AWSShapeMember(label: "ReservedNormalizedUnits", required: false, type: .string), 
+            AWSShapeMember(label: "TotalRunningNormalizedUnits", required: false, type: .string)
+        ]
+        /// The percentage of your used instance normalized units that a reservation covers.
+        public let coverageNormalizedUnitsPercentage: String?
+        /// The number of normalized units that are covered by On-Demand Instances instead of a reservation.
+        public let onDemandNormalizedUnits: String?
+        /// The number of normalized units that a reservation covers.
+        public let reservedNormalizedUnits: String?
+        /// The total number of normalized units that you used.
+        public let totalRunningNormalizedUnits: String?
+
+        public init(coverageNormalizedUnitsPercentage: String? = nil, onDemandNormalizedUnits: String? = nil, reservedNormalizedUnits: String? = nil, totalRunningNormalizedUnits: String? = nil) {
+            self.coverageNormalizedUnitsPercentage = coverageNormalizedUnitsPercentage
+            self.onDemandNormalizedUnits = onDemandNormalizedUnits
+            self.reservedNormalizedUnits = reservedNormalizedUnits
+            self.totalRunningNormalizedUnits = totalRunningNormalizedUnits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coverageNormalizedUnitsPercentage = "CoverageNormalizedUnitsPercentage"
+            case onDemandNormalizedUnits = "OnDemandNormalizedUnits"
+            case reservedNormalizedUnits = "ReservedNormalizedUnits"
+            case totalRunningNormalizedUnits = "TotalRunningNormalizedUnits"
         }
     }
 
@@ -192,7 +249,7 @@ extension CostExplorer {
         ]
         /// The Availability Zone of the recommended reservation.
         public let availabilityZone: String?
-        /// Whether the recommendation is for a current generation instance. 
+        /// Whether the recommendation is for a current-generation instance. 
         public let currentGeneration: Bool?
         /// The instance family of the recommended reservation.
         public let family: String?
@@ -254,7 +311,7 @@ extension CostExplorer {
             AWSShapeMember(label: "Region", required: false, type: .string), 
             AWSShapeMember(label: "SizeFlexEligible", required: false, type: .boolean)
         ]
-        /// Whether the recommendation is for a current generation instance.
+        /// Whether the recommendation is for a current-generation instance.
         public let currentGeneration: Bool?
         /// The class of instance that AWS recommends.
         public let instanceClass: String?
@@ -397,22 +454,22 @@ extension CostExplorer {
             AWSShapeMember(label: "GroupBy", required: false, type: .list), 
             AWSShapeMember(label: "Metrics", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "TimePeriod", required: false, type: .structure)
+            AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
         ]
         /// Filters AWS costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression. 
         public let filter: Expression?
-        /// Sets the AWS cost granularity to MONTHLY or DAILY. If Granularity isn't set, the response object doesn't include the Granularity, either MONTHLY or DAILY. 
+        /// Sets the AWS cost granularity to MONTHLY or DAILY. If Granularity isn't set, the response object doesn't include the Granularity, either MONTHLY or DAILY.  The GetCostAndUsageRequest operation supports only DAILY and MONTHLY granularities.
         public let granularity: Granularity?
         /// You can group AWS costs using up to two different groups, either dimensions, tag keys, or both. When you group by tag key, you get all tag values, including empty strings. Valid values are AZ, INSTANCE_TYPE, LEGAL_ENTITY_NAME, LINKED_ACCOUNT, OPERATION, PLATFORM, PURCHASE_TYPE, SERVICE, TAGS, TENANCY, and USAGE_TYPE.
         public let groupBy: [GroupDefinition]?
-        /// Which metrics are returned in the query. For more information about blended and unblended rates, see Why does the "blended" annotation appear on some line items in my bill?.  Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity.   If you return the UsageQuantity metric, the service aggregates all usage numbers without taking into account the units. For example, if you aggregate usageQuantity across all of EC2, the results aren't meaningful because EC2 compute hours and data transfer are measured in different units (for example, hours vs. GB). To get more meaningful UsageQuantity metrics, filter by UsageType or UsageTypeGroups.    Metrics is required for GetCostAndUsage requests.
+        /// Which metrics are returned in the query. For more information about blended and unblended rates, see Why does the "blended" annotation appear on some line items in my bill?.  Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity.   If you return the UsageQuantity metric, the service aggregates all usage numbers without taking into account the units. For example, if you aggregate usageQuantity across all of Amazon EC2, the results aren't meaningful because Amazon EC2 compute hours and data transfer are measured in different units (for example, hours vs. GB). To get more meaningful UsageQuantity metrics, filter by UsageType or UsageTypeGroups.    Metrics is required for GetCostAndUsage requests.
         public let metrics: [String]?
         /// The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
         /// Sets the start and end dates for retrieving AWS costs. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
-        public let timePeriod: DateInterval?
+        public let timePeriod: DateInterval
 
-        public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, metrics: [String]? = nil, nextPageToken: String? = nil, timePeriod: DateInterval? = nil) {
+        public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, metrics: [String]? = nil, nextPageToken: String? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.granularity = granularity
             self.groupBy = groupBy
@@ -467,7 +524,7 @@ extension CostExplorer {
         ]
         /// The filters that you want to use to filter your forecast. Cost Explorer API supports all of the Cost Explorer filters.
         public let filter: Expression?
-        /// How granular you want the forecast to be. You can get 3 months of DAILY forecasts or 12 months of MONTHLY forecasts.
+        /// How granular you want the forecast to be. You can get 3 months of DAILY forecasts or 12 months of MONTHLY forecasts. The GetCostForecast operation supports only DAILY and MONTHLY granularities.
         public let granularity: Granularity
         /// Which metric Cost Explorer uses to create your forecast. For more information about blended and unblended rates, see Why does the "blended" annotation appear on some line items in my bill?.  Valid values for a GetCostForecast call are the following:   AmortizedCost   BlendedCost   NetAmortizedCost   NetUnblendedCost   UnblendedCost  
         public let metric: Metric
@@ -522,9 +579,9 @@ extension CostExplorer {
             AWSShapeMember(label: "SearchString", required: false, type: .string), 
             AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
         ]
-        /// The context for the call to GetDimensionValues. This can be RESERVATIONS or COST_AND_USAGE. The default value is COST_AND_USAGE. If the context is set to RESERVATIONS, the resulting dimension values can be used in the GetReservationUtilization operation. If the context is set to COST_AND_USAGE the resulting dimension values can be used in the GetCostAndUsage operation. If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of EC2 instance. An example is m4.xlarge.   LEGAL_ENTITY_NAME - The name of the organization that sells you AWS services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase to which this usage is related. Examples include On-Demand Instances and Standard Reserved Instances.   SERVICE - The AWS service such as Amazon DynamoDB.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   RECORD_TYPE - The different types of charges such as RI fees, usage costs, tax refunds, and credits.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   PLATFORM - The EC2 operating system. Examples are Windows or Linux.   REGION - The AWS Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.  
+        /// The context for the call to GetDimensionValues. This can be RESERVATIONS or COST_AND_USAGE. The default value is COST_AND_USAGE. If the context is set to RESERVATIONS, the resulting dimension values can be used in the GetReservationUtilization operation. If the context is set to COST_AND_USAGE, the resulting dimension values can be used in the GetCostAndUsage operation. If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LEGAL_ENTITY_NAME - The name of the organization that sells you AWS services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase to which this usage is related. Examples include On-Demand Instances and Standard Reserved Instances.   SERVICE - The AWS service such as Amazon DynamoDB.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   RECORD_TYPE - The different types of charges such as RI fees, usage costs, tax refunds, and credits.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   REGION - The AWS Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.  
         public let context: Context?
-        /// The name of the dimension. Each Dimension is available for different a Context. For more information, see Context.
+        /// The name of the dimension. Each Dimension is available for a different Context. For more information, see Context.
         public let dimension: Dimension
         /// The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
@@ -557,7 +614,7 @@ extension CostExplorer {
             AWSShapeMember(label: "ReturnSize", required: true, type: .integer), 
             AWSShapeMember(label: "TotalSize", required: true, type: .integer)
         ]
-        /// The filters that you used to filter your request. Some dimensions are available only for a specific context: If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of EC2 instance. An example is m4.xlarge.   LEGAL_ENTITY_NAME - The name of the organization that sells you AWS services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase to which this usage is related. Examples include On-Demand Instances and Standard Reserved Instances.   SERVICE - The AWS service such as Amazon DynamoDB.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   RECORD_TYPE - The different types of charges such as RI fees, usage costs, tax refunds, and credits.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   PLATFORM - The EC2 operating system. Examples are Windows or Linux.   REGION - The AWS Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.  
+        /// The filters that you used to filter your request. Some dimensions are available only for a specific context. If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LEGAL_ENTITY_NAME - The name of the organization that sells you AWS services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase to which this usage is related. Examples include On-Demand Instances and Standard Reserved Instances.   SERVICE - The AWS service such as Amazon DynamoDB.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   RECORD_TYPE - The different types of charges such as RI fees, usage costs, tax refunds, and credits.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   REGION - The AWS Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.  
         public let dimensionValues: [DimensionValuesWithAttributes]
         /// The token for the next set of retrievable results. AWS provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
@@ -586,24 +643,28 @@ extension CostExplorer {
             AWSShapeMember(label: "Filter", required: false, type: .structure), 
             AWSShapeMember(label: "Granularity", required: false, type: .enum), 
             AWSShapeMember(label: "GroupBy", required: false, type: .list), 
+            AWSShapeMember(label: "Metrics", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
             AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
         ]
-        /// Filters utilization data by dimensions. You can filter by the following dimensions:   AZ   CACHE_ENGINE   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE   TAG   TENANCY    GetReservationCoverage uses the same  Expression  object as the other operations, but only AND is supported among each dimension. You can nest only one level deep. If there are multiple values for a dimension, they are OR'd together. If you don't provide a SERVICE filter, Cost Explorer defaults to EC2.
+        /// Filters utilization data by dimensions. You can filter by the following dimensions:   AZ   CACHE_ENGINE   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE   TAG   TENANCY    GetReservationCoverage uses the same Expression object as the other operations, but only AND is supported among each dimension. You can nest only one level deep. If there are multiple values for a dimension, they are OR'd together. If you don't provide a SERVICE filter, Cost Explorer defaults to EC2.
         public let filter: Expression?
-        /// The granularity of the AWS cost data for the reservation. Valid values are MONTHLY and DAILY. If GroupBy is set, Granularity can't be set. If Granularity isn't set, the response object doesn't include Granularity, either MONTHLY or DAILY.
+        /// The granularity of the AWS cost data for the reservation. Valid values are MONTHLY and DAILY. If GroupBy is set, Granularity can't be set. If Granularity isn't set, the response object doesn't include Granularity, either MONTHLY or DAILY. The GetReservationCoverage operation supports only DAILY and MONTHLY granularities.
         public let granularity: Granularity?
-        /// You can group the data by the following attributes:   AZ   CACHE_ENGINE   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   TAG   TENANCY  
+        /// You can group the data by the following attributes:   AZ   CACHE_ENGINE   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   TENANCY  
         public let groupBy: [GroupDefinition]?
+        /// The measurement that you want your reservation coverage reported in. Valid values are Hour, Unit, and Cost. You can use multiple values in a request.
+        public let metrics: [String]?
         /// The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
-        /// The start and end dates of the period for which you want to retrieve data about reservation coverage. You can retrieve data for a maximum of 13 months: the last 12 months and the current month. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01. 
+        /// The start and end dates of the period that you want to retrieve data about reservation coverage for. You can retrieve data for a maximum of 13 months: the last 12 months and the current month. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01. 
         public let timePeriod: DateInterval
 
-        public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, nextPageToken: String? = nil, timePeriod: DateInterval) {
+        public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, metrics: [String]? = nil, nextPageToken: String? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.granularity = granularity
             self.groupBy = groupBy
+            self.metrics = metrics
             self.nextPageToken = nextPageToken
             self.timePeriod = timePeriod
         }
@@ -612,6 +673,7 @@ extension CostExplorer {
             case filter = "Filter"
             case granularity = "Granularity"
             case groupBy = "GroupBy"
+            case metrics = "Metrics"
             case nextPageToken = "NextPageToken"
             case timePeriod = "TimePeriod"
         }
@@ -627,7 +689,7 @@ extension CostExplorer {
         public let coveragesByTime: [CoverageByTime]
         /// The token for the next set of retrievable results. AWS provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
-        /// The total amount of instance usage that is covered by a reservation.
+        /// The total amount of instance usage that a reservation covered.
         public let total: Coverage?
 
         public init(coveragesByTime: [CoverageByTime], nextPageToken: String? = nil, total: Coverage? = nil) {
@@ -669,7 +731,7 @@ extension CostExplorer {
         public let paymentOption: PaymentOption?
         /// The specific service that you want recommendations for.
         public let service: String
-        /// The hardware specifications for the service instances that you want recommendations for, such as standard or convertible EC2 instances.
+        /// The hardware specifications for the service instances that you want recommendations for, such as standard or convertible Amazon EC2 instances.
         public let serviceSpecification: ServiceSpecification?
         /// The reservation term that you want recommendations for.
         public let termInYears: TermInYears?
@@ -733,15 +795,15 @@ extension CostExplorer {
             AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
             AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
         ]
-        /// Filters utilization data by dimensions. You can filter by the following dimensions:   AZ   CACHE_ENGINE   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE   SCOPE   TENANCY    GetReservationUtilization uses the same  Expression  object as the other operations, but only AND is supported among each dimension, and nesting is supported up to only one level deep. If there are multiple values for a dimension, they are OR'd together.
+        /// Filters utilization data by dimensions. You can filter by the following dimensions:   AZ   CACHE_ENGINE   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE   SCOPE   TENANCY    GetReservationUtilization uses the same Expression object as the other operations, but only AND is supported among each dimension, and nesting is supported up to only one level deep. If there are multiple values for a dimension, they are OR'd together.
         public let filter: Expression?
-        /// If GroupBy is set, Granularity can't be set. If Granularity isn't set, the response object doesn't include Granularity, either MONTHLY or DAILY. If both GroupBy and Granularity aren't set, GetReservationUtilization defaults to DAILY.
+        /// If GroupBy is set, Granularity can't be set. If Granularity isn't set, the response object doesn't include Granularity, either MONTHLY or DAILY. If both GroupBy and Granularity aren't set, GetReservationUtilization defaults to DAILY. The GetReservationUtilization operation supports only DAILY and MONTHLY granularities.
         public let granularity: Granularity?
         /// Groups only by SUBSCRIPTION_ID. Metadata is included.
         public let groupBy: [GroupDefinition]?
         /// The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
-        /// Sets the start and end dates for retrieving Reserved Instance (RI) utilization. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01. 
+        /// Sets the start and end dates for retrieving RI utilization. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01. 
         public let timePeriod: DateInterval
 
         public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, nextPageToken: String? = nil, timePeriod: DateInterval) {
@@ -769,9 +831,9 @@ extension CostExplorer {
         ]
         /// The token for the next set of retrievable results. AWS provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
-        /// The total amount of time that you utilized your RIs.
+        /// The total amount of time that you used your RIs.
         public let total: ReservationAggregates?
-        /// The amount of time that you utilized your RIs.
+        /// The amount of time that you used your RIs.
         public let utilizationsByTime: [UtilizationByTime]
 
         public init(nextPageToken: String? = nil, total: ReservationAggregates? = nil, utilizationsByTime: [UtilizationByTime]) {
@@ -912,13 +974,13 @@ extension CostExplorer {
             AWSShapeMember(label: "RDSInstanceDetails", required: false, type: .structure), 
             AWSShapeMember(label: "RedshiftInstanceDetails", required: false, type: .structure)
         ]
-        /// The EC2 instances that AWS recommends that you purchase.
+        /// The Amazon EC2 instances that AWS recommends that you purchase.
         public let eC2InstanceDetails: EC2InstanceDetails?
         /// The Amazon ES instances that AWS recommends that you purchase.
         public let eSInstanceDetails: ESInstanceDetails?
         /// The ElastiCache instances that AWS recommends that you purchase.
         public let elastiCacheInstanceDetails: ElastiCacheInstanceDetails?
-        /// The RDS instances that AWS recommends that you purchase.
+        /// The Amazon RDS instances that AWS recommends that you purchase.
         public let rDSInstanceDetails: RDSInstanceDetails?
         /// The Amazon Redshift instances that AWS recommends that you purchase.
         public let redshiftInstanceDetails: RedshiftInstanceDetails?
@@ -1007,7 +1069,7 @@ extension CostExplorer {
             AWSShapeMember(label: "Region", required: false, type: .string), 
             AWSShapeMember(label: "SizeFlexEligible", required: false, type: .boolean)
         ]
-        /// Whether the recommendation is for a current generation instance. 
+        /// Whether the recommendation is for a current-generation instance. 
         public let currentGeneration: Bool?
         /// The database edition that the recommended reservation supports.
         public let databaseEdition: String?
@@ -1059,7 +1121,7 @@ extension CostExplorer {
             AWSShapeMember(label: "Region", required: false, type: .string), 
             AWSShapeMember(label: "SizeFlexEligible", required: false, type: .boolean)
         ]
-        /// Whether the recommendation is for a current generation instance.
+        /// Whether the recommendation is for a current-generation instance.
         public let currentGeneration: Bool?
         /// The instance family of the recommended reservation.
         public let family: String?
@@ -1094,44 +1156,60 @@ extension CostExplorer {
             AWSShapeMember(label: "NetRISavings", required: false, type: .string), 
             AWSShapeMember(label: "OnDemandCostOfRIHoursUsed", required: false, type: .string), 
             AWSShapeMember(label: "PurchasedHours", required: false, type: .string), 
+            AWSShapeMember(label: "PurchasedUnits", required: false, type: .string), 
             AWSShapeMember(label: "TotalActualHours", required: false, type: .string), 
+            AWSShapeMember(label: "TotalActualUnits", required: false, type: .string), 
             AWSShapeMember(label: "TotalAmortizedFee", required: false, type: .string), 
             AWSShapeMember(label: "TotalPotentialRISavings", required: false, type: .string), 
             AWSShapeMember(label: "UnusedHours", required: false, type: .string), 
-            AWSShapeMember(label: "UtilizationPercentage", required: false, type: .string)
+            AWSShapeMember(label: "UnusedUnits", required: false, type: .string), 
+            AWSShapeMember(label: "UtilizationPercentage", required: false, type: .string), 
+            AWSShapeMember(label: "UtilizationPercentageInUnits", required: false, type: .string)
         ]
-        /// The monthly cost of your RI, amortized over the RI period.
+        /// The monthly cost of your reservation, amortized over the reservation period.
         public let amortizedRecurringFee: String?
-        /// The upfront cost of your RI, amortized over the RI period.
+        /// The upfront cost of your reservation, amortized over the reservation period.
         public let amortizedUpfrontFee: String?
-        /// How much you saved due to purchasing and utilizing RIs. AWS calculates this by subtracting TotalAmortizedFee from OnDemandCostOfRIHoursUsed.
+        /// How much you saved due to purchasing and utilizing reservation. AWS calculates this by subtracting TotalAmortizedFee from OnDemandCostOfRIHoursUsed.
         public let netRISavings: String?
-        /// How much your RIs would cost if charged On-Demand rates.
+        /// How much your reservation would cost if charged On-Demand rates.
         public let onDemandCostOfRIHoursUsed: String?
-        /// How many RI hours that you purchased.
+        /// How many reservation hours that you purchased.
         public let purchasedHours: String?
-        /// The total number of RI hours that you used.
+        /// How many Amazon EC2 reservation hours that you purchased, converted to normalized units. Normalized units are available only for Amazon EC2 usage after November 11, 2017.
+        public let purchasedUnits: String?
+        /// The total number of reservation hours that you used.
         public let totalActualHours: String?
-        /// The total cost of your RI, amortized over the RI period.
+        /// The total number of Amazon EC2 reservation hours that you used, converted to normalized units. Normalized units are available only for Amazon EC2 usage after November 11, 2017.
+        public let totalActualUnits: String?
+        /// The total cost of your reservation, amortized over the reservation period.
         public let totalAmortizedFee: String?
         /// How much you could save if you use your entire reservation.
         public let totalPotentialRISavings: String?
-        /// The number of RI hours that you didn't use.
+        /// The number of reservation hours that you didn't use.
         public let unusedHours: String?
-        /// The percentage of RI time that you used.
+        /// The number of Amazon EC2 reservation hours that you didn't use, converted to normalized units. Normalized units are available only for Amazon EC2 usage after November 11, 2017.
+        public let unusedUnits: String?
+        /// The percentage of reservation time that you used.
         public let utilizationPercentage: String?
+        /// The percentage of Amazon EC2 reservation time that you used, converted to normalized units. Normalized units are available only for Amazon EC2 usage after November 11, 2017.
+        public let utilizationPercentageInUnits: String?
 
-        public init(amortizedRecurringFee: String? = nil, amortizedUpfrontFee: String? = nil, netRISavings: String? = nil, onDemandCostOfRIHoursUsed: String? = nil, purchasedHours: String? = nil, totalActualHours: String? = nil, totalAmortizedFee: String? = nil, totalPotentialRISavings: String? = nil, unusedHours: String? = nil, utilizationPercentage: String? = nil) {
+        public init(amortizedRecurringFee: String? = nil, amortizedUpfrontFee: String? = nil, netRISavings: String? = nil, onDemandCostOfRIHoursUsed: String? = nil, purchasedHours: String? = nil, purchasedUnits: String? = nil, totalActualHours: String? = nil, totalActualUnits: String? = nil, totalAmortizedFee: String? = nil, totalPotentialRISavings: String? = nil, unusedHours: String? = nil, unusedUnits: String? = nil, utilizationPercentage: String? = nil, utilizationPercentageInUnits: String? = nil) {
             self.amortizedRecurringFee = amortizedRecurringFee
             self.amortizedUpfrontFee = amortizedUpfrontFee
             self.netRISavings = netRISavings
             self.onDemandCostOfRIHoursUsed = onDemandCostOfRIHoursUsed
             self.purchasedHours = purchasedHours
+            self.purchasedUnits = purchasedUnits
             self.totalActualHours = totalActualHours
+            self.totalActualUnits = totalActualUnits
             self.totalAmortizedFee = totalAmortizedFee
             self.totalPotentialRISavings = totalPotentialRISavings
             self.unusedHours = unusedHours
+            self.unusedUnits = unusedUnits
             self.utilizationPercentage = utilizationPercentage
+            self.utilizationPercentageInUnits = utilizationPercentageInUnits
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1140,11 +1218,15 @@ extension CostExplorer {
             case netRISavings = "NetRISavings"
             case onDemandCostOfRIHoursUsed = "OnDemandCostOfRIHoursUsed"
             case purchasedHours = "PurchasedHours"
+            case purchasedUnits = "PurchasedUnits"
             case totalActualHours = "TotalActualHours"
+            case totalActualUnits = "TotalActualUnits"
             case totalAmortizedFee = "TotalAmortizedFee"
             case totalPotentialRISavings = "TotalPotentialRISavings"
             case unusedHours = "UnusedHours"
+            case unusedUnits = "UnusedUnits"
             case utilizationPercentage = "UtilizationPercentage"
+            case utilizationPercentageInUnits = "UtilizationPercentageInUnits"
         }
     }
 
@@ -1237,6 +1319,7 @@ extension CostExplorer {
             AWSShapeMember(label: "RecurringStandardMonthlyCost", required: false, type: .string), 
             AWSShapeMember(label: "UpfrontCost", required: false, type: .string)
         ]
+        /// The account that this RI recommendation is for.
         public let accountId: String?
         /// The average number of normalized units that you used in an hour during the historical period. AWS uses this to calculate your recommended reservation purchases.
         public let averageNormalizedUnitsUsedPerHour: String?
@@ -1262,7 +1345,7 @@ extension CostExplorer {
         public let maximumNormalizedUnitsUsedPerHour: String?
         /// The maximum number of instances that you used in an hour during the historical period. AWS uses this to calculate your recommended reservation purchases.
         public let maximumNumberOfInstancesUsedPerHour: String?
-        /// The minimum number of hours that you used in an hour during the historical period. AWS uses this to calculate your recommended reservation purchases.
+        /// The minimum number of normalized units that you used in an hour during the historical period. AWS uses this to calculate your recommended reservation purchases.
         public let minimumNormalizedUnitsUsedPerHour: String?
         /// The minimum number of instances that you used in an hour during the historical period. AWS uses this to calculate your recommended reservation purchases.
         public let minimumNumberOfInstancesUsedPerHour: String?
@@ -1374,13 +1457,13 @@ extension CostExplorer {
             AWSShapeMember(label: "Utilization", required: false, type: .structure), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
-        /// The attributes for this group of RIs.
+        /// The attributes for this group of reservations.
         public let attributes: [String: String]?
-        /// The key for a specific RI attribute.
+        /// The key for a specific reservation attribute.
         public let key: String?
-        /// How much you used this group of RIs.
+        /// How much you used this group of reservations.
         public let utilization: ReservationAggregates?
-        /// The value of a specific RI attribute.
+        /// The value of a specific reservation attribute.
         public let value: String?
 
         public init(attributes: [String: String]? = nil, key: String? = nil, utilization: ReservationAggregates? = nil, value: String? = nil) {
@@ -1405,11 +1488,11 @@ extension CostExplorer {
             AWSShapeMember(label: "TimePeriod", required: false, type: .structure), 
             AWSShapeMember(label: "Total", required: false, type: .map)
         ]
-        /// Whether this result is estimated.
+        /// Whether the result is estimated.
         public let estimated: Bool?
-        /// The groups that are included in this time period.
+        /// The groups that this time period includes.
         public let groups: [Group]?
-        /// The time period covered by a result.
+        /// The time period that the result covers.
         public let timePeriod: DateInterval?
         /// The total amount of cost or usage accrued during the time period.
         public let total: [String: MetricValue]?
@@ -1433,7 +1516,7 @@ extension CostExplorer {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EC2Specification", required: false, type: .structure)
         ]
-        /// The EC2 hardware specifications that you want AWS to provide recommendations for.
+        /// The Amazon EC2 hardware specifications that you want AWS to provide recommendations for.
         public let eC2Specification: EC2Specification?
 
         public init(eC2Specification: EC2Specification? = nil) {
@@ -1450,9 +1533,9 @@ extension CostExplorer {
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Values", required: false, type: .list)
         ]
-        /// The key for a tag.
+        /// The key for the tag.
         public let key: String?
-        /// The specific value of a tag.
+        /// The specific value of the tag.
         public let values: [String]?
 
         public init(key: String? = nil, values: [String]? = nil) {
@@ -1478,11 +1561,11 @@ extension CostExplorer {
             AWSShapeMember(label: "TimePeriod", required: false, type: .structure), 
             AWSShapeMember(label: "Total", required: false, type: .structure)
         ]
-        /// The groups that are included in this utilization result.
+        /// The groups that this utilization result uses.
         public let groups: [ReservationUtilizationGroup]?
-        /// The period of time over which this utilization was used.
+        /// The period of time that this utilization was used for.
         public let timePeriod: DateInterval?
-        /// The total number of RI hours that were used.
+        /// The total number of reservation hours that were used.
         public let total: ReservationAggregates?
 
         public init(groups: [ReservationUtilizationGroup]? = nil, timePeriod: DateInterval? = nil, total: ReservationAggregates? = nil) {

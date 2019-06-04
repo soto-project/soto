@@ -14,6 +14,7 @@ public enum KinesisAnalyticsV2ErrorType: AWSErrorType {
     case resourceNotFoundException(message: String?)
     case resourceProvisionedThroughputExceededException(message: String?)
     case serviceUnavailableException(message: String?)
+    case tooManyTagsException(message: String?)
     case unableToDetectSchemaException(message: String?)
     case unsupportedOperationException(message: String?)
 }
@@ -45,6 +46,8 @@ extension KinesisAnalyticsV2ErrorType {
             self = .resourceProvisionedThroughputExceededException(message: message)
         case "ServiceUnavailableException":
             self = .serviceUnavailableException(message: message)
+        case "TooManyTagsException":
+            self = .tooManyTagsException(message: message)
         case "UnableToDetectSchemaException":
             self = .unableToDetectSchemaException(message: message)
         case "UnsupportedOperationException":

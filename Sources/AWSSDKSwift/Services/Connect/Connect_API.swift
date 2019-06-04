@@ -5,7 +5,7 @@ import AWSSDKSwiftCore
 import NIO
 
 /**
-The Amazon Connect API Reference provides descriptions, syntax, and usage examples for each of the Amazon Connect actions, data types, parameters, and errors. Amazon Connect is a cloud-based contact center solution that makes it easy to set up and manage a customer contact center and provide reliable customer engagement at any scale. There is a throttling limit placed on usage of the Amazon Connect operations that includes a RateLimit of 2 per second, and a BurstLimit of 5 per second.
+The Amazon Connect API Reference provides descriptions, syntax, and usage examples for each of the Amazon Connect actions, data types, parameters, and errors. Amazon Connect is a cloud-based contact center solution that makes it easy to set up and manage a customer contact center and provide reliable customer engagement at any scale. Throttling limits for the Amazon Connect API operations: For the GetMetricData and GetCurrentMetricData operations, a RateLimit of 5 per second, and a BurstLimit of 8 per second. For all other operations, a RateLimit of 2 per second, and a BurstLimit of 5 per second. You can request an increase to the throttling limits by submitting a Amazon Connect service limits increase form. You must be signed in to your AWS account to access the form.
 */
 public struct Connect {
 
@@ -31,8 +31,8 @@ public struct Connect {
     }
 
     ///  Deletes a user account from Amazon Connect.
-    public func deleteUser(_ input: DeleteUserRequest) throws {
-        _ = try client.send(operation: "DeleteUser", path: "/users/{InstanceId}/{UserId}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteUser(_ input: DeleteUserRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteUser", path: "/users/{InstanceId}/{UserId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Returns a User object that contains information about the user account specified by the UserId.
@@ -48,6 +48,11 @@ public struct Connect {
     ///  Returns a HiearchyGroupStructure object, which contains data about the levels in the agent hierarchy.
     public func describeUserHierarchyStructure(_ input: DescribeUserHierarchyStructureRequest) throws -> Future<DescribeUserHierarchyStructureResponse> {
         return try client.send(operation: "DescribeUserHierarchyStructure", path: "/user-hierarchy-structure/{InstanceId}", httpMethod: "GET", input: input)
+    }
+
+    ///  Retrieves the contact attributes associated with a contact.
+    public func getContactAttributes(_ input: GetContactAttributesRequest) throws -> Future<GetContactAttributesResponse> {
+        return try client.send(operation: "GetContactAttributes", path: "/contact/attributes/{InstanceId}/{InitialContactId}", httpMethod: "GET", input: input)
     }
 
     ///  The GetCurrentMetricData operation retrieves current metric data from your Amazon Connect instance. If you are using an IAM account, it must have permission to the connect:GetCurrentMetricData action.
@@ -85,7 +90,7 @@ public struct Connect {
         return try client.send(operation: "ListUsers", path: "/users-summary/{InstanceId}", httpMethod: "GET", input: input)
     }
 
-    ///  The StartOutboundVoiceContact operation initiates a contact flow to place an outbound call to a customer. If you are using an IAM account, it must have permission to the connect:StartOutboundVoiceContact action.
+    ///  The StartOutboundVoiceContact operation initiates a contact flow to place an outbound call to a customer. If you are using an IAM account, it must have permission to the connect:StartOutboundVoiceContact action. There is a 60 second dialing timeout for this operation. If the call is not connected after 60 seconds, the call fails.
     public func startOutboundVoiceContact(_ input: StartOutboundVoiceContactRequest) throws -> Future<StartOutboundVoiceContactResponse> {
         return try client.send(operation: "StartOutboundVoiceContact", path: "/contact/outbound-voice", httpMethod: "PUT", input: input)
     }
@@ -101,28 +106,28 @@ public struct Connect {
     }
 
     ///  Assigns the specified hierarchy group to the user.
-    public func updateUserHierarchy(_ input: UpdateUserHierarchyRequest) throws {
-        _ = try client.send(operation: "UpdateUserHierarchy", path: "/users/{InstanceId}/{UserId}/hierarchy", httpMethod: "POST", input: input)
+    @discardableResult public func updateUserHierarchy(_ input: UpdateUserHierarchyRequest) throws -> Future<Void> {
+        return try client.send(operation: "UpdateUserHierarchy", path: "/users/{InstanceId}/{UserId}/hierarchy", httpMethod: "POST", input: input)
     }
 
     ///  Updates the identity information for the specified user in a UserIdentityInfo object, including email, first name, and last name.
-    public func updateUserIdentityInfo(_ input: UpdateUserIdentityInfoRequest) throws {
-        _ = try client.send(operation: "UpdateUserIdentityInfo", path: "/users/{InstanceId}/{UserId}/identity-info", httpMethod: "POST", input: input)
+    @discardableResult public func updateUserIdentityInfo(_ input: UpdateUserIdentityInfoRequest) throws -> Future<Void> {
+        return try client.send(operation: "UpdateUserIdentityInfo", path: "/users/{InstanceId}/{UserId}/identity-info", httpMethod: "POST", input: input)
     }
 
     ///  Updates the phone configuration settings in the UserPhoneConfig object for the specified user.
-    public func updateUserPhoneConfig(_ input: UpdateUserPhoneConfigRequest) throws {
-        _ = try client.send(operation: "UpdateUserPhoneConfig", path: "/users/{InstanceId}/{UserId}/phone-config", httpMethod: "POST", input: input)
+    @discardableResult public func updateUserPhoneConfig(_ input: UpdateUserPhoneConfigRequest) throws -> Future<Void> {
+        return try client.send(operation: "UpdateUserPhoneConfig", path: "/users/{InstanceId}/{UserId}/phone-config", httpMethod: "POST", input: input)
     }
 
     ///  Assigns the specified routing profile to a user.
-    public func updateUserRoutingProfile(_ input: UpdateUserRoutingProfileRequest) throws {
-        _ = try client.send(operation: "UpdateUserRoutingProfile", path: "/users/{InstanceId}/{UserId}/routing-profile", httpMethod: "POST", input: input)
+    @discardableResult public func updateUserRoutingProfile(_ input: UpdateUserRoutingProfileRequest) throws -> Future<Void> {
+        return try client.send(operation: "UpdateUserRoutingProfile", path: "/users/{InstanceId}/{UserId}/routing-profile", httpMethod: "POST", input: input)
     }
 
     ///  Updates the security profiles assigned to the user.
-    public func updateUserSecurityProfiles(_ input: UpdateUserSecurityProfilesRequest) throws {
-        _ = try client.send(operation: "UpdateUserSecurityProfiles", path: "/users/{InstanceId}/{UserId}/security-profiles", httpMethod: "POST", input: input)
+    @discardableResult public func updateUserSecurityProfiles(_ input: UpdateUserSecurityProfilesRequest) throws -> Future<Void> {
+        return try client.send(operation: "UpdateUserSecurityProfiles", path: "/users/{InstanceId}/{UserId}/security-profiles", httpMethod: "POST", input: input)
     }
 
 

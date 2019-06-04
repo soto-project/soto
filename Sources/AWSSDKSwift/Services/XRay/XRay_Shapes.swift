@@ -902,6 +902,78 @@ extension XRay {
         }
     }
 
+    public struct GetTimeSeriesServiceStatisticsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "EntitySelectorExpression", required: false, type: .string), 
+            AWSShapeMember(label: "GroupARN", required: false, type: .string), 
+            AWSShapeMember(label: "GroupName", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Period", required: false, type: .integer), 
+            AWSShapeMember(label: "StartTime", required: true, type: .timestamp)
+        ]
+        /// The end of the time frame for which to aggregate statistics.
+        public let endTime: TimeStamp
+        /// A filter expression defining entities that will be aggregated for statistics. Supports ID, service, and edge functions. If no selector expression is specified, edge statistics are returned. 
+        public let entitySelectorExpression: String?
+        /// The ARN of the group for which to pull statistics from.
+        public let groupARN: String?
+        /// The case-sensitive name of the group for which to pull statistics from.
+        public let groupName: String?
+        /// Pagination token. Not used.
+        public let nextToken: String?
+        /// Aggregation period in seconds.
+        public let period: Int32?
+        /// The start of the time frame for which to aggregate statistics.
+        public let startTime: TimeStamp
+
+        public init(endTime: TimeStamp, entitySelectorExpression: String? = nil, groupARN: String? = nil, groupName: String? = nil, nextToken: String? = nil, period: Int32? = nil, startTime: TimeStamp) {
+            self.endTime = endTime
+            self.entitySelectorExpression = entitySelectorExpression
+            self.groupARN = groupARN
+            self.groupName = groupName
+            self.nextToken = nextToken
+            self.period = period
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case entitySelectorExpression = "EntitySelectorExpression"
+            case groupARN = "GroupARN"
+            case groupName = "GroupName"
+            case nextToken = "NextToken"
+            case period = "Period"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct GetTimeSeriesServiceStatisticsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContainsOldGroupVersions", required: false, type: .boolean), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TimeSeriesServiceStatistics", required: false, type: .list)
+        ]
+        /// A flag indicating whether or not a group's filter expression has been consistent, or if a returned aggregation may show statistics from an older version of the group's filter expression.
+        public let containsOldGroupVersions: Bool?
+        /// Pagination token. Not used.
+        public let nextToken: String?
+        /// The collection of statistics.
+        public let timeSeriesServiceStatistics: [TimeSeriesServiceStatistics]?
+
+        public init(containsOldGroupVersions: Bool? = nil, nextToken: String? = nil, timeSeriesServiceStatistics: [TimeSeriesServiceStatistics]? = nil) {
+            self.containsOldGroupVersions = containsOldGroupVersions
+            self.nextToken = nextToken
+            self.timeSeriesServiceStatistics = timeSeriesServiceStatistics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containsOldGroupVersions = "ContainsOldGroupVersions"
+            case nextToken = "NextToken"
+            case timeSeriesServiceStatistics = "TimeSeriesServiceStatistics"
+        }
+    }
+
     public struct GetTraceGraphRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
@@ -950,7 +1022,9 @@ extension XRay {
             AWSShapeMember(label: "FilterExpression", required: false, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Sampling", required: false, type: .boolean), 
-            AWSShapeMember(label: "StartTime", required: true, type: .timestamp)
+            AWSShapeMember(label: "SamplingStrategy", required: false, type: .structure), 
+            AWSShapeMember(label: "StartTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "TimeRangeType", required: false, type: .enum)
         ]
         /// The end of the time frame for which to retrieve traces.
         public let endTime: TimeStamp
@@ -960,15 +1034,21 @@ extension XRay {
         public let nextToken: String?
         /// Set to true to get summaries for only a subset of available traces.
         public let sampling: Bool?
+        /// A paramater to indicate whether to enable sampling on trace summaries. Input parameters are Name and Value.
+        public let samplingStrategy: SamplingStrategy?
         /// The start of the time frame for which to retrieve traces.
         public let startTime: TimeStamp
+        /// A parameter to indicate whether to query trace summaries by TraceId or Event time.
+        public let timeRangeType: TimeRangeType?
 
-        public init(endTime: TimeStamp, filterExpression: String? = nil, nextToken: String? = nil, sampling: Bool? = nil, startTime: TimeStamp) {
+        public init(endTime: TimeStamp, filterExpression: String? = nil, nextToken: String? = nil, sampling: Bool? = nil, samplingStrategy: SamplingStrategy? = nil, startTime: TimeStamp, timeRangeType: TimeRangeType? = nil) {
             self.endTime = endTime
             self.filterExpression = filterExpression
             self.nextToken = nextToken
             self.sampling = sampling
+            self.samplingStrategy = samplingStrategy
             self.startTime = startTime
+            self.timeRangeType = timeRangeType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -976,7 +1056,9 @@ extension XRay {
             case filterExpression = "FilterExpression"
             case nextToken = "NextToken"
             case sampling = "Sampling"
+            case samplingStrategy = "SamplingStrategy"
             case startTime = "StartTime"
+            case timeRangeType = "TimeRangeType"
         }
     }
 
@@ -1609,6 +1691,33 @@ extension XRay {
         }
     }
 
+    public struct SamplingStrategy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .enum), 
+            AWSShapeMember(label: "Value", required: false, type: .double)
+        ]
+        /// The name of a sampling rule.
+        public let name: SamplingStrategyName?
+        /// The value of a sampling rule.
+        public let value: Double?
+
+        public init(name: SamplingStrategyName? = nil, value: Double? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
+    public enum SamplingStrategyName: String, CustomStringConvertible, Codable {
+        case partialscan = "PartialScan"
+        case fixedrate = "FixedRate"
+        public var description: String { return self.rawValue }
+    }
+
     public struct SamplingTargetDocument: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FixedRate", required: false, type: .double), 
@@ -1840,6 +1949,41 @@ extension XRay {
         }
     }
 
+    public enum TimeRangeType: String, CustomStringConvertible, Codable {
+        case traceid = "TraceId"
+        case event = "Event"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct TimeSeriesServiceStatistics: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EdgeSummaryStatistics", required: false, type: .structure), 
+            AWSShapeMember(label: "ResponseTimeHistogram", required: false, type: .list), 
+            AWSShapeMember(label: "ServiceSummaryStatistics", required: false, type: .structure), 
+            AWSShapeMember(label: "Timestamp", required: false, type: .timestamp)
+        ]
+        public let edgeSummaryStatistics: EdgeStatistics?
+        /// The response time histogram for the selected entities.
+        public let responseTimeHistogram: [HistogramEntry]?
+        public let serviceSummaryStatistics: ServiceStatistics?
+        /// Timestamp of the window for which statistics are aggregated.
+        public let timestamp: TimeStamp?
+
+        public init(edgeSummaryStatistics: EdgeStatistics? = nil, responseTimeHistogram: [HistogramEntry]? = nil, serviceSummaryStatistics: ServiceStatistics? = nil, timestamp: TimeStamp? = nil) {
+            self.edgeSummaryStatistics = edgeSummaryStatistics
+            self.responseTimeHistogram = responseTimeHistogram
+            self.serviceSummaryStatistics = serviceSummaryStatistics
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case edgeSummaryStatistics = "EdgeSummaryStatistics"
+            case responseTimeHistogram = "ResponseTimeHistogram"
+            case serviceSummaryStatistics = "ServiceSummaryStatistics"
+            case timestamp = "Timestamp"
+        }
+    }
+
     public struct Trace: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Duration", required: false, type: .double), 
@@ -1881,6 +2025,7 @@ extension XRay {
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "InstanceIds", required: false, type: .list), 
             AWSShapeMember(label: "IsPartial", required: false, type: .boolean), 
+            AWSShapeMember(label: "MatchedEventTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "ResourceARNs", required: false, type: .list), 
             AWSShapeMember(label: "ResponseTime", required: false, type: .double), 
             AWSShapeMember(label: "ResponseTimeRootCauses", required: false, type: .list), 
@@ -1914,6 +2059,8 @@ extension XRay {
         public let instanceIds: [InstanceIdDetail]?
         /// One or more of the segment documents is in progress.
         public let isPartial: Bool?
+        /// The matched time stamp of a defined event.
+        public let matchedEventTime: TimeStamp?
         /// A list of resource ARNs for any resource corresponding to the trace segments.
         public let resourceARNs: [ResourceARNDetail]?
         /// The length of time in seconds between the start and end times of the root segment. If the service performs work asynchronously, the response time measures the time before the response is sent to the user, while the duration measures the amount of time before the last traced activity completes.
@@ -1927,7 +2074,7 @@ extension XRay {
         /// Users from the trace's segment documents.
         public let users: [TraceUser]?
 
-        public init(annotations: [String: [ValueWithServiceIds]]? = nil, availabilityZones: [AvailabilityZoneDetail]? = nil, duration: Double? = nil, entryPoint: ServiceId? = nil, errorRootCauses: [ErrorRootCause]? = nil, faultRootCauses: [FaultRootCause]? = nil, hasError: Bool? = nil, hasFault: Bool? = nil, hasThrottle: Bool? = nil, http: Http? = nil, id: String? = nil, instanceIds: [InstanceIdDetail]? = nil, isPartial: Bool? = nil, resourceARNs: [ResourceARNDetail]? = nil, responseTime: Double? = nil, responseTimeRootCauses: [ResponseTimeRootCause]? = nil, revision: Int32? = nil, serviceIds: [ServiceId]? = nil, users: [TraceUser]? = nil) {
+        public init(annotations: [String: [ValueWithServiceIds]]? = nil, availabilityZones: [AvailabilityZoneDetail]? = nil, duration: Double? = nil, entryPoint: ServiceId? = nil, errorRootCauses: [ErrorRootCause]? = nil, faultRootCauses: [FaultRootCause]? = nil, hasError: Bool? = nil, hasFault: Bool? = nil, hasThrottle: Bool? = nil, http: Http? = nil, id: String? = nil, instanceIds: [InstanceIdDetail]? = nil, isPartial: Bool? = nil, matchedEventTime: TimeStamp? = nil, resourceARNs: [ResourceARNDetail]? = nil, responseTime: Double? = nil, responseTimeRootCauses: [ResponseTimeRootCause]? = nil, revision: Int32? = nil, serviceIds: [ServiceId]? = nil, users: [TraceUser]? = nil) {
             self.annotations = annotations
             self.availabilityZones = availabilityZones
             self.duration = duration
@@ -1941,6 +2088,7 @@ extension XRay {
             self.id = id
             self.instanceIds = instanceIds
             self.isPartial = isPartial
+            self.matchedEventTime = matchedEventTime
             self.resourceARNs = resourceARNs
             self.responseTime = responseTime
             self.responseTimeRootCauses = responseTimeRootCauses
@@ -1963,6 +2111,7 @@ extension XRay {
             case id = "Id"
             case instanceIds = "InstanceIds"
             case isPartial = "IsPartial"
+            case matchedEventTime = "MatchedEventTime"
             case resourceARNs = "ResourceARNs"
             case responseTime = "ResponseTime"
             case responseTimeRootCauses = "ResponseTimeRootCauses"

@@ -51,9 +51,29 @@ public struct Glue {
         return try client.send(operation: "BatchDeleteTableVersion", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns a list of resource metadata for a given list of crawler names. After calling the ListCrawlers operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
+    public func batchGetCrawlers(_ input: BatchGetCrawlersRequest) throws -> Future<BatchGetCrawlersResponse> {
+        return try client.send(operation: "BatchGetCrawlers", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of resource metadata for a given list of DevEndpoint names. After calling the ListDevEndpoints operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
+    public func batchGetDevEndpoints(_ input: BatchGetDevEndpointsRequest) throws -> Future<BatchGetDevEndpointsResponse> {
+        return try client.send(operation: "BatchGetDevEndpoints", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of resource metadata for a given list of job names. After calling the ListJobs operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags. 
+    public func batchGetJobs(_ input: BatchGetJobsRequest) throws -> Future<BatchGetJobsResponse> {
+        return try client.send(operation: "BatchGetJobs", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Retrieves partitions in a batch request.
     public func batchGetPartition(_ input: BatchGetPartitionRequest) throws -> Future<BatchGetPartitionResponse> {
         return try client.send(operation: "BatchGetPartition", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of resource metadata for a given list of trigger names. After calling the ListTriggers operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
+    public func batchGetTriggers(_ input: BatchGetTriggersRequest) throws -> Future<BatchGetTriggersResponse> {
+        return try client.send(operation: "BatchGetTriggers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stops one or more job runs for a specified job definition.
@@ -61,7 +81,7 @@ public struct Glue {
         return try client.send(operation: "BatchStopJobRun", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a classifier in the user's account. This may be a GrokClassifier, an XMLClassifier, or abbrev JsonClassifier, depending on which field of the request is present.
+    ///  Creates a classifier in the user's account. This can be a GrokClassifier, an XMLClassifier, a JsonClassifier, or a CsvClassifier, depending on which field of the request is present.
     public func createClassifier(_ input: CreateClassifierRequest) throws -> Future<CreateClassifierResponse> {
         return try client.send(operation: "CreateClassifier", path: "/", httpMethod: "POST", input: input)
     }
@@ -131,7 +151,7 @@ public struct Glue {
         return try client.send(operation: "DeleteConnection", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Removes a specified crawler from the Data Catalog, unless the crawler state is RUNNING.
+    ///  Removes a specified crawler from the AWS Glue Data Catalog, unless the crawler state is RUNNING.
     public func deleteCrawler(_ input: DeleteCrawlerRequest) throws -> Future<DeleteCrawlerResponse> {
         return try client.send(operation: "DeleteCrawler", path: "/", httpMethod: "POST", input: input)
     }
@@ -331,6 +351,11 @@ public struct Glue {
         return try client.send(operation: "GetTables", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Retrieves a list of tags associated with a resource.
+    public func getTags(_ input: GetTagsRequest) throws -> Future<GetTagsResponse> {
+        return try client.send(operation: "GetTags", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Retrieves the definition of a trigger.
     public func getTrigger(_ input: GetTriggerRequest) throws -> Future<GetTriggerResponse> {
         return try client.send(operation: "GetTrigger", path: "/", httpMethod: "POST", input: input)
@@ -356,7 +381,27 @@ public struct Glue {
         return try client.send(operation: "ImportCatalogToGlue", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Sets the security configuration for a specified catalog. Once the configuration has been set, the specified encryption is applied to every catalog write thereafter.
+    ///  Retrieves the names of all crawler resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag will be retrieved.
+    public func listCrawlers(_ input: ListCrawlersRequest) throws -> Future<ListCrawlersResponse> {
+        return try client.send(operation: "ListCrawlers", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves the names of all DevEndpoint resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag will be retrieved.
+    public func listDevEndpoints(_ input: ListDevEndpointsRequest) throws -> Future<ListDevEndpointsResponse> {
+        return try client.send(operation: "ListDevEndpoints", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves the names of all job resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag will be retrieved.
+    public func listJobs(_ input: ListJobsRequest) throws -> Future<ListJobsResponse> {
+        return try client.send(operation: "ListJobs", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves the names of all trigger resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag will be retrieved.
+    public func listTriggers(_ input: ListTriggersRequest) throws -> Future<ListTriggersResponse> {
+        return try client.send(operation: "ListTriggers", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Sets the security configuration for a specified catalog. After the configuration has been set, the specified encryption is applied to every catalog write thereafter.
     public func putDataCatalogEncryptionSettings(_ input: PutDataCatalogEncryptionSettingsRequest) throws -> Future<PutDataCatalogEncryptionSettingsResponse> {
         return try client.send(operation: "PutDataCatalogEncryptionSettings", path: "/", httpMethod: "POST", input: input)
     }
@@ -406,7 +451,17 @@ public struct Glue {
         return try client.send(operation: "StopTrigger", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies an existing classifier (a GrokClassifier, XMLClassifier, or JsonClassifier, depending on which field is present).
+    ///  Adds tags to a resource. A tag is a label you can assign to an AWS resource. In AWS Glue, you can tag only certain resources. For information about what resources you can tag, see AWS Tags in AWS Glue.
+    public func tagResource(_ input: TagResourceRequest) throws -> Future<TagResourceResponse> {
+        return try client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes tags from a resource.
+    public func untagResource(_ input: UntagResourceRequest) throws -> Future<UntagResourceResponse> {
+        return try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Modifies an existing classifier (a GrokClassifier, an XMLClassifier, a JsonClassifier, or a CsvClassifier, depending on which field is present).
     public func updateClassifier(_ input: UpdateClassifierRequest) throws -> Future<UpdateClassifierResponse> {
         return try client.send(operation: "UpdateClassifier", path: "/", httpMethod: "POST", input: input)
     }

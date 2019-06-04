@@ -41,7 +41,7 @@ public struct WorkSpaces {
         return try client.send(operation: "CreateIpGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates the specified tags for the specified WorkSpace.
+    ///  Creates the specified tags for the specified WorkSpaces resource.
     public func createTags(_ input: CreateTagsRequest) throws -> Future<CreateTagsResult> {
         return try client.send(operation: "CreateTags", path: "/", httpMethod: "POST", input: input)
     }
@@ -56,7 +56,7 @@ public struct WorkSpaces {
         return try client.send(operation: "DeleteIpGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the specified tags from the specified WorkSpace.
+    ///  Deletes the specified tags from the specified WorkSpaces resource.
     public func deleteTags(_ input: DeleteTagsRequest) throws -> Future<DeleteTagsResult> {
         return try client.send(operation: "DeleteTags", path: "/", httpMethod: "POST", input: input)
     }
@@ -86,7 +86,7 @@ public struct WorkSpaces {
         return try client.send(operation: "DescribeIpGroups", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the specified tags for the specified WorkSpace.
+    ///  Describes the specified tags for the specified WorkSpaces resource.
     public func describeTags(_ input: DescribeTagsRequest) throws -> Future<DescribeTagsResult> {
         return try client.send(operation: "DescribeTags", path: "/", httpMethod: "POST", input: input)
     }
@@ -136,7 +136,7 @@ public struct WorkSpaces {
         return try client.send(operation: "ModifyAccount", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the properties of the specified Amazon WorkSpaces client.
+    ///  Modifies the properties of the specified Amazon WorkSpaces clients.
     public func modifyClientProperties(_ input: ModifyClientPropertiesRequest) throws -> Future<ModifyClientPropertiesResult> {
         return try client.send(operation: "ModifyClientProperties", path: "/", httpMethod: "POST", input: input)
     }

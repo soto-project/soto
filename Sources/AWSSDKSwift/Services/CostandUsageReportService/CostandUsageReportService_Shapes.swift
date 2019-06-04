@@ -14,18 +14,22 @@ extension CostandUsageReportService {
         case apSoutheast1 = "ap-southeast-1"
         case apSoutheast2 = "ap-southeast-2"
         case apNortheast1 = "ap-northeast-1"
+        case euNorth1 = "eu-north-1"
+        case apNortheast3 = "ap-northeast-3"
         public var description: String { return self.rawValue }
     }
 
     public enum AdditionalArtifact: String, CustomStringConvertible, Codable {
         case redshift = "REDSHIFT"
         case quicksight = "QUICKSIGHT"
+        case athena = "ATHENA"
         public var description: String { return self.rawValue }
     }
 
     public enum CompressionFormat: String, CustomStringConvertible, Codable {
         case zip = "ZIP"
         case gzip = "GZIP"
+        case parquet = "Parquet"
         public var description: String { return self.rawValue }
     }
 
@@ -84,6 +88,7 @@ extension CostandUsageReportService {
             AWSShapeMember(label: "ReportDefinitions", required: false, type: .list)
         ]
         public let nextToken: String?
+        /// A list of AWS Cost and Usage reports owned by the account.
         public let reportDefinitions: [ReportDefinition]?
 
         public init(nextToken: String? = nil, reportDefinitions: [ReportDefinition]? = nil) {
@@ -101,6 +106,7 @@ extension CostandUsageReportService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReportDefinition", required: true, type: .structure)
         ]
+        /// Represents the output of the PutReportDefinition operation. The content consists of the detailed metadata and data file information. 
         public let reportDefinition: ReportDefinition
 
         public init(reportDefinition: ReportDefinition) {
@@ -125,28 +131,38 @@ extension CostandUsageReportService {
             AWSShapeMember(label: "AdditionalSchemaElements", required: true, type: .list), 
             AWSShapeMember(label: "Compression", required: true, type: .enum), 
             AWSShapeMember(label: "Format", required: true, type: .enum), 
+            AWSShapeMember(label: "RefreshClosedReports", required: false, type: .boolean), 
             AWSShapeMember(label: "ReportName", required: true, type: .string), 
+            AWSShapeMember(label: "ReportVersioning", required: false, type: .enum), 
             AWSShapeMember(label: "S3Bucket", required: true, type: .string), 
             AWSShapeMember(label: "S3Prefix", required: true, type: .string), 
             AWSShapeMember(label: "S3Region", required: true, type: .enum), 
             AWSShapeMember(label: "TimeUnit", required: true, type: .enum)
         ]
+        /// A list of manifests that you want Amazon Web Services to create for this report.
         public let additionalArtifacts: [AdditionalArtifact]?
+        /// A list of strings that indicate additional content that Amazon Web Services includes in the report, such as individual resource IDs. 
         public let additionalSchemaElements: [SchemaElement]
         public let compression: CompressionFormat
         public let format: ReportFormat
+        /// Whether you want Amazon Web Services to update your reports after they have been finalized if Amazon Web Services detects charges related to previous months. These charges can include refunds, credits, or support fees.
+        public let refreshClosedReports: Bool?
         public let reportName: String
+        /// Whether you want Amazon Web Services to overwrite the previous version of each report or to deliver the report in addition to the previous versions.
+        public let reportVersioning: ReportVersioning?
         public let s3Bucket: String
         public let s3Prefix: String
         public let s3Region: AWSRegion
         public let timeUnit: TimeUnit
 
-        public init(additionalArtifacts: [AdditionalArtifact]? = nil, additionalSchemaElements: [SchemaElement], compression: CompressionFormat, format: ReportFormat, reportName: String, s3Bucket: String, s3Prefix: String, s3Region: AWSRegion, timeUnit: TimeUnit) {
+        public init(additionalArtifacts: [AdditionalArtifact]? = nil, additionalSchemaElements: [SchemaElement], compression: CompressionFormat, format: ReportFormat, refreshClosedReports: Bool? = nil, reportName: String, reportVersioning: ReportVersioning? = nil, s3Bucket: String, s3Prefix: String, s3Region: AWSRegion, timeUnit: TimeUnit) {
             self.additionalArtifacts = additionalArtifacts
             self.additionalSchemaElements = additionalSchemaElements
             self.compression = compression
             self.format = format
+            self.refreshClosedReports = refreshClosedReports
             self.reportName = reportName
+            self.reportVersioning = reportVersioning
             self.s3Bucket = s3Bucket
             self.s3Prefix = s3Prefix
             self.s3Region = s3Region
@@ -158,7 +174,9 @@ extension CostandUsageReportService {
             case additionalSchemaElements = "AdditionalSchemaElements"
             case compression = "Compression"
             case format = "Format"
+            case refreshClosedReports = "RefreshClosedReports"
             case reportName = "ReportName"
+            case reportVersioning = "ReportVersioning"
             case s3Bucket = "S3Bucket"
             case s3Prefix = "S3Prefix"
             case s3Region = "S3Region"
@@ -168,6 +186,13 @@ extension CostandUsageReportService {
 
     public enum ReportFormat: String, CustomStringConvertible, Codable {
         case textorcsv = "textORcsv"
+        case parquet = "Parquet"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReportVersioning: String, CustomStringConvertible, Codable {
+        case createNewReport = "CREATE_NEW_REPORT"
+        case overwriteReport = "OVERWRITE_REPORT"
         public var description: String { return self.rawValue }
     }
 

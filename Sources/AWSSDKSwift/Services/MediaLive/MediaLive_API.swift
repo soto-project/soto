@@ -45,6 +45,11 @@ public struct MediaLive {
         return try client.send(operation: "CreateInputSecurityGroup", path: "/prod/inputSecurityGroups", httpMethod: "POST", input: input)
     }
 
+    ///  Create tags for a resource
+    @discardableResult public func createTags(_ input: CreateTagsRequest) throws -> Future<Void> {
+        return try client.send(operation: "CreateTags", path: "/prod/tags/{resource-arn}", httpMethod: "POST", input: input)
+    }
+
     ///  Starts deletion of channel. The associated outputs are also deleted.
     public func deleteChannel(_ input: DeleteChannelRequest) throws -> Future<DeleteChannelResponse> {
         return try client.send(operation: "DeleteChannel", path: "/prod/channels/{channelId}", httpMethod: "DELETE", input: input)
@@ -63,6 +68,16 @@ public struct MediaLive {
     ///  Delete an expired reservation.
     public func deleteReservation(_ input: DeleteReservationRequest) throws -> Future<DeleteReservationResponse> {
         return try client.send(operation: "DeleteReservation", path: "/prod/reservations/{reservationId}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Delete all schedule actions on a channel.
+    public func deleteSchedule(_ input: DeleteScheduleRequest) throws -> Future<DeleteScheduleResponse> {
+        return try client.send(operation: "DeleteSchedule", path: "/prod/channels/{channelId}/schedule", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Removes tags for a resource
+    @discardableResult public func deleteTags(_ input: DeleteTagsRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteTags", path: "/prod/tags/{resource-arn}", httpMethod: "DELETE", input: input)
     }
 
     ///  Gets details about a channel
@@ -120,6 +135,11 @@ public struct MediaLive {
         return try client.send(operation: "ListReservations", path: "/prod/reservations", httpMethod: "GET", input: input)
     }
 
+    ///  Produces list of tags that have been created for a resource
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> Future<ListTagsForResourceResponse> {
+        return try client.send(operation: "ListTagsForResource", path: "/prod/tags/{resource-arn}", httpMethod: "GET", input: input)
+    }
+
     ///  Purchase an offering and create a reservation.
     public func purchaseOffering(_ input: PurchaseOfferingRequest) throws -> Future<PurchaseOfferingResponse> {
         return try client.send(operation: "PurchaseOffering", path: "/prod/offerings/{offeringId}/purchase", httpMethod: "POST", input: input)
@@ -140,6 +160,11 @@ public struct MediaLive {
         return try client.send(operation: "UpdateChannel", path: "/prod/channels/{channelId}", httpMethod: "PUT", input: input)
     }
 
+    ///  Changes the class of the channel.
+    public func updateChannelClass(_ input: UpdateChannelClassRequest) throws -> Future<UpdateChannelClassResponse> {
+        return try client.send(operation: "UpdateChannelClass", path: "/prod/channels/{channelId}/channelClass", httpMethod: "PUT", input: input)
+    }
+
     ///  Updates an input.
     public func updateInput(_ input: UpdateInputRequest) throws -> Future<UpdateInputResponse> {
         return try client.send(operation: "UpdateInput", path: "/prod/inputs/{inputId}", httpMethod: "PUT", input: input)
@@ -148,6 +173,11 @@ public struct MediaLive {
     ///  Update an Input Security Group's Whilelists.
     public func updateInputSecurityGroup(_ input: UpdateInputSecurityGroupRequest) throws -> Future<UpdateInputSecurityGroupResponse> {
         return try client.send(operation: "UpdateInputSecurityGroup", path: "/prod/inputSecurityGroups/{inputSecurityGroupId}", httpMethod: "PUT", input: input)
+    }
+
+    ///  Update reservation.
+    public func updateReservation(_ input: UpdateReservationRequest) throws -> Future<UpdateReservationResponse> {
+        return try client.send(operation: "UpdateReservation", path: "/prod/reservations/{reservationId}", httpMethod: "PUT", input: input)
     }
 
 

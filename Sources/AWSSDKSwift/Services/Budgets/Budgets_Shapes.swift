@@ -14,29 +14,32 @@ extension Budgets {
             AWSShapeMember(label: "CostFilters", required: false, type: .map), 
             AWSShapeMember(label: "CostTypes", required: false, type: .structure), 
             AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "PlannedBudgetLimits", required: false, type: .map), 
             AWSShapeMember(label: "TimePeriod", required: false, type: .structure), 
             AWSShapeMember(label: "TimeUnit", required: true, type: .enum)
         ]
-        /// The total amount of cost, usage, RI utilization, or RI coverage that you want to track with your budget.  BudgetLimit is required for cost or usage budgets, but optional for RI utilization or coverage budgets. RI utilization or coverage budgets default to 100, which is the only valid value for RI utilization or coverage budgets.
+        /// The total amount of cost, usage, RI utilization, or RI coverage that you want to track with your budget.  BudgetLimit is required for cost or usage budgets, but optional for RI utilization or coverage budgets. RI utilization or coverage budgets default to 100, which is the only valid value for RI utilization or coverage budgets. You can't use BudgetLimit with PlannedBudgetLimits for CreateBudget and UpdateBudget actions. 
         public let budgetLimit: Spend?
-        /// The name of a budget. The name must be unique within accounts. The : and \ characters aren't allowed in BudgetName.
+        /// The name of a budget. The name must be unique within an account. The : and \ characters aren't allowed in BudgetName.
         public let budgetName: String
-        /// Whether this budget tracks monetary costs, usage, RI utilization, or RI coverage.
+        /// Whether this budget tracks costs, usage, RI utilization, or RI coverage.
         public let budgetType: BudgetType
         /// The actual and forecasted cost or usage that the budget tracks.
         public let calculatedSpend: CalculatedSpend?
-        /// The cost filters, such as service or region, that are applied to a budget. AWS Budgets supports the following services as a filter for RI budgets:   Amazon Elastic Compute Cloud - Compute   Amazon Redshift   Amazon Relational Database Service   Amazon ElastiCache   Amazon Elasticsearch Service  
+        /// The cost filters, such as service or tag, that are applied to a budget. AWS Budgets supports the following services as a filter for RI budgets:   Amazon Elastic Compute Cloud - Compute   Amazon Redshift   Amazon Relational Database Service   Amazon ElastiCache   Amazon Elasticsearch Service  
         public let costFilters: [String: [String]]?
         /// The types of costs that are included in this COST budget.  USAGE, RI_UTILIZATION, and RI_COVERAGE budgets do not have CostTypes.
         public let costTypes: CostTypes?
         /// The last time that you updated this budget.
         public let lastUpdatedTime: TimeStamp?
+        /// A map containing multiple BudgetLimit, including current or future limits.  PlannedBudgetLimits is available for cost or usage budget and supports monthly and quarterly TimeUnit.  For monthly budgets, provide 12 months of PlannedBudgetLimits values. This must start from the current month and include the next 11 months. The key is the start of the month, UTC in epoch seconds.  For quarterly budgets, provide 4 quarters of PlannedBudgetLimits value entries in standard calendar quarter increments. This must start from the current quarter and include the next 3 quarters. The key is the start of the quarter, UTC in epoch seconds.  If the planned budget expires before 12 months for monthly or 4 quarters for quarterly, provide the PlannedBudgetLimits values only for the remaining periods. If the budget begins at a date in the future, provide PlannedBudgetLimits values from the start date of the budget.  After all of the BudgetLimit values in PlannedBudgetLimits are used, the budget continues to use the last limit as the BudgetLimit. At that point, the planned budget provides the same experience as a fixed budget.   DescribeBudget and DescribeBudgets response along with PlannedBudgetLimits will also contain BudgetLimit representing the current month or quarter limit present in PlannedBudgetLimits. This only applies to budgets created with PlannedBudgetLimits. Budgets created without PlannedBudgetLimits will only contain BudgetLimit, and no PlannedBudgetLimits.
+        public let plannedBudgetLimits: [String: Spend]?
         /// The period of time that is covered by a budget. The period has a start date and an end date. The start date must come before the end date. The end date must come before 06/15/87 00:00 UTC.  If you create your budget and don't specify a start date, AWS defaults to the start of your chosen time period (DAILY, MONTHLY, QUARTERLY, or ANNUALLY). For example, if you created your budget on January 24, 2018, chose DAILY, and didn't set a start date, AWS set your start date to 01/24/18 00:00 UTC. If you chose MONTHLY, AWS set your start date to 01/01/18 00:00 UTC. If you didn't specify an end date, AWS set your end date to 06/15/87 00:00 UTC. The defaults are the same for the AWS Billing and Cost Management console and the API.  You can change either date with the UpdateBudget operation. After the end date, AWS deletes the budget and all associated notifications and subscribers.
         public let timePeriod: TimePeriod?
         /// The length of time until a budget resets the actual and forecasted spend. DAILY is available only for RI_UTILIZATION and RI_COVERAGE budgets.
         public let timeUnit: TimeUnit
 
-        public init(budgetLimit: Spend? = nil, budgetName: String, budgetType: BudgetType, calculatedSpend: CalculatedSpend? = nil, costFilters: [String: [String]]? = nil, costTypes: CostTypes? = nil, lastUpdatedTime: TimeStamp? = nil, timePeriod: TimePeriod? = nil, timeUnit: TimeUnit) {
+        public init(budgetLimit: Spend? = nil, budgetName: String, budgetType: BudgetType, calculatedSpend: CalculatedSpend? = nil, costFilters: [String: [String]]? = nil, costTypes: CostTypes? = nil, lastUpdatedTime: TimeStamp? = nil, plannedBudgetLimits: [String: Spend]? = nil, timePeriod: TimePeriod? = nil, timeUnit: TimeUnit) {
             self.budgetLimit = budgetLimit
             self.budgetName = budgetName
             self.budgetType = budgetType
@@ -44,6 +47,7 @@ extension Budgets {
             self.costFilters = costFilters
             self.costTypes = costTypes
             self.lastUpdatedTime = lastUpdatedTime
+            self.plannedBudgetLimits = plannedBudgetLimits
             self.timePeriod = timePeriod
             self.timeUnit = timeUnit
         }
@@ -56,6 +60,7 @@ extension Budgets {
             case costFilters = "CostFilters"
             case costTypes = "CostTypes"
             case lastUpdatedTime = "LastUpdatedTime"
+            case plannedBudgetLimits = "PlannedBudgetLimits"
             case timePeriod = "TimePeriod"
             case timeUnit = "TimeUnit"
         }
@@ -775,7 +780,7 @@ extension Budgets {
             AWSShapeMember(label: "Address", required: true, type: .string), 
             AWSShapeMember(label: "SubscriptionType", required: true, type: .enum)
         ]
-        /// The address that AWS sends budget notifications to, either an SNS topic or an email.
+        /// The address that AWS sends budget notifications to, either an SNS topic or an email. AWS validates the address for a CreateSubscriber request with the .* regex.
         public let address: String
         /// The type of notification that AWS sends to a subscriber.
         public let subscriptionType: SubscriptionType

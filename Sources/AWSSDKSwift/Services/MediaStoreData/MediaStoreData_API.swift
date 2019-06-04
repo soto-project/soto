@@ -35,7 +35,7 @@ public struct MediaStoreData {
         return try client.send(operation: "DescribeObject", path: "/{Path+}", httpMethod: "HEAD", input: input)
     }
 
-    ///  Downloads the object at the specified path.
+    ///  Downloads the object at the specified path. If the object’s upload availability is set to streaming, AWS Elemental MediaStore downloads the object even if it’s still uploading the object.
     public func getObject(_ input: GetObjectRequest) throws -> Future<GetObjectResponse> {
         return try client.send(operation: "GetObject", path: "/{Path+}", httpMethod: "GET", input: input)
     }
@@ -45,7 +45,7 @@ public struct MediaStoreData {
         return try client.send(operation: "ListItems", path: "/", httpMethod: "GET", input: input)
     }
 
-    ///  Uploads an object to the specified path. Object sizes are limited to 25 MB.
+    ///  Uploads an object to the specified path. Object sizes are limited to 25 MB for standard upload availability and 10 MB for streaming upload availability.
     public func putObject(_ input: PutObjectRequest) throws -> Future<PutObjectResponse> {
         return try client.send(operation: "PutObject", path: "/{Path+}", httpMethod: "PUT", input: input)
     }

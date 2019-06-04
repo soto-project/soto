@@ -316,6 +316,103 @@ extension CodeCommit {
         }
     }
 
+    public struct CreateCommitInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "authorName", required: false, type: .string), 
+            AWSShapeMember(label: "branchName", required: true, type: .string), 
+            AWSShapeMember(label: "commitMessage", required: false, type: .string), 
+            AWSShapeMember(label: "deleteFiles", required: false, type: .list), 
+            AWSShapeMember(label: "email", required: false, type: .string), 
+            AWSShapeMember(label: "keepEmptyFolders", required: false, type: .boolean), 
+            AWSShapeMember(label: "parentCommitId", required: false, type: .string), 
+            AWSShapeMember(label: "putFiles", required: false, type: .list), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "setFileModes", required: false, type: .list)
+        ]
+        /// The name of the author who created the commit. This information will be used as both the author and committer for the commit.
+        public let authorName: String?
+        /// The name of the branch where you will create the commit.
+        public let branchName: String
+        /// The commit message you want to include as part of creating the commit. Commit messages are limited to 256 KB. If no message is specified, a default message will be used.
+        public let commitMessage: String?
+        /// The files to delete in this commit. These files will still exist in prior commits.
+        public let deleteFiles: [DeleteFileEntry]?
+        /// The email address of the person who created the commit.
+        public let email: String?
+        /// If the commit contains deletions, whether to keep a folder or folder structure if the changes leave the folders empty. If this is specified as true, a .gitkeep file will be created for empty folders.
+        public let keepEmptyFolders: Bool?
+        /// The ID of the commit that is the parent of the commit you will create. If this is an empty repository, this is not required.
+        public let parentCommitId: String?
+        /// The files to add or update in this commit.
+        public let putFiles: [PutFileEntry]?
+        /// The name of the repository where you will create the commit.
+        public let repositoryName: String
+        /// The file modes to update for files in this commit.
+        public let setFileModes: [SetFileModeEntry]?
+
+        public init(authorName: String? = nil, branchName: String, commitMessage: String? = nil, deleteFiles: [DeleteFileEntry]? = nil, email: String? = nil, keepEmptyFolders: Bool? = nil, parentCommitId: String? = nil, putFiles: [PutFileEntry]? = nil, repositoryName: String, setFileModes: [SetFileModeEntry]? = nil) {
+            self.authorName = authorName
+            self.branchName = branchName
+            self.commitMessage = commitMessage
+            self.deleteFiles = deleteFiles
+            self.email = email
+            self.keepEmptyFolders = keepEmptyFolders
+            self.parentCommitId = parentCommitId
+            self.putFiles = putFiles
+            self.repositoryName = repositoryName
+            self.setFileModes = setFileModes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorName = "authorName"
+            case branchName = "branchName"
+            case commitMessage = "commitMessage"
+            case deleteFiles = "deleteFiles"
+            case email = "email"
+            case keepEmptyFolders = "keepEmptyFolders"
+            case parentCommitId = "parentCommitId"
+            case putFiles = "putFiles"
+            case repositoryName = "repositoryName"
+            case setFileModes = "setFileModes"
+        }
+    }
+
+    public struct CreateCommitOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "commitId", required: false, type: .string), 
+            AWSShapeMember(label: "filesAdded", required: false, type: .list), 
+            AWSShapeMember(label: "filesDeleted", required: false, type: .list), 
+            AWSShapeMember(label: "filesUpdated", required: false, type: .list), 
+            AWSShapeMember(label: "treeId", required: false, type: .string)
+        ]
+        /// The full commit ID of the commit that contains your committed file changes.
+        public let commitId: String?
+        /// The files added as part of the committed file changes.
+        public let filesAdded: [FileMetadata]?
+        /// The files deleted as part of the committed file changes.
+        public let filesDeleted: [FileMetadata]?
+        /// The files updated as part of the commited file changes.
+        public let filesUpdated: [FileMetadata]?
+        /// The full SHA-1 pointer of the tree information for the commit that contains the commited file changes.
+        public let treeId: String?
+
+        public init(commitId: String? = nil, filesAdded: [FileMetadata]? = nil, filesDeleted: [FileMetadata]? = nil, filesUpdated: [FileMetadata]? = nil, treeId: String? = nil) {
+            self.commitId = commitId
+            self.filesAdded = filesAdded
+            self.filesDeleted = filesDeleted
+            self.filesUpdated = filesUpdated
+            self.treeId = treeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commitId = "commitId"
+            case filesAdded = "filesAdded"
+            case filesDeleted = "filesDeleted"
+            case filesUpdated = "filesUpdated"
+            case treeId = "treeId"
+        }
+    }
+
     public struct CreatePullRequestInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
@@ -366,21 +463,26 @@ extension CodeCommit {
     public struct CreateRepositoryInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "repositoryDescription", required: false, type: .string), 
-            AWSShapeMember(label: "repositoryName", required: true, type: .string)
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         /// A comment or description about the new repository.  The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a web page could expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a web page. 
         public let repositoryDescription: String?
         /// The name of the new repository to be created.  The repository name must be unique across the calling AWS account. In addition, repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. For a full description of the limits on repository names, see Limits in the AWS CodeCommit User Guide. The suffix ".git" is prohibited. 
         public let repositoryName: String
+        /// One or more tag key-value pairs to use when tagging this repository.
+        public let tags: [String: String]?
 
-        public init(repositoryDescription: String? = nil, repositoryName: String) {
+        public init(repositoryDescription: String? = nil, repositoryName: String, tags: [String: String]? = nil) {
             self.repositoryDescription = repositoryDescription
             self.repositoryName = repositoryName
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case repositoryDescription = "repositoryDescription"
             case repositoryName = "repositoryName"
+            case tags = "tags"
         }
     }
 
@@ -466,6 +568,22 @@ extension CodeCommit {
 
         private enum CodingKeys: String, CodingKey {
             case comment = "comment"
+        }
+    }
+
+    public struct DeleteFileEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filePath", required: true, type: .string)
+        ]
+        /// The full path of the file that will be deleted, including the name of the file.
+        public let filePath: String
+
+        public init(filePath: String) {
+            self.filePath = filePath
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filePath = "filePath"
         }
     }
 
@@ -694,6 +812,32 @@ extension CodeCommit {
             case blobId = "blobId"
             case fileMode = "fileMode"
             case relativePath = "relativePath"
+        }
+    }
+
+    public struct FileMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "absolutePath", required: false, type: .string), 
+            AWSShapeMember(label: "blobId", required: false, type: .string), 
+            AWSShapeMember(label: "fileMode", required: false, type: .enum)
+        ]
+        /// The full path to the file that will be added or updated, including the name of the file.
+        public let absolutePath: String?
+        /// The blob ID that contains the file information.
+        public let blobId: String?
+        /// The extrapolated file mode permissions for the file. Valid values include EXECUTABLE and NORMAL.
+        public let fileMode: FileModeTypeEnum?
+
+        public init(absolutePath: String? = nil, blobId: String? = nil, fileMode: FileModeTypeEnum? = nil) {
+            self.absolutePath = absolutePath
+            self.blobId = blobId
+            self.fileMode = fileMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case absolutePath = "absolutePath"
+            case blobId = "blobId"
+            case fileMode = "fileMode"
         }
     }
 
@@ -1502,6 +1646,48 @@ extension CodeCommit {
         }
     }
 
+    public struct ListTagsForResourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "resourceArn", required: true, type: .string)
+        ]
+        /// An enumeration token that when provided in a request, returns the next batch of the results.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the resource for which you want to get information about tags, if any.
+        public let resourceArn: String
+
+        public init(nextToken: String? = nil, resourceArn: String) {
+            self.nextToken = nextToken
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
+        ]
+        /// An enumeration token that allows the operation to batch the next results of the operation.
+        public let nextToken: String?
+        /// A list of tag key and value pairs associated with the specified resource.
+        public let tags: [String: String]?
+
+        public init(nextToken: String? = nil, tags: [String: String]? = nil) {
+            self.nextToken = nextToken
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case tags = "tags"
+        }
+    }
+
     public struct Location: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "filePath", required: false, type: .string), 
@@ -2099,6 +2285,37 @@ extension CodeCommit {
         }
     }
 
+    public struct PutFileEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "fileContent", required: false, type: .blob), 
+            AWSShapeMember(label: "fileMode", required: false, type: .enum), 
+            AWSShapeMember(label: "filePath", required: true, type: .string), 
+            AWSShapeMember(label: "sourceFile", required: false, type: .structure)
+        ]
+        /// The content of the file, if a source file is not specified.
+        public let fileContent: Data?
+        /// The extrapolated file mode permissions for the file. Valid values include EXECUTABLE and NORMAL.
+        public let fileMode: FileModeTypeEnum?
+        /// The full path to the file in the repository, including the name of the file.
+        public let filePath: String
+        /// The name and full path of the file that contains the changes you want to make as part of the commit, if you are not providing the file content directly.
+        public let sourceFile: SourceFileSpecifier?
+
+        public init(fileContent: Data? = nil, fileMode: FileModeTypeEnum? = nil, filePath: String, sourceFile: SourceFileSpecifier? = nil) {
+            self.fileContent = fileContent
+            self.fileMode = fileMode
+            self.filePath = filePath
+            self.sourceFile = sourceFile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileContent = "fileContent"
+            case fileMode = "fileMode"
+            case filePath = "filePath"
+            case sourceFile = "sourceFile"
+        }
+    }
+
     public struct PutFileInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "branchName", required: true, type: .string), 
@@ -2371,10 +2588,52 @@ extension CodeCommit {
         }
     }
 
+    public struct SetFileModeEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "fileMode", required: true, type: .enum), 
+            AWSShapeMember(label: "filePath", required: true, type: .string)
+        ]
+        /// The file mode for the file.
+        public let fileMode: FileModeTypeEnum
+        /// The full path to the file, including the name of the file.
+        public let filePath: String
+
+        public init(fileMode: FileModeTypeEnum, filePath: String) {
+            self.fileMode = fileMode
+            self.filePath = filePath
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileMode = "fileMode"
+            case filePath = "filePath"
+        }
+    }
+
     public enum SortByEnum: String, CustomStringConvertible, Codable {
         case repositoryname = "repositoryName"
         case lastmodifieddate = "lastModifiedDate"
         public var description: String { return self.rawValue }
+    }
+
+    public struct SourceFileSpecifier: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filePath", required: true, type: .string), 
+            AWSShapeMember(label: "isMove", required: false, type: .boolean)
+        ]
+        /// The full path to the file, including the name of the file.
+        public let filePath: String
+        /// Whether to remove the source file from the parent commit.
+        public let isMove: Bool?
+
+        public init(filePath: String, isMove: Bool? = nil) {
+            self.filePath = filePath
+            self.isMove = isMove
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filePath = "filePath"
+            case isMove = "isMove"
+        }
     }
 
     public struct SubModule: AWSShape {
@@ -2431,6 +2690,27 @@ extension CodeCommit {
             case blobId = "blobId"
             case fileMode = "fileMode"
             case relativePath = "relativePath"
+        }
+    }
+
+    public struct TagResourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: true, type: .map)
+        ]
+        /// The Amazon Resource Name (ARN) of the resource to which you want to add or update tags.
+        public let resourceArn: String
+        /// The key-value pair to use when tagging this repository.
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tags = "tags"
         }
     }
 
@@ -2499,6 +2779,27 @@ extension CodeCommit {
         private enum CodingKeys: String, CodingKey {
             case failedExecutions = "failedExecutions"
             case successfulExecutions = "successfulExecutions"
+        }
+    }
+
+    public struct UntagResourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "tagKeys", required: true, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) of the resource to which you want to remove tags.
+        public let resourceArn: String
+        /// The tag key for each tag that you want to remove from the resource.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
         }
     }
 

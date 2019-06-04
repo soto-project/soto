@@ -63,28 +63,28 @@ public struct CloudFront {
         return try client.send(operation: "CreateStreamingDistributionWithTags2018_11_05", path: "/2018-11-05/streaming-distribution?WithTags", httpMethod: "POST", input: input)
     }
 
-    public func deleteCloudFrontOriginAccessIdentity20181105(_ input: DeleteCloudFrontOriginAccessIdentityRequest) throws {
-        _ = try client.send(operation: "DeleteCloudFrontOriginAccessIdentity2018_11_05", path: "/2018-11-05/origin-access-identity/cloudfront/{Id}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteCloudFrontOriginAccessIdentity20181105(_ input: DeleteCloudFrontOriginAccessIdentityRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteCloudFrontOriginAccessIdentity2018_11_05", path: "/2018-11-05/origin-access-identity/cloudfront/{Id}", httpMethod: "DELETE", input: input)
     }
 
-    public func deleteDistribution20181105(_ input: DeleteDistributionRequest) throws {
-        _ = try client.send(operation: "DeleteDistribution2018_11_05", path: "/2018-11-05/distribution/{Id}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteDistribution20181105(_ input: DeleteDistributionRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteDistribution2018_11_05", path: "/2018-11-05/distribution/{Id}", httpMethod: "DELETE", input: input)
     }
 
-    public func deleteFieldLevelEncryptionConfig20181105(_ input: DeleteFieldLevelEncryptionConfigRequest) throws {
-        _ = try client.send(operation: "DeleteFieldLevelEncryptionConfig2018_11_05", path: "/2018-11-05/field-level-encryption/{Id}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteFieldLevelEncryptionConfig20181105(_ input: DeleteFieldLevelEncryptionConfigRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteFieldLevelEncryptionConfig2018_11_05", path: "/2018-11-05/field-level-encryption/{Id}", httpMethod: "DELETE", input: input)
     }
 
-    public func deleteFieldLevelEncryptionProfile20181105(_ input: DeleteFieldLevelEncryptionProfileRequest) throws {
-        _ = try client.send(operation: "DeleteFieldLevelEncryptionProfile2018_11_05", path: "/2018-11-05/field-level-encryption-profile/{Id}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteFieldLevelEncryptionProfile20181105(_ input: DeleteFieldLevelEncryptionProfileRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteFieldLevelEncryptionProfile2018_11_05", path: "/2018-11-05/field-level-encryption-profile/{Id}", httpMethod: "DELETE", input: input)
     }
 
-    public func deletePublicKey20181105(_ input: DeletePublicKeyRequest) throws {
-        _ = try client.send(operation: "DeletePublicKey2018_11_05", path: "/2018-11-05/public-key/{Id}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deletePublicKey20181105(_ input: DeletePublicKeyRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeletePublicKey2018_11_05", path: "/2018-11-05/public-key/{Id}", httpMethod: "DELETE", input: input)
     }
 
-    public func deleteStreamingDistribution20181105(_ input: DeleteStreamingDistributionRequest) throws {
-        _ = try client.send(operation: "DeleteStreamingDistribution2018_11_05", path: "/2018-11-05/streaming-distribution/{Id}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteStreamingDistribution20181105(_ input: DeleteStreamingDistributionRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteStreamingDistribution2018_11_05", path: "/2018-11-05/streaming-distribution/{Id}", httpMethod: "DELETE", input: input)
     }
 
     public func getCloudFrontOriginAccessIdentity20181105(_ input: GetCloudFrontOriginAccessIdentityRequest) throws -> Future<GetCloudFrontOriginAccessIdentityResult> {
@@ -175,12 +175,12 @@ public struct CloudFront {
         return try client.send(operation: "ListTagsForResource2018_11_05", path: "/2018-11-05/tagging", httpMethod: "GET", input: input)
     }
 
-    public func tagResource20181105(_ input: TagResourceRequest) throws {
-        _ = try client.send(operation: "TagResource2018_11_05", path: "/2018-11-05/tagging?Operation=Tag", httpMethod: "POST", input: input)
+    @discardableResult public func tagResource20181105(_ input: TagResourceRequest) throws -> Future<Void> {
+        return try client.send(operation: "TagResource2018_11_05", path: "/2018-11-05/tagging?Operation=Tag", httpMethod: "POST", input: input)
     }
 
-    public func untagResource20181105(_ input: UntagResourceRequest) throws {
-        _ = try client.send(operation: "UntagResource2018_11_05", path: "/2018-11-05/tagging?Operation=Untag", httpMethod: "POST", input: input)
+    @discardableResult public func untagResource20181105(_ input: UntagResourceRequest) throws -> Future<Void> {
+        return try client.send(operation: "UntagResource2018_11_05", path: "/2018-11-05/tagging?Operation=Untag", httpMethod: "POST", input: input)
     }
 
     public func updateCloudFrontOriginAccessIdentity20181105(_ input: UpdateCloudFrontOriginAccessIdentityRequest) throws -> Future<UpdateCloudFrontOriginAccessIdentityResult> {

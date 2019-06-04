@@ -22,6 +22,7 @@ public enum ECSErrorType: AWSErrorType {
     case serviceNotActiveException(message: String?)
     case serviceNotFoundException(message: String?)
     case targetNotFoundException(message: String?)
+    case taskSetNotFoundException(message: String?)
     case unsupportedFeatureException(message: String?)
     case updateInProgressException(message: String?)
 }
@@ -69,6 +70,8 @@ extension ECSErrorType {
             self = .serviceNotFoundException(message: message)
         case "TargetNotFoundException":
             self = .targetNotFoundException(message: message)
+        case "TaskSetNotFoundException":
+            self = .taskSetNotFoundException(message: message)
         case "UnsupportedFeatureException":
             self = .unsupportedFeatureException(message: message)
         case "UpdateInProgressException":

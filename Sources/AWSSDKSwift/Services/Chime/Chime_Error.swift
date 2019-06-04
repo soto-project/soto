@@ -8,6 +8,7 @@ public enum ChimeErrorType: AWSErrorType {
     case conflictException(message: String?)
     case forbiddenException(message: String?)
     case notFoundException(message: String?)
+    case resourceLimitExceededException(message: String?)
     case serviceFailureException(message: String?)
     case serviceUnavailableException(message: String?)
     case throttledClientException(message: String?)
@@ -30,6 +31,8 @@ extension ChimeErrorType {
             self = .forbiddenException(message: message)
         case "NotFoundException":
             self = .notFoundException(message: message)
+        case "ResourceLimitExceededException":
+            self = .resourceLimitExceededException(message: message)
         case "ServiceFailureException":
             self = .serviceFailureException(message: message)
         case "ServiceUnavailableException":

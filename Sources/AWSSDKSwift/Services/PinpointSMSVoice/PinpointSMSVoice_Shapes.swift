@@ -150,7 +150,8 @@ extension PinpointSMSVoice {
             AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
             AWSShapeMember(label: "KinesisFirehoseDestination", required: false, type: .structure), 
             AWSShapeMember(label: "MatchingEventTypes", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "SnsDestination", required: false, type: .structure)
         ]
         public let cloudWatchLogsDestination: CloudWatchLogsDestination?
         /// Indicates whether or not the event destination is enabled. If the event destination is enabled, then Amazon Pinpoint sends response data to the specified event destination.
@@ -159,13 +160,15 @@ extension PinpointSMSVoice {
         public let matchingEventTypes: [EventType]?
         /// A name that identifies the event destination configuration.
         public let name: String?
+        public let snsDestination: SnsDestination?
 
-        public init(cloudWatchLogsDestination: CloudWatchLogsDestination? = nil, enabled: Bool? = nil, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, matchingEventTypes: [EventType]? = nil, name: String? = nil) {
+        public init(cloudWatchLogsDestination: CloudWatchLogsDestination? = nil, enabled: Bool? = nil, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, matchingEventTypes: [EventType]? = nil, name: String? = nil, snsDestination: SnsDestination? = nil) {
             self.cloudWatchLogsDestination = cloudWatchLogsDestination
             self.enabled = enabled
             self.kinesisFirehoseDestination = kinesisFirehoseDestination
             self.matchingEventTypes = matchingEventTypes
             self.name = name
+            self.snsDestination = snsDestination
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -174,6 +177,7 @@ extension PinpointSMSVoice {
             case kinesisFirehoseDestination = "KinesisFirehoseDestination"
             case matchingEventTypes = "MatchingEventTypes"
             case name = "Name"
+            case snsDestination = "SnsDestination"
         }
     }
 
@@ -182,19 +186,22 @@ extension PinpointSMSVoice {
             AWSShapeMember(label: "CloudWatchLogsDestination", required: false, type: .structure), 
             AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
             AWSShapeMember(label: "KinesisFirehoseDestination", required: false, type: .structure), 
-            AWSShapeMember(label: "MatchingEventTypes", required: false, type: .list)
+            AWSShapeMember(label: "MatchingEventTypes", required: false, type: .list), 
+            AWSShapeMember(label: "SnsDestination", required: false, type: .structure)
         ]
         public let cloudWatchLogsDestination: CloudWatchLogsDestination?
         /// Indicates whether or not the event destination is enabled. If the event destination is enabled, then Amazon Pinpoint sends response data to the specified event destination.
         public let enabled: Bool?
         public let kinesisFirehoseDestination: KinesisFirehoseDestination?
         public let matchingEventTypes: [EventType]?
+        public let snsDestination: SnsDestination?
 
-        public init(cloudWatchLogsDestination: CloudWatchLogsDestination? = nil, enabled: Bool? = nil, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, matchingEventTypes: [EventType]? = nil) {
+        public init(cloudWatchLogsDestination: CloudWatchLogsDestination? = nil, enabled: Bool? = nil, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, matchingEventTypes: [EventType]? = nil, snsDestination: SnsDestination? = nil) {
             self.cloudWatchLogsDestination = cloudWatchLogsDestination
             self.enabled = enabled
             self.kinesisFirehoseDestination = kinesisFirehoseDestination
             self.matchingEventTypes = matchingEventTypes
+            self.snsDestination = snsDestination
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -202,6 +209,7 @@ extension PinpointSMSVoice {
             case enabled = "Enabled"
             case kinesisFirehoseDestination = "KinesisFirehoseDestination"
             case matchingEventTypes = "MatchingEventTypes"
+            case snsDestination = "SnsDestination"
         }
     }
 
@@ -267,6 +275,46 @@ extension PinpointSMSVoice {
         }
     }
 
+    public struct ListConfigurationSetsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize"), required: false, type: .string)
+        ]
+        public let nextToken: String?
+        public let pageSize: String?
+
+        public init(nextToken: String? = nil, pageSize: String? = nil) {
+            self.nextToken = nextToken
+            self.pageSize = pageSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case pageSize = "PageSize"
+        }
+    }
+
+    public struct ListConfigurationSetsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationSets", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// An object that contains a list of configuration sets for your account in the current region.
+        public let configurationSets: [String]?
+        /// A token returned from a previous call to ListConfigurationSets to indicate the position in the list of configuration sets.
+        public let nextToken: String?
+
+        public init(configurationSets: [String]? = nil, nextToken: String? = nil) {
+            self.configurationSets = configurationSets
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationSets = "ConfigurationSets"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct PlainTextMessageType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LanguageCode", required: false, type: .string), 
@@ -277,6 +325,7 @@ extension PinpointSMSVoice {
         public let languageCode: String?
         /// The plain (not SSML-formatted) text to deliver to the recipient.
         public let text: String?
+        /// The name of the voice that you want to use to deliver the message. For a complete list of supported voices, see the Amazon Polly Developer Guide.
         public let voiceId: String?
 
         public init(languageCode: String? = nil, text: String? = nil, voiceId: String? = nil) {
@@ -366,6 +415,22 @@ extension PinpointSMSVoice {
 
         private enum CodingKeys: String, CodingKey {
             case messageId = "MessageId"
+        }
+    }
+
+    public struct SnsDestination: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TopicArn", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the Amazon SNS topic that you want to publish events to.
+        public let topicArn: String?
+
+        public init(topicArn: String? = nil) {
+            self.topicArn = topicArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case topicArn = "TopicArn"
         }
     }
 

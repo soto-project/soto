@@ -4,6 +4,7 @@ import AWSSDKSwiftCore
 
 /// Error enum for ACM
 public enum ACMErrorType: AWSErrorType {
+    case invalidArgsException(message: String?)
     case invalidArnException(message: String?)
     case invalidDomainValidationOptionsException(message: String?)
     case invalidStateException(message: String?)
@@ -22,6 +23,8 @@ extension ACMErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "InvalidArgsException":
+            self = .invalidArgsException(message: message)
         case "InvalidArnException":
             self = .invalidArnException(message: message)
         case "InvalidDomainValidationOptionsException":

@@ -46,8 +46,8 @@ public struct SES {
     }
 
     ///  Creates a new custom verification email template. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
-    public func createCustomVerificationEmailTemplate(_ input: CreateCustomVerificationEmailTemplateRequest) throws {
-        _ = try client.send(operation: "CreateCustomVerificationEmailTemplate", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func createCustomVerificationEmailTemplate(_ input: CreateCustomVerificationEmailTemplateRequest) throws -> Future<Void> {
+        return try client.send(operation: "CreateCustomVerificationEmailTemplate", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new IP address filter. For information about setting up IP address filters, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
@@ -86,8 +86,8 @@ public struct SES {
     }
 
     ///  Deletes an existing custom verification email template.  For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
-    public func deleteCustomVerificationEmailTemplate(_ input: DeleteCustomVerificationEmailTemplateRequest) throws {
-        _ = try client.send(operation: "DeleteCustomVerificationEmailTemplate", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteCustomVerificationEmailTemplate(_ input: DeleteCustomVerificationEmailTemplateRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteCustomVerificationEmailTemplate", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified identity (an email address or a domain) from the list of verified identities. You can execute this operation no more than once per second.
@@ -121,8 +121,8 @@ public struct SES {
     }
 
     ///  Deprecated. Use the DeleteIdentity operation to delete email addresses and domains.
-    public func deleteVerifiedEmailAddress(_ input: DeleteVerifiedEmailAddressRequest) throws {
-        _ = try client.send(operation: "DeleteVerifiedEmailAddress", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteVerifiedEmailAddress(_ input: DeleteVerifiedEmailAddressRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteVerifiedEmailAddress", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the metadata and receipt rules for the receipt rule set that is currently active. For information about setting up receipt rule sets, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
@@ -316,8 +316,8 @@ public struct SES {
     }
 
     ///  Enables or disables email sending across your entire Amazon SES account in the current AWS Region. You can use this operation in conjunction with Amazon CloudWatch alarms to temporarily pause email sending across your Amazon SES account in a given AWS Region when reputation metrics (such as your bounce or complaint rates) reach certain thresholds. You can execute this operation no more than once per second.
-    public func updateAccountSendingEnabled(_ input: UpdateAccountSendingEnabledRequest) throws {
-        _ = try client.send(operation: "UpdateAccountSendingEnabled", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func updateAccountSendingEnabled(_ input: UpdateAccountSendingEnabledRequest) throws -> Future<Void> {
+        return try client.send(operation: "UpdateAccountSendingEnabled", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates the event destination of a configuration set. Event destinations are associated with configuration sets, which enable you to publish email sending events to Amazon CloudWatch, Amazon Kinesis Firehose, or Amazon Simple Notification Service (Amazon SNS). For information about using configuration sets, see Monitoring Your Amazon SES Sending Activity in the Amazon SES Developer Guide.   When you create or update an event destination, you must provide one, and only one, destination. The destination can be Amazon CloudWatch, Amazon Kinesis Firehose, or Amazon Simple Notification Service (Amazon SNS).  You can execute this operation no more than once per second.
@@ -326,13 +326,13 @@ public struct SES {
     }
 
     ///  Enables or disables the publishing of reputation metrics for emails sent using a specific configuration set in a given AWS Region. Reputation metrics include bounce and complaint rates. These metrics are published to Amazon CloudWatch. By using CloudWatch, you can create alarms when bounce or complaint rates exceed certain thresholds. You can execute this operation no more than once per second.
-    public func updateConfigurationSetReputationMetricsEnabled(_ input: UpdateConfigurationSetReputationMetricsEnabledRequest) throws {
-        _ = try client.send(operation: "UpdateConfigurationSetReputationMetricsEnabled", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func updateConfigurationSetReputationMetricsEnabled(_ input: UpdateConfigurationSetReputationMetricsEnabledRequest) throws -> Future<Void> {
+        return try client.send(operation: "UpdateConfigurationSetReputationMetricsEnabled", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Enables or disables email sending for messages sent using a specific configuration set in a given AWS Region. You can use this operation in conjunction with Amazon CloudWatch alarms to temporarily pause email sending for a configuration set when the reputation metrics for that configuration set (such as your bounce on complaint rate) exceed certain thresholds. You can execute this operation no more than once per second.
-    public func updateConfigurationSetSendingEnabled(_ input: UpdateConfigurationSetSendingEnabledRequest) throws {
-        _ = try client.send(operation: "UpdateConfigurationSetSendingEnabled", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func updateConfigurationSetSendingEnabled(_ input: UpdateConfigurationSetSendingEnabledRequest) throws -> Future<Void> {
+        return try client.send(operation: "UpdateConfigurationSetSendingEnabled", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies an association between a configuration set and a custom domain for open and click event tracking.  By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a subdomain of your own to handle these events. For information about using custom domains, see the Amazon SES Developer Guide.
@@ -341,8 +341,8 @@ public struct SES {
     }
 
     ///  Updates an existing custom verification email template. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
-    public func updateCustomVerificationEmailTemplate(_ input: UpdateCustomVerificationEmailTemplateRequest) throws {
-        _ = try client.send(operation: "UpdateCustomVerificationEmailTemplate", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func updateCustomVerificationEmailTemplate(_ input: UpdateCustomVerificationEmailTemplateRequest) throws -> Future<Void> {
+        return try client.send(operation: "UpdateCustomVerificationEmailTemplate", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a receipt rule. For information about managing receipt rules, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
@@ -366,8 +366,8 @@ public struct SES {
     }
 
     ///  Deprecated. Use the VerifyEmailIdentity operation to verify a new email address.
-    public func verifyEmailAddress(_ input: VerifyEmailAddressRequest) throws {
-        _ = try client.send(operation: "VerifyEmailAddress", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func verifyEmailAddress(_ input: VerifyEmailAddressRequest) throws -> Future<Void> {
+        return try client.send(operation: "VerifyEmailAddress", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds an email address to the list of identities for your Amazon SES account in the current AWS region and attempts to verify it. As a result of executing this operation, a verification email is sent to the specified address. You can execute this operation no more than once per second.

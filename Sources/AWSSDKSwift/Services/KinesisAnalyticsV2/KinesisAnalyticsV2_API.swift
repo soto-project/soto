@@ -5,7 +5,7 @@ import AWSSDKSwiftCore
 import NIO
 
 /**
-Documentation for Kinesis Data Analytics API v2
+Amazon Kinesis Data Analytics is a fully managed service that you can use to process and analyze streaming data using SQL or Java. The service enables you to quickly author and run SQL or Java code against streaming sources to perform time series analytics, feed real-time dashboards, and create real-time metrics.
 */
 public struct KinesisAnalyticsV2 {
 
@@ -51,7 +51,7 @@ public struct KinesisAnalyticsV2 {
         return try client.send(operation: "AddApplicationReferenceDataSource", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an Amazon Kinesis Data Analytics application. For information about creating a Kinesis Data Analytics application, see Creating an Application.   SQL is not enabled for this private beta release. Using SQL parameters (such as SqlApplicationConfiguration) will result in an error. 
+    ///  Creates an Amazon Kinesis Data Analytics application. For information about creating a Kinesis Data Analytics application, see Creating an Application. 
     public func createApplication(_ input: CreateApplicationRequest) throws -> Future<CreateApplicationResponse> {
         return try client.send(operation: "CreateApplication", path: "/", httpMethod: "POST", input: input)
     }
@@ -116,7 +116,12 @@ public struct KinesisAnalyticsV2 {
         return try client.send(operation: "ListApplications", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Starts the specified Amazon Kinesis Data Analytics application. After creating an application, you must exclusively call this operation to start your application.  SQL is not enabled for this private beta. Using SQL parameters (such as RunConfiguration$SqlRunConfigurations) will result in an error. 
+    ///  Retrieves the list of key-value tags assigned to the application.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> Future<ListTagsForResourceResponse> {
+        return try client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Starts the specified Amazon Kinesis Data Analytics application. After creating an application, you must exclusively call this operation to start your application.
     public func startApplication(_ input: StartApplicationRequest) throws -> Future<StartApplicationResponse> {
         return try client.send(operation: "StartApplication", path: "/", httpMethod: "POST", input: input)
     }
@@ -126,7 +131,17 @@ public struct KinesisAnalyticsV2 {
         return try client.send(operation: "StopApplication", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates an existing Amazon Kinesis Data Analytics application. Using this operation, you can update application code, input configuration, and output configuration.  Kinesis Data Analytics updates the ApplicationVersionId each time you update your application.   SQL is not enabled for this private beta. Using SQL parameters (such as SqlApplicationConfigurationUpdate) will result in an error. 
+    ///  Adds one or more key-value tags to a Kinesis Analytics application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50.
+    public func tagResource(_ input: TagResourceRequest) throws -> Future<TagResourceResponse> {
+        return try client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes one or more tags from a Kinesis Analytics application.
+    public func untagResource(_ input: UntagResourceRequest) throws -> Future<UntagResourceResponse> {
+        return try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates an existing Amazon Kinesis Data Analytics application. Using this operation, you can update application code, input configuration, and output configuration.  Kinesis Data Analytics updates the ApplicationVersionId each time you update your application. 
     public func updateApplication(_ input: UpdateApplicationRequest) throws -> Future<UpdateApplicationResponse> {
         return try client.send(operation: "UpdateApplication", path: "/", httpMethod: "POST", input: input)
     }

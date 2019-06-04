@@ -8,6 +8,7 @@ extension MediaStore {
     public struct Container: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ARN", required: false, type: .string), 
+            AWSShapeMember(label: "AccessLoggingEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Endpoint", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
@@ -15,6 +16,8 @@ extension MediaStore {
         ]
         /// The Amazon Resource Name (ARN) of the container. The ARN has the following format: arn:aws:&lt;region&gt;:&lt;account that owns this container&gt;:container/&lt;name of container&gt;  For example: arn:aws:mediastore:us-west-2:111122223333:container/movies 
         public let arn: String?
+        /// The state of access logging on the container. This value is false by default, indicating that AWS Elemental MediaStore does not send access logs to Amazon CloudWatch Logs. When you enable access logging on the container, MediaStore changes this value to true, indicating that the service delivers access logs for objects stored in that container to CloudWatch Logs.
+        public let accessLoggingEnabled: Bool?
         /// Unix timestamp.
         public let creationTime: TimeStamp?
         /// The DNS endpoint of the container. Use the endpoint to identify the specific container when sending requests to the data plane. The service assigns this value when the container is created. Once the value has been assigned, it does not change.
@@ -24,8 +27,9 @@ extension MediaStore {
         /// The status of container creation or deletion. The status is one of the following: CREATING, ACTIVE, or DELETING. While the service is creating the container, the status is CREATING. When the endpoint is available, the status changes to ACTIVE.
         public let status: ContainerStatus?
 
-        public init(arn: String? = nil, creationTime: TimeStamp? = nil, endpoint: String? = nil, name: String? = nil, status: ContainerStatus? = nil) {
+        public init(accessLoggingEnabled: Bool? = nil, arn: String? = nil, creationTime: TimeStamp? = nil, endpoint: String? = nil, name: String? = nil, status: ContainerStatus? = nil) {
             self.arn = arn
+            self.accessLoggingEnabled = accessLoggingEnabled
             self.creationTime = creationTime
             self.endpoint = endpoint
             self.name = name
@@ -34,6 +38,7 @@ extension MediaStore {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
+            case accessLoggingEnabled = "AccessLoggingEnabled"
             case creationTime = "CreationTime"
             case endpoint = "Endpoint"
             case name = "Name"
@@ -50,24 +55,24 @@ extension MediaStore {
 
     public struct CorsRule: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowedHeaders", required: false, type: .list), 
+            AWSShapeMember(label: "AllowedHeaders", required: true, type: .list), 
             AWSShapeMember(label: "AllowedMethods", required: false, type: .list), 
-            AWSShapeMember(label: "AllowedOrigins", required: false, type: .list), 
+            AWSShapeMember(label: "AllowedOrigins", required: true, type: .list), 
             AWSShapeMember(label: "ExposeHeaders", required: false, type: .list), 
             AWSShapeMember(label: "MaxAgeSeconds", required: false, type: .integer)
         ]
         /// Specifies which headers are allowed in a preflight OPTIONS request through the Access-Control-Request-Headers header. Each header name that is specified in Access-Control-Request-Headers must have a corresponding entry in the rule. Only the headers that were requested are sent back.  This element can contain only one wildcard character (*).
-        public let allowedHeaders: [String]?
-        /// Identifies an HTTP method that the origin that is specified in the rule is allowed to execute. Each CORS rule must contain at least one AllowedMethod and one AllowedOrigin element.
+        public let allowedHeaders: [String]
+        /// Identifies an HTTP method that the origin that is specified in the rule is allowed to execute. Each CORS rule must contain at least one AllowedMethods and one AllowedOrigins element.
         public let allowedMethods: [MethodName]?
-        /// One or more response headers that you want users to be able to access from their applications (for example, from a JavaScript XMLHttpRequest object). Each CORS rule must have at least one AllowedOrigin element. The string value can include only one wildcard character (*), for example, http://*.example.com. Additionally, you can specify only one wildcard character to allow cross-origin access for all origins.
-        public let allowedOrigins: [String]?
+        /// One or more response headers that you want users to be able to access from their applications (for example, from a JavaScript XMLHttpRequest object). Each CORS rule must have at least one AllowedOrigins element. The string value can include only one wildcard character (*), for example, http://*.example.com. Additionally, you can specify only one wildcard character to allow cross-origin access for all origins.
+        public let allowedOrigins: [String]
         /// One or more headers in the response that you want users to be able to access from their applications (for example, from a JavaScript XMLHttpRequest object). This element is optional for each rule.
         public let exposeHeaders: [String]?
         /// The time in seconds that your browser caches the preflight response for the specified resource. A CORS rule can have only one MaxAgeSeconds element.
         public let maxAgeSeconds: Int32?
 
-        public init(allowedHeaders: [String]? = nil, allowedMethods: [MethodName]? = nil, allowedOrigins: [String]? = nil, exposeHeaders: [String]? = nil, maxAgeSeconds: Int32? = nil) {
+        public init(allowedHeaders: [String], allowedMethods: [MethodName]? = nil, allowedOrigins: [String], exposeHeaders: [String]? = nil, maxAgeSeconds: Int32? = nil) {
             self.allowedHeaders = allowedHeaders
             self.allowedMethods = allowedMethods
             self.allowedOrigins = allowedOrigins
@@ -185,6 +190,29 @@ extension MediaStore {
 
     }
 
+    public struct DeleteLifecyclePolicyInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContainerName", required: true, type: .string)
+        ]
+        /// The name of the container that holds the object lifecycle policy.
+        public let containerName: String
+
+        public init(containerName: String) {
+            self.containerName = containerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerName = "ContainerName"
+        }
+    }
+
+    public struct DeleteLifecyclePolicyOutput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
     public struct DescribeContainerInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ContainerName", required: false, type: .string)
@@ -269,6 +297,7 @@ extension MediaStore {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CorsPolicy", required: true, type: .list)
         ]
+        /// The CORS policy assigned to the container.
         public let corsPolicy: [CorsRule]
 
         public init(corsPolicy: [CorsRule]) {
@@ -277,6 +306,38 @@ extension MediaStore {
 
         private enum CodingKeys: String, CodingKey {
             case corsPolicy = "CorsPolicy"
+        }
+    }
+
+    public struct GetLifecyclePolicyInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContainerName", required: true, type: .string)
+        ]
+        /// The name of the container that the object lifecycle policy is assigned to.
+        public let containerName: String
+
+        public init(containerName: String) {
+            self.containerName = containerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerName = "ContainerName"
+        }
+    }
+
+    public struct GetLifecyclePolicyOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LifecyclePolicy", required: true, type: .string)
+        ]
+        /// The object lifecycle policy that is assigned to the container.
+        public let lifecyclePolicy: String
+
+        public init(lifecyclePolicy: String) {
+            self.lifecyclePolicy = lifecyclePolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lifecyclePolicy = "LifecyclePolicy"
         }
     }
 
@@ -380,6 +441,80 @@ extension MediaStore {
     }
 
     public struct PutCorsPolicyOutput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct PutLifecyclePolicyInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContainerName", required: true, type: .string), 
+            AWSShapeMember(label: "LifecyclePolicy", required: true, type: .string)
+        ]
+        /// The name of the container that you want to assign the object lifecycle policy to.
+        public let containerName: String
+        /// The object lifecycle policy to apply to the container.
+        public let lifecyclePolicy: String
+
+        public init(containerName: String, lifecyclePolicy: String) {
+            self.containerName = containerName
+            self.lifecyclePolicy = lifecyclePolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerName = "ContainerName"
+            case lifecyclePolicy = "LifecyclePolicy"
+        }
+    }
+
+    public struct PutLifecyclePolicyOutput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct StartAccessLoggingInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContainerName", required: true, type: .string)
+        ]
+        /// The name of the container that you want to start access logging on.
+        public let containerName: String
+
+        public init(containerName: String) {
+            self.containerName = containerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerName = "ContainerName"
+        }
+    }
+
+    public struct StartAccessLoggingOutput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct StopAccessLoggingInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContainerName", required: true, type: .string)
+        ]
+        /// The name of the container that you want to stop access logging on.
+        public let containerName: String
+
+        public init(containerName: String) {
+            self.containerName = containerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerName = "ContainerName"
+        }
+    }
+
+    public struct StopAccessLoggingOutput: AWSShape {
 
         public init() {
         }

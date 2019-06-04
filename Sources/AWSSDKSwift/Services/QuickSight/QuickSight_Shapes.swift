@@ -218,6 +218,53 @@ extension QuickSight {
         }
     }
 
+    public struct DeleteUserByPrincipalIdRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
+            AWSShapeMember(label: "PrincipalId", location: .uri(locationName: "PrincipalId"), required: true, type: .string)
+        ]
+        /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
+        public let awsAccountId: String
+        /// The namespace. Currently, you should set this to default.
+        public let namespace: String
+        /// The principal ID of the user.
+        public let principalId: String
+
+        public init(awsAccountId: String, namespace: String, principalId: String) {
+            self.awsAccountId = awsAccountId
+            self.namespace = namespace
+            self.principalId = principalId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case namespace = "Namespace"
+            case principalId = "PrincipalId"
+        }
+    }
+
+    public struct DeleteUserByPrincipalIdResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The http status of the request.
+        public let status: Int32?
+
+        public init(requestId: String? = nil, status: Int32? = nil) {
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
     public struct DeleteUserRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
@@ -393,7 +440,7 @@ extension QuickSight {
         public let awsAccountId: String
         /// The ID for the dashboard, also added to IAM policy
         public let dashboardId: String
-        /// The authentication method the user uses to sign in (IAM or QUICKSIGHT).
+        /// The authentication method the user uses to sign in (IAM only).
         public let identityType: IdentityType
         /// Remove the reset button on embedded dashboard. The default is FALSE, which allows the reset button.
         public let resetDisabled: Bool?
@@ -427,7 +474,7 @@ extension QuickSight {
             AWSShapeMember(label: "RequestId", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .integer)
         ]
-        /// Call the GetDashboardEmbedUrl API to get the URL that you can embed in your dashboard. This URL is valid for 5 minutes, and the resulting session is valid for 10 hours. The API provides the URL with an auth_code that enables a single-signon session. 
+        /// URL that you can put into your server-side webpage to embed your dashboard. This URL is valid for 5 minutes, and the resulting session is valid for 10 hours. The API provides the URL with an auth_code that enables a single-signon session. 
         public let embedUrl: String?
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -451,7 +498,8 @@ extension QuickSight {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "GroupName", required: false, type: .string)
+            AWSShapeMember(label: "GroupName", required: false, type: .string), 
+            AWSShapeMember(label: "PrincipalId", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) for the group.
         public let arn: String?
@@ -459,17 +507,21 @@ extension QuickSight {
         public let description: String?
         /// The name of the group.
         public let groupName: String?
+        /// The principal ID of the group.
+        public let principalId: String?
 
-        public init(arn: String? = nil, description: String? = nil, groupName: String? = nil) {
+        public init(arn: String? = nil, description: String? = nil, groupName: String? = nil, principalId: String? = nil) {
             self.arn = arn
             self.description = description
             self.groupName = groupName
+            self.principalId = principalId
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case description = "Description"
             case groupName = "GroupName"
+            case principalId = "PrincipalId"
         }
     }
 
@@ -637,7 +689,7 @@ extension QuickSight {
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string), 
             AWSShapeMember(label: "UserName", location: .uri(locationName: "UserName"), required: true, type: .string)
         ]
-        /// The AWS Account ID that the user is in. Currently, use the AWS Account ID which contains your Amazon QuickSight account.
+        /// The AWS Account ID that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The maximum number of results to return from this request.
         public let maxResults: Int32?
@@ -645,7 +697,7 @@ extension QuickSight {
         public let namespace: String
         /// A pagination token that can be used in a subsequent request.
         public let nextToken: String?
-        /// The name of the user that you want to list groups for.
+        /// The Amazon QuickSight user name that you want to list group memberships for.
         public let userName: String
 
         public init(awsAccountId: String, maxResults: Int32? = nil, namespace: String, nextToken: String? = nil, userName: String) {
@@ -678,7 +730,7 @@ extension QuickSight {
         public let nextToken: String?
         /// The AWS request ID for this operation.
         public let requestId: String?
-        /// The http status of the request.
+        /// The HTTP status of the request.
         public let status: Int32?
 
         public init(groupList: [Group]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int32? = nil) {
@@ -813,7 +865,8 @@ extension QuickSight {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RequestId", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "User", required: false, type: .structure)
+            AWSShapeMember(label: "User", required: false, type: .structure), 
+            AWSShapeMember(label: "UserInvitationUrl", required: false, type: .string)
         ]
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -821,17 +874,21 @@ extension QuickSight {
         public let status: Int32?
         /// The user name.
         public let user: User?
+        /// The URL the user visits to complete registration and provide a password. This is returned only for users with an identity type of QUICKSIGHT.
+        public let userInvitationUrl: String?
 
-        public init(requestId: String? = nil, status: Int32? = nil, user: User? = nil) {
+        public init(requestId: String? = nil, status: Int32? = nil, user: User? = nil, userInvitationUrl: String? = nil) {
             self.requestId = requestId
             self.status = status
             self.user = user
+            self.userInvitationUrl = userInvitationUrl
         }
 
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
             case status = "Status"
             case user = "User"
+            case userInvitationUrl = "UserInvitationUrl"
         }
     }
 
@@ -960,6 +1017,7 @@ extension QuickSight {
             AWSShapeMember(label: "Arn", required: false, type: .string), 
             AWSShapeMember(label: "Email", required: false, type: .string), 
             AWSShapeMember(label: "IdentityType", required: false, type: .enum), 
+            AWSShapeMember(label: "PrincipalId", required: false, type: .string), 
             AWSShapeMember(label: "Role", required: false, type: .enum), 
             AWSShapeMember(label: "UserName", required: false, type: .string)
         ]
@@ -971,16 +1029,19 @@ extension QuickSight {
         public let email: String?
         /// The type of identity authentication used by the user.
         public let identityType: IdentityType?
+        /// The principal ID of the user.
+        public let principalId: String?
         /// The Amazon QuickSight role for the user.
         public let role: UserRole?
         /// The user's user name.
         public let userName: String?
 
-        public init(active: Bool? = nil, arn: String? = nil, email: String? = nil, identityType: IdentityType? = nil, role: UserRole? = nil, userName: String? = nil) {
+        public init(active: Bool? = nil, arn: String? = nil, email: String? = nil, identityType: IdentityType? = nil, principalId: String? = nil, role: UserRole? = nil, userName: String? = nil) {
             self.active = active
             self.arn = arn
             self.email = email
             self.identityType = identityType
+            self.principalId = principalId
             self.role = role
             self.userName = userName
         }
@@ -990,6 +1051,7 @@ extension QuickSight {
             case arn = "Arn"
             case email = "Email"
             case identityType = "IdentityType"
+            case principalId = "PrincipalId"
             case role = "Role"
             case userName = "UserName"
         }

@@ -6,6 +6,7 @@ import AWSSDKSwiftCore
 public enum AthenaErrorType: AWSErrorType {
     case internalServerException(message: String?)
     case invalidRequestException(message: String?)
+    case resourceNotFoundException(message: String?)
     case tooManyRequestsException(message: String?)
 }
 
@@ -20,6 +21,8 @@ extension AthenaErrorType {
             self = .internalServerException(message: message)
         case "InvalidRequestException":
             self = .invalidRequestException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
         case "TooManyRequestsException":
             self = .tooManyRequestsException(message: message)
         default:

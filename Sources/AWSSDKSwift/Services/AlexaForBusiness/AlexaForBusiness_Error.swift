@@ -9,11 +9,15 @@ public enum AlexaForBusinessErrorType: AWSErrorType {
     case deviceNotRegisteredException(message: String?)
     case invalidCertificateAuthorityException(message: String?)
     case invalidDeviceException(message: String?)
+    case invalidSecretsManagerResourceException(message: String?)
+    case invalidServiceLinkedRoleStateException(message: String?)
     case invalidUserStatusException(message: String?)
     case limitExceededException(message: String?)
     case nameInUseException(message: String?)
     case notFoundException(message: String?)
+    case resourceAssociatedException(message: String?)
     case resourceInUseException(message: String?)
+    case skillNotLinkedException(message: String?)
     case unauthorizedException(message: String?)
 }
 
@@ -34,6 +38,10 @@ extension AlexaForBusinessErrorType {
             self = .invalidCertificateAuthorityException(message: message)
         case "InvalidDeviceException":
             self = .invalidDeviceException(message: message)
+        case "InvalidSecretsManagerResourceException":
+            self = .invalidSecretsManagerResourceException(message: message)
+        case "InvalidServiceLinkedRoleStateException":
+            self = .invalidServiceLinkedRoleStateException(message: message)
         case "InvalidUserStatusException":
             self = .invalidUserStatusException(message: message)
         case "LimitExceededException":
@@ -42,8 +50,12 @@ extension AlexaForBusinessErrorType {
             self = .nameInUseException(message: message)
         case "NotFoundException":
             self = .notFoundException(message: message)
+        case "ResourceAssociatedException":
+            self = .resourceAssociatedException(message: message)
         case "ResourceInUseException":
             self = .resourceInUseException(message: message)
+        case "SkillNotLinkedException":
+            self = .skillNotLinkedException(message: message)
         case "UnauthorizedException":
             self = .unauthorizedException(message: message)
         default:

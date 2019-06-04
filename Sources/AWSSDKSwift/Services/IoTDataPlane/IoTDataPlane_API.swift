@@ -36,8 +36,8 @@ public struct IoTDataPlane {
     }
 
     ///  Publishes state information. For more information, see HTTP Protocol in the AWS IoT Developer Guide.
-    public func publish(_ input: PublishRequest) throws {
-        _ = try client.send(operation: "Publish", path: "/topics/{topic}", httpMethod: "POST", input: input)
+    @discardableResult public func publish(_ input: PublishRequest) throws -> Future<Void> {
+        return try client.send(operation: "Publish", path: "/topics/{topic}", httpMethod: "POST", input: input)
     }
 
     ///  Updates the thing shadow for the specified thing. For more information, see UpdateThingShadow in the AWS IoT Developer Guide.

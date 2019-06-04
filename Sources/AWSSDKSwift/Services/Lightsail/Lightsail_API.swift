@@ -5,7 +5,7 @@ import AWSSDKSwiftCore
 import NIO
 
 /**
-Amazon Lightsail is the easiest way to get started with AWS for developers who just need virtual private servers. Lightsail includes everything you need to launch your project quickly - a virtual machine, SSD-based storage, data transfer, DNS management, and a static IP - for a low, predictable price. You manage those Lightsail servers through the Lightsail console or by using the API or command-line interface (CLI). For more information about Lightsail concepts and tasks, see the Lightsail Dev Guide. To use the Lightsail API or the CLI, you will need to use AWS Identity and Access Management (IAM) to generate access keys. For details about how to set this up, see the Lightsail Dev Guide.
+Amazon Lightsail is the easiest way to get started with AWS for developers who just need virtual private servers. Lightsail includes everything you need to launch your project quickly - a virtual machine, a managed database, SSD-based storage, data transfer, DNS management, and a static IP - for a low, predictable price. You manage those Lightsail servers through the Lightsail console or by using the API or command-line interface (CLI). For more information about Lightsail concepts and tasks, see the Lightsail Dev Guide. To use the Lightsail API or the CLI, you will need to use AWS Identity and Access Management (IAM) to generate access keys. For details about how to set this up, see the Lightsail Dev Guide.
 */
 public struct Lightsail {
 
@@ -76,7 +76,7 @@ public struct Lightsail {
         return try client.send(operation: "CreateDiskFromSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a snapshot of a block storage disk. You can use snapshots for backups, to make copies of disks, and to save data before shutting down a Lightsail instance. You can take a snapshot of an attached disk that is in use; however, snapshots only capture data that has been written to your disk at the time the snapshot command is issued. This may exclude any data that has been cached by any applications or the operating system. If you can pause any file systems on the disk long enough to take a snapshot, your snapshot should be complete. Nevertheless, if you cannot pause all file writes to the disk, you should unmount the disk from within the Lightsail instance, issue the create disk snapshot command, and then remount the disk to ensure a consistent and complete snapshot. You may remount and use your disk while the snapshot status is pending. The create disk snapshot operation supports tag-based access control via request tags. For more information, see the Lightsail Dev Guide.
+    ///  Creates a snapshot of a block storage disk. You can use snapshots for backups, to make copies of disks, and to save data before shutting down a Lightsail instance. You can take a snapshot of an attached disk that is in use; however, snapshots only capture data that has been written to your disk at the time the snapshot command is issued. This may exclude any data that has been cached by any applications or the operating system. If you can pause any file systems on the disk long enough to take a snapshot, your snapshot should be complete. Nevertheless, if you cannot pause all file writes to the disk, you should unmount the disk from within the Lightsail instance, issue the create disk snapshot command, and then remount the disk to ensure a consistent and complete snapshot. You may remount and use your disk while the snapshot status is pending. You can also use this operation to create a snapshot of an instance's system volume. You might want to do this, for example, to recover data from the system volume of a botched instance or to create a backup of the system volume like you would for a block storage disk. To create a snapshot of a system volume, just define the instance name parameter when issuing the snapshot command, and a snapshot of the defined instance's system volume will be created. After the snapshot is available, you can create a block storage disk from the snapshot and attach it to a running instance to access the data on the disk. The create disk snapshot operation supports tag-based access control via request tags. For more information, see the Lightsail Dev Guide.
     public func createDiskSnapshot(_ input: CreateDiskSnapshotRequest) throws -> Future<CreateDiskSnapshotResult> {
         return try client.send(operation: "CreateDiskSnapshot", path: "/", httpMethod: "POST", input: input)
     }
@@ -86,7 +86,7 @@ public struct Lightsail {
         return try client.send(operation: "CreateDomain", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates one of the following entry records associated with the domain: A record, CNAME record, TXT record, or MX record. The create domain entry operation supports tag-based access control via resource tags applied to the resource identified by domainName. For more information, see the Lightsail Dev Guide.
+    ///  Creates one of the following entry records associated with the domain: Address (A), canonical name (CNAME), mail exchanger (MX), name server (NS), start of authority (SOA), service locator (SRV), or text (TXT). The create domain entry operation supports tag-based access control via resource tags applied to the resource identified by domainName. For more information, see the Lightsail Dev Guide.
     public func createDomainEntry(_ input: CreateDomainEntryRequest) throws -> Future<CreateDomainEntryResult> {
         return try client.send(operation: "CreateDomainEntry", path: "/", httpMethod: "POST", input: input)
     }
@@ -171,6 +171,11 @@ public struct Lightsail {
         return try client.send(operation: "DeleteKeyPair", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes the known host key or certificate used by the Amazon Lightsail browser-based SSH or RDP clients to authenticate an instance. This operation enables the Lightsail browser-based SSH or RDP clients to connect to the instance after a host key mismatch.  Perform this operation only if you were expecting the host key or certificate mismatch or if you are familiar with the new host key or certificate on the instance. For more information, see Troubleshooting connection issues when using the Amazon Lightsail browser-based SSH or RDP client. 
+    public func deleteKnownHostKeys(_ input: DeleteKnownHostKeysRequest) throws -> Future<DeleteKnownHostKeysResult> {
+        return try client.send(operation: "DeleteKnownHostKeys", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes a Lightsail load balancer and all its associated SSL/TLS certificates. Once the load balancer is deleted, you will need to create a new load balancer, create a new certificate, and verify domain ownership again. The delete load balancer operation supports tag-based access control via resource tags applied to the resource identified by loadBalancerName. For more information, see the Lightsail Dev Guide.
     public func deleteLoadBalancer(_ input: DeleteLoadBalancerRequest) throws -> Future<DeleteLoadBalancerResult> {
         return try client.send(operation: "DeleteLoadBalancer", path: "/", httpMethod: "POST", input: input)
@@ -211,7 +216,7 @@ public struct Lightsail {
         return try client.send(operation: "DownloadDefaultKeyPair", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Exports a Amazon Lightsail instance or block storage disk snapshot to Amazon Elastic Compute Cloud (Amazon EC2). This operation results in an export snapshot record that can be used with the create cloud formation stack operation to create new Amazon EC2 instances. Exported instance snapshots appear in Amazon EC2 as Amazon Machine Images (AMIs), and the instance system disk appears as an Amazon Elastic Block Store (Amazon EBS) volume. Exported disk snapshots appear in Amazon EC2 as Amazon EBS volumes. Snapshots are exported to the same Amazon Web Services Region in Amazon EC2 as the source Lightsail snapshot.  The export snapshot operation supports tag-based access control via resource tags applied to the resource identified by sourceSnapshotName. For more information, see the Lightsail Dev Guide.  Use the get instance snapshots or get disk snapshots operations to get a list of snapshots that you can export to Amazon EC2. 
+    ///  Exports an Amazon Lightsail instance or block storage disk snapshot to Amazon Elastic Compute Cloud (Amazon EC2). This operation results in an export snapshot record that can be used with the create cloud formation stack operation to create new Amazon EC2 instances. Exported instance snapshots appear in Amazon EC2 as Amazon Machine Images (AMIs), and the instance system disk appears as an Amazon Elastic Block Store (Amazon EBS) volume. Exported disk snapshots appear in Amazon EC2 as Amazon EBS volumes. Snapshots are exported to the same Amazon Web Services Region in Amazon EC2 as the source Lightsail snapshot.  The export snapshot operation supports tag-based access control via resource tags applied to the resource identified by sourceSnapshotName. For more information, see the Lightsail Dev Guide.  Use the get instance snapshots or get disk snapshots operations to get a list of snapshots that you can export to Amazon EC2. 
     public func exportSnapshot(_ input: ExportSnapshotRequest) throws -> Future<ExportSnapshotResult> {
         return try client.send(operation: "ExportSnapshot", path: "/", httpMethod: "POST", input: input)
     }
@@ -456,7 +461,7 @@ public struct Lightsail {
         return try client.send(operation: "PutInstancePublicPorts", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Restarts a specific instance. When your Amazon Lightsail instance is finished rebooting, Lightsail assigns a new public IP address. To use the same IP address after restarting, create a static IP address and attach it to the instance. The reboot instance operation supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
+    ///  Restarts a specific instance. The reboot instance operation supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
     public func rebootInstance(_ input: RebootInstanceRequest) throws -> Future<RebootInstanceResult> {
         return try client.send(operation: "RebootInstance", path: "/", httpMethod: "POST", input: input)
     }
@@ -471,7 +476,7 @@ public struct Lightsail {
         return try client.send(operation: "ReleaseStaticIp", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Starts a specific Amazon Lightsail instance from a stopped state. To restart an instance, use the reboot instance operation. The start instance operation supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
+    ///  Starts a specific Amazon Lightsail instance from a stopped state. To restart an instance, use the reboot instance operation.  When you start a stopped instance, Lightsail assigns a new public IP address to the instance. To use the same IP address after stopping and starting an instance, create a static IP address and attach it to the instance. For more information, see the Lightsail Dev Guide.  The start instance operation supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
     public func startInstance(_ input: StartInstanceRequest) throws -> Future<StartInstanceResult> {
         return try client.send(operation: "StartInstance", path: "/", httpMethod: "POST", input: input)
     }
@@ -481,7 +486,7 @@ public struct Lightsail {
         return try client.send(operation: "StartRelationalDatabase", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Stops a specific Amazon Lightsail instance that is currently running. The stop instance operation supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
+    ///  Stops a specific Amazon Lightsail instance that is currently running.  When you start a stopped instance, Lightsail assigns a new public IP address to the instance. To use the same IP address after stopping and starting an instance, create a static IP address and attach it to the instance. For more information, see the Lightsail Dev Guide.  The stop instance operation supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
     public func stopInstance(_ input: StopInstanceRequest) throws -> Future<StopInstanceResult> {
         return try client.send(operation: "StopInstance", path: "/", httpMethod: "POST", input: input)
     }

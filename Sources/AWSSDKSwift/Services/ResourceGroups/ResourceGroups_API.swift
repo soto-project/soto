@@ -45,7 +45,7 @@ public struct ResourceGroups {
         return try client.send(operation: "GetGroupQuery", path: "/groups/{GroupName}/query", httpMethod: "GET", input: input)
     }
 
-    ///  Returns a list of tags that are associated with a resource, specified by an ARN.
+    ///  Returns a list of tags that are associated with a resource group, specified by an ARN.
     public func getTags(_ input: GetTagsInput) throws -> Future<GetTagsOutput> {
         return try client.send(operation: "GetTags", path: "/resources/{Arn}/tags", httpMethod: "GET", input: input)
     }
@@ -65,7 +65,7 @@ public struct ResourceGroups {
         return try client.send(operation: "SearchResources", path: "/resources/search", httpMethod: "POST", input: input)
     }
 
-    ///  Adds specified tags to a resource with the specified ARN. Existing tags on a resource are not changed if they are not specified in the request parameters.
+    ///  Adds tags to a resource group with the specified ARN. Existing tags on a resource group are not changed if they are not specified in the request parameters.
     public func tag(_ input: TagInput) throws -> Future<TagOutput> {
         return try client.send(operation: "Tag", path: "/resources/{Arn}/tags", httpMethod: "PUT", input: input)
     }
