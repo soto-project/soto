@@ -1,33 +1,41 @@
 #!/bin/sh
 
-set -e
+set -eux
+
+TEMP_DIR=""
+COMMIT_CHANGES=""
 
 usage()
 {
-  echo "Usage: update_models.sh -c [ -v MODELS_VERSION_NUMBER ]"
-  exit 2
+    echo "Usage: update_models.sh -c [ -v MODELS_VERSION_NUMBER ]"
+    exit 2
 }
 
 get_aws_sdk_go()
 {
-  # clone aws-sdk-go into folder
-  git clone https://github.com/aws/aws-sdk-go.git $1
-  if [ -n "$2" ]; then
-      pushd $1
-      git checkout $2
-      popd
-  fi
-  return 0
+    DESTIONATION_FOLDER=$1
+    BRANCH_NAME=$2
+    # clone aws-sdk-go into folder
+    git clone https://github.com/aws/aws-sdk-go.git "$DESTIONATION_FOLDER"
+    if [ -n "$BRANCH_NAME" ]; then
+        CURRENT_FOLDER=$(pwd)
+        cd "$DESTIONATION_FOLDER"
+        git checkout "$BRANCH_NAME"
+        cd "$CURRENT_FOLDER"
+    fi
+    return 0
 }
 
 copy_model_files()
 {
-    rm -rf $2/apis/*
-    rm -rf $2/endpoints/*
-    cp -R $1/apis/* $2/apis/
-    cp -R $1/endpoints/* $2/endpoints/
-    rm $2/apis/*.go
-    rm $2/endpoints/*.go
+    SOURCE_FOLDER=$1
+    DESTIONATION_FOLDER=$2
+    rm -rf "$DESTIONATION_FOLDER"/apis/*
+    rm -rf "$DESTIONATION_FOLDER"/endpoints/*
+    cp -R "$SOURCE_FOLDER"/apis/* "$DESTIONATION_FOLDER"/apis/
+    cp -R "$SOURCE_FOLDER"/endpoints/* "$DESTIONATION_FOLDER"/endpoints/
+    rm "$DESTIONATION_FOLDER"/apis/*.go
+    rm "$DESTIONATION_FOLDER"/endpoints/*.go
     return 0
 }
 
@@ -45,17 +53,18 @@ build_files()
 
 check_for_local_changes()
 {
-    LOCAL_CHANGES=`git status --porcelain`
-    if [ -n "$LOCAL_CHANGES" ] && [ "$COMMIT_CHANGES" == 1 ]; then
-        echo "You have local changes already and you have requested to commit changes after this script has run.\nEither remove the -c option or stash your local changes."
-        usage
-        exit
+    if [ "$COMMIT_CHANGES" = 1 ]; then
+        LOCAL_CHANGES=$(git status --porcelain)
+        if [ -n "$LOCAL_CHANGES" ]; then
+            printf "You have local changes already and you have requested to commit changes after this script has run.\nEither remove the -c option or stash your local changes."
+            usage
+        fi
     fi
 }
 
 commit_changes()
 {
-    COMMIT_MSG="Sync models with aws-sdk-go "$AWS_MODELS_VERSION
+    COMMIT_MSG="Sync models with aws-sdk-go $AWS_MODELS_VERSION"
     git add models
     git add Sources/AWSSDKSwift
     git commit -m "$COMMIT_MSG"
@@ -73,9 +82,7 @@ do
     case $option in
         v) AWS_MODELS_VERSION=$OPTARG ;;
         c) COMMIT_CHANGES=1 ;;
-        *)
-        usage
-        exit ;;
+        *) usage ;;
     esac
 done
 
@@ -84,24 +91,20 @@ trap cleanup EXIT
 
 check_for_local_changes
 
-#create temp folder
-TEMP_DIR=`mktemp -d`
-echo "Using temp folder "$TEMP_DIR
+TEMP_DIR=$(mktemp -d)
+echo "Using temp folder $TEMP_DIR"
 
-#get aws-sdk-go models
 echo "Get aws-sdk-go models"
 AWS_SDK_GO=$TEMP_DIR/aws-sdk-go/
-get_aws_sdk_go $AWS_SDK_GO $AWS_MODELS_VERSION
+get_aws_sdk_go "$AWS_SDK_GO" "$AWS_MODELS_VERSION"
 
-#copy aws-sdk-go models into aws-sdk-swift
 echo "Copy models to aws-sdk-swift"
 AWS_SDK_GO_MODELS=$AWS_SDK_GO/models
 TARGET_MODELS=models
-copy_model_files $AWS_SDK_GO_MODELS $TARGET_MODELS
+copy_model_files "$AWS_SDK_GO_MODELS" "$TARGET_MODELS"
 
-#build service files from the models and check they compile
 build_files
 
-if [ "$COMMIT_CHANGES" == 1 ]; then
+if [ "$COMMIT_CHANGES" = 1 ]; then
     commit_changes
 fi
