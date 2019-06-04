@@ -60,6 +60,11 @@ public struct MediaConnect {
         return try client.send(operation: "ListFlows", path: "/v1/flows", httpMethod: "GET", input: input)
     }
 
+    ///  List all tags on an AWS Elemental MediaConnect resource
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> Future<ListTagsForResourceResponse> {
+        return try client.send(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: "GET", input: input)
+    }
+
     ///  Removes an output from an existing flow. This request can be made only on an output that does not have an entitlement associated with it. If the output has an entitlement, you must revoke the entitlement instead. When an entitlement is revoked from a flow, the service automatically removes the associated output.
     public func removeFlowOutput(_ input: RemoveFlowOutputRequest) throws -> Future<RemoveFlowOutputResponse> {
         return try client.send(operation: "RemoveFlowOutput", path: "/v1/flows/{flowArn}/outputs/{outputArn}", httpMethod: "DELETE", input: input)
@@ -78,6 +83,16 @@ public struct MediaConnect {
     ///  Stops a flow.
     public func stopFlow(_ input: StopFlowRequest) throws -> Future<StopFlowResponse> {
         return try client.send(operation: "StopFlow", path: "/v1/flows/stop/{flowArn}", httpMethod: "POST", input: input)
+    }
+
+    ///  Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well.
+    @discardableResult public func tagResource(_ input: TagResourceRequest) throws -> Future<Void> {
+        return try client.send(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes specified tags from a resource.
+    @discardableResult public func untagResource(_ input: UntagResourceRequest) throws -> Future<Void> {
+        return try client.send(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: "DELETE", input: input)
     }
 
     ///  You can change an entitlement's description, subscribers, and encryption. If you change the subscribers, the service will remove the outputs that are are used by the subscribers that are removed.

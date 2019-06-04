@@ -87,7 +87,7 @@ extension MediaStoreData {
         ]
         /// The path (including the file name) where the object is stored in the container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt; For example, to upload the file mlaw.avi to the folder path premium\canada in the container movies, enter the path premium/canada/mlaw.avi. Do not include the container name in this path. If the path includes any folders that don't exist yet, the service creates them. For example, suppose you have an existing premium/usa subfolder. If you specify premium/canada, the service creates a canada subfolder in the premium folder. You then have two subfolders, usa and canada, in the premium folder.  There is no correlation between the path to the source and the path (folders) in the container in AWS Elemental MediaStore. For more information about folders and how they exist in a container, see the AWS Elemental MediaStore User Guide. The file name is the name that is assigned to the file that you upload. The file can have the same name inside and outside of AWS Elemental MediaStore, or it can have the same name. The file name can include or omit an extension. 
         public let path: String
-        /// The range bytes of an object to retrieve. For more information about the Range header, go to http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.
+        /// The range bytes of an object to retrieve. For more information about the Range header, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35. AWS Elemental MediaStore ignores this header for partially uploaded objects that have streaming upload availability.
         public let range: String?
 
         public init(path: String, range: String? = nil) {
@@ -256,7 +256,8 @@ extension MediaStoreData {
             AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string), 
             AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
             AWSShapeMember(label: "Path", location: .uri(locationName: "Path"), required: true, type: .string), 
-            AWSShapeMember(label: "StorageClass", location: .header(locationName: "x-amz-storage-class"), required: false, type: .enum)
+            AWSShapeMember(label: "StorageClass", location: .header(locationName: "x-amz-storage-class"), required: false, type: .enum), 
+            AWSShapeMember(label: "UploadAvailability", location: .header(locationName: "x-amz-upload-availability"), required: false, type: .enum)
         ]
         /// The bytes to be stored. 
         public let body: Data
@@ -268,13 +269,16 @@ extension MediaStoreData {
         public let path: String
         /// Indicates the storage class of a Put request. Defaults to high-performance temporal storage class, and objects are persisted into durable storage shortly after being received.
         public let storageClass: StorageClass?
+        /// Indicates the availability of an object while it is still uploading. If the value is set to streaming, the object is available for downloading after some initial buffering but before the object is uploaded completely. If the value is set to standard, the object is available for downloading only when it is uploaded completely. The default value for this header is standard. To use this header, you must also set the HTTP Transfer-Encoding header to chunked.
+        public let uploadAvailability: UploadAvailability?
 
-        public init(body: Data, cacheControl: String? = nil, contentType: String? = nil, path: String, storageClass: StorageClass? = nil) {
+        public init(body: Data, cacheControl: String? = nil, contentType: String? = nil, path: String, storageClass: StorageClass? = nil, uploadAvailability: UploadAvailability? = nil) {
             self.body = body
             self.cacheControl = cacheControl
             self.contentType = contentType
             self.path = path
             self.storageClass = storageClass
+            self.uploadAvailability = uploadAvailability
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -283,6 +287,7 @@ extension MediaStoreData {
             case contentType = "Content-Type"
             case path = "Path"
             case storageClass = "x-amz-storage-class"
+            case uploadAvailability = "x-amz-upload-availability"
         }
     }
 
@@ -314,6 +319,12 @@ extension MediaStoreData {
 
     public enum StorageClass: String, CustomStringConvertible, Codable {
         case temporal = "TEMPORAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UploadAvailability: String, CustomStringConvertible, Codable {
+        case standard = "STANDARD"
+        case streaming = "STREAMING"
         public var description: String { return self.rawValue }
     }
 

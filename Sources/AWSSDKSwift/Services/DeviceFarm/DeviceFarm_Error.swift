@@ -11,6 +11,9 @@ public enum DeviceFarmErrorType: AWSErrorType {
     case notEligibleException(message: String?)
     case notFoundException(message: String?)
     case serviceAccountException(message: String?)
+    case tagOperationException(message: String?)
+    case tagPolicyException(message: String?)
+    case tooManyTagsException(message: String?)
 }
 
 extension DeviceFarmErrorType {
@@ -34,6 +37,12 @@ extension DeviceFarmErrorType {
             self = .notFoundException(message: message)
         case "ServiceAccountException":
             self = .serviceAccountException(message: message)
+        case "TagOperationException":
+            self = .tagOperationException(message: message)
+        case "TagPolicyException":
+            self = .tagPolicyException(message: message)
+        case "TooManyTagsException":
+            self = .tooManyTagsException(message: message)
         default:
             return nil
         }

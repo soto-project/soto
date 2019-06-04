@@ -64,7 +64,7 @@ extension IoTAnalytics {
         ]
         /// The name of the channel where the messages are sent.
         public let channelName: String
-        /// The list of messages to be sent. Each message has format: '{ "messageId": "string", "payload": "string"}'.
+        /// The list of messages to be sent. Each message has format: '{ "messageId": "string", "payload": "string"}'. Note that the field names of message payloads (data) that you send to AWS IoT Analytics:   Must contain only alphanumeric characters and undescores (_); no other special characters are allowed.   Must begin with an alphabetic character or single underscore (_).   Cannot contain hyphens (-).   In regular expression terms: "^[A-Za-z_]([A-Za-z0-9]*|[A-Za-z0-9][A-Za-z0-9_]*)$".    Cannot be greater than 255 characters.   Are case-insensitive. (Fields named "foo" and "FOO" in the same payload are considered duplicates.)   For example, {"temp_01": 29} or {"_temp_01": 29} are valid, but {"temp-01": 29}, {"01_temp": 29} or {"__temp_01": 29} are invalid in message payloads. 
         public let messages: [Message]
 
         public init(channelName: String, messages: [Message]) {
@@ -129,7 +129,8 @@ extension IoTAnalytics {
             AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "retentionPeriod", required: false, type: .structure), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "storage", required: false, type: .structure)
         ]
         /// The ARN of the channel.
         public let arn: String?
@@ -143,14 +144,17 @@ extension IoTAnalytics {
         public let retentionPeriod: RetentionPeriod?
         /// The status of the channel.
         public let status: ChannelStatus?
+        /// Where channel data is stored.
+        public let storage: ChannelStorage?
 
-        public init(arn: String? = nil, creationTime: TimeStamp? = nil, lastUpdateTime: TimeStamp? = nil, name: String? = nil, retentionPeriod: RetentionPeriod? = nil, status: ChannelStatus? = nil) {
+        public init(arn: String? = nil, creationTime: TimeStamp? = nil, lastUpdateTime: TimeStamp? = nil, name: String? = nil, retentionPeriod: RetentionPeriod? = nil, status: ChannelStatus? = nil, storage: ChannelStorage? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.lastUpdateTime = lastUpdateTime
             self.name = name
             self.retentionPeriod = retentionPeriod
             self.status = status
+            self.storage = storage
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -160,6 +164,7 @@ extension IoTAnalytics {
             case name = "name"
             case retentionPeriod = "retentionPeriod"
             case status = "status"
+            case storage = "storage"
         }
     }
 
@@ -212,15 +217,60 @@ extension IoTAnalytics {
         public var description: String { return self.rawValue }
     }
 
+    public struct ChannelStorage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "customerManagedS3", required: false, type: .structure), 
+            AWSShapeMember(label: "serviceManagedS3", required: false, type: .structure)
+        ]
+        /// Use this to store channel data in an S3 bucket that you manage.
+        public let customerManagedS3: CustomerManagedChannelS3Storage?
+        /// Use this to store channel data in an S3 bucket managed by the AWS IoT Analytics service.
+        public let serviceManagedS3: ServiceManagedChannelS3Storage?
+
+        public init(customerManagedS3: CustomerManagedChannelS3Storage? = nil, serviceManagedS3: ServiceManagedChannelS3Storage? = nil) {
+            self.customerManagedS3 = customerManagedS3
+            self.serviceManagedS3 = serviceManagedS3
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerManagedS3 = "customerManagedS3"
+            case serviceManagedS3 = "serviceManagedS3"
+        }
+    }
+
+    public struct ChannelStorageSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "customerManagedS3", required: false, type: .structure), 
+            AWSShapeMember(label: "serviceManagedS3", required: false, type: .structure)
+        ]
+        /// Used to store channel data in an S3 bucket that you manage.
+        public let customerManagedS3: CustomerManagedChannelS3StorageSummary?
+        /// Used to store channel data in an S3 bucket managed by the AWS IoT Analytics service.
+        public let serviceManagedS3: ServiceManagedChannelS3StorageSummary?
+
+        public init(customerManagedS3: CustomerManagedChannelS3StorageSummary? = nil, serviceManagedS3: ServiceManagedChannelS3StorageSummary? = nil) {
+            self.customerManagedS3 = customerManagedS3
+            self.serviceManagedS3 = serviceManagedS3
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerManagedS3 = "customerManagedS3"
+            case serviceManagedS3 = "serviceManagedS3"
+        }
+    }
+
     public struct ChannelSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "channelName", required: false, type: .string), 
+            AWSShapeMember(label: "channelStorage", required: false, type: .structure), 
             AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "status", required: false, type: .enum)
         ]
         /// The name of the channel.
         public let channelName: String?
+        /// Where channel data is stored.
+        public let channelStorage: ChannelStorageSummary?
         /// When the channel was created.
         public let creationTime: TimeStamp?
         /// The last time the channel was updated.
@@ -228,8 +278,9 @@ extension IoTAnalytics {
         /// The status of the channel.
         public let status: ChannelStatus?
 
-        public init(channelName: String? = nil, creationTime: TimeStamp? = nil, lastUpdateTime: TimeStamp? = nil, status: ChannelStatus? = nil) {
+        public init(channelName: String? = nil, channelStorage: ChannelStorageSummary? = nil, creationTime: TimeStamp? = nil, lastUpdateTime: TimeStamp? = nil, status: ChannelStatus? = nil) {
             self.channelName = channelName
+            self.channelStorage = channelStorage
             self.creationTime = creationTime
             self.lastUpdateTime = lastUpdateTime
             self.status = status
@@ -237,6 +288,7 @@ extension IoTAnalytics {
 
         private enum CodingKeys: String, CodingKey {
             case channelName = "channelName"
+            case channelStorage = "channelStorage"
             case creationTime = "creationTime"
             case lastUpdateTime = "lastUpdateTime"
             case status = "status"
@@ -283,24 +335,29 @@ extension IoTAnalytics {
     public struct CreateChannelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "channelName", required: true, type: .string), 
+            AWSShapeMember(label: "channelStorage", required: false, type: .structure), 
             AWSShapeMember(label: "retentionPeriod", required: false, type: .structure), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
         /// The name of the channel.
         public let channelName: String
+        /// Where channel data is stored.
+        public let channelStorage: ChannelStorage?
         /// How long, in days, message data is kept for the channel.
         public let retentionPeriod: RetentionPeriod?
         /// Metadata which can be used to manage the channel.
         public let tags: [Tag]?
 
-        public init(channelName: String, retentionPeriod: RetentionPeriod? = nil, tags: [Tag]? = nil) {
+        public init(channelName: String, channelStorage: ChannelStorage? = nil, retentionPeriod: RetentionPeriod? = nil, tags: [Tag]? = nil) {
             self.channelName = channelName
+            self.channelStorage = channelStorage
             self.retentionPeriod = retentionPeriod
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case channelName = "channelName"
+            case channelStorage = "channelStorage"
             case retentionPeriod = "retentionPeriod"
             case tags = "tags"
         }
@@ -371,27 +428,32 @@ extension IoTAnalytics {
             AWSShapeMember(label: "datasetName", required: true, type: .string), 
             AWSShapeMember(label: "retentionPeriod", required: false, type: .structure), 
             AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "triggers", required: false, type: .list)
+            AWSShapeMember(label: "triggers", required: false, type: .list), 
+            AWSShapeMember(label: "versioningConfiguration", required: false, type: .structure)
         ]
         /// A list of actions that create the data set contents.
         public let actions: [DatasetAction]
+        /// When data set contents are created they are delivered to destinations specified here.
         public let contentDeliveryRules: [DatasetContentDeliveryRule]?
         /// The name of the data set.
         public let datasetName: String
-        /// [Optional] How long, in days, message data is kept for the data set. If not given or set to null, the latest version of the dataset content plus the latest succeeded version (if they are different) are retained for at most 90 days.
+        /// [Optional] How long, in days, versions of data set contents are kept for the data set. If not specified or set to null, versions of data set contents are retained for at most 90 days. The number of versions of data set contents retained is determined by the versioningConfiguration parameter. (For more information, see https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions)
         public let retentionPeriod: RetentionPeriod?
         /// Metadata which can be used to manage the data set.
         public let tags: [Tag]?
         /// A list of triggers. A trigger causes data set contents to be populated at a specified time interval or when another data set's contents are created. The list of triggers can be empty or contain up to five DataSetTrigger objects.
         public let triggers: [DatasetTrigger]?
+        /// [Optional] How many versions of data set contents are kept. If not specified or set to null, only the latest version plus the latest succeeded version (if they are different) are kept for the time period specified by the "retentionPeriod" parameter. (For more information, see https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions)
+        public let versioningConfiguration: VersioningConfiguration?
 
-        public init(actions: [DatasetAction], contentDeliveryRules: [DatasetContentDeliveryRule]? = nil, datasetName: String, retentionPeriod: RetentionPeriod? = nil, tags: [Tag]? = nil, triggers: [DatasetTrigger]? = nil) {
+        public init(actions: [DatasetAction], contentDeliveryRules: [DatasetContentDeliveryRule]? = nil, datasetName: String, retentionPeriod: RetentionPeriod? = nil, tags: [Tag]? = nil, triggers: [DatasetTrigger]? = nil, versioningConfiguration: VersioningConfiguration? = nil) {
             self.actions = actions
             self.contentDeliveryRules = contentDeliveryRules
             self.datasetName = datasetName
             self.retentionPeriod = retentionPeriod
             self.tags = tags
             self.triggers = triggers
+            self.versioningConfiguration = versioningConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -401,6 +463,7 @@ extension IoTAnalytics {
             case retentionPeriod = "retentionPeriod"
             case tags = "tags"
             case triggers = "triggers"
+            case versioningConfiguration = "versioningConfiguration"
         }
     }
 
@@ -414,7 +477,7 @@ extension IoTAnalytics {
         public let datasetArn: String?
         /// The name of the data set.
         public let datasetName: String?
-        /// How long, in days, message data is kept for the data set.
+        /// How long, in days, data set contents are kept for the data set.
         public let retentionPeriod: RetentionPeriod?
 
         public init(datasetArn: String? = nil, datasetName: String? = nil, retentionPeriod: RetentionPeriod? = nil) {
@@ -433,24 +496,29 @@ extension IoTAnalytics {
     public struct CreateDatastoreRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "datastoreName", required: true, type: .string), 
+            AWSShapeMember(label: "datastoreStorage", required: false, type: .structure), 
             AWSShapeMember(label: "retentionPeriod", required: false, type: .structure), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
         /// The name of the data store.
         public let datastoreName: String
+        /// Where data store data is stored.
+        public let datastoreStorage: DatastoreStorage?
         /// How long, in days, message data is kept for the data store.
         public let retentionPeriod: RetentionPeriod?
         /// Metadata which can be used to manage the data store.
         public let tags: [Tag]?
 
-        public init(datastoreName: String, retentionPeriod: RetentionPeriod? = nil, tags: [Tag]? = nil) {
+        public init(datastoreName: String, datastoreStorage: DatastoreStorage? = nil, retentionPeriod: RetentionPeriod? = nil, tags: [Tag]? = nil) {
             self.datastoreName = datastoreName
+            self.datastoreStorage = datastoreStorage
             self.retentionPeriod = retentionPeriod
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case datastoreName = "datastoreName"
+            case datastoreStorage = "datastoreStorage"
             case retentionPeriod = "retentionPeriod"
             case tags = "tags"
         }
@@ -488,7 +556,7 @@ extension IoTAnalytics {
             AWSShapeMember(label: "pipelineName", required: true, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
-        /// A list of pipeline activities. The list can be 1-25 PipelineActivity objects. Activities perform transformations on your messages, such as removing, renaming, or adding message attributes; filtering messages based on attribute values; invoking your Lambda functions on messages for advanced processing; or performing mathematical transformations to normalize device data.
+        /// A list of "PipelineActivity" objects. Activities perform transformations on your messages, such as removing, renaming or adding message attributes; filtering messages based on attribute values; invoking your Lambda functions on messages for advanced processing; or performing mathematical transformations to normalize device data. The list can be 2-25 PipelineActivity objects and must contain both a channel and a datastore activity. Each entry in the list must contain only one activity, for example:  pipelineActivities = [ { "channel": { ... } }, { "lambda": { ... } }, ... ] 
         public let pipelineActivities: [PipelineActivity]
         /// The name of the pipeline.
         public let pipelineName: String
@@ -529,6 +597,110 @@ extension IoTAnalytics {
         }
     }
 
+    public struct CustomerManagedChannelS3Storage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "bucket", required: true, type: .string), 
+            AWSShapeMember(label: "keyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string)
+        ]
+        /// The name of the Amazon S3 bucket in which channel data is stored.
+        public let bucket: String
+        /// The prefix used to create the keys of the channel data objects. Each object in an Amazon S3 bucket has a key that is its unique identifier within the bucket (each object in a bucket has exactly one key).
+        public let keyPrefix: String?
+        /// The ARN of the role which grants AWS IoT Analytics permission to interact with your Amazon S3 resources.
+        public let roleArn: String
+
+        public init(bucket: String, keyPrefix: String? = nil, roleArn: String) {
+            self.bucket = bucket
+            self.keyPrefix = keyPrefix
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "bucket"
+            case keyPrefix = "keyPrefix"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct CustomerManagedChannelS3StorageSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "bucket", required: false, type: .string), 
+            AWSShapeMember(label: "keyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "roleArn", required: false, type: .string)
+        ]
+        /// The name of the Amazon S3 bucket in which channel data is stored.
+        public let bucket: String?
+        /// The prefix used to create the keys of the channel data objects. Each object in an Amazon S3 bucket has a key that is its unique identifier within the bucket (each object in a bucket has exactly one key).
+        public let keyPrefix: String?
+        /// The ARN of the role which grants AWS IoT Analytics permission to interact with your Amazon S3 resources.
+        public let roleArn: String?
+
+        public init(bucket: String? = nil, keyPrefix: String? = nil, roleArn: String? = nil) {
+            self.bucket = bucket
+            self.keyPrefix = keyPrefix
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "bucket"
+            case keyPrefix = "keyPrefix"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct CustomerManagedDatastoreS3Storage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "bucket", required: true, type: .string), 
+            AWSShapeMember(label: "keyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string)
+        ]
+        /// The name of the Amazon S3 bucket in which data store data is stored.
+        public let bucket: String
+        /// The prefix used to create the keys of the data store data objects. Each object in an Amazon S3 bucket has a key that is its unique identifier within the bucket (each object in a bucket has exactly one key).
+        public let keyPrefix: String?
+        /// The ARN of the role which grants AWS IoT Analytics permission to interact with your Amazon S3 resources.
+        public let roleArn: String
+
+        public init(bucket: String, keyPrefix: String? = nil, roleArn: String) {
+            self.bucket = bucket
+            self.keyPrefix = keyPrefix
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "bucket"
+            case keyPrefix = "keyPrefix"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct CustomerManagedDatastoreS3StorageSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "bucket", required: false, type: .string), 
+            AWSShapeMember(label: "keyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "roleArn", required: false, type: .string)
+        ]
+        /// The name of the Amazon S3 bucket in which data store data is stored.
+        public let bucket: String?
+        /// The prefix used to create the keys of the data store data objects. Each object in an Amazon S3 bucket has a key that is its unique identifier within the bucket (each object in a bucket has exactly one key).
+        public let keyPrefix: String?
+        /// The ARN of the role which grants AWS IoT Analytics permission to interact with your Amazon S3 resources.
+        public let roleArn: String?
+
+        public init(bucket: String? = nil, keyPrefix: String? = nil, roleArn: String? = nil) {
+            self.bucket = bucket
+            self.keyPrefix = keyPrefix
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "bucket"
+            case keyPrefix = "keyPrefix"
+            case roleArn = "roleArn"
+        }
+    }
+
     public struct Dataset: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "actions", required: false, type: .list), 
@@ -539,12 +711,14 @@ extension IoTAnalytics {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "retentionPeriod", required: false, type: .structure), 
             AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "triggers", required: false, type: .list)
+            AWSShapeMember(label: "triggers", required: false, type: .list), 
+            AWSShapeMember(label: "versioningConfiguration", required: false, type: .structure)
         ]
         /// The "DatasetAction" objects that automatically create the data set contents.
         public let actions: [DatasetAction]?
         /// The ARN of the data set.
         public let arn: String?
+        /// When data set contents are created they are delivered to destinations specified here.
         public let contentDeliveryRules: [DatasetContentDeliveryRule]?
         /// When the data set was created.
         public let creationTime: TimeStamp?
@@ -558,8 +732,10 @@ extension IoTAnalytics {
         public let status: DatasetStatus?
         /// The "DatasetTrigger" objects that specify when the data set is automatically updated.
         public let triggers: [DatasetTrigger]?
+        /// [Optional] How many versions of data set contents are kept. If not specified or set to null, only the latest version plus the latest succeeded version (if they are different) are kept for the time period specified by the "retentionPeriod" parameter. (For more information, see https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions)
+        public let versioningConfiguration: VersioningConfiguration?
 
-        public init(actions: [DatasetAction]? = nil, arn: String? = nil, contentDeliveryRules: [DatasetContentDeliveryRule]? = nil, creationTime: TimeStamp? = nil, lastUpdateTime: TimeStamp? = nil, name: String? = nil, retentionPeriod: RetentionPeriod? = nil, status: DatasetStatus? = nil, triggers: [DatasetTrigger]? = nil) {
+        public init(actions: [DatasetAction]? = nil, arn: String? = nil, contentDeliveryRules: [DatasetContentDeliveryRule]? = nil, creationTime: TimeStamp? = nil, lastUpdateTime: TimeStamp? = nil, name: String? = nil, retentionPeriod: RetentionPeriod? = nil, status: DatasetStatus? = nil, triggers: [DatasetTrigger]? = nil, versioningConfiguration: VersioningConfiguration? = nil) {
             self.actions = actions
             self.arn = arn
             self.contentDeliveryRules = contentDeliveryRules
@@ -569,6 +745,7 @@ extension IoTAnalytics {
             self.retentionPeriod = retentionPeriod
             self.status = status
             self.triggers = triggers
+            self.versioningConfiguration = versioningConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -581,6 +758,7 @@ extension IoTAnalytics {
             case retentionPeriod = "retentionPeriod"
             case status = "status"
             case triggers = "triggers"
+            case versioningConfiguration = "versioningConfiguration"
         }
     }
 
@@ -594,7 +772,7 @@ extension IoTAnalytics {
         public let actionName: String?
         /// Information which allows the system to run a containerized application in order to create the data set contents. The application must be in a Docker container along with any needed support libraries.
         public let containerAction: ContainerDatasetAction?
-        /// An "SqlQueryDatasetAction" object that contains the SQL query to modify the message.
+        /// An "SqlQueryDatasetAction" object that uses an SQL query to automatically create data set contents.
         public let queryAction: SqlQueryDatasetAction?
 
         public init(actionName: String? = nil, containerAction: ContainerDatasetAction? = nil, queryAction: SqlQueryDatasetAction? = nil) {
@@ -639,16 +817,22 @@ extension IoTAnalytics {
 
     public struct DatasetContentDeliveryDestination: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "iotEventsDestinationConfiguration", required: false, type: .structure)
+            AWSShapeMember(label: "iotEventsDestinationConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "s3DestinationConfiguration", required: false, type: .structure)
         ]
+        /// Configuration information for delivery of data set contents to AWS IoT Events.
         public let iotEventsDestinationConfiguration: IotEventsDestinationConfiguration?
+        /// Configuration information for delivery of data set contents to Amazon S3.
+        public let s3DestinationConfiguration: S3DestinationConfiguration?
 
-        public init(iotEventsDestinationConfiguration: IotEventsDestinationConfiguration? = nil) {
+        public init(iotEventsDestinationConfiguration: IotEventsDestinationConfiguration? = nil, s3DestinationConfiguration: S3DestinationConfiguration? = nil) {
             self.iotEventsDestinationConfiguration = iotEventsDestinationConfiguration
+            self.s3DestinationConfiguration = s3DestinationConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
             case iotEventsDestinationConfiguration = "iotEventsDestinationConfiguration"
+            case s3DestinationConfiguration = "s3DestinationConfiguration"
         }
     }
 
@@ -657,7 +841,9 @@ extension IoTAnalytics {
             AWSShapeMember(label: "destination", required: true, type: .structure), 
             AWSShapeMember(label: "entryName", required: false, type: .string)
         ]
+        /// The destination to which data set contents are delivered.
         public let destination: DatasetContentDeliveryDestination
+        /// The name of the data set content delivery rules entry.
         public let entryName: String?
 
         public init(destination: DatasetContentDeliveryDestination, entryName: String? = nil) {
@@ -734,7 +920,7 @@ extension IoTAnalytics {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "datasetName", required: true, type: .string)
         ]
-        /// The name of the data set whose latest contents will be used as input to the notebook or application.
+        /// The name of the data set whose latest contents are used as input to the notebook or application.
         public let datasetName: String
 
         public init(datasetName: String) {
@@ -820,7 +1006,7 @@ extension IoTAnalytics {
             AWSShapeMember(label: "dataset", required: false, type: .structure), 
             AWSShapeMember(label: "schedule", required: false, type: .structure)
         ]
-        /// The data set whose content creation will trigger the creation of this data set's contents.
+        /// The data set whose content creation triggers the creation of this data set's contents.
         public let dataset: TriggeringDataset?
         /// The "Schedule" when the trigger is initiated.
         public let schedule: Schedule?
@@ -843,7 +1029,8 @@ extension IoTAnalytics {
             AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "retentionPeriod", required: false, type: .structure), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "storage", required: false, type: .structure)
         ]
         /// The ARN of the data store.
         public let arn: String?
@@ -857,14 +1044,17 @@ extension IoTAnalytics {
         public let retentionPeriod: RetentionPeriod?
         /// The status of a data store:  CREATING  The data store is being created.  ACTIVE  The data store has been created and can be used.  DELETING  The data store is being deleted.  
         public let status: DatastoreStatus?
+        /// Where data store data is stored.
+        public let storage: DatastoreStorage?
 
-        public init(arn: String? = nil, creationTime: TimeStamp? = nil, lastUpdateTime: TimeStamp? = nil, name: String? = nil, retentionPeriod: RetentionPeriod? = nil, status: DatastoreStatus? = nil) {
+        public init(arn: String? = nil, creationTime: TimeStamp? = nil, lastUpdateTime: TimeStamp? = nil, name: String? = nil, retentionPeriod: RetentionPeriod? = nil, status: DatastoreStatus? = nil, storage: DatastoreStorage? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.lastUpdateTime = lastUpdateTime
             self.name = name
             self.retentionPeriod = retentionPeriod
             self.status = status
+            self.storage = storage
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -874,6 +1064,7 @@ extension IoTAnalytics {
             case name = "name"
             case retentionPeriod = "retentionPeriod"
             case status = "status"
+            case storage = "storage"
         }
     }
 
@@ -921,10 +1112,53 @@ extension IoTAnalytics {
         public var description: String { return self.rawValue }
     }
 
+    public struct DatastoreStorage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "customerManagedS3", required: false, type: .structure), 
+            AWSShapeMember(label: "serviceManagedS3", required: false, type: .structure)
+        ]
+        /// Use this to store data store data in an S3 bucket that you manage.
+        public let customerManagedS3: CustomerManagedDatastoreS3Storage?
+        /// Use this to store data store data in an S3 bucket managed by the AWS IoT Analytics service.
+        public let serviceManagedS3: ServiceManagedDatastoreS3Storage?
+
+        public init(customerManagedS3: CustomerManagedDatastoreS3Storage? = nil, serviceManagedS3: ServiceManagedDatastoreS3Storage? = nil) {
+            self.customerManagedS3 = customerManagedS3
+            self.serviceManagedS3 = serviceManagedS3
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerManagedS3 = "customerManagedS3"
+            case serviceManagedS3 = "serviceManagedS3"
+        }
+    }
+
+    public struct DatastoreStorageSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "customerManagedS3", required: false, type: .structure), 
+            AWSShapeMember(label: "serviceManagedS3", required: false, type: .structure)
+        ]
+        /// Used to store data store data in an S3 bucket that you manage.
+        public let customerManagedS3: CustomerManagedDatastoreS3StorageSummary?
+        /// Used to store data store data in an S3 bucket managed by the AWS IoT Analytics service.
+        public let serviceManagedS3: ServiceManagedDatastoreS3StorageSummary?
+
+        public init(customerManagedS3: CustomerManagedDatastoreS3StorageSummary? = nil, serviceManagedS3: ServiceManagedDatastoreS3StorageSummary? = nil) {
+            self.customerManagedS3 = customerManagedS3
+            self.serviceManagedS3 = serviceManagedS3
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerManagedS3 = "customerManagedS3"
+            case serviceManagedS3 = "serviceManagedS3"
+        }
+    }
+
     public struct DatastoreSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "datastoreName", required: false, type: .string), 
+            AWSShapeMember(label: "datastoreStorage", required: false, type: .structure), 
             AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "status", required: false, type: .enum)
         ]
@@ -932,14 +1166,17 @@ extension IoTAnalytics {
         public let creationTime: TimeStamp?
         /// The name of the data store.
         public let datastoreName: String?
+        /// Where data store data is stored.
+        public let datastoreStorage: DatastoreStorageSummary?
         /// The last time the data store was updated.
         public let lastUpdateTime: TimeStamp?
         /// The status of the data store.
         public let status: DatastoreStatus?
 
-        public init(creationTime: TimeStamp? = nil, datastoreName: String? = nil, lastUpdateTime: TimeStamp? = nil, status: DatastoreStatus? = nil) {
+        public init(creationTime: TimeStamp? = nil, datastoreName: String? = nil, datastoreStorage: DatastoreStorageSummary? = nil, lastUpdateTime: TimeStamp? = nil, status: DatastoreStatus? = nil) {
             self.creationTime = creationTime
             self.datastoreName = datastoreName
+            self.datastoreStorage = datastoreStorage
             self.lastUpdateTime = lastUpdateTime
             self.status = status
         }
@@ -947,6 +1184,7 @@ extension IoTAnalytics {
         private enum CodingKeys: String, CodingKey {
             case creationTime = "creationTime"
             case datastoreName = "datastoreName"
+            case datastoreStorage = "datastoreStorage"
             case lastUpdateTime = "lastUpdateTime"
             case status = "status"
         }
@@ -1042,7 +1280,7 @@ extension IoTAnalytics {
             AWSShapeMember(label: "offsetSeconds", required: true, type: .integer), 
             AWSShapeMember(label: "timeExpression", required: true, type: .string)
         ]
-        /// The number of seconds of estimated "in flight" lag time of message data.
+        /// The number of seconds of estimated "in flight" lag time of message data. When you create data set contents using message data from a specified time frame, some message data may still be "in flight" when processing begins, and so will not arrive in time to be processed. Use this field to make allowances for the "in flight" time of your message data, so that data not processed from a previous time frame will be included with the next time frame. Without this, missed message data would be excluded from processing during the next time frame as well, because its timestamp places it within the previous time frame.
         public let offsetSeconds: Int32
         /// An expression by which the time of the message data may be determined. This may be the name of a timestamp field, or a SQL expression which is used to derive the time the message data was generated.
         public let timeExpression: String
@@ -1395,12 +1633,35 @@ extension IoTAnalytics {
         }
     }
 
+    public struct GlueConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "databaseName", required: true, type: .string), 
+            AWSShapeMember(label: "tableName", required: true, type: .string)
+        ]
+        /// The name of the database in your AWS Glue Data Catalog in which the table is located. (An AWS Glue Data Catalog database contains Glue Data tables.)
+        public let databaseName: String
+        /// The name of the table in your AWS Glue Data Catalog which is used to perform the ETL (extract, transform and load) operations. (An AWS Glue Data Catalog table contains partitioned data and descriptions of data sources and targets.)
+        public let tableName: String
+
+        public init(databaseName: String, tableName: String) {
+            self.databaseName = databaseName
+            self.tableName = tableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseName = "databaseName"
+            case tableName = "tableName"
+        }
+    }
+
     public struct IotEventsDestinationConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "inputName", required: true, type: .string), 
             AWSShapeMember(label: "roleArn", required: true, type: .string)
         ]
+        /// The name of the AWS IoT Events input to which data set contents are delivered.
         public let inputName: String
+        /// The ARN of the role which grants AWS IoT Analytics permission to deliver data set contents to an AWS IoT Events input.
         public let roleArn: String
 
         public init(inputName: String, roleArn: String) {
@@ -1491,7 +1752,9 @@ extension IoTAnalytics {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName"), required: true, type: .string), 
             AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "scheduledBefore", location: .querystring(locationName: "scheduledBefore"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "scheduledOnOrAfter", location: .querystring(locationName: "scheduledOnOrAfter"), required: false, type: .timestamp)
         ]
         /// The name of the data set whose contents information you want to list.
         public let datasetName: String
@@ -1499,17 +1762,25 @@ extension IoTAnalytics {
         public let maxResults: Int32?
         /// The token for the next set of results.
         public let nextToken: String?
+        /// A filter to limit results to those data set contents whose creation is scheduled before the given time. See the field triggers.schedule in the CreateDataset request. (timestamp)
+        public let scheduledBefore: TimeStamp?
+        /// A filter to limit results to those data set contents whose creation is scheduled on or after the given time. See the field triggers.schedule in the CreateDataset request. (timestamp)
+        public let scheduledOnOrAfter: TimeStamp?
 
-        public init(datasetName: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(datasetName: String, maxResults: Int32? = nil, nextToken: String? = nil, scheduledBefore: TimeStamp? = nil, scheduledOnOrAfter: TimeStamp? = nil) {
             self.datasetName = datasetName
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.scheduledBefore = scheduledBefore
+            self.scheduledOnOrAfter = scheduledOnOrAfter
         }
 
         private enum CodingKeys: String, CodingKey {
             case datasetName = "datasetName"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
+            case scheduledBefore = "scheduledBefore"
+            case scheduledOnOrAfter = "scheduledOnOrAfter"
         }
     }
 
@@ -1730,7 +2001,7 @@ extension IoTAnalytics {
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "next", required: false, type: .string)
         ]
-        /// The name of the attribute that will contain the result of the math operation.
+        /// The name of the attribute that contains the result of the math operation.
         public let attribute: String
         /// An expression that uses one or more existing attributes and must return an integer value.
         public let math: String
@@ -1944,7 +2215,7 @@ extension IoTAnalytics {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deltaTime", required: false, type: .structure)
         ]
-        /// Used to limit data to that which has arrived since the last execution of the action. When you create data set contents using message data from a specified time frame, some message data may still be "in flight" when processing begins, and so will not arrive in time to be processed. Use this field to make allowances for the "in flight" time of you message data, so that data not processed from a previous time frame will be included with the next time frame. Without this, missed message data would be excluded from processing during the next time frame as well, because its timestamp places it within the previous time frame.
+        /// Used to limit data to that which has arrived since the last execution of the action.
         public let deltaTime: DeltaTime?
 
         public init(deltaTime: DeltaTime? = nil) {
@@ -2100,6 +2371,37 @@ extension IoTAnalytics {
         }
     }
 
+    public struct S3DestinationConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "bucket", required: true, type: .string), 
+            AWSShapeMember(label: "glueConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "key", required: true, type: .string), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string)
+        ]
+        /// The name of the Amazon S3 bucket to which data set contents are delivered.
+        public let bucket: String
+        /// Configuration information for coordination with the AWS Glue ETL (extract, transform and load) service.
+        public let glueConfiguration: GlueConfiguration?
+        /// The key of the data set contents object. Each object in an Amazon S3 bucket has a key that is its unique identifier within the bucket (each object in a bucket has exactly one key).
+        public let key: String
+        /// The ARN of the role which grants AWS IoT Analytics permission to interact with your Amazon S3 and AWS Glue resources.
+        public let roleArn: String
+
+        public init(bucket: String, glueConfiguration: GlueConfiguration? = nil, key: String, roleArn: String) {
+            self.bucket = bucket
+            self.glueConfiguration = glueConfiguration
+            self.key = key
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "bucket"
+            case glueConfiguration = "glueConfiguration"
+            case key = "key"
+            case roleArn = "roleArn"
+        }
+    }
+
     public struct SampleChannelDataRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "channelName", location: .uri(locationName: "channelName"), required: true, type: .string), 
@@ -2151,7 +2453,7 @@ extension IoTAnalytics {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "expression", required: false, type: .string)
         ]
-        /// The expression that defines when to trigger an update. For more information, see  Schedule Expressions for Rules in the Amazon CloudWatch documentation.
+        /// The expression that defines when to trigger an update. For more information, see  Schedule Expressions for Rules in the Amazon CloudWatch Events User Guide.
         public let expression: String?
 
         public init(expression: String? = nil) {
@@ -2187,6 +2489,34 @@ extension IoTAnalytics {
             case name = "name"
             case next = "next"
         }
+    }
+
+    public struct ServiceManagedChannelS3Storage: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct ServiceManagedChannelS3StorageSummary: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct ServiceManagedDatastoreS3Storage: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct ServiceManagedDatastoreS3StorageSummary: AWSShape {
+
+        public init() {
+        }
+
     }
 
     public struct SqlQueryDatasetAction: AWSShape {
@@ -2278,7 +2608,7 @@ extension IoTAnalytics {
             AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"), required: true, type: .string), 
             AWSShapeMember(label: "tags", required: true, type: .list)
         ]
-        /// The ARN of the resource whose tags will be modified.
+        /// The ARN of the resource whose tags you want to modify.
         public let resourceArn: String
         /// The new or modified tags for the resource.
         public let tags: [Tag]
@@ -2305,7 +2635,7 @@ extension IoTAnalytics {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: true, type: .string)
         ]
-        /// The name of the data set whose content generation will trigger the new data set content generation.
+        /// The name of the data set whose content generation triggers the new data set content generation.
         public let name: String
 
         public init(name: String) {
@@ -2322,9 +2652,9 @@ extension IoTAnalytics {
             AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"), required: true, type: .string), 
             AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
         ]
-        /// The ARN of the resource whose tags will be removed.
+        /// The ARN of the resource whose tags you want to remove.
         public let resourceArn: String
-        /// The keys of those tags which will be removed.
+        /// The keys of those tags which you want to remove.
         public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {
@@ -2348,20 +2678,25 @@ extension IoTAnalytics {
     public struct UpdateChannelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "channelName", location: .uri(locationName: "channelName"), required: true, type: .string), 
+            AWSShapeMember(label: "channelStorage", required: false, type: .structure), 
             AWSShapeMember(label: "retentionPeriod", required: false, type: .structure)
         ]
         /// The name of the channel to be updated.
         public let channelName: String
+        /// Where channel data is stored.
+        public let channelStorage: ChannelStorage?
         /// How long, in days, message data is kept for the channel.
         public let retentionPeriod: RetentionPeriod?
 
-        public init(channelName: String, retentionPeriod: RetentionPeriod? = nil) {
+        public init(channelName: String, channelStorage: ChannelStorage? = nil, retentionPeriod: RetentionPeriod? = nil) {
             self.channelName = channelName
+            self.channelStorage = channelStorage
             self.retentionPeriod = retentionPeriod
         }
 
         private enum CodingKeys: String, CodingKey {
             case channelName = "channelName"
+            case channelStorage = "channelStorage"
             case retentionPeriod = "retentionPeriod"
         }
     }
@@ -2372,24 +2707,29 @@ extension IoTAnalytics {
             AWSShapeMember(label: "contentDeliveryRules", required: false, type: .list), 
             AWSShapeMember(label: "datasetName", location: .uri(locationName: "datasetName"), required: true, type: .string), 
             AWSShapeMember(label: "retentionPeriod", required: false, type: .structure), 
-            AWSShapeMember(label: "triggers", required: false, type: .list)
+            AWSShapeMember(label: "triggers", required: false, type: .list), 
+            AWSShapeMember(label: "versioningConfiguration", required: false, type: .structure)
         ]
         /// A list of "DatasetAction" objects.
         public let actions: [DatasetAction]
+        /// When data set contents are created they are delivered to destinations specified here.
         public let contentDeliveryRules: [DatasetContentDeliveryRule]?
         /// The name of the data set to update.
         public let datasetName: String
-        /// How long, in days, message data is kept for the data set.
+        /// How long, in days, data set contents are kept for the data set.
         public let retentionPeriod: RetentionPeriod?
         /// A list of "DatasetTrigger" objects. The list can be empty or can contain up to five DataSetTrigger objects.
         public let triggers: [DatasetTrigger]?
+        /// [Optional] How many versions of data set contents are kept. If not specified or set to null, only the latest version plus the latest succeeded version (if they are different) are kept for the time period specified by the "retentionPeriod" parameter. (For more information, see https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions)
+        public let versioningConfiguration: VersioningConfiguration?
 
-        public init(actions: [DatasetAction], contentDeliveryRules: [DatasetContentDeliveryRule]? = nil, datasetName: String, retentionPeriod: RetentionPeriod? = nil, triggers: [DatasetTrigger]? = nil) {
+        public init(actions: [DatasetAction], contentDeliveryRules: [DatasetContentDeliveryRule]? = nil, datasetName: String, retentionPeriod: RetentionPeriod? = nil, triggers: [DatasetTrigger]? = nil, versioningConfiguration: VersioningConfiguration? = nil) {
             self.actions = actions
             self.contentDeliveryRules = contentDeliveryRules
             self.datasetName = datasetName
             self.retentionPeriod = retentionPeriod
             self.triggers = triggers
+            self.versioningConfiguration = versioningConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2398,26 +2738,32 @@ extension IoTAnalytics {
             case datasetName = "datasetName"
             case retentionPeriod = "retentionPeriod"
             case triggers = "triggers"
+            case versioningConfiguration = "versioningConfiguration"
         }
     }
 
     public struct UpdateDatastoreRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "datastoreName", location: .uri(locationName: "datastoreName"), required: true, type: .string), 
+            AWSShapeMember(label: "datastoreStorage", required: false, type: .structure), 
             AWSShapeMember(label: "retentionPeriod", required: false, type: .structure)
         ]
         /// The name of the data store to be updated.
         public let datastoreName: String
+        /// Where data store data is stored.
+        public let datastoreStorage: DatastoreStorage?
         /// How long, in days, message data is kept for the data store.
         public let retentionPeriod: RetentionPeriod?
 
-        public init(datastoreName: String, retentionPeriod: RetentionPeriod? = nil) {
+        public init(datastoreName: String, datastoreStorage: DatastoreStorage? = nil, retentionPeriod: RetentionPeriod? = nil) {
             self.datastoreName = datastoreName
+            self.datastoreStorage = datastoreStorage
             self.retentionPeriod = retentionPeriod
         }
 
         private enum CodingKeys: String, CodingKey {
             case datastoreName = "datastoreName"
+            case datastoreStorage = "datastoreStorage"
             case retentionPeriod = "retentionPeriod"
         }
     }
@@ -2427,7 +2773,7 @@ extension IoTAnalytics {
             AWSShapeMember(label: "pipelineActivities", required: true, type: .list), 
             AWSShapeMember(label: "pipelineName", location: .uri(locationName: "pipelineName"), required: true, type: .string)
         ]
-        /// A list of "PipelineActivity" objects. The list can be 1-25 PipelineActivity objects. Activities perform transformations on your messages, such as removing, renaming or adding message attributes; filtering messages based on attribute values; invoking your Lambda functions on messages for advanced processing; or performing mathematical transformations to normalize device data.
+        /// A list of "PipelineActivity" objects. Activities perform transformations on your messages, such as removing, renaming or adding message attributes; filtering messages based on attribute values; invoking your Lambda functions on messages for advanced processing; or performing mathematical transformations to normalize device data. The list can be 2-25 PipelineActivity objects and must contain both a channel and a datastore activity. Each entry in the list must contain only one activity, for example:  pipelineActivities = [ { "channel": { ... } }, { "lambda": { ... } }, ... ] 
         public let pipelineActivities: [PipelineActivity]
         /// The name of the pipeline to update.
         public let pipelineName: String
@@ -2476,6 +2822,27 @@ extension IoTAnalytics {
             case name = "name"
             case outputFileUriValue = "outputFileUriValue"
             case stringValue = "stringValue"
+        }
+    }
+
+    public struct VersioningConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxVersions", required: false, type: .integer), 
+            AWSShapeMember(label: "unlimited", required: false, type: .boolean)
+        ]
+        /// How many versions of data set contents will be kept. The "unlimited" parameter must be false.
+        public let maxVersions: Int32?
+        /// If true, unlimited versions of data set contents will be kept.
+        public let unlimited: Bool?
+
+        public init(maxVersions: Int32? = nil, unlimited: Bool? = nil) {
+            self.maxVersions = maxVersions
+            self.unlimited = unlimited
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxVersions = "maxVersions"
+            case unlimited = "unlimited"
         }
     }
 

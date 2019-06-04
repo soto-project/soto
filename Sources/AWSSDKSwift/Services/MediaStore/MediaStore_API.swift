@@ -46,6 +46,11 @@ public struct MediaStore {
         return try client.send(operation: "DeleteCorsPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Removes an object lifecycle policy from a container. It takes up to 20 minutes for the change to take effect.
+    public func deleteLifecyclePolicy(_ input: DeleteLifecyclePolicyInput) throws -> Future<DeleteLifecyclePolicyOutput> {
+        return try client.send(operation: "DeleteLifecyclePolicy", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Retrieves the properties of the requested container. This request is commonly used to retrieve the endpoint of a container. An endpoint is a value assigned by the service when a new container is created. A container's endpoint does not change after it has been assigned. The DescribeContainer request returns a single Container object based on ContainerName. To return all Container objects that are associated with a specified AWS account, use ListContainers.
     public func describeContainer(_ input: DescribeContainerInput) throws -> Future<DescribeContainerOutput> {
         return try client.send(operation: "DescribeContainer", path: "/", httpMethod: "POST", input: input)
@@ -61,6 +66,11 @@ public struct MediaStore {
         return try client.send(operation: "GetCorsPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Retrieves the object lifecycle policy that is assigned to a container.
+    public func getLifecyclePolicy(_ input: GetLifecyclePolicyInput) throws -> Future<GetLifecyclePolicyOutput> {
+        return try client.send(operation: "GetLifecyclePolicy", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Lists the properties of all containers in AWS Elemental MediaStore.  You can query to receive all the containers in one response. Or you can include the MaxResults parameter to receive a limited number of containers in each response. In this case, the response includes a token. To get the next set of containers, send the command again, this time with the NextToken parameter (with the returned token as its value). The next set of responses appears, with a token if there are still more containers to receive.  See also DescribeContainer, which gets the properties of one container. 
     public func listContainers(_ input: ListContainersInput) throws -> Future<ListContainersOutput> {
         return try client.send(operation: "ListContainers", path: "/", httpMethod: "POST", input: input)
@@ -71,9 +81,24 @@ public struct MediaStore {
         return try client.send(operation: "PutContainerPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Sets the cross-origin resource sharing (CORS) configuration on a container so that the container can service cross-origin requests. For example, you might want to enable a request whose origin is http://www.example.com to access your AWS Elemental MediaStore container at my.example.container.com by using the browser's XMLHttpRequest capability. To enable CORS on a container, you attach a CORS policy to the container. In the CORS policy, you configure rules that identify origins and the HTTP methods that can be executed on your container. The policy can contain up to 398,000 characters. You can add up to 100 rules to a CORS policy. If more than one rule applies, the service uses the first applicable rule listed.
+    ///  Sets the cross-origin resource sharing (CORS) configuration on a container so that the container can service cross-origin requests. For example, you might want to enable a request whose origin is http://www.example.com to access your AWS Elemental MediaStore container at my.example.container.com by using the browser's XMLHttpRequest capability. To enable CORS on a container, you attach a CORS policy to the container. In the CORS policy, you configure rules that identify origins and the HTTP methods that can be executed on your container. The policy can contain up to 398,000 characters. You can add up to 100 rules to a CORS policy. If more than one rule applies, the service uses the first applicable rule listed. To learn more about CORS, see Cross-Origin Resource Sharing (CORS) in AWS Elemental MediaStore.
     public func putCorsPolicy(_ input: PutCorsPolicyInput) throws -> Future<PutCorsPolicyOutput> {
         return try client.send(operation: "PutCorsPolicy", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Writes an object lifecycle policy to a container. If the container already has an object lifecycle policy, the service replaces the existing policy with the new policy. It takes up to 20 minutes for the change to take effect. For information about how to construct an object lifecycle policy, see Components of an Object Lifecycle Policy.
+    public func putLifecyclePolicy(_ input: PutLifecyclePolicyInput) throws -> Future<PutLifecyclePolicyOutput> {
+        return try client.send(operation: "PutLifecyclePolicy", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Starts access logging on the specified container. When you enable access logging on a container, MediaStore delivers access logs for objects stored in that container to Amazon CloudWatch Logs.
+    public func startAccessLogging(_ input: StartAccessLoggingInput) throws -> Future<StartAccessLoggingOutput> {
+        return try client.send(operation: "StartAccessLogging", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Stops access logging on the specified container. When you stop access logging on a container, MediaStore stops sending access logs to Amazon CloudWatch Logs. These access logs are not saved and are not retrievable.
+    public func stopAccessLogging(_ input: StopAccessLoggingInput) throws -> Future<StopAccessLoggingOutput> {
+        return try client.send(operation: "StopAccessLogging", path: "/", httpMethod: "POST", input: input)
     }
 
 

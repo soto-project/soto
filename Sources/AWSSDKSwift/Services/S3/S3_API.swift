@@ -59,7 +59,7 @@ public struct S3 {
         return try client.send(operation: "DeleteBucket", path: "/{Bucket}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Deletes an analytics configuration for the bucket (specified by the analytics configuration ID).
+    ///  Deletes an analytics configuration for the bucket (specified by the analytics configuration ID). To use this operation, you must have permissions to perform the s3:PutAnalyticsConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. 
     @discardableResult public func deleteBucketAnalyticsConfiguration(_ input: DeleteBucketAnalyticsConfigurationRequest) throws -> Future<Void> {
         return try client.send(operation: "DeleteBucketAnalyticsConfiguration", path: "/{Bucket}?analytics", httpMethod: "DELETE", input: input)
     }
@@ -159,7 +159,7 @@ public struct S3 {
         return try client.send(operation: "GetBucketInventoryConfiguration", path: "/{Bucket}?inventory", httpMethod: "GET", input: input)
     }
 
-    ///  Deprecated, see the GetBucketLifecycleConfiguration operation.
+    ///   No longer used, see the GetBucketLifecycleConfiguration operation.
     public func getBucketLifecycle(_ input: GetBucketLifecycleRequest) throws -> Future<GetBucketLifecycleOutput> {
         return try client.send(operation: "GetBucketLifecycle", path: "/{Bucket}?lifecycle", httpMethod: "GET", input: input)
     }
@@ -184,7 +184,7 @@ public struct S3 {
         return try client.send(operation: "GetBucketMetricsConfiguration", path: "/{Bucket}?metrics", httpMethod: "GET", input: input)
     }
 
-    ///  Deprecated, see the GetBucketNotificationConfiguration operation.
+    ///   No longer used, see the GetBucketNotificationConfiguration operation.
     public func getBucketNotification(_ input: GetBucketNotificationConfigurationRequest) throws -> Future<NotificationConfigurationDeprecated> {
         return try client.send(operation: "GetBucketNotification", path: "/{Bucket}?notification", httpMethod: "GET", input: input)
     }
@@ -244,7 +244,7 @@ public struct S3 {
         return try client.send(operation: "GetObjectLegalHold", path: "/{Bucket}/{Key+}?legal-hold", httpMethod: "GET", input: input)
     }
 
-    ///  Gets the Object Lock configuration for a bucket. The rule specified in the Object Lock configuration will be applied by default to every new object placed in the specified bucket.
+    ///  Gets the object lock configuration for a bucket. The rule specified in the object lock configuration will be applied by default to every new object placed in the specified bucket.
     public func getObjectLockConfiguration(_ input: GetObjectLockConfigurationRequest) throws -> Future<GetObjectLockConfigurationOutput> {
         return try client.send(operation: "GetObjectLockConfiguration", path: "/{Bucket}?object-lock", httpMethod: "GET", input: input)
     }
@@ -354,7 +354,7 @@ public struct S3 {
         return try client.send(operation: "PutBucketInventoryConfiguration", path: "/{Bucket}?inventory", httpMethod: "PUT", input: input)
     }
 
-    ///  Deprecated, see the PutBucketLifecycleConfiguration operation.
+    ///   No longer used, see the PutBucketLifecycleConfiguration operation.
     @discardableResult public func putBucketLifecycle(_ input: PutBucketLifecycleRequest) throws -> Future<Void> {
         return try client.send(operation: "PutBucketLifecycle", path: "/{Bucket}?lifecycle", httpMethod: "PUT", input: input)
     }
@@ -374,7 +374,7 @@ public struct S3 {
         return try client.send(operation: "PutBucketMetricsConfiguration", path: "/{Bucket}?metrics", httpMethod: "PUT", input: input)
     }
 
-    ///  Deprecated, see the PutBucketNotificationConfiguraiton operation.
+    ///   No longer used, see the PutBucketNotificationConfiguration operation.
     @discardableResult public func putBucketNotification(_ input: PutBucketNotificationRequest) throws -> Future<Void> {
         return try client.send(operation: "PutBucketNotification", path: "/{Bucket}?notification", httpMethod: "PUT", input: input)
     }
@@ -384,7 +384,7 @@ public struct S3 {
         return try client.send(operation: "PutBucketNotificationConfiguration", path: "/{Bucket}?notification", httpMethod: "PUT", input: input)
     }
 
-    ///  Replaces a policy on a bucket. If the bucket already has a policy, the one in this request completely replaces it.
+    ///  Applies an Amazon S3 bucket policy to an Amazon S3 bucket.
     @discardableResult public func putBucketPolicy(_ input: PutBucketPolicyRequest) throws -> Future<Void> {
         return try client.send(operation: "PutBucketPolicy", path: "/{Bucket}?policy", httpMethod: "PUT", input: input)
     }
@@ -429,7 +429,7 @@ public struct S3 {
         return try client.send(operation: "PutObjectLegalHold", path: "/{Bucket}/{Key+}?legal-hold", httpMethod: "PUT", input: input)
     }
 
-    ///  Places an Object Lock configuration on the specified bucket. The rule specified in the Object Lock configuration will be applied by default to every new object placed in the specified bucket.
+    ///  Places an object lock configuration on the specified bucket. The rule specified in the object lock configuration will be applied by default to every new object placed in the specified bucket.
     public func putObjectLockConfiguration(_ input: PutObjectLockConfigurationRequest) throws -> Future<PutObjectLockConfigurationOutput> {
         return try client.send(operation: "PutObjectLockConfiguration", path: "/{Bucket}?object-lock", httpMethod: "PUT", input: input)
     }

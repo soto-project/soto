@@ -35,6 +35,11 @@ public struct MQ {
         return try client.send(operation: "CreateConfiguration", path: "/v1/configurations", httpMethod: "POST", input: input)
     }
 
+    ///  Add a tag to a resource.
+    @discardableResult public func createTags(_ input: CreateTagsRequest) throws -> Future<Void> {
+        return try client.send(operation: "CreateTags", path: "/v1/tags/{resource-arn}", httpMethod: "POST", input: input)
+    }
+
     ///  Creates an ActiveMQ user.
     public func createUser(_ input: CreateUserRequest) throws -> Future<CreateUserResponse> {
         return try client.send(operation: "CreateUser", path: "/v1/brokers/{broker-id}/users/{username}", httpMethod: "POST", input: input)
@@ -45,6 +50,11 @@ public struct MQ {
         return try client.send(operation: "DeleteBroker", path: "/v1/brokers/{broker-id}", httpMethod: "DELETE", input: input)
     }
 
+    ///  Removes a tag from a resource.
+    @discardableResult public func deleteTags(_ input: DeleteTagsRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteTags", path: "/v1/tags/{resource-arn}", httpMethod: "DELETE", input: input)
+    }
+
     ///  Deletes an ActiveMQ user.
     public func deleteUser(_ input: DeleteUserRequest) throws -> Future<DeleteUserResponse> {
         return try client.send(operation: "DeleteUser", path: "/v1/brokers/{broker-id}/users/{username}", httpMethod: "DELETE", input: input)
@@ -53,6 +63,16 @@ public struct MQ {
     ///  Returns information about the specified broker.
     public func describeBroker(_ input: DescribeBrokerRequest) throws -> Future<DescribeBrokerResponse> {
         return try client.send(operation: "DescribeBroker", path: "/v1/brokers/{broker-id}", httpMethod: "GET", input: input)
+    }
+
+    ///  Describe available engine types and versions.
+    public func describeBrokerEngineTypes(_ input: DescribeBrokerEngineTypesRequest) throws -> Future<DescribeBrokerEngineTypesResponse> {
+        return try client.send(operation: "DescribeBrokerEngineTypes", path: "/v1/broker-engine-types", httpMethod: "GET", input: input)
+    }
+
+    ///  Describe available broker instance options.
+    public func describeBrokerInstanceOptions(_ input: DescribeBrokerInstanceOptionsRequest) throws -> Future<DescribeBrokerInstanceOptionsResponse> {
+        return try client.send(operation: "DescribeBrokerInstanceOptions", path: "/v1/broker-instance-options", httpMethod: "GET", input: input)
     }
 
     ///  Returns information about the specified configuration.
@@ -83,6 +103,11 @@ public struct MQ {
     ///  Returns a list of all configurations.
     public func listConfigurations(_ input: ListConfigurationsRequest) throws -> Future<ListConfigurationsResponse> {
         return try client.send(operation: "ListConfigurations", path: "/v1/configurations", httpMethod: "GET", input: input)
+    }
+
+    ///  Lists tags for a resource.
+    public func listTags(_ input: ListTagsRequest) throws -> Future<ListTagsResponse> {
+        return try client.send(operation: "ListTags", path: "/v1/tags/{resource-arn}", httpMethod: "GET", input: input)
     }
 
     ///  Returns a list of all ActiveMQ users.

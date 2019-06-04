@@ -9,7 +9,12 @@ public enum DatabaseMigrationServiceErrorType: AWSErrorType {
     case invalidCertificateFault(message: String?)
     case invalidResourceStateFault(message: String?)
     case invalidSubnet(message: String?)
+    case kMSAccessDeniedFault(message: String?)
+    case kMSDisabledFault(message: String?)
+    case kMSInvalidStateFault(message: String?)
     case kMSKeyNotAccessibleFault(message: String?)
+    case kMSNotFoundFault(message: String?)
+    case kMSThrottlingFault(message: String?)
     case replicationSubnetGroupDoesNotCoverEnoughAZs(message: String?)
     case resourceAlreadyExistsFault(message: String?)
     case resourceNotFoundFault(message: String?)
@@ -38,8 +43,18 @@ extension DatabaseMigrationServiceErrorType {
             self = .invalidResourceStateFault(message: message)
         case "InvalidSubnet":
             self = .invalidSubnet(message: message)
+        case "KMSAccessDeniedFault":
+            self = .kMSAccessDeniedFault(message: message)
+        case "KMSDisabledFault":
+            self = .kMSDisabledFault(message: message)
+        case "KMSInvalidStateFault":
+            self = .kMSInvalidStateFault(message: message)
         case "KMSKeyNotAccessibleFault":
             self = .kMSKeyNotAccessibleFault(message: message)
+        case "KMSNotFoundFault":
+            self = .kMSNotFoundFault(message: message)
+        case "KMSThrottlingFault":
+            self = .kMSThrottlingFault(message: message)
         case "ReplicationSubnetGroupDoesNotCoverEnoughAZs":
             self = .replicationSubnetGroupDoesNotCoverEnoughAZs(message: message)
         case "ResourceAlreadyExistsFault":

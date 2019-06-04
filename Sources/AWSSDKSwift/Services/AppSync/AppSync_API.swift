@@ -150,6 +150,11 @@ public struct AppSync {
         return try client.send(operation: "ListResolversByFunction", path: "/v1/apis/{apiId}/functions/{functionId}/resolvers", httpMethod: "GET", input: input)
     }
 
+    ///  Lists the tags for a resource.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> Future<ListTagsForResourceResponse> {
+        return try client.send(operation: "ListTagsForResource", path: "/v1/tags/{resourceArn}", httpMethod: "GET", input: input)
+    }
+
     ///  Lists the types for a given API.
     public func listTypes(_ input: ListTypesRequest) throws -> Future<ListTypesResponse> {
         return try client.send(operation: "ListTypes", path: "/v1/apis/{apiId}/types", httpMethod: "GET", input: input)
@@ -158,6 +163,16 @@ public struct AppSync {
     ///  Adds a new schema to your GraphQL API. This operation is asynchronous. Use to determine when it has completed.
     public func startSchemaCreation(_ input: StartSchemaCreationRequest) throws -> Future<StartSchemaCreationResponse> {
         return try client.send(operation: "StartSchemaCreation", path: "/v1/apis/{apiId}/schemacreation", httpMethod: "POST", input: input)
+    }
+
+    ///  Tags a resource with user-supplied tags.
+    public func tagResource(_ input: TagResourceRequest) throws -> Future<TagResourceResponse> {
+        return try client.send(operation: "TagResource", path: "/v1/tags/{resourceArn}", httpMethod: "POST", input: input)
+    }
+
+    ///  Untags a resource.
+    public func untagResource(_ input: UntagResourceRequest) throws -> Future<UntagResourceResponse> {
+        return try client.send(operation: "UntagResource", path: "/v1/tags/{resourceArn}", httpMethod: "DELETE", input: input)
     }
 
     ///  Updates an API key.

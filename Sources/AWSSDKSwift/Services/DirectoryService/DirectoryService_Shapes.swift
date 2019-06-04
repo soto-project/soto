@@ -206,7 +206,8 @@ extension DirectoryService {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Password", required: true, type: .string), 
             AWSShapeMember(label: "ShortName", required: false, type: .string), 
-            AWSShapeMember(label: "Size", required: true, type: .enum)
+            AWSShapeMember(label: "Size", required: true, type: .enum), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// A DirectoryConnectSettings object that contains additional information for the operation.
         public let connectSettings: DirectoryConnectSettings
@@ -220,14 +221,17 @@ extension DirectoryService {
         public let shortName: String?
         /// The size of the directory.
         public let size: DirectorySize
+        /// The tags to be assigned to AD Connector.
+        public let tags: [Tag]?
 
-        public init(connectSettings: DirectoryConnectSettings, description: String? = nil, name: String, password: String, shortName: String? = nil, size: DirectorySize) {
+        public init(connectSettings: DirectoryConnectSettings, description: String? = nil, name: String, password: String, shortName: String? = nil, size: DirectorySize, tags: [Tag]? = nil) {
             self.connectSettings = connectSettings
             self.description = description
             self.name = name
             self.password = password
             self.shortName = shortName
             self.size = size
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -237,6 +241,7 @@ extension DirectoryService {
             case password = "Password"
             case shortName = "ShortName"
             case size = "Size"
+            case tags = "Tags"
         }
     }
 
@@ -390,6 +395,7 @@ extension DirectoryService {
             AWSShapeMember(label: "Password", required: true, type: .string), 
             AWSShapeMember(label: "ShortName", required: false, type: .string), 
             AWSShapeMember(label: "Size", required: true, type: .enum), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "VpcSettings", required: false, type: .structure)
         ]
         /// A textual description for the directory.
@@ -402,15 +408,18 @@ extension DirectoryService {
         public let shortName: String?
         /// The size of the directory.
         public let size: DirectorySize
+        /// The tags to be assigned to the Simple AD directory.
+        public let tags: [Tag]?
         /// A DirectoryVpcSettings object that contains additional information for the operation.
         public let vpcSettings: DirectoryVpcSettings?
 
-        public init(description: String? = nil, name: String, password: String, shortName: String? = nil, size: DirectorySize, vpcSettings: DirectoryVpcSettings? = nil) {
+        public init(description: String? = nil, name: String, password: String, shortName: String? = nil, size: DirectorySize, tags: [Tag]? = nil, vpcSettings: DirectoryVpcSettings? = nil) {
             self.description = description
             self.name = name
             self.password = password
             self.shortName = shortName
             self.size = size
+            self.tags = tags
             self.vpcSettings = vpcSettings
         }
 
@@ -420,6 +429,7 @@ extension DirectoryService {
             case password = "Password"
             case shortName = "ShortName"
             case size = "Size"
+            case tags = "Tags"
             case vpcSettings = "VpcSettings"
         }
     }
@@ -475,6 +485,7 @@ extension DirectoryService {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Password", required: true, type: .string), 
             AWSShapeMember(label: "ShortName", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "VpcSettings", required: true, type: .structure)
         ]
         /// A textual description for the directory. This label will appear on the AWS console Directory Details page after the directory is created.
@@ -487,15 +498,18 @@ extension DirectoryService {
         public let password: String
         /// The NetBIOS name for your domain. A short identifier for your domain, such as CORP. If you don't specify a NetBIOS name, it will default to the first part of your directory DNS. For example, CORP for the directory DNS corp.example.com. 
         public let shortName: String?
+        /// The tags to be assigned to the AWS Managed Microsoft AD directory.
+        public let tags: [Tag]?
         /// Contains VPC information for the CreateDirectory or CreateMicrosoftAD operation.
         public let vpcSettings: DirectoryVpcSettings
 
-        public init(description: String? = nil, edition: DirectoryEdition? = nil, name: String, password: String, shortName: String? = nil, vpcSettings: DirectoryVpcSettings) {
+        public init(description: String? = nil, edition: DirectoryEdition? = nil, name: String, password: String, shortName: String? = nil, tags: [Tag]? = nil, vpcSettings: DirectoryVpcSettings) {
             self.description = description
             self.edition = edition
             self.name = name
             self.password = password
             self.shortName = shortName
+            self.tags = tags
             self.vpcSettings = vpcSettings
         }
 
@@ -505,6 +519,7 @@ extension DirectoryService {
             case name = "Name"
             case password = "Password"
             case shortName = "ShortName"
+            case tags = "Tags"
             case vpcSettings = "VpcSettings"
         }
     }

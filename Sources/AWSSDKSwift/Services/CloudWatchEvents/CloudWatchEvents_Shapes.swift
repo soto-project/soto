@@ -457,6 +457,38 @@ extension CloudWatchEvents {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string)
+        ]
+        /// The ARN of the CloudWatch Events rule for which you want to view tags.
+        public let resourceARN: String
+
+        public init(resourceARN: String) {
+            self.resourceARN = resourceARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// The list of tag keys and values associated with the rule you specified
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
     public struct ListTargetsByRuleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
@@ -657,7 +689,8 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "RoleArn", required: false, type: .string), 
             AWSShapeMember(label: "ScheduleExpression", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum)
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// A description of the rule.
         public let description: String?
@@ -671,14 +704,17 @@ extension CloudWatchEvents {
         public let scheduleExpression: String?
         /// Indicates whether the rule is enabled or disabled.
         public let state: RuleState?
+        /// The list of key-value pairs to associate with the rule.
+        public let tags: [Tag]?
 
-        public init(description: String? = nil, eventPattern: String? = nil, name: String, roleArn: String? = nil, scheduleExpression: String? = nil, state: RuleState? = nil) {
+        public init(description: String? = nil, eventPattern: String? = nil, name: String, roleArn: String? = nil, scheduleExpression: String? = nil, state: RuleState? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.eventPattern = eventPattern
             self.name = name
             self.roleArn = roleArn
             self.scheduleExpression = scheduleExpression
             self.state = state
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -688,6 +724,7 @@ extension CloudWatchEvents {
             case roleArn = "RoleArn"
             case scheduleExpression = "ScheduleExpression"
             case state = "State"
+            case tags = "Tags"
         }
     }
 
@@ -974,6 +1011,55 @@ extension CloudWatchEvents {
         }
     }
 
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
+        ]
+        /// A string you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources.
+        public let key: String
+        /// The value for the specified tag key.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
+        ]
+        /// The ARN of the CloudWatch Events rule that you're adding tags to.
+        public let resourceARN: String
+        /// The list of key-value pairs to associate with the rule.
+        public let tags: [Tag]
+
+        public init(resourceARN: String, tags: [Tag]) {
+            self.resourceARN = resourceARN
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
     public struct Target: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: true, type: .string), 
@@ -1075,6 +1161,34 @@ extension CloudWatchEvents {
         private enum CodingKeys: String, CodingKey {
             case result = "Result"
         }
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
+        ]
+        /// The ARN of the CloudWatch Events rule from which you are removing tags.
+        public let resourceARN: String
+        /// The list of tag keys to remove from the resource.
+        public let tagKeys: [String]
+
+        public init(resourceARN: String, tagKeys: [String]) {
+            self.resourceARN = resourceARN
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
     }
 
 }

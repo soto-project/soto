@@ -77,6 +77,7 @@ public struct DynamoDB {
         return try client.send(operation: "DescribeContinuousBackups", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns the regional endpoint information.
     public func describeEndpoints(_ input: DescribeEndpointsRequest) throws -> Future<DescribeEndpointsResponse> {
         return try client.send(operation: "DescribeEndpoints", path: "/", httpMethod: "POST", input: input)
     }

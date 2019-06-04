@@ -20,6 +20,7 @@ public struct ElasticsearchService {
             serviceProtocol: ServiceProtocol(type: .restjson),
             apiVersion: "2015-01-01",
             endpoint: endpoint,
+            serviceEndpoints: ["fips": "es-fips.us-west-1.amazonaws.com"],
             middlewares: [],
             possibleErrorTypes: [ElasticsearchServiceErrorType.self]
         )

@@ -108,6 +108,34 @@ extension AlexaForBusiness {
 
     }
 
+    public struct AssociateDeviceWithNetworkProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeviceArn", required: true, type: .string), 
+            AWSShapeMember(label: "NetworkProfileArn", required: true, type: .string)
+        ]
+        /// The device ARN.
+        public let deviceArn: String
+        /// The ARN of the network profile to associate with a device.
+        public let networkProfileArn: String
+
+        public init(deviceArn: String, networkProfileArn: String) {
+            self.deviceArn = deviceArn
+            self.networkProfileArn = networkProfileArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceArn = "DeviceArn"
+            case networkProfileArn = "NetworkProfileArn"
+        }
+    }
+
+    public struct AssociateDeviceWithNetworkProfileResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
     public struct AssociateDeviceWithRoomRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeviceArn", required: false, type: .string), 
@@ -190,6 +218,216 @@ extension AlexaForBusiness {
         public init() {
         }
 
+    }
+
+    public struct AssociateSkillWithUsersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SkillId", required: true, type: .string)
+        ]
+        /// The private skill ID you want to make available to enrolled users.
+        public let skillId: String
+
+        public init(skillId: String) {
+            self.skillId = skillId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case skillId = "SkillId"
+        }
+    }
+
+    public struct AssociateSkillWithUsersResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct Audio: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Locale", required: true, type: .enum), 
+            AWSShapeMember(label: "Location", required: true, type: .string)
+        ]
+        /// The locale of the audio message. Currently, en-US is supported.
+        public let locale: Locale
+        /// The location of the audio file. Currently, S3 URLs are supported. Only S3 locations comprised of safe characters are valid. For more information, see Safe Characters.
+        public let location: String
+
+        public init(locale: Locale, location: String) {
+            self.locale = locale
+            self.location = location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locale = "Locale"
+            case location = "Location"
+        }
+    }
+
+    public struct BusinessReport: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeliveryTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DownloadUrl", required: false, type: .string), 
+            AWSShapeMember(label: "FailureCode", required: false, type: .enum), 
+            AWSShapeMember(label: "S3Location", required: false, type: .structure), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+        /// The time of report delivery.
+        public let deliveryTime: TimeStamp?
+        /// The download link where a user can download the report.
+        public let downloadUrl: String?
+        /// The failure code.
+        public let failureCode: BusinessReportFailureCode?
+        /// The S3 location of the output reports.
+        public let s3Location: BusinessReportS3Location?
+        /// The status of the report generation execution (RUNNING, SUCCEEDED, or FAILED).
+        public let status: BusinessReportStatus?
+
+        public init(deliveryTime: TimeStamp? = nil, downloadUrl: String? = nil, failureCode: BusinessReportFailureCode? = nil, s3Location: BusinessReportS3Location? = nil, status: BusinessReportStatus? = nil) {
+            self.deliveryTime = deliveryTime
+            self.downloadUrl = downloadUrl
+            self.failureCode = failureCode
+            self.s3Location = s3Location
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryTime = "DeliveryTime"
+            case downloadUrl = "DownloadUrl"
+            case failureCode = "FailureCode"
+            case s3Location = "S3Location"
+            case status = "Status"
+        }
+    }
+
+    public struct BusinessReportContentRange: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Interval", required: false, type: .enum)
+        ]
+        /// The interval of the content range.
+        public let interval: BusinessReportInterval?
+
+        public init(interval: BusinessReportInterval? = nil) {
+            self.interval = interval
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case interval = "Interval"
+        }
+    }
+
+    public enum BusinessReportFailureCode: String, CustomStringConvertible, Codable {
+        case accessDenied = "ACCESS_DENIED"
+        case noSuchBucket = "NO_SUCH_BUCKET"
+        case internalFailure = "INTERNAL_FAILURE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BusinessReportFormat: String, CustomStringConvertible, Codable {
+        case csv = "CSV"
+        case csvZip = "CSV_ZIP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BusinessReportInterval: String, CustomStringConvertible, Codable {
+        case oneDay = "ONE_DAY"
+        case oneWeek = "ONE_WEEK"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct BusinessReportRecurrence: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartDate", required: false, type: .string)
+        ]
+        /// The start date.
+        public let startDate: String?
+
+        public init(startDate: String? = nil) {
+            self.startDate = startDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case startDate = "StartDate"
+        }
+    }
+
+    public struct BusinessReportS3Location: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "Path", required: false, type: .string)
+        ]
+        /// The S3 bucket name of the output reports.
+        public let bucketName: String?
+        /// The path of the business report.
+        public let path: String?
+
+        public init(bucketName: String? = nil, path: String? = nil) {
+            self.bucketName = bucketName
+            self.path = path
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "BucketName"
+            case path = "Path"
+        }
+    }
+
+    public struct BusinessReportSchedule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContentRange", required: false, type: .structure), 
+            AWSShapeMember(label: "Format", required: false, type: .enum), 
+            AWSShapeMember(label: "LastBusinessReport", required: false, type: .structure), 
+            AWSShapeMember(label: "Recurrence", required: false, type: .structure), 
+            AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "ScheduleArn", required: false, type: .string), 
+            AWSShapeMember(label: "ScheduleName", required: false, type: .string)
+        ]
+        /// The content range of the reports.
+        public let contentRange: BusinessReportContentRange?
+        /// The format of the generated report (individual CSV files or zipped files of individual files).
+        public let format: BusinessReportFormat?
+        /// The details of the last business report delivery for a specified time interval.
+        public let lastBusinessReport: BusinessReport?
+        /// The recurrence of the reports.
+        public let recurrence: BusinessReportRecurrence?
+        /// The S3 bucket name of the output reports.
+        public let s3BucketName: String?
+        /// The S3 key where the report is delivered.
+        public let s3KeyPrefix: String?
+        /// The ARN of the business report schedule.
+        public let scheduleArn: String?
+        /// The name identifier of the schedule.
+        public let scheduleName: String?
+
+        public init(contentRange: BusinessReportContentRange? = nil, format: BusinessReportFormat? = nil, lastBusinessReport: BusinessReport? = nil, recurrence: BusinessReportRecurrence? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, scheduleArn: String? = nil, scheduleName: String? = nil) {
+            self.contentRange = contentRange
+            self.format = format
+            self.lastBusinessReport = lastBusinessReport
+            self.recurrence = recurrence
+            self.s3BucketName = s3BucketName
+            self.s3KeyPrefix = s3KeyPrefix
+            self.scheduleArn = scheduleArn
+            self.scheduleName = scheduleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentRange = "ContentRange"
+            case format = "Format"
+            case lastBusinessReport = "LastBusinessReport"
+            case recurrence = "Recurrence"
+            case s3BucketName = "S3BucketName"
+            case s3KeyPrefix = "S3KeyPrefix"
+            case scheduleArn = "ScheduleArn"
+            case scheduleName = "ScheduleName"
+        }
+    }
+
+    public enum BusinessReportStatus: String, CustomStringConvertible, Codable {
+        case running = "RUNNING"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
     }
 
     public struct Category: AWSShape {
@@ -369,6 +607,32 @@ extension AlexaForBusiness {
         }
     }
 
+    public struct Content: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AudioList", required: false, type: .list), 
+            AWSShapeMember(label: "SsmlList", required: false, type: .list), 
+            AWSShapeMember(label: "TextList", required: false, type: .list)
+        ]
+        /// The list of audio messages.
+        public let audioList: [Audio]?
+        /// The list of SSML messages.
+        public let ssmlList: [Ssml]?
+        /// The list of text messages.
+        public let textList: [Text]?
+
+        public init(audioList: [Audio]? = nil, ssmlList: [Ssml]? = nil, textList: [Text]? = nil) {
+            self.audioList = audioList
+            self.ssmlList = ssmlList
+            self.textList = textList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audioList = "AudioList"
+            case ssmlList = "SsmlList"
+            case textList = "TextList"
+        }
+    }
+
     public struct CreateAddressBookRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
@@ -408,6 +672,68 @@ extension AlexaForBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case addressBookArn = "AddressBookArn"
+        }
+    }
+
+    public struct CreateBusinessReportScheduleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "ContentRange", required: true, type: .structure), 
+            AWSShapeMember(label: "Format", required: true, type: .enum), 
+            AWSShapeMember(label: "Recurrence", required: false, type: .structure), 
+            AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "ScheduleName", required: false, type: .string)
+        ]
+        /// The client request token.
+        public let clientRequestToken: String?
+        /// The content range of the reports.
+        public let contentRange: BusinessReportContentRange
+        /// The format of the generated report (individual CSV files or zipped files of individual files).
+        public let format: BusinessReportFormat
+        /// The recurrence of the reports. If this isn't specified, the report will only be delivered one time when the API is called. 
+        public let recurrence: BusinessReportRecurrence?
+        /// The S3 bucket name of the output reports. If this isn't specified, the report can be retrieved from a download link by calling ListBusinessReportSchedule. 
+        public let s3BucketName: String?
+        /// The S3 key where the report is delivered.
+        public let s3KeyPrefix: String?
+        /// The name identifier of the schedule.
+        public let scheduleName: String?
+
+        public init(clientRequestToken: String? = nil, contentRange: BusinessReportContentRange, format: BusinessReportFormat, recurrence: BusinessReportRecurrence? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, scheduleName: String? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.contentRange = contentRange
+            self.format = format
+            self.recurrence = recurrence
+            self.s3BucketName = s3BucketName
+            self.s3KeyPrefix = s3KeyPrefix
+            self.scheduleName = scheduleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case contentRange = "ContentRange"
+            case format = "Format"
+            case recurrence = "Recurrence"
+            case s3BucketName = "S3BucketName"
+            case s3KeyPrefix = "S3KeyPrefix"
+            case scheduleName = "ScheduleName"
+        }
+    }
+
+    public struct CreateBusinessReportScheduleResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ScheduleArn", required: false, type: .string)
+        ]
+        /// The ARN of the business report schedule.
+        public let scheduleArn: String?
+
+        public init(scheduleArn: String? = nil) {
+            self.scheduleArn = scheduleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheduleArn = "ScheduleArn"
         }
     }
 
@@ -474,7 +800,7 @@ extension AlexaForBusiness {
             AWSShapeMember(label: "DisplayName", required: false, type: .string), 
             AWSShapeMember(label: "FirstName", required: true, type: .string), 
             AWSShapeMember(label: "LastName", required: false, type: .string), 
-            AWSShapeMember(label: "PhoneNumber", required: true, type: .string)
+            AWSShapeMember(label: "PhoneNumber", required: false, type: .string)
         ]
         /// A unique, user-specified identifier for this request that ensures idempotency.
         public let clientRequestToken: String?
@@ -485,9 +811,9 @@ extension AlexaForBusiness {
         /// The last name of the contact that is used to call the contact on the device.
         public let lastName: String?
         /// The phone number of the contact in E.164 format.
-        public let phoneNumber: String
+        public let phoneNumber: String?
 
-        public init(clientRequestToken: String? = nil, displayName: String? = nil, firstName: String, lastName: String? = nil, phoneNumber: String) {
+        public init(clientRequestToken: String? = nil, displayName: String? = nil, firstName: String, lastName: String? = nil, phoneNumber: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.displayName = displayName
             self.firstName = firstName
@@ -517,6 +843,124 @@ extension AlexaForBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case contactArn = "ContactArn"
+        }
+    }
+
+    public struct CreateGatewayGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientRequestToken", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        ///  A unique, user-specified identifier for the request that ensures idempotency.
+        public let clientRequestToken: String
+        /// The description of the gateway group.
+        public let description: String?
+        /// The name of the gateway group.
+        public let name: String
+
+        public init(clientRequestToken: String, description: String? = nil, name: String) {
+            self.clientRequestToken = clientRequestToken
+            self.description = description
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case description = "Description"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateGatewayGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayGroupArn", required: false, type: .string)
+        ]
+        /// The ARN of the created gateway group.
+        public let gatewayGroupArn: String?
+
+        public init(gatewayGroupArn: String? = nil) {
+            self.gatewayGroupArn = gatewayGroupArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayGroupArn = "GatewayGroupArn"
+        }
+    }
+
+    public struct CreateNetworkProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateAuthorityArn", required: false, type: .string), 
+            AWSShapeMember(label: "ClientRequestToken", required: true, type: .string), 
+            AWSShapeMember(label: "CurrentPassword", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "EapMethod", required: false, type: .enum), 
+            AWSShapeMember(label: "NetworkProfileName", required: true, type: .string), 
+            AWSShapeMember(label: "NextPassword", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityType", required: true, type: .enum), 
+            AWSShapeMember(label: "Ssid", required: true, type: .string), 
+            AWSShapeMember(label: "TrustAnchors", required: false, type: .list)
+        ]
+        /// The ARN of the Private Certificate Authority (PCA) created in AWS Certificate Manager (ACM). This is used to issue certificates to the devices. 
+        public let certificateAuthorityArn: String?
+        public let clientRequestToken: String
+        /// The current password of the Wi-Fi network.
+        public let currentPassword: String?
+        /// Detailed information about a device's network profile.
+        public let description: String?
+        /// The authentication standard that is used in the EAP framework. Currently, EAP_TLS is supported.
+        public let eapMethod: NetworkEapMethod?
+        /// The name of the network profile associated with a device.
+        public let networkProfileName: String
+        /// The next, or subsequent, password of the Wi-Fi network. This password is asynchronously transmitted to the device and is used when the password of the network changes to NextPassword. 
+        public let nextPassword: String?
+        /// The security type of the Wi-Fi network. This can be WPA2_ENTERPRISE, WPA2_PSK, WPA_PSK, WEP, or OPEN.
+        public let securityType: NetworkSecurityType
+        /// The SSID of the Wi-Fi network.
+        public let ssid: String
+        /// The root certificates of your authentication server that is installed on your devices and used to trust your authentication server during EAP negotiation. 
+        public let trustAnchors: [String]?
+
+        public init(certificateAuthorityArn: String? = nil, clientRequestToken: String, currentPassword: String? = nil, description: String? = nil, eapMethod: NetworkEapMethod? = nil, networkProfileName: String, nextPassword: String? = nil, securityType: NetworkSecurityType, ssid: String, trustAnchors: [String]? = nil) {
+            self.certificateAuthorityArn = certificateAuthorityArn
+            self.clientRequestToken = clientRequestToken
+            self.currentPassword = currentPassword
+            self.description = description
+            self.eapMethod = eapMethod
+            self.networkProfileName = networkProfileName
+            self.nextPassword = nextPassword
+            self.securityType = securityType
+            self.ssid = ssid
+            self.trustAnchors = trustAnchors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateAuthorityArn = "CertificateAuthorityArn"
+            case clientRequestToken = "ClientRequestToken"
+            case currentPassword = "CurrentPassword"
+            case description = "Description"
+            case eapMethod = "EapMethod"
+            case networkProfileName = "NetworkProfileName"
+            case nextPassword = "NextPassword"
+            case securityType = "SecurityType"
+            case ssid = "Ssid"
+            case trustAnchors = "TrustAnchors"
+        }
+    }
+
+    public struct CreateNetworkProfileResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NetworkProfileArn", required: false, type: .string)
+        ]
+        /// The ARN of the network profile associated with a device.
+        public let networkProfileArn: String?
+
+        public init(networkProfileArn: String? = nil) {
+            self.networkProfileArn = networkProfileArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkProfileArn = "NetworkProfileArn"
         }
     }
 
@@ -776,6 +1220,29 @@ extension AlexaForBusiness {
 
     }
 
+    public struct DeleteBusinessReportScheduleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ScheduleArn", required: true, type: .string)
+        ]
+        /// The ARN of the business report schedule.
+        public let scheduleArn: String
+
+        public init(scheduleArn: String) {
+            self.scheduleArn = scheduleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheduleArn = "ScheduleArn"
+        }
+    }
+
+    public struct DeleteBusinessReportScheduleResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
     public struct DeleteConferenceProviderRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConferenceProviderArn", required: true, type: .string)
@@ -839,6 +1306,80 @@ extension AlexaForBusiness {
     }
 
     public struct DeleteDeviceResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteDeviceUsageDataRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeviceArn", required: true, type: .string), 
+            AWSShapeMember(label: "DeviceUsageType", required: true, type: .enum)
+        ]
+        /// The ARN of the device.
+        public let deviceArn: String
+        /// The type of usage data to delete.
+        public let deviceUsageType: DeviceUsageType
+
+        public init(deviceArn: String, deviceUsageType: DeviceUsageType) {
+            self.deviceArn = deviceArn
+            self.deviceUsageType = deviceUsageType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceArn = "DeviceArn"
+            case deviceUsageType = "DeviceUsageType"
+        }
+    }
+
+    public struct DeleteDeviceUsageDataResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteGatewayGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayGroupArn", required: true, type: .string)
+        ]
+        /// The ARN of the gateway group to delete.
+        public let gatewayGroupArn: String
+
+        public init(gatewayGroupArn: String) {
+            self.gatewayGroupArn = gatewayGroupArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayGroupArn = "GatewayGroupArn"
+        }
+    }
+
+    public struct DeleteGatewayGroupResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteNetworkProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NetworkProfileArn", required: true, type: .string)
+        ]
+        /// The ARN of the network profile associated with a device.
+        public let networkProfileArn: String
+
+        public init(networkProfileArn: String) {
+            self.networkProfileArn = networkProfileArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkProfileArn = "NetworkProfileArn"
+        }
+    }
+
+    public struct DeleteNetworkProfileResponse: AWSShape {
 
         public init() {
         }
@@ -1043,6 +1584,7 @@ extension AlexaForBusiness {
             AWSShapeMember(label: "DeviceStatusInfo", required: false, type: .structure), 
             AWSShapeMember(label: "DeviceType", required: false, type: .string), 
             AWSShapeMember(label: "MacAddress", required: false, type: .string), 
+            AWSShapeMember(label: "NetworkProfileInfo", required: false, type: .structure), 
             AWSShapeMember(label: "RoomArn", required: false, type: .string), 
             AWSShapeMember(label: "SoftwareVersion", required: false, type: .string)
         ]
@@ -1060,12 +1602,14 @@ extension AlexaForBusiness {
         public let deviceType: String?
         /// The MAC address of a device.
         public let macAddress: String?
+        /// Detailed information about a device's network profile.
+        public let networkProfileInfo: DeviceNetworkProfileInfo?
         /// The room ARN of a device.
         public let roomArn: String?
         /// The software version of a device.
         public let softwareVersion: String?
 
-        public init(deviceArn: String? = nil, deviceName: String? = nil, deviceSerialNumber: String? = nil, deviceStatus: DeviceStatus? = nil, deviceStatusInfo: DeviceStatusInfo? = nil, deviceType: String? = nil, macAddress: String? = nil, roomArn: String? = nil, softwareVersion: String? = nil) {
+        public init(deviceArn: String? = nil, deviceName: String? = nil, deviceSerialNumber: String? = nil, deviceStatus: DeviceStatus? = nil, deviceStatusInfo: DeviceStatusInfo? = nil, deviceType: String? = nil, macAddress: String? = nil, networkProfileInfo: DeviceNetworkProfileInfo? = nil, roomArn: String? = nil, softwareVersion: String? = nil) {
             self.deviceArn = deviceArn
             self.deviceName = deviceName
             self.deviceSerialNumber = deviceSerialNumber
@@ -1073,6 +1617,7 @@ extension AlexaForBusiness {
             self.deviceStatusInfo = deviceStatusInfo
             self.deviceType = deviceType
             self.macAddress = macAddress
+            self.networkProfileInfo = networkProfileInfo
             self.roomArn = roomArn
             self.softwareVersion = softwareVersion
         }
@@ -1085,6 +1630,7 @@ extension AlexaForBusiness {
             case deviceStatusInfo = "DeviceStatusInfo"
             case deviceType = "DeviceType"
             case macAddress = "MacAddress"
+            case networkProfileInfo = "NetworkProfileInfo"
             case roomArn = "RoomArn"
             case softwareVersion = "SoftwareVersion"
         }
@@ -1099,6 +1645,8 @@ extension AlexaForBusiness {
             AWSShapeMember(label: "DeviceStatusInfo", required: false, type: .structure), 
             AWSShapeMember(label: "DeviceType", required: false, type: .string), 
             AWSShapeMember(label: "MacAddress", required: false, type: .string), 
+            AWSShapeMember(label: "NetworkProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "NetworkProfileName", required: false, type: .string), 
             AWSShapeMember(label: "RoomArn", required: false, type: .string), 
             AWSShapeMember(label: "RoomName", required: false, type: .string), 
             AWSShapeMember(label: "SoftwareVersion", required: false, type: .string)
@@ -1117,6 +1665,10 @@ extension AlexaForBusiness {
         public let deviceType: String?
         /// The MAC address of a device.
         public let macAddress: String?
+        /// The ARN of the network profile associated with a device.
+        public let networkProfileArn: String?
+        /// The name of the network profile associated with a device.
+        public let networkProfileName: String?
         /// The room ARN associated with a device.
         public let roomArn: String?
         /// The name of the room associated with a device.
@@ -1124,7 +1676,7 @@ extension AlexaForBusiness {
         /// The software version of a device.
         public let softwareVersion: String?
 
-        public init(deviceArn: String? = nil, deviceName: String? = nil, deviceSerialNumber: String? = nil, deviceStatus: DeviceStatus? = nil, deviceStatusInfo: DeviceStatusInfo? = nil, deviceType: String? = nil, macAddress: String? = nil, roomArn: String? = nil, roomName: String? = nil, softwareVersion: String? = nil) {
+        public init(deviceArn: String? = nil, deviceName: String? = nil, deviceSerialNumber: String? = nil, deviceStatus: DeviceStatus? = nil, deviceStatusInfo: DeviceStatusInfo? = nil, deviceType: String? = nil, macAddress: String? = nil, networkProfileArn: String? = nil, networkProfileName: String? = nil, roomArn: String? = nil, roomName: String? = nil, softwareVersion: String? = nil) {
             self.deviceArn = deviceArn
             self.deviceName = deviceName
             self.deviceSerialNumber = deviceSerialNumber
@@ -1132,6 +1684,8 @@ extension AlexaForBusiness {
             self.deviceStatusInfo = deviceStatusInfo
             self.deviceType = deviceType
             self.macAddress = macAddress
+            self.networkProfileArn = networkProfileArn
+            self.networkProfileName = networkProfileName
             self.roomArn = roomArn
             self.roomName = roomName
             self.softwareVersion = softwareVersion
@@ -1145,6 +1699,8 @@ extension AlexaForBusiness {
             case deviceStatusInfo = "DeviceStatusInfo"
             case deviceType = "DeviceType"
             case macAddress = "MacAddress"
+            case networkProfileArn = "NetworkProfileArn"
+            case networkProfileName = "NetworkProfileName"
             case roomArn = "RoomArn"
             case roomName = "RoomName"
             case softwareVersion = "SoftwareVersion"
@@ -1183,33 +1739,78 @@ extension AlexaForBusiness {
         public var description: String { return self.rawValue }
     }
 
+    public struct DeviceNetworkProfileInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateExpirationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NetworkProfileArn", required: false, type: .string)
+        ]
+        /// The ARN of the certificate associated with a device.
+        public let certificateArn: String?
+        /// The time (in epoch) when the certificate expires.
+        public let certificateExpirationTime: TimeStamp?
+        /// The ARN of the network profile associated with a device.
+        public let networkProfileArn: String?
+
+        public init(certificateArn: String? = nil, certificateExpirationTime: TimeStamp? = nil, networkProfileArn: String? = nil) {
+            self.certificateArn = certificateArn
+            self.certificateExpirationTime = certificateExpirationTime
+            self.networkProfileArn = networkProfileArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+            case certificateExpirationTime = "CertificateExpirationTime"
+            case networkProfileArn = "NetworkProfileArn"
+        }
+    }
+
     public enum DeviceStatus: String, CustomStringConvertible, Codable {
         case ready = "READY"
         case pending = "PENDING"
         case wasOffline = "WAS_OFFLINE"
         case deregistered = "DEREGISTERED"
+        case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
     public struct DeviceStatusDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", required: false, type: .enum)
+            AWSShapeMember(label: "Code", required: false, type: .enum), 
+            AWSShapeMember(label: "Feature", required: false, type: .enum)
         ]
         /// The device status detail code.
         public let code: DeviceStatusDetailCode?
+        /// The list of available features on the device.
+        public let feature: Feature?
 
-        public init(code: DeviceStatusDetailCode? = nil) {
+        public init(code: DeviceStatusDetailCode? = nil, feature: Feature? = nil) {
             self.code = code
+            self.feature = feature
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
+            case feature = "Feature"
         }
     }
 
     public enum DeviceStatusDetailCode: String, CustomStringConvertible, Codable {
         case deviceSoftwareUpdateNeeded = "DEVICE_SOFTWARE_UPDATE_NEEDED"
         case deviceWasOffline = "DEVICE_WAS_OFFLINE"
+        case credentialsAccessFailure = "CREDENTIALS_ACCESS_FAILURE"
+        case tlsVersionMismatch = "TLS_VERSION_MISMATCH"
+        case associationRejection = "ASSOCIATION_REJECTION"
+        case authenticationFailure = "AUTHENTICATION_FAILURE"
+        case dhcpFailure = "DHCP_FAILURE"
+        case internetUnavailable = "INTERNET_UNAVAILABLE"
+        case dnsFailure = "DNS_FAILURE"
+        case unknownFailure = "UNKNOWN_FAILURE"
+        case certificateIssuingLimitExceeded = "CERTIFICATE_ISSUING_LIMIT_EXCEEDED"
+        case invalidCertificateAuthority = "INVALID_CERTIFICATE_AUTHORITY"
+        case networkProfileNotFound = "NETWORK_PROFILE_NOT_FOUND"
+        case invalidPasswordState = "INVALID_PASSWORD_STATE"
+        case passwordNotFound = "PASSWORD_NOT_FOUND"
         public var description: String { return self.rawValue }
     }
 
@@ -1232,6 +1833,11 @@ extension AlexaForBusiness {
             case connectionStatus = "ConnectionStatus"
             case deviceStatusDetails = "DeviceStatusDetails"
         }
+    }
+
+    public enum DeviceUsageType: String, CustomStringConvertible, Codable {
+        case voice = "VOICE"
+        public var description: String { return self.rawValue }
     }
 
     public struct DisassociateContactFromAddressBookRequest: AWSShape {
@@ -1313,6 +1919,29 @@ extension AlexaForBusiness {
 
     }
 
+    public struct DisassociateSkillFromUsersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SkillId", required: true, type: .string)
+        ]
+        ///  The private skill ID you want to make unavailable for enrolled users.
+        public let skillId: String
+
+        public init(skillId: String) {
+            self.skillId = skillId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case skillId = "SkillId"
+        }
+    }
+
+    public struct DisassociateSkillFromUsersResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
     public struct DisassociateSkillGroupFromRoomRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RoomArn", required: false, type: .string), 
@@ -1374,6 +2003,8 @@ extension AlexaForBusiness {
         case notifications = "NOTIFICATIONS"
         case lists = "LISTS"
         case skills = "SKILLS"
+        case networkProfile = "NETWORK_PROFILE"
+        case settings = "SETTINGS"
         case all = "ALL"
         public var description: String { return self.rawValue }
     }
@@ -1420,6 +2051,130 @@ extension AlexaForBusiness {
         public init() {
         }
 
+    }
+
+    public struct Gateway: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "SoftwareVersion", required: false, type: .string)
+        ]
+        /// The ARN of the gateway.
+        public let arn: String?
+        /// The description of the gateway.
+        public let description: String?
+        /// The ARN of the gateway group that the gateway is associated to.
+        public let gatewayGroupArn: String?
+        /// The name of the gateway.
+        public let name: String?
+        /// The software version of the gateway. The gateway automatically updates its software version during normal operation.
+        public let softwareVersion: String?
+
+        public init(arn: String? = nil, description: String? = nil, gatewayGroupArn: String? = nil, name: String? = nil, softwareVersion: String? = nil) {
+            self.arn = arn
+            self.description = description
+            self.gatewayGroupArn = gatewayGroupArn
+            self.name = name
+            self.softwareVersion = softwareVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case description = "Description"
+            case gatewayGroupArn = "GatewayGroupArn"
+            case name = "Name"
+            case softwareVersion = "SoftwareVersion"
+        }
+    }
+
+    public struct GatewayGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The ARN of the gateway group.
+        public let arn: String?
+        /// The description of the gateway group.
+        public let description: String?
+        /// The name of the gateway group.
+        public let name: String?
+
+        public init(arn: String? = nil, description: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.description = description
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case description = "Description"
+            case name = "Name"
+        }
+    }
+
+    public struct GatewayGroupSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The ARN of the gateway group.
+        public let arn: String?
+        /// The description of the gateway group.
+        public let description: String?
+        /// The name of the gateway group.
+        public let name: String?
+
+        public init(arn: String? = nil, description: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.description = description
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case description = "Description"
+            case name = "Name"
+        }
+    }
+
+    public struct GatewaySummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "SoftwareVersion", required: false, type: .string)
+        ]
+        /// The ARN of the gateway.
+        public let arn: String?
+        /// The description of the gateway.
+        public let description: String?
+        /// The ARN of the gateway group that the gateway is associated to.
+        public let gatewayGroupArn: String?
+        /// The name of the gateway.
+        public let name: String?
+        /// The software version of the gateway. The gateway automatically updates its software version during normal operation.
+        public let softwareVersion: String?
+
+        public init(arn: String? = nil, description: String? = nil, gatewayGroupArn: String? = nil, name: String? = nil, softwareVersion: String? = nil) {
+            self.arn = arn
+            self.description = description
+            self.gatewayGroupArn = gatewayGroupArn
+            self.name = name
+            self.softwareVersion = softwareVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case description = "Description"
+            case gatewayGroupArn = "GatewayGroupArn"
+            case name = "Name"
+            case softwareVersion = "SoftwareVersion"
+        }
     }
 
     public struct GetAddressBookRequest: AWSShape {
@@ -1570,6 +2325,134 @@ extension AlexaForBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case device = "Device"
+        }
+    }
+
+    public struct GetGatewayGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayGroupArn", required: true, type: .string)
+        ]
+        /// The ARN of the gateway group to get.
+        public let gatewayGroupArn: String
+
+        public init(gatewayGroupArn: String) {
+            self.gatewayGroupArn = gatewayGroupArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayGroupArn = "GatewayGroupArn"
+        }
+    }
+
+    public struct GetGatewayGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayGroup", required: false, type: .structure)
+        ]
+        public let gatewayGroup: GatewayGroup?
+
+        public init(gatewayGroup: GatewayGroup? = nil) {
+            self.gatewayGroup = gatewayGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayGroup = "GatewayGroup"
+        }
+    }
+
+    public struct GetGatewayRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayArn", required: true, type: .string)
+        ]
+        /// The ARN of the gateway to get.
+        public let gatewayArn: String
+
+        public init(gatewayArn: String) {
+            self.gatewayArn = gatewayArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayArn = "GatewayArn"
+        }
+    }
+
+    public struct GetGatewayResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Gateway", required: false, type: .structure)
+        ]
+        /// The details of the gateway.
+        public let gateway: Gateway?
+
+        public init(gateway: Gateway? = nil) {
+            self.gateway = gateway
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gateway = "Gateway"
+        }
+    }
+
+    public struct GetInvitationConfigurationRequest: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct GetInvitationConfigurationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContactEmail", required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationName", required: false, type: .string), 
+            AWSShapeMember(label: "PrivateSkillIds", required: false, type: .list)
+        ]
+        /// The email ID of the organization or individual contact that the enrolled user can use. 
+        public let contactEmail: String?
+        /// The name of the organization sending the enrollment invite to a user.
+        public let organizationName: String?
+        /// The list of private skill IDs that you want to recommend to the user to enable in the invitation.
+        public let privateSkillIds: [String]?
+
+        public init(contactEmail: String? = nil, organizationName: String? = nil, privateSkillIds: [String]? = nil) {
+            self.contactEmail = contactEmail
+            self.organizationName = organizationName
+            self.privateSkillIds = privateSkillIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactEmail = "ContactEmail"
+            case organizationName = "OrganizationName"
+            case privateSkillIds = "PrivateSkillIds"
+        }
+    }
+
+    public struct GetNetworkProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NetworkProfileArn", required: true, type: .string)
+        ]
+        /// The ARN of the network profile associated with a device.
+        public let networkProfileArn: String
+
+        public init(networkProfileArn: String) {
+            self.networkProfileArn = networkProfileArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkProfileArn = "NetworkProfileArn"
+        }
+    }
+
+    public struct GetNetworkProfileResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NetworkProfile", required: false, type: .structure)
+        ]
+        /// The network profile associated with a device.
+        public let networkProfile: NetworkProfile?
+
+        public init(networkProfile: NetworkProfile? = nil) {
+            self.networkProfile = networkProfile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkProfile = "NetworkProfile"
         }
     }
 
@@ -1732,6 +2615,48 @@ extension AlexaForBusiness {
         }
     }
 
+    public struct ListBusinessReportSchedulesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum number of schedules listed in the call.
+        public let maxResults: Int32?
+        /// The token used to list the remaining schedules from the previous API call.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListBusinessReportSchedulesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BusinessReportSchedules", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The schedule of the reports.
+        public let businessReportSchedules: [BusinessReportSchedule]?
+        /// The token used to list the remaining schedules from the previous API call.
+        public let nextToken: String?
+
+        public init(businessReportSchedules: [BusinessReportSchedule]? = nil, nextToken: String? = nil) {
+            self.businessReportSchedules = businessReportSchedules
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case businessReportSchedules = "BusinessReportSchedules"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListConferenceProvidersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
@@ -1822,6 +2747,95 @@ extension AlexaForBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case deviceEvents = "DeviceEvents"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListGatewayGroupsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum number of gateway group summaries to return. The default is 50.
+        public let maxResults: Int32?
+        /// The token used to paginate though multiple pages of gateway group summaries.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListGatewayGroupsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayGroups", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The gateway groups in the list.
+        public let gatewayGroups: [GatewayGroupSummary]?
+        /// The token used to paginate though multiple pages of gateway group summaries.
+        public let nextToken: String?
+
+        public init(gatewayGroups: [GatewayGroupSummary]? = nil, nextToken: String? = nil) {
+            self.gatewayGroups = gatewayGroups
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayGroups = "GatewayGroups"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListGatewaysRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The gateway group ARN for which to list gateways.
+        public let gatewayGroupArn: String?
+        /// The maximum number of gateway summaries to return. The default is 50.
+        public let maxResults: Int32?
+        /// The token used to paginate though multiple pages of gateway summaries.
+        public let nextToken: String?
+
+        public init(gatewayGroupArn: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.gatewayGroupArn = gatewayGroupArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayGroupArn = "GatewayGroupArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListGatewaysResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Gateways", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The gateways in the list.
+        public let gateways: [GatewaySummary]?
+        /// The token used to paginate though multiple pages of gateway summaries.
+        public let nextToken: String?
+
+        public init(gateways: [GatewaySummary]? = nil, nextToken: String? = nil) {
+            self.gateways = gateways
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gateways = "Gateways"
             case nextToken = "NextToken"
         }
     }
@@ -2066,6 +3080,11 @@ extension AlexaForBusiness {
         }
     }
 
+    public enum Locale: String, CustomStringConvertible, Codable {
+        case enUs = "en-US"
+        public var description: String { return self.rawValue }
+    }
+
     public struct MeetingSetting: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RequirePin", required: true, type: .enum)
@@ -2080,6 +3099,127 @@ extension AlexaForBusiness {
         private enum CodingKeys: String, CodingKey {
             case requirePin = "RequirePin"
         }
+    }
+
+    public enum NetworkEapMethod: String, CustomStringConvertible, Codable {
+        case eapTls = "EAP_TLS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct NetworkProfile: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateAuthorityArn", required: false, type: .string), 
+            AWSShapeMember(label: "CurrentPassword", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "EapMethod", required: false, type: .enum), 
+            AWSShapeMember(label: "NetworkProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "NetworkProfileName", required: false, type: .string), 
+            AWSShapeMember(label: "NextPassword", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityType", required: false, type: .enum), 
+            AWSShapeMember(label: "Ssid", required: false, type: .string), 
+            AWSShapeMember(label: "TrustAnchors", required: false, type: .list)
+        ]
+        /// The ARN of the Private Certificate Authority (PCA) created in AWS Certificate Manager (ACM). This is used to issue certificates to the devices. 
+        public let certificateAuthorityArn: String?
+        /// The current password of the Wi-Fi network.
+        public let currentPassword: String?
+        /// Detailed information about a device's network profile.
+        public let description: String?
+        /// The authentication standard that is used in the EAP framework. Currently, EAP_TLS is supported. 
+        public let eapMethod: NetworkEapMethod?
+        /// The ARN of the network profile associated with a device.
+        public let networkProfileArn: String?
+        /// The name of the network profile associated with a device.
+        public let networkProfileName: String?
+        /// The next, or subsequent, password of the Wi-Fi network. This password is asynchronously transmitted to the device and is used when the password of the network changes to NextPassword. 
+        public let nextPassword: String?
+        /// The security type of the Wi-Fi network. This can be WPA2_ENTERPRISE, WPA2_PSK, WPA_PSK, WEP, or OPEN.
+        public let securityType: NetworkSecurityType?
+        /// The SSID of the Wi-Fi network.
+        public let ssid: String?
+        /// The root certificates of your authentication server, which is installed on your devices and used to trust your authentication server during EAP negotiation.
+        public let trustAnchors: [String]?
+
+        public init(certificateAuthorityArn: String? = nil, currentPassword: String? = nil, description: String? = nil, eapMethod: NetworkEapMethod? = nil, networkProfileArn: String? = nil, networkProfileName: String? = nil, nextPassword: String? = nil, securityType: NetworkSecurityType? = nil, ssid: String? = nil, trustAnchors: [String]? = nil) {
+            self.certificateAuthorityArn = certificateAuthorityArn
+            self.currentPassword = currentPassword
+            self.description = description
+            self.eapMethod = eapMethod
+            self.networkProfileArn = networkProfileArn
+            self.networkProfileName = networkProfileName
+            self.nextPassword = nextPassword
+            self.securityType = securityType
+            self.ssid = ssid
+            self.trustAnchors = trustAnchors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateAuthorityArn = "CertificateAuthorityArn"
+            case currentPassword = "CurrentPassword"
+            case description = "Description"
+            case eapMethod = "EapMethod"
+            case networkProfileArn = "NetworkProfileArn"
+            case networkProfileName = "NetworkProfileName"
+            case nextPassword = "NextPassword"
+            case securityType = "SecurityType"
+            case ssid = "Ssid"
+            case trustAnchors = "TrustAnchors"
+        }
+    }
+
+    public struct NetworkProfileData: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateAuthorityArn", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "EapMethod", required: false, type: .enum), 
+            AWSShapeMember(label: "NetworkProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "NetworkProfileName", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityType", required: false, type: .enum), 
+            AWSShapeMember(label: "Ssid", required: false, type: .string)
+        ]
+        /// The ARN of the Private Certificate Authority (PCA) created in AWS Certificate Manager (ACM). This is used to issue certificates to the devices.
+        public let certificateAuthorityArn: String?
+        /// Detailed information about a device's network profile.
+        public let description: String?
+        /// The authentication standard that is used in the EAP framework. Currently, EAP_TLS is supported.
+        public let eapMethod: NetworkEapMethod?
+        /// The ARN of the network profile associated with a device.
+        public let networkProfileArn: String?
+        /// The name of the network profile associated with a device.
+        public let networkProfileName: String?
+        /// The security type of the Wi-Fi network. This can be WPA2_ENTERPRISE, WPA2_PSK, WPA_PSK, WEP, or OPEN.
+        public let securityType: NetworkSecurityType?
+        /// The SSID of the Wi-Fi network.
+        public let ssid: String?
+
+        public init(certificateAuthorityArn: String? = nil, description: String? = nil, eapMethod: NetworkEapMethod? = nil, networkProfileArn: String? = nil, networkProfileName: String? = nil, securityType: NetworkSecurityType? = nil, ssid: String? = nil) {
+            self.certificateAuthorityArn = certificateAuthorityArn
+            self.description = description
+            self.eapMethod = eapMethod
+            self.networkProfileArn = networkProfileArn
+            self.networkProfileName = networkProfileName
+            self.securityType = securityType
+            self.ssid = ssid
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateAuthorityArn = "CertificateAuthorityArn"
+            case description = "Description"
+            case eapMethod = "EapMethod"
+            case networkProfileArn = "NetworkProfileArn"
+            case networkProfileName = "NetworkProfileName"
+            case securityType = "SecurityType"
+            case ssid = "Ssid"
+        }
+    }
+
+    public enum NetworkSecurityType: String, CustomStringConvertible, Codable {
+        case open = "OPEN"
+        case wep = "WEP"
+        case wpaPsk = "WPA_PSK"
+        case wpa2Psk = "WPA2_PSK"
+        case wpa2Enterprise = "WPA2_ENTERPRISE"
+        public var description: String { return self.rawValue }
     }
 
     public struct PSTNDialIn: AWSShape {
@@ -2252,6 +3392,39 @@ extension AlexaForBusiness {
     }
 
     public struct PutConferencePreferenceResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct PutInvitationConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContactEmail", required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationName", required: true, type: .string), 
+            AWSShapeMember(label: "PrivateSkillIds", required: false, type: .list)
+        ]
+        /// The email ID of the organization or individual contact that the enrolled user can use. 
+        public let contactEmail: String?
+        /// The name of the organization sending the enrollment invite to a user.
+        public let organizationName: String
+        /// The list of private skill IDs that you want to recommend to the user to enable in the invitation.
+        public let privateSkillIds: [String]?
+
+        public init(contactEmail: String? = nil, organizationName: String, privateSkillIds: [String]? = nil) {
+            self.contactEmail = contactEmail
+            self.organizationName = organizationName
+            self.privateSkillIds = privateSkillIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactEmail = "ContactEmail"
+            case organizationName = "OrganizationName"
+            case privateSkillIds = "PrivateSkillIds"
+        }
+    }
+
+    public struct PutInvitationConfigurationResponse: AWSShape {
 
         public init() {
         }
@@ -2700,13 +3873,13 @@ extension AlexaForBusiness {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "SortCriteria", required: false, type: .list)
         ]
-        /// The filters to use to list a specified set of devices. Supported filter keys are DeviceName, DeviceStatus, DeviceStatusDetailCode, RoomName, DeviceType, DeviceSerialNumber, UnassociatedOnly, and ConnectionStatus (ONLINE and OFFLINE).
+        /// The filters to use to list a specified set of devices. Supported filter keys are DeviceName, DeviceStatus, DeviceStatusDetailCode, RoomName, DeviceType, DeviceSerialNumber, UnassociatedOnly, ConnectionStatus (ONLINE and OFFLINE), NetworkProfileName, NetworkProfileArn, Feature, and FailureCode.
         public let filters: [Filter]?
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
         public let maxResults: Int32?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
-        /// The sort order to use in listing the specified set of devices. Supported sort keys are DeviceName, DeviceStatus, RoomName, DeviceType, DeviceSerialNumber, and ConnectionStatus.
+        /// The sort order to use in listing the specified set of devices. Supported sort keys are DeviceName, DeviceStatus, RoomName, DeviceType, DeviceSerialNumber, ConnectionStatus, NetworkProfileName, NetworkProfileArn, Feature, and FailureCode.
         public let sortCriteria: [Sort]?
 
         public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
@@ -2745,6 +3918,63 @@ extension AlexaForBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case devices = "Devices"
+            case nextToken = "NextToken"
+            case totalCount = "TotalCount"
+        }
+    }
+
+    public struct SearchNetworkProfilesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortCriteria", required: false, type: .list)
+        ]
+        /// The filters to use to list a specified set of network profiles. Valid filters are NetworkProfileName, Ssid, and SecurityType.
+        public let filters: [Filter]?
+        /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. 
+        public let maxResults: Int32?
+        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults. 
+        public let nextToken: String?
+        /// The sort order to use to list the specified set of network profiles. Valid sort criteria includes NetworkProfileName, Ssid, and SecurityType.
+        public let sortCriteria: [Sort]?
+
+        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortCriteria: [Sort]? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortCriteria = sortCriteria
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sortCriteria = "SortCriteria"
+        }
+    }
+
+    public struct SearchNetworkProfilesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NetworkProfiles", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TotalCount", required: false, type: .integer)
+        ]
+        /// The network profiles that meet the specified set of filter criteria, in sort order. It is a list of NetworkProfileData objects. 
+        public let networkProfiles: [NetworkProfileData]?
+        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
+        public let nextToken: String?
+        /// The total number of network profiles returned.
+        public let totalCount: Int32?
+
+        public init(networkProfiles: [NetworkProfileData]? = nil, nextToken: String? = nil, totalCount: Int32? = nil) {
+            self.networkProfiles = networkProfiles
+            self.nextToken = nextToken
+            self.totalCount = totalCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkProfiles = "NetworkProfiles"
             case nextToken = "NextToken"
             case totalCount = "TotalCount"
         }
@@ -2975,6 +4205,53 @@ extension AlexaForBusiness {
             case nextToken = "NextToken"
             case totalCount = "TotalCount"
             case users = "Users"
+        }
+    }
+
+    public struct SendAnnouncementRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientRequestToken", required: true, type: .string), 
+            AWSShapeMember(label: "Content", required: true, type: .structure), 
+            AWSShapeMember(label: "RoomFilters", required: true, type: .list), 
+            AWSShapeMember(label: "TimeToLiveInSeconds", required: false, type: .integer)
+        ]
+        /// The unique, user-specified identifier for the request that ensures idempotency.
+        public let clientRequestToken: String
+        /// The announcement content. This can contain only one of the three possible announcement types (text, SSML or audio).
+        public let content: Content
+        /// The filters to use to send an announcement to a specified list of rooms. The supported filter keys are RoomName, ProfileName, RoomArn, and ProfileArn. To send to all rooms, specify an empty RoomFilters list.
+        public let roomFilters: [Filter]
+        /// The time to live for an announcement. Default is 300. If delivery doesn't occur within this time, the announcement is not delivered.
+        public let timeToLiveInSeconds: Int32?
+
+        public init(clientRequestToken: String, content: Content, roomFilters: [Filter], timeToLiveInSeconds: Int32? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.content = content
+            self.roomFilters = roomFilters
+            self.timeToLiveInSeconds = timeToLiveInSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case content = "Content"
+            case roomFilters = "RoomFilters"
+            case timeToLiveInSeconds = "TimeToLiveInSeconds"
+        }
+    }
+
+    public struct SendAnnouncementResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AnnouncementArn", required: false, type: .string)
+        ]
+        /// The identifier of the announcement.
+        public let announcementArn: String?
+
+        public init(announcementArn: String? = nil) {
+            self.announcementArn = announcementArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case announcementArn = "AnnouncementArn"
         }
     }
 
@@ -3262,6 +4539,27 @@ extension AlexaForBusiness {
         public var description: String { return self.rawValue }
     }
 
+    public struct Ssml: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Locale", required: true, type: .enum), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
+        ]
+        /// The locale of the SSML message. Currently, en-US is supported.
+        public let locale: Locale
+        /// The value of the SSML message in the correct SSML format. The audio tag is not supported.
+        public let value: String
+
+        public init(locale: Locale, value: String) {
+            self.locale = locale
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locale = "Locale"
+            case value = "Value"
+        }
+    }
+
     public struct StartDeviceSyncRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeviceArn", required: false, type: .string), 
@@ -3373,6 +4671,27 @@ extension AlexaForBusiness {
         public var description: String { return self.rawValue }
     }
 
+    public struct Text: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Locale", required: true, type: .enum), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
+        ]
+        /// The locale of the text message. Currently, en-US is supported.
+        public let locale: Locale
+        /// The value of the text message.
+        public let value: String
+
+        public init(locale: Locale, value: String) {
+            self.locale = locale
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locale = "Locale"
+            case value = "Value"
+        }
+    }
+
     public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: true, type: .string), 
@@ -3428,6 +4747,54 @@ extension AlexaForBusiness {
     }
 
     public struct UpdateAddressBookResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateBusinessReportScheduleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Format", required: false, type: .enum), 
+            AWSShapeMember(label: "Recurrence", required: false, type: .structure), 
+            AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "ScheduleArn", required: true, type: .string), 
+            AWSShapeMember(label: "ScheduleName", required: false, type: .string)
+        ]
+        /// The format of the generated report (individual CSV files or zipped files of individual files).
+        public let format: BusinessReportFormat?
+        /// The recurrence of the reports.
+        public let recurrence: BusinessReportRecurrence?
+        /// The S3 location of the output reports.
+        public let s3BucketName: String?
+        /// The S3 key where the report is delivered.
+        public let s3KeyPrefix: String?
+        /// The ARN of the business report schedule.
+        public let scheduleArn: String
+        /// The name identifier of the schedule.
+        public let scheduleName: String?
+
+        public init(format: BusinessReportFormat? = nil, recurrence: BusinessReportRecurrence? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, scheduleArn: String, scheduleName: String? = nil) {
+            self.format = format
+            self.recurrence = recurrence
+            self.s3BucketName = s3BucketName
+            self.s3KeyPrefix = s3KeyPrefix
+            self.scheduleArn = scheduleArn
+            self.scheduleName = scheduleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case format = "Format"
+            case recurrence = "Recurrence"
+            case s3BucketName = "S3BucketName"
+            case s3KeyPrefix = "S3KeyPrefix"
+            case scheduleArn = "ScheduleArn"
+            case scheduleName = "ScheduleName"
+        }
+    }
+
+    public struct UpdateBusinessReportScheduleResponse: AWSShape {
 
         public init() {
         }
@@ -3542,6 +4909,130 @@ extension AlexaForBusiness {
     }
 
     public struct UpdateDeviceResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateGatewayGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayGroupArn", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The updated description of the gateway group.
+        public let description: String?
+        /// The ARN of the gateway group to update.
+        public let gatewayGroupArn: String
+        /// The updated name of the gateway group.
+        public let name: String?
+
+        public init(description: String? = nil, gatewayGroupArn: String, name: String? = nil) {
+            self.description = description
+            self.gatewayGroupArn = gatewayGroupArn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case gatewayGroupArn = "GatewayGroupArn"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateGatewayGroupResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateGatewayRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayArn", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "SoftwareVersion", required: false, type: .string)
+        ]
+        /// The updated description of the gateway.
+        public let description: String?
+        /// The ARN of the gateway to update.
+        public let gatewayArn: String
+        /// The updated name of the gateway.
+        public let name: String?
+        /// The updated software version of the gateway. The gateway automatically updates its software version during normal operation.
+        public let softwareVersion: String?
+
+        public init(description: String? = nil, gatewayArn: String, name: String? = nil, softwareVersion: String? = nil) {
+            self.description = description
+            self.gatewayArn = gatewayArn
+            self.name = name
+            self.softwareVersion = softwareVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case gatewayArn = "GatewayArn"
+            case name = "Name"
+            case softwareVersion = "SoftwareVersion"
+        }
+    }
+
+    public struct UpdateGatewayResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateNetworkProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateAuthorityArn", required: false, type: .string), 
+            AWSShapeMember(label: "CurrentPassword", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "NetworkProfileArn", required: true, type: .string), 
+            AWSShapeMember(label: "NetworkProfileName", required: false, type: .string), 
+            AWSShapeMember(label: "NextPassword", required: false, type: .string), 
+            AWSShapeMember(label: "TrustAnchors", required: false, type: .list)
+        ]
+        /// The ARN of the Private Certificate Authority (PCA) created in AWS Certificate Manager (ACM). This is used to issue certificates to the devices. 
+        public let certificateAuthorityArn: String?
+        /// The current password of the Wi-Fi network.
+        public let currentPassword: String?
+        /// Detailed information about a device's network profile.
+        public let description: String?
+        /// The ARN of the network profile associated with a device.
+        public let networkProfileArn: String
+        /// The name of the network profile associated with a device.
+        public let networkProfileName: String?
+        /// The next, or subsequent, password of the Wi-Fi network. This password is asynchronously transmitted to the device and is used when the password of the network changes to NextPassword. 
+        public let nextPassword: String?
+        /// The root certificate(s) of your authentication server that will be installed on your devices and used to trust your authentication server during EAP negotiation. 
+        public let trustAnchors: [String]?
+
+        public init(certificateAuthorityArn: String? = nil, currentPassword: String? = nil, description: String? = nil, networkProfileArn: String, networkProfileName: String? = nil, nextPassword: String? = nil, trustAnchors: [String]? = nil) {
+            self.certificateAuthorityArn = certificateAuthorityArn
+            self.currentPassword = currentPassword
+            self.description = description
+            self.networkProfileArn = networkProfileArn
+            self.networkProfileName = networkProfileName
+            self.nextPassword = nextPassword
+            self.trustAnchors = trustAnchors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateAuthorityArn = "CertificateAuthorityArn"
+            case currentPassword = "CurrentPassword"
+            case description = "Description"
+            case networkProfileArn = "NetworkProfileArn"
+            case networkProfileName = "NetworkProfileName"
+            case nextPassword = "NextPassword"
+            case trustAnchors = "TrustAnchors"
+        }
+    }
+
+    public struct UpdateNetworkProfileResponse: AWSShape {
 
         public init() {
         }

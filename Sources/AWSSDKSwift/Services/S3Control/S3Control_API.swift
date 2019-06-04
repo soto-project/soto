@@ -20,25 +20,48 @@ public struct S3Control {
             serviceProtocol: ServiceProtocol(type: .restxml),
             apiVersion: "2018-08-20",
             endpoint: endpoint,
-            serviceEndpoints: ["ap-northeast-1": "s3-control.ap-northeast-1.amazonaws.com", "ap-northeast-2": "s3-control.ap-northeast-2.amazonaws.com", "ap-south-1": "s3-control.ap-south-1.amazonaws.com", "ap-southeast-1": "s3-control.ap-southeast-1.amazonaws.com", "ap-southeast-2": "s3-control.ap-southeast-2.amazonaws.com", "ca-central-1": "s3-control.ca-central-1.amazonaws.com", "eu-central-1": "s3-control.eu-central-1.amazonaws.com", "eu-west-1": "s3-control.eu-west-1.amazonaws.com", "eu-west-2": "s3-control.eu-west-2.amazonaws.com", "eu-west-3": "s3-control.eu-west-3.amazonaws.com", "sa-east-1": "s3-control.sa-east-1.amazonaws.com", "us-east-1": "s3-control.us-east-1.amazonaws.com", "us-east-1-fips": "s3-control-fips.us-east-1.amazonaws.com", "us-east-2": "s3-control.us-east-2.amazonaws.com", "us-east-2-fips": "s3-control-fips.us-east-2.amazonaws.com", "us-west-1": "s3-control.us-west-1.amazonaws.com", "us-west-1-fips": "s3-control-fips.us-west-1.amazonaws.com", "us-west-2": "s3-control.us-west-2.amazonaws.com", "us-west-2-fips": "s3-control-fips.us-west-2.amazonaws.com"],
+            serviceEndpoints: ["ap-northeast-1": "s3-control.ap-northeast-1.amazonaws.com", "ap-northeast-2": "s3-control.ap-northeast-2.amazonaws.com", "ap-south-1": "s3-control.ap-south-1.amazonaws.com", "ap-southeast-1": "s3-control.ap-southeast-1.amazonaws.com", "ap-southeast-2": "s3-control.ap-southeast-2.amazonaws.com", "ca-central-1": "s3-control.ca-central-1.amazonaws.com", "eu-central-1": "s3-control.eu-central-1.amazonaws.com", "eu-north-1": "s3-control.eu-north-1.amazonaws.com", "eu-west-1": "s3-control.eu-west-1.amazonaws.com", "eu-west-2": "s3-control.eu-west-2.amazonaws.com", "eu-west-3": "s3-control.eu-west-3.amazonaws.com", "sa-east-1": "s3-control.sa-east-1.amazonaws.com", "us-east-1": "s3-control.us-east-1.amazonaws.com", "us-east-1-fips": "s3-control-fips.us-east-1.amazonaws.com", "us-east-2": "s3-control.us-east-2.amazonaws.com", "us-east-2-fips": "s3-control-fips.us-east-2.amazonaws.com", "us-west-1": "s3-control.us-west-1.amazonaws.com", "us-west-1-fips": "s3-control-fips.us-west-1.amazonaws.com", "us-west-2": "s3-control.us-west-2.amazonaws.com", "us-west-2-fips": "s3-control-fips.us-west-2.amazonaws.com"],
             middlewares: [],
             possibleErrorTypes: [S3ControlErrorType.self]
         )
     }
 
-    ///  Removes the Public Access Block configuration for an Amazon Web Services account.
+    ///  Creates an Amazon S3 batch operations job.
+    public func createJob(_ input: CreateJobRequest) throws -> Future<CreateJobResult> {
+        return try client.send(operation: "CreateJob", path: "/v20180820/jobs", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the block public access configuration for the specified account.
     @discardableResult public func deletePublicAccessBlock(_ input: DeletePublicAccessBlockRequest) throws -> Future<Void> {
         return try client.send(operation: "DeletePublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "DELETE", input: input)
     }
 
-    ///  Retrieves the Public Access Block configuration for an Amazon Web Services account.
+    ///  Retrieves the configuration parameters and status for a batch operations job.
+    public func describeJob(_ input: DescribeJobRequest) throws -> Future<DescribeJobResult> {
+        return try client.send(operation: "DescribeJob", path: "/v20180820/jobs/{id}", httpMethod: "GET", input: input)
+    }
+
     public func getPublicAccessBlock(_ input: GetPublicAccessBlockRequest) throws -> Future<GetPublicAccessBlockOutput> {
         return try client.send(operation: "GetPublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "GET", input: input)
     }
 
-    ///  Creates or modifies the Public Access Block configuration for an Amazon Web Services account.
+    ///  Lists current jobs and jobs that have ended within the last 30 days for the AWS account making the request.
+    public func listJobs(_ input: ListJobsRequest) throws -> Future<ListJobsResult> {
+        return try client.send(operation: "ListJobs", path: "/v20180820/jobs", httpMethod: "GET", input: input)
+    }
+
     @discardableResult public func putPublicAccessBlock(_ input: PutPublicAccessBlockRequest) throws -> Future<Void> {
         return try client.send(operation: "PutPublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates an existing job's priority.
+    public func updateJobPriority(_ input: UpdateJobPriorityRequest) throws -> Future<UpdateJobPriorityResult> {
+        return try client.send(operation: "UpdateJobPriority", path: "/v20180820/jobs/{id}/priority", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the status for the specified job. Use this operation to confirm that you want to run a job or to cancel an existing job.
+    public func updateJobStatus(_ input: UpdateJobStatusRequest) throws -> Future<UpdateJobStatusResult> {
+        return try client.send(operation: "UpdateJobStatus", path: "/v20180820/jobs/{id}/status", httpMethod: "POST", input: input)
     }
 
 

@@ -654,26 +654,31 @@ extension Lightsail {
 
     public struct CreateDiskSnapshotRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "diskName", required: true, type: .string), 
+            AWSShapeMember(label: "diskName", required: false, type: .string), 
             AWSShapeMember(label: "diskSnapshotName", required: true, type: .string), 
+            AWSShapeMember(label: "instanceName", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
-        /// The unique name of the source disk (e.g., my-source-disk).
-        public let diskName: String
+        /// The unique name of the source disk (e.g., Disk-Virginia-1).  This parameter cannot be defined together with the instance name parameter. The disk name and instance name parameters are mutually exclusive. 
+        public let diskName: String?
         /// The name of the destination disk snapshot (e.g., my-disk-snapshot) based on the source disk.
         public let diskSnapshotName: String
+        /// The unique name of the source instance (e.g., Amazon_Linux-512MB-Virginia-1). When this is defined, a snapshot of the instance's system volume is created.  This parameter cannot be defined together with the disk name parameter. The instance name and disk name parameters are mutually exclusive. 
+        public let instanceName: String?
         /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
         public let tags: [Tag]?
 
-        public init(diskName: String, diskSnapshotName: String, tags: [Tag]? = nil) {
+        public init(diskName: String? = nil, diskSnapshotName: String, instanceName: String? = nil, tags: [Tag]? = nil) {
             self.diskName = diskName
             self.diskSnapshotName = diskSnapshotName
+            self.instanceName = instanceName
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case diskName = "diskName"
             case diskSnapshotName = "diskSnapshotName"
+            case instanceName = "instanceName"
             case tags = "tags"
         }
     }
@@ -1535,6 +1540,38 @@ extension Lightsail {
         }
     }
 
+    public struct DeleteKnownHostKeysRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceName", required: true, type: .string)
+        ]
+        /// The name of the instance for which you want to reset the host key or certificate.
+        public let instanceName: String
+
+        public init(instanceName: String) {
+            self.instanceName = instanceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceName = "instanceName"
+        }
+    }
+
+    public struct DeleteKnownHostKeysResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// A list of objects describing the API operation.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
     public struct DeleteLoadBalancerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "loadBalancerName", required: true, type: .string)
@@ -1954,6 +1991,8 @@ extension Lightsail {
             AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "fromDiskArn", required: false, type: .string), 
             AWSShapeMember(label: "fromDiskName", required: false, type: .string), 
+            AWSShapeMember(label: "fromInstanceArn", required: false, type: .string), 
+            AWSShapeMember(label: "fromInstanceName", required: false, type: .string), 
             AWSShapeMember(label: "location", required: false, type: .structure), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "progress", required: false, type: .string), 
@@ -1967,10 +2006,14 @@ extension Lightsail {
         public let arn: String?
         /// The date when the disk snapshot was created.
         public let createdAt: TimeStamp?
-        /// The Amazon Resource Name (ARN) of the source disk from which you are creating the disk snapshot.
+        /// The Amazon Resource Name (ARN) of the source disk from which the disk snapshot was created.
         public let fromDiskArn: String?
-        /// The unique name of the source disk from which you are creating the disk snapshot.
+        /// The unique name of the source disk from which the disk snapshot was created.
         public let fromDiskName: String?
+        /// The Amazon Resource Name (ARN) of the source instance from which the disk (system volume) snapshot was created.
+        public let fromInstanceArn: String?
+        /// The unique name of the source instance from which the disk (system volume) snapshot was created.
+        public let fromInstanceName: String?
         /// The AWS Region and Availability Zone where the disk snapshot was created.
         public let location: ResourceLocation?
         /// The name of the disk snapshot (e.g., my-disk-snapshot).
@@ -1988,11 +2031,13 @@ extension Lightsail {
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
         public let tags: [Tag]?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, fromDiskArn: String? = nil, fromDiskName: String? = nil, location: ResourceLocation? = nil, name: String? = nil, progress: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int32? = nil, state: DiskSnapshotState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
+        public init(arn: String? = nil, createdAt: TimeStamp? = nil, fromDiskArn: String? = nil, fromDiskName: String? = nil, fromInstanceArn: String? = nil, fromInstanceName: String? = nil, location: ResourceLocation? = nil, name: String? = nil, progress: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int32? = nil, state: DiskSnapshotState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.fromDiskArn = fromDiskArn
             self.fromDiskName = fromDiskName
+            self.fromInstanceArn = fromInstanceArn
+            self.fromInstanceName = fromInstanceName
             self.location = location
             self.name = name
             self.progress = progress
@@ -2008,6 +2053,8 @@ extension Lightsail {
             case createdAt = "createdAt"
             case fromDiskArn = "fromDiskArn"
             case fromDiskName = "fromDiskName"
+            case fromInstanceArn = "fromInstanceArn"
+            case fromInstanceName = "fromInstanceName"
             case location = "location"
             case name = "name"
             case progress = "progress"
@@ -2122,7 +2169,7 @@ extension Lightsail {
         public let options: [String: String]?
         /// The target AWS name server (e.g., ns-111.awsdns-22.com.). For Lightsail load balancers, the value looks like ab1234c56789c6b86aba6fb203d443bc-123456789.us-east-2.elb.amazonaws.com. Be sure to also set isAlias to true when setting up an A record for a load balancer.
         public let target: String?
-        /// The type of domain entry (e.g., SOA or NS).
+        /// The type of domain entry, such as address (A), canonical name (CNAME), mail exchanger (MX), name server (NS), start of authority (SOA), service locator (SRV), or text (TXT). The following domain entry types can be used:    A     CNAME     MX     NS     SOA     SRV     TXT   
         public let `type`: String?
 
         public init(id: String? = nil, isAlias: Bool? = nil, name: String? = nil, options: [String: String]? = nil, target: String? = nil, type: String? = nil) {
@@ -3988,6 +4035,52 @@ extension Lightsail {
         }
     }
 
+    public struct HostKeyAttributes: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "algorithm", required: false, type: .string), 
+            AWSShapeMember(label: "fingerprintSHA1", required: false, type: .string), 
+            AWSShapeMember(label: "fingerprintSHA256", required: false, type: .string), 
+            AWSShapeMember(label: "notValidAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "notValidBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "publicKey", required: false, type: .string), 
+            AWSShapeMember(label: "witnessedAt", required: false, type: .timestamp)
+        ]
+        /// The SSH host key algorithm or the RDP certificate format. For SSH host keys, the algorithm may be ssh-rsa, ecdsa-sha2-nistp256, ssh-ed25519, etc. For RDP certificates, the algorithm is always x509-cert.
+        public let algorithm: String?
+        /// The SHA-1 fingerprint of the returned SSH host key or RDP certificate.   Example of an SHA-1 SSH fingerprint:  SHA1:1CHH6FaAaXjtFOsR/t83vf91SR0    Example of an SHA-1 RDP fingerprint:  af:34:51:fe:09:f0:e0:da:b8:4e:56:ca:60:c2:10:ff:38:06:db:45   
+        public let fingerprintSHA1: String?
+        /// The SHA-256 fingerprint of the returned SSH host key or RDP certificate.   Example of an SHA-256 SSH fingerprint:  SHA256:KTsMnRBh1IhD17HpdfsbzeGA4jOijm5tyXsMjKVbB8o    Example of an SHA-256 RDP fingerprint:  03:9b:36:9f:4b:de:4e:61:70:fc:7c:c9:78:e7:d2:1a:1c:25:a8:0c:91:f6:7c:e4:d6:a0:85:c8:b4:53:99:68   
+        public let fingerprintSHA256: String?
+        /// The returned RDP certificate is not valid after this point in time. This value is listed only for RDP certificates.
+        public let notValidAfter: TimeStamp?
+        /// The returned RDP certificate is valid after this point in time. This value is listed only for RDP certificates.
+        public let notValidBefore: TimeStamp?
+        /// The public SSH host key or the RDP certificate.
+        public let publicKey: String?
+        /// The time that the SSH host key or RDP certificate was recorded by Lightsail.
+        public let witnessedAt: TimeStamp?
+
+        public init(algorithm: String? = nil, fingerprintSHA1: String? = nil, fingerprintSHA256: String? = nil, notValidAfter: TimeStamp? = nil, notValidBefore: TimeStamp? = nil, publicKey: String? = nil, witnessedAt: TimeStamp? = nil) {
+            self.algorithm = algorithm
+            self.fingerprintSHA1 = fingerprintSHA1
+            self.fingerprintSHA256 = fingerprintSHA256
+            self.notValidAfter = notValidAfter
+            self.notValidBefore = notValidBefore
+            self.publicKey = publicKey
+            self.witnessedAt = witnessedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case algorithm = "algorithm"
+            case fingerprintSHA1 = "fingerprintSHA1"
+            case fingerprintSHA256 = "fingerprintSHA256"
+            case notValidAfter = "notValidAfter"
+            case notValidBefore = "notValidBefore"
+            case publicKey = "publicKey"
+            case witnessedAt = "witnessedAt"
+        }
+    }
+
     public struct ImportKeyPairRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "keyPairName", required: true, type: .string), 
@@ -4135,6 +4228,7 @@ extension Lightsail {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "certKey", required: false, type: .string), 
             AWSShapeMember(label: "expiresAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "hostKeys", required: false, type: .list), 
             AWSShapeMember(label: "instanceName", required: false, type: .string), 
             AWSShapeMember(label: "ipAddress", required: false, type: .string), 
             AWSShapeMember(label: "password", required: false, type: .string), 
@@ -4147,6 +4241,8 @@ extension Lightsail {
         public let certKey: String?
         /// For SSH access, the date on which the temporary keys expire.
         public let expiresAt: TimeStamp?
+        /// Describes the public SSH host keys or the RDP certificate.
+        public let hostKeys: [HostKeyAttributes]?
         /// The name of this Amazon Lightsail instance.
         public let instanceName: String?
         /// The public IP address of the Amazon Lightsail instance.
@@ -4162,9 +4258,10 @@ extension Lightsail {
         /// The user name to use when logging in to the Amazon Lightsail instance.
         public let username: String?
 
-        public init(certKey: String? = nil, expiresAt: TimeStamp? = nil, instanceName: String? = nil, ipAddress: String? = nil, password: String? = nil, passwordData: PasswordData? = nil, privateKey: String? = nil, protocol: InstanceAccessProtocol? = nil, username: String? = nil) {
+        public init(certKey: String? = nil, expiresAt: TimeStamp? = nil, hostKeys: [HostKeyAttributes]? = nil, instanceName: String? = nil, ipAddress: String? = nil, password: String? = nil, passwordData: PasswordData? = nil, privateKey: String? = nil, protocol: InstanceAccessProtocol? = nil, username: String? = nil) {
             self.certKey = certKey
             self.expiresAt = expiresAt
+            self.hostKeys = hostKeys
             self.instanceName = instanceName
             self.ipAddress = ipAddress
             self.password = password
@@ -4177,6 +4274,7 @@ extension Lightsail {
         private enum CodingKeys: String, CodingKey {
             case certKey = "certKey"
             case expiresAt = "expiresAt"
+            case hostKeys = "hostKeys"
             case instanceName = "instanceName"
             case ipAddress = "ipAddress"
             case password = "password"
@@ -4205,7 +4303,7 @@ extension Lightsail {
         public let availabilityZone: String
         /// The instance type (e.g., t2.micro) to use for the new Amazon EC2 instance.
         public let instanceType: String
-        /// The port configuration to use for the new Amazon EC2 instance. The following configuration options are available:   DEFAULT — Use the default firewall settings from the image.   INSTANCE — Use the firewall settings from the source Lightsail instance.   NONE — Default to Amazon EC2.  
+        /// The port configuration to use for the new Amazon EC2 instance. The following configuration options are available:   DEFAULT — Use the default firewall settings from the image.   INSTANCE — Use the firewall settings from the source Lightsail instance.   NONE — Default to Amazon EC2.   CLOSED — All ports closed.  
         public let portInfoSource: PortInfoSourceType
         /// The name of the export snapshot record, which contains the exported Lightsail instance snapshot that will be used as the source of the new Amazon EC2 instance. Use the get export snapshot records operation to get a list of export snapshot records that you can use to create a CloudFormation stack.
         public let sourceName: String
@@ -5296,6 +5394,7 @@ extension Lightsail {
     }
 
     public enum OperationType: String, CustomStringConvertible, Codable {
+        case deleteknownhostkeys = "DeleteKnownHostKeys"
         case deleteinstance = "DeleteInstance"
         case createinstance = "CreateInstance"
         case stopinstance = "StopInstance"
@@ -5475,6 +5574,7 @@ extension Lightsail {
         case `default` = "DEFAULT"
         case instance = "INSTANCE"
         case none = "NONE"
+        case closed = "CLOSED"
         public var description: String { return self.rawValue }
     }
 

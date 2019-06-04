@@ -30,6 +30,7 @@ public enum SSMErrorType: AWSErrorType {
     case hierarchyLevelLimitExceededException(message: String?)
     case hierarchyTypeMismatchException(message: String?)
     case idempotentParameterMismatch(message: String?)
+    case incompatiblePolicyException(message: String?)
     case internalServerError(message: String?)
     case invalidActivation(message: String?)
     case invalidActivationId(message: String?)
@@ -67,6 +68,8 @@ public enum SSMErrorType: AWSErrorType {
     case invalidParameters(message: String?)
     case invalidPermissionType(message: String?)
     case invalidPluginName(message: String?)
+    case invalidPolicyAttributeException(message: String?)
+    case invalidPolicyTypeException(message: String?)
     case invalidResourceId(message: String?)
     case invalidResourceType(message: String?)
     case invalidResultAttributeException(message: String?)
@@ -86,12 +89,14 @@ public enum SSMErrorType: AWSErrorType {
     case parameterPatternMismatchException(message: String?)
     case parameterVersionLabelLimitExceeded(message: String?)
     case parameterVersionNotFound(message: String?)
+    case policiesLimitExceededException(message: String?)
     case resourceDataSyncAlreadyExistsException(message: String?)
     case resourceDataSyncCountExceededException(message: String?)
     case resourceDataSyncInvalidConfigurationException(message: String?)
     case resourceDataSyncNotFoundException(message: String?)
     case resourceInUseException(message: String?)
     case resourceLimitExceededException(message: String?)
+    case serviceSettingNotFound(message: String?)
     case statusUnchanged(message: String?)
     case subTypeCountLimitExceededException(message: String?)
     case targetInUseException(message: String?)
@@ -99,6 +104,7 @@ public enum SSMErrorType: AWSErrorType {
     case tooManyTagsError(message: String?)
     case tooManyUpdates(message: String?)
     case totalSizeLimitExceededException(message: String?)
+    case unsupportedFeatureRequiredException(message: String?)
     case unsupportedInventoryItemContextException(message: String?)
     case unsupportedInventorySchemaVersionException(message: String?)
     case unsupportedOperatingSystem(message: String?)
@@ -165,6 +171,8 @@ extension SSMErrorType {
             self = .hierarchyTypeMismatchException(message: message)
         case "IdempotentParameterMismatch":
             self = .idempotentParameterMismatch(message: message)
+        case "IncompatiblePolicyException":
+            self = .incompatiblePolicyException(message: message)
         case "InternalServerError":
             self = .internalServerError(message: message)
         case "InvalidActivation":
@@ -239,6 +247,10 @@ extension SSMErrorType {
             self = .invalidPermissionType(message: message)
         case "InvalidPluginName":
             self = .invalidPluginName(message: message)
+        case "InvalidPolicyAttributeException":
+            self = .invalidPolicyAttributeException(message: message)
+        case "InvalidPolicyTypeException":
+            self = .invalidPolicyTypeException(message: message)
         case "InvalidResourceId":
             self = .invalidResourceId(message: message)
         case "InvalidResourceType":
@@ -277,6 +289,8 @@ extension SSMErrorType {
             self = .parameterVersionLabelLimitExceeded(message: message)
         case "ParameterVersionNotFound":
             self = .parameterVersionNotFound(message: message)
+        case "PoliciesLimitExceededException":
+            self = .policiesLimitExceededException(message: message)
         case "ResourceDataSyncAlreadyExistsException":
             self = .resourceDataSyncAlreadyExistsException(message: message)
         case "ResourceDataSyncCountExceededException":
@@ -289,6 +303,8 @@ extension SSMErrorType {
             self = .resourceInUseException(message: message)
         case "ResourceLimitExceededException":
             self = .resourceLimitExceededException(message: message)
+        case "ServiceSettingNotFound":
+            self = .serviceSettingNotFound(message: message)
         case "StatusUnchanged":
             self = .statusUnchanged(message: message)
         case "SubTypeCountLimitExceededException":
@@ -303,6 +319,8 @@ extension SSMErrorType {
             self = .tooManyUpdates(message: message)
         case "TotalSizeLimitExceededException":
             self = .totalSizeLimitExceededException(message: message)
+        case "UnsupportedFeatureRequiredException":
+            self = .unsupportedFeatureRequiredException(message: message)
         case "UnsupportedInventoryItemContextException":
             self = .unsupportedInventoryItemContextException(message: message)
         case "UnsupportedInventorySchemaVersionException":

@@ -261,6 +261,11 @@ public struct DeviceFarm {
         return try client.send(operation: "ListSuites", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  List the tags for an AWS Device Farm resource.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> Future<ListTagsForResourceResponse> {
+        return try client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Gets information about tests in a given test suite.
     public func listTests(_ input: ListTestsRequest) throws -> Future<ListTestsResult> {
         return try client.send(operation: "ListTests", path: "/", httpMethod: "POST", input: input)
@@ -309,6 +314,16 @@ public struct DeviceFarm {
     ///  Initiates a stop request for the current test run. AWS Device Farm will immediately stop the run on devices where tests have not started executing, and you will not be billed for these devices. On devices where tests have started executing, Setup Suite and Teardown Suite tests will run to completion before stopping execution on those devices. You will be billed for Setup, Teardown, and any tests that were in progress or already completed.
     public func stopRun(_ input: StopRunRequest) throws -> Future<StopRunResult> {
         return try client.send(operation: "StopRun", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well.
+    public func tagResource(_ input: TagResourceRequest) throws -> Future<TagResourceResponse> {
+        return try client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the specified tags from a resource.
+    public func untagResource(_ input: UntagResourceRequest) throws -> Future<UntagResourceResponse> {
+        return try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates information about an existing private device instance.

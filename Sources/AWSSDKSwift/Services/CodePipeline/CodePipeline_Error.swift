@@ -7,8 +7,10 @@ public enum CodePipelineErrorType: AWSErrorType {
     case actionNotFoundException(message: String?)
     case actionTypeNotFoundException(message: String?)
     case approvalAlreadyCompletedException(message: String?)
+    case concurrentModificationException(message: String?)
     case invalidActionDeclarationException(message: String?)
     case invalidApprovalTokenException(message: String?)
+    case invalidArnException(message: String?)
     case invalidBlockerDeclarationException(message: String?)
     case invalidClientTokenException(message: String?)
     case invalidJobException(message: String?)
@@ -17,6 +19,7 @@ public enum CodePipelineErrorType: AWSErrorType {
     case invalidNonceException(message: String?)
     case invalidStageDeclarationException(message: String?)
     case invalidStructureException(message: String?)
+    case invalidTagsException(message: String?)
     case invalidWebhookAuthenticationParametersException(message: String?)
     case invalidWebhookFilterPatternException(message: String?)
     case jobNotFoundException(message: String?)
@@ -26,8 +29,10 @@ public enum CodePipelineErrorType: AWSErrorType {
     case pipelineNameInUseException(message: String?)
     case pipelineNotFoundException(message: String?)
     case pipelineVersionNotFoundException(message: String?)
+    case resourceNotFoundException(message: String?)
     case stageNotFoundException(message: String?)
     case stageNotRetryableException(message: String?)
+    case tooManyTagsException(message: String?)
     case validationException(message: String?)
     case webhookNotFoundException(message: String?)
 }
@@ -45,10 +50,14 @@ extension CodePipelineErrorType {
             self = .actionTypeNotFoundException(message: message)
         case "ApprovalAlreadyCompletedException":
             self = .approvalAlreadyCompletedException(message: message)
+        case "ConcurrentModificationException":
+            self = .concurrentModificationException(message: message)
         case "InvalidActionDeclarationException":
             self = .invalidActionDeclarationException(message: message)
         case "InvalidApprovalTokenException":
             self = .invalidApprovalTokenException(message: message)
+        case "InvalidArnException":
+            self = .invalidArnException(message: message)
         case "InvalidBlockerDeclarationException":
             self = .invalidBlockerDeclarationException(message: message)
         case "InvalidClientTokenException":
@@ -65,6 +74,8 @@ extension CodePipelineErrorType {
             self = .invalidStageDeclarationException(message: message)
         case "InvalidStructureException":
             self = .invalidStructureException(message: message)
+        case "InvalidTagsException":
+            self = .invalidTagsException(message: message)
         case "InvalidWebhookAuthenticationParametersException":
             self = .invalidWebhookAuthenticationParametersException(message: message)
         case "InvalidWebhookFilterPatternException":
@@ -83,10 +94,14 @@ extension CodePipelineErrorType {
             self = .pipelineNotFoundException(message: message)
         case "PipelineVersionNotFoundException":
             self = .pipelineVersionNotFoundException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
         case "StageNotFoundException":
             self = .stageNotFoundException(message: message)
         case "StageNotRetryableException":
             self = .stageNotRetryableException(message: message)
+        case "TooManyTagsException":
+            self = .tooManyTagsException(message: message)
         case "ValidationException":
             self = .validationException(message: message)
         case "WebhookNotFoundException":

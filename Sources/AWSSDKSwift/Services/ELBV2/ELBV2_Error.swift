@@ -13,7 +13,6 @@ public enum ELBV2ErrorType: AWSErrorType {
     case duplicateTargetGroupNameException(message: String?)
     case healthUnavailableException(message: String?)
     case incompatibleProtocolsException(message: String?)
-    case insufficientCapacityException(message: String?)
     case invalidConfigurationRequestException(message: String?)
     case invalidLoadBalancerActionException(message: String?)
     case invalidSchemeException(message: String?)
@@ -22,8 +21,6 @@ public enum ELBV2ErrorType: AWSErrorType {
     case invalidTargetException(message: String?)
     case listenerNotFoundException(message: String?)
     case loadBalancerNotFoundException(message: String?)
-    case minimumLBCapacityUnitsDecreaseThrottlingException(message: String?)
-    case minimumLBCapacityUnitsLimitExceededException(message: String?)
     case operationNotPermittedException(message: String?)
     case priorityInUseException(message: String?)
     case resourceInUseException(message: String?)
@@ -41,7 +38,6 @@ public enum ELBV2ErrorType: AWSErrorType {
     case tooManyTagsException(message: String?)
     case tooManyTargetGroupsException(message: String?)
     case tooManyTargetsException(message: String?)
-    case unsupportedCertificateException(message: String?)
     case unsupportedProtocolException(message: String?)
 }
 
@@ -70,8 +66,6 @@ extension ELBV2ErrorType {
             self = .healthUnavailableException(message: message)
         case "IncompatibleProtocolsException":
             self = .incompatibleProtocolsException(message: message)
-        case "InsufficientCapacityException":
-            self = .insufficientCapacityException(message: message)
         case "InvalidConfigurationRequestException":
             self = .invalidConfigurationRequestException(message: message)
         case "InvalidLoadBalancerActionException":
@@ -88,10 +82,6 @@ extension ELBV2ErrorType {
             self = .listenerNotFoundException(message: message)
         case "LoadBalancerNotFoundException":
             self = .loadBalancerNotFoundException(message: message)
-        case "MinimumLBCapacityUnitsDecreaseThrottlingException":
-            self = .minimumLBCapacityUnitsDecreaseThrottlingException(message: message)
-        case "MinimumLBCapacityUnitsLimitExceededException":
-            self = .minimumLBCapacityUnitsLimitExceededException(message: message)
         case "OperationNotPermittedException":
             self = .operationNotPermittedException(message: message)
         case "PriorityInUseException":
@@ -126,8 +116,6 @@ extension ELBV2ErrorType {
             self = .tooManyTargetGroupsException(message: message)
         case "TooManyTargetsException":
             self = .tooManyTargetsException(message: message)
-        case "UnsupportedCertificateException":
-            self = .unsupportedCertificateException(message: message)
         case "UnsupportedProtocolException":
             self = .unsupportedProtocolException(message: message)
         default:

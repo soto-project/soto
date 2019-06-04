@@ -5,6 +5,32 @@ import AWSSDKSwiftCore
 
 extension AppSync {
 
+    public struct AdditionalAuthenticationProvider: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "authenticationType", required: false, type: .enum), 
+            AWSShapeMember(label: "openIDConnectConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "userPoolConfig", required: false, type: .structure)
+        ]
+        /// The authentication type: API key, AWS IAM, OIDC, or Amazon Cognito user pools.
+        public let authenticationType: AuthenticationType?
+        /// The OpenID Connect configuration.
+        public let openIDConnectConfig: OpenIDConnectConfig?
+        /// The Amazon Cognito user pool configuration.
+        public let userPoolConfig: CognitoUserPoolConfig?
+
+        public init(authenticationType: AuthenticationType? = nil, openIDConnectConfig: OpenIDConnectConfig? = nil, userPoolConfig: CognitoUserPoolConfig? = nil) {
+            self.authenticationType = authenticationType
+            self.openIDConnectConfig = openIDConnectConfig
+            self.userPoolConfig = userPoolConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationType = "authenticationType"
+            case openIDConnectConfig = "openIDConnectConfig"
+            case userPoolConfig = "userPoolConfig"
+        }
+    }
+
     public struct ApiKey: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "description", required: false, type: .string), 
@@ -83,6 +109,32 @@ extension AppSync {
         private enum CodingKeys: String, CodingKey {
             case signingRegion = "signingRegion"
             case signingServiceName = "signingServiceName"
+        }
+    }
+
+    public struct CognitoUserPoolConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "appIdClientRegex", required: false, type: .string), 
+            AWSShapeMember(label: "awsRegion", required: true, type: .string), 
+            AWSShapeMember(label: "userPoolId", required: true, type: .string)
+        ]
+        /// A regular expression for validating the incoming Amazon Cognito user pool app client ID.
+        public let appIdClientRegex: String?
+        /// The AWS Region in which the user pool was created.
+        public let awsRegion: String
+        /// The user pool ID.
+        public let userPoolId: String
+
+        public init(appIdClientRegex: String? = nil, awsRegion: String, userPoolId: String) {
+            self.appIdClientRegex = appIdClientRegex
+            self.awsRegion = awsRegion
+            self.userPoolId = userPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appIdClientRegex = "appIdClientRegex"
+            case awsRegion = "awsRegion"
+            case userPoolId = "userPoolId"
         }
     }
 
@@ -269,13 +321,17 @@ extension AppSync {
 
     public struct CreateGraphqlApiRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "additionalAuthenticationProviders", required: false, type: .list), 
             AWSShapeMember(label: "authenticationType", required: true, type: .enum), 
             AWSShapeMember(label: "logConfig", required: false, type: .structure), 
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "openIDConnectConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "userPoolConfig", required: false, type: .structure)
         ]
-        /// The authentication type: API key, AWS IAM, or Amazon Cognito user pools.
+        /// A list of additional authentication providers for the GraphqlApi API.
+        public let additionalAuthenticationProviders: [AdditionalAuthenticationProvider]?
+        /// The authentication type: API key, AWS IAM, OIDC, or Amazon Cognito user pools.
         public let authenticationType: AuthenticationType
         /// The Amazon CloudWatch Logs configuration.
         public let logConfig: LogConfig?
@@ -283,22 +339,28 @@ extension AppSync {
         public let name: String
         /// The OpenID Connect configuration.
         public let openIDConnectConfig: OpenIDConnectConfig?
+        /// A TagMap object.
+        public let tags: [String: String]?
         /// The Amazon Cognito user pool configuration.
         public let userPoolConfig: UserPoolConfig?
 
-        public init(authenticationType: AuthenticationType, logConfig: LogConfig? = nil, name: String, openIDConnectConfig: OpenIDConnectConfig? = nil, userPoolConfig: UserPoolConfig? = nil) {
+        public init(additionalAuthenticationProviders: [AdditionalAuthenticationProvider]? = nil, authenticationType: AuthenticationType, logConfig: LogConfig? = nil, name: String, openIDConnectConfig: OpenIDConnectConfig? = nil, tags: [String: String]? = nil, userPoolConfig: UserPoolConfig? = nil) {
+            self.additionalAuthenticationProviders = additionalAuthenticationProviders
             self.authenticationType = authenticationType
             self.logConfig = logConfig
             self.name = name
             self.openIDConnectConfig = openIDConnectConfig
+            self.tags = tags
             self.userPoolConfig = userPoolConfig
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalAuthenticationProviders = "additionalAuthenticationProviders"
             case authenticationType = "authenticationType"
             case logConfig = "logConfig"
             case name = "name"
             case openIDConnectConfig = "openIDConnectConfig"
+            case tags = "tags"
             case userPoolConfig = "userPoolConfig"
         }
     }
@@ -887,21 +949,26 @@ extension AppSync {
     public struct GetIntrospectionSchemaRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "format", location: .querystring(locationName: "format"), required: true, type: .enum)
+            AWSShapeMember(label: "format", location: .querystring(locationName: "format"), required: true, type: .enum), 
+            AWSShapeMember(label: "includeDirectives", location: .querystring(locationName: "includeDirectives"), required: false, type: .boolean)
         ]
         /// The API ID.
         public let apiId: String
         /// The schema format: SDL or JSON.
         public let format: OutputType
+        /// A flag that specifies whether the schema introspection should contain directives.
+        public let includeDirectives: Bool?
 
-        public init(apiId: String, format: OutputType) {
+        public init(apiId: String, format: OutputType, includeDirectives: Bool? = nil) {
             self.apiId = apiId
             self.format = format
+            self.includeDirectives = includeDirectives
         }
 
         private enum CodingKeys: String, CodingKey {
             case apiId = "apiId"
             case format = "format"
+            case includeDirectives = "includeDirectives"
         }
     }
 
@@ -988,7 +1055,7 @@ extension AppSync {
         ]
         /// Detailed information about the status of the schema creation operation.
         public let details: String?
-        /// The current state of the schema (PROCESSING, ACTIVE, or DELETING). Once the schema is in the ACTIVE state, you can add data.
+        /// The current state of the schema (PROCESSING, FAILED, SUCCESS, or NOT_APPLICABLE). When the schema is in the ACTIVE state, you can add data.
         public let status: SchemaStatus?
 
         public init(details: String? = nil, status: SchemaStatus? = nil) {
@@ -1046,15 +1113,19 @@ extension AppSync {
 
     public struct GraphqlApi: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "additionalAuthenticationProviders", required: false, type: .list), 
             AWSShapeMember(label: "apiId", required: false, type: .string), 
             AWSShapeMember(label: "arn", required: false, type: .string), 
             AWSShapeMember(label: "authenticationType", required: false, type: .enum), 
             AWSShapeMember(label: "logConfig", required: false, type: .structure), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "openIDConnectConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "uris", required: false, type: .map), 
             AWSShapeMember(label: "userPoolConfig", required: false, type: .structure)
         ]
+        /// A list of additional authentication providers for the GraphqlApi API.
+        public let additionalAuthenticationProviders: [AdditionalAuthenticationProvider]?
         /// The API ID.
         public let apiId: String?
         /// The ARN.
@@ -1067,29 +1138,35 @@ extension AppSync {
         public let name: String?
         /// The OpenID Connect configuration.
         public let openIDConnectConfig: OpenIDConnectConfig?
+        /// The tags.
+        public let tags: [String: String]?
         /// The URIs.
         public let uris: [String: String]?
         /// The Amazon Cognito user pool configuration.
         public let userPoolConfig: UserPoolConfig?
 
-        public init(apiId: String? = nil, arn: String? = nil, authenticationType: AuthenticationType? = nil, logConfig: LogConfig? = nil, name: String? = nil, openIDConnectConfig: OpenIDConnectConfig? = nil, uris: [String: String]? = nil, userPoolConfig: UserPoolConfig? = nil) {
+        public init(additionalAuthenticationProviders: [AdditionalAuthenticationProvider]? = nil, apiId: String? = nil, arn: String? = nil, authenticationType: AuthenticationType? = nil, logConfig: LogConfig? = nil, name: String? = nil, openIDConnectConfig: OpenIDConnectConfig? = nil, tags: [String: String]? = nil, uris: [String: String]? = nil, userPoolConfig: UserPoolConfig? = nil) {
+            self.additionalAuthenticationProviders = additionalAuthenticationProviders
             self.apiId = apiId
             self.arn = arn
             self.authenticationType = authenticationType
             self.logConfig = logConfig
             self.name = name
             self.openIDConnectConfig = openIDConnectConfig
+            self.tags = tags
             self.uris = uris
             self.userPoolConfig = userPoolConfig
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalAuthenticationProviders = "additionalAuthenticationProviders"
             case apiId = "apiId"
             case arn = "arn"
             case authenticationType = "authenticationType"
             case logConfig = "logConfig"
             case name = "name"
             case openIDConnectConfig = "openIDConnectConfig"
+            case tags = "tags"
             case uris = "uris"
             case userPoolConfig = "userPoolConfig"
         }
@@ -1419,6 +1496,38 @@ extension AppSync {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string)
+        ]
+        /// The GraphqlApi ARN.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: false, type: .map)
+        ]
+        /// A TagMap object.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
     public struct ListTypesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
@@ -1668,6 +1777,9 @@ extension AppSync {
         case processing = "PROCESSING"
         case active = "ACTIVE"
         case deleting = "DELETING"
+        case failed = "FAILED"
+        case success = "SUCCESS"
+        case notApplicable = "NOT_APPLICABLE"
         public var description: String { return self.rawValue }
     }
 
@@ -1696,7 +1808,7 @@ extension AppSync {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "status", required: false, type: .enum)
         ]
-        /// The current state of the schema (PROCESSING, ACTIVE, or DELETING). When the schema is in the ACTIVE state, you can add data.
+        /// The current state of the schema (PROCESSING, FAILED, SUCCESS, or NOT_APPLICABLE). When the schema is in the ACTIVE state, you can add data.
         public let status: SchemaStatus?
 
         public init(status: SchemaStatus? = nil) {
@@ -1706,6 +1818,34 @@ extension AppSync {
         private enum CodingKeys: String, CodingKey {
             case status = "status"
         }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: true, type: .map)
+        ]
+        /// The GraphqlApi ARN.
+        public let resourceArn: String
+        /// A TagMap object.
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tags = "tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
     }
 
     public struct `Type`: AWSShape {
@@ -1748,6 +1888,34 @@ extension AppSync {
         case sdl = "SDL"
         case json = "JSON"
         public var description: String { return self.rawValue }
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+        ]
+        /// The GraphqlApi ARN.
+        public let resourceArn: String
+        /// A list of TagKey objects.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
     }
 
     public struct UpdateApiKeyRequest: AWSShape {
@@ -1943,6 +2111,7 @@ extension AppSync {
 
     public struct UpdateGraphqlApiRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "additionalAuthenticationProviders", required: false, type: .list), 
             AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
             AWSShapeMember(label: "authenticationType", required: false, type: .enum), 
             AWSShapeMember(label: "logConfig", required: false, type: .structure), 
@@ -1950,6 +2119,8 @@ extension AppSync {
             AWSShapeMember(label: "openIDConnectConfig", required: false, type: .structure), 
             AWSShapeMember(label: "userPoolConfig", required: false, type: .structure)
         ]
+        /// A list of additional authentication providers for the GraphqlApi API.
+        public let additionalAuthenticationProviders: [AdditionalAuthenticationProvider]?
         /// The API ID.
         public let apiId: String
         /// The new authentication type for the GraphqlApi object.
@@ -1963,7 +2134,8 @@ extension AppSync {
         /// The new Amazon Cognito user pool configuration for the GraphqlApi object.
         public let userPoolConfig: UserPoolConfig?
 
-        public init(apiId: String, authenticationType: AuthenticationType? = nil, logConfig: LogConfig? = nil, name: String, openIDConnectConfig: OpenIDConnectConfig? = nil, userPoolConfig: UserPoolConfig? = nil) {
+        public init(additionalAuthenticationProviders: [AdditionalAuthenticationProvider]? = nil, apiId: String, authenticationType: AuthenticationType? = nil, logConfig: LogConfig? = nil, name: String, openIDConnectConfig: OpenIDConnectConfig? = nil, userPoolConfig: UserPoolConfig? = nil) {
+            self.additionalAuthenticationProviders = additionalAuthenticationProviders
             self.apiId = apiId
             self.authenticationType = authenticationType
             self.logConfig = logConfig
@@ -1973,6 +2145,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalAuthenticationProviders = "additionalAuthenticationProviders"
             case apiId = "apiId"
             case authenticationType = "authenticationType"
             case logConfig = "logConfig"

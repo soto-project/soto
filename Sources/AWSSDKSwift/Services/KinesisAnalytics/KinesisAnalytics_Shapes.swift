@@ -419,7 +419,8 @@ extension KinesisAnalytics {
             AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
             AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .list), 
             AWSShapeMember(label: "Inputs", required: false, type: .list), 
-            AWSShapeMember(label: "Outputs", required: false, type: .list)
+            AWSShapeMember(label: "Outputs", required: false, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// One or more SQL statements that read input data, transform it, and generate output. For example, you can write a SQL statement that reads data from one in-application stream, generates a running average of the number of advertisement clicks by vendor, and insert resulting rows in another in-application stream using pumps. For more information about the typical pattern, see Application Code.  You can provide such series of SQL statements, where output of one statement can be used as the input for the next statement. You store intermediate results by creating in-application streams and pumps. Note that the application code must create the streams with names specified in the Outputs. For example, if your Outputs defines output streams named ExampleOutputStream1 and ExampleOutputStream2, then your application code must create these streams. 
         public let applicationCode: String?
@@ -433,14 +434,17 @@ extension KinesisAnalytics {
         public let inputs: [Input]?
         /// You can configure application output to write data from any of the in-application streams to up to three destinations. These destinations can be Amazon Kinesis streams, Amazon Kinesis Firehose delivery streams, AWS Lambda destinations, or any combination of the three. In the configuration, you specify the in-application stream name, the destination stream or Lambda function Amazon Resource Name (ARN), and the format to use when writing data. You must also provide an IAM role that Amazon Kinesis Analytics can assume to write to the destination stream or Lambda function on your behalf. In the output configuration, you also provide the output stream or Lambda function ARN. For stream destinations, you provide the format of data in the stream (for example, JSON, CSV). You also must provide an IAM role that Amazon Kinesis Analytics can assume to write to the stream or Lambda function on your behalf.
         public let outputs: [Output]?
+        /// A list of one or more tags to assign to the application. A tag is a key-value pair that identifies an application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management Guide.
+        public let tags: [Tag]?
 
-        public init(applicationCode: String? = nil, applicationDescription: String? = nil, applicationName: String, cloudWatchLoggingOptions: [CloudWatchLoggingOption]? = nil, inputs: [Input]? = nil, outputs: [Output]? = nil) {
+        public init(applicationCode: String? = nil, applicationDescription: String? = nil, applicationName: String, cloudWatchLoggingOptions: [CloudWatchLoggingOption]? = nil, inputs: [Input]? = nil, outputs: [Output]? = nil, tags: [Tag]? = nil) {
             self.applicationCode = applicationCode
             self.applicationDescription = applicationDescription
             self.applicationName = applicationName
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.inputs = inputs
             self.outputs = outputs
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -450,6 +454,7 @@ extension KinesisAnalytics {
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
             case inputs = "Inputs"
             case outputs = "Outputs"
+            case tags = "Tags"
         }
     }
 
@@ -867,7 +872,7 @@ extension KinesisAnalytics {
             AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
             AWSShapeMember(label: "RoleARN", required: true, type: .string)
         ]
-        /// The ARN of the AWS Lambda function that operates on records in the stream.
+        /// The ARN of the AWS Lambda function that operates on records in the stream.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda  
         public let resourceARN: String
         /// The ARN of the IAM role that is used to access the AWS Lambda function.
         public let roleARN: String
@@ -909,7 +914,7 @@ extension KinesisAnalytics {
             AWSShapeMember(label: "ResourceARNUpdate", required: false, type: .string), 
             AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) of the new AWS Lambda function that is used to preprocess the records in the stream.
+        /// The Amazon Resource Name (ARN) of the new AWS Lambda function that is used to preprocess the records in the stream.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda  
         public let resourceARNUpdate: String?
         /// The ARN of the new IAM role that is used to access the AWS Lambda function.
         public let roleARNUpdate: String?
@@ -1373,7 +1378,7 @@ extension KinesisAnalytics {
             AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
             AWSShapeMember(label: "RoleARN", required: true, type: .string)
         ]
-        /// Amazon Resource Name (ARN) of the destination Lambda function to write to.
+        /// Amazon Resource Name (ARN) of the destination Lambda function to write to.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda  
         public let resourceARN: String
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the destination function on your behalf. You need to grant the necessary permissions to this role. 
         public let roleARN: String
@@ -1415,7 +1420,7 @@ extension KinesisAnalytics {
             AWSShapeMember(label: "ResourceARNUpdate", required: false, type: .string), 
             AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string)
         ]
-        /// Amazon Resource Name (ARN) of the destination Lambda function.
+        /// Amazon Resource Name (ARN) of the destination Lambda function.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda  
         public let resourceARNUpdate: String?
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the destination function on your behalf. You need to grant the necessary permissions to this role. 
         public let roleARNUpdate: String?
@@ -1470,6 +1475,38 @@ extension KinesisAnalytics {
         private enum CodingKeys: String, CodingKey {
             case applicationSummaries = "ApplicationSummaries"
             case hasMoreApplications = "HasMoreApplications"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string)
+        ]
+        /// The ARN of the application for which to retrieve tags.
+        public let resourceARN: String
+
+        public init(resourceARN: String) {
+            self.resourceARN = resourceARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// The key-value tags assigned to the application.
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
         }
     }
 
@@ -1618,7 +1655,7 @@ extension KinesisAnalytics {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "SqlType", required: true, type: .string)
         ]
-        /// Reference to the data element in the streaming input of the reference data source.
+        /// Reference to the data element in the streaming input or the reference data source. This element is required if the RecordFormatType is JSON.
         public let mapping: String?
         /// Name of the column created in the in-application input stream or reference table.
         public let name: String
@@ -1928,6 +1965,83 @@ extension KinesisAnalytics {
     }
 
     public struct StopApplicationResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// The key of the key-value tag.
+        public let key: String
+        /// The value of the key-value tag. The value is optional.
+        public let value: String?
+
+        public init(key: String, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
+        ]
+        /// The ARN of the application to assign the tags.
+        public let resourceARN: String
+        /// The key-value tags to assign to the application.
+        public let tags: [Tag]
+
+        public init(resourceARN: String, tags: [Tag]) {
+            self.resourceARN = resourceARN
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
+        ]
+        /// The ARN of the Kinesis Analytics application from which to remove the tags.
+        public let resourceARN: String
+        /// A list of keys of tags to remove from the specified application.
+        public let tagKeys: [String]
+
+        public init(resourceARN: String, tagKeys: [String]) {
+            self.resourceARN = resourceARN
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
 
         public init() {
         }

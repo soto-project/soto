@@ -5,6 +5,119 @@ import AWSSDKSwiftCore
 
 extension RDSDataService {
 
+    public struct BatchExecuteStatementRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "database", required: false, type: .string), 
+            AWSShapeMember(label: "parameterSets", required: false, type: .list), 
+            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "schema", required: false, type: .string), 
+            AWSShapeMember(label: "secretArn", required: true, type: .string), 
+            AWSShapeMember(label: "sql", required: true, type: .string), 
+            AWSShapeMember(label: "transactionId", required: false, type: .string)
+        ]
+        /// The name of the database.
+        public let database: String?
+        /// The parameter set for the batch operation.
+        public let parameterSets: [[SqlParameter]]?
+        /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
+        public let resourceArn: String
+        /// The name of the database schema.
+        public let schema: String?
+        /// The name or ARN of the secret that enables access to the DB cluster.
+        public let secretArn: String
+        /// The SQL statement to run.
+        public let sql: String
+        /// The identifier of a transaction that was started by using the
+        ///                 BeginTransaction operation. Specify the transaction ID of the
+        ///             transaction that you want to include the SQL statement in.
+        ///         If the SQL statement is not part of a transaction, don't set this
+        ///             parameter.
+        public let transactionId: String?
+
+        public init(database: String? = nil, parameterSets: [[SqlParameter]]? = nil, resourceArn: String, schema: String? = nil, secretArn: String, sql: String, transactionId: String? = nil) {
+            self.database = database
+            self.parameterSets = parameterSets
+            self.resourceArn = resourceArn
+            self.schema = schema
+            self.secretArn = secretArn
+            self.sql = sql
+            self.transactionId = transactionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "database"
+            case parameterSets = "parameterSets"
+            case resourceArn = "resourceArn"
+            case schema = "schema"
+            case secretArn = "secretArn"
+            case sql = "sql"
+            case transactionId = "transactionId"
+        }
+    }
+
+    public struct BatchExecuteStatementResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "updateResults", required: false, type: .list)
+        ]
+        /// The execution results of each batch entry.
+        public let updateResults: [UpdateResult]?
+
+        public init(updateResults: [UpdateResult]? = nil) {
+            self.updateResults = updateResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case updateResults = "updateResults"
+        }
+    }
+
+    public struct BeginTransactionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "database", required: false, type: .string), 
+            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "schema", required: false, type: .string), 
+            AWSShapeMember(label: "secretArn", required: true, type: .string)
+        ]
+        /// The name of the database.
+        public let database: String?
+        /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
+        public let resourceArn: String
+        /// The name of the database schema.
+        public let schema: String?
+        /// The name or ARN of the secret that enables access to the DB cluster.
+        public let secretArn: String
+
+        public init(database: String? = nil, resourceArn: String, schema: String? = nil, secretArn: String) {
+            self.database = database
+            self.resourceArn = resourceArn
+            self.schema = schema
+            self.secretArn = secretArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "database"
+            case resourceArn = "resourceArn"
+            case schema = "schema"
+            case secretArn = "secretArn"
+        }
+    }
+
+    public struct BeginTransactionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "transactionId", required: false, type: .string)
+        ]
+        /// The transaction ID of the transaction started by the call.
+        public let transactionId: String?
+
+        public init(transactionId: String? = nil) {
+            self.transactionId = transactionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transactionId = "transactionId"
+        }
+    }
+
     public struct ColumnMetadata: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arrayBaseColumnType", required: false, type: .integer), 
@@ -22,33 +135,33 @@ extension RDSDataService {
             AWSShapeMember(label: "type", required: false, type: .integer), 
             AWSShapeMember(label: "typeName", required: false, type: .string)
         ]
-        /// Homogenous array base SQL type from java.sql.Types.
+        /// The type of the column.
         public let arrayBaseColumnType: Int32?
-        /// Whether the designated column is automatically numbered
+        /// A value that indicates whether the column increments automatically.
         public let isAutoIncrement: Bool?
-        /// Whether values in the designated column's case matters
+        /// A value that indicates whether the column is case-sensitive.
         public let isCaseSensitive: Bool?
-        /// Whether values in the designated column is a cash value
+        /// A value that indicates whether the column contains currency values.
         public let isCurrency: Bool?
-        /// Whether values in the designated column are signed numbers
+        /// A value that indicates whether an integer column is signed.
         public let isSigned: Bool?
-        /// Usually specified by the SQL AS. If not specified, return column name.
+        /// The label for the column.
         public let label: String?
-        /// Name of the column.
+        /// The name of the column.
         public let name: String?
-        /// Indicates the nullability of values in the designated column. One of columnNoNulls (0), columnNullable (1), columnNullableUnknown (2)
+        /// A value that indicates whether the column is nullable.
         public let nullable: Int32?
-        /// Get the designated column's specified column size.For numeric data, this is the maximum precision.  For character data, this is the length in characters. For datetime datatypes, this is the length in characters of the String representation (assuming the maximum allowed precision of the fractional seconds component). For binary data, this is the length in bytes.  For the ROWID datatype, this is the length in bytes. 0 is returned for data types where the column size is not applicable.
+        /// The precision value of a decimal number column.
         public let precision: Int32?
-        /// Designated column's number of digits to right of the decimal point. 0 is returned for data types where the scale is not applicable.
+        /// The scale value of a decimal number column.
         public let scale: Int32?
-        /// Designated column's table's schema
+        /// The name of the schema that owns the table that includes the column.
         public let schemaName: String?
-        /// Designated column's table name
+        /// The name of the table that includes the column.
         public let tableName: String?
-        /// SQL type from java.sql.Types.
+        /// The type of the column.
         public let `type`: Int32?
-        /// Database-specific type name.
+        /// The database-specific data type of the column.
         public let typeName: String?
 
         public init(arrayBaseColumnType: Int32? = nil, isAutoIncrement: Bool? = nil, isCaseSensitive: Bool? = nil, isCurrency: Bool? = nil, isSigned: Bool? = nil, label: String? = nil, name: String? = nil, nullable: Int32? = nil, precision: Int32? = nil, scale: Int32? = nil, schemaName: String? = nil, tableName: String? = nil, type: Int32? = nil, typeName: String? = nil) {
@@ -86,6 +199,48 @@ extension RDSDataService {
         }
     }
 
+    public struct CommitTransactionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "secretArn", required: true, type: .string), 
+            AWSShapeMember(label: "transactionId", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
+        public let resourceArn: String
+        /// The name or ARN of the secret that enables access to the DB cluster.
+        public let secretArn: String
+        /// The identifier of the transaction to end and commit.
+        public let transactionId: String
+
+        public init(resourceArn: String, secretArn: String, transactionId: String) {
+            self.resourceArn = resourceArn
+            self.secretArn = secretArn
+            self.transactionId = transactionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case secretArn = "secretArn"
+            case transactionId = "transactionId"
+        }
+    }
+
+    public struct CommitTransactionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "transactionStatus", required: false, type: .string)
+        ]
+        /// The status of the commit operation.
+        public let transactionStatus: String?
+
+        public init(transactionStatus: String? = nil) {
+            self.transactionStatus = transactionStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transactionStatus = "transactionStatus"
+        }
+    }
+
     public struct ExecuteSqlRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "awsSecretStoreArn", required: true, type: .string), 
@@ -94,15 +249,18 @@ extension RDSDataService {
             AWSShapeMember(label: "schema", required: false, type: .string), 
             AWSShapeMember(label: "sqlStatements", required: true, type: .string)
         ]
-        /// ARN of the db credentials in AWS Secret Store or the friendly secret name
+        /// The Amazon Resource Name (ARN) of the secret that enables access to the DB cluster.
         public let awsSecretStoreArn: String
-        /// Target DB name
+        /// The name of the database.
         public let database: String?
-        /// ARN of the target db cluster or instance
+        /// The ARN of the Aurora Serverless DB cluster.
         public let dbClusterOrInstanceArn: String
-        /// Target Schema name
+        /// The name of the database schema.
         public let schema: String?
-        /// SQL statement(s) to be executed. Statements can be chained by using semicolons
+        /// One or more SQL statements to run on the DB cluster.
+        ///         You can separate SQL statements from each other with a semicolon (;). Any valid SQL
+        ///             statement is permitted, including data definition, data manipulation, and commit
+        ///             statements. 
         public let sqlStatements: String
 
         public init(awsSecretStoreArn: String, database: String? = nil, dbClusterOrInstanceArn: String, schema: String? = nil, sqlStatements: String) {
@@ -124,12 +282,12 @@ extension RDSDataService {
 
     public struct ExecuteSqlResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "sqlStatementResults", required: true, type: .list)
+            AWSShapeMember(label: "sqlStatementResults", required: false, type: .list)
         ]
-        /// Results returned by executing the sql statement(s)
-        public let sqlStatementResults: [SqlStatementResult]
+        /// The results of the SQL statement or statements.
+        public let sqlStatementResults: [SqlStatementResult]?
 
-        public init(sqlStatementResults: [SqlStatementResult]) {
+        public init(sqlStatementResults: [SqlStatementResult]? = nil) {
             self.sqlStatementResults = sqlStatementResults
         }
 
@@ -138,11 +296,149 @@ extension RDSDataService {
         }
     }
 
+    public struct ExecuteStatementRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "continueAfterTimeout", required: false, type: .boolean), 
+            AWSShapeMember(label: "database", required: false, type: .string), 
+            AWSShapeMember(label: "includeResultMetadata", required: false, type: .boolean), 
+            AWSShapeMember(label: "parameters", required: false, type: .list), 
+            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "schema", required: false, type: .string), 
+            AWSShapeMember(label: "secretArn", required: true, type: .string), 
+            AWSShapeMember(label: "sql", required: true, type: .string), 
+            AWSShapeMember(label: "transactionId", required: false, type: .string)
+        ]
+        /// A value that indicates whether to continue running the statement after 
+        ///             the call times out. By default, the statement stops running when the call 
+        ///             times out.
+        ///         
+        ///             For DDL statements, we recommend continuing to run the statement after 
+        ///                the call times out. When a DDL statement terminates before it is finished 
+        ///                running, it can result in errors and possibly corrupted data structures.
+        ///         
+        public let continueAfterTimeout: Bool?
+        /// The name of the database.
+        public let database: String?
+        /// A value that indicates whether to include metadata in the results.
+        public let includeResultMetadata: Bool?
+        /// The parameters for the SQL statement.
+        public let parameters: [SqlParameter]?
+        /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
+        public let resourceArn: String
+        /// The name of the database schema.
+        public let schema: String?
+        /// The name or ARN of the secret that enables access to the DB cluster.
+        public let secretArn: String
+        /// The SQL statement to run.
+        public let sql: String
+        /// The identifier of a transaction that was started by using the
+        ///                 BeginTransaction operation. Specify the transaction ID of the
+        ///             transaction that you want to include the SQL statement in.
+        ///         If the SQL statement is not part of a transaction, don't set this parameter.
+        public let transactionId: String?
+
+        public init(continueAfterTimeout: Bool? = nil, database: String? = nil, includeResultMetadata: Bool? = nil, parameters: [SqlParameter]? = nil, resourceArn: String, schema: String? = nil, secretArn: String, sql: String, transactionId: String? = nil) {
+            self.continueAfterTimeout = continueAfterTimeout
+            self.database = database
+            self.includeResultMetadata = includeResultMetadata
+            self.parameters = parameters
+            self.resourceArn = resourceArn
+            self.schema = schema
+            self.secretArn = secretArn
+            self.sql = sql
+            self.transactionId = transactionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case continueAfterTimeout = "continueAfterTimeout"
+            case database = "database"
+            case includeResultMetadata = "includeResultMetadata"
+            case parameters = "parameters"
+            case resourceArn = "resourceArn"
+            case schema = "schema"
+            case secretArn = "secretArn"
+            case sql = "sql"
+            case transactionId = "transactionId"
+        }
+    }
+
+    public struct ExecuteStatementResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "columnMetadata", required: false, type: .list), 
+            AWSShapeMember(label: "generatedFields", required: false, type: .list), 
+            AWSShapeMember(label: "numberOfRecordsUpdated", required: false, type: .long), 
+            AWSShapeMember(label: "records", required: false, type: .list)
+        ]
+        /// Metadata for the columns included in the results.
+        public let columnMetadata: [ColumnMetadata]?
+        /// Values for fields generated during the request.
+        public let generatedFields: [Field]?
+        /// The number of records updated by the request.
+        public let numberOfRecordsUpdated: Int64?
+        /// The records returned by the SQL statement.
+        public let records: [[Field]]?
+
+        public init(columnMetadata: [ColumnMetadata]? = nil, generatedFields: [Field]? = nil, numberOfRecordsUpdated: Int64? = nil, records: [[Field]]? = nil) {
+            self.columnMetadata = columnMetadata
+            self.generatedFields = generatedFields
+            self.numberOfRecordsUpdated = numberOfRecordsUpdated
+            self.records = records
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnMetadata = "columnMetadata"
+            case generatedFields = "generatedFields"
+            case numberOfRecordsUpdated = "numberOfRecordsUpdated"
+            case records = "records"
+        }
+    }
+
+    public struct Field: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "blobValue", required: false, type: .blob), 
+            AWSShapeMember(label: "booleanValue", required: false, type: .boolean), 
+            AWSShapeMember(label: "doubleValue", required: false, type: .double), 
+            AWSShapeMember(label: "isNull", required: false, type: .boolean), 
+            AWSShapeMember(label: "longValue", required: false, type: .long), 
+            AWSShapeMember(label: "stringValue", required: false, type: .string)
+        ]
+        /// A value of BLOB data type.
+        public let blobValue: Data?
+        /// A value of Boolean data type.
+        public let booleanValue: Bool?
+        /// A value of double data type.
+        public let doubleValue: Double?
+        /// A NULL value.
+        public let isNull: Bool?
+        /// A value of long data type.
+        public let longValue: Int64?
+        /// A value of string data type.
+        public let stringValue: String?
+
+        public init(blobValue: Data? = nil, booleanValue: Bool? = nil, doubleValue: Double? = nil, isNull: Bool? = nil, longValue: Int64? = nil, stringValue: String? = nil) {
+            self.blobValue = blobValue
+            self.booleanValue = booleanValue
+            self.doubleValue = doubleValue
+            self.isNull = isNull
+            self.longValue = longValue
+            self.stringValue = stringValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blobValue = "blobValue"
+            case booleanValue = "booleanValue"
+            case doubleValue = "doubleValue"
+            case isNull = "isNull"
+            case longValue = "longValue"
+            case stringValue = "stringValue"
+        }
+    }
+
     public struct Record: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "values", required: false, type: .list)
         ]
-        /// Record
+        /// The values returned in the record.
         public let values: [Value]?
 
         public init(values: [Value]? = nil) {
@@ -159,9 +455,9 @@ extension RDSDataService {
             AWSShapeMember(label: "records", required: false, type: .list), 
             AWSShapeMember(label: "resultSetMetadata", required: false, type: .structure)
         ]
-        /// ResultSet Metadata.
+        /// The records in the result set.
         public let records: [Record]?
-        /// ResultSet Metadata.
+        /// The result-set metadata in the result set.
         public let resultSetMetadata: ResultSetMetadata?
 
         public init(records: [Record]? = nil, resultSetMetadata: ResultSetMetadata? = nil) {
@@ -180,9 +476,9 @@ extension RDSDataService {
             AWSShapeMember(label: "columnCount", required: false, type: .long), 
             AWSShapeMember(label: "columnMetadata", required: false, type: .list)
         ]
-        /// Number of columns
+        /// The number of columns in the result set.
         public let columnCount: Int64?
-        /// List of columns and their types
+        /// The metadata of the columns in the result set.
         public let columnMetadata: [ColumnMetadata]?
 
         public init(columnCount: Int64? = nil, columnMetadata: [ColumnMetadata]? = nil) {
@@ -196,14 +492,77 @@ extension RDSDataService {
         }
     }
 
+    public struct RollbackTransactionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "secretArn", required: true, type: .string), 
+            AWSShapeMember(label: "transactionId", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
+        public let resourceArn: String
+        /// The name or ARN of the secret that enables access to the DB cluster.
+        public let secretArn: String
+        /// The identifier of the transaction to roll back.
+        public let transactionId: String
+
+        public init(resourceArn: String, secretArn: String, transactionId: String) {
+            self.resourceArn = resourceArn
+            self.secretArn = secretArn
+            self.transactionId = transactionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case secretArn = "secretArn"
+            case transactionId = "transactionId"
+        }
+    }
+
+    public struct RollbackTransactionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "transactionStatus", required: false, type: .string)
+        ]
+        /// The status of the rollback operation.
+        public let transactionStatus: String?
+
+        public init(transactionStatus: String? = nil) {
+            self.transactionStatus = transactionStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transactionStatus = "transactionStatus"
+        }
+    }
+
+    public struct SqlParameter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "value", required: false, type: .structure)
+        ]
+        /// The name of the parameter.
+        public let name: String?
+        /// The value of the parameter.
+        public let value: Field?
+
+        public init(name: String? = nil, value: Field? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case value = "value"
+        }
+    }
+
     public struct SqlStatementResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "numberOfRecordsUpdated", required: false, type: .long), 
             AWSShapeMember(label: "resultFrame", required: false, type: .structure)
         ]
-        /// Number of rows updated.
+        /// The number of records updated by a SQL statement.
         public let numberOfRecordsUpdated: Int64?
-        /// ResultFrame returned by executing the sql statement
+        /// The result set of the SQL statement.
         public let resultFrame: ResultFrame?
 
         public init(numberOfRecordsUpdated: Int64? = nil, resultFrame: ResultFrame? = nil) {
@@ -221,7 +580,7 @@ extension RDSDataService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "attributes", required: false, type: .list)
         ]
-        /// Struct or UDT
+        /// The attributes returned in the record.
         public let attributes: [Value]?
 
         public init(attributes: [Value]? = nil) {
@@ -230,6 +589,22 @@ extension RDSDataService {
 
         private enum CodingKeys: String, CodingKey {
             case attributes = "attributes"
+        }
+    }
+
+    public struct UpdateResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "generatedFields", required: false, type: .list)
+        ]
+        /// Values for fields generated during the request.
+        public let generatedFields: [Field]?
+
+        public init(generatedFields: [Field]? = nil) {
+            self.generatedFields = generatedFields
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case generatedFields = "generatedFields"
         }
     }
 
@@ -246,25 +621,25 @@ extension RDSDataService {
             AWSShapeMember(label: "stringValue", required: false, type: .string), 
             AWSShapeMember(label: "structValue", required: false, type: .structure)
         ]
-        /// Arbitrarily nested arrays
+        /// An array of column values.
         public let arrayValues: [Value]?
-        /// Long value
+        /// A value for a column of big integer data type.
         public let bigIntValue: Int64?
-        /// Bit value
+        /// A value for a column of BIT data type.
         public let bitValue: Bool?
-        /// Blob value
+        /// A value for a column of BLOB data type.
         public let blobValue: Data?
-        /// Double value
+        /// A value for a column of double data type.
         public let doubleValue: Double?
-        /// Integer value
+        /// A value for a column of integer data type.
         public let intValue: Int32?
-        /// Is column null
+        /// A NULL value.
         public let isNull: Bool?
-        /// Float value
+        /// A value for a column of real data type.
         public let realValue: Float?
-        /// String value
+        /// A value for a column of string data type.
         public let stringValue: String?
-        /// Struct or UDT
+        /// A value for a column of STRUCT data type.
         public let structValue: StructValue?
 
         public init(arrayValues: [Value]? = nil, bigIntValue: Int64? = nil, bitValue: Bool? = nil, blobValue: Data? = nil, doubleValue: Double? = nil, intValue: Int32? = nil, isNull: Bool? = nil, realValue: Float? = nil, stringValue: String? = nil, structValue: StructValue? = nil) {

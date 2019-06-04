@@ -17,12 +17,14 @@ public enum SFNErrorType: AWSErrorType {
     case invalidOutput(message: String?)
     case invalidToken(message: String?)
     case missingRequiredParameter(message: String?)
+    case resourceNotFound(message: String?)
     case stateMachineAlreadyExists(message: String?)
     case stateMachineDeleting(message: String?)
     case stateMachineDoesNotExist(message: String?)
     case stateMachineLimitExceeded(message: String?)
     case taskDoesNotExist(message: String?)
     case taskTimedOut(message: String?)
+    case tooManyTags(message: String?)
 }
 
 extension SFNErrorType {
@@ -58,6 +60,8 @@ extension SFNErrorType {
             self = .invalidToken(message: message)
         case "MissingRequiredParameter":
             self = .missingRequiredParameter(message: message)
+        case "ResourceNotFound":
+            self = .resourceNotFound(message: message)
         case "StateMachineAlreadyExists":
             self = .stateMachineAlreadyExists(message: message)
         case "StateMachineDeleting":
@@ -70,6 +74,8 @@ extension SFNErrorType {
             self = .taskDoesNotExist(message: message)
         case "TaskTimedOut":
             self = .taskTimedOut(message: message)
+        case "TooManyTags":
+            self = .tooManyTags(message: message)
         default:
             return nil
         }

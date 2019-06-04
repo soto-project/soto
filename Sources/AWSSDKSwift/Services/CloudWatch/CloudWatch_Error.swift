@@ -4,6 +4,7 @@ import AWSSDKSwiftCore
 
 /// Error enum for CloudWatch
 public enum CloudWatchErrorType: AWSErrorType {
+    case concurrentModificationException(message: String?)
     case dashboardInvalidInputError(message: String?)
     case dashboardNotFoundError(message: String?)
     case internalServiceFault(message: String?)
@@ -14,6 +15,7 @@ public enum CloudWatchErrorType: AWSErrorType {
     case limitExceededFault(message: String?)
     case missingRequiredParameterException(message: String?)
     case resourceNotFound(message: String?)
+    case resourceNotFoundException(message: String?)
 }
 
 extension CloudWatchErrorType {
@@ -23,6 +25,8 @@ extension CloudWatchErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "ConcurrentModificationException":
+            self = .concurrentModificationException(message: message)
         case "DashboardInvalidInputError":
             self = .dashboardInvalidInputError(message: message)
         case "DashboardNotFoundError":
@@ -43,6 +47,8 @@ extension CloudWatchErrorType {
             self = .missingRequiredParameterException(message: message)
         case "ResourceNotFound":
             self = .resourceNotFound(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
         default:
             return nil
         }

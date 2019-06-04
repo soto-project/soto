@@ -43,6 +43,7 @@ public enum OrganizationsErrorType: AWSErrorType {
     case sourceParentNotFoundException(message: String?)
     case targetNotFoundException(message: String?)
     case tooManyRequestsException(message: String?)
+    case unsupportedAPIEndpointException(message: String?)
 }
 
 extension OrganizationsErrorType {
@@ -130,6 +131,8 @@ extension OrganizationsErrorType {
             self = .targetNotFoundException(message: message)
         case "TooManyRequestsException":
             self = .tooManyRequestsException(message: message)
+        case "UnsupportedAPIEndpointException":
+            self = .unsupportedAPIEndpointException(message: message)
         default:
             return nil
         }

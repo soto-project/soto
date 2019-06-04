@@ -5,7 +5,7 @@ import AWSSDKSwiftCore
 import NIO
 
 /**
-Amazon Cognito Amazon Cognito is a web service that delivers scoped temporary credentials to mobile devices and other untrusted environments. Amazon Cognito uniquely identifies a device and supplies the user with a consistent identity over the lifetime of an application. Using Amazon Cognito, you can enable authentication with one or more third-party identity providers (Facebook, Google, or Login with Amazon), and you can also choose to support unauthenticated access from your app. Cognito delivers a unique identifier for each user and acts as an OpenID token provider trusted by AWS Security Token Service (STS) to access temporary, limited-privilege AWS credentials. To provide end-user credentials, first make an unsigned call to GetId. If the end user is authenticated with one of the supported identity providers, set the Logins map with the identity provider token. GetId returns a unique identifier for the user. Next, make an unsigned call to GetCredentialsForIdentity. This call expects the same Logins map as the GetId call, as well as the IdentityID originally returned by GetId. Assuming your identity pool has been configured via the SetIdentityPoolRoles operation, GetCredentialsForIdentity will return AWS credentials for your use. If your pool has not been configured with SetIdentityPoolRoles, or if you want to follow legacy flow, make an unsigned call to GetOpenIdToken, which returns the OpenID token necessary to call STS and retrieve AWS credentials. This call expects the same Logins map as the GetId call, as well as the IdentityID originally returned by GetId. The token returned by GetOpenIdToken can be passed to the STS operation AssumeRoleWithWebIdentity to retrieve AWS credentials. If you want to use Amazon Cognito in an Android, iOS, or Unity application, you will probably want to make API calls via the AWS Mobile SDK. To learn more, see the AWS Mobile SDK Developer Guide.
+Amazon Cognito Federated Identities Amazon Cognito Federated Identities is a web service that delivers scoped temporary credentials to mobile devices and other untrusted environments. It uniquely identifies a device and supplies the user with a consistent identity over the lifetime of an application. Using Amazon Cognito Federated Identities, you can enable authentication with one or more third-party identity providers (Facebook, Google, or Login with Amazon) or an Amazon Cognito user pool, and you can also choose to support unauthenticated access from your app. Cognito delivers a unique identifier for each user and acts as an OpenID token provider trusted by AWS Security Token Service (STS) to access temporary, limited-privilege AWS credentials. For a description of the authentication flow from the Amazon Cognito Developer Guide see Authentication Flow. For more information see Amazon Cognito Federated Identities.
 */
 public struct CognitoIdentity {
 
@@ -36,7 +36,7 @@ public struct CognitoIdentity {
         return try client.send(operation: "DeleteIdentities", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a user pool. Once a pool is deleted, users will not be able to authenticate with the pool. You must use AWS Developer credentials to call this API.
+    ///  Deletes an identity pool. Once a pool is deleted, users will not be able to authenticate with the pool. You must use AWS Developer credentials to call this API.
     @discardableResult public func deleteIdentityPool(_ input: DeleteIdentityPoolInput) throws -> Future<Void> {
         return try client.send(operation: "DeleteIdentityPool", path: "/", httpMethod: "POST", input: input)
     }
@@ -66,7 +66,7 @@ public struct CognitoIdentity {
         return try client.send(operation: "GetIdentityPoolRoles", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets an OpenID token, using a known Cognito ID. This known Cognito ID is returned by GetId. You can optionally add additional logins for the identity. Supplying multiple logins creates an implicit link. The OpenId token is valid for 15 minutes. This is a public API. You do not need any credentials to call this API.
+    ///  Gets an OpenID token, using a known Cognito ID. This known Cognito ID is returned by GetId. You can optionally add additional logins for the identity. Supplying multiple logins creates an implicit link. The OpenId token is valid for 10 minutes. This is a public API. You do not need any credentials to call this API.
     public func getOpenIdToken(_ input: GetOpenIdTokenInput) throws -> Future<GetOpenIdTokenResponse> {
         return try client.send(operation: "GetOpenIdToken", path: "/", httpMethod: "POST", input: input)
     }
@@ -76,7 +76,7 @@ public struct CognitoIdentity {
         return try client.send(operation: "GetOpenIdTokenForDeveloperIdentity", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the identities in a pool. You must use AWS Developer credentials to call this API.
+    ///  Lists the identities in an identity pool. You must use AWS Developer credentials to call this API.
     public func listIdentities(_ input: ListIdentitiesInput) throws -> Future<ListIdentitiesResponse> {
         return try client.send(operation: "ListIdentities", path: "/", httpMethod: "POST", input: input)
     }
@@ -86,12 +86,17 @@ public struct CognitoIdentity {
         return try client.send(operation: "ListIdentityPools", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves the IdentityID associated with a DeveloperUserIdentifier or the list of DeveloperUserIdentifiers associated with an IdentityId for an existing identity. Either IdentityID or DeveloperUserIdentifier must not be null. If you supply only one of these values, the other value will be searched in the database and returned as a part of the response. If you supply both, DeveloperUserIdentifier will be matched against IdentityID. If the values are verified against the database, the response returns both values and is the same as the request. Otherwise a ResourceConflictException is thrown. You must use AWS Developer credentials to call this API.
+    ///  Lists the tags that are assigned to an Amazon Cognito identity pool. A tag is a label that you can apply to identity pools to categorize and manage them in different ways, such as by purpose, owner, environment, or other criteria. You can use this action up to 10 times per second, per account.
+    public func listTagsForResource(_ input: ListTagsForResourceInput) throws -> Future<ListTagsForResourceResponse> {
+        return try client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves the IdentityID associated with a DeveloperUserIdentifier or the list of DeveloperUserIdentifier values associated with an IdentityId for an existing identity. Either IdentityID or DeveloperUserIdentifier must not be null. If you supply only one of these values, the other value will be searched in the database and returned as a part of the response. If you supply both, DeveloperUserIdentifier will be matched against IdentityID. If the values are verified against the database, the response returns both values and is the same as the request. Otherwise a ResourceConflictException is thrown.  LookupDeveloperIdentity is intended for low-throughput control plane operations: for example, to enable customer service to locate an identity ID by username. If you are using it for higher-volume operations such as user authentication, your requests are likely to be throttled. GetOpenIdTokenForDeveloperIdentity is a better option for higher-volume operations for user authentication. You must use AWS Developer credentials to call this API.
     public func lookupDeveloperIdentity(_ input: LookupDeveloperIdentityInput) throws -> Future<LookupDeveloperIdentityResponse> {
         return try client.send(operation: "LookupDeveloperIdentity", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Merges two users having different IdentityIds, existing in the same identity pool, and identified by the same developer provider. You can use this action to request that discrete users be merged and identified as a single user in the Cognito environment. Cognito associates the given source user (SourceUserIdentifier) with the IdentityId of the DestinationUserIdentifier. Only developer-authenticated users can be merged. If the users to be merged are associated with the same public provider, but as two different users, an exception will be thrown. You must use AWS Developer credentials to call this API.
+    ///  Merges two users having different IdentityIds, existing in the same identity pool, and identified by the same developer provider. You can use this action to request that discrete users be merged and identified as a single user in the Cognito environment. Cognito associates the given source user (SourceUserIdentifier) with the IdentityId of the DestinationUserIdentifier. Only developer-authenticated users can be merged. If the users to be merged are associated with the same public provider, but as two different users, an exception will be thrown. The number of linked logins is limited to 20. So, the number of linked logins for the source user, SourceUserIdentifier, and the destination user, DestinationUserIdentifier, together should not be larger than 20. Otherwise, an exception will be thrown. You must use AWS Developer credentials to call this API.
     public func mergeDeveloperIdentities(_ input: MergeDeveloperIdentitiesInput) throws -> Future<MergeDeveloperIdentitiesResponse> {
         return try client.send(operation: "MergeDeveloperIdentities", path: "/", httpMethod: "POST", input: input)
     }
@@ -99,6 +104,11 @@ public struct CognitoIdentity {
     ///  Sets the roles for an identity pool. These roles are used when making calls to GetCredentialsForIdentity action. You must use AWS Developer credentials to call this API.
     @discardableResult public func setIdentityPoolRoles(_ input: SetIdentityPoolRolesInput) throws -> Future<Void> {
         return try client.send(operation: "SetIdentityPoolRoles", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Assigns a set of tags to an Amazon Cognito identity pool. A tag is a label that you can use to categorize and manage identity pools in different ways, such as by purpose, owner, environment, or other criteria. Each tag consists of a key and value, both of which you define. A key is a general category for more specific values. For example, if you have two versions of an identity pool, one for testing and another for production, you might assign an Environment tag key to both identity pools. The value of this key might be Test for one identity pool and Production for the other. Tags are useful for cost tracking and access control. You can activate your tags so that they appear on the Billing and Cost Management console, where you can track the costs associated with your identity pools. In an IAM policy, you can constrain permissions for identity pools based on specific tags or tag values. You can use this action up to 5 times per second, per account. An identity pool can have as many as 50 tags.
+    public func tagResource(_ input: TagResourceInput) throws -> Future<TagResourceResponse> {
+        return try client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Unlinks a DeveloperUserIdentifier from an existing identity. Unlinked developer users will be considered new identities next time they are seen. If, for a given Cognito identity, you remove all federated identities as well as the developer user identifier, the Cognito identity becomes inaccessible. You must use AWS Developer credentials to call this API.
@@ -111,7 +121,12 @@ public struct CognitoIdentity {
         return try client.send(operation: "UnlinkIdentity", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates a user pool. You must use AWS Developer credentials to call this API.
+    ///  Removes the specified tags from an Amazon Cognito identity pool. You can use this action up to 5 times per second, per account
+    public func untagResource(_ input: UntagResourceInput) throws -> Future<UntagResourceResponse> {
+        return try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates an identity pool. You must use AWS Developer credentials to call this API.
     public func updateIdentityPool(_ input: IdentityPool) throws -> Future<IdentityPool> {
         return try client.send(operation: "UpdateIdentityPool", path: "/", httpMethod: "POST", input: input)
     }

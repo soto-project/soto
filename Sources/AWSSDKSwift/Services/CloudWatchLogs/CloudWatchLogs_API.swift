@@ -196,7 +196,7 @@ public struct CloudWatchLogs {
         return try client.send(operation: "PutSubscriptionFilter", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Schedules a query of a log group using CloudWatch Logs Insights. You specify the log group to query, the query string to use, and the time to query. For more information, see CloudWatch Logs Insights Query Syntax.
+    ///  Schedules a query of a log group using CloudWatch Logs Insights. You specify the log group and time range to query, and the query string to use. For more information, see CloudWatch Logs Insights Query Syntax.
     public func startQuery(_ input: StartQueryRequest) throws -> Future<StartQueryResponse> {
         return try client.send(operation: "StartQuery", path: "/", httpMethod: "POST", input: input)
     }

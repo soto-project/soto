@@ -5,7 +5,7 @@ import AWSSDKSwiftCore
 import NIO
 
 /**
-The Amazon Connect API Reference provides descriptions, syntax, and usage examples for each of the Amazon Connect actions, data types, parameters, and errors. Amazon Connect is a cloud-based contact center solution that makes it easy to set up and manage a customer contact center and provide reliable customer engagement at any scale. There is a throttling limit placed on usage of the Amazon Connect operations that includes a RateLimit of 2 per second, and a BurstLimit of 5 per second.
+The Amazon Connect API Reference provides descriptions, syntax, and usage examples for each of the Amazon Connect actions, data types, parameters, and errors. Amazon Connect is a cloud-based contact center solution that makes it easy to set up and manage a customer contact center and provide reliable customer engagement at any scale. Throttling limits for the Amazon Connect API operations: For the GetMetricData and GetCurrentMetricData operations, a RateLimit of 5 per second, and a BurstLimit of 8 per second. For all other operations, a RateLimit of 2 per second, and a BurstLimit of 5 per second. You can request an increase to the throttling limits by submitting a Amazon Connect service limits increase form. You must be signed in to your AWS account to access the form.
 */
 public struct Connect {
 
@@ -50,6 +50,11 @@ public struct Connect {
         return try client.send(operation: "DescribeUserHierarchyStructure", path: "/user-hierarchy-structure/{InstanceId}", httpMethod: "GET", input: input)
     }
 
+    ///  Retrieves the contact attributes associated with a contact.
+    public func getContactAttributes(_ input: GetContactAttributesRequest) throws -> Future<GetContactAttributesResponse> {
+        return try client.send(operation: "GetContactAttributes", path: "/contact/attributes/{InstanceId}/{InitialContactId}", httpMethod: "GET", input: input)
+    }
+
     ///  The GetCurrentMetricData operation retrieves current metric data from your Amazon Connect instance. If you are using an IAM account, it must have permission to the connect:GetCurrentMetricData action.
     public func getCurrentMetricData(_ input: GetCurrentMetricDataRequest) throws -> Future<GetCurrentMetricDataResponse> {
         return try client.send(operation: "GetCurrentMetricData", path: "/metrics/current/{InstanceId}", httpMethod: "POST", input: input)
@@ -85,7 +90,7 @@ public struct Connect {
         return try client.send(operation: "ListUsers", path: "/users-summary/{InstanceId}", httpMethod: "GET", input: input)
     }
 
-    ///  The StartOutboundVoiceContact operation initiates a contact flow to place an outbound call to a customer. If you are using an IAM account, it must have permission to the connect:StartOutboundVoiceContact action.
+    ///  The StartOutboundVoiceContact operation initiates a contact flow to place an outbound call to a customer. If you are using an IAM account, it must have permission to the connect:StartOutboundVoiceContact action. There is a 60 second dialing timeout for this operation. If the call is not connected after 60 seconds, the call fails.
     public func startOutboundVoiceContact(_ input: StartOutboundVoiceContactRequest) throws -> Future<StartOutboundVoiceContactResponse> {
         return try client.send(operation: "StartOutboundVoiceContact", path: "/contact/outbound-voice", httpMethod: "PUT", input: input)
     }

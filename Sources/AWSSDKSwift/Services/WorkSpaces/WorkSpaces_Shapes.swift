@@ -177,24 +177,29 @@ extension WorkSpaces {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GroupDesc", required: false, type: .string), 
             AWSShapeMember(label: "GroupName", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "UserRules", required: false, type: .list)
         ]
         /// The description of the group.
         public let groupDesc: String?
         /// The name of the group.
         public let groupName: String
+        /// The tags. Each WorkSpaces resource can have a maximum of 50 tags.
+        public let tags: [Tag]?
         /// The rules to add to the group.
         public let userRules: [IpRuleItem]?
 
-        public init(groupDesc: String? = nil, groupName: String, userRules: [IpRuleItem]? = nil) {
+        public init(groupDesc: String? = nil, groupName: String, tags: [Tag]? = nil, userRules: [IpRuleItem]? = nil) {
             self.groupDesc = groupDesc
             self.groupName = groupName
+            self.tags = tags
             self.userRules = userRules
         }
 
         private enum CodingKeys: String, CodingKey {
             case groupDesc = "GroupDesc"
             case groupName = "GroupName"
+            case tags = "Tags"
             case userRules = "UserRules"
         }
     }
@@ -220,9 +225,9 @@ extension WorkSpaces {
             AWSShapeMember(label: "ResourceId", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
-        /// The identifier of the WorkSpace. To find this ID, use DescribeWorkspaces.
+        /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, and IP access control groups.
         public let resourceId: String
-        /// The tags. Each WorkSpace can have a maximum of 50 tags.
+        /// The tags. Each WorkSpaces resource can have a maximum of 50 tags.
         public let tags: [Tag]
 
         public init(resourceId: String, tags: [Tag]) {
@@ -362,7 +367,7 @@ extension WorkSpaces {
             AWSShapeMember(label: "ResourceId", required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
-        /// The identifier of the WorkSpace. To find this ID, use DescribeWorkspaces.
+        /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, and IP access control groups.
         public let resourceId: String
         /// The tag keys.
         public let tagKeys: [String]
@@ -477,7 +482,7 @@ extension WorkSpaces {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceIds", required: true, type: .list)
         ]
-        /// The resource identifiers, in the form of directory IDs.
+        /// The resource identifier, in the form of directory IDs.
         public let resourceIds: [String]
 
         public init(resourceIds: [String]) {
@@ -556,7 +561,7 @@ extension WorkSpaces {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceId", required: true, type: .string)
         ]
-        /// The identifier of the WorkSpace. To find this ID, use DescribeWorkspaces.
+        /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, and IP access control groups.
         public let resourceId: String
 
         public init(resourceId: String) {
@@ -909,7 +914,8 @@ extension WorkSpaces {
             AWSShapeMember(label: "Ec2ImageId", required: true, type: .string), 
             AWSShapeMember(label: "ImageDescription", required: true, type: .string), 
             AWSShapeMember(label: "ImageName", required: true, type: .string), 
-            AWSShapeMember(label: "IngestionProcess", required: true, type: .enum)
+            AWSShapeMember(label: "IngestionProcess", required: true, type: .enum), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// The identifier of the EC2 image.
         public let ec2ImageId: String
@@ -919,12 +925,15 @@ extension WorkSpaces {
         public let imageName: String
         /// The ingestion process to be used when importing the image.
         public let ingestionProcess: WorkspaceImageIngestionProcess
+        /// The tags. Each WorkSpaces resource can have a maximum of 50 tags.
+        public let tags: [Tag]?
 
-        public init(ec2ImageId: String, imageDescription: String, imageName: String, ingestionProcess: WorkspaceImageIngestionProcess) {
+        public init(ec2ImageId: String, imageDescription: String, imageName: String, ingestionProcess: WorkspaceImageIngestionProcess, tags: [Tag]? = nil) {
             self.ec2ImageId = ec2ImageId
             self.imageDescription = imageDescription
             self.imageName = imageName
             self.ingestionProcess = ingestionProcess
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -932,6 +941,7 @@ extension WorkSpaces {
             case imageDescription = "ImageDescription"
             case imageName = "ImageName"
             case ingestionProcess = "IngestionProcess"
+            case tags = "Tags"
         }
     }
 
@@ -1083,15 +1093,15 @@ extension WorkSpaces {
 
     public struct ModifyClientPropertiesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientProperties", required: false, type: .structure), 
+            AWSShapeMember(label: "ClientProperties", required: true, type: .structure), 
             AWSShapeMember(label: "ResourceId", required: true, type: .string)
         ]
         /// Information about the Amazon WorkSpaces client.
-        public let clientProperties: ClientProperties?
+        public let clientProperties: ClientProperties
         /// The resource identifiers, in the form of directory IDs.
         public let resourceId: String
 
-        public init(clientProperties: ClientProperties? = nil, resourceId: String) {
+        public init(clientProperties: ClientProperties, resourceId: String) {
             self.clientProperties = clientProperties
             self.resourceId = resourceId
         }
@@ -1253,16 +1263,21 @@ extension WorkSpaces {
 
     public struct RebuildWorkspacesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdditionalInfo", required: false, type: .string), 
             AWSShapeMember(label: "RebuildWorkspaceRequests", required: true, type: .list)
         ]
+        /// Reserved.
+        public let additionalInfo: String?
         /// The WorkSpace to rebuild. You can specify a single WorkSpace.
         public let rebuildWorkspaceRequests: [RebuildRequest]
 
-        public init(rebuildWorkspaceRequests: [RebuildRequest]) {
+        public init(additionalInfo: String? = nil, rebuildWorkspaceRequests: [RebuildRequest]) {
+            self.additionalInfo = additionalInfo
             self.rebuildWorkspaceRequests = rebuildWorkspaceRequests
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalInfo = "AdditionalInfo"
             case rebuildWorkspaceRequests = "RebuildWorkspaceRequests"
         }
     }

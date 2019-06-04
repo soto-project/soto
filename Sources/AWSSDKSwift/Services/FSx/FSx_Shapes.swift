@@ -203,24 +203,29 @@ extension FSx {
 
     public struct CreateFileSystemLustreConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExportPath", required: false, type: .string), 
             AWSShapeMember(label: "ImportPath", required: false, type: .string), 
             AWSShapeMember(label: "ImportedFileChunkSize", required: false, type: .integer), 
             AWSShapeMember(label: "WeeklyMaintenanceStartTime", required: false, type: .string)
         ]
-        /// (Optional) The path to the Amazon S3 bucket (and optional prefix) that you're using as the data repository for your FSx for Lustre file system, for example s3://import-bucket/optional-prefix. If you specify a prefix after the Amazon S3 bucket name, only object keys with that prefix are loaded into the file system.
+        /// (Optional) The path in Amazon S3 where the root of your Amazon FSx file system is exported. The path must use the same Amazon S3 bucket as specified in ImportPath. You can provide an optional prefix to which new and changed data is to be exported from your Amazon FSx for Lustre file system. If an ExportPath value is not provided, Amazon FSx sets a default export path, s3://import-bucket/FSxLustre[creation-timestamp]. The timestamp is in UTC format, for example s3://import-bucket/FSxLustre20181105T222312Z. The Amazon S3 export bucket must be the same as the import bucket specified by ImportPath. If you only specify a bucket name, such as s3://import-bucket, you get a 1:1 mapping of file system objects to S3 bucket objects. This mapping means that the input data in S3 is overwritten on export. If you provide a custom prefix in the export path, such as s3://import-bucket/[custom-optional-prefix], Amazon FSx exports the contents of your file system to that export prefix in the Amazon S3 bucket.
+        public let exportPath: String?
+        /// (Optional) The path to the Amazon S3 bucket (including the optional prefix) that you're using as the data repository for your Amazon FSx for Lustre file system. The root of your FSx for Lustre file system will be mapped to the root of the Amazon S3 bucket you select. An example is s3://import-bucket/optional-prefix. If you specify a prefix after the Amazon S3 bucket name, only object keys with that prefix are loaded into the file system.
         public let importPath: String?
         /// (Optional) For files imported from a data repository, this value determines the stripe count and maximum amount of data per file (in MiB) stored on a single physical disk. The maximum number of disks that a single file can be striped across is limited by the total number of disks that make up the file system. The chunk size default is 1,024 MiB (1 GiB) and can go as high as 512,000 MiB (500 GiB). Amazon S3 objects have a maximum size of 5 TB.
         public let importedFileChunkSize: Int32?
         /// The preferred time to perform weekly maintenance, in the UTC time zone.
         public let weeklyMaintenanceStartTime: String?
 
-        public init(importPath: String? = nil, importedFileChunkSize: Int32? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(exportPath: String? = nil, importPath: String? = nil, importedFileChunkSize: Int32? = nil, weeklyMaintenanceStartTime: String? = nil) {
+            self.exportPath = exportPath
             self.importPath = importPath
             self.importedFileChunkSize = importedFileChunkSize
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
 
         private enum CodingKeys: String, CodingKey {
+            case exportPath = "ExportPath"
             case importPath = "ImportPath"
             case importedFileChunkSize = "ImportedFileChunkSize"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
@@ -344,7 +349,7 @@ extension FSx {
             AWSShapeMember(label: "ImportPath", required: false, type: .string), 
             AWSShapeMember(label: "ImportedFileChunkSize", required: false, type: .integer)
         ]
-        /// The Amazon S3 commit path to use for storing new and changed Lustre file system files as part of the archive operation from the file system to Amazon S3. The value is s3://import-bucket/FSxLustre[creationtimestamp]. The timestamp is presented in UTC format, for example s3://import-bucket/FSxLustre20181105T222312Z. Files are archived to a different prefix in the Amazon S3 bucket, preventing input data from being overwritten.
+        /// The export path to the Amazon S3 bucket (and prefix) that you are using to store new and changed Lustre file system files in S3.
         public let exportPath: String?
         /// The import path to the Amazon S3 bucket (and optional prefix) that you're using as the data repository for your FSx for Lustre file system, for example s3://import-bucket/optional-prefix. If a prefix is specified after the Amazon S3 bucket name, only object keys with that prefix are loaded into the file system.
         public let importPath: String?

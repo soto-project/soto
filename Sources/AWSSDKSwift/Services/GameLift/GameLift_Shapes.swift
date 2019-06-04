@@ -169,7 +169,7 @@ extension GameLift {
         public let sizeOnDisk: Int64?
         /// Current status of the build. Possible build statuses include the following:    INITIALIZED -- A new build has been defined, but no files have been uploaded. You cannot create fleets for builds that are in this status. When a build is successfully created, the build status is set to this value.     READY -- The game build has been successfully uploaded. You can now create new fleets for this build.    FAILED -- The game build upload failed. You cannot create new fleets for this build.   
         public let status: BuildStatus?
-        /// Version that is associated with this build. Version strings do not need to be unique. This value can be set using CreateBuild or UpdateBuild.
+        /// Version that is associated with a build or script. Version strings do not need to be unique. This value can be set using CreateBuild or UpdateBuild.
         public let version: String?
 
         public init(buildId: String? = nil, creationTime: TimeStamp? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, sizeOnDisk: Int64? = nil, status: BuildStatus? = nil, version: String? = nil) {
@@ -261,9 +261,9 @@ extension GameLift {
         public let name: String?
         /// Operating system that the game server binaries are built to run on. This value determines the type of fleet resources that you can use for this build. If your game build contains multiple executables, they all must run on the same operating system. If an operating system is not specified when creating a build, Amazon GameLift uses the default value (WINDOWS_2012). This value cannot be changed later.
         public let operatingSystem: OperatingSystem?
-        /// Information indicating where your game build files are stored. Use this parameter only when creating a build with files stored in an Amazon S3 bucket that you own. The storage location must specify an Amazon S3 bucket name and key, as well as a role ARN that you set up to allow Amazon GameLift to access your Amazon S3 bucket. The S3 bucket must be in the same region that you want to create a new build in.
+        /// Information indicating where your game build files are stored. Use this parameter only when creating a build with files stored in an Amazon S3 bucket that you own. The storage location must specify an Amazon S3 bucket name and key, as well as a the ARN for a role that you set up to allow Amazon GameLift to access your Amazon S3 bucket. The S3 bucket must be in the same region that you want to create a new build in.
         public let storageLocation: S3Location?
-        /// Version that is associated with this build. Version strings do not need to be unique. You can use UpdateBuild to change this value later. 
+        /// Version that is associated with a build or script. Version strings do not need to be unique. You can use UpdateBuild to change this value later. 
         public let version: String?
 
         public init(name: String? = nil, operatingSystem: OperatingSystem? = nil, storageLocation: S3Location? = nil, version: String? = nil) {
@@ -309,11 +309,12 @@ extension GameLift {
 
     public struct CreateFleetInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BuildId", required: true, type: .string), 
+            AWSShapeMember(label: "BuildId", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "EC2InboundPermissions", required: false, type: .list), 
             AWSShapeMember(label: "EC2InstanceType", required: true, type: .enum), 
             AWSShapeMember(label: "FleetType", required: false, type: .enum), 
+            AWSShapeMember(label: "InstanceRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "LogPaths", required: false, type: .list), 
             AWSShapeMember(label: "MetricGroups", required: false, type: .list), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
@@ -322,46 +323,52 @@ extension GameLift {
             AWSShapeMember(label: "PeerVpcId", required: false, type: .string), 
             AWSShapeMember(label: "ResourceCreationLimitPolicy", required: false, type: .structure), 
             AWSShapeMember(label: "RuntimeConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "ScriptId", required: false, type: .string), 
             AWSShapeMember(label: "ServerLaunchParameters", required: false, type: .string), 
             AWSShapeMember(label: "ServerLaunchPath", required: false, type: .string)
         ]
-        /// Unique identifier for a build to be deployed on the new fleet. The build must have been successfully uploaded to Amazon GameLift and be in a READY status. This fleet setting cannot be changed once the fleet is created.
-        public let buildId: String
+        /// Unique identifier for a build to be deployed on the new fleet. The custom game server build must have been successfully uploaded to Amazon GameLift and be in a READY status. This fleet setting cannot be changed once the fleet is created.
+        public let buildId: String?
         /// Human-readable description of a fleet.
         public let description: String?
-        /// Range of IP addresses and port settings that permit inbound traffic to access server processes running on the fleet. If no inbound permissions are set, including both IP address range and port range, the server processes in the fleet cannot accept connections. You can specify one or more sets of permissions for a fleet.
+        /// Range of IP addresses and port settings that permit inbound traffic to access game sessions that running on the fleet. For fleets using a custom game build, this parameter is required before game sessions running on the fleet can accept connections. For Realtime Servers fleets, Amazon GameLift automatically sets TCP and UDP ranges for use by the Realtime servers. You can specify multiple permission settings or add more by updating the fleet.
         public let eC2InboundPermissions: [IpPermission]?
         /// Name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Amazon GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions.
         public let eC2InstanceType: EC2InstanceType
-        /// Indicates whether to use on-demand instances or spot instances for this fleet. If empty, the default is ON_DEMAND. Both categories of instances use identical hardware and configurations, based on the instance type selected for this fleet. You can acquire on-demand instances at any time for a fixed price and keep them as long as you need them. Spot instances have lower prices, but spot pricing is variable, and while in use they can be interrupted (with a two-minute notification). Learn more about Amazon GameLift spot instances with at  Choose Computing Resources. 
+        /// Indicates whether to use on-demand instances or spot instances for this fleet. If empty, the default is ON_DEMAND. Both categories of instances use identical hardware and configurations based on the instance type selected for this fleet. Learn more about  On-Demand versus Spot Instances. 
         public let fleetType: FleetType?
+        /// Unique identifier for an AWS IAM role that manages access to your AWS services. With an instance role ARN set, any application that runs on an instance in this fleet can assume the role, including install scripts, server processes, daemons (background processes). Create a role or look up a role's ARN using the IAM dashboard in the AWS Management Console. Learn more about using on-box credentials for your game servers at  Access external resources from a game server.
+        public let instanceRoleArn: String?
         /// This parameter is no longer used. Instead, to specify where Amazon GameLift should store log files once a server process shuts down, use the Amazon GameLift server API ProcessReady() and specify one or more directory paths in logParameters. See more information in the Server API Reference. 
         public let logPaths: [String]?
-        /// Name of a metric group to add this fleet to. A metric group tracks metrics across all fleets in the group. Use an existing metric group name to add this fleet to the group, or use a new name to create a new metric group. A fleet can only be included in one metric group at a time.
+        /// Name of an Amazon CloudWatch metric group to add this fleet to. A metric group aggregates the metrics for all fleets in the group. Specify an existing metric group name, or provide a new name to create a new metric group. A fleet can only be included in one metric group at a time. 
         public let metricGroups: [String]?
         /// Descriptive label that is associated with a fleet. Fleet names do not need to be unique.
         public let name: String
         /// Game session protection policy to apply to all instances in this fleet. If this parameter is not set, instances in this fleet default to no protection. You can change a fleet's protection policy using UpdateFleetAttributes, but this change will only affect sessions created after the policy change. You can also set protection for individual instances using UpdateGameSession.    NoProtection -- The game session can be terminated during a scale-down event.    FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.  
         public let newGameSessionProtectionPolicy: ProtectionPolicy?
-        /// Unique identifier for the AWS account with the VPC that you want to peer your Amazon GameLift fleet with. You can find your Account ID in the AWS Management Console under account settings.
+        /// Unique identifier for the AWS account with the VPC that you want to peer your Amazon GameLift fleet with. You can find your Account ID in the AWS Management Console under account settings. 
         public let peerVpcAwsAccountId: String?
-        /// Unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same region where your fleet is deployed. To get VPC information, including IDs, use the Virtual Private Cloud service tools, including the VPC Dashboard in the AWS Management Console.
+        /// Unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same region where your fleet is deployed. Look up a VPC ID using the VPC Dashboard in the AWS Management Console. Learn more about VPC peering in VPC Peering with Amazon GameLift Fleets. 
         public let peerVpcId: String?
         /// Policy that limits the number of game sessions an individual player can create over a span of time for this fleet.
         public let resourceCreationLimitPolicy: ResourceCreationLimitPolicy?
-        /// Instructions for launching server processes on each instance in the fleet. The run-time configuration for a fleet has a collection of server process configurations, one for each type of server process to run on an instance. A server process configuration specifies the location of the server executable, launch parameters, and the number of concurrent processes with that configuration to maintain on each instance. A CreateFleet request must include a run-time configuration with at least one server process configuration; otherwise the request fails with an invalid request exception. (This parameter replaces the parameters ServerLaunchPath and ServerLaunchParameters; requests that contain values for these parameters instead of a run-time configuration will continue to work.) 
+        /// Instructions for launching server processes on each instance in the fleet. Server processes run either a custom game build executable or a Realtime Servers script. The run-time configuration lists the types of server processes to run on an instance and includes the following configuration settings: the server executable or launch script file, launch parameters, and the number of processes to run concurrently on each instance. A CreateFleet request must include a run-time configuration with at least one server process configuration.
         public let runtimeConfiguration: RuntimeConfiguration?
+        /// Unique identifier for a Realtime script to be deployed on the new fleet. The Realtime script must have been successfully uploaded to Amazon GameLift. This fleet setting cannot be changed once the fleet is created.
+        public let scriptId: String?
         /// This parameter is no longer used. Instead, specify server launch parameters in the RuntimeConfiguration parameter. (Requests that specify a server launch path and launch parameters instead of a run-time configuration will continue to work.)
         public let serverLaunchParameters: String?
         /// This parameter is no longer used. Instead, specify a server launch path using the RuntimeConfiguration parameter. (Requests that specify a server launch path and launch parameters instead of a run-time configuration will continue to work.)
         public let serverLaunchPath: String?
 
-        public init(buildId: String, description: String? = nil, eC2InboundPermissions: [IpPermission]? = nil, eC2InstanceType: EC2InstanceType, fleetType: FleetType? = nil, logPaths: [String]? = nil, metricGroups: [String]? = nil, name: String, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, peerVpcAwsAccountId: String? = nil, peerVpcId: String? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, runtimeConfiguration: RuntimeConfiguration? = nil, serverLaunchParameters: String? = nil, serverLaunchPath: String? = nil) {
+        public init(buildId: String? = nil, description: String? = nil, eC2InboundPermissions: [IpPermission]? = nil, eC2InstanceType: EC2InstanceType, fleetType: FleetType? = nil, instanceRoleArn: String? = nil, logPaths: [String]? = nil, metricGroups: [String]? = nil, name: String, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, peerVpcAwsAccountId: String? = nil, peerVpcId: String? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, runtimeConfiguration: RuntimeConfiguration? = nil, scriptId: String? = nil, serverLaunchParameters: String? = nil, serverLaunchPath: String? = nil) {
             self.buildId = buildId
             self.description = description
             self.eC2InboundPermissions = eC2InboundPermissions
             self.eC2InstanceType = eC2InstanceType
             self.fleetType = fleetType
+            self.instanceRoleArn = instanceRoleArn
             self.logPaths = logPaths
             self.metricGroups = metricGroups
             self.name = name
@@ -370,6 +377,7 @@ extension GameLift {
             self.peerVpcId = peerVpcId
             self.resourceCreationLimitPolicy = resourceCreationLimitPolicy
             self.runtimeConfiguration = runtimeConfiguration
+            self.scriptId = scriptId
             self.serverLaunchParameters = serverLaunchParameters
             self.serverLaunchPath = serverLaunchPath
         }
@@ -380,6 +388,7 @@ extension GameLift {
             case eC2InboundPermissions = "EC2InboundPermissions"
             case eC2InstanceType = "EC2InstanceType"
             case fleetType = "FleetType"
+            case instanceRoleArn = "InstanceRoleArn"
             case logPaths = "LogPaths"
             case metricGroups = "MetricGroups"
             case name = "Name"
@@ -388,6 +397,7 @@ extension GameLift {
             case peerVpcId = "PeerVpcId"
             case resourceCreationLimitPolicy = "ResourceCreationLimitPolicy"
             case runtimeConfiguration = "RuntimeConfiguration"
+            case scriptId = "ScriptId"
             case serverLaunchParameters = "ServerLaunchParameters"
             case serverLaunchPath = "ServerLaunchPath"
         }
@@ -620,9 +630,9 @@ extension GameLift {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "RuleSetBody", required: true, type: .string)
         ]
-        /// Unique identifier for a matchmaking rule set. This name is used to identify the rule set associated with a matchmaking configuration.
+        /// Unique identifier for a matchmaking rule set. A matchmaking configuration identifies the rule set it uses by this name value. (Note: The rule set name is different from the optional "name" field in the rule set body.) 
         public let name: String
-        /// Collection of matchmaking rules, formatted as a JSON string. (Note that comments are not allowed in JSON, but most elements support a description field.)
+        /// Collection of matchmaking rules, formatted as a JSON string. Note that comments are not allowed in JSON, but most elements support a description field.
         public let ruleSetBody: String
 
         public init(name: String, ruleSetBody: String) {
@@ -736,6 +746,53 @@ extension GameLift {
         }
     }
 
+    public struct CreateScriptInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "StorageLocation", required: false, type: .structure), 
+            AWSShapeMember(label: "Version", required: false, type: .string), 
+            AWSShapeMember(label: "ZipFile", required: false, type: .blob)
+        ]
+        /// Descriptive label that is associated with a script. Script names do not need to be unique. You can use UpdateScript to change this value later. 
+        public let name: String?
+        /// Location of the Amazon S3 bucket where a zipped file containing your Realtime scripts is stored. The storage location must specify the Amazon S3 bucket name, the zip file name (the "key"), and a role ARN that allows Amazon GameLift to access the Amazon S3 storage location. The S3 bucket must be in the same region where you want to create a new script. By default, Amazon GameLift uploads the latest version of the zip file; if you have S3 object versioning turned on, you can use the ObjectVersion parameter to specify an earlier version. 
+        public let storageLocation: S3Location?
+        /// Version that is associated with a build or script. Version strings do not need to be unique. You can use UpdateScript to change this value later. 
+        public let version: String?
+        /// Data object containing your Realtime scripts and dependencies as a zip file. The zip file can have one or multiple files. Maximum size of a zip file is 5 MB. When using the AWS CLI tool to create a script, this parameter is set to the zip file name. It must be prepended with the string "fileb://" to indicate that the file data is a binary object. For example: --zip-file fileb://myRealtimeScript.zip.
+        public let zipFile: Data?
+
+        public init(name: String? = nil, storageLocation: S3Location? = nil, version: String? = nil, zipFile: Data? = nil) {
+            self.name = name
+            self.storageLocation = storageLocation
+            self.version = version
+            self.zipFile = zipFile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case storageLocation = "StorageLocation"
+            case version = "Version"
+            case zipFile = "ZipFile"
+        }
+    }
+
+    public struct CreateScriptOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Script", required: false, type: .structure)
+        ]
+        /// The newly created script record with a unique script ID. The new script's storage location reflects an Amazon S3 location: (1) If the script was uploaded from an S3 bucket under your account, the storage location reflects the information that was provided in the CreateScript request; (2) If the script file was uploaded from a local zip file, the storage location reflects an S3 location controls by the Amazon GameLift service.
+        public let script: Script?
+
+        public init(script: Script? = nil) {
+            self.script = script
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case script = "Script"
+        }
+    }
+
     public struct CreateVpcPeeringAuthorizationInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GameLiftAwsAccountId", required: true, type: .string), 
@@ -743,7 +800,7 @@ extension GameLift {
         ]
         /// Unique identifier for the AWS account that you use to manage your Amazon GameLift fleet. You can find your Account ID in the AWS Management Console under account settings.
         public let gameLiftAwsAccountId: String
-        /// Unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same region where your fleet is deployed. To get VPC information, including IDs, use the Virtual Private Cloud service tools, including the VPC Dashboard in the AWS Management Console.
+        /// Unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same region where your fleet is deployed. Look up a VPC ID using the VPC Dashboard in the AWS Management Console. Learn more about VPC peering in VPC Peering with Amazon GameLift Fleets.
         public let peerVpcId: String
 
         public init(gameLiftAwsAccountId: String, peerVpcId: String) {
@@ -783,7 +840,7 @@ extension GameLift {
         public let fleetId: String
         /// Unique identifier for the AWS account with the VPC that you want to peer your Amazon GameLift fleet with. You can find your Account ID in the AWS Management Console under account settings.
         public let peerVpcAwsAccountId: String
-        /// Unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same region where your fleet is deployed. To get VPC information, including IDs, use the Virtual Private Cloud service tools, including the VPC Dashboard in the AWS Management Console.
+        /// Unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same region where your fleet is deployed. Look up a VPC ID using the VPC Dashboard in the AWS Management Console. Learn more about VPC peering in VPC Peering with Amazon GameLift Fleets.
         public let peerVpcId: String
 
         public init(fleetId: String, peerVpcAwsAccountId: String, peerVpcId: String) {
@@ -900,6 +957,29 @@ extension GameLift {
 
     }
 
+    public struct DeleteMatchmakingRuleSetInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// Unique identifier for a matchmaking rule set to be deleted. (Note: The rule set name is different from the optional "name" field in the rule set body.) 
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DeleteMatchmakingRuleSetOutput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
     public struct DeleteScalingPolicyInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FleetId", required: true, type: .string), 
@@ -921,6 +1001,22 @@ extension GameLift {
         }
     }
 
+    public struct DeleteScriptInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ScriptId", required: true, type: .string)
+        ]
+        /// Unique identifier for a Realtime script to delete.
+        public let scriptId: String
+
+        public init(scriptId: String) {
+            self.scriptId = scriptId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scriptId = "ScriptId"
+        }
+    }
+
     public struct DeleteVpcPeeringAuthorizationInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GameLiftAwsAccountId", required: true, type: .string), 
@@ -928,7 +1024,7 @@ extension GameLift {
         ]
         /// Unique identifier for the AWS account that you use to manage your Amazon GameLift fleet. You can find your Account ID in the AWS Management Console under account settings.
         public let gameLiftAwsAccountId: String
-        /// Unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same region where your fleet is deployed. To get VPC information, including IDs, use the Virtual Private Cloud service tools, including the VPC Dashboard in the AWS Management Console.
+        /// Unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same region where your fleet is deployed. Look up a VPC ID using the VPC Dashboard in the AWS Management Console. Learn more about VPC peering in VPC Peering with Amazon GameLift Fleets.
         public let peerVpcId: String
 
         public init(gameLiftAwsAccountId: String, peerVpcId: String) {
@@ -1650,7 +1746,7 @@ extension GameLift {
         ]
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int32?
-        /// Unique identifier for a matchmaking rule set. This name is used to identify the rule set associated with a matchmaking configuration.
+        /// List of one or more matchmaking rule set names to retrieve details for. (Note: The rule set name is different from the optional "name" field in the rule set body.) 
         public let names: [String]?
         /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
@@ -1832,6 +1928,38 @@ extension GameLift {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case scalingPolicies = "ScalingPolicies"
+        }
+    }
+
+    public struct DescribeScriptInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ScriptId", required: true, type: .string)
+        ]
+        /// Unique identifier for a Realtime script to retrieve properties for.
+        public let scriptId: String
+
+        public init(scriptId: String) {
+            self.scriptId = scriptId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scriptId = "ScriptId"
+        }
+    }
+
+    public struct DescribeScriptOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Script", required: false, type: .structure)
+        ]
+        /// Set of properties describing the requested script.
+        public let script: Script?
+
+        public init(script: Script? = nil) {
+            self.script = script
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case script = "Script"
         }
     }
 
@@ -2030,7 +2158,7 @@ extension GameLift {
             AWSShapeMember(label: "PreSignedLogUrl", required: false, type: .string), 
             AWSShapeMember(label: "ResourceId", required: false, type: .string)
         ]
-        /// Type of event being logged. The following events are currently in use:  Fleet creation events:    FLEET_CREATED -- A fleet record was successfully created with a status of NEW. Event messaging includes the fleet ID.   FLEET_STATE_DOWNLOADING -- Fleet status changed from NEW to DOWNLOADING. The compressed build has started downloading to a fleet instance for installation.    FLEET_BINARY_DOWNLOAD_FAILED -- The build failed to download to the fleet instance.   FLEET_CREATION_EXTRACTING_BUILD – The game server build was successfully downloaded to an instance, and the build files are now being extracted from the uploaded build and saved to an instance. Failure at this stage prevents a fleet from moving to ACTIVE status. Logs for this stage display a list of the files that are extracted and saved on the instance. Access the logs by using the URL in PreSignedLogUrl.   FLEET_CREATION_RUNNING_INSTALLER – The game server build files were successfully extracted, and the Amazon GameLift is now running the build's install script (if one is included). Failure in this stage prevents a fleet from moving to ACTIVE status. Logs for this stage list the installation steps and whether or not the install completed successfully. Access the logs by using the URL in PreSignedLogUrl.    FLEET_CREATION_VALIDATING_RUNTIME_CONFIG -- The build process was successful, and the Amazon GameLift is now verifying that the game server launch paths, which are specified in the fleet's run-time configuration, exist. If any listed launch path exists, Amazon GameLift tries to launch a game server process and waits for the process to report ready. Failures in this stage prevent a fleet from moving to ACTIVE status. Logs for this stage list the launch paths in the run-time configuration and indicate whether each is found. Access the logs by using the URL in PreSignedLogUrl.    FLEET_STATE_VALIDATING -- Fleet status changed from DOWNLOADING to VALIDATING.    FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND -- Validation of the run-time configuration failed because the executable specified in a launch path does not exist on the instance.   FLEET_STATE_BUILDING -- Fleet status changed from VALIDATING to BUILDING.   FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE -- Validation of the run-time configuration failed because the executable specified in a launch path failed to run on the fleet instance.   FLEET_STATE_ACTIVATING -- Fleet status changed from BUILDING to ACTIVATING.     FLEET_ACTIVATION_FAILED - The fleet failed to successfully complete one of the steps in the fleet activation process. This event code indicates that the game build was successfully downloaded to a fleet instance, built, and validated, but was not able to start a server process. A possible reason for failure is that the game server is not reporting "process ready" to the Amazon GameLift service.   FLEET_STATE_ACTIVE -- The fleet's status changed from ACTIVATING to ACTIVE. The fleet is now ready to host game sessions.    VPC peering events:    FLEET_VPC_PEERING_SUCCEEDED -- A VPC peering connection has been established between the VPC for an Amazon GameLift fleet and a VPC in your AWS account.   FLEET_VPC_PEERING_FAILED -- A requested VPC peering connection has failed. Event details and status information (see DescribeVpcPeeringConnections) provide additional detail. A common reason for peering failure is that the two VPCs have overlapping CIDR blocks of IPv4 addresses. To resolve this, change the CIDR block for the VPC in your AWS account. For more information on VPC peering failures, see http://docs.aws.amazon.com/AmazonVPC/latest/PeeringGuide/invalid-peering-configurations.html    FLEET_VPC_PEERING_DELETED -- A VPC peering connection has been successfully deleted.    Spot instance events:     INSTANCE_INTERRUPTED -- A spot instance was interrupted by EC2 with a two-minute notification.    Other fleet events:    FLEET_SCALING_EVENT -- A change was made to the fleet's capacity settings (desired instances, minimum/maximum scaling limits). Event messaging includes the new capacity settings.   FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED -- A change was made to the fleet's game session protection policy setting. Event messaging includes both the old and new policy setting.    FLEET_DELETED -- A request to delete a fleet was initiated.    GENERIC_EVENT -- An unspecified event has occurred.  
+        /// Type of event being logged. The following events are currently in use:  Fleet creation events:    FLEET_CREATED -- A fleet record was successfully created with a status of NEW. Event messaging includes the fleet ID.   FLEET_STATE_DOWNLOADING -- Fleet status changed from NEW to DOWNLOADING. The compressed build has started downloading to a fleet instance for installation.    FLEET_BINARY_DOWNLOAD_FAILED -- The build failed to download to the fleet instance.   FLEET_CREATION_EXTRACTING_BUILD – The game server build was successfully downloaded to an instance, and the build files are now being extracted from the uploaded build and saved to an instance. Failure at this stage prevents a fleet from moving to ACTIVE status. Logs for this stage display a list of the files that are extracted and saved on the instance. Access the logs by using the URL in PreSignedLogUrl.   FLEET_CREATION_RUNNING_INSTALLER – The game server build files were successfully extracted, and the Amazon GameLift is now running the build's install script (if one is included). Failure in this stage prevents a fleet from moving to ACTIVE status. Logs for this stage list the installation steps and whether or not the install completed successfully. Access the logs by using the URL in PreSignedLogUrl.    FLEET_CREATION_VALIDATING_RUNTIME_CONFIG -- The build process was successful, and the Amazon GameLift is now verifying that the game server launch paths, which are specified in the fleet's run-time configuration, exist. If any listed launch path exists, Amazon GameLift tries to launch a game server process and waits for the process to report ready. Failures in this stage prevent a fleet from moving to ACTIVE status. Logs for this stage list the launch paths in the run-time configuration and indicate whether each is found. Access the logs by using the URL in PreSignedLogUrl.    FLEET_STATE_VALIDATING -- Fleet status changed from DOWNLOADING to VALIDATING.    FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND -- Validation of the run-time configuration failed because the executable specified in a launch path does not exist on the instance.   FLEET_STATE_BUILDING -- Fleet status changed from VALIDATING to BUILDING.   FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE -- Validation of the run-time configuration failed because the executable specified in a launch path failed to run on the fleet instance.   FLEET_STATE_ACTIVATING -- Fleet status changed from BUILDING to ACTIVATING.     FLEET_ACTIVATION_FAILED - The fleet failed to successfully complete one of the steps in the fleet activation process. This event code indicates that the game build was successfully downloaded to a fleet instance, built, and validated, but was not able to start a server process. A possible reason for failure is that the game server is not reporting "process ready" to the Amazon GameLift service.   FLEET_STATE_ACTIVE -- The fleet's status changed from ACTIVATING to ACTIVE. The fleet is now ready to host game sessions.    VPC peering events:    FLEET_VPC_PEERING_SUCCEEDED -- A VPC peering connection has been established between the VPC for an Amazon GameLift fleet and a VPC in your AWS account.   FLEET_VPC_PEERING_FAILED -- A requested VPC peering connection has failed. Event details and status information (see DescribeVpcPeeringConnections) provide additional detail. A common reason for peering failure is that the two VPCs have overlapping CIDR blocks of IPv4 addresses. To resolve this, change the CIDR block for the VPC in your AWS account. For more information on VPC peering failures, see https://docs.aws.amazon.com/AmazonVPC/latest/PeeringGuide/invalid-peering-configurations.html    FLEET_VPC_PEERING_DELETED -- A VPC peering connection has been successfully deleted.    Spot instance events:     INSTANCE_INTERRUPTED -- A spot instance was interrupted by EC2 with a two-minute notification.    Other fleet events:    FLEET_SCALING_EVENT -- A change was made to the fleet's capacity settings (desired instances, minimum/maximum scaling limits). Event messaging includes the new capacity settings.   FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED -- A change was made to the fleet's game session protection policy setting. Event messaging includes both the old and new policy setting.    FLEET_DELETED -- A request to delete a fleet was initiated.    GENERIC_EVENT -- An unspecified event has occurred.  
         public let eventCode: EventCode?
         /// Unique identifier for a fleet event.
         public let eventId: String?
@@ -2112,6 +2240,7 @@ extension GameLift {
             AWSShapeMember(label: "FleetArn", required: false, type: .string), 
             AWSShapeMember(label: "FleetId", required: false, type: .string), 
             AWSShapeMember(label: "FleetType", required: false, type: .enum), 
+            AWSShapeMember(label: "InstanceRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "InstanceType", required: false, type: .enum), 
             AWSShapeMember(label: "LogPaths", required: false, type: .list), 
             AWSShapeMember(label: "MetricGroups", required: false, type: .list), 
@@ -2119,6 +2248,7 @@ extension GameLift {
             AWSShapeMember(label: "NewGameSessionProtectionPolicy", required: false, type: .enum), 
             AWSShapeMember(label: "OperatingSystem", required: false, type: .enum), 
             AWSShapeMember(label: "ResourceCreationLimitPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "ScriptId", required: false, type: .string), 
             AWSShapeMember(label: "ServerLaunchParameters", required: false, type: .string), 
             AWSShapeMember(label: "ServerLaunchPath", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum), 
@@ -2137,6 +2267,8 @@ extension GameLift {
         public let fleetId: String?
         /// Indicates whether the fleet uses on-demand or spot instances. A spot instance in use may be interrupted with a two-minute notification.
         public let fleetType: FleetType?
+        /// Unique identifier for an AWS IAM role that manages access to your AWS services. With an instance role ARN set, any application that runs on an instance in this fleet can assume the role, including install scripts, server processes, daemons (background processes). Create a role or look up a role's ARN using the IAM dashboard in the AWS Management Console. Learn more about using on-box credentials for your game servers at  Access external resources from a game server.
+        public let instanceRoleArn: String?
         /// EC2 instance type indicating the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. See Amazon EC2 Instance Types for detailed descriptions.
         public let instanceType: EC2InstanceType?
         /// Location of default log files. When a server process is shut down, Amazon GameLift captures and stores any log files in this location. These logs are in addition to game session logs; see more on game session logs in the Amazon GameLift Developer Guide. If no default log path for a fleet is specified, Amazon GameLift automatically uploads logs that are stored on each instance at C:\game\logs (for Windows) or /local/game/logs (for Linux). Use the Amazon GameLift console to access stored logs. 
@@ -2151,24 +2283,27 @@ extension GameLift {
         public let operatingSystem: OperatingSystem?
         /// Fleet policy to limit the number of game sessions an individual player can create over a span of time.
         public let resourceCreationLimitPolicy: ResourceCreationLimitPolicy?
+        /// Unique identifier for a Realtime script.
+        public let scriptId: String?
         /// Game server launch parameters specified for fleets created before 2016-08-04 (or AWS SDK v. 0.12.16). Server launch parameters for fleets created after this date are specified in the fleet's RuntimeConfiguration.
         public let serverLaunchParameters: String?
         /// Path to a game server executable in the fleet's build, specified for fleets created before 2016-08-04 (or AWS SDK v. 0.12.16). Server launch paths for fleets created after this date are specified in the fleet's RuntimeConfiguration.
         public let serverLaunchPath: String?
-        /// Current status of the fleet. Possible fleet statuses include the following:    NEW -- A new fleet has been defined and desired instances is set to 1.     DOWNLOADING/VALIDATING/BUILDING/ACTIVATING -- Amazon GameLift is setting up the new fleet, creating new instances with the game build and starting server processes.    ACTIVE -- Hosts can now accept game sessions.    ERROR -- An error occurred when downloading, validating, building, or activating the fleet.    DELETING -- Hosts are responding to a delete fleet request.    TERMINATED -- The fleet no longer exists.  
+        /// Current status of the fleet. Possible fleet statuses include the following:    NEW -- A new fleet has been defined and desired instances is set to 1.     DOWNLOADING/VALIDATING/BUILDING/ACTIVATING -- Amazon GameLift is setting up the new fleet, creating new instances with the game build or Realtime script and starting server processes.    ACTIVE -- Hosts can now accept game sessions.    ERROR -- An error occurred when downloading, validating, building, or activating the fleet.    DELETING -- Hosts are responding to a delete fleet request.    TERMINATED -- The fleet no longer exists.  
         public let status: FleetStatus?
         /// List of fleet actions that have been suspended using StopFleetActions. This includes auto-scaling.
         public let stoppedActions: [FleetAction]?
         /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let terminationTime: TimeStamp?
 
-        public init(buildId: String? = nil, creationTime: TimeStamp? = nil, description: String? = nil, fleetArn: String? = nil, fleetId: String? = nil, fleetType: FleetType? = nil, instanceType: EC2InstanceType? = nil, logPaths: [String]? = nil, metricGroups: [String]? = nil, name: String? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, operatingSystem: OperatingSystem? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, serverLaunchParameters: String? = nil, serverLaunchPath: String? = nil, status: FleetStatus? = nil, stoppedActions: [FleetAction]? = nil, terminationTime: TimeStamp? = nil) {
+        public init(buildId: String? = nil, creationTime: TimeStamp? = nil, description: String? = nil, fleetArn: String? = nil, fleetId: String? = nil, fleetType: FleetType? = nil, instanceRoleArn: String? = nil, instanceType: EC2InstanceType? = nil, logPaths: [String]? = nil, metricGroups: [String]? = nil, name: String? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, operatingSystem: OperatingSystem? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, scriptId: String? = nil, serverLaunchParameters: String? = nil, serverLaunchPath: String? = nil, status: FleetStatus? = nil, stoppedActions: [FleetAction]? = nil, terminationTime: TimeStamp? = nil) {
             self.buildId = buildId
             self.creationTime = creationTime
             self.description = description
             self.fleetArn = fleetArn
             self.fleetId = fleetId
             self.fleetType = fleetType
+            self.instanceRoleArn = instanceRoleArn
             self.instanceType = instanceType
             self.logPaths = logPaths
             self.metricGroups = metricGroups
@@ -2176,6 +2311,7 @@ extension GameLift {
             self.newGameSessionProtectionPolicy = newGameSessionProtectionPolicy
             self.operatingSystem = operatingSystem
             self.resourceCreationLimitPolicy = resourceCreationLimitPolicy
+            self.scriptId = scriptId
             self.serverLaunchParameters = serverLaunchParameters
             self.serverLaunchPath = serverLaunchPath
             self.status = status
@@ -2190,6 +2326,7 @@ extension GameLift {
             case fleetArn = "FleetArn"
             case fleetId = "FleetId"
             case fleetType = "FleetType"
+            case instanceRoleArn = "InstanceRoleArn"
             case instanceType = "InstanceType"
             case logPaths = "LogPaths"
             case metricGroups = "MetricGroups"
@@ -2197,6 +2334,7 @@ extension GameLift {
             case newGameSessionProtectionPolicy = "NewGameSessionProtectionPolicy"
             case operatingSystem = "OperatingSystem"
             case resourceCreationLimitPolicy = "ResourceCreationLimitPolicy"
+            case scriptId = "ScriptId"
             case serverLaunchParameters = "ServerLaunchParameters"
             case serverLaunchPath = "ServerLaunchPath"
             case status = "Status"
@@ -2640,7 +2778,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PreSignedUrl", required: false, type: .string)
         ]
-        /// Location of the requested game session logs, available for download.
+        /// Location of the requested game session logs, available for download. This URL is valid for 15 minutes, after which S3 will reject any download request using this URL. You can request a new URL any time within the 14-day period that the logs are retained.
         public let preSignedUrl: String?
 
         public init(preSignedUrl: String? = nil) {
@@ -2939,7 +3077,8 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BuildId", required: false, type: .string), 
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ScriptId", required: false, type: .string)
         ]
         /// Unique identifier for a build to return fleets for. Use this parameter to return only fleets using the specified build. To retrieve all fleets, leave this parameter empty.
         public let buildId: String?
@@ -2947,17 +3086,21 @@ extension GameLift {
         public let limit: Int32?
         /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
+        /// Unique identifier for a Realtime script to return fleets for. Use this parameter to return only fleets using the specified script. To retrieve all fleets, leave this parameter empty.
+        public let scriptId: String?
 
-        public init(buildId: String? = nil, limit: Int32? = nil, nextToken: String? = nil) {
+        public init(buildId: String? = nil, limit: Int32? = nil, nextToken: String? = nil, scriptId: String? = nil) {
             self.buildId = buildId
             self.limit = limit
             self.nextToken = nextToken
+            self.scriptId = scriptId
         }
 
         private enum CodingKeys: String, CodingKey {
             case buildId = "BuildId"
             case limit = "Limit"
             case nextToken = "NextToken"
+            case scriptId = "ScriptId"
         }
     }
 
@@ -2979,6 +3122,48 @@ extension GameLift {
         private enum CodingKeys: String, CodingKey {
             case fleetIds = "FleetIds"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListScriptsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+        public let limit: Int32?
+        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
+        public let nextToken: String?
+
+        public init(limit: Int32? = nil, nextToken: String? = nil) {
+            self.limit = limit
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListScriptsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Scripts", required: false, type: .list)
+        ]
+        /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
+        public let nextToken: String?
+        /// Set of properties describing the requested script.
+        public let scripts: [Script]?
+
+        public init(nextToken: String? = nil, scripts: [Script]? = nil) {
+            self.nextToken = nextToken
+            self.scripts = scripts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case scripts = "Scripts"
         }
     }
 
@@ -3614,24 +3799,29 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "ObjectVersion", required: false, type: .string), 
             AWSShapeMember(label: "RoleArn", required: false, type: .string)
         ]
-        /// Amazon S3 bucket identifier. This is the name of your S3 bucket.
+        /// Amazon S3 bucket identifier. This is the name of the S3 bucket.
         public let bucket: String?
-        /// Name of the zip file containing your build files. 
+        /// Name of the zip file containing the build files or script files. 
         public let key: String?
-        /// Amazon Resource Name (ARN) for the access role that allows Amazon GameLift to access your S3 bucket.
+        /// Version of the file, if object versioning is turned on for the bucket. Amazon GameLift uses this information when retrieving files from an S3 bucket that you own. Use this parameter to specify a specific version of the file; if not set, the latest version of the file is retrieved. 
+        public let objectVersion: String?
+        /// Amazon Resource Name (ARN) for an IAM role that allows Amazon GameLift to access the S3 bucket.
         public let roleArn: String?
 
-        public init(bucket: String? = nil, key: String? = nil, roleArn: String? = nil) {
+        public init(bucket: String? = nil, key: String? = nil, objectVersion: String? = nil, roleArn: String? = nil) {
             self.bucket = bucket
             self.key = key
+            self.objectVersion = objectVersion
             self.roleArn = roleArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case key = "Key"
+            case objectVersion = "ObjectVersion"
             case roleArn = "RoleArn"
         }
     }
@@ -3720,6 +3910,46 @@ extension GameLift {
         public var description: String { return self.rawValue }
     }
 
+    public struct Script: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ScriptId", required: false, type: .string), 
+            AWSShapeMember(label: "SizeOnDisk", required: false, type: .long), 
+            AWSShapeMember(label: "StorageLocation", required: false, type: .structure), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+        /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        public let creationTime: TimeStamp?
+        /// Descriptive label that is associated with a script. Script names do not need to be unique.
+        public let name: String?
+        /// Unique identifier for a Realtime script
+        public let scriptId: String?
+        /// File size of the uploaded Realtime script, expressed in bytes. When files are uploaded from an S3 location, this value remains at "0".
+        public let sizeOnDisk: Int64?
+        public let storageLocation: S3Location?
+        /// Version that is associated with a build or script. Version strings do not need to be unique.
+        public let version: String?
+
+        public init(creationTime: TimeStamp? = nil, name: String? = nil, scriptId: String? = nil, sizeOnDisk: Int64? = nil, storageLocation: S3Location? = nil, version: String? = nil) {
+            self.creationTime = creationTime
+            self.name = name
+            self.scriptId = scriptId
+            self.sizeOnDisk = sizeOnDisk
+            self.storageLocation = storageLocation
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case name = "Name"
+            case scriptId = "ScriptId"
+            case sizeOnDisk = "SizeOnDisk"
+            case storageLocation = "StorageLocation"
+            case version = "Version"
+        }
+    }
+
     public struct SearchGameSessionsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AliasId", required: false, type: .string), 
@@ -3790,9 +4020,9 @@ extension GameLift {
         ]
         /// Number of server processes using this configuration to run concurrently on an instance.
         public let concurrentExecutions: Int32
-        /// Location of the server executable in a game build. All game builds are installed on instances at the root : for Windows instances C:\game, and for Linux instances /local/game. A Windows game build with an executable file located at MyGame\latest\server.exe must have a launch path of "C:\game\MyGame\latest\server.exe". A Linux game build with an executable file located at MyGame/latest/server.exe must have a launch path of "/local/game/MyGame/latest/server.exe". 
+        /// Location of the server executable in a custom game build or the name of the Realtime script file that contains the Init() function. Game builds and Realtime scripts are installed on instances at the root:    Windows (for custom game builds only): C:\game. Example: "C:\game\MyGame\server.exe"    Linux: /local/game. Examples: "/local/game/MyGame/server.exe" or "/local/game/MyRealtimeScript.js"  
         public let launchPath: String
-        /// Optional list of parameters to pass to the server executable on launch.
+        /// Optional list of parameters to pass to the server executable or Realtime script on launch.
         public let parameters: String?
 
         public init(concurrentExecutions: Int32, launchPath: String, parameters: String? = nil) {
@@ -4148,7 +4378,7 @@ extension GameLift {
         public let buildId: String
         /// Descriptive label that is associated with a build. Build names do not need to be unique. 
         public let name: String?
-        /// Version that is associated with this build. Version strings do not need to be unique.
+        /// Version that is associated with a build or script. Version strings do not need to be unique.
         public let version: String?
 
         public init(buildId: String, name: String? = nil, version: String? = nil) {
@@ -4519,7 +4749,7 @@ extension GameLift {
         ]
         /// Unique identifier for a fleet to update run-time configuration for.
         public let fleetId: String
-        /// Instructions for launching server processes on each instance in the fleet. The run-time configuration for a fleet has a collection of server process configurations, one for each type of server process to run on an instance. A server process configuration specifies the location of the server executable, launch parameters, and the number of concurrent processes with that configuration to maintain on each instance.
+        /// Instructions for launching server processes on each instance in the fleet. Server processes run either a custom game build executable or a Realtime Servers script. The run-time configuration lists the types of server processes to run on an instance and includes the following configuration settings: the server executable or launch script file, launch parameters, and the number of processes to run concurrently on each instance. A CreateFleet request must include a run-time configuration with at least one server process configuration.
         public let runtimeConfiguration: RuntimeConfiguration
 
         public init(fleetId: String, runtimeConfiguration: RuntimeConfiguration) {
@@ -4546,6 +4776,58 @@ extension GameLift {
 
         private enum CodingKeys: String, CodingKey {
             case runtimeConfiguration = "RuntimeConfiguration"
+        }
+    }
+
+    public struct UpdateScriptInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ScriptId", required: true, type: .string), 
+            AWSShapeMember(label: "StorageLocation", required: false, type: .structure), 
+            AWSShapeMember(label: "Version", required: false, type: .string), 
+            AWSShapeMember(label: "ZipFile", required: false, type: .blob)
+        ]
+        /// Descriptive label that is associated with a script. Script names do not need to be unique.
+        public let name: String?
+        /// Unique identifier for a Realtime script to update.
+        public let scriptId: String
+        /// Location of the Amazon S3 bucket where a zipped file containing your Realtime scripts is stored. The storage location must specify the Amazon S3 bucket name, the zip file name (the "key"), and a role ARN that allows Amazon GameLift to access the Amazon S3 storage location. The S3 bucket must be in the same region where you want to create a new script. By default, Amazon GameLift uploads the latest version of the zip file; if you have S3 object versioning turned on, you can use the ObjectVersion parameter to specify an earlier version. 
+        public let storageLocation: S3Location?
+        /// Version that is associated with a build or script. Version strings do not need to be unique.
+        public let version: String?
+        /// Data object containing your Realtime scripts and dependencies as a zip file. The zip file can have one or multiple files. Maximum size of a zip file is 5 MB. When using the AWS CLI tool to create a script, this parameter is set to the zip file name. It must be prepended with the string "fileb://" to indicate that the file data is a binary object. For example: --zip-file fileb://myRealtimeScript.zip.
+        public let zipFile: Data?
+
+        public init(name: String? = nil, scriptId: String, storageLocation: S3Location? = nil, version: String? = nil, zipFile: Data? = nil) {
+            self.name = name
+            self.scriptId = scriptId
+            self.storageLocation = storageLocation
+            self.version = version
+            self.zipFile = zipFile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case scriptId = "ScriptId"
+            case storageLocation = "StorageLocation"
+            case version = "Version"
+            case zipFile = "ZipFile"
+        }
+    }
+
+    public struct UpdateScriptOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Script", required: false, type: .structure)
+        ]
+        /// The newly created script record with a unique script ID. The new script's storage location reflects an Amazon S3 location: (1) If the script was uploaded from an S3 bucket under your account, the storage location reflects the information that was provided in the CreateScript request; (2) If the script file was uploaded from a local zip file, the storage location reflects an S3 location controls by the Amazon GameLift service.
+        public let script: Script?
+
+        public init(script: Script? = nil) {
+            self.script = script
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case script = "Script"
         }
     }
 
@@ -4596,7 +4878,7 @@ extension GameLift {
         /// Unique identifier for the AWS account that you use to manage your Amazon GameLift fleet. You can find your Account ID in the AWS Management Console under account settings.
         public let gameLiftAwsAccountId: String?
         public let peerVpcAwsAccountId: String?
-        /// Unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same region where your fleet is deployed. To get VPC information, including IDs, use the Virtual Private Cloud service tools, including the VPC Dashboard in the AWS Management Console.
+        /// Unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same region where your fleet is deployed. Look up a VPC ID using the VPC Dashboard in the AWS Management Console. Learn more about VPC peering in VPC Peering with Amazon GameLift Fleets.
         public let peerVpcId: String?
 
         public init(creationTime: TimeStamp? = nil, expirationTime: TimeStamp? = nil, gameLiftAwsAccountId: String? = nil, peerVpcAwsAccountId: String? = nil, peerVpcId: String? = nil) {
@@ -4631,7 +4913,7 @@ extension GameLift {
         public let gameLiftVpcId: String?
         /// CIDR block of IPv4 addresses assigned to the VPC peering connection for the GameLift VPC. The peered VPC also has an IPv4 CIDR block associated with it; these blocks cannot overlap or the peering connection cannot be created. 
         public let ipV4CidrBlock: String?
-        /// Unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same region where your fleet is deployed. To get VPC information, including IDs, use the Virtual Private Cloud service tools, including the VPC Dashboard in the AWS Management Console.
+        /// Unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same region where your fleet is deployed. Look up a VPC ID using the VPC Dashboard in the AWS Management Console. Learn more about VPC peering in VPC Peering with Amazon GameLift Fleets.
         public let peerVpcId: String?
         /// Object that contains status information about the connection. Status indicates if a connection is pending, successful, or failed.
         public let status: VpcPeeringConnectionStatus?

@@ -204,7 +204,9 @@ extension Organizations {
         case accountCreationRateLimitExceeded = "ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED"
         case masterAccountAddressDoesNotMatchMarketplace = "MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE"
         case masterAccountMissingContactInfo = "MASTER_ACCOUNT_MISSING_CONTACT_INFO"
+        case masterAccountNotGovcloudEnabled = "MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED"
         case organizationNotInAllFeaturesMode = "ORGANIZATION_NOT_IN_ALL_FEATURES_MODE"
+        case createOrganizationInBillingModeUnsupportedRegion = "CREATE_ORGANIZATION_IN_BILLING_MODE_UNSUPPORTED_REGION"
         case emailVerificationCodeExpired = "EMAIL_VERIFICATION_CODE_EXPIRED"
         case waitPeriodActive = "WAIT_PERIOD_ACTIVE"
         public var description: String { return self.rawValue }
@@ -280,6 +282,7 @@ extension Organizations {
             AWSShapeMember(label: "AccountName", required: false, type: .string), 
             AWSShapeMember(label: "CompletedTimestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "FailureReason", required: false, type: .enum), 
+            AWSShapeMember(label: "GovCloudAccountId", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "RequestedTimestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "State", required: false, type: .enum)
@@ -292,6 +295,7 @@ extension Organizations {
         public let completedTimestamp: TimeStamp?
         /// If the request failed, a description of the reason for the failure.   ACCOUNT_LIMIT_EXCEEDED: The account could not be created because you have reached the limit on the number of accounts in your organization.   EMAIL_ALREADY_EXISTS: The account could not be created because another AWS account with that email address already exists.   INVALID_ADDRESS: The account could not be created because the address you provided is not valid.   INVALID_EMAIL: The account could not be created because the email address you provided is not valid.   INTERNAL_FAILURE: The account could not be created because of an internal failure. Try again later. If the problem persists, contact Customer Support.  
         public let failureReason: CreateAccountFailureReason?
+        public let govCloudAccountId: String?
         /// The unique identifier (ID) that references this request. You get this value from the response of the initial CreateAccount request to create the account. The regex pattern for an create account request ID string requires "car-" followed by from 8 to 32 lower-case letters or digits.
         public let id: String?
         /// The date and time that the request was made for the account creation.
@@ -299,11 +303,12 @@ extension Organizations {
         /// The status of the request.
         public let state: CreateAccountState?
 
-        public init(accountId: String? = nil, accountName: String? = nil, completedTimestamp: TimeStamp? = nil, failureReason: CreateAccountFailureReason? = nil, id: String? = nil, requestedTimestamp: TimeStamp? = nil, state: CreateAccountState? = nil) {
+        public init(accountId: String? = nil, accountName: String? = nil, completedTimestamp: TimeStamp? = nil, failureReason: CreateAccountFailureReason? = nil, govCloudAccountId: String? = nil, id: String? = nil, requestedTimestamp: TimeStamp? = nil, state: CreateAccountState? = nil) {
             self.accountId = accountId
             self.accountName = accountName
             self.completedTimestamp = completedTimestamp
             self.failureReason = failureReason
+            self.govCloudAccountId = govCloudAccountId
             self.id = id
             self.requestedTimestamp = requestedTimestamp
             self.state = state
@@ -314,9 +319,56 @@ extension Organizations {
             case accountName = "AccountName"
             case completedTimestamp = "CompletedTimestamp"
             case failureReason = "FailureReason"
+            case govCloudAccountId = "GovCloudAccountId"
             case id = "Id"
             case requestedTimestamp = "RequestedTimestamp"
             case state = "State"
+        }
+    }
+
+    public struct CreateGovCloudAccountRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountName", required: true, type: .string), 
+            AWSShapeMember(label: "Email", required: true, type: .string), 
+            AWSShapeMember(label: "IamUserAccessToBilling", required: false, type: .enum), 
+            AWSShapeMember(label: "RoleName", required: false, type: .string)
+        ]
+        /// The friendly name of the member account.
+        public let accountName: String
+        /// The email address of the owner to assign to the new member account in the commercial Region. This email address must not already be associated with another AWS account. You must use a valid email address to complete account creation. You can't access the root user of the account or remove an account that was created with an invalid email address. Like all request parameters for CreateGovCloudAccount, the request for the email address for the AWS GovCloud (US) account originates from the commercial Region, not from the AWS GovCloud (US) Region.
+        public let email: String
+        /// If set to ALLOW, the new linked account in the commercial Region enables IAM users to access account billing information if they have the required permissions. If set to DENY, only the root user of the new account can access account billing information. For more information, see Activating Access to the Billing and Cost Management Console in the AWS Billing and Cost Management User Guide.  If you don't specify this parameter, the value defaults to ALLOW, and IAM users and roles with the required permissions can access billing information for the new account.
+        public let iamUserAccessToBilling: IAMUserAccessToBilling?
+        /// (Optional) The name of an IAM role that AWS Organizations automatically preconfigures in the new member accounts in both the AWS GovCloud (US) Region and in the commercial Region. This role trusts the master account, allowing users in the master account to assume the role, as permitted by the master account administrator. The role has administrator permissions in the new member account. If you don't specify this parameter, the role name defaults to OrganizationAccountAccessRole. For more information about how to use this role to access the member account, see Accessing and Administering the Member Accounts in Your Organization in the AWS Organizations User Guide and steps 2 and 3 in Tutorial: Delegate Access Across AWS Accounts Using IAM Roles in the IAM User Guide.  The regex pattern that is used to validate this parameter is a string of characters that can consist of uppercase letters, lowercase letters, digits with no spaces, and any of the following characters: =,.@-
+        public let roleName: String?
+
+        public init(accountName: String, email: String, iamUserAccessToBilling: IAMUserAccessToBilling? = nil, roleName: String? = nil) {
+            self.accountName = accountName
+            self.email = email
+            self.iamUserAccessToBilling = iamUserAccessToBilling
+            self.roleName = roleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountName = "AccountName"
+            case email = "Email"
+            case iamUserAccessToBilling = "IamUserAccessToBilling"
+            case roleName = "RoleName"
+        }
+    }
+
+    public struct CreateGovCloudAccountResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateAccountStatus", required: false, type: .structure)
+        ]
+        public let createAccountStatus: CreateAccountStatus?
+
+        public init(createAccountStatus: CreateAccountStatus? = nil) {
+            self.createAccountStatus = createAccountStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createAccountStatus = "CreateAccountStatus"
         }
     }
 
@@ -324,7 +376,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FeatureSet", required: false, type: .enum)
         ]
-        /// Specifies the feature set supported by the new organization. Each feature set supports different levels of functionality.    CONSOLIDATED_BILLING: All member accounts have their bills consolidated to and paid by the master account. For more information, see Consolidated Billing in the AWS Organizations User Guide.    ALL: In addition to all the features supported by the consolidated billing feature set, the master account can also apply any type of policy to any member account in the organization. For more information, see All features in the AWS Organizations User Guide.  
+        /// Specifies the feature set supported by the new organization. Each feature set supports different levels of functionality.    CONSOLIDATED_BILLING: All member accounts have their bills consolidated to and paid by the master account. For more information, see Consolidated billing in the AWS Organizations User Guide.  The consolidated billing feature subset isn't available for organizations in the AWS GovCloud (US) Region.    ALL: In addition to all the features supported by the consolidated billing feature set, the master account can also apply any type of policy to any member account in the organization. For more information, see All features in the AWS Organizations User Guide.  
         public let featureSet: OrganizationFeatureSet?
 
         public init(featureSet: OrganizationFeatureSet? = nil) {
@@ -1309,7 +1361,7 @@ extension Organizations {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// Filters the handshakes that you want included in the response. The default is all types. Use the ActionType element to limit the output to only a specified type, such as INVITE, ENABLE-FULL-CONTROL, or APPROVE-FULL-CONTROL. Alternatively, for the ENABLE-FULL-CONTROL handshake that generates a separate child handshake for each member account, you can specify ParentHandshakeId to see only the handshakes that were generated by that parent request.
+        /// Filters the handshakes that you want included in the response. The default is all types. Use the ActionType element to limit the output to only a specified type, such as INVITE, ENABLE_ALL_FEATURES, or APPROVE_ALL_FEATURES. Alternatively, for the ENABLE_ALL_FEATURES handshake that generates a separate child handshake for each member account, you can specify ParentHandshakeId to see only the handshakes that were generated by that parent request.
         public let filter: HandshakeFilter?
         /// (Optional) Use this to limit the number of results you want included per page in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int32?

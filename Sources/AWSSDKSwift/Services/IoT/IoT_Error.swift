@@ -12,6 +12,7 @@ public enum IoTErrorType: AWSErrorType {
     case indexNotReadyException(message: String?)
     case internalException(message: String?)
     case internalFailureException(message: String?)
+    case invalidAggregationException(message: String?)
     case invalidQueryException(message: String?)
     case invalidRequestException(message: String?)
     case invalidResponseException(message: String?)
@@ -56,6 +57,8 @@ extension IoTErrorType {
             self = .internalException(message: message)
         case "InternalFailureException":
             self = .internalFailureException(message: message)
+        case "InvalidAggregationException":
+            self = .invalidAggregationException(message: message)
         case "InvalidQueryException":
             self = .invalidQueryException(message: message)
         case "InvalidRequestException":

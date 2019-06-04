@@ -4,6 +4,7 @@ import AWSSDKSwiftCore
 
 /// Error enum for AppSync
 public enum AppSyncErrorType: AWSErrorType {
+    case accessDeniedException(message: String?)
     case apiKeyLimitExceededException(message: String?)
     case apiKeyValidityOutOfBoundsException(message: String?)
     case apiLimitExceededException(message: String?)
@@ -23,6 +24,8 @@ extension AppSyncErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "AccessDeniedException":
+            self = .accessDeniedException(message: message)
         case "ApiKeyLimitExceededException":
             self = .apiKeyLimitExceededException(message: message)
         case "ApiKeyValidityOutOfBoundsException":

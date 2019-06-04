@@ -12,27 +12,31 @@ extension EFS {
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeMember(label: "PerformanceMode", required: false, type: .enum), 
             AWSShapeMember(label: "ProvisionedThroughputInMibps", required: false, type: .double), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "ThroughputMode", required: false, type: .enum)
         ]
-        /// String of up to 64 ASCII characters. Amazon EFS uses this to ensure idempotent creation.
+        /// A string of up to 64 ASCII characters. Amazon EFS uses this to ensure idempotent creation.
         public let creationToken: String
-        /// A Boolean value that, if true, creates an encrypted file system. When creating an encrypted file system, you have the option of specifying a CreateFileSystemRequest$KmsKeyId for an existing AWS Key Management Service (AWS KMS) customer master key (CMK). If you don't specify a CMK, then the default CMK for Amazon EFS, /aws/elasticfilesystem, is used to protect the encrypted file system. 
+        /// A Boolean value that, if true, creates an encrypted file system. When creating an encrypted file system, you have the option of specifying CreateFileSystemRequest$KmsKeyId for an existing AWS Key Management Service (AWS KMS) customer master key (CMK). If you don't specify a CMK, then the default CMK for Amazon EFS, /aws/elasticfilesystem, is used to protect the encrypted file system. 
         public let encrypted: Bool?
-        /// The ID of the AWS KMS CMK to be used to protect the encrypted file system. This parameter is only required if you want to use a non-default CMK. If this parameter is not specified, the default CMK for Amazon EFS is used. This ID can be in one of the following formats:   Key ID - A unique identifier of the key, for example, 1234abcd-12ab-34cd-56ef-1234567890ab.   ARN - An Amazon Resource Name (ARN) for the key, for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias - A previously created display name for a key. For example, alias/projectKey1.   Key alias ARN - An ARN for a key alias, for example, arn:aws:kms:us-west-2:444455556666:alias/projectKey1.   If KmsKeyId is specified, the CreateFileSystemRequest$Encrypted parameter must be set to true.
+        /// The ID of the AWS KMS CMK to be used to protect the encrypted file system. This parameter is only required if you want to use a nondefault CMK. If this parameter is not specified, the default CMK for Amazon EFS is used. This ID can be in one of the following formats:   Key ID - A unique identifier of the key, for example 1234abcd-12ab-34cd-56ef-1234567890ab.   ARN - An Amazon Resource Name (ARN) for the key, for example arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias - A previously created display name for a key, for example alias/projectKey1.   Key alias ARN - An ARN for a key alias, for example arn:aws:kms:us-west-2:444455556666:alias/projectKey1.   If KmsKeyId is specified, the CreateFileSystemRequest$Encrypted parameter must be set to true.
         public let kmsKeyId: String?
-        /// The PerformanceMode of the file system. We recommend generalPurpose performance mode for most file systems. File systems using the maxIO performance mode can scale to higher levels of aggregate throughput and operations per second with a tradeoff of slightly higher latencies for most file operations. This can't be changed after the file system has been created.
+        /// The performance mode of the file system. We recommend generalPurpose performance mode for most file systems. File systems using the maxIO performance mode can scale to higher levels of aggregate throughput and operations per second with a tradeoff of slightly higher latencies for most file operations. The performance mode can't be changed after the file system has been created.
         public let performanceMode: PerformanceMode?
-        /// The throughput, measured in MiB/s, that you want to provision for a file system that you're creating. The limit on throughput is 1024 MiB/s. You can get these limits increased by contacting AWS Support. For more information, see Amazon EFS Limits That You Can Increase in the Amazon EFS User Guide. 
+        /// The throughput, measured in MiB/s, that you want to provision for a file system that you're creating. Valid values are 1-1024. Required if ThroughputMode is set to provisioned. The upper limit for throughput is 1024 MiB/s. You can get this limit increased by contacting AWS Support. For more information, see Amazon EFS Limits That You Can Increase in the Amazon EFS User Guide. 
         public let provisionedThroughputInMibps: Double?
-        /// The throughput mode for the file system to be created. There are two throughput modes to choose from for your file system: bursting and provisioned. You can decrease your file system's throughput in Provisioned Throughput mode or change between the throughput modes as long as it’s been more than 24 hours since the last decrease or throughput mode change.
+        /// A value that specifies to create one or more tags associated with the file system. Each tag is a user-defined key-value pair. Name your file system on creation by including a "Key":"Name","Value":"{value}" key-value pair.
+        public let tags: [Tag]?
+        /// The throughput mode for the file system to be created. There are two throughput modes to choose from for your file system: bursting and provisioned. If you set ThroughputMode to provisioned, you must also set a value for ProvisionedThroughPutInMibps. You can decrease your file system's throughput in Provisioned Throughput mode or change between the throughput modes as long as it’s been more than 24 hours since the last decrease or throughput mode change. For more, see Specifying Throughput with Provisioned Mode in the Amazon EFS User Guide. 
         public let throughputMode: ThroughputMode?
 
-        public init(creationToken: String, encrypted: Bool? = nil, kmsKeyId: String? = nil, performanceMode: PerformanceMode? = nil, provisionedThroughputInMibps: Double? = nil, throughputMode: ThroughputMode? = nil) {
+        public init(creationToken: String, encrypted: Bool? = nil, kmsKeyId: String? = nil, performanceMode: PerformanceMode? = nil, provisionedThroughputInMibps: Double? = nil, tags: [Tag]? = nil, throughputMode: ThroughputMode? = nil) {
             self.creationToken = creationToken
             self.encrypted = encrypted
             self.kmsKeyId = kmsKeyId
             self.performanceMode = performanceMode
             self.provisionedThroughputInMibps = provisionedThroughputInMibps
+            self.tags = tags
             self.throughputMode = throughputMode
         }
 
@@ -42,6 +46,7 @@ extension EFS {
             case kmsKeyId = "KmsKeyId"
             case performanceMode = "PerformanceMode"
             case provisionedThroughputInMibps = "ProvisionedThroughputInMibps"
+            case tags = "Tags"
             case throughputMode = "ThroughputMode"
         }
     }
@@ -53,13 +58,13 @@ extension EFS {
             AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
             AWSShapeMember(label: "SubnetId", required: true, type: .string)
         ]
-        /// ID of the file system for which to create the mount target.
+        /// The ID of the file system for which to create the mount target.
         public let fileSystemId: String
         /// Valid IPv4 address within the address range of the specified subnet.
         public let ipAddress: String?
         /// Up to five VPC security group IDs, of the form sg-xxxxxxxx. These must be for the same VPC as subnet specified.
         public let securityGroups: [String]?
-        /// ID of the subnet to add the mount target in.
+        /// The ID of the subnet to add the mount target in.
         public let subnetId: String
 
         public init(fileSystemId: String, ipAddress: String? = nil, securityGroups: [String]? = nil, subnetId: String) {
@@ -82,9 +87,9 @@ extension EFS {
             AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
-        /// ID of the file system whose tags you want to modify (String). This operation modifies the tags only, not the file system.
+        /// The ID of the file system whose tags you want to modify (String). This operation modifies the tags only, not the file system.
         public let fileSystemId: String
-        /// Array of Tag objects to add. Each Tag object is a key-value pair. 
+        /// An array of Tag objects to add. Each Tag object is a key-value pair. 
         public let tags: [Tag]
 
         public init(fileSystemId: String, tags: [Tag]) {
@@ -102,7 +107,7 @@ extension EFS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string)
         ]
-        /// ID of the file system you want to delete.
+        /// The ID of the file system you want to delete.
         public let fileSystemId: String
 
         public init(fileSystemId: String) {
@@ -118,7 +123,7 @@ extension EFS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MountTargetId", location: .uri(locationName: "MountTargetId"), required: true, type: .string)
         ]
-        /// ID of the mount target to delete (String).
+        /// The ID of the mount target to delete (String).
         public let mountTargetId: String
 
         public init(mountTargetId: String) {
@@ -135,9 +140,9 @@ extension EFS {
             AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
-        /// ID of the file system whose tags you want to delete (String).
+        /// The ID of the file system whose tags you want to delete (String).
         public let fileSystemId: String
-        /// List of tag keys to delete.
+        /// A list of tag keys to delete.
         public let tagKeys: [String]
 
         public init(fileSystemId: String, tagKeys: [String]) {
@@ -164,7 +169,7 @@ extension EFS {
         public let fileSystemId: String?
         /// (Optional) Opaque pagination token returned from a previous DescribeFileSystems operation (String). If present, specifies to continue the list from where the returning call had left off. 
         public let marker: String?
-        /// (Optional) Specifies the maximum number of file systems to return in the response (integer). This parameter value must be greater than 0. The number of items that Amazon EFS returns is the minimum of the MaxItems parameter specified in the request and the service's internal maximum number of items per page. 
+        /// (Optional) Specifies the maximum number of file systems to return in the response (integer). Currently, this number is automatically set to 10, and other values are ignored. The response is paginated at 10 per page if you have more than 10 file systems. 
         public let maxItems: Int32?
 
         public init(creationToken: String? = nil, fileSystemId: String? = nil, marker: String? = nil, maxItems: Int32? = nil) {
@@ -188,7 +193,7 @@ extension EFS {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
-        /// Array of file system descriptions.
+        /// An array of file system descriptions.
         public let fileSystems: [FileSystemDescription]?
         /// Present if provided by caller in the request (String).
         public let marker: String?
@@ -208,11 +213,27 @@ extension EFS {
         }
     }
 
+    public struct DescribeLifecycleConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string)
+        ]
+        /// The ID of the file system whose LifecycleConfiguration object you want to retrieve (String).
+        public let fileSystemId: String
+
+        public init(fileSystemId: String) {
+            self.fileSystemId = fileSystemId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileSystemId = "FileSystemId"
+        }
+    }
+
     public struct DescribeMountTargetSecurityGroupsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MountTargetId", location: .uri(locationName: "MountTargetId"), required: true, type: .string)
         ]
-        /// ID of the mount target whose security groups you want to retrieve.
+        /// The ID of the mount target whose security groups you want to retrieve.
         public let mountTargetId: String
 
         public init(mountTargetId: String) {
@@ -228,7 +249,7 @@ extension EFS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SecurityGroups", required: true, type: .list)
         ]
-        /// Array of security groups.
+        /// An array of security groups.
         public let securityGroups: [String]
 
         public init(securityGroups: [String]) {
@@ -251,7 +272,7 @@ extension EFS {
         public let fileSystemId: String?
         /// (Optional) Opaque pagination token returned from a previous DescribeMountTargets operation (String). If present, it specifies to continue the list from where the previous returning call left off.
         public let marker: String?
-        /// (Optional) Maximum number of mount targets to return in the response. It must be an integer with a value greater than zero.
+        /// (Optional) Maximum number of mount targets to return in the response. Currently, this number is automatically set to 10, and other values are ignored. The response is paginated at 10 per page if you have more than 10 mount targets.
         public let maxItems: Int32?
         /// (Optional) ID of the mount target that you want to have described (String). It must be included in your request if FileSystemId is not included.
         public let mountTargetId: String?
@@ -303,11 +324,11 @@ extension EFS {
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer)
         ]
-        /// ID of the file system whose tag set you want to retrieve.
+        /// The ID of the file system whose tag set you want to retrieve.
         public let fileSystemId: String
-        /// (Optional) Opaque pagination token returned from a previous DescribeTags operation (String). If present, it specifies to continue the list from where the previous call left off.
+        /// (Optional) An opaque pagination token returned from a previous DescribeTags operation (String). If present, it specifies to continue the list from where the previous call left off.
         public let marker: String?
-        /// (Optional) Maximum number of file system tags to return in the response. It must be an integer with a value greater than zero.
+        /// (Optional) The maximum number of file system tags to return in the response. Currently, this number is automatically set to 10, and other values are ignored. The response is paginated at 10 per page if you have more than 10 tags.
         public let maxItems: Int32?
 
         public init(fileSystemId: String, marker: String? = nil, maxItems: Int32? = nil) {
@@ -363,36 +384,39 @@ extension EFS {
             AWSShapeMember(label: "PerformanceMode", required: true, type: .enum), 
             AWSShapeMember(label: "ProvisionedThroughputInMibps", required: false, type: .double), 
             AWSShapeMember(label: "SizeInBytes", required: true, type: .structure), 
+            AWSShapeMember(label: "Tags", required: true, type: .list), 
             AWSShapeMember(label: "ThroughputMode", required: false, type: .enum)
         ]
-        /// Time that the file system was created, in seconds (since 1970-01-01T00:00:00Z).
+        /// The time that the file system was created, in seconds (since 1970-01-01T00:00:00Z).
         public let creationTime: TimeStamp
-        /// Opaque string specified in the request.
+        /// The opaque string specified in the request.
         public let creationToken: String
         /// A Boolean value that, if true, indicates that the file system is encrypted.
         public let encrypted: Bool?
-        /// ID of the file system, assigned by Amazon EFS.
+        /// The ID of the file system, assigned by Amazon EFS.
         public let fileSystemId: String
         /// The ID of an AWS Key Management Service (AWS KMS) customer master key (CMK) that was used to protect the encrypted file system.
         public let kmsKeyId: String?
-        /// Lifecycle phase of the file system.
+        /// The lifecycle phase of the file system.
         public let lifeCycleState: LifeCycleState
-        /// You can add tags to a file system, including a Name tag. For more information, see CreateTags. If the file system has a Name tag, Amazon EFS returns the value in this field. 
+        /// You can add tags to a file system, including a Name tag. For more information, see CreateFileSystem. If the file system has a Name tag, Amazon EFS returns the value in this field. 
         public let name: String?
-        /// Current number of mount targets that the file system has. For more information, see CreateMountTarget.
+        /// The current number of mount targets that the file system has. For more information, see CreateMountTarget.
         public let numberOfMountTargets: Int32
-        /// AWS account that created the file system. If the file system was created by an IAM user, the parent account to which the user belongs is the owner.
+        /// The AWS account that created the file system. If the file system was created by an IAM user, the parent account to which the user belongs is the owner.
         public let ownerId: String
-        /// The PerformanceMode of the file system.
+        /// The performance mode of the file system.
         public let performanceMode: PerformanceMode
-        /// The throughput, measured in MiB/s, that you want to provision for a file system. The limit on throughput is 1024 MiB/s. You can get these limits increased by contacting AWS Support. For more information, see Amazon EFS Limits That You Can Increase in the Amazon EFS User Guide. 
+        /// The throughput, measured in MiB/s, that you want to provision for a file system. Valid values are 1-1024. Required if ThroughputMode is set to provisioned. The limit on throughput is 1024 MiB/s. You can get these limits increased by contacting AWS Support. For more information, see Amazon EFS Limits That You Can Increase in the Amazon EFS User Guide. 
         public let provisionedThroughputInMibps: Double?
-        /// Latest known metered size (in bytes) of data stored in the file system, in its Value field, and the time at which that size was determined in its Timestamp field. The Timestamp value is the integer number of seconds since 1970-01-01T00:00:00Z. The SizeInBytes value doesn't represent the size of a consistent snapshot of the file system, but it is eventually consistent when there are no writes to the file system. That is, SizeInBytes represents actual size only if the file system is not modified for a period longer than a couple of hours. Otherwise, the value is not the exact size that the file system was at any point in time. 
+        /// The latest known metered size (in bytes) of data stored in the file system, in its Value field, and the time at which that size was determined in its Timestamp field. The Timestamp value is the integer number of seconds since 1970-01-01T00:00:00Z. The SizeInBytes value doesn't represent the size of a consistent snapshot of the file system, but it is eventually consistent when there are no writes to the file system. That is, SizeInBytes represents actual size only if the file system is not modified for a period longer than a couple of hours. Otherwise, the value is not the exact size that the file system was at any point in time. 
         public let sizeInBytes: FileSystemSize
-        /// The throughput mode for a file system. There are two throughput modes to choose from for your file system: bursting and provisioned. You can decrease your file system's throughput in Provisioned Throughput mode or change between the throughput modes as long as it’s been more than 24 hours since the last decrease or throughput mode change.
+        /// The tags associated with the file system, presented as an array of Tag objects.
+        public let tags: [Tag]
+        /// The throughput mode for a file system. There are two throughput modes to choose from for your file system: bursting and provisioned. If you set ThroughputMode to provisioned, you must also set a value for ProvisionedThroughPutInMibps. You can decrease your file system's throughput in Provisioned Throughput mode or change between the throughput modes as long as it’s been more than 24 hours since the last decrease or throughput mode change. 
         public let throughputMode: ThroughputMode?
 
-        public init(creationTime: TimeStamp, creationToken: String, encrypted: Bool? = nil, fileSystemId: String, kmsKeyId: String? = nil, lifeCycleState: LifeCycleState, name: String? = nil, numberOfMountTargets: Int32, ownerId: String, performanceMode: PerformanceMode, provisionedThroughputInMibps: Double? = nil, sizeInBytes: FileSystemSize, throughputMode: ThroughputMode? = nil) {
+        public init(creationTime: TimeStamp, creationToken: String, encrypted: Bool? = nil, fileSystemId: String, kmsKeyId: String? = nil, lifeCycleState: LifeCycleState, name: String? = nil, numberOfMountTargets: Int32, ownerId: String, performanceMode: PerformanceMode, provisionedThroughputInMibps: Double? = nil, sizeInBytes: FileSystemSize, tags: [Tag], throughputMode: ThroughputMode? = nil) {
             self.creationTime = creationTime
             self.creationToken = creationToken
             self.encrypted = encrypted
@@ -405,6 +429,7 @@ extension EFS {
             self.performanceMode = performanceMode
             self.provisionedThroughputInMibps = provisionedThroughputInMibps
             self.sizeInBytes = sizeInBytes
+            self.tags = tags
             self.throughputMode = throughputMode
         }
 
@@ -421,6 +446,7 @@ extension EFS {
             case performanceMode = "PerformanceMode"
             case provisionedThroughputInMibps = "ProvisionedThroughputInMibps"
             case sizeInBytes = "SizeInBytes"
+            case tags = "Tags"
             case throughputMode = "ThroughputMode"
         }
     }
@@ -428,21 +454,31 @@ extension EFS {
     public struct FileSystemSize: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Timestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Value", required: true, type: .long)
+            AWSShapeMember(label: "Value", required: true, type: .long), 
+            AWSShapeMember(label: "ValueInIA", required: false, type: .long), 
+            AWSShapeMember(label: "ValueInStandard", required: false, type: .long)
         ]
-        /// Time at which the size of data, returned in the Value field, was determined. The value is the integer number of seconds since 1970-01-01T00:00:00Z.
+        /// The time at which the size of data, returned in the Value field, was determined. The value is the integer number of seconds since 1970-01-01T00:00:00Z.
         public let timestamp: TimeStamp?
-        /// Latest known metered size (in bytes) of data stored in the file system.
+        /// The latest known metered size (in bytes) of data stored in the file system.
         public let value: Int64
+        /// The latest known metered size (in bytes) of data stored in the Infrequent Access storage class.
+        public let valueInIA: Int64?
+        /// The latest known metered size (in bytes) of data stored in the Standard storage class.
+        public let valueInStandard: Int64?
 
-        public init(timestamp: TimeStamp? = nil, value: Int64) {
+        public init(timestamp: TimeStamp? = nil, value: Int64, valueInIA: Int64? = nil, valueInStandard: Int64? = nil) {
             self.timestamp = timestamp
             self.value = value
+            self.valueInIA = valueInIA
+            self.valueInStandard = valueInStandard
         }
 
         private enum CodingKeys: String, CodingKey {
             case timestamp = "Timestamp"
             case value = "Value"
+            case valueInIA = "ValueInIA"
+            case valueInStandard = "ValueInStandard"
         }
     }
 
@@ -455,14 +491,46 @@ extension EFS {
         public var description: String { return self.rawValue }
     }
 
+    public struct LifecycleConfigurationDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LifecyclePolicies", required: false, type: .list)
+        ]
+        /// An array of lifecycle management policies. Currently, EFS supports a maximum of one policy per file system.
+        public let lifecyclePolicies: [LifecyclePolicy]?
+
+        public init(lifecyclePolicies: [LifecyclePolicy]? = nil) {
+            self.lifecyclePolicies = lifecyclePolicies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lifecyclePolicies = "LifecyclePolicies"
+        }
+    }
+
+    public struct LifecyclePolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TransitionToIA", required: false, type: .enum)
+        ]
+        /// A value that indicates how long it takes to transition files to the IA storage class. Currently, the only valid value is AFTER_30_DAYS.  AFTER_30_DAYS indicates files that have not been read from or written to for 30 days are transitioned from the Standard storage class to the IA storage class. Metadata operations such as listing the contents of a directory don't count as a file access event.
+        public let transitionToIA: TransitionToIARules?
+
+        public init(transitionToIA: TransitionToIARules? = nil) {
+            self.transitionToIA = transitionToIA
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitionToIA = "TransitionToIA"
+        }
+    }
+
     public struct ModifyMountTargetSecurityGroupsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MountTargetId", location: .uri(locationName: "MountTargetId"), required: true, type: .string), 
             AWSShapeMember(label: "SecurityGroups", required: false, type: .list)
         ]
-        /// ID of the mount target whose security groups you want to modify.
+        /// The ID of the mount target whose security groups you want to modify.
         public let mountTargetId: String
-        /// Array of up to five VPC security group IDs.
+        /// An array of up to five VPC security group IDs.
         public let securityGroups: [String]?
 
         public init(mountTargetId: String, securityGroups: [String]? = nil) {
@@ -486,19 +554,19 @@ extension EFS {
             AWSShapeMember(label: "OwnerId", required: false, type: .string), 
             AWSShapeMember(label: "SubnetId", required: true, type: .string)
         ]
-        /// ID of the file system for which the mount target is intended.
+        /// The ID of the file system for which the mount target is intended.
         public let fileSystemId: String
-        /// Address at which the file system may be mounted via the mount target.
+        /// Address at which the file system can be mounted by using the mount target.
         public let ipAddress: String?
         /// Lifecycle state of the mount target.
         public let lifeCycleState: LifeCycleState
         /// System-assigned mount target ID.
         public let mountTargetId: String
-        /// ID of the network interface that Amazon EFS created when it created the mount target.
+        /// The ID of the network interface that Amazon EFS created when it created the mount target.
         public let networkInterfaceId: String?
         /// AWS account ID that owns the resource.
         public let ownerId: String?
-        /// ID of the mount target's subnet.
+        /// The ID of the mount target's subnet.
         public let subnetId: String
 
         public init(fileSystemId: String, ipAddress: String? = nil, lifeCycleState: LifeCycleState, mountTargetId: String, networkInterfaceId: String? = nil, ownerId: String? = nil, subnetId: String) {
@@ -528,14 +596,35 @@ extension EFS {
         public var description: String { return self.rawValue }
     }
 
+    public struct PutLifecycleConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string), 
+            AWSShapeMember(label: "LifecyclePolicies", required: true, type: .list)
+        ]
+        /// The ID of the file system for which you are creating the LifecycleConfiguration object (String).
+        public let fileSystemId: String
+        /// An array of LifecyclePolicy objects that define the file system's LifecycleConfiguration object. A LifecycleConfiguration object tells lifecycle management when to transition files from the Standard storage class to the Infrequent Access storage class.
+        public let lifecyclePolicies: [LifecyclePolicy]
+
+        public init(fileSystemId: String, lifecyclePolicies: [LifecyclePolicy]) {
+            self.fileSystemId = fileSystemId
+            self.lifecyclePolicies = lifecyclePolicies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileSystemId = "FileSystemId"
+            case lifecyclePolicies = "LifecyclePolicies"
+        }
+    }
+
     public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: true, type: .string), 
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
-        /// Tag key (String). The key can't start with aws:.
+        /// The tag key (String). The key can't start with aws:.
         public let key: String
-        /// Value of the tag key.
+        /// The value of the tag key.
         public let value: String
 
         public init(key: String, value: String) {
@@ -555,6 +644,11 @@ extension EFS {
         public var description: String { return self.rawValue }
     }
 
+    public enum TransitionToIARules: String, CustomStringConvertible, Codable {
+        case after30Days = "AFTER_30_DAYS"
+        public var description: String { return self.rawValue }
+    }
+
     public struct UpdateFileSystemRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string), 
@@ -563,9 +657,9 @@ extension EFS {
         ]
         /// The ID of the file system that you want to update.
         public let fileSystemId: String
-        /// (Optional) The amount of throughput, in MiB/s, that you want to provision for your file system. If you're not updating the amount of provisioned throughput for your file system, you don't need to provide this value in your request.
+        /// (Optional) The amount of throughput, in MiB/s, that you want to provision for your file system. Valid values are 1-1024. Required if ThroughputMode is changed to provisioned on update. If you're not updating the amount of provisioned throughput for your file system, you don't need to provide this value in your request. 
         public let provisionedThroughputInMibps: Double?
-        /// (Optional) The throughput mode that you want your file system to use. If you're not updating your throughput mode, you don't need to provide this value in your request.
+        /// (Optional) The throughput mode that you want your file system to use. If you're not updating your throughput mode, you don't need to provide this value in your request. If you are changing the ThroughputMode to provisioned, you must also set a value for ProvisionedThroughputInMibps.
         public let throughputMode: ThroughputMode?
 
         public init(fileSystemId: String, provisionedThroughputInMibps: Double? = nil, throughputMode: ThroughputMode? = nil) {

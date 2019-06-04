@@ -71,6 +71,11 @@ public struct ConfigService {
         return try client.send(operation: "DeletePendingAggregationRequest", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes the remediation configuration.
+    public func deleteRemediationConfiguration(_ input: DeleteRemediationConfigurationRequest) throws -> Future<DeleteRemediationConfigurationResponse> {
+        return try client.send(operation: "DeleteRemediationConfiguration", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes the retention configuration.
     @discardableResult public func deleteRetentionConfiguration(_ input: DeleteRetentionConfigurationRequest) throws -> Future<Void> {
         return try client.send(operation: "DeleteRetentionConfiguration", path: "/", httpMethod: "POST", input: input)
@@ -111,7 +116,7 @@ public struct ConfigService {
         return try client.send(operation: "DescribeConfigRules", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns status information for sources within an aggregator. The status includes information about the last time AWS Config aggregated data from source accounts or AWS Config failed to aggregate data from source accounts with the related error code or message. 
+    ///  Returns status information for sources within an aggregator. The status includes information about the last time AWS Config verified authorization between the source account and an aggregator account. In case of a failure, the status contains the related error code or message. 
     public func describeConfigurationAggregatorSourcesStatus(_ input: DescribeConfigurationAggregatorSourcesStatusRequest) throws -> Future<DescribeConfigurationAggregatorSourcesStatusResponse> {
         return try client.send(operation: "DescribeConfigurationAggregatorSourcesStatus", path: "/", httpMethod: "POST", input: input)
     }
@@ -144,6 +149,16 @@ public struct ConfigService {
     ///  Returns a list of all pending aggregation requests.
     public func describePendingAggregationRequests(_ input: DescribePendingAggregationRequestsRequest) throws -> Future<DescribePendingAggregationRequestsResponse> {
         return try client.send(operation: "DescribePendingAggregationRequests", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns the details of one or more remediation configurations.
+    public func describeRemediationConfigurations(_ input: DescribeRemediationConfigurationsRequest) throws -> Future<DescribeRemediationConfigurationsResponse> {
+        return try client.send(operation: "DescribeRemediationConfigurations", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Provides a detailed view of a Remediation Execution for a set of resources including state, timestamps for when steps for the remediation execution occur, and any error messages for steps that have failed. When you specify the limit and the next token, you receive a paginated response.
+    public func describeRemediationExecutionStatus(_ input: DescribeRemediationExecutionStatusRequest) throws -> Future<DescribeRemediationExecutionStatusResponse> {
+        return try client.send(operation: "DescribeRemediationExecutionStatus", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the details of one or more retention configurations. If the retention configuration name is not specified, this action returns the details for all the retention configurations for that account.  Currently, AWS Config supports only one retention configuration per region in your account. 
@@ -211,12 +226,17 @@ public struct ConfigService {
         return try client.send(operation: "ListDiscoveredResources", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  List the tags for AWS Config resource.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> Future<ListTagsForResourceResponse> {
+        return try client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Authorizes the aggregator account and region to collect data from the source account and region. 
     public func putAggregationAuthorization(_ input: PutAggregationAuthorizationRequest) throws -> Future<PutAggregationAuthorizationResponse> {
         return try client.send(operation: "PutAggregationAuthorization", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds or updates an AWS Config rule for evaluating whether your AWS resources comply with your desired configurations. You can use this action for custom AWS Config rules and AWS managed Config rules. A custom AWS Config rule is a rule that you develop and maintain. An AWS managed Config rule is a customizable, predefined rule that AWS Config provides. If you are adding a new custom AWS Config rule, you must first create the AWS Lambda function that the rule invokes to evaluate your resources. When you use the PutConfigRule action to add the rule to AWS Config, you must specify the Amazon Resource Name (ARN) that AWS Lambda assigns to the function. Specify the ARN for the SourceIdentifier key. This key is part of the Source object, which is part of the ConfigRule object.  If you are adding an AWS managed Config rule, specify the rule's identifier for the SourceIdentifier key. To reference AWS managed Config rule identifiers, see About AWS Managed Config Rules. For any new rule that you add, specify the ConfigRuleName in the ConfigRule object. Do not specify the ConfigRuleArn or the ConfigRuleId. These values are generated by AWS Config for new rules. If you are updating a rule that you added previously, you can specify the rule by ConfigRuleName, ConfigRuleId, or ConfigRuleArn in the ConfigRule data type that you use in this request. The maximum number of rules that AWS Config supports is 50. For information about requesting a rule limit increase, see AWS Config Limits in the AWS General Reference Guide. For more information about developing and using AWS Config rules, see Evaluating AWS Resource Configurations with AWS Config in the AWS Config Developer Guide.
+    ///  Adds or updates an AWS Config rule for evaluating whether your AWS resources comply with your desired configurations. You can use this action for custom AWS Config rules and AWS managed Config rules. A custom AWS Config rule is a rule that you develop and maintain. An AWS managed Config rule is a customizable, predefined rule that AWS Config provides. If you are adding a new custom AWS Config rule, you must first create the AWS Lambda function that the rule invokes to evaluate your resources. When you use the PutConfigRule action to add the rule to AWS Config, you must specify the Amazon Resource Name (ARN) that AWS Lambda assigns to the function. Specify the ARN for the SourceIdentifier key. This key is part of the Source object, which is part of the ConfigRule object.  If you are adding an AWS managed Config rule, specify the rule's identifier for the SourceIdentifier key. To reference AWS managed Config rule identifiers, see About AWS Managed Config Rules. For any new rule that you add, specify the ConfigRuleName in the ConfigRule object. Do not specify the ConfigRuleArn or the ConfigRuleId. These values are generated by AWS Config for new rules. If you are updating a rule that you added previously, you can specify the rule by ConfigRuleName, ConfigRuleId, or ConfigRuleArn in the ConfigRule data type that you use in this request. The maximum number of rules that AWS Config supports is 150. For information about requesting a rule limit increase, see AWS Config Limits in the AWS General Reference Guide. For more information about developing and using AWS Config rules, see Evaluating AWS Resource Configurations with AWS Config in the AWS Config Developer Guide.
     @discardableResult public func putConfigRule(_ input: PutConfigRuleRequest) throws -> Future<Void> {
         return try client.send(operation: "PutConfigRule", path: "/", httpMethod: "POST", input: input)
     }
@@ -241,9 +261,19 @@ public struct ConfigService {
         return try client.send(operation: "PutEvaluations", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Adds or updates the remediation configuration with a specific AWS Config rule with the selected target or action. The API creates the RemediationConfiguration object for the AWS Config rule. The AWS Config rule must already exist for you to add a remediation configuration. The target (SSM document) must exist and have permissions to use the target. 
+    public func putRemediationConfigurations(_ input: PutRemediationConfigurationsRequest) throws -> Future<PutRemediationConfigurationsResponse> {
+        return try client.send(operation: "PutRemediationConfigurations", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Creates and updates the retention configuration with details about retention period (number of days) that AWS Config stores your historical information. The API creates the RetentionConfiguration object and names the object as default. When you have a RetentionConfiguration object named default, calling the API modifies the default object.   Currently, AWS Config supports only one retention configuration per region in your account. 
     public func putRetentionConfiguration(_ input: PutRetentionConfigurationRequest) throws -> Future<PutRetentionConfigurationResponse> {
         return try client.send(operation: "PutRetentionConfiguration", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Accepts a structured query language (SQL) SELECT command, performs the corresponding search, and returns resource configurations matching the properties. For more information about query components, see the  Query Components  section in the AWS Config Developer Guide.
+    public func selectResourceConfig(_ input: SelectResourceConfigRequest) throws -> Future<SelectResourceConfigResponse> {
+        return try client.send(operation: "SelectResourceConfig", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Runs an on-demand evaluation for the specified AWS Config rules against the last known configuration state of the resources. Use StartConfigRulesEvaluation when you want to test that a rule you updated is working as expected. StartConfigRulesEvaluation does not re-record the latest configuration state for your resources. It re-runs an evaluation against the last known state of your resources.  You can specify up to 25 AWS Config rules per request.  An existing StartConfigRulesEvaluation call for the specified rules must complete before you can call the API again. If you chose to have AWS Config stream to an Amazon SNS topic, you will receive a ConfigRuleEvaluationStarted notification when the evaluation starts.  You don't need to call the StartConfigRulesEvaluation API to run an evaluation for a new rule. When you create a rule, AWS Config evaluates your resources against the rule automatically.   The StartConfigRulesEvaluation API is useful if you want to run on-demand evaluations, such as the following example:   You have a custom rule that evaluates your IAM resources every 24 hours.   You update your Lambda function to add additional conditions to your rule.   Instead of waiting for the next periodic evaluation, you call the StartConfigRulesEvaluation API.   AWS Config invokes your Lambda function and evaluates your IAM resources.   Your custom rule will still run periodic evaluations every 24 hours.  
@@ -256,9 +286,24 @@ public struct ConfigService {
         return try client.send(operation: "StartConfigurationRecorder", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Runs an on-demand remediation for the specified AWS Config rules against the last known remediation configuration. It runs an execution against the current state of your resources. Remediation execution is asynchronous. You can specify up to 100 resource keys per request. An existing StartRemediationExecution call for the specified resource keys must complete before you can call the API again.
+    public func startRemediationExecution(_ input: StartRemediationExecutionRequest) throws -> Future<StartRemediationExecutionResponse> {
+        return try client.send(operation: "StartRemediationExecution", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Stops recording configurations of the AWS resources you have selected to record in your AWS account.
     @discardableResult public func stopConfigurationRecorder(_ input: StopConfigurationRecorderRequest) throws -> Future<Void> {
         return try client.send(operation: "StopConfigurationRecorder", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well.
+    @discardableResult public func tagResource(_ input: TagResourceRequest) throws -> Future<Void> {
+        return try client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes specified tags from a resource.
+    @discardableResult public func untagResource(_ input: UntagResourceRequest) throws -> Future<Void> {
+        return try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
 
 

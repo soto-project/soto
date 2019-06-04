@@ -24,7 +24,7 @@ extension AppStream {
             AWSShapeMember(label: "Metadata", required: false, type: .map), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
-        /// The application name for display.
+        /// The application name to display.
         public let displayName: String?
         /// If there is a problem, the application can be disabled after image creation.
         public let enabled: Bool?
@@ -310,7 +310,7 @@ extension AppStream {
         public let directoryName: String
         /// The distinguished names of the organizational units for computer accounts.
         public let organizationalUnitDistinguishedNames: [String]
-        /// The credentials for the service account used by the streaming instance to connect to the directory.
+        /// The credentials for the service account used by the fleet or image builder to connect to the directory.
         public let serviceAccountCredentials: ServiceAccountCredentials
 
         public init(directoryName: String, organizationalUnitDistinguishedNames: [String], serviceAccountCredentials: ServiceAccountCredentials) {
@@ -351,41 +351,47 @@ extension AppStream {
             AWSShapeMember(label: "DomainJoinInfo", required: false, type: .structure), 
             AWSShapeMember(label: "EnableDefaultInternetAccess", required: false, type: .boolean), 
             AWSShapeMember(label: "FleetType", required: false, type: .enum), 
+            AWSShapeMember(label: "IdleDisconnectTimeoutInSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "ImageArn", required: false, type: .string), 
             AWSShapeMember(label: "ImageName", required: false, type: .string), 
             AWSShapeMember(label: "InstanceType", required: true, type: .string), 
             AWSShapeMember(label: "MaxUserDurationInSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .map), 
             AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
         /// The desired capacity for the fleet.
         public let computeCapacity: ComputeCapacity
-        /// The description for display.
+        /// The description to display.
         public let description: String?
-        /// The time after disconnection when a session is considered to have ended, in seconds. If a user who was disconnected reconnects within this time interval, the user is connected to their previous session. Specify a value between 60 and 57600.
+        /// The amount of time that a streaming session remains active after users disconnect. If users try to reconnect to the streaming session after a disconnection or network interruption within this time interval, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance.  Specify a value between 60 and 360000.
         public let disconnectTimeoutInSeconds: Int32?
-        /// The fleet name for display.
+        /// The fleet name to display.
         public let displayName: String?
-        /// The information needed to join a Microsoft Active Directory domain.
+        /// The name of the directory and organizational unit (OU) to use to join the fleet to a Microsoft Active Directory domain. 
         public let domainJoinInfo: DomainJoinInfo?
         /// Enables or disables default internet access for the fleet.
         public let enableDefaultInternetAccess: Bool?
         /// The fleet type.  ALWAYS_ON  Provides users with instant-on access to their apps. You are charged for all running instances in your fleet, even if no users are streaming apps.  ON_DEMAND  Provide users with access to applications after they connect, which takes one to two minutes. You are charged for instance streaming when users are connected and a small hourly fee for instances that are not streaming apps.  
         public let fleetType: FleetType?
+        /// The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If they try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected. To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 3600. The default value is 900.  If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.  
+        public let idleDisconnectTimeoutInSeconds: Int32?
         /// The ARN of the public, private, or shared image to use.
         public let imageArn: String?
         /// The name of the image used to create the fleet.
         public let imageName: String?
         /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge  
         public let instanceType: String
-        /// The maximum time that a streaming session can run, in seconds. Specify a value between 600 and 57600.
+        /// The maximum amount of time that a streaming session can remain active, in seconds. If users are still connected to a streaming instance five minutes before this limit is reached, they are prompted to save any open documents before being disconnected. After this time elapses, the instance is terminated and replaced by a new instance. Specify a value between 600 and 360000.
         public let maxUserDurationInSeconds: Int32?
         /// A unique name for the fleet.
         public let name: String
+        /// The tags to associate with the fleet. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ For more information, see Tagging Your Resources in the Amazon AppStream 2.0 Developer Guide.
+        public let tags: [String: String]?
         /// The VPC configuration for the fleet.
         public let vpcConfig: VpcConfig?
 
-        public init(computeCapacity: ComputeCapacity, description: String? = nil, disconnectTimeoutInSeconds: Int32? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetType: FleetType? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String, maxUserDurationInSeconds: Int32? = nil, name: String, vpcConfig: VpcConfig? = nil) {
+        public init(computeCapacity: ComputeCapacity, description: String? = nil, disconnectTimeoutInSeconds: Int32? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetType: FleetType? = nil, idleDisconnectTimeoutInSeconds: Int32? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String, maxUserDurationInSeconds: Int32? = nil, name: String, tags: [String: String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.computeCapacity = computeCapacity
             self.description = description
             self.disconnectTimeoutInSeconds = disconnectTimeoutInSeconds
@@ -393,11 +399,13 @@ extension AppStream {
             self.domainJoinInfo = domainJoinInfo
             self.enableDefaultInternetAccess = enableDefaultInternetAccess
             self.fleetType = fleetType
+            self.idleDisconnectTimeoutInSeconds = idleDisconnectTimeoutInSeconds
             self.imageArn = imageArn
             self.imageName = imageName
             self.instanceType = instanceType
             self.maxUserDurationInSeconds = maxUserDurationInSeconds
             self.name = name
+            self.tags = tags
             self.vpcConfig = vpcConfig
         }
 
@@ -409,11 +417,13 @@ extension AppStream {
             case domainJoinInfo = "DomainJoinInfo"
             case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
             case fleetType = "FleetType"
+            case idleDisconnectTimeoutInSeconds = "IdleDisconnectTimeoutInSeconds"
             case imageArn = "ImageArn"
             case imageName = "ImageName"
             case instanceType = "InstanceType"
             case maxUserDurationInSeconds = "MaxUserDurationInSeconds"
             case name = "Name"
+            case tags = "Tags"
             case vpcConfig = "VpcConfig"
         }
     }
@@ -445,30 +455,33 @@ extension AppStream {
             AWSShapeMember(label: "ImageName", required: false, type: .string), 
             AWSShapeMember(label: "InstanceType", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .map), 
             AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
         /// The version of the AppStream 2.0 agent to use for this image builder. To use the latest version of the AppStream 2.0 agent, specify [LATEST]. 
         public let appstreamAgentVersion: String?
-        /// The description for display.
+        /// The description to display.
         public let description: String?
-        /// The image builder name for display.
+        /// The image builder name to display.
         public let displayName: String?
-        /// The information needed to join a Microsoft Active Directory domain.
+        /// The name of the directory and organizational unit (OU) to use to join the image builder to a Microsoft Active Directory domain. 
         public let domainJoinInfo: DomainJoinInfo?
         /// Enables or disables default internet access for the image builder.
         public let enableDefaultInternetAccess: Bool?
         /// The ARN of the public, private, or shared image to use.
         public let imageArn: String?
-        /// The name of the image used to create the builder.
+        /// The name of the image used to create the image builder.
         public let imageName: String?
         /// The instance type to use when launching the image builder.
         public let instanceType: String
         /// A unique name for the image builder.
         public let name: String
+        /// The tags to associate with the image builder. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ If you do not specify a value, the value is set to an empty string. For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Developer Guide.
+        public let tags: [String: String]?
         /// The VPC configuration for the image builder. You can specify only one subnet.
         public let vpcConfig: VpcConfig?
 
-        public init(appstreamAgentVersion: String? = nil, description: String? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String, name: String, vpcConfig: VpcConfig? = nil) {
+        public init(appstreamAgentVersion: String? = nil, description: String? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String, name: String, tags: [String: String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.appstreamAgentVersion = appstreamAgentVersion
             self.description = description
             self.displayName = displayName
@@ -478,6 +491,7 @@ extension AppStream {
             self.imageName = imageName
             self.instanceType = instanceType
             self.name = name
+            self.tags = tags
             self.vpcConfig = vpcConfig
         }
 
@@ -491,6 +505,7 @@ extension AppStream {
             case imageName = "ImageName"
             case instanceType = "InstanceType"
             case name = "Name"
+            case tags = "Tags"
             case vpcConfig = "VpcConfig"
         }
     }
@@ -562,13 +577,14 @@ extension AppStream {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "RedirectURL", required: false, type: .string), 
             AWSShapeMember(label: "StorageConnectors", required: false, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .map), 
             AWSShapeMember(label: "UserSettings", required: false, type: .list)
         ]
         /// The persistent application settings for users of a stack. When these settings are enabled, changes that users make to applications and Windows settings are automatically saved after each session and applied to the next session.
         public let applicationSettings: ApplicationSettings?
-        /// The description for display.
+        /// The description to display.
         public let description: String?
-        /// The stack name for display.
+        /// The stack name to display.
         public let displayName: String?
         /// The URL that users are redirected to after they click the Send Feedback link. If no URL is specified, no Send Feedback link is displayed.
         public let feedbackURL: String?
@@ -578,10 +594,12 @@ extension AppStream {
         public let redirectURL: String?
         /// The storage connectors to enable.
         public let storageConnectors: [StorageConnector]?
+        /// The tags to associate with the stack. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Developer Guide.
+        public let tags: [String: String]?
         /// The actions that are enabled or disabled for users during their streaming sessions. By default, these actions are enabled. 
         public let userSettings: [UserSetting]?
 
-        public init(applicationSettings: ApplicationSettings? = nil, description: String? = nil, displayName: String? = nil, feedbackURL: String? = nil, name: String, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, userSettings: [UserSetting]? = nil) {
+        public init(applicationSettings: ApplicationSettings? = nil, description: String? = nil, displayName: String? = nil, feedbackURL: String? = nil, name: String, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, tags: [String: String]? = nil, userSettings: [UserSetting]? = nil) {
             self.applicationSettings = applicationSettings
             self.description = description
             self.displayName = displayName
@@ -589,6 +607,7 @@ extension AppStream {
             self.name = name
             self.redirectURL = redirectURL
             self.storageConnectors = storageConnectors
+            self.tags = tags
             self.userSettings = userSettings
         }
 
@@ -600,6 +619,7 @@ extension AppStream {
             case name = "Name"
             case redirectURL = "RedirectURL"
             case storageConnectors = "StorageConnectors"
+            case tags = "Tags"
             case userSettings = "UserSettings"
         }
     }
@@ -637,7 +657,7 @@ extension AppStream {
         public let sessionContext: String?
         /// The name of the stack.
         public let stackName: String
-        /// The ID of the user.
+        /// The identifier of the user.
         public let userId: String
         /// The time that the streaming URL will be valid, in seconds. Specify a value between 1 and 604800 seconds. The default is 60 seconds.
         public let validity: Int64?
@@ -682,6 +702,34 @@ extension AppStream {
         }
     }
 
+    public struct CreateUsageReportSubscriptionRequest: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct CreateUsageReportSubscriptionResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "Schedule", required: false, type: .enum)
+        ]
+        /// The Amazon S3 bucket where generated reports are stored. When a usage report subscription is enabled for the first time for an account in an AWS Region, an S3 bucket is created. The bucket is unique to the AWS account and the Region. 
+        public let s3BucketName: String?
+        /// The schedule for generating usage reports.
+        public let schedule: UsageReportSchedule?
+
+        public init(s3BucketName: String? = nil, schedule: UsageReportSchedule? = nil) {
+            self.s3BucketName = s3BucketName
+            self.schedule = schedule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3BucketName = "S3BucketName"
+            case schedule = "Schedule"
+        }
+    }
+
     public struct CreateUserRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AuthenticationType", required: true, type: .enum), 
@@ -698,7 +746,7 @@ extension AppStream {
         public let lastName: String?
         /// The action to take for the welcome email that is sent to a user after the user is created in the user pool. If you specify SUPPRESS, no email is sent. If you specify RESEND, do not specify the first name or last name of the user. If the value is null, the email is sent.   The temporary password in the welcome email is valid for only 7 days. If users don’t set their passwords within 7 days, you must send them a new welcome email. 
         public let messageAction: MessageAction?
-        /// The email address of the user.
+        /// The email address of the user.  Users' email addresses are case-sensitive. During login, if they specify an email address that doesn't use the same capitalization as the email address specified when their user pool account was created, a "user does not exist" error message displays. 
         public let userName: String
 
         public init(authenticationType: AuthenticationType, firstName: String? = nil, lastName: String? = nil, messageAction: MessageAction? = nil, userName: String) {
@@ -810,7 +858,7 @@ extension AppStream {
         ]
         /// The name of the private image.
         public let name: String
-        /// The 12-digit ID of the AWS account for which to delete image permissions.
+        /// The 12-digit identifier of the AWS account for which to delete image permissions.
         public let sharedAccountId: String
 
         public init(name: String, sharedAccountId: String) {
@@ -886,6 +934,20 @@ extension AppStream {
 
     }
 
+    public struct DeleteUsageReportSubscriptionRequest: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteUsageReportSubscriptionResult: AWSShape {
+
+        public init() {
+        }
+
+    }
+
     public struct DeleteUserRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AuthenticationType", required: true, type: .enum), 
@@ -893,7 +955,7 @@ extension AppStream {
         ]
         /// The authentication type for the user. You must specify USERPOOL.
         public let authenticationType: AuthenticationType
-        /// The email address of the user.
+        /// The email address of the user.  Users' email addresses are case-sensitive. 
         public let userName: String
 
         public init(authenticationType: AuthenticationType, userName: String) {
@@ -1063,7 +1125,7 @@ extension AppStream {
         public let name: String
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
-        /// The 12-digit ID of one or more AWS accounts with which the image is shared.
+        /// The 12-digit identifier of one or more AWS accounts with which the image is shared.
         public let sharedAwsAccountIds: [String]?
 
         public init(maxResults: Int32? = nil, name: String, nextToken: String? = nil, sharedAwsAccountIds: [String]? = nil) {
@@ -1183,7 +1245,7 @@ extension AppStream {
         public let nextToken: String?
         /// The name of the stack. This value is case-sensitive.
         public let stackName: String
-        /// The user ID.
+        /// The user identifier.
         public let userId: String?
 
         public init(authenticationType: AuthenticationType? = nil, fleetName: String, limit: Int32? = nil, nextToken: String? = nil, stackName: String, userId: String? = nil) {
@@ -1268,6 +1330,48 @@ extension AppStream {
         }
     }
 
+    public struct DescribeUsageReportSubscriptionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum size of each page of results.
+        public let maxResults: Int32?
+        /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeUsageReportSubscriptionsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "UsageReportSubscriptions", required: false, type: .list)
+        ]
+        /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
+        public let nextToken: String?
+        /// Information about the usage report subscription.
+        public let usageReportSubscriptions: [UsageReportSubscription]?
+
+        public init(nextToken: String? = nil, usageReportSubscriptions: [UsageReportSubscription]? = nil) {
+            self.nextToken = nextToken
+            self.usageReportSubscriptions = usageReportSubscriptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case usageReportSubscriptions = "UsageReportSubscriptions"
+        }
+    }
+
     public struct DescribeUserStackAssociationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AuthenticationType", required: false, type: .enum), 
@@ -1284,7 +1388,7 @@ extension AppStream {
         public let nextToken: String?
         /// The name of the stack that is associated with the user.
         public let stackName: String?
-        /// The email address of the user who is associated with the stack.
+        /// The email address of the user who is associated with the stack.  Users' email addresses are case-sensitive. 
         public let userName: String?
 
         public init(authenticationType: AuthenticationType? = nil, maxResults: Int32? = nil, nextToken: String? = nil, stackName: String? = nil, userName: String? = nil) {
@@ -1385,7 +1489,7 @@ extension AppStream {
         public let directoryName: String
         /// The distinguished names of the organizational units for computer accounts.
         public let organizationalUnitDistinguishedNames: [String]?
-        /// The credentials for the service account used by the streaming instance to connect to the directory.
+        /// The credentials for the service account used by the fleet or image builder to connect to the directory.
         public let serviceAccountCredentials: ServiceAccountCredentials?
 
         public init(createdTime: TimeStamp? = nil, directoryName: String, organizationalUnitDistinguishedNames: [String]? = nil, serviceAccountCredentials: ServiceAccountCredentials? = nil) {
@@ -1410,7 +1514,7 @@ extension AppStream {
         ]
         /// The authentication type for the user. You must specify USERPOOL.
         public let authenticationType: AuthenticationType
-        /// The email address of the user.
+        /// The email address of the user.  Users' email addresses are case-sensitive. 
         public let userName: String
 
         public init(authenticationType: AuthenticationType, userName: String) {
@@ -1487,7 +1591,7 @@ extension AppStream {
         ]
         /// The authentication type for the user. You must specify USERPOOL.
         public let authenticationType: AuthenticationType
-        /// The email address of the user.
+        /// The email address of the user.  Users' email addresses are case-sensitive. During login, if they specify an email address that doesn't use the same capitalization as the email address specified when their user pool account was created, a "user does not exist" error message displays.  
         public let userName: String
 
         public init(authenticationType: AuthenticationType, userName: String) {
@@ -1512,7 +1616,7 @@ extension AppStream {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SessionId", required: true, type: .string)
         ]
-        /// The ID of the streaming session.
+        /// The identifier of the streaming session.
         public let sessionId: String
 
         public init(sessionId: String) {
@@ -1543,6 +1647,7 @@ extension AppStream {
             AWSShapeMember(label: "EnableDefaultInternetAccess", required: false, type: .boolean), 
             AWSShapeMember(label: "FleetErrors", required: false, type: .list), 
             AWSShapeMember(label: "FleetType", required: false, type: .enum), 
+            AWSShapeMember(label: "IdleDisconnectTimeoutInSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "ImageArn", required: false, type: .string), 
             AWSShapeMember(label: "ImageName", required: false, type: .string), 
             AWSShapeMember(label: "InstanceType", required: true, type: .string), 
@@ -1557,13 +1662,13 @@ extension AppStream {
         public let computeCapacityStatus: ComputeCapacityStatus
         /// The time the fleet was created.
         public let createdTime: TimeStamp?
-        /// The description for display.
+        /// The description to display.
         public let description: String?
-        /// The time after disconnection when a session is considered to have ended, in seconds. If a user who was disconnected reconnects within this time interval, the user is connected to their previous session. Specify a value between 60 and 57600.
+        /// The amount of time that a streaming session remains active after users disconnect. If they try to reconnect to the streaming session after a disconnection or network interruption within this time interval, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance. Specify a value between 60 and 360000.
         public let disconnectTimeoutInSeconds: Int32?
-        /// The fleet name for display.
+        /// The fleet name to display.
         public let displayName: String?
-        /// The information needed to join a Microsoft Active Directory domain.
+        /// The name of the directory and organizational unit (OU) to use to join the fleet to a Microsoft Active Directory domain. 
         public let domainJoinInfo: DomainJoinInfo?
         /// Indicates whether default internet access is enabled for the fleet.
         public let enableDefaultInternetAccess: Bool?
@@ -1571,13 +1676,15 @@ extension AppStream {
         public let fleetErrors: [FleetError]?
         /// The fleet type.  ALWAYS_ON  Provides users with instant-on access to their apps. You are charged for all running instances in your fleet, even if no users are streaming apps.  ON_DEMAND  Provide users with access to applications after they connect, which takes one to two minutes. You are charged for instance streaming when users are connected and a small hourly fee for instances that are not streaming apps.  
         public let fleetType: FleetType?
+        /// The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If users try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected. To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 3600. The default value is 900.  If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.  
+        public let idleDisconnectTimeoutInSeconds: Int32?
         /// The ARN for the public, private, or shared image.
         public let imageArn: String?
         /// The name of the image used to create the fleet.
         public let imageName: String?
         /// The instance type to use when launching fleet instances.
         public let instanceType: String
-        /// The maximum time that a streaming session can run, in seconds. Specify a value between 600 and 57600.
+        /// The maximum amount of time that a streaming session can remain active, in seconds. If users are still connected to a streaming instance five minutes before this limit is reached, they are prompted to save any open documents before being disconnected. After this time elapses, the instance is terminated and replaced by a new instance.  Specify a value between 600 and 360000.
         public let maxUserDurationInSeconds: Int32?
         /// The name of the fleet.
         public let name: String
@@ -1586,7 +1693,7 @@ extension AppStream {
         /// The VPC configuration for the fleet.
         public let vpcConfig: VpcConfig?
 
-        public init(arn: String, computeCapacityStatus: ComputeCapacityStatus, createdTime: TimeStamp? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int32? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetErrors: [FleetError]? = nil, fleetType: FleetType? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String, maxUserDurationInSeconds: Int32? = nil, name: String, state: FleetState, vpcConfig: VpcConfig? = nil) {
+        public init(arn: String, computeCapacityStatus: ComputeCapacityStatus, createdTime: TimeStamp? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int32? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetErrors: [FleetError]? = nil, fleetType: FleetType? = nil, idleDisconnectTimeoutInSeconds: Int32? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String, maxUserDurationInSeconds: Int32? = nil, name: String, state: FleetState, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.computeCapacityStatus = computeCapacityStatus
             self.createdTime = createdTime
@@ -1597,6 +1704,7 @@ extension AppStream {
             self.enableDefaultInternetAccess = enableDefaultInternetAccess
             self.fleetErrors = fleetErrors
             self.fleetType = fleetType
+            self.idleDisconnectTimeoutInSeconds = idleDisconnectTimeoutInSeconds
             self.imageArn = imageArn
             self.imageName = imageName
             self.instanceType = instanceType
@@ -1617,6 +1725,7 @@ extension AppStream {
             case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
             case fleetErrors = "FleetErrors"
             case fleetType = "FleetType"
+            case idleDisconnectTimeoutInSeconds = "IdleDisconnectTimeoutInSeconds"
             case imageArn = "ImageArn"
             case imageName = "ImageName"
             case instanceType = "InstanceType"
@@ -1727,9 +1836,9 @@ extension AppStream {
         public let baseImageArn: String?
         /// The time the image was created.
         public let createdTime: TimeStamp?
-        /// The description for display.
+        /// The description to display.
         public let description: String?
-        /// The image name for display.
+        /// The image name to display.
         public let displayName: String?
         /// Indicates whether an image builder can be launched from this image.
         public let imageBuilderSupported: Bool?
@@ -1803,17 +1912,17 @@ extension AppStream {
             AWSShapeMember(label: "StateChangeReason", required: false, type: .structure), 
             AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
-        /// The version of the AppStream 2.0 agent that is currently being used by this image builder. 
+        /// The version of the AppStream 2.0 agent that is currently being used by the image builder. 
         public let appstreamAgentVersion: String?
         /// The ARN for the image builder.
         public let arn: String?
         /// The time stamp when the image builder was created.
         public let createdTime: TimeStamp?
-        /// The description for display.
+        /// The description to display.
         public let description: String?
-        /// The image builder name for display.
+        /// The image builder name to display.
         public let displayName: String?
-        /// The information needed to join a Microsoft Active Directory domain.
+        /// The name of the directory and organizational unit (OU) to use to join the image builder to a Microsoft Active Directory domain. 
         public let domainJoinInfo: DomainJoinInfo?
         /// Enables or disables default internet access for the image builder.
         public let enableDefaultInternetAccess: Bool?
@@ -1967,6 +2076,27 @@ extension AppStream {
         case imageBuilderNotAvailable = "IMAGE_BUILDER_NOT_AVAILABLE"
         case imageCopyFailure = "IMAGE_COPY_FAILURE"
         public var description: String { return self.rawValue }
+    }
+
+    public struct LastReportGenerationExecutionError: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorCode", required: false, type: .enum), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string)
+        ]
+        /// The error code for the error that is returned when a usage report can't be generated.
+        public let errorCode: UsageReportExecutionErrorCode?
+        /// The error message for the error that is returned when a usage report can't be generated.
+        public let errorMessage: String?
+
+        public init(errorCode: UsageReportExecutionErrorCode? = nil, errorMessage: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+        }
     }
 
     public struct ListAssociatedFleetsRequest: AWSShape {
@@ -2173,47 +2303,68 @@ extension AppStream {
     public struct Session: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AuthenticationType", required: false, type: .enum), 
+            AWSShapeMember(label: "ConnectionState", required: false, type: .enum), 
             AWSShapeMember(label: "FleetName", required: true, type: .string), 
             AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "MaxExpirationTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "NetworkAccessConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "StackName", required: true, type: .string), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "State", required: true, type: .enum), 
             AWSShapeMember(label: "UserId", required: true, type: .string)
         ]
-        /// The authentication method. The user is authenticated using a streaming URL (API) or SAML federation (SAML).
+        /// The authentication method. The user is authenticated using a streaming URL (API) or SAML 2.0 federation (SAML).
         public let authenticationType: AuthenticationType?
+        /// Specifies whether a user is connected to the streaming session.
+        public let connectionState: SessionConnectionState?
         /// The name of the fleet for the streaming session.
         public let fleetName: String
-        /// The ID of the streaming session.
+        /// The identifier of the streaming session.
         public let id: String
+        /// The time when the streaming session is set to expire. This time is based on the MaxUserDurationinSeconds value, which determines the maximum length of time that a streaming session can run. A streaming session might end earlier than the time specified in SessionMaxExpirationTime, when the DisconnectTimeOutInSeconds elapses or the user chooses to end his or her session. If the DisconnectTimeOutInSeconds elapses, or the user chooses to end his or her session, the streaming instance is terminated and the streaming session ends.
+        public let maxExpirationTime: TimeStamp?
         /// The network details for the streaming session.
         public let networkAccessConfiguration: NetworkAccessConfiguration?
         /// The name of the stack for the streaming session.
         public let stackName: String
+        /// The time when a streaming instance is dedicated for the user.
+        public let startTime: TimeStamp?
         /// The current state of the streaming session.
         public let state: SessionState
         /// The identifier of the user for whom the session was created.
         public let userId: String
 
-        public init(authenticationType: AuthenticationType? = nil, fleetName: String, id: String, networkAccessConfiguration: NetworkAccessConfiguration? = nil, stackName: String, state: SessionState, userId: String) {
+        public init(authenticationType: AuthenticationType? = nil, connectionState: SessionConnectionState? = nil, fleetName: String, id: String, maxExpirationTime: TimeStamp? = nil, networkAccessConfiguration: NetworkAccessConfiguration? = nil, stackName: String, startTime: TimeStamp? = nil, state: SessionState, userId: String) {
             self.authenticationType = authenticationType
+            self.connectionState = connectionState
             self.fleetName = fleetName
             self.id = id
+            self.maxExpirationTime = maxExpirationTime
             self.networkAccessConfiguration = networkAccessConfiguration
             self.stackName = stackName
+            self.startTime = startTime
             self.state = state
             self.userId = userId
         }
 
         private enum CodingKeys: String, CodingKey {
             case authenticationType = "AuthenticationType"
+            case connectionState = "ConnectionState"
             case fleetName = "FleetName"
             case id = "Id"
+            case maxExpirationTime = "MaxExpirationTime"
             case networkAccessConfiguration = "NetworkAccessConfiguration"
             case stackName = "StackName"
+            case startTime = "StartTime"
             case state = "State"
             case userId = "UserId"
         }
+    }
+
+    public enum SessionConnectionState: String, CustomStringConvertible, Codable {
+        case connected = "CONNECTED"
+        case notConnected = "NOT_CONNECTED"
+        public var description: String { return self.rawValue }
     }
 
     public enum SessionState: String, CustomStringConvertible, Codable {
@@ -2230,7 +2381,7 @@ extension AppStream {
         ]
         /// Describes the permissions for a shared image.
         public let imagePermissions: ImagePermissions
-        /// The 12-digit ID of the AWS account with which the image is shared.
+        /// The 12-digit identifier of the AWS account with which the image is shared.
         public let sharedAccountId: String
 
         public init(imagePermissions: ImagePermissions, sharedAccountId: String) {
@@ -2264,9 +2415,9 @@ extension AppStream {
         public let arn: String?
         /// The time the stack was created.
         public let createdTime: TimeStamp?
-        /// The description for display.
+        /// The description to display.
         public let description: String?
-        /// The stack name for display.
+        /// The stack name to display.
         public let displayName: String?
         /// The URL that users are redirected to after they click the Send Feedback link. If no URL is specified, no Send Feedback link is displayed.
         public let feedbackURL: String?
@@ -2472,7 +2623,7 @@ extension AppStream {
         ]
         /// The type of storage connector.
         public let connectorType: StorageConnectorType
-        /// The names of the domains for the G Suite account.
+        /// The names of the domains for the account.
         public let domains: [String]?
         /// The ARN of the storage connector.
         public let resourceIdentifier: String?
@@ -2504,7 +2655,7 @@ extension AppStream {
         ]
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
-        /// The tags to associate. A tag is a key-value pair (the value is optional). For example, Environment=Test, or, if you do not specify a value, Environment=.  If you do not specify a value, we set the value to an empty string.
+        /// The tags to associate. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @
         public let tags: [String: String]
 
         public init(resourceArn: String, tags: [String: String]) {
@@ -2563,7 +2714,7 @@ extension AppStream {
         public let directoryName: String
         /// The distinguished names of the organizational units for computer accounts.
         public let organizationalUnitDistinguishedNames: [String]?
-        /// The credentials for the service account used by the streaming instance to connect to the directory.
+        /// The credentials for the service account used by the fleet or image builder to connect to the directory.
         public let serviceAccountCredentials: ServiceAccountCredentials?
 
         public init(directoryName: String, organizationalUnitDistinguishedNames: [String]? = nil, serviceAccountCredentials: ServiceAccountCredentials? = nil) {
@@ -2605,6 +2756,7 @@ extension AppStream {
             AWSShapeMember(label: "DisplayName", required: false, type: .string), 
             AWSShapeMember(label: "DomainJoinInfo", required: false, type: .structure), 
             AWSShapeMember(label: "EnableDefaultInternetAccess", required: false, type: .boolean), 
+            AWSShapeMember(label: "IdleDisconnectTimeoutInSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "ImageArn", required: false, type: .string), 
             AWSShapeMember(label: "ImageName", required: false, type: .string), 
             AWSShapeMember(label: "InstanceType", required: false, type: .string), 
@@ -2618,30 +2770,32 @@ extension AppStream {
         public let computeCapacity: ComputeCapacity?
         /// Deletes the VPC association for the specified fleet.
         public let deleteVpcConfig: Bool?
-        /// The description for display.
+        /// The description to display.
         public let description: String?
-        /// The time after disconnection when a session is considered to have ended, in seconds. If a user who was disconnected reconnects within this time interval, the user is connected to their previous session. Specify a value between 60 and 57600.
+        /// The amount of time that a streaming session remains active after users disconnect. If users try to reconnect to the streaming session after a disconnection or network interruption within this time interval, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance.  Specify a value between 60 and 360000.
         public let disconnectTimeoutInSeconds: Int32?
-        /// The fleet name for display.
+        /// The fleet name to display.
         public let displayName: String?
-        /// The information needed to join a Microsoft Active Directory domain.
+        /// The name of the directory and organizational unit (OU) to use to join the fleet to a Microsoft Active Directory domain. 
         public let domainJoinInfo: DomainJoinInfo?
         /// Enables or disables default internet access for the fleet.
         public let enableDefaultInternetAccess: Bool?
+        /// The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If users try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected.  To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 3600. The default value is 900.  If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.  
+        public let idleDisconnectTimeoutInSeconds: Int32?
         /// The ARN of the public, private, or shared image to use.
         public let imageArn: String?
         /// The name of the image used to create the fleet.
         public let imageName: String?
         /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge  
         public let instanceType: String?
-        /// The maximum time that a streaming session can run, in seconds. Specify a value between 600 and 57600.
+        /// The maximum amount of time that a streaming session can remain active, in seconds. If users are still connected to a streaming instance five minutes before this limit is reached, they are prompted to save any open documents before being disconnected. After this time elapses, the instance is terminated and replaced by a new instance. Specify a value between 600 and 360000.
         public let maxUserDurationInSeconds: Int32?
         /// A unique name for the fleet.
         public let name: String?
         /// The VPC configuration for the fleet.
         public let vpcConfig: VpcConfig?
 
-        public init(attributesToDelete: [FleetAttribute]? = nil, computeCapacity: ComputeCapacity? = nil, deleteVpcConfig: Bool? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int32? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxUserDurationInSeconds: Int32? = nil, name: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(attributesToDelete: [FleetAttribute]? = nil, computeCapacity: ComputeCapacity? = nil, deleteVpcConfig: Bool? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int32? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, idleDisconnectTimeoutInSeconds: Int32? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxUserDurationInSeconds: Int32? = nil, name: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.attributesToDelete = attributesToDelete
             self.computeCapacity = computeCapacity
             self.deleteVpcConfig = deleteVpcConfig
@@ -2650,6 +2804,7 @@ extension AppStream {
             self.displayName = displayName
             self.domainJoinInfo = domainJoinInfo
             self.enableDefaultInternetAccess = enableDefaultInternetAccess
+            self.idleDisconnectTimeoutInSeconds = idleDisconnectTimeoutInSeconds
             self.imageArn = imageArn
             self.imageName = imageName
             self.instanceType = instanceType
@@ -2667,6 +2822,7 @@ extension AppStream {
             case displayName = "DisplayName"
             case domainJoinInfo = "DomainJoinInfo"
             case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
+            case idleDisconnectTimeoutInSeconds = "IdleDisconnectTimeoutInSeconds"
             case imageArn = "ImageArn"
             case imageName = "ImageName"
             case instanceType = "InstanceType"
@@ -2702,7 +2858,7 @@ extension AppStream {
         public let imagePermissions: ImagePermissions
         /// The name of the private image.
         public let name: String
-        /// The 12-digit ID of the AWS account for which you want add or update image permissions.
+        /// The 12-digit identifier of the AWS account for which you want add or update image permissions.
         public let sharedAccountId: String
 
         public init(imagePermissions: ImagePermissions, name: String, sharedAccountId: String) {
@@ -2744,11 +2900,11 @@ extension AppStream {
         public let attributesToDelete: [StackAttribute]?
         /// Deletes the storage connectors currently enabled for the stack.
         public let deleteStorageConnectors: Bool?
-        /// The description for display.
+        /// The description to display.
         public let description: String?
-        /// The stack name for display.
+        /// The stack name to display.
         public let displayName: String?
-        /// The URL that users are redirected to after they click the Send Feedback link. If no URL is specified, no Send Feedback link is displayed.
+        /// The URL that users are redirected to after they choose the Send Feedback link. If no URL is specified, no Send Feedback link is displayed.
         public let feedbackURL: String?
         /// The name of the stack.
         public let name: String
@@ -2802,6 +2958,49 @@ extension AppStream {
         }
     }
 
+    public enum UsageReportExecutionErrorCode: String, CustomStringConvertible, Codable {
+        case resourceNotFound = "RESOURCE_NOT_FOUND"
+        case accessDenied = "ACCESS_DENIED"
+        case internalServiceError = "INTERNAL_SERVICE_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UsageReportSchedule: String, CustomStringConvertible, Codable {
+        case daily = "DAILY"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UsageReportSubscription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastGeneratedReportDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "Schedule", required: false, type: .enum), 
+            AWSShapeMember(label: "SubscriptionErrors", required: false, type: .list)
+        ]
+        /// The time when the last usage report was generated.
+        public let lastGeneratedReportDate: TimeStamp?
+        /// The Amazon S3 bucket where generated reports are stored. When a usage report subscription is enabled for the first time for an account in an AWS Region, an S3 bucket is created. The bucket is unique to the AWS account and the Region.
+        public let s3BucketName: String?
+        /// The schedule for generating usage reports.
+        public let schedule: UsageReportSchedule?
+        /// The errors that are returned when usage reports can't be generated.
+        public let subscriptionErrors: [LastReportGenerationExecutionError]?
+
+        public init(lastGeneratedReportDate: TimeStamp? = nil, s3BucketName: String? = nil, schedule: UsageReportSchedule? = nil, subscriptionErrors: [LastReportGenerationExecutionError]? = nil) {
+            self.lastGeneratedReportDate = lastGeneratedReportDate
+            self.s3BucketName = s3BucketName
+            self.schedule = schedule
+            self.subscriptionErrors = subscriptionErrors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastGeneratedReportDate = "LastGeneratedReportDate"
+            case s3BucketName = "S3BucketName"
+            case schedule = "Schedule"
+            case subscriptionErrors = "SubscriptionErrors"
+        }
+    }
+
     public struct User: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: false, type: .string), 
@@ -2827,7 +3026,7 @@ extension AppStream {
         public let lastName: String?
         /// The status of the user in the user pool. The status can be one of the following:   UNCONFIRMED – The user is created but not confirmed.   CONFIRMED – The user is confirmed.   ARCHIVED – The user is no longer active.   COMPROMISED – The user is disabled because of a potential security threat.   UNKNOWN – The user status is not known.  
         public let status: String?
-        /// The email address of the user.
+        /// The email address of the user.  Users' email addresses are case-sensitive. 
         public let userName: String?
 
         public init(arn: String? = nil, authenticationType: AuthenticationType, createdTime: TimeStamp? = nil, enabled: Bool? = nil, firstName: String? = nil, lastName: String? = nil, status: String? = nil, userName: String? = nil) {
@@ -2887,7 +3086,7 @@ extension AppStream {
         public let sendEmailNotification: Bool?
         /// The name of the stack that is associated with the user.
         public let stackName: String
-        /// The email address of the user who is associated with the stack.
+        /// The email address of the user who is associated with the stack.  Users' email addresses are case-sensitive. 
         public let userName: String
 
         public init(authenticationType: AuthenticationType, sendEmailNotification: Bool? = nil, stackName: String, userName: String) {
@@ -2950,9 +3149,9 @@ extension AppStream {
             AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
             AWSShapeMember(label: "SubnetIds", required: false, type: .list)
         ]
-        /// The security groups for the fleet.
+        /// The identifiers of the security groups for the fleet or image builder.
         public let securityGroupIds: [String]?
-        /// The subnets to which a network interface is established from the fleet instance.
+        /// The identifiers of the subnets to which a network interface is attached from the fleet instance or image builder instance. Fleet instances use one or two subnets. Image builder instances use one subnet.
         public let subnetIds: [String]?
 
         public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {

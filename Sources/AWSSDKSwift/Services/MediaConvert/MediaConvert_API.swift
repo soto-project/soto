@@ -30,7 +30,7 @@ public struct MediaConvert {
         return try client.send(operation: "AssociateCertificate", path: "/2017-08-29/certificates", httpMethod: "POST", input: input)
     }
 
-    ///  Permanently remove a job from a queue. Once you have canceled a job, you can't start it again. You can't delete a running job.
+    ///  Permanently cancel a job. Once you have canceled a job, you can't start it again.
     public func cancelJob(_ input: CancelJobRequest) throws -> Future<CancelJobResponse> {
         return try client.send(operation: "CancelJob", path: "/2017-08-29/jobs/{id}", httpMethod: "DELETE", input: input)
     }

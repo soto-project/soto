@@ -114,6 +114,21 @@ extension Redshift {
         }
     }
 
+    public struct AssociatedClusterList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterAssociatedToSchedule", required: false, type: .list)
+        ]
+        public let clusterAssociatedToSchedule: [ClusterAssociatedToSchedule]?
+
+        public init(clusterAssociatedToSchedule: [ClusterAssociatedToSchedule]? = nil) {
+            self.clusterAssociatedToSchedule = clusterAssociatedToSchedule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterAssociatedToSchedule = "ClusterAssociatedToSchedule"
+        }
+    }
+
     public struct AttributeList: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountAttribute", required: false, type: .list)
@@ -644,6 +659,25 @@ extension Redshift {
             case tags = "Tags"
             case vpcId = "VpcId"
             case vpcSecurityGroups = "VpcSecurityGroups"
+        }
+    }
+
+    public struct ClusterAssociatedToSchedule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "ScheduleAssociationState", required: false, type: .enum)
+        ]
+        public let clusterIdentifier: String?
+        public let scheduleAssociationState: ScheduleState?
+
+        public init(clusterIdentifier: String? = nil, scheduleAssociationState: ScheduleState? = nil) {
+            self.clusterIdentifier = clusterIdentifier
+            self.scheduleAssociationState = scheduleAssociationState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
+            case scheduleAssociationState = "ScheduleAssociationState"
         }
     }
 
@@ -1914,6 +1948,7 @@ extension Redshift {
         public let scheduleDescription: String?
         /// A unique identifier for a snapshot schedule. Only alphanumeric characters are allowed for the identifier.
         public let scheduleIdentifier: String?
+        /// An optional set of tags you can use to search for the schedule.
         public let tags: TagList?
 
         public init(dryRun: Bool? = nil, nextInvocations: Int32? = nil, scheduleDefinitions: ScheduleDefinitionList? = nil, scheduleDescription: String? = nil, scheduleIdentifier: String? = nil, tags: TagList? = nil) {
@@ -2506,9 +2541,9 @@ extension Redshift {
             AWSShapeMember(label: "TagKeys", required: false, type: .structure), 
             AWSShapeMember(label: "TagValues", required: false, type: .structure)
         ]
-        /// A value that indicates whether to return snapshots only for an existing cluster. Table-level restore can be performed only using a snapshot of an existing cluster, that is, a cluster that has not been deleted. If ClusterExists is set to true, ClusterIdentifier is required.
+        /// A value that indicates whether to return snapshots only for an existing cluster. You can perform table-level restore only by using a snapshot of an existing cluster, that is, a cluster that has not been deleted. Values for this parameter work as follows:    If ClusterExists is set to true, ClusterIdentifier is required.   If ClusterExists is set to false and ClusterIdentifier isn't specified, all snapshots associated with deleted clusters (orphaned snapshots) are returned.    If ClusterExists is set to false and ClusterIdentifier is specified for a deleted cluster, snapshots associated with that cluster are returned.   If ClusterExists is set to false and ClusterIdentifier is specified for an existing cluster, no snapshots are returned.   
         public let clusterExists: Bool?
-        /// The identifier of the cluster for which information about snapshots is requested.
+        /// The identifier of the cluster which generated the requested snapshots.
         public let clusterIdentifier: String?
         /// A time value that requests only snapshots created at or before the specified time. The time value is specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2012-07-16T18:00:00Z 
         public let endTime: TimeStamp?
@@ -4171,7 +4206,7 @@ extension Redshift {
         public let clusterIdentifier: String
         /// A boolean indicating whether to enable the deferred maintenance window. 
         public let deferMaintenance: Bool?
-        /// An integer indicating the duration of the maintenance window in days. If you specify a duration, you can't specify an end time. The duration must be 14 days or less.
+        /// An integer indicating the duration of the maintenance window in days. If you specify a duration, you can't specify an end time. The duration must be 45 days or less.
         public let deferMaintenanceDuration: Int32?
         /// A timestamp indicating end time for the deferred maintenance window. If you specify an end time, you can't specify a duration.
         public let deferMaintenanceEndTime: TimeStamp?
@@ -5239,6 +5274,7 @@ extension Redshift {
     public struct ResizeProgressMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvgResizeRateInMegaBytesPerSecond", required: false, type: .double), 
+            AWSShapeMember(label: "DataTransferProgressPercent", required: false, type: .double), 
             AWSShapeMember(label: "ElapsedTimeInSeconds", required: false, type: .long), 
             AWSShapeMember(label: "EstimatedTimeToCompletionInSeconds", required: false, type: .long), 
             AWSShapeMember(label: "ImportTablesCompleted", required: false, type: .list), 
@@ -5256,6 +5292,8 @@ extension Redshift {
         ]
         /// The average rate of the resize operation over the last few minutes, measured in megabytes per second. After the resize operation completes, this value shows the average rate of the entire resize operation.
         public let avgResizeRateInMegaBytesPerSecond: Double?
+        /// The percent of data transferred from source cluster to target cluster.
+        public let dataTransferProgressPercent: Double?
         /// The amount of seconds that have elapsed since the resize operation began. After the resize operation completes, this value shows the total actual time, in seconds, for the resize operation.
         public let elapsedTimeInSeconds: Int64?
         /// The estimated time remaining, in seconds, until the resize operation is complete. This value is calculated based on the average resize rate and the estimated amount of data remaining to be processed. Once the resize operation is complete, this value will be 0.
@@ -5285,8 +5323,9 @@ extension Redshift {
         /// The estimated total amount of data, in megabytes, on the cluster before the resize operation began.
         public let totalResizeDataInMegaBytes: Int64?
 
-        public init(avgResizeRateInMegaBytesPerSecond: Double? = nil, elapsedTimeInSeconds: Int64? = nil, estimatedTimeToCompletionInSeconds: Int64? = nil, importTablesCompleted: [String]? = nil, importTablesInProgress: [String]? = nil, importTablesNotStarted: [String]? = nil, message: String? = nil, progressInMegaBytes: Int64? = nil, resizeType: String? = nil, status: String? = nil, targetClusterType: String? = nil, targetEncryptionType: String? = nil, targetNodeType: String? = nil, targetNumberOfNodes: Int32? = nil, totalResizeDataInMegaBytes: Int64? = nil) {
+        public init(avgResizeRateInMegaBytesPerSecond: Double? = nil, dataTransferProgressPercent: Double? = nil, elapsedTimeInSeconds: Int64? = nil, estimatedTimeToCompletionInSeconds: Int64? = nil, importTablesCompleted: [String]? = nil, importTablesInProgress: [String]? = nil, importTablesNotStarted: [String]? = nil, message: String? = nil, progressInMegaBytes: Int64? = nil, resizeType: String? = nil, status: String? = nil, targetClusterType: String? = nil, targetEncryptionType: String? = nil, targetNodeType: String? = nil, targetNumberOfNodes: Int32? = nil, totalResizeDataInMegaBytes: Int64? = nil) {
             self.avgResizeRateInMegaBytesPerSecond = avgResizeRateInMegaBytesPerSecond
+            self.dataTransferProgressPercent = dataTransferProgressPercent
             self.elapsedTimeInSeconds = elapsedTimeInSeconds
             self.estimatedTimeToCompletionInSeconds = estimatedTimeToCompletionInSeconds
             self.importTablesCompleted = importTablesCompleted
@@ -5305,6 +5344,7 @@ extension Redshift {
 
         private enum CodingKeys: String, CodingKey {
             case avgResizeRateInMegaBytesPerSecond = "AvgResizeRateInMegaBytesPerSecond"
+            case dataTransferProgressPercent = "DataTransferProgressPercent"
             case elapsedTimeInSeconds = "ElapsedTimeInSeconds"
             case estimatedTimeToCompletionInSeconds = "EstimatedTimeToCompletionInSeconds"
             case importTablesCompleted = "ImportTablesCompleted"
@@ -5395,6 +5435,7 @@ extension Redshift {
         public let kmsKeyId: String?
         /// The name of the maintenance track for the restored cluster. When you take a snapshot, the snapshot inherits the MaintenanceTrack value from the cluster. The snapshot might be on a different track than the cluster that was the source for the snapshot. For example, suppose that you take a snapshot of a cluster that is on the current track and then change the cluster to be on the trailing track. In this case, the snapshot and the source cluster are on different tracks.
         public let maintenanceTrackName: String?
+        /// The default number of days to retain a manual snapshot. If the value is -1, the snapshot is retained indefinitely. This setting doesn't change the retention period of existing snapshots. The value must be either -1 or an integer between 1 and 3,653.
         public let manualSnapshotRetentionPeriod: Int32?
         /// The node type that the restored cluster will be provisioned with. Default: The node type of the cluster from which the snapshot was taken. You can modify this if you are using any DS node type. In that case, you can choose to restore into another DS node type of the same size. For example, you can restore ds1.8xlarge into ds2.8xlarge, or ds1.xlarge into ds2.xlarge. If you have a DC instance type, you must restore into that same instance type and size. In other words, you can only restore a dc1.large instance type into another dc1.large instance type or dc2.large instance type. You can't restore dc1.8xlarge to dc2.8xlarge. First restore to a dc1.8xlareg cluster, then resize to a dc2.8large cluster. For more information about node types, see  About Clusters and Nodes in the Amazon Redshift Cluster Management Guide. 
         public let nodeType: String?
@@ -6119,14 +6160,20 @@ extension Redshift {
 
     public struct SnapshotSchedule: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssociatedClusterCount", required: false, type: .integer), 
+            AWSShapeMember(label: "AssociatedClusters", required: false, type: .structure), 
             AWSShapeMember(label: "NextInvocations", required: false, type: .structure), 
             AWSShapeMember(label: "ScheduleDefinitions", required: false, type: .structure), 
             AWSShapeMember(label: "ScheduleDescription", required: false, type: .string), 
             AWSShapeMember(label: "ScheduleIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .structure)
         ]
+        /// The number of clusters associated with the schedule.
+        public let associatedClusterCount: Int32?
+        /// A list of clusters associated with the schedule. A maximum of 100 clusters is returned.
+        public let associatedClusters: AssociatedClusterList?
         public let nextInvocations: ScheduledSnapshotTimeList?
-        /// A list of ScheduleDefinitions
+        /// A list of ScheduleDefinitions.
         public let scheduleDefinitions: ScheduleDefinitionList?
         /// The description of the schedule.
         public let scheduleDescription: String?
@@ -6135,7 +6182,9 @@ extension Redshift {
         /// An optional set of tags describing the schedule.
         public let tags: TagList?
 
-        public init(nextInvocations: ScheduledSnapshotTimeList? = nil, scheduleDefinitions: ScheduleDefinitionList? = nil, scheduleDescription: String? = nil, scheduleIdentifier: String? = nil, tags: TagList? = nil) {
+        public init(associatedClusterCount: Int32? = nil, associatedClusters: AssociatedClusterList? = nil, nextInvocations: ScheduledSnapshotTimeList? = nil, scheduleDefinitions: ScheduleDefinitionList? = nil, scheduleDescription: String? = nil, scheduleIdentifier: String? = nil, tags: TagList? = nil) {
+            self.associatedClusterCount = associatedClusterCount
+            self.associatedClusters = associatedClusters
             self.nextInvocations = nextInvocations
             self.scheduleDefinitions = scheduleDefinitions
             self.scheduleDescription = scheduleDescription
@@ -6144,6 +6193,8 @@ extension Redshift {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case associatedClusterCount = "AssociatedClusterCount"
+            case associatedClusters = "AssociatedClusters"
             case nextInvocations = "NextInvocations"
             case scheduleDefinitions = "ScheduleDefinitions"
             case scheduleDescription = "ScheduleDescription"

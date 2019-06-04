@@ -524,7 +524,7 @@ extension EMR {
         public let name: String?
         /// An approximation of the cost of the cluster, represented in m1.small/hours. This value is incremented one time for every hour an m1.small instance runs. Larger instances are weighted more, so an EC2 instance that is roughly four times more expensive would result in the normalized instance hours being incremented by four. This result is only an approximation and does not reflect the actual billing rate.
         public let normalizedInstanceHours: Int32?
-        /// The Amazon EMR release label, which determines the version of open-source application packages installed on the cluster. Release labels are in the form emr-x.x.x, where x.x.x is an Amazon EMR release version, for example, emr-5.14.0. For more information about Amazon EMR release versions and included application versions and features, see http://docs.aws.amazon.com/emr/latest/ReleaseGuide/. The release label applies only to Amazon EMR releases versions 4.x and later. Earlier versions use AmiVersion.
+        /// The Amazon EMR release label, which determines the version of open-source application packages installed on the cluster. Release labels are in the form emr-x.x.x, where x.x.x is an Amazon EMR release version, for example, emr-5.14.0. For more information about Amazon EMR release versions and included application versions and features, see https://docs.aws.amazon.com/emr/latest/ReleaseGuide/. The release label applies only to Amazon EMR releases versions 4.x and later. Earlier versions use AmiVersion.
         public let releaseLabel: String?
         /// Applies only when CustomAmiID is used. Specifies the type of updates that are applied from the Amazon Linux AMI package repositories when an instance boots using the AMI.
         public let repoUpgradeOnBoot: RepoUpgradeOnBoot?
@@ -1114,7 +1114,7 @@ extension EMR {
         ]
         /// A list of additional Amazon EC2 security group IDs for the master node.
         public let additionalMasterSecurityGroups: [String]?
-        /// A list of additional Amazon EC2 security group IDs for the slave nodes.
+        /// A list of additional Amazon EC2 security group IDs for the core and task nodes.
         public let additionalSlaveSecurityGroups: [String]?
         /// The Availability Zone in which the cluster will run. 
         public let ec2AvailabilityZone: String?
@@ -1124,7 +1124,7 @@ extension EMR {
         public let ec2SubnetId: String?
         /// The identifier of the Amazon EC2 security group for the master node.
         public let emrManagedMasterSecurityGroup: String?
-        /// The identifier of the Amazon EC2 security group for the slave nodes.
+        /// The identifier of the Amazon EC2 security group for the core and task nodes.
         public let emrManagedSlaveSecurityGroup: String?
         /// The IAM role that was specified when the cluster was launched. The EC2 instances of the cluster assume this role.
         public let iamInstanceProfile: String?
@@ -1577,11 +1577,14 @@ extension EMR {
             AWSShapeMember(label: "AutoScalingPolicy", required: false, type: .structure), 
             AWSShapeMember(label: "BidPrice", required: false, type: .string), 
             AWSShapeMember(label: "Configurations", required: false, type: .list), 
+            AWSShapeMember(label: "ConfigurationsVersion", required: false, type: .long), 
             AWSShapeMember(label: "EbsBlockDevices", required: false, type: .list), 
             AWSShapeMember(label: "EbsOptimized", required: false, type: .boolean), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "InstanceGroupType", required: false, type: .enum), 
             AWSShapeMember(label: "InstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "LastSuccessfullyAppliedConfigurations", required: false, type: .list), 
+            AWSShapeMember(label: "LastSuccessfullyAppliedConfigurationsVersion", required: false, type: .long), 
             AWSShapeMember(label: "Market", required: false, type: .enum), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "RequestedInstanceCount", required: false, type: .integer), 
@@ -1595,6 +1598,8 @@ extension EMR {
         public let bidPrice: String?
         ///  Amazon EMR releases 4.x or later.  The list of configurations supplied for an EMR cluster instance group. You can specify a separate configuration for each instance group (master, core, and task).
         public let configurations: [Configuration]?
+        /// The version number of the requested configuration specification for this instance group.
+        public let configurationsVersion: Int64?
         /// The EBS block devices that are mapped to this instance group.
         public let ebsBlockDevices: [EbsBlockDevice]?
         /// If the instance group is EBS-optimized. An Amazon EBS-optimized instance uses an optimized configuration stack and provides additional, dedicated capacity for Amazon EBS I/O.
@@ -1605,6 +1610,10 @@ extension EMR {
         public let instanceGroupType: InstanceGroupType?
         /// The EC2 instance type for all instances in the instance group.
         public let instanceType: String?
+        /// A list of configurations that were successfully applied for an instance group last time.
+        public let lastSuccessfullyAppliedConfigurations: [Configuration]?
+        /// The version number of a configuration specification that was successfully applied for an instance group last time. 
+        public let lastSuccessfullyAppliedConfigurationsVersion: Int64?
         /// The marketplace to provision instances for this group. Valid values are ON_DEMAND or SPOT.
         public let market: MarketType?
         /// The name of the instance group.
@@ -1618,15 +1627,18 @@ extension EMR {
         /// The current status of the instance group.
         public let status: InstanceGroupStatus?
 
-        public init(autoScalingPolicy: AutoScalingPolicyDescription? = nil, bidPrice: String? = nil, configurations: [Configuration]? = nil, ebsBlockDevices: [EbsBlockDevice]? = nil, ebsOptimized: Bool? = nil, id: String? = nil, instanceGroupType: InstanceGroupType? = nil, instanceType: String? = nil, market: MarketType? = nil, name: String? = nil, requestedInstanceCount: Int32? = nil, runningInstanceCount: Int32? = nil, shrinkPolicy: ShrinkPolicy? = nil, status: InstanceGroupStatus? = nil) {
+        public init(autoScalingPolicy: AutoScalingPolicyDescription? = nil, bidPrice: String? = nil, configurations: [Configuration]? = nil, configurationsVersion: Int64? = nil, ebsBlockDevices: [EbsBlockDevice]? = nil, ebsOptimized: Bool? = nil, id: String? = nil, instanceGroupType: InstanceGroupType? = nil, instanceType: String? = nil, lastSuccessfullyAppliedConfigurations: [Configuration]? = nil, lastSuccessfullyAppliedConfigurationsVersion: Int64? = nil, market: MarketType? = nil, name: String? = nil, requestedInstanceCount: Int32? = nil, runningInstanceCount: Int32? = nil, shrinkPolicy: ShrinkPolicy? = nil, status: InstanceGroupStatus? = nil) {
             self.autoScalingPolicy = autoScalingPolicy
             self.bidPrice = bidPrice
             self.configurations = configurations
+            self.configurationsVersion = configurationsVersion
             self.ebsBlockDevices = ebsBlockDevices
             self.ebsOptimized = ebsOptimized
             self.id = id
             self.instanceGroupType = instanceGroupType
             self.instanceType = instanceType
+            self.lastSuccessfullyAppliedConfigurations = lastSuccessfullyAppliedConfigurations
+            self.lastSuccessfullyAppliedConfigurationsVersion = lastSuccessfullyAppliedConfigurationsVersion
             self.market = market
             self.name = name
             self.requestedInstanceCount = requestedInstanceCount
@@ -1639,11 +1651,14 @@ extension EMR {
             case autoScalingPolicy = "AutoScalingPolicy"
             case bidPrice = "BidPrice"
             case configurations = "Configurations"
+            case configurationsVersion = "ConfigurationsVersion"
             case ebsBlockDevices = "EbsBlockDevices"
             case ebsOptimized = "EbsOptimized"
             case id = "Id"
             case instanceGroupType = "InstanceGroupType"
             case instanceType = "InstanceType"
+            case lastSuccessfullyAppliedConfigurations = "LastSuccessfullyAppliedConfigurations"
+            case lastSuccessfullyAppliedConfigurationsVersion = "LastSuccessfullyAppliedConfigurationsVersion"
             case market = "Market"
             case name = "Name"
             case requestedInstanceCount = "RequestedInstanceCount"
@@ -1792,11 +1807,14 @@ extension EMR {
 
     public struct InstanceGroupModifyConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Configurations", required: false, type: .list), 
             AWSShapeMember(label: "EC2InstanceIdsToTerminate", required: false, type: .list), 
             AWSShapeMember(label: "InstanceCount", required: false, type: .integer), 
             AWSShapeMember(label: "InstanceGroupId", required: true, type: .string), 
             AWSShapeMember(label: "ShrinkPolicy", required: false, type: .structure)
         ]
+        /// A list of new or modified configurations to apply for an instance group.
+        public let configurations: [Configuration]?
         /// The EC2 InstanceIds to terminate. After you terminate the instances, the instance group will not return to its original requested size.
         public let eC2InstanceIdsToTerminate: [String]?
         /// Target size for the instance group.
@@ -1806,7 +1824,8 @@ extension EMR {
         /// Policy for customizing shrink operations.
         public let shrinkPolicy: ShrinkPolicy?
 
-        public init(eC2InstanceIdsToTerminate: [String]? = nil, instanceCount: Int32? = nil, instanceGroupId: String, shrinkPolicy: ShrinkPolicy? = nil) {
+        public init(configurations: [Configuration]? = nil, eC2InstanceIdsToTerminate: [String]? = nil, instanceCount: Int32? = nil, instanceGroupId: String, shrinkPolicy: ShrinkPolicy? = nil) {
+            self.configurations = configurations
             self.eC2InstanceIdsToTerminate = eC2InstanceIdsToTerminate
             self.instanceCount = instanceCount
             self.instanceGroupId = instanceGroupId
@@ -1814,6 +1833,7 @@ extension EMR {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case configurations = "Configurations"
             case eC2InstanceIdsToTerminate = "EC2InstanceIdsToTerminate"
             case instanceCount = "InstanceCount"
             case instanceGroupId = "InstanceGroupId"
@@ -1825,6 +1845,7 @@ extension EMR {
         case provisioning = "PROVISIONING"
         case bootstrapping = "BOOTSTRAPPING"
         case running = "RUNNING"
+        case reconfiguring = "RECONFIGURING"
         case resizing = "RESIZING"
         case suspended = "SUSPENDED"
         case terminating = "TERMINATING"
@@ -2290,7 +2311,7 @@ extension EMR {
         ]
         /// A list of additional Amazon EC2 security group IDs for the master node.
         public let additionalMasterSecurityGroups: [String]?
-        /// A list of additional Amazon EC2 security group IDs for the slave nodes.
+        /// A list of additional Amazon EC2 security group IDs for the core and task nodes.
         public let additionalSlaveSecurityGroups: [String]?
         /// The name of the EC2 key pair that can be used to ssh to the master node as the user called "hadoop."
         public let ec2KeyName: String?
@@ -2300,7 +2321,7 @@ extension EMR {
         public let ec2SubnetIds: [String]?
         /// The identifier of the Amazon EC2 security group for the master node.
         public let emrManagedMasterSecurityGroup: String?
-        /// The identifier of the Amazon EC2 security group for the slave nodes.
+        /// The identifier of the Amazon EC2 security group for the core and task nodes.
         public let emrManagedSlaveSecurityGroup: String?
         /// Applies only to Amazon EMR release versions earlier than 4.0. The Hadoop version for the cluster. Valid inputs are "0.18" (deprecated), "0.20" (deprecated), "0.20.205" (deprecated), "1.0.3", "2.2.0", or "2.4.0". If you do not set this value, the default of 0.18 is used, unless the AmiVersion parameter is set in the RunJobFlow call, in which case the default version of Hadoop for that AMI version is used.
         public let hadoopVersion: String?
@@ -2318,7 +2339,7 @@ extension EMR {
         public let placement: PlacementType?
         /// The identifier of the Amazon EC2 security group for the Amazon EMR service to access clusters in VPC private subnets.
         public let serviceAccessSecurityGroup: String?
-        /// The EC2 instance type of the slave nodes.
+        /// The EC2 instance type of the core and task nodes.
         public let slaveInstanceType: String?
         /// Specifies whether to lock the cluster to prevent the Amazon EC2 instances from being terminated by API call, user intervention, or in the event of a job-flow error.
         public let terminationProtected: Bool?
@@ -2386,7 +2407,7 @@ extension EMR {
         public let ec2SubnetId: String?
         /// The Hadoop version for the cluster.
         public let hadoopVersion: String?
-        /// The number of Amazon EC2 instances in the cluster. If the value is 1, the same instance serves as both the master and slave node. If the value is greater than 1, one instance is the master node and all others are slave nodes.
+        /// The number of Amazon EC2 instances in the cluster. If the value is 1, the same instance serves as both the master and core and task node. If the value is greater than 1, one instance is the master node and all others are core and task nodes.
         public let instanceCount: Int32
         /// Details about the instance groups in a cluster.
         public let instanceGroups: [InstanceGroupDetail]?
@@ -2402,7 +2423,7 @@ extension EMR {
         public let normalizedInstanceHours: Int32?
         /// The Amazon EC2 Availability Zone for the cluster.
         public let placement: PlacementType?
-        /// The Amazon EC2 slave node instance type.
+        /// The Amazon EC2 core and task node instance type.
         public let slaveInstanceType: String
         /// Specifies whether the Amazon EC2 instances in the cluster are protected from termination by API calls, user intervention, or in the event of a job-flow error.
         public let terminationProtected: Bool?
@@ -3065,7 +3086,7 @@ extension EMR {
         public let additionalInfo: String?
         /// Applies only to Amazon EMR AMI versions 3.x and 2.x. For Amazon EMR releases 4.0 and later, ReleaseLabel is used. To specify a custom AMI, use CustomAmiID.
         public let amiVersion: String?
-        /// For Amazon EMR releases 4.0 and later. A list of applications for the cluster. Valid values are: "Hadoop", "Hive", "Mahout", "Pig", and "Spark." They are case insensitive.
+        /// Applies to Amazon EMR releases 4.0 and later. A case-insensitive list of applications for Amazon EMR to install and configure when launching the cluster. For a list of applications available for each Amazon EMR release version, see the Amazon EMR Release Guide.
         public let applications: [Application]?
         /// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole. The IAM role provides permissions that the automatic scaling feature requires to launch and terminate EC2 instances in an instance group.
         public let autoScalingRole: String?
@@ -3089,7 +3110,7 @@ extension EMR {
         public let name: String
         ///  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and later, use Applications.  A list of strings that indicates third-party software to use with the job flow that accepts a user argument list. EMR accepts and forwards the argument list to the corresponding installation script as bootstrap action arguments. For more information, see "Launch a Job Flow on the MapR Distribution for Hadoop" in the Amazon EMR Developer Guide. Supported values are:   "mapr-m3" - launch the cluster using MapR M3 Edition.   "mapr-m5" - launch the cluster using MapR M5 Edition.   "mapr" with the user arguments specifying "--edition,m3" or "--edition,m5" - launch the job flow using MapR M3 or M5 Edition respectively.   "mapr-m7" - launch the cluster using MapR M7 Edition.   "hunk" - launch the cluster with the Hunk Big Data Analtics Platform.   "hue"- launch the cluster with Hue installed.   "spark" - launch the cluster with Apache Spark installed.   "ganglia" - launch the cluster with the Ganglia Monitoring System installed.  
         public let newSupportedProducts: [SupportedProductConfig]?
-        /// The Amazon EMR release label, which determines the version of open-source application packages installed on the cluster. Release labels are in the form emr-x.x.x, where x.x.x is an Amazon EMR release version, for example, emr-5.14.0. For more information about Amazon EMR release versions and included application versions and features, see http://docs.aws.amazon.com/emr/latest/ReleaseGuide/. The release label applies only to Amazon EMR releases versions 4.x and later. Earlier versions use AmiVersion.
+        /// The Amazon EMR release label, which determines the version of open-source application packages installed on the cluster. Release labels are in the form emr-x.x.x, where x.x.x is an Amazon EMR release version, for example, emr-5.14.0. For more information about Amazon EMR release versions and included application versions and features, see https://docs.aws.amazon.com/emr/latest/ReleaseGuide/. The release label applies only to Amazon EMR releases versions 4.x and later. Earlier versions use AmiVersion.
         public let releaseLabel: String?
         /// Applies only when CustomAmiID is used. Specifies which updates from the Amazon Linux AMI package repositories to apply automatically when the instance boots using the AMI. If omitted, the default is SECURITY, which indicates that only security updates are applied. If NONE is specified, no updates are applied, and all updates must be applied manually.
         public let repoUpgradeOnBoot: RepoUpgradeOnBoot?
@@ -3411,7 +3432,7 @@ extension EMR {
         ]
         /// The defined duration for Spot instances (also known as Spot blocks) in minutes. When specified, the Spot instance does not terminate before the defined duration expires, and defined duration pricing for Spot instances applies. Valid values are 60, 120, 180, 240, 300, or 360. The duration period starts as soon as a Spot instance receives its instance ID. At the end of the duration, Amazon EC2 marks the Spot instance for termination and provides a Spot instance termination notice, which gives the instance a two-minute warning before it terminates. 
         public let blockDurationMinutes: Int32?
-        /// The action to take when TargetSpotCapacity has not been fulfilled when the TimeoutDurationMinutes has expired. Spot instances are not uprovisioned within the Spot provisioining timeout. Valid values are TERMINATE_CLUSTER and SWITCH_TO_ON_DEMAND. SWITCH_TO_ON_DEMAND specifies that if no Spot instances are available, On-Demand Instances should be provisioned to fulfill any remaining Spot capacity.
+        /// The action to take when TargetSpotCapacity has not been fulfilled when the TimeoutDurationMinutes has expired; that is, when all Spot instances could not be provisioned within the Spot provisioning timeout. Valid values are TERMINATE_CLUSTER and SWITCH_TO_ON_DEMAND. SWITCH_TO_ON_DEMAND specifies that if no Spot instances are available, On-Demand Instances should be provisioned to fulfill any remaining Spot capacity.
         public let timeoutAction: SpotProvisioningTimeoutAction
         /// The spot provisioning timeout period in minutes. If Spot instances are not provisioned within this time period, the TimeOutAction is taken. Minimum value is 5 and maximum value is 1440. The timeout applies only during initial provisioning, when the cluster is first created.
         public let timeoutDurationMinutes: Int32
@@ -3452,7 +3473,7 @@ extension EMR {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .structure)
         ]
-        /// This specifies what action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE.
+        /// The action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE. TERMINATE_JOB_FLOW is provided for backward compatibility. We recommend using TERMINATE_CLUSTER instead.
         public let actionOnFailure: ActionOnFailure?
         /// The Hadoop job configuration of the cluster step.
         public let config: HadoopStepConfig?
@@ -3486,7 +3507,7 @@ extension EMR {
             AWSShapeMember(label: "HadoopJarStep", required: true, type: .structure), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
-        /// The action to take if the step fails.
+        /// The action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE. TERMINATE_JOB_FLOW is provided for backward compatibility. We recommend using TERMINATE_CLUSTER instead.
         public let actionOnFailure: ActionOnFailure?
         /// The JAR file used for the step.
         public let hadoopJarStep: HadoopJarStepConfig
@@ -3650,7 +3671,7 @@ extension EMR {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .structure)
         ]
-        /// This specifies what action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE.
+        /// The action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE. TERMINATE_JOB_FLOW is available for backward compatibility. We recommend using TERMINATE_CLUSTER instead.
         public let actionOnFailure: ActionOnFailure?
         /// The Hadoop job configuration of the cluster step.
         public let config: HadoopStepConfig?

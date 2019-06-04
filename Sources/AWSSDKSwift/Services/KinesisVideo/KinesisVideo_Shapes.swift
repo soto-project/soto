@@ -25,7 +25,8 @@ extension KinesisVideo {
             AWSShapeMember(label: "DeviceName", required: false, type: .string), 
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeMember(label: "MediaType", required: false, type: .string), 
-            AWSShapeMember(label: "StreamName", required: true, type: .string)
+            AWSShapeMember(label: "StreamName", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .map)
         ]
         /// The number of hours that you want to retain the data in the stream. Kinesis Video Streams retains the data in a data store that is associated with the stream. The default value is 0, indicating that the stream does not persist data. When the DataRetentionInHours value is 0, consumers can still consume the fragments that remain in the service host buffer, which has a retention time limit of 5 minutes and a retention memory limit of 200 MB. Fragments are removed from the buffer when either limit is reached.
         public let dataRetentionInHours: Int32?
@@ -33,17 +34,20 @@ extension KinesisVideo {
         public let deviceName: String?
         /// The ID of the AWS Key Management Service (AWS KMS) key that you want Kinesis Video Streams to use to encrypt stream data. If no key ID is specified, the default, Kinesis Video-managed key (aws/kinesisvideo) is used.  For more information, see DescribeKey. 
         public let kmsKeyId: String?
-        /// The media type of the stream. Consumers of the stream can use this information when processing the stream. For more information about media types, see Media Types. If you choose to specify the MediaType, see Naming Requirements for guidelines. To play video on the console, the media must be H.264 encoded, and you need to specify this video type in this parameter as video/h264.  This parameter is optional; the default value is null (or empty in JSON).
+        /// The media type of the stream. Consumers of the stream can use this information when processing the stream. For more information about media types, see Media Types. If you choose to specify the MediaType, see Naming Requirements for guidelines. This parameter is optional; the default value is null (or empty in JSON).
         public let mediaType: String?
         /// A name for the stream that you are creating. The stream name is an identifier for the stream, and must be unique for each account and region.
         public let streamName: String
+        /// A list of tags to associate with the specified stream. Each tag is a key-value pair (the value is optional).
+        public let tags: [String: String]?
 
-        public init(dataRetentionInHours: Int32? = nil, deviceName: String? = nil, kmsKeyId: String? = nil, mediaType: String? = nil, streamName: String) {
+        public init(dataRetentionInHours: Int32? = nil, deviceName: String? = nil, kmsKeyId: String? = nil, mediaType: String? = nil, streamName: String, tags: [String: String]? = nil) {
             self.dataRetentionInHours = dataRetentionInHours
             self.deviceName = deviceName
             self.kmsKeyId = kmsKeyId
             self.mediaType = mediaType
             self.streamName = streamName
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -52,6 +56,7 @@ extension KinesisVideo {
             case kmsKeyId = "KmsKeyId"
             case mediaType = "MediaType"
             case streamName = "StreamName"
+            case tags = "Tags"
         }
     }
 
@@ -433,7 +438,7 @@ extension KinesisVideo {
         ]
         /// The version of the stream whose retention period you want to change. To get the version, call either the DescribeStream or the ListStreams API.
         public let currentVersion: String
-        /// The retention period, in hours. The value you specify replaces the current value.
+        /// The retention period, in hours. The value you specify replaces the current value. The maximum value for this parameter is 87600 (ten years).
         public let dataRetentionChangeInHours: Int32
         /// Indicates whether you want to increase or decrease the retention period.
         public let operation: UpdateDataRetentionOperation

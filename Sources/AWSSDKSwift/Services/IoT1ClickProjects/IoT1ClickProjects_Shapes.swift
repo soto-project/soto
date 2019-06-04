@@ -80,7 +80,8 @@ extension IoT1ClickProjects {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "placementTemplate", required: false, type: .structure), 
-            AWSShapeMember(label: "projectName", required: true, type: .string)
+            AWSShapeMember(label: "projectName", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         /// An optional description for the project.
         public let description: String?
@@ -88,17 +89,21 @@ extension IoT1ClickProjects {
         public let placementTemplate: PlacementTemplate?
         /// The name of the project to create.
         public let projectName: String
+        /// Optional tags (metadata key/value pairs) to be associated with the project. For example, { {"key1": "value1", "key2": "value2"} }. For more information, see AWS Tagging Strategies.
+        public let tags: [String: String]?
 
-        public init(description: String? = nil, placementTemplate: PlacementTemplate? = nil, projectName: String) {
+        public init(description: String? = nil, placementTemplate: PlacementTemplate? = nil, projectName: String, tags: [String: String]? = nil) {
             self.description = description
             self.placementTemplate = placementTemplate
             self.projectName = projectName
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case placementTemplate = "placementTemplate"
             case projectName = "projectName"
+            case tags = "tags"
         }
     }
 
@@ -409,6 +414,38 @@ extension IoT1ClickProjects {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string)
+        ]
+        /// The ARN of the resource whose tags you want to list.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: false, type: .map)
+        ]
+        /// The tags (metadata key/value pairs) which you have assigned to the resource.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
     public struct PlacementDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "attributes", required: true, type: .map), 
@@ -499,12 +536,16 @@ extension IoT1ClickProjects {
 
     public struct ProjectDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
             AWSShapeMember(label: "createdDate", required: true, type: .timestamp), 
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "placementTemplate", required: false, type: .structure), 
             AWSShapeMember(label: "projectName", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "updatedDate", required: true, type: .timestamp)
         ]
+        /// The ARN of the project.
+        public let arn: String?
         /// The date when the project was originally created, in UNIX epoch time format.
         public let createdDate: TimeStamp
         /// The description of the project.
@@ -513,50 +554,122 @@ extension IoT1ClickProjects {
         public let placementTemplate: PlacementTemplate?
         /// The name of the project for which to obtain information from.
         public let projectName: String
+        /// The tags (metadata key/value pairs) associated with the project.
+        public let tags: [String: String]?
         /// The date when the project was last updated, in UNIX epoch time format. If the project was not updated, then createdDate and updatedDate are the same.
         public let updatedDate: TimeStamp
 
-        public init(createdDate: TimeStamp, description: String? = nil, placementTemplate: PlacementTemplate? = nil, projectName: String, updatedDate: TimeStamp) {
+        public init(arn: String? = nil, createdDate: TimeStamp, description: String? = nil, placementTemplate: PlacementTemplate? = nil, projectName: String, tags: [String: String]? = nil, updatedDate: TimeStamp) {
+            self.arn = arn
             self.createdDate = createdDate
             self.description = description
             self.placementTemplate = placementTemplate
             self.projectName = projectName
+            self.tags = tags
             self.updatedDate = updatedDate
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
             case createdDate = "createdDate"
             case description = "description"
             case placementTemplate = "placementTemplate"
             case projectName = "projectName"
+            case tags = "tags"
             case updatedDate = "updatedDate"
         }
     }
 
     public struct ProjectSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
             AWSShapeMember(label: "createdDate", required: true, type: .timestamp), 
             AWSShapeMember(label: "projectName", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "updatedDate", required: true, type: .timestamp)
         ]
+        /// The ARN of the project.
+        public let arn: String?
         /// The date when the project was originally created, in UNIX epoch time format.
         public let createdDate: TimeStamp
         /// The name of the project being summarized.
         public let projectName: String
+        /// The tags (metadata key/value pairs) associated with the project.
+        public let tags: [String: String]?
         /// The date when the project was last updated, in UNIX epoch time format. If the project was not updated, then createdDate and updatedDate are the same.
         public let updatedDate: TimeStamp
 
-        public init(createdDate: TimeStamp, projectName: String, updatedDate: TimeStamp) {
+        public init(arn: String? = nil, createdDate: TimeStamp, projectName: String, tags: [String: String]? = nil, updatedDate: TimeStamp) {
+            self.arn = arn
             self.createdDate = createdDate
             self.projectName = projectName
+            self.tags = tags
             self.updatedDate = updatedDate
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
             case createdDate = "createdDate"
             case projectName = "projectName"
+            case tags = "tags"
             case updatedDate = "updatedDate"
         }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: true, type: .map)
+        ]
+        /// The ARN of the resouce for which tag(s) should be added or modified.
+        public let resourceArn: String
+        /// The new or modifying tag(s) for the resource. See AWS IoT 1-Click Service Limits for the maximum number of tags allowed per resource.
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tags = "tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+        ]
+        /// The ARN of the resource whose tag you want to remove.
+        public let resourceArn: String
+        /// The keys of those tags which you want to remove.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
     }
 
     public struct UpdatePlacementRequest: AWSShape {

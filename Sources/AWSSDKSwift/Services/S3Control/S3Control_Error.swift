@@ -4,7 +4,15 @@ import AWSSDKSwiftCore
 
 /// Error enum for S3Control
 public enum S3ControlErrorType: AWSErrorType {
+    case badRequestException(message: String?)
+    case idempotencyException(message: String?)
+    case internalServiceException(message: String?)
+    case invalidNextTokenException(message: String?)
+    case invalidRequestException(message: String?)
+    case jobStatusException(message: String?)
     case noSuchPublicAccessBlockConfiguration(message: String?)
+    case notFoundException(message: String?)
+    case tooManyRequestsException(message: String?)
 }
 
 extension S3ControlErrorType {
@@ -14,8 +22,24 @@ extension S3ControlErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "BadRequestException":
+            self = .badRequestException(message: message)
+        case "IdempotencyException":
+            self = .idempotencyException(message: message)
+        case "InternalServiceException":
+            self = .internalServiceException(message: message)
+        case "InvalidNextTokenException":
+            self = .invalidNextTokenException(message: message)
+        case "InvalidRequestException":
+            self = .invalidRequestException(message: message)
+        case "JobStatusException":
+            self = .jobStatusException(message: message)
         case "NoSuchPublicAccessBlockConfiguration":
             self = .noSuchPublicAccessBlockConfiguration(message: message)
+        case "NotFoundException":
+            self = .notFoundException(message: message)
+        case "TooManyRequestsException":
+            self = .tooManyRequestsException(message: message)
         default:
             return nil
         }

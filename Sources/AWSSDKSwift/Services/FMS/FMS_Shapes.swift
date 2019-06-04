@@ -38,7 +38,7 @@ extension FMS {
         ]
         /// The resource ID.
         public let resourceId: String?
-        /// The resource type. This is in the format shown in AWS Resource Types Reference. Valid values are AWS::ElasticLoadBalancingV2::LoadBalancer or AWS::CloudFront::Distribution.
+        /// The resource type. This is in the format shown in AWS Resource Types Reference. For example: AWS::ElasticLoadBalancingV2::LoadBalancer or AWS::CloudFront::Distribution.
         public let resourceType: String?
         /// The reason that the resource is not protected by the policy.
         public let violationReason: ViolationReason?
@@ -70,16 +70,21 @@ extension FMS {
 
     public struct DeletePolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeleteAllPolicyResources", required: false, type: .boolean), 
             AWSShapeMember(label: "PolicyId", required: true, type: .string)
         ]
+        /// If True, the request will also perform a clean-up process that will:   Delete rule groups created by AWS Firewall Manager   Remove web ACLs from in-scope resources   Delete web ACLs that contain no rules or rule groups   After the cleanup, in-scope resources will no longer be protected by web ACLs in this policy. Protection of out-of-scope resources will remain unchanged. Scope is determined by tags and accounts associated with the policy. When creating the policy, if you specified that only resources in specific accounts or with specific tags be protected by the policy, those resources are in-scope. All others are out of scope. If you did not specify tags or accounts, all resources are in-scope. 
+        public let deleteAllPolicyResources: Bool?
         /// The ID of the policy that you want to delete. PolicyId is returned by PutPolicy and by ListPolicies.
         public let policyId: String
 
-        public init(policyId: String) {
+        public init(deleteAllPolicyResources: Bool? = nil, policyId: String) {
+            self.deleteAllPolicyResources = deleteAllPolicyResources
             self.policyId = policyId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deleteAllPolicyResources = "DeleteAllPolicyResources"
             case policyId = "PolicyId"
         }
     }
@@ -87,6 +92,7 @@ extension FMS {
     public enum DependentServiceName: String, CustomStringConvertible, Codable {
         case awsconfig = "AWSCONFIG"
         case awswaf = "AWSWAF"
+        case awsshieldAdvanced = "AWSSHIELD_ADVANCED"
         public var description: String { return self.rawValue }
     }
 
@@ -253,6 +259,78 @@ extension FMS {
         }
     }
 
+    public struct GetProtectionStatusRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "MemberAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyId", required: true, type: .string), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
+        ]
+        /// The end of the time period to query for the attacks. This is a timestamp type. The sample request above indicates a number type because the default used by AWS Firewall Manager is Unix time in seconds. However, any valid timestamp format is allowed.
+        public let endTime: TimeStamp?
+        /// Specifies the number of objects that you want AWS Firewall Manager to return for this request. If you have more objects than the number that you specify for MaxResults, the response includes a NextToken value that you can use to get another batch of objects.
+        public let maxResults: Int32?
+        /// The AWS account that is in scope of the policy that you want to get the details for.
+        public let memberAccountId: String?
+        /// If you specify a value for MaxResults and you have more objects than the number that you specify for MaxResults, AWS Firewall Manager returns a NextToken value in the response that allows you to list another group of objects. For the second and subsequent GetProtectionStatus requests, specify the value of NextToken from the previous response to get information about another batch of objects.
+        public let nextToken: String?
+        /// The ID of the policy for which you want to get the attack information.
+        public let policyId: String
+        /// The start of the time period to query for the attacks. This is a timestamp type. The sample request above indicates a number type because the default used by AWS Firewall Manager is Unix time in seconds. However, any valid timestamp format is allowed.
+        public let startTime: TimeStamp?
+
+        public init(endTime: TimeStamp? = nil, maxResults: Int32? = nil, memberAccountId: String? = nil, nextToken: String? = nil, policyId: String, startTime: TimeStamp? = nil) {
+            self.endTime = endTime
+            self.maxResults = maxResults
+            self.memberAccountId = memberAccountId
+            self.nextToken = nextToken
+            self.policyId = policyId
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case maxResults = "MaxResults"
+            case memberAccountId = "MemberAccountId"
+            case nextToken = "NextToken"
+            case policyId = "PolicyId"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct GetProtectionStatusResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdminAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "Data", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceType", required: false, type: .enum)
+        ]
+        /// The ID of the AWS Firewall administrator account for this policy.
+        public let adminAccountId: String?
+        /// Details about the attack, including the following:   Attack type   Account ID   ARN of the resource attacked   Start time of the attack   End time of the attack (ongoing attacks will not have an end time)   The details are in JSON format. An example is shown in the Examples section below.
+        public let data: String?
+        /// If you have more objects than the number that you specified for MaxResults in the request, the response includes a NextToken value. To list more objects, submit another GetProtectionStatus request, and specify the NextToken value from the response in the NextToken value in the next request. AWS SDKs provide auto-pagination that identify NextToken in a response and make subsequent request calls automatically on your behalf. However, this feature is not supported by GetProtectionStatus. You must submit subsequent requests with NextToken using your own processes. 
+        public let nextToken: String?
+        /// The service type that is protected by the policy. Currently, this is always SHIELD_ADVANCED.
+        public let serviceType: SecurityServiceType?
+
+        public init(adminAccountId: String? = nil, data: String? = nil, nextToken: String? = nil, serviceType: SecurityServiceType? = nil) {
+            self.adminAccountId = adminAccountId
+            self.data = data
+            self.nextToken = nextToken
+            self.serviceType = serviceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adminAccountId = "AdminAccountId"
+            case data = "Data"
+            case nextToken = "NextToken"
+            case serviceType = "ServiceType"
+        }
+    }
+
     public struct ListComplianceStatusRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
@@ -305,7 +383,7 @@ extension FMS {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// Specifies the number of member account IDs that you want AWS Firewall Manager to return for this request. If you have more IDs than the number that you specify for MaxResults, the response includes a NextToken value that you can use to get another batch of member account IDs. The maximum value for MaxResults is 100.
+        /// Specifies the number of member account IDs that you want AWS Firewall Manager to return for this request. If you have more IDs than the number that you specify for MaxResults, the response includes a NextToken value that you can use to get another batch of member account IDs.
         public let maxResults: Int32?
         /// If you specify a value for MaxResults and you have more account IDs than the number that you specify for MaxResults, AWS Firewall Manager returns a NextToken value in the response that allows you to list another group of IDs. For the second and subsequent ListMemberAccountsRequest requests, specify the value of NextToken from the previous response to get information about another batch of member account IDs.
         public let nextToken: String?
@@ -395,13 +473,14 @@ extension FMS {
             AWSShapeMember(label: "RemediationEnabled", required: true, type: .boolean), 
             AWSShapeMember(label: "ResourceTags", required: false, type: .list), 
             AWSShapeMember(label: "ResourceType", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceTypeList", required: false, type: .list), 
             AWSShapeMember(label: "SecurityServicePolicyData", required: true, type: .structure)
         ]
-        /// Specifies the AWS account IDs to exclude from the policy. The IncludeMap values are evaluated first, with all of the appropriate account IDs added to the policy. Then the accounts listed in ExcludeMap are removed, resulting in the final list of accounts to add to the policy. The key to the map is ACCOUNT. For example, a valid ExcludeMap would be {“ACCOUNT” : [“accountID1”, “accountID2”]}.
+        /// Specifies the AWS account IDs to exclude from the policy. The IncludeMap values are evaluated first, with all the appropriate account IDs added to the policy. Then the accounts listed in ExcludeMap are removed, resulting in the final list of accounts to add to the policy. The key to the map is ACCOUNT. For example, a valid ExcludeMap would be {“ACCOUNT” : [“accountID1”, “accountID2”]}.
         public let excludeMap: [CustomerPolicyScopeIdType: [String]]?
         /// If set to True, resources with the tags that are specified in the ResourceTag array are not protected by the policy. If set to False, and the ResourceTag array is not null, only resources with the specified tags are associated with the policy.
         public let excludeResourceTags: Bool
-        /// Specifies the AWS account IDs to include in the policy. If IncludeMap is null, all accounts in the AWS Organization are included in the policy. If IncludeMap is not null, only values listed in IncludeMap will be included in the policy. The key to the map is ACCOUNT. For example, a valid IncludeMap would be {“ACCOUNT” : [“accountID1”, “accountID2”]}.
+        /// Specifies the AWS account IDs to include in the policy. If IncludeMap is null, all accounts in the organization in AWS Organizations are included in the policy. If IncludeMap is not null, only values listed in IncludeMap are included in the policy. The key to the map is ACCOUNT. For example, a valid IncludeMap would be {“ACCOUNT” : [“accountID1”, “accountID2”]}.
         public let includeMap: [CustomerPolicyScopeIdType: [String]]?
         /// The ID of the AWS Firewall Manager policy.
         public let policyId: String?
@@ -413,12 +492,14 @@ extension FMS {
         public let remediationEnabled: Bool
         /// An array of ResourceTag objects.
         public let resourceTags: [ResourceTag]?
-        /// The type of resource to protect with the policy, either an Application Load Balancer or a CloudFront distribution. This is in the format shown in AWS Resource Types Reference. Valid values are AWS::ElasticLoadBalancingV2::LoadBalancer or AWS::CloudFront::Distribution.
+        /// The type of resource to protect with the policy. This is in the format shown in AWS Resource Types Reference. For example: AWS::ElasticLoadBalancingV2::LoadBalancer or AWS::CloudFront::Distribution.
         public let resourceType: String
+        /// An array of ResourceType.
+        public let resourceTypeList: [String]?
         /// Details about the security service that is being used to protect the resources.
         public let securityServicePolicyData: SecurityServicePolicyData
 
-        public init(excludeMap: [CustomerPolicyScopeIdType: [String]]? = nil, excludeResourceTags: Bool, includeMap: [CustomerPolicyScopeIdType: [String]]? = nil, policyId: String? = nil, policyName: String, policyUpdateToken: String? = nil, remediationEnabled: Bool, resourceTags: [ResourceTag]? = nil, resourceType: String, securityServicePolicyData: SecurityServicePolicyData) {
+        public init(excludeMap: [CustomerPolicyScopeIdType: [String]]? = nil, excludeResourceTags: Bool, includeMap: [CustomerPolicyScopeIdType: [String]]? = nil, policyId: String? = nil, policyName: String, policyUpdateToken: String? = nil, remediationEnabled: Bool, resourceTags: [ResourceTag]? = nil, resourceType: String, resourceTypeList: [String]? = nil, securityServicePolicyData: SecurityServicePolicyData) {
             self.excludeMap = excludeMap
             self.excludeResourceTags = excludeResourceTags
             self.includeMap = includeMap
@@ -428,6 +509,7 @@ extension FMS {
             self.remediationEnabled = remediationEnabled
             self.resourceTags = resourceTags
             self.resourceType = resourceType
+            self.resourceTypeList = resourceTypeList
             self.securityServicePolicyData = securityServicePolicyData
         }
 
@@ -441,6 +523,7 @@ extension FMS {
             case remediationEnabled = "RemediationEnabled"
             case resourceTags = "ResourceTags"
             case resourceType = "ResourceType"
+            case resourceTypeList = "ResourceTypeList"
             case securityServicePolicyData = "SecurityServicePolicyData"
         }
     }
@@ -459,7 +542,7 @@ extension FMS {
         public let evaluationLimitExceeded: Bool?
         /// A time stamp that indicates when the returned information should be considered out-of-date.
         public let expiredAt: TimeStamp?
-        /// Details about problems with dependent services, such as AWS WAF or AWS Config, that are causing a resource to be non-compliant. The details include the name of the dependent service and the error message recieved indicating the problem with the service.
+        /// Details about problems with dependent services, such as AWS WAF or AWS Config, that are causing a resource to be non-compliant. The details include the name of the dependent service and the error message received that indicates the problem with the service.
         public let issueInfoMap: [DependentServiceName: String]?
         /// The AWS account ID.
         public let memberAccount: String?
@@ -503,7 +586,7 @@ extension FMS {
         ]
         /// An array of EvaluationResult objects.
         public let evaluationResults: [EvaluationResult]?
-        /// Details about problems with dependent services, such as AWS WAF or AWS Config, that are causing a resource to be non-compliant. The details include the name of the dependent service and the error message recieved indicating the problem with the service.
+        /// Details about problems with dependent services, such as AWS WAF or AWS Config, that are causing a resource to be non-compliant. The details include the name of the dependent service and the error message received that indicates the problem with the service.
         public let issueInfoMap: [DependentServiceName: String]?
         /// Time stamp of the last update to the EvaluationResult objects.
         public let lastUpdated: TimeStamp?
@@ -560,9 +643,9 @@ extension FMS {
         public let policyName: String?
         /// Indicates if the policy should be automatically applied to new resources.
         public let remediationEnabled: Bool?
-        /// The type of resource to protect with the policy, either an Application Load Balancer or a CloudFront distribution. This is in the format shown in AWS Resource Types Reference. Valid values are AWS::ElasticLoadBalancingV2::LoadBalancer or AWS::CloudFront::Distribution.
+        /// The type of resource to protect with the policy. This is in the format shown in AWS Resource Types Reference. For example: AWS::ElasticLoadBalancingV2::LoadBalancer or AWS::CloudFront::Distribution.
         public let resourceType: String?
-        /// The service that the policy is using to protect the resources. This value is WAF.
+        /// The service that the policy is using to protect the resources. This specifies the type of policy that is created, either a WAF policy or Shield Advanced policy.
         public let securityServiceType: SecurityServiceType?
 
         public init(policyArn: String? = nil, policyId: String? = nil, policyName: String? = nil, remediationEnabled: Bool? = nil, resourceType: String? = nil, securityServiceType: SecurityServiceType? = nil) {
@@ -668,9 +751,9 @@ extension FMS {
             AWSShapeMember(label: "ManagedServiceData", required: false, type: .string), 
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
-        /// Details about the service. This contains WAF data in JSON format, as shown in the following example:  ManagedServiceData": "{\"type\": \"WAF\", \"ruleGroups\": [{\"id\": \"12345678-1bcd-9012-efga-0987654321ab\", \"overrideAction\" : {\"type\": \"COUNT\"}}], \"defaultAction\": {\"type\": \"BLOCK\"}} 
+        /// Details about the service. This contains WAF data in JSON format, as shown in the following example:  ManagedServiceData": "{\"type\": \"WAF\", \"ruleGroups\": [{\"id\": \"12345678-1bcd-9012-efga-0987654321ab\", \"overrideAction\" : {\"type\": \"COUNT\"}}], \"defaultAction\": {\"type\": \"BLOCK\"}}  If this is a Shield Advanced policy, this string will be empty.
         public let managedServiceData: String?
-        /// The service that the policy is using to protect the resources. This value is WAF.
+        /// The service that the policy is using to protect the resources. This specifies the type of policy that is created, either a WAF policy or Shield Advanced policy.
         public let `type`: SecurityServiceType
 
         public init(managedServiceData: String? = nil, type: SecurityServiceType) {
@@ -686,6 +769,7 @@ extension FMS {
 
     public enum SecurityServiceType: String, CustomStringConvertible, Codable {
         case waf = "WAF"
+        case shieldAdvanced = "SHIELD_ADVANCED"
         public var description: String { return self.rawValue }
     }
 
@@ -693,6 +777,7 @@ extension FMS {
         case webAclMissingRuleGroup = "WEB_ACL_MISSING_RULE_GROUP"
         case resourceMissingWebAcl = "RESOURCE_MISSING_WEB_ACL"
         case resourceIncorrectWebAcl = "RESOURCE_INCORRECT_WEB_ACL"
+        case resourceMissingShieldProtection = "RESOURCE_MISSING_SHIELD_PROTECTION"
         public var description: String { return self.rawValue }
     }
 
