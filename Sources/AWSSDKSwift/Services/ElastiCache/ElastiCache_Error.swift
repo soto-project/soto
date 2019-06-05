@@ -44,6 +44,7 @@ public enum ElastiCacheErrorType: AWSErrorType {
     case reservedCacheNodeQuotaExceededFault(message: String?)
     case reservedCacheNodesOfferingNotFoundFault(message: String?)
     case serviceLinkedRoleNotFoundFault(message: String?)
+    case serviceUpdateNotFoundFault(message: String?)
     case snapshotAlreadyExistsFault(message: String?)
     case snapshotFeatureNotSupportedFault(message: String?)
     case snapshotNotFoundFault(message: String?)
@@ -141,6 +142,8 @@ extension ElastiCacheErrorType {
             self = .reservedCacheNodesOfferingNotFoundFault(message: message)
         case "ServiceLinkedRoleNotFoundFault":
             self = .serviceLinkedRoleNotFoundFault(message: message)
+        case "ServiceUpdateNotFoundFault":
+            self = .serviceUpdateNotFoundFault(message: message)
         case "SnapshotAlreadyExistsFault":
             self = .snapshotAlreadyExistsFault(message: message)
         case "SnapshotFeatureNotSupportedFault":

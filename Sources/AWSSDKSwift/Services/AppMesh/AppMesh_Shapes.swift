@@ -5,25 +5,70 @@ import AWSSDKSwiftCore
 
 extension AppMesh {
 
+    public struct AccessLog: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "file", required: false, type: .structure)
+        ]
+        /// The file object to send virtual node access logs to.
+        public let file: FileAccessLog?
+
+        public init(file: FileAccessLog? = nil) {
+            self.file = file
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case file = "file"
+        }
+    }
+
+    public struct Backend: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualService", required: false, type: .structure)
+        ]
+        /// Specifies a virtual service to use as a backend for a virtual node. 
+        public let virtualService: VirtualServiceBackend?
+
+        public init(virtualService: VirtualServiceBackend? = nil) {
+            self.virtualService = virtualService
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualService = "virtualService"
+        }
+    }
+
     public struct CreateMeshInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "clientToken", required: false, type: .string), 
-            AWSShapeMember(label: "meshName", required: true, type: .string)
+            AWSShapeMember(label: "meshName", required: true, type: .string), 
+            AWSShapeMember(label: "spec", required: false, type: .structure), 
+            AWSShapeMember(label: "tags", required: false, type: .list)
         ]
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
         /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
         /// The name to use for the service mesh.
         public let meshName: String
+        /// The service mesh specification to apply.
+        public let spec: MeshSpec?
+        /// Optional metadata that you can apply to the service mesh to assist with categorization and organization.
+        ///          Each tag consists of a key and an optional value, both of which you define.
+        ///          Tag keys can have a maximum character length of 128 characters, and tag values can have
+        ///             a maximum length of 256 characters.
+        public let tags: [TagRef]?
 
-        public init(clientToken: String? = nil, meshName: String) {
+        public init(clientToken: String? = nil, meshName: String, spec: MeshSpec? = nil, tags: [TagRef]? = nil) {
             self.clientToken = clientToken
             self.meshName = meshName
+            self.spec = spec
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case meshName = "meshName"
+            case spec = "spec"
+            case tags = "tags"
         }
     }
 
@@ -31,12 +76,12 @@ extension AppMesh {
         /// The key for the payload
         public static let payloadPath: String? = "mesh"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "mesh", required: false, type: .structure)
+            AWSShapeMember(label: "mesh", required: true, type: .structure)
         ]
         /// The full description of your service mesh following the create call.
-        public let mesh: MeshData?
+        public let mesh: MeshData
 
-        public init(mesh: MeshData? = nil) {
+        public init(mesh: MeshData) {
             self.mesh = mesh
         }
 
@@ -51,25 +96,32 @@ extension AppMesh {
             AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
             AWSShapeMember(label: "routeName", required: true, type: .string), 
             AWSShapeMember(label: "spec", required: true, type: .structure), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"), required: true, type: .string)
         ]
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
         /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
-        /// The name of the service mesh in which to create the route.
+        /// The name of the service mesh to create the route in.
         public let meshName: String
         /// The name to use for the route.
         public let routeName: String
         /// The route specification to apply.
         public let spec: RouteSpec
+        /// Optional metadata that you can apply to the route to assist with categorization and organization.
+        ///          Each tag consists of a key and an optional value, both of which you define.
+        ///          Tag keys can have a maximum character length of 128 characters, and tag values can have
+        ///             a maximum length of 256 characters.
+        public let tags: [TagRef]?
         /// The name of the virtual router in which to create the route.
         public let virtualRouterName: String
 
-        public init(clientToken: String? = nil, meshName: String, routeName: String, spec: RouteSpec, virtualRouterName: String) {
+        public init(clientToken: String? = nil, meshName: String, routeName: String, spec: RouteSpec, tags: [TagRef]? = nil, virtualRouterName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
             self.routeName = routeName
             self.spec = spec
+            self.tags = tags
             self.virtualRouterName = virtualRouterName
         }
 
@@ -78,6 +130,7 @@ extension AppMesh {
             case meshName = "meshName"
             case routeName = "routeName"
             case spec = "spec"
+            case tags = "tags"
             case virtualRouterName = "virtualRouterName"
         }
     }
@@ -86,12 +139,12 @@ extension AppMesh {
         /// The key for the payload
         public static let payloadPath: String? = "route"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "route", required: false, type: .structure)
+            AWSShapeMember(label: "route", required: true, type: .structure)
         ]
         /// The full description of your mesh following the create call.
-        public let route: RouteData?
+        public let route: RouteData
 
-        public init(route: RouteData? = nil) {
+        public init(route: RouteData) {
             self.route = route
         }
 
@@ -105,22 +158,29 @@ extension AppMesh {
             AWSShapeMember(label: "clientToken", required: false, type: .string), 
             AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
             AWSShapeMember(label: "spec", required: true, type: .structure), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "virtualNodeName", required: true, type: .string)
         ]
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
         /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
-        /// The name of the service mesh in which to create the virtual node.
+        /// The name of the service mesh to create the virtual node in.
         public let meshName: String
         /// The virtual node specification to apply.
         public let spec: VirtualNodeSpec
+        /// Optional metadata that you can apply to the virtual node to assist with categorization and organization.
+        ///          Each tag consists of a key and an optional value, both of which you define.
+        ///          Tag keys can have a maximum character length of 128 characters, and tag values can have
+        ///             a maximum length of 256 characters.
+        public let tags: [TagRef]?
         /// The name to use for the virtual node.
         public let virtualNodeName: String
 
-        public init(clientToken: String? = nil, meshName: String, spec: VirtualNodeSpec, virtualNodeName: String) {
+        public init(clientToken: String? = nil, meshName: String, spec: VirtualNodeSpec, tags: [TagRef]? = nil, virtualNodeName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
             self.spec = spec
+            self.tags = tags
             self.virtualNodeName = virtualNodeName
         }
 
@@ -128,6 +188,7 @@ extension AppMesh {
             case clientToken = "clientToken"
             case meshName = "meshName"
             case spec = "spec"
+            case tags = "tags"
             case virtualNodeName = "virtualNodeName"
         }
     }
@@ -136,12 +197,12 @@ extension AppMesh {
         /// The key for the payload
         public static let payloadPath: String? = "virtualNode"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "virtualNode", required: false, type: .structure)
+            AWSShapeMember(label: "virtualNode", required: true, type: .structure)
         ]
         /// The full description of your virtual node following the create call.
-        public let virtualNode: VirtualNodeData?
+        public let virtualNode: VirtualNodeData
 
-        public init(virtualNode: VirtualNodeData? = nil) {
+        public init(virtualNode: VirtualNodeData) {
             self.virtualNode = virtualNode
         }
 
@@ -155,22 +216,29 @@ extension AppMesh {
             AWSShapeMember(label: "clientToken", required: false, type: .string), 
             AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
             AWSShapeMember(label: "spec", required: true, type: .structure), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "virtualRouterName", required: true, type: .string)
         ]
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
         /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
-        /// The name of the service mesh in which to create the virtual router.
+        /// The name of the service mesh to create the virtual router in.
         public let meshName: String
         /// The virtual router specification to apply.
         public let spec: VirtualRouterSpec
+        /// Optional metadata that you can apply to the virtual router to assist with categorization and organization.
+        ///          Each tag consists of a key and an optional value, both of which you define.
+        ///          Tag keys can have a maximum character length of 128 characters, and tag values can have
+        ///             a maximum length of 256 characters.
+        public let tags: [TagRef]?
         /// The name to use for the virtual router.
         public let virtualRouterName: String
 
-        public init(clientToken: String? = nil, meshName: String, spec: VirtualRouterSpec, virtualRouterName: String) {
+        public init(clientToken: String? = nil, meshName: String, spec: VirtualRouterSpec, tags: [TagRef]? = nil, virtualRouterName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
             self.spec = spec
+            self.tags = tags
             self.virtualRouterName = virtualRouterName
         }
 
@@ -178,6 +246,7 @@ extension AppMesh {
             case clientToken = "clientToken"
             case meshName = "meshName"
             case spec = "spec"
+            case tags = "tags"
             case virtualRouterName = "virtualRouterName"
         }
     }
@@ -186,17 +255,75 @@ extension AppMesh {
         /// The key for the payload
         public static let payloadPath: String? = "virtualRouter"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "virtualRouter", required: false, type: .structure)
+            AWSShapeMember(label: "virtualRouter", required: true, type: .structure)
         ]
         /// The full description of your virtual router following the create call.
-        public let virtualRouter: VirtualRouterData?
+        public let virtualRouter: VirtualRouterData
 
-        public init(virtualRouter: VirtualRouterData? = nil) {
+        public init(virtualRouter: VirtualRouterData) {
             self.virtualRouter = virtualRouter
         }
 
         private enum CodingKeys: String, CodingKey {
             case virtualRouter = "virtualRouter"
+        }
+    }
+
+    public struct CreateVirtualServiceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientToken", required: false, type: .string), 
+            AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
+            AWSShapeMember(label: "spec", required: true, type: .structure), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "virtualServiceName", required: true, type: .string)
+        ]
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
+        /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+        public let clientToken: String?
+        /// The name of the service mesh to create the virtual service in.
+        public let meshName: String
+        /// The virtual service specification to apply.
+        public let spec: VirtualServiceSpec
+        /// Optional metadata that you can apply to the virtual service to assist with categorization and organization.
+        ///          Each tag consists of a key and an optional value, both of which you define.
+        ///          Tag keys can have a maximum character length of 128 characters, and tag values can have
+        ///             a maximum length of 256 characters.
+        public let tags: [TagRef]?
+        /// The name to use for the virtual service.
+        public let virtualServiceName: String
+
+        public init(clientToken: String? = nil, meshName: String, spec: VirtualServiceSpec, tags: [TagRef]? = nil, virtualServiceName: String) {
+            self.clientToken = clientToken
+            self.meshName = meshName
+            self.spec = spec
+            self.tags = tags
+            self.virtualServiceName = virtualServiceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case meshName = "meshName"
+            case spec = "spec"
+            case tags = "tags"
+            case virtualServiceName = "virtualServiceName"
+        }
+    }
+
+    public struct CreateVirtualServiceOutput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "virtualService"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualService", required: true, type: .structure)
+        ]
+        /// The full description of your virtual service following the create call.
+        public let virtualService: VirtualServiceData
+
+        public init(virtualService: VirtualServiceData) {
+            self.virtualService = virtualService
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualService = "virtualService"
         }
     }
 
@@ -220,12 +347,12 @@ extension AppMesh {
         /// The key for the payload
         public static let payloadPath: String? = "mesh"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "mesh", required: false, type: .structure)
+            AWSShapeMember(label: "mesh", required: true, type: .structure)
         ]
         /// The service mesh that was deleted.
-        public let mesh: MeshData?
+        public let mesh: MeshData
 
-        public init(mesh: MeshData? = nil) {
+        public init(mesh: MeshData) {
             self.mesh = mesh
         }
 
@@ -240,11 +367,11 @@ extension AppMesh {
             AWSShapeMember(label: "routeName", location: .uri(locationName: "routeName"), required: true, type: .string), 
             AWSShapeMember(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"), required: true, type: .string)
         ]
-        /// The name of the service mesh in which to delete the route.
+        /// The name of the service mesh to delete the route in.
         public let meshName: String
         /// The name of the route to delete.
         public let routeName: String
-        /// The name of the virtual router in which to delete the route.
+        /// The name of the virtual router to delete the route in.
         public let virtualRouterName: String
 
         public init(meshName: String, routeName: String, virtualRouterName: String) {
@@ -264,12 +391,12 @@ extension AppMesh {
         /// The key for the payload
         public static let payloadPath: String? = "route"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "route", required: false, type: .structure)
+            AWSShapeMember(label: "route", required: true, type: .structure)
         ]
         /// The route that was deleted.
-        public let route: RouteData?
+        public let route: RouteData
 
-        public init(route: RouteData? = nil) {
+        public init(route: RouteData) {
             self.route = route
         }
 
@@ -283,7 +410,7 @@ extension AppMesh {
             AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
             AWSShapeMember(label: "virtualNodeName", location: .uri(locationName: "virtualNodeName"), required: true, type: .string)
         ]
-        /// The name of the service mesh in which to delete the virtual node.
+        /// The name of the service mesh to delete the virtual node in.
         public let meshName: String
         /// The name of the virtual node to delete.
         public let virtualNodeName: String
@@ -303,12 +430,12 @@ extension AppMesh {
         /// The key for the payload
         public static let payloadPath: String? = "virtualNode"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "virtualNode", required: false, type: .structure)
+            AWSShapeMember(label: "virtualNode", required: true, type: .structure)
         ]
         /// The virtual node that was deleted.
-        public let virtualNode: VirtualNodeData?
+        public let virtualNode: VirtualNodeData
 
-        public init(virtualNode: VirtualNodeData? = nil) {
+        public init(virtualNode: VirtualNodeData) {
             self.virtualNode = virtualNode
         }
 
@@ -322,7 +449,7 @@ extension AppMesh {
             AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
             AWSShapeMember(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"), required: true, type: .string)
         ]
-        /// The name of the service mesh in which to delete the virtual router.
+        /// The name of the service mesh to delete the virtual router in.
         public let meshName: String
         /// The name of the virtual router to delete.
         public let virtualRouterName: String
@@ -342,17 +469,56 @@ extension AppMesh {
         /// The key for the payload
         public static let payloadPath: String? = "virtualRouter"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "virtualRouter", required: false, type: .structure)
+            AWSShapeMember(label: "virtualRouter", required: true, type: .structure)
         ]
         /// The virtual router that was deleted.
-        public let virtualRouter: VirtualRouterData?
+        public let virtualRouter: VirtualRouterData
 
-        public init(virtualRouter: VirtualRouterData? = nil) {
+        public init(virtualRouter: VirtualRouterData) {
             self.virtualRouter = virtualRouter
         }
 
         private enum CodingKeys: String, CodingKey {
             case virtualRouter = "virtualRouter"
+        }
+    }
+
+    public struct DeleteVirtualServiceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
+            AWSShapeMember(label: "virtualServiceName", location: .uri(locationName: "virtualServiceName"), required: true, type: .string)
+        ]
+        /// The name of the service mesh to delete the virtual service in.
+        public let meshName: String
+        /// The name of the virtual service to delete.
+        public let virtualServiceName: String
+
+        public init(meshName: String, virtualServiceName: String) {
+            self.meshName = meshName
+            self.virtualServiceName = virtualServiceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case meshName = "meshName"
+            case virtualServiceName = "virtualServiceName"
+        }
+    }
+
+    public struct DeleteVirtualServiceOutput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "virtualService"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualService", required: true, type: .structure)
+        ]
+        /// The virtual service that was deleted.
+        public let virtualService: VirtualServiceData
+
+        public init(virtualService: VirtualServiceData) {
+            self.virtualService = virtualService
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualService = "virtualService"
         }
     }
 
@@ -376,12 +542,12 @@ extension AppMesh {
         /// The key for the payload
         public static let payloadPath: String? = "mesh"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "mesh", required: false, type: .structure)
+            AWSShapeMember(label: "mesh", required: true, type: .structure)
         ]
         /// The full description of your service mesh.
-        public let mesh: MeshData?
+        public let mesh: MeshData
 
-        public init(mesh: MeshData? = nil) {
+        public init(mesh: MeshData) {
             self.mesh = mesh
         }
 
@@ -396,11 +562,11 @@ extension AppMesh {
             AWSShapeMember(label: "routeName", location: .uri(locationName: "routeName"), required: true, type: .string), 
             AWSShapeMember(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"), required: true, type: .string)
         ]
-        /// The name of the service mesh in which the route resides.
+        /// The name of the service mesh that the route resides in.
         public let meshName: String
         /// The name of the route to describe.
         public let routeName: String
-        /// The name of the virtual router with which the route is associated.
+        /// The name of the virtual router that the route is associated with.
         public let virtualRouterName: String
 
         public init(meshName: String, routeName: String, virtualRouterName: String) {
@@ -420,12 +586,12 @@ extension AppMesh {
         /// The key for the payload
         public static let payloadPath: String? = "route"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "route", required: false, type: .structure)
+            AWSShapeMember(label: "route", required: true, type: .structure)
         ]
         /// The full description of your route.
-        public let route: RouteData?
+        public let route: RouteData
 
-        public init(route: RouteData? = nil) {
+        public init(route: RouteData) {
             self.route = route
         }
 
@@ -439,7 +605,7 @@ extension AppMesh {
             AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
             AWSShapeMember(label: "virtualNodeName", location: .uri(locationName: "virtualNodeName"), required: true, type: .string)
         ]
-        /// The name of the service mesh in which the virtual node resides.
+        /// The name of the service mesh that the virtual node resides in.
         public let meshName: String
         /// The name of the virtual node to describe.
         public let virtualNodeName: String
@@ -459,12 +625,12 @@ extension AppMesh {
         /// The key for the payload
         public static let payloadPath: String? = "virtualNode"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "virtualNode", required: false, type: .structure)
+            AWSShapeMember(label: "virtualNode", required: true, type: .structure)
         ]
         /// The full description of your virtual node.
-        public let virtualNode: VirtualNodeData?
+        public let virtualNode: VirtualNodeData
 
-        public init(virtualNode: VirtualNodeData? = nil) {
+        public init(virtualNode: VirtualNodeData) {
             self.virtualNode = virtualNode
         }
 
@@ -478,7 +644,7 @@ extension AppMesh {
             AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
             AWSShapeMember(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"), required: true, type: .string)
         ]
-        /// The name of the service mesh in which the virtual router resides.
+        /// The name of the service mesh that the virtual router resides in.
         public let meshName: String
         /// The name of the virtual router to describe.
         public let virtualRouterName: String
@@ -498,12 +664,12 @@ extension AppMesh {
         /// The key for the payload
         public static let payloadPath: String? = "virtualRouter"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "virtualRouter", required: false, type: .structure)
+            AWSShapeMember(label: "virtualRouter", required: true, type: .structure)
         ]
         /// The full description of your virtual router.
-        public let virtualRouter: VirtualRouterData?
+        public let virtualRouter: VirtualRouterData
 
-        public init(virtualRouter: VirtualRouterData? = nil) {
+        public init(virtualRouter: VirtualRouterData) {
             self.virtualRouter = virtualRouter
         }
 
@@ -512,51 +678,142 @@ extension AppMesh {
         }
     }
 
-    public struct DnsServiceDiscovery: AWSShape {
+    public struct DescribeVirtualServiceInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "serviceName", required: false, type: .string)
+            AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
+            AWSShapeMember(label: "virtualServiceName", location: .uri(locationName: "virtualServiceName"), required: true, type: .string)
         ]
-        /// The DNS service name for your virtual node.
-        public let serviceName: String?
+        /// The name of the service mesh that the virtual service resides in.
+        public let meshName: String
+        /// The name of the virtual service to describe.
+        public let virtualServiceName: String
 
-        public init(serviceName: String? = nil) {
-            self.serviceName = serviceName
+        public init(meshName: String, virtualServiceName: String) {
+            self.meshName = meshName
+            self.virtualServiceName = virtualServiceName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serviceName = "serviceName"
+            case meshName = "meshName"
+            case virtualServiceName = "virtualServiceName"
+        }
+    }
+
+    public struct DescribeVirtualServiceOutput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "virtualService"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualService", required: true, type: .structure)
+        ]
+        /// The full description of your virtual service.
+        public let virtualService: VirtualServiceData
+
+        public init(virtualService: VirtualServiceData) {
+            self.virtualService = virtualService
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualService = "virtualService"
+        }
+    }
+
+    public struct DnsServiceDiscovery: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "hostname", required: true, type: .string)
+        ]
+        /// Specifies the DNS service discovery hostname for the virtual node. 
+        public let hostname: String
+
+        public init(hostname: String) {
+            self.hostname = hostname
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostname = "hostname"
+        }
+    }
+
+    public struct EgressFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "type", required: true, type: .enum)
+        ]
+        /// The egress filter type. By default, the type is DROP_ALL, which allows
+        ///          egress only from virtual nodes to other defined resources in the service mesh (and any traffic
+        ///          to *.amazonaws.com for AWS API calls). You can set the egress filter type to
+        ///             ALLOW_ALL to allow egress to any endpoint inside or outside of the service
+        ///          mesh.
+        public let `type`: EgressFilterType
+
+        public init(type: EgressFilterType) {
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "type"
+        }
+    }
+
+    public enum EgressFilterType: String, CustomStringConvertible, Codable {
+        case allowAll = "ALLOW_ALL"
+        case dropAll = "DROP_ALL"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct FileAccessLog: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "path", required: true, type: .string)
+        ]
+        /// The file path to write access logs to. You can use /dev/stdout to send
+        ///          access logs to standard out and configure your Envoy container to use a log driver, such as
+        ///             awslogs, to export the access logs to a log storage service such as Amazon CloudWatch
+        ///          Logs. You can also specify a path in the Envoy container's file system to write the files
+        ///          to disk.
+        ///          
+        ///             The Envoy process must have write permissions to the path that you specify here.
+        ///             Otherwise, Envoy fails to bootstrap properly.
+        ///          
+        public let path: String
+
+        public init(path: String) {
+            self.path = path
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case path = "path"
         }
     }
 
     public struct HealthCheckPolicy: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "healthyThreshold", required: false, type: .integer), 
-            AWSShapeMember(label: "intervalMillis", required: false, type: .long), 
+            AWSShapeMember(label: "healthyThreshold", required: true, type: .integer), 
+            AWSShapeMember(label: "intervalMillis", required: true, type: .long), 
             AWSShapeMember(label: "path", required: false, type: .string), 
             AWSShapeMember(label: "port", required: false, type: .integer), 
-            AWSShapeMember(label: "protocol", required: false, type: .enum), 
-            AWSShapeMember(label: "timeoutMillis", required: false, type: .long), 
-            AWSShapeMember(label: "unhealthyThreshold", required: false, type: .integer)
+            AWSShapeMember(label: "protocol", required: true, type: .enum), 
+            AWSShapeMember(label: "timeoutMillis", required: true, type: .long), 
+            AWSShapeMember(label: "unhealthyThreshold", required: true, type: .integer)
         ]
         /// The number of consecutive successful health checks that must occur before declaring
         ///          listener healthy.
-        public let healthyThreshold: Int32?
+        public let healthyThreshold: Int32
         /// The time period in milliseconds between each health check execution.
-        public let intervalMillis: Int64?
-        /// The destination path for the health check request.
+        public let intervalMillis: Int64
+        /// The destination path for the health check request. This is required only if the
+        ///          specified protocol is HTTP. If the protocol is TCP, this parameter is ignored.
         public let path: String?
-        /// The destination port for the health check request.
+        /// The destination port for the health check request. This port must match the port defined
+        ///          in the PortMapping for the listener.
         public let port: Int32?
         /// The protocol for the health check request.
-        public let `protocol`: PortProtocol?
+        public let `protocol`: PortProtocol
         /// The amount of time to wait when receiving a response from the health check, in
         ///          milliseconds.
-        public let timeoutMillis: Int64?
+        public let timeoutMillis: Int64
         /// The number of consecutive failed health checks that must occur before declaring a
         ///          virtual node unhealthy. 
-        public let unhealthyThreshold: Int32?
+        public let unhealthyThreshold: Int32
 
-        public init(healthyThreshold: Int32? = nil, intervalMillis: Int64? = nil, path: String? = nil, port: Int32? = nil, protocol: PortProtocol? = nil, timeoutMillis: Int64? = nil, unhealthyThreshold: Int32? = nil) {
+        public init(healthyThreshold: Int32, intervalMillis: Int64, path: String? = nil, port: Int32? = nil, protocol: PortProtocol, timeoutMillis: Int64, unhealthyThreshold: Int32) {
             self.healthyThreshold = healthyThreshold
             self.intervalMillis = intervalMillis
             self.path = path
@@ -579,15 +836,15 @@ extension AppMesh {
 
     public struct HttpRoute: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "action", required: false, type: .structure), 
-            AWSShapeMember(label: "match", required: false, type: .structure)
+            AWSShapeMember(label: "action", required: true, type: .structure), 
+            AWSShapeMember(label: "match", required: true, type: .structure)
         ]
         /// The action to take if a match is determined.
-        public let action: HttpRouteAction?
+        public let action: HttpRouteAction
         /// The criteria for determining an HTTP request match.
-        public let match: HttpRouteMatch?
+        public let match: HttpRouteMatch
 
-        public init(action: HttpRouteAction? = nil, match: HttpRouteMatch? = nil) {
+        public init(action: HttpRouteAction, match: HttpRouteMatch) {
             self.action = action
             self.match = match
         }
@@ -600,13 +857,13 @@ extension AppMesh {
 
     public struct HttpRouteAction: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "weightedTargets", required: false, type: .list)
+            AWSShapeMember(label: "weightedTargets", required: true, type: .list)
         ]
         /// The targets that traffic is routed to when a request matches the route. You can specify
-        ///          one or more targets and their relative weights with which to distribute traffic.
-        public let weightedTargets: [WeightedTarget]?
+        ///          one or more targets and their relative weights to distribute traffic with.
+        public let weightedTargets: [WeightedTarget]
 
-        public init(weightedTargets: [WeightedTarget]? = nil) {
+        public init(weightedTargets: [WeightedTarget]) {
             self.weightedTargets = weightedTargets
         }
 
@@ -617,17 +874,17 @@ extension AppMesh {
 
     public struct HttpRouteMatch: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "prefix", required: false, type: .string)
+            AWSShapeMember(label: "prefix", required: true, type: .string)
         ]
-        /// Specifies the path with which to match requests. This parameter must always start with
-        ///             /, which by itself matches all requests to the virtual router service name.
-        ///          You can also match for path-based routing of requests. For example, if your virtual router
-        ///          service name is my-service.local, and you want the route to match requests to
-        ///             my-service.local/metrics, then your prefix should be
+        /// Specifies the path to match requests with. This parameter must always start with
+        ///             /, which by itself matches all requests to the virtual service name. You
+        ///          can also match for path-based routing of requests. For example, if your virtual service
+        ///          name is my-service.local and you want the route to match requests to
+        ///             my-service.local/metrics, your prefix should be
         ///          /metrics.
-        public let prefix: String?
+        public let prefix: String
 
-        public init(prefix: String? = nil) {
+        public init(prefix: String) {
             self.prefix = prefix
         }
 
@@ -641,13 +898,13 @@ extension AppMesh {
             AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
-        /// The maximum number of mesh results returned by ListMeshes in paginated
-        ///          output. When this parameter is used, ListMeshes only returns
-        ///             limit results in a single page along with a nextToken response
-        ///          element. The remaining results of the initial request can be seen by sending another
+        /// The maximum number of results returned by ListMeshes in paginated output.
+        ///          When you use this parameter, ListMeshes returns only limit
+        ///          results in a single page along with a nextToken response element. You can see the
+        ///          remaining results of the initial request by sending another
         ///             ListMeshes request with the returned nextToken value. This
-        ///          value can be between 1 and 100. If this parameter is not
-        ///          used, then ListMeshes returns up to 100 results and a
+        ///          value can be between 1 and 100. If you don't use this parameter,
+        ///          ListMeshes returns up to 100 results and a
         ///             nextToken value if applicable.
         public let limit: Int32?
         /// The nextToken value returned from a previous paginated
@@ -655,7 +912,7 @@ extension AppMesh {
         ///          results exceeded the value of that parameter. Pagination continues from the end of the
         ///          previous results that returned the nextToken value.
         ///          
-        ///             This token should be treated as an opaque identifier that is only used to
+        ///             This token should be treated as an opaque identifier that is used only to
         ///                 retrieve the next items in a list and not for other programmatic purposes.
         ///         
         public let nextToken: String?
@@ -680,7 +937,7 @@ extension AppMesh {
         public let meshes: [MeshRef]
         /// The nextToken value to include in a future ListMeshes
         ///          request. When the results of a ListMeshes request exceed
-        ///          limit, this value can be used to retrieve the next page of
+        ///          limit, you can use this value to retrieve the next page of
         ///          results. This value is null when there are no more results to
         ///          return.
         public let nextToken: String?
@@ -703,23 +960,23 @@ extension AppMesh {
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
             AWSShapeMember(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"), required: true, type: .string)
         ]
-        /// The maximum number of mesh results returned by ListRoutes in paginated
-        ///          output. When this parameter is used, ListRoutes only returns
-        ///             limit results in a single page along with a nextToken response
-        ///          element. The remaining results of the initial request can be seen by sending another
+        /// The maximum number of results returned by ListRoutes in paginated output.
+        ///          When you use this parameter, ListRoutes returns only limit
+        ///          results in a single page along with a nextToken response element. You can see the
+        ///          remaining results of the initial request by sending another
         ///             ListRoutes request with the returned nextToken value. This
-        ///          value can be between 1 and 100. If this parameter is not
-        ///          used, then ListRoutes returns up to 100 results and a
+        ///          value can be between 1 and 100. If you don't use this parameter,
+        ///          ListRoutes returns up to 100 results and a
         ///             nextToken value if applicable.
         public let limit: Int32?
-        /// The name of the service mesh in which to list routes.
+        /// The name of the service mesh to list routes in.
         public let meshName: String
         /// The nextToken value returned from a previous paginated
         ///          ListRoutes request where limit was used and the
         ///          results exceeded the value of that parameter. Pagination continues from the end of the
         ///          previous results that returned the nextToken value.
         public let nextToken: String?
-        /// The name of the virtual router in which to list routes.
+        /// The name of the virtual router to list routes in.
         public let virtualRouterName: String
 
         public init(limit: Int32? = nil, meshName: String, nextToken: String? = nil, virtualRouterName: String) {
@@ -744,7 +1001,7 @@ extension AppMesh {
         ]
         /// The nextToken value to include in a future ListRoutes
         ///          request. When the results of a ListRoutes request exceed
-        ///          limit, this value can be used to retrieve the next page of
+        ///          limit, you can use this value to retrieve the next page of
         ///          results. This value is null when there are no more results to
         ///          return.
         public let nextToken: String?
@@ -762,22 +1019,83 @@ extension AppMesh {
         }
     }
 
+    public struct ListTagsForResourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"), required: true, type: .string)
+        ]
+        /// The maximum number of tag results returned by ListTagsForResource in
+        ///          paginated output. When this parameter is used, ListTagsForResource returns only
+        ///          limit results in a single page along with a nextToken
+        ///          response element. You can see the remaining results of the initial request by sending
+        ///          another ListTagsForResource request with the returned nextToken
+        ///          value. This value can be between 1 and 100. If you don't use this
+        ///          parameter, ListTagsForResource returns up to
+        ///          100 results and a nextToken value if applicable.
+        public let limit: Int32?
+        /// The nextToken value returned from a previous paginated
+        ///          ListTagsForResource request where limit was used and the
+        ///          results exceeded the value of that parameter. Pagination continues from the end of the
+        ///          previous results that returned the nextToken value.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) that identifies the resource to list the tags for.
+        public let resourceArn: String
+
+        public init(limit: Int32? = nil, nextToken: String? = nil, resourceArn: String) {
+            self.limit = limit
+            self.nextToken = nextToken
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "limit"
+            case nextToken = "nextToken"
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: true, type: .list)
+        ]
+        /// The nextToken value to include in a future ListTagsForResource
+        ///          request. When the results of a ListTagsForResource request exceed
+        ///          limit, you can use this value to retrieve the next page of
+        ///          results. This value is null when there are no more results to
+        ///          return.
+        public let nextToken: String?
+        /// The tags for the resource.
+        public let tags: [TagRef]
+
+        public init(nextToken: String? = nil, tags: [TagRef]) {
+            self.nextToken = nextToken
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case tags = "tags"
+        }
+    }
+
     public struct ListVirtualNodesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
             AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
-        /// The maximum number of mesh results returned by ListVirtualNodes in
-        ///          paginated output. When this parameter is used, ListVirtualNodes only returns
-        ///          limit results in a single page along with a nextToken
-        ///          response element. The remaining results of the initial request can be seen by sending
-        ///          another ListVirtualNodes request with the returned nextToken
-        ///          value. This value can be between 1 and 100. If this
-        ///          parameter is not used, then ListVirtualNodes returns up to
-        ///          100 results and a nextToken value if applicable.
+        /// The maximum number of results returned by ListVirtualNodes in paginated
+        ///          output. When you use this parameter, ListVirtualNodes returns only
+        ///             limit results in a single page along with a nextToken response
+        ///          element. You can see the remaining results of the initial request by sending another
+        ///             ListVirtualNodes request with the returned nextToken value.
+        ///          This value can be between 1 and 100. If you don't use this parameter,
+        ///          ListVirtualNodes returns up to 100 results and a
+        ///             nextToken value if applicable.
         public let limit: Int32?
-        /// The name of the service mesh in which to list virtual nodes.
+        /// The name of the service mesh to list virtual nodes in.
         public let meshName: String
         /// The nextToken value returned from a previous paginated
         ///          ListVirtualNodes request where limit was used and the
@@ -805,7 +1123,7 @@ extension AppMesh {
         ]
         /// The nextToken value to include in a future ListVirtualNodes
         ///          request. When the results of a ListVirtualNodes request exceed
-        ///          limit, this value can be used to retrieve the next page of
+        ///          limit, you can use this value to retrieve the next page of
         ///          results. This value is null when there are no more results to
         ///          return.
         public let nextToken: String?
@@ -829,16 +1147,16 @@ extension AppMesh {
             AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
-        /// The maximum number of mesh results returned by ListVirtualRouters in
-        ///          paginated output. When this parameter is used, ListVirtualRouters only returns
-        ///          limit results in a single page along with a nextToken
-        ///          response element. The remaining results of the initial request can be seen by sending
-        ///          another ListVirtualRouters request with the returned nextToken
-        ///          value. This value can be between 1 and 100. If this
-        ///          parameter is not used, then ListVirtualRouters returns up to
-        ///          100 results and a nextToken value if applicable.
+        /// The maximum number of results returned by ListVirtualRouters in paginated
+        ///          output. When you use this parameter, ListVirtualRouters returns only
+        ///             limit results in a single page along with a nextToken response
+        ///          element. You can see the remaining results of the initial request by sending another
+        ///             ListVirtualRouters request with the returned nextToken value.
+        ///          This value can be between 1 and 100. If you don't use this parameter, 
+        ///          ListVirtualRouters returns up to 100 results and
+        ///          a nextToken value if applicable.
         public let limit: Int32?
-        /// The name of the service mesh in which to list virtual routers.
+        /// The name of the service mesh to list virtual routers in.
         public let meshName: String
         /// The nextToken value returned from a previous paginated
         ///          ListVirtualRouters request where limit was used and the
@@ -866,7 +1184,7 @@ extension AppMesh {
         ]
         /// The nextToken value to include in a future ListVirtualRouters
         ///          request. When the results of a ListVirtualRouters request exceed
-        ///          limit, this value can be used to retrieve the next page of
+        ///          limit, you can use this value to retrieve the next page of
         ///          results. This value is null when there are no more results to
         ///          return.
         public let nextToken: String?
@@ -884,20 +1202,77 @@ extension AppMesh {
         }
     }
 
+    public struct ListVirtualServicesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+        /// The maximum number of results returned by ListVirtualServices in paginated
+        ///          output. When you use this parameter, ListVirtualServices returns only
+        ///             limit results in a single page along with a nextToken response
+        ///          element. You can see the remaining results of the initial request by sending another
+        ///             ListVirtualServices request with the returned nextToken value.
+        ///          This value can be between 1 and 100. If you don't use this parameter,
+        ///          ListVirtualServices returns up to 100 results and
+        ///          a nextToken value if applicable.
+        public let limit: Int32?
+        /// The name of the service mesh to list virtual services in.
+        public let meshName: String
+        /// The nextToken value returned from a previous paginated
+        ///             ListVirtualServices request where limit was used and the
+        ///          results exceeded the value of that parameter. Pagination continues from the end of the
+        ///          previous results that returned the nextToken value.
+        public let nextToken: String?
+
+        public init(limit: Int32? = nil, meshName: String, nextToken: String? = nil) {
+            self.limit = limit
+            self.meshName = meshName
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "limit"
+            case meshName = "meshName"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListVirtualServicesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "virtualServices", required: true, type: .list)
+        ]
+        /// The nextToken value to include in a future ListVirtualServices
+        ///          request. When the results of a ListVirtualServices request exceed
+        ///             limit, you can use this value to retrieve the next page of results. This
+        ///          value is null when there are no more results to return.
+        public let nextToken: String?
+        /// The list of existing virtual services for the specified service mesh.
+        public let virtualServices: [VirtualServiceRef]
+
+        public init(nextToken: String? = nil, virtualServices: [VirtualServiceRef]) {
+            self.nextToken = nextToken
+            self.virtualServices = virtualServices
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case virtualServices = "virtualServices"
+        }
+    }
+
     public struct Listener: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "healthCheck", required: false, type: .structure), 
-            AWSShapeMember(label: "portMapping", required: false, type: .structure)
+            AWSShapeMember(label: "portMapping", required: true, type: .structure)
         ]
         /// The health check information for the listener.
-        ///          
-        ///             Listener health checks are not available during the App Mesh preview.
-        ///          
         public let healthCheck: HealthCheckPolicy?
         /// The port mapping information for the listener.
-        public let portMapping: PortMapping?
+        public let portMapping: PortMapping
 
-        public init(healthCheck: HealthCheckPolicy? = nil, portMapping: PortMapping? = nil) {
+        public init(healthCheck: HealthCheckPolicy? = nil, portMapping: PortMapping) {
             self.healthCheck = healthCheck
             self.portMapping = portMapping
         }
@@ -908,43 +1283,64 @@ extension AppMesh {
         }
     }
 
+    public struct Logging: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "accessLog", required: false, type: .structure)
+        ]
+        /// The access log configuration for a virtual node.
+        public let accessLog: AccessLog?
+
+        public init(accessLog: AccessLog? = nil) {
+            self.accessLog = accessLog
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessLog = "accessLog"
+        }
+    }
+
     public struct MeshData: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "meshName", required: true, type: .string), 
             AWSShapeMember(label: "metadata", required: true, type: .structure), 
-            AWSShapeMember(label: "status", required: false, type: .structure)
+            AWSShapeMember(label: "spec", required: true, type: .structure), 
+            AWSShapeMember(label: "status", required: true, type: .structure)
         ]
         /// The name of the service mesh.
         public let meshName: String
         /// The associated metadata for the service mesh.
         public let metadata: ResourceMetadata
+        /// The associated specification for the service mesh.
+        public let spec: MeshSpec
         /// The status of the service mesh.
-        public let status: MeshStatus?
+        public let status: MeshStatus
 
-        public init(meshName: String, metadata: ResourceMetadata, status: MeshStatus? = nil) {
+        public init(meshName: String, metadata: ResourceMetadata, spec: MeshSpec, status: MeshStatus) {
             self.meshName = meshName
             self.metadata = metadata
+            self.spec = spec
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case meshName = "meshName"
             case metadata = "metadata"
+            case spec = "spec"
             case status = "status"
         }
     }
 
     public struct MeshRef: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "meshName", required: false, type: .string)
+            AWSShapeMember(label: "arn", required: true, type: .string), 
+            AWSShapeMember(label: "meshName", required: true, type: .string)
         ]
         /// The full Amazon Resource Name (ARN) of the service mesh.
-        public let arn: String?
+        public let arn: String
         /// The name of the service mesh.
-        public let meshName: String?
+        public let meshName: String
 
-        public init(arn: String? = nil, meshName: String? = nil) {
+        public init(arn: String, meshName: String) {
             self.arn = arn
             self.meshName = meshName
         }
@@ -952,6 +1348,22 @@ extension AppMesh {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case meshName = "meshName"
+        }
+    }
+
+    public struct MeshSpec: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "egressFilter", required: false, type: .structure)
+        ]
+        /// The egress filter rules for the service mesh.
+        public let egressFilter: EgressFilter?
+
+        public init(egressFilter: EgressFilter? = nil) {
+            self.egressFilter = egressFilter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case egressFilter = "egressFilter"
         }
     }
 
@@ -980,15 +1392,15 @@ extension AppMesh {
 
     public struct PortMapping: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "port", required: false, type: .integer), 
-            AWSShapeMember(label: "protocol", required: false, type: .enum)
+            AWSShapeMember(label: "port", required: true, type: .integer), 
+            AWSShapeMember(label: "protocol", required: true, type: .enum)
         ]
         /// The port used for the port mapping.
-        public let port: Int32?
+        public let port: Int32
         /// The protocol used for the port mapping.
-        public let `protocol`: PortProtocol?
+        public let `protocol`: PortProtocol
 
-        public init(port: Int32? = nil, protocol: PortProtocol? = nil) {
+        public init(port: Int32, protocol: PortProtocol) {
             self.port = port
             self.`protocol` = `protocol`
         }
@@ -1007,36 +1419,25 @@ extension AppMesh {
 
     public struct ResourceMetadata: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "uid", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .long)
+            AWSShapeMember(label: "arn", required: true, type: .string), 
+            AWSShapeMember(label: "createdAt", required: true, type: .timestamp), 
+            AWSShapeMember(label: "lastUpdatedAt", required: true, type: .timestamp), 
+            AWSShapeMember(label: "uid", required: true, type: .string), 
+            AWSShapeMember(label: "version", required: true, type: .long)
         ]
         /// The full Amazon Resource Name (ARN) for the resource.
-        ///          
-        ///             After you create a virtual node, set this value (either the full ARN or the
-        ///             truncated resource name, for example, mesh/default/virtualNode/simpleapp,
-        ///             as the APPMESH_VIRTUAL_NODE_NAME environment variable for your task group's
-        ///             Envoy proxy container in your task definition or pod spec. This is then mapped to the
-        ///                node.id and node.cluster Envoy parameters.
-        ///             If you require your Envoy stats or tracing to use a different name, you can override
-        ///             the node.cluster value that is set by
-        ///                APPMESH_VIRTUAL_NODE_NAME with the
-        ///                APPMESH_VIRTUAL_NODE_CLUSTER environment variable.
-        ///          
-        public let arn: String?
-        /// The Unix epoch timestamp in seconds for when the cluster was created.
-        public let createdAt: TimeStamp?
-        /// The Unix epoch timestamp in seconds for when the cluster was last updated.
-        public let lastUpdatedAt: TimeStamp?
+        public let arn: String
+        /// The Unix epoch timestamp in seconds for when the resource was created.
+        public let createdAt: TimeStamp
+        /// The Unix epoch timestamp in seconds for when the resource was last updated.
+        public let lastUpdatedAt: TimeStamp
         /// The unique identifier for the resource.
-        public let uid: String?
+        public let uid: String
         /// The version of the resource. Resources are created at version 1, and this version is
-        ///          incremented each time they are updated.
-        public let version: Int64?
+        ///          incremented each time that they're updated.
+        public let version: Int64
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, lastUpdatedAt: TimeStamp? = nil, uid: String? = nil, version: Int64? = nil) {
+        public init(arn: String, createdAt: TimeStamp, lastUpdatedAt: TimeStamp, uid: String, version: Int64) {
             self.arn = arn
             self.createdAt = createdAt
             self.lastUpdatedAt = lastUpdatedAt
@@ -1056,26 +1457,26 @@ extension AppMesh {
     public struct RouteData: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "meshName", required: true, type: .string), 
-            AWSShapeMember(label: "metadata", required: false, type: .structure), 
+            AWSShapeMember(label: "metadata", required: true, type: .structure), 
             AWSShapeMember(label: "routeName", required: true, type: .string), 
-            AWSShapeMember(label: "spec", required: false, type: .structure), 
-            AWSShapeMember(label: "status", required: false, type: .structure), 
+            AWSShapeMember(label: "spec", required: true, type: .structure), 
+            AWSShapeMember(label: "status", required: true, type: .structure), 
             AWSShapeMember(label: "virtualRouterName", required: true, type: .string)
         ]
-        /// The name of the service mesh in which the route resides.
+        /// The name of the service mesh that the route resides in.
         public let meshName: String
         /// The associated metadata for the route.
-        public let metadata: ResourceMetadata?
+        public let metadata: ResourceMetadata
         /// The name of the route.
         public let routeName: String
         /// The specifications of the route.
-        public let spec: RouteSpec?
+        public let spec: RouteSpec
         /// The status of the route.
-        public let status: RouteStatus?
-        /// The virtual router with which the route is associated.
+        public let status: RouteStatus
+        /// The virtual router that the route is associated with.
         public let virtualRouterName: String
 
-        public init(meshName: String, metadata: ResourceMetadata? = nil, routeName: String, spec: RouteSpec? = nil, status: RouteStatus? = nil, virtualRouterName: String) {
+        public init(meshName: String, metadata: ResourceMetadata, routeName: String, spec: RouteSpec, status: RouteStatus, virtualRouterName: String) {
             self.meshName = meshName
             self.metadata = metadata
             self.routeName = routeName
@@ -1096,21 +1497,21 @@ extension AppMesh {
 
     public struct RouteRef: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "meshName", required: false, type: .string), 
-            AWSShapeMember(label: "routeName", required: false, type: .string), 
-            AWSShapeMember(label: "virtualRouterName", required: false, type: .string)
+            AWSShapeMember(label: "arn", required: true, type: .string), 
+            AWSShapeMember(label: "meshName", required: true, type: .string), 
+            AWSShapeMember(label: "routeName", required: true, type: .string), 
+            AWSShapeMember(label: "virtualRouterName", required: true, type: .string)
         ]
         /// The full Amazon Resource Name (ARN) for the route.
-        public let arn: String?
-        /// The name of the service mesh in which the route resides.
-        public let meshName: String?
+        public let arn: String
+        /// The name of the service mesh that the route resides in.
+        public let meshName: String
         /// The name of the route.
-        public let routeName: String?
-        /// The virtual router with which the route is associated.
-        public let virtualRouterName: String?
+        public let routeName: String
+        /// The virtual router that the route is associated with.
+        public let virtualRouterName: String
 
-        public init(arn: String? = nil, meshName: String? = nil, routeName: String? = nil, virtualRouterName: String? = nil) {
+        public init(arn: String, meshName: String, routeName: String, virtualRouterName: String) {
             self.arn = arn
             self.meshName = meshName
             self.routeName = routeName
@@ -1127,28 +1528,33 @@ extension AppMesh {
 
     public struct RouteSpec: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "httpRoute", required: false, type: .structure)
+            AWSShapeMember(label: "httpRoute", required: false, type: .structure), 
+            AWSShapeMember(label: "tcpRoute", required: false, type: .structure)
         ]
         /// The HTTP routing information for the route.
         public let httpRoute: HttpRoute?
+        /// The TCP routing information for the route.
+        public let tcpRoute: TcpRoute?
 
-        public init(httpRoute: HttpRoute? = nil) {
+        public init(httpRoute: HttpRoute? = nil, tcpRoute: TcpRoute? = nil) {
             self.httpRoute = httpRoute
+            self.tcpRoute = tcpRoute
         }
 
         private enum CodingKeys: String, CodingKey {
             case httpRoute = "httpRoute"
+            case tcpRoute = "tcpRoute"
         }
     }
 
     public struct RouteStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: false, type: .enum)
+            AWSShapeMember(label: "status", required: true, type: .enum)
         ]
         /// The current status for the route.
-        public let status: RouteStatusCode?
+        public let status: RouteStatusCode
 
-        public init(status: RouteStatusCode? = nil) {
+        public init(status: RouteStatusCode) {
             self.status = status
         }
 
@@ -1168,7 +1574,7 @@ extension AppMesh {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "dns", required: false, type: .structure)
         ]
-        /// Specifies the DNS service name for the virtual node.
+        /// Specifies the DNS information for the virtual node.
         public let dns: DnsServiceDiscovery?
 
         public init(dns: DnsServiceDiscovery? = nil) {
@@ -1177,6 +1583,164 @@ extension AppMesh {
 
         private enum CodingKeys: String, CodingKey {
             case dns = "dns"
+        }
+    }
+
+    public struct TagRef: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "key", required: true, type: .string), 
+            AWSShapeMember(label: "value", required: false, type: .string)
+        ]
+        /// One part of a key-value pair that make up a tag. A key is a general label
+        ///          that acts like a category for more specific tag values.
+        public let key: String
+        /// The optional part of a key-value pair that make up a tag. A value acts as
+        ///          a descriptor within a tag category (key).
+        public let value: String?
+
+        public init(key: String, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
+        }
+    }
+
+    public struct TagResourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: true, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) of the resource to add tags to.
+        public let resourceArn: String
+        /// The tags to add to the resource. A tag is an array of key-value pairs.
+        ///          Tag keys can have a maximum character length of 128 characters, and tag values can have
+        ///             a maximum length of 256 characters.
+        public let tags: [TagRef]
+
+        public init(resourceArn: String, tags: [TagRef]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tags = "tags"
+        }
+    }
+
+    public struct TagResourceOutput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct TcpRoute: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "action", required: true, type: .structure)
+        ]
+        /// The action to take if a match is determined.
+        public let action: TcpRouteAction
+
+        public init(action: TcpRouteAction) {
+            self.action = action
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+        }
+    }
+
+    public struct TcpRouteAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "weightedTargets", required: true, type: .list)
+        ]
+        /// The targets that traffic is routed to when a request matches the route. You can specify
+        ///          one or more targets and their relative weights to distribute traffic with.
+        public let weightedTargets: [WeightedTarget]
+
+        public init(weightedTargets: [WeightedTarget]) {
+            self.weightedTargets = weightedTargets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case weightedTargets = "weightedTargets"
+        }
+    }
+
+    public struct UntagResourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "tagKeys", required: true, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) of the resource to delete tags from.
+        public let resourceArn: String
+        /// The keys of the tags to be removed.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
+        }
+    }
+
+    public struct UntagResourceOutput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateMeshInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientToken", required: false, type: .string), 
+            AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
+            AWSShapeMember(label: "spec", required: false, type: .structure)
+        ]
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
+        /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+        public let clientToken: String?
+        /// The name of the service mesh to update.
+        public let meshName: String
+        /// The service mesh specification to apply.
+        public let spec: MeshSpec?
+
+        public init(clientToken: String? = nil, meshName: String, spec: MeshSpec? = nil) {
+            self.clientToken = clientToken
+            self.meshName = meshName
+            self.spec = spec
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case meshName = "meshName"
+            case spec = "spec"
+        }
+    }
+
+    public struct UpdateMeshOutput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "mesh"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "mesh", required: true, type: .structure)
+        ]
+        public let mesh: MeshData
+
+        public init(mesh: MeshData) {
+            self.mesh = mesh
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mesh = "mesh"
         }
     }
 
@@ -1191,13 +1755,13 @@ extension AppMesh {
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
         /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
-        /// The name of the service mesh in which the route resides.
+        /// The name of the service mesh that the route resides in.
         public let meshName: String
         /// The name of the route to update.
         public let routeName: String
         /// The new route specification to apply. This overwrites the existing data.
         public let spec: RouteSpec
-        /// The name of the virtual router with which the route is associated.
+        /// The name of the virtual router that the route is associated with.
         public let virtualRouterName: String
 
         public init(clientToken: String? = nil, meshName: String, routeName: String, spec: RouteSpec, virtualRouterName: String) {
@@ -1221,12 +1785,12 @@ extension AppMesh {
         /// The key for the payload
         public static let payloadPath: String? = "route"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "route", required: false, type: .structure)
+            AWSShapeMember(label: "route", required: true, type: .structure)
         ]
         /// A full description of the route that was updated.
-        public let route: RouteData?
+        public let route: RouteData
 
-        public init(route: RouteData? = nil) {
+        public init(route: RouteData) {
             self.route = route
         }
 
@@ -1245,7 +1809,7 @@ extension AppMesh {
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
         /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
-        /// The name of the service mesh in which the virtual node resides.
+        /// The name of the service mesh that the virtual node resides in.
         public let meshName: String
         /// The new virtual node specification to apply. This overwrites the existing data.
         public let spec: VirtualNodeSpec
@@ -1271,12 +1835,12 @@ extension AppMesh {
         /// The key for the payload
         public static let payloadPath: String? = "virtualNode"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "virtualNode", required: false, type: .structure)
+            AWSShapeMember(label: "virtualNode", required: true, type: .structure)
         ]
         /// A full description of the virtual node that was updated.
-        public let virtualNode: VirtualNodeData?
+        public let virtualNode: VirtualNodeData
 
-        public init(virtualNode: VirtualNodeData? = nil) {
+        public init(virtualNode: VirtualNodeData) {
             self.virtualNode = virtualNode
         }
 
@@ -1295,7 +1859,7 @@ extension AppMesh {
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
         /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
-        /// The name of the service mesh in which the virtual router resides.
+        /// The name of the service mesh that the virtual router resides in.
         public let meshName: String
         /// The new virtual router specification to apply. This overwrites the existing data.
         public let spec: VirtualRouterSpec
@@ -1321,12 +1885,12 @@ extension AppMesh {
         /// The key for the payload
         public static let payloadPath: String? = "virtualRouter"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "virtualRouter", required: false, type: .structure)
+            AWSShapeMember(label: "virtualRouter", required: true, type: .structure)
         ]
         /// A full description of the virtual router that was updated.
-        public let virtualRouter: VirtualRouterData?
+        public let virtualRouter: VirtualRouterData
 
-        public init(virtualRouter: VirtualRouterData? = nil) {
+        public init(virtualRouter: VirtualRouterData) {
             self.virtualRouter = virtualRouter
         }
 
@@ -1335,26 +1899,77 @@ extension AppMesh {
         }
     }
 
+    public struct UpdateVirtualServiceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientToken", required: false, type: .string), 
+            AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
+            AWSShapeMember(label: "spec", required: true, type: .structure), 
+            AWSShapeMember(label: "virtualServiceName", location: .uri(locationName: "virtualServiceName"), required: true, type: .string)
+        ]
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
+        /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+        public let clientToken: String?
+        /// The name of the service mesh that the virtual service resides in.
+        public let meshName: String
+        /// The new virtual service specification to apply. This overwrites the existing
+        ///          data.
+        public let spec: VirtualServiceSpec
+        /// The name of the virtual service to update.
+        public let virtualServiceName: String
+
+        public init(clientToken: String? = nil, meshName: String, spec: VirtualServiceSpec, virtualServiceName: String) {
+            self.clientToken = clientToken
+            self.meshName = meshName
+            self.spec = spec
+            self.virtualServiceName = virtualServiceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case meshName = "meshName"
+            case spec = "spec"
+            case virtualServiceName = "virtualServiceName"
+        }
+    }
+
+    public struct UpdateVirtualServiceOutput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "virtualService"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualService", required: true, type: .structure)
+        ]
+        /// A full description of the virtual service that was updated.
+        public let virtualService: VirtualServiceData
+
+        public init(virtualService: VirtualServiceData) {
+            self.virtualService = virtualService
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualService = "virtualService"
+        }
+    }
+
     public struct VirtualNodeData: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "meshName", required: true, type: .string), 
-            AWSShapeMember(label: "metadata", required: false, type: .structure), 
-            AWSShapeMember(label: "spec", required: false, type: .structure), 
-            AWSShapeMember(label: "status", required: false, type: .structure), 
+            AWSShapeMember(label: "metadata", required: true, type: .structure), 
+            AWSShapeMember(label: "spec", required: true, type: .structure), 
+            AWSShapeMember(label: "status", required: true, type: .structure), 
             AWSShapeMember(label: "virtualNodeName", required: true, type: .string)
         ]
-        /// The name of the service mesh in which the virtual node resides.
+        /// The name of the service mesh that the virtual node resides in.
         public let meshName: String
         /// The associated metadata for the virtual node.
-        public let metadata: ResourceMetadata?
+        public let metadata: ResourceMetadata
         /// The specifications of the virtual node.
-        public let spec: VirtualNodeSpec?
+        public let spec: VirtualNodeSpec
         /// The current status for the virtual node.
-        public let status: VirtualNodeStatus?
+        public let status: VirtualNodeStatus
         /// The name of the virtual node.
         public let virtualNodeName: String
 
-        public init(meshName: String, metadata: ResourceMetadata? = nil, spec: VirtualNodeSpec? = nil, status: VirtualNodeStatus? = nil, virtualNodeName: String) {
+        public init(meshName: String, metadata: ResourceMetadata, spec: VirtualNodeSpec, status: VirtualNodeStatus, virtualNodeName: String) {
             self.meshName = meshName
             self.metadata = metadata
             self.spec = spec
@@ -1373,18 +1988,18 @@ extension AppMesh {
 
     public struct VirtualNodeRef: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "meshName", required: false, type: .string), 
-            AWSShapeMember(label: "virtualNodeName", required: false, type: .string)
+            AWSShapeMember(label: "arn", required: true, type: .string), 
+            AWSShapeMember(label: "meshName", required: true, type: .string), 
+            AWSShapeMember(label: "virtualNodeName", required: true, type: .string)
         ]
         /// The full Amazon Resource Name (ARN) for the virtual node.
-        public let arn: String?
-        /// The name of the service mesh in which the virtual node resides.
-        public let meshName: String?
+        public let arn: String
+        /// The name of the service mesh that the virtual node resides in.
+        public let meshName: String
         /// The name of the virtual node.
-        public let virtualNodeName: String?
+        public let virtualNodeName: String
 
-        public init(arn: String? = nil, meshName: String? = nil, virtualNodeName: String? = nil) {
+        public init(arn: String, meshName: String, virtualNodeName: String) {
             self.arn = arn
             self.meshName = meshName
             self.virtualNodeName = virtualNodeName
@@ -1397,40 +2012,62 @@ extension AppMesh {
         }
     }
 
+    public struct VirtualNodeServiceProvider: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualNodeName", required: true, type: .string)
+        ]
+        /// The name of the virtual node that is acting as a service provider.
+        public let virtualNodeName: String
+
+        public init(virtualNodeName: String) {
+            self.virtualNodeName = virtualNodeName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualNodeName = "virtualNodeName"
+        }
+    }
+
     public struct VirtualNodeSpec: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "backends", required: false, type: .list), 
             AWSShapeMember(label: "listeners", required: false, type: .list), 
+            AWSShapeMember(label: "logging", required: false, type: .structure), 
             AWSShapeMember(label: "serviceDiscovery", required: false, type: .structure)
         ]
-        /// The backends to which the virtual node is expected to send outbound traffic.
-        public let backends: [String]?
-        /// The listeners from which the virtual node is expected to receive inbound traffic.
+        /// The backends that the virtual node is expected to send outbound traffic to.
+        public let backends: [Backend]?
+        /// The listeners that the virtual node is expected to receive inbound traffic from. Currently only one listener is supported per virtual node.
         public let listeners: [Listener]?
-        /// The service discovery information for the virtual node.
+        /// The inbound and outbound access logging information for the virtual node.
+        public let logging: Logging?
+        /// The service discovery information for the virtual node. If your virtual node does not
+        ///          expect ingress traffic, you can omit this parameter.
         public let serviceDiscovery: ServiceDiscovery?
 
-        public init(backends: [String]? = nil, listeners: [Listener]? = nil, serviceDiscovery: ServiceDiscovery? = nil) {
+        public init(backends: [Backend]? = nil, listeners: [Listener]? = nil, logging: Logging? = nil, serviceDiscovery: ServiceDiscovery? = nil) {
             self.backends = backends
             self.listeners = listeners
+            self.logging = logging
             self.serviceDiscovery = serviceDiscovery
         }
 
         private enum CodingKeys: String, CodingKey {
             case backends = "backends"
             case listeners = "listeners"
+            case logging = "logging"
             case serviceDiscovery = "serviceDiscovery"
         }
     }
 
     public struct VirtualNodeStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: false, type: .enum)
+            AWSShapeMember(label: "status", required: true, type: .enum)
         ]
         /// The current status of the virtual node.
-        public let status: VirtualNodeStatusCode?
+        public let status: VirtualNodeStatusCode
 
-        public init(status: VirtualNodeStatusCode? = nil) {
+        public init(status: VirtualNodeStatusCode) {
             self.status = status
         }
 
@@ -1449,23 +2086,23 @@ extension AppMesh {
     public struct VirtualRouterData: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "meshName", required: true, type: .string), 
-            AWSShapeMember(label: "metadata", required: false, type: .structure), 
-            AWSShapeMember(label: "spec", required: false, type: .structure), 
-            AWSShapeMember(label: "status", required: false, type: .structure), 
+            AWSShapeMember(label: "metadata", required: true, type: .structure), 
+            AWSShapeMember(label: "spec", required: true, type: .structure), 
+            AWSShapeMember(label: "status", required: true, type: .structure), 
             AWSShapeMember(label: "virtualRouterName", required: true, type: .string)
         ]
-        /// The name of the service mesh in which the virtual router resides.
+        /// The name of the service mesh that the virtual router resides in.
         public let meshName: String
         /// The associated metadata for the virtual router.
-        public let metadata: ResourceMetadata?
+        public let metadata: ResourceMetadata
         /// The specifications of the virtual router.
-        public let spec: VirtualRouterSpec?
+        public let spec: VirtualRouterSpec
         /// The current status of the virtual router.
-        public let status: VirtualRouterStatus?
+        public let status: VirtualRouterStatus
         /// The name of the virtual router.
         public let virtualRouterName: String
 
-        public init(meshName: String, metadata: ResourceMetadata? = nil, spec: VirtualRouterSpec? = nil, status: VirtualRouterStatus? = nil, virtualRouterName: String) {
+        public init(meshName: String, metadata: ResourceMetadata, spec: VirtualRouterSpec, status: VirtualRouterStatus, virtualRouterName: String) {
             self.meshName = meshName
             self.metadata = metadata
             self.spec = spec
@@ -1482,20 +2119,35 @@ extension AppMesh {
         }
     }
 
+    public struct VirtualRouterListener: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "portMapping", required: true, type: .structure)
+        ]
+        public let portMapping: PortMapping
+
+        public init(portMapping: PortMapping) {
+            self.portMapping = portMapping
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case portMapping = "portMapping"
+        }
+    }
+
     public struct VirtualRouterRef: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "meshName", required: false, type: .string), 
-            AWSShapeMember(label: "virtualRouterName", required: false, type: .string)
+            AWSShapeMember(label: "arn", required: true, type: .string), 
+            AWSShapeMember(label: "meshName", required: true, type: .string), 
+            AWSShapeMember(label: "virtualRouterName", required: true, type: .string)
         ]
         /// The full Amazon Resource Name (ARN) for the virtual router.
-        public let arn: String?
-        /// The name of the service mesh in which the virtual router resides.
-        public let meshName: String?
+        public let arn: String
+        /// The name of the service mesh that the virtual router resides in.
+        public let meshName: String
         /// The name of the virtual router.
-        public let virtualRouterName: String?
+        public let virtualRouterName: String
 
-        public init(arn: String? = nil, meshName: String? = nil, virtualRouterName: String? = nil) {
+        public init(arn: String, meshName: String, virtualRouterName: String) {
             self.arn = arn
             self.meshName = meshName
             self.virtualRouterName = virtualRouterName
@@ -1508,30 +2160,46 @@ extension AppMesh {
         }
     }
 
-    public struct VirtualRouterSpec: AWSShape {
+    public struct VirtualRouterServiceProvider: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "serviceNames", required: false, type: .list)
+            AWSShapeMember(label: "virtualRouterName", required: true, type: .string)
         ]
-        /// The service mesh service names to associate with the virtual router.
-        public let serviceNames: [String]?
+        /// The name of the virtual router that is acting as a service provider.
+        public let virtualRouterName: String
 
-        public init(serviceNames: [String]? = nil) {
-            self.serviceNames = serviceNames
+        public init(virtualRouterName: String) {
+            self.virtualRouterName = virtualRouterName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serviceNames = "serviceNames"
+            case virtualRouterName = "virtualRouterName"
+        }
+    }
+
+    public struct VirtualRouterSpec: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "listeners", required: true, type: .list)
+        ]
+        /// The listeners that the virtual router is expected to receive inbound traffic from. Currently only one listener is supported per virtual router.
+        public let listeners: [VirtualRouterListener]
+
+        public init(listeners: [VirtualRouterListener]) {
+            self.listeners = listeners
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listeners = "listeners"
         }
     }
 
     public struct VirtualRouterStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: false, type: .enum)
+            AWSShapeMember(label: "status", required: true, type: .enum)
         ]
         /// The current status of the virtual router.
-        public let status: VirtualRouterStatusCode?
+        public let status: VirtualRouterStatusCode
 
-        public init(status: VirtualRouterStatusCode? = nil) {
+        public init(status: VirtualRouterStatusCode) {
             self.status = status
         }
 
@@ -1547,17 +2215,155 @@ extension AppMesh {
         public var description: String { return self.rawValue }
     }
 
+    public struct VirtualServiceBackend: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualServiceName", required: true, type: .string)
+        ]
+        /// The name of the virtual service that is acting as a virtual node backend.
+        public let virtualServiceName: String
+
+        public init(virtualServiceName: String) {
+            self.virtualServiceName = virtualServiceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualServiceName = "virtualServiceName"
+        }
+    }
+
+    public struct VirtualServiceData: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "meshName", required: true, type: .string), 
+            AWSShapeMember(label: "metadata", required: true, type: .structure), 
+            AWSShapeMember(label: "spec", required: true, type: .structure), 
+            AWSShapeMember(label: "status", required: true, type: .structure), 
+            AWSShapeMember(label: "virtualServiceName", required: true, type: .string)
+        ]
+        /// The name of the service mesh that the virtual service resides in.
+        public let meshName: String
+        public let metadata: ResourceMetadata
+        /// The specifications of the virtual service.
+        public let spec: VirtualServiceSpec
+        /// The current status of the virtual service.
+        public let status: VirtualServiceStatus
+        /// The name of the virtual service.
+        public let virtualServiceName: String
+
+        public init(meshName: String, metadata: ResourceMetadata, spec: VirtualServiceSpec, status: VirtualServiceStatus, virtualServiceName: String) {
+            self.meshName = meshName
+            self.metadata = metadata
+            self.spec = spec
+            self.status = status
+            self.virtualServiceName = virtualServiceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case meshName = "meshName"
+            case metadata = "metadata"
+            case spec = "spec"
+            case status = "status"
+            case virtualServiceName = "virtualServiceName"
+        }
+    }
+
+    public struct VirtualServiceProvider: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualNode", required: false, type: .structure), 
+            AWSShapeMember(label: "virtualRouter", required: false, type: .structure)
+        ]
+        /// The virtual node associated with a virtual service.
+        public let virtualNode: VirtualNodeServiceProvider?
+        /// The virtual router associated with a virtual service.
+        public let virtualRouter: VirtualRouterServiceProvider?
+
+        public init(virtualNode: VirtualNodeServiceProvider? = nil, virtualRouter: VirtualRouterServiceProvider? = nil) {
+            self.virtualNode = virtualNode
+            self.virtualRouter = virtualRouter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualNode = "virtualNode"
+            case virtualRouter = "virtualRouter"
+        }
+    }
+
+    public struct VirtualServiceRef: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string), 
+            AWSShapeMember(label: "meshName", required: true, type: .string), 
+            AWSShapeMember(label: "virtualServiceName", required: true, type: .string)
+        ]
+        /// The full Amazon Resource Name (ARN) for the virtual service.
+        public let arn: String
+        /// The name of the service mesh that the virtual service resides in.
+        public let meshName: String
+        /// The name of the virtual service.
+        public let virtualServiceName: String
+
+        public init(arn: String, meshName: String, virtualServiceName: String) {
+            self.arn = arn
+            self.meshName = meshName
+            self.virtualServiceName = virtualServiceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case meshName = "meshName"
+            case virtualServiceName = "virtualServiceName"
+        }
+    }
+
+    public struct VirtualServiceSpec: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "provider", required: false, type: .structure)
+        ]
+        /// The App Mesh object that is acting as the provider for a virtual service. You can specify
+        ///          a single virtual node or virtual router.
+        public let provider: VirtualServiceProvider?
+
+        public init(provider: VirtualServiceProvider? = nil) {
+            self.provider = provider
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case provider = "provider"
+        }
+    }
+
+    public struct VirtualServiceStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: true, type: .enum)
+        ]
+        /// The current status of the virtual service.
+        public let status: VirtualServiceStatusCode
+
+        public init(status: VirtualServiceStatusCode) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
+    }
+
+    public enum VirtualServiceStatusCode: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case deleted = "DELETED"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct WeightedTarget: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "virtualNode", required: false, type: .string), 
-            AWSShapeMember(label: "weight", required: false, type: .integer)
+            AWSShapeMember(label: "virtualNode", required: true, type: .string), 
+            AWSShapeMember(label: "weight", required: true, type: .integer)
         ]
         /// The virtual node to associate with the weighted target.
-        public let virtualNode: String?
+        public let virtualNode: String
         /// The relative weight of the weighted target.
-        public let weight: Int32?
+        public let weight: Int32
 
-        public init(virtualNode: String? = nil, weight: Int32? = nil) {
+        public init(virtualNode: String, weight: Int32) {
             self.virtualNode = virtualNode
             self.weight = weight
         }

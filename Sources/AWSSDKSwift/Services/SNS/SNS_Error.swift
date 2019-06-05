@@ -5,6 +5,7 @@ import AWSSDKSwiftCore
 /// Error enum for SNS
 public enum SNSErrorType: AWSErrorType {
     case authorizationErrorException(message: String?)
+    case concurrentAccessException(message: String?)
     case endpointDisabledException(message: String?)
     case filterPolicyLimitExceededException(message: String?)
     case internalErrorException(message: String?)
@@ -19,7 +20,11 @@ public enum SNSErrorType: AWSErrorType {
     case kMSThrottlingException(message: String?)
     case notFoundException(message: String?)
     case platformApplicationDisabledException(message: String?)
+    case resourceNotFoundException(message: String?)
+    case staleTagException(message: String?)
     case subscriptionLimitExceededException(message: String?)
+    case tagLimitExceededException(message: String?)
+    case tagPolicyException(message: String?)
     case throttledException(message: String?)
     case topicLimitExceededException(message: String?)
 }
@@ -33,6 +38,8 @@ extension SNSErrorType {
         switch errorCode {
         case "AuthorizationErrorException":
             self = .authorizationErrorException(message: message)
+        case "ConcurrentAccessException":
+            self = .concurrentAccessException(message: message)
         case "EndpointDisabledException":
             self = .endpointDisabledException(message: message)
         case "FilterPolicyLimitExceededException":
@@ -61,8 +68,16 @@ extension SNSErrorType {
             self = .notFoundException(message: message)
         case "PlatformApplicationDisabledException":
             self = .platformApplicationDisabledException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
+        case "StaleTagException":
+            self = .staleTagException(message: message)
         case "SubscriptionLimitExceededException":
             self = .subscriptionLimitExceededException(message: message)
+        case "TagLimitExceededException":
+            self = .tagLimitExceededException(message: message)
+        case "TagPolicyException":
+            self = .tagPolicyException(message: message)
         case "ThrottledException":
             self = .throttledException(message: message)
         case "TopicLimitExceededException":

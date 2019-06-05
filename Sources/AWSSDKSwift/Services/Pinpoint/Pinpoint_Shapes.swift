@@ -922,22 +922,32 @@ extension Pinpoint {
 
     public struct ApplicationResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+        /// The arn for the application.
+        public let arn: String?
         /// The unique application ID.
         public let id: String?
         /// The display name of the application.
         public let name: String?
+        /// The Tags for the application.
+        public let tags: [String: String]?
 
-        public init(id: String? = nil, name: String? = nil) {
+        public init(arn: String? = nil, id: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
             self.id = id
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
             case id = "Id"
             case name = "Name"
+            case tags = "tags"
         }
     }
 
@@ -1347,6 +1357,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AdditionalTreatments", required: false, type: .list), 
             AWSShapeMember(label: "ApplicationId", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
             AWSShapeMember(label: "CreationDate", required: false, type: .string), 
             AWSShapeMember(label: "DefaultState", required: false, type: .structure), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
@@ -1364,12 +1375,15 @@ extension Pinpoint {
             AWSShapeMember(label: "State", required: false, type: .structure), 
             AWSShapeMember(label: "TreatmentDescription", required: false, type: .string), 
             AWSShapeMember(label: "TreatmentName", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .integer)
+            AWSShapeMember(label: "Version", required: false, type: .integer), 
+            AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         /// Treatments that are defined in addition to the default treatment.
         public let additionalTreatments: [TreatmentResource]?
         /// The ID of the application to which the campaign applies.
         public let applicationId: String?
+        /// The arn for the campaign.
+        public let arn: String?
         /// The date the campaign was created in ISO 8601 format.
         public let creationDate: String?
         /// The status of the campaign's default treatment. Only present for A/B test campaigns.
@@ -1407,10 +1421,13 @@ extension Pinpoint {
         public let treatmentName: String?
         /// The campaign version number.
         public let version: Int32?
+        /// The Tags for the campaign.
+        public let tags: [String: String]?
 
-        public init(additionalTreatments: [TreatmentResource]? = nil, applicationId: String? = nil, creationDate: String? = nil, defaultState: CampaignState? = nil, description: String? = nil, holdoutPercent: Int32? = nil, hook: CampaignHook? = nil, id: String? = nil, isPaused: Bool? = nil, lastModifiedDate: String? = nil, limits: CampaignLimits? = nil, messageConfiguration: MessageConfiguration? = nil, name: String? = nil, schedule: Schedule? = nil, segmentId: String? = nil, segmentVersion: Int32? = nil, state: CampaignState? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil, version: Int32? = nil) {
+        public init(additionalTreatments: [TreatmentResource]? = nil, applicationId: String? = nil, arn: String? = nil, creationDate: String? = nil, defaultState: CampaignState? = nil, description: String? = nil, holdoutPercent: Int32? = nil, hook: CampaignHook? = nil, id: String? = nil, isPaused: Bool? = nil, lastModifiedDate: String? = nil, limits: CampaignLimits? = nil, messageConfiguration: MessageConfiguration? = nil, name: String? = nil, schedule: Schedule? = nil, segmentId: String? = nil, segmentVersion: Int32? = nil, state: CampaignState? = nil, tags: [String: String]? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil, version: Int32? = nil) {
             self.additionalTreatments = additionalTreatments
             self.applicationId = applicationId
+            self.arn = arn
             self.creationDate = creationDate
             self.defaultState = defaultState
             self.description = description
@@ -1429,11 +1446,13 @@ extension Pinpoint {
             self.treatmentDescription = treatmentDescription
             self.treatmentName = treatmentName
             self.version = version
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case additionalTreatments = "AdditionalTreatments"
             case applicationId = "ApplicationId"
+            case arn = "Arn"
             case creationDate = "CreationDate"
             case defaultState = "DefaultState"
             case description = "Description"
@@ -1452,6 +1471,7 @@ extension Pinpoint {
             case treatmentDescription = "TreatmentDescription"
             case treatmentName = "TreatmentName"
             case version = "Version"
+            case tags = "tags"
         }
     }
 
@@ -1652,17 +1672,22 @@ extension Pinpoint {
 
     public struct CreateApplicationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         /// The display name of the application. Used in the Amazon Pinpoint console.
         public let name: String?
+        /// The Tags for the app.
+        public let tags: [String: String]?
 
-        public init(name: String? = nil) {
+        public init(name: String? = nil, tags: [String: String]? = nil) {
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
+            case tags = "tags"
         }
     }
 
@@ -3155,13 +3180,23 @@ extension Pinpoint {
 
     public struct Event: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppPackageName", required: false, type: .string), 
+            AWSShapeMember(label: "AppTitle", required: false, type: .string), 
+            AWSShapeMember(label: "AppVersionCode", required: false, type: .string), 
             AWSShapeMember(label: "Attributes", required: false, type: .map), 
             AWSShapeMember(label: "ClientSdkVersion", required: false, type: .string), 
             AWSShapeMember(label: "EventType", required: false, type: .string), 
             AWSShapeMember(label: "Metrics", required: false, type: .map), 
+            AWSShapeMember(label: "SdkName", required: false, type: .string), 
             AWSShapeMember(label: "Session", required: false, type: .structure), 
             AWSShapeMember(label: "Timestamp", required: false, type: .string)
         ]
+        /// The package name associated with the app that's recording the event.
+        public let appPackageName: String?
+        /// The title of the app that's recording the event.
+        public let appTitle: String?
+        /// The version number of the app that's recording the event.
+        public let appVersionCode: String?
         /// Custom attributes that are associated with the event you're adding or updating.
         public let attributes: [String: String]?
         /// The version of the SDK that's running on the client device.
@@ -3170,25 +3205,35 @@ extension Pinpoint {
         public let eventType: String?
         /// Custom metrics related to the event.
         public let metrics: [String: Double]?
+        /// The name of the SDK that's being used to record the event.
+        public let sdkName: String?
         /// Information about the session in which the event occurred.
         public let session: Session?
         /// The date and time when the event occurred, in ISO 8601 format.
         public let timestamp: String?
 
-        public init(attributes: [String: String]? = nil, clientSdkVersion: String? = nil, eventType: String? = nil, metrics: [String: Double]? = nil, session: Session? = nil, timestamp: String? = nil) {
+        public init(appPackageName: String? = nil, appTitle: String? = nil, appVersionCode: String? = nil, attributes: [String: String]? = nil, clientSdkVersion: String? = nil, eventType: String? = nil, metrics: [String: Double]? = nil, sdkName: String? = nil, session: Session? = nil, timestamp: String? = nil) {
+            self.appPackageName = appPackageName
+            self.appTitle = appTitle
+            self.appVersionCode = appVersionCode
             self.attributes = attributes
             self.clientSdkVersion = clientSdkVersion
             self.eventType = eventType
             self.metrics = metrics
+            self.sdkName = sdkName
             self.session = session
             self.timestamp = timestamp
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appPackageName = "AppPackageName"
+            case appTitle = "AppTitle"
+            case appVersionCode = "AppVersionCode"
             case attributes = "Attributes"
             case clientSdkVersion = "ClientSdkVersion"
             case eventType = "EventType"
             case metrics = "Metrics"
+            case sdkName = "SdkName"
             case session = "Session"
             case timestamp = "Timestamp"
         }
@@ -5159,6 +5204,38 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string)
+        ]
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resource-arn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "TagsModel"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagsModel", required: true, type: .structure)
+        ]
+        public let tagsModel: TagsModel
+
+        public init(tagsModel: TagsModel) {
+            self.tagsModel = tagsModel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagsModel = "TagsModel"
+        }
+    }
+
     public struct Message: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Action", required: false, type: .enum), 
@@ -6315,6 +6392,7 @@ extension Pinpoint {
     public struct SegmentResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
             AWSShapeMember(label: "CreationDate", required: false, type: .string), 
             AWSShapeMember(label: "Dimensions", required: false, type: .structure), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
@@ -6323,10 +6401,13 @@ extension Pinpoint {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "SegmentGroups", required: false, type: .structure), 
             AWSShapeMember(label: "SegmentType", required: false, type: .enum), 
-            AWSShapeMember(label: "Version", required: false, type: .integer)
+            AWSShapeMember(label: "Version", required: false, type: .integer), 
+            AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         /// The ID of the application that the segment applies to.
         public let applicationId: String?
+        /// The arn for the segment.
+        public let arn: String?
         /// The date and time when the segment was created.
         public let creationDate: String?
         /// The segment dimensions attributes.
@@ -6347,9 +6428,12 @@ extension Pinpoint {
         public let segmentType: SegmentType?
         /// The segment version number.
         public let version: Int32?
+        /// The Tags for the segment.
+        public let tags: [String: String]?
 
-        public init(applicationId: String? = nil, creationDate: String? = nil, dimensions: SegmentDimensions? = nil, id: String? = nil, importDefinition: SegmentImportResource? = nil, lastModifiedDate: String? = nil, name: String? = nil, segmentGroups: SegmentGroupList? = nil, segmentType: SegmentType? = nil, version: Int32? = nil) {
+        public init(applicationId: String? = nil, arn: String? = nil, creationDate: String? = nil, dimensions: SegmentDimensions? = nil, id: String? = nil, importDefinition: SegmentImportResource? = nil, lastModifiedDate: String? = nil, name: String? = nil, segmentGroups: SegmentGroupList? = nil, segmentType: SegmentType? = nil, tags: [String: String]? = nil, version: Int32? = nil) {
             self.applicationId = applicationId
+            self.arn = arn
             self.creationDate = creationDate
             self.dimensions = dimensions
             self.id = id
@@ -6359,10 +6443,12 @@ extension Pinpoint {
             self.segmentGroups = segmentGroups
             self.segmentType = segmentType
             self.version = version
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case applicationId = "ApplicationId"
+            case arn = "Arn"
             case creationDate = "CreationDate"
             case dimensions = "Dimensions"
             case id = "Id"
@@ -6372,6 +6458,7 @@ extension Pinpoint {
             case segmentGroups = "SegmentGroups"
             case segmentType = "SegmentType"
             case version = "Version"
+            case tags = "tags"
         }
     }
 
@@ -6643,6 +6730,42 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
+    public struct TagResourceRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "TagsModel"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
+            AWSShapeMember(label: "TagsModel", required: true, type: .structure)
+        ]
+        public let resourceArn: String
+        public let tagsModel: TagsModel
+
+        public init(resourceArn: String, tagsModel: TagsModel) {
+            self.resourceArn = resourceArn
+            self.tagsModel = tagsModel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resource-arn"
+            case tagsModel = "TagsModel"
+        }
+    }
+
+    public struct TagsModel: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: true, type: .map)
+        ]
+        public let tags: [String: String]
+
+        public init(tags: [String: String]) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
     public struct TreatmentResource: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", required: false, type: .string), 
@@ -6694,6 +6817,25 @@ extension Pinpoint {
         case any = "ANY"
         case none = "NONE"
         public var description: String { return self.rawValue }
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+        ]
+        public let resourceArn: String
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resource-arn"
+            case tagKeys = "tagKeys"
+        }
     }
 
     public struct UpdateAdmChannelRequest: AWSShape {
@@ -7457,7 +7599,8 @@ extension Pinpoint {
             AWSShapeMember(label: "SegmentId", required: false, type: .string), 
             AWSShapeMember(label: "SegmentVersion", required: false, type: .integer), 
             AWSShapeMember(label: "TreatmentDescription", required: false, type: .string), 
-            AWSShapeMember(label: "TreatmentName", required: false, type: .string)
+            AWSShapeMember(label: "TreatmentName", required: false, type: .string), 
+            AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         /// Treatments that are defined in addition to the default treatment.
         public let additionalTreatments: [WriteTreatmentResource]?
@@ -7485,8 +7628,10 @@ extension Pinpoint {
         public let treatmentDescription: String?
         /// The custom name of a variation of the campaign used for A/B testing.
         public let treatmentName: String?
+        /// The Tags for the campaign.
+        public let tags: [String: String]?
 
-        public init(additionalTreatments: [WriteTreatmentResource]? = nil, description: String? = nil, holdoutPercent: Int32? = nil, hook: CampaignHook? = nil, isPaused: Bool? = nil, limits: CampaignLimits? = nil, messageConfiguration: MessageConfiguration? = nil, name: String? = nil, schedule: Schedule? = nil, segmentId: String? = nil, segmentVersion: Int32? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil) {
+        public init(additionalTreatments: [WriteTreatmentResource]? = nil, description: String? = nil, holdoutPercent: Int32? = nil, hook: CampaignHook? = nil, isPaused: Bool? = nil, limits: CampaignLimits? = nil, messageConfiguration: MessageConfiguration? = nil, name: String? = nil, schedule: Schedule? = nil, segmentId: String? = nil, segmentVersion: Int32? = nil, tags: [String: String]? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil) {
             self.additionalTreatments = additionalTreatments
             self.description = description
             self.holdoutPercent = holdoutPercent
@@ -7500,6 +7645,7 @@ extension Pinpoint {
             self.segmentVersion = segmentVersion
             self.treatmentDescription = treatmentDescription
             self.treatmentName = treatmentName
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7516,6 +7662,7 @@ extension Pinpoint {
             case segmentVersion = "SegmentVersion"
             case treatmentDescription = "TreatmentDescription"
             case treatmentName = "TreatmentName"
+            case tags = "tags"
         }
     }
 
@@ -7546,7 +7693,8 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Dimensions", required: false, type: .structure), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "SegmentGroups", required: false, type: .structure)
+            AWSShapeMember(label: "SegmentGroups", required: false, type: .structure), 
+            AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         /// The segment dimensions attributes.
         public let dimensions: SegmentDimensions?
@@ -7554,17 +7702,21 @@ extension Pinpoint {
         public let name: String?
         /// A segment group, which consists of zero or more source segments, plus dimensions that are applied to those source segments. Your request can only include one segment group. Your request can include either a SegmentGroups object or a Dimensions object, but not both.
         public let segmentGroups: SegmentGroupList?
+        /// The Tags for the segments.
+        public let tags: [String: String]?
 
-        public init(dimensions: SegmentDimensions? = nil, name: String? = nil, segmentGroups: SegmentGroupList? = nil) {
+        public init(dimensions: SegmentDimensions? = nil, name: String? = nil, segmentGroups: SegmentGroupList? = nil, tags: [String: String]? = nil) {
             self.dimensions = dimensions
             self.name = name
             self.segmentGroups = segmentGroups
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case dimensions = "Dimensions"
             case name = "Name"
             case segmentGroups = "SegmentGroups"
+            case tags = "tags"
         }
     }
 

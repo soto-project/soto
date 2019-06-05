@@ -5,7 +5,7 @@ import AWSSDKSwiftCore
 import NIO
 
 /**
-The AWS IoT 1-Click Project API Reference
+The AWS IoT 1-Click Projects API Reference
 */
 public struct IoT1ClickProjects {
 
@@ -78,6 +78,21 @@ public struct IoT1ClickProjects {
     ///  Lists the AWS IoT 1-Click project(s) associated with your AWS account and region.
     public func listProjects(_ input: ListProjectsRequest) throws -> Future<ListProjectsResponse> {
         return try client.send(operation: "ListProjects", path: "/projects", httpMethod: "GET", input: input)
+    }
+
+    ///  Lists the tags (metadata key/value pairs) which you have assigned to the resource.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> Future<ListTagsForResourceResponse> {
+        return try client.send(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: "GET", input: input)
+    }
+
+    ///  Creates or modifies tags for a resource. Tags are key/value pairs (metadata) that can be used to manage a resource. For more information, see AWS Tagging Strategies.
+    public func tagResource(_ input: TagResourceRequest) throws -> Future<TagResourceResponse> {
+        return try client.send(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes one or more tags (metadata key/value pairs) from a resource.
+    public func untagResource(_ input: UntagResourceRequest) throws -> Future<UntagResourceResponse> {
+        return try client.send(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: "DELETE", input: input)
     }
 
     ///  Updates a placement with the given attributes. To clear an attribute, pass an empty value (i.e., "").

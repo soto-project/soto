@@ -11,6 +11,32 @@ extension PinpointEmail {
         public var description: String { return self.rawValue }
     }
 
+    public struct BlacklistEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ListingTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "RblName", required: false, type: .string)
+        ]
+        /// Additional information about the blacklisting event, as provided by the blacklist maintainer.
+        public let description: String?
+        /// The time when the blacklisting event occurred, shown in Unix time format.
+        public let listingTime: TimeStamp?
+        /// The name of the blacklist that the IP address appears on.
+        public let rblName: String?
+
+        public init(description: String? = nil, listingTime: TimeStamp? = nil, rblName: String? = nil) {
+            self.description = description
+            self.listingTime = listingTime
+            self.rblName = rblName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case listingTime = "ListingTime"
+            case rblName = "RblName"
+        }
+    }
+
     public struct Body: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Html", required: false, type: .structure), 
@@ -130,28 +156,32 @@ extension PinpointEmail {
 
     public struct CreateConfigurationSetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", required: false, type: .string), 
+            AWSShapeMember(label: "ConfigurationSetName", required: true, type: .string), 
             AWSShapeMember(label: "DeliveryOptions", required: false, type: .structure), 
             AWSShapeMember(label: "ReputationOptions", required: false, type: .structure), 
             AWSShapeMember(label: "SendingOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "TrackingOptions", required: false, type: .structure)
         ]
         /// The name of the configuration set.
-        public let configurationSetName: String?
+        public let configurationSetName: String
         /// An object that defines the dedicated IP pool that is used to send emails that you send using the configuration set.
         public let deliveryOptions: DeliveryOptions?
         /// An object that defines whether or not Amazon Pinpoint collects reputation metrics for the emails that you send that use the configuration set.
         public let reputationOptions: ReputationOptions?
         /// An object that defines whether or not Amazon Pinpoint can send email that you send using the configuration set.
         public let sendingOptions: SendingOptions?
+        /// An array of objects that define the tags (keys and values) that you want to associate with the configuration set.
+        public let tags: [Tag]?
         /// An object that defines the open and click tracking options for emails that you send using the configuration set.
         public let trackingOptions: TrackingOptions?
 
-        public init(configurationSetName: String? = nil, deliveryOptions: DeliveryOptions? = nil, reputationOptions: ReputationOptions? = nil, sendingOptions: SendingOptions? = nil, trackingOptions: TrackingOptions? = nil) {
+        public init(configurationSetName: String, deliveryOptions: DeliveryOptions? = nil, reputationOptions: ReputationOptions? = nil, sendingOptions: SendingOptions? = nil, tags: [Tag]? = nil, trackingOptions: TrackingOptions? = nil) {
             self.configurationSetName = configurationSetName
             self.deliveryOptions = deliveryOptions
             self.reputationOptions = reputationOptions
             self.sendingOptions = sendingOptions
+            self.tags = tags
             self.trackingOptions = trackingOptions
         }
 
@@ -160,6 +190,7 @@ extension PinpointEmail {
             case deliveryOptions = "DeliveryOptions"
             case reputationOptions = "ReputationOptions"
             case sendingOptions = "SendingOptions"
+            case tags = "Tags"
             case trackingOptions = "TrackingOptions"
         }
     }
@@ -173,17 +204,22 @@ extension PinpointEmail {
 
     public struct CreateDedicatedIpPoolRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PoolName", required: true, type: .string)
+            AWSShapeMember(label: "PoolName", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// The name of the dedicated IP pool.
         public let poolName: String
+        /// An object that defines the tags (keys and values) that you want to associate with the pool.
+        public let tags: [Tag]?
 
-        public init(poolName: String) {
+        public init(poolName: String, tags: [Tag]? = nil) {
             self.poolName = poolName
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case poolName = "PoolName"
+            case tags = "Tags"
         }
     }
 
@@ -194,19 +230,76 @@ extension PinpointEmail {
 
     }
 
+    public struct CreateDeliverabilityTestReportRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Content", required: true, type: .structure), 
+            AWSShapeMember(label: "FromEmailAddress", required: true, type: .string), 
+            AWSShapeMember(label: "ReportName", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// The HTML body of the message that you sent when you performed the predictive inbox placement test.
+        public let content: EmailContent
+        /// The email address that the predictive inbox placement test email was sent from.
+        public let fromEmailAddress: String
+        /// A unique name that helps you to identify the predictive inbox placement test when you retrieve the results.
+        public let reportName: String?
+        /// An array of objects that define the tags (keys and values) that you want to associate with the predictive inbox placement test.
+        public let tags: [Tag]?
+
+        public init(content: EmailContent, fromEmailAddress: String, reportName: String? = nil, tags: [Tag]? = nil) {
+            self.content = content
+            self.fromEmailAddress = fromEmailAddress
+            self.reportName = reportName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case fromEmailAddress = "FromEmailAddress"
+            case reportName = "ReportName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateDeliverabilityTestReportResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeliverabilityTestStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "ReportId", required: true, type: .string)
+        ]
+        /// The status of the predictive inbox placement test. If the status is IN_PROGRESS, then the predictive inbox placement test is currently running. Predictive inbox placement tests are usually complete within 24 hours of creating the test. If the status is COMPLETE, then the test is finished, and you can use the GetDeliverabilityTestReport to view the results of the test.
+        public let deliverabilityTestStatus: DeliverabilityTestStatus
+        /// A unique string that identifies the predictive inbox placement test.
+        public let reportId: String
+
+        public init(deliverabilityTestStatus: DeliverabilityTestStatus, reportId: String) {
+            self.deliverabilityTestStatus = deliverabilityTestStatus
+            self.reportId = reportId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliverabilityTestStatus = "DeliverabilityTestStatus"
+            case reportId = "ReportId"
+        }
+    }
+
     public struct CreateEmailIdentityRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmailIdentity", required: true, type: .string)
+            AWSShapeMember(label: "EmailIdentity", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// The email address or domain that you want to verify.
         public let emailIdentity: String
+        /// An array of objects that define the tags (keys and values) that you want to associate with the email identity.
+        public let tags: [Tag]?
 
-        public init(emailIdentity: String) {
+        public init(emailIdentity: String, tags: [Tag]? = nil) {
             self.emailIdentity = emailIdentity
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case emailIdentity = "EmailIdentity"
+            case tags = "Tags"
         }
     }
 
@@ -233,6 +326,32 @@ extension PinpointEmail {
             case dkimAttributes = "DkimAttributes"
             case identityType = "IdentityType"
             case verifiedForSendingStatus = "VerifiedForSendingStatus"
+        }
+    }
+
+    public struct DailyVolume: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainIspPlacements", required: false, type: .list), 
+            AWSShapeMember(label: "StartDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "VolumeStatistics", required: false, type: .structure)
+        ]
+        /// An object that contains inbox placement metrics for a specified day in the analysis period, broken out by the recipient's email provider.
+        public let domainIspPlacements: [DomainIspPlacement]?
+        /// The date that the DailyVolume metrics apply to, in Unix time.
+        public let startDate: TimeStamp?
+        /// An object that contains inbox placement metrics for a specific day in the analysis period.
+        public let volumeStatistics: VolumeStatistics?
+
+        public init(domainIspPlacements: [DomainIspPlacement]? = nil, startDate: TimeStamp? = nil, volumeStatistics: VolumeStatistics? = nil) {
+            self.domainIspPlacements = domainIspPlacements
+            self.startDate = startDate
+            self.volumeStatistics = volumeStatistics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainIspPlacements = "DomainIspPlacements"
+            case startDate = "StartDate"
+            case volumeStatistics = "VolumeStatistics"
         }
     }
 
@@ -364,19 +483,78 @@ extension PinpointEmail {
 
     }
 
+    public enum DeliverabilityDashboardAccountStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case pendingExpiration = "PENDING_EXPIRATION"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeliverabilityTestReport: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DeliverabilityTestStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "FromEmailAddress", required: false, type: .string), 
+            AWSShapeMember(label: "ReportId", required: false, type: .string), 
+            AWSShapeMember(label: "ReportName", required: false, type: .string), 
+            AWSShapeMember(label: "Subject", required: false, type: .string)
+        ]
+        /// The date and time when the predictive inbox placement test was created, in Unix time format.
+        public let createDate: TimeStamp?
+        /// The status of the predictive inbox placement test. If the status is IN_PROGRESS, then the predictive inbox placement test is currently running. Predictive inbox placement tests are usually complete within 24 hours of creating the test. If the status is COMPLETE, then the test is finished, and you can use the GetDeliverabilityTestReport to view the results of the test.
+        public let deliverabilityTestStatus: DeliverabilityTestStatus?
+        /// The sender address that you specified for the predictive inbox placement test.
+        public let fromEmailAddress: String?
+        /// A unique string that identifies the predictive inbox placement test.
+        public let reportId: String?
+        /// A name that helps you identify a predictive inbox placement test report.
+        public let reportName: String?
+        /// The subject line for an email that you submitted in a predictive inbox placement test.
+        public let subject: String?
+
+        public init(createDate: TimeStamp? = nil, deliverabilityTestStatus: DeliverabilityTestStatus? = nil, fromEmailAddress: String? = nil, reportId: String? = nil, reportName: String? = nil, subject: String? = nil) {
+            self.createDate = createDate
+            self.deliverabilityTestStatus = deliverabilityTestStatus
+            self.fromEmailAddress = fromEmailAddress
+            self.reportId = reportId
+            self.reportName = reportName
+            self.subject = subject
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createDate = "CreateDate"
+            case deliverabilityTestStatus = "DeliverabilityTestStatus"
+            case fromEmailAddress = "FromEmailAddress"
+            case reportId = "ReportId"
+            case reportName = "ReportName"
+            case subject = "Subject"
+        }
+    }
+
+    public enum DeliverabilityTestStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case completed = "COMPLETED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DeliveryOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SendingPoolName", required: false, type: .string)
+            AWSShapeMember(label: "SendingPoolName", required: false, type: .string), 
+            AWSShapeMember(label: "TlsPolicy", required: false, type: .enum)
         ]
         /// The name of the dedicated IP pool that you want to associate with the configuration set.
         public let sendingPoolName: String?
+        /// Specifies whether Amazon Pinpoint should require that incoming email is delivered over a connection that’s encrypted by using Transport Layer Security (TLS). If this value is set to Require, Amazon Pinpoint will bounce email messages that cannot be delivered over TLS. The default value is Optional.
+        public let tlsPolicy: TlsPolicy?
 
-        public init(sendingPoolName: String? = nil) {
+        public init(sendingPoolName: String? = nil, tlsPolicy: TlsPolicy? = nil) {
             self.sendingPoolName = sendingPoolName
+            self.tlsPolicy = tlsPolicy
         }
 
         private enum CodingKeys: String, CodingKey {
             case sendingPoolName = "SendingPoolName"
+            case tlsPolicy = "TlsPolicy"
         }
     }
 
@@ -446,6 +624,149 @@ extension PinpointEmail {
         case temporaryFailure = "TEMPORARY_FAILURE"
         case notStarted = "NOT_STARTED"
         public var description: String { return self.rawValue }
+    }
+
+    public struct DomainDeliverabilityCampaign: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CampaignId", required: false, type: .string), 
+            AWSShapeMember(label: "DeleteRate", required: false, type: .double), 
+            AWSShapeMember(label: "Esps", required: false, type: .list), 
+            AWSShapeMember(label: "FirstSeenDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "FromAddress", required: false, type: .string), 
+            AWSShapeMember(label: "ImageUrl", required: false, type: .string), 
+            AWSShapeMember(label: "InboxCount", required: false, type: .long), 
+            AWSShapeMember(label: "LastSeenDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ProjectedVolume", required: false, type: .long), 
+            AWSShapeMember(label: "ReadDeleteRate", required: false, type: .double), 
+            AWSShapeMember(label: "ReadRate", required: false, type: .double), 
+            AWSShapeMember(label: "SendingIps", required: false, type: .list), 
+            AWSShapeMember(label: "SpamCount", required: false, type: .long), 
+            AWSShapeMember(label: "Subject", required: false, type: .string)
+        ]
+        /// The unique identifier for the campaign. Amazon Pinpoint automatically generates and assigns this identifier to a campaign. This value is not the same as the campaign identifier that Amazon Pinpoint assigns to campaigns that you create and manage by using the Amazon Pinpoint API or the Amazon Pinpoint console.
+        public let campaignId: String?
+        /// The percentage of email messages that were deleted by recipients, without being opened first. Due to technical limitations, this value only includes recipients who opened the message by using an email client that supports images.
+        public let deleteRate: Double?
+        /// The major email providers who handled the email message.
+        public let esps: [String]?
+        /// The first time, in Unix time format, when the email message was delivered to any recipient's inbox. This value can help you determine how long it took for a campaign to deliver an email message.
+        public let firstSeenDateTime: TimeStamp?
+        /// The verified email address that the email message was sent from.
+        public let fromAddress: String?
+        /// The URL of an image that contains a snapshot of the email message that was sent.
+        public let imageUrl: String?
+        /// The number of email messages that were delivered to recipients’ inboxes.
+        public let inboxCount: Int64?
+        /// The last time, in Unix time format, when the email message was delivered to any recipient's inbox. This value can help you determine how long it took for a campaign to deliver an email message.
+        public let lastSeenDateTime: TimeStamp?
+        /// The projected number of recipients that the email message was sent to.
+        public let projectedVolume: Int64?
+        /// The percentage of email messages that were opened and then deleted by recipients. Due to technical limitations, this value only includes recipients who opened the message by using an email client that supports images.
+        public let readDeleteRate: Double?
+        /// The percentage of email messages that were opened by recipients. Due to technical limitations, this value only includes recipients who opened the message by using an email client that supports images.
+        public let readRate: Double?
+        /// The IP addresses that were used to send the email message.
+        public let sendingIps: [String]?
+        /// The number of email messages that were delivered to recipients' spam or junk mail folders.
+        public let spamCount: Int64?
+        /// The subject line, or title, of the email message.
+        public let subject: String?
+
+        public init(campaignId: String? = nil, deleteRate: Double? = nil, esps: [String]? = nil, firstSeenDateTime: TimeStamp? = nil, fromAddress: String? = nil, imageUrl: String? = nil, inboxCount: Int64? = nil, lastSeenDateTime: TimeStamp? = nil, projectedVolume: Int64? = nil, readDeleteRate: Double? = nil, readRate: Double? = nil, sendingIps: [String]? = nil, spamCount: Int64? = nil, subject: String? = nil) {
+            self.campaignId = campaignId
+            self.deleteRate = deleteRate
+            self.esps = esps
+            self.firstSeenDateTime = firstSeenDateTime
+            self.fromAddress = fromAddress
+            self.imageUrl = imageUrl
+            self.inboxCount = inboxCount
+            self.lastSeenDateTime = lastSeenDateTime
+            self.projectedVolume = projectedVolume
+            self.readDeleteRate = readDeleteRate
+            self.readRate = readRate
+            self.sendingIps = sendingIps
+            self.spamCount = spamCount
+            self.subject = subject
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case campaignId = "CampaignId"
+            case deleteRate = "DeleteRate"
+            case esps = "Esps"
+            case firstSeenDateTime = "FirstSeenDateTime"
+            case fromAddress = "FromAddress"
+            case imageUrl = "ImageUrl"
+            case inboxCount = "InboxCount"
+            case lastSeenDateTime = "LastSeenDateTime"
+            case projectedVolume = "ProjectedVolume"
+            case readDeleteRate = "ReadDeleteRate"
+            case readRate = "ReadRate"
+            case sendingIps = "SendingIps"
+            case spamCount = "SpamCount"
+            case subject = "Subject"
+        }
+    }
+
+    public struct DomainDeliverabilityTrackingOption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Domain", required: false, type: .string), 
+            AWSShapeMember(label: "InboxPlacementTrackingOption", required: false, type: .structure), 
+            AWSShapeMember(label: "SubscriptionStartDate", required: false, type: .timestamp)
+        ]
+        /// A verified domain that’s associated with your AWS account and currently has an active Deliverability dashboard subscription.
+        public let domain: String?
+        /// An object that contains information about the inbox placement data settings for the domain.
+        public let inboxPlacementTrackingOption: InboxPlacementTrackingOption?
+        /// The date, in Unix time format, when you enabled the Deliverability dashboard for the domain.
+        public let subscriptionStartDate: TimeStamp?
+
+        public init(domain: String? = nil, inboxPlacementTrackingOption: InboxPlacementTrackingOption? = nil, subscriptionStartDate: TimeStamp? = nil) {
+            self.domain = domain
+            self.inboxPlacementTrackingOption = inboxPlacementTrackingOption
+            self.subscriptionStartDate = subscriptionStartDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
+            case inboxPlacementTrackingOption = "InboxPlacementTrackingOption"
+            case subscriptionStartDate = "SubscriptionStartDate"
+        }
+    }
+
+    public struct DomainIspPlacement: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InboxPercentage", required: false, type: .double), 
+            AWSShapeMember(label: "InboxRawCount", required: false, type: .long), 
+            AWSShapeMember(label: "IspName", required: false, type: .string), 
+            AWSShapeMember(label: "SpamPercentage", required: false, type: .double), 
+            AWSShapeMember(label: "SpamRawCount", required: false, type: .long)
+        ]
+        /// The percentage of messages that were sent from the selected domain to the specified email provider that arrived in recipients' inboxes.
+        public let inboxPercentage: Double?
+        /// The total number of messages that were sent from the selected domain to the specified email provider that arrived in recipients' inboxes.
+        public let inboxRawCount: Int64?
+        /// The name of the email provider that the inbox placement data applies to.
+        public let ispName: String?
+        /// The percentage of messages that were sent from the selected domain to the specified email provider that arrived in recipients' spam or junk mail folders.
+        public let spamPercentage: Double?
+        /// The total number of messages that were sent from the selected domain to the specified email provider that arrived in recipients' spam or junk mail folders.
+        public let spamRawCount: Int64?
+
+        public init(inboxPercentage: Double? = nil, inboxRawCount: Int64? = nil, ispName: String? = nil, spamPercentage: Double? = nil, spamRawCount: Int64? = nil) {
+            self.inboxPercentage = inboxPercentage
+            self.inboxRawCount = inboxRawCount
+            self.ispName = ispName
+            self.spamPercentage = spamPercentage
+            self.spamRawCount = spamRawCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inboxPercentage = "InboxPercentage"
+            case inboxRawCount = "InboxRawCount"
+            case ispName = "IspName"
+            case spamPercentage = "SpamPercentage"
+            case spamRawCount = "SpamRawCount"
+        }
     }
 
     public struct EmailContent: AWSShape {
@@ -611,6 +932,38 @@ extension PinpointEmail {
         }
     }
 
+    public struct GetBlacklistReportsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BlacklistItemNames", location: .querystring(locationName: "BlacklistItemNames"), required: true, type: .list)
+        ]
+        /// A list of IP addresses that you want to retrieve blacklist information about. You can only specify the dedicated IP addresses that you use to send email using Amazon Pinpoint or Amazon SES.
+        public let blacklistItemNames: [String]
+
+        public init(blacklistItemNames: [String]) {
+            self.blacklistItemNames = blacklistItemNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blacklistItemNames = "BlacklistItemNames"
+        }
+    }
+
+    public struct GetBlacklistReportsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BlacklistReport", required: true, type: .map)
+        ]
+        /// An object that contains information about a blacklist that one of your dedicated IP addresses appears on.
+        public let blacklistReport: [String: [BlacklistEntry]]
+
+        public init(blacklistReport: [String: [BlacklistEntry]]) {
+            self.blacklistReport = blacklistReport
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blacklistReport = "BlacklistReport"
+        }
+    }
+
     public struct GetConfigurationSetEventDestinationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string)
@@ -665,6 +1018,7 @@ extension PinpointEmail {
             AWSShapeMember(label: "DeliveryOptions", required: false, type: .structure), 
             AWSShapeMember(label: "ReputationOptions", required: false, type: .structure), 
             AWSShapeMember(label: "SendingOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "TrackingOptions", required: false, type: .structure)
         ]
         /// The name of the configuration set.
@@ -675,14 +1029,17 @@ extension PinpointEmail {
         public let reputationOptions: ReputationOptions?
         /// An object that defines whether or not Amazon Pinpoint can send email that you send using the configuration set.
         public let sendingOptions: SendingOptions?
+        /// An array of objects that define the tags (keys and values) that are associated with the configuration set.
+        public let tags: [Tag]?
         /// An object that defines the open and click tracking options for emails that you send using the configuration set.
         public let trackingOptions: TrackingOptions?
 
-        public init(configurationSetName: String? = nil, deliveryOptions: DeliveryOptions? = nil, reputationOptions: ReputationOptions? = nil, sendingOptions: SendingOptions? = nil, trackingOptions: TrackingOptions? = nil) {
+        public init(configurationSetName: String? = nil, deliveryOptions: DeliveryOptions? = nil, reputationOptions: ReputationOptions? = nil, sendingOptions: SendingOptions? = nil, tags: [Tag]? = nil, trackingOptions: TrackingOptions? = nil) {
             self.configurationSetName = configurationSetName
             self.deliveryOptions = deliveryOptions
             self.reputationOptions = reputationOptions
             self.sendingOptions = sendingOptions
+            self.tags = tags
             self.trackingOptions = trackingOptions
         }
 
@@ -691,6 +1048,7 @@ extension PinpointEmail {
             case deliveryOptions = "DeliveryOptions"
             case reputationOptions = "ReputationOptions"
             case sendingOptions = "SendingOptions"
+            case tags = "Tags"
             case trackingOptions = "TrackingOptions"
         }
     }
@@ -729,9 +1087,9 @@ extension PinpointEmail {
 
     public struct GetDedicatedIpsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "PoolName", required: false, type: .string)
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize"), required: false, type: .integer), 
+            AWSShapeMember(label: "PoolName", location: .querystring(locationName: "PoolName"), required: false, type: .string)
         ]
         /// A token returned from a previous call to GetDedicatedIps to indicate the position of the dedicated IP pool in the list of IP pools.
         public let nextToken: String?
@@ -774,6 +1132,180 @@ extension PinpointEmail {
         }
     }
 
+    public struct GetDeliverabilityDashboardOptionsRequest: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct GetDeliverabilityDashboardOptionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "ActiveSubscribedDomains", required: false, type: .list), 
+            AWSShapeMember(label: "DashboardEnabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "PendingExpirationSubscribedDomains", required: false, type: .list), 
+            AWSShapeMember(label: "SubscriptionExpiryDate", required: false, type: .timestamp)
+        ]
+        /// The current status of your Deliverability dashboard subscription. If this value is PENDING_EXPIRATION, your subscription is scheduled to expire at the end of the current calendar month.
+        public let accountStatus: DeliverabilityDashboardAccountStatus?
+        /// An array of objects, one for each verified domain that you use to send email and currently has an active Deliverability dashboard subscription that isn’t scheduled to expire at the end of the current calendar month.
+        public let activeSubscribedDomains: [DomainDeliverabilityTrackingOption]?
+        /// Specifies whether the Deliverability dashboard is enabled for your Amazon Pinpoint account. If this value is true, the dashboard is enabled.
+        public let dashboardEnabled: Bool
+        /// An array of objects, one for each verified domain that you use to send email and currently has an active Deliverability dashboard subscription that's scheduled to expire at the end of the current calendar month.
+        public let pendingExpirationSubscribedDomains: [DomainDeliverabilityTrackingOption]?
+        /// The date, in Unix time format, when your current subscription to the Deliverability dashboard is scheduled to expire, if your subscription is scheduled to expire at the end of the current calendar month. This value is null if you have an active subscription that isn’t due to expire at the end of the month.
+        public let subscriptionExpiryDate: TimeStamp?
+
+        public init(accountStatus: DeliverabilityDashboardAccountStatus? = nil, activeSubscribedDomains: [DomainDeliverabilityTrackingOption]? = nil, dashboardEnabled: Bool, pendingExpirationSubscribedDomains: [DomainDeliverabilityTrackingOption]? = nil, subscriptionExpiryDate: TimeStamp? = nil) {
+            self.accountStatus = accountStatus
+            self.activeSubscribedDomains = activeSubscribedDomains
+            self.dashboardEnabled = dashboardEnabled
+            self.pendingExpirationSubscribedDomains = pendingExpirationSubscribedDomains
+            self.subscriptionExpiryDate = subscriptionExpiryDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountStatus = "AccountStatus"
+            case activeSubscribedDomains = "ActiveSubscribedDomains"
+            case dashboardEnabled = "DashboardEnabled"
+            case pendingExpirationSubscribedDomains = "PendingExpirationSubscribedDomains"
+            case subscriptionExpiryDate = "SubscriptionExpiryDate"
+        }
+    }
+
+    public struct GetDeliverabilityTestReportRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReportId", location: .uri(locationName: "ReportId"), required: true, type: .string)
+        ]
+        /// A unique string that identifies the predictive inbox placement test.
+        public let reportId: String
+
+        public init(reportId: String) {
+            self.reportId = reportId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reportId = "ReportId"
+        }
+    }
+
+    public struct GetDeliverabilityTestReportResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeliverabilityTestReport", required: true, type: .structure), 
+            AWSShapeMember(label: "IspPlacements", required: true, type: .list), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "OverallPlacement", required: true, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// An object that contains the results of the predictive inbox placement test.
+        public let deliverabilityTestReport: DeliverabilityTestReport
+        /// An object that describes how the test email was handled by several email providers, including Gmail, Hotmail, Yahoo, AOL, and others.
+        public let ispPlacements: [IspPlacement]
+        /// An object that contains the message that you sent when you performed this predictive inbox placement test.
+        public let message: String?
+        /// An object that specifies how many test messages that were sent during the predictive inbox placement test were delivered to recipients' inboxes, how many were sent to recipients' spam folders, and how many weren't delivered.
+        public let overallPlacement: PlacementStatistics
+        /// An array of objects that define the tags (keys and values) that are associated with the predictive inbox placement test.
+        public let tags: [Tag]?
+
+        public init(deliverabilityTestReport: DeliverabilityTestReport, ispPlacements: [IspPlacement], message: String? = nil, overallPlacement: PlacementStatistics, tags: [Tag]? = nil) {
+            self.deliverabilityTestReport = deliverabilityTestReport
+            self.ispPlacements = ispPlacements
+            self.message = message
+            self.overallPlacement = overallPlacement
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliverabilityTestReport = "DeliverabilityTestReport"
+            case ispPlacements = "IspPlacements"
+            case message = "Message"
+            case overallPlacement = "OverallPlacement"
+            case tags = "Tags"
+        }
+    }
+
+    public struct GetDomainDeliverabilityCampaignRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CampaignId", location: .uri(locationName: "CampaignId"), required: true, type: .string)
+        ]
+        /// The unique identifier for the campaign. Amazon Pinpoint automatically generates and assigns this identifier to a campaign. This value is not the same as the campaign identifier that Amazon Pinpoint assigns to campaigns that you create and manage by using the Amazon Pinpoint API or the Amazon Pinpoint console.
+        public let campaignId: String
+
+        public init(campaignId: String) {
+            self.campaignId = campaignId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case campaignId = "CampaignId"
+        }
+    }
+
+    public struct GetDomainDeliverabilityCampaignResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainDeliverabilityCampaign", required: true, type: .structure)
+        ]
+        /// An object that contains the deliverability data for the campaign.
+        public let domainDeliverabilityCampaign: DomainDeliverabilityCampaign
+
+        public init(domainDeliverabilityCampaign: DomainDeliverabilityCampaign) {
+            self.domainDeliverabilityCampaign = domainDeliverabilityCampaign
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainDeliverabilityCampaign = "DomainDeliverabilityCampaign"
+        }
+    }
+
+    public struct GetDomainStatisticsReportRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Domain", location: .uri(locationName: "Domain"), required: true, type: .string), 
+            AWSShapeMember(label: "EndDate", location: .querystring(locationName: "EndDate"), required: true, type: .timestamp), 
+            AWSShapeMember(label: "StartDate", location: .querystring(locationName: "StartDate"), required: true, type: .timestamp)
+        ]
+        /// The domain that you want to obtain deliverability metrics for.
+        public let domain: String
+        /// The last day (in Unix time) that you want to obtain domain deliverability metrics for. The EndDate that you specify has to be less than or equal to 30 days after the StartDate.
+        public let endDate: TimeStamp
+        /// The first day (in Unix time) that you want to obtain domain deliverability metrics for.
+        public let startDate: TimeStamp
+
+        public init(domain: String, endDate: TimeStamp, startDate: TimeStamp) {
+            self.domain = domain
+            self.endDate = endDate
+            self.startDate = startDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
+            case endDate = "EndDate"
+            case startDate = "StartDate"
+        }
+    }
+
+    public struct GetDomainStatisticsReportResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DailyVolumes", required: true, type: .list), 
+            AWSShapeMember(label: "OverallVolume", required: true, type: .structure)
+        ]
+        /// An object that contains deliverability metrics for the domain that you specified. This object contains data for each day, starting on the StartDate and ending on the EndDate.
+        public let dailyVolumes: [DailyVolume]
+        /// An object that contains deliverability metrics for the domain that you specified. The data in this object is a summary of all of the data that was collected from the StartDate to the EndDate.
+        public let overallVolume: OverallVolume
+
+        public init(dailyVolumes: [DailyVolume], overallVolume: OverallVolume) {
+            self.dailyVolumes = dailyVolumes
+            self.overallVolume = overallVolume
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dailyVolumes = "DailyVolumes"
+            case overallVolume = "OverallVolume"
+        }
+    }
+
     public struct GetEmailIdentityRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"), required: true, type: .string)
@@ -796,6 +1328,7 @@ extension PinpointEmail {
             AWSShapeMember(label: "FeedbackForwardingStatus", required: false, type: .boolean), 
             AWSShapeMember(label: "IdentityType", required: false, type: .enum), 
             AWSShapeMember(label: "MailFromAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "VerifiedForSendingStatus", required: false, type: .boolean)
         ]
         /// An object that contains information about the DKIM attributes for the identity. This object includes the tokens that you use to create the CNAME records that are required to complete the DKIM verification process.
@@ -806,14 +1339,17 @@ extension PinpointEmail {
         public let identityType: IdentityType?
         /// An object that contains information about the Mail-From attributes for the email identity.
         public let mailFromAttributes: MailFromAttributes?
+        /// An array of objects that define the tags (keys and values) that are associated with the email identity.
+        public let tags: [Tag]?
         /// Specifies whether or not the identity is verified. In Amazon Pinpoint, you can only send email from verified email addresses or domains. For more information about verifying identities, see the Amazon Pinpoint User Guide.
         public let verifiedForSendingStatus: Bool?
 
-        public init(dkimAttributes: DkimAttributes? = nil, feedbackForwardingStatus: Bool? = nil, identityType: IdentityType? = nil, mailFromAttributes: MailFromAttributes? = nil, verifiedForSendingStatus: Bool? = nil) {
+        public init(dkimAttributes: DkimAttributes? = nil, feedbackForwardingStatus: Bool? = nil, identityType: IdentityType? = nil, mailFromAttributes: MailFromAttributes? = nil, tags: [Tag]? = nil, verifiedForSendingStatus: Bool? = nil) {
             self.dkimAttributes = dkimAttributes
             self.feedbackForwardingStatus = feedbackForwardingStatus
             self.identityType = identityType
             self.mailFromAttributes = mailFromAttributes
+            self.tags = tags
             self.verifiedForSendingStatus = verifiedForSendingStatus
         }
 
@@ -822,6 +1358,7 @@ extension PinpointEmail {
             case feedbackForwardingStatus = "FeedbackForwardingStatus"
             case identityType = "IdentityType"
             case mailFromAttributes = "MailFromAttributes"
+            case tags = "Tags"
             case verifiedForSendingStatus = "VerifiedForSendingStatus"
         }
     }
@@ -859,6 +1396,48 @@ extension PinpointEmail {
         public var description: String { return self.rawValue }
     }
 
+    public struct InboxPlacementTrackingOption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Global", required: false, type: .boolean), 
+            AWSShapeMember(label: "TrackedIsps", required: false, type: .list)
+        ]
+        /// Specifies whether inbox placement data is being tracked for the domain.
+        public let global: Bool?
+        /// An array of strings, one for each major email provider that the inbox placement data applies to.
+        public let trackedIsps: [String]?
+
+        public init(global: Bool? = nil, trackedIsps: [String]? = nil) {
+            self.global = global
+            self.trackedIsps = trackedIsps
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case global = "Global"
+            case trackedIsps = "TrackedIsps"
+        }
+    }
+
+    public struct IspPlacement: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IspName", required: false, type: .string), 
+            AWSShapeMember(label: "PlacementStatistics", required: false, type: .structure)
+        ]
+        /// The name of the email provider that the inbox placement data applies to.
+        public let ispName: String?
+        /// An object that contains inbox placement metrics for a specific email provider.
+        public let placementStatistics: PlacementStatistics?
+
+        public init(ispName: String? = nil, placementStatistics: PlacementStatistics? = nil) {
+            self.ispName = ispName
+            self.placementStatistics = placementStatistics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ispName = "IspName"
+            case placementStatistics = "PlacementStatistics"
+        }
+    }
+
     public struct KinesisFirehoseDestination: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeliveryStreamArn", required: true, type: .string), 
@@ -882,8 +1461,8 @@ extension PinpointEmail {
 
     public struct ListConfigurationSetsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "PageSize", required: false, type: .integer)
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize"), required: false, type: .integer)
         ]
         /// A token returned from a previous call to ListConfigurationSets to indicate the position in the list of configuration sets.
         public let nextToken: String?
@@ -924,8 +1503,8 @@ extension PinpointEmail {
 
     public struct ListDedicatedIpPoolsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "PageSize", required: false, type: .integer)
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize"), required: false, type: .integer)
         ]
         /// A token returned from a previous call to ListDedicatedIpPools to indicate the position in the list of dedicated IP pools.
         public let nextToken: String?
@@ -964,10 +1543,109 @@ extension PinpointEmail {
         }
     }
 
+    public struct ListDeliverabilityTestReportsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize"), required: false, type: .integer)
+        ]
+        /// A token returned from a previous call to ListDeliverabilityTestReports to indicate the position in the list of predictive inbox placement tests.
+        public let nextToken: String?
+        /// The number of results to show in a single call to ListDeliverabilityTestReports. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 0, and can be no more than 1000.
+        public let pageSize: Int32?
+
+        public init(nextToken: String? = nil, pageSize: Int32? = nil) {
+            self.nextToken = nextToken
+            self.pageSize = pageSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case pageSize = "PageSize"
+        }
+    }
+
+    public struct ListDeliverabilityTestReportsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeliverabilityTestReports", required: true, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// An object that contains a lists of predictive inbox placement tests that you've performed.
+        public let deliverabilityTestReports: [DeliverabilityTestReport]
+        /// A token that indicates that there are additional predictive inbox placement tests to list. To view additional predictive inbox placement tests, issue another request to ListDeliverabilityTestReports, and pass this token in the NextToken parameter.
+        public let nextToken: String?
+
+        public init(deliverabilityTestReports: [DeliverabilityTestReport], nextToken: String? = nil) {
+            self.deliverabilityTestReports = deliverabilityTestReports
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliverabilityTestReports = "DeliverabilityTestReports"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDomainDeliverabilityCampaignsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndDate", location: .querystring(locationName: "EndDate"), required: true, type: .timestamp), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize"), required: false, type: .integer), 
+            AWSShapeMember(label: "StartDate", location: .querystring(locationName: "StartDate"), required: true, type: .timestamp), 
+            AWSShapeMember(label: "SubscribedDomain", location: .uri(locationName: "SubscribedDomain"), required: true, type: .string)
+        ]
+        /// The last day, in Unix time format, that you want to obtain deliverability data for. This value has to be less than or equal to 30 days after the value of the StartDate parameter.
+        public let endDate: TimeStamp
+        /// A token that’s returned from a previous call to the ListDomainDeliverabilityCampaigns operation. This token indicates the position of a campaign in the list of campaigns.
+        public let nextToken: String?
+        /// The maximum number of results to include in response to a single call to the ListDomainDeliverabilityCampaigns operation. If the number of results is larger than the number that you specify in this parameter, the response includes a NextToken element, which you can use to obtain additional results.
+        public let pageSize: Int32?
+        /// The first day, in Unix time format, that you want to obtain deliverability data for.
+        public let startDate: TimeStamp
+        /// The domain to obtain deliverability data for.
+        public let subscribedDomain: String
+
+        public init(endDate: TimeStamp, nextToken: String? = nil, pageSize: Int32? = nil, startDate: TimeStamp, subscribedDomain: String) {
+            self.endDate = endDate
+            self.nextToken = nextToken
+            self.pageSize = pageSize
+            self.startDate = startDate
+            self.subscribedDomain = subscribedDomain
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endDate = "EndDate"
+            case nextToken = "NextToken"
+            case pageSize = "PageSize"
+            case startDate = "StartDate"
+            case subscribedDomain = "SubscribedDomain"
+        }
+    }
+
+    public struct ListDomainDeliverabilityCampaignsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainDeliverabilityCampaigns", required: true, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// An array of responses, one for each campaign that used the domain to send email during the specified time range.
+        public let domainDeliverabilityCampaigns: [DomainDeliverabilityCampaign]
+        /// A token that’s returned from a previous call to the ListDomainDeliverabilityCampaigns operation. This token indicates the position of the campaign in the list of campaigns.
+        public let nextToken: String?
+
+        public init(domainDeliverabilityCampaigns: [DomainDeliverabilityCampaign], nextToken: String? = nil) {
+            self.domainDeliverabilityCampaigns = domainDeliverabilityCampaigns
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainDeliverabilityCampaigns = "DomainDeliverabilityCampaigns"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListEmailIdentitiesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "PageSize", required: false, type: .integer)
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "PageSize"), required: false, type: .integer)
         ]
         /// A token returned from a previous call to ListEmailIdentities to indicate the position in the list of identities.
         public let nextToken: String?
@@ -1003,6 +1681,38 @@ extension PinpointEmail {
         private enum CodingKeys: String, CodingKey {
             case emailIdentities = "EmailIdentities"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .querystring(locationName: "ResourceArn"), required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the resource that you want to retrieve tag information for.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: true, type: .list)
+        ]
+        /// An array that lists all the tags that are associated with the resource. Each tag consists of a required tag key (Key) and an associated tag value (Value)
+        public let tags: [Tag]
+
+        public init(tags: [Tag]) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
         }
     }
 
@@ -1082,6 +1792,32 @@ extension PinpointEmail {
         }
     }
 
+    public struct OverallVolume: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainIspPlacements", required: false, type: .list), 
+            AWSShapeMember(label: "ReadRatePercent", required: false, type: .double), 
+            AWSShapeMember(label: "VolumeStatistics", required: false, type: .structure)
+        ]
+        /// An object that contains inbox and junk mail placement metrics for individual email providers.
+        public let domainIspPlacements: [DomainIspPlacement]?
+        /// The percentage of emails that were sent from the domain that were read by their recipients.
+        public let readRatePercent: Double?
+        /// An object that contains information about the numbers of messages that arrived in recipients' inboxes and junk mail folders.
+        public let volumeStatistics: VolumeStatistics?
+
+        public init(domainIspPlacements: [DomainIspPlacement]? = nil, readRatePercent: Double? = nil, volumeStatistics: VolumeStatistics? = nil) {
+            self.domainIspPlacements = domainIspPlacements
+            self.readRatePercent = readRatePercent
+            self.volumeStatistics = volumeStatistics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainIspPlacements = "DomainIspPlacements"
+            case readRatePercent = "ReadRatePercent"
+            case volumeStatistics = "VolumeStatistics"
+        }
+    }
+
     public struct PinpointDestination: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationArn", required: false, type: .string)
@@ -1095,6 +1831,42 @@ extension PinpointEmail {
 
         private enum CodingKeys: String, CodingKey {
             case applicationArn = "ApplicationArn"
+        }
+    }
+
+    public struct PlacementStatistics: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DkimPercentage", required: false, type: .double), 
+            AWSShapeMember(label: "InboxPercentage", required: false, type: .double), 
+            AWSShapeMember(label: "MissingPercentage", required: false, type: .double), 
+            AWSShapeMember(label: "SpamPercentage", required: false, type: .double), 
+            AWSShapeMember(label: "SpfPercentage", required: false, type: .double)
+        ]
+        /// The percentage of emails that were authenticated by using DomainKeys Identified Mail (DKIM) during the predictive inbox placement test.
+        public let dkimPercentage: Double?
+        /// The percentage of emails that arrived in recipients' inboxes during the predictive inbox placement test.
+        public let inboxPercentage: Double?
+        /// The percentage of emails that didn't arrive in recipients' inboxes at all during the predictive inbox placement test.
+        public let missingPercentage: Double?
+        /// The percentage of emails that arrived in recipients' spam or junk mail folders during the predictive inbox placement test.
+        public let spamPercentage: Double?
+        /// The percentage of emails that were authenticated by using Sender Policy Framework (SPF) during the predictive inbox placement test.
+        public let spfPercentage: Double?
+
+        public init(dkimPercentage: Double? = nil, inboxPercentage: Double? = nil, missingPercentage: Double? = nil, spamPercentage: Double? = nil, spfPercentage: Double? = nil) {
+            self.dkimPercentage = dkimPercentage
+            self.inboxPercentage = inboxPercentage
+            self.missingPercentage = missingPercentage
+            self.spamPercentage = spamPercentage
+            self.spfPercentage = spfPercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dkimPercentage = "DkimPercentage"
+            case inboxPercentage = "InboxPercentage"
+            case missingPercentage = "MissingPercentage"
+            case spamPercentage = "SpamPercentage"
+            case spfPercentage = "SpfPercentage"
         }
     }
 
@@ -1147,21 +1919,26 @@ extension PinpointEmail {
     public struct PutConfigurationSetDeliveryOptionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string), 
-            AWSShapeMember(label: "SendingPoolName", required: false, type: .string)
+            AWSShapeMember(label: "SendingPoolName", required: false, type: .string), 
+            AWSShapeMember(label: "TlsPolicy", required: false, type: .enum)
         ]
         /// The name of the configuration set that you want to associate with a dedicated IP pool.
         public let configurationSetName: String
         /// The name of the dedicated IP pool that you want to associate with the configuration set.
         public let sendingPoolName: String?
+        /// Whether Amazon Pinpoint should require that incoming email is delivered over a connection encrypted with Transport Layer Security (TLS).
+        public let tlsPolicy: TlsPolicy?
 
-        public init(configurationSetName: String, sendingPoolName: String? = nil) {
+        public init(configurationSetName: String, sendingPoolName: String? = nil, tlsPolicy: TlsPolicy? = nil) {
             self.configurationSetName = configurationSetName
             self.sendingPoolName = sendingPoolName
+            self.tlsPolicy = tlsPolicy
         }
 
         private enum CodingKeys: String, CodingKey {
             case configurationSetName = "ConfigurationSetName"
             case sendingPoolName = "SendingPoolName"
+            case tlsPolicy = "TlsPolicy"
         }
     }
 
@@ -1312,6 +2089,34 @@ extension PinpointEmail {
 
     }
 
+    public struct PutDeliverabilityDashboardOptionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DashboardEnabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "SubscribedDomains", required: false, type: .list)
+        ]
+        /// Specifies whether to enable the Deliverability dashboard for your Amazon Pinpoint account. To enable the dashboard, set this value to true.
+        public let dashboardEnabled: Bool
+        /// An array of objects, one for each verified domain that you use to send email and enabled the Deliverability dashboard for.
+        public let subscribedDomains: [DomainDeliverabilityTrackingOption]?
+
+        public init(dashboardEnabled: Bool, subscribedDomains: [DomainDeliverabilityTrackingOption]? = nil) {
+            self.dashboardEnabled = dashboardEnabled
+            self.subscribedDomains = subscribedDomains
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardEnabled = "DashboardEnabled"
+            case subscribedDomains = "SubscribedDomains"
+        }
+    }
+
+    public struct PutDeliverabilityDashboardOptionResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
     public struct PutEmailIdentityDkimAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"), required: true, type: .string), 
@@ -1422,7 +2227,7 @@ extension PinpointEmail {
             AWSShapeMember(label: "LastFreshStart", required: false, type: .timestamp), 
             AWSShapeMember(label: "ReputationMetricsEnabled", required: false, type: .boolean)
         ]
-        /// The date and time when the reputation metrics were last given a fresh start. When your account is given a fresh start, your reputation metrics are calculated starting from the date of the fresh start.
+        /// The date and time (in Unix time) when the reputation metrics were last given a fresh start. When your account is given a fresh start, your reputation metrics are calculated starting from the date of the fresh start.
         public let lastFreshStart: TimeStamp?
         /// If true, tracking of reputation metrics is enabled for the configuration set. If false, tracking of reputation metrics is disabled for the configuration set.
         public let reputationMetricsEnabled: Bool?
@@ -1558,6 +2363,61 @@ extension PinpointEmail {
         }
     }
 
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
+        ]
+        /// One part of a key-value pair that defines a tag. The maximum length of a tag key is 128 characters. The minimum length is 1 character.
+        public let key: String
+        /// The optional part of a key-value pair that defines a tag. The maximum length of a tag value is 256 characters. The minimum length is 0 characters. If you don’t want a resource to have a specific tag value, don’t specify a value for this parameter. Amazon Pinpoint will set the value to an empty string.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) of the resource that you want to add one or more tags to.
+        public let resourceArn: String
+        /// A list of the tags that you want to add to the resource. A tag consists of a required tag key (Key) and an associated tag value (Value). The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
+        public let tags: [Tag]
+
+        public init(resourceArn: String, tags: [Tag]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public enum TlsPolicy: String, CustomStringConvertible, Codable {
+        case require = "REQUIRE"
+        case optional = "OPTIONAL"
+        public var description: String { return self.rawValue }
+    }
+
     public struct TrackingOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CustomRedirectDomain", required: true, type: .string)
@@ -1572,6 +2432,34 @@ extension PinpointEmail {
         private enum CodingKeys: String, CodingKey {
             case customRedirectDomain = "CustomRedirectDomain"
         }
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .querystring(locationName: "ResourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "TagKeys"), required: true, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) of the resource that you want to remove one or more tags from.
+        public let resourceArn: String
+        /// The tags (tag keys) that you want to remove from the resource. When you specify a tag key, the action removes both that key and its associated tag value. To remove more than one tag from the resource, append the TagKeys parameter and argument for each additional tag to remove, separated by an ampersand. For example: /v1/email/tags?ResourceArn=ResourceArn&amp;TagKeys=Key1&amp;TagKeys=Key2 
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
     }
 
     public struct UpdateConfigurationSetEventDestinationRequest: AWSShape {
@@ -1605,6 +2493,37 @@ extension PinpointEmail {
         public init() {
         }
 
+    }
+
+    public struct VolumeStatistics: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InboxRawCount", required: false, type: .long), 
+            AWSShapeMember(label: "ProjectedInbox", required: false, type: .long), 
+            AWSShapeMember(label: "ProjectedSpam", required: false, type: .long), 
+            AWSShapeMember(label: "SpamRawCount", required: false, type: .long)
+        ]
+        /// The total number of emails that arrived in recipients' inboxes.
+        public let inboxRawCount: Int64?
+        /// An estimate of the percentage of emails sent from the current domain that will arrive in recipients' inboxes.
+        public let projectedInbox: Int64?
+        /// An estimate of the percentage of emails sent from the current domain that will arrive in recipients' spam or junk mail folders.
+        public let projectedSpam: Int64?
+        /// The total number of emails that arrived in recipients' spam or junk mail folders.
+        public let spamRawCount: Int64?
+
+        public init(inboxRawCount: Int64? = nil, projectedInbox: Int64? = nil, projectedSpam: Int64? = nil, spamRawCount: Int64? = nil) {
+            self.inboxRawCount = inboxRawCount
+            self.projectedInbox = projectedInbox
+            self.projectedSpam = projectedSpam
+            self.spamRawCount = spamRawCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inboxRawCount = "InboxRawCount"
+            case projectedInbox = "ProjectedInbox"
+            case projectedSpam = "ProjectedSpam"
+            case spamRawCount = "SpamRawCount"
+        }
     }
 
     public enum WarmupStatus: String, CustomStringConvertible, Codable {

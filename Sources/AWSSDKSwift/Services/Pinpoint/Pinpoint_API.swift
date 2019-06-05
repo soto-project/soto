@@ -290,6 +290,11 @@ public struct Pinpoint {
         return try client.send(operation: "GetVoiceChannel", path: "/v1/apps/{application-id}/channels/voice", httpMethod: "GET", input: input)
     }
 
+    ///  Get list of all tags for a given resource arn
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> Future<ListTagsForResourceResponse> {
+        return try client.send(operation: "ListTagsForResource", path: "/v1/tags/{resource-arn}", httpMethod: "GET", input: input)
+    }
+
     ///  Returns information about the specified phone number.
     public func phoneNumberValidate(_ input: PhoneNumberValidateRequest) throws -> Future<PhoneNumberValidateResponse> {
         return try client.send(operation: "PhoneNumberValidate", path: "/v1/phone/number/validate", httpMethod: "POST", input: input)
@@ -318,6 +323,16 @@ public struct Pinpoint {
     ///  Used to send a message to a list of users.
     public func sendUsersMessages(_ input: SendUsersMessagesRequest) throws -> Future<SendUsersMessagesResponse> {
         return try client.send(operation: "SendUsersMessages", path: "/v1/apps/{application-id}/users-messages", httpMethod: "POST", input: input)
+    }
+
+    ///  Adds tags to a resource.
+    @discardableResult public func tagResource(_ input: TagResourceRequest) throws -> Future<Void> {
+        return try client.send(operation: "TagResource", path: "/v1/tags/{resource-arn}", httpMethod: "POST", input: input)
+    }
+
+    ///  Remove tags from a resource.
+    @discardableResult public func untagResource(_ input: UntagResourceRequest) throws -> Future<Void> {
+        return try client.send(operation: "UntagResource", path: "/v1/tags/{resource-arn}", httpMethod: "DELETE", input: input)
     }
 
     ///  Update an ADM channel.

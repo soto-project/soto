@@ -671,6 +671,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "DedicatedMasterType", required: false, type: .enum), 
             AWSShapeMember(label: "InstanceCount", required: false, type: .integer), 
             AWSShapeMember(label: "InstanceType", required: false, type: .enum), 
+            AWSShapeMember(label: "ZoneAwarenessConfig", required: false, type: .structure), 
             AWSShapeMember(label: "ZoneAwarenessEnabled", required: false, type: .boolean)
         ]
         /// Total number of dedicated master nodes, active and on standby, for the cluster.
@@ -683,15 +684,18 @@ extension ElasticsearchService {
         public let instanceCount: Int32?
         /// The instance type for an Elasticsearch cluster.
         public let instanceType: ESPartitionInstanceType?
+        /// Specifies the zone awareness configuration for a domain when zone awareness is enabled.
+        public let zoneAwarenessConfig: ZoneAwarenessConfig?
         /// A boolean value to indicate whether zone awareness is enabled. See About Zone Awareness for more information.
         public let zoneAwarenessEnabled: Bool?
 
-        public init(dedicatedMasterCount: Int32? = nil, dedicatedMasterEnabled: Bool? = nil, dedicatedMasterType: ESPartitionInstanceType? = nil, instanceCount: Int32? = nil, instanceType: ESPartitionInstanceType? = nil, zoneAwarenessEnabled: Bool? = nil) {
+        public init(dedicatedMasterCount: Int32? = nil, dedicatedMasterEnabled: Bool? = nil, dedicatedMasterType: ESPartitionInstanceType? = nil, instanceCount: Int32? = nil, instanceType: ESPartitionInstanceType? = nil, zoneAwarenessConfig: ZoneAwarenessConfig? = nil, zoneAwarenessEnabled: Bool? = nil) {
             self.dedicatedMasterCount = dedicatedMasterCount
             self.dedicatedMasterEnabled = dedicatedMasterEnabled
             self.dedicatedMasterType = dedicatedMasterType
             self.instanceCount = instanceCount
             self.instanceType = instanceType
+            self.zoneAwarenessConfig = zoneAwarenessConfig
             self.zoneAwarenessEnabled = zoneAwarenessEnabled
         }
 
@@ -701,6 +705,7 @@ extension ElasticsearchService {
             case dedicatedMasterType = "DedicatedMasterType"
             case instanceCount = "InstanceCount"
             case instanceType = "InstanceType"
+            case zoneAwarenessConfig = "ZoneAwarenessConfig"
             case zoneAwarenessEnabled = "ZoneAwarenessEnabled"
         }
     }
@@ -2093,6 +2098,22 @@ extension ElasticsearchService {
         case gp2 = "gp2"
         case io1 = "io1"
         public var description: String { return self.rawValue }
+    }
+
+    public struct ZoneAwarenessConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZoneCount", required: false, type: .integer)
+        ]
+        /// An integer value to indicate the number of availability zones for a domain when zone awareness is enabled. This should be equal to number of subnets if VPC endpoints is enabled
+        public let availabilityZoneCount: Int32?
+
+        public init(availabilityZoneCount: Int32? = nil) {
+            self.availabilityZoneCount = availabilityZoneCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZoneCount = "AvailabilityZoneCount"
+        }
     }
 
 }

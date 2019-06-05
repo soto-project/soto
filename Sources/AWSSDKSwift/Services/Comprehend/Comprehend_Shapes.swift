@@ -414,7 +414,11 @@ extension Comprehend {
             AWSShapeMember(label: "DataAccessRoleArn", required: true, type: .string), 
             AWSShapeMember(label: "DocumentClassifierName", required: true, type: .string), 
             AWSShapeMember(label: "InputDataConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "LanguageCode", required: true, type: .enum)
+            AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
+            AWSShapeMember(label: "OutputDataConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "VolumeKmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
         /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
         public let clientRequestToken: String?
@@ -426,13 +430,25 @@ extension Comprehend {
         public let inputDataConfig: DocumentClassifierInputDataConfig
         /// The language of the input documents. You can specify English ("en") or Spanish ("es"). All documents must be in the same language.
         public let languageCode: LanguageCode
+        /// Enables the addition of output results configuration parameters for custom classifier jobs.
+        public let outputDataConfig: DocumentClassifierOutputDataConfig?
+        /// Tags to be associated with the document classifier being created. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department. 
+        public let tags: [Tag]?
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
+        public let volumeKmsKeyId: String?
+        /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your custom classifier. For more information, see Amazon VPC. 
+        public let vpcConfig: VpcConfig?
 
-        public init(clientRequestToken: String? = nil, dataAccessRoleArn: String, documentClassifierName: String, inputDataConfig: DocumentClassifierInputDataConfig, languageCode: LanguageCode) {
+        public init(clientRequestToken: String? = nil, dataAccessRoleArn: String, documentClassifierName: String, inputDataConfig: DocumentClassifierInputDataConfig, languageCode: LanguageCode, outputDataConfig: DocumentClassifierOutputDataConfig? = nil, tags: [Tag]? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.documentClassifierName = documentClassifierName
             self.inputDataConfig = inputDataConfig
             self.languageCode = languageCode
+            self.outputDataConfig = outputDataConfig
+            self.tags = tags
+            self.volumeKmsKeyId = volumeKmsKeyId
+            self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -441,6 +457,10 @@ extension Comprehend {
             case documentClassifierName = "DocumentClassifierName"
             case inputDataConfig = "InputDataConfig"
             case languageCode = "LanguageCode"
+            case outputDataConfig = "OutputDataConfig"
+            case tags = "Tags"
+            case volumeKmsKeyId = "VolumeKmsKeyId"
+            case vpcConfig = "VpcConfig"
         }
     }
 
@@ -466,7 +486,10 @@ extension Comprehend {
             AWSShapeMember(label: "DataAccessRoleArn", required: true, type: .string), 
             AWSShapeMember(label: "InputDataConfig", required: true, type: .structure), 
             AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
-            AWSShapeMember(label: "RecognizerName", required: true, type: .string)
+            AWSShapeMember(label: "RecognizerName", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "VolumeKmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
         ///  A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
         public let clientRequestToken: String?
@@ -478,13 +501,22 @@ extension Comprehend {
         public let languageCode: LanguageCode
         /// The name given to the newly created recognizer. Recognizer names can be a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_) are allowed. The name must be unique in the account/region.
         public let recognizerName: String
+        /// Tags to be associated with the entity recognizer being created. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department. 
+        public let tags: [Tag]?
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
+        public let volumeKmsKeyId: String?
+        /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your custom entity recognizer. For more information, see Amazon VPC. 
+        public let vpcConfig: VpcConfig?
 
-        public init(clientRequestToken: String? = nil, dataAccessRoleArn: String, inputDataConfig: EntityRecognizerInputDataConfig, languageCode: LanguageCode, recognizerName: String) {
+        public init(clientRequestToken: String? = nil, dataAccessRoleArn: String, inputDataConfig: EntityRecognizerInputDataConfig, languageCode: LanguageCode, recognizerName: String, tags: [Tag]? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.inputDataConfig = inputDataConfig
             self.languageCode = languageCode
             self.recognizerName = recognizerName
+            self.tags = tags
+            self.volumeKmsKeyId = volumeKmsKeyId
+            self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -493,6 +525,9 @@ extension Comprehend {
             case inputDataConfig = "InputDataConfig"
             case languageCode = "LanguageCode"
             case recognizerName = "RecognizerName"
+            case tags = "Tags"
+            case volumeKmsKeyId = "VolumeKmsKeyId"
+            case vpcConfig = "VpcConfig"
         }
     }
 
@@ -1041,7 +1076,9 @@ extension Comprehend {
             AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
             AWSShapeMember(label: "Message", required: false, type: .string), 
             AWSShapeMember(label: "OutputDataConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp)
+            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "VolumeKmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
         /// The Amazon Resource Name (ARN) of the AWS identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
         public let dataAccessRoleArn: String?
@@ -1063,8 +1100,12 @@ extension Comprehend {
         public let outputDataConfig: OutputDataConfig?
         /// The time that the document classification job was submitted for processing.
         public let submitTime: TimeStamp?
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
+        public let volumeKmsKeyId: String?
+        ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your document classification job. For more information, see Amazon VPC. 
+        public let vpcConfig: VpcConfig?
 
-        public init(dataAccessRoleArn: String? = nil, documentClassifierArn: String? = nil, endTime: TimeStamp? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: TimeStamp? = nil) {
+        public init(dataAccessRoleArn: String? = nil, documentClassifierArn: String? = nil, endTime: TimeStamp? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: TimeStamp? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.documentClassifierArn = documentClassifierArn
             self.endTime = endTime
@@ -1075,6 +1116,8 @@ extension Comprehend {
             self.message = message
             self.outputDataConfig = outputDataConfig
             self.submitTime = submitTime
+            self.volumeKmsKeyId = volumeKmsKeyId
+            self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1088,6 +1131,8 @@ extension Comprehend {
             case message = "Message"
             case outputDataConfig = "OutputDataConfig"
             case submitTime = "SubmitTime"
+            case volumeKmsKeyId = "VolumeKmsKeyId"
+            case vpcConfig = "VpcConfig"
         }
     }
 
@@ -1133,6 +1178,27 @@ extension Comprehend {
         }
     }
 
+    public struct DocumentClassifierOutputDataConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "S3Uri", required: false, type: .string)
+        ]
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job. The KmsKeyId can be one of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"    KMS Key Alias: "alias/ExampleAlias"    ARN of a KMS Key Alias: "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"   
+        public let kmsKeyId: String?
+        /// When you use the OutputDataConfig object while creating a custom classifier, you specify the Amazon S3 location where you want to write the confusion matrix. The URI must be in the same region as the API endpoint that you are calling. The location is used as the prefix for the actual location of this output file. When the custom classifier job is finished, the service creates the output file in a directory specific to the job. The S3Uri field contains the location of the output file, called output.tar.gz. It is a compressed archive that contains the confusion matrix.
+        public let s3Uri: String?
+
+        public init(kmsKeyId: String? = nil, s3Uri: String? = nil) {
+            self.kmsKeyId = kmsKeyId
+            self.s3Uri = s3Uri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
+            case s3Uri = "S3Uri"
+        }
+    }
+
     public struct DocumentClassifierProperties: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClassifierMetadata", required: false, type: .structure), 
@@ -1142,10 +1208,13 @@ extension Comprehend {
             AWSShapeMember(label: "InputDataConfig", required: false, type: .structure), 
             AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
             AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "OutputDataConfig", required: false, type: .structure), 
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "TrainingEndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TrainingStartTime", required: false, type: .timestamp)
+            AWSShapeMember(label: "TrainingStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "VolumeKmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
         /// Information about the document classifier, including the number of documents used for training the classifier, the number of documents used for test the classifier, and an accuracy rating.
         public let classifierMetadata: ClassifierMetadata?
@@ -1161,7 +1230,9 @@ extension Comprehend {
         public let languageCode: LanguageCode?
         /// Additional information about the status of the classifier.
         public let message: String?
-        /// The status of the document classifier. The the status is TRAINED the classifier is ready to use. If the status is FAILED you can see additional information about why the classifier wasn't trained in the Message field.
+        ///  Provides output results configuration parameters for custom classifier jobs.
+        public let outputDataConfig: DocumentClassifierOutputDataConfig?
+        /// The status of the document classifier. If the status is TRAINED the classifier is ready to use. If the status is FAILED you can see additional information about why the classifier wasn't trained in the Message field.
         public let status: ModelStatus?
         /// The time that the document classifier was submitted for training.
         public let submitTime: TimeStamp?
@@ -1169,8 +1240,12 @@ extension Comprehend {
         public let trainingEndTime: TimeStamp?
         /// Indicates the time when the training starts on documentation classifiers. You are billed for the time interval between this time and the value of TrainingEndTime. 
         public let trainingStartTime: TimeStamp?
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
+        public let volumeKmsKeyId: String?
+        ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your custom classifier. For more information, see Amazon VPC. 
+        public let vpcConfig: VpcConfig?
 
-        public init(classifierMetadata: ClassifierMetadata? = nil, dataAccessRoleArn: String? = nil, documentClassifierArn: String? = nil, endTime: TimeStamp? = nil, inputDataConfig: DocumentClassifierInputDataConfig? = nil, languageCode: LanguageCode? = nil, message: String? = nil, status: ModelStatus? = nil, submitTime: TimeStamp? = nil, trainingEndTime: TimeStamp? = nil, trainingStartTime: TimeStamp? = nil) {
+        public init(classifierMetadata: ClassifierMetadata? = nil, dataAccessRoleArn: String? = nil, documentClassifierArn: String? = nil, endTime: TimeStamp? = nil, inputDataConfig: DocumentClassifierInputDataConfig? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: DocumentClassifierOutputDataConfig? = nil, status: ModelStatus? = nil, submitTime: TimeStamp? = nil, trainingEndTime: TimeStamp? = nil, trainingStartTime: TimeStamp? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.classifierMetadata = classifierMetadata
             self.dataAccessRoleArn = dataAccessRoleArn
             self.documentClassifierArn = documentClassifierArn
@@ -1178,10 +1253,13 @@ extension Comprehend {
             self.inputDataConfig = inputDataConfig
             self.languageCode = languageCode
             self.message = message
+            self.outputDataConfig = outputDataConfig
             self.status = status
             self.submitTime = submitTime
             self.trainingEndTime = trainingEndTime
             self.trainingStartTime = trainingStartTime
+            self.volumeKmsKeyId = volumeKmsKeyId
+            self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1192,10 +1270,13 @@ extension Comprehend {
             case inputDataConfig = "InputDataConfig"
             case languageCode = "LanguageCode"
             case message = "Message"
+            case outputDataConfig = "OutputDataConfig"
             case status = "Status"
             case submitTime = "SubmitTime"
             case trainingEndTime = "TrainingEndTime"
             case trainingStartTime = "TrainingStartTime"
+            case volumeKmsKeyId = "VolumeKmsKeyId"
+            case vpcConfig = "VpcConfig"
         }
     }
 
@@ -1261,7 +1342,9 @@ extension Comprehend {
             AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
             AWSShapeMember(label: "Message", required: false, type: .string), 
             AWSShapeMember(label: "OutputDataConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp)
+            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "VolumeKmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
         /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
         public let dataAccessRoleArn: String?
@@ -1281,8 +1364,12 @@ extension Comprehend {
         public let outputDataConfig: OutputDataConfig?
         /// The time that the dominant language detection job was submitted for processing.
         public let submitTime: TimeStamp?
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
+        public let volumeKmsKeyId: String?
+        ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your dominant language detection job. For more information, see Amazon VPC. 
+        public let vpcConfig: VpcConfig?
 
-        public init(dataAccessRoleArn: String? = nil, endTime: TimeStamp? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: TimeStamp? = nil) {
+        public init(dataAccessRoleArn: String? = nil, endTime: TimeStamp? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: TimeStamp? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.inputDataConfig = inputDataConfig
@@ -1292,6 +1379,8 @@ extension Comprehend {
             self.message = message
             self.outputDataConfig = outputDataConfig
             self.submitTime = submitTime
+            self.volumeKmsKeyId = volumeKmsKeyId
+            self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1304,6 +1393,8 @@ extension Comprehend {
             case message = "Message"
             case outputDataConfig = "OutputDataConfig"
             case submitTime = "SubmitTime"
+            case volumeKmsKeyId = "VolumeKmsKeyId"
+            case vpcConfig = "VpcConfig"
         }
     }
 
@@ -1350,7 +1441,9 @@ extension Comprehend {
             AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
             AWSShapeMember(label: "Message", required: false, type: .string), 
             AWSShapeMember(label: "OutputDataConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp)
+            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "VolumeKmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
         /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
         public let dataAccessRoleArn: String?
@@ -1374,8 +1467,12 @@ extension Comprehend {
         public let outputDataConfig: OutputDataConfig?
         /// The time that the entities detection job was submitted for processing.
         public let submitTime: TimeStamp?
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
+        public let volumeKmsKeyId: String?
+        ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your entity detection job. For more information, see Amazon VPC. 
+        public let vpcConfig: VpcConfig?
 
-        public init(dataAccessRoleArn: String? = nil, endTime: TimeStamp? = nil, entityRecognizerArn: String? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: TimeStamp? = nil) {
+        public init(dataAccessRoleArn: String? = nil, endTime: TimeStamp? = nil, entityRecognizerArn: String? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: TimeStamp? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.entityRecognizerArn = entityRecognizerArn
@@ -1387,6 +1484,8 @@ extension Comprehend {
             self.message = message
             self.outputDataConfig = outputDataConfig
             self.submitTime = submitTime
+            self.volumeKmsKeyId = volumeKmsKeyId
+            self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1401,6 +1500,8 @@ extension Comprehend {
             case message = "Message"
             case outputDataConfig = "OutputDataConfig"
             case submitTime = "SubmitTime"
+            case volumeKmsKeyId = "VolumeKmsKeyId"
+            case vpcConfig = "VpcConfig"
         }
     }
 
@@ -1630,7 +1731,9 @@ extension Comprehend {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "TrainingEndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TrainingStartTime", required: false, type: .timestamp)
+            AWSShapeMember(label: "TrainingStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "VolumeKmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
         ///  The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role that grants Amazon Comprehend read access to your input data.
         public let dataAccessRoleArn: String?
@@ -1654,8 +1757,12 @@ extension Comprehend {
         public let trainingEndTime: TimeStamp?
         /// The time that training of the entity recognizer started.
         public let trainingStartTime: TimeStamp?
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
+        public let volumeKmsKeyId: String?
+        ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your custom entity recognizer. For more information, see Amazon VPC. 
+        public let vpcConfig: VpcConfig?
 
-        public init(dataAccessRoleArn: String? = nil, endTime: TimeStamp? = nil, entityRecognizerArn: String? = nil, inputDataConfig: EntityRecognizerInputDataConfig? = nil, languageCode: LanguageCode? = nil, message: String? = nil, recognizerMetadata: EntityRecognizerMetadata? = nil, status: ModelStatus? = nil, submitTime: TimeStamp? = nil, trainingEndTime: TimeStamp? = nil, trainingStartTime: TimeStamp? = nil) {
+        public init(dataAccessRoleArn: String? = nil, endTime: TimeStamp? = nil, entityRecognizerArn: String? = nil, inputDataConfig: EntityRecognizerInputDataConfig? = nil, languageCode: LanguageCode? = nil, message: String? = nil, recognizerMetadata: EntityRecognizerMetadata? = nil, status: ModelStatus? = nil, submitTime: TimeStamp? = nil, trainingEndTime: TimeStamp? = nil, trainingStartTime: TimeStamp? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.entityRecognizerArn = entityRecognizerArn
@@ -1667,6 +1774,8 @@ extension Comprehend {
             self.submitTime = submitTime
             self.trainingEndTime = trainingEndTime
             self.trainingStartTime = trainingStartTime
+            self.volumeKmsKeyId = volumeKmsKeyId
+            self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1681,6 +1790,8 @@ extension Comprehend {
             case submitTime = "SubmitTime"
             case trainingEndTime = "TrainingEndTime"
             case trainingStartTime = "TrainingStartTime"
+            case volumeKmsKeyId = "VolumeKmsKeyId"
+            case vpcConfig = "VpcConfig"
         }
     }
 
@@ -1823,7 +1934,9 @@ extension Comprehend {
             AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
             AWSShapeMember(label: "Message", required: false, type: .string), 
             AWSShapeMember(label: "OutputDataConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp)
+            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "VolumeKmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
         /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
         public let dataAccessRoleArn: String?
@@ -1845,8 +1958,12 @@ extension Comprehend {
         public let outputDataConfig: OutputDataConfig?
         /// The time that the key phrases detection job was submitted for processing.
         public let submitTime: TimeStamp?
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
+        public let volumeKmsKeyId: String?
+        ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your key phrases detection job. For more information, see Amazon VPC. 
+        public let vpcConfig: VpcConfig?
 
-        public init(dataAccessRoleArn: String? = nil, endTime: TimeStamp? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: TimeStamp? = nil) {
+        public init(dataAccessRoleArn: String? = nil, endTime: TimeStamp? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: TimeStamp? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.inputDataConfig = inputDataConfig
@@ -1857,6 +1974,8 @@ extension Comprehend {
             self.message = message
             self.outputDataConfig = outputDataConfig
             self.submitTime = submitTime
+            self.volumeKmsKeyId = volumeKmsKeyId
+            self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1870,6 +1989,8 @@ extension Comprehend {
             case message = "Message"
             case outputDataConfig = "OutputDataConfig"
             case submitTime = "SubmitTime"
+            case volumeKmsKeyId = "VolumeKmsKeyId"
+            case vpcConfig = "VpcConfig"
         }
     }
 
@@ -2212,6 +2333,43 @@ extension Comprehend {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the given Amazon Comprehend resource you are querying. 
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) of the given Amazon Comprehend resource you are querying.
+        public let resourceArn: String?
+        /// Tags associated with the Amazon Comprehend resource being queried. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department. 
+        public let tags: [Tag]?
+
+        public init(resourceArn: String? = nil, tags: [Tag]? = nil) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tags = "Tags"
+        }
+    }
+
     public struct ListTopicsDetectionJobsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Filter", required: false, type: .structure), 
@@ -2263,6 +2421,8 @@ extension Comprehend {
         case submitted = "SUBMITTED"
         case training = "TRAINING"
         case deleting = "DELETING"
+        case stopRequested = "STOP_REQUESTED"
+        case stopped = "STOPPED"
         case inError = "IN_ERROR"
         case trained = "TRAINED"
         public var description: String { return self.rawValue }
@@ -2270,16 +2430,21 @@ extension Comprehend {
 
     public struct OutputDataConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeMember(label: "S3Uri", required: true, type: .string)
         ]
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job. The KmsKeyId can be one of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"    KMS Key Alias: "alias/ExampleAlias"    ARN of a KMS Key Alias: "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"   
+        public let kmsKeyId: String?
         /// When you use the OutputDataConfig object with asynchronous operations, you specify the Amazon S3 location where you want to write the output data. The URI must be in the same region as the API endpoint that you are calling. The location is used as the prefix for the actual location of the output file. When the topic detection job is finished, the service creates an output file in a directory specific to the job. The S3Uri field contains the location of the output file, called output.tar.gz. It is a compressed archive that contains the ouput of the operation.
         public let s3Uri: String
 
-        public init(s3Uri: String) {
+        public init(kmsKeyId: String? = nil, s3Uri: String) {
+            self.kmsKeyId = kmsKeyId
             self.s3Uri = s3Uri
         }
 
         private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
             case s3Uri = "S3Uri"
         }
     }
@@ -2369,7 +2534,9 @@ extension Comprehend {
             AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
             AWSShapeMember(label: "Message", required: false, type: .string), 
             AWSShapeMember(label: "OutputDataConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp)
+            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "VolumeKmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
         /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
         public let dataAccessRoleArn: String?
@@ -2391,8 +2558,12 @@ extension Comprehend {
         public let outputDataConfig: OutputDataConfig?
         /// The time that the sentiment detection job was submitted for processing.
         public let submitTime: TimeStamp?
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
+        public let volumeKmsKeyId: String?
+        ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your sentiment detection job. For more information, see Amazon VPC. 
+        public let vpcConfig: VpcConfig?
 
-        public init(dataAccessRoleArn: String? = nil, endTime: TimeStamp? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: TimeStamp? = nil) {
+        public init(dataAccessRoleArn: String? = nil, endTime: TimeStamp? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: TimeStamp? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.inputDataConfig = inputDataConfig
@@ -2403,6 +2574,8 @@ extension Comprehend {
             self.message = message
             self.outputDataConfig = outputDataConfig
             self.submitTime = submitTime
+            self.volumeKmsKeyId = volumeKmsKeyId
+            self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2416,6 +2589,8 @@ extension Comprehend {
             case message = "Message"
             case outputDataConfig = "OutputDataConfig"
             case submitTime = "SubmitTime"
+            case volumeKmsKeyId = "VolumeKmsKeyId"
+            case vpcConfig = "VpcConfig"
         }
     }
 
@@ -2465,7 +2640,9 @@ extension Comprehend {
             AWSShapeMember(label: "DocumentClassifierArn", required: true, type: .string), 
             AWSShapeMember(label: "InputDataConfig", required: true, type: .structure), 
             AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure)
+            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "VolumeKmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
         /// A unique identifier for the request. If you do not set the client request token, Amazon Comprehend generates one.
         public let clientRequestToken: String?
@@ -2479,14 +2656,20 @@ extension Comprehend {
         public let jobName: String?
         /// Specifies where to send the output files.
         public let outputDataConfig: OutputDataConfig
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
+        public let volumeKmsKeyId: String?
+        /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your document classification job. For more information, see Amazon VPC. 
+        public let vpcConfig: VpcConfig?
 
-        public init(clientRequestToken: String? = nil, dataAccessRoleArn: String, documentClassifierArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, outputDataConfig: OutputDataConfig) {
+        public init(clientRequestToken: String? = nil, dataAccessRoleArn: String, documentClassifierArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, outputDataConfig: OutputDataConfig, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.documentClassifierArn = documentClassifierArn
             self.inputDataConfig = inputDataConfig
             self.jobName = jobName
             self.outputDataConfig = outputDataConfig
+            self.volumeKmsKeyId = volumeKmsKeyId
+            self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2496,6 +2679,8 @@ extension Comprehend {
             case inputDataConfig = "InputDataConfig"
             case jobName = "JobName"
             case outputDataConfig = "OutputDataConfig"
+            case volumeKmsKeyId = "VolumeKmsKeyId"
+            case vpcConfig = "VpcConfig"
         }
     }
 
@@ -2526,7 +2711,9 @@ extension Comprehend {
             AWSShapeMember(label: "DataAccessRoleArn", required: true, type: .string), 
             AWSShapeMember(label: "InputDataConfig", required: true, type: .structure), 
             AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure)
+            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "VolumeKmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
         /// A unique identifier for the request. If you do not set the client request token, Amazon Comprehend generates one.
         public let clientRequestToken: String?
@@ -2538,13 +2725,19 @@ extension Comprehend {
         public let jobName: String?
         /// Specifies where to send the output files.
         public let outputDataConfig: OutputDataConfig
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
+        public let volumeKmsKeyId: String?
+        /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your dominant language detection job. For more information, see Amazon VPC. 
+        public let vpcConfig: VpcConfig?
 
-        public init(clientRequestToken: String? = nil, dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, outputDataConfig: OutputDataConfig) {
+        public init(clientRequestToken: String? = nil, dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, outputDataConfig: OutputDataConfig, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.inputDataConfig = inputDataConfig
             self.jobName = jobName
             self.outputDataConfig = outputDataConfig
+            self.volumeKmsKeyId = volumeKmsKeyId
+            self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2553,6 +2746,8 @@ extension Comprehend {
             case inputDataConfig = "InputDataConfig"
             case jobName = "JobName"
             case outputDataConfig = "OutputDataConfig"
+            case volumeKmsKeyId = "VolumeKmsKeyId"
+            case vpcConfig = "VpcConfig"
         }
     }
 
@@ -2585,7 +2780,9 @@ extension Comprehend {
             AWSShapeMember(label: "InputDataConfig", required: true, type: .structure), 
             AWSShapeMember(label: "JobName", required: false, type: .string), 
             AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
-            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure)
+            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "VolumeKmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
         /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
         public let clientRequestToken: String?
@@ -2601,8 +2798,12 @@ extension Comprehend {
         public let languageCode: LanguageCode
         /// Specifies where to send the output files.
         public let outputDataConfig: OutputDataConfig
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
+        public let volumeKmsKeyId: String?
+        /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your entity detection job. For more information, see Amazon VPC. 
+        public let vpcConfig: VpcConfig?
 
-        public init(clientRequestToken: String? = nil, dataAccessRoleArn: String, entityRecognizerArn: String? = nil, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig) {
+        public init(clientRequestToken: String? = nil, dataAccessRoleArn: String, entityRecognizerArn: String? = nil, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.entityRecognizerArn = entityRecognizerArn
@@ -2610,6 +2811,8 @@ extension Comprehend {
             self.jobName = jobName
             self.languageCode = languageCode
             self.outputDataConfig = outputDataConfig
+            self.volumeKmsKeyId = volumeKmsKeyId
+            self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2620,6 +2823,8 @@ extension Comprehend {
             case jobName = "JobName"
             case languageCode = "LanguageCode"
             case outputDataConfig = "OutputDataConfig"
+            case volumeKmsKeyId = "VolumeKmsKeyId"
+            case vpcConfig = "VpcConfig"
         }
     }
 
@@ -2651,7 +2856,9 @@ extension Comprehend {
             AWSShapeMember(label: "InputDataConfig", required: true, type: .structure), 
             AWSShapeMember(label: "JobName", required: false, type: .string), 
             AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
-            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure)
+            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "VolumeKmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
         /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
         public let clientRequestToken: String?
@@ -2665,14 +2872,20 @@ extension Comprehend {
         public let languageCode: LanguageCode
         /// Specifies where to send the output files.
         public let outputDataConfig: OutputDataConfig
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
+        public let volumeKmsKeyId: String?
+        ///  Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your key phrases detection job. For more information, see Amazon VPC. 
+        public let vpcConfig: VpcConfig?
 
-        public init(clientRequestToken: String? = nil, dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig) {
+        public init(clientRequestToken: String? = nil, dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.inputDataConfig = inputDataConfig
             self.jobName = jobName
             self.languageCode = languageCode
             self.outputDataConfig = outputDataConfig
+            self.volumeKmsKeyId = volumeKmsKeyId
+            self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2682,6 +2895,8 @@ extension Comprehend {
             case jobName = "JobName"
             case languageCode = "LanguageCode"
             case outputDataConfig = "OutputDataConfig"
+            case volumeKmsKeyId = "VolumeKmsKeyId"
+            case vpcConfig = "VpcConfig"
         }
     }
 
@@ -2713,7 +2928,9 @@ extension Comprehend {
             AWSShapeMember(label: "InputDataConfig", required: true, type: .structure), 
             AWSShapeMember(label: "JobName", required: false, type: .string), 
             AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
-            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure)
+            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "VolumeKmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
         /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
         public let clientRequestToken: String?
@@ -2727,14 +2944,20 @@ extension Comprehend {
         public let languageCode: LanguageCode
         /// Specifies where to send the output files. 
         public let outputDataConfig: OutputDataConfig
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
+        public let volumeKmsKeyId: String?
+        /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your sentiment detection job. For more information, see Amazon VPC. 
+        public let vpcConfig: VpcConfig?
 
-        public init(clientRequestToken: String? = nil, dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig) {
+        public init(clientRequestToken: String? = nil, dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.inputDataConfig = inputDataConfig
             self.jobName = jobName
             self.languageCode = languageCode
             self.outputDataConfig = outputDataConfig
+            self.volumeKmsKeyId = volumeKmsKeyId
+            self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2744,6 +2967,8 @@ extension Comprehend {
             case jobName = "JobName"
             case languageCode = "LanguageCode"
             case outputDataConfig = "OutputDataConfig"
+            case volumeKmsKeyId = "VolumeKmsKeyId"
+            case vpcConfig = "VpcConfig"
         }
     }
 
@@ -2775,7 +3000,9 @@ extension Comprehend {
             AWSShapeMember(label: "InputDataConfig", required: true, type: .structure), 
             AWSShapeMember(label: "JobName", required: false, type: .string), 
             AWSShapeMember(label: "NumberOfTopics", required: false, type: .integer), 
-            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure)
+            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "VolumeKmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
         /// A unique identifier for the request. If you do not set the client request token, Amazon Comprehend generates one.
         public let clientRequestToken: String?
@@ -2789,14 +3016,20 @@ extension Comprehend {
         public let numberOfTopics: Int32?
         /// Specifies where to send the output files. The output is a compressed archive with two files, topic-terms.csv that lists the terms associated with each topic, and doc-topics.csv that lists the documents associated with each topic
         public let outputDataConfig: OutputDataConfig
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
+        public let volumeKmsKeyId: String?
+        /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your topic detection job. For more information, see Amazon VPC. 
+        public let vpcConfig: VpcConfig?
 
-        public init(clientRequestToken: String? = nil, dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, numberOfTopics: Int32? = nil, outputDataConfig: OutputDataConfig) {
+        public init(clientRequestToken: String? = nil, dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, numberOfTopics: Int32? = nil, outputDataConfig: OutputDataConfig, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.inputDataConfig = inputDataConfig
             self.jobName = jobName
             self.numberOfTopics = numberOfTopics
             self.outputDataConfig = outputDataConfig
+            self.volumeKmsKeyId = volumeKmsKeyId
+            self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2806,6 +3039,8 @@ extension Comprehend {
             case jobName = "JobName"
             case numberOfTopics = "NumberOfTopics"
             case outputDataConfig = "OutputDataConfig"
+            case volumeKmsKeyId = "VolumeKmsKeyId"
+            case vpcConfig = "VpcConfig"
         }
     }
 
@@ -2978,6 +3213,52 @@ extension Comprehend {
         }
     }
 
+    public struct StopTrainingDocumentClassifierRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DocumentClassifierArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) that identifies the document classifier currently being trained.
+        public let documentClassifierArn: String
+
+        public init(documentClassifierArn: String) {
+            self.documentClassifierArn = documentClassifierArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentClassifierArn = "DocumentClassifierArn"
+        }
+    }
+
+    public struct StopTrainingDocumentClassifierResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct StopTrainingEntityRecognizerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EntityRecognizerArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) that identifies the entity recognizer currently being trained.
+        public let entityRecognizerArn: String
+
+        public init(entityRecognizerArn: String) {
+            self.entityRecognizerArn = entityRecognizerArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityRecognizerArn = "EntityRecognizerArn"
+        }
+    }
+
+    public struct StopTrainingEntityRecognizerResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
     public enum SyntaxLanguageCode: String, CustomStringConvertible, Codable {
         case en = "en"
         case es = "es"
@@ -3024,6 +3305,55 @@ extension Comprehend {
         }
     }
 
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// The initial part of a key-value pair that forms a tag associated with a given resource. For instance, if you want to show which resources are used by which departments, you might use “Department” as the key portion of the pair, with multiple possible values such as “sales,” “legal,” and “administration.” 
+        public let key: String
+        ///  The second part of a key-value pair that forms a tag associated with a given resource. For instance, if you want to show which resources are used by which departments, you might use “Department” as the initial (key) portion of the pair, with a value of “sales” to indicate the sales department. 
+        public let value: String?
+
+        public init(key: String, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) of the given Amazon Comprehend resource to which you want to associate the tags. 
+        public let resourceArn: String
+        /// Tags being associated with a specific Amazon Comprehend resource. There can be a maximum of 50 tags (both existing and pending) associated with a specific resource. 
+        public let tags: [Tag]
+
+        public init(resourceArn: String, tags: [Tag]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
     public struct TopicsDetectionJobFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobName", required: false, type: .string), 
@@ -3056,6 +3386,7 @@ extension Comprehend {
 
     public struct TopicsDetectionJobProperties: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataAccessRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "InputDataConfig", required: false, type: .structure), 
             AWSShapeMember(label: "JobId", required: false, type: .string), 
@@ -3064,8 +3395,12 @@ extension Comprehend {
             AWSShapeMember(label: "Message", required: false, type: .string), 
             AWSShapeMember(label: "NumberOfTopics", required: false, type: .integer), 
             AWSShapeMember(label: "OutputDataConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp)
+            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "VolumeKmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role that grants Amazon Comprehend read access to your job data. 
+        public let dataAccessRoleArn: String?
         /// The time that the topic detection job was completed.
         public let endTime: TimeStamp?
         /// The input data configuration supplied when you created the topic detection job.
@@ -3084,8 +3419,13 @@ extension Comprehend {
         public let outputDataConfig: OutputDataConfig?
         /// The time that the topic detection job was submitted for processing.
         public let submitTime: TimeStamp?
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
+        public let volumeKmsKeyId: String?
+        /// Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your topic detection job. For more information, see Amazon VPC. 
+        public let vpcConfig: VpcConfig?
 
-        public init(endTime: TimeStamp? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, message: String? = nil, numberOfTopics: Int32? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: TimeStamp? = nil) {
+        public init(dataAccessRoleArn: String? = nil, endTime: TimeStamp? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, message: String? = nil, numberOfTopics: Int32? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: TimeStamp? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+            self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.inputDataConfig = inputDataConfig
             self.jobId = jobId
@@ -3095,9 +3435,12 @@ extension Comprehend {
             self.numberOfTopics = numberOfTopics
             self.outputDataConfig = outputDataConfig
             self.submitTime = submitTime
+            self.volumeKmsKeyId = volumeKmsKeyId
+            self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataAccessRoleArn = "DataAccessRoleArn"
             case endTime = "EndTime"
             case inputDataConfig = "InputDataConfig"
             case jobId = "JobId"
@@ -3107,6 +3450,57 @@ extension Comprehend {
             case numberOfTopics = "NumberOfTopics"
             case outputDataConfig = "OutputDataConfig"
             case submitTime = "SubmitTime"
+            case volumeKmsKeyId = "VolumeKmsKeyId"
+            case vpcConfig = "VpcConfig"
+        }
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
+        ]
+        ///  The Amazon Resource Name (ARN) of the given Amazon Comprehend resource from which you want to remove the tags. 
+        public let resourceArn: String
+        /// The initial part of a key-value pair that forms a tag being removed from a given resource. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department. Keys must be unique and cannot be duplicated for a particular resource. 
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct VpcConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SecurityGroupIds", required: true, type: .list), 
+            AWSShapeMember(label: "Subnets", required: true, type: .list)
+        ]
+        /// The ID number for a security group on an instance of your private VPC. Security groups on your VPC function serve as a virtual firewall to control inbound and outbound traffic and provides security for the resources that you’ll be accessing on the VPC. This ID number is preceded by "sg-", for instance: "sg-03b388029b0a285ea". For more information, see Security Groups for your VPC. 
+        public let securityGroupIds: [String]
+        /// The ID for each subnet being used in your private VPC. This subnet is a subset of the a range of IPv4 addresses used by the VPC and is specific to a given availability zone in the VPC’s region. This ID number is preceded by "subnet-", for instance: "subnet-04ccf456919e69055". For more information, see VPCs and Subnets. 
+        public let subnets: [String]
+
+        public init(securityGroupIds: [String], subnets: [String]) {
+            self.securityGroupIds = securityGroupIds
+            self.subnets = subnets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupIds = "SecurityGroupIds"
+            case subnets = "Subnets"
         }
     }
 

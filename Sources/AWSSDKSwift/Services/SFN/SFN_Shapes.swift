@@ -159,17 +159,22 @@ extension SFN {
 
     public struct CreateActivityInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string)
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list)
         ]
         /// The name of the activity to create. This name must be unique for your AWS account and region for 90 days. For more information, see  Limits Related to State Machine Executions in the AWS Step Functions Developer Guide. A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
         public let name: String
+        /// The list of tags to add to a resource.
+        public let tags: [Tag]?
 
-        public init(name: String) {
+        public init(name: String, tags: [Tag]? = nil) {
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -198,7 +203,8 @@ extension SFN {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "definition", required: true, type: .string), 
             AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list)
         ]
         /// The Amazon States Language definition of the state machine. See Amazon States Language.
         public let definition: String
@@ -206,17 +212,21 @@ extension SFN {
         public let name: String
         /// The Amazon Resource Name (ARN) of the IAM role to use for this state machine.
         public let roleArn: String
+        /// Tags to be added when creating a state machine.
+        public let tags: [Tag]?
 
-        public init(definition: String, name: String, roleArn: String) {
+        public init(definition: String, name: String, roleArn: String, tags: [Tag]? = nil) {
             self.definition = definition
             self.name = name
             self.roleArn = roleArn
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case definition = "definition"
             case name = "name"
             case roleArn = "roleArn"
+            case tags = "tags"
         }
     }
 
@@ -708,7 +718,7 @@ extension SFN {
         public let executionArn: String
         /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
         public let maxResults: Int32?
-        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
         /// Lists events in descending order of their timeStamp.
         public let reverseOrder: Bool?
@@ -735,7 +745,7 @@ extension SFN {
         ]
         /// The list of events that occurred in the execution.
         public let events: [HistoryEvent]
-        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
         public init(events: [HistoryEvent], nextToken: String? = nil) {
@@ -809,13 +819,21 @@ extension SFN {
         public let previousEventId: Int64?
         public let stateEnteredEventDetails: StateEnteredEventDetails?
         public let stateExitedEventDetails: StateExitedEventDetails?
+        /// Contains details about the failure of a task.
         public let taskFailedEventDetails: TaskFailedEventDetails?
+        /// Contains details about a task that was scheduled.
         public let taskScheduledEventDetails: TaskScheduledEventDetails?
+        /// Contains details about a task that failed to start.
         public let taskStartFailedEventDetails: TaskStartFailedEventDetails?
+        /// Contains details about a task that was started.
         public let taskStartedEventDetails: TaskStartedEventDetails?
+        /// Contains details about a task that where the submit failed.
         public let taskSubmitFailedEventDetails: TaskSubmitFailedEventDetails?
+        /// Contains details about a submitted task.
         public let taskSubmittedEventDetails: TaskSubmittedEventDetails?
+        /// Contains details about a task that succeeded.
         public let taskSucceededEventDetails: TaskSucceededEventDetails?
+        /// Contains details about a task that timed out.
         public let taskTimedOutEventDetails: TaskTimedOutEventDetails?
         /// The date and time the event occurred.
         public let timestamp: TimeStamp
@@ -1073,7 +1091,7 @@ extension SFN {
         ]
         /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
         public let maxResults: Int32?
-        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
@@ -1094,7 +1112,7 @@ extension SFN {
         ]
         /// The list of activities.
         public let activities: [ActivityListItem]
-        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
         public init(activities: [ActivityListItem], nextToken: String? = nil) {
@@ -1117,7 +1135,7 @@ extension SFN {
         ]
         /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
         public let maxResults: Int32?
-        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the state machine whose executions is listed.
         public let stateMachineArn: String
@@ -1146,7 +1164,7 @@ extension SFN {
         ]
         /// The list of matching executions.
         public let executions: [ExecutionListItem]
-        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
         public init(executions: [ExecutionListItem], nextToken: String? = nil) {
@@ -1167,7 +1185,7 @@ extension SFN {
         ]
         /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
         public let maxResults: Int32?
-        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
@@ -1186,7 +1204,7 @@ extension SFN {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "stateMachines", required: true, type: .list)
         ]
-        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
         public let stateMachines: [StateMachineListItem]
 
@@ -1198,6 +1216,38 @@ extension SFN {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case stateMachines = "stateMachines"
+        }
+    }
+
+    public struct ListTagsForResourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) for the Step Functions state machine or activity.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: false, type: .list)
+        ]
+        /// An array of tags associated with the resource.
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
         }
     }
 
@@ -1293,7 +1343,7 @@ extension SFN {
         ]
         /// The string that contains the JSON input data for the execution, for example:  "input": "{\"first_name\" : \"test\"}"   If you don't include any JSON input data, you still must include the two braces, for example: "input": "{}"  
         public let input: String?
-        /// The name of the execution. This name must be unique for your AWS account and region for 90 days. For more information, see  Limits Related to State Machine Executions in the AWS Step Functions Developer Guide. A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
+        /// The name of the execution. This name must be unique for your AWS account, region, and state machine for 90 days. For more information, see  Limits Related to State Machine Executions in the AWS Step Functions Developer Guide. A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
         public let name: String?
         /// The Amazon Resource Name (ARN) of the state machine to execute.
         public let stateMachineArn: String
@@ -1448,6 +1498,55 @@ extension SFN {
         }
     }
 
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "key", required: false, type: .string), 
+            AWSShapeMember(label: "value", required: false, type: .string)
+        ]
+        /// The key of a tag.
+        public let key: String?
+        /// The value of a tag.
+        public let value: String?
+
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
+        }
+    }
+
+    public struct TagResourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: true, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) for the Step Functions state machine or activity.
+        public let resourceArn: String
+        /// The list of tags to add to a resource. Tags may only contain unicode letters, digits, whitespace, or these symbols: _ . : / = + - @.
+        public let tags: [Tag]
+
+        public init(resourceArn: String, tags: [Tag]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tags = "tags"
+        }
+    }
+
+    public struct TagResourceOutput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
     public struct TaskFailedEventDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "cause", required: false, type: .string), 
@@ -1459,9 +1558,9 @@ extension SFN {
         public let cause: String?
         /// The error code of the failure.
         public let error: String?
-        /// The service name of the connected service in a task state.
+        /// The service name of the resource in a task state.
         public let resource: String
-        /// The action of the connected service called by a task state.
+        /// The action of the resource called by a task state.
         public let resourceType: String
 
         public init(cause: String? = nil, error: String? = nil, resource: String, resourceType: String) {
@@ -1487,12 +1586,13 @@ extension SFN {
             AWSShapeMember(label: "resourceType", required: true, type: .string), 
             AWSShapeMember(label: "timeoutInSeconds", required: false, type: .long)
         ]
-        /// The JSON data passed to the connected service referenced in a task state.
+        /// The JSON data passed to the resource referenced in a task state.
         public let parameters: String
+        /// The region of the scheduled task
         public let region: String
-        /// The service name of the connected service in a task state.
+        /// The service name of the resource in a task state.
         public let resource: String
-        /// The action of the connected service called by a task state.
+        /// The action of the resource called by a task state.
         public let resourceType: String
         /// The maximum allowed duration of the task.
         public let timeoutInSeconds: Int64?
@@ -1525,9 +1625,9 @@ extension SFN {
         public let cause: String?
         /// The error code of the failure.
         public let error: String?
-        /// The service name of the connected service in a task state.
+        /// The service name of the resource in a task state.
         public let resource: String
-        /// The action of the connected service called by a task state.
+        /// The action of the resource called by a task state.
         public let resourceType: String
 
         public init(cause: String? = nil, error: String? = nil, resource: String, resourceType: String) {
@@ -1550,9 +1650,9 @@ extension SFN {
             AWSShapeMember(label: "resource", required: true, type: .string), 
             AWSShapeMember(label: "resourceType", required: true, type: .string)
         ]
-        /// The service name of the connected service in a task state.
+        /// The service name of the resource in a task state.
         public let resource: String
-        /// The action of the connected service called by a task state.
+        /// The action of the resource called by a task state.
         public let resourceType: String
 
         public init(resource: String, resourceType: String) {
@@ -1577,9 +1677,9 @@ extension SFN {
         public let cause: String?
         /// The error code of the failure.
         public let error: String?
-        /// The service name of the connected service in a task state.
+        /// The service name of the resource in a task state.
         public let resource: String
-        /// The action of the connected service called by a task state.
+        /// The action of the resource called by a task state.
         public let resourceType: String
 
         public init(cause: String? = nil, error: String? = nil, resource: String, resourceType: String) {
@@ -1603,11 +1703,11 @@ extension SFN {
             AWSShapeMember(label: "resource", required: true, type: .string), 
             AWSShapeMember(label: "resourceType", required: true, type: .string)
         ]
-        /// The response from a connected service when a task has started.
+        /// The response from a resource when a task has started.
         public let output: String?
-        /// The service name of the connected service in a task state.
+        /// The service name of the resource in a task state.
         public let resource: String
-        /// The action of the connected service called by a task state.
+        /// The action of the resource called by a task state.
         public let resourceType: String
 
         public init(output: String? = nil, resource: String, resourceType: String) {
@@ -1629,11 +1729,11 @@ extension SFN {
             AWSShapeMember(label: "resource", required: true, type: .string), 
             AWSShapeMember(label: "resourceType", required: true, type: .string)
         ]
-        /// The full JSON response from a connected service when a task has succeeded. This response becomes the output of the related task.
+        /// The full JSON response from a resource when a task has succeeded. This response becomes the output of the related task.
         public let output: String?
-        /// The service name of the connected service in a task state.
+        /// The service name of the resource in a task state.
         public let resource: String
-        /// The action of the connected service called by a task state.
+        /// The action of the resource called by a task state.
         public let resourceType: String
 
         public init(output: String? = nil, resource: String, resourceType: String) {
@@ -1660,9 +1760,9 @@ extension SFN {
         public let cause: String?
         /// The error code of the failure.
         public let error: String?
-        /// The service name of the connected service in a task state.
+        /// The service name of the resource in a task state.
         public let resource: String
-        /// The action of the connected service called by a task state.
+        /// The action of the resource called by a task state.
         public let resourceType: String
 
         public init(cause: String? = nil, error: String? = nil, resource: String, resourceType: String) {
@@ -1678,6 +1778,34 @@ extension SFN {
             case resource = "resource"
             case resourceType = "resourceType"
         }
+    }
+
+    public struct UntagResourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "tagKeys", required: true, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) for the Step Functions state machine or activity.
+        public let resourceArn: String
+        /// The list of tags to remove from the resource.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
+        }
+    }
+
+    public struct UntagResourceOutput: AWSShape {
+
+        public init() {
+        }
+
     }
 
     public struct UpdateStateMachineInput: AWSShape {

@@ -58,11 +58,11 @@ extension DLM {
             AWSShapeMember(label: "IntervalUnit", required: true, type: .enum), 
             AWSShapeMember(label: "Times", required: false, type: .list)
         ]
-        /// The interval. The supported values are 12 and 24.
+        /// The interval between snapshots. The supported values are 2, 3, 4, 6, 8, 12, and 24.
         public let interval: Int32
         /// The interval unit.
         public let intervalUnit: IntervalUnitValues
-        /// The time, in UTC, to start the operation. The operation occurs within a one-hour window following the specified time.
+        /// The time, in UTC, to start the operation. The supported format is hh:mm. The operation occurs within a one-hour window following the specified time.
         public let times: [String]?
 
         public init(interval: Int32, intervalUnit: IntervalUnitValues, times: [String]? = nil) {
@@ -269,12 +269,34 @@ extension DLM {
         }
     }
 
+    public struct Parameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExcludeBootVolume", required: false, type: .boolean)
+        ]
+        /// When executing an EBS Snapshot Management – Instance policy, execute all CreateSnapshots calls with the excludeBootVolume set to the supplied field. Defaults to false. Only valid for EBS Snapshot Management – Instance policies.
+        public let excludeBootVolume: Bool?
+
+        public init(excludeBootVolume: Bool? = nil) {
+            self.excludeBootVolume = excludeBootVolume
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case excludeBootVolume = "ExcludeBootVolume"
+        }
+    }
+
     public struct PolicyDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Parameters", required: false, type: .structure), 
+            AWSShapeMember(label: "PolicyType", required: false, type: .enum), 
             AWSShapeMember(label: "ResourceTypes", required: false, type: .list), 
             AWSShapeMember(label: "Schedules", required: false, type: .list), 
             AWSShapeMember(label: "TargetTags", required: false, type: .list)
         ]
+        /// A set of optional parameters that can be provided by the policy. 
+        public let parameters: Parameters?
+        /// This field determines the valid target resource types and actions a policy can manage. This field defaults to EBS_SNAPSHOT_MANAGEMENT if not present.
+        public let policyType: PolicyTypeValues?
         /// The resource type.
         public let resourceTypes: [ResourceTypeValues]?
         /// The schedule of policy-defined actions.
@@ -282,21 +304,31 @@ extension DLM {
         /// The single tag that identifies targeted resources for this policy.
         public let targetTags: [Tag]?
 
-        public init(resourceTypes: [ResourceTypeValues]? = nil, schedules: [Schedule]? = nil, targetTags: [Tag]? = nil) {
+        public init(parameters: Parameters? = nil, policyType: PolicyTypeValues? = nil, resourceTypes: [ResourceTypeValues]? = nil, schedules: [Schedule]? = nil, targetTags: [Tag]? = nil) {
+            self.parameters = parameters
+            self.policyType = policyType
             self.resourceTypes = resourceTypes
             self.schedules = schedules
             self.targetTags = targetTags
         }
 
         private enum CodingKeys: String, CodingKey {
+            case parameters = "Parameters"
+            case policyType = "PolicyType"
             case resourceTypes = "ResourceTypes"
             case schedules = "Schedules"
             case targetTags = "TargetTags"
         }
     }
 
+    public enum PolicyTypeValues: String, CustomStringConvertible, Codable {
+        case ebsSnapshotManagement = "EBS_SNAPSHOT_MANAGEMENT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceTypeValues: String, CustomStringConvertible, Codable {
         case volume = "VOLUME"
+        case instance = "INSTANCE"
         public var description: String { return self.rawValue }
     }
 
@@ -322,8 +354,10 @@ extension DLM {
             AWSShapeMember(label: "CreateRule", required: false, type: .structure), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "RetainRule", required: false, type: .structure), 
-            AWSShapeMember(label: "TagsToAdd", required: false, type: .list)
+            AWSShapeMember(label: "TagsToAdd", required: false, type: .list), 
+            AWSShapeMember(label: "VariableTags", required: false, type: .list)
         ]
+        /// Copy all user-defined tags on a source volume to snapshots of the volume created by this policy.
         public let copyTags: Bool?
         /// The create rule.
         public let createRule: CreateRule?
@@ -333,13 +367,16 @@ extension DLM {
         public let retainRule: RetainRule?
         /// The tags to apply to policy-created resources. These user-defined tags are in addition to the AWS-added lifecycle tags.
         public let tagsToAdd: [Tag]?
+        /// A collection of key/value pairs with values determined dynamically when the policy is executed. Keys may be any valid Amazon EC2 tag key. Values must be in one of the two following formats: $(instance-id) or $(timestamp). Variable tags are only valid for EBS Snapshot Management – Instance policies.
+        public let variableTags: [Tag]?
 
-        public init(copyTags: Bool? = nil, createRule: CreateRule? = nil, name: String? = nil, retainRule: RetainRule? = nil, tagsToAdd: [Tag]? = nil) {
+        public init(copyTags: Bool? = nil, createRule: CreateRule? = nil, name: String? = nil, retainRule: RetainRule? = nil, tagsToAdd: [Tag]? = nil, variableTags: [Tag]? = nil) {
             self.copyTags = copyTags
             self.createRule = createRule
             self.name = name
             self.retainRule = retainRule
             self.tagsToAdd = tagsToAdd
+            self.variableTags = variableTags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -348,6 +385,7 @@ extension DLM {
             case name = "Name"
             case retainRule = "RetainRule"
             case tagsToAdd = "TagsToAdd"
+            case variableTags = "VariableTags"
         }
     }
 

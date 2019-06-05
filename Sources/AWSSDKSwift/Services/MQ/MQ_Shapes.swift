@@ -5,6 +5,69 @@ import AWSSDKSwiftCore
 
 extension MQ {
 
+    public struct AvailabilityZone: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
+        ]
+        /// Id for the availability zone.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct BrokerEngineType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EngineType", location: .body(locationName: "engineType"), required: false, type: .enum), 
+            AWSShapeMember(label: "EngineVersions", location: .body(locationName: "engineVersions"), required: false, type: .list)
+        ]
+        /// The type of broker engine.
+        public let engineType: EngineType?
+        /// The list of engine versions.
+        public let engineVersions: [EngineVersion]?
+
+        public init(engineType: EngineType? = nil, engineVersions: [EngineVersion]? = nil) {
+            self.engineType = engineType
+            self.engineVersions = engineVersions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case engineType = "engineType"
+            case engineVersions = "engineVersions"
+        }
+    }
+
+    public struct BrokerEngineTypeOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BrokerEngineTypes", location: .body(locationName: "brokerEngineTypes"), required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+        ]
+        /// List of available engine types and versions.
+        public let brokerEngineTypes: [BrokerEngineType]?
+        /// Required. The maximum number of engine types that can be returned per page (20 by default). This value must be an integer from 5 to 100.
+        public let maxResults: Int32?
+        /// The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
+        public let nextToken: String?
+
+        public init(brokerEngineTypes: [BrokerEngineType]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.brokerEngineTypes = brokerEngineTypes
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brokerEngineTypes = "brokerEngineTypes"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct BrokerInstance: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConsoleURL", location: .body(locationName: "consoleURL"), required: false, type: .string), 
@@ -28,6 +91,63 @@ extension MQ {
             case consoleURL = "consoleURL"
             case endpoints = "endpoints"
             case ipAddress = "ipAddress"
+        }
+    }
+
+    public struct BrokerInstanceOption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", location: .body(locationName: "availabilityZones"), required: false, type: .list), 
+            AWSShapeMember(label: "EngineType", location: .body(locationName: "engineType"), required: false, type: .enum), 
+            AWSShapeMember(label: "HostInstanceType", location: .body(locationName: "hostInstanceType"), required: false, type: .string), 
+            AWSShapeMember(label: "SupportedEngineVersions", location: .body(locationName: "supportedEngineVersions"), required: false, type: .list)
+        ]
+        /// The list of available az.
+        public let availabilityZones: [AvailabilityZone]?
+        /// The type of broker engine.
+        public let engineType: EngineType?
+        /// The type of broker instance.
+        public let hostInstanceType: String?
+        /// The list of supported engine versions.
+        public let supportedEngineVersions: [String]?
+
+        public init(availabilityZones: [AvailabilityZone]? = nil, engineType: EngineType? = nil, hostInstanceType: String? = nil, supportedEngineVersions: [String]? = nil) {
+            self.availabilityZones = availabilityZones
+            self.engineType = engineType
+            self.hostInstanceType = hostInstanceType
+            self.supportedEngineVersions = supportedEngineVersions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "availabilityZones"
+            case engineType = "engineType"
+            case hostInstanceType = "hostInstanceType"
+            case supportedEngineVersions = "supportedEngineVersions"
+        }
+    }
+
+    public struct BrokerInstanceOptionsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BrokerInstanceOptions", location: .body(locationName: "brokerInstanceOptions"), required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+        ]
+        /// List of available broker instance options.
+        public let brokerInstanceOptions: [BrokerInstanceOption]?
+        /// Required. The maximum number of instance options that can be returned per page (20 by default). This value must be an integer from 5 to 100.
+        public let maxResults: Int32?
+        /// The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
+        public let nextToken: String?
+
+        public init(brokerInstanceOptions: [BrokerInstanceOption]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.brokerInstanceOptions = brokerInstanceOptions
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brokerInstanceOptions = "brokerInstanceOptions"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -102,7 +222,8 @@ extension MQ {
             AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
             AWSShapeMember(label: "LatestRevision", location: .body(locationName: "latestRevision"), required: false, type: .structure), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         /// Required. The ARN of the configuration.
         public let arn: String?
@@ -112,7 +233,7 @@ extension MQ {
         public let description: String?
         /// Required. The type of broker engine. Note: Currently, Amazon MQ supports only ACTIVEMQ.
         public let engineType: EngineType?
-        /// Required. The version of the broker engine.
+        /// Required. The version of the broker engine. For a list of supported engine versions, see https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
         public let engineVersion: String?
         /// Required. The unique ID that Amazon MQ generates for the configuration.
         public let id: String?
@@ -120,8 +241,10 @@ extension MQ {
         public let latestRevision: ConfigurationRevision?
         /// Required. The name of the configuration. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 1-150 characters long.
         public let name: String?
+        /// The list of all tags associated with this configuration.
+        public let tags: [String: String]?
 
-        public init(arn: String? = nil, created: TimeStamp? = nil, description: String? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil) {
+        public init(arn: String? = nil, created: TimeStamp? = nil, description: String? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.created = created
             self.description = description
@@ -130,6 +253,7 @@ extension MQ {
             self.id = id
             self.latestRevision = latestRevision
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -141,6 +265,7 @@ extension MQ {
             case id = "id"
             case latestRevision = "latestRevision"
             case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -232,6 +357,7 @@ extension MQ {
             AWSShapeMember(label: "PubliclyAccessible", location: .body(locationName: "publiclyAccessible"), required: false, type: .boolean), 
             AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list), 
             AWSShapeMember(label: "SubnetIds", location: .body(locationName: "subnetIds"), required: false, type: .list), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "Users", location: .body(locationName: "users"), required: false, type: .list)
         ]
         /// Required. Enables automatic upgrades to new minor versions for brokers, as Apache releases the versions. The automatic upgrades occur during the maintenance window of the broker or after a manual broker reboot.
@@ -246,7 +372,7 @@ extension MQ {
         public let deploymentMode: DeploymentMode?
         /// Required. The type of broker engine. Note: Currently, Amazon MQ supports only ACTIVEMQ.
         public let engineType: EngineType?
-        /// Required. The version of the broker engine. Note: Currently, Amazon MQ supports only 5.15.6 and 5.15.0.
+        /// Required. The version of the broker engine. For a list of supported engine versions, see https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
         public let engineVersion: String?
         /// Required. The broker's instance type.
         public let hostInstanceType: String?
@@ -260,10 +386,12 @@ extension MQ {
         public let securityGroups: [String]?
         /// The list of groups (2 maximum) that define which subnets and IP ranges the broker can use from different Availability Zones. A SINGLE_INSTANCE deployment requires one subnet (for example, the default subnet). An ACTIVE_STANDBY_MULTI_AZ deployment requires two subnets.
         public let subnetIds: [String]?
+        /// Create tags when creating the broker.
+        public let tags: [String: String]?
         /// Required. The list of ActiveMQ users (persons or applications) who can access queues and topics. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
         public let users: [User]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, brokerName: String? = nil, configuration: ConfigurationId? = nil, creatorRequestId: String? = nil, deploymentMode: DeploymentMode? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, users: [User]? = nil) {
+        public init(autoMinorVersionUpgrade: Bool? = nil, brokerName: String? = nil, configuration: ConfigurationId? = nil, creatorRequestId: String? = nil, deploymentMode: DeploymentMode? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [User]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerName = brokerName
             self.configuration = configuration
@@ -277,6 +405,7 @@ extension MQ {
             self.publiclyAccessible = publiclyAccessible
             self.securityGroups = securityGroups
             self.subnetIds = subnetIds
+            self.tags = tags
             self.users = users
         }
 
@@ -294,6 +423,7 @@ extension MQ {
             case publiclyAccessible = "publiclyAccessible"
             case securityGroups = "securityGroups"
             case subnetIds = "subnetIds"
+            case tags = "tags"
             case users = "users"
         }
     }
@@ -334,6 +464,7 @@ extension MQ {
             AWSShapeMember(label: "PubliclyAccessible", location: .body(locationName: "publiclyAccessible"), required: false, type: .boolean), 
             AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list), 
             AWSShapeMember(label: "SubnetIds", location: .body(locationName: "subnetIds"), required: false, type: .list), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "Users", location: .body(locationName: "users"), required: false, type: .list)
         ]
         public let autoMinorVersionUpgrade: Bool?
@@ -349,9 +480,10 @@ extension MQ {
         public let publiclyAccessible: Bool?
         public let securityGroups: [String]?
         public let subnetIds: [String]?
+        public let tags: [String: String]?
         public let users: [User]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, brokerName: String? = nil, configuration: ConfigurationId? = nil, creatorRequestId: String? = nil, deploymentMode: DeploymentMode? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, users: [User]? = nil) {
+        public init(autoMinorVersionUpgrade: Bool? = nil, brokerName: String? = nil, configuration: ConfigurationId? = nil, creatorRequestId: String? = nil, deploymentMode: DeploymentMode? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [User]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerName = brokerName
             self.configuration = configuration
@@ -365,6 +497,7 @@ extension MQ {
             self.publiclyAccessible = publiclyAccessible
             self.securityGroups = securityGroups
             self.subnetIds = subnetIds
+            self.tags = tags
             self.users = users
         }
 
@@ -382,6 +515,7 @@ extension MQ {
             case publiclyAccessible = "publiclyAccessible"
             case securityGroups = "securityGroups"
             case subnetIds = "subnetIds"
+            case tags = "tags"
             case users = "users"
         }
     }
@@ -409,25 +543,30 @@ extension MQ {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EngineType", location: .body(locationName: "engineType"), required: false, type: .enum), 
             AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         /// Required. The type of broker engine. Note: Currently, Amazon MQ supports only ACTIVEMQ.
         public let engineType: EngineType?
-        /// Required. The version of the broker engine. Note: Currently, Amazon MQ supports only 5.15.6 and 5.15.0.
+        /// Required. The version of the broker engine. For a list of supported engine versions, see https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
         public let engineVersion: String?
         /// Required. The name of the configuration. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 1-150 characters long.
         public let name: String?
+        /// Create tags when creating the configuration.
+        public let tags: [String: String]?
 
-        public init(engineType: EngineType? = nil, engineVersion: String? = nil, name: String? = nil) {
+        public init(engineType: EngineType? = nil, engineVersion: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.engineType = engineType
             self.engineVersion = engineVersion
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case engineType = "engineType"
             case engineVersion = "engineVersion"
             case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -471,22 +610,26 @@ extension MQ {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EngineType", location: .body(locationName: "engineType"), required: false, type: .enum), 
             AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         public let engineType: EngineType?
         public let engineVersion: String?
         public let name: String?
+        public let tags: [String: String]?
 
-        public init(engineType: EngineType? = nil, engineVersion: String? = nil, name: String? = nil) {
+        public init(engineType: EngineType? = nil, engineVersion: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.engineType = engineType
             self.engineVersion = engineVersion
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case engineType = "engineType"
             case engineVersion = "engineVersion"
             case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -518,6 +661,25 @@ extension MQ {
             case id = "id"
             case latestRevision = "latestRevision"
             case name = "name"
+        }
+    }
+
+    public struct CreateTagsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+        ]
+        public let resourceArn: String
+        public let tags: [String: String]?
+
+        public init(resourceArn: String, tags: [String: String]? = nil) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resource-arn"
+            case tags = "tags"
         }
     }
 
@@ -642,6 +804,25 @@ extension MQ {
         }
     }
 
+    public struct DeleteTagsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+        ]
+        public let resourceArn: String
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resource-arn"
+            case tagKeys = "tagKeys"
+        }
+    }
+
     public struct DeleteUserRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string), 
@@ -674,6 +855,102 @@ extension MQ {
         public var description: String { return self.rawValue }
     }
 
+    public struct DescribeBrokerEngineTypesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EngineType", location: .querystring(locationName: "engineType"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+        public let engineType: String?
+        public let maxResults: Int32?
+        public let nextToken: String?
+
+        public init(engineType: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.engineType = engineType
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case engineType = "engineType"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeBrokerEngineTypesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BrokerEngineTypes", location: .body(locationName: "brokerEngineTypes"), required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+        ]
+        public let brokerEngineTypes: [BrokerEngineType]?
+        public let maxResults: Int32?
+        public let nextToken: String?
+
+        public init(brokerEngineTypes: [BrokerEngineType]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.brokerEngineTypes = brokerEngineTypes
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brokerEngineTypes = "brokerEngineTypes"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeBrokerInstanceOptionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EngineType", location: .querystring(locationName: "engineType"), required: false, type: .string), 
+            AWSShapeMember(label: "HostInstanceType", location: .querystring(locationName: "hostInstanceType"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+        public let engineType: String?
+        public let hostInstanceType: String?
+        public let maxResults: Int32?
+        public let nextToken: String?
+
+        public init(engineType: String? = nil, hostInstanceType: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.engineType = engineType
+            self.hostInstanceType = hostInstanceType
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case engineType = "engineType"
+            case hostInstanceType = "hostInstanceType"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeBrokerInstanceOptionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BrokerInstanceOptions", location: .body(locationName: "brokerInstanceOptions"), required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+        ]
+        public let brokerInstanceOptions: [BrokerInstanceOption]?
+        public let maxResults: Int32?
+        public let nextToken: String?
+
+        public init(brokerInstanceOptions: [BrokerInstanceOption]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.brokerInstanceOptions = brokerInstanceOptions
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brokerInstanceOptions = "brokerInstanceOptions"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct DescribeBrokerOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoMinorVersionUpgrade", location: .body(locationName: "autoMinorVersionUpgrade"), required: false, type: .boolean), 
@@ -694,6 +971,7 @@ extension MQ {
             AWSShapeMember(label: "PubliclyAccessible", location: .body(locationName: "publiclyAccessible"), required: false, type: .boolean), 
             AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list), 
             AWSShapeMember(label: "SubnetIds", location: .body(locationName: "subnetIds"), required: false, type: .list), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "Users", location: .body(locationName: "users"), required: false, type: .list)
         ]
         /// Required. Enables automatic upgrades to new minor versions for brokers, as Apache releases the versions. The automatic upgrades occur during the maintenance window of the broker or after a manual broker reboot.
@@ -716,7 +994,7 @@ extension MQ {
         public let deploymentMode: DeploymentMode?
         /// Required. The type of broker engine. Note: Currently, Amazon MQ supports only ACTIVEMQ.
         public let engineType: EngineType?
-        /// The version of the broker engine. Note: Currently, Amazon MQ supports only 5.15.6 and 5.15.0.
+        /// The version of the broker engine. For a list of supported engine versions, see https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
         public let engineVersion: String?
         /// The broker's instance type.
         public let hostInstanceType: String?
@@ -724,7 +1002,7 @@ extension MQ {
         public let logs: LogsSummary?
         /// The parameters that determine the WeeklyStartTime.
         public let maintenanceWindowStartTime: WeeklyStartTime?
-        /// The version of the broker engine to upgrade to.
+        /// The version of the broker engine to upgrade to. For a list of supported engine versions, see https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
         public let pendingEngineVersion: String?
         /// Required. Enables connections from applications outside of the VPC that hosts the broker's subnets.
         public let publiclyAccessible: Bool?
@@ -732,10 +1010,12 @@ extension MQ {
         public let securityGroups: [String]?
         /// The list of groups (2 maximum) that define which subnets and IP ranges the broker can use from different Availability Zones. A SINGLE_INSTANCE deployment requires one subnet (for example, the default subnet). An ACTIVE_STANDBY_MULTI_AZ deployment requires two subnets.
         public let subnetIds: [String]?
+        /// The list of all tags associated with this broker.
+        public let tags: [String: String]?
         /// The list of all ActiveMQ usernames for the specified broker.
         public let users: [UserSummary]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, brokerArn: String? = nil, brokerId: String? = nil, brokerInstances: [BrokerInstance]? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, configurations: Configurations? = nil, created: TimeStamp? = nil, deploymentMode: DeploymentMode? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: LogsSummary? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, pendingEngineVersion: String? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, users: [UserSummary]? = nil) {
+        public init(autoMinorVersionUpgrade: Bool? = nil, brokerArn: String? = nil, brokerId: String? = nil, brokerInstances: [BrokerInstance]? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, configurations: Configurations? = nil, created: TimeStamp? = nil, deploymentMode: DeploymentMode? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: LogsSummary? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, pendingEngineVersion: String? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [UserSummary]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerArn = brokerArn
             self.brokerId = brokerId
@@ -754,6 +1034,7 @@ extension MQ {
             self.publiclyAccessible = publiclyAccessible
             self.securityGroups = securityGroups
             self.subnetIds = subnetIds
+            self.tags = tags
             self.users = users
         }
 
@@ -776,6 +1057,7 @@ extension MQ {
             case publiclyAccessible = "publiclyAccessible"
             case securityGroups = "securityGroups"
             case subnetIds = "subnetIds"
+            case tags = "tags"
             case users = "users"
         }
     }
@@ -815,6 +1097,7 @@ extension MQ {
             AWSShapeMember(label: "PubliclyAccessible", location: .body(locationName: "publiclyAccessible"), required: false, type: .boolean), 
             AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list), 
             AWSShapeMember(label: "SubnetIds", location: .body(locationName: "subnetIds"), required: false, type: .list), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "Users", location: .body(locationName: "users"), required: false, type: .list)
         ]
         public let autoMinorVersionUpgrade: Bool?
@@ -835,9 +1118,10 @@ extension MQ {
         public let publiclyAccessible: Bool?
         public let securityGroups: [String]?
         public let subnetIds: [String]?
+        public let tags: [String: String]?
         public let users: [UserSummary]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, brokerArn: String? = nil, brokerId: String? = nil, brokerInstances: [BrokerInstance]? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, configurations: Configurations? = nil, created: TimeStamp? = nil, deploymentMode: DeploymentMode? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: LogsSummary? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, pendingEngineVersion: String? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, users: [UserSummary]? = nil) {
+        public init(autoMinorVersionUpgrade: Bool? = nil, brokerArn: String? = nil, brokerId: String? = nil, brokerInstances: [BrokerInstance]? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, configurations: Configurations? = nil, created: TimeStamp? = nil, deploymentMode: DeploymentMode? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: LogsSummary? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, pendingEngineVersion: String? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [UserSummary]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerArn = brokerArn
             self.brokerId = brokerId
@@ -856,6 +1140,7 @@ extension MQ {
             self.publiclyAccessible = publiclyAccessible
             self.securityGroups = securityGroups
             self.subnetIds = subnetIds
+            self.tags = tags
             self.users = users
         }
 
@@ -878,6 +1163,7 @@ extension MQ {
             case publiclyAccessible = "publiclyAccessible"
             case securityGroups = "securityGroups"
             case subnetIds = "subnetIds"
+            case tags = "tags"
             case users = "users"
         }
     }
@@ -906,7 +1192,8 @@ extension MQ {
             AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
             AWSShapeMember(label: "LatestRevision", location: .body(locationName: "latestRevision"), required: false, type: .structure), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         public let arn: String?
         public let created: TimeStamp?
@@ -916,8 +1203,9 @@ extension MQ {
         public let id: String?
         public let latestRevision: ConfigurationRevision?
         public let name: String?
+        public let tags: [String: String]?
 
-        public init(arn: String? = nil, created: TimeStamp? = nil, description: String? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil) {
+        public init(arn: String? = nil, created: TimeStamp? = nil, description: String? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.created = created
             self.description = description
@@ -926,6 +1214,7 @@ extension MQ {
             self.id = id
             self.latestRevision = latestRevision
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -937,6 +1226,7 @@ extension MQ {
             case id = "id"
             case latestRevision = "latestRevision"
             case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -1106,6 +1396,22 @@ extension MQ {
     public enum EngineType: String, CustomStringConvertible, Codable {
         case activemq = "ACTIVEMQ"
         public var description: String { return self.rawValue }
+    }
+
+    public struct EngineVersion: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
+        ]
+        /// Id for the version.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
     }
 
     public struct Error: AWSShape {
@@ -1337,6 +1643,36 @@ extension MQ {
         }
     }
 
+    public struct ListTagsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string)
+        ]
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resource-arn"
+        }
+    }
+
+    public struct ListTagsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+        ]
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
     public struct ListUsersOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string), 
@@ -1551,6 +1887,22 @@ extension MQ {
         public var description: String { return self.rawValue }
     }
 
+    public struct Tags: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+        ]
+        /// The key-value pair for the resource tag.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
     public struct UpdateBrokerInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoMinorVersionUpgrade", location: .body(locationName: "autoMinorVersionUpgrade"), required: false, type: .boolean), 
@@ -1562,7 +1914,7 @@ extension MQ {
         public let autoMinorVersionUpgrade: Bool?
         /// A list of information about the configuration.
         public let configuration: ConfigurationId?
-        /// The version of the broker engine. Note: Currently, Amazon MQ supports only 5.15.6 and 5.15.0.
+        /// The version of the broker engine. For a list of supported engine versions, see https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
         public let engineVersion: String?
         /// Enables Amazon CloudWatch logging for brokers.
         public let logs: Logs?
@@ -1596,7 +1948,7 @@ extension MQ {
         public let brokerId: String?
         /// The ID of the updated configuration.
         public let configuration: ConfigurationId?
-        /// The version of the broker engine to upgrade to.
+        /// The version of the broker engine to upgrade to. For a list of supported engine versions, see https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
         public let engineVersion: String?
         /// The list of information about logs to be enabled for the specified broker.
         public let logs: Logs?

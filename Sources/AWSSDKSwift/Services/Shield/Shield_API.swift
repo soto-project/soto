@@ -36,7 +36,7 @@ public struct Shield {
         return try client.send(operation: "AssociateDRTRole", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Enables AWS Shield Advanced for a specific AWS resource. The resource can be an Amazon CloudFront distribution, Elastic Load Balancing load balancer, Elastic IP Address, or an Amazon Route 53 hosted zone. You can add protection to only a single resource with each CreateProtection request. If you want to add protection to multiple resources at once, use the AWS WAF console. For more information see Getting Started with AWS Shield Advanced and Add AWS Shield Advanced Protection to more AWS Resources.
+    ///  Enables AWS Shield Advanced for a specific AWS resource. The resource can be an Amazon CloudFront distribution, Elastic Load Balancing load balancer, AWS Global Accelerator accelerator, Elastic IP Address, or an Amazon Route 53 hosted zone. You can add protection to only a single resource with each CreateProtection request. If you want to add protection to multiple resources at once, use the AWS WAF console. For more information see Getting Started with AWS Shield Advanced and Add AWS Shield Advanced Protection to more AWS Resources.
     public func createProtection(_ input: CreateProtectionRequest) throws -> Future<CreateProtectionResponse> {
         return try client.send(operation: "CreateProtection", path: "/", httpMethod: "POST", input: input)
     }

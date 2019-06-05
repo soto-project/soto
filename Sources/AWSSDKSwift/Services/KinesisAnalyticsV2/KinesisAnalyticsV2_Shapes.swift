@@ -483,7 +483,7 @@ extension KinesisAnalyticsV2 {
         public let createTimestamp: TimeStamp?
         /// The current timestamp when the application was last updated.
         public let lastUpdateTimestamp: TimeStamp?
-        /// The runtime environment for the application (SQL-1.0 or JAVA-8-FLINK-1.5).
+        /// The runtime environment for the application (SQL-1.0 or FLINK-1_6).
         public let runtimeEnvironment: RuntimeEnvironment
         /// Specifies the IAM role that the application uses to access external resources.
         public let serviceExecutionRole: String?
@@ -619,7 +619,7 @@ extension KinesisAnalyticsV2 {
         public let applicationStatus: ApplicationStatus
         /// Provides the current application version.
         public let applicationVersionId: Int64
-        /// The runtime environment for the application (SQL-1.0 or JAVA-8-FLINK-1.5).
+        /// The runtime environment for the application (SQL-1.0 or FLINK-1_6).
         public let runtimeEnvironment: RuntimeEnvironment
 
         public init(applicationARN: String, applicationName: String, applicationStatus: ApplicationStatus, applicationVersionId: Int64, runtimeEnvironment: RuntimeEnvironment) {
@@ -918,7 +918,8 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
             AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .list), 
             AWSShapeMember(label: "RuntimeEnvironment", required: true, type: .enum), 
-            AWSShapeMember(label: "ServiceExecutionRole", required: true, type: .string)
+            AWSShapeMember(label: "ServiceExecutionRole", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// Use this parameter to configure the application.
         public let applicationConfiguration: ApplicationConfiguration?
@@ -928,18 +929,21 @@ extension KinesisAnalyticsV2 {
         public let applicationName: String
         /// Use this parameter to configure an Amazon CloudWatch log stream to monitor application configuration errors. 
         public let cloudWatchLoggingOptions: [CloudWatchLoggingOption]?
-        /// The runtime environment for the application (SQL-1.0 or JAVA-8-FLINK-1.5).
+        /// The runtime environment for the application (SQL-1.0 or FLINK-1_6).
         public let runtimeEnvironment: RuntimeEnvironment
         /// The IAM role used by the application to access Kinesis data streams, Kinesis Data Firehose delivery streams, Amazon S3 objects, and other external resources.
         public let serviceExecutionRole: String
+        /// A list of one or more tags to assign to the application. A tag is a key-value pair that identifies an application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management Guide.
+        public let tags: [Tag]?
 
-        public init(applicationConfiguration: ApplicationConfiguration? = nil, applicationDescription: String? = nil, applicationName: String, cloudWatchLoggingOptions: [CloudWatchLoggingOption]? = nil, runtimeEnvironment: RuntimeEnvironment, serviceExecutionRole: String) {
+        public init(applicationConfiguration: ApplicationConfiguration? = nil, applicationDescription: String? = nil, applicationName: String, cloudWatchLoggingOptions: [CloudWatchLoggingOption]? = nil, runtimeEnvironment: RuntimeEnvironment, serviceExecutionRole: String, tags: [Tag]? = nil) {
             self.applicationConfiguration = applicationConfiguration
             self.applicationDescription = applicationDescription
             self.applicationName = applicationName
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.runtimeEnvironment = runtimeEnvironment
             self.serviceExecutionRole = serviceExecutionRole
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -949,6 +953,7 @@ extension KinesisAnalyticsV2 {
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
             case runtimeEnvironment = "RuntimeEnvironment"
             case serviceExecutionRole = "ServiceExecutionRole"
+            case tags = "Tags"
         }
     }
 
@@ -1639,7 +1644,7 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceARN", required: true, type: .string)
         ]
-        /// The ARN of the AWS Lambda function that operates on records in the stream.
+        /// The ARN of the AWS Lambda function that operates on records in the stream.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda  
         public let resourceARN: String
 
         public init(resourceARN: String) {
@@ -1656,7 +1661,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
             AWSShapeMember(label: "RoleARN", required: false, type: .string)
         ]
-        /// The ARN of the AWS Lambda function that is used to preprocess the records in the stream.
+        /// The ARN of the AWS Lambda function that is used to preprocess the records in the stream.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda  
         public let resourceARN: String
         /// The ARN of the IAM role that is used to access the AWS Lambda function.  Provided for backward compatibility. Applications that are created with the current API version have an application-level service execution role rather than a resource-level role. 
         public let roleARN: String?
@@ -1676,7 +1681,7 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceARNUpdate", required: true, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) of the new AWS Lambda function that is used to preprocess the records in the stream.
+        /// The Amazon Resource Name (ARN) of the new AWS Lambda function that is used to preprocess the records in the stream.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda  
         public let resourceARNUpdate: String
 
         public init(resourceARNUpdate: String) {
@@ -2095,7 +2100,7 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceARN", required: true, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) of the destination Lambda function to write to.
+        /// The Amazon Resource Name (ARN) of the destination Lambda function to write to.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda  
         public let resourceARN: String
 
         public init(resourceARN: String) {
@@ -2132,7 +2137,7 @@ extension KinesisAnalyticsV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceARNUpdate", required: true, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) of the destination AWS Lambda function.
+        /// The Amazon Resource Name (ARN) of the destination AWS Lambda function.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda  
         public let resourceARNUpdate: String
 
         public init(resourceARNUpdate: String) {
@@ -2230,6 +2235,38 @@ extension KinesisAnalyticsV2 {
         private enum CodingKeys: String, CodingKey {
             case applicationSummaries = "ApplicationSummaries"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string)
+        ]
+        /// The ARN of the application for which to retrieve tags.
+        public let resourceARN: String
+
+        public init(resourceARN: String) {
+            self.resourceARN = resourceARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// The key-value tags assigned to the application.
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
         }
     }
 
@@ -2591,7 +2628,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "SqlType", required: true, type: .string)
         ]
-        /// A reference to the data element in the streaming input of the reference data source.
+        /// A reference to the data element in the streaming input or the reference data source.
         public let mapping: String?
         /// The name of the column that is created in the in-application input stream or reference table.
         public let name: String
@@ -3161,6 +3198,83 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct StopApplicationResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// The key of the key-value tag.
+        public let key: String
+        /// The value of the key-value tag. The value is optional.
+        public let value: String?
+
+        public init(key: String, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
+        ]
+        /// The ARN of the application to assign the tags.
+        public let resourceARN: String
+        /// The key-value tags to assign to the application.
+        public let tags: [Tag]
+
+        public init(resourceARN: String, tags: [Tag]) {
+            self.resourceARN = resourceARN
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
+        ]
+        /// The ARN of the Kinesis Analytics application from which to remove the tags.
+        public let resourceARN: String
+        /// A list of keys of tags to remove from the specified application.
+        public let tagKeys: [String]
+
+        public init(resourceARN: String, tagKeys: [String]) {
+            self.resourceARN = resourceARN
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
 
         public init() {
         }

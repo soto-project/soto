@@ -51,7 +51,7 @@ public struct Comprehend {
         return try client.send(operation: "BatchDetectSyntax", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new document classifier that you can use to categorize documents. To create a classifier you provide a set of training documents that labeled with the categories that you want to use. After the classifier is trained you can use it to categorize a set of labeled documents into the categories. 
+    ///  Creates a new document classifier that you can use to categorize documents. To create a classifier you provide a set of training documents that labeled with the categories that you want to use. After the classifier is trained you can use it to categorize a set of labeled documents into the categories. For more information, see how-document-classification.
     public func createDocumentClassifier(_ input: CreateDocumentClassifierRequest) throws -> Future<CreateDocumentClassifierResponse> {
         return try client.send(operation: "CreateDocumentClassifier", path: "/", httpMethod: "POST", input: input)
     }
@@ -171,6 +171,11 @@ public struct Comprehend {
         return try client.send(operation: "ListSentimentDetectionJobs", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Lists all tags associated with a given Amazon Comprehend resource. 
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> Future<ListTagsForResourceResponse> {
+        return try client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Gets a list of the topic detection jobs that you have submitted.
     public func listTopicsDetectionJobs(_ input: ListTopicsDetectionJobsRequest) throws -> Future<ListTopicsDetectionJobsResponse> {
         return try client.send(operation: "ListTopicsDetectionJobs", path: "/", httpMethod: "POST", input: input)
@@ -224,6 +229,26 @@ public struct Comprehend {
     ///  Stops a sentiment detection job in progress. If the job state is IN_PROGRESS the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is be stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception.  When a job is stopped, any documents already processed are written to the output location.
     public func stopSentimentDetectionJob(_ input: StopSentimentDetectionJobRequest) throws -> Future<StopSentimentDetectionJobResponse> {
         return try client.send(operation: "StopSentimentDetectionJob", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Stops a document classifier training job while in progress. If the training job state is TRAINING, the job is marked for termination and put into the STOP_REQUESTED state. If the training job completes before it can be stopped, it is put into the TRAINED; otherwise the training job is stopped and put into the STOPPED state and the service sends back an HTTP 200 response with an empty HTTP body. 
+    public func stopTrainingDocumentClassifier(_ input: StopTrainingDocumentClassifierRequest) throws -> Future<StopTrainingDocumentClassifierResponse> {
+        return try client.send(operation: "StopTrainingDocumentClassifier", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Stops an entity recognizer training job while in progress. If the training job state is TRAINING, the job is marked for termination and put into the STOP_REQUESTED state. If the training job completes before it can be stopped, it is put into the TRAINED; otherwise the training job is stopped and putted into the STOPPED state and the service sends back an HTTP 200 response with an empty HTTP body.
+    public func stopTrainingEntityRecognizer(_ input: StopTrainingEntityRecognizerRequest) throws -> Future<StopTrainingEntityRecognizerResponse> {
+        return try client.send(operation: "StopTrainingEntityRecognizer", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Associates a specific tag with an Amazon Comprehend resource. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department. 
+    public func tagResource(_ input: TagResourceRequest) throws -> Future<TagResourceResponse> {
+        return try client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes a specific tag associated with an Amazon Comprehend resource. 
+    public func untagResource(_ input: UntagResourceRequest) throws -> Future<UntagResourceResponse> {
+        return try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
 
 

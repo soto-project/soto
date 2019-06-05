@@ -240,7 +240,7 @@ extension Shield {
         ]
         /// Friendly name for the Protection you are creating.
         public let name: String
-        /// The ARN (Amazon Resource Name) of the resource to be protected. The ARN should be in one of the following formats:   For an Application Load Balancer: arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Elastic Load Balancer (Classic Load Balancer): arn:aws:elasticloadbalancing:region:account-id:loadbalancer/load-balancer-name     For AWS CloudFront distribution: arn:aws:cloudfront::account-id:distribution/distribution-id     For Amazon Route 53: arn:aws:route53:::hostedzone/hosted-zone-id     For an Elastic IP address: arn:aws:ec2:region:account-id:eip-allocation/allocation-id    
+        /// The ARN (Amazon Resource Name) of the resource to be protected. The ARN should be in one of the following formats:   For an Application Load Balancer: arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Elastic Load Balancer (Classic Load Balancer): arn:aws:elasticloadbalancing:region:account-id:loadbalancer/load-balancer-name     For an AWS CloudFront distribution: arn:aws:cloudfront::account-id:distribution/distribution-id     For an AWS Global Accelerator accelerator: arn:aws:globalaccelerator::account-id:accelerator/accelerator-id     For Amazon Route 53: arn:aws:route53:::hostedzone/hosted-zone-id     For an Elastic IP address: arn:aws:ec2:region:account-id:eip-allocation/allocation-id    
         public let resourceArn: String
 
         public init(name: String, resourceArn: String) {
@@ -406,17 +406,22 @@ extension Shield {
 
     public struct DescribeProtectionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProtectionId", required: true, type: .string)
+            AWSShapeMember(label: "ProtectionId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceArn", required: false, type: .string)
         ]
-        /// The unique identifier (ID) for the Protection object that is described.
-        public let protectionId: String
+        /// The unique identifier (ID) for the Protection object that is described. When submitting the DescribeProtection request you must provide either the ResourceArn or the ProtectionID, but not both.
+        public let protectionId: String?
+        /// The ARN (Amazon Resource Name) of the AWS resource for the Protection object that is described. When submitting the DescribeProtection request you must provide either the ResourceArn or the ProtectionID, but not both.
+        public let resourceArn: String?
 
-        public init(protectionId: String) {
+        public init(protectionId: String? = nil, resourceArn: String? = nil) {
             self.protectionId = protectionId
+            self.resourceArn = resourceArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case protectionId = "ProtectionId"
+            case resourceArn = "ResourceArn"
         }
     }
 

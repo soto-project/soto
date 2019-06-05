@@ -15,6 +15,7 @@ public enum ACMPCAErrorType: AWSErrorType {
     case limitExceededException(message: String?)
     case malformedCSRException(message: String?)
     case malformedCertificateException(message: String?)
+    case permissionAlreadyExistsException(message: String?)
     case requestAlreadyProcessedException(message: String?)
     case requestFailedException(message: String?)
     case requestInProgressException(message: String?)
@@ -51,6 +52,8 @@ extension ACMPCAErrorType {
             self = .malformedCSRException(message: message)
         case "MalformedCertificateException":
             self = .malformedCertificateException(message: message)
+        case "PermissionAlreadyExistsException":
+            self = .permissionAlreadyExistsException(message: message)
         case "RequestAlreadyProcessedException":
             self = .requestAlreadyProcessedException(message: message)
         case "RequestFailedException":

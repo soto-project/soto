@@ -9,6 +9,7 @@ public enum CodeDeployErrorType: AWSErrorType {
     case applicationDoesNotExistException(message: String?)
     case applicationLimitExceededException(message: String?)
     case applicationNameRequiredException(message: String?)
+    case arnNotSupportedException(message: String?)
     case batchLimitExceededException(message: String?)
     case bucketNameFilterRequiredException(message: String?)
     case deploymentAlreadyCompletedException(message: String?)
@@ -45,6 +46,7 @@ public enum CodeDeployErrorType: AWSErrorType {
     case instanceNotRegisteredException(message: String?)
     case invalidAlarmConfigException(message: String?)
     case invalidApplicationNameException(message: String?)
+    case invalidArnException(message: String?)
     case invalidAutoRollbackConfigException(message: String?)
     case invalidAutoScalingGroupException(message: String?)
     case invalidBlueGreenDeploymentConfigurationException(message: String?)
@@ -87,6 +89,7 @@ public enum CodeDeployErrorType: AWSErrorType {
     case invalidSortOrderException(message: String?)
     case invalidTagException(message: String?)
     case invalidTagFilterException(message: String?)
+    case invalidTagsToAddException(message: String?)
     case invalidTargetFilterNameException(message: String?)
     case invalidTargetGroupPairException(message: String?)
     case invalidTargetInstancesException(message: String?)
@@ -98,6 +101,7 @@ public enum CodeDeployErrorType: AWSErrorType {
     case lifecycleHookLimitExceededException(message: String?)
     case multipleIamArnsProvidedException(message: String?)
     case operationNotSupportedException(message: String?)
+    case resourceArnRequiredException(message: String?)
     case resourceValidationException(message: String?)
     case revisionDoesNotExistException(message: String?)
     case revisionRequiredException(message: String?)
@@ -127,6 +131,8 @@ extension CodeDeployErrorType {
             self = .applicationLimitExceededException(message: message)
         case "ApplicationNameRequiredException":
             self = .applicationNameRequiredException(message: message)
+        case "ArnNotSupportedException":
+            self = .arnNotSupportedException(message: message)
         case "BatchLimitExceededException":
             self = .batchLimitExceededException(message: message)
         case "BucketNameFilterRequiredException":
@@ -199,6 +205,8 @@ extension CodeDeployErrorType {
             self = .invalidAlarmConfigException(message: message)
         case "InvalidApplicationNameException":
             self = .invalidApplicationNameException(message: message)
+        case "InvalidArnException":
+            self = .invalidArnException(message: message)
         case "InvalidAutoRollbackConfigException":
             self = .invalidAutoRollbackConfigException(message: message)
         case "InvalidAutoScalingGroupException":
@@ -283,6 +291,8 @@ extension CodeDeployErrorType {
             self = .invalidTagException(message: message)
         case "InvalidTagFilterException":
             self = .invalidTagFilterException(message: message)
+        case "InvalidTagsToAddException":
+            self = .invalidTagsToAddException(message: message)
         case "InvalidTargetFilterNameException":
             self = .invalidTargetFilterNameException(message: message)
         case "InvalidTargetGroupPairException":
@@ -305,6 +315,8 @@ extension CodeDeployErrorType {
             self = .multipleIamArnsProvidedException(message: message)
         case "OperationNotSupportedException":
             self = .operationNotSupportedException(message: message)
+        case "ResourceArnRequiredException":
+            self = .resourceArnRequiredException(message: message)
         case "ResourceValidationException":
             self = .resourceValidationException(message: message)
         case "RevisionDoesNotExistException":

@@ -305,11 +305,11 @@ extension Batch {
         public let ec2KeyPair: String?
         /// The Amazon Machine Image (AMI) ID used for instances launched in the compute environment.
         public let imageId: String?
-        /// The Amazon ECS instance profile applied to Amazon EC2 instances in a compute environment. You can specify the short name or full Amazon Resource Name (ARN) of an instance profile. For example, ecsInstanceRole or arn:aws:iam::&lt;aws_account_id&gt;:instance-profile/ecsInstanceRole. For more information, see Amazon ECS Instance Role in the AWS Batch User Guide.
+        /// The Amazon ECS instance profile applied to Amazon EC2 instances in a compute environment. You can specify the short name or full Amazon Resource Name (ARN) of an instance profile. For example,  ecsInstanceRole  or arn:aws:iam::&lt;aws_account_id&gt;:instance-profile/ecsInstanceRole . For more information, see Amazon ECS Instance Role in the AWS Batch User Guide.
         public let instanceRole: String
-        /// The instances types that may be launched. You can specify instance families to launch any instance type within those families (for example, c4 or p3), or you can specify specific sizes within a family (such as c4.8xlarge). You can also choose optimal to pick instance types (from the latest C, M, and R instance families) on the fly that match the demand of your job queues.
+        /// The instances types that may be launched. You can specify instance families to launch any instance type within those families (for example, c4 or p3), or you can specify specific sizes within a family (such as c4.8xlarge). You can also choose optimal to pick instance types (from the C, M, and R instance families) on the fly that match the demand of your job queues.
         public let instanceTypes: [String]
-        /// The launch template to use for your compute resources. Any other compute resource parameters that you specify in a CreateComputeEnvironment API operation override the same parameters in the launch template. You must specify either the launch template ID or launch template name in the request, but not both. 
+        /// The launch template to use for your compute resources. Any other compute resource parameters that you specify in a CreateComputeEnvironment API operation override the same parameters in the launch template. You must specify either the launch template ID or launch template name in the request, but not both. For more information, see Launch Template Support in the AWS Batch User Guide.
         public let launchTemplate: LaunchTemplateSpecification?
         /// The maximum number of EC2 vCPUs that an environment can reach. 
         public let maxvCpus: Int32
@@ -319,13 +319,13 @@ extension Batch {
         public let placementGroup: String?
         /// The EC2 security group that is associated with instances launched in the compute environment. 
         public let securityGroupIds: [String]?
-        /// The Amazon Resource Name (ARN) of the Amazon EC2 Spot Fleet IAM role applied to a SPOT compute environment.
+        /// The Amazon Resource Name (ARN) of the Amazon EC2 Spot Fleet IAM role applied to a SPOT compute environment. For more information, see Amazon EC2 Spot Fleet Role in the AWS Batch User Guide.
         public let spotIamFleetRole: String?
         /// The VPC subnets into which the compute resources are launched. 
         public let subnets: [String]
-        /// Key-value pair tags to be applied to resources that are launched in the compute environment. 
+        /// Key-value pair tags to be applied to resources that are launched in the compute environment. For AWS Batch, these take the form of "String1": "String2", where String1 is the tag key and String2 is the tag value—for example, { "Name": "AWS Batch Instance - C4OnDemand" }.
         public let tags: [String: String]?
-        /// The type of compute environment.
+        /// The type of compute environment: EC2 or SPOT.
         public let `type`: CRType
 
         public init(bidPercentage: Int32? = nil, desiredvCpus: Int32? = nil, ec2KeyPair: String? = nil, imageId: String? = nil, instanceRole: String, instanceTypes: [String], launchTemplate: LaunchTemplateSpecification? = nil, maxvCpus: Int32, minvCpus: Int32, placementGroup: String? = nil, securityGroupIds: [String]? = nil, spotIamFleetRole: String? = nil, subnets: [String], tags: [String: String]? = nil, type: CRType) {
@@ -407,6 +407,7 @@ extension Batch {
             AWSShapeMember(label: "privileged", required: false, type: .boolean), 
             AWSShapeMember(label: "readonlyRootFilesystem", required: false, type: .boolean), 
             AWSShapeMember(label: "reason", required: false, type: .string), 
+            AWSShapeMember(label: "resourceRequirements", required: false, type: .list), 
             AWSShapeMember(label: "taskArn", required: false, type: .string), 
             AWSShapeMember(label: "ulimits", required: false, type: .list), 
             AWSShapeMember(label: "user", required: false, type: .string), 
@@ -441,6 +442,8 @@ extension Batch {
         public let readonlyRootFilesystem: Bool?
         /// A short (255 max characters) human-readable string to provide additional details about a running or stopped container.
         public let reason: String?
+        /// The type and amount of a resource to assign to a container. Currently, the only supported resource is GPU.
+        public let resourceRequirements: [ResourceRequirement]?
         /// The Amazon Resource Name (ARN) of the Amazon ECS task that is associated with the container job. Each container attempt receives a task ARN when they reach the STARTING status.
         public let taskArn: String?
         /// A list of ulimit values to set in the container.
@@ -452,7 +455,7 @@ extension Batch {
         /// A list of volumes associated with the job.
         public let volumes: [Volume]?
 
-        public init(command: [String]? = nil, containerInstanceArn: String? = nil, environment: [KeyValuePair]? = nil, exitCode: Int32? = nil, image: String? = nil, instanceType: String? = nil, jobRoleArn: String? = nil, logStreamName: String? = nil, memory: Int32? = nil, mountPoints: [MountPoint]? = nil, networkInterfaces: [NetworkInterface]? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, reason: String? = nil, taskArn: String? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, vcpus: Int32? = nil, volumes: [Volume]? = nil) {
+        public init(command: [String]? = nil, containerInstanceArn: String? = nil, environment: [KeyValuePair]? = nil, exitCode: Int32? = nil, image: String? = nil, instanceType: String? = nil, jobRoleArn: String? = nil, logStreamName: String? = nil, memory: Int32? = nil, mountPoints: [MountPoint]? = nil, networkInterfaces: [NetworkInterface]? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, reason: String? = nil, resourceRequirements: [ResourceRequirement]? = nil, taskArn: String? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, vcpus: Int32? = nil, volumes: [Volume]? = nil) {
             self.command = command
             self.containerInstanceArn = containerInstanceArn
             self.environment = environment
@@ -467,6 +470,7 @@ extension Batch {
             self.privileged = privileged
             self.readonlyRootFilesystem = readonlyRootFilesystem
             self.reason = reason
+            self.resourceRequirements = resourceRequirements
             self.taskArn = taskArn
             self.ulimits = ulimits
             self.user = user
@@ -489,6 +493,7 @@ extension Batch {
             case privileged = "privileged"
             case readonlyRootFilesystem = "readonlyRootFilesystem"
             case reason = "reason"
+            case resourceRequirements = "resourceRequirements"
             case taskArn = "taskArn"
             case ulimits = "ulimits"
             case user = "user"
@@ -503,6 +508,7 @@ extension Batch {
             AWSShapeMember(label: "environment", required: false, type: .list), 
             AWSShapeMember(label: "instanceType", required: false, type: .string), 
             AWSShapeMember(label: "memory", required: false, type: .integer), 
+            AWSShapeMember(label: "resourceRequirements", required: false, type: .list), 
             AWSShapeMember(label: "vcpus", required: false, type: .integer)
         ]
         /// The command to send to the container that overrides the default command from the Docker image or the job definition.
@@ -513,14 +519,17 @@ extension Batch {
         public let instanceType: String?
         /// The number of MiB of memory reserved for the job. This value overrides the value set in the job definition.
         public let memory: Int32?
+        /// The type and amount of a resource to assign to a container. This value overrides the value set in the job definition. Currently, the only supported resource is GPU.
+        public let resourceRequirements: [ResourceRequirement]?
         /// The number of vCPUs to reserve for the container. This value overrides the value set in the job definition.
         public let vcpus: Int32?
 
-        public init(command: [String]? = nil, environment: [KeyValuePair]? = nil, instanceType: String? = nil, memory: Int32? = nil, vcpus: Int32? = nil) {
+        public init(command: [String]? = nil, environment: [KeyValuePair]? = nil, instanceType: String? = nil, memory: Int32? = nil, resourceRequirements: [ResourceRequirement]? = nil, vcpus: Int32? = nil) {
             self.command = command
             self.environment = environment
             self.instanceType = instanceType
             self.memory = memory
+            self.resourceRequirements = resourceRequirements
             self.vcpus = vcpus
         }
 
@@ -529,6 +538,7 @@ extension Batch {
             case environment = "environment"
             case instanceType = "instanceType"
             case memory = "memory"
+            case resourceRequirements = "resourceRequirements"
             case vcpus = "vcpus"
         }
     }
@@ -544,6 +554,7 @@ extension Batch {
             AWSShapeMember(label: "mountPoints", required: false, type: .list), 
             AWSShapeMember(label: "privileged", required: false, type: .boolean), 
             AWSShapeMember(label: "readonlyRootFilesystem", required: false, type: .boolean), 
+            AWSShapeMember(label: "resourceRequirements", required: false, type: .list), 
             AWSShapeMember(label: "ulimits", required: false, type: .list), 
             AWSShapeMember(label: "user", required: false, type: .string), 
             AWSShapeMember(label: "vcpus", required: false, type: .integer), 
@@ -553,7 +564,7 @@ extension Batch {
         public let command: [String]?
         /// The environment variables to pass to a container. This parameter maps to Env in the Create a container section of the Docker Remote API and the --env option to docker run.  We do not recommend using plaintext environment variables for sensitive information, such as credential data.   Environment variables must not start with AWS_BATCH; this naming convention is reserved for variables that are set by the AWS Batch service. 
         public let environment: [KeyValuePair]?
-        /// The image used to start a container. This string is passed directly to the Docker daemon. Images in the Docker Hub registry are available by default. Other repositories are specified with  repository-url/image:tag . Up to 255 letters (uppercase and lowercase), numbers, hyphens, underscores, colons, periods, forward slashes, and number signs are allowed. This parameter maps to Image in the Create a container section of the Docker Remote API and the IMAGE parameter of docker run.   Images in Amazon ECR repositories use the full registry and repository URI (for example, 012345678910.dkr.ecr.&lt;region-name&gt;.amazonaws.com/&lt;repository-name&gt;).    Images in official repositories on Docker Hub use a single name (for example, ubuntu or mongo).   Images in other repositories on Docker Hub are qualified with an organization name (for example, amazon/amazon-ecs-agent).   Images in other online repositories are qualified further by a domain name (for example, quay.io/assemblyline/ubuntu).  
+        /// The image used to start a container. This string is passed directly to the Docker daemon. Images in the Docker Hub registry are available by default. Other repositories are specified with  repository-url/image:tag . Up to 255 letters (uppercase and lowercase), numbers, hyphens, underscores, colons, periods, forward slashes, and number signs are allowed. This parameter maps to Image in the Create a container section of the Docker Remote API and the IMAGE parameter of docker run.   Images in Amazon ECR repositories use the full registry and repository URI (for example, 012345678910.dkr.ecr.&lt;region-name&gt;.amazonaws.com/&lt;repository-name&gt;).   Images in official repositories on Docker Hub use a single name (for example, ubuntu or mongo).   Images in other repositories on Docker Hub are qualified with an organization name (for example, amazon/amazon-ecs-agent).   Images in other online repositories are qualified further by a domain name (for example, quay.io/assemblyline/ubuntu).  
         public let image: String?
         /// The instance type to use for a multi-node parallel job. Currently all node groups in a multi-node parallel job must use the same instance type. This parameter is not valid for single-node container jobs.
         public let instanceType: String?
@@ -567,6 +578,8 @@ extension Batch {
         public let privileged: Bool?
         /// When this parameter is true, the container is given read-only access to its root file system. This parameter maps to ReadonlyRootfs in the Create a container section of the Docker Remote API and the --read-only option to docker run.
         public let readonlyRootFilesystem: Bool?
+        /// The type and amount of a resource to assign to a container. Currently, the only supported resource is GPU.
+        public let resourceRequirements: [ResourceRequirement]?
         /// A list of ulimits to set in the container. This parameter maps to Ulimits in the Create a container section of the Docker Remote API and the --ulimit option to docker run.
         public let ulimits: [Ulimit]?
         /// The user name to use inside the container. This parameter maps to User in the Create a container section of the Docker Remote API and the --user option to docker run.
@@ -576,7 +589,7 @@ extension Batch {
         /// A list of data volumes used in a job.
         public let volumes: [Volume]?
 
-        public init(command: [String]? = nil, environment: [KeyValuePair]? = nil, image: String? = nil, instanceType: String? = nil, jobRoleArn: String? = nil, memory: Int32? = nil, mountPoints: [MountPoint]? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, vcpus: Int32? = nil, volumes: [Volume]? = nil) {
+        public init(command: [String]? = nil, environment: [KeyValuePair]? = nil, image: String? = nil, instanceType: String? = nil, jobRoleArn: String? = nil, memory: Int32? = nil, mountPoints: [MountPoint]? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, resourceRequirements: [ResourceRequirement]? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, vcpus: Int32? = nil, volumes: [Volume]? = nil) {
             self.command = command
             self.environment = environment
             self.image = image
@@ -586,6 +599,7 @@ extension Batch {
             self.mountPoints = mountPoints
             self.privileged = privileged
             self.readonlyRootFilesystem = readonlyRootFilesystem
+            self.resourceRequirements = resourceRequirements
             self.ulimits = ulimits
             self.user = user
             self.vcpus = vcpus
@@ -602,6 +616,7 @@ extension Batch {
             case mountPoints = "mountPoints"
             case privileged = "privileged"
             case readonlyRootFilesystem = "readonlyRootFilesystem"
+            case resourceRequirements = "resourceRequirements"
             case ulimits = "ulimits"
             case user = "user"
             case vcpus = "vcpus"
@@ -640,7 +655,7 @@ extension Batch {
         ]
         /// The name for your compute environment. Up to 128 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed.
         public let computeEnvironmentName: String
-        /// Details of the compute resources managed by the compute environment. This parameter is required for managed compute environments.
+        /// Details of the compute resources managed by the compute environment. This parameter is required for managed compute environments. For more information, see Compute Environments in the AWS Batch User Guide.
         public let computeResources: ComputeResource?
         /// The full Amazon Resource Name (ARN) of the IAM role that allows AWS Batch to make calls to other AWS services on your behalf. If your specified role has a path other than /, then you must either specify the full role ARN (this is recommended) or prefix the role name with the path.  Depending on how you created your AWS Batch service role, its ARN may contain the service-role path prefix. When you only specify the name of the service role, AWS Batch assumes that your ARN does not use the service-role path prefix. Because of this, we recommend that you specify the full ARN of your service role when you create compute environments. 
         public let serviceRole: String
@@ -865,7 +880,7 @@ extension Batch {
         ]
         /// The name of the job definition to describe.
         public let jobDefinitionName: String?
-        /// A space-separated list of up to 100 job definition names or full Amazon Resource Name (ARN) entries.
+        /// A list of up to 100 job definition names or full Amazon Resource Name (ARN) entries.
         public let jobDefinitions: [String]?
         /// The maximum number of results returned by DescribeJobDefinitions in paginated output. When this parameter is used, DescribeJobDefinitions only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeJobDefinitions request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeJobDefinitions returns up to 100 results and a nextToken value if applicable.
         public let maxResults: Int32?
@@ -963,7 +978,7 @@ extension Batch {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "jobs", required: true, type: .list)
         ]
-        /// A space-separated list of up to 100 job IDs.
+        /// A list of up to 100 job IDs.
         public let jobs: [String]
 
         public init(jobs: [String]) {
@@ -995,7 +1010,7 @@ extension Batch {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "sourcePath", required: false, type: .string)
         ]
-        /// The path on the host container instance that is presented to the container. If this parameter is empty, then the Docker daemon has assigned a host path for you. If the host parameter contains a sourcePath file location, then the data volume persists at the specified location on the host container instance until you delete it manually. If the sourcePath value does not exist on the host container instance, the Docker daemon creates it. If the location does exist, the contents of the source path folder are exported.
+        /// The path on the host container instance that is presented to the container. If this parameter is empty, then the Docker daemon has assigned a host path for you. If this parameter contains a file location, then the data volume persists at the specified location on the host container instance until you delete it manually. If the source path location does not exist on the host container instance, the Docker daemon creates it. If the location does exist, the contents of the source path folder are exported.
         public let sourcePath: String?
 
         public init(sourcePath: String? = nil) {
@@ -1044,7 +1059,7 @@ extension Batch {
         public let jobDefinitionName: String
         /// An object with various properties specific to multi-node parallel jobs.
         public let nodeProperties: NodeProperties?
-        /// Default parameters or parameter substitution placeholders that are set in the job definition. Parameters are specified as a key-value pair mapping. Parameters in a SubmitJob request override any corresponding parameter defaults from the job definition.
+        /// Default parameters or parameter substitution placeholders that are set in the job definition. Parameters are specified as a key-value pair mapping. Parameters in a SubmitJob request override any corresponding parameter defaults from the job definition. For more information about specifying parameters, see Job Definition Parameters in the AWS Batch User Guide.
         public let parameters: [String: String]?
         /// The retry strategy to use for failed jobs that are submitted with this job definition.
         public let retryStrategy: RetryStrategy?
@@ -1530,17 +1545,22 @@ extension Batch {
 
     public struct NodeOverrides: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nodePropertyOverrides", required: false, type: .list)
+            AWSShapeMember(label: "nodePropertyOverrides", required: false, type: .list), 
+            AWSShapeMember(label: "numNodes", required: false, type: .integer)
         ]
         /// The node property overrides for the job.
         public let nodePropertyOverrides: [NodePropertyOverride]?
+        /// The number of nodes to use with a multi-node parallel job. This value overrides the number of nodes that are specified in the job definition. To use this override:   There must be at least one node range in your job definition that has an open upper boundary (such as : or n:).   The lower boundary of the node range specified in the job definition must be fewer than the number of nodes specified in the override.   The main node index specified in the job definition must be fewer than the number of nodes specified in the override.  
+        public let numNodes: Int32?
 
-        public init(nodePropertyOverrides: [NodePropertyOverride]? = nil) {
+        public init(nodePropertyOverrides: [NodePropertyOverride]? = nil, numNodes: Int32? = nil) {
             self.nodePropertyOverrides = nodePropertyOverrides
+            self.numNodes = numNodes
         }
 
         private enum CodingKeys: String, CodingKey {
             case nodePropertyOverrides = "nodePropertyOverrides"
+            case numNodes = "numNodes"
         }
     }
 
@@ -1550,7 +1570,7 @@ extension Batch {
             AWSShapeMember(label: "nodeRangeProperties", required: true, type: .list), 
             AWSShapeMember(label: "numNodes", required: true, type: .integer)
         ]
-        /// Specifies the node index for the main node of a multi-node parallel job.
+        /// Specifies the node index for the main node of a multi-node parallel job. This node index value must be fewer than the number of nodes.
         public let mainNode: Int32
         /// A list of node ranges and their properties associated with a multi-node parallel job.
         public let nodeRangeProperties: [NodeRangeProperty]
@@ -1708,6 +1728,32 @@ extension Batch {
             case jobDefinitionName = "jobDefinitionName"
             case revision = "revision"
         }
+    }
+
+    public struct ResourceRequirement: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "type", required: true, type: .enum), 
+            AWSShapeMember(label: "value", required: true, type: .string)
+        ]
+        /// The type of resource to assign to a container. Currently, the only supported resource type is GPU.
+        public let `type`: ResourceType
+        /// The number of physical GPUs to reserve for the container. The number of GPUs reserved for all containers in a job should not exceed the number of available GPUs on the compute resource that the job is launched on.
+        public let value: String
+
+        public init(type: ResourceType, value: String) {
+            self.`type` = `type`
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "type"
+            case value = "value"
+        }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable {
+        case gpu = "GPU"
+        public var description: String { return self.rawValue }
     }
 
     public struct RetryStrategy: AWSShape {

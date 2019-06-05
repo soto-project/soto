@@ -73,6 +73,34 @@ extension ServiceCatalog {
         public var description: String { return self.rawValue }
     }
 
+    public struct AssociateBudgetWithResourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string)
+        ]
+        /// The name of the budget you want to associate.
+        public let budgetName: String
+        ///  The resource identifier. Either a portfolio-id or a product-id.
+        public let resourceId: String
+
+        public init(budgetName: String, resourceId: String) {
+            self.budgetName = budgetName
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case budgetName = "BudgetName"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct AssociateBudgetWithResourceOutput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
     public struct AssociatePrincipalWithPortfolioInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
@@ -289,6 +317,22 @@ extension ServiceCatalog {
         }
     }
 
+    public struct BudgetDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BudgetName", required: false, type: .string)
+        ]
+        /// Name of the associated budget.
+        public let budgetName: String?
+
+        public init(budgetName: String? = nil) {
+            self.budgetName = budgetName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case budgetName = "BudgetName"
+        }
+    }
+
     public enum ChangeAction: String, CustomStringConvertible, Codable {
         case add = "ADD"
         case modify = "MODIFY"
@@ -454,13 +498,13 @@ extension ServiceCatalog {
         public let description: String?
         /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
         public let idempotencyToken: String
-        /// The constraint parameters, in JSON format. The syntax depends on the constraint type as follows:  LAUNCH  Specify the RoleArn property as follows:  {"RoleArn" : "arn:aws:iam::123456789012:role/LaunchRole"}  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one LAUNCH constraint on a product and portfolio.  NOTIFICATION  Specify the NotificationArns property as follows:  {"NotificationArns" : ["arn:aws:sns:us-east-1:123456789012:Topic"]}   STACKSET  Specify the Parameters property as follows:  {"Version": "String", "Properties": {"AccountList": [ "String" ], "RegionList": [ "String" ], "AdminRole": "String", "ExecutionRole": "String"}}  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one STACKSET constraint on a product and portfolio. Products with a STACKSET constraint will launch an AWS CloudFormation stack set.  TEMPLATE  Specify the Rules property. For more information, see Template Constraint Rules.  
+        /// The constraint parameters, in JSON format. The syntax depends on the constraint type as follows:  LAUNCH  Specify the RoleArn property as follows:  {"RoleArn" : "arn:aws:iam::123456789012:role/LaunchRole"}  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one LAUNCH constraint on a product and portfolio.  NOTIFICATION  Specify the NotificationArns property as follows:  {"NotificationArns" : ["arn:aws:sns:us-east-1:123456789012:Topic"]}   RESOURCE_UPDATE  Specify the TagUpdatesOnProvisionedProduct property as follows:  {"Version":"2.0","Properties":{"TagUpdateOnProvisionedProduct":"String"}}  The TagUpdatesOnProvisionedProduct property accepts a string value of ALLOWED or NOT_ALLOWED.  STACKSET  Specify the Parameters property as follows:  {"Version": "String", "Properties": {"AccountList": [ "String" ], "RegionList": [ "String" ], "AdminRole": "String", "ExecutionRole": "String"}}  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one STACKSET constraint on a product and portfolio. Products with a STACKSET constraint will launch an AWS CloudFormation stack set.  TEMPLATE  Specify the Rules property. For more information, see Template Constraint Rules.  
         public let parameters: String
         /// The portfolio identifier.
         public let portfolioId: String
         /// The product identifier.
         public let productId: String
-        /// The type of constraint.    LAUNCH     NOTIFICATION     STACKSET     TEMPLATE   
+        /// The type of constraint.    LAUNCH     NOTIFICATION     RESOURCE_UPDATE     STACKSET     TEMPLATE   
         public let `type`: String
 
         public init(acceptLanguage: String? = nil, description: String? = nil, idempotencyToken: String, parameters: String, portfolioId: String, productId: String, type: String) {
@@ -1334,10 +1378,13 @@ extension ServiceCatalog {
 
     public struct DescribePortfolioOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Budgets", required: false, type: .list), 
             AWSShapeMember(label: "PortfolioDetail", required: false, type: .structure), 
             AWSShapeMember(label: "TagOptions", required: false, type: .list), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+        /// Information about the associated budgets.
+        public let budgets: [BudgetDetail]?
         /// Information about the portfolio.
         public let portfolioDetail: PortfolioDetail?
         /// Information about the TagOptions associated with the portfolio.
@@ -1345,13 +1392,15 @@ extension ServiceCatalog {
         /// Information about the tags associated with the portfolio.
         public let tags: [Tag]?
 
-        public init(portfolioDetail: PortfolioDetail? = nil, tagOptions: [TagOptionDetail]? = nil, tags: [Tag]? = nil) {
+        public init(budgets: [BudgetDetail]? = nil, portfolioDetail: PortfolioDetail? = nil, tagOptions: [TagOptionDetail]? = nil, tags: [Tag]? = nil) {
+            self.budgets = budgets
             self.portfolioDetail = portfolioDetail
             self.tagOptions = tagOptions
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
+            case budgets = "Budgets"
             case portfolioDetail = "PortfolioDetail"
             case tagOptions = "TagOptions"
             case tags = "Tags"
@@ -1433,11 +1482,14 @@ extension ServiceCatalog {
 
     public struct DescribeProductAsAdminOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Budgets", required: false, type: .list), 
             AWSShapeMember(label: "ProductViewDetail", required: false, type: .structure), 
             AWSShapeMember(label: "ProvisioningArtifactSummaries", required: false, type: .list), 
             AWSShapeMember(label: "TagOptions", required: false, type: .list), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+        /// Information about the associated budgets.
+        public let budgets: [BudgetDetail]?
         /// Information about the product view.
         public let productViewDetail: ProductViewDetail?
         /// Information about the provisioning artifacts (also known as versions) for the specified product.
@@ -1447,7 +1499,8 @@ extension ServiceCatalog {
         /// Information about the tags associated with the product.
         public let tags: [Tag]?
 
-        public init(productViewDetail: ProductViewDetail? = nil, provisioningArtifactSummaries: [ProvisioningArtifactSummary]? = nil, tagOptions: [TagOptionDetail]? = nil, tags: [Tag]? = nil) {
+        public init(budgets: [BudgetDetail]? = nil, productViewDetail: ProductViewDetail? = nil, provisioningArtifactSummaries: [ProvisioningArtifactSummary]? = nil, tagOptions: [TagOptionDetail]? = nil, tags: [Tag]? = nil) {
+            self.budgets = budgets
             self.productViewDetail = productViewDetail
             self.provisioningArtifactSummaries = provisioningArtifactSummaries
             self.tagOptions = tagOptions
@@ -1455,6 +1508,7 @@ extension ServiceCatalog {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case budgets = "Budgets"
             case productViewDetail = "ProductViewDetail"
             case provisioningArtifactSummaries = "ProvisioningArtifactSummaries"
             case tagOptions = "TagOptions"
@@ -1485,20 +1539,25 @@ extension ServiceCatalog {
 
     public struct DescribeProductOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Budgets", required: false, type: .list), 
             AWSShapeMember(label: "ProductViewSummary", required: false, type: .structure), 
             AWSShapeMember(label: "ProvisioningArtifacts", required: false, type: .list)
         ]
+        /// Information about the associated budgets.
+        public let budgets: [BudgetDetail]?
         /// Summary information about the product view.
         public let productViewSummary: ProductViewSummary?
         /// Information about the provisioning artifacts for the specified product.
         public let provisioningArtifacts: [ProvisioningArtifact]?
 
-        public init(productViewSummary: ProductViewSummary? = nil, provisioningArtifacts: [ProvisioningArtifact]? = nil) {
+        public init(budgets: [BudgetDetail]? = nil, productViewSummary: ProductViewSummary? = nil, provisioningArtifacts: [ProvisioningArtifact]? = nil) {
+            self.budgets = budgets
             self.productViewSummary = productViewSummary
             self.provisioningArtifacts = provisioningArtifacts
         }
 
         private enum CodingKeys: String, CodingKey {
+            case budgets = "Budgets"
             case productViewSummary = "ProductViewSummary"
             case provisioningArtifacts = "ProvisioningArtifacts"
         }
@@ -1909,6 +1968,34 @@ extension ServiceCatalog {
 
     }
 
+    public struct DisassociateBudgetFromResourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string)
+        ]
+        /// The name of the budget you want to disassociate.
+        public let budgetName: String
+        /// The resource identifier you want to disassociate from. Either a portfolio-id or a product-id.
+        public let resourceId: String
+
+        public init(budgetName: String, resourceId: String) {
+            self.budgetName = budgetName
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case budgetName = "BudgetName"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct DisassociateBudgetFromResourceOutput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
     public struct DisassociatePrincipalFromPortfolioInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
@@ -2289,6 +2376,58 @@ extension ServiceCatalog {
         private enum CodingKeys: String, CodingKey {
             case nextPageToken = "NextPageToken"
             case portfolioDetails = "PortfolioDetails"
+        }
+    }
+
+    public struct ListBudgetsForResourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string)
+        ]
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The maximum number of items to return with this call.
+        public let pageSize: Int32?
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
+        public let pageToken: String?
+        /// The resource identifier.
+        public let resourceId: String
+
+        public init(acceptLanguage: String? = nil, pageSize: Int32? = nil, pageToken: String? = nil, resourceId: String) {
+            self.acceptLanguage = acceptLanguage
+            self.pageSize = pageSize
+            self.pageToken = pageToken
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case pageSize = "PageSize"
+            case pageToken = "PageToken"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct ListBudgetsForResourceOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Budgets", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
+        ]
+        /// Information about the associated budgets.
+        public let budgets: [BudgetDetail]?
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
+        public let nextPageToken: String?
+
+        public init(budgets: [BudgetDetail]? = nil, nextPageToken: String? = nil) {
+            self.budgets = budgets
+            self.nextPageToken = nextPageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case budgets = "Budgets"
+            case nextPageToken = "NextPageToken"
         }
     }
 
@@ -3036,6 +3175,58 @@ extension ServiceCatalog {
         }
     }
 
+    public struct ListStackInstancesForProvisionedProductInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionedProductId", required: true, type: .string)
+        ]
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The maximum number of items to return with this call.
+        public let pageSize: Int32?
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
+        public let pageToken: String?
+        /// The identifier of the provisioned product.
+        public let provisionedProductId: String
+
+        public init(acceptLanguage: String? = nil, pageSize: Int32? = nil, pageToken: String? = nil, provisionedProductId: String) {
+            self.acceptLanguage = acceptLanguage
+            self.pageSize = pageSize
+            self.pageToken = pageToken
+            self.provisionedProductId = provisionedProductId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case pageSize = "PageSize"
+            case pageToken = "PageToken"
+            case provisionedProductId = "ProvisionedProductId"
+        }
+    }
+
+    public struct ListStackInstancesForProvisionedProductOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "StackInstances", required: false, type: .list)
+        ]
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
+        public let nextPageToken: String?
+        /// List of stack instances.
+        public let stackInstances: [StackInstance]?
+
+        public init(nextPageToken: String? = nil, stackInstances: [StackInstance]? = nil) {
+            self.nextPageToken = nextPageToken
+            self.stackInstances = stackInstances
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "NextPageToken"
+            case stackInstances = "StackInstances"
+        }
+    }
+
     public struct ListTagOptionsFilters: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Active", required: false, type: .boolean), 
@@ -3114,7 +3305,9 @@ extension ServiceCatalog {
             AWSShapeMember(label: "Type", required: false, type: .enum), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+        /// The organization node type.
         public let `type`: OrganizationNodeType?
+        /// The identifier of the organization node.
         public let value: String?
 
         public init(type: OrganizationNodeType? = nil, value: String? = nil) {
@@ -3369,6 +3562,11 @@ extension ServiceCatalog {
         }
     }
 
+    public enum PropertyKey: String, CustomStringConvertible, Codable {
+        case owner = "OWNER"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ProvisionProductInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
@@ -3482,7 +3680,7 @@ extension ServiceCatalog {
         public let productId: String?
         /// The identifier of the provisioning artifact.
         public let provisioningArtifactId: String?
-        /// The current status of the provisioned product.    AVAILABLE - Stable state, ready to perform any operation. The most recent operation succeeded and completed.    UNDER_CHANGE - Transitive state, operations performed might not have valid results. Wait for an AVAILABLE status before performing operations.    TAINTED - Stable state, ready to perform any operation. The stack has completed the requested operation but is not exactly what was requested. For example, a request to update to a new version failed and the stack rolled back to the current version.    ERROR - An unexpected error occurred, the provisioned product exists but the stack is not running. For example, CloudFormation received a parameter value that was not valid and could not launch the stack.  
+        /// The current status of the provisioned product.    AVAILABLE - Stable state, ready to perform any operation. The most recent operation succeeded and completed.    UNDER_CHANGE - Transitive state. Operations performed might not have valid results. Wait for an AVAILABLE status before performing operations.    TAINTED - Stable state, ready to perform any operation. The stack has completed the requested operation but is not exactly what was requested. For example, a request to update to a new version failed and the stack rolled back to the current version.    ERROR - An unexpected error occurred. The provisioned product exists but the stack is not running. For example, CloudFormation received a parameter value that was not valid and could not launch the stack.    PLAN_IN_PROGRESS - Transitive state. The plan operations were performed to provision a new product, but resources have not yet been created. After reviewing the list of resources to be created, execute the plan. Wait for an AVAILABLE status before performing operations.  
         public let status: ProvisionedProductStatus?
         /// The current status message of the provisioned product.
         public let statusMessage: String?
@@ -3562,7 +3760,7 @@ extension ServiceCatalog {
         public let productId: String?
         /// The identifier of the provisioning artifact. For example, pa-4abcdjnxjj6ne.
         public let provisioningArtifactId: String?
-        /// The current status of the provisioned product.    AVAILABLE - Stable state, ready to perform any operation. The most recent operation succeeded and completed.    UNDER_CHANGE - Transitive state, operations performed might not have valid results. Wait for an AVAILABLE status before performing operations.    TAINTED - Stable state, ready to perform any operation. The stack has completed the requested operation but is not exactly what was requested. For example, a request to update to a new version failed and the stack rolled back to the current version.    ERROR - An unexpected error occurred, the provisioned product exists but the stack is not running. For example, CloudFormation received a parameter value that was not valid and could not launch the stack.  
+        /// The current status of the provisioned product.    AVAILABLE - Stable state, ready to perform any operation. The most recent operation succeeded and completed.    UNDER_CHANGE - Transitive state. Operations performed might not have valid results. Wait for an AVAILABLE status before performing operations.    TAINTED - Stable state, ready to perform any operation. The stack has completed the requested operation but is not exactly what was requested. For example, a request to update to a new version failed and the stack rolled back to the current version.    ERROR - An unexpected error occurred. The provisioned product exists but the stack is not running. For example, CloudFormation received a parameter value that was not valid and could not launch the stack.    PLAN_IN_PROGRESS - Transitive state. The plan operations were performed to provision a new product, but resources have not yet been created. After reviewing the list of resources to be created, execute the plan. Wait for an AVAILABLE status before performing operations.  
         public let status: ProvisionedProductStatus?
         /// The current status message of the provisioned product.
         public let statusMessage: String?
@@ -3891,12 +4089,15 @@ extension ServiceCatalog {
     public struct ProvisioningArtifactProperties: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "DisableTemplateValidation", required: false, type: .boolean), 
             AWSShapeMember(label: "Info", required: true, type: .map), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
         /// The description of the provisioning artifact, including how it differs from the previous provisioning artifact.
         public let description: String?
+        /// If set to true, AWS Service Catalog stops validating the specified provisioning artifact even if it is invalid.
+        public let disableTemplateValidation: Bool?
         /// The URL of the CloudFormation template in Amazon S3. Specify the URL in JSON format as follows:  "LoadTemplateFromURL": "https://s3.amazonaws.com/cf-templates-ozkq9d3hgiq2-us-east-1/..." 
         public let info: [String: String]
         /// The name of the provisioning artifact (for example, v1 v2beta). No spaces are allowed.
@@ -3904,8 +4105,9 @@ extension ServiceCatalog {
         /// The type of provisioning artifact.    CLOUD_FORMATION_TEMPLATE - AWS CloudFormation template    MARKETPLACE_AMI - AWS Marketplace AMI    MARKETPLACE_CAR - AWS Marketplace Clusters and AWS Resources  
         public let `type`: ProvisioningArtifactType?
 
-        public init(description: String? = nil, info: [String: String], name: String? = nil, type: ProvisioningArtifactType? = nil) {
+        public init(description: String? = nil, disableTemplateValidation: Bool? = nil, info: [String: String], name: String? = nil, type: ProvisioningArtifactType? = nil) {
             self.description = description
+            self.disableTemplateValidation = disableTemplateValidation
             self.info = info
             self.name = name
             self.`type` = `type`
@@ -3913,6 +4115,7 @@ extension ServiceCatalog {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
+            case disableTemplateValidation = "DisableTemplateValidation"
             case info = "Info"
             case name = "Name"
             case `type` = "Type"
@@ -4819,6 +5022,39 @@ extension ServiceCatalog {
         public var description: String { return self.rawValue }
     }
 
+    public struct StackInstance: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Account", required: false, type: .string), 
+            AWSShapeMember(label: "Region", required: false, type: .string), 
+            AWSShapeMember(label: "StackInstanceStatus", required: false, type: .enum)
+        ]
+        /// The name of the AWS account that the stack instance is associated with.
+        public let account: String?
+        /// The name of the AWS region that the stack instance is associated with.
+        public let region: String?
+        /// The status of the stack instance, in terms of its synchronization with its associated stack set.     INOPERABLE: A DeleteStackInstances operation has failed and left the stack in an unstable state. Stacks in this state are excluded from further UpdateStackSet operations. You might need to perform a DeleteStackInstances operation, with RetainStacks set to true, to delete the stack instance, and then delete the stack manually.     OUTDATED: The stack isn't currently up to date with the stack set because either the associated stack failed during a CreateStackSet or UpdateStackSet operation, or the stack was part of a CreateStackSet or UpdateStackSet operation that failed or was stopped before the stack was created or updated.    CURRENT: The stack is currently up to date with the stack set.  
+        public let stackInstanceStatus: StackInstanceStatus?
+
+        public init(account: String? = nil, region: String? = nil, stackInstanceStatus: StackInstanceStatus? = nil) {
+            self.account = account
+            self.region = region
+            self.stackInstanceStatus = stackInstanceStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case account = "Account"
+            case region = "Region"
+            case stackInstanceStatus = "StackInstanceStatus"
+        }
+    }
+
+    public enum StackInstanceStatus: String, CustomStringConvertible, Codable {
+        case current = "CURRENT"
+        case outdated = "OUTDATED"
+        case inoperable = "INOPERABLE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StackSetOperationType: String, CustomStringConvertible, Codable {
         case create = "CREATE"
         case update = "UPDATE"
@@ -4962,7 +5198,8 @@ extension ServiceCatalog {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string)
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "Parameters", required: false, type: .string)
         ]
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -4970,17 +5207,21 @@ extension ServiceCatalog {
         public let description: String?
         /// The identifier of the constraint.
         public let id: String
+        /// The constraint parameters, in JSON format. The syntax depends on the constraint type as follows:  LAUNCH  Specify the RoleArn property as follows:  {"RoleArn" : "arn:aws:iam::123456789012:role/LaunchRole"}  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one LAUNCH constraint on a product and portfolio.  NOTIFICATION  Specify the NotificationArns property as follows:  {"NotificationArns" : ["arn:aws:sns:us-east-1:123456789012:Topic"]}   RESOURCE_UPDATE  Specify the TagUpdatesOnProvisionedProduct property as follows:  {"Version":"2.0","Properties":{"TagUpdateOnProvisionedProduct":"String"}}  The TagUpdatesOnProvisionedProduct property accepts a string value of ALLOWED or NOT_ALLOWED.  STACKSET  Specify the Parameters property as follows:  {"Version": "String", "Properties": {"AccountList": [ "String" ], "RegionList": [ "String" ], "AdminRole": "String", "ExecutionRole": "String"}}  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one STACKSET constraint on a product and portfolio. Products with a STACKSET constraint will launch an AWS CloudFormation stack set.  TEMPLATE  Specify the Rules property. For more information, see Template Constraint Rules.  
+        public let parameters: String?
 
-        public init(acceptLanguage: String? = nil, description: String? = nil, id: String) {
+        public init(acceptLanguage: String? = nil, description: String? = nil, id: String, parameters: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.description = description
             self.id = id
+            self.parameters = parameters
         }
 
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case description = "Description"
             case id = "Id"
+            case parameters = "Parameters"
         }
     }
 
@@ -5174,6 +5415,7 @@ extension ServiceCatalog {
             AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
             AWSShapeMember(label: "ProvisioningParameters", required: false, type: .list), 
             AWSShapeMember(label: "ProvisioningPreferences", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "UpdateToken", required: true, type: .string)
         ]
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
@@ -5184,7 +5426,7 @@ extension ServiceCatalog {
         public let productId: String?
         /// The identifier of the provisioned product. You cannot specify both ProvisionedProductName and ProvisionedProductId.
         public let provisionedProductId: String?
-        /// The updated name of the provisioned product. You cannot specify both ProvisionedProductName and ProvisionedProductId.
+        /// The name of the provisioned product. You cannot specify both ProvisionedProductName and ProvisionedProductId.
         public let provisionedProductName: String?
         /// The identifier of the provisioning artifact.
         public let provisioningArtifactId: String?
@@ -5192,10 +5434,12 @@ extension ServiceCatalog {
         public let provisioningParameters: [UpdateProvisioningParameter]?
         /// An object that contains information about the provisioning preferences for a stack set.
         public let provisioningPreferences: UpdateProvisioningPreferences?
+        /// One or more tags. Requires the product to have RESOURCE_UPDATE constraint with TagUpdatesOnProvisionedProduct set to ALLOWED to allow tag updates.
+        public let tags: [Tag]?
         /// The idempotency token that uniquely identifies the provisioning update request.
         public let updateToken: String
 
-        public init(acceptLanguage: String? = nil, pathId: String? = nil, productId: String? = nil, provisionedProductId: String? = nil, provisionedProductName: String? = nil, provisioningArtifactId: String? = nil, provisioningParameters: [UpdateProvisioningParameter]? = nil, provisioningPreferences: UpdateProvisioningPreferences? = nil, updateToken: String) {
+        public init(acceptLanguage: String? = nil, pathId: String? = nil, productId: String? = nil, provisionedProductId: String? = nil, provisionedProductName: String? = nil, provisioningArtifactId: String? = nil, provisioningParameters: [UpdateProvisioningParameter]? = nil, provisioningPreferences: UpdateProvisioningPreferences? = nil, tags: [Tag]? = nil, updateToken: String) {
             self.acceptLanguage = acceptLanguage
             self.pathId = pathId
             self.productId = productId
@@ -5204,6 +5448,7 @@ extension ServiceCatalog {
             self.provisioningArtifactId = provisioningArtifactId
             self.provisioningParameters = provisioningParameters
             self.provisioningPreferences = provisioningPreferences
+            self.tags = tags
             self.updateToken = updateToken
         }
 
@@ -5216,6 +5461,7 @@ extension ServiceCatalog {
             case provisioningArtifactId = "ProvisioningArtifactId"
             case provisioningParameters = "ProvisioningParameters"
             case provisioningPreferences = "ProvisioningPreferences"
+            case tags = "Tags"
             case updateToken = "UpdateToken"
         }
     }
@@ -5233,6 +5479,68 @@ extension ServiceCatalog {
 
         private enum CodingKeys: String, CodingKey {
             case recordDetail = "RecordDetail"
+        }
+    }
+
+    public struct UpdateProvisionedProductPropertiesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "IdempotencyToken", required: true, type: .string), 
+            AWSShapeMember(label: "ProvisionedProductId", required: true, type: .string), 
+            AWSShapeMember(label: "ProvisionedProductProperties", required: true, type: .map)
+        ]
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The idempotency token that uniquely identifies the provisioning product update request.
+        public let idempotencyToken: String
+        /// The identifier of the provisioned product.
+        public let provisionedProductId: String
+        /// A map that contains the provisioned product properties to be updated. The OWNER key only accepts user ARNs. The owner is the user that is allowed to see, update, terminate, and execute service actions in the provisioned product. The administrator can change the owner of a provisioned product to another IAM user within the same account. Both end user owners and administrators can see ownership history of the provisioned product using the ListRecordHistory API. The new owner can describe all past records for the provisioned product using the DescribeRecord API. The previous owner can no longer use DescribeRecord, but can still see the product's history from when he was an owner using ListRecordHistory. If a provisioned product ownership is assigned to an end user, they can see and perform any action through the API or Service Catalog console such as update, terminate, and execute service actions. If an end user provisions a product and the owner is updated to someone else, they will no longer be able to see or perform any actions through API or the Service Catalog console on that provisioned product.
+        public let provisionedProductProperties: [PropertyKey: String]
+
+        public init(acceptLanguage: String? = nil, idempotencyToken: String, provisionedProductId: String, provisionedProductProperties: [PropertyKey: String]) {
+            self.acceptLanguage = acceptLanguage
+            self.idempotencyToken = idempotencyToken
+            self.provisionedProductId = provisionedProductId
+            self.provisionedProductProperties = provisionedProductProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case idempotencyToken = "IdempotencyToken"
+            case provisionedProductId = "ProvisionedProductId"
+            case provisionedProductProperties = "ProvisionedProductProperties"
+        }
+    }
+
+    public struct UpdateProvisionedProductPropertiesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProvisionedProductId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionedProductProperties", required: false, type: .map), 
+            AWSShapeMember(label: "RecordId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+        /// The provisioned product identifier.
+        public let provisionedProductId: String?
+        /// A map that contains the properties updated.
+        public let provisionedProductProperties: [PropertyKey: String]?
+        /// The identifier of the record.
+        public let recordId: String?
+        /// The status of the request.
+        public let status: RecordStatus?
+
+        public init(provisionedProductId: String? = nil, provisionedProductProperties: [PropertyKey: String]? = nil, recordId: String? = nil, status: RecordStatus? = nil) {
+            self.provisionedProductId = provisionedProductId
+            self.provisionedProductProperties = provisionedProductProperties
+            self.recordId = recordId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case provisionedProductId = "ProvisionedProductId"
+            case provisionedProductProperties = "ProvisionedProductProperties"
+            case recordId = "RecordId"
+            case status = "Status"
         }
     }
 

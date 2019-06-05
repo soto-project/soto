@@ -5,7 +5,12 @@ import AWSSDKSwiftCore
 import NIO
 
 /**
-AWS RDS DataService provides Http Endpoint to query RDS databases.
+Amazon RDS Data Service
+        Amazon RDS provides an HTTP endpoint to run SQL statements on an Amazon Aurora
+            Serverless DB cluster. To run these statements, you work with the Data Service
+            API.
+        For more information about the Data Service API, see Using the Data API for Aurora
+                Serverless in the Amazon Aurora User Guide.
 */
 public struct RDSDataService {
 
@@ -25,9 +30,64 @@ public struct RDSDataService {
         )
     }
 
-    ///  Executes any SQL statement on the target database synchronously
+    ///  Runs a batch SQL statement over an array of data.
+    ///          You can run bulk update and insert operations for multiple records using a DML 
+    ///              statement with different parameter sets. Bulk operations can provide a significant 
+    ///              performance improvement over individual insert and update operations.
+    ///              
+    ///              If a call isn't part of a transaction because it doesn't include the
+    ///                      transactionID parameter, changes that result from the call are
+    ///                  committed automatically.    
+    ///          
+    public func batchExecuteStatement(_ input: BatchExecuteStatementRequest) throws -> Future<BatchExecuteStatementResponse> {
+        return try client.send(operation: "BatchExecuteStatement", path: "/BatchExecute", httpMethod: "POST", input: input)
+    }
+
+    ///  Starts a SQL transaction.
+    ///          
+    ///          
+    ///              A transaction can run for a maximum of 24 hours. A transaction is terminated and 
+    ///                  rolled back automatically after 24 hours.
+    ///              A transaction times out if no calls use its transaction ID in three minutes. 
+    ///                  If a transaction times out before it's committed, it's rolled back
+    ///                  automatically.
+    ///              DDL statements inside a transaction cause an implicit commit. We recommend 
+    ///                  that you run each DDL statement in a separate ExecuteStatement call with 
+    ///                  continueAfterTimeout enabled.
+    ///          
+    public func beginTransaction(_ input: BeginTransactionRequest) throws -> Future<BeginTransactionResponse> {
+        return try client.send(operation: "BeginTransaction", path: "/BeginTransaction", httpMethod: "POST", input: input)
+    }
+
+    ///  Ends a SQL transaction started with the BeginTransaction operation and
+    ///              commits the changes.
+    public func commitTransaction(_ input: CommitTransactionRequest) throws -> Future<CommitTransactionResponse> {
+        return try client.send(operation: "CommitTransaction", path: "/CommitTransaction", httpMethod: "POST", input: input)
+    }
+
+    ///  Runs one or more SQL statements.
+    ///          
+    ///              This operation is deprecated. Use the BatchExecuteStatement or
+    ///                      ExecuteStatement operation.
+    ///          
     public func executeSql(_ input: ExecuteSqlRequest) throws -> Future<ExecuteSqlResponse> {
         return try client.send(operation: "ExecuteSql", path: "/ExecuteSql", httpMethod: "POST", input: input)
+    }
+
+    ///  Runs a SQL statement against a database.
+    ///              
+    ///              If a call isn't part of a transaction because it doesn't include the
+    ///                      transactionID parameter, changes that result from the call are
+    ///                  committed automatically.    
+    ///          
+    ///          The response size limit is 1 MB or 1,000 records. If the call returns more than 1 MB of response data or over 1,000 records, the call is terminated.
+    public func executeStatement(_ input: ExecuteStatementRequest) throws -> Future<ExecuteStatementResponse> {
+        return try client.send(operation: "ExecuteStatement", path: "/Execute", httpMethod: "POST", input: input)
+    }
+
+    ///  Performs a rollback of a transaction. Rolling back a transaction cancels its changes.
+    public func rollbackTransaction(_ input: RollbackTransactionRequest) throws -> Future<RollbackTransactionResponse> {
+        return try client.send(operation: "RollbackTransaction", path: "/RollbackTransaction", httpMethod: "POST", input: input)
     }
 
 

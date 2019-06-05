@@ -395,6 +395,11 @@ public struct Greengrass {
         return try client.send(operation: "ListSubscriptionDefinitions", path: "/greengrass/definition/subscriptions", httpMethod: "GET", input: input)
     }
 
+    ///  Retrieves a list of resource tags for a resource arn.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> Future<ListTagsForResourceResponse> {
+        return try client.send(operation: "ListTagsForResource", path: "/tags/{resource-arn}", httpMethod: "GET", input: input)
+    }
+
     ///  Resets a group's deployments.
     public func resetDeployments(_ input: ResetDeploymentsRequest) throws -> Future<ResetDeploymentsResponse> {
         return try client.send(operation: "ResetDeployments", path: "/greengrass/groups/{GroupId}/deployments/$reset", httpMethod: "POST", input: input)
@@ -408,6 +413,16 @@ public struct Greengrass {
     ///  Stops the execution of a bulk deployment. This action returns a status of ''Stopping'' until the deployment is stopped. You cannot start a new bulk deployment while a previous deployment is in the ''Stopping'' state. This action doesn't rollback completed deployments or cancel pending deployments.
     public func stopBulkDeployment(_ input: StopBulkDeploymentRequest) throws -> Future<StopBulkDeploymentResponse> {
         return try client.send(operation: "StopBulkDeployment", path: "/greengrass/bulk/deployments/{BulkDeploymentId}/$stop", httpMethod: "PUT", input: input)
+    }
+
+    ///  Add resource tags to a Greengrass Resource. Valid resources are Group, Connector, Core, Device, Function, Logger, Subscription, and Resource Defintions, and also BulkDeploymentIds.
+    @discardableResult public func tagResource(_ input: TagResourceRequest) throws -> Future<Void> {
+        return try client.send(operation: "TagResource", path: "/tags/{resource-arn}", httpMethod: "POST", input: input)
+    }
+
+    ///  Remove resource tags from a Greengrass Resource.
+    @discardableResult public func untagResource(_ input: UntagResourceRequest) throws -> Future<Void> {
+        return try client.send(operation: "UntagResource", path: "/tags/{resource-arn}", httpMethod: "DELETE", input: input)
     }
 
     ///  Updates the connectivity information for the core. Any devices that belong to the group which has this core will receive this information in order to find the location of the core and connect to it.

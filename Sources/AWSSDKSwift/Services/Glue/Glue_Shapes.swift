@@ -13,7 +13,7 @@ extension Glue {
             AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
             AWSShapeMember(label: "Timeout", required: false, type: .integer)
         ]
-        /// Arguments to be passed to the job run. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
+        /// The job arguments used when this trigger fires. For this job run, they replace the default arguments set in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
         public let arguments: [String: String]?
         /// The name of a job to be executed.
         public let jobName: String?
@@ -93,7 +93,7 @@ extension Glue {
             AWSShapeMember(label: "CatalogId", required: false, type: .string), 
             AWSShapeMember(label: "ConnectionNameList", required: true, type: .list)
         ]
-        /// The ID of the Data Catalog in which the connections reside. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog in which the connections reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// A list of names of the connections to delete.
         public let connectionNameList: [String]
@@ -266,6 +266,117 @@ extension Glue {
         }
     }
 
+    public struct BatchGetCrawlersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CrawlerNames", required: true, type: .list)
+        ]
+        /// A list of crawler names, which might be the names returned from the ListCrawlers operation.
+        public let crawlerNames: [String]
+
+        public init(crawlerNames: [String]) {
+            self.crawlerNames = crawlerNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crawlerNames = "CrawlerNames"
+        }
+    }
+
+    public struct BatchGetCrawlersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Crawlers", required: false, type: .list), 
+            AWSShapeMember(label: "CrawlersNotFound", required: false, type: .list)
+        ]
+        /// A list of crawler definitions.
+        public let crawlers: [Crawler]?
+        /// A list of names of crawlers that were not found.
+        public let crawlersNotFound: [String]?
+
+        public init(crawlers: [Crawler]? = nil, crawlersNotFound: [String]? = nil) {
+            self.crawlers = crawlers
+            self.crawlersNotFound = crawlersNotFound
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crawlers = "Crawlers"
+            case crawlersNotFound = "CrawlersNotFound"
+        }
+    }
+
+    public struct BatchGetDevEndpointsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DevEndpointNames", required: true, type: .list)
+        ]
+        /// The list of DevEndpoint names, which may be the names returned from the ListDevEndpoint operation.
+        public let devEndpointNames: [String]
+
+        public init(devEndpointNames: [String]) {
+            self.devEndpointNames = devEndpointNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case devEndpointNames = "DevEndpointNames"
+        }
+    }
+
+    public struct BatchGetDevEndpointsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DevEndpoints", required: false, type: .list), 
+            AWSShapeMember(label: "DevEndpointsNotFound", required: false, type: .list)
+        ]
+        /// A list of DevEndpoint definitions.
+        public let devEndpoints: [DevEndpoint]?
+        /// A list of DevEndpoints not found.
+        public let devEndpointsNotFound: [String]?
+
+        public init(devEndpoints: [DevEndpoint]? = nil, devEndpointsNotFound: [String]? = nil) {
+            self.devEndpoints = devEndpoints
+            self.devEndpointsNotFound = devEndpointsNotFound
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case devEndpoints = "DevEndpoints"
+            case devEndpointsNotFound = "DevEndpointsNotFound"
+        }
+    }
+
+    public struct BatchGetJobsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobNames", required: true, type: .list)
+        ]
+        /// A list of job names, which may be the names returned from the ListJobs operation.
+        public let jobNames: [String]
+
+        public init(jobNames: [String]) {
+            self.jobNames = jobNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobNames = "JobNames"
+        }
+    }
+
+    public struct BatchGetJobsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Jobs", required: false, type: .list), 
+            AWSShapeMember(label: "JobsNotFound", required: false, type: .list)
+        ]
+        /// A list of job definitions.
+        public let jobs: [Job]?
+        /// A list of names of jobs not found.
+        public let jobsNotFound: [String]?
+
+        public init(jobs: [Job]? = nil, jobsNotFound: [String]? = nil) {
+            self.jobs = jobs
+            self.jobsNotFound = jobsNotFound
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobs = "Jobs"
+            case jobsNotFound = "JobsNotFound"
+        }
+    }
+
     public struct BatchGetPartitionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CatalogId", required: false, type: .string), 
@@ -315,6 +426,43 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case partitions = "Partitions"
             case unprocessedKeys = "UnprocessedKeys"
+        }
+    }
+
+    public struct BatchGetTriggersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TriggerNames", required: true, type: .list)
+        ]
+        /// A list of trigger names, which may be the names returned from the ListTriggers operation.
+        public let triggerNames: [String]
+
+        public init(triggerNames: [String]) {
+            self.triggerNames = triggerNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case triggerNames = "TriggerNames"
+        }
+    }
+
+    public struct BatchGetTriggersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Triggers", required: false, type: .list), 
+            AWSShapeMember(label: "TriggersNotFound", required: false, type: .list)
+        ]
+        /// A list of trigger definitions.
+        public let triggers: [Trigger]?
+        /// A list of names of triggers not found.
+        public let triggersNotFound: [String]?
+
+        public init(triggers: [Trigger]? = nil, triggersNotFound: [String]? = nil) {
+            self.triggers = triggers
+            self.triggersNotFound = triggersNotFound
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case triggers = "Triggers"
+            case triggersNotFound = "TriggersNotFound"
         }
     }
 
@@ -460,26 +608,52 @@ extension Glue {
         }
     }
 
+    public struct CatalogTarget: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "Tables", required: true, type: .list)
+        ]
+        /// The name of the database to be synchronized.
+        public let databaseName: String
+        /// A list of the tables to be synchronized.
+        public let tables: [String]
+
+        public init(databaseName: String, tables: [String]) {
+            self.databaseName = databaseName
+            self.tables = tables
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseName = "DatabaseName"
+            case tables = "Tables"
+        }
+    }
+
     public struct Classifier: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CsvClassifier", required: false, type: .structure), 
             AWSShapeMember(label: "GrokClassifier", required: false, type: .structure), 
             AWSShapeMember(label: "JsonClassifier", required: false, type: .structure), 
             AWSShapeMember(label: "XMLClassifier", required: false, type: .structure)
         ]
-        /// A GrokClassifier object.
+        /// A classifier for comma-separated values (CSV).
+        public let csvClassifier: CsvClassifier?
+        /// A classifier that uses grok.
         public let grokClassifier: GrokClassifier?
-        /// A JsonClassifier object.
+        /// A classifier for JSON content.
         public let jsonClassifier: JsonClassifier?
-        /// An XMLClassifier object.
+        /// A classifier for XML content.
         public let xMLClassifier: XMLClassifier?
 
-        public init(grokClassifier: GrokClassifier? = nil, jsonClassifier: JsonClassifier? = nil, xMLClassifier: XMLClassifier? = nil) {
+        public init(csvClassifier: CsvClassifier? = nil, grokClassifier: GrokClassifier? = nil, jsonClassifier: JsonClassifier? = nil, xMLClassifier: XMLClassifier? = nil) {
+            self.csvClassifier = csvClassifier
             self.grokClassifier = grokClassifier
             self.jsonClassifier = jsonClassifier
             self.xMLClassifier = xMLClassifier
         }
 
         private enum CodingKeys: String, CodingKey {
+            case csvClassifier = "CsvClassifier"
             case grokClassifier = "GrokClassifier"
             case jsonClassifier = "JsonClassifier"
             case xMLClassifier = "XMLClassifier"
@@ -552,7 +726,7 @@ extension Glue {
         public let id: String
         /// The line number of the node.
         public let lineNumber: Int32?
-        /// The type of node this is.
+        /// The type of node that this is.
         public let nodeType: String
 
         public init(args: [CodeGenNodeArg], id: String, lineNumber: Int32? = nil, nodeType: String) {
@@ -660,23 +834,23 @@ extension Glue {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "PhysicalConnectionRequirements", required: false, type: .structure)
         ]
-        /// These key-value pairs define parameters for the connection:    HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.    PORT - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.    USER_NAME - The name under which to log in to the database. The value string for USER_NAME is "USERNAME".    PASSWORD - A password, if one is used, for the user name.    JDBC_DRIVER_JAR_URI - The S3 path of the a jar file that contains the JDBC driver to use.    JDBC_DRIVER_CLASS_NAME - The class name of the JDBC driver to use.    JDBC_ENGINE - The name of the JDBC engine to use.    JDBC_ENGINE_VERSION - The version of the JDBC engine to use.    CONFIG_FILES - (Reserved for future use).    INSTANCE_ID - The instance ID to use.    JDBC_CONNECTION_URL - The URL for the JDBC connection.    JDBC_ENFORCE_SSL - A Boolean string (true, false) specifying whether SSL with hostname matching will be enforced for the JDBC connection on the client. The default is false.  
+        /// These key-value pairs define parameters for the connection:    HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.    PORT - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.    USER_NAME - The name under which to log in to the database. The value string for USER_NAME is "USERNAME".    PASSWORD - A password, if one is used, for the user name.    ENCRYPTED_PASSWORD - When you enable connection password protection by setting ConnectionPasswordEncryption in the Data Catalog encryption settings, this field stores the encrypted password.    JDBC_DRIVER_JAR_URI - The Amazon S3 path of the JAR file that contains the JDBC driver to use.    JDBC_DRIVER_CLASS_NAME - The class name of the JDBC driver to use.    JDBC_ENGINE - The name of the JDBC engine to use.    JDBC_ENGINE_VERSION - The version of the JDBC engine to use.    CONFIG_FILES - (Reserved for future use).    INSTANCE_ID - The instance ID to use.    JDBC_CONNECTION_URL - The URL for the JDBC connection.    JDBC_ENFORCE_SSL - A Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching will be enforced for the JDBC connection on the client. The default is false.  
         public let connectionProperties: [ConnectionPropertyKey: String]?
         /// The type of the connection. Currently, only JDBC is supported; SFTP is not supported.
         public let connectionType: ConnectionType?
-        /// The time this connection definition was created.
+        /// The time that this connection definition was created.
         public let creationTime: TimeStamp?
-        /// Description of the connection.
+        /// The description of the connection.
         public let description: String?
-        /// The user, group or role that last updated this connection definition.
+        /// The user, group, or role that last updated this connection definition.
         public let lastUpdatedBy: String?
-        /// The last time this connection definition was updated.
+        /// The last time that this connection definition was updated.
         public let lastUpdatedTime: TimeStamp?
         /// A list of criteria that can be used in selecting this connection.
         public let matchCriteria: [String]?
         /// The name of the connection definition.
         public let name: String?
-        /// A map of physical connection requirements, such as VPC and SecurityGroup, needed for making this connection successfully.
+        /// A map of physical connection requirements, such as virtual private cloud (VPC) and SecurityGroup, that are needed to make this connection successfully.
         public let physicalConnectionRequirements: PhysicalConnectionRequirements?
 
         public init(connectionProperties: [ConnectionPropertyKey: String]? = nil, connectionType: ConnectionType? = nil, creationTime: TimeStamp? = nil, description: String? = nil, lastUpdatedBy: String? = nil, lastUpdatedTime: TimeStamp? = nil, matchCriteria: [String]? = nil, name: String? = nil, physicalConnectionRequirements: PhysicalConnectionRequirements? = nil) {
@@ -717,13 +891,13 @@ extension Glue {
         public let connectionProperties: [ConnectionPropertyKey: String]
         /// The type of the connection. Currently, only JDBC is supported; SFTP is not supported.
         public let connectionType: ConnectionType
-        /// Description of the connection.
+        /// The description of the connection.
         public let description: String?
         /// A list of criteria that can be used in selecting this connection.
         public let matchCriteria: [String]?
         /// The name of the connection.
         public let name: String
-        /// A map of physical connection requirements, such as VPC and SecurityGroup, needed for making this connection successfully.
+        /// A map of physical connection requirements, such as virtual private cloud (VPC) and SecurityGroup, that are needed to successfully make this connection.
         public let physicalConnectionRequirements: PhysicalConnectionRequirements?
 
         public init(connectionProperties: [ConnectionPropertyKey: String], connectionType: ConnectionType, description: String? = nil, matchCriteria: [String]? = nil, name: String, physicalConnectionRequirements: PhysicalConnectionRequirements? = nil) {
@@ -745,11 +919,33 @@ extension Glue {
         }
     }
 
+    public struct ConnectionPasswordEncryption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsKmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "ReturnConnectionPasswordEncrypted", required: true, type: .boolean)
+        ]
+        /// An AWS KMS key that is used to encrypt the connection password.  If connection password protection is enabled, the caller of CreateConnection and UpdateConnection needs at least kms:Encrypt permission on the specified AWS KMS key, to encrypt passwords before storing them in the Data Catalog.  You can set the decrypt permission to enable or restrict access on the password key according to your security requirements.
+        public let awsKmsKeyId: String?
+        /// When the ReturnConnectionPasswordEncrypted flag is set to "true", passwords remain encrypted in the responses of GetConnection and GetConnections. This encryption takes effect independently from catalog encryption. 
+        public let returnConnectionPasswordEncrypted: Bool
+
+        public init(awsKmsKeyId: String? = nil, returnConnectionPasswordEncrypted: Bool) {
+            self.awsKmsKeyId = awsKmsKeyId
+            self.returnConnectionPasswordEncrypted = returnConnectionPasswordEncrypted
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsKmsKeyId = "AwsKmsKeyId"
+            case returnConnectionPasswordEncrypted = "ReturnConnectionPasswordEncrypted"
+        }
+    }
+
     public enum ConnectionPropertyKey: String, CustomStringConvertible, Codable {
         case host = "HOST"
         case port = "PORT"
         case username = "USERNAME"
         case password = "PASSWORD"
+        case encryptedPassword = "ENCRYPTED_PASSWORD"
         case jdbcDriverJarUri = "JDBC_DRIVER_JAR_URI"
         case jdbcDriverClassName = "JDBC_DRIVER_CLASS_NAME"
         case jdbcEngine = "JDBC_ENGINE"
@@ -803,31 +999,31 @@ extension Glue {
             AWSShapeMember(label: "Targets", required: false, type: .structure), 
             AWSShapeMember(label: "Version", required: false, type: .long)
         ]
-        /// A list of custom classifiers associated with the crawler.
+        /// A list of UTF-8 strings that specify the custom classifiers that are associated with the crawler.
         public let classifiers: [String]?
         /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Configuring a Crawler.
         public let configuration: String?
         /// If the crawler is running, contains the total time elapsed since the last crawl began.
         public let crawlElapsedTime: Int64?
-        /// The name of the SecurityConfiguration structure to be used by this Crawler.
+        /// The name of the SecurityConfiguration structure to be used by this crawler.
         public let crawlerSecurityConfiguration: String?
-        /// The time when the crawler was created.
+        /// The time that the crawler was created.
         public let creationTime: TimeStamp?
-        /// The database where metadata is written by this crawler.
+        /// The name of the database in which the crawler's output is stored.
         public let databaseName: String?
         /// A description of the crawler.
         public let description: String?
         /// The status of the last crawl, and potentially error information if an error occurred.
         public let lastCrawl: LastCrawlInfo?
-        /// The time the crawler was last updated.
+        /// The time that the crawler was last updated.
         public let lastUpdated: TimeStamp?
-        /// The crawler name.
+        /// The name of the crawler.
         public let name: String?
-        /// The IAM role (or ARN of an IAM role) used to access customer resources, such as data in Amazon S3.
+        /// The Amazon Resource Name (ARN) of an IAM role that's used to access customer resources, such as Amazon Simple Storage Service (Amazon S3) data.
         public let role: String?
         /// For scheduled crawlers, the schedule when the crawler runs.
         public let schedule: Schedule?
-        /// Sets the behavior when the crawler finds a changed or deleted object.
+        /// The policy that specifies update and delete behaviors for the crawler.
         public let schemaChangePolicy: SchemaChangePolicy?
         /// Indicates whether the crawler is running, or whether a run is pending.
         public let state: CrawlerState?
@@ -939,24 +1135,29 @@ extension Glue {
 
     public struct CrawlerTargets: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogTargets", required: false, type: .list), 
             AWSShapeMember(label: "DynamoDBTargets", required: false, type: .list), 
             AWSShapeMember(label: "JdbcTargets", required: false, type: .list), 
             AWSShapeMember(label: "S3Targets", required: false, type: .list)
         ]
-        /// Specifies DynamoDB targets.
+        /// Specifies AWS Glue Data Catalog targets.
+        public let catalogTargets: [CatalogTarget]?
+        /// Specifies Amazon DynamoDB targets.
         public let dynamoDBTargets: [DynamoDBTarget]?
         /// Specifies JDBC targets.
         public let jdbcTargets: [JdbcTarget]?
-        /// Specifies Amazon S3 targets.
+        /// Specifies Amazon Simple Storage Service (Amazon S3) targets.
         public let s3Targets: [S3Target]?
 
-        public init(dynamoDBTargets: [DynamoDBTarget]? = nil, jdbcTargets: [JdbcTarget]? = nil, s3Targets: [S3Target]? = nil) {
+        public init(catalogTargets: [CatalogTarget]? = nil, dynamoDBTargets: [DynamoDBTarget]? = nil, jdbcTargets: [JdbcTarget]? = nil, s3Targets: [S3Target]? = nil) {
+            self.catalogTargets = catalogTargets
             self.dynamoDBTargets = dynamoDBTargets
             self.jdbcTargets = jdbcTargets
             self.s3Targets = s3Targets
         }
 
         private enum CodingKeys: String, CodingKey {
+            case catalogTargets = "CatalogTargets"
             case dynamoDBTargets = "DynamoDBTargets"
             case jdbcTargets = "JdbcTargets"
             case s3Targets = "S3Targets"
@@ -965,10 +1166,13 @@ extension Glue {
 
     public struct CreateClassifierRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CsvClassifier", required: false, type: .structure), 
             AWSShapeMember(label: "GrokClassifier", required: false, type: .structure), 
             AWSShapeMember(label: "JsonClassifier", required: false, type: .structure), 
             AWSShapeMember(label: "XMLClassifier", required: false, type: .structure)
         ]
+        /// A CsvClassifier object specifying the classifier to create.
+        public let csvClassifier: CreateCsvClassifierRequest?
         /// A GrokClassifier object specifying the classifier to create.
         public let grokClassifier: CreateGrokClassifierRequest?
         /// A JsonClassifier object specifying the classifier to create.
@@ -976,13 +1180,15 @@ extension Glue {
         /// An XMLClassifier object specifying the classifier to create.
         public let xMLClassifier: CreateXMLClassifierRequest?
 
-        public init(grokClassifier: CreateGrokClassifierRequest? = nil, jsonClassifier: CreateJsonClassifierRequest? = nil, xMLClassifier: CreateXMLClassifierRequest? = nil) {
+        public init(csvClassifier: CreateCsvClassifierRequest? = nil, grokClassifier: CreateGrokClassifierRequest? = nil, jsonClassifier: CreateJsonClassifierRequest? = nil, xMLClassifier: CreateXMLClassifierRequest? = nil) {
+            self.csvClassifier = csvClassifier
             self.grokClassifier = grokClassifier
             self.jsonClassifier = jsonClassifier
             self.xMLClassifier = xMLClassifier
         }
 
         private enum CodingKeys: String, CodingKey {
+            case csvClassifier = "CsvClassifier"
             case grokClassifier = "GrokClassifier"
             case jsonClassifier = "JsonClassifier"
             case xMLClassifier = "XMLClassifier"
@@ -1001,7 +1207,7 @@ extension Glue {
             AWSShapeMember(label: "CatalogId", required: false, type: .string), 
             AWSShapeMember(label: "ConnectionInput", required: true, type: .structure)
         ]
-        /// The ID of the Data Catalog in which to create the connection. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog in which to create the connection. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// A ConnectionInput object defining the connection to create.
         public let connectionInput: ConnectionInput
@@ -1029,39 +1235,42 @@ extension Glue {
             AWSShapeMember(label: "Classifiers", required: false, type: .list), 
             AWSShapeMember(label: "Configuration", required: false, type: .string), 
             AWSShapeMember(label: "CrawlerSecurityConfiguration", required: false, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Role", required: true, type: .string), 
             AWSShapeMember(label: "Schedule", required: false, type: .string), 
             AWSShapeMember(label: "SchemaChangePolicy", required: false, type: .structure), 
             AWSShapeMember(label: "TablePrefix", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .map), 
             AWSShapeMember(label: "Targets", required: true, type: .structure)
         ]
         /// A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.
         public let classifiers: [String]?
-        /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Configuring a Crawler.
+        /// The crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Configuring a Crawler.
         public let configuration: String?
-        /// The name of the SecurityConfiguration structure to be used by this Crawler.
+        /// The name of the SecurityConfiguration structure to be used by this crawler.
         public let crawlerSecurityConfiguration: String?
         /// The AWS Glue database where results are written, such as: arn:aws:daylight:us-east-1::database/sometable/*.
-        public let databaseName: String
+        public let databaseName: String?
         /// A description of the new crawler.
         public let description: String?
         /// Name of the new crawler.
         public let name: String
-        /// The IAM role (or ARN of an IAM role) used by the new crawler to access customer resources.
+        /// The IAM role or Amazon Resource Name (ARN) of an IAM role used by the new crawler to access customer resources.
         public let role: String
-        /// A cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *).
+        /// A cron expression used to specify the schedule. For more information, see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, specify cron(15 12 * * ? *).
         public let schedule: String?
-        /// Policy for the crawler's update and deletion behavior.
+        /// The policy for the crawler's update and deletion behavior.
         public let schemaChangePolicy: SchemaChangePolicy?
         /// The table prefix used for catalog tables that are created.
         public let tablePrefix: String?
+        /// The tags to use with this crawler request. You can use tags to limit access to the crawler. For more information, see AWS Tags in AWS Glue.
+        public let tags: [String: String]?
         /// A list of collection of targets to crawl.
         public let targets: CrawlerTargets
 
-        public init(classifiers: [String]? = nil, configuration: String? = nil, crawlerSecurityConfiguration: String? = nil, databaseName: String, description: String? = nil, name: String, role: String, schedule: String? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, tablePrefix: String? = nil, targets: CrawlerTargets) {
+        public init(classifiers: [String]? = nil, configuration: String? = nil, crawlerSecurityConfiguration: String? = nil, databaseName: String? = nil, description: String? = nil, name: String, role: String, schedule: String? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, tablePrefix: String? = nil, tags: [String: String]? = nil, targets: CrawlerTargets) {
             self.classifiers = classifiers
             self.configuration = configuration
             self.crawlerSecurityConfiguration = crawlerSecurityConfiguration
@@ -1072,6 +1281,7 @@ extension Glue {
             self.schedule = schedule
             self.schemaChangePolicy = schemaChangePolicy
             self.tablePrefix = tablePrefix
+            self.tags = tags
             self.targets = targets
         }
 
@@ -1086,6 +1296,7 @@ extension Glue {
             case schedule = "Schedule"
             case schemaChangePolicy = "SchemaChangePolicy"
             case tablePrefix = "TablePrefix"
+            case tags = "Tags"
             case targets = "Targets"
         }
     }
@@ -1095,6 +1306,52 @@ extension Glue {
         public init() {
         }
 
+    }
+
+    public struct CreateCsvClassifierRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowSingleColumn", required: false, type: .boolean), 
+            AWSShapeMember(label: "ContainsHeader", required: false, type: .enum), 
+            AWSShapeMember(label: "Delimiter", required: false, type: .string), 
+            AWSShapeMember(label: "DisableValueTrimming", required: false, type: .boolean), 
+            AWSShapeMember(label: "Header", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "QuoteSymbol", required: false, type: .string)
+        ]
+        /// Enables the processing of files that contain only one column.
+        public let allowSingleColumn: Bool?
+        /// Indicates whether the CSV file contains a header.
+        public let containsHeader: CsvHeaderOption?
+        /// A custom symbol to denote what separates each column entry in the row.
+        public let delimiter: String?
+        /// Specifies not to trim values before identifying the type of column values. The default value is true.
+        public let disableValueTrimming: Bool?
+        /// A list of strings representing column names.
+        public let header: [String]?
+        /// The name of the classifier.
+        public let name: String
+        /// A custom symbol to denote what combines content into a single column value. Must be different from the column delimiter.
+        public let quoteSymbol: String?
+
+        public init(allowSingleColumn: Bool? = nil, containsHeader: CsvHeaderOption? = nil, delimiter: String? = nil, disableValueTrimming: Bool? = nil, header: [String]? = nil, name: String, quoteSymbol: String? = nil) {
+            self.allowSingleColumn = allowSingleColumn
+            self.containsHeader = containsHeader
+            self.delimiter = delimiter
+            self.disableValueTrimming = disableValueTrimming
+            self.header = header
+            self.name = name
+            self.quoteSymbol = quoteSymbol
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowSingleColumn = "AllowSingleColumn"
+            case containsHeader = "ContainsHeader"
+            case delimiter = "Delimiter"
+            case disableValueTrimming = "DisableValueTrimming"
+            case header = "Header"
+            case name = "Name"
+            case quoteSymbol = "QuoteSymbol"
+        }
     }
 
     public struct CreateDatabaseRequest: AWSShape {
@@ -1127,6 +1384,7 @@ extension Glue {
 
     public struct CreateDevEndpointRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arguments", required: false, type: .map), 
             AWSShapeMember(label: "EndpointName", required: true, type: .string), 
             AWSShapeMember(label: "ExtraJarsS3Path", required: false, type: .string), 
             AWSShapeMember(label: "ExtraPythonLibsS3Path", required: false, type: .string), 
@@ -1136,8 +1394,11 @@ extension Glue {
             AWSShapeMember(label: "RoleArn", required: true, type: .string), 
             AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
             AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "SubnetId", required: false, type: .string)
+            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .map)
         ]
+        /// A map of arguments used to configure the DevEndpoint.
+        public let arguments: [String: String]?
         /// The name to be assigned to the new DevEndpoint.
         public let endpointName: String
         /// Path to one or more Java Jars in an S3 bucket that should be loaded in your DevEndpoint.
@@ -1158,8 +1419,11 @@ extension Glue {
         public let securityGroupIds: [String]?
         /// The subnet ID for the new DevEndpoint to use.
         public let subnetId: String?
+        /// The tags to use with this DevEndpoint. You may use tags to limit access to the DevEndpoint. For more information about tags in AWS Glue, see AWS Tags in AWS Glue in the developer guide.
+        public let tags: [String: String]?
 
-        public init(endpointName: String, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, numberOfNodes: Int32? = nil, publicKey: String? = nil, publicKeys: [String]? = nil, roleArn: String, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil) {
+        public init(arguments: [String: String]? = nil, endpointName: String, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, numberOfNodes: Int32? = nil, publicKey: String? = nil, publicKeys: [String]? = nil, roleArn: String, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil, tags: [String: String]? = nil) {
+            self.arguments = arguments
             self.endpointName = endpointName
             self.extraJarsS3Path = extraJarsS3Path
             self.extraPythonLibsS3Path = extraPythonLibsS3Path
@@ -1170,9 +1434,11 @@ extension Glue {
             self.securityConfiguration = securityConfiguration
             self.securityGroupIds = securityGroupIds
             self.subnetId = subnetId
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arguments = "Arguments"
             case endpointName = "EndpointName"
             case extraJarsS3Path = "ExtraJarsS3Path"
             case extraPythonLibsS3Path = "ExtraPythonLibsS3Path"
@@ -1183,11 +1449,13 @@ extension Glue {
             case securityConfiguration = "SecurityConfiguration"
             case securityGroupIds = "SecurityGroupIds"
             case subnetId = "SubnetId"
+            case tags = "Tags"
         }
     }
 
     public struct CreateDevEndpointResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arguments", required: false, type: .map), 
             AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
             AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "EndpointName", required: false, type: .string), 
@@ -1204,6 +1472,8 @@ extension Glue {
             AWSShapeMember(label: "YarnEndpointAddress", required: false, type: .string), 
             AWSShapeMember(label: "ZeppelinRemoteSparkInterpreterPort", required: false, type: .integer)
         ]
+        /// The map of arguments used to configure this DevEndpoint.
+        public let arguments: [String: String]?
         /// The AWS availability zone where this DevEndpoint is located.
         public let availabilityZone: String?
         /// The point in time at which this DevEndpoint was created.
@@ -1235,7 +1505,8 @@ extension Glue {
         /// The Apache Zeppelin port for the remote Apache Spark interpreter.
         public let zeppelinRemoteSparkInterpreterPort: Int32?
 
-        public init(availabilityZone: String? = nil, createdTimestamp: TimeStamp? = nil, endpointName: String? = nil, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, failureReason: String? = nil, numberOfNodes: Int32? = nil, roleArn: String? = nil, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, status: String? = nil, subnetId: String? = nil, vpcId: String? = nil, yarnEndpointAddress: String? = nil, zeppelinRemoteSparkInterpreterPort: Int32? = nil) {
+        public init(arguments: [String: String]? = nil, availabilityZone: String? = nil, createdTimestamp: TimeStamp? = nil, endpointName: String? = nil, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, failureReason: String? = nil, numberOfNodes: Int32? = nil, roleArn: String? = nil, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, status: String? = nil, subnetId: String? = nil, vpcId: String? = nil, yarnEndpointAddress: String? = nil, zeppelinRemoteSparkInterpreterPort: Int32? = nil) {
+            self.arguments = arguments
             self.availabilityZone = availabilityZone
             self.createdTimestamp = createdTimestamp
             self.endpointName = endpointName
@@ -1254,6 +1525,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arguments = "Arguments"
             case availabilityZone = "AvailabilityZone"
             case createdTimestamp = "CreatedTimestamp"
             case endpointName = "EndpointName"
@@ -1312,14 +1584,18 @@ extension Glue {
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "ExecutionProperty", required: false, type: .structure), 
             AWSShapeMember(label: "LogUri", required: false, type: .string), 
+            AWSShapeMember(label: "MaxCapacity", required: false, type: .double), 
             AWSShapeMember(label: "MaxRetries", required: false, type: .integer), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "NotificationProperty", required: false, type: .structure), 
+            AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
             AWSShapeMember(label: "Role", required: true, type: .string), 
             AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
-            AWSShapeMember(label: "Timeout", required: false, type: .integer)
+            AWSShapeMember(label: "Tags", required: false, type: .map), 
+            AWSShapeMember(label: "Timeout", required: false, type: .integer), 
+            AWSShapeMember(label: "WorkerType", required: false, type: .enum)
         ]
-        /// The number of AWS Glue data processing units (DPUs) to allocate to this Job. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.
+        /// This parameter is deprecated. Use MaxCapacity instead. The number of AWS Glue data processing units (DPUs) to allocate to this Job. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.
         public let allocatedCapacity: Int32?
         /// The JobCommand that executes this job.
         public let command: JobCommand
@@ -1333,20 +1609,28 @@ extension Glue {
         public let executionProperty: ExecutionProperty?
         /// This field is reserved for future use.
         public let logUri: String?
+        /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a python shell job, or an Apache Spark ETL job:   When you specify a python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.  
+        public let maxCapacity: Double?
         /// The maximum number of times to retry this job if it fails.
         public let maxRetries: Int32?
         /// The name you assign to this job definition. It must be unique in your account.
         public let name: String
         /// Specifies configuration properties of a job notification.
         public let notificationProperty: NotificationProperty?
+        /// The number of workers of a defined workerType that are allocated when a job runs. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X. 
+        public let numberOfWorkers: Int32?
         /// The name or ARN of the IAM role associated with this job.
         public let role: String
         /// The name of the SecurityConfiguration structure to be used with this job.
         public let securityConfiguration: String?
+        /// The tags to use with this job. You may use tags to limit access to the job. For more information about tags in AWS Glue, see AWS Tags in AWS Glue in the developer guide.
+        public let tags: [String: String]?
         /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public let timeout: Int32?
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.  
+        public let workerType: WorkerType?
 
-        public init(allocatedCapacity: Int32? = nil, command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, logUri: String? = nil, maxRetries: Int32? = nil, name: String, notificationProperty: NotificationProperty? = nil, role: String, securityConfiguration: String? = nil, timeout: Int32? = nil) {
+        public init(allocatedCapacity: Int32? = nil, command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int32? = nil, name: String, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int32? = nil, role: String, securityConfiguration: String? = nil, tags: [String: String]? = nil, timeout: Int32? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.command = command
             self.connections = connections
@@ -1354,12 +1638,16 @@ extension Glue {
             self.description = description
             self.executionProperty = executionProperty
             self.logUri = logUri
+            self.maxCapacity = maxCapacity
             self.maxRetries = maxRetries
             self.name = name
             self.notificationProperty = notificationProperty
+            self.numberOfWorkers = numberOfWorkers
             self.role = role
             self.securityConfiguration = securityConfiguration
+            self.tags = tags
             self.timeout = timeout
+            self.workerType = workerType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1370,12 +1658,16 @@ extension Glue {
             case description = "Description"
             case executionProperty = "ExecutionProperty"
             case logUri = "LogUri"
+            case maxCapacity = "MaxCapacity"
             case maxRetries = "MaxRetries"
             case name = "Name"
             case notificationProperty = "NotificationProperty"
+            case numberOfWorkers = "NumberOfWorkers"
             case role = "Role"
             case securityConfiguration = "SecurityConfiguration"
+            case tags = "Tags"
             case timeout = "Timeout"
+            case workerType = "WorkerType"
         }
     }
 
@@ -1584,6 +1876,7 @@ extension Glue {
             AWSShapeMember(label: "Predicate", required: false, type: .structure), 
             AWSShapeMember(label: "Schedule", required: false, type: .string), 
             AWSShapeMember(label: "StartOnCreation", required: false, type: .boolean), 
+            AWSShapeMember(label: "Tags", required: false, type: .map), 
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
         /// The actions initiated by this trigger when it fires.
@@ -1598,16 +1891,19 @@ extension Glue {
         public let schedule: String?
         /// Set to true to start SCHEDULED and CONDITIONAL triggers when created. True not supported for ON_DEMAND triggers.
         public let startOnCreation: Bool?
+        /// The tags to use with this trigger. You may use tags to limit access to the trigger. For more information about tags in AWS Glue, see AWS Tags in AWS Glue in the developer guide. 
+        public let tags: [String: String]?
         /// The type of the new trigger.
         public let `type`: TriggerType
 
-        public init(actions: [Action], description: String? = nil, name: String, predicate: Predicate? = nil, schedule: String? = nil, startOnCreation: Bool? = nil, type: TriggerType) {
+        public init(actions: [Action], description: String? = nil, name: String, predicate: Predicate? = nil, schedule: String? = nil, startOnCreation: Bool? = nil, tags: [String: String]? = nil, type: TriggerType) {
             self.actions = actions
             self.description = description
             self.name = name
             self.predicate = predicate
             self.schedule = schedule
             self.startOnCreation = startOnCreation
+            self.tags = tags
             self.`type` = `type`
         }
 
@@ -1618,6 +1914,7 @@ extension Glue {
             case predicate = "Predicate"
             case schedule = "Schedule"
             case startOnCreation = "StartOnCreation"
+            case tags = "Tags"
             case `type` = "Type"
         }
     }
@@ -1681,7 +1978,7 @@ extension Glue {
         public let classification: String
         /// The name of the classifier.
         public let name: String
-        /// The XML tag designating the element that contains each record in an XML document being parsed. Note that this cannot identify a self-closing element (closed by /&gt;). An empty row element that contains only attributes can be parsed as long as it ends with a closing tag (for example, &lt;row item_a="A" item_b="B"&gt;&lt;/row&gt; is okay, but &lt;row item_a="A" item_b="B" /&gt; is not).
+        /// The XML tag designating the element that contains each record in an XML document being parsed. This can't identify a self-closing element (closed by /&gt;). An empty row element that contains only attributes can be parsed as long as it ends with a closing tag (for example, &lt;row item_a="A" item_b="B"&gt;&lt;/row&gt; is okay, but &lt;row item_a="A" item_b="B" /&gt; is not).
         public let rowTag: String?
 
         public init(classification: String, name: String, rowTag: String? = nil) {
@@ -1697,18 +1994,91 @@ extension Glue {
         }
     }
 
+    public struct CsvClassifier: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowSingleColumn", required: false, type: .boolean), 
+            AWSShapeMember(label: "ContainsHeader", required: false, type: .enum), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Delimiter", required: false, type: .string), 
+            AWSShapeMember(label: "DisableValueTrimming", required: false, type: .boolean), 
+            AWSShapeMember(label: "Header", required: false, type: .list), 
+            AWSShapeMember(label: "LastUpdated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "QuoteSymbol", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .long)
+        ]
+        /// Enables the processing of files that contain only one column.
+        public let allowSingleColumn: Bool?
+        /// Indicates whether the CSV file contains a header.
+        public let containsHeader: CsvHeaderOption?
+        /// The time that this classifier was registered.
+        public let creationTime: TimeStamp?
+        /// A custom symbol to denote what separates each column entry in the row.
+        public let delimiter: String?
+        /// Specifies not to trim values before identifying the type of column values. The default value is true.
+        public let disableValueTrimming: Bool?
+        /// A list of strings representing column names.
+        public let header: [String]?
+        /// The time that this classifier was last updated.
+        public let lastUpdated: TimeStamp?
+        /// The name of the classifier.
+        public let name: String
+        /// A custom symbol to denote what combines content into a single column value. It must be different from the column delimiter.
+        public let quoteSymbol: String?
+        /// The version of this classifier.
+        public let version: Int64?
+
+        public init(allowSingleColumn: Bool? = nil, containsHeader: CsvHeaderOption? = nil, creationTime: TimeStamp? = nil, delimiter: String? = nil, disableValueTrimming: Bool? = nil, header: [String]? = nil, lastUpdated: TimeStamp? = nil, name: String, quoteSymbol: String? = nil, version: Int64? = nil) {
+            self.allowSingleColumn = allowSingleColumn
+            self.containsHeader = containsHeader
+            self.creationTime = creationTime
+            self.delimiter = delimiter
+            self.disableValueTrimming = disableValueTrimming
+            self.header = header
+            self.lastUpdated = lastUpdated
+            self.name = name
+            self.quoteSymbol = quoteSymbol
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowSingleColumn = "AllowSingleColumn"
+            case containsHeader = "ContainsHeader"
+            case creationTime = "CreationTime"
+            case delimiter = "Delimiter"
+            case disableValueTrimming = "DisableValueTrimming"
+            case header = "Header"
+            case lastUpdated = "LastUpdated"
+            case name = "Name"
+            case quoteSymbol = "QuoteSymbol"
+            case version = "Version"
+        }
+    }
+
+    public enum CsvHeaderOption: String, CustomStringConvertible, Codable {
+        case unknown = "UNKNOWN"
+        case present = "PRESENT"
+        case absent = "ABSENT"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DataCatalogEncryptionSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectionPasswordEncryption", required: false, type: .structure), 
             AWSShapeMember(label: "EncryptionAtRest", required: false, type: .structure)
         ]
-        /// Specifies encryption-at-rest configuration for the Data Catalog.
+        /// When connection password protection is enabled, the Data Catalog uses a customer-provided key to encrypt the password as part of CreateConnection or UpdateConnection and store it in the ENCRYPTED_PASSWORD field in the connection properties. You can enable catalog encryption or only password encryption.
+        public let connectionPasswordEncryption: ConnectionPasswordEncryption?
+        /// Specifies the encryption-at-rest configuration for the Data Catalog.
         public let encryptionAtRest: EncryptionAtRest?
 
-        public init(encryptionAtRest: EncryptionAtRest? = nil) {
+        public init(connectionPasswordEncryption: ConnectionPasswordEncryption? = nil, encryptionAtRest: EncryptionAtRest? = nil) {
+            self.connectionPasswordEncryption = connectionPasswordEncryption
             self.encryptionAtRest = encryptionAtRest
         }
 
         private enum CodingKeys: String, CodingKey {
+            case connectionPasswordEncryption = "ConnectionPasswordEncryption"
             case encryptionAtRest = "EncryptionAtRest"
         }
     }
@@ -1815,7 +2185,7 @@ extension Glue {
             AWSShapeMember(label: "CatalogId", required: false, type: .string), 
             AWSShapeMember(label: "ConnectionName", required: true, type: .string)
         ]
-        /// The ID of the Data Catalog in which the connection resides. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog in which the connection resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the connection to delete.
         public let connectionName: String
@@ -1842,7 +2212,7 @@ extension Glue {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
-        /// Name of the crawler to remove.
+        /// The name of the crawler to remove.
         public let name: String
 
         public init(name: String) {
@@ -2166,6 +2536,7 @@ extension Glue {
 
     public struct DevEndpoint: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arguments", required: false, type: .map), 
             AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
             AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "EndpointName", required: false, type: .string), 
@@ -2188,6 +2559,8 @@ extension Glue {
             AWSShapeMember(label: "YarnEndpointAddress", required: false, type: .string), 
             AWSShapeMember(label: "ZeppelinRemoteSparkInterpreterPort", required: false, type: .integer)
         ]
+        /// A map of arguments used to configure the DevEndpoint. Note that currently, we only support "--enable-glue-datacatalog": "" as a valid argument.
+        public let arguments: [String: String]?
         /// The AWS availability zone where this DevEndpoint is located.
         public let availabilityZone: String?
         /// The point in time at which this DevEndpoint was created.
@@ -2231,7 +2604,8 @@ extension Glue {
         /// The Apache Zeppelin port for the remote Apache Spark interpreter.
         public let zeppelinRemoteSparkInterpreterPort: Int32?
 
-        public init(availabilityZone: String? = nil, createdTimestamp: TimeStamp? = nil, endpointName: String? = nil, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, failureReason: String? = nil, lastModifiedTimestamp: TimeStamp? = nil, lastUpdateStatus: String? = nil, numberOfNodes: Int32? = nil, privateAddress: String? = nil, publicAddress: String? = nil, publicKey: String? = nil, publicKeys: [String]? = nil, roleArn: String? = nil, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, status: String? = nil, subnetId: String? = nil, vpcId: String? = nil, yarnEndpointAddress: String? = nil, zeppelinRemoteSparkInterpreterPort: Int32? = nil) {
+        public init(arguments: [String: String]? = nil, availabilityZone: String? = nil, createdTimestamp: TimeStamp? = nil, endpointName: String? = nil, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, failureReason: String? = nil, lastModifiedTimestamp: TimeStamp? = nil, lastUpdateStatus: String? = nil, numberOfNodes: Int32? = nil, privateAddress: String? = nil, publicAddress: String? = nil, publicKey: String? = nil, publicKeys: [String]? = nil, roleArn: String? = nil, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, status: String? = nil, subnetId: String? = nil, vpcId: String? = nil, yarnEndpointAddress: String? = nil, zeppelinRemoteSparkInterpreterPort: Int32? = nil) {
+            self.arguments = arguments
             self.availabilityZone = availabilityZone
             self.createdTimestamp = createdTimestamp
             self.endpointName = endpointName
@@ -2256,6 +2630,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arguments = "Arguments"
             case availabilityZone = "AvailabilityZone"
             case createdTimestamp = "CreatedTimestamp"
             case endpointName = "EndpointName"
@@ -2477,7 +2852,7 @@ extension Glue {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// Size of the list to return (optional).
+        /// The size of the list to return (optional).
         public let maxResults: Int32?
         /// An optional continuation token.
         public let nextToken: String?
@@ -2517,20 +2892,25 @@ extension Glue {
     public struct GetConnectionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "HidePassword", required: false, type: .boolean), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
-        /// The ID of the Data Catalog in which the connection resides. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog in which the connection resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
+        /// Allows you to retrieve the connection metadata without returning the password. For instance, the AWS Glue console uses this flag to retrieve the connection, and does not display the password. Set this parameter when the caller might not have permission to use the AWS KMS key to decrypt the password, but does have permission to access the rest of the connection properties.
+        public let hidePassword: Bool?
         /// The name of the connection definition to retrieve.
         public let name: String
 
-        public init(catalogId: String? = nil, name: String) {
+        public init(catalogId: String? = nil, hidePassword: Bool? = nil, name: String) {
             self.catalogId = catalogId
+            self.hidePassword = hidePassword
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
             case catalogId = "CatalogId"
+            case hidePassword = "HidePassword"
             case name = "Name"
         }
     }
@@ -2576,21 +2956,25 @@ extension Glue {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CatalogId", required: false, type: .string), 
             AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "HidePassword", required: false, type: .boolean), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The ID of the Data Catalog in which the connections reside. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog in which the connections reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// A filter that controls which connections will be returned.
         public let filter: GetConnectionsFilter?
+        /// Allows you to retrieve the connection metadata without returning the password. For instance, the AWS Glue console uses this flag to retrieve the connection, and does not display the password. Set this parameter when the caller might not have permission to use the AWS KMS key to decrypt the password, but does have permission to access the rest of the connection properties.
+        public let hidePassword: Bool?
         /// The maximum number of connections to return in one response.
         public let maxResults: Int32?
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
 
-        public init(catalogId: String? = nil, filter: GetConnectionsFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(catalogId: String? = nil, filter: GetConnectionsFilter? = nil, hidePassword: Bool? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.catalogId = catalogId
             self.filter = filter
+            self.hidePassword = hidePassword
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -2598,6 +2982,7 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case catalogId = "CatalogId"
             case filter = "Filter"
+            case hidePassword = "HidePassword"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
         }
@@ -2675,7 +3060,7 @@ extension Glue {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
-        /// Name of the crawler to retrieve metadata for.
+        /// The name of the crawler to retrieve metadata for.
         public let name: String
 
         public init(name: String) {
@@ -2749,7 +3134,7 @@ extension Glue {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CatalogId", required: false, type: .string)
         ]
-        /// The ID of the Data Catalog for which to retrieve the security configuration. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog for which to retrieve the security configuration. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
 
         public init(catalogId: String? = nil) {
@@ -3301,7 +3686,7 @@ extension Glue {
         ]
         /// The programming language of the code to perform the mapping.
         public let language: Language?
-        /// Parameters for the mapping.
+        /// The parameters for the mapping.
         public let location: Location?
         /// The list of mappings from a source table to target tables.
         public let mapping: [MappingEntry]
@@ -3334,7 +3719,7 @@ extension Glue {
         ]
         /// A Python script to perform the mapping.
         public let pythonScript: String?
-        /// Scala code to perform the mapping.
+        /// The Scala code to perform the mapping.
         public let scalaCode: String?
 
         public init(pythonScript: String? = nil, scalaCode: String? = nil) {
@@ -3663,6 +4048,38 @@ extension Glue {
         }
     }
 
+    public struct GetTagsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
+        ]
+        /// The Amazon ARN of the resource for which to retrieve tags.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct GetTagsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: false, type: .map)
+        ]
+        /// The requested tags.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
     public struct GetTriggerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
@@ -3853,13 +4270,13 @@ extension Glue {
         ]
         /// An identifier of the data format that the classifier matches, such as Twitter, JSON, Omniture logs, and so on.
         public let classification: String
-        /// The time this classifier was registered.
+        /// The time that this classifier was registered.
         public let creationTime: TimeStamp?
-        /// Optional custom grok patterns defined by this classifier. For more information, see custom patterns in Writing Custom Classifers.
+        /// Optional custom grok patterns defined by this classifier. For more information, see custom patterns in Writing Custom Classifiers.
         public let customPatterns: String?
-        /// The grok pattern applied to a data store by this classifier. For more information, see built-in patterns in Writing Custom Classifers.
+        /// The grok pattern applied to a data store by this classifier. For more information, see built-in patterns in Writing Custom Classifiers.
         public let grokPattern: String
-        /// The time this classifier was last updated.
+        /// The time that this classifier was last updated.
         public let lastUpdated: TimeStamp?
         /// The name of the classifier.
         public let name: String
@@ -3947,14 +4364,17 @@ extension Glue {
             AWSShapeMember(label: "ExecutionProperty", required: false, type: .structure), 
             AWSShapeMember(label: "LastModifiedOn", required: false, type: .timestamp), 
             AWSShapeMember(label: "LogUri", required: false, type: .string), 
+            AWSShapeMember(label: "MaxCapacity", required: false, type: .double), 
             AWSShapeMember(label: "MaxRetries", required: false, type: .integer), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "NotificationProperty", required: false, type: .structure), 
+            AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
             AWSShapeMember(label: "Role", required: false, type: .string), 
             AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
-            AWSShapeMember(label: "Timeout", required: false, type: .integer)
+            AWSShapeMember(label: "Timeout", required: false, type: .integer), 
+            AWSShapeMember(label: "WorkerType", required: false, type: .enum)
         ]
-        /// The number of AWS Glue data processing units (DPUs) allocated to runs of this job. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.
+        /// This field is deprecated, use MaxCapacity instead. The number of AWS Glue data processing units (DPUs) allocated to runs of this job. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. 
         public let allocatedCapacity: Int32?
         /// The JobCommand that executes this job.
         public let command: JobCommand?
@@ -3972,20 +4392,26 @@ extension Glue {
         public let lastModifiedOn: TimeStamp?
         /// This field is reserved for future use.
         public let logUri: String?
+        /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a python shell job, or an Apache Spark ETL job:   When you specify a python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.  
+        public let maxCapacity: Double?
         /// The maximum number of times to retry this job after a JobRun fails.
         public let maxRetries: Int32?
         /// The name you assign to this job definition.
         public let name: String?
         /// Specifies configuration properties of a job notification.
         public let notificationProperty: NotificationProperty?
+        /// The number of workers of a defined workerType that are allocated when a job runs. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X. 
+        public let numberOfWorkers: Int32?
         /// The name or ARN of the IAM role associated with this job.
         public let role: String?
         /// The name of the SecurityConfiguration structure to be used with this job.
         public let securityConfiguration: String?
         /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public let timeout: Int32?
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.  
+        public let workerType: WorkerType?
 
-        public init(allocatedCapacity: Int32? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: TimeStamp? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, lastModifiedOn: TimeStamp? = nil, logUri: String? = nil, maxRetries: Int32? = nil, name: String? = nil, notificationProperty: NotificationProperty? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil) {
+        public init(allocatedCapacity: Int32? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: TimeStamp? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, lastModifiedOn: TimeStamp? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int32? = nil, name: String? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int32? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.command = command
             self.connections = connections
@@ -3995,12 +4421,15 @@ extension Glue {
             self.executionProperty = executionProperty
             self.lastModifiedOn = lastModifiedOn
             self.logUri = logUri
+            self.maxCapacity = maxCapacity
             self.maxRetries = maxRetries
             self.name = name
             self.notificationProperty = notificationProperty
+            self.numberOfWorkers = numberOfWorkers
             self.role = role
             self.securityConfiguration = securityConfiguration
             self.timeout = timeout
+            self.workerType = workerType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4013,12 +4442,15 @@ extension Glue {
             case executionProperty = "ExecutionProperty"
             case lastModifiedOn = "LastModifiedOn"
             case logUri = "LogUri"
+            case maxCapacity = "MaxCapacity"
             case maxRetries = "MaxRetries"
             case name = "Name"
             case notificationProperty = "NotificationProperty"
+            case numberOfWorkers = "NumberOfWorkers"
             case role = "Role"
             case securityConfiguration = "SecurityConfiguration"
             case timeout = "Timeout"
+            case workerType = "WorkerType"
         }
     }
 
@@ -4090,7 +4522,7 @@ extension Glue {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "ScriptLocation", required: false, type: .string)
         ]
-        /// The name of the job command: this must be glueetl.
+        /// The name of the job command: this must be glueetl, for an Apache Spark ETL job, or pythonshell, for a Python shell job.
         public let name: String?
         /// Specifies the S3 path to a script that executes a job (required).
         public let scriptLocation: String?
@@ -4119,17 +4551,20 @@ extension Glue {
             AWSShapeMember(label: "JobRunState", required: false, type: .enum), 
             AWSShapeMember(label: "LastModifiedOn", required: false, type: .timestamp), 
             AWSShapeMember(label: "LogGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "MaxCapacity", required: false, type: .double), 
             AWSShapeMember(label: "NotificationProperty", required: false, type: .structure), 
+            AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
             AWSShapeMember(label: "PredecessorRuns", required: false, type: .list), 
             AWSShapeMember(label: "PreviousRunId", required: false, type: .string), 
             AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
             AWSShapeMember(label: "StartedOn", required: false, type: .timestamp), 
             AWSShapeMember(label: "Timeout", required: false, type: .integer), 
-            AWSShapeMember(label: "TriggerName", required: false, type: .string)
+            AWSShapeMember(label: "TriggerName", required: false, type: .string), 
+            AWSShapeMember(label: "WorkerType", required: false, type: .enum)
         ]
-        /// The number of AWS Glue data processing units (DPUs) allocated to this JobRun. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.
+        /// This field is deprecated, use MaxCapacity instead. The number of AWS Glue data processing units (DPUs) allocated to this JobRun. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.
         public let allocatedCapacity: Int32?
-        /// The job arguments associated with this run. These override equivalent default arguments set for the job. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
+        /// The job arguments associated with this run. For this job run, they replace the default arguments set in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
         public let arguments: [String: String]?
         /// The number of the attempt to run this job.
         public let attempt: Int32?
@@ -4149,8 +4584,12 @@ extension Glue {
         public let lastModifiedOn: TimeStamp?
         /// The name of the log group for secure logging, that can be server-side encrypted in CloudWatch using KMS. This name can be /aws-glue/jobs/, in which case the default encryption is NONE. If you add a role name and SecurityConfiguration name (in other words, /aws-glue/jobs-yourRoleName-yourSecurityConfigurationName/), then that security configuration will be used to encrypt the log group.
         public let logGroupName: String?
+        /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a python shell job, or an Apache Spark ETL job:   When you specify a python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.  
+        public let maxCapacity: Double?
         /// Specifies configuration properties of a job run notification.
         public let notificationProperty: NotificationProperty?
+        /// The number of workers of a defined workerType that are allocated when a job runs. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X. 
+        public let numberOfWorkers: Int32?
         /// A list of predecessors to this job run.
         public let predecessorRuns: [Predecessor]?
         /// The ID of the previous run of this job. For example, the JobRunId specified in the StartJobRun action.
@@ -4163,8 +4602,10 @@ extension Glue {
         public let timeout: Int32?
         /// The name of the trigger that started this job run.
         public let triggerName: String?
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.  
+        public let workerType: WorkerType?
 
-        public init(allocatedCapacity: Int32? = nil, arguments: [String: String]? = nil, attempt: Int32? = nil, completedOn: TimeStamp? = nil, errorMessage: String? = nil, executionTime: Int32? = nil, id: String? = nil, jobName: String? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: TimeStamp? = nil, logGroupName: String? = nil, notificationProperty: NotificationProperty? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, securityConfiguration: String? = nil, startedOn: TimeStamp? = nil, timeout: Int32? = nil, triggerName: String? = nil) {
+        public init(allocatedCapacity: Int32? = nil, arguments: [String: String]? = nil, attempt: Int32? = nil, completedOn: TimeStamp? = nil, errorMessage: String? = nil, executionTime: Int32? = nil, id: String? = nil, jobName: String? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: TimeStamp? = nil, logGroupName: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int32? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, securityConfiguration: String? = nil, startedOn: TimeStamp? = nil, timeout: Int32? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.arguments = arguments
             self.attempt = attempt
@@ -4176,13 +4617,16 @@ extension Glue {
             self.jobRunState = jobRunState
             self.lastModifiedOn = lastModifiedOn
             self.logGroupName = logGroupName
+            self.maxCapacity = maxCapacity
             self.notificationProperty = notificationProperty
+            self.numberOfWorkers = numberOfWorkers
             self.predecessorRuns = predecessorRuns
             self.previousRunId = previousRunId
             self.securityConfiguration = securityConfiguration
             self.startedOn = startedOn
             self.timeout = timeout
             self.triggerName = triggerName
+            self.workerType = workerType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4197,13 +4641,16 @@ extension Glue {
             case jobRunState = "JobRunState"
             case lastModifiedOn = "LastModifiedOn"
             case logGroupName = "LogGroupName"
+            case maxCapacity = "MaxCapacity"
             case notificationProperty = "NotificationProperty"
+            case numberOfWorkers = "NumberOfWorkers"
             case predecessorRuns = "PredecessorRuns"
             case previousRunId = "PreviousRunId"
             case securityConfiguration = "SecurityConfiguration"
             case startedOn = "StartedOn"
             case timeout = "Timeout"
             case triggerName = "TriggerName"
+            case workerType = "WorkerType"
         }
     }
 
@@ -4227,13 +4674,16 @@ extension Glue {
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "ExecutionProperty", required: false, type: .structure), 
             AWSShapeMember(label: "LogUri", required: false, type: .string), 
+            AWSShapeMember(label: "MaxCapacity", required: false, type: .double), 
             AWSShapeMember(label: "MaxRetries", required: false, type: .integer), 
             AWSShapeMember(label: "NotificationProperty", required: false, type: .structure), 
+            AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
             AWSShapeMember(label: "Role", required: false, type: .string), 
             AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
-            AWSShapeMember(label: "Timeout", required: false, type: .integer)
+            AWSShapeMember(label: "Timeout", required: false, type: .integer), 
+            AWSShapeMember(label: "WorkerType", required: false, type: .enum)
         ]
-        /// The number of AWS Glue data processing units (DPUs) to allocate to this Job. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.
+        /// This field is deprecated. Use MaxCapacity instead. The number of AWS Glue data processing units (DPUs) to allocate to this Job. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.
         public let allocatedCapacity: Int32?
         /// The JobCommand that executes this job (required).
         public let command: JobCommand?
@@ -4247,18 +4697,24 @@ extension Glue {
         public let executionProperty: ExecutionProperty?
         /// This field is reserved for future use.
         public let logUri: String?
+        /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a python shell job, or an Apache Spark ETL job:   When you specify a python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.  
+        public let maxCapacity: Double?
         /// The maximum number of times to retry this job if it fails.
         public let maxRetries: Int32?
         /// Specifies configuration properties of a job notification.
         public let notificationProperty: NotificationProperty?
+        /// The number of workers of a defined workerType that are allocated when a job runs. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X. 
+        public let numberOfWorkers: Int32?
         /// The name or ARN of the IAM role associated with this job (required).
         public let role: String?
         /// The name of the SecurityConfiguration structure to be used with this job.
         public let securityConfiguration: String?
         /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public let timeout: Int32?
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.  
+        public let workerType: WorkerType?
 
-        public init(allocatedCapacity: Int32? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, logUri: String? = nil, maxRetries: Int32? = nil, notificationProperty: NotificationProperty? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil) {
+        public init(allocatedCapacity: Int32? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int32? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int32? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.command = command
             self.connections = connections
@@ -4266,11 +4722,14 @@ extension Glue {
             self.description = description
             self.executionProperty = executionProperty
             self.logUri = logUri
+            self.maxCapacity = maxCapacity
             self.maxRetries = maxRetries
             self.notificationProperty = notificationProperty
+            self.numberOfWorkers = numberOfWorkers
             self.role = role
             self.securityConfiguration = securityConfiguration
             self.timeout = timeout
+            self.workerType = workerType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4281,11 +4740,14 @@ extension Glue {
             case description = "Description"
             case executionProperty = "ExecutionProperty"
             case logUri = "LogUri"
+            case maxCapacity = "MaxCapacity"
             case maxRetries = "MaxRetries"
             case notificationProperty = "NotificationProperty"
+            case numberOfWorkers = "NumberOfWorkers"
             case role = "Role"
             case securityConfiguration = "SecurityConfiguration"
             case timeout = "Timeout"
+            case workerType = "WorkerType"
         }
     }
 
@@ -4297,11 +4759,11 @@ extension Glue {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .long)
         ]
-        /// The time this classifier was registered.
+        /// The time that this classifier was registered.
         public let creationTime: TimeStamp?
         /// A JsonPath string defining the JSON data for the classifier to classify. AWS Glue supports a subset of JsonPath, as described in Writing JsonPath Custom Classifiers.
         public let jsonPath: String
-        /// The time this classifier was last updated.
+        /// The time that this classifier was last updated.
         public let lastUpdated: TimeStamp?
         /// The name of the classifier.
         public let name: String
@@ -4379,17 +4841,210 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public struct ListCrawlersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .map)
+        ]
+        /// The maximum size of a list to return.
+        public let maxResults: Int32?
+        /// A continuation token, if this is a continuation request.
+        public let nextToken: String?
+        /// Specifies to return only these tagged resources.
+        public let tags: [String: String]?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, tags: [String: String]? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ListCrawlersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CrawlerNames", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The names of all crawlers in the account, or the crawlers with the specified tags.
+        public let crawlerNames: [String]?
+        /// A continuation token, if the returned list does not contain the last metric available.
+        public let nextToken: String?
+
+        public init(crawlerNames: [String]? = nil, nextToken: String? = nil) {
+            self.crawlerNames = crawlerNames
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crawlerNames = "CrawlerNames"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDevEndpointsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .map)
+        ]
+        /// The maximum size of a list to return.
+        public let maxResults: Int32?
+        /// A continuation token, if this is a continuation request.
+        public let nextToken: String?
+        /// Specifies to return only these tagged resources.
+        public let tags: [String: String]?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, tags: [String: String]? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ListDevEndpointsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DevEndpointNames", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The names of all DevEndpoints in the account, or the DevEndpoints with the specified tags.
+        public let devEndpointNames: [String]?
+        /// A continuation token, if the returned list does not contain the last metric available.
+        public let nextToken: String?
+
+        public init(devEndpointNames: [String]? = nil, nextToken: String? = nil) {
+            self.devEndpointNames = devEndpointNames
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case devEndpointNames = "DevEndpointNames"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListJobsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .map)
+        ]
+        /// The maximum size of a list to return.
+        public let maxResults: Int32?
+        /// A continuation token, if this is a continuation request.
+        public let nextToken: String?
+        /// Specifies to return only these tagged resources.
+        public let tags: [String: String]?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, tags: [String: String]? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ListJobsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobNames", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The names of all jobs in the account, or the jobs with the specified tags.
+        public let jobNames: [String]?
+        /// A continuation token, if the returned list does not contain the last metric available.
+        public let nextToken: String?
+
+        public init(jobNames: [String]? = nil, nextToken: String? = nil) {
+            self.jobNames = jobNames
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobNames = "JobNames"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListTriggersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DependentJobName", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .map)
+        ]
+        ///  The name of the job for which to retrieve triggers. The trigger that can start this job will be returned, and if there is no such trigger, all triggers will be returned.
+        public let dependentJobName: String?
+        /// The maximum size of a list to return.
+        public let maxResults: Int32?
+        /// A continuation token, if this is a continuation request.
+        public let nextToken: String?
+        /// Specifies to return only these tagged resources.
+        public let tags: [String: String]?
+
+        public init(dependentJobName: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, tags: [String: String]? = nil) {
+            self.dependentJobName = dependentJobName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dependentJobName = "DependentJobName"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ListTriggersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TriggerNames", required: false, type: .list)
+        ]
+        /// A continuation token, if the returned list does not contain the last metric available.
+        public let nextToken: String?
+        /// The names of all triggers in the account, or the triggers with the specified tags.
+        public let triggerNames: [String]?
+
+        public init(nextToken: String? = nil, triggerNames: [String]? = nil) {
+            self.nextToken = nextToken
+            self.triggerNames = triggerNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case triggerNames = "TriggerNames"
+        }
+    }
+
     public struct Location: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DynamoDB", required: false, type: .list), 
             AWSShapeMember(label: "Jdbc", required: false, type: .list), 
             AWSShapeMember(label: "S3", required: false, type: .list)
         ]
-        /// A DynamoDB Table location.
+        /// An Amazon DynamoDB table location.
         public let dynamoDB: [CodeGenNodeArg]?
         /// A JDBC location.
         public let jdbc: [CodeGenNodeArg]?
-        /// An Amazon S3 location.
+        /// An Amazon Simple Storage Service (Amazon S3) location.
         public let s3: [CodeGenNodeArg]?
 
         public init(dynamoDB: [CodeGenNodeArg]? = nil, jdbc: [CodeGenNodeArg]? = nil, s3: [CodeGenNodeArg]? = nil) {
@@ -4582,7 +5237,7 @@ extension Glue {
         public let parameters: [String: String]?
         /// Provides information about the physical location where the partition is stored.
         public let storageDescriptor: StorageDescriptor?
-        /// The values of the partition.
+        /// The values of the partition. Although this parameter is not required by the SDK, you must specify this parameter for a valid input.
         public let values: [String]?
 
         public init(lastAccessTime: TimeStamp? = nil, lastAnalyzedTime: TimeStamp? = nil, parameters: [String: String]? = nil, storageDescriptor: StorageDescriptor? = nil, values: [String]? = nil) {
@@ -4624,7 +5279,7 @@ extension Glue {
             AWSShapeMember(label: "SecurityGroupIdList", required: false, type: .list), 
             AWSShapeMember(label: "SubnetId", required: false, type: .string)
         ]
-        /// The connection's availability zone. This field is redundant, since the specified subnet implies the availability zone to be used. The field must be populated now, but will be deprecated in the future.
+        /// The connection's Availability Zone. This field is redundant because the specified subnet implies the Availability Zone to be used. Currently the field must be populated, but it will be deprecated in the future.
         public let availabilityZone: String?
         /// The security group ID list used by the connection.
         public let securityGroupIdList: [String]?
@@ -4698,7 +5353,7 @@ extension Glue {
             AWSShapeMember(label: "CatalogId", required: false, type: .string), 
             AWSShapeMember(label: "DataCatalogEncryptionSettings", required: true, type: .structure)
         ]
-        /// The ID of the Data Catalog for which to set the security configuration. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog for which to set the security configuration. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The security configuration to set.
         public let dataCatalogEncryptionSettings: DataCatalogEncryptionSettings
@@ -4729,7 +5384,7 @@ extension Glue {
         ]
         /// A value of MUST_EXIST is used to update a policy. A value of NOT_EXIST is used to create a new policy. If a value of NONE or a null value is used, the call will not depend on the existence of a policy.
         public let policyExistsCondition: ExistCondition?
-        /// This is the hash value returned when the previous policy was set using PutResourcePolicy. Its purpose is to prevent concurrent modifications of a policy. Do not use this parameter if no previous policy has been set.
+        /// The hash value returned when the previous policy was set using PutResourcePolicy. Its purpose is to prevent concurrent modifications of a policy. Do not use this parameter if no previous policy has been set.
         public let policyHashCondition: String?
         /// Contains the policy document to set, in JSON format.
         public let policyInJson: String
@@ -4877,7 +5532,7 @@ extension Glue {
             AWSShapeMember(label: "ScheduleExpression", required: false, type: .string), 
             AWSShapeMember(label: "State", required: false, type: .enum)
         ]
-        /// A cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *).
+        /// A cron expression used to specify the schedule. For more information, see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, specify cron(15 12 * * ? *).
         public let scheduleExpression: String?
         /// The state of the schedule.
         public let state: ScheduleState?
@@ -5072,33 +5727,45 @@ extension Glue {
             AWSShapeMember(label: "Arguments", required: false, type: .map), 
             AWSShapeMember(label: "JobName", required: true, type: .string), 
             AWSShapeMember(label: "JobRunId", required: false, type: .string), 
+            AWSShapeMember(label: "MaxCapacity", required: false, type: .double), 
             AWSShapeMember(label: "NotificationProperty", required: false, type: .structure), 
+            AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
             AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
-            AWSShapeMember(label: "Timeout", required: false, type: .integer)
+            AWSShapeMember(label: "Timeout", required: false, type: .integer), 
+            AWSShapeMember(label: "WorkerType", required: false, type: .enum)
         ]
-        /// The number of AWS Glue data processing units (DPUs) to allocate to this JobRun. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.
+        /// This field is deprecated, use MaxCapacity instead. The number of AWS Glue data processing units (DPUs) to allocate to this JobRun. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.
         public let allocatedCapacity: Int32?
-        /// The job arguments specifically for this run. They override the equivalent default arguments set for in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
+        /// The job arguments specifically for this run. For this job run, they replace the default arguments set in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
         public let arguments: [String: String]?
         /// The name of the job definition to use.
         public let jobName: String
         /// The ID of a previous JobRun to retry.
         public let jobRunId: String?
+        /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a python shell job, or an Apache Spark ETL job:   When you specify a python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.  
+        public let maxCapacity: Double?
         /// Specifies configuration properties of a job run notification.
         public let notificationProperty: NotificationProperty?
+        /// The number of workers of a defined workerType that are allocated when a job runs. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X. 
+        public let numberOfWorkers: Int32?
         /// The name of the SecurityConfiguration structure to be used with this job run.
         public let securityConfiguration: String?
         /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours). This overrides the timeout value set in the parent job.
         public let timeout: Int32?
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.  
+        public let workerType: WorkerType?
 
-        public init(allocatedCapacity: Int32? = nil, arguments: [String: String]? = nil, jobName: String, jobRunId: String? = nil, notificationProperty: NotificationProperty? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil) {
+        public init(allocatedCapacity: Int32? = nil, arguments: [String: String]? = nil, jobName: String, jobRunId: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int32? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.arguments = arguments
             self.jobName = jobName
             self.jobRunId = jobRunId
+            self.maxCapacity = maxCapacity
             self.notificationProperty = notificationProperty
+            self.numberOfWorkers = numberOfWorkers
             self.securityConfiguration = securityConfiguration
             self.timeout = timeout
+            self.workerType = workerType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5106,9 +5773,12 @@ extension Glue {
             case arguments = "Arguments"
             case jobName = "JobName"
             case jobRunId = "JobRunId"
+            case maxCapacity = "MaxCapacity"
             case notificationProperty = "NotificationProperty"
+            case numberOfWorkers = "NumberOfWorkers"
             case securityConfiguration = "SecurityConfiguration"
             case timeout = "Timeout"
+            case workerType = "WorkerType"
         }
     }
 
@@ -5346,7 +6016,7 @@ extension Glue {
         public let owner: String?
         /// These key-value pairs define properties associated with the table.
         public let parameters: [String: String]?
-        /// A list of columns by which the table is partitioned. Only primitive types are supported as partition keys.
+        /// A list of columns by which the table is partitioned. Only primitive types are supported as partition keys. When creating a table used by Athena, and you do not specify any partitionKeys, you must at least set the value of partitionKeys to an empty list. For example:  "PartitionKeys": [] 
         public let partitionKeys: [Column]?
         /// Retention time for this table.
         public let retention: Int32?
@@ -5448,7 +6118,7 @@ extension Glue {
         public let owner: String?
         /// These key-value pairs define properties associated with the table.
         public let parameters: [String: String]?
-        /// A list of columns by which the table is partitioned. Only primitive types are supported as partition keys.
+        /// A list of columns by which the table is partitioned. Only primitive types are supported as partition keys. When creating a table used by Athena, and you do not specify any partitionKeys, you must at least set the value of partitionKeys to an empty list. For example:  "PartitionKeys": [] 
         public let partitionKeys: [Column]?
         /// Retention time for this table.
         public let retention: Int32?
@@ -5537,6 +6207,34 @@ extension Glue {
             case tableName = "TableName"
             case versionId = "VersionId"
         }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "TagsToAdd", required: true, type: .map)
+        ]
+        /// The ARN of the AWS Glue resource to which to add the tags. For more information about AWS Glue resource ARNs, see the AWS Glue ARN string pattern.
+        public let resourceArn: String
+        /// Tags to add to this resource.
+        public let tagsToAdd: [String: String]
+
+        public init(resourceArn: String, tagsToAdd: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tagsToAdd = tagsToAdd
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tagsToAdd = "TagsToAdd"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
     }
 
     public struct Trigger: AWSShape {
@@ -5645,6 +6343,34 @@ extension Glue {
         }
     }
 
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "TagsToRemove", required: true, type: .list)
+        ]
+        /// The ARN of the resource from which to remove the tags.
+        public let resourceArn: String
+        /// Tags to remove from this resource.
+        public let tagsToRemove: [String]
+
+        public init(resourceArn: String, tagsToRemove: [String]) {
+            self.resourceArn = resourceArn
+            self.tagsToRemove = tagsToRemove
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tagsToRemove = "TagsToRemove"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
     public enum UpdateBehavior: String, CustomStringConvertible, Codable {
         case log = "LOG"
         case updateInDatabase = "UPDATE_IN_DATABASE"
@@ -5653,10 +6379,13 @@ extension Glue {
 
     public struct UpdateClassifierRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CsvClassifier", required: false, type: .structure), 
             AWSShapeMember(label: "GrokClassifier", required: false, type: .structure), 
             AWSShapeMember(label: "JsonClassifier", required: false, type: .structure), 
             AWSShapeMember(label: "XMLClassifier", required: false, type: .structure)
         ]
+        /// A CsvClassifier object with updated fields.
+        public let csvClassifier: UpdateCsvClassifierRequest?
         /// A GrokClassifier object with updated fields.
         public let grokClassifier: UpdateGrokClassifierRequest?
         /// A JsonClassifier object with updated fields.
@@ -5664,13 +6393,15 @@ extension Glue {
         /// An XMLClassifier object with updated fields.
         public let xMLClassifier: UpdateXMLClassifierRequest?
 
-        public init(grokClassifier: UpdateGrokClassifierRequest? = nil, jsonClassifier: UpdateJsonClassifierRequest? = nil, xMLClassifier: UpdateXMLClassifierRequest? = nil) {
+        public init(csvClassifier: UpdateCsvClassifierRequest? = nil, grokClassifier: UpdateGrokClassifierRequest? = nil, jsonClassifier: UpdateJsonClassifierRequest? = nil, xMLClassifier: UpdateXMLClassifierRequest? = nil) {
+            self.csvClassifier = csvClassifier
             self.grokClassifier = grokClassifier
             self.jsonClassifier = jsonClassifier
             self.xMLClassifier = xMLClassifier
         }
 
         private enum CodingKeys: String, CodingKey {
+            case csvClassifier = "CsvClassifier"
             case grokClassifier = "GrokClassifier"
             case jsonClassifier = "JsonClassifier"
             case xMLClassifier = "XMLClassifier"
@@ -5690,7 +6421,7 @@ extension Glue {
             AWSShapeMember(label: "ConnectionInput", required: true, type: .structure), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
-        /// The ID of the Data Catalog in which the connection resides. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog in which the connection resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// A ConnectionInput object that redefines the connection in question.
         public let connectionInput: ConnectionInput
@@ -5733,9 +6464,9 @@ extension Glue {
         ]
         /// A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.
         public let classifiers: [String]?
-        /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Configuring a Crawler.
+        /// The crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Configuring a Crawler.
         public let configuration: String?
-        /// The name of the SecurityConfiguration structure to be used by this Crawler.
+        /// The name of the SecurityConfiguration structure to be used by this crawler.
         public let crawlerSecurityConfiguration: String?
         /// The AWS Glue database where results are stored, such as: arn:aws:daylight:us-east-1::database/sometable/*.
         public let databaseName: String?
@@ -5743,11 +6474,11 @@ extension Glue {
         public let description: String?
         /// Name of the new crawler.
         public let name: String
-        /// The IAM role (or ARN of an IAM role) used by the new crawler to access customer resources.
+        /// The IAM role or Amazon Resource Name (ARN) of an IAM role that is used by the new crawler to access customer resources.
         public let role: String?
-        /// A cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *).
+        /// A cron expression used to specify the schedule. For more information, see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, specify cron(15 12 * * ? *).
         public let schedule: String?
-        /// Policy for the crawler's update and deletion behavior.
+        /// The policy for the crawler's update and deletion behavior.
         public let schemaChangePolicy: SchemaChangePolicy?
         /// The table prefix used for catalog tables that are created.
         public let tablePrefix: String?
@@ -5795,9 +6526,9 @@ extension Glue {
             AWSShapeMember(label: "CrawlerName", required: true, type: .string), 
             AWSShapeMember(label: "Schedule", required: false, type: .string)
         ]
-        /// Name of the crawler whose schedule to update.
+        /// The name of the crawler whose schedule to update.
         public let crawlerName: String
-        /// The updated cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *).
+        /// The updated cron expression used to specify the schedule. For more information, see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, specify cron(15 12 * * ? *).
         public let schedule: String?
 
         public init(crawlerName: String, schedule: String? = nil) {
@@ -5816,6 +6547,52 @@ extension Glue {
         public init() {
         }
 
+    }
+
+    public struct UpdateCsvClassifierRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowSingleColumn", required: false, type: .boolean), 
+            AWSShapeMember(label: "ContainsHeader", required: false, type: .enum), 
+            AWSShapeMember(label: "Delimiter", required: false, type: .string), 
+            AWSShapeMember(label: "DisableValueTrimming", required: false, type: .boolean), 
+            AWSShapeMember(label: "Header", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "QuoteSymbol", required: false, type: .string)
+        ]
+        /// Enables the processing of files that contain only one column.
+        public let allowSingleColumn: Bool?
+        /// Indicates whether the CSV file contains a header.
+        public let containsHeader: CsvHeaderOption?
+        /// A custom symbol to denote what separates each column entry in the row.
+        public let delimiter: String?
+        /// Specifies not to trim values before identifying the type of column values. The default value is true.
+        public let disableValueTrimming: Bool?
+        /// A list of strings representing column names.
+        public let header: [String]?
+        /// The name of the classifier.
+        public let name: String
+        /// A custom symbol to denote what combines content into a single column value. It must be different from the column delimiter.
+        public let quoteSymbol: String?
+
+        public init(allowSingleColumn: Bool? = nil, containsHeader: CsvHeaderOption? = nil, delimiter: String? = nil, disableValueTrimming: Bool? = nil, header: [String]? = nil, name: String, quoteSymbol: String? = nil) {
+            self.allowSingleColumn = allowSingleColumn
+            self.containsHeader = containsHeader
+            self.delimiter = delimiter
+            self.disableValueTrimming = disableValueTrimming
+            self.header = header
+            self.name = name
+            self.quoteSymbol = quoteSymbol
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowSingleColumn = "AllowSingleColumn"
+            case containsHeader = "ContainsHeader"
+            case delimiter = "Delimiter"
+            case disableValueTrimming = "DisableValueTrimming"
+            case header = "Header"
+            case name = "Name"
+            case quoteSymbol = "QuoteSymbol"
+        }
     }
 
     public struct UpdateDatabaseRequest: AWSShape {
@@ -5853,17 +6630,23 @@ extension Glue {
 
     public struct UpdateDevEndpointRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AddArguments", required: false, type: .map), 
             AWSShapeMember(label: "AddPublicKeys", required: false, type: .list), 
             AWSShapeMember(label: "CustomLibraries", required: false, type: .structure), 
+            AWSShapeMember(label: "DeleteArguments", required: false, type: .list), 
             AWSShapeMember(label: "DeletePublicKeys", required: false, type: .list), 
             AWSShapeMember(label: "EndpointName", required: true, type: .string), 
             AWSShapeMember(label: "PublicKey", required: false, type: .string), 
             AWSShapeMember(label: "UpdateEtlLibraries", required: false, type: .boolean)
         ]
+        /// The map of arguments to add the map of arguments used to configure the DevEndpoint.
+        public let addArguments: [String: String]?
         /// The list of public keys for the DevEndpoint to use.
         public let addPublicKeys: [String]?
         /// Custom Python or Java libraries to be loaded in the DevEndpoint.
         public let customLibraries: DevEndpointCustomLibraries?
+        /// The list of argument keys to be deleted from the map of arguments used to configure the DevEndpoint.
+        public let deleteArguments: [String]?
         /// The list of public keys to be deleted from the DevEndpoint.
         public let deletePublicKeys: [String]?
         /// The name of the DevEndpoint to be updated.
@@ -5873,9 +6656,11 @@ extension Glue {
         /// True if the list of custom libraries to be loaded in the development endpoint needs to be updated, or False otherwise.
         public let updateEtlLibraries: Bool?
 
-        public init(addPublicKeys: [String]? = nil, customLibraries: DevEndpointCustomLibraries? = nil, deletePublicKeys: [String]? = nil, endpointName: String, publicKey: String? = nil, updateEtlLibraries: Bool? = nil) {
+        public init(addArguments: [String: String]? = nil, addPublicKeys: [String]? = nil, customLibraries: DevEndpointCustomLibraries? = nil, deleteArguments: [String]? = nil, deletePublicKeys: [String]? = nil, endpointName: String, publicKey: String? = nil, updateEtlLibraries: Bool? = nil) {
+            self.addArguments = addArguments
             self.addPublicKeys = addPublicKeys
             self.customLibraries = customLibraries
+            self.deleteArguments = deleteArguments
             self.deletePublicKeys = deletePublicKeys
             self.endpointName = endpointName
             self.publicKey = publicKey
@@ -5883,8 +6668,10 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case addArguments = "AddArguments"
             case addPublicKeys = "AddPublicKeys"
             case customLibraries = "CustomLibraries"
+            case deleteArguments = "DeleteArguments"
             case deletePublicKeys = "DeletePublicKeys"
             case endpointName = "EndpointName"
             case publicKey = "PublicKey"
@@ -6154,7 +6941,7 @@ extension Glue {
         public let classification: String?
         /// The name of the classifier.
         public let name: String
-        /// The XML tag designating the element that contains each record in an XML document being parsed. Note that this cannot identify a self-closing element (closed by /&gt;). An empty row element that contains only attributes can be parsed as long as it ends with a closing tag (for example, &lt;row item_a="A" item_b="B"&gt;&lt;/row&gt; is okay, but &lt;row item_a="A" item_b="B" /&gt; is not).
+        /// The XML tag designating the element that contains each record in an XML document being parsed. This cannot identify a self-closing element (closed by /&gt;). An empty row element that contains only attributes can be parsed as long as it ends with a closing tag (for example, &lt;row item_a="A" item_b="B"&gt;&lt;/row&gt; is okay, but &lt;row item_a="A" item_b="B" /&gt; is not).
         public let rowTag: String?
 
         public init(classification: String? = nil, name: String, rowTag: String? = nil) {
@@ -6247,6 +7034,13 @@ extension Glue {
         }
     }
 
+    public enum WorkerType: String, CustomStringConvertible, Codable {
+        case standard = "Standard"
+        case g1X = "G.1X"
+        case g2X = "G.2X"
+        public var description: String { return self.rawValue }
+    }
+
     public struct XMLClassifier: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Classification", required: true, type: .string), 
@@ -6258,13 +7052,13 @@ extension Glue {
         ]
         /// An identifier of the data format that the classifier matches.
         public let classification: String
-        /// The time this classifier was registered.
+        /// The time that this classifier was registered.
         public let creationTime: TimeStamp?
-        /// The time this classifier was last updated.
+        /// The time that this classifier was last updated.
         public let lastUpdated: TimeStamp?
         /// The name of the classifier.
         public let name: String
-        /// The XML tag designating the element that contains each record in an XML document being parsed. Note that this cannot identify a self-closing element (closed by /&gt;). An empty row element that contains only attributes can be parsed as long as it ends with a closing tag (for example, &lt;row item_a="A" item_b="B"&gt;&lt;/row&gt; is okay, but &lt;row item_a="A" item_b="B" /&gt; is not).
+        /// The XML tag designating the element that contains each record in an XML document being parsed. This can't identify a self-closing element (closed by /&gt;). An empty row element that contains only attributes can be parsed as long as it ends with a closing tag (for example, &lt;row item_a="A" item_b="B"&gt;&lt;/row&gt; is okay, but &lt;row item_a="A" item_b="B" /&gt; is not).
         public let rowTag: String?
         /// The version of this classifier.
         public let version: Int64?

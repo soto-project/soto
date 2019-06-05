@@ -5,6 +5,52 @@ import AWSSDKSwiftCore
 
 extension DirectConnect {
 
+    public struct AcceptDirectConnectGatewayAssociationProposalRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "associatedGatewayOwnerAccount", required: true, type: .string), 
+            AWSShapeMember(label: "directConnectGatewayId", required: true, type: .string), 
+            AWSShapeMember(label: "overrideAllowedPrefixesToDirectConnectGateway", required: false, type: .list), 
+            AWSShapeMember(label: "proposalId", required: true, type: .string)
+        ]
+        /// The ID of the AWS account that owns the virtual private gateway or transit gateway.
+        public let associatedGatewayOwnerAccount: String
+        /// The ID of the Direct Connect gateway.
+        public let directConnectGatewayId: String
+        /// Overrides the existing Amazon VPC prefixes advertised to the Direct Connect gateway.
+        public let overrideAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
+        /// The ID of the request proposal.
+        public let proposalId: String
+
+        public init(associatedGatewayOwnerAccount: String, directConnectGatewayId: String, overrideAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]? = nil, proposalId: String) {
+            self.associatedGatewayOwnerAccount = associatedGatewayOwnerAccount
+            self.directConnectGatewayId = directConnectGatewayId
+            self.overrideAllowedPrefixesToDirectConnectGateway = overrideAllowedPrefixesToDirectConnectGateway
+            self.proposalId = proposalId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedGatewayOwnerAccount = "associatedGatewayOwnerAccount"
+            case directConnectGatewayId = "directConnectGatewayId"
+            case overrideAllowedPrefixesToDirectConnectGateway = "overrideAllowedPrefixesToDirectConnectGateway"
+            case proposalId = "proposalId"
+        }
+    }
+
+    public struct AcceptDirectConnectGatewayAssociationProposalResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "directConnectGatewayAssociation", required: false, type: .structure)
+        ]
+        public let directConnectGatewayAssociation: DirectConnectGatewayAssociation?
+
+        public init(directConnectGatewayAssociation: DirectConnectGatewayAssociation? = nil) {
+            self.directConnectGatewayAssociation = directConnectGatewayAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directConnectGatewayAssociation = "directConnectGatewayAssociation"
+        }
+    }
+
     public enum AddressFamily: String, CustomStringConvertible, Codable {
         case ipv4 = "ipv4"
         case ipv6 = "ipv6"
@@ -19,11 +65,11 @@ extension DirectConnect {
             AWSShapeMember(label: "ownerAccount", required: true, type: .string), 
             AWSShapeMember(label: "vlan", required: true, type: .integer)
         ]
-        /// The bandwidth of the connection, in Mbps. The possible values are 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, and 500Mbps.
+        /// The bandwidth of the connection. The possible values are 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps. Note that only those AWS Direct Connect Partners who have met specific requirements are allowed to create a 1Gbps, 2Gbps, 5Gbps or 10Gbps hosted connection.
         public let bandwidth: String
         /// The name of the provisioned connection.
         public let connectionName: String
-        /// The ID of the interconnect on which the connection will be provisioned. For example, dxcon-456abc78.
+        /// The ID of the interconnect on which the connection will be provisioned.
         public let interconnectId: String
         /// The ID of the AWS account of the customer for whom the connection will be provisioned.
         public let ownerAccount: String
@@ -55,7 +101,7 @@ extension DirectConnect {
             AWSShapeMember(label: "ownerAccount", required: true, type: .string), 
             AWSShapeMember(label: "vlan", required: true, type: .integer)
         ]
-        /// The bandwidth of the hosted connection, in Mbps. The possible values are 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, and 500Mbps.
+        /// The bandwidth of the connection. The possible values are 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps. Note that only those AWS Direct Connect Partners who have met specific requirements are allowed to create a 1Gbps, 2Gbps, 5Gbps or 10Gbps hosted connection. 
         public let bandwidth: String
         /// The ID of the interconnect or LAG.
         public let connectionId: String
@@ -135,14 +181,55 @@ extension DirectConnect {
         }
     }
 
+    public struct AllocateTransitVirtualInterfaceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connectionId", required: true, type: .string), 
+            AWSShapeMember(label: "newTransitVirtualInterfaceAllocation", required: true, type: .structure), 
+            AWSShapeMember(label: "ownerAccount", required: true, type: .string)
+        ]
+        /// The ID of the connection on which the transit virtual interface is provisioned.
+        public let connectionId: String
+        /// Information about the transit virtual interface.
+        public let newTransitVirtualInterfaceAllocation: NewTransitVirtualInterfaceAllocation
+        /// The ID of the AWS account that owns the transit virtual interface.
+        public let ownerAccount: String
+
+        public init(connectionId: String, newTransitVirtualInterfaceAllocation: NewTransitVirtualInterfaceAllocation, ownerAccount: String) {
+            self.connectionId = connectionId
+            self.newTransitVirtualInterfaceAllocation = newTransitVirtualInterfaceAllocation
+            self.ownerAccount = ownerAccount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionId = "connectionId"
+            case newTransitVirtualInterfaceAllocation = "newTransitVirtualInterfaceAllocation"
+            case ownerAccount = "ownerAccount"
+        }
+    }
+
+    public struct AllocateTransitVirtualInterfaceResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualInterface", required: false, type: .structure)
+        ]
+        public let virtualInterface: VirtualInterface?
+
+        public init(virtualInterface: VirtualInterface? = nil) {
+            self.virtualInterface = virtualInterface
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualInterface = "virtualInterface"
+        }
+    }
+
     public struct AssociateConnectionWithLagRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "connectionId", required: true, type: .string), 
             AWSShapeMember(label: "lagId", required: true, type: .string)
         ]
-        /// The ID of the connection. For example, dxcon-abc123.
+        /// The ID of the connection.
         public let connectionId: String
-        /// The ID of the LAG with which to associate the connection. For example, dxlag-abc123.
+        /// The ID of the LAG with which to associate the connection.
         public let lagId: String
 
         public init(connectionId: String, lagId: String) {
@@ -198,6 +285,37 @@ extension DirectConnect {
         }
     }
 
+    public struct AssociatedGateway: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "ownerAccount", required: false, type: .string), 
+            AWSShapeMember(label: "region", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: false, type: .enum)
+        ]
+        /// The ID of the associated gateway.
+        public let id: String?
+        /// The ID of the AWS account that owns the associated virtual private gateway or transit gateway.
+        public let ownerAccount: String?
+        /// The Region where the associated gateway is located.
+        public let region: String?
+        /// The type of associated gateway.
+        public let `type`: GatewayType?
+
+        public init(id: String? = nil, ownerAccount: String? = nil, region: String? = nil, type: GatewayType? = nil) {
+            self.id = id
+            self.ownerAccount = ownerAccount
+            self.region = region
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case ownerAccount = "ownerAccount"
+            case region = "region"
+            case `type` = "type"
+        }
+    }
+
     public struct BGPPeer: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "addressFamily", required: false, type: .enum), 
@@ -224,7 +342,7 @@ extension DirectConnect {
         public let bgpPeerId: String?
         /// The state of the BGP peer. The following are the possible values:    verifying: The BGP peering addresses or ASN require validation before the BGP peer can be created. This state applies only to public virtual interfaces.    pending: The BGP peer is created, and remains in this state until it is ready to be established.    available: The BGP peer is ready to be established.    deleting: The BGP peer is being deleted.    deleted: The BGP peer is deleted and cannot be established.  
         public let bgpPeerState: BGPPeerState?
-        /// The status of the BGP peer. The following are the possible values:    up: The BGP peer is established. This state does not indicate the state of the routing function. Ensure that you are receiving routes over the BGP session.    down: The BGP peer is down.    unknown: The BGP peer status is unknown.  
+        /// The status of the BGP peer. The following are the possible values:    up: The BGP peer is established. This state does not indicate the state of the routing function. Ensure that you are receiving routes over the BGP session.    down: The BGP peer is down.    unknown: The BGP peer status is not available.  
         public let bgpStatus: BGPStatus?
         /// The IP address assigned to the customer interface.
         public let customerAddress: String?
@@ -266,6 +384,7 @@ extension DirectConnect {
     public enum BGPStatus: String, CustomStringConvertible, Codable {
         case up = "up"
         case down = "down"
+        case unknown = "unknown"
         public var description: String { return self.rawValue }
     }
 
@@ -289,7 +408,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "connectionState", required: false, type: .enum)
         ]
-        /// The state of the connection. The following are the possible values:    ordering: The initial state of a hosted connection provisioned on an interconnect. The connection stays in the ordering state until the owner of the hosted connection confirms or declines the connection order.    requested: The initial state of a standard connection. The connection stays in the requested state until the Letter of Authorization (LOA) is sent to the customer.    pending: The connection has been approved and is being initialized.    available: The network link is up and the connection is ready for use.    down: The network link is down.    deleting: The connection is being deleted.    deleted: The connection has been deleted.    rejected: A hosted connection in the ordering state enters the rejected state if it is deleted by the customer.  
+        /// The state of the connection. The following are the possible values:    ordering: The initial state of a hosted connection provisioned on an interconnect. The connection stays in the ordering state until the owner of the hosted connection confirms or declines the connection order.    requested: The initial state of a standard connection. The connection stays in the requested state until the Letter of Authorization (LOA) is sent to the customer.    pending: The connection has been approved and is being initialized.    available: The network link is up and the connection is ready for use.    down: The network link is down.    deleting: The connection is being deleted.    deleted: The connection has been deleted.    rejected: A hosted connection in the ordering state enters the rejected state if it is deleted by the customer.    unknown: The state of the connection is not available.  
         public let connectionState: ConnectionState?
 
         public init(connectionState: ConnectionState? = nil) {
@@ -331,7 +450,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "virtualInterfaceState", required: false, type: .enum)
         ]
-        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.  
+        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.  
         public let virtualInterfaceState: VirtualInterfaceState?
 
         public init(virtualInterfaceState: VirtualInterfaceState? = nil) {
@@ -363,7 +482,44 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "virtualInterfaceState", required: false, type: .enum)
         ]
-        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.  
+        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.  
+        public let virtualInterfaceState: VirtualInterfaceState?
+
+        public init(virtualInterfaceState: VirtualInterfaceState? = nil) {
+            self.virtualInterfaceState = virtualInterfaceState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualInterfaceState = "virtualInterfaceState"
+        }
+    }
+
+    public struct ConfirmTransitVirtualInterfaceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "directConnectGatewayId", required: true, type: .string), 
+            AWSShapeMember(label: "virtualInterfaceId", required: true, type: .string)
+        ]
+        /// The ID of the Direct Connect gateway.
+        public let directConnectGatewayId: String
+        /// The ID of the virtual interface.
+        public let virtualInterfaceId: String
+
+        public init(directConnectGatewayId: String, virtualInterfaceId: String) {
+            self.directConnectGatewayId = directConnectGatewayId
+            self.virtualInterfaceId = virtualInterfaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directConnectGatewayId = "directConnectGatewayId"
+            case virtualInterfaceId = "virtualInterfaceId"
+        }
+    }
+
+    public struct ConfirmTransitVirtualInterfaceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualInterfaceState", required: false, type: .enum)
+        ]
+        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.  
         public let virtualInterfaceState: VirtualInterfaceState?
 
         public init(virtualInterfaceState: VirtualInterfaceState? = nil) {
@@ -403,7 +559,7 @@ extension DirectConnect {
         public let connectionId: String?
         /// The name of the connection.
         public let connectionName: String?
-        /// The state of the connection. The following are the possible values:    ordering: The initial state of a hosted connection provisioned on an interconnect. The connection stays in the ordering state until the owner of the hosted connection confirms or declines the connection order.    requested: The initial state of a standard connection. The connection stays in the requested state until the Letter of Authorization (LOA) is sent to the customer.    pending: The connection has been approved and is being initialized.    available: The network link is up and the connection is ready for use.    down: The network link is down.    deleting: The connection is being deleted.    deleted: The connection has been deleted.    rejected: A hosted connection in the ordering state enters the rejected state if it is deleted by the customer.  
+        /// The state of the connection. The following are the possible values:    ordering: The initial state of a hosted connection provisioned on an interconnect. The connection stays in the ordering state until the owner of the hosted connection confirms or declines the connection order.    requested: The initial state of a standard connection. The connection stays in the requested state until the Letter of Authorization (LOA) is sent to the customer.    pending: The connection has been approved and is being initialized.    available: The network link is up and the connection is ready for use.    down: The network link is down.    deleting: The connection is being deleted.    deleted: The connection has been deleted.    rejected: A hosted connection in the ordering state enters the rejected state if it is deleted by the customer.    unknown: The state of the connection is not available.  
         public let connectionState: ConnectionState?
         /// Indicates whether the connection supports a secondary BGP peer in the same address family (IPv4/IPv6).
         public let hasLogicalRedundancy: HasLogicalRedundancy?
@@ -470,6 +626,7 @@ extension DirectConnect {
         case deleting = "deleting"
         case deleted = "deleted"
         case rejected = "rejected"
+        case unknown = "unknown"
         public var description: String { return self.rawValue }
     }
 
@@ -557,23 +714,85 @@ extension DirectConnect {
         }
     }
 
-    public struct CreateDirectConnectGatewayAssociationRequest: AWSShape {
+    public struct CreateDirectConnectGatewayAssociationProposalRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "addAllowedPrefixesToDirectConnectGateway", required: false, type: .list), 
             AWSShapeMember(label: "directConnectGatewayId", required: true, type: .string), 
-            AWSShapeMember(label: "virtualGatewayId", required: true, type: .string)
+            AWSShapeMember(label: "directConnectGatewayOwnerAccount", required: true, type: .string), 
+            AWSShapeMember(label: "gatewayId", required: true, type: .string), 
+            AWSShapeMember(label: "removeAllowedPrefixesToDirectConnectGateway", required: false, type: .list)
         ]
+        /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
+        public let addAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String
-        /// The ID of the virtual private gateway.
-        public let virtualGatewayId: String
+        /// The ID of the AWS account that owns the Direct Connect gateway.
+        public let directConnectGatewayOwnerAccount: String
+        /// The ID of the virtual private gateway or transit gateway.
+        public let gatewayId: String
+        /// The Amazon VPC prefixes to no longer advertise to the Direct Connect gateway.
+        public let removeAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
 
-        public init(directConnectGatewayId: String, virtualGatewayId: String) {
+        public init(addAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]? = nil, directConnectGatewayId: String, directConnectGatewayOwnerAccount: String, gatewayId: String, removeAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]? = nil) {
+            self.addAllowedPrefixesToDirectConnectGateway = addAllowedPrefixesToDirectConnectGateway
             self.directConnectGatewayId = directConnectGatewayId
+            self.directConnectGatewayOwnerAccount = directConnectGatewayOwnerAccount
+            self.gatewayId = gatewayId
+            self.removeAllowedPrefixesToDirectConnectGateway = removeAllowedPrefixesToDirectConnectGateway
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addAllowedPrefixesToDirectConnectGateway = "addAllowedPrefixesToDirectConnectGateway"
+            case directConnectGatewayId = "directConnectGatewayId"
+            case directConnectGatewayOwnerAccount = "directConnectGatewayOwnerAccount"
+            case gatewayId = "gatewayId"
+            case removeAllowedPrefixesToDirectConnectGateway = "removeAllowedPrefixesToDirectConnectGateway"
+        }
+    }
+
+    public struct CreateDirectConnectGatewayAssociationProposalResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "directConnectGatewayAssociationProposal", required: false, type: .structure)
+        ]
+        /// Information about the Direct Connect gateway proposal.
+        public let directConnectGatewayAssociationProposal: DirectConnectGatewayAssociationProposal?
+
+        public init(directConnectGatewayAssociationProposal: DirectConnectGatewayAssociationProposal? = nil) {
+            self.directConnectGatewayAssociationProposal = directConnectGatewayAssociationProposal
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directConnectGatewayAssociationProposal = "directConnectGatewayAssociationProposal"
+        }
+    }
+
+    public struct CreateDirectConnectGatewayAssociationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "addAllowedPrefixesToDirectConnectGateway", required: false, type: .list), 
+            AWSShapeMember(label: "directConnectGatewayId", required: true, type: .string), 
+            AWSShapeMember(label: "gatewayId", required: false, type: .string), 
+            AWSShapeMember(label: "virtualGatewayId", required: false, type: .string)
+        ]
+        /// The Amazon VPC prefixes to advertise to the Direct Connect gateway
+        public let addAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
+        /// The ID of the Direct Connect gateway.
+        public let directConnectGatewayId: String
+        /// The ID of the virtual private gateway or transit gateway.
+        public let gatewayId: String?
+        /// The ID of the virtual private gateway.
+        public let virtualGatewayId: String?
+
+        public init(addAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]? = nil, directConnectGatewayId: String, gatewayId: String? = nil, virtualGatewayId: String? = nil) {
+            self.addAllowedPrefixesToDirectConnectGateway = addAllowedPrefixesToDirectConnectGateway
+            self.directConnectGatewayId = directConnectGatewayId
+            self.gatewayId = gatewayId
             self.virtualGatewayId = virtualGatewayId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case addAllowedPrefixesToDirectConnectGateway = "addAllowedPrefixesToDirectConnectGateway"
             case directConnectGatewayId = "directConnectGatewayId"
+            case gatewayId = "gatewayId"
             case virtualGatewayId = "virtualGatewayId"
         }
     }
@@ -672,7 +891,7 @@ extension DirectConnect {
         ]
         /// The ID of an existing connection to migrate to the LAG.
         public let connectionId: String?
-        /// The bandwidth of the individual physical connections bundled by the LAG. The possible values are 1Gbps and 10Gbps.
+        /// The bandwidth of the individual physical connections bundled by the LAG. The possible values are 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps. 
         public let connectionsBandwidth: String
         /// The name of the LAG.
         public let lagName: String
@@ -740,6 +959,42 @@ extension DirectConnect {
         }
     }
 
+    public struct CreateTransitVirtualInterfaceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connectionId", required: true, type: .string), 
+            AWSShapeMember(label: "newTransitVirtualInterface", required: true, type: .structure)
+        ]
+        /// The ID of the connection.
+        public let connectionId: String
+        /// Information about the transit virtual interface.
+        public let newTransitVirtualInterface: NewTransitVirtualInterface
+
+        public init(connectionId: String, newTransitVirtualInterface: NewTransitVirtualInterface) {
+            self.connectionId = connectionId
+            self.newTransitVirtualInterface = newTransitVirtualInterface
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionId = "connectionId"
+            case newTransitVirtualInterface = "newTransitVirtualInterface"
+        }
+    }
+
+    public struct CreateTransitVirtualInterfaceResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualInterface", required: false, type: .structure)
+        ]
+        public let virtualInterface: VirtualInterface?
+
+        public init(virtualInterface: VirtualInterface? = nil) {
+            self.virtualInterface = virtualInterface
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualInterface = "virtualInterface"
+        }
+    }
+
     public struct DeleteBGPPeerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "asn", required: false, type: .integer), 
@@ -803,22 +1058,59 @@ extension DirectConnect {
         }
     }
 
+    public struct DeleteDirectConnectGatewayAssociationProposalRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "proposalId", required: true, type: .string)
+        ]
+        /// The ID of the proposal.
+        public let proposalId: String
+
+        public init(proposalId: String) {
+            self.proposalId = proposalId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proposalId = "proposalId"
+        }
+    }
+
+    public struct DeleteDirectConnectGatewayAssociationProposalResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "directConnectGatewayAssociationProposal", required: false, type: .structure)
+        ]
+        /// The ID of the associated gateway.
+        public let directConnectGatewayAssociationProposal: DirectConnectGatewayAssociationProposal?
+
+        public init(directConnectGatewayAssociationProposal: DirectConnectGatewayAssociationProposal? = nil) {
+            self.directConnectGatewayAssociationProposal = directConnectGatewayAssociationProposal
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directConnectGatewayAssociationProposal = "directConnectGatewayAssociationProposal"
+        }
+    }
+
     public struct DeleteDirectConnectGatewayAssociationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "directConnectGatewayId", required: true, type: .string), 
-            AWSShapeMember(label: "virtualGatewayId", required: true, type: .string)
+            AWSShapeMember(label: "associationId", required: false, type: .string), 
+            AWSShapeMember(label: "directConnectGatewayId", required: false, type: .string), 
+            AWSShapeMember(label: "virtualGatewayId", required: false, type: .string)
         ]
+        /// The ID of the Direct Connect gateway association.
+        public let associationId: String?
         /// The ID of the Direct Connect gateway.
-        public let directConnectGatewayId: String
+        public let directConnectGatewayId: String?
         /// The ID of the virtual private gateway.
-        public let virtualGatewayId: String
+        public let virtualGatewayId: String?
 
-        public init(directConnectGatewayId: String, virtualGatewayId: String) {
+        public init(associationId: String? = nil, directConnectGatewayId: String? = nil, virtualGatewayId: String? = nil) {
+            self.associationId = associationId
             self.directConnectGatewayId = directConnectGatewayId
             self.virtualGatewayId = virtualGatewayId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case associationId = "associationId"
             case directConnectGatewayId = "directConnectGatewayId"
             case virtualGatewayId = "virtualGatewayId"
         }
@@ -828,7 +1120,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "directConnectGatewayAssociation", required: false, type: .structure)
         ]
-        /// The association to be deleted.
+        /// Information about the deleted association.
         public let directConnectGatewayAssociation: DirectConnectGatewayAssociation?
 
         public init(directConnectGatewayAssociation: DirectConnectGatewayAssociation? = nil) {
@@ -892,7 +1184,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "interconnectState", required: false, type: .enum)
         ]
-        /// The state of the interconnect. The following are the possible values:    requested: The initial state of an interconnect. The interconnect stays in the requested state until the Letter of Authorization (LOA) is sent to the customer.    pending: The interconnect is approved, and is being initialized.    available: The network link is up, and the interconnect is ready for use.    down: The network link is down.    deleting: The interconnect is being deleted.    deleted: The interconnect is deleted.  
+        /// The state of the interconnect. The following are the possible values:    requested: The initial state of an interconnect. The interconnect stays in the requested state until the Letter of Authorization (LOA) is sent to the customer.    pending: The interconnect is approved, and is being initialized.    available: The network link is up, and the interconnect is ready for use.    down: The network link is down.    deleting: The interconnect is being deleted.    deleted: The interconnect is deleted.    unknown: The state of the interconnect is not available.  
         public let interconnectState: InterconnectState?
 
         public init(interconnectState: InterconnectState? = nil) {
@@ -940,7 +1232,7 @@ extension DirectConnect {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "virtualInterfaceState", required: false, type: .enum)
         ]
-        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.  
+        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.  
         public let virtualInterfaceState: VirtualInterfaceState?
 
         public init(virtualInterfaceState: VirtualInterfaceState? = nil) {
@@ -1026,23 +1318,88 @@ extension DirectConnect {
         }
     }
 
+    public struct DescribeDirectConnectGatewayAssociationProposalsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "associatedGatewayId", required: false, type: .string), 
+            AWSShapeMember(label: "directConnectGatewayId", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "proposalId", required: false, type: .string)
+        ]
+        /// The ID of the associated gateway.
+        public let associatedGatewayId: String?
+        /// The ID of the Direct Connect gateway.
+        public let directConnectGatewayId: String?
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
+        public let maxResults: Int32?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The ID of the proposal.
+        public let proposalId: String?
+
+        public init(associatedGatewayId: String? = nil, directConnectGatewayId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, proposalId: String? = nil) {
+            self.associatedGatewayId = associatedGatewayId
+            self.directConnectGatewayId = directConnectGatewayId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.proposalId = proposalId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedGatewayId = "associatedGatewayId"
+            case directConnectGatewayId = "directConnectGatewayId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case proposalId = "proposalId"
+        }
+    }
+
+    public struct DescribeDirectConnectGatewayAssociationProposalsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "directConnectGatewayAssociationProposals", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// Describes the Direct Connect gateway association proposals.
+        public let directConnectGatewayAssociationProposals: [DirectConnectGatewayAssociationProposal]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        public init(directConnectGatewayAssociationProposals: [DirectConnectGatewayAssociationProposal]? = nil, nextToken: String? = nil) {
+            self.directConnectGatewayAssociationProposals = directConnectGatewayAssociationProposals
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directConnectGatewayAssociationProposals = "directConnectGatewayAssociationProposals"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct DescribeDirectConnectGatewayAssociationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "associatedGatewayId", required: false, type: .string), 
+            AWSShapeMember(label: "associationId", required: false, type: .string), 
             AWSShapeMember(label: "directConnectGatewayId", required: false, type: .string), 
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "virtualGatewayId", required: false, type: .string)
         ]
+        /// The ID of the associated gateway.
+        public let associatedGatewayId: String?
+        /// The ID of the Direct Connect gateway association.
+        public let associationId: String?
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
-        /// The maximum number of associations to return per page.
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
         public let maxResults: Int32?
         /// The token provided in the previous call to retrieve the next page.
         public let nextToken: String?
         /// The ID of the virtual private gateway.
         public let virtualGatewayId: String?
 
-        public init(directConnectGatewayId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, virtualGatewayId: String? = nil) {
+        public init(associatedGatewayId: String? = nil, associationId: String? = nil, directConnectGatewayId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, virtualGatewayId: String? = nil) {
+            self.associatedGatewayId = associatedGatewayId
+            self.associationId = associationId
             self.directConnectGatewayId = directConnectGatewayId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1050,6 +1407,8 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case associatedGatewayId = "associatedGatewayId"
+            case associationId = "associationId"
             case directConnectGatewayId = "directConnectGatewayId"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
@@ -1062,7 +1421,7 @@ extension DirectConnect {
             AWSShapeMember(label: "directConnectGatewayAssociations", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
-        /// The associations.
+        /// Information about the associations.
         public let directConnectGatewayAssociations: [DirectConnectGatewayAssociation]?
         /// The token to retrieve the next page.
         public let nextToken: String?
@@ -1087,7 +1446,7 @@ extension DirectConnect {
         ]
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
-        /// The maximum number of attachments to return per page.
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
         public let maxResults: Int32?
         /// The token provided in the previous call to retrieve the next page.
         public let nextToken: String?
@@ -1138,7 +1497,7 @@ extension DirectConnect {
         ]
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
-        /// The maximum number of Direct Connect gateways to return per page.
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
         public let maxResults: Int32?
         /// The token provided in the previous call to retrieve the next page.
         public let nextToken: String?
@@ -1389,17 +1748,29 @@ extension DirectConnect {
 
     public struct DirectConnectGatewayAssociation: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "allowedPrefixesToDirectConnectGateway", required: false, type: .list), 
+            AWSShapeMember(label: "associatedGateway", required: false, type: .structure), 
+            AWSShapeMember(label: "associationId", required: false, type: .string), 
             AWSShapeMember(label: "associationState", required: false, type: .enum), 
             AWSShapeMember(label: "directConnectGatewayId", required: false, type: .string), 
+            AWSShapeMember(label: "directConnectGatewayOwnerAccount", required: false, type: .string), 
             AWSShapeMember(label: "stateChangeError", required: false, type: .string), 
             AWSShapeMember(label: "virtualGatewayId", required: false, type: .string), 
             AWSShapeMember(label: "virtualGatewayOwnerAccount", required: false, type: .string), 
             AWSShapeMember(label: "virtualGatewayRegion", required: false, type: .string)
         ]
-        /// The state of the association. The following are the possible values:    associating: The initial state after calling CreateDirectConnectGatewayAssociation.    associated: The Direct Connect gateway and virtual private gateway are successfully associated and ready to pass traffic.    disassociating: The initial state after calling DeleteDirectConnectGatewayAssociation.    disassociated: The virtual private gateway is disassociated from the Direct Connect gateway. Traffic flow between the Direct Connect gateway and virtual private gateway is stopped.  
+        /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
+        public let allowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
+        /// Information about the associated gateway.
+        public let associatedGateway: AssociatedGateway?
+        /// The ID of the Direct Connect gateway association.
+        public let associationId: String?
+        /// The state of the association. The following are the possible values:    associating: The initial state after calling CreateDirectConnectGatewayAssociation.    associated: The Direct Connect gateway and virtual private gateway or transit gateway are successfully associated and ready to pass traffic.    disassociating: The initial state after calling DeleteDirectConnectGatewayAssociation.    disassociated: The virtual private gateway or transit gateway is disassociated from the Direct Connect gateway. Traffic flow between the Direct Connect gateway and virtual private gateway or transit gateway is stopped.  
         public let associationState: DirectConnectGatewayAssociationState?
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
+        /// The ID of the AWS account that owns the associated gateway.
+        public let directConnectGatewayOwnerAccount: String?
         /// The error message if the state of an object failed to advance.
         public let stateChangeError: String?
         /// The ID of the virtual private gateway. Applies only to private virtual interfaces.
@@ -1409,9 +1780,13 @@ extension DirectConnect {
         /// The AWS Region where the virtual private gateway is located.
         public let virtualGatewayRegion: String?
 
-        public init(associationState: DirectConnectGatewayAssociationState? = nil, directConnectGatewayId: String? = nil, stateChangeError: String? = nil, virtualGatewayId: String? = nil, virtualGatewayOwnerAccount: String? = nil, virtualGatewayRegion: String? = nil) {
+        public init(allowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]? = nil, associatedGateway: AssociatedGateway? = nil, associationId: String? = nil, associationState: DirectConnectGatewayAssociationState? = nil, directConnectGatewayId: String? = nil, directConnectGatewayOwnerAccount: String? = nil, stateChangeError: String? = nil, virtualGatewayId: String? = nil, virtualGatewayOwnerAccount: String? = nil, virtualGatewayRegion: String? = nil) {
+            self.allowedPrefixesToDirectConnectGateway = allowedPrefixesToDirectConnectGateway
+            self.associatedGateway = associatedGateway
+            self.associationId = associationId
             self.associationState = associationState
             self.directConnectGatewayId = directConnectGatewayId
+            self.directConnectGatewayOwnerAccount = directConnectGatewayOwnerAccount
             self.stateChangeError = stateChangeError
             self.virtualGatewayId = virtualGatewayId
             self.virtualGatewayOwnerAccount = virtualGatewayOwnerAccount
@@ -1419,8 +1794,12 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowedPrefixesToDirectConnectGateway = "allowedPrefixesToDirectConnectGateway"
+            case associatedGateway = "associatedGateway"
+            case associationId = "associationId"
             case associationState = "associationState"
             case directConnectGatewayId = "directConnectGatewayId"
+            case directConnectGatewayOwnerAccount = "directConnectGatewayOwnerAccount"
             case stateChangeError = "stateChangeError"
             case virtualGatewayId = "virtualGatewayId"
             case virtualGatewayOwnerAccount = "virtualGatewayOwnerAccount"
@@ -1428,17 +1807,72 @@ extension DirectConnect {
         }
     }
 
+    public struct DirectConnectGatewayAssociationProposal: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "associatedGateway", required: false, type: .structure), 
+            AWSShapeMember(label: "directConnectGatewayId", required: false, type: .string), 
+            AWSShapeMember(label: "directConnectGatewayOwnerAccount", required: false, type: .string), 
+            AWSShapeMember(label: "existingAllowedPrefixesToDirectConnectGateway", required: false, type: .list), 
+            AWSShapeMember(label: "proposalId", required: false, type: .string), 
+            AWSShapeMember(label: "proposalState", required: false, type: .enum), 
+            AWSShapeMember(label: "requestedAllowedPrefixesToDirectConnectGateway", required: false, type: .list)
+        ]
+        /// Information about the associated gateway.
+        public let associatedGateway: AssociatedGateway?
+        /// The ID of the Direct Connect gateway.
+        public let directConnectGatewayId: String?
+        /// The ID of the AWS account that owns the Direct Connect gateway.
+        public let directConnectGatewayOwnerAccount: String?
+        /// The existing Amazon VPC prefixes advertised to the Direct Connect gateway.
+        public let existingAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
+        /// The ID of the association proposal.
+        public let proposalId: String?
+        /// The state of the proposal. The following are possible values:    accepted: The proposal has been accepted. The Direct Connect gateway association is available to use in this state.    deleted: The proposal has been deleted by the owner that made the proposal. The Direct Connect gateway association cannot be used in this state.    requested: The proposal has been requested. The Direct Connect gateway association cannot be used in this state.  
+        public let proposalState: DirectConnectGatewayAssociationProposalState?
+        /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
+        public let requestedAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
+
+        public init(associatedGateway: AssociatedGateway? = nil, directConnectGatewayId: String? = nil, directConnectGatewayOwnerAccount: String? = nil, existingAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]? = nil, proposalId: String? = nil, proposalState: DirectConnectGatewayAssociationProposalState? = nil, requestedAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]? = nil) {
+            self.associatedGateway = associatedGateway
+            self.directConnectGatewayId = directConnectGatewayId
+            self.directConnectGatewayOwnerAccount = directConnectGatewayOwnerAccount
+            self.existingAllowedPrefixesToDirectConnectGateway = existingAllowedPrefixesToDirectConnectGateway
+            self.proposalId = proposalId
+            self.proposalState = proposalState
+            self.requestedAllowedPrefixesToDirectConnectGateway = requestedAllowedPrefixesToDirectConnectGateway
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedGateway = "associatedGateway"
+            case directConnectGatewayId = "directConnectGatewayId"
+            case directConnectGatewayOwnerAccount = "directConnectGatewayOwnerAccount"
+            case existingAllowedPrefixesToDirectConnectGateway = "existingAllowedPrefixesToDirectConnectGateway"
+            case proposalId = "proposalId"
+            case proposalState = "proposalState"
+            case requestedAllowedPrefixesToDirectConnectGateway = "requestedAllowedPrefixesToDirectConnectGateway"
+        }
+    }
+
+    public enum DirectConnectGatewayAssociationProposalState: String, CustomStringConvertible, Codable {
+        case requested = "requested"
+        case accepted = "accepted"
+        case deleted = "deleted"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DirectConnectGatewayAssociationState: String, CustomStringConvertible, Codable {
         case associating = "associating"
         case associated = "associated"
         case disassociating = "disassociating"
         case disassociated = "disassociated"
+        case updating = "updating"
         public var description: String { return self.rawValue }
     }
 
     public struct DirectConnectGatewayAttachment: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "attachmentState", required: false, type: .enum), 
+            AWSShapeMember(label: "attachmentType", required: false, type: .enum), 
             AWSShapeMember(label: "directConnectGatewayId", required: false, type: .string), 
             AWSShapeMember(label: "stateChangeError", required: false, type: .string), 
             AWSShapeMember(label: "virtualInterfaceId", required: false, type: .string), 
@@ -1447,6 +1881,8 @@ extension DirectConnect {
         ]
         /// The state of the attachment. The following are the possible values:    attaching: The initial state after a virtual interface is created using the Direct Connect gateway.    attached: The Direct Connect gateway and virtual interface are attached and ready to pass traffic.    detaching: The initial state after calling DeleteVirtualInterface.    detached: The virtual interface is detached from the Direct Connect gateway. Traffic flow between the Direct Connect gateway and virtual interface is stopped.  
         public let attachmentState: DirectConnectGatewayAttachmentState?
+        /// The type of attachment.
+        public let attachmentType: DirectConnectGatewayAttachmentType?
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
         /// The error message if the state of an object failed to advance.
@@ -1458,8 +1894,9 @@ extension DirectConnect {
         /// The AWS Region where the virtual interface is located.
         public let virtualInterfaceRegion: String?
 
-        public init(attachmentState: DirectConnectGatewayAttachmentState? = nil, directConnectGatewayId: String? = nil, stateChangeError: String? = nil, virtualInterfaceId: String? = nil, virtualInterfaceOwnerAccount: String? = nil, virtualInterfaceRegion: String? = nil) {
+        public init(attachmentState: DirectConnectGatewayAttachmentState? = nil, attachmentType: DirectConnectGatewayAttachmentType? = nil, directConnectGatewayId: String? = nil, stateChangeError: String? = nil, virtualInterfaceId: String? = nil, virtualInterfaceOwnerAccount: String? = nil, virtualInterfaceRegion: String? = nil) {
             self.attachmentState = attachmentState
+            self.attachmentType = attachmentType
             self.directConnectGatewayId = directConnectGatewayId
             self.stateChangeError = stateChangeError
             self.virtualInterfaceId = virtualInterfaceId
@@ -1469,6 +1906,7 @@ extension DirectConnect {
 
         private enum CodingKeys: String, CodingKey {
             case attachmentState = "attachmentState"
+            case attachmentType = "attachmentType"
             case directConnectGatewayId = "directConnectGatewayId"
             case stateChangeError = "stateChangeError"
             case virtualInterfaceId = "virtualInterfaceId"
@@ -1485,6 +1923,12 @@ extension DirectConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum DirectConnectGatewayAttachmentType: String, CustomStringConvertible, Codable {
+        case transitvirtualinterface = "TransitVirtualInterface"
+        case privatevirtualinterface = "PrivateVirtualInterface"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DirectConnectGatewayState: String, CustomStringConvertible, Codable {
         case pending = "pending"
         case available = "available"
@@ -1498,9 +1942,9 @@ extension DirectConnect {
             AWSShapeMember(label: "connectionId", required: true, type: .string), 
             AWSShapeMember(label: "lagId", required: true, type: .string)
         ]
-        /// The ID of the connection. For example, dxcon-abc123.
+        /// The ID of the connection.
         public let connectionId: String
-        /// The ID of the LAG. For example, dxlag-abc123.
+        /// The ID of the LAG.
         public let lagId: String
 
         public init(connectionId: String, lagId: String) {
@@ -1512,6 +1956,12 @@ extension DirectConnect {
             case connectionId = "connectionId"
             case lagId = "lagId"
         }
+    }
+
+    public enum GatewayType: String, CustomStringConvertible, Codable {
+        case virtualprivategateway = "virtualPrivateGateway"
+        case transitgateway = "transitGateway"
+        public var description: String { return self.rawValue }
     }
 
     public enum HasLogicalRedundancy: String, CustomStringConvertible, Codable {
@@ -1548,7 +1998,7 @@ extension DirectConnect {
         public let interconnectId: String?
         /// The name of the interconnect.
         public let interconnectName: String?
-        /// The state of the interconnect. The following are the possible values:    requested: The initial state of an interconnect. The interconnect stays in the requested state until the Letter of Authorization (LOA) is sent to the customer.    pending: The interconnect is approved, and is being initialized.    available: The network link is up, and the interconnect is ready for use.    down: The network link is down.    deleting: The interconnect is being deleted.    deleted: The interconnect is deleted.  
+        /// The state of the interconnect. The following are the possible values:    requested: The initial state of an interconnect. The interconnect stays in the requested state until the Letter of Authorization (LOA) is sent to the customer.    pending: The interconnect is approved, and is being initialized.    available: The network link is up, and the interconnect is ready for use.    down: The network link is down.    deleting: The interconnect is being deleted.    deleted: The interconnect is deleted.    unknown: The state of the interconnect is not available.  
         public let interconnectState: InterconnectState?
         /// Indicates whether jumbo frames (9001 MTU) are supported.
         public let jumboFrameCapable: Bool?
@@ -1599,6 +2049,7 @@ extension DirectConnect {
         case down = "down"
         case deleting = "deleting"
         case deleted = "deleted"
+        case unknown = "unknown"
         public var description: String { return self.rawValue }
     }
 
@@ -1638,13 +2089,13 @@ extension DirectConnect {
         ]
         /// Indicates whether the LAG can host other connections.
         public let allowsHostedConnections: Bool?
-        /// The Direct Connect endpoint that hosts the LAG.
+        /// The AWS Direct Connect endpoint that hosts the LAG.
         public let awsDevice: String?
-        /// The Direct Connect endpoint that hosts the LAG.
+        /// The AWS Direct Connect endpoint that hosts the LAG.
         public let awsDeviceV2: String?
         /// The connections bundled by the LAG.
         public let connections: [Connection]?
-        /// The individual bandwidth of the physical connections bundled by the LAG. The possible values are 1Gbps and 10Gbps.
+        /// The individual bandwidth of the physical connections bundled by the LAG. The possible values are 1Gbps and 10Gbps. 
         public let connectionsBandwidth: String?
         /// Indicates whether the LAG supports a secondary BGP peer in the same address family (IPv4/IPv6).
         public let hasLogicalRedundancy: HasLogicalRedundancy?
@@ -1654,7 +2105,7 @@ extension DirectConnect {
         public let lagId: String?
         /// The name of the LAG.
         public let lagName: String?
-        /// The state of the LAG. The following are the possible values:    requested: The initial state of a LAG. The LAG stays in the requested state until the Letter of Authorization (LOA) is available.    pending: The LAG has been approved and is being initialized.    available: The network link is established and the LAG is ready for use.    down: The network link is down.    deleting: The LAG is being deleted.    deleted: The LAG is deleted.  
+        /// The state of the LAG. The following are the possible values:    requested: The initial state of a LAG. The LAG stays in the requested state until the Letter of Authorization (LOA) is available.    pending: The LAG has been approved and is being initialized.    available: The network link is established and the LAG is ready for use.    down: The network link is down.    deleting: The LAG is being deleted.    deleted: The LAG is deleted.    unknown: The state of the LAG is not available.  
         public let lagState: LagState?
         /// The location of the LAG.
         public let location: String?
@@ -1711,6 +2162,7 @@ extension DirectConnect {
         case down = "down"
         case deleting = "deleting"
         case deleted = "deleted"
+        case unknown = "unknown"
         public var description: String { return self.rawValue }
     }
 
@@ -1758,10 +2210,13 @@ extension DirectConnect {
 
     public struct Location: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "availablePortSpeeds", required: false, type: .list), 
             AWSShapeMember(label: "locationCode", required: false, type: .string), 
             AWSShapeMember(label: "locationName", required: false, type: .string), 
             AWSShapeMember(label: "region", required: false, type: .string)
         ]
+        /// The available port speeds for the location.
+        public let availablePortSpeeds: [String]?
         /// The code for the location.
         public let locationCode: String?
         /// The name of the location. This includes the name of the colocation partner and the physical site of the building.
@@ -1769,13 +2224,15 @@ extension DirectConnect {
         /// The AWS Region for the location.
         public let region: String?
 
-        public init(locationCode: String? = nil, locationName: String? = nil, region: String? = nil) {
+        public init(availablePortSpeeds: [String]? = nil, locationCode: String? = nil, locationName: String? = nil, region: String? = nil) {
+            self.availablePortSpeeds = availablePortSpeeds
             self.locationCode = locationCode
             self.locationName = locationName
             self.region = region
         }
 
         private enum CodingKeys: String, CodingKey {
+            case availablePortSpeeds = "availablePortSpeeds"
             case locationCode = "locationCode"
             case locationName = "locationName"
             case region = "region"
@@ -2048,6 +2505,113 @@ extension DirectConnect {
         }
     }
 
+    public struct NewTransitVirtualInterface: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "addressFamily", required: false, type: .enum), 
+            AWSShapeMember(label: "amazonAddress", required: false, type: .string), 
+            AWSShapeMember(label: "asn", required: false, type: .integer), 
+            AWSShapeMember(label: "authKey", required: false, type: .string), 
+            AWSShapeMember(label: "customerAddress", required: false, type: .string), 
+            AWSShapeMember(label: "directConnectGatewayId", required: false, type: .string), 
+            AWSShapeMember(label: "mtu", required: false, type: .integer), 
+            AWSShapeMember(label: "virtualInterfaceName", required: false, type: .string), 
+            AWSShapeMember(label: "vlan", required: false, type: .integer)
+        ]
+        /// The address family for the BGP peer.
+        public let addressFamily: AddressFamily?
+        /// The IP address assigned to the Amazon interface.
+        public let amazonAddress: String?
+        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
+        public let asn: Int32?
+        /// The authentication key for BGP configuration.
+        public let authKey: String?
+        /// The IP address assigned to the customer interface.
+        public let customerAddress: String?
+        /// The ID of the Direct Connect gateway.
+        public let directConnectGatewayId: String?
+        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
+        public let mtu: Int32?
+        /// The name of the virtual interface assigned by the customer network.
+        public let virtualInterfaceName: String?
+        /// The ID of the VLAN.
+        public let vlan: Int32?
+
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int32? = nil, authKey: String? = nil, customerAddress: String? = nil, directConnectGatewayId: String? = nil, mtu: Int32? = nil, virtualInterfaceName: String? = nil, vlan: Int32? = nil) {
+            self.addressFamily = addressFamily
+            self.amazonAddress = amazonAddress
+            self.asn = asn
+            self.authKey = authKey
+            self.customerAddress = customerAddress
+            self.directConnectGatewayId = directConnectGatewayId
+            self.mtu = mtu
+            self.virtualInterfaceName = virtualInterfaceName
+            self.vlan = vlan
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressFamily = "addressFamily"
+            case amazonAddress = "amazonAddress"
+            case asn = "asn"
+            case authKey = "authKey"
+            case customerAddress = "customerAddress"
+            case directConnectGatewayId = "directConnectGatewayId"
+            case mtu = "mtu"
+            case virtualInterfaceName = "virtualInterfaceName"
+            case vlan = "vlan"
+        }
+    }
+
+    public struct NewTransitVirtualInterfaceAllocation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "addressFamily", required: false, type: .enum), 
+            AWSShapeMember(label: "amazonAddress", required: false, type: .string), 
+            AWSShapeMember(label: "asn", required: false, type: .integer), 
+            AWSShapeMember(label: "authKey", required: false, type: .string), 
+            AWSShapeMember(label: "customerAddress", required: false, type: .string), 
+            AWSShapeMember(label: "mtu", required: false, type: .integer), 
+            AWSShapeMember(label: "virtualInterfaceName", required: false, type: .string), 
+            AWSShapeMember(label: "vlan", required: false, type: .integer)
+        ]
+        /// The address family for the BGP peer.
+        public let addressFamily: AddressFamily?
+        /// The IP address assigned to the Amazon interface.
+        public let amazonAddress: String?
+        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
+        public let asn: Int32?
+        /// The authentication key for BGP configuration.
+        public let authKey: String?
+        /// The IP address assigned to the customer interface.
+        public let customerAddress: String?
+        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500. 
+        public let mtu: Int32?
+        /// The name of the virtual interface assigned by the customer network.
+        public let virtualInterfaceName: String?
+        /// The ID of the VLAN.
+        public let vlan: Int32?
+
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int32? = nil, authKey: String? = nil, customerAddress: String? = nil, mtu: Int32? = nil, virtualInterfaceName: String? = nil, vlan: Int32? = nil) {
+            self.addressFamily = addressFamily
+            self.amazonAddress = amazonAddress
+            self.asn = asn
+            self.authKey = authKey
+            self.customerAddress = customerAddress
+            self.mtu = mtu
+            self.virtualInterfaceName = virtualInterfaceName
+            self.vlan = vlan
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressFamily = "addressFamily"
+            case amazonAddress = "amazonAddress"
+            case asn = "asn"
+            case authKey = "authKey"
+            case customerAddress = "customerAddress"
+            case mtu = "mtu"
+            case virtualInterfaceName = "virtualInterfaceName"
+            case vlan = "vlan"
+        }
+    }
+
     public struct ResourceTag: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourceArn", required: false, type: .string), 
@@ -2160,6 +2724,47 @@ extension DirectConnect {
         public init() {
         }
 
+    }
+
+    public struct UpdateDirectConnectGatewayAssociationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "addAllowedPrefixesToDirectConnectGateway", required: false, type: .list), 
+            AWSShapeMember(label: "associationId", required: false, type: .string), 
+            AWSShapeMember(label: "removeAllowedPrefixesToDirectConnectGateway", required: false, type: .list)
+        ]
+        /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
+        public let addAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
+        /// The ID of the Direct Connect gateway association.
+        public let associationId: String?
+        /// The Amazon VPC prefixes to no longer advertise to the Direct Connect gateway.
+        public let removeAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
+
+        public init(addAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]? = nil, associationId: String? = nil, removeAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]? = nil) {
+            self.addAllowedPrefixesToDirectConnectGateway = addAllowedPrefixesToDirectConnectGateway
+            self.associationId = associationId
+            self.removeAllowedPrefixesToDirectConnectGateway = removeAllowedPrefixesToDirectConnectGateway
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addAllowedPrefixesToDirectConnectGateway = "addAllowedPrefixesToDirectConnectGateway"
+            case associationId = "associationId"
+            case removeAllowedPrefixesToDirectConnectGateway = "removeAllowedPrefixesToDirectConnectGateway"
+        }
+    }
+
+    public struct UpdateDirectConnectGatewayAssociationResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "directConnectGatewayAssociation", required: false, type: .structure)
+        ]
+        public let directConnectGatewayAssociation: DirectConnectGatewayAssociation?
+
+        public init(directConnectGatewayAssociation: DirectConnectGatewayAssociation? = nil) {
+            self.directConnectGatewayAssociation = directConnectGatewayAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directConnectGatewayAssociation = "directConnectGatewayAssociation"
+        }
     }
 
     public struct UpdateLagRequest: AWSShape {
@@ -2312,7 +2917,7 @@ extension DirectConnect {
         public let virtualInterfaceId: String?
         /// The name of the virtual interface assigned by the customer network.
         public let virtualInterfaceName: String?
-        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.  
+        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.  
         public let virtualInterfaceState: VirtualInterfaceState?
         /// The type of virtual interface. The possible values are private and public.
         public let virtualInterfaceType: String?
@@ -2381,6 +2986,7 @@ extension DirectConnect {
         case deleting = "deleting"
         case deleted = "deleted"
         case rejected = "rejected"
+        case unknown = "unknown"
         public var description: String { return self.rawValue }
     }
 

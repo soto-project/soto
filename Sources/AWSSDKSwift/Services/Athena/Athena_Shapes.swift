@@ -153,25 +153,29 @@ extension Athena {
             AWSShapeMember(label: "Database", required: true, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "QueryString", required: true, type: .string)
+            AWSShapeMember(label: "QueryString", required: true, type: .string), 
+            AWSShapeMember(label: "WorkGroup", required: false, type: .string)
         ]
         /// A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another CreateNamedQuery request is received, the same response is returned and another query is not created. If a parameter has changed, for example, the QueryString, an error is returned.  This token is listed as not required because AWS SDKs (for example the AWS SDK for Java) auto-generate the token for users. If you are not using the AWS SDK or the AWS CLI, you must provide this token or the action will fail. 
         public let clientRequestToken: String?
         /// The database to which the query belongs.
         public let database: String
-        /// A brief explanation of the query.
+        /// The query description.
         public let description: String?
-        /// The plain language name for the query.
+        /// The query name.
         public let name: String
-        /// The text of the query itself. In other words, all query statements.
+        /// The contents of the query with all query statements.
         public let queryString: String
+        /// The name of the workgroup in which the named query is being created.
+        public let workGroup: String?
 
-        public init(clientRequestToken: String? = nil, database: String, description: String? = nil, name: String, queryString: String) {
+        public init(clientRequestToken: String? = nil, database: String, description: String? = nil, name: String, queryString: String, workGroup: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.database = database
             self.description = description
             self.name = name
             self.queryString = queryString
+            self.workGroup = workGroup
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -180,6 +184,7 @@ extension Athena {
             case description = "Description"
             case name = "Name"
             case queryString = "QueryString"
+            case workGroup = "WorkGroup"
         }
     }
 
@@ -197,6 +202,44 @@ extension Athena {
         private enum CodingKeys: String, CodingKey {
             case namedQueryId = "NamedQueryId"
         }
+    }
+
+    public struct CreateWorkGroupInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Configuration", required: false, type: .structure), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// The configuration for the workgroup, which includes the location in Amazon S3 where query results are stored, the encryption configuration, if any, used for encrypting query results, whether the Amazon CloudWatch Metrics are enabled for the workgroup, the limit for the amount of bytes scanned (cutoff) per query, if it is specified, and whether workgroup's settings (specified with EnforceWorkGroupConfiguration) in the WorkGroupConfiguration override client-side settings. See WorkGroupConfiguration$EnforceWorkGroupConfiguration.
+        public let configuration: WorkGroupConfiguration?
+        /// The workgroup description.
+        public let description: String?
+        /// The workgroup name.
+        public let name: String
+        /// One or more tags, separated by commas, that you want to attach to the workgroup as you create it.
+        public let tags: [Tag]?
+
+        public init(configuration: WorkGroupConfiguration? = nil, description: String? = nil, name: String, tags: [Tag]? = nil) {
+            self.configuration = configuration
+            self.description = description
+            self.name = name
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
+            case description = "Description"
+            case name = "Name"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateWorkGroupOutput: AWSShape {
+
+        public init() {
+        }
+
     }
 
     public struct Datum: AWSShape {
@@ -238,12 +281,40 @@ extension Athena {
 
     }
 
+    public struct DeleteWorkGroupInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecursiveDeleteOption", required: false, type: .boolean), 
+            AWSShapeMember(label: "WorkGroup", required: true, type: .string)
+        ]
+        /// The option to delete the workgroup and its contents even if the workgroup contains any named queries.
+        public let recursiveDeleteOption: Bool?
+        /// The unique name of the workgroup to delete.
+        public let workGroup: String
+
+        public init(recursiveDeleteOption: Bool? = nil, workGroup: String) {
+            self.recursiveDeleteOption = recursiveDeleteOption
+            self.workGroup = workGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recursiveDeleteOption = "RecursiveDeleteOption"
+            case workGroup = "WorkGroup"
+        }
+    }
+
+    public struct DeleteWorkGroupOutput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
     public struct EncryptionConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EncryptionOption", required: true, type: .enum), 
             AWSShapeMember(label: "KmsKey", required: false, type: .string)
         ]
-        /// Indicates whether Amazon S3 server-side encryption with Amazon S3-managed keys (SSE-S3), server-side encryption with KMS-managed keys (SSE-KMS), or client-side encryption with KMS-managed keys (CSE-KMS) is used.
+        /// Indicates whether Amazon S3 server-side encryption with Amazon S3-managed keys (SSE-S3), server-side encryption with KMS-managed keys (SSE-KMS), or client-side encryption with KMS-managed keys (CSE-KMS) is used. If a query runs in a workgroup and the workgroup overrides client-side settings, then the workgroup's setting for encryption is used. It specifies whether query results must be encrypted, for all queries that run in this workgroup. 
         public let encryptionOption: EncryptionOption
         /// For SSE-KMS and CSE-KMS, this is the KMS key ARN or ID.
         public let kmsKey: String?
@@ -382,24 +453,61 @@ extension Athena {
         }
     }
 
+    public struct GetWorkGroupInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WorkGroup", required: true, type: .string)
+        ]
+        /// The name of the workgroup.
+        public let workGroup: String
+
+        public init(workGroup: String) {
+            self.workGroup = workGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workGroup = "WorkGroup"
+        }
+    }
+
+    public struct GetWorkGroupOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WorkGroup", required: false, type: .structure)
+        ]
+        /// Information about the workgroup.
+        public let workGroup: WorkGroup?
+
+        public init(workGroup: WorkGroup? = nil) {
+            self.workGroup = workGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workGroup = "WorkGroup"
+        }
+    }
+
     public struct ListNamedQueriesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "WorkGroup", required: false, type: .string)
         ]
         /// The maximum number of queries to return in this request.
         public let maxResults: Int32?
         /// The token that specifies where to start pagination if a previous request was truncated.
         public let nextToken: String?
+        /// The name of the workgroup from which the named queries are being returned.
+        public let workGroup: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, workGroup: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.workGroup = workGroup
         }
 
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case workGroup = "WorkGroup"
         }
     }
 
@@ -427,21 +535,26 @@ extension Athena {
     public struct ListQueryExecutionsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "WorkGroup", required: false, type: .string)
         ]
         /// The maximum number of query executions to return in this request.
         public let maxResults: Int32?
         /// The token that specifies where to start pagination if a previous request was truncated.
         public let nextToken: String?
+        /// The name of the workgroup from which queries are being returned.
+        public let workGroup: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, workGroup: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.workGroup = workGroup
         }
 
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case workGroup = "WorkGroup"
         }
     }
 
@@ -466,31 +579,124 @@ extension Athena {
         }
     }
 
+    public struct ListTagsForResourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string)
+        ]
+        /// The maximum number of results to be returned per request that lists the tags for the workgroup resource.
+        public let maxResults: Int32?
+        /// The token for the next set of results, or null if there are no additional results for this request, where the request lists the tags for the workgroup resource with the specified ARN.
+        public let nextToken: String?
+        /// Lists the tags for the workgroup resource with the specified ARN.
+        public let resourceARN: String
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceARN: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceARN = resourceARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case resourceARN = "ResourceARN"
+        }
+    }
+
+    public struct ListTagsForResourceOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// A token to be used by the next request if this request is truncated.
+        public let nextToken: String?
+        /// The list of tags associated with this workgroup.
+        public let tags: [Tag]?
+
+        public init(nextToken: String? = nil, tags: [Tag]? = nil) {
+            self.nextToken = nextToken
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ListWorkGroupsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum number of workgroups to return in this request.
+        public let maxResults: Int32?
+        /// A token to be used by the next request if this request is truncated.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListWorkGroupsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "WorkGroups", required: false, type: .list)
+        ]
+        /// A token to be used by the next request if this request is truncated.
+        public let nextToken: String?
+        /// The list of workgroups, including their names, descriptions, creation times, and states.
+        public let workGroups: [WorkGroupSummary]?
+
+        public init(nextToken: String? = nil, workGroups: [WorkGroupSummary]? = nil) {
+            self.nextToken = nextToken
+            self.workGroups = workGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case workGroups = "WorkGroups"
+        }
+    }
+
     public struct NamedQuery: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Database", required: true, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "NamedQueryId", required: false, type: .string), 
-            AWSShapeMember(label: "QueryString", required: true, type: .string)
+            AWSShapeMember(label: "QueryString", required: true, type: .string), 
+            AWSShapeMember(label: "WorkGroup", required: false, type: .string)
         ]
         /// The database to which the query belongs.
         public let database: String
-        /// A brief description of the query.
+        /// The query description.
         public let description: String?
-        /// The plain-language name of the query.
+        /// The query name.
         public let name: String
         /// The unique identifier of the query.
         public let namedQueryId: String?
         /// The SQL query statements that comprise the query.
         public let queryString: String
+        /// The name of the workgroup that contains the named query.
+        public let workGroup: String?
 
-        public init(database: String, description: String? = nil, name: String, namedQueryId: String? = nil, queryString: String) {
+        public init(database: String, description: String? = nil, name: String, namedQueryId: String? = nil, queryString: String, workGroup: String? = nil) {
             self.database = database
             self.description = description
             self.name = name
             self.namedQueryId = namedQueryId
             self.queryString = queryString
+            self.workGroup = workGroup
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -499,6 +705,7 @@ extension Athena {
             case name = "Name"
             case namedQueryId = "NamedQueryId"
             case queryString = "QueryString"
+            case workGroup = "WorkGroup"
         }
     }
 
@@ -510,7 +717,8 @@ extension Athena {
             AWSShapeMember(label: "ResultConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "StatementType", required: false, type: .enum), 
             AWSShapeMember(label: "Statistics", required: false, type: .structure), 
-            AWSShapeMember(label: "Status", required: false, type: .structure)
+            AWSShapeMember(label: "Status", required: false, type: .structure), 
+            AWSShapeMember(label: "WorkGroup", required: false, type: .string)
         ]
         /// The SQL query statements which the query execution ran.
         public let query: String?
@@ -518,7 +726,7 @@ extension Athena {
         public let queryExecutionContext: QueryExecutionContext?
         /// The unique identifier for each query execution.
         public let queryExecutionId: String?
-        /// The location in Amazon S3 where query results were stored and the encryption option, if any, used for query results.
+        /// The location in Amazon S3 where query results were stored and the encryption option, if any, used for query results. These are known as "client-side settings". If workgroup settings override client-side settings, then the query uses the location for the query results and the encryption configuration that are specified for the workgroup.
         public let resultConfiguration: ResultConfiguration?
         /// The type of query statement that was run. DDL indicates DDL query statements. DML indicates DML (Data Manipulation Language) query statements, such as CREATE TABLE AS SELECT. UTILITY indicates query statements other than DDL and DML, such as SHOW CREATE TABLE, or DESCRIBE &lt;table&gt;.
         public let statementType: StatementType?
@@ -526,8 +734,10 @@ extension Athena {
         public let statistics: QueryExecutionStatistics?
         /// The completion date, current state, submission time, and state change reason (if applicable) for the query execution.
         public let status: QueryExecutionStatus?
+        /// The name of the workgroup in which the query ran.
+        public let workGroup: String?
 
-        public init(query: String? = nil, queryExecutionContext: QueryExecutionContext? = nil, queryExecutionId: String? = nil, resultConfiguration: ResultConfiguration? = nil, statementType: StatementType? = nil, statistics: QueryExecutionStatistics? = nil, status: QueryExecutionStatus? = nil) {
+        public init(query: String? = nil, queryExecutionContext: QueryExecutionContext? = nil, queryExecutionId: String? = nil, resultConfiguration: ResultConfiguration? = nil, statementType: StatementType? = nil, statistics: QueryExecutionStatistics? = nil, status: QueryExecutionStatus? = nil, workGroup: String? = nil) {
             self.query = query
             self.queryExecutionContext = queryExecutionContext
             self.queryExecutionId = queryExecutionId
@@ -535,6 +745,7 @@ extension Athena {
             self.statementType = statementType
             self.statistics = statistics
             self.status = status
+            self.workGroup = workGroup
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -545,6 +756,7 @@ extension Athena {
             case statementType = "StatementType"
             case statistics = "Statistics"
             case status = "Status"
+            case workGroup = "WorkGroup"
         }
     }
 
@@ -603,7 +815,7 @@ extension Athena {
         ]
         /// The date and time that the query completed.
         public let completionDateTime: TimeStamp?
-        /// The state of query execution. QUEUED state is listed but is not used by Athena and is reserved for future use. RUNNING indicates that the query has been submitted to the service, and Athena will execute the query as soon as resources are available. SUCCEEDED indicates that the query completed without error. FAILED indicates that the query experienced an error and did not complete processing.CANCELLED indicates that user input interrupted query execution. 
+        /// The state of query execution. QUEUED state is listed but is not used by Athena and is reserved for future use. RUNNING indicates that the query has been submitted to the service, and Athena will execute the query as soon as resources are available. SUCCEEDED indicates that the query completed without errors. FAILED indicates that the query experienced an error and did not complete processing. CANCELLED indicates that a user input interrupted query execution. 
         public let state: QueryExecutionState?
         /// Further detail about the status of the query.
         public let stateChangeReason: String?
@@ -628,14 +840,14 @@ extension Athena {
     public struct ResultConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "OutputLocation", required: true, type: .string)
+            AWSShapeMember(label: "OutputLocation", required: false, type: .string)
         ]
-        /// If query results are encrypted in Amazon S3, indicates the encryption option used (for example, SSE-KMS or CSE-KMS) and key information.
+        /// If query results are encrypted in Amazon S3, indicates the encryption option used (for example, SSE-KMS or CSE-KMS) and key information. This is a client-side setting. If workgroup settings override client-side settings, then the query uses the encryption configuration that is specified for the workgroup, and also uses the location for storing query results specified in the workgroup. See WorkGroupConfiguration$EnforceWorkGroupConfiguration and Workgroup Settings Override Client-Side Settings.
         public let encryptionConfiguration: EncryptionConfiguration?
-        /// The location in Amazon S3 where your query results are stored, such as s3://path/to/query/bucket/. For more information, see Queries and Query Result Files.  
-        public let outputLocation: String
+        /// The location in Amazon S3 where your query results are stored, such as s3://path/to/query/bucket/. For more information, see Queries and Query Result Files. If workgroup settings override client-side settings, then the query uses the location for the query results and the encryption configuration that are specified for the workgroup. The "workgroup settings override" is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See WorkGroupConfiguration$EnforceWorkGroupConfiguration.
+        public let outputLocation: String?
 
-        public init(encryptionConfiguration: EncryptionConfiguration? = nil, outputLocation: String) {
+        public init(encryptionConfiguration: EncryptionConfiguration? = nil, outputLocation: String? = nil) {
             self.encryptionConfiguration = encryptionConfiguration
             self.outputLocation = outputLocation
         }
@@ -643,6 +855,37 @@ extension Athena {
         private enum CodingKeys: String, CodingKey {
             case encryptionConfiguration = "EncryptionConfiguration"
             case outputLocation = "OutputLocation"
+        }
+    }
+
+    public struct ResultConfigurationUpdates: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "OutputLocation", required: false, type: .string), 
+            AWSShapeMember(label: "RemoveEncryptionConfiguration", required: false, type: .boolean), 
+            AWSShapeMember(label: "RemoveOutputLocation", required: false, type: .boolean)
+        ]
+        /// The encryption configuration for the query results.
+        public let encryptionConfiguration: EncryptionConfiguration?
+        /// The location in Amazon S3 where your query results are stored, such as s3://path/to/query/bucket/. For more information, see Queries and Query Result Files. If workgroup settings override client-side settings, then the query uses the location for the query results and the encryption configuration that are specified for the workgroup. The "workgroup settings override" is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See WorkGroupConfiguration$EnforceWorkGroupConfiguration.
+        public let outputLocation: String?
+        /// If set to "true", indicates that the previously-specified encryption configuration (also known as the client-side setting) for queries in this workgroup should be ignored and set to null. If set to "false" or not set, and a value is present in the EncryptionConfiguration in ResultConfigurationUpdates (the client-side setting), the EncryptionConfiguration in the workgroup's ResultConfiguration will be updated with the new value. For more information, see Workgroup Settings Override Client-Side Settings.
+        public let removeEncryptionConfiguration: Bool?
+        /// If set to "true", indicates that the previously-specified query results location (also known as a client-side setting) for queries in this workgroup should be ignored and set to null. If set to "false" or not set, and a value is present in the OutputLocation in ResultConfigurationUpdates (the client-side setting), the OutputLocation in the workgroup's ResultConfiguration will be updated with the new value. For more information, see Workgroup Settings Override Client-Side Settings.
+        public let removeOutputLocation: Bool?
+
+        public init(encryptionConfiguration: EncryptionConfiguration? = nil, outputLocation: String? = nil, removeEncryptionConfiguration: Bool? = nil, removeOutputLocation: Bool? = nil) {
+            self.encryptionConfiguration = encryptionConfiguration
+            self.outputLocation = outputLocation
+            self.removeEncryptionConfiguration = removeEncryptionConfiguration
+            self.removeOutputLocation = removeOutputLocation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case outputLocation = "OutputLocation"
+            case removeEncryptionConfiguration = "RemoveEncryptionConfiguration"
+            case removeOutputLocation = "RemoveOutputLocation"
         }
     }
 
@@ -704,7 +947,8 @@ extension Athena {
             AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
             AWSShapeMember(label: "QueryExecutionContext", required: false, type: .structure), 
             AWSShapeMember(label: "QueryString", required: true, type: .string), 
-            AWSShapeMember(label: "ResultConfiguration", required: true, type: .structure)
+            AWSShapeMember(label: "ResultConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "WorkGroup", required: false, type: .string)
         ]
         /// A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another StartQueryExecution request is received, the same response is returned and another query is not created. If a parameter has changed, for example, the QueryString, an error is returned.  This token is listed as not required because AWS SDKs (for example the AWS SDK for Java) auto-generate the token for users. If you are not using the AWS SDK or the AWS CLI, you must provide this token or the action will fail. 
         public let clientRequestToken: String?
@@ -712,14 +956,17 @@ extension Athena {
         public let queryExecutionContext: QueryExecutionContext?
         /// The SQL query statements to be executed.
         public let queryString: String
-        /// Specifies information about where and how to save the results of the query execution.
-        public let resultConfiguration: ResultConfiguration
+        /// Specifies information about where and how to save the results of the query execution. If the query runs in a workgroup, then workgroup's settings may override query settings. This affects the query results location. The workgroup settings override is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See WorkGroupConfiguration$EnforceWorkGroupConfiguration.
+        public let resultConfiguration: ResultConfiguration?
+        /// The name of the workgroup in which the query is being started.
+        public let workGroup: String?
 
-        public init(clientRequestToken: String? = nil, queryExecutionContext: QueryExecutionContext? = nil, queryString: String, resultConfiguration: ResultConfiguration) {
+        public init(clientRequestToken: String? = nil, queryExecutionContext: QueryExecutionContext? = nil, queryString: String, resultConfiguration: ResultConfiguration? = nil, workGroup: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.queryExecutionContext = queryExecutionContext
             self.queryString = queryString
             self.resultConfiguration = resultConfiguration
+            self.workGroup = workGroup
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -727,6 +974,7 @@ extension Athena {
             case queryExecutionContext = "QueryExecutionContext"
             case queryString = "QueryString"
             case resultConfiguration = "ResultConfiguration"
+            case workGroup = "WorkGroup"
         }
     }
 
@@ -770,6 +1018,55 @@ extension Athena {
     }
 
     public struct StopQueryExecutionOutput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// A tag key. The tag key length is from 1 to 128 Unicode characters in UTF-8. You can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys are case-sensitive and must be unique per resource. 
+        public let key: String?
+        /// A tag value. The tag value length is from 0 to 256 Unicode characters in UTF-8. You can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag values are case-sensitive. 
+        public let value: String?
+
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
+        ]
+        /// Requests that one or more tags are added to the resource (such as a workgroup) for the specified ARN.
+        public let resourceARN: String
+        /// One or more tags, separated by commas, to be added to the resource, such as a workgroup.
+        public let tags: [Tag]
+
+        public init(resourceARN: String, tags: [Tag]) {
+            self.resourceARN = resourceARN
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceOutput: AWSShape {
 
         public init() {
         }
@@ -830,6 +1127,212 @@ extension Athena {
             case errorCode = "ErrorCode"
             case errorMessage = "ErrorMessage"
             case queryExecutionId = "QueryExecutionId"
+        }
+    }
+
+    public struct UntagResourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
+        ]
+        /// Removes one or more tags from the workgroup resource for the specified ARN.
+        public let resourceARN: String
+        /// Removes the tags associated with one or more tag keys from the workgroup resource.
+        public let tagKeys: [String]
+
+        public init(resourceARN: String, tagKeys: [String]) {
+            self.resourceARN = resourceARN
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceOutput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateWorkGroupInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationUpdates", required: false, type: .structure), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "WorkGroup", required: true, type: .string)
+        ]
+        /// The workgroup configuration that will be updated for the given workgroup.
+        public let configurationUpdates: WorkGroupConfigurationUpdates?
+        /// The workgroup description.
+        public let description: String?
+        /// The workgroup state that will be updated for the given workgroup.
+        public let state: WorkGroupState?
+        /// The specified workgroup that will be updated.
+        public let workGroup: String
+
+        public init(configurationUpdates: WorkGroupConfigurationUpdates? = nil, description: String? = nil, state: WorkGroupState? = nil, workGroup: String) {
+            self.configurationUpdates = configurationUpdates
+            self.description = description
+            self.state = state
+            self.workGroup = workGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationUpdates = "ConfigurationUpdates"
+            case description = "Description"
+            case state = "State"
+            case workGroup = "WorkGroup"
+        }
+    }
+
+    public struct UpdateWorkGroupOutput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct WorkGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Configuration", required: false, type: .structure), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum)
+        ]
+        /// The configuration of the workgroup, which includes the location in Amazon S3 where query results are stored, the encryption configuration, if any, used for query results; whether the Amazon CloudWatch Metrics are enabled for the workgroup; whether workgroup settings override client-side settings; and the data usage limit for the amount of data scanned per query, if it is specified. The workgroup settings override is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See WorkGroupConfiguration$EnforceWorkGroupConfiguration.
+        public let configuration: WorkGroupConfiguration?
+        /// The date and time the workgroup was created.
+        public let creationTime: TimeStamp?
+        /// The workgroup description.
+        public let description: String?
+        /// The workgroup name.
+        public let name: String
+        /// The state of the workgroup: ENABLED or DISABLED.
+        public let state: WorkGroupState?
+
+        public init(configuration: WorkGroupConfiguration? = nil, creationTime: TimeStamp? = nil, description: String? = nil, name: String, state: WorkGroupState? = nil) {
+            self.configuration = configuration
+            self.creationTime = creationTime
+            self.description = description
+            self.name = name
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
+            case creationTime = "CreationTime"
+            case description = "Description"
+            case name = "Name"
+            case state = "State"
+        }
+    }
+
+    public struct WorkGroupConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BytesScannedCutoffPerQuery", required: false, type: .long), 
+            AWSShapeMember(label: "EnforceWorkGroupConfiguration", required: false, type: .boolean), 
+            AWSShapeMember(label: "PublishCloudWatchMetricsEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "ResultConfiguration", required: false, type: .structure)
+        ]
+        /// The upper data usage limit (cutoff) for the amount of bytes a single query in a workgroup is allowed to scan.
+        public let bytesScannedCutoffPerQuery: Int64?
+        /// If set to "true", the settings for the workgroup override client-side settings. If set to "false", client-side settings are used. For more information, see Workgroup Settings Override Client-Side Settings.
+        public let enforceWorkGroupConfiguration: Bool?
+        /// Indicates that the Amazon CloudWatch metrics are enabled for the workgroup.
+        public let publishCloudWatchMetricsEnabled: Bool?
+        /// The configuration for the workgroup, which includes the location in Amazon S3 where query results are stored and the encryption option, if any, used for query results.
+        public let resultConfiguration: ResultConfiguration?
+
+        public init(bytesScannedCutoffPerQuery: Int64? = nil, enforceWorkGroupConfiguration: Bool? = nil, publishCloudWatchMetricsEnabled: Bool? = nil, resultConfiguration: ResultConfiguration? = nil) {
+            self.bytesScannedCutoffPerQuery = bytesScannedCutoffPerQuery
+            self.enforceWorkGroupConfiguration = enforceWorkGroupConfiguration
+            self.publishCloudWatchMetricsEnabled = publishCloudWatchMetricsEnabled
+            self.resultConfiguration = resultConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bytesScannedCutoffPerQuery = "BytesScannedCutoffPerQuery"
+            case enforceWorkGroupConfiguration = "EnforceWorkGroupConfiguration"
+            case publishCloudWatchMetricsEnabled = "PublishCloudWatchMetricsEnabled"
+            case resultConfiguration = "ResultConfiguration"
+        }
+    }
+
+    public struct WorkGroupConfigurationUpdates: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BytesScannedCutoffPerQuery", required: false, type: .long), 
+            AWSShapeMember(label: "EnforceWorkGroupConfiguration", required: false, type: .boolean), 
+            AWSShapeMember(label: "PublishCloudWatchMetricsEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "RemoveBytesScannedCutoffPerQuery", required: false, type: .boolean), 
+            AWSShapeMember(label: "ResultConfigurationUpdates", required: false, type: .structure)
+        ]
+        /// The upper limit (cutoff) for the amount of bytes a single query in a workgroup is allowed to scan.
+        public let bytesScannedCutoffPerQuery: Int64?
+        /// If set to "true", the settings for the workgroup override client-side settings. If set to "false" client-side settings are used. For more information, see Workgroup Settings Override Client-Side Settings.
+        public let enforceWorkGroupConfiguration: Bool?
+        /// Indicates whether this workgroup enables publishing metrics to Amazon CloudWatch.
+        public let publishCloudWatchMetricsEnabled: Bool?
+        /// Indicates that the data usage control limit per query is removed. WorkGroupConfiguration$BytesScannedCutoffPerQuery 
+        public let removeBytesScannedCutoffPerQuery: Bool?
+        /// The result configuration information about the queries in this workgroup that will be updated. Includes the updated results location and an updated option for encrypting query results.
+        public let resultConfigurationUpdates: ResultConfigurationUpdates?
+
+        public init(bytesScannedCutoffPerQuery: Int64? = nil, enforceWorkGroupConfiguration: Bool? = nil, publishCloudWatchMetricsEnabled: Bool? = nil, removeBytesScannedCutoffPerQuery: Bool? = nil, resultConfigurationUpdates: ResultConfigurationUpdates? = nil) {
+            self.bytesScannedCutoffPerQuery = bytesScannedCutoffPerQuery
+            self.enforceWorkGroupConfiguration = enforceWorkGroupConfiguration
+            self.publishCloudWatchMetricsEnabled = publishCloudWatchMetricsEnabled
+            self.removeBytesScannedCutoffPerQuery = removeBytesScannedCutoffPerQuery
+            self.resultConfigurationUpdates = resultConfigurationUpdates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bytesScannedCutoffPerQuery = "BytesScannedCutoffPerQuery"
+            case enforceWorkGroupConfiguration = "EnforceWorkGroupConfiguration"
+            case publishCloudWatchMetricsEnabled = "PublishCloudWatchMetricsEnabled"
+            case removeBytesScannedCutoffPerQuery = "RemoveBytesScannedCutoffPerQuery"
+            case resultConfigurationUpdates = "ResultConfigurationUpdates"
+        }
+    }
+
+    public enum WorkGroupState: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct WorkGroupSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum)
+        ]
+        /// The workgroup creation date and time.
+        public let creationTime: TimeStamp?
+        /// The workgroup description.
+        public let description: String?
+        /// The name of the workgroup.
+        public let name: String?
+        /// The state of the workgroup.
+        public let state: WorkGroupState?
+
+        public init(creationTime: TimeStamp? = nil, description: String? = nil, name: String? = nil, state: WorkGroupState? = nil) {
+            self.creationTime = creationTime
+            self.description = description
+            self.name = name
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case description = "Description"
+            case name = "Name"
+            case state = "State"
         }
     }
 

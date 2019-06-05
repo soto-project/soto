@@ -65,6 +65,10 @@ public struct MediaPackage {
         return try client.send(operation: "ListOriginEndpoints", path: "/origin_endpoints", httpMethod: "GET", input: input)
     }
 
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> Future<ListTagsForResourceResponse> {
+        return try client.send(operation: "ListTagsForResource", path: "/tags/{resource-arn}", httpMethod: "GET", input: input)
+    }
+
     ///  Changes the Channel's first IngestEndpoint's username and password. WARNING - This API is deprecated. Please use RotateIngestEndpointCredentials instead
     public func rotateChannelCredentials(_ input: RotateChannelCredentialsRequest) throws -> Future<RotateChannelCredentialsResponse> {
         return try client.send(operation: "RotateChannelCredentials", path: "/channels/{id}/credentials", httpMethod: "PUT", input: input)
@@ -73,6 +77,14 @@ public struct MediaPackage {
     ///  Rotate the IngestEndpoint's username and password, as specified by the IngestEndpoint's id.
     public func rotateIngestEndpointCredentials(_ input: RotateIngestEndpointCredentialsRequest) throws -> Future<RotateIngestEndpointCredentialsResponse> {
         return try client.send(operation: "RotateIngestEndpointCredentials", path: "/channels/{id}/ingest_endpoints/{ingest_endpoint_id}/credentials", httpMethod: "PUT", input: input)
+    }
+
+    @discardableResult public func tagResource(_ input: TagResourceRequest) throws -> Future<Void> {
+        return try client.send(operation: "TagResource", path: "/tags/{resource-arn}", httpMethod: "POST", input: input)
+    }
+
+    @discardableResult public func untagResource(_ input: UntagResourceRequest) throws -> Future<Void> {
+        return try client.send(operation: "UntagResource", path: "/tags/{resource-arn}", httpMethod: "DELETE", input: input)
     }
 
     ///  Updates an existing Channel.

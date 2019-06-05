@@ -25,9 +25,14 @@ public struct RDS {
         )
     }
 
-    ///  Associates an Identity and Access Management (IAM) role from an Aurora DB cluster. For more information, see Authorizing Amazon Aurora MySQL to Access Other AWS Services on Your Behalf in the Amazon Aurora User Guide.
+    ///  Associates an Identity and Access Management (IAM) role from an Amazon Aurora DB cluster. For more information, see Authorizing Amazon Aurora MySQL to Access Other AWS Services on Your Behalf in the Amazon Aurora User Guide.  This action only applies to Aurora DB clusters. 
     @discardableResult public func addRoleToDBCluster(_ input: AddRoleToDBClusterMessage) throws -> Future<Void> {
         return try client.send(operation: "AddRoleToDBCluster", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Associates an AWS Identity and Access Management (IAM) role with a DB instance.  To add a role to a DB instance, the status of the DB instance must be available. 
+    @discardableResult public func addRoleToDBInstance(_ input: AddRoleToDBInstanceMessage) throws -> Future<Void> {
+        return try client.send(operation: "AddRoleToDBInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds a source identifier to an existing RDS event notification subscription.
@@ -50,17 +55,17 @@ public struct RDS {
         return try client.send(operation: "AuthorizeDBSecurityGroupIngress", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Backtracks a DB cluster to a specific time, without creating a new DB cluster. For more information on backtracking, see  Backtracking an Aurora DB Cluster in the Amazon Aurora User Guide. 
+    ///  Backtracks a DB cluster to a specific time, without creating a new DB cluster. For more information on backtracking, see  Backtracking an Aurora DB Cluster in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func backtrackDBCluster(_ input: BacktrackDBClusterMessage) throws -> Future<DBClusterBacktrack> {
         return try client.send(operation: "BacktrackDBCluster", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Copies the specified DB cluster parameter group.
+    ///  Copies the specified DB cluster parameter group.  This action only applies to Aurora DB clusters. 
     public func copyDBClusterParameterGroup(_ input: CopyDBClusterParameterGroupMessage) throws -> Future<CopyDBClusterParameterGroupResult> {
         return try client.send(operation: "CopyDBClusterParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Copies a snapshot of a DB cluster. To copy a DB cluster snapshot from a shared manual DB cluster snapshot, SourceDBClusterSnapshotIdentifier must be the Amazon Resource Name (ARN) of the shared DB cluster snapshot. You can copy an encrypted DB cluster snapshot from another AWS Region. In that case, the AWS Region where you call the CopyDBClusterSnapshot action is the destination AWS Region for the encrypted DB cluster snapshot to be copied to. To copy an encrypted DB cluster snapshot from another AWS Region, you must provide the following values:    KmsKeyId - The AWS Key Management System (AWS KMS) key identifier for the key to use to encrypt the copy of the DB cluster snapshot in the destination AWS Region.    PreSignedUrl - A URL that contains a Signature Version 4 signed request for the CopyDBClusterSnapshot action to be called in the source AWS Region where the DB cluster snapshot is copied from. The pre-signed URL must be a valid request for the CopyDBClusterSnapshot API action that can be executed in the source AWS Region that contains the encrypted DB cluster snapshot to be copied. The pre-signed URL request must contain the following parameter values:    KmsKeyId - The KMS key identifier for the key to use to encrypt the copy of the DB cluster snapshot in the destination AWS Region. This is the same identifier for both the CopyDBClusterSnapshot action that is called in the destination AWS Region, and the action contained in the pre-signed URL.    DestinationRegion - The name of the AWS Region that the DB cluster snapshot will be created in.    SourceDBClusterSnapshotIdentifier - The DB cluster snapshot identifier for the encrypted DB cluster snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source AWS Region. For example, if you are copying an encrypted DB cluster snapshot from the us-west-2 AWS Region, then your SourceDBClusterSnapshotIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:cluster-snapshot:aurora-cluster1-snapshot-20161115.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.    TargetDBClusterSnapshotIdentifier - The identifier for the new copy of the DB cluster snapshot in the destination AWS Region.    SourceDBClusterSnapshotIdentifier - The DB cluster snapshot identifier for the encrypted DB cluster snapshot to be copied. This identifier must be in the ARN format for the source AWS Region and is the same value as the SourceDBClusterSnapshotIdentifier in the pre-signed URL.    To cancel the copy operation once it is in progress, delete the target DB cluster snapshot identified by TargetDBClusterSnapshotIdentifier while that DB cluster snapshot is in "copying" status. For more information on copying encrypted DB cluster snapshots from one AWS Region to another, see  Copying a Snapshot in the Amazon Aurora User Guide.  For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide. 
+    ///  Copies a snapshot of a DB cluster. To copy a DB cluster snapshot from a shared manual DB cluster snapshot, SourceDBClusterSnapshotIdentifier must be the Amazon Resource Name (ARN) of the shared DB cluster snapshot. You can copy an encrypted DB cluster snapshot from another AWS Region. In that case, the AWS Region where you call the CopyDBClusterSnapshot action is the destination AWS Region for the encrypted DB cluster snapshot to be copied to. To copy an encrypted DB cluster snapshot from another AWS Region, you must provide the following values:    KmsKeyId - The AWS Key Management System (AWS KMS) key identifier for the key to use to encrypt the copy of the DB cluster snapshot in the destination AWS Region.    PreSignedUrl - A URL that contains a Signature Version 4 signed request for the CopyDBClusterSnapshot action to be called in the source AWS Region where the DB cluster snapshot is copied from. The pre-signed URL must be a valid request for the CopyDBClusterSnapshot API action that can be executed in the source AWS Region that contains the encrypted DB cluster snapshot to be copied. The pre-signed URL request must contain the following parameter values:    KmsKeyId - The KMS key identifier for the key to use to encrypt the copy of the DB cluster snapshot in the destination AWS Region. This is the same identifier for both the CopyDBClusterSnapshot action that is called in the destination AWS Region, and the action contained in the pre-signed URL.    DestinationRegion - The name of the AWS Region that the DB cluster snapshot will be created in.    SourceDBClusterSnapshotIdentifier - The DB cluster snapshot identifier for the encrypted DB cluster snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source AWS Region. For example, if you are copying an encrypted DB cluster snapshot from the us-west-2 AWS Region, then your SourceDBClusterSnapshotIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:cluster-snapshot:aurora-cluster1-snapshot-20161115.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.    TargetDBClusterSnapshotIdentifier - The identifier for the new copy of the DB cluster snapshot in the destination AWS Region.    SourceDBClusterSnapshotIdentifier - The DB cluster snapshot identifier for the encrypted DB cluster snapshot to be copied. This identifier must be in the ARN format for the source AWS Region and is the same value as the SourceDBClusterSnapshotIdentifier in the pre-signed URL.    To cancel the copy operation once it is in progress, delete the target DB cluster snapshot identified by TargetDBClusterSnapshotIdentifier while that DB cluster snapshot is in "copying" status. For more information on copying encrypted DB cluster snapshots from one AWS Region to another, see  Copying a Snapshot in the Amazon Aurora User Guide.  For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func copyDBClusterSnapshot(_ input: CopyDBClusterSnapshotMessage) throws -> Future<CopyDBClusterSnapshotResult> {
         return try client.send(operation: "CopyDBClusterSnapshot", path: "/", httpMethod: "POST", input: input)
     }
@@ -80,22 +85,22 @@ public struct RDS {
         return try client.send(operation: "CopyOptionGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new Amazon Aurora DB cluster. You can use the ReplicationSourceIdentifier parameter to create the DB cluster as a Read Replica of another DB cluster or Amazon RDS MySQL DB instance. For cross-region replication where the DB cluster identified by ReplicationSourceIdentifier is encrypted, you must also specify the PreSignedUrl parameter. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide. 
+    ///  Creates a new Amazon Aurora DB cluster. You can use the ReplicationSourceIdentifier parameter to create the DB cluster as a Read Replica of another DB cluster or Amazon RDS MySQL DB instance. For cross-region replication where the DB cluster identified by ReplicationSourceIdentifier is encrypted, you must also specify the PreSignedUrl parameter. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func createDBCluster(_ input: CreateDBClusterMessage) throws -> Future<CreateDBClusterResult> {
         return try client.send(operation: "CreateDBCluster", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new custom endpoint and associates it with an Amazon Aurora DB cluster.
+    ///  Creates a new custom endpoint and associates it with an Amazon Aurora DB cluster.  This action only applies to Aurora DB clusters. 
     public func createDBClusterEndpoint(_ input: CreateDBClusterEndpointMessage) throws -> Future<DBClusterEndpoint> {
         return try client.send(operation: "CreateDBClusterEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new DB cluster parameter group. Parameters in a DB cluster parameter group apply to all of the instances in a DB cluster.  A DB cluster parameter group is initially created with the default parameters for the database engine used by instances in the DB cluster. To provide custom values for any of the parameters, you must modify the group after creating it using ModifyDBClusterParameterGroup. Once you've created a DB cluster parameter group, you need to associate it with your DB cluster using ModifyDBCluster. When you associate a new DB cluster parameter group with a running DB cluster, you need to reboot the DB instances in the DB cluster without failover for the new DB cluster parameter group and associated settings to take effect.   After you create a DB cluster parameter group, you should wait at least 5 minutes before creating your first DB cluster that uses that DB cluster parameter group as the default parameter group. This allows Amazon RDS to fully complete the create action before the DB cluster parameter group is used as the default for a new DB cluster. This is especially important for parameters that are critical when creating the default database for a DB cluster, such as the character set for the default database defined by the character_set_database parameter. You can use the Parameter Groups option of the Amazon RDS console or the DescribeDBClusterParameters command to verify that your DB cluster parameter group has been created or modified.  For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide. 
+    ///  Creates a new DB cluster parameter group. Parameters in a DB cluster parameter group apply to all of the instances in a DB cluster.  A DB cluster parameter group is initially created with the default parameters for the database engine used by instances in the DB cluster. To provide custom values for any of the parameters, you must modify the group after creating it using ModifyDBClusterParameterGroup. Once you've created a DB cluster parameter group, you need to associate it with your DB cluster using ModifyDBCluster. When you associate a new DB cluster parameter group with a running DB cluster, you need to reboot the DB instances in the DB cluster without failover for the new DB cluster parameter group and associated settings to take effect.   After you create a DB cluster parameter group, you should wait at least 5 minutes before creating your first DB cluster that uses that DB cluster parameter group as the default parameter group. This allows Amazon RDS to fully complete the create action before the DB cluster parameter group is used as the default for a new DB cluster. This is especially important for parameters that are critical when creating the default database for a DB cluster, such as the character set for the default database defined by the character_set_database parameter. You can use the Parameter Groups option of the Amazon RDS console or the DescribeDBClusterParameters action to verify that your DB cluster parameter group has been created or modified.  For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func createDBClusterParameterGroup(_ input: CreateDBClusterParameterGroupMessage) throws -> Future<CreateDBClusterParameterGroupResult> {
         return try client.send(operation: "CreateDBClusterParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a snapshot of a DB cluster. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide. 
+    ///  Creates a snapshot of a DB cluster. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func createDBClusterSnapshot(_ input: CreateDBClusterSnapshotMessage) throws -> Future<CreateDBClusterSnapshotResult> {
         return try client.send(operation: "CreateDBClusterSnapshot", path: "/", httpMethod: "POST", input: input)
     }
@@ -105,7 +110,7 @@ public struct RDS {
         return try client.send(operation: "CreateDBInstance", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new DB instance that acts as a Read Replica for an existing source DB instance. You can create a Read Replica for a DB instance running MySQL, MariaDB, or PostgreSQL. For more information, see Working with PostgreSQL, MySQL, and MariaDB Read Replicas in the Amazon RDS User Guide.  Amazon Aurora doesn't support this action. You must call the CreateDBInstance action to create a DB instance for an Aurora DB cluster.  All Read Replica DB instances are created with backups disabled. All other DB instance attributes (including DB security groups and DB parameter groups) are inherited from the source DB instance, except as specified following.   Your source DB instance must have backup retention enabled.  
+    ///  Creates a new DB instance that acts as a Read Replica for an existing source DB instance. You can create a Read Replica for a DB instance running MySQL, MariaDB, Oracle, or PostgreSQL. For more information, see Working with Read Replicas in the Amazon RDS User Guide.  Amazon Aurora doesn't support this action. You must call the CreateDBInstance action to create a DB instance for an Aurora DB cluster.  All Read Replica DB instances are created with backups disabled. All other DB instance attributes (including DB security groups and DB parameter groups) are inherited from the source DB instance, except as specified following.   Your source DB instance must have backup retention enabled.  
     public func createDBInstanceReadReplica(_ input: CreateDBInstanceReadReplicaMessage) throws -> Future<CreateDBInstanceReadReplicaResult> {
         return try client.send(operation: "CreateDBInstanceReadReplica", path: "/", httpMethod: "POST", input: input)
     }
@@ -135,7 +140,7 @@ public struct RDS {
         return try client.send(operation: "CreateEventSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///     Creates an Aurora global database spread across multiple regions. The global database contains a single primary cluster with read-write capability, and a read-only secondary cluster that receives data from the primary cluster through high-speed replication performed by the Aurora storage subsystem.   You can create a global database that is initially empty, and then add a primary cluster and a secondary cluster to it. Or you can specify an existing Aurora cluster during the create operation, and this cluster becomes the primary cluster of the global database. 
+    ///     Creates an Aurora global database spread across multiple regions. The global database contains a single primary cluster with read-write capability, and a read-only secondary cluster that receives data from the primary cluster through high-speed replication performed by the Aurora storage subsystem.   You can create a global database that is initially empty, and then add a primary cluster and a secondary cluster to it. Or you can specify an existing Aurora cluster during the create operation, and this cluster becomes the primary cluster of the global database.   This action only applies to Aurora DB clusters. 
     public func createGlobalCluster(_ input: CreateGlobalClusterMessage) throws -> Future<CreateGlobalClusterResult> {
         return try client.send(operation: "CreateGlobalCluster", path: "/", httpMethod: "POST", input: input)
     }
@@ -145,27 +150,27 @@ public struct RDS {
         return try client.send(operation: "CreateOptionGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  The DeleteDBCluster action deletes a previously provisioned DB cluster. When you delete a DB cluster, all automated backups for that DB cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified DB cluster are not deleted.  For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide. 
+    ///  The DeleteDBCluster action deletes a previously provisioned DB cluster. When you delete a DB cluster, all automated backups for that DB cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified DB cluster are not deleted.  For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func deleteDBCluster(_ input: DeleteDBClusterMessage) throws -> Future<DeleteDBClusterResult> {
         return try client.send(operation: "DeleteDBCluster", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a custom endpoint and removes it from an Amazon Aurora DB cluster.
+    ///  Deletes a custom endpoint and removes it from an Amazon Aurora DB cluster.  This action only applies to Aurora DB clusters. 
     public func deleteDBClusterEndpoint(_ input: DeleteDBClusterEndpointMessage) throws -> Future<DBClusterEndpoint> {
         return try client.send(operation: "DeleteDBClusterEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a specified DB cluster parameter group. The DB cluster parameter group to be deleted can't be associated with any DB clusters. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide. 
+    ///  Deletes a specified DB cluster parameter group. The DB cluster parameter group to be deleted can't be associated with any DB clusters. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     @discardableResult public func deleteDBClusterParameterGroup(_ input: DeleteDBClusterParameterGroupMessage) throws -> Future<Void> {
         return try client.send(operation: "DeleteDBClusterParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a DB cluster snapshot. If the snapshot is being copied, the copy operation is terminated.  The DB cluster snapshot must be in the available state to be deleted.  For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide. 
+    ///  Deletes a DB cluster snapshot. If the snapshot is being copied, the copy operation is terminated.  The DB cluster snapshot must be in the available state to be deleted.  For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func deleteDBClusterSnapshot(_ input: DeleteDBClusterSnapshotMessage) throws -> Future<DeleteDBClusterSnapshotResult> {
         return try client.send(operation: "DeleteDBClusterSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  The DeleteDBInstance action deletes a previously provisioned DB instance. When you delete a DB instance, all automated backups for that instance are deleted and can't be recovered. Manual DB snapshots of the DB instance to be deleted by DeleteDBInstance are not deleted.  If you request a final DB snapshot the status of the Amazon RDS DB instance is deleting until the DB snapshot is created. The API action DescribeDBInstance is used to monitor the status of this operation. The action can't be canceled or reverted once submitted.  Note that when a DB instance is in a failure state and has a status of failed, incompatible-restore, or incompatible-network, you can only delete it when the SkipFinalSnapshot parameter is set to true. If the specified DB instance is part of an Amazon Aurora DB cluster, you can't delete the DB instance if both of the following conditions are true:   The DB cluster is a Read Replica of another Amazon Aurora DB cluster.   The DB instance is the only instance in the DB cluster.   To delete a DB instance in this case, first call the PromoteReadReplicaDBCluster API action to promote the DB cluster so it's no longer a Read Replica. After the promotion completes, then call the DeleteDBInstance API action to delete the final instance in the DB cluster.
+    ///  The DeleteDBInstance action deletes a previously provisioned DB instance. When you delete a DB instance, all automated backups for that instance are deleted and can't be recovered. Manual DB snapshots of the DB instance to be deleted by DeleteDBInstance are not deleted.  If you request a final DB snapshot the status of the Amazon RDS DB instance is deleting until the DB snapshot is created. The API action DescribeDBInstance is used to monitor the status of this operation. The action can't be canceled or reverted once submitted.  Note that when a DB instance is in a failure state and has a status of failed, incompatible-restore, or incompatible-network, you can only delete it when you skip creation of the final snapshot with the SkipFinalSnapshot parameter. If the specified DB instance is part of an Amazon Aurora DB cluster, you can't delete the DB instance if both of the following conditions are true:   The DB cluster is a Read Replica of another Amazon Aurora DB cluster.   The DB instance is the only instance in the DB cluster.   To delete a DB instance in this case, first call the PromoteReadReplicaDBCluster API action to promote the DB cluster so it's no longer a Read Replica. After the promotion completes, then call the DeleteDBInstance API action to delete the final instance in the DB cluster.
     public func deleteDBInstance(_ input: DeleteDBInstanceMessage) throws -> Future<DeleteDBInstanceResult> {
         return try client.send(operation: "DeleteDBInstance", path: "/", httpMethod: "POST", input: input)
     }
@@ -200,7 +205,7 @@ public struct RDS {
         return try client.send(operation: "DeleteEventSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   Deletes a global database cluster. The primary and secondary clusters must already be detached or destroyed first. 
+    ///   Deletes a global database cluster. The primary and secondary clusters must already be detached or destroyed first.   This action only applies to Aurora DB clusters. 
     public func deleteGlobalCluster(_ input: DeleteGlobalClusterMessage) throws -> Future<DeleteGlobalClusterResult> {
         return try client.send(operation: "DeleteGlobalCluster", path: "/", httpMethod: "POST", input: input)
     }
@@ -220,37 +225,37 @@ public struct RDS {
         return try client.send(operation: "DescribeCertificates", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about backtracks for a DB cluster. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide. 
+    ///  Returns information about backtracks for a DB cluster. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func describeDBClusterBacktracks(_ input: DescribeDBClusterBacktracksMessage) throws -> Future<DBClusterBacktrackMessage> {
         return try client.send(operation: "DescribeDBClusterBacktracks", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about endpoints for an Amazon Aurora DB cluster.
+    ///  Returns information about endpoints for an Amazon Aurora DB cluster.  This action only applies to Aurora DB clusters. 
     public func describeDBClusterEndpoints(_ input: DescribeDBClusterEndpointsMessage) throws -> Future<DBClusterEndpointMessage> {
         return try client.send(operation: "DescribeDBClusterEndpoints", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   Returns a list of DBClusterParameterGroup descriptions. If a DBClusterParameterGroupName parameter is specified, the list will contain only the description of the specified DB cluster parameter group.  For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide. 
+    ///   Returns a list of DBClusterParameterGroup descriptions. If a DBClusterParameterGroupName parameter is specified, the list will contain only the description of the specified DB cluster parameter group.  For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func describeDBClusterParameterGroups(_ input: DescribeDBClusterParameterGroupsMessage) throws -> Future<DBClusterParameterGroupsMessage> {
         return try client.send(operation: "DescribeDBClusterParameterGroups", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the detailed parameter list for a particular DB cluster parameter group. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide. 
+    ///  Returns the detailed parameter list for a particular DB cluster parameter group. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func describeDBClusterParameters(_ input: DescribeDBClusterParametersMessage) throws -> Future<DBClusterParameterGroupDetails> {
         return try client.send(operation: "DescribeDBClusterParameters", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of DB cluster snapshot attribute names and values for a manual DB cluster snapshot. When sharing snapshots with other AWS accounts, DescribeDBClusterSnapshotAttributes returns the restore attribute and a list of IDs for the AWS accounts that are authorized to copy or restore the manual DB cluster snapshot. If all is included in the list of values for the restore attribute, then the manual DB cluster snapshot is public and can be copied or restored by all AWS accounts. To add or remove access for an AWS account to copy or restore a manual DB cluster snapshot, or to make the manual DB cluster snapshot public or private, use the ModifyDBClusterSnapshotAttribute API action.
+    ///  Returns a list of DB cluster snapshot attribute names and values for a manual DB cluster snapshot. When sharing snapshots with other AWS accounts, DescribeDBClusterSnapshotAttributes returns the restore attribute and a list of IDs for the AWS accounts that are authorized to copy or restore the manual DB cluster snapshot. If all is included in the list of values for the restore attribute, then the manual DB cluster snapshot is public and can be copied or restored by all AWS accounts. To add or remove access for an AWS account to copy or restore a manual DB cluster snapshot, or to make the manual DB cluster snapshot public or private, use the ModifyDBClusterSnapshotAttribute API action.  This action only applies to Aurora DB clusters. 
     public func describeDBClusterSnapshotAttributes(_ input: DescribeDBClusterSnapshotAttributesMessage) throws -> Future<DescribeDBClusterSnapshotAttributesResult> {
         return try client.send(operation: "DescribeDBClusterSnapshotAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about DB cluster snapshots. This API action supports pagination. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide. 
+    ///  Returns information about DB cluster snapshots. This API action supports pagination. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func describeDBClusterSnapshots(_ input: DescribeDBClusterSnapshotsMessage) throws -> Future<DBClusterSnapshotMessage> {
         return try client.send(operation: "DescribeDBClusterSnapshots", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about provisioned Aurora DB clusters. This API supports pagination. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide. 
+    ///  Returns information about provisioned Aurora DB clusters. This API supports pagination. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func describeDBClusters(_ input: DescribeDBClustersMessage) throws -> Future<DBClusterMessage> {
         return try client.send(operation: "DescribeDBClusters", path: "/", httpMethod: "POST", input: input)
     }
@@ -330,7 +335,7 @@ public struct RDS {
         return try client.send(operation: "DescribeEvents", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   Returns information about Aurora global database clusters. This API supports pagination.   For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide. 
+    ///   Returns information about Aurora global database clusters. This API supports pagination.   For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func describeGlobalClusters(_ input: DescribeGlobalClustersMessage) throws -> Future<GlobalClustersMessage> {
         return try client.send(operation: "DescribeGlobalClusters", path: "/", httpMethod: "POST", input: input)
     }
@@ -380,7 +385,7 @@ public struct RDS {
         return try client.send(operation: "DownloadDBLogFilePortion", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Forces a failover for a DB cluster. A failover for a DB cluster promotes one of the Aurora Replicas (read-only instances) in the DB cluster to be the primary instance (the cluster writer). Amazon Aurora will automatically fail over to an Aurora Replica, if one exists, when the primary instance fails. You can force a failover when you want to simulate a failure of a primary instance for testing. Because each instance in a DB cluster has its own endpoint address, you will need to clean up and re-establish any existing connections that use those endpoint addresses when the failover is complete. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide. 
+    ///  Forces a failover for a DB cluster. A failover for a DB cluster promotes one of the Aurora Replicas (read-only instances) in the DB cluster to be the primary instance (the cluster writer). Amazon Aurora will automatically fail over to an Aurora Replica, if one exists, when the primary instance fails. You can force a failover when you want to simulate a failure of a primary instance for testing. Because each instance in a DB cluster has its own endpoint address, you will need to clean up and re-establish any existing connections that use those endpoint addresses when the failover is complete. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func failoverDBCluster(_ input: FailoverDBClusterMessage) throws -> Future<FailoverDBClusterResult> {
         return try client.send(operation: "FailoverDBCluster", path: "/", httpMethod: "POST", input: input)
     }
@@ -390,27 +395,27 @@ public struct RDS {
         return try client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Set the capacity of an Aurora Serverless DB cluster to a specific value. Aurora Serverless scales seamlessly based on the workload on the DB cluster. In some cases, the capacity might not scale fast enough to meet a sudden change in workload, such as a large number of new transactions. Call ModifyCurrentDBClusterCapacity to set the capacity explicitly. After this call sets the DB cluster capacity, Aurora Serverless can automatically scale the DB cluster based on the cooldown period for scaling up and the cooldown period for scaling down. For more information about Aurora Serverless, see Using Amazon Aurora Serverless in the Amazon Aurora User Guide.  If you call ModifyCurrentDBClusterCapacity with the default TimeoutAction, connections that prevent Aurora Serverless from finding a scaling point might be dropped. For more information about scaling points, see  Autoscaling for Aurora Serverless in the Amazon Aurora User Guide. 
+    ///  Set the capacity of an Aurora Serverless DB cluster to a specific value. Aurora Serverless scales seamlessly based on the workload on the DB cluster. In some cases, the capacity might not scale fast enough to meet a sudden change in workload, such as a large number of new transactions. Call ModifyCurrentDBClusterCapacity to set the capacity explicitly. After this call sets the DB cluster capacity, Aurora Serverless can automatically scale the DB cluster based on the cooldown period for scaling up and the cooldown period for scaling down. For more information about Aurora Serverless, see Using Amazon Aurora Serverless in the Amazon Aurora User Guide.  If you call ModifyCurrentDBClusterCapacity with the default TimeoutAction, connections that prevent Aurora Serverless from finding a scaling point might be dropped. For more information about scaling points, see  Autoscaling for Aurora Serverless in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func modifyCurrentDBClusterCapacity(_ input: ModifyCurrentDBClusterCapacityMessage) throws -> Future<DBClusterCapacityInfo> {
         return try client.send(operation: "ModifyCurrentDBClusterCapacity", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modify a setting for an Amazon Aurora DB cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide. 
+    ///  Modify a setting for an Amazon Aurora DB cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func modifyDBCluster(_ input: ModifyDBClusterMessage) throws -> Future<ModifyDBClusterResult> {
         return try client.send(operation: "ModifyDBCluster", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the properties of an endpoint in an Amazon Aurora DB cluster.
+    ///  Modifies the properties of an endpoint in an Amazon Aurora DB cluster.  This action only applies to Aurora DB clusters. 
     public func modifyDBClusterEndpoint(_ input: ModifyDBClusterEndpointMessage) throws -> Future<DBClusterEndpoint> {
         return try client.send(operation: "ModifyDBClusterEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   Modifies the parameters of a DB cluster parameter group. To modify more than one parameter, submit a list of the following: ParameterName, ParameterValue, and ApplyMethod. A maximum of 20 parameters can be modified in a single request.  For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   Changes to dynamic parameters are applied immediately. Changes to static parameters require a reboot without failover to the DB cluster associated with the parameter group before the change can take effect.   After you create a DB cluster parameter group, you should wait at least 5 minutes before creating your first DB cluster that uses that DB cluster parameter group as the default parameter group. This allows Amazon RDS to fully complete the create action before the parameter group is used as the default for a new DB cluster. This is especially important for parameters that are critical when creating the default database for a DB cluster, such as the character set for the default database defined by the character_set_database parameter. You can use the Parameter Groups option of the Amazon RDS console or the DescribeDBClusterParameters command to verify that your DB cluster parameter group has been created or modified. 
+    ///   Modifies the parameters of a DB cluster parameter group. To modify more than one parameter, submit a list of the following: ParameterName, ParameterValue, and ApplyMethod. A maximum of 20 parameters can be modified in a single request.  For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   Changes to dynamic parameters are applied immediately. Changes to static parameters require a reboot without failover to the DB cluster associated with the parameter group before the change can take effect.   After you create a DB cluster parameter group, you should wait at least 5 minutes before creating your first DB cluster that uses that DB cluster parameter group as the default parameter group. This allows Amazon RDS to fully complete the create action before the parameter group is used as the default for a new DB cluster. This is especially important for parameters that are critical when creating the default database for a DB cluster, such as the character set for the default database defined by the character_set_database parameter. You can use the Parameter Groups option of the Amazon RDS console or the DescribeDBClusterParameters action to verify that your DB cluster parameter group has been created or modified.   This action only applies to Aurora DB clusters. 
     public func modifyDBClusterParameterGroup(_ input: ModifyDBClusterParameterGroupMessage) throws -> Future<DBClusterParameterGroupNameMessage> {
         return try client.send(operation: "ModifyDBClusterParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds an attribute and values to, or removes an attribute and values from, a manual DB cluster snapshot. To share a manual DB cluster snapshot with other AWS accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the AWS accounts that are authorized to restore the manual DB cluster snapshot. Use the value all to make the manual DB cluster snapshot public, which means that it can be copied or restored by all AWS accounts. Do not add the all value for any manual DB cluster snapshots that contain private information that you don't want available to all AWS accounts. If a manual DB cluster snapshot is encrypted, it can be shared, but only by specifying a list of authorized AWS account IDs for the ValuesToAdd parameter. You can't use all as a value for that parameter in this case. To view which AWS accounts have access to copy or restore a manual DB cluster snapshot, or whether a manual DB cluster snapshot public or private, use the DescribeDBClusterSnapshotAttributes API action.
+    ///  Adds an attribute and values to, or removes an attribute and values from, a manual DB cluster snapshot. To share a manual DB cluster snapshot with other AWS accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the AWS accounts that are authorized to restore the manual DB cluster snapshot. Use the value all to make the manual DB cluster snapshot public, which means that it can be copied or restored by all AWS accounts. Do not add the all value for any manual DB cluster snapshots that contain private information that you don't want available to all AWS accounts. If a manual DB cluster snapshot is encrypted, it can be shared, but only by specifying a list of authorized AWS account IDs for the ValuesToAdd parameter. You can't use all as a value for that parameter in this case. To view which AWS accounts have access to copy or restore a manual DB cluster snapshot, or whether a manual DB cluster snapshot public or private, use the DescribeDBClusterSnapshotAttributes API action.  This action only applies to Aurora DB clusters. 
     public func modifyDBClusterSnapshotAttribute(_ input: ModifyDBClusterSnapshotAttributeMessage) throws -> Future<ModifyDBClusterSnapshotAttributeResult> {
         return try client.send(operation: "ModifyDBClusterSnapshotAttribute", path: "/", httpMethod: "POST", input: input)
     }
@@ -445,7 +450,7 @@ public struct RDS {
         return try client.send(operation: "ModifyEventSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   Modify a setting for an Amazon Aurora global cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide. 
+    ///   Modify a setting for an Amazon Aurora global cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func modifyGlobalCluster(_ input: ModifyGlobalClusterMessage) throws -> Future<ModifyGlobalClusterResult> {
         return try client.send(operation: "ModifyGlobalCluster", path: "/", httpMethod: "POST", input: input)
     }
@@ -460,7 +465,7 @@ public struct RDS {
         return try client.send(operation: "PromoteReadReplica", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Promotes a Read Replica DB cluster to a standalone DB cluster.
+    ///  Promotes a Read Replica DB cluster to a standalone DB cluster.  This action only applies to Aurora DB clusters. 
     public func promoteReadReplicaDBCluster(_ input: PromoteReadReplicaDBClusterMessage) throws -> Future<PromoteReadReplicaDBClusterResult> {
         return try client.send(operation: "PromoteReadReplicaDBCluster", path: "/", httpMethod: "POST", input: input)
     }
@@ -475,14 +480,19 @@ public struct RDS {
         return try client.send(operation: "RebootDBInstance", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   Detaches an Aurora secondary cluster from an Aurora global database cluster. The cluster becomes a standalone cluster with read-write capability instead of being read-only and receiving data from a primary cluster in a different region. 
+    ///   Detaches an Aurora secondary cluster from an Aurora global database cluster. The cluster becomes a standalone cluster with read-write capability instead of being read-only and receiving data from a primary cluster in a different region.   This action only applies to Aurora DB clusters. 
     public func removeFromGlobalCluster(_ input: RemoveFromGlobalClusterMessage) throws -> Future<RemoveFromGlobalClusterResult> {
         return try client.send(operation: "RemoveFromGlobalCluster", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Disassociates an Identity and Access Management (IAM) role from an Aurora DB cluster. For more information, see Authorizing Amazon Aurora MySQL to Access Other AWS Services on Your Behalf  in the Amazon Aurora User Guide.
+    ///  Disassociates an AWS Identity and Access Management (IAM) role from an Amazon Aurora DB cluster. For more information, see Authorizing Amazon Aurora MySQL to Access Other AWS Services on Your Behalf  in the Amazon Aurora User Guide.  This action only applies to Aurora DB clusters. 
     @discardableResult public func removeRoleFromDBCluster(_ input: RemoveRoleFromDBClusterMessage) throws -> Future<Void> {
         return try client.send(operation: "RemoveRoleFromDBCluster", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Disassociates an AWS Identity and Access Management (IAM) role from a DB instance.
+    @discardableResult public func removeRoleFromDBInstance(_ input: RemoveRoleFromDBInstanceMessage) throws -> Future<Void> {
+        return try client.send(operation: "RemoveRoleFromDBInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes a source identifier from an existing RDS event notification subscription.
@@ -495,7 +505,7 @@ public struct RDS {
         return try client.send(operation: "RemoveTagsFromResource", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   Modifies the parameters of a DB cluster parameter group to the default value. To reset specific parameters submit a list of the following: ParameterName and ApplyMethod. To reset the entire DB cluster parameter group, specify the DBClusterParameterGroupName and ResetAllParameters parameters.   When resetting the entire group, dynamic parameters are updated immediately and static parameters are set to pending-reboot to take effect on the next DB instance restart or RebootDBInstance request. You must call RebootDBInstance for every DB instance in your DB cluster that you want the updated static parameter to apply to. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide. 
+    ///   Modifies the parameters of a DB cluster parameter group to the default value. To reset specific parameters submit a list of the following: ParameterName and ApplyMethod. To reset the entire DB cluster parameter group, specify the DBClusterParameterGroupName and ResetAllParameters parameters.   When resetting the entire group, dynamic parameters are updated immediately and static parameters are set to pending-reboot to take effect on the next DB instance restart or RebootDBInstance request. You must call RebootDBInstance for every DB instance in your DB cluster that you want the updated static parameter to apply to. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func resetDBClusterParameterGroup(_ input: ResetDBClusterParameterGroupMessage) throws -> Future<DBClusterParameterGroupNameMessage> {
         return try client.send(operation: "ResetDBClusterParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
@@ -505,17 +515,17 @@ public struct RDS {
         return try client.send(operation: "ResetDBParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an Amazon Aurora DB cluster from data stored in an Amazon S3 bucket. Amazon RDS must be authorized to access the Amazon S3 bucket and the data must be created using the Percona XtraBackup utility as described in  Migrating Data to an Amazon Aurora MySQL DB Cluster in the Amazon Aurora User Guide.
+    ///  Creates an Amazon Aurora DB cluster from data stored in an Amazon S3 bucket. Amazon RDS must be authorized to access the Amazon S3 bucket and the data must be created using the Percona XtraBackup utility as described in  Migrating Data to an Amazon Aurora MySQL DB Cluster in the Amazon Aurora User Guide.  This action only applies to Aurora DB clusters. 
     public func restoreDBClusterFromS3(_ input: RestoreDBClusterFromS3Message) throws -> Future<RestoreDBClusterFromS3Result> {
         return try client.send(operation: "RestoreDBClusterFromS3", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new DB cluster from a DB snapshot or DB cluster snapshot. If a DB snapshot is specified, the target DB cluster is created from the source DB snapshot with a default configuration and default security group. If a DB cluster snapshot is specified, the target DB cluster is created from the source DB cluster restore point with the same configuration as the original source DB cluster, except that the new DB cluster is created with the default security group. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide. 
+    ///  Creates a new DB cluster from a DB snapshot or DB cluster snapshot. If a DB snapshot is specified, the target DB cluster is created from the source DB snapshot with a default configuration and default security group. If a DB cluster snapshot is specified, the target DB cluster is created from the source DB cluster restore point with the same configuration as the original source DB cluster, except that the new DB cluster is created with the default security group. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func restoreDBClusterFromSnapshot(_ input: RestoreDBClusterFromSnapshotMessage) throws -> Future<RestoreDBClusterFromSnapshotResult> {
         return try client.send(operation: "RestoreDBClusterFromSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Restores a DB cluster to an arbitrary point in time. Users can restore to any point in time before LatestRestorableTime for up to BackupRetentionPeriod days. The target DB cluster is created from the source DB cluster with the same configuration as the original DB cluster, except that the new DB cluster is created with the default DB security group.   This action only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the CreateDBInstance action to create DB instances for the restored DB cluster, specifying the identifier of the restored DB cluster in DBClusterIdentifier. You can create DB instances only after the RestoreDBClusterToPointInTime action has completed and the DB cluster is available.  For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide. 
+    ///  Restores a DB cluster to an arbitrary point in time. Users can restore to any point in time before LatestRestorableTime for up to BackupRetentionPeriod days. The target DB cluster is created from the source DB cluster with the same configuration as the original DB cluster, except that the new DB cluster is created with the default DB security group.   This action only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the CreateDBInstance action to create DB instances for the restored DB cluster, specifying the identifier of the restored DB cluster in DBClusterIdentifier. You can create DB instances only after the RestoreDBClusterToPointInTime action has completed and the DB cluster is available.  For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func restoreDBClusterToPointInTime(_ input: RestoreDBClusterToPointInTimeMessage) throws -> Future<RestoreDBClusterToPointInTimeResult> {
         return try client.send(operation: "RestoreDBClusterToPointInTime", path: "/", httpMethod: "POST", input: input)
     }
@@ -540,7 +550,12 @@ public struct RDS {
         return try client.send(operation: "RevokeDBSecurityGroupIngress", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Starts an Amazon Aurora DB cluster that was stopped using the AWS console, the stop-db-cluster AWS CLI command, or the StopDBCluster action. For more information, see  Stopping and Starting an Aurora Cluster in the Amazon Aurora User Guide. 
+    ///  Starts a database activity stream to monitor activity on the database. For more information, see Database Activity Streams in the Amazon Aurora User Guide.
+    public func startActivityStream(_ input: StartActivityStreamRequest) throws -> Future<StartActivityStreamResponse> {
+        return try client.send(operation: "StartActivityStream", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Starts an Amazon Aurora DB cluster that was stopped using the AWS console, the stop-db-cluster AWS CLI command, or the StopDBCluster action. For more information, see  Stopping and Starting an Aurora Cluster in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func startDBCluster(_ input: StartDBClusterMessage) throws -> Future<StartDBClusterResult> {
         return try client.send(operation: "StartDBCluster", path: "/", httpMethod: "POST", input: input)
     }
@@ -550,7 +565,12 @@ public struct RDS {
         return try client.send(operation: "StartDBInstance", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   Stops an Amazon Aurora DB cluster. When you stop a DB cluster, Aurora retains the DB cluster's metadata, including its endpoints and DB parameter groups. Aurora also retains the transaction logs so you can do a point-in-time restore if necessary.  For more information, see  Stopping and Starting an Aurora Cluster in the Amazon Aurora User Guide. 
+    ///  Stops a database activity stream that was started using the AWS console, the start-activity-stream AWS CLI command, or the StartActivityStream action. For more information, see Database Activity Streams in the Amazon Aurora User Guide.
+    public func stopActivityStream(_ input: StopActivityStreamRequest) throws -> Future<StopActivityStreamResponse> {
+        return try client.send(operation: "StopActivityStream", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///   Stops an Amazon Aurora DB cluster. When you stop a DB cluster, Aurora retains the DB cluster's metadata, including its endpoints and DB parameter groups. Aurora also retains the transaction logs so you can do a point-in-time restore if necessary.  For more information, see  Stopping and Starting an Aurora Cluster in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func stopDBCluster(_ input: StopDBClusterMessage) throws -> Future<StopDBClusterResult> {
         return try client.send(operation: "StopDBCluster", path: "/", httpMethod: "POST", input: input)
     }

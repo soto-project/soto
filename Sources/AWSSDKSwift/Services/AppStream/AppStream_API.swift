@@ -5,7 +5,7 @@ import AWSSDKSwiftCore
 import NIO
 
 /**
-Amazon AppStream 2.0 You can use Amazon AppStream 2.0 to stream desktop applications to any device running a web browser, without rewriting them.
+Amazon AppStream 2.0 This is the Amazon AppStream 2.0 API Reference. It provides descriptions and syntax for each of the actions and data types in AppStream 2.0. AppStream 2.0 is a fully managed application streaming service. You centrally manage your desktop applications on AppStream 2.0 and securely deliver them to any computer. AppStream 2.0 manages the AWS resources required to host and run your applications, scales automatically, and provides access to your users on demand. To learn more about AppStream 2.0, see the following resources:    Amazon AppStream 2.0 product page     Amazon AppStream 2.0 documentation   
 */
 public struct AppStream {
 
@@ -46,7 +46,7 @@ public struct AppStream {
         return try client.send(operation: "CopyImage", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a Directory Config object in AppStream 2.0. This object includes the information required to join streaming instances to an Active Directory domain.
+    ///  Creates a Directory Config object in AppStream 2.0. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
     public func createDirectoryConfig(_ input: CreateDirectoryConfigRequest) throws -> Future<CreateDirectoryConfigResult> {
         return try client.send(operation: "CreateDirectoryConfig", path: "/", httpMethod: "POST", input: input)
     }
@@ -74,6 +74,11 @@ public struct AppStream {
     ///  Creates a temporary URL to start an AppStream 2.0 streaming session for the specified user. A streaming URL enables application streaming to be tested without user setup. 
     public func createStreamingURL(_ input: CreateStreamingURLRequest) throws -> Future<CreateStreamingURLResult> {
         return try client.send(operation: "CreateStreamingURL", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a usage report subscription. Usage reports are generated daily.
+    public func createUsageReportSubscription(_ input: CreateUsageReportSubscriptionRequest) throws -> Future<CreateUsageReportSubscriptionResult> {
+        return try client.send(operation: "CreateUsageReportSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new user in the user pool.
@@ -111,12 +116,17 @@ public struct AppStream {
         return try client.send(operation: "DeleteStack", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Disables usage report generation.
+    public func deleteUsageReportSubscription(_ input: DeleteUsageReportSubscriptionRequest) throws -> Future<DeleteUsageReportSubscriptionResult> {
+        return try client.send(operation: "DeleteUsageReportSubscription", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes a user from the user pool.
     public func deleteUser(_ input: DeleteUserRequest) throws -> Future<DeleteUserResult> {
         return try client.send(operation: "DeleteUser", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves a list that describes one or more specified Directory Config objects for AppStream 2.0, if the names for these objects are provided. Otherwise, all Directory Config objects in the account are described. These objects include the information required to join streaming instances to an Active Directory domain.  Although the response syntax in this topic includes the account password, this password is not returned in the actual response.
+    ///  Retrieves a list that describes one or more specified Directory Config objects for AppStream 2.0, if the names for these objects are provided. Otherwise, all Directory Config objects in the account are described. These objects include the configuration information required to join fleets and image builders to Microsoft Active Directory domains.  Although the response syntax in this topic includes the account password, this password is not returned in the actual response.
     public func describeDirectoryConfigs(_ input: DescribeDirectoryConfigsRequest) throws -> Future<DescribeDirectoryConfigsResult> {
         return try client.send(operation: "DescribeDirectoryConfigs", path: "/", httpMethod: "POST", input: input)
     }
@@ -141,7 +151,7 @@ public struct AppStream {
         return try client.send(operation: "DescribeImages", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves a list that describes the streaming sessions for a specified stack and fleet. If a user ID is provided for the stack and fleet, only streaming sessions for that user are described. If an authentication type is not provided, the default is to authenticate users using a streaming URL.
+    ///  Retrieves a list that describes the streaming sessions for a specified stack and fleet. If a UserId is provided for the stack and fleet, only streaming sessions for that user are described. If an authentication type is not provided, the default is to authenticate users using a streaming URL.
     public func describeSessions(_ input: DescribeSessionsRequest) throws -> Future<DescribeSessionsResult> {
         return try client.send(operation: "DescribeSessions", path: "/", httpMethod: "POST", input: input)
     }
@@ -151,12 +161,17 @@ public struct AppStream {
         return try client.send(operation: "DescribeStacks", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Retrieves a list that describes one or more usage report subscriptions.
+    public func describeUsageReportSubscriptions(_ input: DescribeUsageReportSubscriptionsRequest) throws -> Future<DescribeUsageReportSubscriptionsResult> {
+        return try client.send(operation: "DescribeUsageReportSubscriptions", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Retrieves a list that describes the UserStackAssociation objects. You must specify either or both of the following:   The stack name   The user name (email address of the user associated with the stack) and the authentication type for the user  
     public func describeUserStackAssociations(_ input: DescribeUserStackAssociationsRequest) throws -> Future<DescribeUserStackAssociationsResult> {
         return try client.send(operation: "DescribeUserStackAssociations", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves a list that describes one or more specified users in the user pool, if user names are provided. Otherwise, all users in the user pool are described.
+    ///  Retrieves a list that describes one or more specified users in the user pool.
     public func describeUsers(_ input: DescribeUsersRequest) throws -> Future<DescribeUsersResult> {
         return try client.send(operation: "DescribeUsers", path: "/", httpMethod: "POST", input: input)
     }
@@ -226,12 +241,12 @@ public struct AppStream {
         return try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the specified Directory Config object in AppStream 2.0. This object includes the information required to join streaming instances to an Active Directory domain.
+    ///  Updates the specified Directory Config object in AppStream 2.0. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
     public func updateDirectoryConfig(_ input: UpdateDirectoryConfigRequest) throws -> Future<UpdateDirectoryConfigResult> {
         return try client.send(operation: "UpdateDirectoryConfig", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the specified fleet. If the fleet is in the STOPPED state, you can update any attribute except the fleet name. If the fleet is in the RUNNING state, you can update the DisplayName and ComputeCapacity attributes. If the fleet is in the STARTING or STOPPING state, you can't update it.
+    ///  Updates the specified fleet. If the fleet is in the STOPPED state, you can update any attribute except the fleet name. If the fleet is in the RUNNING state, you can update the DisplayName, ComputeCapacity, ImageARN, ImageName, and DisconnectTimeoutInSeconds attributes. If the fleet is in the STARTING or STOPPING state, you can't update it.
     public func updateFleet(_ input: UpdateFleetRequest) throws -> Future<UpdateFleetResult> {
         return try client.send(operation: "UpdateFleet", path: "/", httpMethod: "POST", input: input)
     }

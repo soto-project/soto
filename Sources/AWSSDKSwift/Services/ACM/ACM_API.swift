@@ -71,6 +71,11 @@ public struct ACM {
         return try client.send(operation: "RemoveTagsFromCertificate", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Renews an eligable ACM certificate. At this time, only exported private certificates can be renewed with this operation. In order to renew your ACM PCA certificates with ACM, you must first grant the ACM service principal permission to do so. For more information, see Testing Managed Renewal in the ACM User Guide.
+    @discardableResult public func renewCertificate(_ input: RenewCertificateRequest) throws -> Future<Void> {
+        return try client.send(operation: "RenewCertificate", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Requests an ACM certificate for use with other AWS services. To request an ACM certificate, you must specify a fully qualified domain name (FQDN) in the DomainName parameter. You can also specify additional FQDNs in the SubjectAlternativeNames parameter.  If you are requesting a private certificate, domain validation is not required. If you are requesting a public certificate, each domain name that you specify must be validated to verify that you own or control the domain. You can use DNS validation or email validation. We recommend that you use DNS validation. ACM issues public certificates after receiving approval from the domain owner. 
     public func requestCertificate(_ input: RequestCertificateRequest) throws -> Future<RequestCertificateResponse> {
         return try client.send(operation: "RequestCertificate", path: "/", httpMethod: "POST", input: input)

@@ -26,12 +26,12 @@ public struct SFN {
         )
     }
 
-    ///  Creates an activity. An activity is a task that you write in any programming language and host on any machine that has access to AWS Step Functions. Activities must poll Step Functions using the GetActivityTask API action and respond using SendTask* API actions. This function lets Step Functions know the existence of your activity and returns an identifier for use in a state machine and when polling from the activity.
+    ///  Creates an activity. An activity is a task that you write in any programming language and host on any machine that has access to AWS Step Functions. Activities must poll Step Functions using the GetActivityTask API action and respond using SendTask* API actions. This function lets Step Functions know the existence of your activity and returns an identifier for use in a state machine and when polling from the activity.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. 
     public func createActivity(_ input: CreateActivityInput) throws -> Future<CreateActivityOutput> {
         return try client.send(operation: "CreateActivity", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a state machine. A state machine consists of a collection of states that can do work (Task states), determine to which states to transition next (Choice states), stop an execution with an error (Fail states), and so on. State machines are specified using a JSON-based, structured language.
+    ///  Creates a state machine. A state machine consists of a collection of states that can do work (Task states), determine to which states to transition next (Choice states), stop an execution with an error (Fail states), and so on. State machines are specified using a JSON-based, structured language.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. 
     public func createStateMachine(_ input: CreateStateMachineInput) throws -> Future<CreateStateMachineOutput> {
         return try client.send(operation: "CreateStateMachine", path: "/", httpMethod: "POST", input: input)
     }
@@ -71,24 +71,29 @@ public struct SFN {
         return try client.send(operation: "GetActivityTask", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the history of the specified execution as a list of events. By default, the results are returned in ascending order of the timeStamp of the events. Use the reverseOrder parameter to get the latest events first. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    ///  Returns the history of the specified execution as a list of events. By default, the results are returned in ascending order of the timeStamp of the events. Use the reverseOrder parameter to get the latest events first. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
     public func getExecutionHistory(_ input: GetExecutionHistoryInput) throws -> Future<GetExecutionHistoryOutput> {
         return try client.send(operation: "GetExecutionHistory", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the existing activities. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return an HTTP 400 InvalidToken error.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. 
+    ///  Lists the existing activities. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. 
     public func listActivities(_ input: ListActivitiesInput) throws -> Future<ListActivitiesOutput> {
         return try client.send(operation: "ListActivities", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the executions of a state machine that meet the filtering criteria. Results are sorted by time, with the most recent execution first. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return an HTTP 400 InvalidToken error.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. 
+    ///  Lists the executions of a state machine that meet the filtering criteria. Results are sorted by time, with the most recent execution first. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. 
     public func listExecutions(_ input: ListExecutionsInput) throws -> Future<ListExecutionsOutput> {
         return try client.send(operation: "ListExecutions", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the existing state machines. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return an HTTP 400 InvalidToken error.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. 
+    ///  Lists the existing state machines. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. 
     public func listStateMachines(_ input: ListStateMachinesInput) throws -> Future<ListStateMachinesOutput> {
         return try client.send(operation: "ListStateMachines", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  List tags for a given resource.
+    public func listTagsForResource(_ input: ListTagsForResourceInput) throws -> Future<ListTagsForResourceOutput> {
+        return try client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Used by workers to report that the task identified by the taskToken failed.
@@ -114,6 +119,16 @@ public struct SFN {
     ///  Stops an execution.
     public func stopExecution(_ input: StopExecutionInput) throws -> Future<StopExecutionOutput> {
         return try client.send(operation: "StopExecution", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Add a tag to a Step Functions resource.
+    public func tagResource(_ input: TagResourceInput) throws -> Future<TagResourceOutput> {
+        return try client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Remove a tag from a Step Functions resource
+    public func untagResource(_ input: UntagResourceInput) throws -> Future<UntagResourceOutput> {
+        return try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates an existing state machine by modifying its definition and/or roleArn. Running executions will continue to use the previous definition and roleArn. You must include at least one of definition or roleArn or you will receive a MissingRequiredParameter error.  All StartExecution calls within a few seconds will use the updated definition and roleArn. Executions started immediately after calling UpdateStateMachine may use the previous state machine definition and roleArn.  

@@ -20,28 +20,44 @@ public struct MediaTailor {
             serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2018-04-23",
             endpoint: endpoint,
-            middlewares: []
+            middlewares: [],
+            possibleErrorTypes: [MediaTailorErrorType.self]
         )
     }
 
-    ///  Deletes the configuration for the specified name. 
-    @discardableResult public func deletePlaybackConfiguration(_ input: DeletePlaybackConfigurationRequest) throws -> Future<Void> {
+    ///  Deletes the playback configuration for the specified name. 
+    public func deletePlaybackConfiguration(_ input: DeletePlaybackConfigurationRequest) throws -> Future<DeletePlaybackConfigurationResponse> {
         return try client.send(operation: "DeletePlaybackConfiguration", path: "/playbackConfiguration/{Name}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Returns the configuration for the specified name. 
+    ///  Returns the playback configuration for the specified name. 
     public func getPlaybackConfiguration(_ input: GetPlaybackConfigurationRequest) throws -> Future<GetPlaybackConfigurationResponse> {
         return try client.send(operation: "GetPlaybackConfiguration", path: "/playbackConfiguration/{Name}", httpMethod: "GET", input: input)
     }
 
-    ///  Returns a list of the configurations defined in AWS Elemental MediaTailor. You can specify a max number of configurations to return at a time. The default max is 50. Results are returned in pagefuls. If AWS Elemental MediaTailor has more configurations than the specified max, it provides parameters in the response that you can use to retrieve the next pageful. 
+    ///  Returns a list of the playback configurations defined in AWS Elemental MediaTailor. You can specify a maximum number of configurations to return at a time. The default maximum is 50. Results are returned in pagefuls. If MediaTailor has more configurations than the specified maximum, it provides parameters in the response that you can use to retrieve the next pageful. 
     public func listPlaybackConfigurations(_ input: ListPlaybackConfigurationsRequest) throws -> Future<ListPlaybackConfigurationsResponse> {
         return try client.send(operation: "ListPlaybackConfigurations", path: "/playbackConfigurations", httpMethod: "GET", input: input)
     }
 
-    ///  Adds a new configuration to AWS Elemental MediaTailor.
+    ///  Returns a list of the tags assigned to the specified playback configuration resource. 
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> Future<ListTagsForResourceResponse> {
+        return try client.send(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: "GET", input: input)
+    }
+
+    ///  Adds a new playback configuration to AWS Elemental MediaTailor. 
     public func putPlaybackConfiguration(_ input: PutPlaybackConfigurationRequest) throws -> Future<PutPlaybackConfigurationResponse> {
         return try client.send(operation: "PutPlaybackConfiguration", path: "/playbackConfiguration", httpMethod: "PUT", input: input)
+    }
+
+    ///  Adds tags to the specified playback configuration resource. You can specify one or more tags to add. 
+    @discardableResult public func tagResource(_ input: TagResourceRequest) throws -> Future<Void> {
+        return try client.send(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes tags from the specified playback configuration resource. You can specify one or more tags to remove. 
+    @discardableResult public func untagResource(_ input: UntagResourceRequest) throws -> Future<Void> {
+        return try client.send(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: "DELETE", input: input)
     }
 
 

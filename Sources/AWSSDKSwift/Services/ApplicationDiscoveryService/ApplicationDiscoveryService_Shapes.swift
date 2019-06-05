@@ -151,6 +151,71 @@ extension ApplicationDiscoveryService {
 
     }
 
+    public struct BatchDeleteImportDataError: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "errorCode", required: false, type: .enum), 
+            AWSShapeMember(label: "errorDescription", required: false, type: .string), 
+            AWSShapeMember(label: "importTaskId", required: false, type: .string)
+        ]
+        /// The type of error that occurred for a specific import task.
+        public let errorCode: BatchDeleteImportDataErrorCode?
+        /// The description of the error that occurred for a specific import task.
+        public let errorDescription: String?
+        /// The unique import ID associated with the error that occurred.
+        public let importTaskId: String?
+
+        public init(errorCode: BatchDeleteImportDataErrorCode? = nil, errorDescription: String? = nil, importTaskId: String? = nil) {
+            self.errorCode = errorCode
+            self.errorDescription = errorDescription
+            self.importTaskId = importTaskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "errorCode"
+            case errorDescription = "errorDescription"
+            case importTaskId = "importTaskId"
+        }
+    }
+
+    public enum BatchDeleteImportDataErrorCode: String, CustomStringConvertible, Codable {
+        case notFound = "NOT_FOUND"
+        case internalServerError = "INTERNAL_SERVER_ERROR"
+        case overLimit = "OVER_LIMIT"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct BatchDeleteImportDataRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "importTaskIds", required: true, type: .list)
+        ]
+        /// The IDs for the import tasks that you want to delete.
+        public let importTaskIds: [String]
+
+        public init(importTaskIds: [String]) {
+            self.importTaskIds = importTaskIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importTaskIds = "importTaskIds"
+        }
+    }
+
+    public struct BatchDeleteImportDataResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "errors", required: false, type: .list)
+        ]
+        /// Error messages returned for each import task that you deleted as a response for this command.
+        public let errors: [BatchDeleteImportDataError]?
+
+        public init(errors: [BatchDeleteImportDataError]? = nil) {
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "errors"
+        }
+    }
+
     public enum ConfigurationItemType: String, CustomStringConvertible, Codable {
         case server = "SERVER"
         case process = "PROCESS"
@@ -218,7 +283,7 @@ extension ApplicationDiscoveryService {
         public let startTime: TimeStamp?
         /// Describes the status of the export. Can be one of the following values:   START_IN_PROGRESS - setting up resources to start continuous export.   START_FAILED - an error occurred setting up continuous export. To recover, call start-continuous-export again.   ACTIVE - data is being exported to the customer bucket.   ERROR - an error occurred during export. To fix the issue, call stop-continuous-export and start-continuous-export.   STOP_IN_PROGRESS - stopping the export.   STOP_FAILED - an error occurred stopping the export. To recover, call stop-continuous-export again.   INACTIVE - the continuous export has been stopped. Data is no longer being exported to the customer bucket.  
         public let status: ContinuousExportStatus?
-        /// Contains information about any errors that may have occurred.
+        /// Contains information about any errors that have occurred. This data type can have the following values:   ACCESS_DENIED - You don’t have permission to start Data Exploration in Amazon Athena. Contact your AWS administrator for help. For more information, see Setting Up AWS Application Discovery Service in the Application Discovery Service User Guide.   DELIVERY_STREAM_LIMIT_FAILURE - You reached the limit for Amazon Kinesis Data Firehose delivery streams. Reduce the number of streams or request a limit increase and try again. For more information, see Kinesis Data Streams Limits in the Amazon Kinesis Data Streams Developer Guide.   FIREHOSE_ROLE_MISSING - The Data Exploration feature is in an error state because your IAM User is missing the AWSApplicationDiscoveryServiceFirehose role. Turn on Data Exploration in Amazon Athena and try again. For more information, see Step 3: Provide Application Discovery Service Access to Non-Administrator Users by Attaching Policies in the Application Discovery Service User Guide.   FIREHOSE_STREAM_DOES_NOT_EXIST - The Data Exploration feature is in an error state because your IAM User is missing one or more of the Kinesis data delivery streams.   INTERNAL_FAILURE - The Data Exploration feature is in an error state because of an internal failure. Try again later. If this problem persists, contact AWS Support.   S3_BUCKET_LIMIT_FAILURE - You reached the limit for Amazon S3 buckets. Reduce the number of Amazon S3 buckets or request a limit increase and try again. For more information, see Bucket Restrictions and Limitations in the Amazon Simple Storage Service Developer Guide.   S3_NOT_SIGNED_UP - Your account is not signed up for the Amazon S3 service. You must sign up before you can use Amazon S3. You can sign up at the following URL: https://aws.amazon.com/s3.  
         public let statusDetail: String?
         /// The timestamp that represents when this continuous export was stopped.
         public let stopTime: TimeStamp?
@@ -699,6 +764,53 @@ extension ApplicationDiscoveryService {
         }
     }
 
+    public struct DescribeImportTasksRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filters", required: false, type: .list), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// An array of name-value pairs that you provide to filter the results for the DescribeImportTask request to a specific subset of results. Currently, wildcard values aren't supported for filters.
+        public let filters: [ImportTaskFilter]?
+        /// The maximum number of results that you want this request to return, up to 100.
+        public let maxResults: Int32?
+        /// The token to request a specific page of results.
+        public let nextToken: String?
+
+        public init(filters: [ImportTaskFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeImportTasksResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "tasks", required: false, type: .list)
+        ]
+        /// The token to request the next page of results.
+        public let nextToken: String?
+        /// A returned array of import tasks that match any applied filters, up to the specified number of maximum results.
+        public let tasks: [ImportTask]?
+
+        public init(nextToken: String? = nil, tasks: [ImportTask]? = nil) {
+            self.nextToken = nextToken
+            self.tasks = tasks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case tasks = "tasks"
+        }
+    }
+
     public struct DescribeTagsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "filters", required: false, type: .list), 
@@ -952,6 +1064,125 @@ extension ApplicationDiscoveryService {
             case serversMappedToApplications = "serversMappedToApplications"
             case serversMappedtoTags = "serversMappedtoTags"
         }
+    }
+
+    public enum ImportStatus: String, CustomStringConvertible, Codable {
+        case importInProgress = "IMPORT_IN_PROGRESS"
+        case importComplete = "IMPORT_COMPLETE"
+        case importCompleteWithErrors = "IMPORT_COMPLETE_WITH_ERRORS"
+        case importFailed = "IMPORT_FAILED"
+        case importFailedServerLimitExceeded = "IMPORT_FAILED_SERVER_LIMIT_EXCEEDED"
+        case importFailedRecordLimitExceeded = "IMPORT_FAILED_RECORD_LIMIT_EXCEEDED"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        case deleteComplete = "DELETE_COMPLETE"
+        case deleteFailed = "DELETE_FAILED"
+        case deleteFailedLimitExceeded = "DELETE_FAILED_LIMIT_EXCEEDED"
+        case internalError = "INTERNAL_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ImportTask: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "applicationImportFailure", required: false, type: .integer), 
+            AWSShapeMember(label: "applicationImportSuccess", required: false, type: .integer), 
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "errorsAndFailedEntriesZip", required: false, type: .string), 
+            AWSShapeMember(label: "importCompletionTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "importDeletedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "importRequestTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "importTaskId", required: false, type: .string), 
+            AWSShapeMember(label: "importUrl", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "serverImportFailure", required: false, type: .integer), 
+            AWSShapeMember(label: "serverImportSuccess", required: false, type: .integer), 
+            AWSShapeMember(label: "status", required: false, type: .enum)
+        ]
+        /// The total number of application records in the import file that failed to be imported.
+        public let applicationImportFailure: Int32?
+        /// The total number of application records in the import file that were successfully imported.
+        public let applicationImportSuccess: Int32?
+        /// A unique token used to prevent the same import request from occurring more than once. If you didn't provide a token, a token was automatically generated when the import task request was sent.
+        public let clientRequestToken: String?
+        /// A link to a compressed archive folder (in the ZIP format) that contains an error log and a file of failed records. You can use these two files to quickly identify records that failed, why they failed, and correct those records. Afterward, you can upload the corrected file to your Amazon S3 bucket and create another import task request. This field also includes authorization information so you can confirm the authenticity of the compressed archive before you download it. If some records failed to be imported we recommend that you correct the records in the failed entries file and then imports that failed entries file. This prevents you from having to correct and update the larger original file and attempt importing it again.
+        public let errorsAndFailedEntriesZip: String?
+        /// The time that the import task request finished, presented in the Unix time stamp format.
+        public let importCompletionTime: TimeStamp?
+        /// The time that the import task request was deleted, presented in the Unix time stamp format.
+        public let importDeletedTime: TimeStamp?
+        /// The time that the import task request was made, presented in the Unix time stamp format.
+        public let importRequestTime: TimeStamp?
+        /// The unique ID for a specific import task. These IDs aren't globally unique, but they are unique within an AWS account.
+        public let importTaskId: String?
+        /// The URL for your import file that you've uploaded to Amazon S3.
+        public let importUrl: String?
+        /// A descriptive name for an import task. You can use this name to filter future requests related to this import task, such as identifying applications and servers that were included in this import task. We recommend that you use a meaningful name for each import task.
+        public let name: String?
+        /// The total number of server records in the import file that failed to be imported.
+        public let serverImportFailure: Int32?
+        /// The total number of server records in the import file that were successfully imported.
+        public let serverImportSuccess: Int32?
+        /// The status of the import task. An import can have the status of IMPORT_COMPLETE and still have some records fail to import from the overall request. More information can be found in the downloadable archive defined in the errorsAndFailedEntriesZip field, or in the Migration Hub management console.
+        public let status: ImportStatus?
+
+        public init(applicationImportFailure: Int32? = nil, applicationImportSuccess: Int32? = nil, clientRequestToken: String? = nil, errorsAndFailedEntriesZip: String? = nil, importCompletionTime: TimeStamp? = nil, importDeletedTime: TimeStamp? = nil, importRequestTime: TimeStamp? = nil, importTaskId: String? = nil, importUrl: String? = nil, name: String? = nil, serverImportFailure: Int32? = nil, serverImportSuccess: Int32? = nil, status: ImportStatus? = nil) {
+            self.applicationImportFailure = applicationImportFailure
+            self.applicationImportSuccess = applicationImportSuccess
+            self.clientRequestToken = clientRequestToken
+            self.errorsAndFailedEntriesZip = errorsAndFailedEntriesZip
+            self.importCompletionTime = importCompletionTime
+            self.importDeletedTime = importDeletedTime
+            self.importRequestTime = importRequestTime
+            self.importTaskId = importTaskId
+            self.importUrl = importUrl
+            self.name = name
+            self.serverImportFailure = serverImportFailure
+            self.serverImportSuccess = serverImportSuccess
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationImportFailure = "applicationImportFailure"
+            case applicationImportSuccess = "applicationImportSuccess"
+            case clientRequestToken = "clientRequestToken"
+            case errorsAndFailedEntriesZip = "errorsAndFailedEntriesZip"
+            case importCompletionTime = "importCompletionTime"
+            case importDeletedTime = "importDeletedTime"
+            case importRequestTime = "importRequestTime"
+            case importTaskId = "importTaskId"
+            case importUrl = "importUrl"
+            case name = "name"
+            case serverImportFailure = "serverImportFailure"
+            case serverImportSuccess = "serverImportSuccess"
+            case status = "status"
+        }
+    }
+
+    public struct ImportTaskFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .enum), 
+            AWSShapeMember(label: "values", required: false, type: .list)
+        ]
+        /// The name, status, or import task ID for a specific import task.
+        public let name: ImportTaskFilterName?
+        /// An array of strings that you can provide to match against a specific name, status, or import task ID to filter the results for your import task queries.
+        public let values: [String]?
+
+        public init(name: ImportTaskFilterName? = nil, values: [String]? = nil) {
+            self.name = name
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case values = "values"
+        }
+    }
+
+    public enum ImportTaskFilterName: String, CustomStringConvertible, Codable {
+        case importTaskId = "IMPORT_TASK_ID"
+        case status = "STATUS"
+        case name = "NAME"
+        public var description: String { return self.rawValue }
     }
 
     public struct ListConfigurationsRequest: AWSShape {
@@ -1249,6 +1480,48 @@ extension ApplicationDiscoveryService {
 
         private enum CodingKeys: String, CodingKey {
             case exportId = "exportId"
+        }
+    }
+
+    public struct StartImportTaskRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "importUrl", required: true, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string)
+        ]
+        /// Optional. A unique token that you can provide to prevent the same import request from occurring more than once. If you don't provide a token, a token is automatically generated. Sending more than one StartImportTask request with the same client request token will return information about the original import task with that client request token.
+        public let clientRequestToken: String?
+        /// The URL for your import file that you've uploaded to Amazon S3.  If you're using the AWS CLI, this URL is structured as follows: s3://BucketName/ImportFileName.CSV  
+        public let importUrl: String
+        /// A descriptive name for this request. You can use this name to filter future requests related to this import task, such as identifying applications and servers that were included in this import task. We recommend that you use a meaningful name for each import task.
+        public let name: String
+
+        public init(clientRequestToken: String? = nil, importUrl: String, name: String) {
+            self.clientRequestToken = clientRequestToken
+            self.importUrl = importUrl
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case importUrl = "importUrl"
+            case name = "name"
+        }
+    }
+
+    public struct StartImportTaskResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "task", required: false, type: .structure)
+        ]
+        /// An array of information related to the import task request including status information, times, IDs, the Amazon S3 Object URL for the import file, and more. 
+        public let task: ImportTask?
+
+        public init(task: ImportTask? = nil) {
+            self.task = task
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case task = "task"
         }
     }
 

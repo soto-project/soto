@@ -56,6 +56,55 @@
         {"shape":"EncryptionKeyUnavailableException"}
       ]
     },
+    "CreateCommit":{
+      "name":"CreateCommit",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"CreateCommitInput"},
+      "output":{"shape":"CreateCommitOutput"},
+      "errors":[
+        {"shape":"RepositoryNameRequiredException"},
+        {"shape":"InvalidRepositoryNameException"},
+        {"shape":"RepositoryDoesNotExistException"},
+        {"shape":"ParentCommitIdRequiredException"},
+        {"shape":"InvalidParentCommitIdException"},
+        {"shape":"ParentCommitDoesNotExistException"},
+        {"shape":"ParentCommitIdOutdatedException"},
+        {"shape":"BranchNameRequiredException"},
+        {"shape":"InvalidBranchNameException"},
+        {"shape":"BranchDoesNotExistException"},
+        {"shape":"BranchNameIsTagNameException"},
+        {"shape":"FileEntryRequiredException"},
+        {"shape":"MaximumFileEntriesExceededException"},
+        {"shape":"PutFileEntryConflictException"},
+        {"shape":"SourceFileOrContentRequiredException"},
+        {"shape":"FileContentAndSourceFileSpecifiedException"},
+        {"shape":"PathRequiredException"},
+        {"shape":"InvalidPathException"},
+        {"shape":"SamePathRequestException"},
+        {"shape":"FileDoesNotExistException"},
+        {"shape":"FileContentSizeLimitExceededException"},
+        {"shape":"FolderContentSizeLimitExceededException"},
+        {"shape":"InvalidDeletionParameterException"},
+        {"shape":"RestrictedSourceFileException"},
+        {"shape":"FileModeRequiredException"},
+        {"shape":"InvalidFileModeException"},
+        {"shape":"NameLengthExceededException"},
+        {"shape":"InvalidEmailException"},
+        {"shape":"CommitMessageLengthExceededException"},
+        {"shape":"EncryptionIntegrityChecksFailedException"},
+        {"shape":"EncryptionKeyAccessDeniedException"},
+        {"shape":"EncryptionKeyDisabledException"},
+        {"shape":"EncryptionKeyNotFoundException"},
+        {"shape":"EncryptionKeyUnavailableException"},
+        {"shape":"NoChangeException"},
+        {"shape":"FileNameConflictsWithDirectoryNameException"},
+        {"shape":"DirectoryNameConflictsWithFileNameException"},
+        {"shape":"FilePathConflictsWithSubmodulePathException"}
+      ]
+    },
     "CreatePullRequest":{
       "name":"CreatePullRequest",
       "http":{
@@ -110,7 +159,11 @@
         {"shape":"EncryptionKeyAccessDeniedException"},
         {"shape":"EncryptionKeyDisabledException"},
         {"shape":"EncryptionKeyNotFoundException"},
-        {"shape":"EncryptionKeyUnavailableException"}
+        {"shape":"EncryptionKeyUnavailableException"},
+        {"shape":"InvalidTagsMapException"},
+        {"shape":"TooManyTagsException"},
+        {"shape":"InvalidSystemTagUsageException"},
+        {"shape":"TagPolicyException"}
       ]
     },
     "DeleteBranch":{
@@ -577,6 +630,21 @@
         {"shape":"InvalidContinuationTokenException"}
       ]
     },
+    "ListTagsForResource":{
+      "name":"ListTagsForResource",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"ListTagsForResourceInput"},
+      "output":{"shape":"ListTagsForResourceOutput"},
+      "errors":[
+        {"shape":"RepositoryDoesNotExistException"},
+        {"shape":"InvalidRepositoryNameException"},
+        {"shape":"ResourceArnRequiredException"},
+        {"shape":"InvalidResourceArnException"}
+      ]
+    },
     "MergePullRequestByFastForward":{
       "name":"MergePullRequestByFastForward",
       "http":{
@@ -717,6 +785,7 @@
         {"shape":"ParentCommitIdOutdatedException"},
         {"shape":"FileContentRequiredException"},
         {"shape":"FileContentSizeLimitExceededException"},
+        {"shape":"FolderContentSizeLimitExceededException"},
         {"shape":"PathRequiredException"},
         {"shape":"InvalidPathException"},
         {"shape":"BranchNameRequiredException"},
@@ -735,7 +804,8 @@
         {"shape":"EncryptionKeyUnavailableException"},
         {"shape":"SameFileContentException"},
         {"shape":"FileNameConflictsWithDirectoryNameException"},
-        {"shape":"DirectoryNameConflictsWithFileNameException"}
+        {"shape":"DirectoryNameConflictsWithFileNameException"},
+        {"shape":"FilePathConflictsWithSubmodulePathException"}
       ]
     },
     "PutRepositoryTriggers":{
@@ -770,6 +840,25 @@
         {"shape":"EncryptionKeyUnavailableException"}
       ]
     },
+    "TagResource":{
+      "name":"TagResource",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"TagResourceInput"},
+      "errors":[
+        {"shape":"RepositoryDoesNotExistException"},
+        {"shape":"InvalidRepositoryNameException"},
+        {"shape":"ResourceArnRequiredException"},
+        {"shape":"InvalidResourceArnException"},
+        {"shape":"TagsMapRequiredException"},
+        {"shape":"InvalidTagsMapException"},
+        {"shape":"TooManyTagsException"},
+        {"shape":"InvalidSystemTagUsageException"},
+        {"shape":"TagPolicyException"}
+      ]
+    },
     "TestRepositoryTriggers":{
       "name":"TestRepositoryTriggers",
       "http":{
@@ -800,6 +889,25 @@
         {"shape":"EncryptionKeyDisabledException"},
         {"shape":"EncryptionKeyNotFoundException"},
         {"shape":"EncryptionKeyUnavailableException"}
+      ]
+    },
+    "UntagResource":{
+      "name":"UntagResource",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"UntagResourceInput"},
+      "errors":[
+        {"shape":"RepositoryDoesNotExistException"},
+        {"shape":"InvalidRepositoryNameException"},
+        {"shape":"ResourceArnRequiredException"},
+        {"shape":"InvalidResourceArnException"},
+        {"shape":"TagKeysListRequiredException"},
+        {"shape":"InvalidTagKeysListException"},
+        {"shape":"TooManyTagsException"},
+        {"shape":"InvalidSystemTagUsageException"},
+        {"shape":"TagPolicyException"}
       ]
     },
     "UpdateComment":{
@@ -1188,6 +1296,35 @@
         "commitId":{"shape":"CommitId"}
       }
     },
+    "CreateCommitInput":{
+      "type":"structure",
+      "required":[
+        "repositoryName",
+        "branchName"
+      ],
+      "members":{
+        "repositoryName":{"shape":"RepositoryName"},
+        "branchName":{"shape":"BranchName"},
+        "parentCommitId":{"shape":"CommitId"},
+        "authorName":{"shape":"Name"},
+        "email":{"shape":"Email"},
+        "commitMessage":{"shape":"Message"},
+        "keepEmptyFolders":{"shape":"KeepEmptyFolders"},
+        "putFiles":{"shape":"PutFileEntries"},
+        "deleteFiles":{"shape":"DeleteFileEntries"},
+        "setFileModes":{"shape":"SetFileModeEntries"}
+      }
+    },
+    "CreateCommitOutput":{
+      "type":"structure",
+      "members":{
+        "commitId":{"shape":"ObjectId"},
+        "treeId":{"shape":"ObjectId"},
+        "filesAdded":{"shape":"FilesMetadata"},
+        "filesUpdated":{"shape":"FilesMetadata"},
+        "filesDeleted":{"shape":"FilesMetadata"}
+      }
+    },
     "CreatePullRequestInput":{
       "type":"structure",
       "required":[
@@ -1216,7 +1353,8 @@
       "required":["repositoryName"],
       "members":{
         "repositoryName":{"shape":"RepositoryName"},
-        "repositoryDescription":{"shape":"RepositoryDescription"}
+        "repositoryDescription":{"shape":"RepositoryDescription"},
+        "tags":{"shape":"TagsMap"}
       }
     },
     "CreateRepositoryOutput":{
@@ -1261,6 +1399,17 @@
       "type":"structure",
       "members":{
         "comment":{"shape":"Comment"}
+      }
+    },
+    "DeleteFileEntries":{
+      "type":"list",
+      "member":{"shape":"DeleteFileEntry"}
+    },
+    "DeleteFileEntry":{
+      "type":"structure",
+      "required":["filePath"],
+      "members":{
+        "filePath":{"shape":"Path"}
       }
     },
     "DeleteFileInput":{
@@ -1397,6 +1546,12 @@
       "type":"blob",
       "max":6291456
     },
+    "FileContentAndSourceFileSpecifiedException":{
+      "type":"structure",
+      "members":{
+      },
+      "exception":true
+    },
     "FileContentRequiredException":{
       "type":"structure",
       "members":{
@@ -1415,9 +1570,29 @@
       },
       "exception":true
     },
+    "FileEntryRequiredException":{
+      "type":"structure",
+      "members":{
+      },
+      "exception":true
+    },
     "FileList":{
       "type":"list",
       "member":{"shape":"File"}
+    },
+    "FileMetadata":{
+      "type":"structure",
+      "members":{
+        "absolutePath":{"shape":"Path"},
+        "blobId":{"shape":"ObjectId"},
+        "fileMode":{"shape":"FileModeTypeEnum"}
+      }
+    },
+    "FileModeRequiredException":{
+      "type":"structure",
+      "members":{
+      },
+      "exception":true
     },
     "FileModeTypeEnum":{
       "type":"string",
@@ -1433,11 +1608,21 @@
       },
       "exception":true
     },
+    "FilePathConflictsWithSubmodulePathException":{
+      "type":"structure",
+      "members":{
+      },
+      "exception":true
+    },
     "FileTooLargeException":{
       "type":"structure",
       "members":{
       },
       "exception":true
+    },
+    "FilesMetadata":{
+      "type":"list",
+      "member":{"shape":"FileMetadata"}
     },
     "Folder":{
       "type":"structure",
@@ -1446,6 +1631,12 @@
         "absolutePath":{"shape":"Path"},
         "relativePath":{"shape":"Path"}
       }
+    },
+    "FolderContentSizeLimitExceededException":{
+      "type":"structure",
+      "members":{
+      },
+      "exception":true
     },
     "FolderDoesNotExistException":{
       "type":"structure",
@@ -1926,6 +2117,12 @@
       },
       "exception":true
     },
+    "InvalidResourceArnException":{
+      "type":"structure",
+      "members":{
+      },
+      "exception":true
+    },
     "InvalidSortByException":{
       "type":"structure",
       "members":{
@@ -1933,6 +2130,24 @@
       "exception":true
     },
     "InvalidSourceCommitSpecifierException":{
+      "type":"structure",
+      "members":{
+      },
+      "exception":true
+    },
+    "InvalidSystemTagUsageException":{
+      "type":"structure",
+      "members":{
+      },
+      "exception":true
+    },
+    "InvalidTagKeysListException":{
+      "type":"structure",
+      "members":{
+      },
+      "exception":true
+    },
+    "InvalidTagsMapException":{
       "type":"structure",
       "members":{
       },
@@ -1959,6 +2174,7 @@
     "IsCommentDeleted":{"type":"boolean"},
     "IsMergeable":{"type":"boolean"},
     "IsMerged":{"type":"boolean"},
+    "IsMove":{"type":"boolean"},
     "KeepEmptyFolders":{"type":"boolean"},
     "LastModifiedDate":{"type":"timestamp"},
     "Limit":{
@@ -2014,6 +2230,21 @@
         "nextToken":{"shape":"NextToken"}
       }
     },
+    "ListTagsForResourceInput":{
+      "type":"structure",
+      "required":["resourceArn"],
+      "members":{
+        "resourceArn":{"shape":"ResourceArn"},
+        "nextToken":{"shape":"NextToken"}
+      }
+    },
+    "ListTagsForResourceOutput":{
+      "type":"structure",
+      "members":{
+        "tags":{"shape":"TagsMap"},
+        "nextToken":{"shape":"NextToken"}
+      }
+    },
     "Location":{
       "type":"structure",
       "members":{
@@ -2030,6 +2261,12 @@
     },
     "MaxResults":{"type":"integer"},
     "MaximumBranchesExceededException":{
+      "type":"structure",
+      "members":{
+      },
+      "exception":true
+    },
+    "MaximumFileEntriesExceededException":{
       "type":"structure",
       "members":{
       },
@@ -2104,6 +2341,12 @@
       "exception":true
     },
     "NextToken":{"type":"string"},
+    "NoChangeException":{
+      "type":"structure",
+      "members":{
+      },
+      "exception":true
+    },
     "ObjectId":{"type":"string"},
     "ObjectSize":{"type":"long"},
     "OrderEnum":{
@@ -2360,6 +2603,26 @@
       "type":"list",
       "member":{"shape":"PullRequestTarget"}
     },
+    "PutFileEntries":{
+      "type":"list",
+      "member":{"shape":"PutFileEntry"}
+    },
+    "PutFileEntry":{
+      "type":"structure",
+      "required":["filePath"],
+      "members":{
+        "filePath":{"shape":"Path"},
+        "fileMode":{"shape":"FileModeTypeEnum"},
+        "fileContent":{"shape":"FileContent"},
+        "sourceFile":{"shape":"SourceFileSpecifier"}
+      }
+    },
+    "PutFileEntryConflictException":{
+      "type":"structure",
+      "members":{
+      },
+      "exception":true
+    },
     "PutFileInput":{
       "type":"structure",
       "required":[
@@ -2602,11 +2865,45 @@
       },
       "exception":true
     },
+    "ResourceArn":{"type":"string"},
+    "ResourceArnRequiredException":{
+      "type":"structure",
+      "members":{
+      },
+      "exception":true
+    },
+    "RestrictedSourceFileException":{
+      "type":"structure",
+      "members":{
+      },
+      "exception":true
+    },
     "SameFileContentException":{
       "type":"structure",
       "members":{
       },
       "exception":true
+    },
+    "SamePathRequestException":{
+      "type":"structure",
+      "members":{
+      },
+      "exception":true
+    },
+    "SetFileModeEntries":{
+      "type":"list",
+      "member":{"shape":"SetFileModeEntry"}
+    },
+    "SetFileModeEntry":{
+      "type":"structure",
+      "required":[
+        "filePath",
+        "fileMode"
+      ],
+      "members":{
+        "filePath":{"shape":"Path"},
+        "fileMode":{"shape":"FileModeTypeEnum"}
+      }
     },
     "SortByEnum":{
       "type":"string",
@@ -2620,6 +2917,20 @@
       "members":{
       },
       "exception":true
+    },
+    "SourceFileOrContentRequiredException":{
+      "type":"structure",
+      "members":{
+      },
+      "exception":true
+    },
+    "SourceFileSpecifier":{
+      "type":"structure",
+      "required":["filePath"],
+      "members":{
+        "filePath":{"shape":"Path"},
+        "isMove":{"shape":"IsMove"}
+      }
     },
     "SubModule":{
       "type":"structure",
@@ -2645,6 +2956,54 @@
     "SymbolicLinkList":{
       "type":"list",
       "member":{"shape":"SymbolicLink"}
+    },
+    "TagKey":{
+      "type":"string",
+      "max":128,
+      "min":1
+    },
+    "TagKeysList":{
+      "type":"list",
+      "member":{"shape":"TagKey"}
+    },
+    "TagKeysListRequiredException":{
+      "type":"structure",
+      "members":{
+      },
+      "exception":true
+    },
+    "TagPolicyException":{
+      "type":"structure",
+      "members":{
+      },
+      "exception":true
+    },
+    "TagResourceInput":{
+      "type":"structure",
+      "required":[
+        "resourceArn",
+        "tags"
+      ],
+      "members":{
+        "resourceArn":{"shape":"ResourceArn"},
+        "tags":{"shape":"TagsMap"}
+      }
+    },
+    "TagValue":{
+      "type":"string",
+      "max":256,
+      "min":0
+    },
+    "TagsMap":{
+      "type":"map",
+      "key":{"shape":"TagKey"},
+      "value":{"shape":"TagValue"}
+    },
+    "TagsMapRequiredException":{
+      "type":"structure",
+      "members":{
+      },
+      "exception":true
     },
     "Target":{
       "type":"structure",
@@ -2713,6 +3072,23 @@
       "members":{
       },
       "exception":true
+    },
+    "TooManyTagsException":{
+      "type":"structure",
+      "members":{
+      },
+      "exception":true
+    },
+    "UntagResourceInput":{
+      "type":"structure",
+      "required":[
+        "resourceArn",
+        "tagKeys"
+      ],
+      "members":{
+        "resourceArn":{"shape":"ResourceArn"},
+        "tagKeys":{"shape":"TagKeysList"}
+      }
     },
     "UpdateCommentInput":{
       "type":"structure",

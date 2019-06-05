@@ -811,7 +811,8 @@ extension ElasticBeanstalk {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceLifecycleConfig", required: false, type: .structure)
+            AWSShapeMember(label: "ResourceLifecycleConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// The name of the application. Constraint: This name must be unique within your account. If the specified name already exists, the action returns an InvalidParameterValue error.
         public let applicationName: String
@@ -819,17 +820,21 @@ extension ElasticBeanstalk {
         public let description: String?
         /// Specify an application resource lifecycle configuration to prevent your application from accumulating too many versions.
         public let resourceLifecycleConfig: ApplicationResourceLifecycleConfig?
+        /// Specifies the tags applied to the application. Elastic Beanstalk applies these tags only to the application. Environments that you create in the application don't inherit the tags.
+        public let tags: [Tag]?
 
-        public init(applicationName: String, description: String? = nil, resourceLifecycleConfig: ApplicationResourceLifecycleConfig? = nil) {
+        public init(applicationName: String, description: String? = nil, resourceLifecycleConfig: ApplicationResourceLifecycleConfig? = nil, tags: [Tag]? = nil) {
             self.applicationName = applicationName
             self.description = description
             self.resourceLifecycleConfig = resourceLifecycleConfig
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case applicationName = "ApplicationName"
             case description = "Description"
             case resourceLifecycleConfig = "ResourceLifecycleConfig"
+            case tags = "Tags"
         }
     }
 
@@ -842,6 +847,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "Process", required: false, type: .boolean), 
             AWSShapeMember(label: "SourceBuildInformation", required: false, type: .structure), 
             AWSShapeMember(label: "SourceBundle", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "VersionLabel", required: true, type: .string)
         ]
         ///  The name of the application. If no application is found with this name, and AutoCreateApplication is false, returns an InvalidParameterValue error. 
@@ -858,10 +864,12 @@ extension ElasticBeanstalk {
         public let sourceBuildInformation: SourceBuildInformation?
         /// The Amazon S3 bucket and key that identify the location of the source bundle for this version.  The Amazon S3 bucket must be in the same region as the environment.  Specify a source bundle in S3 or a commit in an AWS CodeCommit repository (with SourceBuildInformation), but not both. If neither SourceBundle nor SourceBuildInformation are provided, Elastic Beanstalk uses a sample application.
         public let sourceBundle: S3Location?
+        /// Specifies the tags applied to the application version. Elastic Beanstalk applies these tags only to the application version. Environments that use the application version don't inherit the tags.
+        public let tags: [Tag]?
         /// A label identifying this version. Constraint: Must be unique per application. If an application version already exists with this label for the specified application, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
         public let versionLabel: String
 
-        public init(applicationName: String, autoCreateApplication: Bool? = nil, buildConfiguration: BuildConfiguration? = nil, description: String? = nil, process: Bool? = nil, sourceBuildInformation: SourceBuildInformation? = nil, sourceBundle: S3Location? = nil, versionLabel: String) {
+        public init(applicationName: String, autoCreateApplication: Bool? = nil, buildConfiguration: BuildConfiguration? = nil, description: String? = nil, process: Bool? = nil, sourceBuildInformation: SourceBuildInformation? = nil, sourceBundle: S3Location? = nil, tags: [Tag]? = nil, versionLabel: String) {
             self.applicationName = applicationName
             self.autoCreateApplication = autoCreateApplication
             self.buildConfiguration = buildConfiguration
@@ -869,6 +877,7 @@ extension ElasticBeanstalk {
             self.process = process
             self.sourceBuildInformation = sourceBuildInformation
             self.sourceBundle = sourceBundle
+            self.tags = tags
             self.versionLabel = versionLabel
         }
 
@@ -880,6 +889,7 @@ extension ElasticBeanstalk {
             case process = "Process"
             case sourceBuildInformation = "SourceBuildInformation"
             case sourceBundle = "SourceBundle"
+            case tags = "Tags"
             case versionLabel = "VersionLabel"
         }
     }
@@ -893,6 +903,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "PlatformArn", required: false, type: .string), 
             AWSShapeMember(label: "SolutionStackName", required: false, type: .string), 
             AWSShapeMember(label: "SourceConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "TemplateName", required: true, type: .string)
         ]
         /// The name of the application to associate with this configuration template. If no application is found with this name, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
@@ -909,10 +920,12 @@ extension ElasticBeanstalk {
         public let solutionStackName: String?
         /// If specified, AWS Elastic Beanstalk uses the configuration values from the specified configuration template to create a new configuration.  Values specified in the OptionSettings parameter of this call overrides any values obtained from the SourceConfiguration.   If no configuration template is found, returns an InvalidParameterValue error.   Constraint: If both the solution stack name parameter and the source configuration parameters are specified, the solution stack of the source configuration template must match the specified solution stack name or else AWS Elastic Beanstalk returns an InvalidParameterCombination error. 
         public let sourceConfiguration: SourceConfiguration?
+        /// Specifies the tags applied to the configuration template.
+        public let tags: [Tag]?
         /// The name of the configuration template. Constraint: This name must be unique per application. Default: If a configuration template already exists with this name, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
         public let templateName: String
 
-        public init(applicationName: String, description: String? = nil, environmentId: String? = nil, optionSettings: [ConfigurationOptionSetting]? = nil, platformArn: String? = nil, solutionStackName: String? = nil, sourceConfiguration: SourceConfiguration? = nil, templateName: String) {
+        public init(applicationName: String, description: String? = nil, environmentId: String? = nil, optionSettings: [ConfigurationOptionSetting]? = nil, platformArn: String? = nil, solutionStackName: String? = nil, sourceConfiguration: SourceConfiguration? = nil, tags: [Tag]? = nil, templateName: String) {
             self.applicationName = applicationName
             self.description = description
             self.environmentId = environmentId
@@ -920,6 +933,7 @@ extension ElasticBeanstalk {
             self.platformArn = platformArn
             self.solutionStackName = solutionStackName
             self.sourceConfiguration = sourceConfiguration
+            self.tags = tags
             self.templateName = templateName
         }
 
@@ -931,6 +945,7 @@ extension ElasticBeanstalk {
             case platformArn = "PlatformArn"
             case solutionStackName = "SolutionStackName"
             case sourceConfiguration = "SourceConfiguration"
+            case tags = "Tags"
             case templateName = "TemplateName"
         }
     }
@@ -969,7 +984,7 @@ extension ElasticBeanstalk {
         public let platformArn: String?
         /// This is an alternative to specifying a template name. If specified, AWS Elastic Beanstalk sets the configuration values to the default values associated with the specified solution stack. For a list of current solution stacks, see Elastic Beanstalk Supported Platforms.
         public let solutionStackName: String?
-        /// This specifies the tags applied to resources in the environment.
+        /// Specifies the tags applied to resources in the environment.
         public let tags: [Tag]?
         ///  The name of the configuration template to use in deployment. If no configuration template is found with this name, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
         public let templateName: String?
@@ -1017,7 +1032,8 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "OptionSettings", required: false, type: .list), 
             AWSShapeMember(label: "PlatformDefinitionBundle", required: true, type: .structure), 
             AWSShapeMember(label: "PlatformName", required: true, type: .string), 
-            AWSShapeMember(label: "PlatformVersion", required: true, type: .string)
+            AWSShapeMember(label: "PlatformVersion", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// The name of the builder environment.
         public let environmentName: String?
@@ -1029,13 +1045,16 @@ extension ElasticBeanstalk {
         public let platformName: String
         /// The number, such as 1.0.2, for the new platform version.
         public let platformVersion: String
+        /// Specifies the tags applied to the new platform version. Elastic Beanstalk applies these tags only to the platform version. Environments that you create using the platform version don't inherit the tags.
+        public let tags: [Tag]?
 
-        public init(environmentName: String? = nil, optionSettings: [ConfigurationOptionSetting]? = nil, platformDefinitionBundle: S3Location, platformName: String, platformVersion: String) {
+        public init(environmentName: String? = nil, optionSettings: [ConfigurationOptionSetting]? = nil, platformDefinitionBundle: S3Location, platformName: String, platformVersion: String, tags: [Tag]? = nil) {
             self.environmentName = environmentName
             self.optionSettings = optionSettings
             self.platformDefinitionBundle = platformDefinitionBundle
             self.platformName = platformName
             self.platformVersion = platformVersion
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1044,6 +1063,7 @@ extension ElasticBeanstalk {
             case platformDefinitionBundle = "PlatformDefinitionBundle"
             case platformName = "PlatformName"
             case platformVersion = "PlatformVersion"
+            case tags = "Tags"
         }
     }
 
@@ -1835,7 +1855,7 @@ extension ElasticBeanstalk {
         public let environmentLinks: [EnvironmentLink]?
         /// The name of this environment.
         public let environmentName: String?
-        /// Describes the health status of the environment. AWS Elastic Beanstalk indicates the failure levels for a running environment:    Red: Indicates the environment is not responsive. Occurs when three or more consecutive failures occur for an environment.    Yellow: Indicates that something is wrong. Occurs when two consecutive failures occur for an environment.    Green: Indicates the environment is healthy and fully functional.    Grey: Default health for a new environment. The environment is not fully launched and health checks have not started or health checks are suspended during an UpdateEnvironment or RestartEnvironement request.    Default: Grey 
+        /// Describes the health status of the environment. AWS Elastic Beanstalk indicates the failure levels for a running environment:    Red: Indicates the environment is not responsive. Occurs when three or more consecutive failures occur for an environment.    Yellow: Indicates that something is wrong. Occurs when two consecutive failures occur for an environment.    Green: Indicates the environment is healthy and fully functional.    Grey: Default health for a new environment. The environment is not fully launched and health checks have not started or health checks are suspended during an UpdateEnvironment or RestartEnvironment request.    Default: Grey 
         public let health: EnvironmentHealth?
         /// Returns the health status of the application running in your environment. For more information, see Health Colors and Statuses.
         public let healthStatus: EnvironmentHealthStatus?
@@ -1966,7 +1986,7 @@ extension ElasticBeanstalk {
         public let ec2InstanceId: String?
         /// The type of information retrieved.
         public let infoType: EnvironmentInfoType?
-        /// The retrieved information.
+        /// The retrieved information. Currently contains a presigned Amazon S3 URL. The files are deleted after 15 minutes. Anyone in possession of this URL can access the files before they are deleted. Make the URL available only to trusted parties.
         public let message: String?
         /// The time stamp when this information was retrieved.
         public let sampleTimestamp: TimeStamp?
@@ -2019,6 +2039,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
             AWSShapeMember(label: "Instances", required: false, type: .list), 
             AWSShapeMember(label: "LaunchConfigurations", required: false, type: .list), 
+            AWSShapeMember(label: "LaunchTemplates", required: false, type: .list), 
             AWSShapeMember(label: "LoadBalancers", required: false, type: .list), 
             AWSShapeMember(label: "Queues", required: false, type: .list), 
             AWSShapeMember(label: "Triggers", required: false, type: .list)
@@ -2031,6 +2052,8 @@ extension ElasticBeanstalk {
         public let instances: [Instance]?
         /// The Auto Scaling launch configurations in use by this environment.
         public let launchConfigurations: [LaunchConfiguration]?
+        /// The Amazon EC2 launch templates in use by this environment.
+        public let launchTemplates: [LaunchTemplate]?
         /// The LoadBalancers in use by this environment.
         public let loadBalancers: [LoadBalancer]?
         /// The queues used by this environment.
@@ -2038,11 +2061,12 @@ extension ElasticBeanstalk {
         /// The AutoScaling triggers in use by this environment. 
         public let triggers: [Trigger]?
 
-        public init(autoScalingGroups: [AutoScalingGroup]? = nil, environmentName: String? = nil, instances: [Instance]? = nil, launchConfigurations: [LaunchConfiguration]? = nil, loadBalancers: [LoadBalancer]? = nil, queues: [Queue]? = nil, triggers: [Trigger]? = nil) {
+        public init(autoScalingGroups: [AutoScalingGroup]? = nil, environmentName: String? = nil, instances: [Instance]? = nil, launchConfigurations: [LaunchConfiguration]? = nil, launchTemplates: [LaunchTemplate]? = nil, loadBalancers: [LoadBalancer]? = nil, queues: [Queue]? = nil, triggers: [Trigger]? = nil) {
             self.autoScalingGroups = autoScalingGroups
             self.environmentName = environmentName
             self.instances = instances
             self.launchConfigurations = launchConfigurations
+            self.launchTemplates = launchTemplates
             self.loadBalancers = loadBalancers
             self.queues = queues
             self.triggers = triggers
@@ -2053,6 +2077,7 @@ extension ElasticBeanstalk {
             case environmentName = "EnvironmentName"
             case instances = "Instances"
             case launchConfigurations = "LaunchConfigurations"
+            case launchTemplates = "LaunchTemplates"
             case loadBalancers = "LoadBalancers"
             case queues = "Queues"
             case triggers = "Triggers"
@@ -2106,9 +2131,9 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "Type", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
-        /// The name of this environment tier.
+        /// The name of this environment tier. Valid values:   For Web server tier – WebServer    For Worker tier – Worker   
         public let name: String?
-        /// The type of this environment tier.
+        /// The type of this environment tier. Valid values:   For Web server tier – Standard    For Worker tier – SQS/HTTP   
         public let `type`: String?
         /// The version of this environment tier. When you don't set a value to it, Elastic Beanstalk uses the latest compatible worker tier version.  This member is deprecated. Any specific version that you set may become out of date. We recommend leaving it unspecified. 
         public let version: String?
@@ -2370,6 +2395,22 @@ extension ElasticBeanstalk {
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
+        }
+    }
+
+    public struct LaunchTemplate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: false, type: .string)
+        ]
+        /// The ID of the launch template.
+        public let id: String?
+
+        public init(id: String? = nil) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
         }
     }
 

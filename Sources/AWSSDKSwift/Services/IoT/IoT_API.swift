@@ -60,7 +60,7 @@ public struct IoT {
         return try client.send(operation: "AttachSecurityProfile", path: "/security-profiles/{securityProfileName}/targets", httpMethod: "PUT", input: input)
     }
 
-    ///  Attaches the specified principal to the specified thing.
+    ///  Attaches the specified principal to the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities.
     public func attachThingPrincipal(_ input: AttachThingPrincipalRequest) throws -> Future<AttachThingPrincipalResponse> {
         return try client.send(operation: "AttachThingPrincipal", path: "/things/{thingName}/principals", httpMethod: "PUT", input: input)
     }
@@ -155,7 +155,7 @@ public struct IoT {
         return try client.send(operation: "CreateStream", path: "/streams/{streamId}", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a thing record in the registry.  This is a control plane operation. See Authorization for information about authorizing control plane actions. 
+    ///  Creates a thing record in the registry. If this call is made multiple times using the same thing name and configuration, the call will succeed. If this call is made with the same thing name but different configuration a ResourceAlreadyExistsException is thrown.  This is a control plane operation. See Authorization for information about authorizing control plane actions. 
     public func createThing(_ input: CreateThingRequest) throws -> Future<CreateThingResponse> {
         return try client.send(operation: "CreateThing", path: "/things/{thingName}", httpMethod: "POST", input: input)
     }
@@ -400,7 +400,7 @@ public struct IoT {
         return try client.send(operation: "DetachSecurityProfile", path: "/security-profiles/{securityProfileName}/targets", httpMethod: "DELETE", input: input)
     }
 
-    ///  Detaches the specified principal from the specified thing.  This call is asynchronous. It might take several seconds for the detachment to propagate. 
+    ///  Detaches the specified principal from the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities.  This call is asynchronous. It might take several seconds for the detachment to propagate. 
     public func detachThingPrincipal(_ input: DetachThingPrincipalRequest) throws -> Future<DetachThingPrincipalResponse> {
         return try client.send(operation: "DetachThingPrincipal", path: "/things/{thingName}/principals", httpMethod: "DELETE", input: input)
     }
@@ -453,6 +453,11 @@ public struct IoT {
     ///  Gets a registration code used to register a CA certificate with AWS IoT.
     public func getRegistrationCode(_ input: GetRegistrationCodeRequest) throws -> Future<GetRegistrationCodeResponse> {
         return try client.send(operation: "GetRegistrationCode", path: "/registrationcode", httpMethod: "GET", input: input)
+    }
+
+    ///  Gets statistics about things that match the specified query.
+    public func getStatistics(_ input: GetStatisticsRequest) throws -> Future<GetStatisticsResponse> {
+        return try client.send(operation: "GetStatistics", path: "/indices/statistics", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about the rule.
@@ -560,7 +565,7 @@ public struct IoT {
         return try client.send(operation: "ListPrincipalPolicies", path: "/principal-policies", httpMethod: "GET", input: input)
     }
 
-    ///  Lists the things associated with the specified principal.
+    ///  Lists the things associated with the specified principal. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities. 
     public func listPrincipalThings(_ input: ListPrincipalThingsRequest) throws -> Future<ListPrincipalThingsResponse> {
         return try client.send(operation: "ListPrincipalThings", path: "/principals/things", httpMethod: "GET", input: input)
     }
@@ -615,7 +620,7 @@ public struct IoT {
         return try client.send(operation: "ListThingGroupsForThing", path: "/things/{thingName}/thing-groups", httpMethod: "GET", input: input)
     }
 
-    ///  Lists the principals associated with the specified thing.
+    ///  Lists the principals associated with the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities.
     public func listThingPrincipals(_ input: ListThingPrincipalsRequest) throws -> Future<ListThingPrincipalsResponse> {
         return try client.send(operation: "ListThingPrincipals", path: "/things/{thingName}/principals", httpMethod: "GET", input: input)
     }

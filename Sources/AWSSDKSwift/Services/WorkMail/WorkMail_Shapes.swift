@@ -15,7 +15,7 @@ extension WorkMail {
         public let entityId: String
         /// The organization under which the resource exists.
         public let organizationId: String
-        /// The resource for which members are associated.
+        /// The resource for which members (users or groups) are associated.
         public let resourceId: String
 
         public init(entityId: String, organizationId: String, resourceId: String) {
@@ -44,9 +44,9 @@ extension WorkMail {
             AWSShapeMember(label: "MemberId", required: true, type: .string), 
             AWSShapeMember(label: "OrganizationId", required: true, type: .string)
         ]
-        /// The group for which the member is associated.
+        /// The group to which the member (user or group) is associated.
         public let groupId: String
-        /// The member to associate to the group.
+        /// The member (user or group) to associate to the group.
         public let memberId: String
         /// The organization under which the group exists.
         public let organizationId: String
@@ -103,11 +103,11 @@ extension WorkMail {
             AWSShapeMember(label: "EntityId", required: true, type: .string), 
             AWSShapeMember(label: "OrganizationId", required: true, type: .string)
         ]
-        /// The alias to add to the user.
+        /// The alias to add to the member set.
         public let alias: String
-        /// The alias is added to this Amazon WorkMail entity.
+        /// The member (user or group) to which this alias is added.
         public let entityId: String
-        /// The organization under which the member exists.
+        /// The organization under which the member (user or group) exists.
         public let organizationId: String
 
         public init(alias: String, entityId: String, organizationId: String) {
@@ -155,7 +155,7 @@ extension WorkMail {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GroupId", required: false, type: .string)
         ]
-        /// The ID of the group.
+        /// The identifier of the group.
         public let groupId: String?
 
         public init(groupId: String? = nil) {
@@ -173,11 +173,11 @@ extension WorkMail {
             AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
-        /// The name of the created resource.
+        /// The name of the new resource.
         public let name: String
         /// The identifier associated with the organization for which the resource is created.
         public let organizationId: String
-        /// The type of the created resource.
+        /// The type of the new resource. The available types are equipment and room.
         public let `type`: ResourceType
 
         public init(name: String, organizationId: String, type: ResourceType) {
@@ -197,7 +197,7 @@ extension WorkMail {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceId", required: false, type: .string)
         ]
-        /// The identifier of the created resource.
+        /// The identifier of the new resource.
         public let resourceId: String?
 
         public init(resourceId: String? = nil) {
@@ -216,13 +216,13 @@ extension WorkMail {
             AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
             AWSShapeMember(label: "Password", required: true, type: .string)
         ]
-        /// The display name for the user to be created.
+        /// The display name for the new user.
         public let displayName: String
-        /// The name for the user to be created.
+        /// The name for the new user. Simple AD or AD Connector user names have a maximum length of 20. All others have a maximum length of 64.
         public let name: String
         /// The identifier of the organization for which the user is created.
         public let organizationId: String
-        /// The password for the user to be created.
+        /// The password for the new user.
         public let password: String
 
         public init(displayName: String, name: String, organizationId: String, password: String) {
@@ -244,7 +244,7 @@ extension WorkMail {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UserId", required: false, type: .string)
         ]
-        /// The information regarding the newly created user.
+        /// The identifier for the new user.
         public let userId: String?
 
         public init(userId: String? = nil) {
@@ -261,7 +261,7 @@ extension WorkMail {
             AWSShapeMember(label: "Id", required: true, type: .string), 
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
-        /// The identifier for the user or group is associated as the resource's delegate.
+        /// The identifier for the user or group associated as the resource's delegate.
         public let id: String
         /// The type of the delegate: user or group.
         public let `type`: MemberType
@@ -285,7 +285,7 @@ extension WorkMail {
         ]
         /// The aliases to be removed from the user's set of aliases. Duplicate entries in the list are collapsed into single entries (the list is transformed into a set).
         public let alias: String
-        /// The identifier for the Amazon WorkMail entity to have the aliases removed.
+        /// The identifier for the member (user or group) from which to have the aliases removed.
         public let entityId: String
         /// The identifier for the organization under which the user exists.
         public let organizationId: String
@@ -344,11 +344,11 @@ extension WorkMail {
             AWSShapeMember(label: "GranteeId", required: true, type: .string), 
             AWSShapeMember(label: "OrganizationId", required: true, type: .string)
         ]
-        /// The identifier of the entity (user or group) for which to delete mailbox permissions.
+        /// The identifier of the member (user or group)that owns the mailbox.
         public let entityId: String
-        /// The identifier of the entity (user or group) for which to delete granted permissions.
+        /// The identifier of the member (user or group) for which to delete granted permissions.
         public let granteeId: String
-        /// The identifier of the organization under which the entity (user or group) exists.
+        /// The identifier of the organization under which the member (user or group) exists.
         public let organizationId: String
 
         public init(entityId: String, granteeId: String, organizationId: String) {
@@ -376,7 +376,7 @@ extension WorkMail {
             AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
             AWSShapeMember(label: "ResourceId", required: true, type: .string)
         ]
-        /// The identifier associated with the organization for which the resource is deleted.
+        /// The identifier associated with the organization from which the resource is deleted.
         public let organizationId: String
         /// The identifier of the resource to be deleted.
         public let resourceId: String
@@ -404,7 +404,7 @@ extension WorkMail {
             AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
             AWSShapeMember(label: "UserId", required: true, type: .string)
         ]
-        /// The organization that contains the user.
+        /// The organization that contains the user to be deleted.
         public let organizationId: String
         /// The identifier of the user to be deleted.
         public let userId: String
@@ -432,7 +432,7 @@ extension WorkMail {
             AWSShapeMember(label: "EntityId", required: true, type: .string), 
             AWSShapeMember(label: "OrganizationId", required: true, type: .string)
         ]
-        /// The identifier for the entity to be updated.
+        /// The identifier for the member (user or group) to be updated.
         public let entityId: String
         /// The identifier for the organization under which the Amazon WorkMail entity exists.
         public let organizationId: String
@@ -485,17 +485,17 @@ extension WorkMail {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "State", required: false, type: .enum)
         ]
-        /// The date and time when a user was deregistered from Amazon WorkMail, in UNIX epoch time format.
+        /// The date and time when a user was deregistered from WorkMail, in UNIX epoch time format.
         public let disabledDate: TimeStamp?
         /// The email of the described group.
         public let email: String?
-        /// The date and time when a user was registered to Amazon WorkMail, in UNIX epoch time format.
+        /// The date and time when a user was registered to WorkMail, in UNIX epoch time format.
         public let enabledDate: TimeStamp?
         /// The identifier of the described group.
         public let groupId: String?
         /// The name of the described group.
         public let name: String?
-        /// The state of the user: enabled (registered to Amazon WorkMail) or disabled (deregistered or never registered to Amazon WorkMail).
+        /// The state of the user: enabled (registered to Amazon WorkMail) or disabled (deregistered or never registered to WorkMail).
         public let state: EntityState?
 
         public init(disabledDate: TimeStamp? = nil, email: String? = nil, enabledDate: TimeStamp? = nil, groupId: String? = nil, name: String? = nil, state: EntityState? = nil) {
@@ -546,15 +546,15 @@ extension WorkMail {
         ]
         /// The alias for an organization.
         public let alias: String?
-        /// The date at which the organization became usable in the Amazon WorkMail context, in UNIX epoch time format.
+        /// The date at which the organization became usable in the WorkMail context, in UNIX epoch time format.
         public let completedDate: TimeStamp?
         /// The default mail domain associated with the organization.
         public let defaultMailDomain: String?
         /// The identifier for the directory associated with an Amazon WorkMail organization.
         public let directoryId: String?
-        /// The type of directory associated with the Amazon WorkMail organization.
+        /// The type of directory associated with the WorkMail organization.
         public let directoryType: String?
-        /// The (optional) error message indicating if unexpected behavior was encountered with regards to the organization.
+        /// (Optional) The error message indicating if unexpected behavior was encountered with regards to the organization.
         public let errorMessage: String?
         /// The identifier of an organization.
         public let organizationId: String?
@@ -618,17 +618,17 @@ extension WorkMail {
         ]
         /// The booking options for the described resource.
         public let bookingOptions: BookingOptions?
-        /// The date and time when a resource was registered from Amazon WorkMail, in UNIX epoch time format.
+        /// The date and time when a resource was disabled from WorkMail, in UNIX epoch time format.
         public let disabledDate: TimeStamp?
         /// The email of the described resource.
         public let email: String?
-        /// The date and time when a resource was registered to Amazon WorkMail, in UNIX epoch time format.
+        /// The date and time when a resource was enabled for WorkMail, in UNIX epoch time format.
         public let enabledDate: TimeStamp?
         /// The name of the described resource.
         public let name: String?
         /// The identifier of the described resource.
         public let resourceId: String?
-        /// The state of the resource: enabled (registered to Amazon WorkMail) or disabled (deregistered or never registered to Amazon WorkMail).
+        /// The state of the resource: enabled (registered to Amazon WorkMail) or disabled (deregistered or never registered to WorkMail).
         public let state: EntityState?
         /// The type of the described resource.
         public let `type`: ResourceType?
@@ -698,11 +698,11 @@ extension WorkMail {
         public let enabledDate: TimeStamp?
         /// The name for the user.
         public let name: String?
-        /// The state of a user: enabled (registered to Amazon WorkMail) or disabled (deregistered or never registered to Amazon WorkMail).
+        /// The state of a user: enabled (registered to Amazon WorkMail) or disabled (deregistered or never registered to WorkMail).
         public let state: EntityState?
         /// The identifier for the described user.
         public let userId: String?
-        /// In certain cases other entities are modeled as users. If interoperability is enabled, resources are imported into Amazon WorkMail as users. Because different Amazon WorkMail organizations rely on different directory types, administrators can distinguish between a user that is not registered to Amazon WorkMail (is disabled and has a user role) and the administrative users of the directory. The values are USER, RESOURCE, and SYSTEM_USER.
+        /// In certain cases, other entities are modeled as users. If interoperability is enabled, resources are imported into Amazon WorkMail as users. Because different WorkMail organizations rely on different directory types, administrators can distinguish between an unregistered user (account is disabled and has a user role) and the directory administrators. The values are USER, RESOURCE, and SYSTEM_USER.
         public let userRole: UserRole?
 
         public init(disabledDate: TimeStamp? = nil, displayName: String? = nil, email: String? = nil, enabledDate: TimeStamp? = nil, name: String? = nil, state: EntityState? = nil, userId: String? = nil, userRole: UserRole? = nil) {
@@ -799,6 +799,48 @@ extension WorkMail {
         case disabled = "DISABLED"
         case deleted = "DELETED"
         public var description: String { return self.rawValue }
+    }
+
+    public struct GetMailboxDetailsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
+            AWSShapeMember(label: "UserId", required: true, type: .string)
+        ]
+        /// The identifier for the organization that contains the user whose mailbox details are being requested.
+        public let organizationId: String
+        /// The identifier for the user whose mailbox details are being requested.
+        public let userId: String
+
+        public init(organizationId: String, userId: String) {
+            self.organizationId = organizationId
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationId = "OrganizationId"
+            case userId = "UserId"
+        }
+    }
+
+    public struct GetMailboxDetailsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MailboxQuota", required: false, type: .integer), 
+            AWSShapeMember(label: "MailboxSize", required: false, type: .double)
+        ]
+        /// The maximum allowed mailbox size, in MB, for the specified user.
+        public let mailboxQuota: Int32?
+        /// The current mailbox size, in MB, for the specified user.
+        public let mailboxSize: Double?
+
+        public init(mailboxQuota: Int32? = nil, mailboxSize: Double? = nil) {
+            self.mailboxQuota = mailboxQuota
+            self.mailboxSize = mailboxSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mailboxQuota = "MailboxQuota"
+            case mailboxSize = "MailboxSize"
+        }
     }
 
     public struct Group: AWSShape {
@@ -901,7 +943,7 @@ extension WorkMail {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "OrganizationId", required: true, type: .string)
         ]
-        /// The identifier for the group to which the members are associated.
+        /// The identifier for the group to which the members (users or groups) are associated.
         public let groupId: String
         /// The maximum number of results to return in a single call.
         public let maxResults: Int32?
@@ -1000,13 +1042,13 @@ extension WorkMail {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "OrganizationId", required: true, type: .string)
         ]
-        /// The identifier of the entity (user or group) for which to list mailbox permissions.
+        /// The identifier of the user, group, or resource for which to list mailbox permissions.
         public let entityId: String
         /// The maximum number of results to return in a single call.
         public let maxResults: Int32?
         /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
         public let nextToken: String?
-        /// The identifier of the organization under which the entity (user or group) exists.
+        /// The identifier of the organization under which the user, group, or resource exists.
         public let organizationId: String
 
         public init(entityId: String, maxResults: Int32? = nil, nextToken: String? = nil, organizationId: String) {
@@ -1031,7 +1073,7 @@ extension WorkMail {
         ]
         /// The token to use to retrieve the next page of results. The value is "null" when there are no more results to return.
         public let nextToken: String?
-        /// One page of the entity's mailbox permissions.
+        /// One page of the user, group, or resource mailbox permissions.
         public let permissions: [Permission]?
 
         public init(nextToken: String? = nil, permissions: [Permission]? = nil) {
@@ -1194,7 +1236,7 @@ extension WorkMail {
         ]
         /// The maximum number of results to return in a single call.
         public let maxResults: Int32?
-        /// TBD
+        /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
         public let nextToken: String?
         /// The identifier for the organization under which the users exist.
         public let organizationId: String
@@ -1317,9 +1359,9 @@ extension WorkMail {
             AWSShapeMember(label: "GranteeType", required: true, type: .enum), 
             AWSShapeMember(label: "PermissionValues", required: true, type: .list)
         ]
-        /// The identifier of the entity (user or group) to which the permissions are granted.
+        /// The identifier of the user, group, or resource to which the permissions are granted.
         public let granteeId: String
-        /// The type of entity (user, group) of the entity referred to in GranteeId.
+        /// The type of user, group, or resource referred to in GranteeId.
         public let granteeType: MemberType
         /// The permissions granted to the grantee. SEND_AS allows the grantee to send email as the owner of the mailbox (the grantee is not mentioned on these emails). SEND_ON_BEHALF allows the grantee to send email on behalf of the owner of the mailbox (the grantee is not mentioned as the physical sender of these emails). FULL_ACCESS allows the grantee full access to the mailbox, irrespective of other folder-level permissions set on the mailbox.
         public let permissionValues: [PermissionType]
@@ -1351,11 +1393,11 @@ extension WorkMail {
             AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
             AWSShapeMember(label: "PermissionValues", required: true, type: .list)
         ]
-        /// The identifier of the entity (user or group) for which to update mailbox permissions.
+        /// The identifier of the user, group, or resource for which to update mailbox permissions.
         public let entityId: String
-        /// The identifier of the entity (user or group) to which to grant the permissions.
+        /// The identifier of the user, group, or resource to which to grant the permissions.
         public let granteeId: String
-        /// The identifier of the organization under which the entity (user or group) exists.
+        /// The identifier of the organization under which the user, group, or resource exists.
         public let organizationId: String
         /// The permissions granted to the grantee. SEND_AS allows the grantee to send email as the owner of the mailbox (the grantee is not mentioned on these emails). SEND_ON_BEHALF allows the grantee to send email on behalf of the owner of the mailbox (the grantee is not mentioned as the physical sender of these emails). FULL_ACCESS allows the grantee full access to the mailbox, irrespective of other folder-level permissions set on the mailbox.
         public let permissionValues: [PermissionType]
@@ -1388,11 +1430,11 @@ extension WorkMail {
             AWSShapeMember(label: "EntityId", required: true, type: .string), 
             AWSShapeMember(label: "OrganizationId", required: true, type: .string)
         ]
-        /// The email for the entity to be updated.
+        /// The email for the user, group, or resource to be updated.
         public let email: String
-        /// The identifier for the entity to be updated.
+        /// The identifier for the user, group, or resource to be updated.
         public let entityId: String
-        /// The identifier for the organization under which the Amazon WorkMail entity exists.
+        /// The identifier for the organization under which the user, group, or resource exists.
         public let organizationId: String
 
         public init(email: String, entityId: String, organizationId: String) {
@@ -1500,6 +1542,39 @@ extension WorkMail {
         public var description: String { return self.rawValue }
     }
 
+    public struct UpdateMailboxQuotaRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MailboxQuota", required: true, type: .integer), 
+            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
+            AWSShapeMember(label: "UserId", required: true, type: .string)
+        ]
+        /// The updated mailbox quota, in MB, for the specified user.
+        public let mailboxQuota: Int32
+        /// The identifier for the organization that contains the user for whom to update the mailbox quota.
+        public let organizationId: String
+        /// The identifer for the user for whom to update the mailbox quota.
+        public let userId: String
+
+        public init(mailboxQuota: Int32, organizationId: String, userId: String) {
+            self.mailboxQuota = mailboxQuota
+            self.organizationId = organizationId
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mailboxQuota = "MailboxQuota"
+            case organizationId = "OrganizationId"
+            case userId = "UserId"
+        }
+    }
+
+    public struct UpdateMailboxQuotaResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
     public struct UpdatePrimaryEmailAddressRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Email", required: true, type: .string), 
@@ -1508,9 +1583,9 @@ extension WorkMail {
         ]
         /// The value of the email to be updated as primary.
         public let email: String
-        /// The entity to update (user, group, or resource).
+        /// The user, group, or resource to update.
         public let entityId: String
-        /// The organization that contains the entity to update.
+        /// The organization that contains the user, group, or resource to update.
         public let organizationId: String
 
         public init(email: String, entityId: String, organizationId: String) {

@@ -32,6 +32,11 @@ public struct ServiceCatalog {
         return try client.send(operation: "AcceptPortfolioShare", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Associates the specified budget with the specified resource.
+    public func associateBudgetWithResource(_ input: AssociateBudgetWithResourceInput) throws -> Future<AssociateBudgetWithResourceOutput> {
+        return try client.send(operation: "AssociateBudgetWithResource", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Associates the specified principal ARN with the specified portfolio.
     public func associatePrincipalWithPortfolio(_ input: AssociatePrincipalWithPortfolioInput) throws -> Future<AssociatePrincipalWithPortfolioOutput> {
         return try client.send(operation: "AssociatePrincipalWithPortfolio", path: "/", httpMethod: "POST", input: input)
@@ -202,7 +207,7 @@ public struct ServiceCatalog {
         return try client.send(operation: "DescribeProvisioningParameters", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets information about the specified request operation. Use this operation after calling a request operation (for example, ProvisionProduct, TerminateProvisionedProduct, or UpdateProvisionedProduct). 
+    ///  Gets information about the specified request operation. Use this operation after calling a request operation (for example, ProvisionProduct, TerminateProvisionedProduct, or UpdateProvisionedProduct).   If a provisioned product was transferred to a new owner using UpdateProvisionedProductProperties, the new owner will be able to describe all past records for that product. The previous owner will no longer be able to describe the records, but will be able to use ListRecordHistory to see the product's history from when he was the owner. 
     public func describeRecord(_ input: DescribeRecordInput) throws -> Future<DescribeRecordOutput> {
         return try client.send(operation: "DescribeRecord", path: "/", httpMethod: "POST", input: input)
     }
@@ -220,6 +225,11 @@ public struct ServiceCatalog {
     ///  Disable portfolio sharing through AWS Organizations feature. This feature will not delete your current shares but it will prevent you from creating new shares throughout your organization. Current shares will not be in sync with your organization structure if it changes after calling this API. This API can only be called by the master account in the organization.
     public func disableAWSOrganizationsAccess(_ input: DisableAWSOrganizationsAccessInput) throws -> Future<DisableAWSOrganizationsAccessOutput> {
         return try client.send(operation: "DisableAWSOrganizationsAccess", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Disassociates the specified budget from the specified resource.
+    public func disassociateBudgetFromResource(_ input: DisassociateBudgetFromResourceInput) throws -> Future<DisassociateBudgetFromResourceOutput> {
+        return try client.send(operation: "DisassociateBudgetFromResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disassociates a previously associated principal ARN from a specified portfolio.
@@ -242,7 +252,7 @@ public struct ServiceCatalog {
         return try client.send(operation: "DisassociateTagOptionFromResource", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Enable portfolio sharing feature through AWS Organizations. This API will allow Service Catalog to receive updates on your organization in order to sync your shares with the current structure. This API can only be called by the master account in the organization. By calling this API Service Catalog will use FAS credentials to call organizations:EnableAWSServiceAccess so that your shares can be in sync with any changes in your AWS Organizations.
+    ///  Enable portfolio sharing feature through AWS Organizations. This API will allow Service Catalog to receive updates on your organization in order to sync your shares with the current structure. This API can only be called by the master account in the organization. By calling this API Service Catalog will make a call to organizations:EnableAWSServiceAccess on your behalf so that your shares can be in sync with any changes in your AWS Organizations structure.
     public func enableAWSOrganizationsAccess(_ input: EnableAWSOrganizationsAccessInput) throws -> Future<EnableAWSOrganizationsAccessOutput> {
         return try client.send(operation: "EnableAWSOrganizationsAccess", path: "/", httpMethod: "POST", input: input)
     }
@@ -265,6 +275,11 @@ public struct ServiceCatalog {
     ///  Lists all portfolios for which sharing was accepted by this account.
     public func listAcceptedPortfolioShares(_ input: ListAcceptedPortfolioSharesInput) throws -> Future<ListAcceptedPortfolioSharesOutput> {
         return try client.send(operation: "ListAcceptedPortfolioShares", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists all the budgets associated to the specified resource.
+    public func listBudgetsForResource(_ input: ListBudgetsForResourceInput) throws -> Future<ListBudgetsForResourceOutput> {
+        return try client.send(operation: "ListBudgetsForResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the constraints for the specified portfolio and product.
@@ -337,6 +352,11 @@ public struct ServiceCatalog {
         return try client.send(operation: "ListServiceActionsForProvisioningArtifact", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns summary information about stack instances that are associated with the specified CFN_STACKSET type provisioned product. You can filter for stack instances that are associated with a specific AWS account name or region. 
+    public func listStackInstancesForProvisionedProduct(_ input: ListStackInstancesForProvisionedProductInput) throws -> Future<ListStackInstancesForProvisionedProductOutput> {
+        return try client.send(operation: "ListStackInstancesForProvisionedProduct", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Lists the specified TagOptions or all TagOptions.
     public func listTagOptions(_ input: ListTagOptionsInput) throws -> Future<ListTagOptionsOutput> {
         return try client.send(operation: "ListTagOptions", path: "/", httpMethod: "POST", input: input)
@@ -395,6 +415,11 @@ public struct ServiceCatalog {
     ///  Requests updates to the configuration of the specified provisioned product. If there are tags associated with the object, they cannot be updated or added. Depending on the specific updates requested, this operation can update with no interruption, with some interruption, or replace the provisioned product entirely. You can check the status of this request using DescribeRecord.
     public func updateProvisionedProduct(_ input: UpdateProvisionedProductInput) throws -> Future<UpdateProvisionedProductOutput> {
         return try client.send(operation: "UpdateProvisionedProduct", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Requests updates to the properties of the specified provisioned product.
+    public func updateProvisionedProductProperties(_ input: UpdateProvisionedProductPropertiesInput) throws -> Future<UpdateProvisionedProductPropertiesOutput> {
+        return try client.send(operation: "UpdateProvisionedProductProperties", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates the specified provisioning artifact (also known as a version) for the specified product. You cannot update a provisioning artifact for a product that was shared with you.

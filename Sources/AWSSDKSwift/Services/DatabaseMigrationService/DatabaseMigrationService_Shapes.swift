@@ -59,6 +59,48 @@ extension DatabaseMigrationService {
 
     }
 
+    public struct ApplyPendingMaintenanceActionMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplyAction", required: true, type: .string), 
+            AWSShapeMember(label: "OptInType", required: true, type: .string), 
+            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string)
+        ]
+        /// The pending maintenance action to apply to this resource.
+        public let applyAction: String
+        /// A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type immediate cannot be undone. Valid values:    immediate - Apply the maintenance action immediately.    next-maintenance - Apply the maintenance action during the next maintenance window for the resource.    undo-opt-in - Cancel any existing next-maintenance opt-in requests.  
+        public let optInType: String
+        /// The Amazon Resource Name (ARN) of the AWS DMS resource that the pending maintenance action applies to.
+        public let replicationInstanceArn: String
+
+        public init(applyAction: String, optInType: String, replicationInstanceArn: String) {
+            self.applyAction = applyAction
+            self.optInType = optInType
+            self.replicationInstanceArn = replicationInstanceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applyAction = "ApplyAction"
+            case optInType = "OptInType"
+            case replicationInstanceArn = "ReplicationInstanceArn"
+        }
+    }
+
+    public struct ApplyPendingMaintenanceActionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourcePendingMaintenanceActions", required: false, type: .structure)
+        ]
+        /// The AWS DMS resource that the pending maintenance action will be applied to.
+        public let resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions?
+
+        public init(resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions? = nil) {
+            self.resourcePendingMaintenanceActions = resourcePendingMaintenanceActions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourcePendingMaintenanceActions = "ResourcePendingMaintenanceActions"
+        }
+    }
+
     public enum AuthMechanismValue: String, CustomStringConvertible, Codable {
         case `default` = "default"
         case mongodbCr = "mongodb_cr"
@@ -213,6 +255,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "MongoDbSettings", required: false, type: .structure), 
             AWSShapeMember(label: "Password", required: false, type: .string), 
             AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "RedshiftSettings", required: false, type: .structure), 
             AWSShapeMember(label: "S3Settings", required: false, type: .structure), 
             AWSShapeMember(label: "ServerName", required: false, type: .string), 
             AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string), 
@@ -250,6 +293,7 @@ extension DatabaseMigrationService {
         public let password: String?
         /// The port used by the endpoint database.
         public let port: Int32?
+        public let redshiftSettings: RedshiftSettings?
         /// Settings in JSON format for the target Amazon S3 endpoint. For more information about the available settings, see Extra Connection Attributes When Using Amazon S3 as a Target for AWS DMS in the AWS Database Migration Service User Guide. 
         public let s3Settings: S3Settings?
         /// The name of the server where the endpoint database resides.
@@ -263,7 +307,7 @@ extension DatabaseMigrationService {
         /// The user name to be used to log in to the endpoint database.
         public let username: String?
 
-        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointIdentifier: String, endpointType: ReplicationEndpointTypeValue, engineName: String, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, mongoDbSettings: MongoDbSettings? = nil, password: String? = nil, port: Int32? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, tags: [Tag]? = nil, username: String? = nil) {
+        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointIdentifier: String, endpointType: ReplicationEndpointTypeValue, engineName: String, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, mongoDbSettings: MongoDbSettings? = nil, password: String? = nil, port: Int32? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, tags: [Tag]? = nil, username: String? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.dmsTransferSettings = dmsTransferSettings
@@ -279,6 +323,7 @@ extension DatabaseMigrationService {
             self.mongoDbSettings = mongoDbSettings
             self.password = password
             self.port = port
+            self.redshiftSettings = redshiftSettings
             self.s3Settings = s3Settings
             self.serverName = serverName
             self.serviceAccessRoleArn = serviceAccessRoleArn
@@ -303,6 +348,7 @@ extension DatabaseMigrationService {
             case mongoDbSettings = "MongoDbSettings"
             case password = "Password"
             case port = "Port"
+            case redshiftSettings = "RedshiftSettings"
             case s3Settings = "S3Settings"
             case serverName = "ServerName"
             case serviceAccessRoleArn = "ServiceAccessRoleArn"
@@ -614,6 +660,12 @@ extension DatabaseMigrationService {
         private enum CodingKeys: String, CodingKey {
             case replicationTask = "ReplicationTask"
         }
+    }
+
+    public enum DataFormatValue: String, CustomStringConvertible, Codable {
+        case csv = "csv"
+        case parquet = "parquet"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeleteCertificateMessage: AWSShape {
@@ -1218,6 +1270,57 @@ extension DatabaseMigrationService {
         }
     }
 
+    public struct DescribePendingMaintenanceActionsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "ReplicationInstanceArn", required: false, type: .string)
+        ]
+        public let filters: [Filter]?
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
+        public let maxRecords: Int32?
+        /// The ARN of the replication instance.
+        public let replicationInstanceArn: String?
+
+        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, replicationInstanceArn: String? = nil) {
+            self.filters = filters
+            self.marker = marker
+            self.maxRecords = maxRecords
+            self.replicationInstanceArn = replicationInstanceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+            case replicationInstanceArn = "ReplicationInstanceArn"
+        }
+    }
+
+    public struct DescribePendingMaintenanceActionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "PendingMaintenanceActions", required: false, type: .list)
+        ]
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        /// The pending maintenance action.
+        public let pendingMaintenanceActions: [ResourcePendingMaintenanceActions]?
+
+        public init(marker: String? = nil, pendingMaintenanceActions: [ResourcePendingMaintenanceActions]? = nil) {
+            self.marker = marker
+            self.pendingMaintenanceActions = pendingMaintenanceActions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case pendingMaintenanceActions = "PendingMaintenanceActions"
+        }
+    }
+
     public struct DescribeRefreshSchemasStatusMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndpointArn", required: true, type: .string)
@@ -1452,7 +1555,8 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Filters", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "WithoutSettings", required: false, type: .boolean)
         ]
         /// Filters applied to the describe action. Valid filter names: replication-task-arn | replication-task-id | migration-type | endpoint-arn | replication-instance-arn
         public let filters: [Filter]?
@@ -1460,17 +1564,21 @@ extension DatabaseMigrationService {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
+        /// Set this flag to avoid returning setting information. Use this to reduce overhead when settings are too large. Choose TRUE to use this flag, otherwise choose FALSE (default).
+        public let withoutSettings: Bool?
 
-        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, withoutSettings: Bool? = nil) {
             self.filters = filters
             self.marker = marker
             self.maxRecords = maxRecords
+            self.withoutSettings = withoutSettings
         }
 
         private enum CodingKeys: String, CodingKey {
             case filters = "Filters"
             case marker = "Marker"
             case maxRecords = "MaxRecords"
+            case withoutSettings = "WithoutSettings"
         }
     }
 
@@ -1675,6 +1783,19 @@ extension DatabaseMigrationService {
         }
     }
 
+    public enum EncodingTypeValue: String, CustomStringConvertible, Codable {
+        case plain = "plain"
+        case plainDictionary = "plain-dictionary"
+        case rleDictionary = "rle-dictionary"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncryptionModeValue: String, CustomStringConvertible, Codable {
+        case sseS3 = "sse-s3"
+        case sseKms = "sse-kms"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Endpoint: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
@@ -1694,6 +1815,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeMember(label: "MongoDbSettings", required: false, type: .structure), 
             AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "RedshiftSettings", required: false, type: .structure), 
             AWSShapeMember(label: "S3Settings", required: false, type: .structure), 
             AWSShapeMember(label: "ServerName", required: false, type: .string), 
             AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string), 
@@ -1705,7 +1827,7 @@ extension DatabaseMigrationService {
         public let certificateArn: String?
         /// The name of the database at the endpoint.
         public let databaseName: String?
-        /// The settings in JSON format for the DMS transfer type of source endpoint.  Possible attributes include the following:    serviceAccessRoleArn - The IAM role that has permission to access the Amazon S3 bucket.    bucketName - The name of the S3 bucket to use.    compressionType - An optional parameter to use GZIP to compress the target files. To use GZIP, set this value to NONE (the default). To keep the files uncompressed, don't use this value.    Shorthand syntax for these attributes is as follows: ServiceAccessRoleArn=string,BucketName=string,CompressionType=string  JSON syntax for these attributes is as follows: { "ServiceAccessRoleArn": "string", "BucketName": "string", "CompressionType": "none"|"gzip" }  
+        /// The settings in JSON format for the DMS transfer type of source endpoint.  Possible attributes include the following:    serviceAccessRoleArn - The IAM role that has permission to access the Amazon S3 bucket.    bucketName - The name of the S3 bucket to use.    compressionType - An optional parameter to use GZIP to compress the target files. To use GZIP, set this value to NONE (the default). To keep the files uncompressed, don't use this value.   Shorthand syntax for these attributes is as follows: ServiceAccessRoleArn=string,BucketName=string,CompressionType=string  JSON syntax for these attributes is as follows: { "ServiceAccessRoleArn": "string", "BucketName": "string", "CompressionType": "none"|"gzip" }  
         public let dmsTransferSettings: DmsTransferSettings?
         /// The settings for the target DynamoDB database. For more information, see the DynamoDBSettings structure.
         public let dynamoDbSettings: DynamoDbSettings?
@@ -1735,6 +1857,8 @@ extension DatabaseMigrationService {
         public let mongoDbSettings: MongoDbSettings?
         /// The port value used to access the endpoint.
         public let port: Int32?
+        /// Settings for the Amazon Redshift endpoint
+        public let redshiftSettings: RedshiftSettings?
         /// The settings for the S3 target endpoint. For more information, see the S3Settings structure.
         public let s3Settings: S3Settings?
         /// The name of the server at the endpoint.
@@ -1748,7 +1872,7 @@ extension DatabaseMigrationService {
         /// The user name used to connect to the endpoint.
         public let username: String?
 
-        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String? = nil, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineDisplayName: String? = nil, engineName: String? = nil, externalId: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, mongoDbSettings: MongoDbSettings? = nil, port: Int32? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, status: String? = nil, username: String? = nil) {
+        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String? = nil, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineDisplayName: String? = nil, engineName: String? = nil, externalId: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, mongoDbSettings: MongoDbSettings? = nil, port: Int32? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, status: String? = nil, username: String? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.dmsTransferSettings = dmsTransferSettings
@@ -1766,6 +1890,7 @@ extension DatabaseMigrationService {
             self.kmsKeyId = kmsKeyId
             self.mongoDbSettings = mongoDbSettings
             self.port = port
+            self.redshiftSettings = redshiftSettings
             self.s3Settings = s3Settings
             self.serverName = serverName
             self.serviceAccessRoleArn = serviceAccessRoleArn
@@ -1792,6 +1917,7 @@ extension DatabaseMigrationService {
             case kmsKeyId = "KmsKeyId"
             case mongoDbSettings = "MongoDbSettings"
             case port = "Port"
+            case redshiftSettings = "RedshiftSettings"
             case s3Settings = "S3Settings"
             case serverName = "ServerName"
             case serviceAccessRoleArn = "ServiceAccessRoleArn"
@@ -2069,6 +2195,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "MongoDbSettings", required: false, type: .structure), 
             AWSShapeMember(label: "Password", required: false, type: .string), 
             AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "RedshiftSettings", required: false, type: .structure), 
             AWSShapeMember(label: "S3Settings", required: false, type: .structure), 
             AWSShapeMember(label: "ServerName", required: false, type: .string), 
             AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string), 
@@ -2105,6 +2232,7 @@ extension DatabaseMigrationService {
         public let password: String?
         /// The port used by the endpoint database.
         public let port: Int32?
+        public let redshiftSettings: RedshiftSettings?
         /// Settings in JSON format for the target Amazon S3 endpoint. For more information about the available settings, see Extra Connection Attributes When Using Amazon S3 as a Target for AWS DMS in the AWS Database Migration Service User Guide. 
         public let s3Settings: S3Settings?
         /// The name of the server where the endpoint database resides.
@@ -2116,7 +2244,7 @@ extension DatabaseMigrationService {
         /// The user name to be used to login to the endpoint database.
         public let username: String?
 
-        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineName: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, kinesisSettings: KinesisSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, password: String? = nil, port: Int32? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, username: String? = nil) {
+        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineName: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, kinesisSettings: KinesisSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, password: String? = nil, port: Int32? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, username: String? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.dmsTransferSettings = dmsTransferSettings
@@ -2132,6 +2260,7 @@ extension DatabaseMigrationService {
             self.mongoDbSettings = mongoDbSettings
             self.password = password
             self.port = port
+            self.redshiftSettings = redshiftSettings
             self.s3Settings = s3Settings
             self.serverName = serverName
             self.serviceAccessRoleArn = serviceAccessRoleArn
@@ -2155,6 +2284,7 @@ extension DatabaseMigrationService {
             case mongoDbSettings = "MongoDbSettings"
             case password = "Password"
             case port = "Port"
+            case redshiftSettings = "RedshiftSettings"
             case s3Settings = "S3Settings"
             case serverName = "ServerName"
             case serviceAccessRoleArn = "ServiceAccessRoleArn"
@@ -2501,6 +2631,7 @@ extension DatabaseMigrationService {
 
     public struct OrderableReplicationInstance: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
             AWSShapeMember(label: "DefaultAllocatedStorage", required: false, type: .integer), 
             AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
             AWSShapeMember(label: "IncludedAllocatedStorage", required: false, type: .integer), 
@@ -2509,6 +2640,8 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "ReplicationInstanceClass", required: false, type: .string), 
             AWSShapeMember(label: "StorageType", required: false, type: .string)
         ]
+        /// List of availability zones for this replication instance.
+        public let availabilityZones: [String]?
         /// The default amount of storage (in gigabytes) that is allocated for the replication instance.
         public let defaultAllocatedStorage: Int32?
         /// The version of the replication engine.
@@ -2524,7 +2657,8 @@ extension DatabaseMigrationService {
         /// The type of storage used by the replication instance.
         public let storageType: String?
 
-        public init(defaultAllocatedStorage: Int32? = nil, engineVersion: String? = nil, includedAllocatedStorage: Int32? = nil, maxAllocatedStorage: Int32? = nil, minAllocatedStorage: Int32? = nil, replicationInstanceClass: String? = nil, storageType: String? = nil) {
+        public init(availabilityZones: [String]? = nil, defaultAllocatedStorage: Int32? = nil, engineVersion: String? = nil, includedAllocatedStorage: Int32? = nil, maxAllocatedStorage: Int32? = nil, minAllocatedStorage: Int32? = nil, replicationInstanceClass: String? = nil, storageType: String? = nil) {
+            self.availabilityZones = availabilityZones
             self.defaultAllocatedStorage = defaultAllocatedStorage
             self.engineVersion = engineVersion
             self.includedAllocatedStorage = includedAllocatedStorage
@@ -2535,6 +2669,7 @@ extension DatabaseMigrationService {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
             case defaultAllocatedStorage = "DefaultAllocatedStorage"
             case engineVersion = "EngineVersion"
             case includedAllocatedStorage = "IncludedAllocatedStorage"
@@ -2542,6 +2677,53 @@ extension DatabaseMigrationService {
             case minAllocatedStorage = "MinAllocatedStorage"
             case replicationInstanceClass = "ReplicationInstanceClass"
             case storageType = "StorageType"
+        }
+    }
+
+    public enum ParquetVersionValue: String, CustomStringConvertible, Codable {
+        case parquet10 = "parquet-1-0"
+        case parquet20 = "parquet-2-0"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct PendingMaintenanceAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Action", required: false, type: .string), 
+            AWSShapeMember(label: "AutoAppliedAfterDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CurrentApplyDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ForcedApplyDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "OptInStatus", required: false, type: .string)
+        ]
+        /// The type of pending maintenance action that is available for the resource.
+        public let action: String?
+        /// The date of the maintenance window when the action will be applied. The maintenance action will be applied to the resource during its first maintenance window after this date. If this date is specified, any next-maintenance opt-in requests are ignored.
+        public let autoAppliedAfterDate: TimeStamp?
+        /// The effective date when the pending maintenance action will be applied to the resource. This date takes into account opt-in requests received from the ApplyPendingMaintenanceAction API, the AutoAppliedAfterDate, and the ForcedApplyDate. This value is blank if an opt-in request has not been received and nothing has been specified as AutoAppliedAfterDate or ForcedApplyDate.
+        public let currentApplyDate: TimeStamp?
+        /// A description providing more detail about the maintenance action.
+        public let description: String?
+        /// The date when the maintenance action will be automatically applied. The maintenance action will be applied to the resource on this date regardless of the maintenance window for the resource. If this date is specified, any immediate opt-in requests are ignored.
+        public let forcedApplyDate: TimeStamp?
+        /// Indicates the type of opt-in request that has been received for the resource.
+        public let optInStatus: String?
+
+        public init(action: String? = nil, autoAppliedAfterDate: TimeStamp? = nil, currentApplyDate: TimeStamp? = nil, description: String? = nil, forcedApplyDate: TimeStamp? = nil, optInStatus: String? = nil) {
+            self.action = action
+            self.autoAppliedAfterDate = autoAppliedAfterDate
+            self.currentApplyDate = currentApplyDate
+            self.description = description
+            self.forcedApplyDate = forcedApplyDate
+            self.optInStatus = optInStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case autoAppliedAfterDate = "AutoAppliedAfterDate"
+            case currentApplyDate = "CurrentApplyDate"
+            case description = "Description"
+            case forcedApplyDate = "ForcedApplyDate"
+            case optInStatus = "OptInStatus"
         }
     }
 
@@ -2579,6 +2761,142 @@ extension DatabaseMigrationService {
 
         private enum CodingKeys: String, CodingKey {
             case replicationInstance = "ReplicationInstance"
+        }
+    }
+
+    public struct RedshiftSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptAnyDate", required: false, type: .boolean), 
+            AWSShapeMember(label: "AfterConnectScript", required: false, type: .string), 
+            AWSShapeMember(label: "BucketFolder", required: false, type: .string), 
+            AWSShapeMember(label: "BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "ConnectionTimeout", required: false, type: .integer), 
+            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
+            AWSShapeMember(label: "DateFormat", required: false, type: .string), 
+            AWSShapeMember(label: "EmptyAsNull", required: false, type: .boolean), 
+            AWSShapeMember(label: "EncryptionMode", required: false, type: .enum), 
+            AWSShapeMember(label: "FileTransferUploadStreams", required: false, type: .integer), 
+            AWSShapeMember(label: "LoadTimeout", required: false, type: .integer), 
+            AWSShapeMember(label: "MaxFileSize", required: false, type: .integer), 
+            AWSShapeMember(label: "Password", required: false, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "RemoveQuotes", required: false, type: .boolean), 
+            AWSShapeMember(label: "ReplaceChars", required: false, type: .string), 
+            AWSShapeMember(label: "ReplaceInvalidChars", required: false, type: .string), 
+            AWSShapeMember(label: "ServerName", required: false, type: .string), 
+            AWSShapeMember(label: "ServerSideEncryptionKmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "TimeFormat", required: false, type: .string), 
+            AWSShapeMember(label: "TrimBlanks", required: false, type: .boolean), 
+            AWSShapeMember(label: "TruncateColumns", required: false, type: .boolean), 
+            AWSShapeMember(label: "Username", required: false, type: .string), 
+            AWSShapeMember(label: "WriteBufferSize", required: false, type: .integer)
+        ]
+        /// Allows any date format, including invalid formats such as 00/00/00 00:00:00, to be loaded without generating an error. You can choose TRUE or FALSE (default). This parameter applies only to TIMESTAMP and DATE columns. Always use ACCEPTANYDATE with the DATEFORMAT parameter. If the date format for the data does not match the DATEFORMAT specification, Amazon Redshift inserts a NULL value into that field. 
+        public let acceptAnyDate: Bool?
+        /// Code to run after connecting. This should be the code, not a filename.
+        public let afterConnectScript: String?
+        /// The location where the CSV files are stored before being uploaded to the S3 bucket. 
+        public let bucketFolder: String?
+        /// The name of the S3 bucket you want to use
+        public let bucketName: String?
+        /// Sets the amount of time to wait (in milliseconds) before timing out, beginning from when you initially establish a connection.
+        public let connectionTimeout: Int32?
+        /// The name of the Amazon Redshift data warehouse (service) you are working with.
+        public let databaseName: String?
+        /// The date format you are using. Valid values are auto (case-sensitive), your date format string enclosed in quotes, or NULL. If this is left unset (NULL), it defaults to a format of 'YYYY-MM-DD'. Using auto recognizes most strings, even some that are not supported when you use a date format string.  If your date and time values use formats different from each other, set this to auto. 
+        public let dateFormat: String?
+        /// Specifies whether AWS DMS should migrate empty CHAR and VARCHAR fields as NULL. A value of TRUE sets empty CHAR and VARCHAR fields to null. The default is FALSE.
+        public let emptyAsNull: Bool?
+        /// The type of server side encryption you want to use for your data. This is part of the endpoint settings or the extra connections attributes for Amazon S3. You can choose either SSE_S3 (default) or SSE_KMS. To use SSE_S3, create an IAM role with a policy that allows "arn:aws:s3:::*" to use the following actions: "s3:PutObject", "s3:ListBucket".
+        public let encryptionMode: EncryptionModeValue?
+        /// Specifies the number of threads used to upload a single file. This accepts a value between 1 and 64. It defaults to 10.
+        public let fileTransferUploadStreams: Int32?
+        /// Sets the amount of time to wait (in milliseconds) before timing out, beginning from when you begin loading.
+        public let loadTimeout: Int32?
+        /// Specifies the maximum size (in KB) of any CSV file used to transfer data to Amazon Redshift. This accepts a value between 1 and 1048576. It defaults to 32768 KB (32 MB).
+        public let maxFileSize: Int32?
+        /// The password for the user named in the username property.
+        public let password: String?
+        /// The port number for Amazon Redshift. The default value is 5439.
+        public let port: Int32?
+        /// Removes surrounding quotation marks from strings in the incoming data. All characters within the quotation marks, including delimiters, are retained. Choose TRUE to remove quotation marks. The default is FALSE.
+        public let removeQuotes: Bool?
+        /// Replaces invalid characters specified in ReplaceInvalidChars, substituting the specified value instead. The default is "?".
+        public let replaceChars: String?
+        /// A list of chars you want to replace. Use with ReplaceChars.
+        public let replaceInvalidChars: String?
+        /// The name of the Amazon Redshift cluster you are using.
+        public let serverName: String?
+        /// If you are using SSE_KMS for the EncryptionMode, provide the KMS Key ID. The key you use needs an attached policy that enables IAM user permissions and allows use of the key.
+        public let serverSideEncryptionKmsKeyId: String?
+        /// The ARN of the role that has access to the Redshift service.
+        public let serviceAccessRoleArn: String?
+        /// The time format you want to use. Valid values are auto (case-sensitive), 'timeformat_string', 'epochsecs', or 'epochmillisecs'. It defaults to 10. Using auto recognizes most strings, even some that are not supported when you use a time format string.  If your date and time values use formats different from each other, set this to auto. 
+        public let timeFormat: String?
+        /// Removes the trailing white space characters from a VARCHAR string. This parameter applies only to columns with a VARCHAR data type. Choose TRUE to remove unneeded white space. The default is FALSE.
+        public let trimBlanks: Bool?
+        /// Truncates data in columns to the appropriate number of characters, so that it fits in the column. Applies only to columns with a VARCHAR or CHAR data type, and rows with a size of 4 MB or less. Choose TRUE to truncate data. The default is FALSE.
+        public let truncateColumns: Bool?
+        /// An Amazon Redshift user name for a registered user.
+        public let username: String?
+        /// The size of the write buffer to use in rows. Valid values range from 1 to 2048. Defaults to 1024. Use this setting to tune performance. 
+        public let writeBufferSize: Int32?
+
+        public init(acceptAnyDate: Bool? = nil, afterConnectScript: String? = nil, bucketFolder: String? = nil, bucketName: String? = nil, connectionTimeout: Int32? = nil, databaseName: String? = nil, dateFormat: String? = nil, emptyAsNull: Bool? = nil, encryptionMode: EncryptionModeValue? = nil, fileTransferUploadStreams: Int32? = nil, loadTimeout: Int32? = nil, maxFileSize: Int32? = nil, password: String? = nil, port: Int32? = nil, removeQuotes: Bool? = nil, replaceChars: String? = nil, replaceInvalidChars: String? = nil, serverName: String? = nil, serverSideEncryptionKmsKeyId: String? = nil, serviceAccessRoleArn: String? = nil, timeFormat: String? = nil, trimBlanks: Bool? = nil, truncateColumns: Bool? = nil, username: String? = nil, writeBufferSize: Int32? = nil) {
+            self.acceptAnyDate = acceptAnyDate
+            self.afterConnectScript = afterConnectScript
+            self.bucketFolder = bucketFolder
+            self.bucketName = bucketName
+            self.connectionTimeout = connectionTimeout
+            self.databaseName = databaseName
+            self.dateFormat = dateFormat
+            self.emptyAsNull = emptyAsNull
+            self.encryptionMode = encryptionMode
+            self.fileTransferUploadStreams = fileTransferUploadStreams
+            self.loadTimeout = loadTimeout
+            self.maxFileSize = maxFileSize
+            self.password = password
+            self.port = port
+            self.removeQuotes = removeQuotes
+            self.replaceChars = replaceChars
+            self.replaceInvalidChars = replaceInvalidChars
+            self.serverName = serverName
+            self.serverSideEncryptionKmsKeyId = serverSideEncryptionKmsKeyId
+            self.serviceAccessRoleArn = serviceAccessRoleArn
+            self.timeFormat = timeFormat
+            self.trimBlanks = trimBlanks
+            self.truncateColumns = truncateColumns
+            self.username = username
+            self.writeBufferSize = writeBufferSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptAnyDate = "AcceptAnyDate"
+            case afterConnectScript = "AfterConnectScript"
+            case bucketFolder = "BucketFolder"
+            case bucketName = "BucketName"
+            case connectionTimeout = "ConnectionTimeout"
+            case databaseName = "DatabaseName"
+            case dateFormat = "DateFormat"
+            case emptyAsNull = "EmptyAsNull"
+            case encryptionMode = "EncryptionMode"
+            case fileTransferUploadStreams = "FileTransferUploadStreams"
+            case loadTimeout = "LoadTimeout"
+            case maxFileSize = "MaxFileSize"
+            case password = "Password"
+            case port = "Port"
+            case removeQuotes = "RemoveQuotes"
+            case replaceChars = "ReplaceChars"
+            case replaceInvalidChars = "ReplaceInvalidChars"
+            case serverName = "ServerName"
+            case serverSideEncryptionKmsKeyId = "ServerSideEncryptionKmsKeyId"
+            case serviceAccessRoleArn = "ServiceAccessRoleArn"
+            case timeFormat = "TimeFormat"
+            case trimBlanks = "TrimBlanks"
+            case truncateColumns = "TruncateColumns"
+            case username = "Username"
+            case writeBufferSize = "WriteBufferSize"
         }
     }
 
@@ -3146,48 +3464,119 @@ extension DatabaseMigrationService {
         }
     }
 
+    public struct ResourcePendingMaintenanceActions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PendingMaintenanceActionDetails", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceIdentifier", required: false, type: .string)
+        ]
+        /// Detailed information about the pending maintenance action.
+        public let pendingMaintenanceActionDetails: [PendingMaintenanceAction]?
+        /// The Amazon Resource Name (ARN) of the DMS resource that the pending maintenance action applies to. For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN) in the DMS documentation.
+        public let resourceIdentifier: String?
+
+        public init(pendingMaintenanceActionDetails: [PendingMaintenanceAction]? = nil, resourceIdentifier: String? = nil) {
+            self.pendingMaintenanceActionDetails = pendingMaintenanceActionDetails
+            self.resourceIdentifier = resourceIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pendingMaintenanceActionDetails = "PendingMaintenanceActionDetails"
+            case resourceIdentifier = "ResourceIdentifier"
+        }
+    }
+
     public struct S3Settings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BucketFolder", required: false, type: .string), 
             AWSShapeMember(label: "BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "CdcInsertsOnly", required: false, type: .boolean), 
             AWSShapeMember(label: "CompressionType", required: false, type: .enum), 
             AWSShapeMember(label: "CsvDelimiter", required: false, type: .string), 
             AWSShapeMember(label: "CsvRowDelimiter", required: false, type: .string), 
+            AWSShapeMember(label: "DataFormat", required: false, type: .enum), 
+            AWSShapeMember(label: "DataPageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "DictPageSizeLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "EnableStatistics", required: false, type: .boolean), 
+            AWSShapeMember(label: "EncodingType", required: false, type: .enum), 
+            AWSShapeMember(label: "EncryptionMode", required: false, type: .enum), 
             AWSShapeMember(label: "ExternalTableDefinition", required: false, type: .string), 
+            AWSShapeMember(label: "ParquetVersion", required: false, type: .enum), 
+            AWSShapeMember(label: "RowGroupLength", required: false, type: .integer), 
+            AWSShapeMember(label: "ServerSideEncryptionKmsKeyId", required: false, type: .string), 
             AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string)
         ]
         ///  An optional parameter to set a folder name in the S3 bucket. If provided, tables are created in the path &lt;bucketFolder&gt;/&lt;schema_name&gt;/&lt;table_name&gt;/. If this parameter is not specified, then the path used is &lt;schema_name&gt;/&lt;table_name&gt;/. 
         public let bucketFolder: String?
         ///  The name of the S3 bucket. 
         public let bucketName: String?
-        ///  An optional parameter to use GZIP to compress the target files. Set to GZIP to compress the target files. Set to NONE (the default) or do not use to leave the files uncompressed. 
+        /// Option to write only INSERT operations to the comma-separated value (CSV) output files. By default, the first field in a CSV record contains the letter I (insert), U (update) or D (delete) to indicate whether the row was inserted, updated, or deleted at the source database. If cdcInsertsOnly is set to true, then only INSERTs are recorded in the CSV file, without the I annotation on each line. Valid values are TRUE and FALSE.
+        public let cdcInsertsOnly: Bool?
+        ///  An optional parameter to use GZIP to compress the target files. Set to GZIP to compress the target files. Set to NONE (the default) or do not use to leave the files uncompressed. Applies to both CSV and PARQUET data formats. 
         public let compressionType: CompressionTypeValue?
         ///  The delimiter used to separate columns in the source files. The default is a comma. 
         public let csvDelimiter: String?
         ///  The delimiter used to separate rows in the source files. The default is a carriage return (\n). 
         public let csvRowDelimiter: String?
+        /// The format of the data which you want to use for output. You can choose one of the following:     CSV : This is a row-based format with comma-separated values.     PARQUET : Apache Parquet is a columnar storage format that features efficient compression and provides faster query response.   
+        public let dataFormat: DataFormatValue?
+        /// The size of one data page in bytes. Defaults to 1024 * 1024 bytes (1MiB). For PARQUET format only. 
+        public let dataPageSize: Int32?
+        /// The maximum size of an encoded dictionary page of a column. If the dictionary page exceeds this, this column is stored using an encoding type of PLAIN. Defaults to 1024 * 1024 bytes (1MiB), the maximum size of a dictionary page before it reverts to PLAIN encoding. For PARQUET format only. 
+        public let dictPageSizeLimit: Int32?
+        /// Enables statistics for Parquet pages and rowGroups. Choose TRUE to enable statistics, choose FALSE to disable. Statistics include NULL, DISTINCT, MAX, and MIN values. Defaults to TRUE. For PARQUET format only.
+        public let enableStatistics: Bool?
+        /// The type of encoding you are using: RLE_DICTIONARY (default), PLAIN, or PLAIN_DICTIONARY.    RLE_DICTIONARY uses a combination of bit-packing and run-length encoding to store repeated values more efficiently.    PLAIN does not use encoding at all. Values are stored as they are.    PLAIN_DICTIONARY builds a dictionary of the values encountered in a given column. The dictionary is stored in a dictionary page for each column chunk.  
+        public let encodingType: EncodingTypeValue?
+        /// The type of server side encryption you want to use for your data. This is part of the endpoint settings or the extra connections attributes for Amazon S3. You can choose either SSE_S3 (default) or SSE_KMS. To use SSE_S3, you need an IAM role with permission to allow "arn:aws:s3:::dms-*" to use the following actions:   s3:CreateBucket   s3:ListBucket   s3:DeleteBucket   s3:GetBucketLocation   s3:GetObject   s3:PutObject   s3:DeleteObject   s3:GetObjectVersion   s3:GetBucketPolicy   s3:PutBucketPolicy   s3:DeleteBucketPolicy  
+        public let encryptionMode: EncryptionModeValue?
         ///  The external table definition. 
         public let externalTableDefinition: String?
+        /// The version of Apache Parquet format you want to use: PARQUET_1_0 (default) or PARQUET_2_0.
+        public let parquetVersion: ParquetVersionValue?
+        /// The number of rows in a row group. A smaller row group size provides faster reads. But as the number of row groups grows, the slower writes become. Defaults to 10,000 (ten thousand) rows. For PARQUET format only.  If you choose a value larger than the maximum, RowGroupLength is set to the max row group length in bytes (64 * 1024 * 1024). 
+        public let rowGroupLength: Int32?
+        /// If you are using SSE_KMS for the EncryptionMode, provide the KMS Key ID. The key you use needs an attached policy that enables IAM user permissions and allows use of the key. Here is a CLI example: aws dms create-endpoint --endpoint-identifier &lt;value&gt; --endpoint-type target --engine-name s3 --s3-settings ServiceAccessRoleArn=&lt;value&gt;,BucketFolder=&lt;value&gt;,BucketName=&lt;value&gt;,EncryptionMode=SSE_KMS,ServerSideEncryptionKmsKeyId=&lt;value&gt;  
+        public let serverSideEncryptionKmsKeyId: String?
         ///  The Amazon Resource Name (ARN) used by the service access IAM role. 
         public let serviceAccessRoleArn: String?
 
-        public init(bucketFolder: String? = nil, bucketName: String? = nil, compressionType: CompressionTypeValue? = nil, csvDelimiter: String? = nil, csvRowDelimiter: String? = nil, externalTableDefinition: String? = nil, serviceAccessRoleArn: String? = nil) {
+        public init(bucketFolder: String? = nil, bucketName: String? = nil, cdcInsertsOnly: Bool? = nil, compressionType: CompressionTypeValue? = nil, csvDelimiter: String? = nil, csvRowDelimiter: String? = nil, dataFormat: DataFormatValue? = nil, dataPageSize: Int32? = nil, dictPageSizeLimit: Int32? = nil, enableStatistics: Bool? = nil, encodingType: EncodingTypeValue? = nil, encryptionMode: EncryptionModeValue? = nil, externalTableDefinition: String? = nil, parquetVersion: ParquetVersionValue? = nil, rowGroupLength: Int32? = nil, serverSideEncryptionKmsKeyId: String? = nil, serviceAccessRoleArn: String? = nil) {
             self.bucketFolder = bucketFolder
             self.bucketName = bucketName
+            self.cdcInsertsOnly = cdcInsertsOnly
             self.compressionType = compressionType
             self.csvDelimiter = csvDelimiter
             self.csvRowDelimiter = csvRowDelimiter
+            self.dataFormat = dataFormat
+            self.dataPageSize = dataPageSize
+            self.dictPageSizeLimit = dictPageSizeLimit
+            self.enableStatistics = enableStatistics
+            self.encodingType = encodingType
+            self.encryptionMode = encryptionMode
             self.externalTableDefinition = externalTableDefinition
+            self.parquetVersion = parquetVersion
+            self.rowGroupLength = rowGroupLength
+            self.serverSideEncryptionKmsKeyId = serverSideEncryptionKmsKeyId
             self.serviceAccessRoleArn = serviceAccessRoleArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case bucketFolder = "BucketFolder"
             case bucketName = "BucketName"
+            case cdcInsertsOnly = "CdcInsertsOnly"
             case compressionType = "CompressionType"
             case csvDelimiter = "CsvDelimiter"
             case csvRowDelimiter = "CsvRowDelimiter"
+            case dataFormat = "DataFormat"
+            case dataPageSize = "DataPageSize"
+            case dictPageSizeLimit = "DictPageSizeLimit"
+            case enableStatistics = "EnableStatistics"
+            case encodingType = "EncodingType"
+            case encryptionMode = "EncryptionMode"
             case externalTableDefinition = "ExternalTableDefinition"
+            case parquetVersion = "ParquetVersion"
+            case rowGroupLength = "RowGroupLength"
+            case serverSideEncryptionKmsKeyId = "ServerSideEncryptionKmsKeyId"
             case serviceAccessRoleArn = "ServiceAccessRoleArn"
         }
     }

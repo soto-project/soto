@@ -506,7 +506,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Protocol", required: true, type: .enum), 
             AWSShapeMember(label: "SubscriptionType", required: true, type: .enum)
         ]
-        /// The endpoint to receive the notifications. If the protocol is HTTPS, the endpoint is a URL that begins with "https://".
+        /// The endpoint to receive the notifications. If the protocol is HTTPS, the endpoint is a URL that begins with https.
         public let endpoint: String
         /// The ID of the organization.
         public let organizationId: String

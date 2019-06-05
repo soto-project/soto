@@ -50,6 +50,11 @@ public struct PinpointSMSVoice {
         return try client.send(operation: "GetConfigurationSetEventDestinations", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations", httpMethod: "GET", input: input)
     }
 
+    ///  List all of the configuration sets associated with your Amazon Pinpoint account in the current region.
+    public func listConfigurationSets(_ input: ListConfigurationSetsRequest) throws -> Future<ListConfigurationSetsResponse> {
+        return try client.send(operation: "ListConfigurationSets", path: "/v1/sms-voice/configuration-sets", httpMethod: "GET", input: input)
+    }
+
     ///  Create a new voice message and send it to a recipient's phone number.
     public func sendVoiceMessage(_ input: SendVoiceMessageRequest) throws -> Future<SendVoiceMessageResponse> {
         return try client.send(operation: "SendVoiceMessage", path: "/v1/sms-voice/voice/message", httpMethod: "POST", input: input)

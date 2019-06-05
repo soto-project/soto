@@ -462,7 +462,7 @@ extension Firehose {
         public let domainARN: String
         /// The Elasticsearch index name.
         public let indexName: String
-        /// The Elasticsearch index rotation period. Index rotation appends a time stamp to the IndexName to facilitate the expiration of old data. For more information, see Index Rotation for the Amazon ES Destination. The default value is OneDay.
+        /// The Elasticsearch index rotation period. Index rotation appends a timestamp to the IndexName to facilitate the expiration of old data. For more information, see Index Rotation for the Amazon ES Destination. The default value is OneDay.
         public let indexRotationPeriod: ElasticsearchIndexRotationPeriod?
         /// The data processing configuration.
         public let processingConfiguration: ProcessingConfiguration?
@@ -593,7 +593,7 @@ extension Firehose {
         public let domainARN: String?
         /// The Elasticsearch index name.
         public let indexName: String?
-        /// The Elasticsearch index rotation period. Index rotation appends a time stamp to IndexName to facilitate the expiration of old data. For more information, see Index Rotation for the Amazon ES Destination. Default value is OneDay.
+        /// The Elasticsearch index rotation period. Index rotation appends a timestamp to IndexName to facilitate the expiration of old data. For more information, see Index Rotation for the Amazon ES Destination. Default value is OneDay.
         public let indexRotationPeriod: ElasticsearchIndexRotationPeriod?
         /// The data processing configuration.
         public let processingConfiguration: ProcessingConfiguration?
@@ -693,6 +693,7 @@ extension Firehose {
             AWSShapeMember(label: "CompressionFormat", required: false, type: .enum), 
             AWSShapeMember(label: "DataFormatConversionConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "ErrorOutputPrefix", required: false, type: .string), 
             AWSShapeMember(label: "Prefix", required: false, type: .string), 
             AWSShapeMember(label: "ProcessingConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "RoleARN", required: true, type: .string), 
@@ -711,6 +712,8 @@ extension Firehose {
         public let dataFormatConversionConfiguration: DataFormatConversionConfiguration?
         /// The encryption configuration. If no value is specified, the default is no encryption.
         public let encryptionConfiguration: EncryptionConfiguration?
+        /// A prefix that Kinesis Data Firehose evaluates and adds to failed records before writing them to S3. This prefix appears immediately following the bucket name. 
+        public let errorOutputPrefix: String?
         /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon S3 files. You can specify an extra prefix to be added in front of the time format prefix. If the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Data Firehose Developer Guide.
         public let prefix: String?
         /// The data processing configuration.
@@ -722,13 +725,14 @@ extension Firehose {
         /// The Amazon S3 backup mode.
         public let s3BackupMode: S3BackupMode?
 
-        public init(bucketARN: String, bufferingHints: BufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat? = nil, dataFormatConversionConfiguration: DataFormatConversionConfiguration? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, prefix: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, roleARN: String, s3BackupConfiguration: S3DestinationConfiguration? = nil, s3BackupMode: S3BackupMode? = nil) {
+        public init(bucketARN: String, bufferingHints: BufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat? = nil, dataFormatConversionConfiguration: DataFormatConversionConfiguration? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, errorOutputPrefix: String? = nil, prefix: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, roleARN: String, s3BackupConfiguration: S3DestinationConfiguration? = nil, s3BackupMode: S3BackupMode? = nil) {
             self.bucketARN = bucketARN
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.compressionFormat = compressionFormat
             self.dataFormatConversionConfiguration = dataFormatConversionConfiguration
             self.encryptionConfiguration = encryptionConfiguration
+            self.errorOutputPrefix = errorOutputPrefix
             self.prefix = prefix
             self.processingConfiguration = processingConfiguration
             self.roleARN = roleARN
@@ -743,6 +747,7 @@ extension Firehose {
             case compressionFormat = "CompressionFormat"
             case dataFormatConversionConfiguration = "DataFormatConversionConfiguration"
             case encryptionConfiguration = "EncryptionConfiguration"
+            case errorOutputPrefix = "ErrorOutputPrefix"
             case prefix = "Prefix"
             case processingConfiguration = "ProcessingConfiguration"
             case roleARN = "RoleARN"
@@ -759,6 +764,7 @@ extension Firehose {
             AWSShapeMember(label: "CompressionFormat", required: true, type: .enum), 
             AWSShapeMember(label: "DataFormatConversionConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "EncryptionConfiguration", required: true, type: .structure), 
+            AWSShapeMember(label: "ErrorOutputPrefix", required: false, type: .string), 
             AWSShapeMember(label: "Prefix", required: false, type: .string), 
             AWSShapeMember(label: "ProcessingConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "RoleARN", required: true, type: .string), 
@@ -777,6 +783,8 @@ extension Firehose {
         public let dataFormatConversionConfiguration: DataFormatConversionConfiguration?
         /// The encryption configuration. If no value is specified, the default is no encryption.
         public let encryptionConfiguration: EncryptionConfiguration
+        /// A prefix that Kinesis Data Firehose evaluates and adds to failed records before writing them to S3. This prefix appears immediately following the bucket name.
+        public let errorOutputPrefix: String?
         /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon S3 files. You can specify an extra prefix to be added in front of the time format prefix. If the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Data Firehose Developer Guide.
         public let prefix: String?
         /// The data processing configuration.
@@ -788,13 +796,14 @@ extension Firehose {
         /// The Amazon S3 backup mode.
         public let s3BackupMode: S3BackupMode?
 
-        public init(bucketARN: String, bufferingHints: BufferingHints, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat, dataFormatConversionConfiguration: DataFormatConversionConfiguration? = nil, encryptionConfiguration: EncryptionConfiguration, prefix: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, roleARN: String, s3BackupDescription: S3DestinationDescription? = nil, s3BackupMode: S3BackupMode? = nil) {
+        public init(bucketARN: String, bufferingHints: BufferingHints, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat, dataFormatConversionConfiguration: DataFormatConversionConfiguration? = nil, encryptionConfiguration: EncryptionConfiguration, errorOutputPrefix: String? = nil, prefix: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, roleARN: String, s3BackupDescription: S3DestinationDescription? = nil, s3BackupMode: S3BackupMode? = nil) {
             self.bucketARN = bucketARN
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.compressionFormat = compressionFormat
             self.dataFormatConversionConfiguration = dataFormatConversionConfiguration
             self.encryptionConfiguration = encryptionConfiguration
+            self.errorOutputPrefix = errorOutputPrefix
             self.prefix = prefix
             self.processingConfiguration = processingConfiguration
             self.roleARN = roleARN
@@ -809,6 +818,7 @@ extension Firehose {
             case compressionFormat = "CompressionFormat"
             case dataFormatConversionConfiguration = "DataFormatConversionConfiguration"
             case encryptionConfiguration = "EncryptionConfiguration"
+            case errorOutputPrefix = "ErrorOutputPrefix"
             case prefix = "Prefix"
             case processingConfiguration = "ProcessingConfiguration"
             case roleARN = "RoleARN"
@@ -825,6 +835,7 @@ extension Firehose {
             AWSShapeMember(label: "CompressionFormat", required: false, type: .enum), 
             AWSShapeMember(label: "DataFormatConversionConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "ErrorOutputPrefix", required: false, type: .string), 
             AWSShapeMember(label: "Prefix", required: false, type: .string), 
             AWSShapeMember(label: "ProcessingConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "RoleARN", required: false, type: .string), 
@@ -843,6 +854,8 @@ extension Firehose {
         public let dataFormatConversionConfiguration: DataFormatConversionConfiguration?
         /// The encryption configuration. If no value is specified, the default is no encryption.
         public let encryptionConfiguration: EncryptionConfiguration?
+        /// A prefix that Kinesis Data Firehose evaluates and adds to failed records before writing them to S3. This prefix appears immediately following the bucket name.
+        public let errorOutputPrefix: String?
         /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon S3 files. You can specify an extra prefix to be added in front of the time format prefix. If the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Data Firehose Developer Guide.
         public let prefix: String?
         /// The data processing configuration.
@@ -854,13 +867,14 @@ extension Firehose {
         /// The Amazon S3 destination for backup.
         public let s3BackupUpdate: S3DestinationUpdate?
 
-        public init(bucketARN: String? = nil, bufferingHints: BufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat? = nil, dataFormatConversionConfiguration: DataFormatConversionConfiguration? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, prefix: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, roleARN: String? = nil, s3BackupMode: S3BackupMode? = nil, s3BackupUpdate: S3DestinationUpdate? = nil) {
+        public init(bucketARN: String? = nil, bufferingHints: BufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat? = nil, dataFormatConversionConfiguration: DataFormatConversionConfiguration? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, errorOutputPrefix: String? = nil, prefix: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, roleARN: String? = nil, s3BackupMode: S3BackupMode? = nil, s3BackupUpdate: S3DestinationUpdate? = nil) {
             self.bucketARN = bucketARN
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.compressionFormat = compressionFormat
             self.dataFormatConversionConfiguration = dataFormatConversionConfiguration
             self.encryptionConfiguration = encryptionConfiguration
+            self.errorOutputPrefix = errorOutputPrefix
             self.prefix = prefix
             self.processingConfiguration = processingConfiguration
             self.roleARN = roleARN
@@ -875,6 +889,7 @@ extension Firehose {
             case compressionFormat = "CompressionFormat"
             case dataFormatConversionConfiguration = "DataFormatConversionConfiguration"
             case encryptionConfiguration = "EncryptionConfiguration"
+            case errorOutputPrefix = "ErrorOutputPrefix"
             case prefix = "Prefix"
             case processingConfiguration = "ProcessingConfiguration"
             case roleARN = "RoleARN"
@@ -893,7 +908,7 @@ extension Firehose {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TimestampFormats", required: false, type: .list)
         ]
-        /// Indicates how you want Kinesis Data Firehose to parse the date and time stamps that may be present in your input data JSON. To specify these format strings, follow the pattern syntax of JodaTime's DateTimeFormat format strings. For more information, see Class DateTimeFormat. You can also use the special value millis to parse time stamps in epoch milliseconds. If you don't specify a format, Kinesis Data Firehose uses java.sql.Timestamp::valueOf by default.
+        /// Indicates how you want Kinesis Data Firehose to parse the date and timestamps that may be present in your input data JSON. To specify these format strings, follow the pattern syntax of JodaTime's DateTimeFormat format strings. For more information, see Class DateTimeFormat. You can also use the special value millis to parse timestamps in epoch milliseconds. If you don't specify a format, Kinesis Data Firehose uses java.sql.Timestamp::valueOf by default.
         public let timestampFormats: [String]?
 
         public init(timestampFormats: [String]? = nil) {
@@ -964,7 +979,7 @@ extension Firehose {
             AWSShapeMember(label: "KinesisStreamARN", required: false, type: .string), 
             AWSShapeMember(label: "RoleARN", required: false, type: .string)
         ]
-        /// Kinesis Data Firehose starts retrieving records from the Kinesis data stream starting with this time stamp.
+        /// Kinesis Data Firehose starts retrieving records from the Kinesis data stream starting with this timestamp.
         public let deliveryStartTimestamp: TimeStamp?
         /// The Amazon Resource Name (ARN) of the source Kinesis data stream. For more information, see Amazon Kinesis Data Streams ARN Format.
         public let kinesisStreamARN: String?
@@ -1689,6 +1704,7 @@ extension Firehose {
             AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
             AWSShapeMember(label: "CompressionFormat", required: false, type: .enum), 
             AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "ErrorOutputPrefix", required: false, type: .string), 
             AWSShapeMember(label: "Prefix", required: false, type: .string), 
             AWSShapeMember(label: "RoleARN", required: true, type: .string)
         ]
@@ -1702,17 +1718,20 @@ extension Firehose {
         public let compressionFormat: CompressionFormat?
         /// The encryption configuration. If no value is specified, the default is no encryption.
         public let encryptionConfiguration: EncryptionConfiguration?
+        /// A prefix that Kinesis Data Firehose evaluates and adds to failed records before writing them to S3. This prefix appears immediately following the bucket name.
+        public let errorOutputPrefix: String?
         /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon S3 files. You can specify an extra prefix to be added in front of the time format prefix. If the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Data Firehose Developer Guide.
         public let prefix: String?
         /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let roleARN: String
 
-        public init(bucketARN: String, bufferingHints: BufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, prefix: String? = nil, roleARN: String) {
+        public init(bucketARN: String, bufferingHints: BufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, errorOutputPrefix: String? = nil, prefix: String? = nil, roleARN: String) {
             self.bucketARN = bucketARN
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.compressionFormat = compressionFormat
             self.encryptionConfiguration = encryptionConfiguration
+            self.errorOutputPrefix = errorOutputPrefix
             self.prefix = prefix
             self.roleARN = roleARN
         }
@@ -1723,6 +1742,7 @@ extension Firehose {
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
             case compressionFormat = "CompressionFormat"
             case encryptionConfiguration = "EncryptionConfiguration"
+            case errorOutputPrefix = "ErrorOutputPrefix"
             case prefix = "Prefix"
             case roleARN = "RoleARN"
         }
@@ -1735,6 +1755,7 @@ extension Firehose {
             AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
             AWSShapeMember(label: "CompressionFormat", required: true, type: .enum), 
             AWSShapeMember(label: "EncryptionConfiguration", required: true, type: .structure), 
+            AWSShapeMember(label: "ErrorOutputPrefix", required: false, type: .string), 
             AWSShapeMember(label: "Prefix", required: false, type: .string), 
             AWSShapeMember(label: "RoleARN", required: true, type: .string)
         ]
@@ -1748,17 +1769,20 @@ extension Firehose {
         public let compressionFormat: CompressionFormat
         /// The encryption configuration. If no value is specified, the default is no encryption.
         public let encryptionConfiguration: EncryptionConfiguration
+        /// A prefix that Kinesis Data Firehose evaluates and adds to failed records before writing them to S3. This prefix appears immediately following the bucket name.
+        public let errorOutputPrefix: String?
         /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon S3 files. You can specify an extra prefix to be added in front of the time format prefix. If the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Data Firehose Developer Guide.
         public let prefix: String?
         /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let roleARN: String
 
-        public init(bucketARN: String, bufferingHints: BufferingHints, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat, encryptionConfiguration: EncryptionConfiguration, prefix: String? = nil, roleARN: String) {
+        public init(bucketARN: String, bufferingHints: BufferingHints, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat, encryptionConfiguration: EncryptionConfiguration, errorOutputPrefix: String? = nil, prefix: String? = nil, roleARN: String) {
             self.bucketARN = bucketARN
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.compressionFormat = compressionFormat
             self.encryptionConfiguration = encryptionConfiguration
+            self.errorOutputPrefix = errorOutputPrefix
             self.prefix = prefix
             self.roleARN = roleARN
         }
@@ -1769,6 +1793,7 @@ extension Firehose {
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
             case compressionFormat = "CompressionFormat"
             case encryptionConfiguration = "EncryptionConfiguration"
+            case errorOutputPrefix = "ErrorOutputPrefix"
             case prefix = "Prefix"
             case roleARN = "RoleARN"
         }
@@ -1781,6 +1806,7 @@ extension Firehose {
             AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
             AWSShapeMember(label: "CompressionFormat", required: false, type: .enum), 
             AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "ErrorOutputPrefix", required: false, type: .string), 
             AWSShapeMember(label: "Prefix", required: false, type: .string), 
             AWSShapeMember(label: "RoleARN", required: false, type: .string)
         ]
@@ -1794,17 +1820,20 @@ extension Firehose {
         public let compressionFormat: CompressionFormat?
         /// The encryption configuration. If no value is specified, the default is no encryption.
         public let encryptionConfiguration: EncryptionConfiguration?
+        /// A prefix that Kinesis Data Firehose evaluates and adds to failed records before writing them to S3. This prefix appears immediately following the bucket name.
+        public let errorOutputPrefix: String?
         /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon S3 files. You can specify an extra prefix to be added in front of the time format prefix. If the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Data Firehose Developer Guide.
         public let prefix: String?
         /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let roleARN: String?
 
-        public init(bucketARN: String? = nil, bufferingHints: BufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, prefix: String? = nil, roleARN: String? = nil) {
+        public init(bucketARN: String? = nil, bufferingHints: BufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, errorOutputPrefix: String? = nil, prefix: String? = nil, roleARN: String? = nil) {
             self.bucketARN = bucketARN
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.compressionFormat = compressionFormat
             self.encryptionConfiguration = encryptionConfiguration
+            self.errorOutputPrefix = errorOutputPrefix
             self.prefix = prefix
             self.roleARN = roleARN
         }
@@ -1815,6 +1844,7 @@ extension Firehose {
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
             case compressionFormat = "CompressionFormat"
             case encryptionConfiguration = "EncryptionConfiguration"
+            case errorOutputPrefix = "ErrorOutputPrefix"
             case prefix = "Prefix"
             case roleARN = "RoleARN"
         }

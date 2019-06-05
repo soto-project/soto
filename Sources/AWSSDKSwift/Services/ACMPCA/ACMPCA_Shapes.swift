@@ -86,6 +86,13 @@ extension ACMPCA {
         }
     }
 
+    public enum ActionType: String, CustomStringConvertible, Codable {
+        case issuecertificate = "IssueCertificate"
+        case getcertificate = "GetCertificate"
+        case listpermissions = "ListPermissions"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AuditReportResponseFormat: String, CustomStringConvertible, Codable {
         case json = "JSON"
         case csv = "CSV"
@@ -218,11 +225,11 @@ extension ACMPCA {
             AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string), 
             AWSShapeMember(label: "S3BucketName", required: true, type: .string)
         ]
-        /// Format in which to create the report. This can be either JSON or CSV.
+        /// The format in which to create the report. This can be either JSON or CSV.
         public let auditReportResponseFormat: AuditReportResponseFormat
-        /// Amazon Resource Name (ARN) of the CA to be audited. This is of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
+        /// The Amazon Resource Name (ARN) of the CA to be audited. This is of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
         public let certificateAuthorityArn: String
-        /// Name of the S3 bucket that will contain the audit report.
+        /// The name of the S3 bucket that will contain the audit report.
         public let s3BucketName: String
 
         public init(auditReportResponseFormat: AuditReportResponseFormat, certificateAuthorityArn: String, s3BucketName: String) {
@@ -264,7 +271,8 @@ extension ACMPCA {
             AWSShapeMember(label: "CertificateAuthorityConfiguration", required: true, type: .structure), 
             AWSShapeMember(label: "CertificateAuthorityType", required: true, type: .enum), 
             AWSShapeMember(label: "IdempotencyToken", required: false, type: .string), 
-            AWSShapeMember(label: "RevocationConfiguration", required: false, type: .structure)
+            AWSShapeMember(label: "RevocationConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// Name and bit size of the private key algorithm, the name of the signing algorithm, and X.500 certificate subject information.
         public let certificateAuthorityConfiguration: CertificateAuthorityConfiguration
@@ -274,12 +282,15 @@ extension ACMPCA {
         public let idempotencyToken: String?
         /// Contains a Boolean value that you can use to enable a certification revocation list (CRL) for the CA, the name of the S3 bucket to which ACM PCA will write the CRL, and an optional CNAME alias that you can use to hide the name of your bucket in the CRL Distribution Points extension of your CA certificate. For more information, see the CrlConfiguration structure. 
         public let revocationConfiguration: RevocationConfiguration?
+        /// Key-value pairs that will be attached to the new private CA. You can associate up to 50 tags with a private CA.
+        public let tags: [Tag]?
 
-        public init(certificateAuthorityConfiguration: CertificateAuthorityConfiguration, certificateAuthorityType: CertificateAuthorityType, idempotencyToken: String? = nil, revocationConfiguration: RevocationConfiguration? = nil) {
+        public init(certificateAuthorityConfiguration: CertificateAuthorityConfiguration, certificateAuthorityType: CertificateAuthorityType, idempotencyToken: String? = nil, revocationConfiguration: RevocationConfiguration? = nil, tags: [Tag]? = nil) {
             self.certificateAuthorityConfiguration = certificateAuthorityConfiguration
             self.certificateAuthorityType = certificateAuthorityType
             self.idempotencyToken = idempotencyToken
             self.revocationConfiguration = revocationConfiguration
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -287,6 +298,7 @@ extension ACMPCA {
             case certificateAuthorityType = "CertificateAuthorityType"
             case idempotencyToken = "IdempotencyToken"
             case revocationConfiguration = "RevocationConfiguration"
+            case tags = "Tags"
         }
     }
 
@@ -303,6 +315,37 @@ extension ACMPCA {
 
         private enum CodingKeys: String, CodingKey {
             case certificateAuthorityArn = "CertificateAuthorityArn"
+        }
+    }
+
+    public struct CreatePermissionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Actions", required: true, type: .list), 
+            AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string), 
+            AWSShapeMember(label: "Principal", required: true, type: .string), 
+            AWSShapeMember(label: "SourceAccount", required: false, type: .string)
+        ]
+        /// The actions that the specified AWS service principal can use. These include IssueCertificate, GetCertificate, and ListPermissions.
+        public let actions: [ActionType]
+        /// The Amazon Resource Name (ARN) of the CA that grants the permissions. You can find the ARN by calling the ListCertificateAuthorities operation. This must have the following form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
+        public let certificateAuthorityArn: String
+        /// The AWS service or identity that receives the permission. At this time, the only valid principal is acm.amazonaws.com.
+        public let principal: String
+        /// The ID of the calling account.
+        public let sourceAccount: String?
+
+        public init(actions: [ActionType], certificateAuthorityArn: String, principal: String, sourceAccount: String? = nil) {
+            self.actions = actions
+            self.certificateAuthorityArn = certificateAuthorityArn
+            self.principal = principal
+            self.sourceAccount = sourceAccount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case certificateAuthorityArn = "CertificateAuthorityArn"
+            case principal = "Principal"
+            case sourceAccount = "SourceAccount"
         }
     }
 
@@ -355,6 +398,32 @@ extension ACMPCA {
         private enum CodingKeys: String, CodingKey {
             case certificateAuthorityArn = "CertificateAuthorityArn"
             case permanentDeletionTimeInDays = "PermanentDeletionTimeInDays"
+        }
+    }
+
+    public struct DeletePermissionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string), 
+            AWSShapeMember(label: "Principal", required: true, type: .string), 
+            AWSShapeMember(label: "SourceAccount", required: false, type: .string)
+        ]
+        /// The Amazon Resource Number (ARN) of the private CA that issued the permissions. You can find the CA's ARN by calling the ListCertificateAuthorities operation. This must have the following form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
+        public let certificateAuthorityArn: String
+        /// The AWS service or identity that will have its CA permissions revoked. At this time, the only valid service principal is acm.amazonaws.com 
+        public let principal: String
+        /// The AWS account that calls this operation.
+        public let sourceAccount: String?
+
+        public init(certificateAuthorityArn: String, principal: String, sourceAccount: String? = nil) {
+            self.certificateAuthorityArn = certificateAuthorityArn
+            self.principal = principal
+            self.sourceAccount = sourceAccount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateAuthorityArn = "CertificateAuthorityArn"
+            case principal = "Principal"
+            case sourceAccount = "SourceAccount"
         }
     }
 
@@ -688,6 +757,53 @@ extension ACMPCA {
         }
     }
 
+    public struct ListPermissionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The Amazon Resource Number (ARN) of the private CA to inspect. You can find the ARN by calling the ListCertificateAuthorities operation. This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 You can get a private CA's ARN by running the ListCertificateAuthorities operation.
+        public let certificateAuthorityArn: String
+        /// When paginating results, use this parameter to specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the NextToken element is sent in the response. Use this NextToken value in a subsequent request to retrieve additional items.
+        public let maxResults: Int32?
+        /// When paginating results, use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextToken from the response you just received.
+        public let nextToken: String?
+
+        public init(certificateAuthorityArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.certificateAuthorityArn = certificateAuthorityArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateAuthorityArn = "CertificateAuthorityArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListPermissionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Permissions", required: false, type: .list)
+        ]
+        /// When the list is truncated, this value is present and should be used for the NextToken parameter in a subsequent pagination request. 
+        public let nextToken: String?
+        /// Summary information about each permission assigned by the specified private CA, including the action enabled, the policy provided, and the time of creation.
+        public let permissions: [Permission]?
+
+        public init(nextToken: String? = nil, permissions: [Permission]? = nil) {
+            self.nextToken = nextToken
+            self.permissions = permissions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case permissions = "Permissions"
+        }
+    }
+
     public struct ListTagsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string), 
@@ -732,6 +848,47 @@ extension ACMPCA {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case tags = "Tags"
+        }
+    }
+
+    public struct Permission: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Actions", required: false, type: .list), 
+            AWSShapeMember(label: "CertificateAuthorityArn", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Policy", required: false, type: .string), 
+            AWSShapeMember(label: "Principal", required: false, type: .string), 
+            AWSShapeMember(label: "SourceAccount", required: false, type: .string)
+        ]
+        /// The private CA operations that can be performed by the designated AWS service.
+        public let actions: [ActionType]?
+        /// The Amazon Resource Number (ARN) of the private CA from which the permission was issued.
+        public let certificateAuthorityArn: String?
+        /// The time at which the permission was created.
+        public let createdAt: TimeStamp?
+        /// The name of the policy that is associated with the permission.
+        public let policy: String?
+        /// The AWS service or entity that holds the permission. At this time, the only valid principal is acm.amazonaws.com.
+        public let principal: String?
+        /// The ID of the account that assigned the permission.
+        public let sourceAccount: String?
+
+        public init(actions: [ActionType]? = nil, certificateAuthorityArn: String? = nil, createdAt: TimeStamp? = nil, policy: String? = nil, principal: String? = nil, sourceAccount: String? = nil) {
+            self.actions = actions
+            self.certificateAuthorityArn = certificateAuthorityArn
+            self.createdAt = createdAt
+            self.policy = policy
+            self.principal = principal
+            self.sourceAccount = sourceAccount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case certificateAuthorityArn = "CertificateAuthorityArn"
+            case createdAt = "CreatedAt"
+            case policy = "Policy"
+            case principal = "Principal"
+            case sourceAccount = "SourceAccount"
         }
     }
 

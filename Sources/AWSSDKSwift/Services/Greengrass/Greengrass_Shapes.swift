@@ -142,7 +142,7 @@ extension Greengrass {
         public let deploymentArn: String?
         /// The ID of the group deployment.
         public let deploymentId: String?
-        /// The current status of the group deployment: ''Pending'', ''InProgress'', ''Success'', or ''Failure''.
+        /// The current status of the group deployment: ''InProgress'', ''Building'', ''Success'', or ''Failure''.
         public let deploymentStatus: String?
         /// The type of the deployment.
         public let deploymentType: DeploymentType?
@@ -310,22 +310,26 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
             AWSShapeMember(label: "InitialVersion", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         public let amznClientToken: String?
         public let initialVersion: ConnectorDefinitionVersion?
         public let name: String?
+        public let tags: [String: String]?
 
-        public init(amznClientToken: String? = nil, initialVersion: ConnectorDefinitionVersion? = nil, name: String? = nil) {
+        public init(amznClientToken: String? = nil, initialVersion: ConnectorDefinitionVersion? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.amznClientToken = amznClientToken
             self.initialVersion = initialVersion
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case amznClientToken = "X-Amzn-Client-Token"
             case initialVersion = "InitialVersion"
             case name = "Name"
+            case tags = "tags"
         }
     }
 
@@ -422,22 +426,26 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
             AWSShapeMember(label: "InitialVersion", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         public let amznClientToken: String?
         public let initialVersion: CoreDefinitionVersion?
         public let name: String?
+        public let tags: [String: String]?
 
-        public init(amznClientToken: String? = nil, initialVersion: CoreDefinitionVersion? = nil, name: String? = nil) {
+        public init(amznClientToken: String? = nil, initialVersion: CoreDefinitionVersion? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.amznClientToken = amznClientToken
             self.initialVersion = initialVersion
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case amznClientToken = "X-Amzn-Client-Token"
             case initialVersion = "InitialVersion"
             case name = "Name"
+            case tags = "tags"
         }
     }
 
@@ -541,7 +549,7 @@ extension Greengrass {
         public let amznClientToken: String?
         /// The ID of the deployment if you wish to redeploy a previous deployment.
         public let deploymentId: String?
-        /// The type of deployment. When used in ''CreateDeployment'', only ''NewDeployment'' and ''Redeployment'' are valid.
+        /// The type of deployment. When used for ''CreateDeployment'', only ''NewDeployment'' and ''Redeployment'' are valid.
         public let deploymentType: DeploymentType?
         public let groupId: String
         /// The ID of the group version to be deployed.
@@ -589,22 +597,26 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
             AWSShapeMember(label: "InitialVersion", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         public let amznClientToken: String?
         public let initialVersion: DeviceDefinitionVersion?
         public let name: String?
+        public let tags: [String: String]?
 
-        public init(amznClientToken: String? = nil, initialVersion: DeviceDefinitionVersion? = nil, name: String? = nil) {
+        public init(amznClientToken: String? = nil, initialVersion: DeviceDefinitionVersion? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.amznClientToken = amznClientToken
             self.initialVersion = initialVersion
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case amznClientToken = "X-Amzn-Client-Token"
             case initialVersion = "InitialVersion"
             case name = "Name"
+            case tags = "tags"
         }
     }
 
@@ -701,22 +713,26 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
             AWSShapeMember(label: "InitialVersion", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         public let amznClientToken: String?
         public let initialVersion: FunctionDefinitionVersion?
         public let name: String?
+        public let tags: [String: String]?
 
-        public init(amznClientToken: String? = nil, initialVersion: FunctionDefinitionVersion? = nil, name: String? = nil) {
+        public init(amznClientToken: String? = nil, initialVersion: FunctionDefinitionVersion? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.amznClientToken = amznClientToken
             self.initialVersion = initialVersion
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case amznClientToken = "X-Amzn-Client-Token"
             case initialVersion = "InitialVersion"
             case name = "Name"
+            case tags = "tags"
         }
     }
 
@@ -852,22 +868,26 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
             AWSShapeMember(label: "InitialVersion", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         public let amznClientToken: String?
         public let initialVersion: GroupVersion?
         public let name: String?
+        public let tags: [String: String]?
 
-        public init(amznClientToken: String? = nil, initialVersion: GroupVersion? = nil, name: String? = nil) {
+        public init(amznClientToken: String? = nil, initialVersion: GroupVersion? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.amznClientToken = amznClientToken
             self.initialVersion = initialVersion
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case amznClientToken = "X-Amzn-Client-Token"
             case initialVersion = "InitialVersion"
             case name = "Name"
+            case tags = "tags"
         }
     }
 
@@ -988,22 +1008,26 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
             AWSShapeMember(label: "InitialVersion", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         public let amznClientToken: String?
         public let initialVersion: LoggerDefinitionVersion?
         public let name: String?
+        public let tags: [String: String]?
 
-        public init(amznClientToken: String? = nil, initialVersion: LoggerDefinitionVersion? = nil, name: String? = nil) {
+        public init(amznClientToken: String? = nil, initialVersion: LoggerDefinitionVersion? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.amznClientToken = amznClientToken
             self.initialVersion = initialVersion
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case amznClientToken = "X-Amzn-Client-Token"
             case initialVersion = "InitialVersion"
             case name = "Name"
+            case tags = "tags"
         }
     }
 
@@ -1100,22 +1124,26 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
             AWSShapeMember(label: "InitialVersion", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         public let amznClientToken: String?
         public let initialVersion: ResourceDefinitionVersion?
         public let name: String?
+        public let tags: [String: String]?
 
-        public init(amznClientToken: String? = nil, initialVersion: ResourceDefinitionVersion? = nil, name: String? = nil) {
+        public init(amznClientToken: String? = nil, initialVersion: ResourceDefinitionVersion? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.amznClientToken = amznClientToken
             self.initialVersion = initialVersion
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case amznClientToken = "X-Amzn-Client-Token"
             case initialVersion = "InitialVersion"
             case name = "Name"
+            case tags = "tags"
         }
     }
 
@@ -1272,22 +1300,26 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
             AWSShapeMember(label: "InitialVersion", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         public let amznClientToken: String?
         public let initialVersion: SubscriptionDefinitionVersion?
         public let name: String?
+        public let tags: [String: String]?
 
-        public init(amznClientToken: String? = nil, initialVersion: SubscriptionDefinitionVersion? = nil, name: String? = nil) {
+        public init(amznClientToken: String? = nil, initialVersion: SubscriptionDefinitionVersion? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.amznClientToken = amznClientToken
             self.initialVersion = initialVersion
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case amznClientToken = "X-Amzn-Client-Token"
             case initialVersion = "InitialVersion"
             case name = "Name"
+            case tags = "tags"
         }
     }
 
@@ -1388,7 +1420,8 @@ extension Greengrass {
             AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
             AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
             AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         /// The ARN of the definition.
         public let arn: String?
@@ -1404,8 +1437,9 @@ extension Greengrass {
         public let latestVersionArn: String?
         /// The name of the definition.
         public let name: String?
+        public let tags: [String: String]?
 
-        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
             self.id = id
@@ -1413,6 +1447,7 @@ extension Greengrass {
             self.latestVersion = latestVersion
             self.latestVersionArn = latestVersionArn
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1423,6 +1458,7 @@ extension Greengrass {
             case latestVersion = "LatestVersion"
             case latestVersionArn = "LatestVersionArn"
             case name = "Name"
+            case tags = "tags"
         }
     }
 
@@ -1901,16 +1937,20 @@ extension Greengrass {
 
     public struct FunctionDefaultExecutionConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IsolationMode", required: false, type: .enum)
+            AWSShapeMember(label: "IsolationMode", required: false, type: .enum), 
+            AWSShapeMember(label: "RunAs", required: false, type: .structure)
         ]
         public let isolationMode: FunctionIsolationMode?
+        public let runAs: FunctionRunAsConfig?
 
-        public init(isolationMode: FunctionIsolationMode? = nil) {
+        public init(isolationMode: FunctionIsolationMode? = nil, runAs: FunctionRunAsConfig? = nil) {
             self.isolationMode = isolationMode
+            self.runAs = runAs
         }
 
         private enum CodingKeys: String, CodingKey {
             case isolationMode = "IsolationMode"
+            case runAs = "RunAs"
         }
     }
 
@@ -1919,7 +1959,7 @@ extension Greengrass {
             AWSShapeMember(label: "DefaultConfig", required: false, type: .structure), 
             AWSShapeMember(label: "Functions", required: false, type: .list)
         ]
-        /// Default configuration that will apply to all Lambda functions in this function definition version
+        /// The default configuration that applies to all Lambda functions in this function definition version. Individual Lambda functions can override these settings.
         public let defaultConfig: FunctionDefaultConfig?
         /// A list of Lambda functions in this function definition version.
         public let functions: [Function]?
@@ -1965,9 +2005,9 @@ extension Greengrass {
             AWSShapeMember(label: "Gid", required: false, type: .integer), 
             AWSShapeMember(label: "Uid", required: false, type: .integer)
         ]
-        /// The Group ID whose permissions are used to run a Lambda function.
+        /// The group ID whose permissions are used to run a Lambda function.
         public let gid: Int32?
-        /// The User ID whose permissions are used to run a Lambda function.
+        /// The user ID whose permissions are used to run a Lambda function.
         public let uid: Int32?
 
         public init(gid: Int32? = nil, uid: Int32? = nil) {
@@ -2059,7 +2099,8 @@ extension Greengrass {
             AWSShapeMember(label: "BulkDeploymentStatus", required: false, type: .enum), 
             AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
             AWSShapeMember(label: "ErrorDetails", required: false, type: .list), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string)
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         /// Relevant metrics on input records processed during bulk deployment.
         public let bulkDeploymentMetrics: BulkDeploymentMetrics?
@@ -2071,13 +2112,15 @@ extension Greengrass {
         public let errorDetails: [ErrorDetail]?
         /// Error message
         public let errorMessage: String?
+        public let tags: [String: String]?
 
-        public init(bulkDeploymentMetrics: BulkDeploymentMetrics? = nil, bulkDeploymentStatus: BulkDeploymentStatus? = nil, createdAt: String? = nil, errorDetails: [ErrorDetail]? = nil, errorMessage: String? = nil) {
+        public init(bulkDeploymentMetrics: BulkDeploymentMetrics? = nil, bulkDeploymentStatus: BulkDeploymentStatus? = nil, createdAt: String? = nil, errorDetails: [ErrorDetail]? = nil, errorMessage: String? = nil, tags: [String: String]? = nil) {
             self.bulkDeploymentMetrics = bulkDeploymentMetrics
             self.bulkDeploymentStatus = bulkDeploymentStatus
             self.createdAt = createdAt
             self.errorDetails = errorDetails
             self.errorMessage = errorMessage
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2086,6 +2129,7 @@ extension Greengrass {
             case createdAt = "CreatedAt"
             case errorDetails = "ErrorDetails"
             case errorMessage = "ErrorMessage"
+            case tags = "tags"
         }
     }
 
@@ -2148,7 +2192,8 @@ extension Greengrass {
             AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
             AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
             AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         public let arn: String?
         public let creationTimestamp: String?
@@ -2157,8 +2202,9 @@ extension Greengrass {
         public let latestVersion: String?
         public let latestVersionArn: String?
         public let name: String?
+        public let tags: [String: String]?
 
-        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
             self.id = id
@@ -2166,6 +2212,7 @@ extension Greengrass {
             self.latestVersion = latestVersion
             self.latestVersionArn = latestVersionArn
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2176,6 +2223,7 @@ extension Greengrass {
             case latestVersion = "LatestVersion"
             case latestVersionArn = "LatestVersionArn"
             case name = "Name"
+            case tags = "tags"
         }
     }
 
@@ -2266,7 +2314,8 @@ extension Greengrass {
             AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
             AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
             AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         public let arn: String?
         public let creationTimestamp: String?
@@ -2275,8 +2324,9 @@ extension Greengrass {
         public let latestVersion: String?
         public let latestVersionArn: String?
         public let name: String?
+        public let tags: [String: String]?
 
-        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
             self.id = id
@@ -2284,6 +2334,7 @@ extension Greengrass {
             self.latestVersion = latestVersion
             self.latestVersionArn = latestVersionArn
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2294,6 +2345,7 @@ extension Greengrass {
             case latestVersion = "LatestVersion"
             case latestVersionArn = "LatestVersionArn"
             case name = "Name"
+            case tags = "tags"
         }
     }
 
@@ -2384,7 +2436,7 @@ extension Greengrass {
             AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "UpdatedAt", required: false, type: .string)
         ]
-        /// The status of the deployment: ''Pending'', ''InProgress'', ''Success'', or ''Failure''.
+        /// The status of the deployment: ''InProgress'', ''Building'', ''Success'', or ''Failure''.
         public let deploymentStatus: String?
         /// The type of the deployment.
         public let deploymentType: DeploymentType?
@@ -2435,7 +2487,8 @@ extension Greengrass {
             AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
             AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
             AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         public let arn: String?
         public let creationTimestamp: String?
@@ -2444,8 +2497,9 @@ extension Greengrass {
         public let latestVersion: String?
         public let latestVersionArn: String?
         public let name: String?
+        public let tags: [String: String]?
 
-        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
             self.id = id
@@ -2453,6 +2507,7 @@ extension Greengrass {
             self.latestVersion = latestVersion
             self.latestVersionArn = latestVersionArn
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2463,6 +2518,7 @@ extension Greengrass {
             case latestVersion = "LatestVersion"
             case latestVersionArn = "LatestVersionArn"
             case name = "Name"
+            case tags = "tags"
         }
     }
 
@@ -2553,7 +2609,8 @@ extension Greengrass {
             AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
             AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
             AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         public let arn: String?
         public let creationTimestamp: String?
@@ -2562,8 +2619,9 @@ extension Greengrass {
         public let latestVersion: String?
         public let latestVersionArn: String?
         public let name: String?
+        public let tags: [String: String]?
 
-        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
             self.id = id
@@ -2571,6 +2629,7 @@ extension Greengrass {
             self.latestVersion = latestVersion
             self.latestVersionArn = latestVersionArn
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2581,6 +2640,7 @@ extension Greengrass {
             case latestVersion = "LatestVersion"
             case latestVersionArn = "LatestVersionArn"
             case name = "Name"
+            case tags = "tags"
         }
     }
 
@@ -2754,7 +2814,8 @@ extension Greengrass {
             AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
             AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
             AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         public let arn: String?
         public let creationTimestamp: String?
@@ -2763,8 +2824,9 @@ extension Greengrass {
         public let latestVersion: String?
         public let latestVersionArn: String?
         public let name: String?
+        public let tags: [String: String]?
 
-        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
             self.id = id
@@ -2772,6 +2834,7 @@ extension Greengrass {
             self.latestVersion = latestVersion
             self.latestVersionArn = latestVersionArn
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2782,6 +2845,7 @@ extension Greengrass {
             case latestVersion = "LatestVersion"
             case latestVersionArn = "LatestVersionArn"
             case name = "Name"
+            case tags = "tags"
         }
     }
 
@@ -2863,7 +2927,8 @@ extension Greengrass {
             AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
             AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
             AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         public let arn: String?
         public let creationTimestamp: String?
@@ -2872,8 +2937,9 @@ extension Greengrass {
         public let latestVersion: String?
         public let latestVersionArn: String?
         public let name: String?
+        public let tags: [String: String]?
 
-        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
             self.id = id
@@ -2881,6 +2947,7 @@ extension Greengrass {
             self.latestVersion = latestVersion
             self.latestVersionArn = latestVersionArn
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2891,6 +2958,7 @@ extension Greengrass {
             case latestVersion = "LatestVersion"
             case latestVersionArn = "LatestVersionArn"
             case name = "Name"
+            case tags = "tags"
         }
     }
 
@@ -2976,7 +3044,8 @@ extension Greengrass {
             AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
             AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
             AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         public let arn: String?
         public let creationTimestamp: String?
@@ -2985,8 +3054,9 @@ extension Greengrass {
         public let latestVersion: String?
         public let latestVersionArn: String?
         public let name: String?
+        public let tags: [String: String]?
 
-        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
             self.id = id
@@ -2994,6 +3064,7 @@ extension Greengrass {
             self.latestVersion = latestVersion
             self.latestVersionArn = latestVersionArn
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3004,6 +3075,7 @@ extension Greengrass {
             case latestVersion = "LatestVersion"
             case latestVersionArn = "LatestVersionArn"
             case name = "Name"
+            case tags = "tags"
         }
     }
 
@@ -3113,7 +3185,8 @@ extension Greengrass {
             AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
             AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
             AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         public let arn: String?
         public let creationTimestamp: String?
@@ -3122,8 +3195,9 @@ extension Greengrass {
         public let latestVersion: String?
         public let latestVersionArn: String?
         public let name: String?
+        public let tags: [String: String]?
 
-        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil) {
+        public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, lastUpdatedTimestamp: String? = nil, latestVersion: String? = nil, latestVersionArn: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
             self.id = id
@@ -3131,6 +3205,7 @@ extension Greengrass {
             self.latestVersion = latestVersion
             self.latestVersionArn = latestVersionArn
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3141,6 +3216,7 @@ extension Greengrass {
             case latestVersion = "LatestVersion"
             case latestVersionArn = "LatestVersionArn"
             case name = "Name"
+            case tags = "tags"
         }
     }
 
@@ -4190,6 +4266,36 @@ extension Greengrass {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string)
+        ]
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resource-arn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: false, type: .map)
+        ]
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
     public struct ListVersionsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
@@ -4554,24 +4660,28 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
             AWSShapeMember(label: "ExecutionRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "InputFileUri", required: false, type: .string)
+            AWSShapeMember(label: "InputFileUri", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         public let amznClientToken: String?
         /// The ARN of the execution role to associate with the bulk deployment operation. This IAM role must allow the ''greengrass:CreateDeployment'' action for all group versions that are listed in the input file. This IAM role must have access to the S3 bucket containing the input file.
         public let executionRoleArn: String?
         /// The URI of the input file contained in the S3 bucket. The execution role must have ''getObject'' permissions on this bucket to access the input file. The input file is a JSON-serialized, line delimited file with UTF-8 encoding that provides a list of group and version IDs and the deployment type. This file must be less than 100 MB. Currently, AWS IoT Greengrass supports only ''NewDeployment'' deployment types.
         public let inputFileUri: String?
+        public let tags: [String: String]?
 
-        public init(amznClientToken: String? = nil, executionRoleArn: String? = nil, inputFileUri: String? = nil) {
+        public init(amznClientToken: String? = nil, executionRoleArn: String? = nil, inputFileUri: String? = nil, tags: [String: String]? = nil) {
             self.amznClientToken = amznClientToken
             self.executionRoleArn = executionRoleArn
             self.inputFileUri = inputFileUri
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case amznClientToken = "X-Amzn-Client-Token"
             case executionRoleArn = "ExecutionRoleArn"
             case inputFileUri = "InputFileUri"
+            case tags = "tags"
         }
     }
 
@@ -4629,7 +4739,7 @@ extension Greengrass {
         public let id: String?
         /// The source of the subscription. Can be a thing ARN, a Lambda function ARN, a connector ARN, 'cloud' (which represents the AWS IoT cloud), or 'GGShadowService'.
         public let source: String?
-        /// The subject of the message.
+        /// The MQTT topic used to route the message.
         public let subject: String?
         /// Where the message is sent to. Can be a thing ARN, a Lambda function ARN, a connector ARN, 'cloud' (which represents the AWS IoT cloud), or 'GGShadowService'.
         public let target: String?
@@ -4662,6 +4772,44 @@ extension Greengrass {
 
         private enum CodingKeys: String, CodingKey {
             case subscriptions = "Subscriptions"
+        }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: true, type: .map)
+        ]
+        public let resourceArn: String
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resource-arn"
+            case tags = "tags"
+        }
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+        ]
+        public let resourceArn: String
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resource-arn"
+            case tagKeys = "tagKeys"
         }
     }
 

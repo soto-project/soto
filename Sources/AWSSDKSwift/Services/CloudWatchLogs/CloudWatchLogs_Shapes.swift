@@ -1909,7 +1909,7 @@ extension CloudWatchLogs {
             AWSShapeMember(label: "queryString", required: true, type: .string), 
             AWSShapeMember(label: "startTime", required: true, type: .long)
         ]
-        /// The time to end this query, if it is still running. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
+        /// The end of the time range to query. The range is inclusive, so the specified end time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
         public let endTime: Int64
         /// The maximum number of log events to return in the query. If the query string uses the fields command, only the specified fields and their values are returned.
         public let limit: Int32?
@@ -1917,7 +1917,7 @@ extension CloudWatchLogs {
         public let logGroupName: String
         /// The query string to use. For more information, see CloudWatch Logs Insights Query Syntax.
         public let queryString: String
-        /// The time to start the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
+        /// The beginning of the time range to query. The range is inclusive, so the specified start time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
         public let startTime: Int64
 
         public init(endTime: Int64, limit: Int32? = nil, logGroupName: String, queryString: String, startTime: Int64) {

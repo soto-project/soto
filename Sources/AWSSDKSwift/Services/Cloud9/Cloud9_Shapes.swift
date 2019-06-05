@@ -291,6 +291,7 @@ extension Cloud9 {
             AWSShapeMember(label: "arn", required: false, type: .string), 
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "lifecycle", required: false, type: .structure), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "ownerArn", required: false, type: .string), 
             AWSShapeMember(label: "type", required: false, type: .enum)
@@ -301,6 +302,8 @@ extension Cloud9 {
         public let description: String?
         /// The ID of the environment.
         public let id: String?
+        /// The state of the environment in its creation or deletion lifecycle.
+        public let lifecycle: EnvironmentLifecycle?
         /// The name of the environment.
         public let name: String?
         /// The Amazon Resource Name (ARN) of the environment owner.
@@ -308,10 +311,11 @@ extension Cloud9 {
         /// The type of environment. Valid values include the following:    ec2: An Amazon Elastic Compute Cloud (Amazon EC2) instance connects to the environment.    ssh: Your own server connects to the environment.  
         public let `type`: EnvironmentType?
 
-        public init(arn: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, ownerArn: String? = nil, type: EnvironmentType? = nil) {
+        public init(arn: String? = nil, description: String? = nil, id: String? = nil, lifecycle: EnvironmentLifecycle? = nil, name: String? = nil, ownerArn: String? = nil, type: EnvironmentType? = nil) {
             self.arn = arn
             self.description = description
             self.id = id
+            self.lifecycle = lifecycle
             self.name = name
             self.ownerArn = ownerArn
             self.`type` = `type`
@@ -321,10 +325,44 @@ extension Cloud9 {
             case arn = "arn"
             case description = "description"
             case id = "id"
+            case lifecycle = "lifecycle"
             case name = "name"
             case ownerArn = "ownerArn"
             case `type` = "type"
         }
+    }
+
+    public struct EnvironmentLifecycle: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "failureResource", required: false, type: .string), 
+            AWSShapeMember(label: "reason", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum)
+        ]
+        /// If the environment failed to delete, the Amazon Resource Name (ARN) of the related AWS resource.
+        public let failureResource: String?
+        /// Any informational message about the lifecycle state of the environment.
+        public let reason: String?
+        /// The current creation or deletion lifecycle state of the environment.    CREATED: The environment was successfully created.    DELETE_FAILED: The environment failed to delete.    DELETING: The environment is in the process of being deleted.  
+        public let status: EnvironmentLifecycleStatus?
+
+        public init(failureResource: String? = nil, reason: String? = nil, status: EnvironmentLifecycleStatus? = nil) {
+            self.failureResource = failureResource
+            self.reason = reason
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureResource = "failureResource"
+            case reason = "reason"
+            case status = "status"
+        }
+    }
+
+    public enum EnvironmentLifecycleStatus: String, CustomStringConvertible, Codable {
+        case created = "CREATED"
+        case deleting = "DELETING"
+        case deleteFailed = "DELETE_FAILED"
+        public var description: String { return self.rawValue }
     }
 
     public struct EnvironmentMember: AWSShape {

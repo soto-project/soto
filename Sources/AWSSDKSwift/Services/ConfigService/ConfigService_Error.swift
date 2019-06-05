@@ -8,6 +8,7 @@ public enum ConfigServiceErrorType: AWSErrorType {
     case insufficientPermissionsException(message: String?)
     case invalidConfigurationRecorderNameException(message: String?)
     case invalidDeliveryChannelNameException(message: String?)
+    case invalidExpressionException(message: String?)
     case invalidLimitException(message: String?)
     case invalidNextTokenException(message: String?)
     case invalidParameterValueException(message: String?)
@@ -32,12 +33,15 @@ public enum ConfigServiceErrorType: AWSErrorType {
     case noSuchConfigurationAggregatorException(message: String?)
     case noSuchConfigurationRecorderException(message: String?)
     case noSuchDeliveryChannelException(message: String?)
+    case noSuchRemediationConfigurationException(message: String?)
     case noSuchRetentionConfigurationException(message: String?)
     case organizationAccessDeniedException(message: String?)
     case organizationAllFeaturesNotEnabledException(message: String?)
     case oversizedConfigurationItemException(message: String?)
     case resourceInUseException(message: String?)
     case resourceNotDiscoveredException(message: String?)
+    case resourceNotFoundException(message: String?)
+    case tooManyTagsException(message: String?)
     case validationException(message: String?)
 }
 
@@ -56,6 +60,8 @@ extension ConfigServiceErrorType {
             self = .invalidConfigurationRecorderNameException(message: message)
         case "InvalidDeliveryChannelNameException":
             self = .invalidDeliveryChannelNameException(message: message)
+        case "InvalidExpressionException":
+            self = .invalidExpressionException(message: message)
         case "InvalidLimitException":
             self = .invalidLimitException(message: message)
         case "InvalidNextTokenException":
@@ -104,6 +110,8 @@ extension ConfigServiceErrorType {
             self = .noSuchConfigurationRecorderException(message: message)
         case "NoSuchDeliveryChannelException":
             self = .noSuchDeliveryChannelException(message: message)
+        case "NoSuchRemediationConfigurationException":
+            self = .noSuchRemediationConfigurationException(message: message)
         case "NoSuchRetentionConfigurationException":
             self = .noSuchRetentionConfigurationException(message: message)
         case "OrganizationAccessDeniedException":
@@ -116,6 +124,10 @@ extension ConfigServiceErrorType {
             self = .resourceInUseException(message: message)
         case "ResourceNotDiscoveredException":
             self = .resourceNotDiscoveredException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
+        case "TooManyTagsException":
+            self = .tooManyTagsException(message: message)
         case "ValidationException":
             self = .validationException(message: message)
         default:

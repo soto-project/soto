@@ -67,6 +67,7 @@ extension APIGateway {
             AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "stageKeys", required: false, type: .list), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "value", required: false, type: .string)
         ]
         /// The timestamp when the API Key was created.
@@ -85,10 +86,12 @@ extension APIGateway {
         public let name: String?
         /// A list of Stage resources that are associated with the ApiKey resource.
         public let stageKeys: [String]?
+        /// The collection of tags. Each tag element is associated with a given resource.
+        public let tags: [String: String]?
         /// The value of the API Key.
         public let value: String?
 
-        public init(createdDate: TimeStamp? = nil, customerId: String? = nil, description: String? = nil, enabled: Bool? = nil, id: String? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, stageKeys: [String]? = nil, value: String? = nil) {
+        public init(createdDate: TimeStamp? = nil, customerId: String? = nil, description: String? = nil, enabled: Bool? = nil, id: String? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, stageKeys: [String]? = nil, tags: [String: String]? = nil, value: String? = nil) {
             self.createdDate = createdDate
             self.customerId = customerId
             self.description = description
@@ -97,6 +100,7 @@ extension APIGateway {
             self.lastUpdatedDate = lastUpdatedDate
             self.name = name
             self.stageKeys = stageKeys
+            self.tags = tags
             self.value = value
         }
 
@@ -109,6 +113,7 @@ extension APIGateway {
             case lastUpdatedDate = "lastUpdatedDate"
             case name = "name"
             case stageKeys = "stageKeys"
+            case tags = "tags"
             case value = "value"
         }
     }
@@ -388,7 +393,8 @@ extension APIGateway {
             AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "expirationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "pemEncodedCertificate", required: false, type: .string)
+            AWSShapeMember(label: "pemEncodedCertificate", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         /// The identifier of the client certificate.
         public let clientCertificateId: String?
@@ -400,13 +406,16 @@ extension APIGateway {
         public let expirationDate: TimeStamp?
         /// The PEM-encoded public key of the client certificate, which can be used to configure certificate authentication in the integration endpoint .
         public let pemEncodedCertificate: String?
+        /// The collection of tags. Each tag element is associated with a given resource.
+        public let tags: [String: String]?
 
-        public init(clientCertificateId: String? = nil, createdDate: TimeStamp? = nil, description: String? = nil, expirationDate: TimeStamp? = nil, pemEncodedCertificate: String? = nil) {
+        public init(clientCertificateId: String? = nil, createdDate: TimeStamp? = nil, description: String? = nil, expirationDate: TimeStamp? = nil, pemEncodedCertificate: String? = nil, tags: [String: String]? = nil) {
             self.clientCertificateId = clientCertificateId
             self.createdDate = createdDate
             self.description = description
             self.expirationDate = expirationDate
             self.pemEncodedCertificate = pemEncodedCertificate
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -415,6 +424,7 @@ extension APIGateway {
             case description = "description"
             case expirationDate = "expirationDate"
             case pemEncodedCertificate = "pemEncodedCertificate"
+            case tags = "tags"
         }
     }
 
@@ -458,6 +468,7 @@ extension APIGateway {
             AWSShapeMember(label: "generateDistinctId", required: false, type: .boolean), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "stageKeys", required: false, type: .list), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "value", required: false, type: .string)
         ]
         /// An AWS Marketplace customer identifier , when integrating with the AWS SaaS Marketplace.
@@ -472,16 +483,19 @@ extension APIGateway {
         public let name: String?
         /// DEPRECATED FOR USAGE PLANS - Specifies stages associated with the API key.
         public let stageKeys: [StageKey]?
+        /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
+        public let tags: [String: String]?
         /// Specifies a value of the API key.
         public let value: String?
 
-        public init(customerId: String? = nil, description: String? = nil, enabled: Bool? = nil, generateDistinctId: Bool? = nil, name: String? = nil, stageKeys: [StageKey]? = nil, value: String? = nil) {
+        public init(customerId: String? = nil, description: String? = nil, enabled: Bool? = nil, generateDistinctId: Bool? = nil, name: String? = nil, stageKeys: [StageKey]? = nil, tags: [String: String]? = nil, value: String? = nil) {
             self.customerId = customerId
             self.description = description
             self.enabled = enabled
             self.generateDistinctId = generateDistinctId
             self.name = name
             self.stageKeys = stageKeys
+            self.tags = tags
             self.value = value
         }
 
@@ -492,6 +506,7 @@ extension APIGateway {
             case generateDistinctId = "generateDistinctId"
             case name = "name"
             case stageKeys = "stageKeys"
+            case tags = "tags"
             case value = "value"
         }
     }
@@ -711,7 +726,8 @@ extension APIGateway {
             AWSShapeMember(label: "domainName", required: true, type: .string), 
             AWSShapeMember(label: "endpointConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "regionalCertificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "regionalCertificateName", required: false, type: .string)
+            AWSShapeMember(label: "regionalCertificateName", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         /// The reference to an AWS-managed certificate that will be used by edge-optimized endpoint for this domain name. AWS Certificate Manager is the only supported source.
         public let certificateArn: String?
@@ -731,8 +747,10 @@ extension APIGateway {
         public let regionalCertificateArn: String?
         /// The user-friendly name of the certificate that will be used by regional endpoint for this domain name.
         public let regionalCertificateName: String?
+        /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
+        public let tags: [String: String]?
 
-        public init(certificateArn: String? = nil, certificateBody: String? = nil, certificateChain: String? = nil, certificateName: String? = nil, certificatePrivateKey: String? = nil, domainName: String, endpointConfiguration: EndpointConfiguration? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil) {
+        public init(certificateArn: String? = nil, certificateBody: String? = nil, certificateChain: String? = nil, certificateName: String? = nil, certificatePrivateKey: String? = nil, domainName: String, endpointConfiguration: EndpointConfiguration? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, tags: [String: String]? = nil) {
             self.certificateArn = certificateArn
             self.certificateBody = certificateBody
             self.certificateChain = certificateChain
@@ -742,6 +760,7 @@ extension APIGateway {
             self.endpointConfiguration = endpointConfiguration
             self.regionalCertificateArn = regionalCertificateArn
             self.regionalCertificateName = regionalCertificateName
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -754,6 +773,7 @@ extension APIGateway {
             case endpointConfiguration = "endpointConfiguration"
             case regionalCertificateArn = "regionalCertificateArn"
             case regionalCertificateName = "regionalCertificateName"
+            case tags = "tags"
         }
     }
 
@@ -860,6 +880,7 @@ extension APIGateway {
             AWSShapeMember(label: "minimumCompressionSize", required: false, type: .integer), 
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "policy", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
         /// The source of the API key for metering requests according to a usage plan. Valid values are: HEADER to read the API key from the X-API-Key header of a request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer. 
@@ -878,10 +899,12 @@ extension APIGateway {
         public let name: String
         /// A stringified JSON policy document that applies to this RestApi regardless of the caller and Method configuration.
         public let policy: String?
+        /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
+        public let tags: [String: String]?
         /// A version identifier for the API.
         public let version: String?
 
-        public init(apiKeySource: ApiKeySourceType? = nil, binaryMediaTypes: [String]? = nil, cloneFrom: String? = nil, description: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, minimumCompressionSize: Int32? = nil, name: String, policy: String? = nil, version: String? = nil) {
+        public init(apiKeySource: ApiKeySourceType? = nil, binaryMediaTypes: [String]? = nil, cloneFrom: String? = nil, description: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, minimumCompressionSize: Int32? = nil, name: String, policy: String? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.apiKeySource = apiKeySource
             self.binaryMediaTypes = binaryMediaTypes
             self.cloneFrom = cloneFrom
@@ -890,6 +913,7 @@ extension APIGateway {
             self.minimumCompressionSize = minimumCompressionSize
             self.name = name
             self.policy = policy
+            self.tags = tags
             self.version = version
         }
 
@@ -902,6 +926,7 @@ extension APIGateway {
             case minimumCompressionSize = "minimumCompressionSize"
             case name = "name"
             case policy = "policy"
+            case tags = "tags"
             case version = "version"
         }
     }
@@ -1004,6 +1029,7 @@ extension APIGateway {
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "quota", required: false, type: .structure), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "throttle", required: false, type: .structure)
         ]
         /// The associated API stages of the usage plan.
@@ -1014,14 +1040,17 @@ extension APIGateway {
         public let name: String
         /// The quota of the usage plan.
         public let quota: QuotaSettings?
+        /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
+        public let tags: [String: String]?
         /// The throttling limits of the usage plan.
         public let throttle: ThrottleSettings?
 
-        public init(apiStages: [ApiStage]? = nil, description: String? = nil, name: String, quota: QuotaSettings? = nil, throttle: ThrottleSettings? = nil) {
+        public init(apiStages: [ApiStage]? = nil, description: String? = nil, name: String, quota: QuotaSettings? = nil, tags: [String: String]? = nil, throttle: ThrottleSettings? = nil) {
             self.apiStages = apiStages
             self.description = description
             self.name = name
             self.quota = quota
+            self.tags = tags
             self.throttle = throttle
         }
 
@@ -1030,6 +1059,7 @@ extension APIGateway {
             case description = "description"
             case name = "name"
             case quota = "quota"
+            case tags = "tags"
             case throttle = "throttle"
         }
     }
@@ -1038,24 +1068,29 @@ extension APIGateway {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "targetArns", required: true, type: .list)
         ]
         /// The description of the VPC link.
         public let description: String?
         /// [Required] The name used to label and identify the VPC link.
         public let name: String
+        /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
+        public let tags: [String: String]?
         /// [Required] The ARNs of network load balancers of the VPC targeted by the VPC link. The network load balancers must be owned by the same AWS account of the API owner.
         public let targetArns: [String]
 
-        public init(description: String? = nil, name: String, targetArns: [String]) {
+        public init(description: String? = nil, name: String, tags: [String: String]? = nil, targetArns: [String]) {
             self.description = description
             self.name = name
+            self.tags = tags
             self.targetArns = targetArns
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case name = "name"
+            case tags = "tags"
             case targetArns = "targetArns"
         }
     }
@@ -1755,7 +1790,8 @@ extension APIGateway {
             AWSShapeMember(label: "regionalCertificateArn", required: false, type: .string), 
             AWSShapeMember(label: "regionalCertificateName", required: false, type: .string), 
             AWSShapeMember(label: "regionalDomainName", required: false, type: .string), 
-            AWSShapeMember(label: "regionalHostedZoneId", required: false, type: .string)
+            AWSShapeMember(label: "regionalHostedZoneId", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         /// The reference to an AWS-managed certificate that will be used by edge-optimized endpoint for this domain name. AWS Certificate Manager is the only supported source.
         public let certificateArn: String?
@@ -1779,8 +1815,10 @@ extension APIGateway {
         public let regionalDomainName: String?
         /// The region-specific Amazon Route 53 Hosted Zone ID of the regional endpoint. For more information, see Set up a Regional Custom Domain Name and AWS Regions and Endpoints for API Gateway. 
         public let regionalHostedZoneId: String?
+        /// The collection of tags. Each tag element is associated with a given resource.
+        public let tags: [String: String]?
 
-        public init(certificateArn: String? = nil, certificateName: String? = nil, certificateUploadDate: TimeStamp? = nil, distributionDomainName: String? = nil, distributionHostedZoneId: String? = nil, domainName: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, regionalDomainName: String? = nil, regionalHostedZoneId: String? = nil) {
+        public init(certificateArn: String? = nil, certificateName: String? = nil, certificateUploadDate: TimeStamp? = nil, distributionDomainName: String? = nil, distributionHostedZoneId: String? = nil, domainName: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, regionalDomainName: String? = nil, regionalHostedZoneId: String? = nil, tags: [String: String]? = nil) {
             self.certificateArn = certificateArn
             self.certificateName = certificateName
             self.certificateUploadDate = certificateUploadDate
@@ -1792,6 +1830,7 @@ extension APIGateway {
             self.regionalCertificateName = regionalCertificateName
             self.regionalDomainName = regionalDomainName
             self.regionalHostedZoneId = regionalHostedZoneId
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1806,6 +1845,7 @@ extension APIGateway {
             case regionalCertificateName = "regionalCertificateName"
             case regionalDomainName = "regionalDomainName"
             case regionalHostedZoneId = "regionalHostedZoneId"
+            case tags = "tags"
         }
     }
 
@@ -2004,17 +2044,22 @@ extension APIGateway {
 
     public struct GenerateClientCertificateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string)
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         /// The description of the ClientCertificate.
         public let description: String?
+        /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
+        public let tags: [String: String]?
 
-        public init(description: String? = nil) {
+        public init(description: String? = nil, tags: [String: String]? = nil) {
             self.description = description
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
+            case tags = "tags"
         }
     }
 
@@ -4107,6 +4152,7 @@ extension APIGateway {
             AWSShapeMember(label: "minimumCompressionSize", required: false, type: .integer), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "policy", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "version", required: false, type: .string), 
             AWSShapeMember(label: "warnings", required: false, type: .list)
         ]
@@ -4128,12 +4174,14 @@ extension APIGateway {
         public let name: String?
         /// A stringified JSON policy document that applies to this RestApi regardless of the caller and Method configuration.
         public let policy: String?
+        /// The collection of tags. Each tag element is associated with a given resource.
+        public let tags: [String: String]?
         /// A version identifier for the API.
         public let version: String?
         /// The warning messages reported when failonwarnings is turned on during API import.
         public let warnings: [String]?
 
-        public init(apiKeySource: ApiKeySourceType? = nil, binaryMediaTypes: [String]? = nil, createdDate: TimeStamp? = nil, description: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, id: String? = nil, minimumCompressionSize: Int32? = nil, name: String? = nil, policy: String? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiKeySource: ApiKeySourceType? = nil, binaryMediaTypes: [String]? = nil, createdDate: TimeStamp? = nil, description: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, id: String? = nil, minimumCompressionSize: Int32? = nil, name: String? = nil, policy: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiKeySource = apiKeySource
             self.binaryMediaTypes = binaryMediaTypes
             self.createdDate = createdDate
@@ -4143,6 +4191,7 @@ extension APIGateway {
             self.minimumCompressionSize = minimumCompressionSize
             self.name = name
             self.policy = policy
+            self.tags = tags
             self.version = version
             self.warnings = warnings
         }
@@ -4157,6 +4206,7 @@ extension APIGateway {
             case minimumCompressionSize = "minimumCompressionSize"
             case name = "name"
             case policy = "policy"
+            case tags = "tags"
             case version = "version"
             case warnings = "warnings"
         }
@@ -5330,6 +5380,7 @@ extension APIGateway {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "productCode", required: false, type: .string), 
             AWSShapeMember(label: "quota", required: false, type: .structure), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "throttle", required: false, type: .structure)
         ]
         /// The associated API stages of a usage plan.
@@ -5344,16 +5395,19 @@ extension APIGateway {
         public let productCode: String?
         /// The maximum number of permitted requests per a given unit time interval.
         public let quota: QuotaSettings?
+        /// The collection of tags. Each tag element is associated with a given resource.
+        public let tags: [String: String]?
         /// The request throttle limits of a usage plan.
         public let throttle: ThrottleSettings?
 
-        public init(apiStages: [ApiStage]? = nil, description: String? = nil, id: String? = nil, name: String? = nil, productCode: String? = nil, quota: QuotaSettings? = nil, throttle: ThrottleSettings? = nil) {
+        public init(apiStages: [ApiStage]? = nil, description: String? = nil, id: String? = nil, name: String? = nil, productCode: String? = nil, quota: QuotaSettings? = nil, tags: [String: String]? = nil, throttle: ThrottleSettings? = nil) {
             self.apiStages = apiStages
             self.description = description
             self.id = id
             self.name = name
             self.productCode = productCode
             self.quota = quota
+            self.tags = tags
             self.throttle = throttle
         }
 
@@ -5364,6 +5418,7 @@ extension APIGateway {
             case name = "name"
             case productCode = "productCode"
             case quota = "quota"
+            case tags = "tags"
             case throttle = "throttle"
         }
     }
@@ -5446,6 +5501,7 @@ extension APIGateway {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "statusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "targetArns", required: false, type: .list)
         ]
         /// The description of the VPC link.
@@ -5458,15 +5514,18 @@ extension APIGateway {
         public let status: VpcLinkStatus?
         /// A description about the VPC link status.
         public let statusMessage: String?
+        /// The collection of tags. Each tag element is associated with a given resource.
+        public let tags: [String: String]?
         /// The ARNs of network load balancers of the VPC targeted by the VPC link. The network load balancers must be owned by the same AWS account of the API owner.
         public let targetArns: [String]?
 
-        public init(description: String? = nil, id: String? = nil, name: String? = nil, status: VpcLinkStatus? = nil, statusMessage: String? = nil, targetArns: [String]? = nil) {
+        public init(description: String? = nil, id: String? = nil, name: String? = nil, status: VpcLinkStatus? = nil, statusMessage: String? = nil, tags: [String: String]? = nil, targetArns: [String]? = nil) {
             self.description = description
             self.id = id
             self.name = name
             self.status = status
             self.statusMessage = statusMessage
+            self.tags = tags
             self.targetArns = targetArns
         }
 
@@ -5476,6 +5535,7 @@ extension APIGateway {
             case name = "name"
             case status = "status"
             case statusMessage = "statusMessage"
+            case tags = "tags"
             case targetArns = "targetArns"
         }
     }

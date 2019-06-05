@@ -15,7 +15,8 @@ extension SSM {
             AWSShapeMember(label: "Expired", required: false, type: .boolean), 
             AWSShapeMember(label: "IamRole", required: false, type: .string), 
             AWSShapeMember(label: "RegistrationLimit", required: false, type: .integer), 
-            AWSShapeMember(label: "RegistrationsCount", required: false, type: .integer)
+            AWSShapeMember(label: "RegistrationsCount", required: false, type: .integer), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// The ID created by Systems Manager when you submitted the activation.
         public let activationId: String?
@@ -35,8 +36,10 @@ extension SSM {
         public let registrationLimit: Int32?
         /// The number of managed instances already registered with this activation.
         public let registrationsCount: Int32?
+        /// Tags assigned to the activation.
+        public let tags: [Tag]?
 
-        public init(activationId: String? = nil, createdDate: TimeStamp? = nil, defaultInstanceName: String? = nil, description: String? = nil, expirationDate: TimeStamp? = nil, expired: Bool? = nil, iamRole: String? = nil, registrationLimit: Int32? = nil, registrationsCount: Int32? = nil) {
+        public init(activationId: String? = nil, createdDate: TimeStamp? = nil, defaultInstanceName: String? = nil, description: String? = nil, expirationDate: TimeStamp? = nil, expired: Bool? = nil, iamRole: String? = nil, registrationLimit: Int32? = nil, registrationsCount: Int32? = nil, tags: [Tag]? = nil) {
             self.activationId = activationId
             self.createdDate = createdDate
             self.defaultInstanceName = defaultInstanceName
@@ -46,6 +49,7 @@ extension SSM {
             self.iamRole = iamRole
             self.registrationLimit = registrationLimit
             self.registrationsCount = registrationsCount
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -58,6 +62,7 @@ extension SSM {
             case iamRole = "IamRole"
             case registrationLimit = "RegistrationLimit"
             case registrationsCount = "RegistrationsCount"
+            case tags = "Tags"
         }
     }
 
@@ -67,9 +72,9 @@ extension SSM {
             AWSShapeMember(label: "ResourceType", required: true, type: .enum), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
-        /// The resource ID you want to tag. Use the ID of the resource. Here are some examples: ManagedInstance: mi-012345abcde MaintenanceWindow: mw-012345abcde PatchBaseline: pb-012345abcde For the Document and Parameter values, use the name of the resource.  The ManagedInstance type for this API action is only for on-premises managed instances. You must specify the the name of the managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f. 
+        /// The resource ID you want to tag. Use the ID of the resource. Here are some examples: ManagedInstance: mi-012345abcde MaintenanceWindow: mw-012345abcde PatchBaseline: pb-012345abcde For the Document and Parameter values, use the name of the resource.  The ManagedInstance type for this API action is only for on-premises managed instances. You must specify the name of the managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f. 
         public let resourceId: String
-        /// Specifies the type of resource you are tagging.  The ManagedInstance type for this API action is for on-premises managed instances. You must specify the the name of the managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f. 
+        /// Specifies the type of resource you are tagging.  The ManagedInstance type for this API action is for on-premises managed instances. You must specify the name of the managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f. 
         public let resourceType: ResourceTypeForTagging
         ///  One or more tags. The value parameter is required, but if you don't want the tag to have a value, specify the parameter with no value, and we set the value to an empty string.   Do not enter personally identifiable information in this field. 
         public let tags: [Tag]
@@ -169,6 +174,7 @@ extension SSM {
             AWSShapeMember(label: "AssociationId", required: false, type: .string), 
             AWSShapeMember(label: "AssociationName", required: false, type: .string), 
             AWSShapeMember(label: "AssociationVersion", required: false, type: .string), 
+            AWSShapeMember(label: "AutomationTargetParameterName", required: false, type: .string), 
             AWSShapeMember(label: "ComplianceSeverity", required: false, type: .enum), 
             AWSShapeMember(label: "Date", required: false, type: .timestamp), 
             AWSShapeMember(label: "DocumentVersion", required: false, type: .string), 
@@ -192,6 +198,8 @@ extension SSM {
         public let associationName: String?
         /// The association version.
         public let associationVersion: String?
+        /// Specify the target for the association. This target is required for associations that use an Automation document and target resources by using rate controls.
+        public let automationTargetParameterName: String?
         /// The severity level that is assigned to the association.
         public let complianceSeverity: AssociationComplianceSeverity?
         /// The date when the association was made.
@@ -206,7 +214,7 @@ extension SSM {
         public let lastSuccessfulExecutionDate: TimeStamp?
         /// The date when the association was last updated.
         public let lastUpdateAssociationDate: TimeStamp?
-        /// The maximum number of targets allowed to run the association at the same time. You can specify a number, for example 10, or a percentage of the target set, for example 10%. The default value is 100%, which means all targets run the association at the same time. If a new instance starts and attempts to execute an association while Systems Manager is executing MaxConcurrency associations, the association is allowed to run. During the next association interval, the new instance will process its association within the limit specified for MaxConcurrency.
+        /// The maximum number of targets allowed to run the association at the same time. You can specify a number, for example 10, or a percentage of the target set, for example 10%. The default value is 100%, which means all targets run the association at the same time. If a new instance starts and attempts to run an association while Systems Manager is running MaxConcurrency associations, the association is allowed to run. During the next association interval, the new instance will process its association within the limit specified for MaxConcurrency.
         public let maxConcurrency: String?
         /// The number of errors that are allowed before the system stops sending requests to run the association on additional targets. You can specify either an absolute number of errors, for example 10, or a percentage of the target set, for example 10%. If you specify 3, for example, the system stops sending requests when the fourth error is received. If you specify 0, then the system stops sending requests after the first error is returned. If you run an association on 50 instances and set MaxError to 10%, then the system stops sending the request when the sixth error is received. Executions that are already running an association when MaxErrors is reached are allowed to complete, but some of these executions may fail as well. If you need to ensure that there won't be more than max-errors failed executions, set MaxConcurrency to 1 so that executions proceed one at a time.
         public let maxErrors: String?
@@ -225,10 +233,11 @@ extension SSM {
         /// The instances targeted by the request. 
         public let targets: [Target]?
 
-        public init(associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, date: TimeStamp? = nil, documentVersion: String? = nil, instanceId: String? = nil, lastExecutionDate: TimeStamp? = nil, lastSuccessfulExecutionDate: TimeStamp? = nil, lastUpdateAssociationDate: TimeStamp? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, overview: AssociationOverview? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, status: AssociationStatus? = nil, targets: [Target]? = nil) {
+        public init(associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, date: TimeStamp? = nil, documentVersion: String? = nil, instanceId: String? = nil, lastExecutionDate: TimeStamp? = nil, lastSuccessfulExecutionDate: TimeStamp? = nil, lastUpdateAssociationDate: TimeStamp? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, overview: AssociationOverview? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, status: AssociationStatus? = nil, targets: [Target]? = nil) {
             self.associationId = associationId
             self.associationName = associationName
             self.associationVersion = associationVersion
+            self.automationTargetParameterName = automationTargetParameterName
             self.complianceSeverity = complianceSeverity
             self.date = date
             self.documentVersion = documentVersion
@@ -251,6 +260,7 @@ extension SSM {
             case associationId = "AssociationId"
             case associationName = "AssociationName"
             case associationVersion = "AssociationVersion"
+            case automationTargetParameterName = "AutomationTargetParameterName"
             case complianceSeverity = "ComplianceSeverity"
             case date = "Date"
             case documentVersion = "DocumentVersion"
@@ -289,7 +299,7 @@ extension SSM {
         public let createdTime: TimeStamp?
         /// Detailed status information about the execution.
         public let detailedStatus: String?
-        /// The execution ID for the association. If the association does not run at intervals or according to a schedule, then the ExecutionID is the same as the AssociationID.
+        /// The execution ID for the association.
         public let executionId: String?
         /// The date of the last execution.
         public let lastExecutionDate: TimeStamp?
@@ -372,7 +382,7 @@ extension SSM {
         public let associationVersion: String?
         /// Detailed information about the execution status.
         public let detailedStatus: String?
-        /// The execution ID. If the association does not run at intervals or according to a schedule, then the ExecutionID is the same as the AssociationID.
+        /// The execution ID.
         public let executionId: String?
         /// The date of the last execution.
         public let lastExecutionDate: TimeStamp?
@@ -569,7 +579,7 @@ extension SSM {
         public let createdDate: TimeStamp?
         /// The version of a Systems Manager document used when the association version was created.
         public let documentVersion: String?
-        /// The maximum number of targets allowed to run the association at the same time. You can specify a number, for example 10, or a percentage of the target set, for example 10%. The default value is 100%, which means all targets run the association at the same time. If a new instance starts and attempts to execute an association while Systems Manager is executing MaxConcurrency associations, the association is allowed to run. During the next association interval, the new instance will process its association within the limit specified for MaxConcurrency.
+        /// The maximum number of targets allowed to run the association at the same time. You can specify a number, for example 10, or a percentage of the target set, for example 10%. The default value is 100%, which means all targets run the association at the same time. If a new instance starts and attempts to run an association while Systems Manager is running MaxConcurrency associations, the association is allowed to run. During the next association interval, the new instance will process its association within the limit specified for MaxConcurrency.
         public let maxConcurrency: String?
         /// The number of errors that are allowed before the system stops sending requests to run the association on additional targets. You can specify either an absolute number of errors, for example 10, or a percentage of the target set, for example 10%. If you specify 3, for example, the system stops sending requests when the fourth error is received. If you specify 0, then the system stops sending requests after the first error is returned. If you run an association on 50 instances and set MaxError to 10%, then the system stops sending the request when the sixth error is received. Executions that are already running an association when MaxErrors is reached are allowed to complete, but some of these executions may fail as well. If you need to ensure that there won't be more than max-errors failed executions, set MaxConcurrency to 1 so that executions proceed one at a time.
         public let maxErrors: String?
@@ -662,6 +672,7 @@ extension SSM {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+        /// The name of the attachment.
         public let name: String?
 
         public init(name: String? = nil) {
@@ -731,15 +742,15 @@ extension SSM {
         public let automationExecutionId: String?
         /// The execution status of the Automation.
         public let automationExecutionStatus: AutomationExecutionStatus?
-        /// The action of the currently executing step.
+        /// The action of the step that is currently running.
         public let currentAction: String?
-        /// The name of the currently executing step.
+        /// The name of the step that is currently running.
         public let currentStepName: String?
         /// The name of the Automation document used during the execution.
         public let documentName: String?
         /// The version of the document to use during execution.
         public let documentVersion: String?
-        /// The Amazon Resource Name (ARN) of the user who executed the automation.
+        /// The Amazon Resource Name (ARN) of the user who ran the automation.
         public let executedBy: String?
         /// The time the execution finished.
         public let executionEndTime: TimeStamp?
@@ -763,13 +774,13 @@ extension SSM {
         public let progressCounters: ProgressCounters?
         /// A list of resolved targets in the rate control execution.
         public let resolvedTargets: ResolvedTargets?
-        /// A list of details about the current state of all steps that comprise an execution. An Automation document contains a list of steps that are executed in order.
+        /// A list of details about the current state of all steps that comprise an execution. An Automation document contains a list of steps that are run in order.
         public let stepExecutions: [StepExecution]?
         /// A boolean value that indicates if the response contains the full list of the Automation step executions. If true, use the DescribeAutomationStepExecutions API action to get the full list of step executions.
         public let stepExecutionsTruncated: Bool?
         /// The target of the execution.
         public let target: String?
-        /// The combination of AWS Regions and/or AWS accounts where you want to execute the Automation.
+        /// The combination of AWS Regions and/or AWS accounts where you want to run the Automation.
         public let targetLocations: [TargetLocation]?
         /// The specified key-value mapping of document parameters to target resources.
         public let targetMaps: [[String: [String]]]?
@@ -897,17 +908,17 @@ extension SSM {
         public let automationExecutionId: String?
         /// The status of the execution. Valid values include: Running, Succeeded, Failed, Timed out, or Cancelled.
         public let automationExecutionStatus: AutomationExecutionStatus?
-        /// Use this filter with DescribeAutomationExecution. Specify either Local of CrossAccount. CrossAccount is an Automation that executes in multiple AWS Regions and accounts. For more information, see Concurrently Executing Automations in Multiple AWS Regions and Accounts in the AWS Systems Manager User Guide. 
+        /// Use this filter with DescribeAutomationExecutions. Specify either Local or CrossAccount. CrossAccount is an Automation that runs in multiple AWS Regions and accounts. For more information, see Executing Automations in Multiple AWS Regions and Accounts in the AWS Systems Manager User Guide. 
         public let automationType: AutomationType?
-        /// The action of the currently executing step.
+        /// The action of the step that is currently running.
         public let currentAction: String?
-        /// The name of the currently executing step.
+        /// The name of the step that is currently running.
         public let currentStepName: String?
         /// The name of the Automation document used during execution.
         public let documentName: String?
         /// The document version used during the execution.
         public let documentVersion: String?
-        /// The IAM role ARN of the user who executed the Automation.
+        /// The IAM role ARN of the user who ran the Automation.
         public let executedBy: String?
         /// The time the execution finished. This is not populated if the execution is still in progress.
         public let executionEndTime: TimeStamp?
@@ -1039,7 +1050,7 @@ extension SSM {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WindowExecutionId", required: true, type: .string)
         ]
-        /// The ID of the Maintenance Window execution to stop.
+        /// The ID of the maintenance window execution to stop.
         public let windowExecutionId: String
 
         public init(windowExecutionId: String) {
@@ -1055,7 +1066,7 @@ extension SSM {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WindowExecutionId", required: false, type: .string)
         ]
-        /// The ID of the Maintenance Window execution that has been stopped.
+        /// The ID of the maintenance window execution that has been stopped.
         public let windowExecutionId: String?
 
         public init(windowExecutionId: String? = nil) {
@@ -1130,13 +1141,13 @@ extension SSM {
         public let documentVersion: String?
         /// The number of targets for which the status is Failed or Execution Timed Out.
         public let errorCount: Int32?
-        /// If this time is reached and the command has not already started executing, it will not run. Calculated based on the ExpiresAfter user input provided as part of the SendCommand API.
+        /// If this time is reached and the command has not already started running, it will not run. Calculated based on the ExpiresAfter user input provided as part of the SendCommand API.
         public let expiresAfter: TimeStamp?
         /// The instance IDs against which this command was requested.
         public let instanceIds: [String]?
-        /// The maximum number of instances that are allowed to execute the command at the same time. You can specify a number of instances, such as 10, or a percentage of instances, such as 10%. The default value is 50. For more information about how to use MaxConcurrency, see Executing Commands Using Systems Manager Run Command in the AWS Systems Manager User Guide.
+        /// The maximum number of instances that are allowed to run the command at the same time. You can specify a number of instances, such as 10, or a percentage of instances, such as 10%. The default value is 50. For more information about how to use MaxConcurrency, see Running Commands Using Systems Manager Run Command in the AWS Systems Manager User Guide.
         public let maxConcurrency: String?
-        /// The maximum number of errors allowed before the system stops sending the command to additional targets. You can specify a number of errors, such as 10, or a percentage or errors, such as 10%. The default value is 0. For more information about how to use MaxErrors, see Executing Commands Using Systems Manager Run Command in the AWS Systems Manager User Guide.
+        /// The maximum number of errors allowed before the system stops sending the command to additional targets. You can specify a number of errors, such as 10, or a percentage or errors, such as 10%. The default value is 0. For more information about how to use MaxErrors, see Running Commands Using Systems Manager Run Command in the AWS Systems Manager User Guide.
         public let maxErrors: String?
         /// Configurations for sending notifications about command status changes. 
         public let notificationConfig: NotificationConfig?
@@ -1146,7 +1157,7 @@ extension SSM {
         public let outputS3KeyPrefix: String?
         /// (Deprecated) You can no longer specify this parameter. The system ignores it. Instead, Systems Manager automatically determines the Amazon S3 bucket region.
         public let outputS3Region: String?
-        /// The parameter values to be inserted in the document when executing the command.
+        /// The parameter values to be inserted in the document when running the command.
         public let parameters: [String: [String]]?
         /// The date and time the command was requested.
         public let requestedDateTime: TimeStamp?
@@ -1154,7 +1165,7 @@ extension SSM {
         public let serviceRole: String?
         /// The status of the command.
         public let status: CommandStatus?
-        /// A detailed status of the command execution. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding Command Statuses in the AWS Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command has not been sent to any instances.   In Progress: The command has been sent to at least one instance but has not reached a final state on all instances.   Success: The command successfully executed on all invocations. This is a terminal state.   Delivery Timed Out: The value of MaxErrors or more command invocations shows a status of Delivery Timed Out. This is a terminal state.   Execution Timed Out: The value of MaxErrors or more command invocations shows a status of Execution Timed Out. This is a terminal state.   Failed: The value of MaxErrors or more command invocations shows a status of Failed. This is a terminal state.   Incomplete: The command was attempted on all instances and one or more invocations does not have a value of Success but not enough invocations failed for the status to be Failed. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Rate Exceeded: The number of instances targeted by the command exceeded the account limit for pending invocations. The system has canceled the command before executing it on any instance. This is a terminal state.  
+        /// A detailed status of the command execution. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding Command Statuses in the AWS Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command has not been sent to any instances.   In Progress: The command has been sent to at least one instance but has not reached a final state on all instances.   Success: The command successfully ran on all invocations. This is a terminal state.   Delivery Timed Out: The value of MaxErrors or more command invocations shows a status of Delivery Timed Out. This is a terminal state.   Execution Timed Out: The value of MaxErrors or more command invocations shows a status of Execution Timed Out. This is a terminal state.   Failed: The value of MaxErrors or more command invocations shows a status of Failed. This is a terminal state.   Incomplete: The command was attempted on all instances and one or more invocations does not have a value of Success but not enough invocations failed for the status to be Failed. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Rate Exceeded: The number of instances targeted by the command exceeded the account limit for pending invocations. The system has canceled the command before running it on any instance. This is a terminal state.  
         public let statusDetails: String?
         /// The number of targets for the command.
         public let targetCount: Int32?
@@ -1371,17 +1382,17 @@ extension SSM {
         public let outputS3KeyPrefix: String?
         /// (Deprecated) You can no longer specify this parameter. The system ignores it. Instead, Systems Manager automatically determines the Amazon S3 bucket region.
         public let outputS3Region: String?
-        /// A numeric response code generated after executing the plugin. 
+        /// A numeric response code generated after running the plugin. 
         public let responseCode: Int32?
-        /// The time the plugin stopped executing. Could stop prematurely if, for example, a cancel command was sent. 
+        /// The time the plugin stopped running. Could stop prematurely if, for example, a cancel command was sent. 
         public let responseFinishDateTime: TimeStamp?
-        /// The time the plugin started executing. 
+        /// The time the plugin started running. 
         public let responseStartDateTime: TimeStamp?
         /// The URL for the complete text written by the plugin to stderr. If execution is not yet complete, then this string is empty.
         public let standardErrorUrl: String?
         /// The URL for the complete text written by the plugin to stdout in Amazon S3. If the Amazon S3 bucket for the command was not specified, then this string is empty.
         public let standardOutputUrl: String?
-        /// The status of this plugin. You can execute a document with multiple plugins.
+        /// The status of this plugin. You can run a document with multiple plugins.
         public let status: CommandPluginStatus?
         /// A detailed status of the plugin execution. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding Command Statuses in the AWS Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command has not been sent to the instance.   In Progress: The command has been sent to the instance but has not reached a terminal state.   Success: The execution of the command or plugin was successfully completed. This is a terminal state.   Delivery Timed Out: The command was not delivered to the instance before the delivery timeout expired. Delivery timeouts do not count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: Command execution started on the instance, but the execution was not complete before the execution timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command was not successful on the instance. For a plugin, this indicates that the result code was not zero. For a command invocation, this indicates that the result code for one or more plugins was not zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the instance. The instance might not exist, or it might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit, and they don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.  
         public let statusDetails: String?
@@ -1666,7 +1677,8 @@ extension SSM {
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "ExpirationDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "IamRole", required: true, type: .string), 
-            AWSShapeMember(label: "RegistrationLimit", required: false, type: .integer)
+            AWSShapeMember(label: "RegistrationLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// The name of the registered, managed instance as it will appear in the Amazon EC2 console or when you use the AWS command line tools to list EC2 resources.  Do not enter personally identifiable information in this field. 
         public let defaultInstanceName: String?
@@ -1678,13 +1690,16 @@ extension SSM {
         public let iamRole: String
         /// Specify the maximum number of managed instances you want to register. The default value is 1 instance.
         public let registrationLimit: Int32?
+        /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag an activation to identify which servers or virtual machines (VMs) in your on-premises environment you intend to activate. In this case, you could specify the following key name/value pairs:    Key=OS,Value=Windows     Key=Environment,Value=Production     When you install SSM Agent on your on-premises servers and VMs, you specify an activation ID and code. When you specify the activation ID and code, tags assigned to the activation are automatically applied to the on-premises servers or VMs.  You can't add tags to or delete tags from an existing activation. You can tag your on-premises servers and VMs after they connect to Systems Manager for the first time and are assigned a managed instance ID. This means they are listed in the AWS Systems Manager console with an ID that is prefixed with "mi-". For information about how to add tags to your managed instances, see AddTagsToResource. For information about how to remove tags from your managed instances, see RemoveTagsFromResource.
+        public let tags: [Tag]?
 
-        public init(defaultInstanceName: String? = nil, description: String? = nil, expirationDate: TimeStamp? = nil, iamRole: String, registrationLimit: Int32? = nil) {
+        public init(defaultInstanceName: String? = nil, description: String? = nil, expirationDate: TimeStamp? = nil, iamRole: String, registrationLimit: Int32? = nil, tags: [Tag]? = nil) {
             self.defaultInstanceName = defaultInstanceName
             self.description = description
             self.expirationDate = expirationDate
             self.iamRole = iamRole
             self.registrationLimit = registrationLimit
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1693,6 +1708,7 @@ extension SSM {
             case expirationDate = "ExpirationDate"
             case iamRole = "IamRole"
             case registrationLimit = "RegistrationLimit"
+            case tags = "Tags"
         }
     }
 
@@ -1736,6 +1752,7 @@ extension SSM {
     public struct CreateAssociationBatchRequestEntry: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AssociationName", required: false, type: .string), 
+            AWSShapeMember(label: "AutomationTargetParameterName", required: false, type: .string), 
             AWSShapeMember(label: "ComplianceSeverity", required: false, type: .enum), 
             AWSShapeMember(label: "DocumentVersion", required: false, type: .string), 
             AWSShapeMember(label: "InstanceId", required: false, type: .string), 
@@ -1749,17 +1766,19 @@ extension SSM {
         ]
         /// Specify a descriptive name for the association.
         public let associationName: String?
+        /// Specify the target for the association. This target is required for associations that use an Automation document and target resources by using rate controls.
+        public let automationTargetParameterName: String?
         /// The severity level to assign to the association.
         public let complianceSeverity: AssociationComplianceSeverity?
         /// The document version.
         public let documentVersion: String?
         /// The ID of the instance. 
         public let instanceId: String?
-        /// The maximum number of targets allowed to run the association at the same time. You can specify a number, for example 10, or a percentage of the target set, for example 10%. The default value is 100%, which means all targets run the association at the same time. If a new instance starts and attempts to execute an association while Systems Manager is executing MaxConcurrency associations, the association is allowed to run. During the next association interval, the new instance will process its association within the limit specified for MaxConcurrency.
+        /// The maximum number of targets allowed to run the association at the same time. You can specify a number, for example 10, or a percentage of the target set, for example 10%. The default value is 100%, which means all targets run the association at the same time. If a new instance starts and attempts to run an association while Systems Manager is running MaxConcurrency associations, the association is allowed to run. During the next association interval, the new instance will process its association within the limit specified for MaxConcurrency.
         public let maxConcurrency: String?
         /// The number of errors that are allowed before the system stops sending requests to run the association on additional targets. You can specify either an absolute number of errors, for example 10, or a percentage of the target set, for example 10%. If you specify 3, for example, the system stops sending requests when the fourth error is received. If you specify 0, then the system stops sending requests after the first error is returned. If you run an association on 50 instances and set MaxError to 10%, then the system stops sending the request when the sixth error is received. Executions that are already running an association when MaxErrors is reached are allowed to complete, but some of these executions may fail as well. If you need to ensure that there won't be more than max-errors failed executions, set MaxConcurrency to 1 so that executions proceed one at a time.
         public let maxErrors: String?
-        /// The name of the configuration document. 
+        /// The name of the SSM document that contains the configuration information for the instance. You can specify Command or Automation documents. You can specify AWS-predefined documents, documents you created, or a document that is shared with you from another account. For SSM documents that are shared with you from other AWS accounts, you must specify the complete SSM document ARN, in the following format:  arn:aws:ssm:region:account-id:document/document-name   For example:  arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For AWS-predefined documents and SSM documents you created in your account, you only need to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
         public let name: String
         /// An Amazon S3 bucket where you want to store the results of this request.
         public let outputLocation: InstanceAssociationOutputLocation?
@@ -1770,8 +1789,9 @@ extension SSM {
         /// The instances targeted by the request.
         public let targets: [Target]?
 
-        public init(associationName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, targets: [Target]? = nil) {
+        public init(associationName: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, targets: [Target]? = nil) {
             self.associationName = associationName
+            self.automationTargetParameterName = automationTargetParameterName
             self.complianceSeverity = complianceSeverity
             self.documentVersion = documentVersion
             self.instanceId = instanceId
@@ -1786,6 +1806,7 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case associationName = "AssociationName"
+            case automationTargetParameterName = "AutomationTargetParameterName"
             case complianceSeverity = "ComplianceSeverity"
             case documentVersion = "DocumentVersion"
             case instanceId = "InstanceId"
@@ -1823,6 +1844,7 @@ extension SSM {
     public struct CreateAssociationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AssociationName", required: false, type: .string), 
+            AWSShapeMember(label: "AutomationTargetParameterName", required: false, type: .string), 
             AWSShapeMember(label: "ComplianceSeverity", required: false, type: .enum), 
             AWSShapeMember(label: "DocumentVersion", required: false, type: .string), 
             AWSShapeMember(label: "InstanceId", required: false, type: .string), 
@@ -1836,29 +1858,32 @@ extension SSM {
         ]
         /// Specify a descriptive name for the association.
         public let associationName: String?
+        /// Specify the target for the association. This target is required for associations that use an Automation document and target resources by using rate controls.
+        public let automationTargetParameterName: String?
         /// The severity level to assign to the association.
         public let complianceSeverity: AssociationComplianceSeverity?
         /// The document version you want to associate with the target(s). Can be a specific version or the default version.
         public let documentVersion: String?
         /// The instance ID.
         public let instanceId: String?
-        /// The maximum number of targets allowed to run the association at the same time. You can specify a number, for example 10, or a percentage of the target set, for example 10%. The default value is 100%, which means all targets run the association at the same time. If a new instance starts and attempts to execute an association while Systems Manager is executing MaxConcurrency associations, the association is allowed to run. During the next association interval, the new instance will process its association within the limit specified for MaxConcurrency.
+        /// The maximum number of targets allowed to run the association at the same time. You can specify a number, for example 10, or a percentage of the target set, for example 10%. The default value is 100%, which means all targets run the association at the same time. If a new instance starts and attempts to run an association while Systems Manager is running MaxConcurrency associations, the association is allowed to run. During the next association interval, the new instance will process its association within the limit specified for MaxConcurrency.
         public let maxConcurrency: String?
         /// The number of errors that are allowed before the system stops sending requests to run the association on additional targets. You can specify either an absolute number of errors, for example 10, or a percentage of the target set, for example 10%. If you specify 3, for example, the system stops sending requests when the fourth error is received. If you specify 0, then the system stops sending requests after the first error is returned. If you run an association on 50 instances and set MaxError to 10%, then the system stops sending the request when the sixth error is received. Executions that are already running an association when MaxErrors is reached are allowed to complete, but some of these executions may fail as well. If you need to ensure that there won't be more than max-errors failed executions, set MaxConcurrency to 1 so that executions proceed one at a time.
         public let maxErrors: String?
-        /// The name of the Systems Manager document.
+        /// The name of the SSM document that contains the configuration information for the instance. You can specify Command or Automation documents. You can specify AWS-predefined documents, documents you created, or a document that is shared with you from another account. For SSM documents that are shared with you from other AWS accounts, you must specify the complete SSM document ARN, in the following format:  arn:partition:ssm:region:account-id:document/document-name   For example:  arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For AWS-predefined documents and SSM documents you created in your account, you only need to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
         public let name: String
         /// An Amazon S3 bucket where you want to store the output details of the request.
         public let outputLocation: InstanceAssociationOutputLocation?
-        /// The parameters for the documents runtime configuration. 
+        /// The parameters for the runtime configuration of the document.
         public let parameters: [String: [String]]?
         /// A cron expression when the association will be applied to the target(s).
         public let scheduleExpression: String?
         /// The targets (either instances or tags) for the association.
         public let targets: [Target]?
 
-        public init(associationName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, targets: [Target]? = nil) {
+        public init(associationName: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, targets: [Target]? = nil) {
             self.associationName = associationName
+            self.automationTargetParameterName = automationTargetParameterName
             self.complianceSeverity = complianceSeverity
             self.documentVersion = documentVersion
             self.instanceId = instanceId
@@ -1873,6 +1898,7 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case associationName = "AssociationName"
+            case automationTargetParameterName = "AutomationTargetParameterName"
             case complianceSeverity = "ComplianceSeverity"
             case documentVersion = "DocumentVersion"
             case instanceId = "InstanceId"
@@ -1909,6 +1935,7 @@ extension SSM {
             AWSShapeMember(label: "DocumentFormat", required: false, type: .enum), 
             AWSShapeMember(label: "DocumentType", required: false, type: .enum), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "TargetType", required: false, type: .string), 
             AWSShapeMember(label: "VersionName", required: false, type: .string)
         ]
@@ -1922,17 +1949,20 @@ extension SSM {
         public let documentType: DocumentType?
         /// A name for the Systems Manager document.  Do not use the following to begin the names of documents you create. They are reserved by AWS for use as document prefixes:    aws     amazon     amzn    
         public let name: String
+        /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag an SSM document to identify the types of targets or the environment where it will run. In this case, you could specify the following key name/value pairs:    Key=OS,Value=Windows     Key=Environment,Value=Production     To add tags to an existing SSM document, use the AddTagsToResource action. 
+        public let tags: [Tag]?
         /// Specify a target type to define the kinds of resources the document can run on. For example, to run a document on EC2 instances, specify the following value: /AWS::EC2::Instance. If you specify a value of '/' the document can run on all types of resources. If you don't specify a value, the document can't run on any resources. For a list of valid resource types, see AWS Resource Types Reference in the AWS CloudFormation User Guide. 
         public let targetType: String?
         /// An optional field specifying the version of the artifact you are creating with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document, and cannot be changed.
         public let versionName: String?
 
-        public init(attachments: [AttachmentsSource]? = nil, content: String, documentFormat: DocumentFormat? = nil, documentType: DocumentType? = nil, name: String, targetType: String? = nil, versionName: String? = nil) {
+        public init(attachments: [AttachmentsSource]? = nil, content: String, documentFormat: DocumentFormat? = nil, documentType: DocumentType? = nil, name: String, tags: [Tag]? = nil, targetType: String? = nil, versionName: String? = nil) {
             self.attachments = attachments
             self.content = content
             self.documentFormat = documentFormat
             self.documentType = documentType
             self.name = name
+            self.tags = tags
             self.targetType = targetType
             self.versionName = versionName
         }
@@ -1943,6 +1973,7 @@ extension SSM {
             case documentFormat = "DocumentFormat"
             case documentType = "DocumentType"
             case name = "Name"
+            case tags = "Tags"
             case targetType = "TargetType"
             case versionName = "VersionName"
         }
@@ -1975,30 +2006,33 @@ extension SSM {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Schedule", required: true, type: .string), 
             AWSShapeMember(label: "ScheduleTimezone", required: false, type: .string), 
-            AWSShapeMember(label: "StartDate", required: false, type: .string)
+            AWSShapeMember(label: "StartDate", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
-        /// Enables a Maintenance Window task to execute on managed instances, even if you have not registered those instances as targets. If enabled, then you must specify the unregistered instances (by instance ID) when you register a task with the Maintenance Window  If you don't enable this option, then you must specify previously-registered targets when you register a task with the Maintenance Window. 
+        /// Enables a maintenance window task to run on managed instances, even if you have not registered those instances as targets. If enabled, then you must specify the unregistered instances (by instance ID) when you register a task with the maintenance window. If you don't enable this option, then you must specify previously-registered targets when you register a task with the maintenance window.
         public let allowUnassociatedTargets: Bool
         /// User-provided idempotency token.
         public let clientToken: String?
-        /// The number of hours before the end of the Maintenance Window that Systems Manager stops scheduling new tasks for execution.
+        /// The number of hours before the end of the maintenance window that Systems Manager stops scheduling new tasks for execution.
         public let cutoff: Int32
-        /// An optional description for the Maintenance Window. We recommend specifying a description to help you organize your Maintenance Windows. 
+        /// An optional description for the maintenance window. We recommend specifying a description to help you organize your maintenance windows. 
         public let description: String?
-        /// The duration of the Maintenance Window in hours.
+        /// The duration of the maintenance window in hours.
         public let duration: Int32
-        /// The date and time, in ISO-8601 Extended format, for when you want the Maintenance Window to become inactive. EndDate allows you to set a date and time in the future when the Maintenance Window will no longer run.
+        /// The date and time, in ISO-8601 Extended format, for when you want the maintenance window to become inactive. EndDate allows you to set a date and time in the future when the maintenance window will no longer run.
         public let endDate: String?
-        /// The name of the Maintenance Window.
+        /// The name of the maintenance window.
         public let name: String
-        /// The schedule of the Maintenance Window in the form of a cron or rate expression.
+        /// The schedule of the maintenance window in the form of a cron or rate expression.
         public let schedule: String
-        /// The time zone that the scheduled Maintenance Window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
+        /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
         public let scheduleTimezone: String?
-        /// The date and time, in ISO-8601 Extended format, for when you want the Maintenance Window to become active. StartDate allows you to delay activation of the Maintenance Window until the specified future date.
+        /// The date and time, in ISO-8601 Extended format, for when you want the maintenance window to become active. StartDate allows you to delay activation of the maintenance window until the specified future date.
         public let startDate: String?
+        /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a maintenance window to identify the type of tasks it will run, the types of targets, and the environment it will run in. In this case, you could specify the following key name/value pairs:    Key=TaskType,Value=AgentUpdate     Key=OS,Value=Windows     Key=Environment,Value=Production     To add tags to an existing maintenance window, use the AddTagsToResource action. 
+        public let tags: [Tag]?
 
-        public init(allowUnassociatedTargets: Bool, clientToken: String? = nil, cutoff: Int32, description: String? = nil, duration: Int32, endDate: String? = nil, name: String, schedule: String, scheduleTimezone: String? = nil, startDate: String? = nil) {
+        public init(allowUnassociatedTargets: Bool, clientToken: String? = nil, cutoff: Int32, description: String? = nil, duration: Int32, endDate: String? = nil, name: String, schedule: String, scheduleTimezone: String? = nil, startDate: String? = nil, tags: [Tag]? = nil) {
             self.allowUnassociatedTargets = allowUnassociatedTargets
             self.clientToken = clientToken
             self.cutoff = cutoff
@@ -2009,6 +2043,7 @@ extension SSM {
             self.schedule = schedule
             self.scheduleTimezone = scheduleTimezone
             self.startDate = startDate
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2022,6 +2057,7 @@ extension SSM {
             case schedule = "Schedule"
             case scheduleTimezone = "ScheduleTimezone"
             case startDate = "StartDate"
+            case tags = "Tags"
         }
     }
 
@@ -2029,7 +2065,7 @@ extension SSM {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WindowId", required: false, type: .string)
         ]
-        /// The ID of the created Maintenance Window.
+        /// The ID of the created maintenance window.
         public let windowId: String?
 
         public init(windowId: String? = nil) {
@@ -2054,7 +2090,8 @@ extension SSM {
             AWSShapeMember(label: "OperatingSystem", required: false, type: .enum), 
             AWSShapeMember(label: "RejectedPatches", required: false, type: .list), 
             AWSShapeMember(label: "RejectedPatchesAction", required: false, type: .enum), 
-            AWSShapeMember(label: "Sources", required: false, type: .list)
+            AWSShapeMember(label: "Sources", required: false, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// A set of rules used to include patches in the baseline.
         public let approvalRules: PatchRuleGroup?
@@ -2068,7 +2105,7 @@ extension SSM {
         public let clientToken: String?
         /// A description of the patch baseline.
         public let description: String?
-        /// A set of global filters used to exclude patches from the baseline.
+        /// A set of global filters used to include patches in the baseline.
         public let globalFilters: PatchFilterGroup?
         /// The name of the patch baseline.
         public let name: String
@@ -2080,8 +2117,10 @@ extension SSM {
         public let rejectedPatchesAction: PatchAction?
         /// Information about the patches to use to update the instances, including target operating systems and source repositories. Applies to Linux instances only.
         public let sources: [PatchSource]?
+        /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a patch baseline to identify the severity level of patches it specifies and the operating system family it applies to. In this case, you could specify the following key name/value pairs:    Key=PatchSeverity,Value=Critical     Key=OS,Value=Windows     To add tags to an existing patch baseline, use the AddTagsToResource action. 
+        public let tags: [Tag]?
 
-        public init(approvalRules: PatchRuleGroup? = nil, approvedPatches: [String]? = nil, approvedPatchesComplianceLevel: PatchComplianceLevel? = nil, approvedPatchesEnableNonSecurity: Bool? = nil, clientToken: String? = nil, description: String? = nil, globalFilters: PatchFilterGroup? = nil, name: String, operatingSystem: OperatingSystem? = nil, rejectedPatches: [String]? = nil, rejectedPatchesAction: PatchAction? = nil, sources: [PatchSource]? = nil) {
+        public init(approvalRules: PatchRuleGroup? = nil, approvedPatches: [String]? = nil, approvedPatchesComplianceLevel: PatchComplianceLevel? = nil, approvedPatchesEnableNonSecurity: Bool? = nil, clientToken: String? = nil, description: String? = nil, globalFilters: PatchFilterGroup? = nil, name: String, operatingSystem: OperatingSystem? = nil, rejectedPatches: [String]? = nil, rejectedPatchesAction: PatchAction? = nil, sources: [PatchSource]? = nil, tags: [Tag]? = nil) {
             self.approvalRules = approvalRules
             self.approvedPatches = approvedPatches
             self.approvedPatchesComplianceLevel = approvedPatchesComplianceLevel
@@ -2094,6 +2133,7 @@ extension SSM {
             self.rejectedPatches = rejectedPatches
             self.rejectedPatchesAction = rejectedPatchesAction
             self.sources = sources
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2109,6 +2149,7 @@ extension SSM {
             case rejectedPatches = "RejectedPatches"
             case rejectedPatchesAction = "RejectedPatchesAction"
             case sources = "Sources"
+            case tags = "Tags"
         }
     }
 
@@ -2246,7 +2287,7 @@ extension SSM {
         public let clientToken: String?
         /// Use this option to view a summary of the deletion request without deleting any data or the data type. This option is useful when you only want to understand what will be deleted. Once you validate that the data to be deleted is what you intend to delete, you can run the same command without specifying the DryRun option.
         public let dryRun: Bool?
-        /// Use the SchemaDeleteOption to delete a custom inventory type (schema). If you don't choose this option, the system only deletes existing inventory data associated with the custom inventory type. Choose one of the following options: DisableSchema: If you choose this option, the system ignores all inventory data for the specified version, and any earlier versions. To enable this schema again, you must call the PutInventory action for a version greater than the disbled version. DeleteSchema: This option deletes the specified custom type from the Inventory service. You can recreate the schema later, if you want.
+        /// Use the SchemaDeleteOption to delete a custom inventory type (schema). If you don't choose this option, the system only deletes existing inventory data associated with the custom inventory type. Choose one of the following options: DisableSchema: If you choose this option, the system ignores all inventory data for the specified version, and any earlier versions. To enable this schema again, you must call the PutInventory action for a version greater than the disabled version. DeleteSchema: This option deletes the specified custom type from the Inventory service. You can recreate the schema later, if you want.
         public let schemaDeleteOption: InventorySchemaDeleteOption?
         /// The name of the custom inventory type for which you want to delete either all previously collected data, or the inventory type itself. 
         public let typeName: String
@@ -2296,7 +2337,7 @@ extension SSM {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WindowId", required: true, type: .string)
         ]
-        /// The ID of the Maintenance Window to delete.
+        /// The ID of the maintenance window to delete.
         public let windowId: String
 
         public init(windowId: String) {
@@ -2312,7 +2353,7 @@ extension SSM {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WindowId", required: false, type: .string)
         ]
-        /// The ID of the deleted Maintenance Window.
+        /// The ID of the deleted maintenance window.
         public let windowId: String?
 
         public init(windowId: String? = nil) {
@@ -2510,9 +2551,9 @@ extension SSM {
             AWSShapeMember(label: "WindowId", required: true, type: .string), 
             AWSShapeMember(label: "WindowTargetId", required: true, type: .string)
         ]
-        /// The system checks if the target is being referenced by a task. If the target is being referenced, the system returns an error and does not deregister the target from the Maintenance Window.
+        /// The system checks if the target is being referenced by a task. If the target is being referenced, the system returns an error and does not deregister the target from the maintenance window.
         public let safe: Bool?
-        /// The ID of the Maintenance Window the target should be removed from.
+        /// The ID of the maintenance window the target should be removed from.
         public let windowId: String
         /// The ID of the target definition to remove.
         public let windowTargetId: String
@@ -2535,7 +2576,7 @@ extension SSM {
             AWSShapeMember(label: "WindowId", required: false, type: .string), 
             AWSShapeMember(label: "WindowTargetId", required: false, type: .string)
         ]
-        /// The ID of the Maintenance Window the target was removed from.
+        /// The ID of the maintenance window the target was removed from.
         public let windowId: String?
         /// The ID of the removed target definition.
         public let windowTargetId: String?
@@ -2556,9 +2597,9 @@ extension SSM {
             AWSShapeMember(label: "WindowId", required: true, type: .string), 
             AWSShapeMember(label: "WindowTaskId", required: true, type: .string)
         ]
-        /// The ID of the Maintenance Window the task should be removed from.
+        /// The ID of the maintenance window the task should be removed from.
         public let windowId: String
-        /// The ID of the task to remove from the Maintenance Window.
+        /// The ID of the task to remove from the maintenance window.
         public let windowTaskId: String
 
         public init(windowId: String, windowTaskId: String) {
@@ -2577,9 +2618,9 @@ extension SSM {
             AWSShapeMember(label: "WindowId", required: false, type: .string), 
             AWSShapeMember(label: "WindowTaskId", required: false, type: .string)
         ]
-        /// The ID of the Maintenance Window the task was removed from.
+        /// The ID of the maintenance window the task was removed from.
         public let windowId: String?
-        /// The ID of the task removed from the Maintenance Window.
+        /// The ID of the task removed from the maintenance window.
         public let windowTaskId: String?
 
         public init(windowId: String? = nil, windowTaskId: String? = nil) {
@@ -2786,7 +2827,7 @@ extension SSM {
         ]
         /// The association ID for which you want information.
         public let associationId: String?
-        /// Specify the association version to retrieve. To view the latest version, either specify $LATEST for this parameter, or omit this parameter. To view a list of all associations for an instance, use ListInstanceAssociations. To get a list of versions for a specific association, use ListAssociationVersions. 
+        /// Specify the association version to retrieve. To view the latest version, either specify $LATEST for this parameter, or omit this parameter. To view a list of all associations for an instance, use ListAssociations. To get a list of versions for a specific association, use ListAssociationVersions. 
         public let associationVersion: String?
         /// The instance ID.
         public let instanceId: String?
@@ -3459,9 +3500,9 @@ extension SSM {
         public let maxResults: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        /// The ID of the specific task in the Maintenance Window task that should be retrieved.
+        /// The ID of the specific task in the maintenance window task that should be retrieved.
         public let taskId: String
-        /// The ID of the Maintenance Window execution the task is part of.
+        /// The ID of the maintenance window execution the task is part of.
         public let windowExecutionId: String
 
         public init(filters: [MaintenanceWindowFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, taskId: String, windowExecutionId: String) {
@@ -3515,7 +3556,7 @@ extension SSM {
         public let maxResults: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        /// The ID of the Maintenance Window execution whose task executions should be retrieved.
+        /// The ID of the maintenance window execution whose task executions should be retrieved.
         public let windowExecutionId: String
 
         public init(filters: [MaintenanceWindowFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, windowExecutionId: String) {
@@ -3567,7 +3608,7 @@ extension SSM {
         public let maxResults: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        /// The ID of the Maintenance Window whose executions should be retrieved.
+        /// The ID of the maintenance window whose executions should be retrieved.
         public let windowId: String
 
         public init(filters: [MaintenanceWindowFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, windowId: String) {
@@ -3592,7 +3633,7 @@ extension SSM {
         ]
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
-        /// Information about the Maintenance Windows execution.
+        /// Information about the maintenance window executions.
         public let windowExecutions: [MaintenanceWindowExecution]?
 
         public init(nextToken: String? = nil, windowExecutions: [MaintenanceWindowExecution]? = nil) {
@@ -3615,7 +3656,7 @@ extension SSM {
             AWSShapeMember(label: "Targets", required: false, type: .list), 
             AWSShapeMember(label: "WindowId", required: false, type: .string)
         ]
-        /// Filters used to limit the range of results. For example, you can limit Maintenance Window executions to only those scheduled before or after a certain date and time.
+        /// Filters used to limit the range of results. For example, you can limit maintenance window executions to only those scheduled before or after a certain date and time.
         public let filters: [PatchOrchestratorFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int32?
@@ -3625,7 +3666,7 @@ extension SSM {
         public let resourceType: MaintenanceWindowResourceType?
         /// The instance ID or key/value pair to retrieve information about.
         public let targets: [Target]?
-        /// The ID of the Maintenance Window to retrieve information about.
+        /// The ID of the maintenance window to retrieve information about.
         public let windowId: String?
 
         public init(filters: [PatchOrchestratorFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, resourceType: MaintenanceWindowResourceType? = nil, targets: [Target]? = nil, windowId: String? = nil) {
@@ -3654,7 +3695,7 @@ extension SSM {
         ]
         /// The token for the next set of items to return. (You use this token in the next call.)
         public let nextToken: String?
-        /// Information about Maintenance Window executions scheduled for the specified time range.
+        /// Information about maintenance window executions scheduled for the specified time range.
         public let scheduledWindowExecutions: [ScheduledWindowExecution]?
 
         public init(nextToken: String? = nil, scheduledWindowExecutions: [ScheduledWindowExecution]? = nil) {
@@ -3681,7 +3722,7 @@ extension SSM {
         public let maxResults: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        /// The ID of the Maintenance Window whose targets should be retrieved.
+        /// The ID of the maintenance window whose targets should be retrieved.
         public let windowId: String
 
         public init(filters: [MaintenanceWindowFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, windowId: String) {
@@ -3706,7 +3747,7 @@ extension SSM {
         ]
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
-        /// Information about the targets in the Maintenance Window.
+        /// Information about the targets in the maintenance window.
         public let targets: [MaintenanceWindowTarget]?
 
         public init(nextToken: String? = nil, targets: [MaintenanceWindowTarget]? = nil) {
@@ -3733,7 +3774,7 @@ extension SSM {
         public let maxResults: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        /// The ID of the Maintenance Window whose tasks should be retrieved.
+        /// The ID of the maintenance window whose tasks should be retrieved.
         public let windowId: String
 
         public init(filters: [MaintenanceWindowFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, windowId: String) {
@@ -3758,7 +3799,7 @@ extension SSM {
         ]
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
-        /// Information about the tasks in the Maintenance Window.
+        /// Information about the tasks in the maintenance window.
         public let tasks: [MaintenanceWindowTask]?
 
         public init(nextToken: String? = nil, tasks: [MaintenanceWindowTask]? = nil) {
@@ -3810,7 +3851,7 @@ extension SSM {
         ]
         /// The token for the next set of items to return. (You use this token in the next call.)
         public let nextToken: String?
-        /// Information about the Maintenance Window targets and tasks an instance is associated with.
+        /// Information about the maintenance window targets and tasks an instance is associated with.
         public let windowIdentities: [MaintenanceWindowIdentityForTarget]?
 
         public init(nextToken: String? = nil, windowIdentities: [MaintenanceWindowIdentityForTarget]? = nil) {
@@ -3830,7 +3871,7 @@ extension SSM {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// Optional filters used to narrow down the scope of the returned Maintenance Windows. Supported filter keys are Name and Enabled.
+        /// Optional filters used to narrow down the scope of the returned maintenance windows. Supported filter keys are Name and Enabled.
         public let filters: [MaintenanceWindowFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int32?
@@ -3857,7 +3898,7 @@ extension SSM {
         ]
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
-        /// Information about the Maintenance Windows.
+        /// Information about the maintenance windows.
         public let windowIdentities: [MaintenanceWindowIdentity]?
 
         public init(nextToken: String? = nil, windowIdentities: [MaintenanceWindowIdentity]? = nil) {
@@ -3994,7 +4035,8 @@ extension SSM {
             AWSShapeMember(label: "InstancesWithInstalledPatches", required: false, type: .integer), 
             AWSShapeMember(label: "InstancesWithInstalledRejectedPatches", required: false, type: .integer), 
             AWSShapeMember(label: "InstancesWithMissingPatches", required: false, type: .integer), 
-            AWSShapeMember(label: "InstancesWithNotApplicablePatches", required: false, type: .integer)
+            AWSShapeMember(label: "InstancesWithNotApplicablePatches", required: false, type: .integer), 
+            AWSShapeMember(label: "InstancesWithUnreportedNotApplicablePatches", required: false, type: .integer)
         ]
         /// The number of instances in the patch group.
         public let instances: Int32?
@@ -4010,8 +4052,10 @@ extension SSM {
         public let instancesWithMissingPatches: Int32?
         /// The number of instances with patches that aren't applicable.
         public let instancesWithNotApplicablePatches: Int32?
+        /// The number of instances with NotApplicable patches beyond the supported limit, which are not reported by name to Systems Manager Inventory.
+        public let instancesWithUnreportedNotApplicablePatches: Int32?
 
-        public init(instances: Int32? = nil, instancesWithFailedPatches: Int32? = nil, instancesWithInstalledOtherPatches: Int32? = nil, instancesWithInstalledPatches: Int32? = nil, instancesWithInstalledRejectedPatches: Int32? = nil, instancesWithMissingPatches: Int32? = nil, instancesWithNotApplicablePatches: Int32? = nil) {
+        public init(instances: Int32? = nil, instancesWithFailedPatches: Int32? = nil, instancesWithInstalledOtherPatches: Int32? = nil, instancesWithInstalledPatches: Int32? = nil, instancesWithInstalledRejectedPatches: Int32? = nil, instancesWithMissingPatches: Int32? = nil, instancesWithNotApplicablePatches: Int32? = nil, instancesWithUnreportedNotApplicablePatches: Int32? = nil) {
             self.instances = instances
             self.instancesWithFailedPatches = instancesWithFailedPatches
             self.instancesWithInstalledOtherPatches = instancesWithInstalledOtherPatches
@@ -4019,6 +4063,7 @@ extension SSM {
             self.instancesWithInstalledRejectedPatches = instancesWithInstalledRejectedPatches
             self.instancesWithMissingPatches = instancesWithMissingPatches
             self.instancesWithNotApplicablePatches = instancesWithNotApplicablePatches
+            self.instancesWithUnreportedNotApplicablePatches = instancesWithUnreportedNotApplicablePatches
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4029,6 +4074,7 @@ extension SSM {
             case instancesWithInstalledRejectedPatches = "InstancesWithInstalledRejectedPatches"
             case instancesWithMissingPatches = "InstancesWithMissingPatches"
             case instancesWithNotApplicablePatches = "InstancesWithNotApplicablePatches"
+            case instancesWithUnreportedNotApplicablePatches = "InstancesWithUnreportedNotApplicablePatches"
         }
     }
 
@@ -4076,6 +4122,63 @@ extension SSM {
         private enum CodingKeys: String, CodingKey {
             case mappings = "Mappings"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribePatchPropertiesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "OperatingSystem", required: true, type: .enum), 
+            AWSShapeMember(label: "PatchSet", required: false, type: .enum), 
+            AWSShapeMember(label: "Property", required: true, type: .enum)
+        ]
+        /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+        public let maxResults: Int32?
+        /// The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
+        /// The operating system type for which to list patches.
+        public let operatingSystem: OperatingSystem
+        /// Indicates whether to list patches for the Windows operating system or for Microsoft applications. Not applicable for Linux operating systems.
+        public let patchSet: PatchSet?
+        /// The patch property for which you want to view patch details. 
+        public let property: PatchProperty
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, operatingSystem: OperatingSystem, patchSet: PatchSet? = nil, property: PatchProperty) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.operatingSystem = operatingSystem
+            self.patchSet = patchSet
+            self.property = property
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case operatingSystem = "OperatingSystem"
+            case patchSet = "PatchSet"
+            case property = "Property"
+        }
+    }
+
+    public struct DescribePatchPropertiesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Properties", required: false, type: .list)
+        ]
+        /// The token for the next set of items to return. (You use this token in the next call.)
+        public let nextToken: String?
+        /// A list of the properties for patches matching the filter request parameters.
+        public let properties: [[String: String]]?
+
+        public init(nextToken: String? = nil, properties: [[String: String]]? = nil) {
+            self.nextToken = nextToken
+            self.properties = properties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case properties = "Properties"
         }
     }
 
@@ -4677,33 +4780,33 @@ extension SSM {
         public let commandId: String?
         /// The comment text for the command.
         public let comment: String?
-        /// The name of the document that was executed. For example, AWS-RunShellScript.
+        /// The name of the document that was run. For example, AWS-RunShellScript.
         public let documentName: String?
         /// The SSM document version used in the request.
         public let documentVersion: String?
         /// Duration since ExecutionStartDateTime.
         public let executionElapsedTime: String?
-        /// The date and time the plugin was finished executing. Date and time are written in ISO 8601 format. For example, June 7, 2017 is represented as 2017-06-7. The following sample AWS CLI command uses the InvokedAfter filter.  aws ssm list-commands --filters key=InvokedAfter,value=2017-06-07T00:00:00Z  If the plugin has not started to execute, the string is empty.
+        /// The date and time the plugin was finished running. Date and time are written in ISO 8601 format. For example, June 7, 2017 is represented as 2017-06-7. The following sample AWS CLI command uses the InvokedAfter filter.  aws ssm list-commands --filters key=InvokedAfter,value=2017-06-07T00:00:00Z  If the plugin has not started to run, the string is empty.
         public let executionEndDateTime: String?
-        /// The date and time the plugin started executing. Date and time are written in ISO 8601 format. For example, June 7, 2017 is represented as 2017-06-7. The following sample AWS CLI command uses the InvokedBefore filter.  aws ssm list-commands --filters key=InvokedBefore,value=2017-06-07T00:00:00Z  If the plugin has not started to execute, the string is empty.
+        /// The date and time the plugin started running. Date and time are written in ISO 8601 format. For example, June 7, 2017 is represented as 2017-06-7. The following sample AWS CLI command uses the InvokedBefore filter.  aws ssm list-commands --filters key=InvokedBefore,value=2017-06-07T00:00:00Z  If the plugin has not started to run, the string is empty.
         public let executionStartDateTime: String?
         /// The ID of the managed instance targeted by the command. A managed instance can be an Amazon EC2 instance or an instance in your hybrid environment that is configured for Systems Manager.
         public let instanceId: String?
         /// The name of the plugin for which you want detailed results. For example, aws:RunShellScript is a plugin.
         public let pluginName: String?
-        /// The error level response code for the plugin script. If the response code is -1, then the command has not started executing on the instance, or it was not received by the instance.
+        /// The error level response code for the plugin script. If the response code is -1, then the command has not started running on the instance, or it was not received by the instance.
         public let responseCode: Int32?
-        /// The first 8,000 characters written by the plugin to stderr. If the command has not finished executing, then this string is empty.
+        /// The first 8,000 characters written by the plugin to stderr. If the command has not finished running, then this string is empty.
         public let standardErrorContent: String?
-        /// The URL for the complete text written by the plugin to stderr. If the command has not finished executing, then this string is empty.
+        /// The URL for the complete text written by the plugin to stderr. If the command has not finished running, then this string is empty.
         public let standardErrorUrl: String?
-        /// The first 24,000 characters written by the plugin to stdout. If the command has not finished executing, if ExecutionStatus is neither Succeeded nor Failed, then this string is empty.
+        /// The first 24,000 characters written by the plugin to stdout. If the command has not finished running, if ExecutionStatus is neither Succeeded nor Failed, then this string is empty.
         public let standardOutputContent: String?
         /// The URL for the complete text written by the plugin to stdout in Amazon S3. If an Amazon S3 bucket was not specified, then this string is empty.
         public let standardOutputUrl: String?
         /// The status of this invocation plugin. This status can be different than StatusDetails.
         public let status: CommandInvocationStatus?
-        /// A detailed status of the command execution for an invocation. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding Command Statuses in the AWS Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command has not been sent to the instance.   In Progress: The command has been sent to the instance but has not reached a terminal state.   Delayed: The system attempted to send the command to the target, but the target was not available. The instance might not be available because of network issues, the instance was stopped, etc. The system will try to deliver the command again.   Success: The command or plugin was executed successfully. This is a terminal state.   Delivery Timed Out: The command was not delivered to the instance before the delivery timeout expired. Delivery timeouts do not count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: The command started to execute on the instance, but the execution was not complete before the timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command wasn't executed successfully on the instance. For a plugin, this indicates that the result code was not zero. For a command invocation, this indicates that the result code for one or more plugins was not zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the instance. The instance might not exist or might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit and don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.  
+        /// A detailed status of the command execution for an invocation. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding Command Statuses in the AWS Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command has not been sent to the instance.   In Progress: The command has been sent to the instance but has not reached a terminal state.   Delayed: The system attempted to send the command to the target, but the target was not available. The instance might not be available because of network issues, the instance was stopped, etc. The system will try to deliver the command again.   Success: The command or plugin was run successfully. This is a terminal state.   Delivery Timed Out: The command was not delivered to the instance before the delivery timeout expired. Delivery timeouts do not count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: The command started to run on the instance, but the execution was not complete before the timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command wasn't run successfully on the instance. For a plugin, this indicates that the result code was not zero. For a command invocation, this indicates that the result code for one or more plugins was not zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the instance. The instance might not exist or might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit and don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.  
         public let statusDetails: String?
 
         public init(cloudWatchOutputConfig: CloudWatchOutputConfig? = nil, commandId: String? = nil, comment: String? = nil, documentName: String? = nil, documentVersion: String? = nil, executionElapsedTime: String? = nil, executionEndDateTime: String? = nil, executionStartDateTime: String? = nil, instanceId: String? = nil, pluginName: String? = nil, responseCode: Int32? = nil, standardErrorContent: String? = nil, standardErrorUrl: String? = nil, standardOutputContent: String? = nil, standardOutputUrl: String? = nil, status: CommandInvocationStatus? = nil, statusDetails: String? = nil) {
@@ -5078,7 +5181,7 @@ extension SSM {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WindowExecutionId", required: true, type: .string)
         ]
-        /// The ID of the Maintenance Window execution that includes the task.
+        /// The ID of the maintenance window execution that includes the task.
         public let windowExecutionId: String
 
         public init(windowExecutionId: String) {
@@ -5099,17 +5202,17 @@ extension SSM {
             AWSShapeMember(label: "TaskIds", required: false, type: .list), 
             AWSShapeMember(label: "WindowExecutionId", required: false, type: .string)
         ]
-        /// The time the Maintenance Window finished executing.
+        /// The time the maintenance window finished running.
         public let endTime: TimeStamp?
-        /// The time the Maintenance Window started executing.
+        /// The time the maintenance window started running.
         public let startTime: TimeStamp?
-        /// The status of the Maintenance Window execution.
+        /// The status of the maintenance window execution.
         public let status: MaintenanceWindowExecutionStatus?
         /// The details explaining the Status. Only available for certain status values.
         public let statusDetails: String?
-        /// The ID of the task executions from the Maintenance Window execution.
+        /// The ID of the task executions from the maintenance window execution.
         public let taskIds: [String]?
-        /// The ID of the Maintenance Window execution.
+        /// The ID of the maintenance window execution.
         public let windowExecutionId: String?
 
         public init(endTime: TimeStamp? = nil, startTime: TimeStamp? = nil, status: MaintenanceWindowExecutionStatus? = nil, statusDetails: String? = nil, taskIds: [String]? = nil, windowExecutionId: String? = nil) {
@@ -5139,9 +5242,9 @@ extension SSM {
         ]
         /// The invocation ID to retrieve.
         public let invocationId: String
-        /// The ID of the specific task in the Maintenance Window task that should be retrieved. 
+        /// The ID of the specific task in the maintenance window task that should be retrieved. 
         public let taskId: String
-        /// The ID of the Maintenance Window execution for which the task is a part.
+        /// The ID of the maintenance window execution for which the task is a part.
         public let windowExecutionId: String
 
         public init(invocationId: String, taskId: String, windowExecutionId: String) {
@@ -5172,17 +5275,17 @@ extension SSM {
             AWSShapeMember(label: "WindowExecutionId", required: false, type: .string), 
             AWSShapeMember(label: "WindowTargetId", required: false, type: .string)
         ]
-        /// The time that the task finished executing on the target.
+        /// The time that the task finished running on the target.
         public let endTime: TimeStamp?
         /// The execution ID.
         public let executionId: String?
         /// The invocation ID.
         public let invocationId: String?
-        /// User-provided value to be included in any CloudWatch events raised while running tasks for these targets in this Maintenance Window. 
+        /// User-provided value to be included in any CloudWatch events raised while running tasks for these targets in this maintenance window. 
         public let ownerInformation: String?
-        /// The parameters used at the time that the task executed.
+        /// The parameters used at the time that the task ran.
         public let parameters: String?
-        /// The time that the task started executing on the target.
+        /// The time that the task started running on the target.
         public let startTime: TimeStamp?
         /// The task status for an invocation.
         public let status: MaintenanceWindowExecutionStatus?
@@ -5190,11 +5293,11 @@ extension SSM {
         public let statusDetails: String?
         /// The task execution ID.
         public let taskExecutionId: String?
-        /// Retrieves the task type for a Maintenance Window. Task types include the following: LAMBDA, STEP_FUNCTION, AUTOMATION, RUN_COMMAND.
+        /// Retrieves the task type for a maintenance window. Task types include the following: LAMBDA, STEP_FUNCTION, AUTOMATION, RUN_COMMAND.
         public let taskType: MaintenanceWindowTaskType?
-        /// The Maintenance Window execution ID.
+        /// The maintenance window execution ID.
         public let windowExecutionId: String?
-        /// The Maintenance Window target ID.
+        /// The maintenance window target ID.
         public let windowTargetId: String?
 
         public init(endTime: TimeStamp? = nil, executionId: String? = nil, invocationId: String? = nil, ownerInformation: String? = nil, parameters: String? = nil, startTime: TimeStamp? = nil, status: MaintenanceWindowExecutionStatus? = nil, statusDetails: String? = nil, taskExecutionId: String? = nil, taskType: MaintenanceWindowTaskType? = nil, windowExecutionId: String? = nil, windowTargetId: String? = nil) {
@@ -5233,9 +5336,9 @@ extension SSM {
             AWSShapeMember(label: "TaskId", required: true, type: .string), 
             AWSShapeMember(label: "WindowExecutionId", required: true, type: .string)
         ]
-        /// The ID of the specific task execution in the Maintenance Window task that should be retrieved.
+        /// The ID of the specific task execution in the maintenance window task that should be retrieved.
         public let taskId: String
-        /// The ID of the Maintenance Window execution that includes the task.
+        /// The ID of the maintenance window execution that includes the task.
         public let windowExecutionId: String
 
         public init(taskId: String, windowExecutionId: String) {
@@ -5273,7 +5376,7 @@ extension SSM {
         public let maxErrors: String?
         /// The priority of the task.
         public let priority: Int32?
-        /// The role that was assumed when executing the task.
+        /// The role that was assumed when running the task.
         public let serviceRole: String?
         /// The time the task execution started.
         public let startTime: TimeStamp?
@@ -5281,15 +5384,15 @@ extension SSM {
         public let status: MaintenanceWindowExecutionStatus?
         /// The details explaining the Status. Only available for certain status values.
         public let statusDetails: String?
-        /// The ARN of the executed task.
+        /// The ARN of the task that ran.
         public let taskArn: String?
-        /// The ID of the specific task execution in the Maintenance Window task that was retrieved.
+        /// The ID of the specific task execution in the maintenance window task that was retrieved.
         public let taskExecutionId: String?
-        /// The parameters passed to the task when it was executed.   TaskParameters has been deprecated. To specify parameters to pass to a task when it runs, instead use the Parameters option in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters.  The map has the following format: Key: string, between 1 and 255 characters Value: an array of strings, each string is between 1 and 255 characters
+        /// The parameters passed to the task when it was run.   TaskParameters has been deprecated. To specify parameters to pass to a task when it runs, instead use the Parameters option in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters.  The map has the following format: Key: string, between 1 and 255 characters Value: an array of strings, each string is between 1 and 255 characters
         public let taskParameters: [[String: MaintenanceWindowTaskParameterValueExpression]]?
-        /// The type of task executed.
+        /// The type of task that was run.
         public let `type`: MaintenanceWindowTaskType?
-        /// The ID of the Maintenance Window execution that includes the task.
+        /// The ID of the maintenance window execution that includes the task.
         public let windowExecutionId: String?
 
         public init(endTime: TimeStamp? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, priority: Int32? = nil, serviceRole: String? = nil, startTime: TimeStamp? = nil, status: MaintenanceWindowExecutionStatus? = nil, statusDetails: String? = nil, taskArn: String? = nil, taskExecutionId: String? = nil, taskParameters: [[String: MaintenanceWindowTaskParameterValueExpression]]? = nil, type: MaintenanceWindowTaskType? = nil, windowExecutionId: String? = nil) {
@@ -5329,7 +5432,7 @@ extension SSM {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WindowId", required: true, type: .string)
         ]
-        /// The ID of the desired Maintenance Window.
+        /// The ID of the maintenance window for which you want to retrieve information.
         public let windowId: String
 
         public init(windowId: String) {
@@ -5358,33 +5461,33 @@ extension SSM {
             AWSShapeMember(label: "StartDate", required: false, type: .string), 
             AWSShapeMember(label: "WindowId", required: false, type: .string)
         ]
-        /// Whether targets must be registered with the Maintenance Window before tasks can be defined for those targets.
+        /// Whether targets must be registered with the maintenance window before tasks can be defined for those targets.
         public let allowUnassociatedTargets: Bool?
-        /// The date the Maintenance Window was created.
+        /// The date the maintenance window was created.
         public let createdDate: TimeStamp?
-        /// The number of hours before the end of the Maintenance Window that Systems Manager stops scheduling new tasks for execution.
+        /// The number of hours before the end of the maintenance window that Systems Manager stops scheduling new tasks for execution.
         public let cutoff: Int32?
-        /// The description of the Maintenance Window.
+        /// The description of the maintenance window.
         public let description: String?
-        /// The duration of the Maintenance Window in hours.
+        /// The duration of the maintenance window in hours.
         public let duration: Int32?
-        /// Whether the Maintenance Windows is enabled.
+        /// Indicates whether the maintenance window is enabled.
         public let enabled: Bool?
-        /// The date and time, in ISO-8601 Extended format, for when the Maintenance Window is scheduled to become inactive. The Maintenance Window will not run after this specified time.
+        /// The date and time, in ISO-8601 Extended format, for when the maintenance window is scheduled to become inactive. The maintenance window will not run after this specified time.
         public let endDate: String?
-        /// The date the Maintenance Window was last modified.
+        /// The date the maintenance window was last modified.
         public let modifiedDate: TimeStamp?
-        /// The name of the Maintenance Window.
+        /// The name of the maintenance window.
         public let name: String?
-        /// The next time the Maintenance Window will actually run, taking into account any specified times for the Maintenance Window to become active or inactive.
+        /// The next time the maintenance window will actually run, taking into account any specified times for the maintenance window to become active or inactive.
         public let nextExecutionTime: String?
-        /// The schedule of the Maintenance Window in the form of a cron or rate expression.
+        /// The schedule of the maintenance window in the form of a cron or rate expression.
         public let schedule: String?
-        /// The time zone that the scheduled Maintenance Window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
+        /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
         public let scheduleTimezone: String?
-        /// The date and time, in ISO-8601 Extended format, for when the Maintenance Window is scheduled to become active. The Maintenance Window will not run before this specified time.
+        /// The date and time, in ISO-8601 Extended format, for when the maintenance window is scheduled to become active. The maintenance window will not run before this specified time.
         public let startDate: String?
-        /// The ID of the created Maintenance Window.
+        /// The ID of the created maintenance window.
         public let windowId: String?
 
         public init(allowUnassociatedTargets: Bool? = nil, createdDate: TimeStamp? = nil, cutoff: Int32? = nil, description: String? = nil, duration: Int32? = nil, enabled: Bool? = nil, endDate: String? = nil, modifiedDate: TimeStamp? = nil, name: String? = nil, nextExecutionTime: String? = nil, schedule: String? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String? = nil) {
@@ -5427,9 +5530,9 @@ extension SSM {
             AWSShapeMember(label: "WindowId", required: true, type: .string), 
             AWSShapeMember(label: "WindowTaskId", required: true, type: .string)
         ]
-        /// The Maintenance Window ID that includes the task to retrieve.
+        /// The maintenance window ID that includes the task to retrieve.
         public let windowId: String
-        /// The Maintenance Window task ID to retrieve.
+        /// The maintenance window task ID to retrieve.
         public let windowTaskId: String
 
         public init(windowId: String, windowTaskId: String) {
@@ -5462,7 +5565,7 @@ extension SSM {
         ]
         /// The retrieved task description.
         public let description: String?
-        /// The location in Amazon S3 where the task results are logged.   LoggingInfo has been deprecated. To specify an S3 bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters. 
+        /// The location in Amazon S3 where the task results are logged.   LoggingInfo has been deprecated. To specify an S3 bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters. 
         public let loggingInfo: LoggingInfo?
         /// The maximum number of targets allowed to run this task in parallel.
         public let maxConcurrency: String?
@@ -5470,23 +5573,23 @@ extension SSM {
         public let maxErrors: String?
         /// The retrieved task name.
         public let name: String?
-        /// The priority of the task when it executes. The lower the number, the higher the priority. Tasks that have the same priority are scheduled in parallel.
+        /// The priority of the task when it runs. The lower the number, the higher the priority. Tasks that have the same priority are scheduled in parallel.
         public let priority: Int32?
-        /// The IAM service role to assume during task execution.
+        /// The ARN of the IAM service role to use to publish Amazon Simple Notification Service (Amazon SNS) notifications for maintenance window Run Command tasks.
         public let serviceRoleArn: String?
-        /// The targets where the task should execute.
+        /// The targets where the task should run.
         public let targets: [Target]?
         /// The resource that the task used during execution. For RUN_COMMAND and AUTOMATION task types, the TaskArn is the Systems Manager Document name/ARN. For LAMBDA tasks, the value is the function name/ARN. For STEP_FUNCTION tasks, the value is the state machine ARN.
         public let taskArn: String?
-        /// The parameters to pass to the task when it executes.
+        /// The parameters to pass to the task when it runs.
         public let taskInvocationParameters: MaintenanceWindowTaskInvocationParameters?
-        /// The parameters to pass to the task when it executes.   TaskParameters has been deprecated. To specify parameters to pass to a task when it runs, instead use the Parameters option in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters. 
+        /// The parameters to pass to the task when it runs.   TaskParameters has been deprecated. To specify parameters to pass to a task when it runs, instead use the Parameters option in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters. 
         public let taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]?
-        /// The type of task to execute.
+        /// The type of task to run.
         public let taskType: MaintenanceWindowTaskType?
-        /// The retrieved Maintenance Window ID.
+        /// The retrieved maintenance window ID.
         public let windowId: String?
-        /// The retrieved Maintenance Window task ID.
+        /// The retrieved maintenance window task ID.
         public let windowTaskId: String?
 
         public init(description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int32? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String? = nil, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, taskType: MaintenanceWindowTaskType? = nil, windowId: String? = nil, windowTaskId: String? = nil) {
@@ -5630,7 +5733,7 @@ extension SSM {
         public let parameterFilters: [ParameterStringFilter]?
         /// The hierarchy for the parameter. Hierarchies start with a forward slash (/) and end with the parameter name. A parameter name hierarchy can have a maximum of 15 levels. Here is an example of a hierarchy: /Finance/Prod/IAD/WinServ2016/license33 
         public let path: String
-        /// Retrieve all parameters within a hierarchy.  If a user has access to a path, then the user can access all levels of that path. For example, if a user has permission to access path /a, then the user can also access /a/b. Even if a user has explicitly been denied access in IAM for parameter /a, they can still call the GetParametersByPath API action recursively and view /a/b. 
+        /// Retrieve all parameters within a hierarchy.  If a user has access to a path, then the user can access all levels of that path. For example, if a user has permission to access path /a, then the user can also access /a/b. Even if a user has explicitly been denied access in IAM for parameter /a/b, they can still call the GetParametersByPath API action recursively for /a and view /a/b. 
         public let recursive: Bool?
         /// Retrieve all parameters in a hierarchy with their value decrypted.
         public let withDecryption: Bool?
@@ -5701,7 +5804,7 @@ extension SSM {
             AWSShapeMember(label: "InvalidParameters", required: false, type: .list), 
             AWSShapeMember(label: "Parameters", required: false, type: .list)
         ]
-        /// A list of parameters that are not formatted correctly or do not run when executed.
+        /// A list of parameters that are not formatted correctly or do not run during an execution.
         public let invalidParameters: [String]?
         /// A list of details for a parameter.
         public let parameters: [Parameter]?
@@ -5866,6 +5969,38 @@ extension SSM {
         }
     }
 
+    public struct GetServiceSettingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SettingId", required: true, type: .string)
+        ]
+        /// The ID of the service setting to get.
+        public let settingId: String
+
+        public init(settingId: String) {
+            self.settingId = settingId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case settingId = "SettingId"
+        }
+    }
+
+    public struct GetServiceSettingResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServiceSetting", required: false, type: .structure)
+        ]
+        /// The query result of the current service setting.
+        public let serviceSetting: ServiceSetting?
+
+        public init(serviceSetting: ServiceSetting? = nil) {
+            self.serviceSetting = serviceSetting
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceSetting = "ServiceSetting"
+        }
+    }
+
     public struct InstanceAggregatedAssociationOverview: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DetailedStatus", required: false, type: .string), 
@@ -5973,11 +6108,11 @@ extension SSM {
         public let associationVersion: String?
         /// Detailed status information about the instance association.
         public let detailedStatus: String?
-        /// The association document verions.
+        /// The association document versions.
         public let documentVersion: String?
         /// An error code returned by the request to create the association.
         public let errorCode: String?
-        /// The date the instance association executed. 
+        /// The date the instance association ran. 
         public let executionDate: TimeStamp?
         /// Summary information about association execution.
         public let executionSummary: String?
@@ -6061,7 +6196,7 @@ extension SSM {
         public let instanceId: String?
         /// Indicates whether latest version of SSM Agent is running on your instance. Some older versions of Windows Server use the EC2Config service to process SSM requests. For this reason, this field does not indicate whether or not the latest version is installed on Windows managed instances.
         public let isLatestVersion: Bool?
-        /// The date the association was last executed.
+        /// The date the association was last run.
         public let lastAssociationExecutionDate: TimeStamp?
         /// The date and time when agent last pinged Systems Manager service. 
         public let lastPingDateTime: TimeStamp?
@@ -6197,7 +6332,8 @@ extension SSM {
             AWSShapeMember(label: "OperationStartTime", required: true, type: .timestamp), 
             AWSShapeMember(label: "OwnerInformation", required: false, type: .string), 
             AWSShapeMember(label: "PatchGroup", required: true, type: .string), 
-            AWSShapeMember(label: "SnapshotId", required: false, type: .string)
+            AWSShapeMember(label: "SnapshotId", required: false, type: .string), 
+            AWSShapeMember(label: "UnreportedNotApplicableCount", required: false, type: .integer)
         ]
         /// The ID of the patch baseline used to patch the instance.
         public let baselineId: String
@@ -6215,7 +6351,7 @@ extension SSM {
         public let instanceId: String
         /// The number of patches from the patch baseline that are applicable for the instance but aren't currently installed.
         public let missingCount: Int32?
-        /// The number of patches from the patch baseline that aren't applicable for the instance and hence aren't installed on the instance.
+        /// The number of patches from the patch baseline that aren't applicable for the instance and therefore aren't installed on the instance. This number may be truncated if the list of patch names is very large. The number of patches beyond this limit are reported in UnreportedNotApplicableCount.
         public let notApplicableCount: Int32?
         /// The type of patching operation that was performed: SCAN (assess patch compliance state) or INSTALL (install missing patches).
         public let operation: PatchOperationType
@@ -6229,8 +6365,10 @@ extension SSM {
         public let patchGroup: String
         /// The ID of the patch baseline snapshot used during the patching operation when this compliance data was collected.
         public let snapshotId: String?
+        /// The number of patches beyond the supported limit of NotApplicableCount that are not reported by name to Systems Manager Inventory.
+        public let unreportedNotApplicableCount: Int32?
 
-        public init(baselineId: String, failedCount: Int32? = nil, installOverrideList: String? = nil, installedCount: Int32? = nil, installedOtherCount: Int32? = nil, installedRejectedCount: Int32? = nil, instanceId: String, missingCount: Int32? = nil, notApplicableCount: Int32? = nil, operation: PatchOperationType, operationEndTime: TimeStamp, operationStartTime: TimeStamp, ownerInformation: String? = nil, patchGroup: String, snapshotId: String? = nil) {
+        public init(baselineId: String, failedCount: Int32? = nil, installOverrideList: String? = nil, installedCount: Int32? = nil, installedOtherCount: Int32? = nil, installedRejectedCount: Int32? = nil, instanceId: String, missingCount: Int32? = nil, notApplicableCount: Int32? = nil, operation: PatchOperationType, operationEndTime: TimeStamp, operationStartTime: TimeStamp, ownerInformation: String? = nil, patchGroup: String, snapshotId: String? = nil, unreportedNotApplicableCount: Int32? = nil) {
             self.baselineId = baselineId
             self.failedCount = failedCount
             self.installOverrideList = installOverrideList
@@ -6246,6 +6384,7 @@ extension SSM {
             self.ownerInformation = ownerInformation
             self.patchGroup = patchGroup
             self.snapshotId = snapshotId
+            self.unreportedNotApplicableCount = unreportedNotApplicableCount
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6264,6 +6403,7 @@ extension SSM {
             case ownerInformation = "OwnerInformation"
             case patchGroup = "PatchGroup"
             case snapshotId = "SnapshotId"
+            case unreportedNotApplicableCount = "UnreportedNotApplicableCount"
         }
     }
 
@@ -7351,7 +7491,7 @@ extension SSM {
         ]
         /// The version of an Automation document to use during task execution.
         public let documentVersion: String?
-        /// The parameters for the AUTOMATION task. For information about specifying and updating task parameters, see RegisterTaskWithMaintenanceWindow and UpdateMaintenanceWindowTask.   LoggingInfo has been deprecated. To specify an S3 bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters.  TaskParameters has been deprecated. To specify parameters to pass to a task when it runs, instead use the Parameters option in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters. For AUTOMATION task types, Systems Manager ignores any values specified for these parameters. 
+        /// The parameters for the AUTOMATION task. For information about specifying and updating task parameters, see RegisterTaskWithMaintenanceWindow and UpdateMaintenanceWindowTask.   LoggingInfo has been deprecated. To specify an S3 bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters.  TaskParameters has been deprecated. To specify parameters to pass to a task when it runs, instead use the Parameters option in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters. For AUTOMATION task types, Systems Manager ignores any values specified for these parameters. 
         public let parameters: [String: [String]]?
 
         public init(documentVersion: String? = nil, parameters: [String: [String]]? = nil) {
@@ -7382,9 +7522,9 @@ extension SSM {
         public let status: MaintenanceWindowExecutionStatus?
         /// The details explaining the Status. Only available for certain status values.
         public let statusDetails: String?
-        /// The ID of the Maintenance Window execution.
+        /// The ID of the maintenance window execution.
         public let windowExecutionId: String?
-        /// The ID of the Maintenance Window.
+        /// The ID of the maintenance window.
         public let windowId: String?
 
         public init(endTime: TimeStamp? = nil, startTime: TimeStamp? = nil, status: MaintenanceWindowExecutionStatus? = nil, statusDetails: String? = nil, windowExecutionId: String? = nil, windowId: String? = nil) {
@@ -7437,13 +7577,13 @@ extension SSM {
         public let status: MaintenanceWindowExecutionStatus?
         /// The details explaining the status of the task execution. Only available for certain status values.
         public let statusDetails: String?
-        /// The ARN of the executed task.
+        /// The ARN of the task that ran.
         public let taskArn: String?
-        /// The ID of the specific task execution in the Maintenance Window execution.
+        /// The ID of the specific task execution in the maintenance window execution.
         public let taskExecutionId: String?
-        /// The type of executed task.
+        /// The type of task that ran.
         public let taskType: MaintenanceWindowTaskType?
-        /// The ID of the Maintenance Window execution that ran the task.
+        /// The ID of the maintenance window execution that ran the task.
         public let windowExecutionId: String?
 
         public init(endTime: TimeStamp? = nil, startTime: TimeStamp? = nil, status: MaintenanceWindowExecutionStatus? = nil, statusDetails: String? = nil, taskArn: String? = nil, taskExecutionId: String? = nil, taskType: MaintenanceWindowTaskType? = nil, windowExecutionId: String? = nil) {
@@ -7490,9 +7630,9 @@ extension SSM {
         public let executionId: String?
         /// The ID of the task invocation.
         public let invocationId: String?
-        /// User-provided value that was specified when the target was registered with the Maintenance Window. This was also included in any CloudWatch events raised during the task invocation.
+        /// User-provided value that was specified when the target was registered with the maintenance window. This was also included in any CloudWatch events raised during the task invocation.
         public let ownerInformation: String?
-        /// The parameters that were provided for the invocation when it was executed.
+        /// The parameters that were provided for the invocation when it was run.
         public let parameters: String?
         /// The time the invocation started.
         public let startTime: TimeStamp?
@@ -7500,13 +7640,13 @@ extension SSM {
         public let status: MaintenanceWindowExecutionStatus?
         /// The details explaining the status of the task invocation. Only available for certain Status values. 
         public let statusDetails: String?
-        /// The ID of the specific task execution in the Maintenance Window execution.
+        /// The ID of the specific task execution in the maintenance window execution.
         public let taskExecutionId: String?
         /// The task type.
         public let taskType: MaintenanceWindowTaskType?
-        /// The ID of the Maintenance Window execution that ran the task.
+        /// The ID of the maintenance window execution that ran the task.
         public let windowExecutionId: String?
-        /// The ID of the target definition in this Maintenance Window the invocation was performed for.
+        /// The ID of the target definition in this maintenance window the invocation was performed for.
         public let windowTargetId: String?
 
         public init(endTime: TimeStamp? = nil, executionId: String? = nil, invocationId: String? = nil, ownerInformation: String? = nil, parameters: String? = nil, startTime: TimeStamp? = nil, status: MaintenanceWindowExecutionStatus? = nil, statusDetails: String? = nil, taskExecutionId: String? = nil, taskType: MaintenanceWindowTaskType? = nil, windowExecutionId: String? = nil, windowTargetId: String? = nil) {
@@ -7575,27 +7715,27 @@ extension SSM {
             AWSShapeMember(label: "StartDate", required: false, type: .string), 
             AWSShapeMember(label: "WindowId", required: false, type: .string)
         ]
-        /// The number of hours before the end of the Maintenance Window that Systems Manager stops scheduling new tasks for execution.
+        /// The number of hours before the end of the maintenance window that Systems Manager stops scheduling new tasks for execution.
         public let cutoff: Int32?
-        /// A description of the Maintenance Window.
+        /// A description of the maintenance window.
         public let description: String?
-        /// The duration of the Maintenance Window in hours.
+        /// The duration of the maintenance window in hours.
         public let duration: Int32?
-        /// Whether the Maintenance Window is enabled.
+        /// Indicates whether the maintenance window is enabled.
         public let enabled: Bool?
-        /// The date and time, in ISO-8601 Extended format, for when the Maintenance Window is scheduled to become inactive.
+        /// The date and time, in ISO-8601 Extended format, for when the maintenance window is scheduled to become inactive.
         public let endDate: String?
-        /// The name of the Maintenance Window.
+        /// The name of the maintenance window.
         public let name: String?
-        /// The next time the Maintenance Window will actually run, taking into account any specified times for the Maintenance Window to become active or inactive.
+        /// The next time the maintenance window will actually run, taking into account any specified times for the maintenance window to become active or inactive.
         public let nextExecutionTime: String?
-        /// The schedule of the Maintenance Window in the form of a cron or rate expression.
+        /// The schedule of the maintenance window in the form of a cron or rate expression.
         public let schedule: String?
-        /// The time zone that the scheduled Maintenance Window executions are based on, in Internet Assigned Numbers Authority (IANA) format.
+        /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format.
         public let scheduleTimezone: String?
-        /// The date and time, in ISO-8601 Extended format, for when the Maintenance Window is scheduled to become active.
+        /// The date and time, in ISO-8601 Extended format, for when the maintenance window is scheduled to become active.
         public let startDate: String?
-        /// The ID of the Maintenance Window.
+        /// The ID of the maintenance window.
         public let windowId: String?
 
         public init(cutoff: Int32? = nil, description: String? = nil, duration: Int32? = nil, enabled: Bool? = nil, endDate: String? = nil, name: String? = nil, nextExecutionTime: String? = nil, schedule: String? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String? = nil) {
@@ -7632,9 +7772,9 @@ extension SSM {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "WindowId", required: false, type: .string)
         ]
-        /// The name of the Maintenance Window.
+        /// The name of the maintenance window.
         public let name: String?
-        /// The ID of the Maintenance Window.
+        /// The ID of the maintenance window.
         public let windowId: String?
 
         public init(name: String? = nil, windowId: String? = nil) {
@@ -7691,7 +7831,7 @@ extension SSM {
             AWSShapeMember(label: "ServiceRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "TimeoutSeconds", required: false, type: .integer)
         ]
-        /// Information about the command(s) to execute.
+        /// Information about the commands to run.
         public let comment: String?
         /// The SHA-256 or SHA-1 hash created by the system when the document was created. SHA-1 hashes have been deprecated.
         public let documentHash: String?
@@ -7705,9 +7845,9 @@ extension SSM {
         public let outputS3KeyPrefix: String?
         /// The parameters for the RUN_COMMAND task execution.
         public let parameters: [String: [String]]?
-        /// The IAM service role to assume during task execution.
+        /// The ARN of the IAM service role to use to publish Amazon Simple Notification Service (Amazon SNS) notifications for maintenance window Run Command tasks.
         public let serviceRoleArn: String?
-        /// If this time is reached and the command has not already started executing, it doesn't run.
+        /// If this time is reached and the command has not already started running, it doesn't run.
         public let timeoutSeconds: Int32?
 
         public init(comment: String? = nil, documentHash: String? = nil, documentHashType: DocumentHashType? = nil, notificationConfig: NotificationConfig? = nil, outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, parameters: [String: [String]]? = nil, serviceRoleArn: String? = nil, timeoutSeconds: Int32? = nil) {
@@ -7766,17 +7906,17 @@ extension SSM {
             AWSShapeMember(label: "WindowId", required: false, type: .string), 
             AWSShapeMember(label: "WindowTargetId", required: false, type: .string)
         ]
-        /// A description of the target.
+        /// A description for the target.
         public let description: String?
-        /// The target name.
+        /// The name for the maintenance window target.
         public let name: String?
-        /// User-provided value that will be included in any CloudWatch events raised while running tasks for these targets in this Maintenance Window.
+        /// A user-provided value that will be included in any CloudWatch events that are raised while running tasks for these targets in this maintenance window.
         public let ownerInformation: String?
-        /// The type of target.
+        /// The type of target that is being registered with the maintenance window.
         public let resourceType: MaintenanceWindowResourceType?
-        /// The targets (either instances or tags). Instances are specified using Key=instanceids,Values=&lt;instanceid1&gt;,&lt;instanceid2&gt;. Tags are specified using Key=&lt;tag name&gt;,Values=&lt;tag value&gt;.
+        /// The targets, either instances or tags. Specify instances using the following format:  Key=instanceids,Values=&lt;instanceid1&gt;,&lt;instanceid2&gt;  Tags are specified using the following format:  Key=&lt;tag name&gt;,Values=&lt;tag value&gt;.
         public let targets: [Target]?
-        /// The Maintenance Window ID where the target is registered.
+        /// The ID of the maintenance window to register the target with.
         public let windowId: String?
         /// The ID of the target.
         public let windowTargetId: String?
@@ -7820,27 +7960,27 @@ extension SSM {
         ]
         /// A description of the task.
         public let description: String?
-        /// Information about an Amazon S3 bucket to write task-level logs to.   LoggingInfo has been deprecated. To specify an S3 bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters. 
+        /// Information about an Amazon S3 bucket to write task-level logs to.   LoggingInfo has been deprecated. To specify an S3 bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters. 
         public let loggingInfo: LoggingInfo?
-        /// The maximum number of targets this task can be run for in parallel.
+        /// The maximum number of targets this task can be run for, in parallel.
         public let maxConcurrency: String?
         /// The maximum number of errors allowed before this task stops being scheduled.
         public let maxErrors: String?
         /// The task name.
         public let name: String?
-        /// The priority of the task in the Maintenance Window. The lower the number, the higher the priority. Tasks that have the same priority are scheduled in parallel.
+        /// The priority of the task in the maintenance window. The lower the number, the higher the priority. Tasks that have the same priority are scheduled in parallel.
         public let priority: Int32?
-        /// The role that should be assumed when executing the task
+        /// The ARN of the IAM service role to use to publish Amazon Simple Notification Service (Amazon SNS) notifications for maintenance window Run Command tasks.
         public let serviceRoleArn: String?
         /// The targets (either instances or tags). Instances are specified using Key=instanceids,Values=&lt;instanceid1&gt;,&lt;instanceid2&gt;. Tags are specified using Key=&lt;tag name&gt;,Values=&lt;tag value&gt;.
         public let targets: [Target]?
         /// The resource that the task uses during execution. For RUN_COMMAND and AUTOMATION task types, TaskArn is the Systems Manager document name or ARN. For LAMBDA tasks, it's the function name or ARN. For STEP_FUNCTION tasks, it's the state machine ARN.
         public let taskArn: String?
-        /// The parameters that should be passed to the task when it is executed.   TaskParameters has been deprecated. To specify parameters to pass to a task when it runs, instead use the Parameters option in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters. 
+        /// The parameters that should be passed to the task when it is run.   TaskParameters has been deprecated. To specify parameters to pass to a task when it runs, instead use the Parameters option in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters. 
         public let taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]?
         /// The type of task. The type can be one of the following: RUN_COMMAND, AUTOMATION, LAMBDA, or STEP_FUNCTION.
         public let `type`: MaintenanceWindowTaskType?
-        /// The Maintenance Window ID where the task is registered.
+        /// The ID of the maintenance window where the task is registered.
         public let windowId: String?
         /// The task ID.
         public let windowTaskId: String?
@@ -7998,9 +8138,9 @@ extension SSM {
             AWSShapeMember(label: "NotificationEvents", required: false, type: .list), 
             AWSShapeMember(label: "NotificationType", required: false, type: .enum)
         ]
-        /// An Amazon Resource Name (ARN) for a Simple Notification Service (SNS) topic. Run Command pushes notifications about command status changes to this topic.
+        /// An Amazon Resource Name (ARN) for an Amazon Simple Notification Service (Amazon SNS) topic. Run Command pushes notifications about command status changes to this topic.
         public let notificationArn: String?
-        /// The different events for which you can receive notifications. These events include the following: All (events), InProgress, Success, TimedOut, Cancelled, Failed. To learn more about these events, see Configuring Amazon SNS Notifications for Run Command in the AWS Systems Manager User Guide.
+        /// The different events for which you can receive notifications. These events include the following: All (events), InProgress, Success, TimedOut, Cancelled, Failed. To learn more about these events, see Configuring Amazon SNS Notifications for AWS Systems Manager in the AWS Systems Manager User Guide.
         public let notificationEvents: [NotificationEvent]?
         /// Command: Receive notification when the status of a command changes. Invocation: For commands sent to multiple instances, receive notification on a per-instance basis when the status of a command changes. 
         public let notificationType: NotificationType?
@@ -8126,6 +8266,8 @@ extension SSM {
             AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "LastModifiedUser", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Policies", required: false, type: .list), 
+            AWSShapeMember(label: "Tier", required: false, type: .enum), 
             AWSShapeMember(label: "Type", required: false, type: .enum), 
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .long)
@@ -8144,6 +8286,10 @@ extension SSM {
         public let lastModifiedUser: String?
         /// The name of the parameter.
         public let name: String?
+        /// Information about the policies assigned to a parameter.  Working with Parameter Policies in the AWS Systems Manager User Guide.
+        public let policies: [ParameterInlinePolicy]?
+        /// The parameter tier.
+        public let tier: ParameterTier?
         /// The type of parameter used.
         public let `type`: ParameterType?
         /// The parameter value.
@@ -8151,7 +8297,7 @@ extension SSM {
         /// The parameter version.
         public let version: Int64?
 
-        public init(allowedPattern: String? = nil, description: String? = nil, keyId: String? = nil, labels: [String]? = nil, lastModifiedDate: TimeStamp? = nil, lastModifiedUser: String? = nil, name: String? = nil, type: ParameterType? = nil, value: String? = nil, version: Int64? = nil) {
+        public init(allowedPattern: String? = nil, description: String? = nil, keyId: String? = nil, labels: [String]? = nil, lastModifiedDate: TimeStamp? = nil, lastModifiedUser: String? = nil, name: String? = nil, policies: [ParameterInlinePolicy]? = nil, tier: ParameterTier? = nil, type: ParameterType? = nil, value: String? = nil, version: Int64? = nil) {
             self.allowedPattern = allowedPattern
             self.description = description
             self.keyId = keyId
@@ -8159,6 +8305,8 @@ extension SSM {
             self.lastModifiedDate = lastModifiedDate
             self.lastModifiedUser = lastModifiedUser
             self.name = name
+            self.policies = policies
+            self.tier = tier
             self.`type` = `type`
             self.value = value
             self.version = version
@@ -8172,9 +8320,37 @@ extension SSM {
             case lastModifiedDate = "LastModifiedDate"
             case lastModifiedUser = "LastModifiedUser"
             case name = "Name"
+            case policies = "Policies"
+            case tier = "Tier"
             case `type` = "Type"
             case value = "Value"
             case version = "Version"
+        }
+    }
+
+    public struct ParameterInlinePolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyStatus", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyText", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyType", required: false, type: .string)
+        ]
+        /// The status of the policy. Policies report the following statuses: Pending (the policy has not been enforced or applied yet), Finished (the policy was applied), Failed (the policy was not applied), or InProgress (the policy is being applied now). 
+        public let policyStatus: String?
+        /// The JSON text of the policy.
+        public let policyText: String?
+        /// The type of policy. Parameter Store supports the following policy types: Expiration, ExpirationNotification, and NoChangeNotification. 
+        public let policyType: String?
+
+        public init(policyStatus: String? = nil, policyText: String? = nil, policyType: String? = nil) {
+            self.policyStatus = policyStatus
+            self.policyText = policyText
+            self.policyType = policyType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyStatus = "PolicyStatus"
+            case policyText = "PolicyText"
+            case policyType = "PolicyType"
         }
     }
 
@@ -8186,6 +8362,8 @@ extension SSM {
             AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "LastModifiedUser", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Policies", required: false, type: .list), 
+            AWSShapeMember(label: "Tier", required: false, type: .enum), 
             AWSShapeMember(label: "Type", required: false, type: .enum), 
             AWSShapeMember(label: "Version", required: false, type: .long)
         ]
@@ -8201,18 +8379,24 @@ extension SSM {
         public let lastModifiedUser: String?
         /// The parameter name.
         public let name: String?
+        /// A list of policies associated with a parameter.
+        public let policies: [ParameterInlinePolicy]?
+        /// The parameter tier.
+        public let tier: ParameterTier?
         /// The type of parameter. Valid parameter types include the following: String, String list, Secure string.
         public let `type`: ParameterType?
         /// The parameter version.
         public let version: Int64?
 
-        public init(allowedPattern: String? = nil, description: String? = nil, keyId: String? = nil, lastModifiedDate: TimeStamp? = nil, lastModifiedUser: String? = nil, name: String? = nil, type: ParameterType? = nil, version: Int64? = nil) {
+        public init(allowedPattern: String? = nil, description: String? = nil, keyId: String? = nil, lastModifiedDate: TimeStamp? = nil, lastModifiedUser: String? = nil, name: String? = nil, policies: [ParameterInlinePolicy]? = nil, tier: ParameterTier? = nil, type: ParameterType? = nil, version: Int64? = nil) {
             self.allowedPattern = allowedPattern
             self.description = description
             self.keyId = keyId
             self.lastModifiedDate = lastModifiedDate
             self.lastModifiedUser = lastModifiedUser
             self.name = name
+            self.policies = policies
+            self.tier = tier
             self.`type` = `type`
             self.version = version
         }
@@ -8224,6 +8408,8 @@ extension SSM {
             case lastModifiedDate = "LastModifiedDate"
             case lastModifiedUser = "LastModifiedUser"
             case name = "Name"
+            case policies = "Policies"
+            case tier = "Tier"
             case `type` = "Type"
             case version = "Version"
         }
@@ -8253,6 +8439,12 @@ extension SSM {
             case option = "Option"
             case values = "Values"
         }
+    }
+
+    public enum ParameterTier: String, CustomStringConvertible, Codable {
+        case standard = "Standard"
+        case advanced = "Advanced"
+        public var description: String { return self.rawValue }
     }
 
     public enum ParameterType: String, CustomStringConvertible, Codable {
@@ -8482,9 +8674,9 @@ extension SSM {
             AWSShapeMember(label: "Key", required: true, type: .enum), 
             AWSShapeMember(label: "Values", required: true, type: .list)
         ]
-        /// The key for the filter. See PatchFilter for lists of valid keys for each operating system type.
+        /// The key for the filter. Run the DescribePatchProperties command to view lists of valid keys for each operating system type.
         public let key: PatchFilterKey
-        /// The value for the filter key. See PatchFilter for lists of valid values for each key based on operating system type.
+        /// The value for the filter key. Run the DescribePatchProperties command to view lists of valid values for each key based on operating system type.
         public let values: [String]
 
         public init(key: PatchFilterKey, values: [String]) {
@@ -8515,7 +8707,9 @@ extension SSM {
     }
 
     public enum PatchFilterKey: String, CustomStringConvertible, Codable {
+        case patchSet = "PATCH_SET"
         case product = "PRODUCT"
+        case productFamily = "PRODUCT_FAMILY"
         case classification = "CLASSIFICATION"
         case msrcSeverity = "MSRC_SEVERITY"
         case patchId = "PATCH_ID"
@@ -8573,6 +8767,16 @@ extension SSM {
         }
     }
 
+    public enum PatchProperty: String, CustomStringConvertible, Codable {
+        case product = "PRODUCT"
+        case productFamily = "PRODUCT_FAMILY"
+        case classification = "CLASSIFICATION"
+        case msrcSeverity = "MSRC_SEVERITY"
+        case priority = "PRIORITY"
+        case severity = "SEVERITY"
+        public var description: String { return self.rawValue }
+    }
+
     public struct PatchRule: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApproveAfterDays", required: true, type: .integer), 
@@ -8620,13 +8824,19 @@ extension SSM {
         }
     }
 
+    public enum PatchSet: String, CustomStringConvertible, Codable {
+        case os = "OS"
+        case application = "APPLICATION"
+        public var description: String { return self.rawValue }
+    }
+
     public struct PatchSource: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Configuration", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Products", required: true, type: .list)
         ]
-        /// The value of the yum repo configuration. For example:  cachedir=/var/cache/yum/$basesearch   $releasever   keepcache=0   debuglevel=2 
+        /// The value of the yum repo configuration. For example:  [main]   cachedir=/var/cache/yum/$basesearch$releasever   keepcache=0   debuglevel=2 
         public let configuration: String
         /// The name specified to identify the patch source.
         public let name: String
@@ -8695,13 +8905,13 @@ extension SSM {
         ]
         /// The total number of steps that the system cancelled in all specified AWS Regions and accounts for the current Automation execution.
         public let cancelledSteps: Int32?
-        /// The total number of steps that failed to execute in all specified AWS Regions and accounts for the current Automation execution.
+        /// The total number of steps that failed to run in all specified AWS Regions and accounts for the current Automation execution.
         public let failedSteps: Int32?
         /// The total number of steps that successfully completed in all specified AWS Regions and accounts for the current Automation execution.
         public let successSteps: Int32?
         /// The total number of steps that timed out in all specified AWS Regions and accounts for the current Automation execution.
         public let timedOutSteps: Int32?
-        /// The total number of steps executed in all specified AWS Regions and accounts for the current Automation execution.
+        /// The total number of steps run in all specified AWS Regions and accounts for the current Automation execution.
         public let totalSteps: Int32?
 
         public init(cancelledSteps: Int32? = nil, failedSteps: Int32? = nil, successSteps: Int32? = nil, timedOutSteps: Int32? = nil, totalSteps: Int32? = nil) {
@@ -8813,6 +9023,9 @@ extension SSM {
             AWSShapeMember(label: "KeyId", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Overwrite", required: false, type: .boolean), 
+            AWSShapeMember(label: "Policies", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "Tier", required: false, type: .enum), 
             AWSShapeMember(label: "Type", required: true, type: .enum), 
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
@@ -8826,17 +9039,26 @@ extension SSM {
         public let name: String
         /// Overwrite an existing parameter. If not specified, will default to "false".
         public let overwrite: Bool?
+        /// One or more policies to apply to a parameter. This action takes a JSON array. Parameter Store supports the following policy types: Expiration: This policy deletes the parameter after it expires. When you create the policy, you specify the expiration date. You can update the expiration date and time by updating the policy. Updating the parameter does not affect the expiration date and time. When the expiration time is reached, Parameter Store deletes the parameter. ExpirationNotification: This policy triggers an event in Amazon CloudWatch Events that notifies you about the expiration. By using this policy, you can receive notification before or after the expiration time is reached, in units of days or hours. NoChangeNotification: This policy triggers a CloudWatch event if a parameter has not been modified for a specified period of time. This policy type is useful when, for example, a secret needs to be changed within a period of time, but it has not been changed. All existing policies are preserved until you send new policies or an empty policy. For more information about parameter policies, see Working with Parameter Policies. 
+        public let policies: String?
+        /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a Systems Manager parameter to identify the type of resource to which it applies, the environment, or the type of configuration data referenced by the parameter. In this case, you could specify the following key name/value pairs:    Key=Resource,Value=S3bucket     Key=OS,Value=Windows     Key=ParameterType,Value=LicenseKey     To add tags to an existing Systems Manager parameter, use the AddTagsToResource action. 
+        public let tags: [Tag]?
+        /// Parameter Store offers a standard tier and an advanced tier for parameters. Standard parameters have a value limit of 4 KB and can't be configured to use parameter policies. You can create a maximum of 10,000 standard parameters per account and per Region. Standard parameters are offered at no additional cost. Advanced parameters have a value limit of 8 KB and can be configured to use parameter policies. You can create a maximum of 100,000 advanced parameters per account and per Region. Advanced parameters incur a charge. If you don't specify a parameter tier when you create a new parameter, the parameter defaults to using the standard tier. You can change a standard parameter to an advanced parameter at any time. But you can't revert an advanced parameter to a standard parameter. Reverting an advanced parameter to a standard parameter would result in data loss because the system would truncate the size of the parameter from 8 KB to 4 KB. Reverting would also remove any policies attached to the parameter. Lastly, advanced parameters use a different form of encryption than standard parameters. If you no longer need an advanced parameter, or if you no longer want to incur charges for an advanced parameter, you must delete it and recreate it as a new standard parameter. For more information, see About Advanced Parameters in the AWS Systems Manager User Guide.
+        public let tier: ParameterTier?
         /// The type of parameter that you want to add to the system. Items in a StringList must be separated by a comma (,). You can't use other punctuation or special character to escape items in the list. If you have a parameter value that requires a comma, then use the String data type.   SecureString is not currently supported for AWS CloudFormation templates or in the China Regions. 
         public let `type`: ParameterType
-        /// The parameter value that you want to add to the system.
+        /// The parameter value that you want to add to the system. Standard parameters have a value limit of 4 KB. Advanced parameters have a value limit of 8 KB.
         public let value: String
 
-        public init(allowedPattern: String? = nil, description: String? = nil, keyId: String? = nil, name: String, overwrite: Bool? = nil, type: ParameterType, value: String) {
+        public init(allowedPattern: String? = nil, description: String? = nil, keyId: String? = nil, name: String, overwrite: Bool? = nil, policies: String? = nil, tags: [Tag]? = nil, tier: ParameterTier? = nil, type: ParameterType, value: String) {
             self.allowedPattern = allowedPattern
             self.description = description
             self.keyId = keyId
             self.name = name
             self.overwrite = overwrite
+            self.policies = policies
+            self.tags = tags
+            self.tier = tier
             self.`type` = `type`
             self.value = value
         }
@@ -8847,6 +9069,9 @@ extension SSM {
             case keyId = "KeyId"
             case name = "Name"
             case overwrite = "Overwrite"
+            case policies = "Policies"
+            case tags = "Tags"
+            case tier = "Tier"
             case `type` = "Type"
             case value = "Value"
         }
@@ -8958,13 +9183,13 @@ extension SSM {
         public let description: String?
         /// An optional name for the target.
         public let name: String?
-        /// User-provided value that will be included in any CloudWatch events raised while running tasks for these targets in this Maintenance Window.
+        /// User-provided value that will be included in any CloudWatch events raised while running tasks for these targets in this maintenance window.
         public let ownerInformation: String?
-        /// The type of target being registered with the Maintenance Window.
+        /// The type of target being registered with the maintenance window.
         public let resourceType: MaintenanceWindowResourceType
-        /// The targets (either instances or tags).  Specify instances using the following format:  Key=InstanceIds,Values=&lt;instance-id-1&gt;,&lt;instance-id-2&gt;  Specify tags using either of the following formats:  Key=tag:&lt;tag-key&gt;,Values=&lt;tag-value-1&gt;,&lt;tag-value-2&gt;   Key=tag-key,Values=&lt;tag-key-1&gt;,&lt;tag-key-2&gt; 
+        /// The targets to register with the maintenance window. In other words, the instances to run commands on when the maintenance window runs. You can specify targets using either instance IDs or tags that have been applied to instances.  Example 1: Specify instance IDs  Key=InstanceIds,Values=instance-id-1,instance-id-2,instance-id-3    Example 2: Use tag key-pairs applied to instances  Key=tag:my-tag-key,Values=my-tag-value-1,my-tag-value-2    Example 3: Use tag-keys applied to instances  Key=tag-key,Values=my-tag-key-1,my-tag-key-2   For more information about these examples formats, including the best use case for each one, see Examples: Register Targets with a Maintenance Window in the AWS Systems Manager User Guide.
         public let targets: [Target]
-        /// The ID of the Maintenance Window the target should be registered with.
+        /// The ID of the maintenance window the target should be registered with.
         public let windowId: String
 
         public init(clientToken: String? = nil, description: String? = nil, name: String? = nil, ownerInformation: String? = nil, resourceType: MaintenanceWindowResourceType, targets: [Target], windowId: String) {
@@ -8992,7 +9217,7 @@ extension SSM {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WindowTargetId", required: false, type: .string)
         ]
-        /// The ID of the target definition in this Maintenance Window.
+        /// The ID of the target definition in this maintenance window.
         public let windowTargetId: String?
 
         public init(windowTargetId: String? = nil) {
@@ -9025,7 +9250,7 @@ extension SSM {
         public let clientToken: String?
         /// An optional description for the task.
         public let description: String?
-        /// A structure containing information about an Amazon S3 bucket to write instance-level logs to.    LoggingInfo has been deprecated. To specify an S3 bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters. 
+        /// A structure containing information about an Amazon S3 bucket to write instance-level logs to.    LoggingInfo has been deprecated. To specify an S3 bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters. 
         public let loggingInfo: LoggingInfo?
         /// The maximum number of targets this task can be run for in parallel.
         public let maxConcurrency: String
@@ -9033,21 +9258,21 @@ extension SSM {
         public let maxErrors: String
         /// An optional name for the task.
         public let name: String?
-        /// The priority of the task in the Maintenance Window, the lower the number the higher the priority. Tasks in a Maintenance Window are scheduled in priority order with tasks that have the same priority scheduled in parallel.
+        /// The priority of the task in the maintenance window, the lower the number the higher the priority. Tasks in a maintenance window are scheduled in priority order with tasks that have the same priority scheduled in parallel.
         public let priority: Int32?
-        /// The role to assume when running the Maintenance Window task. If you do not specify a service role ARN, Systems Manager will use your account's service-linked role for Systems Manager by default. If no service-linked role for Systems Manager exists in your account, it will be created when you run RegisterTaskWithMaintenanceWindow without specifying a service role ARN. For more information, see Service-Linked Role Permissions for Systems Manager and Should I Use a Service-Linked Role or a Custom Service Role to Run Maintenance Window Tasks?  in the AWS Systems Manager User Guide.
+        /// The ARN of the IAM service role for Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses your account's service-linked role. If no service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. For more information, see the following topics in the in the AWS Systems Manager User Guide:    Service-Linked Role Permissions for Systems Manager     Should I Use a Service-Linked Role or a Custom Service Role to Run Maintenance Window Tasks?    
         public let serviceRoleArn: String?
-        /// The targets (either instances or Maintenance Window targets). Specify instances using the following format:   Key=InstanceIds,Values=&lt;instance-id-1&gt;,&lt;instance-id-2&gt;  Specify Maintenance Window targets using the following format:  Key=&lt;WindowTargetIds&gt;,Values=&lt;window-target-id-1&gt;,&lt;window-target-id-2&gt; 
+        /// The targets (either instances or maintenance window targets). Specify instances using the following format:   Key=InstanceIds,Values=&lt;instance-id-1&gt;,&lt;instance-id-2&gt;  Specify maintenance window targets using the following format:  Key=&lt;WindowTargetIds&gt;,Values=&lt;window-target-id-1&gt;,&lt;window-target-id-2&gt; 
         public let targets: [Target]
-        /// The ARN of the task to execute 
+        /// The ARN of the task to run.
         public let taskArn: String
         /// The parameters that the task should use during execution. Populate only the fields that match the task type. All other fields should be empty. 
         public let taskInvocationParameters: MaintenanceWindowTaskInvocationParameters?
-        /// The parameters that should be passed to the task when it is executed.   TaskParameters has been deprecated. To specify parameters to pass to a task when it runs, instead use the Parameters option in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters. 
+        /// The parameters that should be passed to the task when it is run.   TaskParameters has been deprecated. To specify parameters to pass to a task when it runs, instead use the Parameters option in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters. 
         public let taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]?
         /// The type of task being registered.
         public let taskType: MaintenanceWindowTaskType
-        /// The ID of the Maintenance Window the task should be added to.
+        /// The ID of the maintenance window the task should be added to.
         public let windowId: String
 
         public init(clientToken: String? = nil, description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String, maxErrors: String, name: String? = nil, priority: Int32? = nil, serviceRoleArn: String? = nil, targets: [Target], taskArn: String, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, taskType: MaintenanceWindowTaskType, windowId: String) {
@@ -9089,7 +9314,7 @@ extension SSM {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WindowTaskId", required: false, type: .string)
         ]
-        /// The ID of the task in the Maintenance Window.
+        /// The ID of the task in the maintenance window.
         public let windowTaskId: String?
 
         public init(windowTaskId: String? = nil) {
@@ -9107,9 +9332,9 @@ extension SSM {
             AWSShapeMember(label: "ResourceType", required: true, type: .enum), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
-        /// The resource ID for which you want to remove tags. Use the ID of the resource. Here are some examples: ManagedInstance: mi-012345abcde MaintenanceWindow: mw-012345abcde PatchBaseline: pb-012345abcde For the Document and Parameter values, use the name of the resource.  The ManagedInstance type for this API action is only for on-premises managed instances. You must specify the the name of the managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f. 
+        /// The resource ID for which you want to remove tags. Use the ID of the resource. Here are some examples: ManagedInstance: mi-012345abcde MaintenanceWindow: mw-012345abcde PatchBaseline: pb-012345abcde For the Document and Parameter values, use the name of the resource.  The ManagedInstance type for this API action is only for on-premises managed instances. You must specify the name of the managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f. 
         public let resourceId: String
-        /// The type of resource of which you want to remove a tag.  The ManagedInstance type for this API action is only for on-premises managed instances. You must specify the the name of the managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f. 
+        /// The type of resource of which you want to remove a tag.  The ManagedInstance type for this API action is only for on-premises managed instances. You must specify the name of the managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f. 
         public let resourceType: ResourceTypeForTagging
         /// Tag keys that you want to remove from the specified resource.
         public let tagKeys: [String]
@@ -9132,6 +9357,38 @@ extension SSM {
         public init() {
         }
 
+    }
+
+    public struct ResetServiceSettingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SettingId", required: true, type: .string)
+        ]
+        /// The ID of the service setting to reset.
+        public let settingId: String
+
+        public init(settingId: String) {
+            self.settingId = settingId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case settingId = "SettingId"
+        }
+    }
+
+    public struct ResetServiceSettingResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServiceSetting", required: false, type: .structure)
+        ]
+        /// The current, effective service setting after calling the ResetServiceSetting API action.
+        public let serviceSetting: ServiceSetting?
+
+        public init(serviceSetting: ServiceSetting? = nil) {
+            self.serviceSetting = serviceSetting
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceSetting = "ServiceSetting"
+        }
     }
 
     public struct ResolvedTargets: AWSShape {
@@ -9260,7 +9517,7 @@ extension SSM {
             AWSShapeMember(label: "Region", required: true, type: .string), 
             AWSShapeMember(label: "SyncFormat", required: true, type: .enum)
         ]
-        /// The ARN of an encryption key for a destination in Amazon S3. Must belong to the same region as the destination Amazon S3 bucket.
+        /// The ARN of an encryption key for a destination in Amazon S3. Must belong to the same Region as the destination Amazon S3 bucket.
         public let aWSKMSKeyARN: String?
         /// The name of the Amazon S3 bucket where the aggregated data is stored.
         public let bucketName: String
@@ -9415,11 +9672,11 @@ extension SSM {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "WindowId", required: false, type: .string)
         ]
-        /// The time, in ISO-8601 Extended format, that the Maintenance Window is scheduled to be run.
+        /// The time, in ISO-8601 Extended format, that the maintenance window is scheduled to be run.
         public let executionTime: String?
-        /// The name of the Maintenance Window to be run.
+        /// The name of the maintenance window to be run.
         public let name: String?
-        /// The ID of the Maintenance Window to be run.
+        /// The ID of the maintenance window to be run.
         public let windowId: String?
 
         public init(executionTime: String? = nil, name: String? = nil, windowId: String? = nil) {
@@ -9443,9 +9700,9 @@ extension SSM {
         ]
         /// The unique identifier for an existing Automation execution that you want to send the signal to.
         public let automationExecutionId: String
-        /// The data sent with the signal. The data schema depends on the type of signal used in the request. 
+        /// The data sent with the signal. The data schema depends on the type of signal used in the request. For Approve and Reject signal types, the payload is an optional comment that you can send with the signal type. For example:  Comment="Looks good"  For StartStep and Resume signal types, you must send the name of the Automation step to start or resume as the payload. For example:  StepName="step1"  For the StopStep signal type, you must send the step execution ID as the payload. For example:  StepExecutionId="97fff367-fc5a-4299-aed8-0123456789ab" 
         public let payload: [String: [String]]?
-        /// The type of signal. Valid signal types include the following: Approve and Reject 
+        /// The type of signal to send to an Automation execution. 
         public let signalType: SignalType
 
         public init(automationExecutionId: String, payload: [String: [String]]? = nil, signalType: SignalType) {
@@ -9496,13 +9753,13 @@ extension SSM {
         public let documentHash: String?
         /// Sha256 or Sha1.  Sha1 hashes have been deprecated. 
         public let documentHashType: DocumentHashType?
-        /// Required. The name of the Systems Manager document to execute. This can be a public document or a custom document.
+        /// Required. The name of the Systems Manager document to run. This can be a public document or a custom document.
         public let documentName: String
-        /// The SSM document version to use in the request. You can specify $DEFAULT, $LATEST, or a specific version number. If you execute commands by using the AWS CLI, then you must escape the first two options by using a backslash. If you specify a version number, then you don't need to use the backslash. For example: --document-version "\$DEFAULT" --document-version "\$LATEST" --document-version "3"
+        /// The SSM document version to use in the request. You can specify $DEFAULT, $LATEST, or a specific version number. If you run commands by using the AWS CLI, then you must escape the first two options by using a backslash. If you specify a version number, then you don't need to use the backslash. For example: --document-version "\$DEFAULT" --document-version "\$LATEST" --document-version "3"
         public let documentVersion: String?
-        /// The instance IDs where the command should execute. You can specify a maximum of 50 IDs. If you prefer not to list individual instance IDs, you can instead send commands to a fleet of instances using the Targets parameter, which accepts EC2 tags. For more information about how to use targets, see Sending Commands to a Fleet in the AWS Systems Manager User Guide.
+        /// The instance IDs where the command should run. You can specify a maximum of 50 IDs. If you prefer not to list individual instance IDs, you can instead send commands to a fleet of instances using the Targets parameter, which accepts EC2 tags. For more information about how to use targets, see Sending Commands to a Fleet in the AWS Systems Manager User Guide.
         public let instanceIds: [String]?
-        /// (Optional) The maximum number of instances that are allowed to execute the command at the same time. You can specify a number such as 10 or a percentage such as 10%. The default value is 50. For more information about how to use MaxConcurrency, see Using Concurrency Controls in the AWS Systems Manager User Guide.
+        /// (Optional) The maximum number of instances that are allowed to run the command at the same time. You can specify a number such as 10 or a percentage such as 10%. The default value is 50. For more information about how to use MaxConcurrency, see Using Concurrency Controls in the AWS Systems Manager User Guide.
         public let maxConcurrency: String?
         /// The maximum number of errors allowed without the command failing. When the command fails one more time beyond the value of MaxErrors, the systems stops sending the command to additional targets. You can specify a number like 10 or a percentage like 10%. The default value is 0. For more information about how to use MaxErrors, see Using Error Controls in the AWS Systems Manager User Guide.
         public let maxErrors: String?
@@ -9514,13 +9771,13 @@ extension SSM {
         public let outputS3KeyPrefix: String?
         /// (Deprecated) You can no longer specify this parameter. The system ignores it. Instead, Systems Manager automatically determines the Amazon S3 bucket region.
         public let outputS3Region: String?
-        /// The required and optional parameters specified in the document being executed.
+        /// The required and optional parameters specified in the document being run.
         public let parameters: [String: [String]]?
-        /// The IAM role that Systems Manager uses to send notifications. 
+        /// The ARN of the IAM service role to use to publish Amazon Simple Notification Service (Amazon SNS) notifications for Run Command commands.
         public let serviceRoleArn: String?
         /// (Optional) An array of search criteria that targets instances using a Key,Value combination that you specify. Targets is required if you don't provide one or more instance IDs in the call. For more information about how to use targets, see Sending Commands to a Fleet in the AWS Systems Manager User Guide.
         public let targets: [Target]?
-        /// If this time is reached and the command has not already started executing, it will not run.
+        /// If this time is reached and the command has not already started running, it will not run.
         public let timeoutSeconds: Int32?
 
         public init(cloudWatchOutputConfig: CloudWatchOutputConfig? = nil, comment: String? = nil, documentHash: String? = nil, documentHashType: DocumentHashType? = nil, documentName: String, documentVersion: String? = nil, instanceIds: [String]? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, notificationConfig: NotificationConfig? = nil, outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, outputS3Region: String? = nil, parameters: [String: [String]]? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, timeoutSeconds: Int32? = nil) {
@@ -9577,6 +9834,47 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case command = "Command"
+        }
+    }
+
+    public struct ServiceSetting: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ARN", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastModifiedUser", required: false, type: .string), 
+            AWSShapeMember(label: "SettingId", required: false, type: .string), 
+            AWSShapeMember(label: "SettingValue", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string)
+        ]
+        /// The ARN of the service setting.
+        public let arn: String?
+        /// The last time the service setting was modified.
+        public let lastModifiedDate: TimeStamp?
+        /// The ARN of the last modified user. This field is populated only if the setting value was overwritten.
+        public let lastModifiedUser: String?
+        /// The ID of the service setting.
+        public let settingId: String?
+        /// The value of the service setting.
+        public let settingValue: String?
+        /// The status of the service setting. The value can be Default, Customized or PendingUpdate.   Default: The current setting uses a default value provisioned by the AWS service team.   Customized: The current setting use a custom value specified by the customer.   PendingUpdate: The current setting uses a default or custom value, but a setting change request is pending approval.  
+        public let status: String?
+
+        public init(arn: String? = nil, lastModifiedDate: TimeStamp? = nil, lastModifiedUser: String? = nil, settingId: String? = nil, settingValue: String? = nil, status: String? = nil) {
+            self.arn = arn
+            self.lastModifiedDate = lastModifiedDate
+            self.lastModifiedUser = lastModifiedUser
+            self.settingId = settingId
+            self.settingValue = settingValue
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+            case lastModifiedDate = "LastModifiedDate"
+            case lastModifiedUser = "LastModifiedUser"
+            case settingId = "SettingId"
+            case settingValue = "SettingValue"
+            case status = "Status"
         }
     }
 
@@ -9757,7 +10055,7 @@ extension SSM {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AssociationIds", required: true, type: .list)
         ]
-        /// The association IDs that you want to execute immediately and only one time.
+        /// The association IDs that you want to run immediately and only one time.
         public let associationIds: [String]
 
         public init(associationIds: [String]) {
@@ -9804,7 +10102,7 @@ extension SSM {
         public let mode: ExecutionMode?
         /// A key-value map of execution parameters, which match the declared parameters in the Automation document.
         public let parameters: [String: [String]]?
-        /// A location is a combination of AWS Regions and/or AWS accounts where you want to execute the Automation. Use this action to start an Automation in multiple Regions and multiple accounts. For more information, see Concurrently Executing Automations in Multiple AWS Regions and Accounts in the AWS Systems Manager User Guide. 
+        /// A location is a combination of AWS Regions and/or AWS accounts where you want to run the Automation. Use this action to start an Automation in multiple Regions and multiple accounts. For more information, see Executing Automations in Multiple AWS Regions and Accounts in the AWS Systems Manager User Guide. 
         public let targetLocations: [TargetLocation]?
         /// A key-value mapping of document parameters to target resources. Both Targets and TargetMaps cannot be specified together.
         public let targetMaps: [[String: [String]]]?
@@ -9959,7 +10257,7 @@ extension SSM {
         public let onFailure: String?
         /// Returned values from the execution of the step.
         public let outputs: [String: [String]]?
-        /// A user-specified list of parameters to override when executing a step.
+        /// A user-specified list of parameters to override when running a step.
         public let overriddenParameters: [String: [String]]?
         /// A message associated with the response code for an execution.
         public let response: String?
@@ -9977,7 +10275,7 @@ extension SSM {
         public let targets: [Target]?
         /// The timeout seconds of the step.
         public let timeoutSeconds: Int64?
-        /// Strategies used when step fails, we support Continue and Abort. Abort will fail the automation when the step fails. Continue will ignore the failure of current step and allow automation to execute the next step. With conditional branching, we add step:stepName to support the automation to go to another specific step.
+        /// Strategies used when step fails, we support Continue and Abort. Abort will fail the automation when the step fails. Continue will ignore the failure of current step and allow automation to run the next step. With conditional branching, we add step:stepName to support the automation to go to another specific step.
         public let validNextSteps: [String]?
 
         public init(action: String? = nil, executionEndTime: TimeStamp? = nil, executionStartTime: TimeStamp? = nil, failureDetails: FailureDetails? = nil, failureMessage: String? = nil, inputs: [String: String]? = nil, isCritical: Bool? = nil, isEnd: Bool? = nil, maxAttempts: Int32? = nil, nextStep: String? = nil, onFailure: String? = nil, outputs: [String: [String]]? = nil, overriddenParameters: [String: [String]]? = nil, response: String? = nil, responseCode: String? = nil, stepExecutionId: String? = nil, stepName: String? = nil, stepStatus: AutomationExecutionStatus? = nil, targetLocation: TargetLocation? = nil, targets: [Target]? = nil, timeoutSeconds: Int64? = nil, validNextSteps: [String]? = nil) {
@@ -10122,9 +10420,9 @@ extension SSM {
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Values", required: false, type: .list)
         ]
-        /// User-defined criteria for sending commands that target instances that meet the criteria. Key can be tag:&lt;Amazon EC2 tag&gt; or InstanceIds. For more information about how to send commands that target instances using Key,Value parameters, see Targeting Multiple Instances in the AWS Systems Manager User Guide.
+        /// User-defined criteria for sending commands that target instances that meet the criteria. Key can be tag:&lt;Amazon EC2 tag&gt; or InstanceIds. For more information about how to send commands that target instances using Key,Value parameters, see Using Targets and Rate Controls to Send Commands to a Fleet in the AWS Systems Manager User Guide.
         public let key: String?
-        /// User-defined criteria that maps to Key. For example, if you specified tag:ServerRole, you could specify value:WebServer to execute a command on instances that include Amazon EC2 tags of ServerRole,WebServer. For more information about how to send commands that target instances using Key,Value parameters, see Sending Commands to a Fleet in the AWS Systems Manager User Guide.
+        /// User-defined criteria that maps to Key. For example, if you specified tag:ServerRole, you could specify value:WebServer to run a command on instances that include Amazon EC2 tags of ServerRole,WebServer. For more information about how to send commands that target instances using Key,Value parameters, see Using Targets and Rate Controls to Send Commands to a Fleet in the AWS Systems Manager User Guide.
         public let values: [String]?
 
         public init(key: String? = nil, values: [String]? = nil) {
@@ -10148,13 +10446,13 @@ extension SSM {
         ]
         /// The AWS accounts targeted by the current Automation execution.
         public let accounts: [String]?
-        /// The Automation execution role used by the currently executing Automation.
+        /// The Automation execution role used by the currently running Automation.
         public let executionRoleName: String?
         /// The AWS Regions targeted by the current Automation execution.
         public let regions: [String]?
-        /// The maxium number of AWS accounts and AWS regions allowed to run the Automation concurrently 
+        /// The maximum number of AWS accounts and AWS regions allowed to run the Automation concurrently 
         public let targetLocationMaxConcurrency: String?
-        /// The maxium number of errors allowed before the system stops queueing additional Automation executions for the currently executing Automation. 
+        /// The maximum number of errors allowed before the system stops queueing additional Automation executions for the currently running Automation. 
         public let targetLocationMaxErrors: String?
 
         public init(accounts: [String]? = nil, executionRoleName: String? = nil, regions: [String]? = nil, targetLocationMaxConcurrency: String? = nil, targetLocationMaxErrors: String? = nil) {
@@ -10211,6 +10509,7 @@ extension SSM {
             AWSShapeMember(label: "AssociationId", required: true, type: .string), 
             AWSShapeMember(label: "AssociationName", required: false, type: .string), 
             AWSShapeMember(label: "AssociationVersion", required: false, type: .string), 
+            AWSShapeMember(label: "AutomationTargetParameterName", required: false, type: .string), 
             AWSShapeMember(label: "ComplianceSeverity", required: false, type: .enum), 
             AWSShapeMember(label: "DocumentVersion", required: false, type: .string), 
             AWSShapeMember(label: "MaxConcurrency", required: false, type: .string), 
@@ -10227,15 +10526,17 @@ extension SSM {
         public let associationName: String?
         /// This parameter is provided for concurrency control purposes. You must specify the latest association version in the service. If you want to ensure that this request succeeds, either specify $LATEST, or omit this parameter.
         public let associationVersion: String?
+        /// Specify the target for the association. This target is required for associations that use an Automation document and target resources by using rate controls.
+        public let automationTargetParameterName: String?
         /// The severity level to assign to the association.
         public let complianceSeverity: AssociationComplianceSeverity?
         /// The document version you want update for the association. 
         public let documentVersion: String?
-        /// The maximum number of targets allowed to run the association at the same time. You can specify a number, for example 10, or a percentage of the target set, for example 10%. The default value is 100%, which means all targets run the association at the same time. If a new instance starts and attempts to execute an association while Systems Manager is executing MaxConcurrency associations, the association is allowed to run. During the next association interval, the new instance will process its association within the limit specified for MaxConcurrency.
+        /// The maximum number of targets allowed to run the association at the same time. You can specify a number, for example 10, or a percentage of the target set, for example 10%. The default value is 100%, which means all targets run the association at the same time. If a new instance starts and attempts to run an association while Systems Manager is running MaxConcurrency associations, the association is allowed to run. During the next association interval, the new instance will process its association within the limit specified for MaxConcurrency.
         public let maxConcurrency: String?
         /// The number of errors that are allowed before the system stops sending requests to run the association on additional targets. You can specify either an absolute number of errors, for example 10, or a percentage of the target set, for example 10%. If you specify 3, for example, the system stops sending requests when the fourth error is received. If you specify 0, then the system stops sending requests after the first error is returned. If you run an association on 50 instances and set MaxError to 10%, then the system stops sending the request when the sixth error is received. Executions that are already running an association when MaxErrors is reached are allowed to complete, but some of these executions may fail as well. If you need to ensure that there won't be more than max-errors failed executions, set MaxConcurrency to 1 so that executions proceed one at a time.
         public let maxErrors: String?
-        /// The name of the association document.
+        /// The name of the SSM document that contains the configuration information for the instance. You can specify Command or Automation documents. You can specify AWS-predefined documents, documents you created, or a document that is shared with you from another account. For SSM documents that are shared with you from other AWS accounts, you must specify the complete SSM document ARN, in the following format:  arn:aws:ssm:region:account-id:document/document-name   For example:  arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For AWS-predefined documents and SSM documents you created in your account, you only need to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
         public let name: String?
         /// An Amazon S3 bucket where you want to store the results of this request.
         public let outputLocation: InstanceAssociationOutputLocation?
@@ -10246,10 +10547,11 @@ extension SSM {
         /// The targets of the association.
         public let targets: [Target]?
 
-        public init(associationId: String, associationName: String? = nil, associationVersion: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, targets: [Target]? = nil) {
+        public init(associationId: String, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, targets: [Target]? = nil) {
             self.associationId = associationId
             self.associationName = associationName
             self.associationVersion = associationVersion
+            self.automationTargetParameterName = automationTargetParameterName
             self.complianceSeverity = complianceSeverity
             self.documentVersion = documentVersion
             self.maxConcurrency = maxConcurrency
@@ -10265,6 +10567,7 @@ extension SSM {
             case associationId = "AssociationId"
             case associationName = "AssociationName"
             case associationVersion = "AssociationVersion"
+            case automationTargetParameterName = "AutomationTargetParameterName"
             case complianceSeverity = "ComplianceSeverity"
             case documentVersion = "DocumentVersion"
             case maxConcurrency = "MaxConcurrency"
@@ -10449,29 +10752,29 @@ extension SSM {
             AWSShapeMember(label: "StartDate", required: false, type: .string), 
             AWSShapeMember(label: "WindowId", required: true, type: .string)
         ]
-        /// Whether targets must be registered with the Maintenance Window before tasks can be defined for those targets.
+        /// Whether targets must be registered with the maintenance window before tasks can be defined for those targets.
         public let allowUnassociatedTargets: Bool?
-        /// The number of hours before the end of the Maintenance Window that Systems Manager stops scheduling new tasks for execution.
+        /// The number of hours before the end of the maintenance window that Systems Manager stops scheduling new tasks for execution.
         public let cutoff: Int32?
         /// An optional description for the update request.
         public let description: String?
-        /// The duration of the Maintenance Window in hours.
+        /// The duration of the maintenance window in hours.
         public let duration: Int32?
-        /// Whether the Maintenance Window is enabled.
+        /// Whether the maintenance window is enabled.
         public let enabled: Bool?
-        /// The date and time, in ISO-8601 Extended format, for when you want the Maintenance Window to become inactive. EndDate allows you to set a date and time in the future when the Maintenance Window will no longer run.
+        /// The date and time, in ISO-8601 Extended format, for when you want the maintenance window to become inactive. EndDate allows you to set a date and time in the future when the maintenance window will no longer run.
         public let endDate: String?
-        /// The name of the Maintenance Window.
+        /// The name of the maintenance window.
         public let name: String?
         /// If True, then all fields that are required by the CreateMaintenanceWindow action are also required for this API request. Optional fields that are not specified are set to null. 
         public let replace: Bool?
-        /// The schedule of the Maintenance Window in the form of a cron or rate expression.
+        /// The schedule of the maintenance window in the form of a cron or rate expression.
         public let schedule: String?
-        /// The time zone that the scheduled Maintenance Window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
+        /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
         public let scheduleTimezone: String?
-        /// The time zone that the scheduled Maintenance Window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
+        /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
         public let startDate: String?
-        /// The ID of the Maintenance Window to update.
+        /// The ID of the maintenance window to update.
         public let windowId: String
 
         public init(allowUnassociatedTargets: Bool? = nil, cutoff: Int32? = nil, description: String? = nil, duration: Int32? = nil, enabled: Bool? = nil, endDate: String? = nil, name: String? = nil, replace: Bool? = nil, schedule: String? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String) {
@@ -10519,27 +10822,27 @@ extension SSM {
             AWSShapeMember(label: "StartDate", required: false, type: .string), 
             AWSShapeMember(label: "WindowId", required: false, type: .string)
         ]
-        /// Whether targets must be registered with the Maintenance Window before tasks can be defined for those targets.
+        /// Whether targets must be registered with the maintenance window before tasks can be defined for those targets.
         public let allowUnassociatedTargets: Bool?
-        /// The number of hours before the end of the Maintenance Window that Systems Manager stops scheduling new tasks for execution.
+        /// The number of hours before the end of the maintenance window that Systems Manager stops scheduling new tasks for execution.
         public let cutoff: Int32?
         /// An optional description of the update.
         public let description: String?
-        /// The duration of the Maintenance Window in hours.
+        /// The duration of the maintenance window in hours.
         public let duration: Int32?
-        /// Whether the Maintenance Window is enabled.
+        /// Whether the maintenance window is enabled.
         public let enabled: Bool?
-        /// The date and time, in ISO-8601 Extended format, for when the Maintenance Window is scheduled to become inactive. The Maintenance Window will not run after this specified time.
+        /// The date and time, in ISO-8601 Extended format, for when the maintenance window is scheduled to become inactive. The maintenance window will not run after this specified time.
         public let endDate: String?
-        /// The name of the Maintenance Window.
+        /// The name of the maintenance window.
         public let name: String?
-        /// The schedule of the Maintenance Window in the form of a cron or rate expression.
+        /// The schedule of the maintenance window in the form of a cron or rate expression.
         public let schedule: String?
-        /// The time zone that the scheduled Maintenance Window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
+        /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
         public let scheduleTimezone: String?
-        /// The date and time, in ISO-8601 Extended format, for when the Maintenance Window is scheduled to become active. The Maintenance Window will not run before this specified time.
+        /// The date and time, in ISO-8601 Extended format, for when the maintenance window is scheduled to become active. The maintenance window will not run before this specified time.
         public let startDate: String?
-        /// The ID of the created Maintenance Window.
+        /// The ID of the created maintenance window.
         public let windowId: String?
 
         public init(allowUnassociatedTargets: Bool? = nil, cutoff: Int32? = nil, description: String? = nil, duration: Int32? = nil, enabled: Bool? = nil, endDate: String? = nil, name: String? = nil, schedule: String? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String? = nil) {
@@ -10585,13 +10888,13 @@ extension SSM {
         public let description: String?
         /// A name for the update.
         public let name: String?
-        /// User-provided value that will be included in any CloudWatch events raised while running tasks for these targets in this Maintenance Window.
+        /// User-provided value that will be included in any CloudWatch events raised while running tasks for these targets in this maintenance window.
         public let ownerInformation: String?
         /// If True, then all fields that are required by the RegisterTargetWithMaintenanceWindow action are also required for this API request. Optional fields that are not specified are set to null.
         public let replace: Bool?
         /// The targets to add or replace.
         public let targets: [Target]?
-        /// The Maintenance Window ID with which to modify the target.
+        /// The maintenance window ID with which to modify the target.
         public let windowId: String
         /// The target ID to modify.
         public let windowTargetId: String
@@ -10634,7 +10937,7 @@ extension SSM {
         public let ownerInformation: String?
         /// The updated targets.
         public let targets: [Target]?
-        /// The Maintenance Window ID specified in the update request.
+        /// The maintenance window ID specified in the update request.
         public let windowId: String?
         /// The target ID specified in the update request.
         public let windowTargetId: String?
@@ -10677,7 +10980,7 @@ extension SSM {
         ]
         /// The new task description to specify.
         public let description: String?
-        /// The new logging location in Amazon S3 to specify.   LoggingInfo has been deprecated. To specify an S3 bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters. 
+        /// The new logging location in Amazon S3 to specify.   LoggingInfo has been deprecated. To specify an S3 bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters. 
         public let loggingInfo: LoggingInfo?
         /// The new MaxConcurrency value you want to specify. MaxConcurrency is the number of targets that are allowed to run this task in parallel.
         public let maxConcurrency: String?
@@ -10689,7 +10992,7 @@ extension SSM {
         public let priority: Int32?
         /// If True, then all fields that are required by the RegisterTaskWithMaintenanceWndow action are also required for this API request. Optional fields that are not specified are set to null.
         public let replace: Bool?
-        /// The IAM service role ARN to modify. The system assumes this role during task execution. If you do not specify a service role ARN, Systems Manager will use your account's service-linked role for Systems Manager by default. If no service-linked role for Systems Manager exists in your account, it will be created when you run RegisterTaskWithMaintenanceWindow without specifying a service role ARN. For more information, see Service-Linked Role Permissions for Systems Manager and Should I Use a Service-Linked Role or a Custom Service Role to Run Maintenance Window Tasks?  in the AWS Systems Manager User Guide.
+        /// The ARN of the IAM service role for Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses your account's service-linked role. If no service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. For more information, see the following topics in the in the AWS Systems Manager User Guide:    Service-Linked Role Permissions for Systems Manager     Should I Use a Service-Linked Role or a Custom Service Role to Run Maintenance Window Tasks?    
         public let serviceRoleArn: String?
         /// The targets (either instances or tags) to modify. Instances are specified using Key=instanceids,Values=instanceID_1,instanceID_2. Tags are specified using Key=tag_name,Values=tag_value. 
         public let targets: [Target]?
@@ -10697,9 +11000,9 @@ extension SSM {
         public let taskArn: String?
         /// The parameters that the task should use during execution. Populate only the fields that match the task type. All other fields should be empty.
         public let taskInvocationParameters: MaintenanceWindowTaskInvocationParameters?
-        /// The parameters to modify.   TaskParameters has been deprecated. To specify parameters to pass to a task when it runs, instead use the Parameters option in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters.  The map has the following format: Key: string, between 1 and 255 characters Value: an array of strings, each string is between 1 and 255 characters
+        /// The parameters to modify.   TaskParameters has been deprecated. To specify parameters to pass to a task when it runs, instead use the Parameters option in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters.  The map has the following format: Key: string, between 1 and 255 characters Value: an array of strings, each string is between 1 and 255 characters
         public let taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]?
-        /// The Maintenance Window ID that contains the task to modify.
+        /// The maintenance window ID that contains the task to modify.
         public let windowId: String
         /// The task ID to modify.
         public let windowTaskId: String
@@ -10757,7 +11060,7 @@ extension SSM {
         ]
         /// The updated task description.
         public let description: String?
-        /// The updated logging information in Amazon S3.   LoggingInfo has been deprecated. To specify an S3 bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters. 
+        /// The updated logging information in Amazon S3.   LoggingInfo has been deprecated. To specify an S3 bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters. 
         public let loggingInfo: LoggingInfo?
         /// The updated MaxConcurrency value.
         public let maxConcurrency: String?
@@ -10767,7 +11070,7 @@ extension SSM {
         public let name: String?
         /// The updated priority value.
         public let priority: Int32?
-        /// The updated service role ARN value.
+        /// The ARN of the IAM service role to use to publish Amazon Simple Notification Service (Amazon SNS) notifications for maintenance window Run Command tasks.
         public let serviceRoleArn: String?
         /// The updated target values.
         public let targets: [Target]?
@@ -10775,11 +11078,11 @@ extension SSM {
         public let taskArn: String?
         /// The updated parameter values.
         public let taskInvocationParameters: MaintenanceWindowTaskInvocationParameters?
-        /// The updated parameter values.   TaskParameters has been deprecated. To specify parameters to pass to a task when it runs, instead use the Parameters option in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters. 
+        /// The updated parameter values.   TaskParameters has been deprecated. To specify parameters to pass to a task when it runs, instead use the Parameters option in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters. 
         public let taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]?
-        /// The ID of the Maintenance Window that was updated.
+        /// The ID of the maintenance window that was updated.
         public let windowId: String?
-        /// The task ID of the Maintenance Window that was updated.
+        /// The task ID of the maintenance window that was updated.
         public let windowTaskId: String?
 
         public init(description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int32? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String? = nil, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, windowId: String? = nil, windowTaskId: String? = nil) {
@@ -10870,7 +11173,7 @@ extension SSM {
         public let baselineId: String
         /// A description of the patch baseline.
         public let description: String?
-        /// A set of global filters used to exclude patches from the baseline.
+        /// A set of global filters used to include patches in the baseline.
         public let globalFilters: PatchFilterGroup?
         /// The name of the patch baseline.
         public let name: String?
@@ -10993,6 +11296,34 @@ extension SSM {
             case rejectedPatchesAction = "RejectedPatchesAction"
             case sources = "Sources"
         }
+    }
+
+    public struct UpdateServiceSettingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SettingId", required: true, type: .string), 
+            AWSShapeMember(label: "SettingValue", required: true, type: .string)
+        ]
+        /// The ID of the service setting to update.
+        public let settingId: String
+        /// The new value to specify for the service setting.
+        public let settingValue: String
+
+        public init(settingId: String, settingValue: String) {
+            self.settingId = settingId
+            self.settingValue = settingValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case settingId = "SettingId"
+            case settingValue = "SettingValue"
+        }
+    }
+
+    public struct UpdateServiceSettingResult: AWSShape {
+
+        public init() {
+        }
+
     }
 
 }

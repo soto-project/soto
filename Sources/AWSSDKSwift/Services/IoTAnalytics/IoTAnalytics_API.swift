@@ -45,7 +45,7 @@ public struct IoTAnalytics {
         return try client.send(operation: "CreateDataset", path: "/datasets", httpMethod: "POST", input: input)
     }
 
-    ///  Creates the content of a data set by applying a SQL action.
+    ///  Creates the content of a data set by applying a "queryAction" (a SQL query) or a "containerAction" (executing a containerized application).
     public func createDatasetContent(_ input: CreateDatasetContentRequest) throws -> Future<CreateDatasetContentResponse> {
         return try client.send(operation: "CreateDatasetContent", path: "/datasets/{datasetName}/content", httpMethod: "POST", input: input)
     }
@@ -55,7 +55,7 @@ public struct IoTAnalytics {
         return try client.send(operation: "CreateDatastore", path: "/datastores", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a pipeline. A pipeline consumes messages from one or more channels and allows you to process the messages before storing them in a data store.
+    ///  Creates a pipeline. A pipeline consumes messages from one or more channels and allows you to process the messages before storing them in a data store. You must specify both a channel and a datastore activity and, optionally, as many as 23 additional activities in the pipelineActivities array.
     public func createPipeline(_ input: CreatePipelineRequest) throws -> Future<CreatePipelineResponse> {
         return try client.send(operation: "CreatePipeline", path: "/pipelines", httpMethod: "POST", input: input)
     }
@@ -190,7 +190,7 @@ public struct IoTAnalytics {
         return try client.send(operation: "UpdateDatastore", path: "/datastores/{datastoreName}", httpMethod: "PUT", input: input)
     }
 
-    ///  Updates the settings of a pipeline.
+    ///  Updates the settings of a pipeline. You must specify both a channel and a datastore activity and, optionally, as many as 23 additional activities in the pipelineActivities array.
     @discardableResult public func updatePipeline(_ input: UpdatePipelineRequest) throws -> Future<Void> {
         return try client.send(operation: "UpdatePipeline", path: "/pipelines/{pipelineName}", httpMethod: "PUT", input: input)
     }

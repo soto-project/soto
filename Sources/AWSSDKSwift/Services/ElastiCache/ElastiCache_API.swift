@@ -36,6 +36,16 @@ public struct ElastiCache {
         return try client.send(operation: "AuthorizeCacheSecurityGroupIngress", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Apply the service update. For more information on service updates and applying them, see Applying Service Updates.
+    public func batchApplyUpdateAction(_ input: BatchApplyUpdateActionMessage) throws -> Future<UpdateActionResultsMessage> {
+        return try client.send(operation: "BatchApplyUpdateAction", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Stop the service update. For more information on service updates and stopping them, see Stopping Service Updates.
+    public func batchStopUpdateAction(_ input: BatchStopUpdateActionMessage) throws -> Future<UpdateActionResultsMessage> {
+        return try client.send(operation: "BatchStopUpdateAction", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Makes a copy of an existing snapshot.  This operation is valid for Redis only.   Users or groups that have permissions to use the CopySnapshot operation can create their own Amazon S3 buckets and copy snapshots to it. To control access to your snapshots, use an IAM policy to control who has the ability to use the CopySnapshot operation. For more information about using IAM to control the use of ElastiCache operations, see Exporting Snapshots and Authentication &amp; Access Control.  You could receive the following error messages.  Error Messages     Error Message: The S3 bucket %s is outside of the region.  Solution: Create an Amazon S3 bucket in the same region as your snapshot. For more information, see Step 1: Create an Amazon S3 Bucket in the ElastiCache User Guide.    Error Message: The S3 bucket %s does not exist.  Solution: Create an Amazon S3 bucket in the same region as your snapshot. For more information, see Step 1: Create an Amazon S3 Bucket in the ElastiCache User Guide.    Error Message: The S3 bucket %s is not owned by the authenticated user.  Solution: Create an Amazon S3 bucket in the same region as your snapshot. For more information, see Step 1: Create an Amazon S3 Bucket in the ElastiCache User Guide.    Error Message: The authenticated user does not have sufficient permissions to perform the desired activity.  Solution: Contact your system administrator to get the needed permissions.    Error Message: The S3 bucket %s already contains an object with key %s.  Solution: Give the TargetSnapshotName a new and unique value. If exporting a snapshot, you could alternatively create a new Amazon S3 bucket and use this same value for TargetSnapshotName.    Error Message:  ElastiCache has not been granted READ permissions %s on the S3 Bucket.  Solution: Add List and Read permissions on the bucket. For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the ElastiCache User Guide.    Error Message:  ElastiCache has not been granted WRITE permissions %s on the S3 Bucket.  Solution: Add Upload/Delete permissions on the bucket. For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the ElastiCache User Guide.    Error Message:  ElastiCache has not been granted READ_ACP permissions %s on the S3 Bucket.  Solution: Add View Permissions on the bucket. For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the ElastiCache User Guide.  
     public func copySnapshot(_ input: CopySnapshotMessage) throws -> Future<CopySnapshotResult> {
         return try client.send(operation: "CopySnapshot", path: "/", httpMethod: "POST", input: input)
@@ -76,7 +86,7 @@ public struct ElastiCache {
         return try client.send(operation: "DecreaseReplicaCount", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a previously provisioned cluster. DeleteCacheCluster deletes all associated cache nodes, node endpoints and the cluster itself. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the cluster; you cannot cancel or revert this operation. This operation cannot be used to delete a cluster that is the last read replica of a replication group or node group (shard) that has Multi-AZ mode enabled or a cluster from a Redis (cluster mode enabled) replication group. This operation is not valid for Redis (cluster mode enabled) clusters.
+    ///  Deletes a previously provisioned cluster. DeleteCacheCluster deletes all associated cache nodes, node endpoints and the cluster itself. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the cluster; you cannot cancel or revert this operation. This operation is not valid for:   Redis (cluster mode enabled) clusters   A cluster that is the last read replica of a replication group   A node group (shard) that has Multi-AZ mode enabled   A cluster from a Redis (cluster mode enabled) replication group   A cluster that is not in the available state  
     public func deleteCacheCluster(_ input: DeleteCacheClusterMessage) throws -> Future<DeleteCacheClusterResult> {
         return try client.send(operation: "DeleteCacheCluster", path: "/", httpMethod: "POST", input: input)
     }
@@ -126,12 +136,12 @@ public struct ElastiCache {
         return try client.send(operation: "DescribeCacheParameters", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of cache security group descriptions. If a cache security group name is specified, the list contains only the description of that group.
+    ///  Returns a list of cache security group descriptions. If a cache security group name is specified, the list contains only the description of that group. This applicable only when you have ElastiCache in Classic setup 
     public func describeCacheSecurityGroups(_ input: DescribeCacheSecurityGroupsMessage) throws -> Future<CacheSecurityGroupMessage> {
         return try client.send(operation: "DescribeCacheSecurityGroups", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of cache subnet group descriptions. If a subnet group name is specified, the list contains only the description of that group.
+    ///  Returns a list of cache subnet group descriptions. If a subnet group name is specified, the list contains only the description of that group. This is applicable only when you have ElastiCache in VPC setup. All ElastiCache clusters now launch in VPC by default. 
     public func describeCacheSubnetGroups(_ input: DescribeCacheSubnetGroupsMessage) throws -> Future<CacheSubnetGroupMessage> {
         return try client.send(operation: "DescribeCacheSubnetGroups", path: "/", httpMethod: "POST", input: input)
     }
@@ -161,9 +171,19 @@ public struct ElastiCache {
         return try client.send(operation: "DescribeReservedCacheNodesOfferings", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns details of the service updates
+    public func describeServiceUpdates(_ input: DescribeServiceUpdatesMessage) throws -> Future<ServiceUpdatesMessage> {
+        return try client.send(operation: "DescribeServiceUpdates", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns information about cluster or replication group snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cache cluster.  This operation is valid for Redis only. 
     public func describeSnapshots(_ input: DescribeSnapshotsMessage) throws -> Future<DescribeSnapshotsListMessage> {
         return try client.send(operation: "DescribeSnapshots", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns details of the update actions 
+    public func describeUpdateActions(_ input: DescribeUpdateActionsMessage) throws -> Future<UpdateActionsMessage> {
+        return try client.send(operation: "DescribeUpdateActions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Dynamically increases the number of replics in a Redis (cluster mode disabled) replication group or the number of replica nodes in one or more node groups (shards) of a Redis (cluster mode enabled) replication group. This operation is performed with no cluster down time.
@@ -196,7 +216,7 @@ public struct ElastiCache {
         return try client.send(operation: "ModifyCacheSubnetGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the settings for a replication group. For Redis (cluster mode enabled) clusters, this operation cannot be used to change a cluster's node type or engine version. For more information, see:    Scaling for Amazon ElastiCache for Redis—Redis (cluster mode enabled) in the ElastiCache User Guide    ModifyReplicationGroupShardConfiguration in the ElastiCache API Reference    This operation is valid for Redis only. 
+    ///  Modifies the settings for a replication group. For Redis (cluster mode enabled) clusters, this operation cannot be used to change a cluster's node type or engine version. For more information, see:    Scaling for Amazon ElastiCache for Redis (cluster mode enabled) in the ElastiCache User Guide    ModifyReplicationGroupShardConfiguration in the ElastiCache API Reference    This operation is valid for Redis only. 
     public func modifyReplicationGroup(_ input: ModifyReplicationGroupMessage) throws -> Future<ModifyReplicationGroupResult> {
         return try client.send(operation: "ModifyReplicationGroup", path: "/", httpMethod: "POST", input: input)
     }

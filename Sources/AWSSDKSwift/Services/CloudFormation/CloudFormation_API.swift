@@ -75,7 +75,7 @@ public struct CloudFormation {
         return try client.send(operation: "DeleteStackSet", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves your account's AWS CloudFormation limits, such as the maximum number of stacks that you can create in your account.
+    ///  Retrieves your account's AWS CloudFormation limits, such as the maximum number of stacks that you can create in your account. For more information about account limits, see AWS CloudFormation Limits in the AWS CloudFormation User Guide.
     public func describeAccountLimits(_ input: DescribeAccountLimitsInput) throws -> Future<DescribeAccountLimitsOutput> {
         return try client.send(operation: "DescribeAccountLimits", path: "/", httpMethod: "POST", input: input)
     }

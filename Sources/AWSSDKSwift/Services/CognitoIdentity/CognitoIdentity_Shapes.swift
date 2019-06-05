@@ -17,11 +17,11 @@ extension CognitoIdentity {
             AWSShapeMember(label: "ProviderName", required: false, type: .string), 
             AWSShapeMember(label: "ServerSideTokenCheck", required: false, type: .boolean)
         ]
-        /// The client ID for the Amazon Cognito Identity User Pool.
+        /// The client ID for the Amazon Cognito user pool.
         public let clientId: String?
-        /// The provider name for an Amazon Cognito Identity User Pool. For example, cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789.
+        /// The provider name for an Amazon Cognito user pool. For example, cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789.
         public let providerName: String?
-        /// TRUE if server-side token validation is enabled for the identity provider’s token.
+        /// TRUE if server-side token validation is enabled for the identity provider’s token. Once you set ServerSideTokenCheck to TRUE for an identity pool, that identity pool will check with the integrated user pools to make sure that the user has not been globally signed out or deleted before the identity pool provides an OIDC token or AWS credentials for the user. If the user is signed out or deleted, the identity pool will return a 400 Not Authorized error.
         public let serverSideTokenCheck: Bool?
 
         public init(clientId: String? = nil, providerName: String? = nil, serverSideTokenCheck: Bool? = nil) {
@@ -43,18 +43,21 @@ extension CognitoIdentity {
             AWSShapeMember(label: "CognitoIdentityProviders", required: false, type: .list), 
             AWSShapeMember(label: "DeveloperProviderName", required: false, type: .string), 
             AWSShapeMember(label: "IdentityPoolName", required: true, type: .string), 
+            AWSShapeMember(label: "IdentityPoolTags", required: false, type: .map), 
             AWSShapeMember(label: "OpenIdConnectProviderARNs", required: false, type: .list), 
             AWSShapeMember(label: "SamlProviderARNs", required: false, type: .list), 
             AWSShapeMember(label: "SupportedLoginProviders", required: false, type: .map)
         ]
         /// TRUE if the identity pool supports unauthenticated logins.
         public let allowUnauthenticatedIdentities: Bool
-        /// An array of Amazon Cognito Identity user pools and their client IDs.
+        /// An array of Amazon Cognito user pools and their client IDs.
         public let cognitoIdentityProviders: [CognitoIdentityProvider]?
         /// The "domain" by which Cognito will refer to your users. This name acts as a placeholder that allows your backend and the Cognito service to communicate about the developer provider. For the DeveloperProviderName, you can use letters as well as period (.), underscore (_), and dash (-). Once you have set a developer provider name, you cannot change it. Please take care in setting this parameter.
         public let developerProviderName: String?
         /// A string that you provide.
         public let identityPoolName: String
+        /// Tags to assign to the identity pool. A tag is a label that you can apply to identity pools to categorize and manage them in different ways, such as by purpose, owner, environment, or other criteria.
+        public let identityPoolTags: [String: String]?
         /// A list of OpendID Connect provider ARNs.
         public let openIdConnectProviderARNs: [String]?
         /// An array of Amazon Resource Names (ARNs) of the SAML provider for your identity pool.
@@ -62,11 +65,12 @@ extension CognitoIdentity {
         /// Optional key:value pairs mapping provider names to provider app IDs.
         public let supportedLoginProviders: [String: String]?
 
-        public init(allowUnauthenticatedIdentities: Bool, cognitoIdentityProviders: [CognitoIdentityProvider]? = nil, developerProviderName: String? = nil, identityPoolName: String, openIdConnectProviderARNs: [String]? = nil, samlProviderARNs: [String]? = nil, supportedLoginProviders: [String: String]? = nil) {
+        public init(allowUnauthenticatedIdentities: Bool, cognitoIdentityProviders: [CognitoIdentityProvider]? = nil, developerProviderName: String? = nil, identityPoolName: String, identityPoolTags: [String: String]? = nil, openIdConnectProviderARNs: [String]? = nil, samlProviderARNs: [String]? = nil, supportedLoginProviders: [String: String]? = nil) {
             self.allowUnauthenticatedIdentities = allowUnauthenticatedIdentities
             self.cognitoIdentityProviders = cognitoIdentityProviders
             self.developerProviderName = developerProviderName
             self.identityPoolName = identityPoolName
+            self.identityPoolTags = identityPoolTags
             self.openIdConnectProviderARNs = openIdConnectProviderARNs
             self.samlProviderARNs = samlProviderARNs
             self.supportedLoginProviders = supportedLoginProviders
@@ -77,6 +81,7 @@ extension CognitoIdentity {
             case cognitoIdentityProviders = "CognitoIdentityProviders"
             case developerProviderName = "DeveloperProviderName"
             case identityPoolName = "IdentityPoolName"
+            case identityPoolTags = "IdentityPoolTags"
             case openIdConnectProviderARNs = "OpenIdConnectProviderARNs"
             case samlProviderARNs = "SamlProviderARNs"
             case supportedLoginProviders = "SupportedLoginProviders"
@@ -210,7 +215,7 @@ extension CognitoIdentity {
         public let customRoleArn: String?
         /// A unique identifier in the format REGION:GUID.
         public let identityId: String
-        /// A set of optional name-value pairs that map provider names to provider tokens.
+        /// A set of optional name-value pairs that map provider names to provider tokens. The name-value pair will follow the syntax "provider_name": "provider_user_identifier". Logins should not be specified when trying to get credentials for an unauthenticated identity. The Logins parameter is required when using identities associated with external identity providers such as FaceBook. For examples of Logins maps, see the code examples in the External Identity Providers section of the Amazon Cognito Developer Guide.
         public let logins: [String: String]?
 
         public init(customRoleArn: String? = nil, identityId: String, logins: [String: String]? = nil) {
@@ -257,7 +262,7 @@ extension CognitoIdentity {
         public let accountId: String?
         /// An identity pool ID in the format REGION:GUID.
         public let identityPoolId: String
-        /// A set of optional name-value pairs that map provider names to provider tokens. The available provider names for Logins are as follows:   Facebook: graph.facebook.com    Amazon Cognito Identity Provider: cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789    Google: accounts.google.com    Amazon: www.amazon.com    Twitter: api.twitter.com    Digits: www.digits.com   
+        /// A set of optional name-value pairs that map provider names to provider tokens. The available provider names for Logins are as follows:   Facebook: graph.facebook.com    Amazon Cognito user pool: cognito-idp.&lt;region&gt;.amazonaws.com/&lt;YOUR_USER_POOL_ID&gt;, for example, cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789.    Google: accounts.google.com    Amazon: www.amazon.com    Twitter: api.twitter.com    Digits: www.digits.com   
         public let logins: [String: String]?
 
         public init(accountId: String? = nil, identityPoolId: String, logins: [String: String]? = nil) {
@@ -313,7 +318,7 @@ extension CognitoIdentity {
         ]
         /// An identity pool ID in the format REGION:GUID.
         public let identityPoolId: String?
-        /// How users for a specific identity provider are to mapped to roles. This is a String-to-RoleMapping object map. The string identifies the identity provider, for example, "graph.facebook.com" or "cognito-idp-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id".
+        /// How users for a specific identity provider are to mapped to roles. This is a String-to-RoleMapping object map. The string identifies the identity provider, for example, "graph.facebook.com" or "cognito-idp.us-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id".
         public let roleMappings: [String: RoleMapping]?
         /// The map of roles associated with this pool. Currently only authenticated and unauthenticated roles are supported.
         public let roles: [String: String]?
@@ -390,7 +395,7 @@ extension CognitoIdentity {
         ]
         /// A unique identifier in the format REGION:GUID.
         public let identityId: String
-        /// A set of optional name-value pairs that map provider names to provider tokens. When using graph.facebook.com and www.amazon.com, supply the access_token returned from the provider's authflow. For accounts.google.com, an Amazon Cognito Identity Provider, or any other OpenId Connect provider, always include the id_token.
+        /// A set of optional name-value pairs that map provider names to provider tokens. When using graph.facebook.com and www.amazon.com, supply the access_token returned from the provider's authflow. For accounts.google.com, an Amazon Cognito user pool provider, or any other OpenId Connect provider, always include the id_token.
         public let logins: [String: String]?
 
         public init(identityId: String, logins: [String: String]? = nil) {
@@ -411,7 +416,7 @@ extension CognitoIdentity {
         ]
         /// A unique identifier in the format REGION:GUID. Note that the IdentityId returned may not match the one passed on input.
         public let identityId: String?
-        /// An OpenID token, valid for 15 minutes.
+        /// An OpenID token, valid for 10 minutes.
         public let token: String?
 
         public init(identityId: String? = nil, token: String? = nil) {
@@ -438,7 +443,7 @@ extension CognitoIdentity {
         public let identityId: String?
         /// Date on which the identity was last modified.
         public let lastModifiedDate: TimeStamp?
-        /// A set of optional name-value pairs that map provider names to provider tokens.
+        /// The provider names.
         public let logins: [String]?
 
         public init(creationDate: TimeStamp? = nil, identityId: String? = nil, lastModifiedDate: TimeStamp? = nil, logins: [String]? = nil) {
@@ -463,13 +468,14 @@ extension CognitoIdentity {
             AWSShapeMember(label: "DeveloperProviderName", required: false, type: .string), 
             AWSShapeMember(label: "IdentityPoolId", required: true, type: .string), 
             AWSShapeMember(label: "IdentityPoolName", required: true, type: .string), 
+            AWSShapeMember(label: "IdentityPoolTags", required: false, type: .map), 
             AWSShapeMember(label: "OpenIdConnectProviderARNs", required: false, type: .list), 
             AWSShapeMember(label: "SamlProviderARNs", required: false, type: .list), 
             AWSShapeMember(label: "SupportedLoginProviders", required: false, type: .map)
         ]
         /// TRUE if the identity pool supports unauthenticated logins.
         public let allowUnauthenticatedIdentities: Bool
-        /// A list representing an Amazon Cognito Identity User Pool and its client ID.
+        /// A list representing an Amazon Cognito user pool and its client ID.
         public let cognitoIdentityProviders: [CognitoIdentityProvider]?
         /// The "domain" by which Cognito will refer to your users.
         public let developerProviderName: String?
@@ -477,6 +483,8 @@ extension CognitoIdentity {
         public let identityPoolId: String
         /// A string that you provide.
         public let identityPoolName: String
+        /// The tags that are assigned to the identity pool. A tag is a label that you can apply to identity pools to categorize and manage them in different ways, such as by purpose, owner, environment, or other criteria.
+        public let identityPoolTags: [String: String]?
         /// A list of OpendID Connect provider ARNs.
         public let openIdConnectProviderARNs: [String]?
         /// An array of Amazon Resource Names (ARNs) of the SAML provider for your identity pool.
@@ -484,12 +492,13 @@ extension CognitoIdentity {
         /// Optional key:value pairs mapping provider names to provider app IDs.
         public let supportedLoginProviders: [String: String]?
 
-        public init(allowUnauthenticatedIdentities: Bool, cognitoIdentityProviders: [CognitoIdentityProvider]? = nil, developerProviderName: String? = nil, identityPoolId: String, identityPoolName: String, openIdConnectProviderARNs: [String]? = nil, samlProviderARNs: [String]? = nil, supportedLoginProviders: [String: String]? = nil) {
+        public init(allowUnauthenticatedIdentities: Bool, cognitoIdentityProviders: [CognitoIdentityProvider]? = nil, developerProviderName: String? = nil, identityPoolId: String, identityPoolName: String, identityPoolTags: [String: String]? = nil, openIdConnectProviderARNs: [String]? = nil, samlProviderARNs: [String]? = nil, supportedLoginProviders: [String: String]? = nil) {
             self.allowUnauthenticatedIdentities = allowUnauthenticatedIdentities
             self.cognitoIdentityProviders = cognitoIdentityProviders
             self.developerProviderName = developerProviderName
             self.identityPoolId = identityPoolId
             self.identityPoolName = identityPoolName
+            self.identityPoolTags = identityPoolTags
             self.openIdConnectProviderARNs = openIdConnectProviderARNs
             self.samlProviderARNs = samlProviderARNs
             self.supportedLoginProviders = supportedLoginProviders
@@ -501,6 +510,7 @@ extension CognitoIdentity {
             case developerProviderName = "DeveloperProviderName"
             case identityPoolId = "IdentityPoolId"
             case identityPoolName = "IdentityPoolName"
+            case identityPoolTags = "IdentityPoolTags"
             case openIdConnectProviderARNs = "OpenIdConnectProviderARNs"
             case samlProviderARNs = "SamlProviderARNs"
             case supportedLoginProviders = "SupportedLoginProviders"
@@ -624,6 +634,38 @@ extension CognitoIdentity {
         private enum CodingKeys: String, CodingKey {
             case identityPools = "IdentityPools"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListTagsForResourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the identity pool that the tags are assigned to.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: false, type: .map)
+        ]
+        /// The tags that are assigned to the identity pool.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
         }
     }
 
@@ -849,6 +891,34 @@ extension CognitoIdentity {
         }
     }
 
+    public struct TagResourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .map)
+        ]
+        /// The Amazon Resource Name (ARN) of the identity pool to assign the tags to.
+        public let resourceArn: String
+        /// The tags to assign to the identity pool.
+        public let tags: [String: String]?
+
+        public init(resourceArn: String, tags: [String: String]? = nil) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
     public struct UnlinkDeveloperIdentityInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeveloperProviderName", required: true, type: .string), 
@@ -925,6 +995,34 @@ extension CognitoIdentity {
             case errorCode = "ErrorCode"
             case identityId = "IdentityId"
         }
+    }
+
+    public struct UntagResourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: false, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) of the identity pool that the tags are assigned to.
+        public let resourceArn: String
+        /// The keys of the tags to remove from the user pool.
+        public let tagKeys: [String]?
+
+        public init(resourceArn: String, tagKeys: [String]? = nil) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
     }
 
 }

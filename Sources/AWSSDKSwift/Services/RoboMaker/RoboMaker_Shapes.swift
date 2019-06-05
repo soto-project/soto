@@ -49,6 +49,29 @@ extension RoboMaker {
         }
     }
 
+    public struct CancelDeploymentJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "job", required: true, type: .string)
+        ]
+        /// The deployment job ARN to cancel.
+        public let job: String
+
+        public init(job: String) {
+            self.job = job
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case job = "job"
+        }
+    }
+
+    public struct CancelDeploymentJobResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
     public struct CancelSimulationJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "job", required: true, type: .string)
@@ -77,7 +100,8 @@ extension RoboMaker {
             AWSShapeMember(label: "clientRequestToken", required: true, type: .string), 
             AWSShapeMember(label: "deploymentApplicationConfigs", required: true, type: .list), 
             AWSShapeMember(label: "deploymentConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "fleet", required: true, type: .string)
+            AWSShapeMember(label: "fleet", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String
@@ -87,12 +111,15 @@ extension RoboMaker {
         public let deploymentConfig: DeploymentConfig?
         /// The Amazon Resource Name (ARN) of the fleet to deploy.
         public let fleet: String
+        /// A map that contains tag keys and tag values that are attached to the deployment job.
+        public let tags: [String: String]?
 
-        public init(clientRequestToken: String, deploymentApplicationConfigs: [DeploymentApplicationConfig], deploymentConfig: DeploymentConfig? = nil, fleet: String) {
+        public init(clientRequestToken: String, deploymentApplicationConfigs: [DeploymentApplicationConfig], deploymentConfig: DeploymentConfig? = nil, fleet: String, tags: [String: String]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.deploymentApplicationConfigs = deploymentApplicationConfigs
             self.deploymentConfig = deploymentConfig
             self.fleet = fleet
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -100,6 +127,7 @@ extension RoboMaker {
             case deploymentApplicationConfigs = "deploymentApplicationConfigs"
             case deploymentConfig = "deploymentConfig"
             case fleet = "fleet"
+            case tags = "tags"
         }
     }
 
@@ -112,7 +140,8 @@ extension RoboMaker {
             AWSShapeMember(label: "failureCode", required: false, type: .enum), 
             AWSShapeMember(label: "failureReason", required: false, type: .string), 
             AWSShapeMember(label: "fleet", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         /// The Amazon Resource Name (ARN) of the deployment job.
         public let arn: String?
@@ -122,7 +151,7 @@ extension RoboMaker {
         public let deploymentApplicationConfigs: [DeploymentApplicationConfig]?
         /// The deployment configuration.
         public let deploymentConfig: DeploymentConfig?
-        /// The failure code of the deployment job if it failed.
+        /// The failure code of the simulation job if it failed:  BadPermissionError  AWS Greengrass requires a service-level role permission to access other services. The role must include the  AWSGreengrassResourceAccessRolePolicy managed policy.   ExtractingBundleFailure  The robot application could not be extracted from the bundle.  FailureThresholdBreached  The percentage of robots that could not be updated exceeded the percentage set for the deployment.  GreengrassDeploymentFailed  The robot application could not be deployed to the robot.  GreengrassGroupVersionDoesNotExist  The AWS Greengrass group or version associated with a robot is missing.  InternalServerError  An internal error has occurred. Retry your request, but if the problem persists, contact us with details.  MissingRobotApplicationArchitecture  The robot application does not have a source that matches the architecture of the robot.  MissingRobotDeploymentResource  One or more of the resources specified for the robot application are missing. For example, does the robot application have the correct launch package and launch file?  PostLaunchFileFailure  The post-launch script failed.  PreLaunchFileFailure  The pre-launch script failed.  ResourceNotFound  One or more deployment resources are missing. For example, do robot application source bundles still exist?   RobotDeploymentNoResponse  There is no response from the robot. It might not be powered on or connected to the internet.  
         public let failureCode: DeploymentJobErrorCode?
         /// The failure reason of the deployment job if it failed.
         public let failureReason: String?
@@ -130,8 +159,10 @@ extension RoboMaker {
         public let fleet: String?
         /// The status of the deployment job.
         public let status: DeploymentStatus?
+        /// The list of all tags added to the deployment job.
+        public let tags: [String: String]?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, deploymentApplicationConfigs: [DeploymentApplicationConfig]? = nil, deploymentConfig: DeploymentConfig? = nil, failureCode: DeploymentJobErrorCode? = nil, failureReason: String? = nil, fleet: String? = nil, status: DeploymentStatus? = nil) {
+        public init(arn: String? = nil, createdAt: TimeStamp? = nil, deploymentApplicationConfigs: [DeploymentApplicationConfig]? = nil, deploymentConfig: DeploymentConfig? = nil, failureCode: DeploymentJobErrorCode? = nil, failureReason: String? = nil, fleet: String? = nil, status: DeploymentStatus? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.deploymentApplicationConfigs = deploymentApplicationConfigs
@@ -140,6 +171,7 @@ extension RoboMaker {
             self.failureReason = failureReason
             self.fleet = fleet
             self.status = status
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -151,22 +183,28 @@ extension RoboMaker {
             case failureReason = "failureReason"
             case fleet = "fleet"
             case status = "status"
+            case tags = "tags"
         }
     }
 
     public struct CreateFleetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string)
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         /// The name of the fleet.
         public let name: String
+        /// A map that contains tag keys and tag values that are attached to the fleet.
+        public let tags: [String: String]?
 
-        public init(name: String) {
+        public init(name: String, tags: [String: String]? = nil) {
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -174,7 +212,8 @@ extension RoboMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: false, type: .string), 
             AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string)
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         /// The Amazon Resource Name (ARN) of the fleet.
         public let arn: String?
@@ -182,17 +221,21 @@ extension RoboMaker {
         public let createdAt: TimeStamp?
         /// The name of the fleet.
         public let name: String?
+        /// The list of all tags added to the fleet.
+        public let tags: [String: String]?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, name: String? = nil) {
+        public init(arn: String? = nil, createdAt: TimeStamp? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case createdAt = "createdAt"
             case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -200,7 +243,8 @@ extension RoboMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "robotSoftwareSuite", required: true, type: .structure), 
-            AWSShapeMember(label: "sources", required: true, type: .list)
+            AWSShapeMember(label: "sources", required: true, type: .list), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         /// The name of the robot application.
         public let name: String
@@ -208,17 +252,21 @@ extension RoboMaker {
         public let robotSoftwareSuite: RobotSoftwareSuite
         /// The sources of the robot application.
         public let sources: [SourceConfig]
+        /// A map that contains tag keys and tag values that are attached to the robot application.
+        public let tags: [String: String]?
 
-        public init(name: String, robotSoftwareSuite: RobotSoftwareSuite, sources: [SourceConfig]) {
+        public init(name: String, robotSoftwareSuite: RobotSoftwareSuite, sources: [SourceConfig], tags: [String: String]? = nil) {
             self.name = name
             self.robotSoftwareSuite = robotSoftwareSuite
             self.sources = sources
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "name"
             case robotSoftwareSuite = "robotSoftwareSuite"
             case sources = "sources"
+            case tags = "tags"
         }
     }
 
@@ -230,6 +278,7 @@ extension RoboMaker {
             AWSShapeMember(label: "revisionId", required: false, type: .string), 
             AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
             AWSShapeMember(label: "sources", required: false, type: .list), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the robot application.
@@ -244,16 +293,19 @@ extension RoboMaker {
         public let robotSoftwareSuite: RobotSoftwareSuite?
         /// The sources of the robot application.
         public let sources: [Source]?
+        /// The list of all tags added to the robot application.
+        public let tags: [String: String]?
         /// The version of the robot application.
         public let version: String?
 
-        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
+        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, sources: [Source]? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.arn = arn
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
             self.revisionId = revisionId
             self.robotSoftwareSuite = robotSoftwareSuite
             self.sources = sources
+            self.tags = tags
             self.version = version
         }
 
@@ -264,6 +316,7 @@ extension RoboMaker {
             case revisionId = "revisionId"
             case robotSoftwareSuite = "robotSoftwareSuite"
             case sources = "sources"
+            case tags = "tags"
             case version = "version"
         }
     }
@@ -339,7 +392,8 @@ extension RoboMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "architecture", required: true, type: .enum), 
             AWSShapeMember(label: "greengrassGroupId", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string)
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         /// The target architecture of the robot.
         public let architecture: Architecture
@@ -347,17 +401,21 @@ extension RoboMaker {
         public let greengrassGroupId: String
         /// The name for the robot.
         public let name: String
+        /// A map that contains tag keys and tag values that are attached to the robot.
+        public let tags: [String: String]?
 
-        public init(architecture: Architecture, greengrassGroupId: String, name: String) {
+        public init(architecture: Architecture, greengrassGroupId: String, name: String, tags: [String: String]? = nil) {
             self.architecture = architecture
             self.greengrassGroupId = greengrassGroupId
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case architecture = "architecture"
             case greengrassGroupId = "greengrassGroupId"
             case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -367,7 +425,8 @@ extension RoboMaker {
             AWSShapeMember(label: "arn", required: false, type: .string), 
             AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "greengrassGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string)
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         /// The target architecture of the robot.
         public let architecture: Architecture?
@@ -379,13 +438,16 @@ extension RoboMaker {
         public let greengrassGroupId: String?
         /// The name of the robot.
         public let name: String?
+        /// The list of all tags added to the robot.
+        public let tags: [String: String]?
 
-        public init(architecture: Architecture? = nil, arn: String? = nil, createdAt: TimeStamp? = nil, greengrassGroupId: String? = nil, name: String? = nil) {
+        public init(architecture: Architecture? = nil, arn: String? = nil, createdAt: TimeStamp? = nil, greengrassGroupId: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.architecture = architecture
             self.arn = arn
             self.createdAt = createdAt
             self.greengrassGroupId = greengrassGroupId
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -394,6 +456,7 @@ extension RoboMaker {
             case createdAt = "createdAt"
             case greengrassGroupId = "greengrassGroupId"
             case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -403,7 +466,8 @@ extension RoboMaker {
             AWSShapeMember(label: "renderingEngine", required: true, type: .structure), 
             AWSShapeMember(label: "robotSoftwareSuite", required: true, type: .structure), 
             AWSShapeMember(label: "simulationSoftwareSuite", required: true, type: .structure), 
-            AWSShapeMember(label: "sources", required: true, type: .list)
+            AWSShapeMember(label: "sources", required: true, type: .list), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         /// The name of the simulation application.
         public let name: String
@@ -415,13 +479,16 @@ extension RoboMaker {
         public let simulationSoftwareSuite: SimulationSoftwareSuite
         /// The sources of the simulation application.
         public let sources: [SourceConfig]
+        /// A map that contains tag keys and tag values that are attached to the simulation application.
+        public let tags: [String: String]?
 
-        public init(name: String, renderingEngine: RenderingEngine, robotSoftwareSuite: RobotSoftwareSuite, simulationSoftwareSuite: SimulationSoftwareSuite, sources: [SourceConfig]) {
+        public init(name: String, renderingEngine: RenderingEngine, robotSoftwareSuite: RobotSoftwareSuite, simulationSoftwareSuite: SimulationSoftwareSuite, sources: [SourceConfig], tags: [String: String]? = nil) {
             self.name = name
             self.renderingEngine = renderingEngine
             self.robotSoftwareSuite = robotSoftwareSuite
             self.simulationSoftwareSuite = simulationSoftwareSuite
             self.sources = sources
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -430,6 +497,7 @@ extension RoboMaker {
             case robotSoftwareSuite = "robotSoftwareSuite"
             case simulationSoftwareSuite = "simulationSoftwareSuite"
             case sources = "sources"
+            case tags = "tags"
         }
     }
 
@@ -443,6 +511,7 @@ extension RoboMaker {
             AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
             AWSShapeMember(label: "simulationSoftwareSuite", required: false, type: .structure), 
             AWSShapeMember(label: "sources", required: false, type: .list), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the simulation application.
@@ -461,10 +530,12 @@ extension RoboMaker {
         public let simulationSoftwareSuite: SimulationSoftwareSuite?
         /// The sources of the simulation application.
         public let sources: [Source]?
+        /// The list of all tags added to the simulation application.
+        public let tags: [String: String]?
         /// The version of the simulation application.
         public let version: String?
 
-        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
+        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.arn = arn
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
@@ -473,6 +544,7 @@ extension RoboMaker {
             self.robotSoftwareSuite = robotSoftwareSuite
             self.simulationSoftwareSuite = simulationSoftwareSuite
             self.sources = sources
+            self.tags = tags
             self.version = version
         }
 
@@ -485,6 +557,7 @@ extension RoboMaker {
             case robotSoftwareSuite = "robotSoftwareSuite"
             case simulationSoftwareSuite = "simulationSoftwareSuite"
             case sources = "sources"
+            case tags = "tags"
             case version = "version"
         }
     }
@@ -575,13 +648,14 @@ extension RoboMaker {
             AWSShapeMember(label: "outputLocation", required: false, type: .structure), 
             AWSShapeMember(label: "robotApplications", required: false, type: .list), 
             AWSShapeMember(label: "simulationApplications", required: false, type: .list), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "vpcConfig", required: false, type: .structure)
         ]
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
         /// The failure behavior the simulation job.  Continue  Restart the simulation job in the same host instance.  Fail  Stop the simulation job and terminate the instance.  
         public let failureBehavior: FailureBehavior?
-        /// The IAM role that allows the simulation instance to call the AWS APIs that are specified in its associated policies on your behalf. This is how credentials are passed in to your simulation job. See how to specify AWS security credentials for your application. 
+        /// The IAM role name that allows the simulation instance to call the AWS APIs that are specified in its associated policies on your behalf. This is how credentials are passed in to your simulation job. 
         public let iamRole: String
         /// The maximum simulation job duration in seconds (up to 14 days or 1,209,600 seconds. When maxJobDurationInSeconds is reached, the simulation job will status will transition to Completed.
         public let maxJobDurationInSeconds: Int64
@@ -591,10 +665,12 @@ extension RoboMaker {
         public let robotApplications: [RobotApplicationConfig]?
         /// The simulation application to use in the simulation job.
         public let simulationApplications: [SimulationApplicationConfig]?
+        /// A map that contains tag keys and tag values that are attached to the simulation job.
+        public let tags: [String: String]?
         /// If your simulation job accesses resources in a VPC, you provide this parameter identifying the list of security group IDs and subnet IDs. These must belong to the same VPC. You must provide at least one security group and one subnet ID. 
         public let vpcConfig: VPCConfig?
 
-        public init(clientRequestToken: String? = nil, failureBehavior: FailureBehavior? = nil, iamRole: String, maxJobDurationInSeconds: Int64, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, vpcConfig: VPCConfig? = nil) {
+        public init(clientRequestToken: String? = nil, failureBehavior: FailureBehavior? = nil, iamRole: String, maxJobDurationInSeconds: Int64, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, tags: [String: String]? = nil, vpcConfig: VPCConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.failureBehavior = failureBehavior
             self.iamRole = iamRole
@@ -602,6 +678,7 @@ extension RoboMaker {
             self.outputLocation = outputLocation
             self.robotApplications = robotApplications
             self.simulationApplications = simulationApplications
+            self.tags = tags
             self.vpcConfig = vpcConfig
         }
 
@@ -613,6 +690,7 @@ extension RoboMaker {
             case outputLocation = "outputLocation"
             case robotApplications = "robotApplications"
             case simulationApplications = "simulationApplications"
+            case tags = "tags"
             case vpcConfig = "vpcConfig"
         }
     }
@@ -624,6 +702,7 @@ extension RoboMaker {
             AWSShapeMember(label: "failureBehavior", required: false, type: .enum), 
             AWSShapeMember(label: "failureCode", required: false, type: .enum), 
             AWSShapeMember(label: "iamRole", required: false, type: .string), 
+            AWSShapeMember(label: "lastStartedAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "maxJobDurationInSeconds", required: false, type: .long), 
             AWSShapeMember(label: "outputLocation", required: false, type: .structure), 
@@ -631,6 +710,7 @@ extension RoboMaker {
             AWSShapeMember(label: "simulationApplications", required: false, type: .list), 
             AWSShapeMember(label: "simulationTimeMillis", required: false, type: .long), 
             AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "vpcConfig", required: false, type: .structure)
         ]
         /// The Amazon Resource Name (ARN) of the simulation job.
@@ -639,13 +719,15 @@ extension RoboMaker {
         public let clientRequestToken: String?
         /// the failure behavior for the simulation job.
         public let failureBehavior: FailureBehavior?
-        /// The failure code of the simulation job if it failed.
+        /// The failure code of the simulation job if it failed:  InternalServiceError  Internal service error.  RobotApplicationCrash  Robot application exited abnormally.  SimulationApplicationCrash   Simulation application exited abnormally.  BadPermissionsRobotApplication  Robot application bundle could not be downloaded.  BadPermissionsSimulationApplication  Simulation application bundle could not be downloaded.  BadPermissionsS3Output  Unable to publish outputs to customer-provided S3 bucket.  BadPermissionsCloudwatchLogs  Unable to publish logs to customer-provided CloudWatch Logs resource.  SubnetIpLimitExceeded  Subnet IP limit exceeded.  ENILimitExceeded  ENI limit exceeded.  BadPermissionsUserCredentials  Unable to use the Role provided.  InvalidBundleRobotApplication  Robot bundle cannot be extracted (invalid format, bundling error, or other issue).  InvalidBundleSimulationApplication  Simulation bundle cannot be extracted (invalid format, bundling error, or other issue).  RobotApplicationVersionMismatchedEtag  Etag for RobotApplication does not match value during version creation.  SimulationApplicationVersionMismatchedEtag  Etag for SimulationApplication does not match value during version creation.  
         public let failureCode: SimulationJobErrorCode?
         /// The IAM role that allows the simulation job to call the AWS APIs that are specified in its associated policies on your behalf.
         public let iamRole: String?
+        /// The time, in milliseconds since the epoch, when the simulation job was last started.
+        public let lastStartedAt: TimeStamp?
         /// The time, in milliseconds since the epoch, when the simulation job was last updated.
         public let lastUpdatedAt: TimeStamp?
-        /// The maximum simulation job duration in seconds. The value must be 8 days (691,200 seconds) or less. 
+        /// The maximum simulation job duration in seconds. 
         public let maxJobDurationInSeconds: Int64?
         /// Simulation job output files location.
         public let outputLocation: OutputLocation?
@@ -657,15 +739,18 @@ extension RoboMaker {
         public let simulationTimeMillis: Int64?
         /// The status of the simulation job.
         public let status: SimulationJobStatus?
+        /// The list of all tags added to the simulation job.
+        public let tags: [String: String]?
         /// Information about the vpc configuration.
         public let vpcConfig: VPCConfigResponse?
 
-        public init(arn: String? = nil, clientRequestToken: String? = nil, failureBehavior: FailureBehavior? = nil, failureCode: SimulationJobErrorCode? = nil, iamRole: String? = nil, lastUpdatedAt: TimeStamp? = nil, maxJobDurationInSeconds: Int64? = nil, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, simulationTimeMillis: Int64? = nil, status: SimulationJobStatus? = nil, vpcConfig: VPCConfigResponse? = nil) {
+        public init(arn: String? = nil, clientRequestToken: String? = nil, failureBehavior: FailureBehavior? = nil, failureCode: SimulationJobErrorCode? = nil, iamRole: String? = nil, lastStartedAt: TimeStamp? = nil, lastUpdatedAt: TimeStamp? = nil, maxJobDurationInSeconds: Int64? = nil, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, simulationTimeMillis: Int64? = nil, status: SimulationJobStatus? = nil, tags: [String: String]? = nil, vpcConfig: VPCConfigResponse? = nil) {
             self.arn = arn
             self.clientRequestToken = clientRequestToken
             self.failureBehavior = failureBehavior
             self.failureCode = failureCode
             self.iamRole = iamRole
+            self.lastStartedAt = lastStartedAt
             self.lastUpdatedAt = lastUpdatedAt
             self.maxJobDurationInSeconds = maxJobDurationInSeconds
             self.outputLocation = outputLocation
@@ -673,6 +758,7 @@ extension RoboMaker {
             self.simulationApplications = simulationApplications
             self.simulationTimeMillis = simulationTimeMillis
             self.status = status
+            self.tags = tags
             self.vpcConfig = vpcConfig
         }
 
@@ -682,6 +768,7 @@ extension RoboMaker {
             case failureBehavior = "failureBehavior"
             case failureCode = "failureCode"
             case iamRole = "iamRole"
+            case lastStartedAt = "lastStartedAt"
             case lastUpdatedAt = "lastUpdatedAt"
             case maxJobDurationInSeconds = "maxJobDurationInSeconds"
             case outputLocation = "outputLocation"
@@ -689,6 +776,7 @@ extension RoboMaker {
             case simulationApplications = "simulationApplications"
             case simulationTimeMillis = "simulationTimeMillis"
             case status = "status"
+            case tags = "tags"
             case vpcConfig = "vpcConfig"
         }
     }
@@ -801,11 +889,11 @@ extension RoboMaker {
             AWSShapeMember(label: "applicationVersion", required: true, type: .string), 
             AWSShapeMember(label: "launchConfig", required: true, type: .structure)
         ]
-        /// The application.
+        /// The Amazon Resource Name (ARN) of the robot application.
         public let application: String
         /// The version of the application.
         public let applicationVersion: String
-        /// The launch configuration, usually roslaunch.
+        /// The launch configuration.
         public let launchConfig: DeploymentLaunchConfig
 
         public init(application: String, applicationVersion: String, launchConfig: DeploymentLaunchConfig) {
@@ -895,8 +983,11 @@ extension RoboMaker {
 
     public enum DeploymentJobErrorCode: String, CustomStringConvertible, Codable {
         case resourcenotfound = "ResourceNotFound"
+        case environmentsetuperror = "EnvironmentSetupError"
+        case etagmismatch = "EtagMismatch"
         case failurethresholdbreached = "FailureThresholdBreached"
         case robotdeploymentnoresponse = "RobotDeploymentNoResponse"
+        case robotagentconnectiontimeout = "RobotAgentConnectionTimeout"
         case greengrassdeploymentfailed = "GreengrassDeploymentFailed"
         case missingrobotarchitecture = "MissingRobotArchitecture"
         case missingrobotapplicationarchitecture = "MissingRobotApplicationArchitecture"
@@ -918,15 +1009,15 @@ extension RoboMaker {
             AWSShapeMember(label: "postLaunchFile", required: false, type: .string), 
             AWSShapeMember(label: "preLaunchFile", required: false, type: .string)
         ]
-        /// An array of key/value pairs specifying environment variables for the deployment application.
+        /// An array of key/value pairs specifying environment variables for the robot application
         public let environmentVariables: [String: String]?
-        /// The deployment launch file.
+        /// The launch file name.
         public let launchFile: String
         /// The package name.
         public let packageName: String
-        /// The deployment post-launch file. This file will be executed after the deployment launch file.
+        /// The deployment post-launch file. This file will be executed after the launch file.
         public let postLaunchFile: String?
-        /// The deployment pre-launch file. This file will be executed prior to the deployment launch file.
+        /// The deployment pre-launch file. This file will be executed prior to the launch file.
         public let preLaunchFile: String?
 
         public init(environmentVariables: [String: String]? = nil, launchFile: String, packageName: String, postLaunchFile: String? = nil, preLaunchFile: String? = nil) {
@@ -952,6 +1043,7 @@ extension RoboMaker {
         case inprogress = "InProgress"
         case failed = "Failed"
         case succeeded = "Succeeded"
+        case canceled = "Canceled"
         public var description: String { return self.rawValue }
     }
 
@@ -1023,7 +1115,8 @@ extension RoboMaker {
             AWSShapeMember(label: "failureReason", required: false, type: .string), 
             AWSShapeMember(label: "fleet", required: false, type: .string), 
             AWSShapeMember(label: "robotDeploymentSummary", required: false, type: .list), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         /// The Amazon Resource Name (ARN) of the deployment job.
         public let arn: String?
@@ -1043,8 +1136,10 @@ extension RoboMaker {
         public let robotDeploymentSummary: [RobotDeployment]?
         /// The status of the deployment job.
         public let status: DeploymentStatus?
+        /// The list of all tags added to the specified deployment job.
+        public let tags: [String: String]?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, deploymentApplicationConfigs: [DeploymentApplicationConfig]? = nil, deploymentConfig: DeploymentConfig? = nil, failureCode: DeploymentJobErrorCode? = nil, failureReason: String? = nil, fleet: String? = nil, robotDeploymentSummary: [RobotDeployment]? = nil, status: DeploymentStatus? = nil) {
+        public init(arn: String? = nil, createdAt: TimeStamp? = nil, deploymentApplicationConfigs: [DeploymentApplicationConfig]? = nil, deploymentConfig: DeploymentConfig? = nil, failureCode: DeploymentJobErrorCode? = nil, failureReason: String? = nil, fleet: String? = nil, robotDeploymentSummary: [RobotDeployment]? = nil, status: DeploymentStatus? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.deploymentApplicationConfigs = deploymentApplicationConfigs
@@ -1054,6 +1149,7 @@ extension RoboMaker {
             self.fleet = fleet
             self.robotDeploymentSummary = robotDeploymentSummary
             self.status = status
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1066,6 +1162,7 @@ extension RoboMaker {
             case fleet = "fleet"
             case robotDeploymentSummary = "robotDeploymentSummary"
             case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -1093,7 +1190,8 @@ extension RoboMaker {
             AWSShapeMember(label: "lastDeploymentStatus", required: false, type: .enum), 
             AWSShapeMember(label: "lastDeploymentTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "robots", required: false, type: .list)
+            AWSShapeMember(label: "robots", required: false, type: .list), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         /// The Amazon Resource Name (ARN) of the fleet.
         public let arn: String?
@@ -1109,8 +1207,10 @@ extension RoboMaker {
         public let name: String?
         /// A list of robots.
         public let robots: [Robot]?
+        /// The list of all tags added to the specified fleet.
+        public let tags: [String: String]?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, lastDeploymentJob: String? = nil, lastDeploymentStatus: DeploymentStatus? = nil, lastDeploymentTime: TimeStamp? = nil, name: String? = nil, robots: [Robot]? = nil) {
+        public init(arn: String? = nil, createdAt: TimeStamp? = nil, lastDeploymentJob: String? = nil, lastDeploymentStatus: DeploymentStatus? = nil, lastDeploymentTime: TimeStamp? = nil, name: String? = nil, robots: [Robot]? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.lastDeploymentJob = lastDeploymentJob
@@ -1118,6 +1218,7 @@ extension RoboMaker {
             self.lastDeploymentTime = lastDeploymentTime
             self.name = name
             self.robots = robots
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1128,6 +1229,7 @@ extension RoboMaker {
             case lastDeploymentTime = "lastDeploymentTime"
             case name = "name"
             case robots = "robots"
+            case tags = "tags"
         }
     }
 
@@ -1160,6 +1262,7 @@ extension RoboMaker {
             AWSShapeMember(label: "revisionId", required: false, type: .string), 
             AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
             AWSShapeMember(label: "sources", required: false, type: .list), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the robot application.
@@ -1174,16 +1277,19 @@ extension RoboMaker {
         public let robotSoftwareSuite: RobotSoftwareSuite?
         /// The sources of the robot application.
         public let sources: [Source]?
+        /// The list of all tags added to the specified robot application.
+        public let tags: [String: String]?
         /// The version of the robot application.
         public let version: String?
 
-        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
+        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, sources: [Source]? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.arn = arn
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
             self.revisionId = revisionId
             self.robotSoftwareSuite = robotSoftwareSuite
             self.sources = sources
+            self.tags = tags
             self.version = version
         }
 
@@ -1194,6 +1300,7 @@ extension RoboMaker {
             case revisionId = "revisionId"
             case robotSoftwareSuite = "robotSoftwareSuite"
             case sources = "sources"
+            case tags = "tags"
             case version = "version"
         }
     }
@@ -1224,7 +1331,8 @@ extension RoboMaker {
             AWSShapeMember(label: "lastDeploymentJob", required: false, type: .string), 
             AWSShapeMember(label: "lastDeploymentTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         /// The target architecture of the robot application.
         public let architecture: Architecture?
@@ -1244,8 +1352,10 @@ extension RoboMaker {
         public let name: String?
         /// The status of the fleet.
         public let status: RobotStatus?
+        /// The list of all tags added to the specified robot.
+        public let tags: [String: String]?
 
-        public init(architecture: Architecture? = nil, arn: String? = nil, createdAt: TimeStamp? = nil, fleetArn: String? = nil, greengrassGroupId: String? = nil, lastDeploymentJob: String? = nil, lastDeploymentTime: TimeStamp? = nil, name: String? = nil, status: RobotStatus? = nil) {
+        public init(architecture: Architecture? = nil, arn: String? = nil, createdAt: TimeStamp? = nil, fleetArn: String? = nil, greengrassGroupId: String? = nil, lastDeploymentJob: String? = nil, lastDeploymentTime: TimeStamp? = nil, name: String? = nil, status: RobotStatus? = nil, tags: [String: String]? = nil) {
             self.architecture = architecture
             self.arn = arn
             self.createdAt = createdAt
@@ -1255,6 +1365,7 @@ extension RoboMaker {
             self.lastDeploymentTime = lastDeploymentTime
             self.name = name
             self.status = status
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1267,6 +1378,7 @@ extension RoboMaker {
             case lastDeploymentTime = "lastDeploymentTime"
             case name = "name"
             case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -1301,6 +1413,7 @@ extension RoboMaker {
             AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
             AWSShapeMember(label: "simulationSoftwareSuite", required: false, type: .structure), 
             AWSShapeMember(label: "sources", required: false, type: .list), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the robot simulation application.
@@ -1319,10 +1432,12 @@ extension RoboMaker {
         public let simulationSoftwareSuite: SimulationSoftwareSuite?
         /// The sources of the simulation application.
         public let sources: [Source]?
+        /// The list of all tags added to the specified simulation application.
+        public let tags: [String: String]?
         /// The version of the simulation application.
         public let version: String?
 
-        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
+        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.arn = arn
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
@@ -1331,6 +1446,7 @@ extension RoboMaker {
             self.robotSoftwareSuite = robotSoftwareSuite
             self.simulationSoftwareSuite = simulationSoftwareSuite
             self.sources = sources
+            self.tags = tags
             self.version = version
         }
 
@@ -1343,6 +1459,7 @@ extension RoboMaker {
             case robotSoftwareSuite = "robotSoftwareSuite"
             case simulationSoftwareSuite = "simulationSoftwareSuite"
             case sources = "sources"
+            case tags = "tags"
             case version = "version"
         }
     }
@@ -1369,7 +1486,9 @@ extension RoboMaker {
             AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
             AWSShapeMember(label: "failureBehavior", required: false, type: .enum), 
             AWSShapeMember(label: "failureCode", required: false, type: .enum), 
+            AWSShapeMember(label: "failureReason", required: false, type: .string), 
             AWSShapeMember(label: "iamRole", required: false, type: .string), 
+            AWSShapeMember(label: "lastStartedAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "maxJobDurationInSeconds", required: false, type: .long), 
             AWSShapeMember(label: "name", required: false, type: .string), 
@@ -1378,6 +1497,7 @@ extension RoboMaker {
             AWSShapeMember(label: "simulationApplications", required: false, type: .list), 
             AWSShapeMember(label: "simulationTimeMillis", required: false, type: .long), 
             AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "vpcConfig", required: false, type: .structure)
         ]
         /// The Amazon Resource Name (ARN) of the simulation job.
@@ -1386,10 +1506,14 @@ extension RoboMaker {
         public let clientRequestToken: String?
         /// The failure behavior for the simulation job.
         public let failureBehavior: FailureBehavior?
-        /// The failure code of the simulation job if it failed:  InternalServiceError  Internal service error  RobotApplicationCrash  Robot application exited abnormally (segfault, etc.)  SimulationApplicationCrash   Simulation application exited abnormally (segfault, etc.)  BadPermissionsRobotApplication  Robot application bundle could not be downloaded  BadPermissionsSimulationApplication  Simulation application bundle could not be downloaded  BadPermissionsS3Output  Unable to publish outputs to customer-provided S3 bucket  BadPermissionsCloudwatchLogs  Unable to publish logs to customer-provided CloudWatch Logs resource  SubnetIpLimitExceeded  Subnet IP limit exceeded  ENILimitExceeded  ENI limit exceeded  BadPermissionsUserCredentials  Unable to use the Role provided  InvalidBundleRobotApplication  Robot bundle cannot be extracted (invalid format, bundling error, etc.)  InvalidBundleSimulationApplication  Simulation bundle cannot be extracted (invalid format, bundling error, etc.)  RobotApplicationVersionMismatchedEtag  Etag for RobotApplication does not match value during version creation  SimulationApplicationVersionMismatchedEtag  Etag for SimulationApplication does not match value during version creation  
+        /// The failure code of the simulation job if it failed:  InternalServiceError  Internal service error.  RobotApplicationCrash  Robot application exited abnormally.  SimulationApplicationCrash   Simulation application exited abnormally.  BadPermissionsRobotApplication  Robot application bundle could not be downloaded.  BadPermissionsSimulationApplication  Simulation application bundle could not be downloaded.  BadPermissionsS3Output  Unable to publish outputs to customer-provided S3 bucket.  BadPermissionsCloudwatchLogs  Unable to publish logs to customer-provided CloudWatch Logs resource.  SubnetIpLimitExceeded  Subnet IP limit exceeded.  ENILimitExceeded  ENI limit exceeded.  BadPermissionsUserCredentials  Unable to use the Role provided.  InvalidBundleRobotApplication  Robot bundle cannot be extracted (invalid format, bundling error, or other issue).  InvalidBundleSimulationApplication  Simulation bundle cannot be extracted (invalid format, bundling error, or other issue).  RobotApplicationVersionMismatchedEtag  Etag for RobotApplication does not match value during version creation.  SimulationApplicationVersionMismatchedEtag  Etag for SimulationApplication does not match value during version creation.  
         public let failureCode: SimulationJobErrorCode?
+        /// Details about why the simulation job failed. For more information about troubleshooting, see Troubleshooting.
+        public let failureReason: String?
         /// The IAM role that allows the simulation instance to call the AWS APIs that are specified in its associated policies on your behalf.
         public let iamRole: String?
+        /// The time, in milliseconds since the epoch, when the simulation job was last started.
+        public let lastStartedAt: TimeStamp?
         /// The time, in milliseconds since the epoch, when the simulation job was last updated.
         public let lastUpdatedAt: TimeStamp?
         /// The maximum job duration in seconds. The value must be 8 days (691,200 seconds) or less.
@@ -1406,15 +1530,19 @@ extension RoboMaker {
         public let simulationTimeMillis: Int64?
         /// The status of the simulation job.
         public let status: SimulationJobStatus?
+        /// The list of all tags added to the specified simulation job.
+        public let tags: [String: String]?
         /// The VPC configuration.
         public let vpcConfig: VPCConfigResponse?
 
-        public init(arn: String? = nil, clientRequestToken: String? = nil, failureBehavior: FailureBehavior? = nil, failureCode: SimulationJobErrorCode? = nil, iamRole: String? = nil, lastUpdatedAt: TimeStamp? = nil, maxJobDurationInSeconds: Int64? = nil, name: String? = nil, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, simulationTimeMillis: Int64? = nil, status: SimulationJobStatus? = nil, vpcConfig: VPCConfigResponse? = nil) {
+        public init(arn: String? = nil, clientRequestToken: String? = nil, failureBehavior: FailureBehavior? = nil, failureCode: SimulationJobErrorCode? = nil, failureReason: String? = nil, iamRole: String? = nil, lastStartedAt: TimeStamp? = nil, lastUpdatedAt: TimeStamp? = nil, maxJobDurationInSeconds: Int64? = nil, name: String? = nil, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, simulationTimeMillis: Int64? = nil, status: SimulationJobStatus? = nil, tags: [String: String]? = nil, vpcConfig: VPCConfigResponse? = nil) {
             self.arn = arn
             self.clientRequestToken = clientRequestToken
             self.failureBehavior = failureBehavior
             self.failureCode = failureCode
+            self.failureReason = failureReason
             self.iamRole = iamRole
+            self.lastStartedAt = lastStartedAt
             self.lastUpdatedAt = lastUpdatedAt
             self.maxJobDurationInSeconds = maxJobDurationInSeconds
             self.name = name
@@ -1423,6 +1551,7 @@ extension RoboMaker {
             self.simulationApplications = simulationApplications
             self.simulationTimeMillis = simulationTimeMillis
             self.status = status
+            self.tags = tags
             self.vpcConfig = vpcConfig
         }
 
@@ -1431,7 +1560,9 @@ extension RoboMaker {
             case clientRequestToken = "clientRequestToken"
             case failureBehavior = "failureBehavior"
             case failureCode = "failureCode"
+            case failureReason = "failureReason"
             case iamRole = "iamRole"
+            case lastStartedAt = "lastStartedAt"
             case lastUpdatedAt = "lastUpdatedAt"
             case maxJobDurationInSeconds = "maxJobDurationInSeconds"
             case name = "name"
@@ -1440,6 +1571,7 @@ extension RoboMaker {
             case simulationApplications = "simulationApplications"
             case simulationTimeMillis = "simulationTimeMillis"
             case status = "status"
+            case tags = "tags"
             case vpcConfig = "vpcConfig"
         }
     }
@@ -1520,7 +1652,7 @@ extension RoboMaker {
         ]
         /// The environment variables for the application launch.
         public let environmentVariables: [String: String]?
-        /// The launch file.
+        /// The launch file name.
         public let launchFile: String
         /// The package name.
         public let packageName: String
@@ -1544,7 +1676,7 @@ extension RoboMaker {
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
-        /// Optional filters to limit results.
+        /// Optional filters to limit results. The filter names status and fleetName are supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters, but they must be for the same named item. For example, if you are looking for items with the status InProgress or the status Pending.
         public let filters: [Filter]?
         /// The maximum number of deployment job results returned by ListDeploymentJobs in paginated output. When this parameter is used, ListDeploymentJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListDeploymentJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListDeploymentJobs returns up to 100 results and a nextToken value if applicable. 
         public let maxResults: Int32?
@@ -1591,7 +1723,7 @@ extension RoboMaker {
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
-        /// Optional filters to limit results.
+        /// Optional filters to limit results. The filter name name is supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters.
         public let filters: [Filter]?
         /// The maximum number of deployment job results returned by ListFleets in paginated output. When this parameter is used, ListFleets only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListFleets request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListFleets returns up to 100 results and a nextToken value if applicable. 
         public let maxResults: Int32?
@@ -1639,9 +1771,9 @@ extension RoboMaker {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "versionQualifier", required: false, type: .string)
         ]
-        /// Optional filters to limit results.
+        /// Optional filters to limit results. The filter name name is supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters.
         public let filters: [Filter]?
-        /// The maximum number of deployment job results returned by ListRobotApplications in paginated output. When this parameter is used, ListRobotApplications only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListFleets request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListRobotApplications returns up to 100 results and a nextToken value if applicable. 
+        /// The maximum number of deployment job results returned by ListRobotApplications in paginated output. When this parameter is used, ListRobotApplications only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListRobotApplications request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListRobotApplications returns up to 100 results and a nextToken value if applicable. 
         public let maxResults: Int32?
         /// The nextToken value returned from a previous paginated ListRobotApplications request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
@@ -1690,9 +1822,9 @@ extension RoboMaker {
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
-        /// Optional filters to limit results.
+        /// Optional filters to limit results. The filter names status and fleetName are supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters, but they must be for the same named item. For example, if you are looking for items with the status Registered or the status Available.
         public let filters: [Filter]?
-        /// The maximum number of deployment job results returned by ListRobots in paginated output. When this parameter is used, ListRobots only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListFleets request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListRobots returns up to 100 results and a nextToken value if applicable. 
+        /// The maximum number of deployment job results returned by ListRobots in paginated output. When this parameter is used, ListRobots only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListRobots request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListRobots returns up to 100 results and a nextToken value if applicable. 
         public let maxResults: Int32?
         /// The nextToken value returned from a previous paginated ListRobots request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
@@ -1738,9 +1870,9 @@ extension RoboMaker {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "versionQualifier", required: false, type: .string)
         ]
-        /// Optional list of filters to limit results. The only valid filter name is name.
+        /// Optional list of filters to limit results. The filter name name is supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters.
         public let filters: [Filter]?
-        /// The maximum number of deployment job results returned by ListSimulationApplications in paginated output. When this parameter is used, ListSimulationApplications only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListFleets request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListSimulationApplications returns up to 100 results and a nextToken value if applicable. 
+        /// The maximum number of deployment job results returned by ListSimulationApplications in paginated output. When this parameter is used, ListSimulationApplications only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListSimulationApplications request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListSimulationApplications returns up to 100 results and a nextToken value if applicable. 
         public let maxResults: Int32?
         /// The nextToken value returned from a previous paginated ListSimulationApplications request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
@@ -1789,9 +1921,9 @@ extension RoboMaker {
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
-        /// Optional filters to limit results.
+        /// Optional filters to limit results. The filter names status and simulationApplicationName and robotApplicationName are supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters, but they must be for the same named item. For example, if you are looking for items with the status Preparing or the status Running.
         public let filters: [Filter]?
-        /// The maximum number of deployment job results returned by ListSimulationJobs in paginated output. When this parameter is used, ListSimulationJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListFleets request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListSimulationJobs returns up to 100 results and a nextToken value if applicable. 
+        /// The maximum number of deployment job results returned by ListSimulationJobs in paginated output. When this parameter is used, ListSimulationJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListSimulationJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListSimulationJobs returns up to 100 results and a nextToken value if applicable. 
         public let maxResults: Int32?
         /// The nextToken value returned from a previous paginated ListSimulationJobs request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
@@ -1830,6 +1962,38 @@ extension RoboMaker {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string)
+        ]
+        /// The AWS RoboMaker Amazon Resource Name (ARN) with tags to be listed.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: false, type: .map)
+        ]
+        /// The list of all tags added to the specified resource.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
     public struct OutputLocation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "s3Bucket", required: false, type: .string), 
@@ -1853,21 +2017,31 @@ extension RoboMaker {
 
     public struct ProgressDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "currentProgress", required: false, type: .string), 
+            AWSShapeMember(label: "currentProgress", required: false, type: .enum), 
+            AWSShapeMember(label: "estimatedTimeRemainingSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "percentDone", required: false, type: .float), 
             AWSShapeMember(label: "targetResource", required: false, type: .string)
         ]
-        /// The current progress status.
-        public let currentProgress: String?
+        /// The current progress status.  Validating  Validating the deployment.  DownloadingExtracting  Downloading and extracting the bundle on the robot.  ExecutingPreLaunch  Executing pre-launch script(s) if provided.  Launching  Launching the robot application.  ExecutingPostLaunch  Executing post-launch script(s) if provided.  Finished  Deployment is complete.  
+        public let currentProgress: RobotDeploymentStep?
+        /// Estimated amount of time in seconds remaining in the step. This currently only applies to the Downloading/Extracting step of the deployment. It is empty for other steps.
+        public let estimatedTimeRemainingSeconds: Int32?
+        /// Precentage of the step that is done. This currently only applies to the Downloading/Extracting step of the deployment. It is empty for other steps.
+        public let percentDone: Float?
         /// The Amazon Resource Name (ARN) of the deployment job.
         public let targetResource: String?
 
-        public init(currentProgress: String? = nil, targetResource: String? = nil) {
+        public init(currentProgress: RobotDeploymentStep? = nil, estimatedTimeRemainingSeconds: Int32? = nil, percentDone: Float? = nil, targetResource: String? = nil) {
             self.currentProgress = currentProgress
+            self.estimatedTimeRemainingSeconds = estimatedTimeRemainingSeconds
+            self.percentDone = percentDone
             self.targetResource = targetResource
         }
 
         private enum CodingKeys: String, CodingKey {
             case currentProgress = "currentProgress"
+            case estimatedTimeRemainingSeconds = "estimatedTimeRemainingSeconds"
+            case percentDone = "percentDone"
             case targetResource = "targetResource"
         }
     }
@@ -2050,6 +2224,7 @@ extension RoboMaker {
             AWSShapeMember(label: "arn", required: false, type: .string), 
             AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the robot.
@@ -2058,13 +2233,16 @@ extension RoboMaker {
         public let lastUpdatedAt: TimeStamp?
         /// The name of the robot application.
         public let name: String?
+        /// Information about a robot software suite.
+        public let robotSoftwareSuite: RobotSoftwareSuite?
         /// The version of the robot application.
         public let version: String?
 
-        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, version: String? = nil) {
+        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, version: String? = nil) {
             self.arn = arn
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
+            self.robotSoftwareSuite = robotSoftwareSuite
             self.version = version
         }
 
@@ -2072,6 +2250,7 @@ extension RoboMaker {
             case arn = "arn"
             case lastUpdatedAt = "lastUpdatedAt"
             case name = "name"
+            case robotSoftwareSuite = "robotSoftwareSuite"
             case version = "version"
         }
     }
@@ -2120,6 +2299,16 @@ extension RoboMaker {
             case progressDetail = "progressDetail"
             case status = "status"
         }
+    }
+
+    public enum RobotDeploymentStep: String, CustomStringConvertible, Codable {
+        case validating = "Validating"
+        case downloadingextracting = "DownloadingExtracting"
+        case executingprelaunch = "ExecutingPreLaunch"
+        case launching = "Launching"
+        case executingpostlaunch = "ExecutingPostLaunch"
+        case finished = "Finished"
+        public var description: String { return self.rawValue }
     }
 
     public struct RobotSoftwareSuite: AWSShape {
@@ -2195,6 +2384,8 @@ extension RoboMaker {
             AWSShapeMember(label: "arn", required: false, type: .string), 
             AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "robotSoftwareSuite", required: false, type: .structure), 
+            AWSShapeMember(label: "simulationSoftwareSuite", required: false, type: .structure), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the simulation application.
@@ -2203,13 +2394,19 @@ extension RoboMaker {
         public let lastUpdatedAt: TimeStamp?
         /// The name of the simulation application.
         public let name: String?
+        /// Information about a robot software suite.
+        public let robotSoftwareSuite: RobotSoftwareSuite?
+        /// Information about a simulation software suite.
+        public let simulationSoftwareSuite: SimulationSoftwareSuite?
         /// The version of the simulation application.
         public let version: String?
 
-        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, version: String? = nil) {
+        public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, version: String? = nil) {
             self.arn = arn
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
+            self.robotSoftwareSuite = robotSoftwareSuite
+            self.simulationSoftwareSuite = simulationSoftwareSuite
             self.version = version
         }
 
@@ -2217,6 +2414,8 @@ extension RoboMaker {
             case arn = "arn"
             case lastUpdatedAt = "lastUpdatedAt"
             case name = "name"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case simulationSoftwareSuite = "simulationSoftwareSuite"
             case version = "version"
         }
     }
@@ -2227,7 +2426,9 @@ extension RoboMaker {
             AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
             AWSShapeMember(label: "failureBehavior", required: false, type: .enum), 
             AWSShapeMember(label: "failureCode", required: false, type: .enum), 
+            AWSShapeMember(label: "failureReason", required: false, type: .string), 
             AWSShapeMember(label: "iamRole", required: false, type: .string), 
+            AWSShapeMember(label: "lastStartedAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "maxJobDurationInSeconds", required: false, type: .long), 
             AWSShapeMember(label: "name", required: false, type: .string), 
@@ -2236,6 +2437,7 @@ extension RoboMaker {
             AWSShapeMember(label: "simulationApplications", required: false, type: .list), 
             AWSShapeMember(label: "simulationTimeMillis", required: false, type: .long), 
             AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "vpcConfig", required: false, type: .structure)
         ]
         /// The Amazon Resource Name (ARN) of the simulation job.
@@ -2246,8 +2448,12 @@ extension RoboMaker {
         public let failureBehavior: FailureBehavior?
         /// The failure code of the simulation job if it failed.
         public let failureCode: SimulationJobErrorCode?
-        /// The IAM role that allows the simulation instance to call the AWS APIs that are specified in its associated policies on your behalf. This is how credentials are passed in to your simulation job. See how to specify AWS security credentials for your application. 
+        /// The reason why the simulation job failed.
+        public let failureReason: String?
+        /// The IAM role that allows the simulation instance to call the AWS APIs that are specified in its associated policies on your behalf. This is how credentials are passed in to your simulation job. 
         public let iamRole: String?
+        /// The time, in milliseconds since the epoch, when the simulation job was last started.
+        public let lastStartedAt: TimeStamp?
         /// The time, in milliseconds since the epoch, when the simulation job was last updated.
         public let lastUpdatedAt: TimeStamp?
         /// The maximum simulation job duration in seconds. The value must be 8 days (691,200 seconds) or less.
@@ -2264,15 +2470,19 @@ extension RoboMaker {
         public let simulationTimeMillis: Int64?
         /// Status of the simulation job.
         public let status: SimulationJobStatus?
+        /// A map that contains tag keys and tag values that are attached to the simulation job.
+        public let tags: [String: String]?
         /// VPC configuration information.
         public let vpcConfig: VPCConfigResponse?
 
-        public init(arn: String? = nil, clientRequestToken: String? = nil, failureBehavior: FailureBehavior? = nil, failureCode: SimulationJobErrorCode? = nil, iamRole: String? = nil, lastUpdatedAt: TimeStamp? = nil, maxJobDurationInSeconds: Int64? = nil, name: String? = nil, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, simulationTimeMillis: Int64? = nil, status: SimulationJobStatus? = nil, vpcConfig: VPCConfigResponse? = nil) {
+        public init(arn: String? = nil, clientRequestToken: String? = nil, failureBehavior: FailureBehavior? = nil, failureCode: SimulationJobErrorCode? = nil, failureReason: String? = nil, iamRole: String? = nil, lastStartedAt: TimeStamp? = nil, lastUpdatedAt: TimeStamp? = nil, maxJobDurationInSeconds: Int64? = nil, name: String? = nil, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, simulationTimeMillis: Int64? = nil, status: SimulationJobStatus? = nil, tags: [String: String]? = nil, vpcConfig: VPCConfigResponse? = nil) {
             self.arn = arn
             self.clientRequestToken = clientRequestToken
             self.failureBehavior = failureBehavior
             self.failureCode = failureCode
+            self.failureReason = failureReason
             self.iamRole = iamRole
+            self.lastStartedAt = lastStartedAt
             self.lastUpdatedAt = lastUpdatedAt
             self.maxJobDurationInSeconds = maxJobDurationInSeconds
             self.name = name
@@ -2281,6 +2491,7 @@ extension RoboMaker {
             self.simulationApplications = simulationApplications
             self.simulationTimeMillis = simulationTimeMillis
             self.status = status
+            self.tags = tags
             self.vpcConfig = vpcConfig
         }
 
@@ -2289,7 +2500,9 @@ extension RoboMaker {
             case clientRequestToken = "clientRequestToken"
             case failureBehavior = "failureBehavior"
             case failureCode = "failureCode"
+            case failureReason = "failureReason"
             case iamRole = "iamRole"
+            case lastStartedAt = "lastStartedAt"
             case lastUpdatedAt = "lastUpdatedAt"
             case maxJobDurationInSeconds = "maxJobDurationInSeconds"
             case name = "name"
@@ -2298,6 +2511,7 @@ extension RoboMaker {
             case simulationApplications = "simulationApplications"
             case simulationTimeMillis = "simulationTimeMillis"
             case status = "status"
+            case tags = "tags"
             case vpcConfig = "vpcConfig"
         }
     }
@@ -2317,6 +2531,9 @@ extension RoboMaker {
         case invalidbundlesimulationapplication = "InvalidBundleSimulationApplication"
         case robotapplicationversionmismatchedetag = "RobotApplicationVersionMismatchedEtag"
         case simulationapplicationversionmismatchedetag = "SimulationApplicationVersionMismatchedEtag"
+        case wrongregions3output = "WrongRegionS3Output"
+        case wrongregionrobotapplication = "WrongRegionRobotApplication"
+        case wrongregionsimulationapplication = "WrongRegionSimulationApplication"
         public var description: String { return self.rawValue }
     }
 
@@ -2498,7 +2715,7 @@ extension RoboMaker {
         public let deploymentApplicationConfigs: [DeploymentApplicationConfig]?
         /// Information about the deployment configuration.
         public let deploymentConfig: DeploymentConfig?
-        /// The failure code if the job fails.
+        /// The failure code if the job fails:  InternalServiceError  Internal service error.  RobotApplicationCrash  Robot application exited abnormally.  SimulationApplicationCrash   Simulation application exited abnormally.  BadPermissionsRobotApplication  Robot application bundle could not be downloaded.  BadPermissionsSimulationApplication  Simulation application bundle could not be downloaded.  BadPermissionsS3Output  Unable to publish outputs to customer-provided S3 bucket.  BadPermissionsCloudwatchLogs  Unable to publish logs to customer-provided CloudWatch Logs resource.  SubnetIpLimitExceeded  Subnet IP limit exceeded.  ENILimitExceeded  ENI limit exceeded.  BadPermissionsUserCredentials  Unable to use the Role provided.  InvalidBundleRobotApplication  Robot bundle cannot be extracted (invalid format, bundling error, or other issue).  InvalidBundleSimulationApplication  Simulation bundle cannot be extracted (invalid format, bundling error, or other issue).  RobotApplicationVersionMismatchedEtag  Etag for RobotApplication does not match value during version creation.  SimulationApplicationVersionMismatchedEtag  Etag for SimulationApplication does not match value during version creation.  
         public let failureCode: DeploymentJobErrorCode?
         /// The failure reason if the job fails.
         public let failureReason: String?
@@ -2528,6 +2745,62 @@ extension RoboMaker {
             case fleet = "fleet"
             case status = "status"
         }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: true, type: .map)
+        ]
+        /// The Amazon Resource Name (ARN) of the AWS RoboMaker resource you are tagging.
+        public let resourceArn: String
+        /// A map that contains tag keys and tag values that are attached to the resource.
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tags = "tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) of the AWS RoboMaker resource you are removing tags.
+        public let resourceArn: String
+        /// A map that contains tag keys and tag values that will be unattached from the resource.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
     }
 
     public struct UpdateRobotApplicationRequest: AWSShape {

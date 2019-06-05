@@ -131,6 +131,10 @@ public struct CognitoIdentityProvider {
         return try client.send(operation: "AdminSetUserMFAPreference", path: "/", httpMethod: "POST", input: input)
     }
 
+    public func adminSetUserPassword(_ input: AdminSetUserPasswordRequest) throws -> Future<AdminSetUserPasswordResponse> {
+        return try client.send(operation: "AdminSetUserPassword", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Sets all the user settings for a specified user name. Works on any user. Requires developer credentials.
     public func adminSetUserSettings(_ input: AdminSetUserSettingsRequest) throws -> Future<AdminSetUserSettingsResponse> {
         return try client.send(operation: "AdminSetUserSettings", path: "/", httpMethod: "POST", input: input)
@@ -376,6 +380,11 @@ public struct CognitoIdentityProvider {
         return try client.send(operation: "ListResourceServers", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Lists the tags that are assigned to an Amazon Cognito user pool. A tag is a label that you can apply to user pools to categorize and manage them in different ways, such as by purpose, owner, environment, or other criteria. You can use this action up to 10 times per second, per account.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> Future<ListTagsForResourceResponse> {
+        return try client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Lists the user import jobs.
     public func listUserImportJobs(_ input: ListUserImportJobsRequest) throws -> Future<ListUserImportJobsResponse> {
         return try client.send(operation: "ListUserImportJobs", path: "/", httpMethod: "POST", input: input)
@@ -451,6 +460,16 @@ public struct CognitoIdentityProvider {
         return try client.send(operation: "StopUserImportJob", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Assigns a set of tags to an Amazon Cognito user pool. A tag is a label that you can use to categorize and manage user pools in different ways, such as by purpose, owner, environment, or other criteria. Each tag consists of a key and value, both of which you define. A key is a general category for more specific values. For example, if you have two versions of a user pool, one for testing and another for production, you might assign an Environment tag key to both user pools. The value of this key might be Test for one user pool and Production for the other. Tags are useful for cost tracking and access control. You can activate your tags so that they appear on the Billing and Cost Management console, where you can track the costs associated with your user pools. In an IAM policy, you can constrain permissions for user pools based on specific tags or tag values. You can use this action up to 5 times per second, per account. A user pool can have as many as 50 tags.
+    public func tagResource(_ input: TagResourceRequest) throws -> Future<TagResourceResponse> {
+        return try client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes the specified tags from an Amazon Cognito user pool. You can use this action up to 5 times per second, per account
+    public func untagResource(_ input: UntagResourceRequest) throws -> Future<UntagResourceResponse> {
+        return try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Provides the feedback for an authentication event whether it was from a valid user or not. This feedback is used for improving the risk evaluation decision for the user pool as part of Amazon Cognito advanced security.
     public func updateAuthEventFeedback(_ input: UpdateAuthEventFeedbackRequest) throws -> Future<UpdateAuthEventFeedbackResponse> {
         return try client.send(operation: "UpdateAuthEventFeedback", path: "/", httpMethod: "POST", input: input)
@@ -489,6 +508,11 @@ public struct CognitoIdentityProvider {
     ///  Updates the specified user pool app client with the specified attributes. If you don't provide a value for an attribute, it will be set to the default value. You can get a list of the current user pool app client settings with .
     public func updateUserPoolClient(_ input: UpdateUserPoolClientRequest) throws -> Future<UpdateUserPoolClientResponse> {
         return try client.send(operation: "UpdateUserPoolClient", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the Secure Sockets Layer (SSL) certificate for the custom domain for your user pool. You can use this operation to provide the Amazon Resource Name (ARN) of a new certificate to Amazon Cognito. You cannot use it to change the domain for a user pool. A custom domain is used to host the Amazon Cognito hosted UI, which provides sign-up and sign-in pages for your application. When you set up a custom domain, you provide a certificate that you manage with AWS Certificate Manager (ACM). When necessary, you can use this operation to change the certificate that you applied to your custom domain. Usually, this is unnecessary following routine certificate renewal with ACM. When you renew your existing certificate in ACM, the ARN for your certificate remains the same, and your custom domain uses the new certificate automatically. However, if you replace your existing certificate with a new one, ACM gives the new certificate a new ARN. To apply the new certificate to your custom domain, you must provide this ARN to Amazon Cognito. When you add your new certificate in ACM, you must choose US East (N. Virginia) as the AWS Region. After you submit your request, Amazon Cognito requires up to 1 hour to distribute your new certificate to your custom domain. For more information about adding a custom domain to your user pool, see Using Your Own Domain for the Hosted UI.
+    public func updateUserPoolDomain(_ input: UpdateUserPoolDomainRequest) throws -> Future<UpdateUserPoolDomainResponse> {
+        return try client.send(operation: "UpdateUserPoolDomain", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Use this API to register a user's entered TOTP code and mark the user's software token MFA status as "verified" if successful. The request takes an access token or a session string, but not both.
