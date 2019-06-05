@@ -34,75 +34,45 @@ extension SimpleDB {
         }
     }
 
-    public struct AttributeList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attribute", required: false, type: .list)
-        ]
-        public let attribute: [Attribute]?
-
-        public init(attribute: [Attribute]? = nil) {
-            self.attribute = attribute
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attribute = "Attribute"
-        }
-    }
-
-    public struct AttributeNameList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", required: false, type: .list)
-        ]
-        public let attributeName: [String]?
-
-        public init(attributeName: [String]? = nil) {
-            self.attributeName = attributeName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributeName = "AttributeName"
-        }
-    }
-
     public struct BatchDeleteAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "Items", required: true, type: .structure)
+            AWSShapeMember(label: "Items", location: .body(locationName: "Item"), required: true, type: .list)
         ]
         /// The name of the domain in which the attributes are being deleted.
         public let domainName: String
         /// A list of items on which to perform the operation.
-        public let items: DeletableItemList
+        public let items: [DeletableItem]
 
-        public init(domainName: String, items: DeletableItemList) {
+        public init(domainName: String, items: [DeletableItem]) {
             self.domainName = domainName
             self.items = items
         }
 
         private enum CodingKeys: String, CodingKey {
             case domainName = "DomainName"
-            case items = "Items"
+            case items = "Item"
         }
     }
 
     public struct BatchPutAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "Items", required: true, type: .structure)
+            AWSShapeMember(label: "Items", location: .body(locationName: "Item"), required: true, type: .list)
         ]
         /// The name of the domain in which the attributes are being stored.
         public let domainName: String
         /// A list of items on which to perform the operation.
-        public let items: ReplaceableItemList
+        public let items: [ReplaceableItem]
 
-        public init(domainName: String, items: ReplaceableItemList) {
+        public init(domainName: String, items: [ReplaceableItem]) {
             self.domainName = domainName
             self.items = items
         }
 
         private enum CodingKeys: String, CodingKey {
             case domainName = "DomainName"
-            case items = "Items"
+            case items = "Item"
         }
     }
 
@@ -143,64 +113,34 @@ extension SimpleDB {
         }
     }
 
-    public struct DeletableAttributeList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attribute", required: false, type: .list)
-        ]
-        public let attribute: [DeletableAttribute]?
-
-        public init(attribute: [DeletableAttribute]? = nil) {
-            self.attribute = attribute
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attribute = "Attribute"
-        }
-    }
-
     public struct DeletableItem: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .structure), 
+            AWSShapeMember(label: "Attributes", location: .body(locationName: "Attribute"), required: false, type: .list), 
             AWSShapeMember(label: "Name", location: .body(locationName: "ItemName"), required: true, type: .string)
         ]
-        public let attributes: DeletableAttributeList?
+        public let attributes: [DeletableAttribute]?
         public let name: String
 
-        public init(attributes: DeletableAttributeList? = nil, name: String) {
+        public init(attributes: [DeletableAttribute]? = nil, name: String) {
             self.attributes = attributes
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes = "Attributes"
+            case attributes = "Attribute"
             case name = "ItemName"
-        }
-    }
-
-    public struct DeletableItemList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Item", required: false, type: .list)
-        ]
-        public let item: [DeletableItem]?
-
-        public init(item: [DeletableItem]? = nil) {
-            self.item = item
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case item = "Item"
         }
     }
 
     public struct DeleteAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .structure), 
+            AWSShapeMember(label: "Attributes", location: .body(locationName: "Attribute"), required: false, type: .list), 
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
             AWSShapeMember(label: "Expected", required: false, type: .structure), 
             AWSShapeMember(label: "ItemName", required: true, type: .string)
         ]
         /// A list of Attributes. Similar to columns on a spreadsheet, attributes represent categories of data that can be assigned to items.
-        public let attributes: DeletableAttributeList?
+        public let attributes: [DeletableAttribute]?
         /// The name of the domain in which to perform the operation.
         public let domainName: String
         /// The update condition which, if specified, determines whether the specified attributes will be deleted or not. The update condition must be satisfied in order for this request to be processed and the attributes to be deleted.
@@ -208,7 +148,7 @@ extension SimpleDB {
         /// The name of the item. Similar to rows on a spreadsheet, items represent individual objects that contain one or more value-attribute pairs.
         public let itemName: String
 
-        public init(attributes: DeletableAttributeList? = nil, domainName: String, expected: UpdateCondition? = nil, itemName: String) {
+        public init(attributes: [DeletableAttribute]? = nil, domainName: String, expected: UpdateCondition? = nil, itemName: String) {
             self.attributes = attributes
             self.domainName = domainName
             self.expected = expected
@@ -216,7 +156,7 @@ extension SimpleDB {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes = "Attributes"
+            case attributes = "Attribute"
             case domainName = "DomainName"
             case expected = "Expected"
             case itemName = "ItemName"
@@ -301,30 +241,15 @@ extension SimpleDB {
         }
     }
 
-    public struct DomainNameList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", required: false, type: .list)
-        ]
-        public let domainName: [String]?
-
-        public init(domainName: [String]? = nil) {
-            self.domainName = domainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "DomainName"
-        }
-    }
-
     public struct GetAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeNames", required: false, type: .structure), 
+            AWSShapeMember(label: "AttributeNames", location: .body(locationName: "AttributeName"), required: false, type: .list), 
             AWSShapeMember(label: "ConsistentRead", required: false, type: .boolean), 
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
             AWSShapeMember(label: "ItemName", required: true, type: .string)
         ]
         /// The names of the attributes.
-        public let attributeNames: AttributeNameList?
+        public let attributeNames: [String]?
         /// Determines whether or not strong consistency should be enforced when data is read from SimpleDB. If true, any data previously written to SimpleDB will be returned. Otherwise, results will be consistent eventually, and the client may not see data that was written immediately before your read.
         public let consistentRead: Bool?
         /// The name of the domain in which to perform the operation.
@@ -332,7 +257,7 @@ extension SimpleDB {
         /// The name of the item.
         public let itemName: String
 
-        public init(attributeNames: AttributeNameList? = nil, consistentRead: Bool? = nil, domainName: String, itemName: String) {
+        public init(attributeNames: [String]? = nil, consistentRead: Bool? = nil, domainName: String, itemName: String) {
             self.attributeNames = attributeNames
             self.consistentRead = consistentRead
             self.domainName = domainName
@@ -340,7 +265,7 @@ extension SimpleDB {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeNames = "AttributeNames"
+            case attributeNames = "AttributeName"
             case consistentRead = "ConsistentRead"
             case domainName = "DomainName"
             case itemName = "ItemName"
@@ -349,33 +274,33 @@ extension SimpleDB {
 
     public struct GetAttributesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .structure)
+            AWSShapeMember(label: "Attributes", location: .body(locationName: "Attribute"), required: false, type: .list)
         ]
         /// The list of attributes returned by the operation.
-        public let attributes: AttributeList?
+        public let attributes: [Attribute]?
 
-        public init(attributes: AttributeList? = nil) {
+        public init(attributes: [Attribute]? = nil) {
             self.attributes = attributes
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes = "Attributes"
+            case attributes = "Attribute"
         }
     }
 
     public struct Item: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AlternateNameEncoding", required: false, type: .string), 
-            AWSShapeMember(label: "Attributes", required: true, type: .structure), 
+            AWSShapeMember(label: "Attributes", location: .body(locationName: "Attribute"), required: true, type: .list), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         public let alternateNameEncoding: String?
         /// A list of attributes.
-        public let attributes: AttributeList
+        public let attributes: [Attribute]
         /// The name of the item.
         public let name: String
 
-        public init(alternateNameEncoding: String? = nil, attributes: AttributeList, name: String) {
+        public init(alternateNameEncoding: String? = nil, attributes: [Attribute], name: String) {
             self.alternateNameEncoding = alternateNameEncoding
             self.attributes = attributes
             self.name = name
@@ -383,23 +308,8 @@ extension SimpleDB {
 
         private enum CodingKeys: String, CodingKey {
             case alternateNameEncoding = "AlternateNameEncoding"
-            case attributes = "Attributes"
+            case attributes = "Attribute"
             case name = "Name"
-        }
-    }
-
-    public struct ItemList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Item", required: false, type: .list)
-        ]
-        public let item: [Item]?
-
-        public init(item: [Item]? = nil) {
-            self.item = item
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case item = "Item"
         }
     }
 
@@ -426,34 +336,34 @@ extension SimpleDB {
 
     public struct ListDomainsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainNames", required: false, type: .structure), 
+            AWSShapeMember(label: "DomainNames", location: .body(locationName: "DomainName"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A list of domain names that match the expression.
-        public let domainNames: DomainNameList?
+        public let domainNames: [String]?
         /// An opaque token indicating that there are more domains than the specified MaxNumberOfDomains still available.
         public let nextToken: String?
 
-        public init(domainNames: DomainNameList? = nil, nextToken: String? = nil) {
+        public init(domainNames: [String]? = nil, nextToken: String? = nil) {
             self.domainNames = domainNames
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainNames = "DomainNames"
+            case domainNames = "DomainName"
             case nextToken = "NextToken"
         }
     }
 
     public struct PutAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: true, type: .structure), 
+            AWSShapeMember(label: "Attributes", location: .body(locationName: "Attribute"), required: true, type: .list), 
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
             AWSShapeMember(label: "Expected", required: false, type: .structure), 
             AWSShapeMember(label: "ItemName", required: true, type: .string)
         ]
         /// The list of attributes.
-        public let attributes: ReplaceableAttributeList
+        public let attributes: [ReplaceableAttribute]
         /// The name of the domain in which to perform the operation.
         public let domainName: String
         /// The update condition which, if specified, determines whether the specified attributes will be updated or not. The update condition must be satisfied in order for this request to be processed and the attributes to be updated.
@@ -461,7 +371,7 @@ extension SimpleDB {
         /// The name of the item.
         public let itemName: String
 
-        public init(attributes: ReplaceableAttributeList, domainName: String, expected: UpdateCondition? = nil, itemName: String) {
+        public init(attributes: [ReplaceableAttribute], domainName: String, expected: UpdateCondition? = nil, itemName: String) {
             self.attributes = attributes
             self.domainName = domainName
             self.expected = expected
@@ -469,7 +379,7 @@ extension SimpleDB {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes = "Attributes"
+            case attributes = "Attribute"
             case domainName = "DomainName"
             case expected = "Expected"
             case itemName = "ItemName"
@@ -502,54 +412,24 @@ extension SimpleDB {
         }
     }
 
-    public struct ReplaceableAttributeList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attribute", required: false, type: .list)
-        ]
-        public let attribute: [ReplaceableAttribute]?
-
-        public init(attribute: [ReplaceableAttribute]? = nil) {
-            self.attribute = attribute
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attribute = "Attribute"
-        }
-    }
-
     public struct ReplaceableItem: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: true, type: .structure), 
+            AWSShapeMember(label: "Attributes", location: .body(locationName: "Attribute"), required: true, type: .list), 
             AWSShapeMember(label: "Name", location: .body(locationName: "ItemName"), required: true, type: .string)
         ]
         /// The list of attributes for a replaceable item.
-        public let attributes: ReplaceableAttributeList
+        public let attributes: [ReplaceableAttribute]
         /// The name of the replaceable item.
         public let name: String
 
-        public init(attributes: ReplaceableAttributeList, name: String) {
+        public init(attributes: [ReplaceableAttribute], name: String) {
             self.attributes = attributes
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes = "Attributes"
+            case attributes = "Attribute"
             case name = "ItemName"
-        }
-    }
-
-    public struct ReplaceableItemList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Item", required: false, type: .list)
-        ]
-        public let item: [ReplaceableItem]?
-
-        public init(item: [ReplaceableItem]? = nil) {
-            self.item = item
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case item = "Item"
         }
     }
 
@@ -581,21 +461,21 @@ extension SimpleDB {
 
     public struct SelectResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Items", location: .body(locationName: "Item"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A list of items that match the select expression.
-        public let items: ItemList?
+        public let items: [Item]?
         /// An opaque token indicating that more items than MaxNumberOfItems were matched, the response size exceeded 1 megabyte, or the execution time exceeded 5 seconds.
         public let nextToken: String?
 
-        public init(items: ItemList? = nil, nextToken: String? = nil) {
+        public init(items: [Item]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items = "Items"
+            case items = "Item"
             case nextToken = "NextToken"
         }
     }

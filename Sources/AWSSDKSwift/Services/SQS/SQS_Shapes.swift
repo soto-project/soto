@@ -5,53 +5,23 @@ import AWSSDKSwiftCore
 
 extension SQS {
 
-    public struct AWSAccountIdList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AWSAccountId", required: false, type: .list)
-        ]
-        public let aWSAccountId: [String]?
-
-        public init(aWSAccountId: [String]? = nil) {
-            self.aWSAccountId = aWSAccountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case aWSAccountId = "AWSAccountId"
-        }
-    }
-
-    public struct ActionNameList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActionName", required: false, type: .list)
-        ]
-        public let actionName: [String]?
-
-        public init(actionName: [String]? = nil) {
-            self.actionName = actionName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case actionName = "ActionName"
-        }
-    }
-
     public struct AddPermissionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AWSAccountIds", required: true, type: .structure), 
-            AWSShapeMember(label: "Actions", required: true, type: .structure), 
+            AWSShapeMember(label: "AWSAccountIds", location: .body(locationName: "AWSAccountId"), required: true, type: .list), 
+            AWSShapeMember(label: "Actions", location: .body(locationName: "ActionName"), required: true, type: .list), 
             AWSShapeMember(label: "Label", required: true, type: .string), 
             AWSShapeMember(label: "QueueUrl", required: true, type: .string)
         ]
         /// The AWS account number of the principal who is given permission. The principal must have an AWS account, but does not need to be signed up for Amazon SQS. For information about locating the AWS account identification, see Your AWS Identifiers in the Amazon Simple Queue Service Developer Guide.
-        public let aWSAccountIds: AWSAccountIdList
+        public let aWSAccountIds: [String]
         /// The action the client wants to allow for the specified principal. Valid values: the name of any action or *. For more information about these actions, see Overview of Managing Access Permissions to Your Amazon Simple Queue Service Resource in the Amazon Simple Queue Service Developer Guide. Specifying SendMessage, DeleteMessage, or ChangeMessageVisibility for ActionName.n also grants permissions for the corresponding batch versions of those actions: SendMessageBatch, DeleteMessageBatch, and ChangeMessageVisibilityBatch.
-        public let actions: ActionNameList
+        public let actions: [String]
         /// The unique identification of the permission you're setting (for example, AliceSendMessage). Maximum 80 characters. Allowed characters include alphanumeric characters, hyphens (-), and underscores (_).
         public let label: String
         /// The URL of the Amazon SQS queue to which permissions are added. Queue URLs and names are case-sensitive.
         public let queueUrl: String
 
-        public init(aWSAccountIds: AWSAccountIdList, actions: ActionNameList, label: String, queueUrl: String) {
+        public init(aWSAccountIds: [String], actions: [String], label: String, queueUrl: String) {
             self.aWSAccountIds = aWSAccountIds
             self.actions = actions
             self.label = label
@@ -59,25 +29,10 @@ extension SQS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aWSAccountIds = "AWSAccountIds"
-            case actions = "Actions"
+            case aWSAccountIds = "AWSAccountId"
+            case actions = "ActionName"
             case label = "Label"
             case queueUrl = "QueueUrl"
-        }
-    }
-
-    public struct AttributeNameList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", required: false, type: .list)
-        ]
-        public let attributeName: [QueueAttributeName]?
-
-        public init(attributeName: [QueueAttributeName]? = nil) {
-            self.attributeName = attributeName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributeName = "AttributeName"
         }
     }
 
@@ -112,21 +67,6 @@ extension SQS {
         }
     }
 
-    public struct BatchResultErrorEntryList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BatchResultErrorEntry", required: false, type: .list)
-        ]
-        public let batchResultErrorEntry: [BatchResultErrorEntry]?
-
-        public init(batchResultErrorEntry: [BatchResultErrorEntry]? = nil) {
-            self.batchResultErrorEntry = batchResultErrorEntry
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case batchResultErrorEntry = "BatchResultErrorEntry"
-        }
-    }
-
     public struct BinaryList: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BinaryListValue", required: false, type: .list)
@@ -144,21 +84,21 @@ extension SQS {
 
     public struct ChangeMessageVisibilityBatchRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Entries", required: true, type: .structure), 
+            AWSShapeMember(label: "Entries", location: .body(locationName: "ChangeMessageVisibilityBatchRequestEntry"), required: true, type: .list), 
             AWSShapeMember(label: "QueueUrl", required: true, type: .string)
         ]
         /// A list of receipt handles of the messages for which the visibility timeout must be changed.
-        public let entries: ChangeMessageVisibilityBatchRequestEntryList
+        public let entries: [ChangeMessageVisibilityBatchRequestEntry]
         /// The URL of the Amazon SQS queue whose messages' visibility is changed. Queue URLs and names are case-sensitive.
         public let queueUrl: String
 
-        public init(entries: ChangeMessageVisibilityBatchRequestEntryList, queueUrl: String) {
+        public init(entries: [ChangeMessageVisibilityBatchRequestEntry], queueUrl: String) {
             self.entries = entries
             self.queueUrl = queueUrl
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entries = "Entries"
+            case entries = "ChangeMessageVisibilityBatchRequestEntry"
             case queueUrl = "QueueUrl"
         }
     }
@@ -189,39 +129,24 @@ extension SQS {
         }
     }
 
-    public struct ChangeMessageVisibilityBatchRequestEntryList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChangeMessageVisibilityBatchRequestEntry", required: false, type: .list)
-        ]
-        public let changeMessageVisibilityBatchRequestEntry: [ChangeMessageVisibilityBatchRequestEntry]?
-
-        public init(changeMessageVisibilityBatchRequestEntry: [ChangeMessageVisibilityBatchRequestEntry]? = nil) {
-            self.changeMessageVisibilityBatchRequestEntry = changeMessageVisibilityBatchRequestEntry
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case changeMessageVisibilityBatchRequestEntry = "ChangeMessageVisibilityBatchRequestEntry"
-        }
-    }
-
     public struct ChangeMessageVisibilityBatchResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Failed", required: true, type: .structure), 
-            AWSShapeMember(label: "Successful", required: true, type: .structure)
+            AWSShapeMember(label: "Failed", location: .body(locationName: "BatchResultErrorEntry"), required: true, type: .list), 
+            AWSShapeMember(label: "Successful", location: .body(locationName: "ChangeMessageVisibilityBatchResultEntry"), required: true, type: .list)
         ]
         /// A list of  BatchResultErrorEntry  items.
-        public let failed: BatchResultErrorEntryList
+        public let failed: [BatchResultErrorEntry]
         /// A list of  ChangeMessageVisibilityBatchResultEntry  items.
-        public let successful: ChangeMessageVisibilityBatchResultEntryList
+        public let successful: [ChangeMessageVisibilityBatchResultEntry]
 
-        public init(failed: BatchResultErrorEntryList, successful: ChangeMessageVisibilityBatchResultEntryList) {
+        public init(failed: [BatchResultErrorEntry], successful: [ChangeMessageVisibilityBatchResultEntry]) {
             self.failed = failed
             self.successful = successful
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failed = "Failed"
-            case successful = "Successful"
+            case failed = "BatchResultErrorEntry"
+            case successful = "ChangeMessageVisibilityBatchResultEntry"
         }
     }
 
@@ -238,21 +163,6 @@ extension SQS {
 
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
-        }
-    }
-
-    public struct ChangeMessageVisibilityBatchResultEntryList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChangeMessageVisibilityBatchResultEntry", required: false, type: .list)
-        ]
-        public let changeMessageVisibilityBatchResultEntry: [ChangeMessageVisibilityBatchResultEntry]?
-
-        public init(changeMessageVisibilityBatchResultEntry: [ChangeMessageVisibilityBatchResultEntry]? = nil) {
-            self.changeMessageVisibilityBatchResultEntry = changeMessageVisibilityBatchResultEntry
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case changeMessageVisibilityBatchResultEntry = "ChangeMessageVisibilityBatchResultEntry"
         }
     }
 
@@ -321,21 +231,21 @@ extension SQS {
 
     public struct DeleteMessageBatchRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Entries", required: true, type: .structure), 
+            AWSShapeMember(label: "Entries", location: .body(locationName: "DeleteMessageBatchRequestEntry"), required: true, type: .list), 
             AWSShapeMember(label: "QueueUrl", required: true, type: .string)
         ]
         /// A list of receipt handles for the messages to be deleted.
-        public let entries: DeleteMessageBatchRequestEntryList
+        public let entries: [DeleteMessageBatchRequestEntry]
         /// The URL of the Amazon SQS queue from which messages are deleted. Queue URLs and names are case-sensitive.
         public let queueUrl: String
 
-        public init(entries: DeleteMessageBatchRequestEntryList, queueUrl: String) {
+        public init(entries: [DeleteMessageBatchRequestEntry], queueUrl: String) {
             self.entries = entries
             self.queueUrl = queueUrl
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entries = "Entries"
+            case entries = "DeleteMessageBatchRequestEntry"
             case queueUrl = "QueueUrl"
         }
     }
@@ -361,39 +271,24 @@ extension SQS {
         }
     }
 
-    public struct DeleteMessageBatchRequestEntryList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeleteMessageBatchRequestEntry", required: false, type: .list)
-        ]
-        public let deleteMessageBatchRequestEntry: [DeleteMessageBatchRequestEntry]?
-
-        public init(deleteMessageBatchRequestEntry: [DeleteMessageBatchRequestEntry]? = nil) {
-            self.deleteMessageBatchRequestEntry = deleteMessageBatchRequestEntry
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deleteMessageBatchRequestEntry = "DeleteMessageBatchRequestEntry"
-        }
-    }
-
     public struct DeleteMessageBatchResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Failed", required: true, type: .structure), 
-            AWSShapeMember(label: "Successful", required: true, type: .structure)
+            AWSShapeMember(label: "Failed", location: .body(locationName: "BatchResultErrorEntry"), required: true, type: .list), 
+            AWSShapeMember(label: "Successful", location: .body(locationName: "DeleteMessageBatchResultEntry"), required: true, type: .list)
         ]
         /// A list of  BatchResultErrorEntry  items.
-        public let failed: BatchResultErrorEntryList
+        public let failed: [BatchResultErrorEntry]
         /// A list of  DeleteMessageBatchResultEntry  items.
-        public let successful: DeleteMessageBatchResultEntryList
+        public let successful: [DeleteMessageBatchResultEntry]
 
-        public init(failed: BatchResultErrorEntryList, successful: DeleteMessageBatchResultEntryList) {
+        public init(failed: [BatchResultErrorEntry], successful: [DeleteMessageBatchResultEntry]) {
             self.failed = failed
             self.successful = successful
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failed = "Failed"
-            case successful = "Successful"
+            case failed = "BatchResultErrorEntry"
+            case successful = "DeleteMessageBatchResultEntry"
         }
     }
 
@@ -410,21 +305,6 @@ extension SQS {
 
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
-        }
-    }
-
-    public struct DeleteMessageBatchResultEntryList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeleteMessageBatchResultEntry", required: false, type: .list)
-        ]
-        public let deleteMessageBatchResultEntry: [DeleteMessageBatchResultEntry]?
-
-        public init(deleteMessageBatchResultEntry: [DeleteMessageBatchResultEntry]? = nil) {
-            self.deleteMessageBatchResultEntry = deleteMessageBatchResultEntry
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deleteMessageBatchResultEntry = "DeleteMessageBatchResultEntry"
         }
     }
 
@@ -467,21 +347,21 @@ extension SQS {
 
     public struct GetQueueAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeNames", required: false, type: .structure), 
+            AWSShapeMember(label: "AttributeNames", location: .body(locationName: "AttributeName"), required: false, type: .list), 
             AWSShapeMember(label: "QueueUrl", required: true, type: .string)
         ]
         /// A list of attributes for which to retrieve information.  In the future, new attributes might be added. If you write code that calls this action, we recommend that you structure your code so that it can handle new attributes gracefully.  The following attributes are supported:    All - Returns all values.     ApproximateNumberOfMessages - Returns the approximate number of messages available for retrieval from the queue.    ApproximateNumberOfMessagesDelayed - Returns the approximate number of messages in the queue that are delayed and not available for reading immediately. This can happen when the queue is configured as a delay queue or when a message has been sent with a delay parameter.    ApproximateNumberOfMessagesNotVisible - Returns the approximate number of messages that are in flight. Messages are considered to be in flight if they have been sent to a client but have not yet been deleted or have not yet reached the end of their visibility window.     CreatedTimestamp - Returns the time when the queue was created in seconds (epoch time).    DelaySeconds - Returns the default delay on the queue in seconds.    LastModifiedTimestamp - Returns the time when the queue was last changed in seconds (epoch time).    MaximumMessageSize - Returns the limit of how many bytes a message can contain before Amazon SQS rejects it.    MessageRetentionPeriod - Returns the length of time, in seconds, for which Amazon SQS retains a message.    Policy - Returns the policy of the queue.    QueueArn - Returns the Amazon resource name (ARN) of the queue.    ReceiveMessageWaitTimeSeconds - Returns the length of time, in seconds, for which the ReceiveMessage action waits for a message to arrive.     RedrivePolicy - Returns the string that includes the parameters for dead-letter queue functionality of the source queue. For more information about the redrive policy and dead-letter queues, see Using Amazon SQS Dead-Letter Queues in the Amazon Simple Queue Service Developer Guide.     deadLetterTargetArn - The Amazon Resource Name (ARN) of the dead-letter queue to which Amazon SQS moves messages after the value of maxReceiveCount is exceeded.    maxReceiveCount - The number of times a message is delivered to the source queue before being moved to the dead-letter queue. When the ReceiveCount for a message exceeds the maxReceiveCount for a queue, Amazon SQS moves the message to the dead-letter-queue.      VisibilityTimeout - Returns the visibility timeout for the queue. For more information about the visibility timeout, see Visibility Timeout in the Amazon Simple Queue Service Developer Guide.    The following attributes apply only to server-side-encryption:    KmsMasterKeyId - Returns the ID of an AWS-managed customer master key (CMK) for Amazon SQS or a custom CMK. For more information, see Key Terms.     KmsDataKeyReusePeriodSeconds - Returns the length of time, in seconds, for which Amazon SQS can reuse a data key to encrypt or decrypt messages before calling AWS KMS again. For more information, see How Does the Data Key Reuse Period Work?.    The following attributes apply only to FIFO (first-in-first-out) queues:    FifoQueue - Returns whether the queue is FIFO. For more information, see FIFO Queue Logic in the Amazon Simple Queue Service Developer Guide.  To determine whether a queue is FIFO, you can check whether QueueName ends with the .fifo suffix.     ContentBasedDeduplication - Returns whether content-based deduplication is enabled for the queue. For more information, see Exactly-Once Processing in the Amazon Simple Queue Service Developer Guide.   
-        public let attributeNames: AttributeNameList?
+        public let attributeNames: [QueueAttributeName]?
         /// The URL of the Amazon SQS queue whose attribute information is retrieved. Queue URLs and names are case-sensitive.
         public let queueUrl: String
 
-        public init(attributeNames: AttributeNameList? = nil, queueUrl: String) {
+        public init(attributeNames: [QueueAttributeName]? = nil, queueUrl: String) {
             self.attributeNames = attributeNames
             self.queueUrl = queueUrl
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeNames = "AttributeNames"
+            case attributeNames = "AttributeName"
             case queueUrl = "QueueUrl"
         }
     }
@@ -557,17 +437,17 @@ extension SQS {
 
     public struct ListDeadLetterSourceQueuesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "queueUrls", required: true, type: .structure)
+            AWSShapeMember(label: "queueUrls", location: .body(locationName: "QueueUrl"), required: true, type: .list)
         ]
         /// A list of source queue URLs that have the RedrivePolicy queue attribute configured with a dead-letter queue.
-        public let queueUrls: QueueUrlList
+        public let queueUrls: [String]
 
-        public init(queueUrls: QueueUrlList) {
+        public init(queueUrls: [String]) {
             self.queueUrls = queueUrls
         }
 
         private enum CodingKeys: String, CodingKey {
-            case queueUrls = "queueUrls"
+            case queueUrls = "QueueUrl"
         }
     }
 
@@ -621,17 +501,17 @@ extension SQS {
 
     public struct ListQueuesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QueueUrls", required: false, type: .structure)
+            AWSShapeMember(label: "QueueUrls", location: .body(locationName: "QueueUrl"), required: false, type: .list)
         ]
         /// A list of queue URLs, up to 1,000 entries.
-        public let queueUrls: QueueUrlList?
+        public let queueUrls: [String]?
 
-        public init(queueUrls: QueueUrlList? = nil) {
+        public init(queueUrls: [String]? = nil) {
             self.queueUrls = queueUrls
         }
 
         private enum CodingKeys: String, CodingKey {
-            case queueUrls = "QueueUrls"
+            case queueUrls = "QueueUrl"
         }
     }
 
@@ -681,21 +561,6 @@ extension SQS {
         }
     }
 
-    public struct MessageAttributeNameList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MessageAttributeName", required: false, type: .list)
-        ]
-        public let messageAttributeName: [String]?
-
-        public init(messageAttributeName: [String]? = nil) {
-            self.messageAttributeName = messageAttributeName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case messageAttributeName = "MessageAttributeName"
-        }
-    }
-
     public struct MessageAttributeValue: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BinaryListValues", location: .body(locationName: "BinaryListValue"), required: false, type: .structure), 
@@ -729,21 +594,6 @@ extension SQS {
             case dataType = "DataType"
             case stringListValues = "StringListValue"
             case stringValue = "StringValue"
-        }
-    }
-
-    public struct MessageList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .list)
-        ]
-        public let message: [Message]?
-
-        public init(message: [Message]? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
         }
     }
 
@@ -796,37 +646,22 @@ extension SQS {
         public var description: String { return self.rawValue }
     }
 
-    public struct QueueUrlList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QueueUrl", required: false, type: .list)
-        ]
-        public let queueUrl: [String]?
-
-        public init(queueUrl: [String]? = nil) {
-            self.queueUrl = queueUrl
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case queueUrl = "QueueUrl"
-        }
-    }
-
     public struct ReceiveMessageRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeNames", required: false, type: .structure), 
+            AWSShapeMember(label: "AttributeNames", location: .body(locationName: "AttributeName"), required: false, type: .list), 
             AWSShapeMember(label: "MaxNumberOfMessages", required: false, type: .integer), 
-            AWSShapeMember(label: "MessageAttributeNames", required: false, type: .structure), 
+            AWSShapeMember(label: "MessageAttributeNames", location: .body(locationName: "MessageAttributeName"), required: false, type: .list), 
             AWSShapeMember(label: "QueueUrl", required: true, type: .string), 
             AWSShapeMember(label: "ReceiveRequestAttemptId", required: false, type: .string), 
             AWSShapeMember(label: "VisibilityTimeout", required: false, type: .integer), 
             AWSShapeMember(label: "WaitTimeSeconds", required: false, type: .integer)
         ]
         /// A list of s that need to be returned along with each message. These attributes include:    All - Returns all values.    ApproximateFirstReceiveTimestamp - Returns the time the message was first received from the queue (epoch time in milliseconds).    ApproximateReceiveCount - Returns the number of times a message has been received from the queue but not deleted.    SenderId    For an IAM user, returns the IAM user ID, for example ABCDEFGHI1JKLMNOPQ23R.   For an IAM role, returns the IAM role ID, for example ABCDE1F2GH3I4JK5LMNOP:i-a123b456.      SentTimestamp - Returns the time the message was sent to the queue (epoch time in milliseconds).    MessageDeduplicationId - Returns the value provided by the producer that calls the  SendMessage  action.    MessageGroupId - Returns the value provided by the producer that calls the  SendMessage  action. Messages with the same MessageGroupId are returned in sequence.    SequenceNumber - Returns the value provided by Amazon SQS.  
-        public let attributeNames: AttributeNameList?
+        public let attributeNames: [QueueAttributeName]?
         /// The maximum number of messages to return. Amazon SQS never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 10. Default: 1.
         public let maxNumberOfMessages: Int32?
         /// The name of the message attribute, where N is the index.   The name can contain alphanumeric characters and the underscore (_), hyphen (-), and period (.).   The name is case-sensitive and must be unique among all attribute names for the message.   The name must not start with AWS-reserved prefixes such as AWS. or Amazon. (or any casing variants).   The name must not start or end with a period (.), and it should not have periods in succession (..).   The name can be up to 256 characters long.   When using ReceiveMessage, you can send a list of attribute names to receive, or you can return all of the attributes by specifying All or .* in your request. You can also use all message attributes starting with a prefix, for example bar.*.
-        public let messageAttributeNames: MessageAttributeNameList?
+        public let messageAttributeNames: [String]?
         /// The URL of the Amazon SQS queue from which messages are received. Queue URLs and names are case-sensitive.
         public let queueUrl: String
         /// This parameter applies only to FIFO (first-in-first-out) queues. The token used for deduplication of ReceiveMessage calls. If a networking issue occurs after a ReceiveMessage action, and instead of a response you receive a generic error, you can retry the same action with an identical ReceiveRequestAttemptId to retrieve the same set of messages, even if their visibility timeout has not yet expired.   You can use ReceiveRequestAttemptId only for 5 minutes after a ReceiveMessage action.   When you set FifoQueue, a caller of the ReceiveMessage action can provide a ReceiveRequestAttemptId explicitly.   If a caller of the ReceiveMessage action doesn't provide a ReceiveRequestAttemptId, Amazon SQS generates a ReceiveRequestAttemptId.   You can retry the ReceiveMessage action with the same ReceiveRequestAttemptId if none of the messages have been modified (deleted or had their visibility changes).   During a visibility timeout, subsequent calls with the same ReceiveRequestAttemptId return the same messages and receipt handles. If a retry occurs within the deduplication interval, it resets the visibility timeout. For more information, see Visibility Timeout in the Amazon Simple Queue Service Developer Guide.  If a caller of the ReceiveMessage action still processes messages when the visibility timeout expires and messages become visible, another worker consuming from the same queue can receive the same messages and therefore process duplicates. Also, if a consumer whose message processing time is longer than the visibility timeout tries to delete the processed messages, the action fails with an error. To mitigate this effect, ensure that your application observes a safe threshold before the visibility timeout expires and extend the visibility timeout as necessary.    While messages with a particular MessageGroupId are invisible, no more messages belonging to the same MessageGroupId are returned until the visibility timeout expires. You can still receive messages with another MessageGroupId as long as it is also visible.   If a caller of ReceiveMessage can't track the ReceiveRequestAttemptId, no retries work until the original visibility timeout expires. As a result, delays might occur but the messages in the queue remain in a strict order.   The length of ReceiveRequestAttemptId is 128 characters. ReceiveRequestAttemptId can contain alphanumeric characters (a-z, A-Z, 0-9) and punctuation (!"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~). For best practices of using ReceiveRequestAttemptId, see Using the ReceiveRequestAttemptId Request Parameter in the Amazon Simple Queue Service Developer Guide.
@@ -836,7 +671,7 @@ extension SQS {
         /// The duration (in seconds) for which the call waits for a message to arrive in the queue before returning. If a message is available, the call returns sooner than WaitTimeSeconds. If no messages are available and the wait time expires, the call returns successfully with an empty list of messages.
         public let waitTimeSeconds: Int32?
 
-        public init(attributeNames: AttributeNameList? = nil, maxNumberOfMessages: Int32? = nil, messageAttributeNames: MessageAttributeNameList? = nil, queueUrl: String, receiveRequestAttemptId: String? = nil, visibilityTimeout: Int32? = nil, waitTimeSeconds: Int32? = nil) {
+        public init(attributeNames: [QueueAttributeName]? = nil, maxNumberOfMessages: Int32? = nil, messageAttributeNames: [String]? = nil, queueUrl: String, receiveRequestAttemptId: String? = nil, visibilityTimeout: Int32? = nil, waitTimeSeconds: Int32? = nil) {
             self.attributeNames = attributeNames
             self.maxNumberOfMessages = maxNumberOfMessages
             self.messageAttributeNames = messageAttributeNames
@@ -847,9 +682,9 @@ extension SQS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeNames = "AttributeNames"
+            case attributeNames = "AttributeName"
             case maxNumberOfMessages = "MaxNumberOfMessages"
-            case messageAttributeNames = "MessageAttributeNames"
+            case messageAttributeNames = "MessageAttributeName"
             case queueUrl = "QueueUrl"
             case receiveRequestAttemptId = "ReceiveRequestAttemptId"
             case visibilityTimeout = "VisibilityTimeout"
@@ -859,17 +694,17 @@ extension SQS {
 
     public struct ReceiveMessageResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Messages", required: false, type: .structure)
+            AWSShapeMember(label: "Messages", location: .body(locationName: "Message"), required: false, type: .list)
         ]
         /// A list of messages.
-        public let messages: MessageList?
+        public let messages: [Message]?
 
-        public init(messages: MessageList? = nil) {
+        public init(messages: [Message]? = nil) {
             self.messages = messages
         }
 
         private enum CodingKeys: String, CodingKey {
-            case messages = "Messages"
+            case messages = "Message"
         }
     }
 
@@ -896,21 +731,21 @@ extension SQS {
 
     public struct SendMessageBatchRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Entries", required: true, type: .structure), 
+            AWSShapeMember(label: "Entries", location: .body(locationName: "SendMessageBatchRequestEntry"), required: true, type: .list), 
             AWSShapeMember(label: "QueueUrl", required: true, type: .string)
         ]
         /// A list of  SendMessageBatchRequestEntry  items.
-        public let entries: SendMessageBatchRequestEntryList
+        public let entries: [SendMessageBatchRequestEntry]
         /// The URL of the Amazon SQS queue to which batched messages are sent. Queue URLs and names are case-sensitive.
         public let queueUrl: String
 
-        public init(entries: SendMessageBatchRequestEntryList, queueUrl: String) {
+        public init(entries: [SendMessageBatchRequestEntry], queueUrl: String) {
             self.entries = entries
             self.queueUrl = queueUrl
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entries = "Entries"
+            case entries = "SendMessageBatchRequestEntry"
             case queueUrl = "QueueUrl"
         }
     }
@@ -956,39 +791,24 @@ extension SQS {
         }
     }
 
-    public struct SendMessageBatchRequestEntryList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SendMessageBatchRequestEntry", required: false, type: .list)
-        ]
-        public let sendMessageBatchRequestEntry: [SendMessageBatchRequestEntry]?
-
-        public init(sendMessageBatchRequestEntry: [SendMessageBatchRequestEntry]? = nil) {
-            self.sendMessageBatchRequestEntry = sendMessageBatchRequestEntry
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sendMessageBatchRequestEntry = "SendMessageBatchRequestEntry"
-        }
-    }
-
     public struct SendMessageBatchResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Failed", required: true, type: .structure), 
-            AWSShapeMember(label: "Successful", required: true, type: .structure)
+            AWSShapeMember(label: "Failed", location: .body(locationName: "BatchResultErrorEntry"), required: true, type: .list), 
+            AWSShapeMember(label: "Successful", location: .body(locationName: "SendMessageBatchResultEntry"), required: true, type: .list)
         ]
         /// A list of  BatchResultErrorEntry  items with error details about each message that can't be enqueued.
-        public let failed: BatchResultErrorEntryList
+        public let failed: [BatchResultErrorEntry]
         /// A list of  SendMessageBatchResultEntry  items.
-        public let successful: SendMessageBatchResultEntryList
+        public let successful: [SendMessageBatchResultEntry]
 
-        public init(failed: BatchResultErrorEntryList, successful: SendMessageBatchResultEntryList) {
+        public init(failed: [BatchResultErrorEntry], successful: [SendMessageBatchResultEntry]) {
             self.failed = failed
             self.successful = successful
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failed = "Failed"
-            case successful = "Successful"
+            case failed = "BatchResultErrorEntry"
+            case successful = "SendMessageBatchResultEntry"
         }
     }
 
@@ -1025,21 +845,6 @@ extension SQS {
             case mD5OfMessageBody = "MD5OfMessageBody"
             case messageId = "MessageId"
             case sequenceNumber = "SequenceNumber"
-        }
-    }
-
-    public struct SendMessageBatchResultEntryList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SendMessageBatchResultEntry", required: false, type: .list)
-        ]
-        public let sendMessageBatchResultEntry: [SendMessageBatchResultEntry]?
-
-        public init(sendMessageBatchResultEntry: [SendMessageBatchResultEntry]? = nil) {
-            self.sendMessageBatchResultEntry = sendMessageBatchResultEntry
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sendMessageBatchResultEntry = "SendMessageBatchResultEntry"
         }
     }
 
@@ -1151,21 +956,6 @@ extension SQS {
         }
     }
 
-    public struct TagKeyList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagKey", required: false, type: .list)
-        ]
-        public let tagKey: [String]?
-
-        public init(tagKey: [String]? = nil) {
-            self.tagKey = tagKey
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagKey = "TagKey"
-        }
-    }
-
     public struct TagQueueRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QueueUrl", required: true, type: .string), 
@@ -1190,21 +980,21 @@ extension SQS {
     public struct UntagQueueRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QueueUrl", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .structure)
+            AWSShapeMember(label: "TagKeys", location: .body(locationName: "TagKey"), required: true, type: .list)
         ]
         /// The URL of the queue.
         public let queueUrl: String
         /// The list of tags to be removed from the specified queue.
-        public let tagKeys: TagKeyList
+        public let tagKeys: [String]
 
-        public init(queueUrl: String, tagKeys: TagKeyList) {
+        public init(queueUrl: String, tagKeys: [String]) {
             self.queueUrl = queueUrl
             self.tagKeys = tagKeys
         }
 
         private enum CodingKeys: String, CodingKey {
             case queueUrl = "QueueUrl"
-            case tagKeys = "TagKeys"
+            case tagKeys = "TagKey"
         }
     }
 
