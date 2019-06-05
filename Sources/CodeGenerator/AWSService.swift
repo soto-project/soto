@@ -149,23 +149,25 @@ struct AWSService {
             }
 
             let members: [Member] = try json["members"].dictionaryValue.map { name, memberJSON in
-                var name = name
+                let name = name
                 let memberDict = try JSONSerialization.jsonObject(with: memberJSON.rawData(), options: []) as? [String: Any] ?? [:]
                 let shapeName = memberJSON["shape"].stringValue
                 let requireds = json["required"].arrayValue.map({ $0.stringValue })
                 let dict = structure.filter({ $0.key == shapeName }).first!
                 let shape = Shape(name: dict.key, type: dict.value)
-                let locationName = memberJSON["locationName"].string
-                // if member shape was flattened and has a location name then use that as the member name
+                var location = Location(key: name, json: memberJSON)
+                var locationName = memberJSON["locationName"].string
+                // if member shape was flattened and has a location name then use that as the location name
                 let shapeJSON = apiJSON["shapes"][shapeName]
                 if let flattenedLocationName = shapeJSON["member"]["locationName"].string, shapeJSON["flattened"] == true {
-                    name = flattenedLocationName
+                    location = Location(key:flattenedLocationName, json: shapeJSON["member"])
+                    locationName = flattenedLocationName
                 }
                 return Member(
                     name: name,
                     required: requireds.contains(name),
                     shape: shape,
-                    location: Location(key: name, json: memberJSON),
+                    location: location,
                     locationName: locationName,
                     xmlNamespace: XMLNamespace(dictionary: memberDict),
                     isStreaming: memberJSON["streaming"].bool ?? false
