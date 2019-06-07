@@ -121,7 +121,7 @@ struct AWSService {
 
         case "list":
             let shapeJSON = apiJSON["shapes"][json["member"]["shape"].stringValue]
-            if let locationName = json["member"]["locationName"].string {
+            if let locationName = json["member"]["locationName"].string, json["flattened"].bool != true {
                 let _type = try shapeType(from: shapeJSON, level: level+1)
                 let repeats = Shape(name: json["member"]["shape"].stringValue, type: _type)
                 let shape = Shape(name: json["member"]["shape"].stringValue, type: .list(repeats))
@@ -149,17 +149,26 @@ struct AWSService {
             }
 
             let members: [Member] = try json["members"].dictionaryValue.map { name, memberJSON in
+                let name = name
                 let memberDict = try JSONSerialization.jsonObject(with: memberJSON.rawData(), options: []) as? [String: Any] ?? [:]
                 let shapeName = memberJSON["shape"].stringValue
                 let requireds = json["required"].arrayValue.map({ $0.stringValue })
                 let dict = structure.filter({ $0.key == shapeName }).first!
                 let shape = Shape(name: dict.key, type: dict.value)
+                var location = Location(key: name, json: memberJSON)
+                var locationName = memberJSON["locationName"].string
+                // if member shape was flattened and has a location name then use that as the location name
+                let shapeJSON = apiJSON["shapes"][shapeName]
+                if let flattenedLocationName = shapeJSON["member"]["locationName"].string, shapeJSON["flattened"] == true {
+                    location = Location(key:flattenedLocationName, json: shapeJSON["member"])
+                    locationName = flattenedLocationName
+                }
                 return Member(
                     name: name,
                     required: requireds.contains(name),
                     shape: shape,
-                    location: Location(key: name, json: memberJSON),
-                    locationName: memberJSON["locationName"].string,
+                    location: location,
+                    locationName: locationName,
                     xmlNamespace: XMLNamespace(dictionary: memberDict),
                     isStreaming: memberJSON["streaming"].bool ?? false
                 )

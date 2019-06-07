@@ -42,25 +42,27 @@ public struct S3RequestMiddleware: AWSRequestMiddleware {
                 }
                 request.url = URL(string: urlString)!
             }
-
-            if let data = try request.body.asData() {
-                let encoded = Data(md5(data)).base64EncodedString()
-                request.addValue(encoded, forHTTPHeaderField: "Content-MD5")
-            }
         }
 
         switch request.operation {
         case "CreateBucket":
             var xml = ""
-            xml += "<CreateBucketConfiguration xmlns=\"http://s3.amazonaws.com/doc/2006-03-01/\">"
-            xml += "<LocationConstraint>"
-            xml += request.region.rawValue
-            xml += "</LocationConstraint>"
-            xml += "</CreateBucketConfiguration>"
+            if request.region != .useast1 {
+                xml += "<CreateBucketConfiguration xmlns=\"http://s3.amazonaws.com/doc/2006-03-01/\">"
+                xml += "<LocationConstraint>"
+                xml += request.region.rawValue
+                xml += "</LocationConstraint>"
+                xml += "</CreateBucketConfiguration>"
+            }
             request.body = .text(xml)
 
         default:
             break
+        }
+
+        if let data = try request.body.asData() {
+            let encoded = Data(md5(data)).base64EncodedString()
+            request.addValue(encoded, forHTTPHeaderField: "Content-MD5")
         }
 
         return request
