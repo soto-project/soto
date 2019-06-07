@@ -46,15 +46,15 @@ public struct S3RequestMiddleware: AWSRequestMiddleware {
 
         switch request.operation {
         case "CreateBucket":
+            var xml = ""
             if request.region != .useast1 {
-                var xml = ""
                 xml += "<CreateBucketConfiguration xmlns=\"http://s3.amazonaws.com/doc/2006-03-01/\">"
                 xml += "<LocationConstraint>"
                 xml += request.region.rawValue
                 xml += "</LocationConstraint>"
                 xml += "</CreateBucketConfiguration>"
-                request.body = .text(xml)
             }
+            request.body = .text(xml)
 
         default:
             break
