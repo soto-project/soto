@@ -2,7 +2,7 @@
 
 set -eux
 
-VERSION="4.2"
+VERSION="5.0"
 
 UNAME=$(uname);
 if [ "${UNAME}" = "Darwin" ];
