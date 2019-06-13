@@ -62,7 +62,7 @@ extension ELBV2 {
 
     public struct AddListenerCertificatesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificates", required: true, type: .list), 
+            AWSShapeMember(label: "Certificates", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ListenerArn", required: true, type: .string)
         ]
         /// The certificate to add. You can specify one certificate per call. Set CertificateArn to the certificate ARN but do not set IsDefault.
@@ -83,7 +83,7 @@ extension ELBV2 {
 
     public struct AddListenerCertificatesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificates", required: false, type: .list)
+            AWSShapeMember(label: "Certificates", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Information about the certificates.
         public let certificates: [Certificate]?
@@ -99,8 +99,8 @@ extension ELBV2 {
 
     public struct AddTagsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArns", required: true, type: .list), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
+            AWSShapeMember(label: "ResourceArns", required: true, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Tags", required: true, type: .list, encoding: .list(member:"member"))
         ]
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArns: [String]
@@ -134,7 +134,7 @@ extension ELBV2 {
 
     public struct AuthenticateCognitoActionConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationRequestExtraParams", required: false, type: .map), 
+            AWSShapeMember(label: "AuthenticationRequestExtraParams", required: false, type: .map, encoding: .map(entry:"entry", key: "key", value: "value")), 
             AWSShapeMember(label: "OnUnauthenticatedRequest", required: false, type: .enum), 
             AWSShapeMember(label: "Scope", required: false, type: .string), 
             AWSShapeMember(label: "SessionCookieName", required: false, type: .string), 
@@ -192,7 +192,7 @@ extension ELBV2 {
 
     public struct AuthenticateOidcActionConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationRequestExtraParams", required: false, type: .map), 
+            AWSShapeMember(label: "AuthenticationRequestExtraParams", required: false, type: .map, encoding: .map(entry:"entry", key: "key", value: "value")), 
             AWSShapeMember(label: "AuthorizationEndpoint", required: true, type: .string), 
             AWSShapeMember(label: "ClientId", required: true, type: .string), 
             AWSShapeMember(label: "ClientSecret", required: false, type: .string), 
@@ -263,7 +263,7 @@ extension ELBV2 {
 
     public struct AvailabilityZone: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBalancerAddresses", required: false, type: .list), 
+            AWSShapeMember(label: "LoadBalancerAddresses", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "SubnetId", required: false, type: .string), 
             AWSShapeMember(label: "ZoneName", required: false, type: .string)
         ]
@@ -331,8 +331,8 @@ extension ELBV2 {
 
     public struct CreateListenerInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificates", required: false, type: .list), 
-            AWSShapeMember(label: "DefaultActions", required: true, type: .list), 
+            AWSShapeMember(label: "Certificates", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "DefaultActions", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string), 
             AWSShapeMember(label: "Port", required: true, type: .integer), 
             AWSShapeMember(label: "Protocol", required: true, type: .enum), 
@@ -372,7 +372,7 @@ extension ELBV2 {
 
     public struct CreateListenerOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Listeners", required: false, type: .list)
+            AWSShapeMember(label: "Listeners", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Information about the listener.
         public let listeners: [Listener]?
@@ -391,10 +391,10 @@ extension ELBV2 {
             AWSShapeMember(label: "IpAddressType", required: false, type: .enum), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Scheme", required: false, type: .enum), 
-            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
-            AWSShapeMember(label: "SubnetMappings", required: false, type: .list), 
-            AWSShapeMember(label: "Subnets", required: false, type: .list), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "SubnetMappings", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Subnets", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
         /// [Application Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4.
@@ -439,7 +439,7 @@ extension ELBV2 {
 
     public struct CreateLoadBalancerOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBalancers", required: false, type: .list)
+            AWSShapeMember(label: "LoadBalancers", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Information about the load balancer.
         public let loadBalancers: [LoadBalancer]?
@@ -455,8 +455,8 @@ extension ELBV2 {
 
     public struct CreateRuleInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Actions", required: true, type: .list), 
-            AWSShapeMember(label: "Conditions", required: true, type: .list), 
+            AWSShapeMember(label: "Actions", required: true, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Conditions", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ListenerArn", required: true, type: .string), 
             AWSShapeMember(label: "Priority", required: true, type: .integer)
         ]
@@ -486,7 +486,7 @@ extension ELBV2 {
 
     public struct CreateRuleOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rules", required: false, type: .list)
+            AWSShapeMember(label: "Rules", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Information about the rule.
         public let rules: [Rule]?
@@ -583,7 +583,7 @@ extension ELBV2 {
 
     public struct CreateTargetGroupOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetGroups", required: false, type: .list)
+            AWSShapeMember(label: "TargetGroups", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Information about the target group.
         public let targetGroups: [TargetGroup]?
@@ -692,7 +692,7 @@ extension ELBV2 {
     public struct DeregisterTargetsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetGroupArn", required: true, type: .string), 
-            AWSShapeMember(label: "Targets", required: true, type: .list)
+            AWSShapeMember(label: "Targets", required: true, type: .list, encoding: .list(member:"member"))
         ]
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
@@ -740,7 +740,7 @@ extension ELBV2 {
 
     public struct DescribeAccountLimitsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limits", required: false, type: .list), 
+            AWSShapeMember(label: "Limits", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
         /// Information about the limits.
@@ -787,7 +787,7 @@ extension ELBV2 {
 
     public struct DescribeListenerCertificatesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificates", required: false, type: .list), 
+            AWSShapeMember(label: "Certificates", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
         /// Information about the certificates.
@@ -808,7 +808,7 @@ extension ELBV2 {
 
     public struct DescribeListenersInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ListenerArns", required: false, type: .list), 
+            AWSShapeMember(label: "ListenerArns", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "LoadBalancerArn", required: false, type: .string), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "PageSize", required: false, type: .integer)
@@ -839,7 +839,7 @@ extension ELBV2 {
 
     public struct DescribeListenersOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Listeners", required: false, type: .list), 
+            AWSShapeMember(label: "Listeners", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
         /// Information about the listeners.
@@ -876,7 +876,7 @@ extension ELBV2 {
 
     public struct DescribeLoadBalancerAttributesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .list)
+            AWSShapeMember(label: "Attributes", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Information about the load balancer attributes.
         public let attributes: [LoadBalancerAttribute]?
@@ -892,9 +892,9 @@ extension ELBV2 {
 
     public struct DescribeLoadBalancersInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBalancerArns", required: false, type: .list), 
+            AWSShapeMember(label: "LoadBalancerArns", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Names", required: false, type: .list), 
+            AWSShapeMember(label: "Names", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "PageSize", required: false, type: .integer)
         ]
         /// The Amazon Resource Names (ARN) of the load balancers. You can specify up to 20 load balancers in a single call.
@@ -923,7 +923,7 @@ extension ELBV2 {
 
     public struct DescribeLoadBalancersOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBalancers", required: false, type: .list), 
+            AWSShapeMember(label: "LoadBalancers", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
         /// Information about the load balancers.
@@ -947,7 +947,7 @@ extension ELBV2 {
             AWSShapeMember(label: "ListenerArn", required: false, type: .string), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "PageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "RuleArns", required: false, type: .list)
+            AWSShapeMember(label: "RuleArns", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String?
@@ -976,7 +976,7 @@ extension ELBV2 {
     public struct DescribeRulesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "Rules", required: false, type: .list)
+            AWSShapeMember(label: "Rules", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let nextMarker: String?
@@ -997,7 +997,7 @@ extension ELBV2 {
     public struct DescribeSSLPoliciesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Names", required: false, type: .list), 
+            AWSShapeMember(label: "Names", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "PageSize", required: false, type: .integer)
         ]
         /// The marker for the next set of results. (You received this marker from a previous call.)
@@ -1023,7 +1023,7 @@ extension ELBV2 {
     public struct DescribeSSLPoliciesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "SslPolicies", required: false, type: .list)
+            AWSShapeMember(label: "SslPolicies", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let nextMarker: String?
@@ -1043,7 +1043,7 @@ extension ELBV2 {
 
     public struct DescribeTagsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArns", required: true, type: .list)
+            AWSShapeMember(label: "ResourceArns", required: true, type: .list, encoding: .list(member:"member"))
         ]
         /// The Amazon Resource Names (ARN) of the resources.
         public let resourceArns: [String]
@@ -1059,7 +1059,7 @@ extension ELBV2 {
 
     public struct DescribeTagsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagDescriptions", required: false, type: .list)
+            AWSShapeMember(label: "TagDescriptions", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Information about the tags.
         public let tagDescriptions: [TagDescription]?
@@ -1091,7 +1091,7 @@ extension ELBV2 {
 
     public struct DescribeTargetGroupAttributesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .list)
+            AWSShapeMember(label: "Attributes", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Information about the target group attributes
         public let attributes: [TargetGroupAttribute]?
@@ -1109,9 +1109,9 @@ extension ELBV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerArn", required: false, type: .string), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Names", required: false, type: .list), 
+            AWSShapeMember(label: "Names", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "PageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "TargetGroupArns", required: false, type: .list)
+            AWSShapeMember(label: "TargetGroupArns", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String?
@@ -1144,7 +1144,7 @@ extension ELBV2 {
     public struct DescribeTargetGroupsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "TargetGroups", required: false, type: .list)
+            AWSShapeMember(label: "TargetGroups", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let nextMarker: String?
@@ -1165,7 +1165,7 @@ extension ELBV2 {
     public struct DescribeTargetHealthInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetGroupArn", required: true, type: .string), 
-            AWSShapeMember(label: "Targets", required: false, type: .list)
+            AWSShapeMember(label: "Targets", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
@@ -1185,7 +1185,7 @@ extension ELBV2 {
 
     public struct DescribeTargetHealthOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetHealthDescriptions", required: false, type: .list)
+            AWSShapeMember(label: "TargetHealthDescriptions", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Information about the health of the targets.
         public let targetHealthDescriptions: [TargetHealthDescription]?
@@ -1227,7 +1227,7 @@ extension ELBV2 {
 
     public struct HostHeaderConditionConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Values", required: false, type: .list)
+            AWSShapeMember(label: "Values", required: false, type: .list, encoding: .list(member:"member"))
         ]
         public let values: [String]?
 
@@ -1243,7 +1243,7 @@ extension ELBV2 {
     public struct HttpHeaderConditionConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HttpHeaderName", required: false, type: .string), 
-            AWSShapeMember(label: "Values", required: false, type: .list)
+            AWSShapeMember(label: "Values", required: false, type: .list, encoding: .list(member:"member"))
         ]
         public let httpHeaderName: String?
         public let values: [String]?
@@ -1261,7 +1261,7 @@ extension ELBV2 {
 
     public struct HttpRequestMethodConditionConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Values", required: false, type: .list)
+            AWSShapeMember(label: "Values", required: false, type: .list, encoding: .list(member:"member"))
         ]
         public let values: [String]?
 
@@ -1303,8 +1303,8 @@ extension ELBV2 {
 
     public struct Listener: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificates", required: false, type: .list), 
-            AWSShapeMember(label: "DefaultActions", required: false, type: .list), 
+            AWSShapeMember(label: "Certificates", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "DefaultActions", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ListenerArn", required: false, type: .string), 
             AWSShapeMember(label: "LoadBalancerArn", required: false, type: .string), 
             AWSShapeMember(label: "Port", required: false, type: .integer), 
@@ -1349,7 +1349,7 @@ extension ELBV2 {
 
     public struct LoadBalancer: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "CanonicalHostedZoneId", required: false, type: .string), 
             AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "DNSName", required: false, type: .string), 
@@ -1357,7 +1357,7 @@ extension ELBV2 {
             AWSShapeMember(label: "LoadBalancerArn", required: false, type: .string), 
             AWSShapeMember(label: "LoadBalancerName", required: false, type: .string), 
             AWSShapeMember(label: "Scheme", required: false, type: .enum), 
-            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "State", required: false, type: .structure), 
             AWSShapeMember(label: "Type", required: false, type: .enum), 
             AWSShapeMember(label: "VpcId", required: false, type: .string)
@@ -1519,8 +1519,8 @@ extension ELBV2 {
 
     public struct ModifyListenerInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificates", required: false, type: .list), 
-            AWSShapeMember(label: "DefaultActions", required: false, type: .list), 
+            AWSShapeMember(label: "Certificates", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "DefaultActions", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ListenerArn", required: true, type: .string), 
             AWSShapeMember(label: "Port", required: false, type: .integer), 
             AWSShapeMember(label: "Protocol", required: false, type: .enum), 
@@ -1560,7 +1560,7 @@ extension ELBV2 {
 
     public struct ModifyListenerOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Listeners", required: false, type: .list)
+            AWSShapeMember(label: "Listeners", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Information about the modified listener.
         public let listeners: [Listener]?
@@ -1576,7 +1576,7 @@ extension ELBV2 {
 
     public struct ModifyLoadBalancerAttributesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: true, type: .list), 
+            AWSShapeMember(label: "Attributes", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string)
         ]
         /// The load balancer attributes.
@@ -1597,7 +1597,7 @@ extension ELBV2 {
 
     public struct ModifyLoadBalancerAttributesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .list)
+            AWSShapeMember(label: "Attributes", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Information about the load balancer attributes.
         public let attributes: [LoadBalancerAttribute]?
@@ -1613,8 +1613,8 @@ extension ELBV2 {
 
     public struct ModifyRuleInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Actions", required: false, type: .list), 
-            AWSShapeMember(label: "Conditions", required: false, type: .list), 
+            AWSShapeMember(label: "Actions", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Conditions", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "RuleArn", required: true, type: .string)
         ]
         /// The actions. If the action type is forward, you specify a target group. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer. The protocol of the target group must be TCP or TLS for a Network Load Balancer. [HTTPS listeners] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listeners] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
@@ -1639,7 +1639,7 @@ extension ELBV2 {
 
     public struct ModifyRuleOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rules", required: false, type: .list)
+            AWSShapeMember(label: "Rules", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Information about the modified rule.
         public let rules: [Rule]?
@@ -1655,7 +1655,7 @@ extension ELBV2 {
 
     public struct ModifyTargetGroupAttributesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: true, type: .list), 
+            AWSShapeMember(label: "Attributes", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "TargetGroupArn", required: true, type: .string)
         ]
         /// The attributes.
@@ -1676,7 +1676,7 @@ extension ELBV2 {
 
     public struct ModifyTargetGroupAttributesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .list)
+            AWSShapeMember(label: "Attributes", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Information about the attributes.
         public let attributes: [TargetGroupAttribute]?
@@ -1753,7 +1753,7 @@ extension ELBV2 {
 
     public struct ModifyTargetGroupOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetGroups", required: false, type: .list)
+            AWSShapeMember(label: "TargetGroups", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Information about the modified target group.
         public let targetGroups: [TargetGroup]?
@@ -1769,7 +1769,7 @@ extension ELBV2 {
 
     public struct PathPatternConditionConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Values", required: false, type: .list)
+            AWSShapeMember(label: "Values", required: false, type: .list, encoding: .list(member:"member"))
         ]
         public let values: [String]?
 
@@ -1792,7 +1792,7 @@ extension ELBV2 {
 
     public struct QueryStringConditionConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Values", required: false, type: .list)
+            AWSShapeMember(label: "Values", required: false, type: .list, encoding: .list(member:"member"))
         ]
         public let values: [QueryStringKeyValuePair]?
 
@@ -1874,7 +1874,7 @@ extension ELBV2 {
     public struct RegisterTargetsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetGroupArn", required: true, type: .string), 
-            AWSShapeMember(label: "Targets", required: true, type: .list)
+            AWSShapeMember(label: "Targets", required: true, type: .list, encoding: .list(member:"member"))
         ]
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
@@ -1901,7 +1901,7 @@ extension ELBV2 {
 
     public struct RemoveListenerCertificatesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificates", required: true, type: .list), 
+            AWSShapeMember(label: "Certificates", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ListenerArn", required: true, type: .string)
         ]
         /// The certificate to remove. You can specify one certificate per call. Set CertificateArn to the certificate ARN but do not set IsDefault.
@@ -1929,8 +1929,8 @@ extension ELBV2 {
 
     public struct RemoveTagsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArns", required: true, type: .list), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
+            AWSShapeMember(label: "ResourceArns", required: true, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list, encoding: .list(member:"member"))
         ]
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArns: [String]
@@ -1957,8 +1957,8 @@ extension ELBV2 {
 
     public struct Rule: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Actions", required: false, type: .list), 
-            AWSShapeMember(label: "Conditions", required: false, type: .list), 
+            AWSShapeMember(label: "Actions", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Conditions", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "IsDefault", required: false, type: .boolean), 
             AWSShapeMember(label: "Priority", required: false, type: .string), 
             AWSShapeMember(label: "RuleArn", required: false, type: .string)
@@ -2000,7 +2000,7 @@ extension ELBV2 {
             AWSShapeMember(label: "PathPatternConfig", required: false, type: .structure), 
             AWSShapeMember(label: "QueryStringConfig", required: false, type: .structure), 
             AWSShapeMember(label: "SourceIpConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "Values", required: false, type: .list)
+            AWSShapeMember(label: "Values", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The name of the field. The possible values are host-header and path-pattern.
         public let field: String?
@@ -2096,7 +2096,7 @@ extension ELBV2 {
 
     public struct SetRulePrioritiesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RulePriorities", required: true, type: .list)
+            AWSShapeMember(label: "RulePriorities", required: true, type: .list, encoding: .list(member:"member"))
         ]
         /// The rule priorities.
         public let rulePriorities: [RulePriorityPair]
@@ -2112,7 +2112,7 @@ extension ELBV2 {
 
     public struct SetRulePrioritiesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rules", required: false, type: .list)
+            AWSShapeMember(label: "Rules", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Information about the rules.
         public let rules: [Rule]?
@@ -2129,7 +2129,7 @@ extension ELBV2 {
     public struct SetSecurityGroupsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string), 
-            AWSShapeMember(label: "SecurityGroups", required: true, type: .list)
+            AWSShapeMember(label: "SecurityGroups", required: true, type: .list, encoding: .list(member:"member"))
         ]
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
@@ -2149,7 +2149,7 @@ extension ELBV2 {
 
     public struct SetSecurityGroupsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list)
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The IDs of the security groups associated with the load balancer.
         public let securityGroupIds: [String]?
@@ -2166,8 +2166,8 @@ extension ELBV2 {
     public struct SetSubnetsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string), 
-            AWSShapeMember(label: "SubnetMappings", required: false, type: .list), 
-            AWSShapeMember(label: "Subnets", required: false, type: .list)
+            AWSShapeMember(label: "SubnetMappings", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Subnets", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
@@ -2191,7 +2191,7 @@ extension ELBV2 {
 
     public struct SetSubnetsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list)
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Information about the subnet and Availability Zone.
         public let availabilityZones: [AvailabilityZone]?
@@ -2207,7 +2207,7 @@ extension ELBV2 {
 
     public struct SourceIpConditionConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Values", required: false, type: .list)
+            AWSShapeMember(label: "Values", required: false, type: .list, encoding: .list(member:"member"))
         ]
         public let values: [String]?
 
@@ -2222,9 +2222,9 @@ extension ELBV2 {
 
     public struct SslPolicy: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ciphers", required: false, type: .list), 
+            AWSShapeMember(label: "Ciphers", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "SslProtocols", required: false, type: .list)
+            AWSShapeMember(label: "SslProtocols", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The ciphers.
         public let ciphers: [Cipher]?
@@ -2291,7 +2291,7 @@ extension ELBV2 {
     public struct TagDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
+            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String?
@@ -2344,7 +2344,7 @@ extension ELBV2 {
             AWSShapeMember(label: "HealthCheckProtocol", required: false, type: .enum), 
             AWSShapeMember(label: "HealthCheckTimeoutSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "HealthyThresholdCount", required: false, type: .integer), 
-            AWSShapeMember(label: "LoadBalancerArns", required: false, type: .list), 
+            AWSShapeMember(label: "LoadBalancerArns", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Matcher", required: false, type: .structure), 
             AWSShapeMember(label: "Port", required: false, type: .integer), 
             AWSShapeMember(label: "Protocol", required: false, type: .enum), 

@@ -165,7 +165,7 @@ extension S3Control {
             AWSShapeMember(label: "ConfirmationRequired", required: false, type: .boolean), 
             AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "FailureReasons", required: false, type: .list), 
+            AWSShapeMember(label: "FailureReasons", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "JobArn", required: false, type: .string), 
             AWSShapeMember(label: "JobId", required: false, type: .string), 
             AWSShapeMember(label: "Manifest", required: false, type: .structure), 
@@ -390,7 +390,7 @@ extension S3Control {
 
     public struct JobManifestSpec: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Fields", required: false, type: .list), 
+            AWSShapeMember(label: "Fields", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Format", required: true, type: .enum)
         ]
         /// If the specified manifest object is in the S3BatchOperations_CSV_20180820 format, this element describes which columns contain the required data.
@@ -551,7 +551,7 @@ extension S3Control {
     public struct ListJobsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string), 
-            AWSShapeMember(label: "JobStatuses", location: .querystring(locationName: "jobStatuses"), required: false, type: .list), 
+            AWSShapeMember(label: "JobStatuses", location: .querystring(locationName: "jobStatuses"), required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
@@ -580,7 +580,7 @@ extension S3Control {
 
     public struct ListJobsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Jobs", required: false, type: .list), 
+            AWSShapeMember(label: "Jobs", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The list of current jobs and jobs that have ended within the last 30 days.
@@ -664,7 +664,7 @@ extension S3Control {
 
     public struct S3AccessControlList: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Grants", required: false, type: .list), 
+            AWSShapeMember(label: "Grants", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Owner", required: true, type: .structure)
         ]
         public let grants: [S3Grant]?
@@ -713,12 +713,12 @@ extension S3Control {
 
     public struct S3CopyObjectOperation: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessControlGrants", required: false, type: .list), 
+            AWSShapeMember(label: "AccessControlGrants", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "CannedAccessControlList", required: false, type: .enum), 
             AWSShapeMember(label: "MetadataDirective", required: false, type: .enum), 
             AWSShapeMember(label: "ModifiedSinceConstraint", required: false, type: .timestamp), 
             AWSShapeMember(label: "NewObjectMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "NewObjectTagging", required: false, type: .list), 
+            AWSShapeMember(label: "NewObjectTagging", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ObjectLockLegalHoldStatus", required: false, type: .enum), 
             AWSShapeMember(label: "ObjectLockMode", required: false, type: .enum), 
             AWSShapeMember(label: "ObjectLockRetainUntilDate", required: false, type: .timestamp), 
@@ -890,7 +890,7 @@ extension S3Control {
             AWSShapeMember(label: "HttpExpiresDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "RequesterCharged", required: false, type: .boolean), 
             AWSShapeMember(label: "SSEAlgorithm", required: false, type: .enum), 
-            AWSShapeMember(label: "UserMetadata", required: false, type: .map)
+            AWSShapeMember(label: "UserMetadata", required: false, type: .map, encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
         public let cacheControl: String?
         public let contentDisposition: String?
@@ -984,7 +984,7 @@ extension S3Control {
 
     public struct S3SetObjectTaggingOperation: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagSet", required: false, type: .list)
+            AWSShapeMember(label: "TagSet", required: false, type: .list, encoding: .list(member:"member"))
         ]
         public let tagSet: [S3Tag]?
 

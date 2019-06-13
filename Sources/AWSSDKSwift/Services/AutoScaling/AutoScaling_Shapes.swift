@@ -7,7 +7,7 @@ extension AutoScaling {
 
     public struct ActivitiesType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Activities", required: true, type: .list), 
+            AWSShapeMember(label: "Activities", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The scaling activities. Activities are sorted by start time. Activities still in progress are described first.
@@ -143,7 +143,7 @@ extension AutoScaling {
     public struct AttachInstancesQuery: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceIds", required: false, type: .list)
+            AWSShapeMember(label: "InstanceIds", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -171,7 +171,7 @@ extension AutoScaling {
     public struct AttachLoadBalancerTargetGroupsType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "TargetGroupARNs", required: true, type: .list)
+            AWSShapeMember(label: "TargetGroupARNs", required: true, type: .list, encoding: .list(member:"member"))
         ]
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -199,7 +199,7 @@ extension AutoScaling {
     public struct AttachLoadBalancersType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "LoadBalancerNames", required: true, type: .list)
+            AWSShapeMember(label: "LoadBalancerNames", required: true, type: .list, encoding: .list(member:"member"))
         ]
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -221,17 +221,17 @@ extension AutoScaling {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoScalingGroupARN", required: false, type: .string), 
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "AvailabilityZones", required: true, type: .list), 
+            AWSShapeMember(label: "AvailabilityZones", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "CreatedTime", required: true, type: .timestamp), 
             AWSShapeMember(label: "DefaultCooldown", required: true, type: .integer), 
             AWSShapeMember(label: "DesiredCapacity", required: true, type: .integer), 
-            AWSShapeMember(label: "EnabledMetrics", required: false, type: .list), 
+            AWSShapeMember(label: "EnabledMetrics", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "HealthCheckGracePeriod", required: false, type: .integer), 
             AWSShapeMember(label: "HealthCheckType", required: true, type: .string), 
-            AWSShapeMember(label: "Instances", required: false, type: .list), 
+            AWSShapeMember(label: "Instances", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "LaunchConfigurationName", required: false, type: .string), 
             AWSShapeMember(label: "LaunchTemplate", required: false, type: .structure), 
-            AWSShapeMember(label: "LoadBalancerNames", required: false, type: .list), 
+            AWSShapeMember(label: "LoadBalancerNames", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "MaxSize", required: true, type: .integer), 
             AWSShapeMember(label: "MinSize", required: true, type: .integer), 
             AWSShapeMember(label: "MixedInstancesPolicy", required: false, type: .structure), 
@@ -239,10 +239,10 @@ extension AutoScaling {
             AWSShapeMember(label: "PlacementGroup", required: false, type: .string), 
             AWSShapeMember(label: "ServiceLinkedRoleARN", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "SuspendedProcesses", required: false, type: .list), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "TargetGroupARNs", required: false, type: .list), 
-            AWSShapeMember(label: "TerminationPolicies", required: false, type: .list), 
+            AWSShapeMember(label: "SuspendedProcesses", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "TargetGroupARNs", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "TerminationPolicies", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "VPCZoneIdentifier", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the Auto Scaling group.
@@ -355,7 +355,7 @@ extension AutoScaling {
 
     public struct AutoScalingGroupNamesType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoScalingGroupNames", required: false, type: .list), 
+            AWSShapeMember(label: "AutoScalingGroupNames", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -381,7 +381,7 @@ extension AutoScaling {
 
     public struct AutoScalingGroupsType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoScalingGroups", required: true, type: .list), 
+            AWSShapeMember(label: "AutoScalingGroups", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The groups.
@@ -453,7 +453,7 @@ extension AutoScaling {
 
     public struct AutoScalingInstancesType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoScalingInstances", required: false, type: .list), 
+            AWSShapeMember(label: "AutoScalingInstances", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The instances.
@@ -474,7 +474,7 @@ extension AutoScaling {
 
     public struct BatchDeleteScheduledActionAnswer: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedScheduledActions", required: false, type: .list)
+            AWSShapeMember(label: "FailedScheduledActions", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The names of the scheduled actions that could not be deleted, including an error message. 
         public let failedScheduledActions: [FailedScheduledUpdateGroupActionRequest]?
@@ -491,7 +491,7 @@ extension AutoScaling {
     public struct BatchDeleteScheduledActionType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "ScheduledActionNames", required: true, type: .list)
+            AWSShapeMember(label: "ScheduledActionNames", required: true, type: .list, encoding: .list(member:"member"))
         ]
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -511,7 +511,7 @@ extension AutoScaling {
 
     public struct BatchPutScheduledUpdateGroupActionAnswer: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedScheduledUpdateGroupActions", required: false, type: .list)
+            AWSShapeMember(label: "FailedScheduledUpdateGroupActions", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The names of the scheduled actions that could not be created or updated, including an error message.
         public let failedScheduledUpdateGroupActions: [FailedScheduledUpdateGroupActionRequest]?
@@ -528,7 +528,7 @@ extension AutoScaling {
     public struct BatchPutScheduledUpdateGroupActionType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "ScheduledUpdateGroupActions", required: true, type: .list)
+            AWSShapeMember(label: "ScheduledUpdateGroupActions", required: true, type: .list, encoding: .list(member:"member"))
         ]
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -623,7 +623,7 @@ extension AutoScaling {
     public struct CreateAutoScalingGroupType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "DefaultCooldown", required: false, type: .integer), 
             AWSShapeMember(label: "DesiredCapacity", required: false, type: .integer), 
             AWSShapeMember(label: "HealthCheckGracePeriod", required: false, type: .integer), 
@@ -631,17 +631,17 @@ extension AutoScaling {
             AWSShapeMember(label: "InstanceId", required: false, type: .string), 
             AWSShapeMember(label: "LaunchConfigurationName", required: false, type: .string), 
             AWSShapeMember(label: "LaunchTemplate", required: false, type: .structure), 
-            AWSShapeMember(label: "LifecycleHookSpecificationList", required: false, type: .list), 
-            AWSShapeMember(label: "LoadBalancerNames", required: false, type: .list), 
+            AWSShapeMember(label: "LifecycleHookSpecificationList", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "LoadBalancerNames", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "MaxSize", required: true, type: .integer), 
             AWSShapeMember(label: "MinSize", required: true, type: .integer), 
             AWSShapeMember(label: "MixedInstancesPolicy", required: false, type: .structure), 
             AWSShapeMember(label: "NewInstancesProtectedFromScaleIn", required: false, type: .boolean), 
             AWSShapeMember(label: "PlacementGroup", required: false, type: .string), 
             AWSShapeMember(label: "ServiceLinkedRoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "TargetGroupARNs", required: false, type: .list), 
-            AWSShapeMember(label: "TerminationPolicies", required: false, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "TargetGroupARNs", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "TerminationPolicies", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "VPCZoneIdentifier", required: false, type: .string)
         ]
         /// The name of the Auto Scaling group. This name must be unique within the scope of your AWS account.
@@ -739,9 +739,9 @@ extension AutoScaling {
     public struct CreateLaunchConfigurationType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AssociatePublicIpAddress", required: false, type: .boolean), 
-            AWSShapeMember(label: "BlockDeviceMappings", required: false, type: .list), 
+            AWSShapeMember(label: "BlockDeviceMappings", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ClassicLinkVPCId", required: false, type: .string), 
-            AWSShapeMember(label: "ClassicLinkVPCSecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "ClassicLinkVPCSecurityGroups", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "EbsOptimized", required: false, type: .boolean), 
             AWSShapeMember(label: "IamInstanceProfile", required: false, type: .string), 
             AWSShapeMember(label: "ImageId", required: false, type: .string), 
@@ -753,7 +753,7 @@ extension AutoScaling {
             AWSShapeMember(label: "LaunchConfigurationName", required: true, type: .string), 
             AWSShapeMember(label: "PlacementTenancy", required: false, type: .string), 
             AWSShapeMember(label: "RamdiskId", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "SpotPrice", required: false, type: .string), 
             AWSShapeMember(label: "UserData", required: false, type: .string)
         ]
@@ -839,7 +839,7 @@ extension AutoScaling {
 
     public struct CreateOrUpdateTagsType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: true, type: .list)
+            AWSShapeMember(label: "Tags", required: true, type: .list, encoding: .list(member:"member"))
         ]
         /// One or more tags.
         public let tags: [Tag]
@@ -855,7 +855,7 @@ extension AutoScaling {
 
     public struct CustomizedMetricSpecification: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
+            AWSShapeMember(label: "Dimensions", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "MetricName", required: true, type: .string), 
             AWSShapeMember(label: "Namespace", required: true, type: .string), 
             AWSShapeMember(label: "Statistic", required: true, type: .enum), 
@@ -1003,7 +1003,7 @@ extension AutoScaling {
 
     public struct DeleteTagsType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: true, type: .list)
+            AWSShapeMember(label: "Tags", required: true, type: .list, encoding: .list(member:"member"))
         ]
         /// One or more tags.
         public let tags: [Tag]
@@ -1050,7 +1050,7 @@ extension AutoScaling {
 
     public struct DescribeAdjustmentTypesAnswer: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdjustmentTypes", required: false, type: .list)
+            AWSShapeMember(label: "AdjustmentTypes", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The policy adjustment types.
         public let adjustmentTypes: [AdjustmentType]?
@@ -1066,7 +1066,7 @@ extension AutoScaling {
 
     public struct DescribeAutoScalingInstancesType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceIds", required: false, type: .list), 
+            AWSShapeMember(label: "InstanceIds", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -1092,7 +1092,7 @@ extension AutoScaling {
 
     public struct DescribeAutoScalingNotificationTypesAnswer: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoScalingNotificationTypes", required: false, type: .list)
+            AWSShapeMember(label: "AutoScalingNotificationTypes", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The notification types.
         public let autoScalingNotificationTypes: [String]?
@@ -1108,7 +1108,7 @@ extension AutoScaling {
 
     public struct DescribeLifecycleHookTypesAnswer: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LifecycleHookTypes", required: false, type: .list)
+            AWSShapeMember(label: "LifecycleHookTypes", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The lifecycle hook types.
         public let lifecycleHookTypes: [String]?
@@ -1124,7 +1124,7 @@ extension AutoScaling {
 
     public struct DescribeLifecycleHooksAnswer: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LifecycleHooks", required: false, type: .list)
+            AWSShapeMember(label: "LifecycleHooks", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The lifecycle hooks for the specified group.
         public let lifecycleHooks: [LifecycleHook]?
@@ -1141,7 +1141,7 @@ extension AutoScaling {
     public struct DescribeLifecycleHooksType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "LifecycleHookNames", required: false, type: .list)
+            AWSShapeMember(label: "LifecycleHookNames", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -1187,7 +1187,7 @@ extension AutoScaling {
 
     public struct DescribeLoadBalancerTargetGroupsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBalancerTargetGroups", required: false, type: .list), 
+            AWSShapeMember(label: "LoadBalancerTargetGroups", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Information about the target groups.
@@ -1234,7 +1234,7 @@ extension AutoScaling {
 
     public struct DescribeLoadBalancersResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBalancers", required: false, type: .list), 
+            AWSShapeMember(label: "LoadBalancers", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The load balancers.
@@ -1255,8 +1255,8 @@ extension AutoScaling {
 
     public struct DescribeMetricCollectionTypesAnswer: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Granularities", required: false, type: .list), 
-            AWSShapeMember(label: "Metrics", required: false, type: .list)
+            AWSShapeMember(label: "Granularities", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Metrics", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The granularities for the metrics.
         public let granularities: [MetricGranularityType]?
@@ -1277,7 +1277,7 @@ extension AutoScaling {
     public struct DescribeNotificationConfigurationsAnswer: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "NotificationConfigurations", required: true, type: .list)
+            AWSShapeMember(label: "NotificationConfigurations", required: true, type: .list, encoding: .list(member:"member"))
         ]
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
@@ -1297,7 +1297,7 @@ extension AutoScaling {
 
     public struct DescribeNotificationConfigurationsType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoScalingGroupNames", required: false, type: .list), 
+            AWSShapeMember(label: "AutoScalingGroupNames", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -1326,8 +1326,8 @@ extension AutoScaling {
             AWSShapeMember(label: "AutoScalingGroupName", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyNames", required: false, type: .list), 
-            AWSShapeMember(label: "PolicyTypes", required: false, type: .list)
+            AWSShapeMember(label: "PolicyNames", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "PolicyTypes", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
@@ -1359,7 +1359,7 @@ extension AutoScaling {
 
     public struct DescribeScalingActivitiesType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActivityIds", required: false, type: .list), 
+            AWSShapeMember(label: "ActivityIds", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "AutoScalingGroupName", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
@@ -1394,7 +1394,7 @@ extension AutoScaling {
             AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ScheduledActionNames", required: false, type: .list), 
+            AWSShapeMember(label: "ScheduledActionNames", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
         ]
         /// The name of the Auto Scaling group.
@@ -1431,7 +1431,7 @@ extension AutoScaling {
 
     public struct DescribeTagsType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -1457,7 +1457,7 @@ extension AutoScaling {
 
     public struct DescribeTerminationPolicyTypesAnswer: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TerminationPolicyTypes", required: false, type: .list)
+            AWSShapeMember(label: "TerminationPolicyTypes", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The termination policies supported by Amazon EC2 Auto Scaling: OldestInstance, OldestLaunchConfiguration, NewestInstance, ClosestToNextInstanceHour, Default, OldestLaunchTemplate, and AllocationStrategy.
         public let terminationPolicyTypes: [String]?
@@ -1473,7 +1473,7 @@ extension AutoScaling {
 
     public struct DetachInstancesAnswer: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Activities", required: false, type: .list)
+            AWSShapeMember(label: "Activities", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The activities related to detaching the instances from the Auto Scaling group.
         public let activities: [Activity]?
@@ -1490,7 +1490,7 @@ extension AutoScaling {
     public struct DetachInstancesQuery: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceIds", required: false, type: .list), 
+            AWSShapeMember(label: "InstanceIds", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ShouldDecrementDesiredCapacity", required: true, type: .boolean)
         ]
         /// The name of the Auto Scaling group.
@@ -1523,7 +1523,7 @@ extension AutoScaling {
     public struct DetachLoadBalancerTargetGroupsType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "TargetGroupARNs", required: true, type: .list)
+            AWSShapeMember(label: "TargetGroupARNs", required: true, type: .list, encoding: .list(member:"member"))
         ]
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -1551,7 +1551,7 @@ extension AutoScaling {
     public struct DetachLoadBalancersType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "LoadBalancerNames", required: true, type: .list)
+            AWSShapeMember(label: "LoadBalancerNames", required: true, type: .list, encoding: .list(member:"member"))
         ]
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -1572,7 +1572,7 @@ extension AutoScaling {
     public struct DisableMetricsCollectionQuery: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Metrics", required: false, type: .list)
+            AWSShapeMember(label: "Metrics", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -1635,7 +1635,7 @@ extension AutoScaling {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
             AWSShapeMember(label: "Granularity", required: true, type: .string), 
-            AWSShapeMember(label: "Metrics", required: false, type: .list)
+            AWSShapeMember(label: "Metrics", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -1680,7 +1680,7 @@ extension AutoScaling {
 
     public struct EnterStandbyAnswer: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Activities", required: false, type: .list)
+            AWSShapeMember(label: "Activities", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The activities related to moving instances into Standby mode.
         public let activities: [Activity]?
@@ -1697,7 +1697,7 @@ extension AutoScaling {
     public struct EnterStandbyQuery: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceIds", required: false, type: .list), 
+            AWSShapeMember(label: "InstanceIds", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ShouldDecrementDesiredCapacity", required: true, type: .boolean)
         ]
         /// The name of the Auto Scaling group.
@@ -1758,7 +1758,7 @@ extension AutoScaling {
 
     public struct ExitStandbyAnswer: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Activities", required: false, type: .list)
+            AWSShapeMember(label: "Activities", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The activities related to moving instances out of Standby mode.
         public let activities: [Activity]?
@@ -1775,7 +1775,7 @@ extension AutoScaling {
     public struct ExitStandbyQuery: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceIds", required: false, type: .list)
+            AWSShapeMember(label: "InstanceIds", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -1822,7 +1822,7 @@ extension AutoScaling {
     public struct Filter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Values", required: false, type: .list)
+            AWSShapeMember(label: "Values", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The name of the filter. The valid values are: "auto-scaling-group", "key", "value", and "propagate-at-launch".
         public let name: String?
@@ -1946,9 +1946,9 @@ extension AutoScaling {
     public struct LaunchConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AssociatePublicIpAddress", required: false, type: .boolean), 
-            AWSShapeMember(label: "BlockDeviceMappings", required: false, type: .list), 
+            AWSShapeMember(label: "BlockDeviceMappings", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ClassicLinkVPCId", required: false, type: .string), 
-            AWSShapeMember(label: "ClassicLinkVPCSecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "ClassicLinkVPCSecurityGroups", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "CreatedTime", required: true, type: .timestamp), 
             AWSShapeMember(label: "EbsOptimized", required: false, type: .boolean), 
             AWSShapeMember(label: "IamInstanceProfile", required: false, type: .string), 
@@ -1961,7 +1961,7 @@ extension AutoScaling {
             AWSShapeMember(label: "LaunchConfigurationName", required: true, type: .string), 
             AWSShapeMember(label: "PlacementTenancy", required: false, type: .string), 
             AWSShapeMember(label: "RamdiskId", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "SpotPrice", required: false, type: .string), 
             AWSShapeMember(label: "UserData", required: false, type: .string)
         ]
@@ -2067,7 +2067,7 @@ extension AutoScaling {
 
     public struct LaunchConfigurationNamesType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LaunchConfigurationNames", required: false, type: .list), 
+            AWSShapeMember(label: "LaunchConfigurationNames", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -2093,7 +2093,7 @@ extension AutoScaling {
 
     public struct LaunchConfigurationsType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LaunchConfigurations", required: true, type: .list), 
+            AWSShapeMember(label: "LaunchConfigurations", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The launch configurations.
@@ -2115,7 +2115,7 @@ extension AutoScaling {
     public struct LaunchTemplate: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LaunchTemplateSpecification", required: false, type: .structure), 
-            AWSShapeMember(label: "Overrides", required: false, type: .list)
+            AWSShapeMember(label: "Overrides", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The launch template to use. You must specify either the launch template ID or launch template name in the request. 
         public let launchTemplateSpecification: LaunchTemplateSpecification?
@@ -2456,7 +2456,7 @@ extension AutoScaling {
     public struct PoliciesType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ScalingPolicies", required: false, type: .list)
+            AWSShapeMember(label: "ScalingPolicies", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
@@ -2476,7 +2476,7 @@ extension AutoScaling {
 
     public struct PolicyARNType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Alarms", required: false, type: .list), 
+            AWSShapeMember(label: "Alarms", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "PolicyARN", required: false, type: .string)
         ]
         /// The CloudWatch alarms created for the target tracking scaling policy.
@@ -2534,7 +2534,7 @@ extension AutoScaling {
 
     public struct ProcessesType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Processes", required: false, type: .list)
+            AWSShapeMember(label: "Processes", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The names of the process types.
         public let processes: [ProcessType]?
@@ -2609,7 +2609,7 @@ extension AutoScaling {
     public struct PutNotificationConfigurationType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "NotificationTypes", required: true, type: .list), 
+            AWSShapeMember(label: "NotificationTypes", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "TopicARN", required: true, type: .string)
         ]
         /// The name of the Auto Scaling group.
@@ -2644,7 +2644,7 @@ extension AutoScaling {
             AWSShapeMember(label: "PolicyName", required: true, type: .string), 
             AWSShapeMember(label: "PolicyType", required: false, type: .string), 
             AWSShapeMember(label: "ScalingAdjustment", required: false, type: .integer), 
-            AWSShapeMember(label: "StepAdjustments", required: false, type: .list), 
+            AWSShapeMember(label: "StepAdjustments", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "TargetTrackingConfiguration", required: false, type: .structure)
         ]
         /// The adjustment type. The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity. This parameter is supported if the policy type is SimpleScaling or StepScaling. For more information, see Dynamic Scaling in the Amazon EC2 Auto Scaling User Guide.
@@ -2816,7 +2816,7 @@ extension AutoScaling {
     public struct ScalingPolicy: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AdjustmentType", required: false, type: .string), 
-            AWSShapeMember(label: "Alarms", required: false, type: .list), 
+            AWSShapeMember(label: "Alarms", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "AutoScalingGroupName", required: false, type: .string), 
             AWSShapeMember(label: "Cooldown", required: false, type: .integer), 
             AWSShapeMember(label: "EstimatedInstanceWarmup", required: false, type: .integer), 
@@ -2827,7 +2827,7 @@ extension AutoScaling {
             AWSShapeMember(label: "PolicyName", required: false, type: .string), 
             AWSShapeMember(label: "PolicyType", required: false, type: .string), 
             AWSShapeMember(label: "ScalingAdjustment", required: false, type: .integer), 
-            AWSShapeMember(label: "StepAdjustments", required: false, type: .list), 
+            AWSShapeMember(label: "StepAdjustments", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "TargetTrackingConfiguration", required: false, type: .structure)
         ]
         /// The adjustment type, which specifies how ScalingAdjustment is interpreted. The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity.
@@ -2897,7 +2897,7 @@ extension AutoScaling {
     public struct ScalingProcessQuery: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "ScalingProcesses", required: false, type: .list)
+            AWSShapeMember(label: "ScalingProcesses", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -2918,7 +2918,7 @@ extension AutoScaling {
     public struct ScheduledActionsType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ScheduledUpdateGroupActions", required: false, type: .list)
+            AWSShapeMember(label: "ScheduledUpdateGroupActions", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
@@ -3105,7 +3105,7 @@ extension AutoScaling {
     public struct SetInstanceProtectionQuery: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceIds", required: true, type: .list), 
+            AWSShapeMember(label: "InstanceIds", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ProtectedFromScaleIn", required: true, type: .boolean)
         ]
         /// The name of the Auto Scaling group.
@@ -3250,7 +3250,7 @@ extension AutoScaling {
     public struct TagsType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
+            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
@@ -3323,7 +3323,7 @@ extension AutoScaling {
     public struct UpdateAutoScalingGroupType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "DefaultCooldown", required: false, type: .integer), 
             AWSShapeMember(label: "DesiredCapacity", required: false, type: .integer), 
             AWSShapeMember(label: "HealthCheckGracePeriod", required: false, type: .integer), 
@@ -3336,7 +3336,7 @@ extension AutoScaling {
             AWSShapeMember(label: "NewInstancesProtectedFromScaleIn", required: false, type: .boolean), 
             AWSShapeMember(label: "PlacementGroup", required: false, type: .string), 
             AWSShapeMember(label: "ServiceLinkedRoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "TerminationPolicies", required: false, type: .list), 
+            AWSShapeMember(label: "TerminationPolicies", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "VPCZoneIdentifier", required: false, type: .string)
         ]
         /// The name of the Auto Scaling group.
