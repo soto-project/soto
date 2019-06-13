@@ -27,13 +27,17 @@ func rootPath() -> String {
         .joined(separator: "/")
 }
 
+func apiDirectories() -> [String] {
+    return Glob.entries(pattern: "\(rootPath())/models/apis/**")
+}
+
 func loadEndpointJSON() throws -> JSON {
     let data = try Data(contentsOf: URL(string: "file://\(rootPath())/models/endpoints/endpoints.json")!)
     return JSON(data: data)
 }
 
 func loadDocJSONList() throws -> [JSON] {
-    let directories = Glob.entries(pattern: "\(rootPath())/models/apis/**")
+    let directories = apiDirectories()
 
     let docPaths: [String] = directories.map {
         let entries = Glob.entries(pattern: $0+"/**/docs-*.json")
@@ -47,7 +51,7 @@ func loadDocJSONList() throws -> [JSON] {
 }
 
 func loadAPIJSONList() throws -> [JSON] {
-    let directories = Glob.entries(pattern: "\(rootPath())/models/apis/**")
+    let directories = apiDirectories()
 
     let apiPaths: [String] = directories.map {
         let entries = Glob.entries(pattern: $0+"/**/api-*.json")

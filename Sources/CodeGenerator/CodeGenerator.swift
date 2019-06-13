@@ -26,7 +26,7 @@ extension Location {
         }
     }
 
-    init?(key: String, json: JSON) {
+    init?(json: JSON) {
         guard let name = json["locationName"].string else {
             return nil
         }
@@ -47,6 +47,44 @@ extension Location {
             self = .body(locationName: name)
 
         default:
+            return nil
+        }
+    }
+}
+
+extension CollectionEncoding {
+    func enumStyleDescription() -> String {
+        switch self {
+        case .default:
+            return ".default"
+        case .list(let member):
+            return ".list(member:\"\(member)\")"
+        case .flatList:
+            return ".flatList"
+        case .map(let entry, let key, let value):
+            return ".map(entry:\"\(entry)\", key: \"\(key)\", value: \"\(value)\")"
+        case .flatMap(let key, let value):
+            return ".flatMap(key: \"\(key)\", value: \"\(value)\")"
+        }
+    }
+    
+    init?(json: JSON) {
+        if json["type"].string == "list" {
+            if json["flattened"].bool == true {
+                self = .flatList
+            } else {
+                self = .list(member: json["member"]["locationName"].string ?? "member")
+            }
+        } else if json["type"].string == "map" {
+            let key = json["key"]["locationName"].string ?? "key"
+            let value = json["value"]["locationName"].string ?? "value"
+            if json["flattened"].bool == true {
+                self = .flatMap(key: key, value: value)
+            } else {
+                let entry = "entry"
+                self = .map(entry: entry, key: key, value: value)
+            }
+        } else {
             return nil
         }
     }
@@ -329,8 +367,11 @@ extension AWSService {
             if let location = member.location?.enumStyleDescription() {
                 code += ", location: \(location)"
             }
-            code += ", required: \(member.required), type: \(hint.enumStyleDescription))"
-
+            code += ", required: \(member.required), type: \(hint.enumStyleDescription)"
+            if let encoding = member.collectionEncoding?.enumStyleDescription() {
+                code += ", encoding: \(encoding)"
+            }
+            code += ")"
             return code
         })
         if hints.count > 0 {
