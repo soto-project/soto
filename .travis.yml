@@ -19,3 +19,9 @@ matrix:
         - xcodebuild -scheme AWSSDKSwift-Package -enableCodeCoverage YES build test
       after_success:
         - bash <(curl -s https://codecov.io/bash) -J 'AWSSDKSwift'
+    - os: osx
+      language: swift
+      osx_image: xcode10.2
+      script:
+        - brew install shellcheck
+        - scripts/shellcheck-test.sh
