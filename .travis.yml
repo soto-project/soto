@@ -1,21 +1,21 @@
 language: generic
 matrix:
-	  include:
-	    - os: linux
-	      services: docker
-	      before_install:
-	        - docker pull swift:4.2
-	      script:
-	        - docker run -v "$(pwd):/root/aws-sdk-swift" swift:4.2 /bin/sh -c "cd /root/aws-sdk-swift && swift build && swift test --parallel -Xswiftc -DDEBUG"
-	    - os: osx
-	      language: swift
-	      osx_image: xcode10.2
-	      script:
-	        - brew install libressl
-                - source scripts/help-travis-wait.sh& travis_wait 60
-	        - swift build
-	        - swift test --parallel -Xswiftc -DDEBUG
-	        - swift package generate-xcodeproj
-	        - xcodebuild -scheme AWSSDKSwift-Package -enableCodeCoverage YES build test
-	      after_success:
-	        - bash <(curl -s https://codecov.io/bash) -J 'AWSSDKSwift'
+  include:
+    - os: linux
+      services: docker
+      before_install:
+        - docker pull swift:4.2
+      script:
+        - docker run -v "$(pwd):/root/aws-sdk-swift" swift:4.2 /bin/sh -c "cd /root/aws-sdk-swift && swift build && swift test --parallel -Xswiftc -DDEBUG"
+    - os: osx
+      language: swift
+      osx_image: xcode10.2
+      script:
+        - brew install libressl
+        - source scripts/help-travis-wait.sh& travis_wait 60
+        - swift build
+        - swift test --parallel -Xswiftc -DDEBUG
+        - swift package generate-xcodeproj
+        - xcodebuild -scheme AWSSDKSwift-Package -enableCodeCoverage YES build test
+      after_success:
+        - bash <(curl -s https://codecov.io/bash) -J 'AWSSDKSwift'
