@@ -1,30 +1,21 @@
-os:
-  - linux
-  - osx
 language: generic
-sudo: required
-dist: xenial
-osx_image: xcode10
-
-addons:
-  hosts:
-    - aws-sdk-swift-test-bucket.localhost
-  apt:
-    packages:
-    - libicu-dev
-    - uuid-dev
-    - pkg-config
-    - libssl-dev
-  homebrew:
-    packages:
-    - libressl
-
-install:
-  - source scripts/install-swift.sh
-  - if [ "${OS}" != "macos" ]; then docker run -d -p 8000:8000 tray/dynamodb-local -inMemory -port 8000; fi
-  - if [ "${OS}" != "macos" ]; then docker run -d -p 4569:4569 lphoward/fake-s3; fi
-
-script:
-  - source scripts/install-swift.sh
-  - source scripts/help-travis-wait.sh& travis_wait 60
-  - if [ "${OS}" != "macos" ]; then swift test; else swift build; fi
+matrix:
+	  include:
+	    - os: linux
+	      services: docker
+	      before_install:
+	        - docker pull swift:4.2
+	      script:
+	        - docker run -v "$(pwd):/root/aws-sdk-swift" swift:4.2 /bin/sh -c "cd /root/aws-sdk-swift && swift build && swift test --parallel -Xswiftc -DDEBUG"
+	    - os: osx
+	      language: swift
+	      osx_image: xcode10.2
+	      script:
+	        - brew install libressl
+                - source scripts/help-travis-wait.sh& travis_wait 60
+	        - swift build
+	        - swift test --parallel -Xswiftc -DDEBUG
+	        - swift package generate-xcodeproj
+	        - xcodebuild -scheme AWSSDKSwift-Package -enableCodeCoverage YES build test
+	      after_success:
+	        - bash <(curl -s https://codecov.io/bash) -J 'AWSSDKSwift'
