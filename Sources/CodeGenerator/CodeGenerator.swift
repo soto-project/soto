@@ -52,7 +52,7 @@ extension Location {
     }
 }
 
-extension CollectionEncoding {
+extension ShapeEncoding {
     func enumStyleDescription() -> String {
         switch self {
         case .default:
@@ -368,7 +368,7 @@ extension AWSService {
                 code += ", location: \(location)"
             }
             code += ", required: \(member.required), type: \(hint.enumStyleDescription)"
-            if let encoding = member.collectionEncoding?.enumStyleDescription() {
+            if let encoding = member.shapeEncoding?.enumStyleDescription() {
                 code += ", encoding: \(encoding)"
             }
             code += ")"

@@ -144,11 +144,11 @@ struct AWSService {
                 var locationName = memberJSON["locationName"].string
                 // if member shape was flattened and has a location name then use that as the location name
                 let shapeJSON = apiJSON["shapes"][shapeName]
-                var encoding : CollectionEncoding? = nil
+                var encoding : ShapeEncoding? = nil
                 // xml and query encoding needs collection encoding information
                 switch serviceProtocol.type {
                 case .query, .restxml:
-                    encoding = CollectionEncoding(json: shapeJSON)
+                    encoding = ShapeEncoding(json: shapeJSON)
                 default:
                     break
                 }
@@ -174,7 +174,7 @@ struct AWSService {
                     shape: shape,
                     location: location,
                     locationName: locationName,
-                    collectionEncoding: encoding,
+                    shapeEncoding: encoding,
                     xmlNamespace: XMLNamespace(dictionary: memberDict),
                     isStreaming: memberJSON["streaming"].bool ?? false
                 )

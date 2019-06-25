@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum CollectionEncoding {
+public enum ShapeEncoding {
     case `default`
     case flatList
     case list(member: String)
@@ -21,18 +21,18 @@ public struct Member {
     public let required: Bool
     public let shape: Shape
     public let location: Location?
-    public let collectionEncoding: CollectionEncoding?
+    public let shapeEncoding: ShapeEncoding?
     public let locationName: String?
     public let xmlNamespace: XMLNamespace?
     public let isStreaming: Bool
     
-    public init(name: String, required: Bool, shape: Shape, location: Location?, locationName: String?, collectionEncoding: CollectionEncoding?, xmlNamespace: XMLNamespace?, isStreaming: Bool){
+    public init(name: String, required: Bool, shape: Shape, location: Location?, locationName: String?, shapeEncoding: ShapeEncoding?, xmlNamespace: XMLNamespace?, isStreaming: Bool){
         self.name = name
         self.required = required
         self.shape = shape
         self.location = location
         self.locationName = locationName
-        self.collectionEncoding = collectionEncoding
+        self.shapeEncoding = shapeEncoding
         self.xmlNamespace = xmlNamespace
         self.isStreaming = isStreaming
     }
