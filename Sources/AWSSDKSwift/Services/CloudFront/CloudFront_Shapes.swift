@@ -8,17 +8,17 @@ extension CloudFront {
     public struct ActiveTrustedSigners: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"Signer")), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// Enabled is true if any of the AWS accounts listed in the TrustedSigners complex type for this RTMP distribution have active CloudFront key pairs. If not, Enabled is false. For more information, see ActiveTrustedSigners.
         public let enabled: Bool
         /// A complex type that contains one Signer complex type for each trusted signer that is specified in the TrustedSigners complex type. For more information, see ActiveTrustedSigners. 
-        public let items: SignerList?
+        public let items: [Signer]?
         /// A complex type that contains one Signer complex type for each trusted signer specified in the TrustedSigners complex type. For more information, see ActiveTrustedSigners.
         public let quantity: Int32
 
-        public init(enabled: Bool, items: SignerList? = nil, quantity: Int32) {
+        public init(enabled: Bool, items: [Signer]? = nil, quantity: Int32) {
             self.enabled = enabled
             self.items = items
             self.quantity = quantity
@@ -31,32 +31,17 @@ extension CloudFront {
         }
     }
 
-    public struct AliasList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CNAME", required: false, type: .list)
-        ]
-        public let cname: [String]?
-
-        public init(cname: [String]? = nil) {
-            self.cname = cname
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cname = "CNAME"
-        }
-    }
-
     public struct Aliases: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"CNAME")), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// A complex type that contains the CNAME aliases, if any, that you want to associate with this distribution.
-        public let items: AliasList?
+        public let items: [String]?
         /// The number of CNAME aliases, if any, that you want to associate with this distribution.
         public let quantity: Int32
 
-        public init(items: AliasList? = nil, quantity: Int32) {
+        public init(items: [String]? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
@@ -70,16 +55,16 @@ extension CloudFront {
     public struct AllowedMethods: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CachedMethods", required: false, type: .structure), 
-            AWSShapeMember(label: "Items", required: true, type: .structure), 
+            AWSShapeMember(label: "Items", required: true, type: .list, encoding: .list(member:"Method")), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         public let cachedMethods: CachedMethods?
         /// A complex type that contains the HTTP methods that you want CloudFront to process and forward to your origin.
-        public let items: MethodsList
+        public let items: [Method]
         /// The number of HTTP methods that you want CloudFront to forward to your origin. Valid values are 2 (for GET and HEAD requests), 3 (for GET, HEAD, and OPTIONS requests) and 7 (for GET, HEAD, OPTIONS, PUT, PATCH, POST, and DELETE requests).
         public let quantity: Int32
 
-        public init(cachedMethods: CachedMethods? = nil, items: MethodsList, quantity: Int32) {
+        public init(cachedMethods: CachedMethods? = nil, items: [Method], quantity: Int32) {
             self.cachedMethods = cachedMethods
             self.items = items
             self.quantity = quantity
@@ -89,21 +74,6 @@ extension CloudFront {
             case cachedMethods = "CachedMethods"
             case items = "Items"
             case quantity = "Quantity"
-        }
-    }
-
-    public struct AwsAccountNumberList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountNumber", required: false, type: .list)
-        ]
-        public let awsAccountNumber: [String]?
-
-        public init(awsAccountNumber: [String]? = nil) {
-            self.awsAccountNumber = awsAccountNumber
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountNumber = "AwsAccountNumber"
         }
     }
 
@@ -182,32 +152,17 @@ extension CloudFront {
         }
     }
 
-    public struct CacheBehaviorList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheBehavior", required: false, type: .list)
-        ]
-        public let cacheBehavior: [CacheBehavior]?
-
-        public init(cacheBehavior: [CacheBehavior]? = nil) {
-            self.cacheBehavior = cacheBehavior
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cacheBehavior = "CacheBehavior"
-        }
-    }
-
     public struct CacheBehaviors: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"CacheBehavior")), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// Optional: A complex type that contains cache behaviors for this distribution. If Quantity is 0, you can omit Items.
-        public let items: CacheBehaviorList?
+        public let items: [CacheBehavior]?
         /// The number of cache behaviors for this distribution. 
         public let quantity: Int32
 
-        public init(items: CacheBehaviorList? = nil, quantity: Int32) {
+        public init(items: [CacheBehavior]? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
@@ -220,15 +175,15 @@ extension CloudFront {
 
     public struct CachedMethods: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: true, type: .structure), 
+            AWSShapeMember(label: "Items", required: true, type: .list, encoding: .list(member:"Method")), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// A complex type that contains the HTTP methods that you want CloudFront to cache responses to.
-        public let items: MethodsList
+        public let items: [Method]
         /// The number of HTTP methods for which you want CloudFront to cache responses. Valid values are 2 (for caching responses to GET and HEAD requests) and 3 (for caching responses to GET, HEAD, and OPTIONS requests).
         public let quantity: Int32
 
-        public init(items: MethodsList, quantity: Int32) {
+        public init(items: [Method], quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
@@ -296,7 +251,7 @@ extension CloudFront {
     public struct CloudFrontOriginAccessIdentityList: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"CloudFrontOriginAccessIdentitySummary")), 
             AWSShapeMember(label: "Marker", required: true, type: .string), 
             AWSShapeMember(label: "MaxItems", required: true, type: .integer), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
@@ -305,7 +260,7 @@ extension CloudFront {
         /// A flag that indicates whether more origin access identities remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more items in the list.
         public let isTruncated: Bool
         /// A complex type that contains one CloudFrontOriginAccessIdentitySummary element for each origin access identity that was created by the current AWS account.
-        public let items: CloudFrontOriginAccessIdentitySummaryList?
+        public let items: [CloudFrontOriginAccessIdentitySummary]?
         /// Use this when paginating results to indicate where to begin in your list of origin access identities. The results include identities in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last identity on that page). 
         public let marker: String
         /// The maximum number of origin access identities you want in the response body. 
@@ -315,7 +270,7 @@ extension CloudFront {
         /// The number of CloudFront origin access identities that were created by the current AWS account. 
         public let quantity: Int32
 
-        public init(isTruncated: Bool, items: CloudFrontOriginAccessIdentitySummaryList? = nil, marker: String, maxItems: Int32, nextMarker: String? = nil, quantity: Int32) {
+        public init(isTruncated: Bool, items: [CloudFrontOriginAccessIdentitySummary]? = nil, marker: String, maxItems: Int32, nextMarker: String? = nil, quantity: Int32) {
             self.isTruncated = isTruncated
             self.items = items
             self.marker = marker
@@ -357,21 +312,6 @@ extension CloudFront {
             case comment = "Comment"
             case id = "Id"
             case s3CanonicalUserId = "S3CanonicalUserId"
-        }
-    }
-
-    public struct CloudFrontOriginAccessIdentitySummaryList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudFrontOriginAccessIdentitySummary", required: false, type: .list)
-        ]
-        public let cloudFrontOriginAccessIdentitySummary: [CloudFrontOriginAccessIdentitySummary]?
-
-        public init(cloudFrontOriginAccessIdentitySummary: [CloudFrontOriginAccessIdentitySummary]? = nil) {
-            self.cloudFrontOriginAccessIdentitySummary = cloudFrontOriginAccessIdentitySummary
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cloudFrontOriginAccessIdentitySummary = "CloudFrontOriginAccessIdentitySummary"
         }
     }
 
@@ -422,32 +362,17 @@ extension CloudFront {
         }
     }
 
-    public struct ContentTypeProfileList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentTypeProfile", required: false, type: .list)
-        ]
-        public let contentTypeProfile: [ContentTypeProfile]?
-
-        public init(contentTypeProfile: [ContentTypeProfile]? = nil) {
-            self.contentTypeProfile = contentTypeProfile
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case contentTypeProfile = "ContentTypeProfile"
-        }
-    }
-
     public struct ContentTypeProfiles: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"ContentTypeProfile")), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// Items in a field-level encryption content type-profile mapping. 
-        public let items: ContentTypeProfileList?
+        public let items: [ContentTypeProfile]?
         /// The number of field-level encryption content type-profile mappings. 
         public let quantity: Int32
 
-        public init(items: ContentTypeProfileList? = nil, quantity: Int32) {
+        public init(items: [ContentTypeProfile]? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
@@ -458,32 +383,17 @@ extension CloudFront {
         }
     }
 
-    public struct CookieNameList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .list)
-        ]
-        public let name: [String]?
-
-        public init(name: [String]? = nil) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
     public struct CookieNames: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"Name")), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// A complex type that contains one Name element for each cookie that you want CloudFront to forward to the origin for this cache behavior.
-        public let items: CookieNameList?
+        public let items: [String]?
         /// The number of different cookies that you want CloudFront to forward to the origin for this cache behavior.
         public let quantity: Int32
 
-        public init(items: CookieNameList? = nil, quantity: Int32) {
+        public init(items: [String]? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
@@ -960,32 +870,17 @@ extension CloudFront {
         }
     }
 
-    public struct CustomErrorResponseList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomErrorResponse", required: false, type: .list)
-        ]
-        public let customErrorResponse: [CustomErrorResponse]?
-
-        public init(customErrorResponse: [CustomErrorResponse]? = nil) {
-            self.customErrorResponse = customErrorResponse
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case customErrorResponse = "CustomErrorResponse"
-        }
-    }
-
     public struct CustomErrorResponses: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"CustomErrorResponse")), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// A complex type that contains a CustomErrorResponse element for each HTTP status code for which you want to specify a custom error page and/or a caching duration. 
-        public let items: CustomErrorResponseList?
+        public let items: [CustomErrorResponse]?
         /// The number of HTTP status codes for which you want to specify a custom error page and/or a caching duration. If Quantity is 0, you can omit Items.
         public let quantity: Int32
 
-        public init(items: CustomErrorResponseList? = nil, quantity: Int32) {
+        public init(items: [CustomErrorResponse]? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
@@ -998,15 +893,15 @@ extension CloudFront {
 
     public struct CustomHeaders: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"OriginCustomHeader")), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         ///  Optional: A list that contains one OriginCustomHeader element for each custom header that you want CloudFront to forward to the origin. If Quantity is 0, omit Items.
-        public let items: OriginCustomHeadersList?
+        public let items: [OriginCustomHeader]?
         /// The number of custom headers, if any, for this distribution.
         public let quantity: Int32
 
-        public init(items: OriginCustomHeadersList? = nil, quantity: Int32) {
+        public init(items: [OriginCustomHeader]? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
@@ -1422,7 +1317,7 @@ extension CloudFront {
     public struct DistributionList: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"DistributionSummary")), 
             AWSShapeMember(label: "Marker", required: true, type: .string), 
             AWSShapeMember(label: "MaxItems", required: true, type: .integer), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
@@ -1431,7 +1326,7 @@ extension CloudFront {
         /// A flag that indicates whether more distributions remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more distributions in the list.
         public let isTruncated: Bool
         /// A complex type that contains one DistributionSummary element for each distribution that was created by the current AWS account.
-        public let items: DistributionSummaryList?
+        public let items: [DistributionSummary]?
         /// The value you provided for the Marker request parameter.
         public let marker: String
         /// The value you provided for the MaxItems request parameter.
@@ -1441,7 +1336,7 @@ extension CloudFront {
         /// The number of distributions that were created by the current AWS account. 
         public let quantity: Int32
 
-        public init(isTruncated: Bool, items: DistributionSummaryList? = nil, marker: String, maxItems: Int32, nextMarker: String? = nil, quantity: Int32) {
+        public init(isTruncated: Bool, items: [DistributionSummary]? = nil, marker: String, maxItems: Int32, nextMarker: String? = nil, quantity: Int32) {
             self.isTruncated = isTruncated
             self.items = items
             self.marker = marker
@@ -1564,32 +1459,17 @@ extension CloudFront {
         }
     }
 
-    public struct DistributionSummaryList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DistributionSummary", required: false, type: .list)
-        ]
-        public let distributionSummary: [DistributionSummary]?
-
-        public init(distributionSummary: [DistributionSummary]? = nil) {
-            self.distributionSummary = distributionSummary
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case distributionSummary = "DistributionSummary"
-        }
-    }
-
     public struct EncryptionEntities: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"EncryptionEntity")), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// An array of field patterns in a field-level encryption content type-profile mapping. 
-        public let items: EncryptionEntityList?
+        public let items: [EncryptionEntity]?
         /// Number of field pattern items in a field-level encryption content type-profile mapping. 
         public let quantity: Int32
 
-        public init(items: EncryptionEntityList? = nil, quantity: Int32) {
+        public init(items: [EncryptionEntity]? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
@@ -1623,21 +1503,6 @@ extension CloudFront {
             case fieldPatterns = "FieldPatterns"
             case providerId = "ProviderId"
             case publicKeyId = "PublicKeyId"
-        }
-    }
-
-    public struct EncryptionEntityList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EncryptionEntity", required: false, type: .list)
-        ]
-        public let encryptionEntity: [EncryptionEntity]?
-
-        public init(encryptionEntity: [EncryptionEntity]? = nil) {
-            self.encryptionEntity = encryptionEntity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case encryptionEntity = "EncryptionEntity"
         }
     }
 
@@ -1708,13 +1573,13 @@ extension CloudFront {
 
     public struct FieldLevelEncryptionList: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"FieldLevelEncryptionSummary")), 
             AWSShapeMember(label: "MaxItems", required: true, type: .integer), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// An array of field-level encryption items.
-        public let items: FieldLevelEncryptionSummaryList?
+        public let items: [FieldLevelEncryptionSummary]?
         /// The maximum number of elements you want in the response body. 
         public let maxItems: Int32
         /// If there are more elements to be listed, this element is present and contains the value that you can use for the Marker request parameter to continue listing your configurations where you left off.
@@ -1722,7 +1587,7 @@ extension CloudFront {
         /// The number of field-level encryption items.
         public let quantity: Int32
 
-        public init(items: FieldLevelEncryptionSummaryList? = nil, maxItems: Int32, nextMarker: String? = nil, quantity: Int32) {
+        public init(items: [FieldLevelEncryptionSummary]? = nil, maxItems: Int32, nextMarker: String? = nil, quantity: Int32) {
             self.items = items
             self.maxItems = maxItems
             self.nextMarker = nextMarker
@@ -1796,13 +1661,13 @@ extension CloudFront {
 
     public struct FieldLevelEncryptionProfileList: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"FieldLevelEncryptionProfileSummary")), 
             AWSShapeMember(label: "MaxItems", required: true, type: .integer), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// The field-level encryption profile items.
-        public let items: FieldLevelEncryptionProfileSummaryList?
+        public let items: [FieldLevelEncryptionProfileSummary]?
         /// The maximum number of field-level encryption profiles you want in the response body. 
         public let maxItems: Int32
         /// If there are more elements to be listed, this element is present and contains the value that you can use for the Marker request parameter to continue listing your profiles where you left off.
@@ -1810,7 +1675,7 @@ extension CloudFront {
         /// The number of field-level encryption profiles.
         public let quantity: Int32
 
-        public init(items: FieldLevelEncryptionProfileSummaryList? = nil, maxItems: Int32, nextMarker: String? = nil, quantity: Int32) {
+        public init(items: [FieldLevelEncryptionProfileSummary]? = nil, maxItems: Int32, nextMarker: String? = nil, quantity: Int32) {
             self.items = items
             self.maxItems = maxItems
             self.nextMarker = nextMarker
@@ -1861,21 +1726,6 @@ extension CloudFront {
         }
     }
 
-    public struct FieldLevelEncryptionProfileSummaryList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FieldLevelEncryptionProfileSummary", required: false, type: .list)
-        ]
-        public let fieldLevelEncryptionProfileSummary: [FieldLevelEncryptionProfileSummary]?
-
-        public init(fieldLevelEncryptionProfileSummary: [FieldLevelEncryptionProfileSummary]? = nil) {
-            self.fieldLevelEncryptionProfileSummary = fieldLevelEncryptionProfileSummary
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fieldLevelEncryptionProfileSummary = "FieldLevelEncryptionProfileSummary"
-        }
-    }
-
     public struct FieldLevelEncryptionSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Comment", required: false, type: .string), 
@@ -1912,47 +1762,17 @@ extension CloudFront {
         }
     }
 
-    public struct FieldLevelEncryptionSummaryList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FieldLevelEncryptionSummary", required: false, type: .list)
-        ]
-        public let fieldLevelEncryptionSummary: [FieldLevelEncryptionSummary]?
-
-        public init(fieldLevelEncryptionSummary: [FieldLevelEncryptionSummary]? = nil) {
-            self.fieldLevelEncryptionSummary = fieldLevelEncryptionSummary
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fieldLevelEncryptionSummary = "FieldLevelEncryptionSummary"
-        }
-    }
-
-    public struct FieldPatternList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FieldPattern", required: false, type: .list)
-        ]
-        public let fieldPattern: [String]?
-
-        public init(fieldPattern: [String]? = nil) {
-            self.fieldPattern = fieldPattern
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fieldPattern = "FieldPattern"
-        }
-    }
-
     public struct FieldPatterns: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"FieldPattern")), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// An array of the field-level encryption field patterns.
-        public let items: FieldPatternList?
+        public let items: [String]?
         /// The number of field-level encryption field patterns.
         public let quantity: Int32
 
-        public init(items: FieldPatternList? = nil, quantity: Int32) {
+        public init(items: [String]? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
@@ -2001,18 +1821,18 @@ extension CloudFront {
 
     public struct GeoRestriction: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"Location")), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer), 
             AWSShapeMember(label: "RestrictionType", required: true, type: .enum)
         ]
         ///  A complex type that contains a Location element for each country in which you want CloudFront either to distribute your content (whitelist) or not distribute your content (blacklist). The Location element is a two-letter, uppercase country code for a country that you want to include in your blacklist or whitelist. Include one Location element for each country. CloudFront and MaxMind both use ISO 3166 country codes. For the current list of countries and the corresponding codes, see ISO 3166-1-alpha-2 code on the International Organization for Standardization website. You can also refer to the country list on the CloudFront console, which includes both country names and codes.
-        public let items: LocationList?
+        public let items: [String]?
         /// When geo restriction is enabled, this is the number of countries in your whitelist or blacklist. Otherwise, when it is not enabled, Quantity is 0, and you can omit Items.
         public let quantity: Int32
         /// The method that you want to use to restrict distribution of your content by country:    none: No geo restriction is enabled, meaning access to content is not restricted by client geo location.    blacklist: The Location elements specify the countries in which you don't want CloudFront to distribute your content.    whitelist: The Location elements specify the countries in which you want CloudFront to distribute your content.  
         public let restrictionType: GeoRestrictionType
 
-        public init(items: LocationList? = nil, quantity: Int32, restrictionType: GeoRestrictionType) {
+        public init(items: [String]? = nil, quantity: Int32, restrictionType: GeoRestrictionType) {
             self.items = items
             self.quantity = quantity
             self.restrictionType = restrictionType
@@ -2539,32 +2359,17 @@ extension CloudFront {
         }
     }
 
-    public struct HeaderList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .list)
-        ]
-        public let name: [String]?
-
-        public init(name: [String]? = nil) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
     public struct Headers: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"Name")), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// A list that contains one Name element for each header that you want CloudFront to use for caching in this cache behavior. If Quantity is 0, omit Items.
-        public let items: HeaderList?
+        public let items: [String]?
         /// The number of different headers that you want CloudFront to base caching on for this cache behavior. You can configure each cache behavior in a web distribution to do one of the following:    Forward all headers to your origin: Specify 1 for Quantity and * for Name.  CloudFront doesn't cache the objects that are associated with this cache behavior. Instead, CloudFront sends every request to the origin.      Forward a whitelist of headers you specify: Specify the number of headers that you want CloudFront to base caching on. Then specify the header names in Name elements. CloudFront caches your objects based on the values in the specified headers.    Forward only the default headers: Specify 0 for Quantity and omit Items. In this configuration, CloudFront doesn't cache based on the values in the request headers.   Regardless of which option you choose, CloudFront forwards headers to your origin based on whether the origin is an S3 bucket or a custom origin. See the following documentation:    S3 bucket: See HTTP Request Headers That CloudFront Removes or Updates     Custom origin: See HTTP Request Headers and CloudFront Behavior   
         public let quantity: Int32
 
-        public init(items: HeaderList? = nil, quantity: Int32) {
+        public init(items: [String]? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
@@ -2636,7 +2441,7 @@ extension CloudFront {
     public struct InvalidationList: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"InvalidationSummary")), 
             AWSShapeMember(label: "Marker", required: true, type: .string), 
             AWSShapeMember(label: "MaxItems", required: true, type: .integer), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
@@ -2645,7 +2450,7 @@ extension CloudFront {
         /// A flag that indicates whether more invalidation batch requests remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more invalidation batches in the list.
         public let isTruncated: Bool
         /// A complex type that contains one InvalidationSummary element for each invalidation batch created by the current AWS account.
-        public let items: InvalidationSummaryList?
+        public let items: [InvalidationSummary]?
         /// The value that you provided for the Marker request parameter.
         public let marker: String
         /// The value that you provided for the MaxItems request parameter.
@@ -2655,7 +2460,7 @@ extension CloudFront {
         /// The number of invalidation batches that were created by the current AWS account. 
         public let quantity: Int32
 
-        public init(isTruncated: Bool, items: InvalidationSummaryList? = nil, marker: String, maxItems: Int32, nextMarker: String? = nil, quantity: Int32) {
+        public init(isTruncated: Bool, items: [InvalidationSummary]? = nil, marker: String, maxItems: Int32, nextMarker: String? = nil, quantity: Int32) {
             self.isTruncated = isTruncated
             self.items = items
             self.marker = marker
@@ -2700,21 +2505,6 @@ extension CloudFront {
         }
     }
 
-    public struct InvalidationSummaryList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InvalidationSummary", required: false, type: .list)
-        ]
-        public let invalidationSummary: [InvalidationSummary]?
-
-        public init(invalidationSummary: [InvalidationSummary]? = nil) {
-            self.invalidationSummary = invalidationSummary
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case invalidationSummary = "InvalidationSummary"
-        }
-    }
-
     public enum ItemSelection: String, CustomStringConvertible, Codable {
         case none = "none"
         case whitelist = "whitelist"
@@ -2722,32 +2512,17 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
-    public struct KeyPairIdList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KeyPairId", required: false, type: .list)
-        ]
-        public let keyPairId: [String]?
-
-        public init(keyPairId: [String]? = nil) {
-            self.keyPairId = keyPairId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case keyPairId = "KeyPairId"
-        }
-    }
-
     public struct KeyPairIds: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"KeyPairId")), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// A complex type that lists the active CloudFront key pairs, if any, that are associated with AwsAccountNumber. For more information, see ActiveTrustedSigners.
-        public let items: KeyPairIdList?
+        public let items: [String]?
         /// The number of active CloudFront key pairs for AwsAccountNumber. For more information, see ActiveTrustedSigners.
         public let quantity: Int32
 
-        public init(items: KeyPairIdList? = nil, quantity: Int32) {
+        public init(items: [String]? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
@@ -2784,32 +2559,17 @@ extension CloudFront {
         }
     }
 
-    public struct LambdaFunctionAssociationList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LambdaFunctionAssociation", required: false, type: .list)
-        ]
-        public let lambdaFunctionAssociation: [LambdaFunctionAssociation]?
-
-        public init(lambdaFunctionAssociation: [LambdaFunctionAssociation]? = nil) {
-            self.lambdaFunctionAssociation = lambdaFunctionAssociation
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lambdaFunctionAssociation = "LambdaFunctionAssociation"
-        }
-    }
-
     public struct LambdaFunctionAssociations: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"LambdaFunctionAssociation")), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         ///  Optional: A complex type that contains LambdaFunctionAssociation items for this cache behavior. If Quantity is 0, you can omit Items.
-        public let items: LambdaFunctionAssociationList?
+        public let items: [LambdaFunctionAssociation]?
         /// The number of Lambda function associations for this cache behavior.
         public let quantity: Int32
 
-        public init(items: LambdaFunctionAssociationList? = nil, quantity: Int32) {
+        public init(items: [LambdaFunctionAssociation]? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
@@ -3176,21 +2936,6 @@ extension CloudFront {
         }
     }
 
-    public struct LocationList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Location", required: false, type: .list)
-        ]
-        public let location: [String]?
-
-        public init(location: [String]? = nil) {
-            self.location = location
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case location = "Location"
-        }
-    }
-
     public struct LoggingConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", required: true, type: .string), 
@@ -3231,21 +2976,6 @@ extension CloudFront {
         case options = "OPTIONS"
         case delete = "DELETE"
         public var description: String { return self.rawValue }
-    }
-
-    public struct MethodsList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Method", required: false, type: .list)
-        ]
-        public let method: [Method]?
-
-        public init(method: [Method]? = nil) {
-            self.method = method
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case method = "Method"
-        }
     }
 
     public enum MinimumProtocolVersion: String, CustomStringConvertible, Codable {
@@ -3319,21 +3049,6 @@ extension CloudFront {
         }
     }
 
-    public struct OriginCustomHeadersList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OriginCustomHeader", required: false, type: .list)
-        ]
-        public let originCustomHeader: [OriginCustomHeader]?
-
-        public init(originCustomHeader: [OriginCustomHeader]? = nil) {
-            self.originCustomHeader = originCustomHeader
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case originCustomHeader = "OriginCustomHeader"
-        }
-    }
-
     public struct OriginGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FailoverCriteria", required: true, type: .structure), 
@@ -3376,21 +3091,6 @@ extension CloudFront {
         }
     }
 
-    public struct OriginGroupList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OriginGroup", required: false, type: .list)
-        ]
-        public let originGroup: [OriginGroup]?
-
-        public init(originGroup: [OriginGroup]? = nil) {
-            self.originGroup = originGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case originGroup = "OriginGroup"
-        }
-    }
-
     public struct OriginGroupMember: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OriginId", required: true, type: .string)
@@ -3407,32 +3107,17 @@ extension CloudFront {
         }
     }
 
-    public struct OriginGroupMemberList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OriginGroupMember", required: false, type: .list)
-        ]
-        public let originGroupMember: [OriginGroupMember]?
-
-        public init(originGroupMember: [OriginGroupMember]? = nil) {
-            self.originGroupMember = originGroupMember
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case originGroupMember = "OriginGroupMember"
-        }
-    }
-
     public struct OriginGroupMembers: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: true, type: .structure), 
+            AWSShapeMember(label: "Items", required: true, type: .list, encoding: .list(member:"OriginGroupMember")), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// Items (origins) in an origin group.
-        public let items: OriginGroupMemberList
+        public let items: [OriginGroupMember]
         /// The number of origins in an origin group.
         public let quantity: Int32
 
-        public init(items: OriginGroupMemberList, quantity: Int32) {
+        public init(items: [OriginGroupMember], quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
@@ -3445,15 +3130,15 @@ extension CloudFront {
 
     public struct OriginGroups: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"OriginGroup")), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// The items (origin groups) in a distribution.
-        public let items: OriginGroupList?
+        public let items: [OriginGroup]?
         /// The number of origin groups.
         public let quantity: Int32
 
-        public init(items: OriginGroupList? = nil, quantity: Int32) {
+        public init(items: [OriginGroup]? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
@@ -3461,21 +3146,6 @@ extension CloudFront {
         private enum CodingKeys: String, CodingKey {
             case items = "Items"
             case quantity = "Quantity"
-        }
-    }
-
-    public struct OriginList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Origin", required: false, type: .list)
-        ]
-        public let origin: [Origin]?
-
-        public init(origin: [Origin]? = nil) {
-            self.origin = origin
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case origin = "Origin"
         }
     }
 
@@ -3488,15 +3158,15 @@ extension CloudFront {
 
     public struct OriginSslProtocols: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: true, type: .structure), 
+            AWSShapeMember(label: "Items", required: true, type: .list, encoding: .list(member:"SslProtocol")), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// A list that contains allowed SSL/TLS protocols for this distribution.
-        public let items: SslProtocolsList
+        public let items: [SslProtocol]
         /// The number of SSL/TLS protocols that you want to allow CloudFront to use when establishing an HTTPS connection with this origin. 
         public let quantity: Int32
 
-        public init(items: SslProtocolsList, quantity: Int32) {
+        public init(items: [SslProtocol], quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
@@ -3509,15 +3179,15 @@ extension CloudFront {
 
     public struct Origins: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: true, type: .structure), 
+            AWSShapeMember(label: "Items", required: true, type: .list, encoding: .list(member:"Origin")), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// A complex type that contains origins or origin groups for this distribution.
-        public let items: OriginList
+        public let items: [Origin]
         /// The number of origins or origin groups for this distribution.
         public let quantity: Int32
 
-        public init(items: OriginList, quantity: Int32) {
+        public init(items: [Origin], quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
@@ -3528,32 +3198,17 @@ extension CloudFront {
         }
     }
 
-    public struct PathList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Path", required: false, type: .list)
-        ]
-        public let path: [String]?
-
-        public init(path: [String]? = nil) {
-            self.path = path
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case path = "Path"
-        }
-    }
-
     public struct Paths: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"Path")), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// A complex type that contains a list of the paths that you want to invalidate.
-        public let items: PathList?
+        public let items: [String]?
         /// The number of objects that you want to invalidate.
         public let quantity: Int32
 
-        public init(items: PathList? = nil, quantity: Int32) {
+        public init(items: [String]? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
@@ -3630,13 +3285,13 @@ extension CloudFront {
 
     public struct PublicKeyList: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"PublicKeySummary")), 
             AWSShapeMember(label: "MaxItems", required: true, type: .integer), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// An array of information about a public key you add to CloudFront to use with features like field-level encryption.
-        public let items: PublicKeySummaryList?
+        public let items: [PublicKeySummary]?
         /// The maximum number of public keys you want in the response body. 
         public let maxItems: Int32
         /// If there are more elements to be listed, this element is present and contains the value that you can use for the Marker request parameter to continue listing your public keys where you left off.
@@ -3644,7 +3299,7 @@ extension CloudFront {
         /// The number of public keys you added to CloudFront to use with features like field-level encryption.
         public let quantity: Int32
 
-        public init(items: PublicKeySummaryList? = nil, maxItems: Int32, nextMarker: String? = nil, quantity: Int32) {
+        public init(items: [PublicKeySummary]? = nil, maxItems: Int32, nextMarker: String? = nil, quantity: Int32) {
             self.items = items
             self.maxItems = maxItems
             self.nextMarker = nextMarker
@@ -3695,21 +3350,6 @@ extension CloudFront {
         }
     }
 
-    public struct PublicKeySummaryList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PublicKeySummary", required: false, type: .list)
-        ]
-        public let publicKeySummary: [PublicKeySummary]?
-
-        public init(publicKeySummary: [PublicKeySummary]? = nil) {
-            self.publicKeySummary = publicKeySummary
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case publicKeySummary = "PublicKeySummary"
-        }
-    }
-
     public struct QueryArgProfile: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProfileId", required: true, type: .string), 
@@ -3752,32 +3392,17 @@ extension CloudFront {
         }
     }
 
-    public struct QueryArgProfileList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QueryArgProfile", required: false, type: .list)
-        ]
-        public let queryArgProfile: [QueryArgProfile]?
-
-        public init(queryArgProfile: [QueryArgProfile]? = nil) {
-            self.queryArgProfile = queryArgProfile
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case queryArgProfile = "QueryArgProfile"
-        }
-    }
-
     public struct QueryArgProfiles: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"QueryArgProfile")), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// Number of items for query argument-profile mapping for field-level encryption.
-        public let items: QueryArgProfileList?
+        public let items: [QueryArgProfile]?
         /// Number of profiles for query argument-profile mapping for field-level encryption.
         public let quantity: Int32
 
-        public init(items: QueryArgProfileList? = nil, quantity: Int32) {
+        public init(items: [QueryArgProfile]? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
@@ -3790,15 +3415,15 @@ extension CloudFront {
 
     public struct QueryStringCacheKeys: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"Name")), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// (Optional) A list that contains the query string parameters that you want CloudFront to use as a basis for caching for this cache behavior. If Quantity is 0, you can omit Items. 
-        public let items: QueryStringCacheKeysList?
+        public let items: [String]?
         /// The number of whitelisted query string parameters for this cache behavior.
         public let quantity: Int32
 
-        public init(items: QueryStringCacheKeysList? = nil, quantity: Int32) {
+        public init(items: [String]? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
@@ -3806,21 +3431,6 @@ extension CloudFront {
         private enum CodingKeys: String, CodingKey {
             case items = "Items"
             case quantity = "Quantity"
-        }
-    }
-
-    public struct QueryStringCacheKeysList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .list)
-        ]
-        public let name: [String]?
-
-        public init(name: [String]? = nil) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
         }
     }
 
@@ -3903,21 +3513,6 @@ extension CloudFront {
         }
     }
 
-    public struct SignerList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Signer", required: false, type: .list)
-        ]
-        public let signer: [Signer]?
-
-        public init(signer: [Signer]? = nil) {
-            self.signer = signer
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case signer = "Signer"
-        }
-    }
-
     public enum SslProtocol: String, CustomStringConvertible, Codable {
         case sslv3 = "SSLv3"
         case tlsv1 = "TLSv1"
@@ -3926,47 +3521,17 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
-    public struct SslProtocolsList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SslProtocol", required: false, type: .list)
-        ]
-        public let sslProtocol: [SslProtocol]?
-
-        public init(sslProtocol: [SslProtocol]? = nil) {
-            self.sslProtocol = sslProtocol
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sslProtocol = "SslProtocol"
-        }
-    }
-
-    public struct StatusCodeList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StatusCode", required: false, type: .list)
-        ]
-        public let statusCode: [Int32]?
-
-        public init(statusCode: [Int32]? = nil) {
-            self.statusCode = statusCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case statusCode = "StatusCode"
-        }
-    }
-
     public struct StatusCodes: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: true, type: .structure), 
+            AWSShapeMember(label: "Items", required: true, type: .list, encoding: .list(member:"StatusCode")), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// The items (status codes) for an origin group.
-        public let items: StatusCodeList
+        public let items: [Int32]
         /// The number of status codes.
         public let quantity: Int32
 
-        public init(items: StatusCodeList, quantity: Int32) {
+        public init(items: [Int32], quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
@@ -4098,7 +3663,7 @@ extension CloudFront {
     public struct StreamingDistributionList: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"StreamingDistributionSummary")), 
             AWSShapeMember(label: "Marker", required: true, type: .string), 
             AWSShapeMember(label: "MaxItems", required: true, type: .integer), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
@@ -4107,7 +3672,7 @@ extension CloudFront {
         /// A flag that indicates whether more streaming distributions remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more distributions in the list. 
         public let isTruncated: Bool
         /// A complex type that contains one StreamingDistributionSummary element for each distribution that was created by the current AWS account.
-        public let items: StreamingDistributionSummaryList?
+        public let items: [StreamingDistributionSummary]?
         /// The value you provided for the Marker request parameter. 
         public let marker: String
         /// The value you provided for the MaxItems request parameter. 
@@ -4117,7 +3682,7 @@ extension CloudFront {
         /// The number of streaming distributions that were created by the current AWS account. 
         public let quantity: Int32
 
-        public init(isTruncated: Bool, items: StreamingDistributionSummaryList? = nil, marker: String, maxItems: Int32, nextMarker: String? = nil, quantity: Int32) {
+        public init(isTruncated: Bool, items: [StreamingDistributionSummary]? = nil, marker: String, maxItems: Int32, nextMarker: String? = nil, quantity: Int32) {
             self.isTruncated = isTruncated
             self.items = items
             self.marker = marker
@@ -4201,21 +3766,6 @@ extension CloudFront {
         }
     }
 
-    public struct StreamingDistributionSummaryList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamingDistributionSummary", required: false, type: .list)
-        ]
-        public let streamingDistributionSummary: [StreamingDistributionSummary]?
-
-        public init(streamingDistributionSummary: [StreamingDistributionSummary]? = nil) {
-            self.streamingDistributionSummary = streamingDistributionSummary
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case streamingDistributionSummary = "StreamingDistributionSummary"
-        }
-    }
-
     public struct StreamingLoggingConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", required: true, type: .string), 
@@ -4263,49 +3813,19 @@ extension CloudFront {
         }
     }
 
-    public struct TagKeyList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .list)
-        ]
-        public let key: [String]?
-
-        public init(key: [String]? = nil) {
-            self.key = key
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-        }
-    }
-
     public struct TagKeys: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure)
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"Key"))
         ]
         ///  A complex type that contains Tag key elements.
-        public let items: TagKeyList?
+        public let items: [String]?
 
-        public init(items: TagKeyList? = nil) {
+        public init(items: [String]? = nil) {
             self.items = items
         }
 
         private enum CodingKeys: String, CodingKey {
             case items = "Items"
-        }
-    }
-
-    public struct TagList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tag", required: false, type: .list)
-        ]
-        public let tag: [Tag]?
-
-        public init(tag: [Tag]? = nil) {
-            self.tag = tag
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tag = "Tag"
         }
     }
 
@@ -4334,12 +3854,12 @@ extension CloudFront {
 
     public struct Tags: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure)
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
         ///  A complex type that contains Tag elements.
-        public let items: TagList?
+        public let items: [Tag]?
 
-        public init(items: TagList? = nil) {
+        public init(items: [Tag]? = nil) {
             self.items = items
         }
 
@@ -4351,17 +3871,17 @@ extension CloudFront {
     public struct TrustedSigners: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"AwsAccountNumber")), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// Specifies whether you want to require viewers to use signed URLs to access the files specified by PathPattern and TargetOriginId.
         public let enabled: Bool
         ///  Optional: A complex type that contains trusted signers for this cache behavior. If Quantity is 0, you can omit Items.
-        public let items: AwsAccountNumberList?
+        public let items: [String]?
         /// The number of trusted signers for this cache behavior.
         public let quantity: Int32
 
-        public init(enabled: Bool, items: AwsAccountNumberList? = nil, quantity: Int32) {
+        public init(enabled: Bool, items: [String]? = nil, quantity: Int32) {
             self.enabled = enabled
             self.items = items
             self.quantity = quantity

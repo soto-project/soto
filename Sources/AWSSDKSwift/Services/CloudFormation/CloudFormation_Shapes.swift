@@ -198,7 +198,7 @@ extension CloudFormation {
     public struct ContinueUpdateRollbackInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourcesToSkip", required: false, type: .list), 
+            AWSShapeMember(label: "ResourcesToSkip", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "RoleARN", required: false, type: .string), 
             AWSShapeMember(label: "StackName", required: true, type: .string)
         ]
@@ -235,18 +235,18 @@ extension CloudFormation {
 
     public struct CreateChangeSetInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Capabilities", required: false, type: .list), 
+            AWSShapeMember(label: "Capabilities", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ChangeSetName", required: true, type: .string), 
             AWSShapeMember(label: "ChangeSetType", required: false, type: .enum), 
             AWSShapeMember(label: "ClientToken", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "NotificationARNs", required: false, type: .list), 
-            AWSShapeMember(label: "Parameters", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceTypes", required: false, type: .list), 
+            AWSShapeMember(label: "NotificationARNs", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "ResourceTypes", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "RoleARN", required: false, type: .string), 
             AWSShapeMember(label: "RollbackConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "StackName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "TemplateBody", required: false, type: .string), 
             AWSShapeMember(label: "TemplateURL", required: false, type: .string), 
             AWSShapeMember(label: "UsePreviousTemplate", required: false, type: .boolean)
@@ -342,20 +342,20 @@ extension CloudFormation {
 
     public struct CreateStackInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Capabilities", required: false, type: .list), 
+            AWSShapeMember(label: "Capabilities", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
             AWSShapeMember(label: "DisableRollback", required: false, type: .boolean), 
             AWSShapeMember(label: "EnableTerminationProtection", required: false, type: .boolean), 
-            AWSShapeMember(label: "NotificationARNs", required: false, type: .list), 
+            AWSShapeMember(label: "NotificationARNs", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "OnFailure", required: false, type: .enum), 
-            AWSShapeMember(label: "Parameters", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceTypes", required: false, type: .list), 
+            AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "ResourceTypes", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "RoleARN", required: false, type: .string), 
             AWSShapeMember(label: "RollbackConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "StackName", required: true, type: .string), 
             AWSShapeMember(label: "StackPolicyBody", required: false, type: .string), 
             AWSShapeMember(label: "StackPolicyURL", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "TemplateBody", required: false, type: .string), 
             AWSShapeMember(label: "TemplateURL", required: false, type: .string), 
             AWSShapeMember(label: "TimeoutInMinutes", required: false, type: .integer)
@@ -438,11 +438,11 @@ extension CloudFormation {
 
     public struct CreateStackInstancesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Accounts", required: true, type: .list), 
+            AWSShapeMember(label: "Accounts", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "OperationId", required: false, type: .string), 
             AWSShapeMember(label: "OperationPreferences", required: false, type: .structure), 
-            AWSShapeMember(label: "ParameterOverrides", required: false, type: .list), 
-            AWSShapeMember(label: "Regions", required: true, type: .list), 
+            AWSShapeMember(label: "ParameterOverrides", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Regions", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "StackSetName", required: true, type: .string)
         ]
         /// The names of one or more AWS accounts that you want to create stack instances in the specified region(s) for.
@@ -512,13 +512,13 @@ extension CloudFormation {
     public struct CreateStackSetInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AdministrationRoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "Capabilities", required: false, type: .list), 
+            AWSShapeMember(label: "Capabilities", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "ExecutionRoleName", required: false, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .list), 
+            AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "StackSetName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "TemplateBody", required: false, type: .string), 
             AWSShapeMember(label: "TemplateURL", required: false, type: .string)
         ]
@@ -617,7 +617,7 @@ extension CloudFormation {
     public struct DeleteStackInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "RetainResources", required: false, type: .list), 
+            AWSShapeMember(label: "RetainResources", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "RoleARN", required: false, type: .string), 
             AWSShapeMember(label: "StackName", required: true, type: .string)
         ]
@@ -647,10 +647,10 @@ extension CloudFormation {
 
     public struct DeleteStackInstancesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Accounts", required: true, type: .list), 
+            AWSShapeMember(label: "Accounts", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "OperationId", required: false, type: .string), 
             AWSShapeMember(label: "OperationPreferences", required: false, type: .structure), 
-            AWSShapeMember(label: "Regions", required: true, type: .list), 
+            AWSShapeMember(label: "Regions", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "RetainStacks", required: true, type: .boolean), 
             AWSShapeMember(label: "StackSetName", required: true, type: .string)
         ]
@@ -743,7 +743,7 @@ extension CloudFormation {
 
     public struct DescribeAccountLimitsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountLimits", required: false, type: .list), 
+            AWSShapeMember(label: "AccountLimits", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// An account limit structure that contain a list of AWS CloudFormation account limits and their values.
@@ -790,22 +790,22 @@ extension CloudFormation {
 
     public struct DescribeChangeSetOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Capabilities", required: false, type: .list), 
+            AWSShapeMember(label: "Capabilities", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ChangeSetId", required: false, type: .string), 
             AWSShapeMember(label: "ChangeSetName", required: false, type: .string), 
-            AWSShapeMember(label: "Changes", required: false, type: .list), 
+            AWSShapeMember(label: "Changes", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "ExecutionStatus", required: false, type: .enum), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "NotificationARNs", required: false, type: .list), 
-            AWSShapeMember(label: "Parameters", required: false, type: .list), 
+            AWSShapeMember(label: "NotificationARNs", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "RollbackConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "StackId", required: false, type: .string), 
             AWSShapeMember(label: "StackName", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "StatusReason", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
+            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// If you execute the change set, the list of capabilities that were explicitly acknowledged when the change set was created.
         public let capabilities: [Capability]?
@@ -965,7 +965,7 @@ extension CloudFormation {
     public struct DescribeStackEventsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "StackEvents", required: false, type: .list)
+            AWSShapeMember(label: "StackEvents", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// If the output exceeds 1 MB in size, a string that identifies the next page of events. If no additional page exists, this value is null.
         public let nextToken: String?
@@ -1030,7 +1030,7 @@ extension CloudFormation {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "StackName", required: true, type: .string), 
-            AWSShapeMember(label: "StackResourceDriftStatusFilters", required: false, type: .list)
+            AWSShapeMember(label: "StackResourceDriftStatusFilters", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
         public let maxResults: Int32?
@@ -1059,7 +1059,7 @@ extension CloudFormation {
     public struct DescribeStackResourceDriftsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "StackResourceDrifts", required: true, type: .list)
+            AWSShapeMember(label: "StackResourceDrifts", required: true, type: .list, encoding: .list(member:"member"))
         ]
         /// If the request doesn't return all of the remaining results, NextToken is set to a token. To retrieve the next set of results, call DescribeStackResourceDrifts again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
         public let nextToken: String?
@@ -1142,7 +1142,7 @@ extension CloudFormation {
 
     public struct DescribeStackResourcesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StackResources", required: false, type: .list)
+            AWSShapeMember(label: "StackResources", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// A list of StackResource structures.
         public let stackResources: [StackResource]?
@@ -1249,7 +1249,7 @@ extension CloudFormation {
     public struct DescribeStacksOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Stacks", required: false, type: .list)
+            AWSShapeMember(label: "Stacks", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// If the output exceeds 1 MB in size, a string that identifies the next page of stacks. If no additional page exists, this value is null.
         public let nextToken: String?
@@ -1269,7 +1269,7 @@ extension CloudFormation {
 
     public struct DetectStackDriftInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LogicalResourceIds", required: false, type: .list), 
+            AWSShapeMember(label: "LogicalResourceIds", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "StackName", required: true, type: .string)
         ]
         /// The logical names of any resources you want to use as filters.
@@ -1350,7 +1350,7 @@ extension CloudFormation {
 
     public struct EstimateTemplateCostInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Parameters", required: false, type: .list), 
+            AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "TemplateBody", required: false, type: .string), 
             AWSShapeMember(label: "TemplateURL", required: false, type: .string)
         ]
@@ -1525,7 +1525,7 @@ extension CloudFormation {
 
     public struct GetTemplateOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StagesAvailable", required: false, type: .list), 
+            AWSShapeMember(label: "StagesAvailable", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "TemplateBody", required: false, type: .string)
         ]
         /// The stage of the template that you can retrieve. For stacks, the Original and Processed templates are always available. For change sets, the Original template is always available. After AWS CloudFormation finishes creating the change set, the Processed template becomes available.
@@ -1577,13 +1577,13 @@ extension CloudFormation {
 
     public struct GetTemplateSummaryOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Capabilities", required: false, type: .list), 
+            AWSShapeMember(label: "Capabilities", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "CapabilitiesReason", required: false, type: .string), 
-            AWSShapeMember(label: "DeclaredTransforms", required: false, type: .list), 
+            AWSShapeMember(label: "DeclaredTransforms", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "Metadata", required: false, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceTypes", required: false, type: .list), 
+            AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "ResourceTypes", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
         /// The capabilities found within the template. If your template contains IAM resources, you must specify the CAPABILITY_IAM or CAPABILITY_NAMED_IAM value for this parameter when you use the CreateStack or UpdateStack actions with your template; otherwise, those actions return an InsufficientCapabilities error. For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.
@@ -1650,7 +1650,7 @@ extension CloudFormation {
     public struct ListChangeSetsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Summaries", required: false, type: .list)
+            AWSShapeMember(label: "Summaries", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// If the output exceeds 1 MB, a string that identifies the next page of change sets. If there is no additional page, this value is null.
         public let nextToken: String?
@@ -1686,7 +1686,7 @@ extension CloudFormation {
 
     public struct ListExportsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Exports", required: false, type: .list), 
+            AWSShapeMember(label: "Exports", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The output for the ListExports action.
@@ -1728,7 +1728,7 @@ extension CloudFormation {
 
     public struct ListImportsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Imports", required: false, type: .list), 
+            AWSShapeMember(label: "Imports", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A list of stack names that are importing the specified exported output value. 
@@ -1786,7 +1786,7 @@ extension CloudFormation {
     public struct ListStackInstancesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Summaries", required: false, type: .list)
+            AWSShapeMember(label: "Summaries", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// If the request doesn't return all of the remaining results, NextToken is set to a token. To retrieve the next set of results, call ListStackInstances again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
         public let nextToken: String?
@@ -1828,7 +1828,7 @@ extension CloudFormation {
     public struct ListStackResourcesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "StackResourceSummaries", required: false, type: .list)
+            AWSShapeMember(label: "StackResourceSummaries", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// If the output exceeds 1 MB, a string that identifies the next page of stack resources. If no additional page exists, this value is null.
         public let nextToken: String?
@@ -1880,7 +1880,7 @@ extension CloudFormation {
     public struct ListStackSetOperationResultsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Summaries", required: false, type: .list)
+            AWSShapeMember(label: "Summaries", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// If the request doesn't return all results, NextToken is set to a token. To retrieve the next set of results, call ListOperationResults again and assign that token to the request object's NextToken parameter. If there are no remaining results, NextToken is set to null.
         public let nextToken: String?
@@ -1927,7 +1927,7 @@ extension CloudFormation {
     public struct ListStackSetOperationsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Summaries", required: false, type: .list)
+            AWSShapeMember(label: "Summaries", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// If the request doesn't return all results, NextToken is set to a token. To retrieve the next set of results, call ListOperationResults again and assign that token to the request object's NextToken parameter. If there are no remaining results, NextToken is set to null.
         public let nextToken: String?
@@ -1974,7 +1974,7 @@ extension CloudFormation {
     public struct ListStackSetsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Summaries", required: false, type: .list)
+            AWSShapeMember(label: "Summaries", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// If the request doesn't return all of the remaining results, NextToken is set to a token. To retrieve the next set of results, call ListStackInstances again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
         public let nextToken: String?
@@ -1995,7 +1995,7 @@ extension CloudFormation {
     public struct ListStacksInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "StackStatusFilter", required: false, type: .list)
+            AWSShapeMember(label: "StackStatusFilter", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// A string that identifies the next page of stacks that you want to retrieve.
         public let nextToken: String?
@@ -2016,7 +2016,7 @@ extension CloudFormation {
     public struct ListStacksOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "StackSummaries", required: false, type: .list)
+            AWSShapeMember(label: "StackSummaries", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// If the output exceeds 1 MB in size, a string that identifies the next page of stacks. If no additional page exists, this value is null.
         public let nextToken: String?
@@ -2105,7 +2105,7 @@ extension CloudFormation {
 
     public struct ParameterConstraints: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowedValues", required: false, type: .list)
+            AWSShapeMember(label: "AllowedValues", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// A list of values that are permitted for a parameter.
         public let allowedValues: [String]?
@@ -2239,12 +2239,12 @@ extension CloudFormation {
     public struct ResourceChange: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Action", required: false, type: .enum), 
-            AWSShapeMember(label: "Details", required: false, type: .list), 
+            AWSShapeMember(label: "Details", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "LogicalResourceId", required: false, type: .string), 
             AWSShapeMember(label: "PhysicalResourceId", required: false, type: .string), 
             AWSShapeMember(label: "Replacement", required: false, type: .enum), 
             AWSShapeMember(label: "ResourceType", required: false, type: .string), 
-            AWSShapeMember(label: "Scope", required: false, type: .list)
+            AWSShapeMember(label: "Scope", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The action that AWS CloudFormation takes on the resource, such as Add (adds a new resource), Modify (changes a resource), or Remove (deletes a resource).
         public let action: ChangeAction?
@@ -2362,7 +2362,7 @@ extension CloudFormation {
     public struct RollbackConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MonitoringTimeInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "RollbackTriggers", required: false, type: .list)
+            AWSShapeMember(label: "RollbackTriggers", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The amount of time, in minutes, during which CloudFormation should monitor all the rollback triggers after the stack creation or update operation deploys all necessary resources. The default is 0 minutes. If you specify a monitoring period but do not specify any rollback triggers, CloudFormation still waits the specified period of time before cleaning up old resources after update operations. You can use this monitoring period to perform any manual stack validation desired, and manually cancel the stack creation or update (using CancelUpdateStack, for example) as necessary. If you specify 0 for this parameter, CloudFormation still monitors the specified rollback triggers during stack creation and update operations. Then, for update operations, it begins disposing of old resources immediately once the operation completes.
         public let monitoringTimeInMinutes: Int32?
@@ -2460,7 +2460,7 @@ extension CloudFormation {
 
     public struct Stack: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Capabilities", required: false, type: .list), 
+            AWSShapeMember(label: "Capabilities", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ChangeSetId", required: false, type: .string), 
             AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
             AWSShapeMember(label: "DeletionTime", required: false, type: .timestamp), 
@@ -2469,9 +2469,9 @@ extension CloudFormation {
             AWSShapeMember(label: "DriftInformation", required: false, type: .structure), 
             AWSShapeMember(label: "EnableTerminationProtection", required: false, type: .boolean), 
             AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "NotificationARNs", required: false, type: .list), 
-            AWSShapeMember(label: "Outputs", required: false, type: .list), 
-            AWSShapeMember(label: "Parameters", required: false, type: .list), 
+            AWSShapeMember(label: "NotificationARNs", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Outputs", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ParentId", required: false, type: .string), 
             AWSShapeMember(label: "RoleARN", required: false, type: .string), 
             AWSShapeMember(label: "RollbackConfiguration", required: false, type: .structure), 
@@ -2480,7 +2480,7 @@ extension CloudFormation {
             AWSShapeMember(label: "StackName", required: true, type: .string), 
             AWSShapeMember(label: "StackStatus", required: true, type: .enum), 
             AWSShapeMember(label: "StackStatusReason", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "TimeoutInMinutes", required: false, type: .integer)
         ]
         /// The capabilities allowed in the stack.
@@ -2705,7 +2705,7 @@ extension CloudFormation {
     public struct StackInstance: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Account", required: false, type: .string), 
-            AWSShapeMember(label: "ParameterOverrides", required: false, type: .list), 
+            AWSShapeMember(label: "ParameterOverrides", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Region", required: false, type: .string), 
             AWSShapeMember(label: "StackId", required: false, type: .string), 
             AWSShapeMember(label: "StackSetId", required: false, type: .string), 
@@ -2929,8 +2929,8 @@ extension CloudFormation {
             AWSShapeMember(label: "ExpectedProperties", required: false, type: .string), 
             AWSShapeMember(label: "LogicalResourceId", required: true, type: .string), 
             AWSShapeMember(label: "PhysicalResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "PhysicalResourceIdContext", required: false, type: .list), 
-            AWSShapeMember(label: "PropertyDifferences", required: false, type: .list), 
+            AWSShapeMember(label: "PhysicalResourceIdContext", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "PropertyDifferences", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ResourceType", required: true, type: .string), 
             AWSShapeMember(label: "StackId", required: true, type: .string), 
             AWSShapeMember(label: "StackResourceDriftStatus", required: true, type: .enum), 
@@ -3083,15 +3083,15 @@ extension CloudFormation {
     public struct StackSet: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AdministrationRoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "Capabilities", required: false, type: .list), 
+            AWSShapeMember(label: "Capabilities", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "ExecutionRoleName", required: false, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .list), 
+            AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "StackSetARN", required: false, type: .string), 
             AWSShapeMember(label: "StackSetId", required: false, type: .string), 
             AWSShapeMember(label: "StackSetName", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "TemplateBody", required: false, type: .string)
         ]
         /// The Amazon Resource Number (ARN) of the IAM role used to create or update the stack set. Use customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see Prerequisites: Granting Permissions for Stack Set Operations in the AWS CloudFormation User Guide.
@@ -3220,7 +3220,7 @@ extension CloudFormation {
             AWSShapeMember(label: "FailureTolerancePercentage", required: false, type: .integer), 
             AWSShapeMember(label: "MaxConcurrentCount", required: false, type: .integer), 
             AWSShapeMember(label: "MaxConcurrentPercentage", required: false, type: .integer), 
-            AWSShapeMember(label: "RegionOrder", required: false, type: .list)
+            AWSShapeMember(label: "RegionOrder", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The number of accounts, per region, for which this operation can fail before AWS CloudFormation stops the operation in that region. If the operation is stopped in a region, AWS CloudFormation doesn't attempt the operation in any subsequent regions. Conditional: You must specify either FailureToleranceCount or FailureTolerancePercentage (but not both).
         public let failureToleranceCount: Int32?
@@ -3552,11 +3552,11 @@ extension CloudFormation {
 
     public struct UpdateStackInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Capabilities", required: false, type: .list), 
+            AWSShapeMember(label: "Capabilities", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "NotificationARNs", required: false, type: .list), 
-            AWSShapeMember(label: "Parameters", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceTypes", required: false, type: .list), 
+            AWSShapeMember(label: "NotificationARNs", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "ResourceTypes", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "RoleARN", required: false, type: .string), 
             AWSShapeMember(label: "RollbackConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "StackName", required: true, type: .string), 
@@ -3564,7 +3564,7 @@ extension CloudFormation {
             AWSShapeMember(label: "StackPolicyDuringUpdateBody", required: false, type: .string), 
             AWSShapeMember(label: "StackPolicyDuringUpdateURL", required: false, type: .string), 
             AWSShapeMember(label: "StackPolicyURL", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "TemplateBody", required: false, type: .string), 
             AWSShapeMember(label: "TemplateURL", required: false, type: .string), 
             AWSShapeMember(label: "UsePreviousTemplate", required: false, type: .boolean)
@@ -3643,11 +3643,11 @@ extension CloudFormation {
 
     public struct UpdateStackInstancesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Accounts", required: true, type: .list), 
+            AWSShapeMember(label: "Accounts", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "OperationId", required: false, type: .string), 
             AWSShapeMember(label: "OperationPreferences", required: false, type: .structure), 
-            AWSShapeMember(label: "ParameterOverrides", required: false, type: .list), 
-            AWSShapeMember(label: "Regions", required: true, type: .list), 
+            AWSShapeMember(label: "ParameterOverrides", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Regions", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "StackSetName", required: true, type: .string)
         ]
         /// The names of one or more AWS accounts for which you want to update parameter values for stack instances. The overridden parameter values will be applied to all stack instances in the specified accounts and regions.
@@ -3716,17 +3716,17 @@ extension CloudFormation {
 
     public struct UpdateStackSetInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Accounts", required: false, type: .list), 
+            AWSShapeMember(label: "Accounts", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "AdministrationRoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "Capabilities", required: false, type: .list), 
+            AWSShapeMember(label: "Capabilities", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "ExecutionRoleName", required: false, type: .string), 
             AWSShapeMember(label: "OperationId", required: false, type: .string), 
             AWSShapeMember(label: "OperationPreferences", required: false, type: .structure), 
-            AWSShapeMember(label: "Parameters", required: false, type: .list), 
-            AWSShapeMember(label: "Regions", required: false, type: .list), 
+            AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Regions", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "StackSetName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "TemplateBody", required: false, type: .string), 
             AWSShapeMember(label: "TemplateURL", required: false, type: .string), 
             AWSShapeMember(label: "UsePreviousTemplate", required: false, type: .boolean)
@@ -3871,11 +3871,11 @@ extension CloudFormation {
 
     public struct ValidateTemplateOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Capabilities", required: false, type: .list), 
+            AWSShapeMember(label: "Capabilities", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "CapabilitiesReason", required: false, type: .string), 
-            AWSShapeMember(label: "DeclaredTransforms", required: false, type: .list), 
+            AWSShapeMember(label: "DeclaredTransforms", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .list)
+            AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The capabilities found within the template. If your template contains IAM resources, you must specify the CAPABILITY_IAM or CAPABILITY_NAMED_IAM value for this parameter when you use the CreateStack or UpdateStack actions with your template; otherwise, those actions return an InsufficientCapabilities error. For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.
         public let capabilities: [Capability]?

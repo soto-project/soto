@@ -10,7 +10,7 @@ extension STS {
             AWSShapeMember(label: "DurationSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "ExternalId", required: false, type: .string), 
             AWSShapeMember(label: "Policy", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyArns", required: false, type: .list), 
+            AWSShapeMember(label: "PolicyArns", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "RoleArn", required: true, type: .string), 
             AWSShapeMember(label: "RoleSessionName", required: true, type: .string), 
             AWSShapeMember(label: "SerialNumber", required: false, type: .string), 
@@ -86,7 +86,7 @@ extension STS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DurationSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "Policy", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyArns", required: false, type: .list), 
+            AWSShapeMember(label: "PolicyArns", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "PrincipalArn", required: true, type: .string), 
             AWSShapeMember(label: "RoleArn", required: true, type: .string), 
             AWSShapeMember(label: "SAMLAssertion", required: true, type: .string)
@@ -178,7 +178,7 @@ extension STS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DurationSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "Policy", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyArns", required: false, type: .list), 
+            AWSShapeMember(label: "PolicyArns", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ProviderId", required: false, type: .string), 
             AWSShapeMember(label: "RoleArn", required: true, type: .string), 
             AWSShapeMember(label: "RoleSessionName", required: true, type: .string), 
@@ -404,7 +404,7 @@ extension STS {
             AWSShapeMember(label: "DurationSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Policy", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyArns", required: false, type: .list)
+            AWSShapeMember(label: "PolicyArns", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The duration, in seconds, that the session should last. Acceptable durations for federation sessions range from 900 seconds (15 minutes) to 129,600 seconds (36 hours), with 43,200 seconds (12 hours) as the default. Sessions obtained using AWS account root user credentials are restricted to a maximum of 3,600 seconds (one hour). If the specified duration is longer than one hour, the session obtained by using root user credentials defaults to one hour.
         public let durationSeconds: Int32?
