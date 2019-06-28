@@ -38,6 +38,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "ProtocolType", location: .body(locationName: "protocolType"), required: true, type: .enum), 
             AWSShapeMember(label: "RouteSelectionExpression", location: .body(locationName: "routeSelectionExpression"), required: true, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .string), 
             AWSShapeMember(label: "Warnings", location: .body(locationName: "warnings"), required: false, type: .list)
         ]
@@ -61,13 +62,15 @@ extension ApiGatewayV2 {
         public let protocolType: ProtocolType
         /// The route selection expression for the API.
         public let routeSelectionExpression: String
+        /// Tags for the API.
+        public let tags: [String: String]?
         /// A version identifier for the API.
         public let version: String?
         /// The warning messages reported when failonwarnings is turned on during
         ///  API import.
         public let warnings: [String]?
 
-        public init(apiEndpoint: String? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, createdDate: TimeStamp? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, name: String, protocolType: ProtocolType, routeSelectionExpression: String, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiEndpoint: String? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, createdDate: TimeStamp? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, name: String, protocolType: ProtocolType, routeSelectionExpression: String, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiId = apiId
             self.apiKeySelectionExpression = apiKeySelectionExpression
@@ -77,6 +80,7 @@ extension ApiGatewayV2 {
             self.name = name
             self.protocolType = protocolType
             self.routeSelectionExpression = routeSelectionExpression
+            self.tags = tags
             self.version = version
             self.warnings = warnings
         }
@@ -91,6 +95,7 @@ extension ApiGatewayV2 {
             case name = "name"
             case protocolType = "protocolType"
             case routeSelectionExpression = "routeSelectionExpression"
+            case tags = "tags"
             case version = "version"
             case warnings = "warnings"
         }
@@ -314,6 +319,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "ProtocolType", location: .body(locationName: "protocolType"), required: true, type: .enum), 
             AWSShapeMember(label: "RouteSelectionExpression", location: .body(locationName: "routeSelectionExpression"), required: true, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .string)
         ]
         /// An API key selection expression. See API Key Selection Expressions.
@@ -328,16 +334,19 @@ extension ApiGatewayV2 {
         public let protocolType: ProtocolType
         /// The route selection expression for the API.
         public let routeSelectionExpression: String
+        /// Tags for the API.
+        public let tags: [String: String]?
         /// A version identifier for the API.
         public let version: String?
 
-        public init(apiKeySelectionExpression: String? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, name: String, protocolType: ProtocolType, routeSelectionExpression: String, version: String? = nil) {
+        public init(apiKeySelectionExpression: String? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, name: String, protocolType: ProtocolType, routeSelectionExpression: String, tags: [String: String]? = nil, version: String? = nil) {
             self.apiKeySelectionExpression = apiKeySelectionExpression
             self.description = description
             self.disableSchemaValidation = disableSchemaValidation
             self.name = name
             self.protocolType = protocolType
             self.routeSelectionExpression = routeSelectionExpression
+            self.tags = tags
             self.version = version
         }
 
@@ -348,6 +357,7 @@ extension ApiGatewayV2 {
             case name = "name"
             case protocolType = "protocolType"
             case routeSelectionExpression = "routeSelectionExpression"
+            case tags = "tags"
             case version = "version"
         }
     }
@@ -782,40 +792,49 @@ extension ApiGatewayV2 {
     public struct CreateDomainNameInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", location: .body(locationName: "domainName"), required: true, type: .string), 
-            AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"), required: false, type: .list)
+            AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"), required: false, type: .list), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         /// The domain name.
         public let domainName: String
         /// The domain name configurations.
         public let domainNameConfigurations: [DomainNameConfiguration]?
+        /// Tags for the DomainName.
+        public let tags: [String: String]?
 
-        public init(domainName: String, domainNameConfigurations: [DomainNameConfiguration]? = nil) {
+        public init(domainName: String, domainNameConfigurations: [DomainNameConfiguration]? = nil, tags: [String: String]? = nil) {
             self.domainName = domainName
             self.domainNameConfigurations = domainNameConfigurations
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case domainName = "domainName"
             case domainNameConfigurations = "domainNameConfigurations"
+            case tags = "tags"
         }
     }
 
     public struct CreateDomainNameRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", location: .body(locationName: "domainName"), required: true, type: .string), 
-            AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"), required: false, type: .list)
+            AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"), required: false, type: .list), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         public let domainName: String
         public let domainNameConfigurations: [DomainNameConfiguration]?
+        public let tags: [String: String]?
 
-        public init(domainName: String, domainNameConfigurations: [DomainNameConfiguration]? = nil) {
+        public init(domainName: String, domainNameConfigurations: [DomainNameConfiguration]? = nil, tags: [String: String]? = nil) {
             self.domainName = domainName
             self.domainNameConfigurations = domainNameConfigurations
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case domainName = "domainName"
             case domainNameConfigurations = "domainNameConfigurations"
+            case tags = "tags"
         }
     }
 
@@ -823,22 +842,26 @@ extension ApiGatewayV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApiMappingSelectionExpression", location: .body(locationName: "apiMappingSelectionExpression"), required: false, type: .string), 
             AWSShapeMember(label: "DomainName", location: .body(locationName: "domainName"), required: false, type: .string), 
-            AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"), required: false, type: .list)
+            AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"), required: false, type: .list), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         public let apiMappingSelectionExpression: String?
         public let domainName: String?
         public let domainNameConfigurations: [DomainNameConfiguration]?
+        public let tags: [String: String]?
 
-        public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil) {
+        public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, tags: [String: String]? = nil) {
             self.apiMappingSelectionExpression = apiMappingSelectionExpression
             self.domainName = domainName
             self.domainNameConfigurations = domainNameConfigurations
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case apiMappingSelectionExpression = "apiMappingSelectionExpression"
             case domainName = "domainName"
             case domainNameConfigurations = "domainNameConfigurations"
+            case tags = "tags"
         }
     }
 
@@ -1634,7 +1657,8 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
             AWSShapeMember(label: "RouteSettings", location: .body(locationName: "routeSettings"), required: false, type: .map), 
             AWSShapeMember(label: "StageName", location: .body(locationName: "stageName"), required: true, type: .string), 
-            AWSShapeMember(label: "StageVariables", location: .body(locationName: "stageVariables"), required: false, type: .map)
+            AWSShapeMember(label: "StageVariables", location: .body(locationName: "stageVariables"), required: false, type: .map), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         /// Settings for logging access in this stage.
         public let accessLogSettings: AccessLogSettings?
@@ -1654,8 +1678,10 @@ extension ApiGatewayV2 {
         ///  can have alphanumeric and underscore characters, and the values must match
         ///  [A-Za-z0-9-._~:/?#&=,]+.
         public let stageVariables: [String: String]?
+        /// Tags for the Stage.
+        public let tags: [String: String]?
 
-        public init(accessLogSettings: AccessLogSettings? = nil, clientCertificateId: String? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String, stageVariables: [String: String]? = nil) {
+        public init(accessLogSettings: AccessLogSettings? = nil, clientCertificateId: String? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String, stageVariables: [String: String]? = nil, tags: [String: String]? = nil) {
             self.accessLogSettings = accessLogSettings
             self.clientCertificateId = clientCertificateId
             self.defaultRouteSettings = defaultRouteSettings
@@ -1664,6 +1690,7 @@ extension ApiGatewayV2 {
             self.routeSettings = routeSettings
             self.stageName = stageName
             self.stageVariables = stageVariables
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1675,6 +1702,7 @@ extension ApiGatewayV2 {
             case routeSettings = "routeSettings"
             case stageName = "stageName"
             case stageVariables = "stageVariables"
+            case tags = "tags"
         }
     }
 
@@ -1688,7 +1716,8 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
             AWSShapeMember(label: "RouteSettings", location: .body(locationName: "routeSettings"), required: false, type: .map), 
             AWSShapeMember(label: "StageName", location: .body(locationName: "stageName"), required: true, type: .string), 
-            AWSShapeMember(label: "StageVariables", location: .body(locationName: "stageVariables"), required: false, type: .map)
+            AWSShapeMember(label: "StageVariables", location: .body(locationName: "stageVariables"), required: false, type: .map), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         public let accessLogSettings: AccessLogSettings?
         public let apiId: String
@@ -1699,8 +1728,9 @@ extension ApiGatewayV2 {
         public let routeSettings: [String: RouteSettings]?
         public let stageName: String
         public let stageVariables: [String: String]?
+        public let tags: [String: String]?
 
-        public init(accessLogSettings: AccessLogSettings? = nil, apiId: String, clientCertificateId: String? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String, stageVariables: [String: String]? = nil) {
+        public init(accessLogSettings: AccessLogSettings? = nil, apiId: String, clientCertificateId: String? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String, stageVariables: [String: String]? = nil, tags: [String: String]? = nil) {
             self.accessLogSettings = accessLogSettings
             self.apiId = apiId
             self.clientCertificateId = clientCertificateId
@@ -1710,6 +1740,7 @@ extension ApiGatewayV2 {
             self.routeSettings = routeSettings
             self.stageName = stageName
             self.stageVariables = stageVariables
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1722,6 +1753,7 @@ extension ApiGatewayV2 {
             case routeSettings = "routeSettings"
             case stageName = "stageName"
             case stageVariables = "stageVariables"
+            case tags = "tags"
         }
     }
 
@@ -1736,7 +1768,8 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "LastUpdatedDate", location: .body(locationName: "lastUpdatedDate"), required: false, type: .timestamp), 
             AWSShapeMember(label: "RouteSettings", location: .body(locationName: "routeSettings"), required: false, type: .map), 
             AWSShapeMember(label: "StageName", location: .body(locationName: "stageName"), required: false, type: .string), 
-            AWSShapeMember(label: "StageVariables", location: .body(locationName: "stageVariables"), required: false, type: .map)
+            AWSShapeMember(label: "StageVariables", location: .body(locationName: "stageVariables"), required: false, type: .map), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         public let accessLogSettings: AccessLogSettings?
         public let clientCertificateId: String?
@@ -1748,8 +1781,9 @@ extension ApiGatewayV2 {
         public let routeSettings: [String: RouteSettings]?
         public let stageName: String?
         public let stageVariables: [String: String]?
+        public let tags: [String: String]?
 
-        public init(accessLogSettings: AccessLogSettings? = nil, clientCertificateId: String? = nil, createdDate: TimeStamp? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, lastUpdatedDate: TimeStamp? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String? = nil, stageVariables: [String: String]? = nil) {
+        public init(accessLogSettings: AccessLogSettings? = nil, clientCertificateId: String? = nil, createdDate: TimeStamp? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, lastUpdatedDate: TimeStamp? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String? = nil, stageVariables: [String: String]? = nil, tags: [String: String]? = nil) {
             self.accessLogSettings = accessLogSettings
             self.clientCertificateId = clientCertificateId
             self.createdDate = createdDate
@@ -1760,6 +1794,7 @@ extension ApiGatewayV2 {
             self.routeSettings = routeSettings
             self.stageName = stageName
             self.stageVariables = stageVariables
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1773,6 +1808,7 @@ extension ApiGatewayV2 {
             case routeSettings = "routeSettings"
             case stageName = "stageName"
             case stageVariables = "stageVariables"
+            case tags = "tags"
         }
     }
 
@@ -2055,7 +2091,8 @@ extension ApiGatewayV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApiMappingSelectionExpression", location: .body(locationName: "apiMappingSelectionExpression"), required: false, type: .string), 
             AWSShapeMember(label: "DomainName", location: .body(locationName: "domainName"), required: true, type: .string), 
-            AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"), required: false, type: .list)
+            AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"), required: false, type: .list), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         /// The API mapping selection expression.
         public let apiMappingSelectionExpression: String?
@@ -2063,17 +2100,21 @@ extension ApiGatewayV2 {
         public let domainName: String
         /// The domain name configurations.
         public let domainNameConfigurations: [DomainNameConfiguration]?
+        /// Tags for the DomainName.
+        public let tags: [String: String]?
 
-        public init(apiMappingSelectionExpression: String? = nil, domainName: String, domainNameConfigurations: [DomainNameConfiguration]? = nil) {
+        public init(apiMappingSelectionExpression: String? = nil, domainName: String, domainNameConfigurations: [DomainNameConfiguration]? = nil, tags: [String: String]? = nil) {
             self.apiMappingSelectionExpression = apiMappingSelectionExpression
             self.domainName = domainName
             self.domainNameConfigurations = domainNameConfigurations
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case apiMappingSelectionExpression = "apiMappingSelectionExpression"
             case domainName = "domainName"
             case domainNameConfigurations = "domainNameConfigurations"
+            case tags = "tags"
         }
     }
 
@@ -2083,8 +2124,11 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "CertificateArn", location: .body(locationName: "certificateArn"), required: false, type: .string), 
             AWSShapeMember(label: "CertificateName", location: .body(locationName: "certificateName"), required: false, type: .string), 
             AWSShapeMember(label: "CertificateUploadDate", location: .body(locationName: "certificateUploadDate"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "DomainNameStatus", location: .body(locationName: "domainNameStatus"), required: false, type: .enum), 
+            AWSShapeMember(label: "DomainNameStatusMessage", location: .body(locationName: "domainNameStatusMessage"), required: false, type: .string), 
             AWSShapeMember(label: "EndpointType", location: .body(locationName: "endpointType"), required: false, type: .enum), 
-            AWSShapeMember(label: "HostedZoneId", location: .body(locationName: "hostedZoneId"), required: false, type: .string)
+            AWSShapeMember(label: "HostedZoneId", location: .body(locationName: "hostedZoneId"), required: false, type: .string), 
+            AWSShapeMember(label: "SecurityPolicy", location: .body(locationName: "securityPolicy"), required: false, type: .enum)
         ]
         /// A domain name for the WebSocket API.
         public let apiGatewayDomainName: String?
@@ -2097,18 +2141,27 @@ extension ApiGatewayV2 {
         /// The timestamp when the certificate that was used by edge-optimized endpoint for
         ///  this domain name was uploaded.
         public let certificateUploadDate: TimeStamp?
+        /// The status of the domain name migration. The valid values are AVAILABLE and UPDATING. If the status is UPDATING, the domain cannot be modified further until the existing operation is complete. If it is AVAILABLE, the domain can be updated.
+        public let domainNameStatus: DomainNameStatus?
+        /// An optional text message containing detailed information about status of the domain name migration.
+        public let domainNameStatusMessage: String?
         /// The endpoint type.
         public let endpointType: EndpointType?
         /// The Amazon Route 53 Hosted Zone ID of the endpoint.
         public let hostedZoneId: String?
+        /// The Transport Layer Security (TLS) version of the security policy for this domain name. The valid values are TLS_1_0 and TLS_1_2.
+        public let securityPolicy: SecurityPolicy?
 
-        public init(apiGatewayDomainName: String? = nil, certificateArn: String? = nil, certificateName: String? = nil, certificateUploadDate: TimeStamp? = nil, endpointType: EndpointType? = nil, hostedZoneId: String? = nil) {
+        public init(apiGatewayDomainName: String? = nil, certificateArn: String? = nil, certificateName: String? = nil, certificateUploadDate: TimeStamp? = nil, domainNameStatus: DomainNameStatus? = nil, domainNameStatusMessage: String? = nil, endpointType: EndpointType? = nil, hostedZoneId: String? = nil, securityPolicy: SecurityPolicy? = nil) {
             self.apiGatewayDomainName = apiGatewayDomainName
             self.certificateArn = certificateArn
             self.certificateName = certificateName
             self.certificateUploadDate = certificateUploadDate
+            self.domainNameStatus = domainNameStatus
+            self.domainNameStatusMessage = domainNameStatusMessage
             self.endpointType = endpointType
             self.hostedZoneId = hostedZoneId
+            self.securityPolicy = securityPolicy
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2116,9 +2169,18 @@ extension ApiGatewayV2 {
             case certificateArn = "certificateArn"
             case certificateName = "certificateName"
             case certificateUploadDate = "certificateUploadDate"
+            case domainNameStatus = "domainNameStatus"
+            case domainNameStatusMessage = "domainNameStatusMessage"
             case endpointType = "endpointType"
             case hostedZoneId = "hostedZoneId"
+            case securityPolicy = "securityPolicy"
         }
+    }
+
+    public enum DomainNameStatus: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
     }
 
     public struct DomainNames: AWSShape {
@@ -2263,6 +2325,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "ProtocolType", location: .body(locationName: "protocolType"), required: false, type: .enum), 
             AWSShapeMember(label: "RouteSelectionExpression", location: .body(locationName: "routeSelectionExpression"), required: false, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .string), 
             AWSShapeMember(label: "Warnings", location: .body(locationName: "warnings"), required: false, type: .list)
         ]
@@ -2275,10 +2338,11 @@ extension ApiGatewayV2 {
         public let name: String?
         public let protocolType: ProtocolType?
         public let routeSelectionExpression: String?
+        public let tags: [String: String]?
         public let version: String?
         public let warnings: [String]?
 
-        public init(apiEndpoint: String? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, createdDate: TimeStamp? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiEndpoint: String? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, createdDate: TimeStamp? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiId = apiId
             self.apiKeySelectionExpression = apiKeySelectionExpression
@@ -2288,6 +2352,7 @@ extension ApiGatewayV2 {
             self.name = name
             self.protocolType = protocolType
             self.routeSelectionExpression = routeSelectionExpression
+            self.tags = tags
             self.version = version
             self.warnings = warnings
         }
@@ -2302,6 +2367,7 @@ extension ApiGatewayV2 {
             case name = "name"
             case protocolType = "protocolType"
             case routeSelectionExpression = "routeSelectionExpression"
+            case tags = "tags"
             case version = "version"
             case warnings = "warnings"
         }
@@ -2564,22 +2630,26 @@ extension ApiGatewayV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApiMappingSelectionExpression", location: .body(locationName: "apiMappingSelectionExpression"), required: false, type: .string), 
             AWSShapeMember(label: "DomainName", location: .body(locationName: "domainName"), required: false, type: .string), 
-            AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"), required: false, type: .list)
+            AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"), required: false, type: .list), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         public let apiMappingSelectionExpression: String?
         public let domainName: String?
         public let domainNameConfigurations: [DomainNameConfiguration]?
+        public let tags: [String: String]?
 
-        public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil) {
+        public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, tags: [String: String]? = nil) {
             self.apiMappingSelectionExpression = apiMappingSelectionExpression
             self.domainName = domainName
             self.domainNameConfigurations = domainNameConfigurations
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case apiMappingSelectionExpression = "apiMappingSelectionExpression"
             case domainName = "domainName"
             case domainNameConfigurations = "domainNameConfigurations"
+            case tags = "tags"
         }
     }
 
@@ -3233,7 +3303,8 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "LastUpdatedDate", location: .body(locationName: "lastUpdatedDate"), required: false, type: .timestamp), 
             AWSShapeMember(label: "RouteSettings", location: .body(locationName: "routeSettings"), required: false, type: .map), 
             AWSShapeMember(label: "StageName", location: .body(locationName: "stageName"), required: false, type: .string), 
-            AWSShapeMember(label: "StageVariables", location: .body(locationName: "stageVariables"), required: false, type: .map)
+            AWSShapeMember(label: "StageVariables", location: .body(locationName: "stageVariables"), required: false, type: .map), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         public let accessLogSettings: AccessLogSettings?
         public let clientCertificateId: String?
@@ -3245,8 +3316,9 @@ extension ApiGatewayV2 {
         public let routeSettings: [String: RouteSettings]?
         public let stageName: String?
         public let stageVariables: [String: String]?
+        public let tags: [String: String]?
 
-        public init(accessLogSettings: AccessLogSettings? = nil, clientCertificateId: String? = nil, createdDate: TimeStamp? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, lastUpdatedDate: TimeStamp? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String? = nil, stageVariables: [String: String]? = nil) {
+        public init(accessLogSettings: AccessLogSettings? = nil, clientCertificateId: String? = nil, createdDate: TimeStamp? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, lastUpdatedDate: TimeStamp? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String? = nil, stageVariables: [String: String]? = nil, tags: [String: String]? = nil) {
             self.accessLogSettings = accessLogSettings
             self.clientCertificateId = clientCertificateId
             self.createdDate = createdDate
@@ -3257,6 +3329,7 @@ extension ApiGatewayV2 {
             self.routeSettings = routeSettings
             self.stageName = stageName
             self.stageVariables = stageVariables
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3270,6 +3343,7 @@ extension ApiGatewayV2 {
             case routeSettings = "routeSettings"
             case stageName = "stageName"
             case stageVariables = "stageVariables"
+            case tags = "tags"
         }
     }
 
@@ -3312,6 +3386,36 @@ extension ApiGatewayV2 {
         private enum CodingKeys: String, CodingKey {
             case items = "items"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetTagsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string)
+        ]
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resource-arn"
+        }
+    }
+
+    public struct GetTagsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+        ]
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
         }
     }
 
@@ -3888,6 +3992,12 @@ extension ApiGatewayV2 {
         }
     }
 
+    public enum SecurityPolicy: String, CustomStringConvertible, Codable {
+        case tls10 = "TLS_1_0"
+        case tls12 = "TLS_1_2"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Stage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccessLogSettings", location: .body(locationName: "accessLogSettings"), required: false, type: .structure), 
@@ -3899,7 +4009,8 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "LastUpdatedDate", location: .body(locationName: "lastUpdatedDate"), required: false, type: .timestamp), 
             AWSShapeMember(label: "RouteSettings", location: .body(locationName: "routeSettings"), required: false, type: .map), 
             AWSShapeMember(label: "StageName", location: .body(locationName: "stageName"), required: true, type: .string), 
-            AWSShapeMember(label: "StageVariables", location: .body(locationName: "stageVariables"), required: false, type: .map)
+            AWSShapeMember(label: "StageVariables", location: .body(locationName: "stageVariables"), required: false, type: .map), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         /// Settings for logging access in this stage.
         public let accessLogSettings: AccessLogSettings?
@@ -3924,8 +4035,10 @@ extension ApiGatewayV2 {
         ///  have alphanumeric and underscore characters, and the values must match
         ///  [A-Za-z0-9-._~:/?#&=,]+.
         public let stageVariables: [String: String]?
+        /// Tags for the Stage.
+        public let tags: [String: String]?
 
-        public init(accessLogSettings: AccessLogSettings? = nil, clientCertificateId: String? = nil, createdDate: TimeStamp? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, lastUpdatedDate: TimeStamp? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String, stageVariables: [String: String]? = nil) {
+        public init(accessLogSettings: AccessLogSettings? = nil, clientCertificateId: String? = nil, createdDate: TimeStamp? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, lastUpdatedDate: TimeStamp? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String, stageVariables: [String: String]? = nil, tags: [String: String]? = nil) {
             self.accessLogSettings = accessLogSettings
             self.clientCertificateId = clientCertificateId
             self.createdDate = createdDate
@@ -3936,6 +4049,7 @@ extension ApiGatewayV2 {
             self.routeSettings = routeSettings
             self.stageName = stageName
             self.stageVariables = stageVariables
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3949,6 +4063,7 @@ extension ApiGatewayV2 {
             case routeSettings = "routeSettings"
             case stageName = "stageName"
             case stageVariables = "stageVariables"
+            case tags = "tags"
         }
     }
 
@@ -3974,6 +4089,48 @@ extension ApiGatewayV2 {
         }
     }
 
+    public struct TagResourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+        ]
+        /// Tags for the resource arn.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+        ]
+        public let resourceArn: String
+        public let tags: [String: String]?
+
+        public init(resourceArn: String, tags: [String: String]? = nil) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resource-arn"
+            case tags = "tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
     public struct Template: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", location: .body(locationName: "value"), required: false, type: .string)
@@ -3987,6 +4144,25 @@ extension ApiGatewayV2 {
 
         private enum CodingKeys: String, CodingKey {
             case value = "value"
+        }
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+        ]
+        public let resourceArn: String
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resource-arn"
+            case tagKeys = "tagKeys"
         }
     }
 

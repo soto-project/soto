@@ -226,7 +226,7 @@ extension APIGateway {
         public let id: String?
         /// The identity source for which authorization is requested. For a TOKEN or COGNITO_USER_POOLS authorizer, this is required and specifies the request header mapping expression for the custom header holding the authorization token submitted by the client. For example, if the token header name is Auth, the header mapping expression is method.request.header.Auth.For the REQUEST authorizer, this is required when authorization caching is enabled. The value is a comma-separated string of one or more mapping expressions of the specified request parameters. For example, if an Auth header, a Name query string parameter are defined as identity sources, this value is method.request.header.Auth, method.request.querystring.Name. These parameters will be used to derive the authorization caching key and to perform runtime validation of the REQUEST authorizer by verifying all of the identity-related request parameters are present, not null and non-empty. Only when this is true does the authorizer invoke the authorizer Lambda function, otherwise, it returns a 401 Unauthorized response without calling the Lambda function. The valid value is a string of comma-separated mapping expressions of the specified request parameters. When the authorization caching is not enabled, this property is optional.
         public let identitySource: String?
-        /// A validation expression for the incoming identity token. For TOKEN authorizers, this value is a regular expression. API Gateway will match the aud field of the incoming token from the client against the specified regular expression. It will invoke the authorizer's Lambda function when there is a match. Otherwise, it will return a 401 Unauthorized response without calling the Lambda function. The validation expression does not apply to the REQUEST authorizer.
+        /// A validation expression for the incoming identity token. For TOKEN authorizers, this value is a regular expression. For COGNITO_USER_POOLS authorizers, API Gateway will match the aud field of the incoming token from the client against the specified regular expression. It will invoke the authorizer's Lambda function when there is a match. Otherwise, it will return a 401 Unauthorized response without calling the Lambda function. The validation expression does not apply to the REQUEST authorizer.
         public let identityValidationExpression: String?
         /// [Required] The name of the authorizer.
         public let name: String?
@@ -534,7 +534,7 @@ extension APIGateway {
         public let authorizerUri: String?
         /// The identity source for which authorization is requested. For a TOKEN or COGNITO_USER_POOLS authorizer, this is required and specifies the request header mapping expression for the custom header holding the authorization token submitted by the client. For example, if the token header name is Auth, the header mapping expression is method.request.header.Auth.For the REQUEST authorizer, this is required when authorization caching is enabled. The value is a comma-separated string of one or more mapping expressions of the specified request parameters. For example, if an Auth header, a Name query string parameter are defined as identity sources, this value is method.request.header.Auth, method.request.querystring.Name. These parameters will be used to derive the authorization caching key and to perform runtime validation of the REQUEST authorizer by verifying all of the identity-related request parameters are present, not null and non-empty. Only when this is true does the authorizer invoke the authorizer Lambda function, otherwise, it returns a 401 Unauthorized response without calling the Lambda function. The valid value is a string of comma-separated mapping expressions of the specified request parameters. When the authorization caching is not enabled, this property is optional.
         public let identitySource: String?
-        /// A validation expression for the incoming identity token. For TOKEN authorizers, this value is a regular expression. API Gateway will match the aud field of the incoming token from the client against the specified regular expression. It will invoke the authorizer's Lambda function when there is a match. Otherwise, it will return a 401 Unauthorized response without calling the Lambda function. The validation expression does not apply to the REQUEST authorizer.
+        /// A validation expression for the incoming identity token. For TOKEN authorizers, this value is a regular expression. For COGNITO_USER_POOLS authorizers, API Gateway will match the aud field of the incoming token from the client against the specified regular expression. It will invoke the authorizer's Lambda function when there is a match. Otherwise, it will return a 401 Unauthorized response without calling the Lambda function. The validation expression does not apply to the REQUEST authorizer.
         public let identityValidationExpression: String?
         /// [Required] The name of the authorizer.
         public let name: String
@@ -579,13 +579,13 @@ extension APIGateway {
             AWSShapeMember(label: "restApiId", required: true, type: .string), 
             AWSShapeMember(label: "stage", required: false, type: .string)
         ]
-        /// The base path name that callers of the API must provide as part of the URL after the domain name. This value must be unique for all of the mappings across a single API. Leave this blank if you do not want callers to specify a base path name after the domain name.
+        /// The base path name that callers of the API must provide as part of the URL after the domain name. This value must be unique for all of the mappings across a single API. Specify '(none)' if you do not want callers to specify a base path name after the domain name.
         public let basePath: String?
         /// [Required] The domain name of the BasePathMapping resource to create.
         public let domainName: String
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        /// The name of the API's stage that you want to use for this mapping. Leave this blank if you do not want callers to explicitly specify the stage name after any base path name.
+        /// The name of the API's stage that you want to use for this mapping. Specify '(none)' if you do not want callers to explicitly specify the stage name after any base path name.
         public let stage: String?
 
         public init(basePath: String? = nil, domainName: String, restApiId: String, stage: String? = nil) {
@@ -727,6 +727,7 @@ extension APIGateway {
             AWSShapeMember(label: "endpointConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "regionalCertificateArn", required: false, type: .string), 
             AWSShapeMember(label: "regionalCertificateName", required: false, type: .string), 
+            AWSShapeMember(label: "securityPolicy", required: false, type: .enum), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         /// The reference to an AWS-managed certificate that will be used by edge-optimized endpoint for this domain name. AWS Certificate Manager is the only supported source.
@@ -747,10 +748,12 @@ extension APIGateway {
         public let regionalCertificateArn: String?
         /// The user-friendly name of the certificate that will be used by regional endpoint for this domain name.
         public let regionalCertificateName: String?
+        /// The Transport Layer Security (TLS) version + cipher suite for this DomainName. The valid values are TLS_1_0 and TLS_1_2.
+        public let securityPolicy: SecurityPolicy?
         /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
         public let tags: [String: String]?
 
-        public init(certificateArn: String? = nil, certificateBody: String? = nil, certificateChain: String? = nil, certificateName: String? = nil, certificatePrivateKey: String? = nil, domainName: String, endpointConfiguration: EndpointConfiguration? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, tags: [String: String]? = nil) {
+        public init(certificateArn: String? = nil, certificateBody: String? = nil, certificateChain: String? = nil, certificateName: String? = nil, certificatePrivateKey: String? = nil, domainName: String, endpointConfiguration: EndpointConfiguration? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, securityPolicy: SecurityPolicy? = nil, tags: [String: String]? = nil) {
             self.certificateArn = certificateArn
             self.certificateBody = certificateBody
             self.certificateChain = certificateChain
@@ -760,6 +763,7 @@ extension APIGateway {
             self.endpointConfiguration = endpointConfiguration
             self.regionalCertificateArn = regionalCertificateArn
             self.regionalCertificateName = regionalCertificateName
+            self.securityPolicy = securityPolicy
             self.tags = tags
         }
 
@@ -773,6 +777,7 @@ extension APIGateway {
             case endpointConfiguration = "endpointConfiguration"
             case regionalCertificateArn = "regionalCertificateArn"
             case regionalCertificateName = "regionalCertificateName"
+            case securityPolicy = "securityPolicy"
             case tags = "tags"
         }
     }
@@ -959,7 +964,7 @@ extension APIGateway {
         public let documentationVersion: String?
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        /// [Required] The name for the Stage resource.
+        /// [Required] The name for the Stage resource. Stage names can only contain alphanumeric characters, hyphens, and underscores. Maximum length is 128 characters.
         public let stageName: String
         /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
         public let tags: [String: String]?
@@ -1137,7 +1142,7 @@ extension APIGateway {
             AWSShapeMember(label: "basePath", location: .uri(locationName: "base_path"), required: true, type: .string), 
             AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"), required: true, type: .string)
         ]
-        /// [Required] The base path name of the BasePathMapping resource to delete.
+        /// [Required] The base path name of the BasePathMapping resource to delete. To specify an empty base path, set this parameter to '(none)'.
         public let basePath: String
         /// [Required] The domain name of the BasePathMapping resource to delete.
         public let domainName: String
@@ -1786,11 +1791,14 @@ extension APIGateway {
             AWSShapeMember(label: "distributionDomainName", required: false, type: .string), 
             AWSShapeMember(label: "distributionHostedZoneId", required: false, type: .string), 
             AWSShapeMember(label: "domainName", required: false, type: .string), 
+            AWSShapeMember(label: "domainNameStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "domainNameStatusMessage", required: false, type: .string), 
             AWSShapeMember(label: "endpointConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "regionalCertificateArn", required: false, type: .string), 
             AWSShapeMember(label: "regionalCertificateName", required: false, type: .string), 
             AWSShapeMember(label: "regionalDomainName", required: false, type: .string), 
             AWSShapeMember(label: "regionalHostedZoneId", required: false, type: .string), 
+            AWSShapeMember(label: "securityPolicy", required: false, type: .enum), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         /// The reference to an AWS-managed certificate that will be used by edge-optimized endpoint for this domain name. AWS Certificate Manager is the only supported source.
@@ -1805,6 +1813,10 @@ extension APIGateway {
         public let distributionHostedZoneId: String?
         /// The custom domain name as an API host name, for example, my-api.example.com.
         public let domainName: String?
+        /// The status of the DomainName migration. The valid values are AVAILABLE and UPDATING. If the status is UPDATING, the domain cannot be modified further until the existing operation is complete. If it is AVAILABLE, the domain can be updated.
+        public let domainNameStatus: DomainNameStatus?
+        /// An optional text message containing detailed information about status of the DomainName migration.
+        public let domainNameStatusMessage: String?
         /// The endpoint configuration of this DomainName showing the endpoint types of the domain name. 
         public let endpointConfiguration: EndpointConfiguration?
         /// The reference to an AWS-managed certificate that will be used for validating the regional domain name. AWS Certificate Manager is the only supported source.
@@ -1815,21 +1827,26 @@ extension APIGateway {
         public let regionalDomainName: String?
         /// The region-specific Amazon Route 53 Hosted Zone ID of the regional endpoint. For more information, see Set up a Regional Custom Domain Name and AWS Regions and Endpoints for API Gateway. 
         public let regionalHostedZoneId: String?
+        /// The Transport Layer Security (TLS) version + cipher suite for this DomainName. The valid values are TLS_1_0 and TLS_1_2.
+        public let securityPolicy: SecurityPolicy?
         /// The collection of tags. Each tag element is associated with a given resource.
         public let tags: [String: String]?
 
-        public init(certificateArn: String? = nil, certificateName: String? = nil, certificateUploadDate: TimeStamp? = nil, distributionDomainName: String? = nil, distributionHostedZoneId: String? = nil, domainName: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, regionalDomainName: String? = nil, regionalHostedZoneId: String? = nil, tags: [String: String]? = nil) {
+        public init(certificateArn: String? = nil, certificateName: String? = nil, certificateUploadDate: TimeStamp? = nil, distributionDomainName: String? = nil, distributionHostedZoneId: String? = nil, domainName: String? = nil, domainNameStatus: DomainNameStatus? = nil, domainNameStatusMessage: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, regionalDomainName: String? = nil, regionalHostedZoneId: String? = nil, securityPolicy: SecurityPolicy? = nil, tags: [String: String]? = nil) {
             self.certificateArn = certificateArn
             self.certificateName = certificateName
             self.certificateUploadDate = certificateUploadDate
             self.distributionDomainName = distributionDomainName
             self.distributionHostedZoneId = distributionHostedZoneId
             self.domainName = domainName
+            self.domainNameStatus = domainNameStatus
+            self.domainNameStatusMessage = domainNameStatusMessage
             self.endpointConfiguration = endpointConfiguration
             self.regionalCertificateArn = regionalCertificateArn
             self.regionalCertificateName = regionalCertificateName
             self.regionalDomainName = regionalDomainName
             self.regionalHostedZoneId = regionalHostedZoneId
+            self.securityPolicy = securityPolicy
             self.tags = tags
         }
 
@@ -1840,13 +1857,23 @@ extension APIGateway {
             case distributionDomainName = "distributionDomainName"
             case distributionHostedZoneId = "distributionHostedZoneId"
             case domainName = "domainName"
+            case domainNameStatus = "domainNameStatus"
+            case domainNameStatusMessage = "domainNameStatusMessage"
             case endpointConfiguration = "endpointConfiguration"
             case regionalCertificateArn = "regionalCertificateArn"
             case regionalCertificateName = "regionalCertificateName"
             case regionalDomainName = "regionalDomainName"
             case regionalHostedZoneId = "regionalHostedZoneId"
+            case securityPolicy = "securityPolicy"
             case tags = "tags"
         }
+    }
+
+    public enum DomainNameStatus: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case updating = "UPDATING"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
     }
 
     public struct DomainNames: AWSShape {
@@ -2179,7 +2206,7 @@ extension APIGateway {
             AWSShapeMember(label: "basePath", location: .uri(locationName: "base_path"), required: true, type: .string), 
             AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"), required: true, type: .string)
         ]
-        /// [Required] The base path name that callers of the API must provide as part of the URL after the domain name. This value must be unique for all of the mappings across a single API. Leave this blank if you do not want callers to specify any base path name after the domain name.
+        /// [Required] The base path name that callers of the API must provide as part of the URL after the domain name. This value must be unique for all of the mappings across a single API. Specify '(none)' if you do not want callers to specify any base path name after the domain name.
         public let basePath: String
         /// [Required] The domain name of the BasePathMapping resource to be described.
         public let domainName: String
@@ -2992,7 +3019,7 @@ extension APIGateway {
         public let limit: Int32?
         /// (Not currently supported) The current pagination position in the paged result set.
         public let position: String?
-        /// [Required] The ARN of a resource that can be tagged. The resource ARN must be URL-encoded. At present, Stage is the only taggable resource.
+        /// [Required] The ARN of a resource that can be tagged. The resource ARN must be URL-encoded.
         public let resourceArn: String
 
         public init(limit: Int32? = nil, position: String? = nil, resourceArn: String) {
@@ -3253,7 +3280,7 @@ extension APIGateway {
         public let body: Data
         /// A query parameter to indicate whether to rollback the API creation (true) or not (false) when a warning is encountered. The default value is false.
         public let failOnWarnings: Bool?
-        /// A key-value map of context-specific query string parameters specifying the behavior of different API importing operations. The following shows operation-specific parameters and their supported values.  To exclude DocumentationParts from the import, set parameters as ignore=documentation.  To configure the endpoint type, set parameters as endpointConfigurationTypes=EDGE, endpointConfigurationTypes=REGIONAL, or endpointConfigurationTypes=PRIVATE. The default endpoint type is EDGE.  To handle imported basePath, set parameters as basePath=ignore, basePath=prepend or basePath=split. For example, the AWS CLI command to exclude documentation from the imported API is: aws apigateway import-rest-api --parameters ignore=documentation --body 'file:///path/to/imported-api-body.json' The AWS CLI command to set the regional endpoint on the imported API is: aws apigateway import-rest-api --parameters endpointConfigurationTypes=REGIONAL --body 'file:///path/to/imported-api-body.json'
+        /// A key-value map of context-specific query string parameters specifying the behavior of different API importing operations. The following shows operation-specific parameters and their supported values.  To exclude DocumentationParts from the import, set parameters as ignore=documentation.  To configure the endpoint type, set parameters as endpointConfigurationTypes=EDGE, endpointConfigurationTypes=REGIONAL, or endpointConfigurationTypes=PRIVATE. The default endpoint type is EDGE.  To handle imported basepath, set parameters as basepath=ignore, basepath=prepend or basepath=split. For example, the AWS CLI command to exclude documentation from the imported API is: aws apigateway import-rest-api --parameters ignore=documentation --body 'file:///path/to/imported-api-body.json' The AWS CLI command to set the regional endpoint on the imported API is: aws apigateway import-rest-api --parameters endpointConfigurationTypes=REGIONAL --body 'file:///path/to/imported-api-body.json'
         public let parameters: [String: String]?
 
         public init(body: Data, failOnWarnings: Bool? = nil, parameters: [String: String]? = nil) {
@@ -3286,15 +3313,15 @@ extension APIGateway {
             AWSShapeMember(label: "type", required: false, type: .enum), 
             AWSShapeMember(label: "uri", required: false, type: .string)
         ]
-        /// Specifies the integration's cache key parameters.
+        /// A list of request parameters whose values API Gateway caches. To be valid values for cacheKeyParameters, these parameters must also be specified for Method requestParameters.
         public let cacheKeyParameters: [String]?
-        /// Specifies the integration's cache namespace.
+        /// An API-specific tag group of related cached parameters. To be valid values for cacheKeyParameters, these parameters must also be specified for Method requestParameters.
         public let cacheNamespace: String?
         /// The (id) of the VpcLink used for the integration when connectionType=VPC_LINK and undefined, otherwise.
         public let connectionId: String?
         /// The type of the network connection to the integration endpoint. The valid value is INTERNET for connections through the public routable internet or VPC_LINK for private connections between API Gateway and a network load balancer in a VPC. The default value is INTERNET.
         public let connectionType: ConnectionType?
-        /// Specifies how to handle request payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a request payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a request payload from a binary blob to a Base64-encoded string.  If this property is not defined, the request payload will be passed through from the method request to integration request without modification, provided that the passthroughBehaviors is configured to support payload pass-through.
+        /// Specifies how to handle request payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a request payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a request payload from a binary blob to a Base64-encoded string.  If this property is not defined, the request payload will be passed through from the method request to integration request without modification, provided that the passthroughBehavior is configured to support payload pass-through.
         public let contentHandling: ContentHandlingStrategy?
         /// Specifies the credentials required for the integration, if any. For AWS integrations, three options are available. To specify an IAM Role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To require that the caller's identity be passed through from the request, specify the string arn:aws:iam::\*:user/\*. To use resource-based permissions on supported AWS services, specify null.
         public let credentials: String?
@@ -3429,7 +3456,7 @@ extension APIGateway {
         public let methodIntegration: Integration?
         /// Gets a method response associated with a given HTTP status code.   The collection of method responses are encapsulated in a key-value map, where the key is a response's HTTP status code and the value is a MethodResponse resource that specifies the response returned to the caller from the back end through the integration response. Example: Get a 200 OK response of a GET method Request  GET /restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200 HTTP/1.1 Content-Type: application/json Host: apigateway.us-east-1.amazonaws.com Content-Length: 117 X-Amz-Date: 20160613T215008Z Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20160613/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash} Response The successful response returns a 200 OK status code and a payload similar to the following: { "_links": { "curies": { "href": "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-response-{rel}.html", "name": "methodresponse", "templated": true }, "self": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200", "title": "200" }, "methodresponse:delete": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200" }, "methodresponse:update": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200" } }, "responseModels": { "application/json": "Empty" }, "responseParameters": { "method.response.header.operator": false, "method.response.header.operand_2": false, "method.response.header.operand_1": false }, "statusCode": "200" }    AWS CLI 
         public let methodResponses: [String: MethodResponse]?
-        /// A human-friendly operation identifier for the method. For example, you can assign the operationName of ListPets for the GET /pets method in PetStore example.
+        /// A human-friendly operation identifier for the method. For example, you can assign the operationName of ListPets for the GET /pets method in the PetStore example.
         public let operationName: String?
         /// A key-value map specifying data schemas, represented by Model resources, (as the mapped value) of the request payloads of given content types (as the mapping key).
         public let requestModels: [String: String]?
@@ -3727,15 +3754,15 @@ extension APIGateway {
             AWSShapeMember(label: "type", required: true, type: .enum), 
             AWSShapeMember(label: "uri", required: false, type: .string)
         ]
-        /// Specifies a put integration input's cache key parameters.
+        /// An API-specific tag group of related cached parameters.
         public let cacheKeyParameters: [String]?
-        /// Specifies a put integration input's cache namespace.
+        /// A list of request parameters whose values are to be cached.
         public let cacheNamespace: String?
         /// The (id) of the VpcLink used for the integration when connectionType=VPC_LINK and undefined, otherwise.
         public let connectionId: String?
         /// The type of the network connection to the integration endpoint. The valid value is INTERNET for connections through the public routable internet or VPC_LINK for private connections between API Gateway and a network load balancer in a VPC. The default value is INTERNET.
         public let connectionType: ConnectionType?
-        /// Specifies how to handle request payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a request payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a request payload from a binary blob to a Base64-encoded string.  If this property is not defined, the request payload will be passed through from the method request to integration request without modification, provided that the passthroughBehaviors is configured to support payload pass-through.
+        /// Specifies how to handle request payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a request payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a request payload from a binary blob to a Base64-encoded string.  If this property is not defined, the request payload will be passed through from the method request to integration request without modification, provided that the passthroughBehavior is configured to support payload pass-through.
         public let contentHandling: ContentHandlingStrategy?
         /// Specifies whether credentials are required for a put integration.
         public let credentials: String?
@@ -3874,7 +3901,7 @@ extension APIGateway {
         public let authorizerId: String?
         /// [Required] Specifies the method request's HTTP method type.
         public let httpMethod: String
-        /// A human-friendly operation identifier for the method. For example, you can assign the operationName of ListPets for the GET /pets method in PetStore example.
+        /// A human-friendly operation identifier for the method. For example, you can assign the operationName of ListPets for the GET /pets method in the PetStore example.
         public let operationName: String?
         /// Specifies the Model resources used for the request's content type. Request models are represented as a key/value map, with a content type as the key and a Model name as the value.
         public let requestModels: [String: String]?
@@ -4347,6 +4374,12 @@ extension APIGateway {
         }
     }
 
+    public enum SecurityPolicy: String, CustomStringConvertible, Codable {
+        case tls10 = "TLS_1_0"
+        case tls12 = "TLS_1_2"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Stage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "accessLogSettings", required: false, type: .structure), 
@@ -4391,7 +4424,7 @@ extension APIGateway {
         public let lastUpdatedDate: TimeStamp?
         /// A map that defines the method settings for a Stage resource. Keys (designated as /{method_setting_key below) are method paths defined as {resource_path}/{http_method} for an individual method override, or /\*/\* for overriding all methods in the stage. 
         public let methodSettings: [String: MethodSetting]?
-        /// The name of the stage is the first path segment in the Uniform Resource Identifier (URI) of a call to API Gateway.
+        /// The name of the stage is the first path segment in the Uniform Resource Identifier (URI) of a call to API Gateway. Stage names can only contain alphanumeric characters, hyphens, and underscores. Maximum length is 128 characters.
         public let stageName: String?
         /// The collection of tags. Each tag element is associated with a given resource.
         public let tags: [String: String]?
@@ -4485,7 +4518,7 @@ extension APIGateway {
             AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resource_arn"), required: true, type: .string), 
             AWSShapeMember(label: "tags", required: true, type: .map)
         ]
-        /// [Required] The ARN of a resource that can be tagged. The resource ARN must be URL-encoded. At present, Stage is the only taggable resource.
+        /// [Required] The ARN of a resource that can be tagged. The resource ARN must be URL-encoded.
         public let resourceArn: String
         /// [Required] The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
         public let tags: [String: String]
@@ -4759,7 +4792,7 @@ extension APIGateway {
             AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resource_arn"), required: true, type: .string), 
             AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
         ]
-        /// [Required] The ARN of a resource that can be tagged. The resource ARN must be URL-encoded. At present, Stage is the only taggable resource.
+        /// [Required] The ARN of a resource that can be tagged. The resource ARN must be URL-encoded.
         public let resourceArn: String
         /// [Required] The Tag keys to delete.
         public let tagKeys: [String]
@@ -4844,7 +4877,7 @@ extension APIGateway {
             AWSShapeMember(label: "domainName", location: .uri(locationName: "domain_name"), required: true, type: .string), 
             AWSShapeMember(label: "patchOperations", required: false, type: .list)
         ]
-        /// [Required] The base path of the BasePathMapping resource to change.
+        /// [Required] The base path of the BasePathMapping resource to change. To specify an empty base path, set this parameter to '(none)'.
         public let basePath: String
         /// [Required] The domain name of the BasePathMapping resource to change.
         public let domainName: String

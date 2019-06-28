@@ -721,6 +721,7 @@ extension Health {
         case issue = "issue"
         case accountnotification = "accountNotification"
         case scheduledchange = "scheduledChange"
+        case investigation = "investigation"
         public var description: String { return self.rawValue }
     }
 

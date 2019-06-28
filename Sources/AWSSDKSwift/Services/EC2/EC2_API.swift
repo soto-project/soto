@@ -5,7 +5,7 @@ import AWSSDKSwiftCore
 import NIO
 
 /**
-Amazon Elastic Compute Cloud Amazon Elastic Compute Cloud (Amazon EC2) provides secure and resizable computing capacity in the AWS cloud. Using Amazon EC2 eliminates the need to invest in hardware up front, so you can develop and deploy applications faster. To learn more about Amazon EC2, Amazon EBS, and Amazon VPC, see the following resources:    Amazon EC2 product page     Amazon EC2 documentation     Amazon EBS product page     Amazon VPC product page     Amazon VPC documentation   
+Amazon Elastic Compute Cloud Amazon Elastic Compute Cloud (Amazon EC2) provides secure and resizable computing capacity in the AWS cloud. Using Amazon EC2 eliminates the need to invest in hardware up front, so you can develop and deploy applications faster. To learn more, see the following resources:   Amazon EC2: Amazon EC2 product page, Amazon EC2 documentation    Amazon EBS: Amazon EBS product page, Amazon EBS documentation    Amazon VPC: Amazon VPC product page, Amazon VPC documentation    AWS VPN: AWS VPN product page, AWS VPN documentation   
 */
 public struct EC2 {
 
@@ -129,7 +129,7 @@ public struct EC2 {
         return try client.send(operation: "AttachNetworkInterface", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Attaches an EBS volume to a running or stopped instance and exposes it to the instance with the specified device name. Encrypted EBS volumes may only be attached to instances that support Amazon EBS encryption. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide. For a list of supported device names, see Attaching an EBS Volume to an Instance. Any device names that aren't reserved for instance store volumes can be used for EBS volumes. For more information, see Amazon EC2 Instance Store in the Amazon Elastic Compute Cloud User Guide. If a volume has an AWS Marketplace product code:   The volume can be attached only to a stopped instance.   AWS Marketplace product codes are copied from the volume to the instance.   You must be subscribed to the product.   The instance type and operating system of the instance must support the product. For example, you can't detach a volume from a Windows instance and attach it to a Linux instance.   For more information about EBS volumes, see Attaching Amazon EBS Volumes in the Amazon Elastic Compute Cloud User Guide.
+    ///  Attaches an EBS volume to a running or stopped instance and exposes it to the instance with the specified device name. Encrypted EBS volumes must be attached to instances that support Amazon EBS encryption. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide. After you attach an EBS volume, you must make it available. For more information, see Making an EBS Volume Available For Use. If a volume has an AWS Marketplace product code:   The volume can be attached only to a stopped instance.   AWS Marketplace product codes are copied from the volume to the instance.   You must be subscribed to the product.   The instance type and operating system of the instance must support the product. For example, you can't detach a volume from a Windows instance and attach it to a Linux instance.   For more information, see Attaching Amazon EBS Volumes in the Amazon Elastic Compute Cloud User Guide.
     public func attachVolume(_ input: AttachVolumeRequest) throws -> Future<VolumeAttachment> {
         return try client.send(operation: "AttachVolume", path: "/", httpMethod: "POST", input: input)
     }
@@ -214,7 +214,7 @@ public struct EC2 {
         return try client.send(operation: "CopyImage", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Copies a point-in-time snapshot of an EBS volume and stores it in Amazon S3. You can copy the snapshot within the same Region or from one Region to another. You can use the snapshot to create EBS volumes or Amazon Machine Images (AMIs). The snapshot is copied to the regional endpoint that you send the HTTP request to. Copies of encrypted EBS snapshots remain encrypted. Copies of unencrypted snapshots remain unencrypted, unless the Encrypted flag is specified during the snapshot copy operation. By default, encrypted snapshot copies use the default AWS Key Management Service (AWS KMS) customer master key (CMK); however, you can specify a non-default CMK with the KmsKeyId parameter. To copy an encrypted snapshot that has been shared from another account, you must have permissions for the CMK used to encrypt the snapshot. Snapshots created by copying another snapshot have an arbitrary volume ID that should not be used for any purpose. For more information, see Copying an Amazon EBS Snapshot in the Amazon Elastic Compute Cloud User Guide.
+    ///  Copies a point-in-time snapshot of an EBS volume and stores it in Amazon S3. You can copy the snapshot within the same Region or from one Region to another. You can use the snapshot to create EBS volumes or Amazon Machine Images (AMIs). Copies of encrypted EBS snapshots remain encrypted. Copies of unencrypted snapshots remain unencrypted, unless you enable encryption for the snapshot copy operation. By default, encrypted snapshot copies use the default AWS Key Management Service (AWS KMS) customer master key (CMK); however, you can specify a different CMK. To copy an encrypted snapshot that has been shared from another account, you must have permissions for the CMK used to encrypt the snapshot. Snapshots created by copying another snapshot have an arbitrary volume ID that should not be used for any purpose. For more information, see Copying an Amazon EBS Snapshot in the Amazon Elastic Compute Cloud User Guide.
     public func copySnapshot(_ input: CopySnapshotRequest) throws -> Future<CopySnapshotResult> {
         return try client.send(operation: "CopySnapshot", path: "/", httpMethod: "POST", input: input)
     }
@@ -379,6 +379,26 @@ public struct EC2 {
         return try client.send(operation: "CreateTags", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Creates a Traffic Mirror filter. A Traffic Mirror filter is a set of rules that defines the traffic to mirror. By default, no traffic is mirrored. To mirror traffic, use CreateTrafficMirrorFilterRule to add Traffic Mirror rules to the filter. The rules you add define what traffic gets mirrored. You can also use ModifyTrafficMirrorFilterNetworkServices to mirror supported network services.
+    public func createTrafficMirrorFilter(_ input: CreateTrafficMirrorFilterRequest) throws -> Future<CreateTrafficMirrorFilterResult> {
+        return try client.send(operation: "CreateTrafficMirrorFilter", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a Traffic Mirror rule.  A Traffic Mirror rule defines the Traffic Mirror source traffic to mirror. You need the Traffic Mirror filter ID when you create the rule.
+    public func createTrafficMirrorFilterRule(_ input: CreateTrafficMirrorFilterRuleRequest) throws -> Future<CreateTrafficMirrorFilterRuleResult> {
+        return try client.send(operation: "CreateTrafficMirrorFilterRule", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a Traffic Mirror session. A Traffic Mirror session actively copies packets from a Traffic Mirror source to a Traffic Mirror target. Create a filter, and then assign it to the session to define a subset of the traffic to mirror, for example all TCP traffic. The Traffic Mirror source and the Traffic Mirror target (monitoring appliances) can be in the same VPC, or in a different VPC connected via VPC peering or a transit gateway.  By default, no traffic is mirrored. Use CreateTrafficMirrorFilter to create filter rules that specify the traffic to mirror.
+    public func createTrafficMirrorSession(_ input: CreateTrafficMirrorSessionRequest) throws -> Future<CreateTrafficMirrorSessionResult> {
+        return try client.send(operation: "CreateTrafficMirrorSession", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a target for your Traffic Mirror session. A Traffic Mirror target is the destination for mirrored traffic. The Traffic Mirror source and the Traffic Mirror target (monitoring appliances) can be in the same VPC, or in different VPCs connected via VPC peering or a transit gateway. A Traffic Mirror target can be a network interface, or a Network Load Balancer. To use the target in a Traffic Mirror session, use CreateTrafficMirrorSession.
+    public func createTrafficMirrorTarget(_ input: CreateTrafficMirrorTargetRequest) throws -> Future<CreateTrafficMirrorTargetResult> {
+        return try client.send(operation: "CreateTrafficMirrorTarget", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a transit gateway. You can use a transit gateway to interconnect your virtual private clouds (VPC) and on-premises networks. After the transit gateway enters the available state, you can attach your VPCs and VPN connections to the transit gateway. To attach your VPCs, use CreateTransitGatewayVpcAttachment. To attach a VPN connection, use CreateCustomerGateway to create a customer gateway and specify the ID of the customer gateway and the ID of the transit gateway in a call to CreateVpnConnection. When you create a transit gateway, we create a default transit gateway route table and use it as the default association route table and the default propagation route table. You can use CreateTransitGatewayRouteTable to create additional transit gateway route tables. If you disable automatic route propagation, we do not create a default transit gateway route table. You can use EnableTransitGatewayRouteTablePropagation to propagate routes from a resource attachment to a transit gateway route table. If you disable automatic associations, you can use AssociateTransitGatewayRouteTable to associate a resource attachment with a transit gateway route table.
     public func createTransitGateway(_ input: CreateTransitGatewayRequest) throws -> Future<CreateTransitGatewayResult> {
         return try client.send(operation: "CreateTransitGateway", path: "/", httpMethod: "POST", input: input)
@@ -399,7 +419,7 @@ public struct EC2 {
         return try client.send(operation: "CreateTransitGatewayVpcAttachment", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an EBS volume that can be attached to an instance in the same Availability Zone. The volume is created in the regional endpoint that you send the HTTP request to. For more information see Regions and Endpoints. You can create a new empty volume or restore a volume from an EBS snapshot. Any AWS Marketplace product codes from the snapshot are propagated to the volume. You can create encrypted volumes with the Encrypted parameter. Encrypted volumes may only be attached to instances that support Amazon EBS encryption. Volumes that are created from encrypted snapshots are also automatically encrypted. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide. You can tag your volumes during creation. For more information, see Tagging Your Amazon EC2 Resources in the Amazon Elastic Compute Cloud User Guide. For more information, see Creating an Amazon EBS Volume in the Amazon Elastic Compute Cloud User Guide.
+    ///  Creates an EBS volume that can be attached to an instance in the same Availability Zone. The volume is created in the regional endpoint that you send the HTTP request to. For more information see Regions and Endpoints. You can create a new empty volume or restore a volume from an EBS snapshot. Any AWS Marketplace product codes from the snapshot are propagated to the volume. You can create encrypted volumes. Encrypted volumes must be attached to instances that support Amazon EBS encryption. Volumes that are created from encrypted snapshots are also automatically encrypted. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide. You can tag your volumes during creation. For more information, see Tagging Your Amazon EC2 Resources in the Amazon Elastic Compute Cloud User Guide. For more information, see Creating an Amazon EBS Volume in the Amazon Elastic Compute Cloud User Guide.
     public func createVolume(_ input: CreateVolumeRequest) throws -> Future<Volume> {
         return try client.send(operation: "CreateVolume", path: "/", httpMethod: "POST", input: input)
     }
@@ -429,7 +449,7 @@ public struct EC2 {
         return try client.send(operation: "CreateVpcPeeringConnection", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a VPN connection between an existing virtual private gateway and a VPN customer gateway. The supported connection types are ipsec.1 and ipsec.2. The response includes information that you need to give to your network administrator to configure your customer gateway.  We strongly recommend that you use HTTPS when calling this operation because the response contains sensitive cryptographic information for configuring your customer gateway.  If you decide to shut down your VPN connection for any reason and later create a new VPN connection, you must reconfigure your customer gateway with the new information returned from this call. This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't return an error. For more information, see AWS Site-to-Site VPN in the AWS Site-to-Site VPN User Guide.
+    ///  Creates a VPN connection between an existing virtual private gateway and a VPN customer gateway. The supported connection types is ipsec.1. The response includes information that you need to give to your network administrator to configure your customer gateway.  We strongly recommend that you use HTTPS when calling this operation because the response contains sensitive cryptographic information for configuring your customer gateway.  If you decide to shut down your VPN connection for any reason and later create a new VPN connection, you must reconfigure your customer gateway with the new information returned from this call. This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't return an error. For more information, see AWS Site-to-Site VPN in the AWS Site-to-Site VPN User Guide.
     public func createVpnConnection(_ input: CreateVpnConnectionRequest) throws -> Future<CreateVpnConnectionResult> {
         return try client.send(operation: "CreateVpnConnection", path: "/", httpMethod: "POST", input: input)
     }
@@ -567,6 +587,26 @@ public struct EC2 {
     ///  Deletes the specified set of tags from the specified set of resources. To list the current tags, use DescribeTags. For more information about tags, see Tagging Your Resources in the Amazon Elastic Compute Cloud User Guide.
     @discardableResult public func deleteTags(_ input: DeleteTagsRequest) throws -> Future<Void> {
         return try client.send(operation: "DeleteTags", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the specified Traffic Mirror filter. You cannot delete a Traffic Mirror filter that is in use by a Traffic Mirror session.
+    public func deleteTrafficMirrorFilter(_ input: DeleteTrafficMirrorFilterRequest) throws -> Future<DeleteTrafficMirrorFilterResult> {
+        return try client.send(operation: "DeleteTrafficMirrorFilter", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the specified Traffic Mirror rule.
+    public func deleteTrafficMirrorFilterRule(_ input: DeleteTrafficMirrorFilterRuleRequest) throws -> Future<DeleteTrafficMirrorFilterRuleResult> {
+        return try client.send(operation: "DeleteTrafficMirrorFilterRule", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the specified Traffic Mirror session.
+    public func deleteTrafficMirrorSession(_ input: DeleteTrafficMirrorSessionRequest) throws -> Future<DeleteTrafficMirrorSessionResult> {
+        return try client.send(operation: "DeleteTrafficMirrorSession", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the specified Traffic Mirror target. You cannot delete a Traffic Mirror target that is in use by a Traffic Mirror session.
+    public func deleteTrafficMirrorTarget(_ input: DeleteTrafficMirrorTargetRequest) throws -> Future<DeleteTrafficMirrorTargetResult> {
+        return try client.send(operation: "DeleteTrafficMirrorTarget", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified transit gateway.
@@ -1014,6 +1054,21 @@ public struct EC2 {
         return try client.send(operation: "DescribeTags", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Describes one or more Traffic Mirror filters.
+    public func describeTrafficMirrorFilters(_ input: DescribeTrafficMirrorFiltersRequest) throws -> Future<DescribeTrafficMirrorFiltersResult> {
+        return try client.send(operation: "DescribeTrafficMirrorFilters", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes one or more Traffic Mirror sessions. By default, all Traffic Mirror sessions are described. Alternatively, you can filter the results.
+    public func describeTrafficMirrorSessions(_ input: DescribeTrafficMirrorSessionsRequest) throws -> Future<DescribeTrafficMirrorSessionsResult> {
+        return try client.send(operation: "DescribeTrafficMirrorSessions", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Information about one or more Traffic Mirror targets.
+    public func describeTrafficMirrorTargets(_ input: DescribeTrafficMirrorTargetsRequest) throws -> Future<DescribeTrafficMirrorTargetsResult> {
+        return try client.send(operation: "DescribeTrafficMirrorTargets", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Describes one or more attachments between resources and transit gateways. By default, all attachments are described. Alternatively, you can filter the results by attachment ID, attachment state, resource ID, or resource owner.
     public func describeTransitGatewayAttachments(_ input: DescribeTransitGatewayAttachmentsRequest) throws -> Future<DescribeTransitGatewayAttachmentsResult> {
         return try client.send(operation: "DescribeTransitGatewayAttachments", path: "/", httpMethod: "POST", input: input)
@@ -1144,7 +1199,7 @@ public struct EC2 {
         return try client.send(operation: "DetachVpnGateway", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Disables default encryption for EBS volumes that are created in your account in the current region. Call this API if you have enabled default encryption using EnableEbsEncryptionByDefault and want to disable default EBS encryption. Once default EBS encryption is disabled, you can still create an encrypted volume by setting encrypted to true in the API call that creates the volume.  Disabling default EBS encryption will not change the encryption status of any of your existing volumes.
+    ///  Disables EBS encryption by default for your account in the current Region. After you disable encryption by default, you can still create encrypted volumes by enabling encryption when you create each volume. Disabling encryption by default does not change the encryption status of your existing volumes. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
     public func disableEbsEncryptionByDefault(_ input: DisableEbsEncryptionByDefaultRequest) throws -> Future<DisableEbsEncryptionByDefaultResult> {
         return try client.send(operation: "DisableEbsEncryptionByDefault", path: "/", httpMethod: "POST", input: input)
     }
@@ -1204,7 +1259,7 @@ public struct EC2 {
         return try client.send(operation: "DisassociateVpcCidrBlock", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Enables default encryption for EBS volumes that are created in your account in the current region. Once encryption is enabled with this action, EBS volumes that are created in your account will always be encrypted even if encryption is not specified at launch. This setting overrides the encrypted setting to true in all API calls that create EBS volumes in your account. A volume will be encrypted even if you specify encryption to be false in the API call that creates the volume. If you do not specify a customer master key (CMK) in the API call that creates the EBS volume, then the volume is encrypted to your AWS account's managed CMK. You can specify a CMK of your choice using ModifyEbsDefaultKmsKeyId. Enabling encryption-by-default for EBS volumes has no effect on existing unencrypted volumes in your account. Encrypting the data in these requires manual action. You can either create an encrypted snapshot of an unencrypted volume, or encrypt a copy of an unencrypted snapshot. Any volume restored from an encrypted snapshot is also encrypted. For more information, see Amazon EBS Snapshots. After EBS encryption-by-default is enabled, you can no longer launch older-generation instance types that do not support encryption. For more information, see Supported Instance Types.
+    ///  Enables EBS encryption by default for your account in the current Region. After you enable encryption by default, the EBS volumes that you create are are always encrypted, either using the default CMK or the CMK that you specified when you created each volume. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide. You can specify the default CMK for encryption by default using ModifyEbsDefaultKmsKeyId or ResetEbsDefaultKmsKeyId. Enabling encryption by default has no effect on the encryption status of your existing volumes. After you enable encryption by default, you can no longer launch instances using instance types that do not support encryption. For more information, see Supported Instance Types.
     public func enableEbsEncryptionByDefault(_ input: EnableEbsEncryptionByDefaultRequest) throws -> Future<EnableEbsEncryptionByDefaultResult> {
         return try client.send(operation: "EnableEbsEncryptionByDefault", path: "/", httpMethod: "POST", input: input)
     }
@@ -1259,12 +1314,12 @@ public struct EC2 {
         return try client.send(operation: "GetConsoleScreenshot", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the default customer master key (CMK) that your account uses to encrypt EBS volumes if you don’t specify a CMK in the API call. You can change this default using ModifyEbsDefaultKmsKeyId.
+    ///  Describes the default customer master key (CMK) for EBS encryption by default for your account in this Region. You can change the default CMK for encryption by default using ModifyEbsDefaultKmsKeyId or ResetEbsDefaultKmsKeyId. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
     public func getEbsDefaultKmsKeyId(_ input: GetEbsDefaultKmsKeyIdRequest) throws -> Future<GetEbsDefaultKmsKeyIdResult> {
         return try client.send(operation: "GetEbsDefaultKmsKeyId", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes whether default EBS encryption is enabled for your account in the current region.
+    ///  Describes whether EBS encryption by default is enabled for your account in the current Region. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
     public func getEbsEncryptionByDefault(_ input: GetEbsEncryptionByDefaultRequest) throws -> Future<GetEbsEncryptionByDefaultResult> {
         return try client.send(operation: "GetEbsEncryptionByDefault", path: "/", httpMethod: "POST", input: input)
     }
@@ -1344,7 +1399,7 @@ public struct EC2 {
         return try client.send(operation: "ModifyClientVpnEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Changes the customer master key (CMK) that your account uses to encrypt EBS volumes if you don't specify a CMK in the API call. By default, your account has an AWS-managed CMK that is used for encrypting an EBS volume when no CMK is specified in the API call that creates the volume. By calling this API, you can specify a customer-managed CMK to use in place of the AWS-managed CMK. Note: Deleting or disabling the CMK that you have specified to act as your default CMK will result in instance-launch failures.
+    ///  Changes the default customer master key (CMK) for EBS encryption by default for your account in this Region. AWS creates a unique AWS managed CMK in each Region for use with encryption by default. If you change the default CMK to a customer managed CMK, it is used instead of the AWS managed CMK. To reset the default CMK to the AWS managed CMK for EBS, use ResetEbsDefaultKmsKeyId. If you delete or disable the customer managed CMK that you specified for use with encryption by default, your instances will fail to launch. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
     public func modifyEbsDefaultKmsKeyId(_ input: ModifyEbsDefaultKmsKeyIdRequest) throws -> Future<ModifyEbsDefaultKmsKeyIdResult> {
         return try client.send(operation: "ModifyEbsDefaultKmsKeyId", path: "/", httpMethod: "POST", input: input)
     }
@@ -1419,7 +1474,7 @@ public struct EC2 {
         return try client.send(operation: "ModifyReservedInstances", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds or removes permission settings for the specified snapshot. You may add or remove specified AWS account IDs from a snapshot's list of create volume permissions, but you cannot do both in a single API call. If you need to both add and remove account IDs for a snapshot, you must use multiple API calls. Encrypted snapshots and snapshots with AWS Marketplace product codes cannot be made public. Snapshots encrypted with your default CMK cannot be shared with other accounts. For more information about modifying snapshot permissions, see Sharing Snapshots in the Amazon Elastic Compute Cloud User Guide.
+    ///  Adds or removes permission settings for the specified snapshot. You may add or remove specified AWS account IDs from a snapshot's list of create volume permissions, but you cannot do both in a single operation. If you need to both add and remove account IDs for a snapshot, you must use multiple operations. Encrypted snapshots and snapshots with AWS Marketplace product codes cannot be made public. Snapshots encrypted with your default CMK cannot be shared with other accounts. For more information about modifying snapshot permissions, see Sharing Snapshots in the Amazon Elastic Compute Cloud User Guide.
     @discardableResult public func modifySnapshotAttribute(_ input: ModifySnapshotAttributeRequest) throws -> Future<Void> {
         return try client.send(operation: "ModifySnapshotAttribute", path: "/", httpMethod: "POST", input: input)
     }
@@ -1434,12 +1489,27 @@ public struct EC2 {
         return try client.send(operation: "ModifySubnetAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Allows or restricts mirroring network services.  By default, Amazon DNS network services are not eligible for Traffic Mirror. Use AddNetworkServices to add network services to a Traffic Mirror filter. When a network service is added to the Traffic Mirror filter, all traffic related to that network service will be mirrored. When you no longer want to mirror network services, use RemoveNetworkServices to remove the network services from the Traffic Mirror filter.  FFor information about filter rule properties, see Network Services in the Traffic Mirroring User Guide .
+    public func modifyTrafficMirrorFilterNetworkServices(_ input: ModifyTrafficMirrorFilterNetworkServicesRequest) throws -> Future<ModifyTrafficMirrorFilterNetworkServicesResult> {
+        return try client.send(operation: "ModifyTrafficMirrorFilterNetworkServices", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Modifies the specified Traffic Mirror rule.  DestinationCidrBlock and SourceCidrBlock must both be an IPv4 range or an IPv6 range.
+    public func modifyTrafficMirrorFilterRule(_ input: ModifyTrafficMirrorFilterRuleRequest) throws -> Future<ModifyTrafficMirrorFilterRuleResult> {
+        return try client.send(operation: "ModifyTrafficMirrorFilterRule", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Modifies a Traffic Mirror session.
+    public func modifyTrafficMirrorSession(_ input: ModifyTrafficMirrorSessionRequest) throws -> Future<ModifyTrafficMirrorSessionResult> {
+        return try client.send(operation: "ModifyTrafficMirrorSession", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Modifies the specified VPC attachment.
     public func modifyTransitGatewayVpcAttachment(_ input: ModifyTransitGatewayVpcAttachmentRequest) throws -> Future<ModifyTransitGatewayVpcAttachmentResult> {
         return try client.send(operation: "ModifyTransitGatewayVpcAttachment", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  You can modify several parameters of an existing EBS volume, including volume size, volume type, and IOPS capacity. If your EBS volume is attached to a current-generation EC2 instance type, you may be able to apply these changes without stopping the instance or detaching the volume from it. For more information about modifying an EBS volume running Linux, see Modifying the Size, IOPS, or Type of an EBS Volume on Linux. For more information about modifying an EBS volume running Windows, see Modifying the Size, IOPS, or Type of an EBS Volume on Windows.   When you complete a resize operation on your volume, you need to extend the volume's file-system size to take advantage of the new storage capacity. For information about extending a Linux file system, see Extending a Linux File System. For information about extending a Windows file system, see Extending a Windows File System.   You can use CloudWatch Events to check the status of a modification to an EBS volume. For information about CloudWatch Events, see the Amazon CloudWatch Events User Guide. You can also track the status of a modification using the DescribeVolumesModifications API. For information about tracking status changes using either method, see Monitoring Volume Modifications.  With previous-generation instance types, resizing an EBS volume may require detaching and reattaching the volume or stopping and restarting the instance. For more information, see Modifying the Size, IOPS, or Type of an EBS Volume on Linux and Modifying the Size, IOPS, or Type of an EBS Volume on Windows. If you reach the maximum volume modification rate per volume limit, you will need to wait at least six hours before applying further modifications to the affected EBS volume.
+    ///  You can modify several parameters of an existing EBS volume, including volume size, volume type, and IOPS capacity. If your EBS volume is attached to a current-generation EC2 instance type, you may be able to apply these changes without stopping the instance or detaching the volume from it. For more information about modifying an EBS volume running Linux, see Modifying the Size, IOPS, or Type of an EBS Volume on Linux. For more information about modifying an EBS volume running Windows, see Modifying the Size, IOPS, or Type of an EBS Volume on Windows.   When you complete a resize operation on your volume, you need to extend the volume's file-system size to take advantage of the new storage capacity. For information about extending a Linux file system, see Extending a Linux File System. For information about extending a Windows file system, see Extending a Windows File System.   You can use CloudWatch Events to check the status of a modification to an EBS volume. For information about CloudWatch Events, see the Amazon CloudWatch Events User Guide. You can also track the status of a modification using DescribeVolumesModifications. For information about tracking status changes using either method, see Monitoring Volume Modifications.  With previous-generation instance types, resizing an EBS volume may require detaching and reattaching the volume or stopping and restarting the instance. For more information, see Modifying the Size, IOPS, or Type of an EBS Volume on Linux and Modifying the Size, IOPS, or Type of an EBS Volume on Windows. If you reach the maximum volume modification rate per volume limit, you will need to wait at least six hours before applying further modifications to the affected EBS volume.
     public func modifyVolume(_ input: ModifyVolumeRequest) throws -> Future<ModifyVolumeResult> {
         return try client.send(operation: "ModifyVolume", path: "/", httpMethod: "POST", input: input)
     }
@@ -1599,7 +1669,7 @@ public struct EC2 {
         return try client.send(operation: "RequestSpotInstances", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Resets the account's default customer master key (CMK) to the account's AWS-managed default CMK. This default CMK is used to encrypt EBS volumes when you have enabled EBS encryption by default without specifying a CMK in the API call. If you have not enabled encryption by default, then this CMK is used when you set the Encrypted parameter to true without specifying a custom CMK in the API call. Call this API if you have modified the default CMK that is used for encrypting your EBS volume using ModifyEbsDefaultKmsKeyId and you want to reset it to the AWS-managed default CMK. After resetting, you can continue to provide a CMK of your choice in the API call that creates the volume. However, if no CMK is specified, your account will encrypt the volume to the AWS-managed default CMK.
+    ///  Resets the default customer master key (CMK) for EBS encryption for your account in this Region to the AWS managed CMK for EBS. After resetting the default CMK to the AWS managed CMK, you can continue to encrypt by a customer managed CMK by specifying it when you create the volume. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
     public func resetEbsDefaultKmsKeyId(_ input: ResetEbsDefaultKmsKeyIdRequest) throws -> Future<ResetEbsDefaultKmsKeyIdResult> {
         return try client.send(operation: "ResetEbsDefaultKmsKeyId", path: "/", httpMethod: "POST", input: input)
     }

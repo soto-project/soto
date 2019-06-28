@@ -20,6 +20,7 @@ public enum FSxErrorType: AWSErrorType {
     case resourceDoesNotSupportTagging(message: String?)
     case resourceNotFound(message: String?)
     case serviceLimitExceeded(message: String?)
+    case unsupportedOperation(message: String?)
 }
 
 extension FSxErrorType {
@@ -61,6 +62,8 @@ extension FSxErrorType {
             self = .resourceNotFound(message: message)
         case "ServiceLimitExceeded":
             self = .serviceLimitExceeded(message: message)
+        case "UnsupportedOperation":
+            self = .unsupportedOperation(message: message)
         default:
             return nil
         }

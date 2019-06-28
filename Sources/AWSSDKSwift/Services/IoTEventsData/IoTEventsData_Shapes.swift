@@ -15,7 +15,7 @@ extension IoTEventsData {
         public let errorCode: ErrorCode?
         /// More information about the error.
         public let errorMessage: String?
-        /// The ID of the message that caused the error. (See the value corresponding to the messageId key in the message object.)
+        /// The ID of the message that caused the error. (See the value corresponding to the "messageId" key in the "message" object.)
         public let messageId: String?
 
         public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, messageId: String? = nil) {
@@ -35,7 +35,7 @@ extension IoTEventsData {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "messages", required: true, type: .list)
         ]
-        /// The list of messages to send. Each message has format: '{ "messageId": "string", "inputName": "string", "payload": "string"}'.
+        /// The list of messages to send. Each message has the following format: '{ "messageId": "string", "inputName": "string", "payload": "string"}' 
         public let messages: [Message]
 
         public init(messages: [Message]) {
@@ -73,7 +73,7 @@ extension IoTEventsData {
         public let errorCode: ErrorCode?
         /// A message describing the error.
         public let errorMessage: String?
-        /// The "messageId" of the update request that caused the error. (The value of the messageId in the update request Detector object.)
+        /// The "messageId" of the update request that caused the error. (The value of the "messageId" in the update request "Detector" object.)
         public let messageId: String?
 
         public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, messageId: String? = nil) {
@@ -93,7 +93,7 @@ extension IoTEventsData {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "detectors", required: true, type: .list)
         ]
-        /// The list of detectors (instances) to be updated, along with the values to be updated.
+        /// The list of detectors (instances) to update, along with the values to update.
         public let detectors: [UpdateDetectorRequest]
 
         public init(detectors: [UpdateDetectorRequest]) {
@@ -109,7 +109,7 @@ extension IoTEventsData {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "batchUpdateDetectorErrorEntries", required: false, type: .list)
         ]
-        /// A list of those detector updates which resulted in errors. (The specific update did not occur if an error is listed here.)
+        /// A list of those detector updates that resulted in errors. (If an error is listed here, the specific update did not occur.)
         public let batchUpdateDetectorErrorEntries: [BatchUpdateDetectorErrorEntry]?
 
         public init(batchUpdateDetectorErrorEntries: [BatchUpdateDetectorErrorEntry]? = nil) {
@@ -209,7 +209,7 @@ extension IoTEventsData {
         public let stateName: String
         /// The current state of the detector's timers.
         public let timers: [Timer]
-        /// The current state of the detector's variables.
+        /// The current values of the detector's variables.
         public let variables: [Variable]
 
         public init(stateName: String, timers: [Timer], variables: [Variable]) {
@@ -233,9 +233,9 @@ extension IoTEventsData {
         ]
         /// The name of the new state of the detector (instance).
         public let stateName: String
-        /// The new values of the detector's timers. Any timer whose value is not specified will be cleared and its timeout event will not occur.
+        /// The new values of the detector's timers. Any timer whose value isn't specified is cleared, and its timeout event won't occur.
         public let timers: [TimerDefinition]
-        /// The new values of the detector's variables. Any variable whose value is not specified will be cleared.
+        /// The new values of the detector's variables. Any variable whose value isn't specified is cleared.
         public let variables: [VariableDefinition]
 
         public init(stateName: String, timers: [TimerDefinition], variables: [VariableDefinition]) {
@@ -324,7 +324,7 @@ extension IoTEventsData {
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
             AWSShapeMember(label: "stateName", location: .querystring(locationName: "stateName"), required: false, type: .string)
         ]
-        /// The name of the detector model whose instances you want to list.
+        /// The name of the detector model whose detectors (instances) are listed.
         public let detectorModelName: String
         /// The maximum number of results to return at one time.
         public let maxResults: Int32?
@@ -375,9 +375,9 @@ extension IoTEventsData {
             AWSShapeMember(label: "messageId", required: true, type: .string), 
             AWSShapeMember(label: "payload", required: true, type: .blob)
         ]
-        /// The name of the input into which the message payload will be transformed.
+        /// The name of the input into which the message payload is transformed.
         public let inputName: String
-        /// The ID you wish to assign to the message. Each "messageId" must be unique within each batch sent.
+        /// The ID to assign to the message. Within each batch sent, each "messageId" must be unique.
         public let messageId: String
         /// The payload of the message. This can be a JSON string or a Base-64-encoded string representing binary data (in which case you must decode it).
         public let payload: Data
@@ -448,7 +448,7 @@ extension IoTEventsData {
         public let detectorModelName: String
         /// The value of the input key attribute (identifying the device or system) that caused the creation of this detector (instance).
         public let keyValue: String?
-        /// The ID you wish to assign to the detector update "message". Each "messageId" must be unique within each batch sent.
+        /// The ID to assign to the detector update "message". Each "messageId" must be unique within each batch sent.
         public let messageId: String
         /// The new state, variable values, and timer settings of the detector (instance).
         public let state: DetectorStateDefinition

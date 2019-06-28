@@ -82,6 +82,10 @@ public enum SSMErrorType: AWSErrorType {
     case itemContentMismatchException(message: String?)
     case itemSizeLimitExceededException(message: String?)
     case maxDocumentSizeExceeded(message: String?)
+    case opsItemAlreadyExistsException(message: String?)
+    case opsItemInvalidParameterException(message: String?)
+    case opsItemLimitExceededException(message: String?)
+    case opsItemNotFoundException(message: String?)
     case parameterAlreadyExists(message: String?)
     case parameterLimitExceeded(message: String?)
     case parameterMaxVersionLimitExceeded(message: String?)
@@ -275,6 +279,14 @@ extension SSMErrorType {
             self = .itemSizeLimitExceededException(message: message)
         case "MaxDocumentSizeExceeded":
             self = .maxDocumentSizeExceeded(message: message)
+        case "OpsItemAlreadyExistsException":
+            self = .opsItemAlreadyExistsException(message: message)
+        case "OpsItemInvalidParameterException":
+            self = .opsItemInvalidParameterException(message: message)
+        case "OpsItemLimitExceededException":
+            self = .opsItemLimitExceededException(message: message)
+        case "OpsItemNotFoundException":
+            self = .opsItemNotFoundException(message: message)
         case "ParameterAlreadyExists":
             self = .parameterAlreadyExists(message: message)
         case "ParameterLimitExceeded":

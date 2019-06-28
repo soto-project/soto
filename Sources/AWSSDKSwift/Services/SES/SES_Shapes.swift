@@ -288,6 +288,7 @@ extension SES {
     public enum ConfigurationSetAttribute: String, CustomStringConvertible, Codable {
         case eventdestinations = "eventDestinations"
         case trackingoptions = "trackingOptions"
+        case deliveryoptions = "deliveryOptions"
         case reputationoptions = "reputationOptions"
         public var description: String { return self.rawValue }
     }
@@ -832,6 +833,22 @@ extension SES {
         }
     }
 
+    public struct DeliveryOptions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TlsPolicy", required: false, type: .enum)
+        ]
+        /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require, messages are only delivered if a TLS connection can be established. If the value is Optional, messages can be delivered in plain text if a TLS connection can't be established.
+        public let tlsPolicy: TlsPolicy?
+
+        public init(tlsPolicy: TlsPolicy? = nil) {
+            self.tlsPolicy = tlsPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tlsPolicy = "TlsPolicy"
+        }
+    }
+
     public struct DescribeActiveReceiptRuleSetRequest: AWSShape {
 
         public init() {
@@ -884,12 +901,14 @@ extension SES {
     public struct DescribeConfigurationSetResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigurationSet", required: false, type: .structure), 
+            AWSShapeMember(label: "DeliveryOptions", required: false, type: .structure), 
             AWSShapeMember(label: "EventDestinations", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ReputationOptions", required: false, type: .structure), 
             AWSShapeMember(label: "TrackingOptions", required: false, type: .structure)
         ]
         /// The configuration set object associated with the specified configuration set.
         public let configurationSet: ConfigurationSet?
+        public let deliveryOptions: DeliveryOptions?
         /// A list of event destinations associated with the configuration set. 
         public let eventDestinations: [EventDestination]?
         /// An object that represents the reputation settings for the configuration set. 
@@ -897,8 +916,9 @@ extension SES {
         /// The name of the custom open and click tracking domain associated with the configuration set.
         public let trackingOptions: TrackingOptions?
 
-        public init(configurationSet: ConfigurationSet? = nil, eventDestinations: [EventDestination]? = nil, reputationOptions: ReputationOptions? = nil, trackingOptions: TrackingOptions? = nil) {
+        public init(configurationSet: ConfigurationSet? = nil, deliveryOptions: DeliveryOptions? = nil, eventDestinations: [EventDestination]? = nil, reputationOptions: ReputationOptions? = nil, trackingOptions: TrackingOptions? = nil) {
             self.configurationSet = configurationSet
+            self.deliveryOptions = deliveryOptions
             self.eventDestinations = eventDestinations
             self.reputationOptions = reputationOptions
             self.trackingOptions = trackingOptions
@@ -906,6 +926,7 @@ extension SES {
 
         private enum CodingKeys: String, CodingKey {
             case configurationSet = "ConfigurationSet"
+            case deliveryOptions = "DeliveryOptions"
             case eventDestinations = "EventDestinations"
             case reputationOptions = "ReputationOptions"
             case trackingOptions = "TrackingOptions"
@@ -1419,9 +1440,9 @@ extension SES {
             AWSShapeMember(label: "DkimTokens", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "DkimVerificationStatus", required: true, type: .enum)
         ]
-        /// True if DKIM signing is enabled for email sent from the identity; false otherwise. The default value is true.
+        /// Is true if DKIM signing is enabled for email sent from the identity. It's false otherwise. The default value is true.
         public let dkimEnabled: Bool
-        /// A set of character strings that represent the domain's identity. Using these tokens, you will need to create DNS CNAME records that point to DKIM public keys hosted by Amazon SES. Amazon Web Services will eventually detect that you have updated your DNS records; this detection process may take up to 72 hours. Upon successful detection, Amazon SES will be able to DKIM-sign email originating from that domain. (This only applies to domain identities, not email address identities.) For more information about creating DNS records using DKIM tokens, go to the Amazon SES Developer Guide.
+        /// A set of character strings that represent the domain's identity. Using these tokens, you need to create DNS CNAME records that point to DKIM public keys that are hosted by Amazon SES. Amazon Web Services eventually detects that you've updated your DNS records. This detection process might take up to 72 hours. After successful detection, Amazon SES is able to DKIM-sign email originating from that domain. (This only applies to domain identities, not email address identities.) For more information about creating DNS records using DKIM tokens, see the Amazon SES Developer Guide.
         public let dkimTokens: [String]?
         /// Describes whether Amazon SES has successfully verified the DKIM DNS records (tokens) published in the domain name's DNS. (This only applies to domain identities, not email address identities.)
         public let dkimVerificationStatus: VerificationStatus
@@ -1945,6 +1966,34 @@ extension SES {
         case complaint = "Complaint"
         case delivery = "Delivery"
         public var description: String { return self.rawValue }
+    }
+
+    public struct PutConfigurationSetDeliveryOptionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationSetName", required: true, type: .string), 
+            AWSShapeMember(label: "DeliveryOptions", required: false, type: .structure)
+        ]
+        /// The name of the configuration set that you want to specify the delivery options for.
+        public let configurationSetName: String
+        /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS).
+        public let deliveryOptions: DeliveryOptions?
+
+        public init(configurationSetName: String, deliveryOptions: DeliveryOptions? = nil) {
+            self.configurationSetName = configurationSetName
+            self.deliveryOptions = deliveryOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationSetName = "ConfigurationSetName"
+            case deliveryOptions = "DeliveryOptions"
+        }
+    }
+
+    public struct PutConfigurationSetDeliveryOptionsResponse: AWSShape {
+
+        public init() {
+        }
+
     }
 
     public struct PutIdentityPolicyRequest: AWSShape {
@@ -3345,7 +3394,7 @@ extension SES {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DkimTokens", required: true, type: .list, encoding: .list(member:"member"))
         ]
-        /// A set of character strings that represent the domain's identity. If the identity is an email address, the tokens represent the domain of that address. Using these tokens, you will need to create DNS CNAME records that point to DKIM public keys hosted by Amazon SES. Amazon Web Services will eventually detect that you have updated your DNS records; this detection process may take up to 72 hours. Upon successful detection, Amazon SES will be able to DKIM-sign emails originating from that domain. For more information about creating DNS records using DKIM tokens, go to the Amazon SES Developer Guide.
+        /// A set of character strings that represent the domain's identity. If the identity is an email address, the tokens represent the domain of that address. Using these tokens, you need to create DNS CNAME records that point to DKIM public keys that are hosted by Amazon SES. Amazon Web Services eventually detects that you've updated your DNS records. This detection process might take up to 72 hours. After successful detection, Amazon SES is able to DKIM-sign email originating from that domain. (This only applies to domain identities, not email address identities.) For more information about creating DNS records using DKIM tokens, see the Amazon SES Developer Guide.
         public let dkimTokens: [String]
 
         public init(dkimTokens: [String]) {

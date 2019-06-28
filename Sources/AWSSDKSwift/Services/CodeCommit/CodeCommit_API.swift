@@ -5,7 +5,7 @@ import AWSSDKSwiftCore
 import NIO
 
 /**
-AWS CodeCommit This is the AWS CodeCommit API Reference. This reference provides descriptions of the operations and data types for AWS CodeCommit API along with usage examples. You can use the AWS CodeCommit API to work with the following objects: Repositories, by calling the following:    BatchGetRepositories, which returns information about one or more repositories associated with your AWS account.    CreateRepository, which creates an AWS CodeCommit repository.    DeleteRepository, which deletes an AWS CodeCommit repository.    GetRepository, which returns information about a specified repository.    ListRepositories, which lists all AWS CodeCommit repositories associated with your AWS account.    UpdateRepositoryDescription, which sets or updates the description of the repository.    UpdateRepositoryName, which changes the name of the repository. If you change the name of a repository, no other users of that repository will be able to access it until you send them the new HTTPS or SSH URL to use.   Branches, by calling the following:    CreateBranch, which creates a new branch in a specified repository.    DeleteBranch, which deletes the specified branch in a repository unless it is the default branch.    GetBranch, which returns information about a specified branch.    ListBranches, which lists all branches for a specified repository.    UpdateDefaultBranch, which changes the default branch for a repository.   Files, by calling the following:    DeleteFile, which deletes the content of a specified file from a specified branch.    GetFile, which returns the base-64 encoded content of a specified file.    GetFolder, which returns the contents of a specified folder or directory.    PutFile, which adds or modifies a file in a specified repository and branch.   Information about committed code in a repository, by calling the following:    CreateCommit, which creates a commit for changes to a repository.    GetBlob, which returns the base-64 encoded content of an individual Git blob object within a repository.    GetCommit, which returns information about a commit, including commit messages and author and committer information.    GetDifferences, which returns information about the differences in a valid commit specifier (such as a branch, tag, HEAD, commit ID or other fully qualified reference).   Pull requests, by calling the following:    CreatePullRequest, which creates a pull request in a specified repository.    DescribePullRequestEvents, which returns information about one or more pull request events.    GetCommentsForPullRequest, which returns information about comments on a specified pull request.    GetMergeConflicts, which returns information about merge conflicts between the source and destination branch in a pull request.    GetPullRequest, which returns information about a specified pull request.    ListPullRequests, which lists all pull requests for a repository.    MergePullRequestByFastForward, which merges the source destination branch of a pull request into the specified destination branch for that pull request using the fast-forward merge option.    PostCommentForPullRequest, which posts a comment to a pull request at the specified line, file, or request.    UpdatePullRequestDescription, which updates the description of a pull request.    UpdatePullRequestStatus, which updates the status of a pull request.    UpdatePullRequestTitle, which updates the title of a pull request.   Information about comments in a repository, by calling the following:    DeleteCommentContent, which deletes the content of a comment on a commit in a repository.    GetComment, which returns information about a comment on a commit.    GetCommentsForComparedCommit, which returns information about comments on the comparison between two commit specifiers in a repository.    PostCommentForComparedCommit, which creates a comment on the comparison between two commit specifiers in a repository.    PostCommentReply, which creates a reply to a comment.    UpdateComment, which updates the content of a comment on a commit in a repository.   Tags used to tag resources in AWS CodeCommit (not Git tags), by calling the following:    ListTagsForResource, which gets information about AWS tags for a specified Amazon Resource Name (ARN) in AWS CodeCommit.    TagResource, which adds or updates tags for a resource in AWS CodeCommit.    UntagResource, which removes tags for a resource in AWS CodeCommit.   Triggers, by calling the following:    GetRepositoryTriggers, which returns information about triggers configured for a repository.    PutRepositoryTriggers, which replaces all triggers for a repository and can be used to create or delete triggers.    TestRepositoryTriggers, which tests the functionality of a repository trigger by sending data to the trigger target.   For information about how to use AWS CodeCommit, see the AWS CodeCommit User Guide.
+AWS CodeCommit This is the AWS CodeCommit API Reference. This reference provides descriptions of the operations and data types for AWS CodeCommit API along with usage examples. You can use the AWS CodeCommit API to work with the following objects: Repositories, by calling the following:    BatchGetRepositories, which returns information about one or more repositories associated with your AWS account.    CreateRepository, which creates an AWS CodeCommit repository.    DeleteRepository, which deletes an AWS CodeCommit repository.    GetRepository, which returns information about a specified repository.    ListRepositories, which lists all AWS CodeCommit repositories associated with your AWS account.    UpdateRepositoryDescription, which sets or updates the description of the repository.    UpdateRepositoryName, which changes the name of the repository. If you change the name of a repository, no other users of that repository will be able to access it until you send them the new HTTPS or SSH URL to use.   Branches, by calling the following:    CreateBranch, which creates a new branch in a specified repository.    DeleteBranch, which deletes the specified branch in a repository unless it is the default branch.    GetBranch, which returns information about a specified branch.    ListBranches, which lists all branches for a specified repository.    UpdateDefaultBranch, which changes the default branch for a repository.   Files, by calling the following:    DeleteFile, which deletes the content of a specified file from a specified branch.    GetBlob, which returns the base-64 encoded content of an individual Git blob object within a repository.    GetFile, which returns the base-64 encoded content of a specified file.    GetFolder, which returns the contents of a specified folder or directory.    PutFile, which adds or modifies a single file in a specified repository and branch.   Commits, by calling the following:    CreateCommit, which creates a commit for changes to a repository.    GetCommit, which returns information about a commit, including commit messages and author and committer information.    GetDifferences, which returns information about the differences in a valid commit specifier (such as a branch, tag, HEAD, commit ID or other fully qualified reference).   Merges, by calling the following:    BatchDescribeMergeConflicts, which returns information about conflicts in a merge between commits in a repository.    CreateUnreferencedMergeCommit, which creates an unreferenced commit between two branches or commits for the purpose of comparing them and identifying any potential conflicts.    DescribeMergeConflicts, which returns information about merge conflicts between the base, source, and destination versions of a file in a potential merge.    GetMergeCommit, which returns information about the merge between a source and destination commit.     GetMergeConflicts, which returns information about merge conflicts between the source and destination branch in a pull request.    GetMergeOptions, which returns information about the available merge options between two branches or commit specifiers.    MergeBranchesByFastForward, which merges two branches using the fast-forward merge option.    MergeBranchesBySquash, which merges two branches using the squash merge option.    MergeBranchesByThreeWay, which merges two branches using the three-way merge option.   Pull requests, by calling the following:    CreatePullRequest, which creates a pull request in a specified repository.    DescribePullRequestEvents, which returns information about one or more pull request events.    GetCommentsForPullRequest, which returns information about comments on a specified pull request.    GetPullRequest, which returns information about a specified pull request.    ListPullRequests, which lists all pull requests for a repository.    MergePullRequestByFastForward, which merges the source destination branch of a pull request into the specified destination branch for that pull request using the fast-forward merge option.    MergePullRequestBySquash, which merges the source destination branch of a pull request into the specified destination branch for that pull request using the squash merge option.    MergePullRequestByThreeWay. which merges the source destination branch of a pull request into the specified destination branch for that pull request using the three-way merge option.    PostCommentForPullRequest, which posts a comment to a pull request at the specified line, file, or request.    UpdatePullRequestDescription, which updates the description of a pull request.    UpdatePullRequestStatus, which updates the status of a pull request.    UpdatePullRequestTitle, which updates the title of a pull request.   Comments in a repository, by calling the following:    DeleteCommentContent, which deletes the content of a comment on a commit in a repository.    GetComment, which returns information about a comment on a commit.    GetCommentsForComparedCommit, which returns information about comments on the comparison between two commit specifiers in a repository.    PostCommentForComparedCommit, which creates a comment on the comparison between two commit specifiers in a repository.    PostCommentReply, which creates a reply to a comment.    UpdateComment, which updates the content of a comment on a commit in a repository.   Tags used to tag resources in AWS CodeCommit (not Git tags), by calling the following:    ListTagsForResource, which gets information about AWS tags for a specified Amazon Resource Name (ARN) in AWS CodeCommit.    TagResource, which adds or updates tags for a resource in AWS CodeCommit.    UntagResource, which removes tags for a resource in AWS CodeCommit.   Triggers, by calling the following:    GetRepositoryTriggers, which returns information about triggers configured for a repository.    PutRepositoryTriggers, which replaces all triggers for a repository and can be used to create or delete triggers.    TestRepositoryTriggers, which tests the functionality of a repository trigger by sending data to the trigger target.   For information about how to use AWS CodeCommit, see the AWS CodeCommit User Guide.
 */
 public struct CodeCommit {
 
@@ -25,6 +25,11 @@ public struct CodeCommit {
             middlewares: [],
             possibleErrorTypes: [CodeCommitErrorType.self]
         )
+    }
+
+    ///  Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy.
+    public func batchDescribeMergeConflicts(_ input: BatchDescribeMergeConflictsInput) throws -> Future<BatchDescribeMergeConflictsOutput> {
+        return try client.send(operation: "BatchDescribeMergeConflicts", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about one or more repositories.  The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a web page could expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a web page. 
@@ -52,6 +57,11 @@ public struct CodeCommit {
         return try client.send(operation: "CreateRepository", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Creates an unreferenced commit that represents the result of merging two branches using a specified merge strategy. This can help you determine the outcome of a potential merge. This API cannot be used with the fast-forward merge strategy, as that strategy does not create a merge commit.  This unreferenced merge commit can only be accessed using the GetCommit API or through git commands such as git fetch. To retrieve this commit, you must specify its commit ID or otherwise reference it. 
+    public func createUnreferencedMergeCommit(_ input: CreateUnreferencedMergeCommitInput) throws -> Future<CreateUnreferencedMergeCommitOutput> {
+        return try client.send(operation: "CreateUnreferencedMergeCommit", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes a branch from a repository, unless that branch is the default branch for the repository. 
     public func deleteBranch(_ input: DeleteBranchInput) throws -> Future<DeleteBranchOutput> {
         return try client.send(operation: "DeleteBranch", path: "/", httpMethod: "POST", input: input)
@@ -70,6 +80,11 @@ public struct CodeCommit {
     ///  Deletes a repository. If a specified repository was already deleted, a null repository ID will be returned.  Deleting a repository also deletes all associated objects and metadata. After a repository is deleted, all future push calls to the deleted repository will fail. 
     public func deleteRepository(_ input: DeleteRepositoryInput) throws -> Future<DeleteRepositoryOutput> {
         return try client.send(operation: "DeleteRepository", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy. If the merge option for the attempted merge is specified as FAST_FORWARD_MERGE, an exception will be thrown.
+    public func describeMergeConflicts(_ input: DescribeMergeConflictsInput) throws -> Future<DescribeMergeConflictsOutput> {
+        return try client.send(operation: "DescribeMergeConflicts", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about one or more pull request events.
@@ -122,9 +137,19 @@ public struct CodeCommit {
         return try client.send(operation: "GetFolder", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns information about a specified merge commit.
+    public func getMergeCommit(_ input: GetMergeCommitInput) throws -> Future<GetMergeCommitOutput> {
+        return try client.send(operation: "GetMergeCommit", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns information about merge conflicts between the before and after commit IDs for a pull request in a repository.
     public func getMergeConflicts(_ input: GetMergeConflictsInput) throws -> Future<GetMergeConflictsOutput> {
         return try client.send(operation: "GetMergeConflicts", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about the merge options available for merging two specified branches. For details about why a particular merge option is not available, use GetMergeConflicts or DescribeMergeConflicts.
+    public func getMergeOptions(_ input: GetMergeOptionsInput) throws -> Future<GetMergeOptionsOutput> {
+        return try client.send(operation: "GetMergeOptions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about a pull request in a specified repository.
@@ -162,9 +187,34 @@ public struct CodeCommit {
         return try client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Closes a pull request and attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the fast-forward merge option.
+    ///  Merges two branches using the fast-forward merge strategy.
+    public func mergeBranchesByFastForward(_ input: MergeBranchesByFastForwardInput) throws -> Future<MergeBranchesByFastForwardOutput> {
+        return try client.send(operation: "MergeBranchesByFastForward", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Merges two branches using the squash merge strategy.
+    public func mergeBranchesBySquash(_ input: MergeBranchesBySquashInput) throws -> Future<MergeBranchesBySquashOutput> {
+        return try client.send(operation: "MergeBranchesBySquash", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Merges two specified branches using the three-way merge strategy.
+    public func mergeBranchesByThreeWay(_ input: MergeBranchesByThreeWayInput) throws -> Future<MergeBranchesByThreeWayOutput> {
+        return try client.send(operation: "MergeBranchesByThreeWay", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the fast-forward merge strategy. If the merge is successful, it closes the pull request.
     public func mergePullRequestByFastForward(_ input: MergePullRequestByFastForwardInput) throws -> Future<MergePullRequestByFastForwardOutput> {
         return try client.send(operation: "MergePullRequestByFastForward", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the squash merge strategy. If the merge is successful, it closes the pull request.
+    public func mergePullRequestBySquash(_ input: MergePullRequestBySquashInput) throws -> Future<MergePullRequestBySquashOutput> {
+        return try client.send(operation: "MergePullRequestBySquash", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the three-way merge strategy. If the merge is successful, it closes the pull request.
+    public func mergePullRequestByThreeWay(_ input: MergePullRequestByThreeWayInput) throws -> Future<MergePullRequestByThreeWayOutput> {
+        return try client.send(operation: "MergePullRequestByThreeWay", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Posts a comment on the comparison between two commits.

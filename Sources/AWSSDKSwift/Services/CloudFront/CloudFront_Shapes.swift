@@ -11,11 +11,11 @@ extension CloudFront {
             AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"Signer")), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
-        /// Enabled is true if any of the AWS accounts listed in the TrustedSigners complex type for this RTMP distribution have active CloudFront key pairs. If not, Enabled is false. For more information, see ActiveTrustedSigners.
+        /// Enabled is true if any of the AWS accounts listed in the TrustedSigners complex type for this distribution have active CloudFront key pairs. If not, Enabled is false.
         public let enabled: Bool
-        /// A complex type that contains one Signer complex type for each trusted signer that is specified in the TrustedSigners complex type. For more information, see ActiveTrustedSigners. 
+        /// A complex type that contains one Signer complex type for each trusted signer that is specified in the TrustedSigners complex type.
         public let items: [Signer]?
-        /// A complex type that contains one Signer complex type for each trusted signer specified in the TrustedSigners complex type. For more information, see ActiveTrustedSigners.
+        /// The number of trusted signers specified in the TrustedSigners complex type.
         public let quantity: Int32
 
         public init(enabled: Bool, items: [Signer]? = nil, quantity: Int32) {
@@ -28,6 +28,27 @@ extension CloudFront {
             case enabled = "Enabled"
             case items = "Items"
             case quantity = "Quantity"
+        }
+    }
+
+    public struct AliasICPRecordal: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CNAME", required: false, type: .string), 
+            AWSShapeMember(label: "ICPRecordalStatus", required: false, type: .enum)
+        ]
+        /// A domain name associated with a distribution. 
+        public let cname: String?
+        /// The Internet Content Provider (ICP) recordal status for a CNAME. The ICPRecordalStatus is set to APPROVED for all CNAMEs (aliases) in regions outside of China.  The status values returned are the following:    APPROVED indicates that the associated CNAME has a valid ICP recordal number. Multiple CNAMEs can be associated with a distribution, and CNAMEs can correspond to different ICP recordals. To be marked as APPROVED, that is, valid to use with China region, a CNAME must have one ICP recordal number associated with it.    SUSPENDED indicates that the associated CNAME does not have a valid ICP recordal number.    PENDING indicates that at least one CNAME associated with the distribution does not have a valid ICP recordal number.  
+        public let iCPRecordalStatus: ICPRecordalStatus?
+
+        public init(cname: String? = nil, iCPRecordalStatus: ICPRecordalStatus? = nil) {
+            self.cname = cname
+            self.iCPRecordalStatus = iCPRecordalStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cname = "CNAME"
+            case iCPRecordalStatus = "ICPRecordalStatus"
         }
     }
 
@@ -96,7 +117,7 @@ extension CloudFront {
         public let allowedMethods: AllowedMethods?
         /// Whether you want CloudFront to automatically compress certain files for this cache behavior. If so, specify true; if not, specify false. For more information, see Serving Compressed Files in the Amazon CloudFront Developer Guide.
         public let compress: Bool?
-        /// The default amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin does not add HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
+        /// The default amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin does not add HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
         public let defaultTTL: Int64?
         /// The value of ID for the field-level encryption configuration that you want CloudFront to use for encrypting specific fields of data for a cache behavior or for the default cache behavior in your distribution.
         public let fieldLevelEncryptionId: String?
@@ -104,9 +125,9 @@ extension CloudFront {
         public let forwardedValues: ForwardedValues
         /// A complex type that contains zero or more Lambda function associations for a cache behavior.
         public let lambdaFunctionAssociations: LambdaFunctionAssociations?
-        /// The maximum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin adds HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
+        /// The maximum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin adds HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
         public let maxTTL: Int64?
-        /// The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon Amazon CloudFront Developer Guide. You must specify 0 for MinTTL if you configure CloudFront to forward all headers to your origin (under Headers, if you specify 1 for Quantity and * for Name).
+        /// The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. For more information, see  Managing How Long Content Stays in an Edge Cache (Expiration) in the  Amazon CloudFront Developer Guide. You must specify 0 for MinTTL if you configure CloudFront to forward all headers to your origin (under Headers, if you specify 1 for Quantity and * for Name).
         public let minTTL: Int64
         /// The pattern (for example, images/*.jpg) that specifies which requests to apply the behavior to. When CloudFront receives a viewer request, the requested path is compared with path patterns in the order in which cache behaviors are listed in the distribution.  You can optionally include a slash (/) at the beginning of the path pattern. For example, /images/*.jpg. CloudFront behavior is the same with or without the leading /.  The path pattern for the default cache behavior is * and cannot be changed. If the request for an object does not match the path pattern for any cache behaviors, CloudFront applies the behavior in the default cache behavior. For more information, see Path Pattern in the  Amazon CloudFront Developer Guide.
         public let pathPattern: String
@@ -114,9 +135,9 @@ extension CloudFront {
         public let smoothStreaming: Bool?
         /// The value of ID for the origin that you want CloudFront to route requests to when a request matches the path pattern either for a cache behavior or for the default cache behavior in your distribution.
         public let targetOriginId: String
-        /// A complex type that specifies the AWS accounts, if any, that you want to allow to create signed URLs for private content. If you want to require signed URLs in requests for objects in the target origin that match the PathPattern for this cache behavior, specify true for Enabled, and specify the applicable values for Quantity and Items. For more information, see Serving Private Content through CloudFront in the Amazon Amazon CloudFront Developer Guide. If you don't want to require signed URLs in requests for objects that match PathPattern, specify false for Enabled and 0 for Quantity. Omit Items. To add, change, or remove one or more trusted signers, change Enabled to true (if it's currently false), change Quantity as applicable, and specify all of the trusted signers that you want to include in the updated distribution.
+        /// A complex type that specifies the AWS accounts, if any, that you want to allow to create signed URLs for private content. If you want to require signed URLs in requests for objects in the target origin that match the PathPattern for this cache behavior, specify true for Enabled, and specify the applicable values for Quantity and Items. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.  If you don't want to require signed URLs in requests for objects that match PathPattern, specify false for Enabled and 0 for Quantity. Omit Items. To add, change, or remove one or more trusted signers, change Enabled to true (if it's currently false), change Quantity as applicable, and specify all of the trusted signers that you want to include in the updated distribution.
         public let trustedSigners: TrustedSigners
-        /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.     https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).    For more information about requiring the HTTPS protocol, see Using an HTTPS Connection to Access Your Objects in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects' cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide. 
+        /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.     https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).    For more information about requiring the HTTPS protocol, see Using an HTTPS Connection to Access Your Objects in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects' cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide. 
         public let viewerProtocolPolicy: ViewerProtocolPolicy
 
         public init(allowedMethods: AllowedMethods? = nil, compress: Bool? = nil, defaultTTL: Int64? = nil, fieldLevelEncryptionId: String? = nil, forwardedValues: ForwardedValues, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, maxTTL: Int64? = nil, minTTL: Int64, pathPattern: String, smoothStreaming: Bool? = nil, targetOriginId: String, trustedSigners: TrustedSigners, viewerProtocolPolicy: ViewerProtocolPolicy) {
@@ -411,7 +432,7 @@ extension CloudFront {
         ]
         /// Specifies which cookies to forward to the origin for this cache behavior: all, none, or the list of cookies specified in the WhitelistedNames complex type. Amazon S3 doesn't process cookies. When the cache behavior is forwarding requests to an Amazon S3 origin, specify none for the Forward element. 
         public let forward: ItemSelection
-        /// Required if you specify whitelist for the value of Forward:. A complex type that specifies how many different cookies you want CloudFront to forward to the origin for this cache behavior and, if you want to forward selected cookies, the names of those cookies. If you specify all or none for the value of Forward, omit WhitelistedNames. If you change the value of Forward from whitelist to all or none and you don't delete the WhitelistedNames element and its child elements, CloudFront deletes them automatically. For the current limit on the number of cookie names that you can whitelist for each cache behavior, see Amazon CloudFront Limits in the AWS General Reference.
+        /// Required if you specify whitelist for the value of Forward:. A complex type that specifies how many different cookies you want CloudFront to forward to the origin for this cache behavior and, if you want to forward selected cookies, the names of those cookies. If you specify all or none for the value of Forward, omit WhitelistedNames. If you change the value of Forward from whitelist to all or none and you don't delete the WhitelistedNames element and its child elements, CloudFront deletes them automatically. For the current limit on the number of cookie names that you can whitelist for each cache behavior, see  CloudFront Limits in the AWS General Reference.
         public let whitelistedNames: CookieNames?
 
         public init(forward: ItemSelection, whitelistedNames: CookieNames? = nil) {
@@ -971,7 +992,7 @@ extension CloudFront {
         public let allowedMethods: AllowedMethods?
         /// Whether you want CloudFront to automatically compress certain files for this cache behavior. If so, specify true; if not, specify false. For more information, see Serving Compressed Files in the Amazon CloudFront Developer Guide.
         public let compress: Bool?
-        /// The default amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin does not add HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
+        /// The default amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin does not add HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
         public let defaultTTL: Int64?
         /// The value of ID for the field-level encryption configuration that you want CloudFront to use for encrypting specific fields of data for a cache behavior or for the default cache behavior in your distribution.
         public let fieldLevelEncryptionId: String?
@@ -979,16 +1000,17 @@ extension CloudFront {
         public let forwardedValues: ForwardedValues
         /// A complex type that contains zero or more Lambda function associations for a cache behavior.
         public let lambdaFunctionAssociations: LambdaFunctionAssociations?
+        /// The maximum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin adds HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
         public let maxTTL: Int64?
-        /// The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon Amazon CloudFront Developer Guide. You must specify 0 for MinTTL if you configure CloudFront to forward all headers to your origin (under Headers, if you specify 1 for Quantity and * for Name).
+        /// The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide. You must specify 0 for MinTTL if you configure CloudFront to forward all headers to your origin (under Headers, if you specify 1 for Quantity and * for Name).
         public let minTTL: Int64
         /// Indicates whether you want to distribute media files in the Microsoft Smooth Streaming format using the origin that is associated with this cache behavior. If so, specify true; if not, specify false. If you specify true for SmoothStreaming, you can still distribute other content using this cache behavior if the content matches the value of PathPattern. 
         public let smoothStreaming: Bool?
         /// The value of ID for the origin that you want CloudFront to route requests to when a request matches the path pattern either for a cache behavior or for the default cache behavior in your distribution.
         public let targetOriginId: String
-        /// A complex type that specifies the AWS accounts, if any, that you want to allow to create signed URLs for private content. If you want to require signed URLs in requests for objects in the target origin that match the PathPattern for this cache behavior, specify true for Enabled, and specify the applicable values for Quantity and Items. For more information, see Serving Private Content through CloudFront in the Amazon Amazon CloudFront Developer Guide. If you don't want to require signed URLs in requests for objects that match PathPattern, specify false for Enabled and 0 for Quantity. Omit Items. To add, change, or remove one or more trusted signers, change Enabled to true (if it's currently false), change Quantity as applicable, and specify all of the trusted signers that you want to include in the updated distribution.
+        /// A complex type that specifies the AWS accounts, if any, that you want to allow to create signed URLs for private content. If you want to require signed URLs in requests for objects in the target origin that match the PathPattern for this cache behavior, specify true for Enabled, and specify the applicable values for Quantity and Items. For more information, see Serving Private Content through CloudFront in the  Amazon CloudFront Developer Guide. If you don't want to require signed URLs in requests for objects that match PathPattern, specify false for Enabled and 0 for Quantity. Omit Items. To add, change, or remove one or more trusted signers, change Enabled to true (if it's currently false), change Quantity as applicable, and specify all of the trusted signers that you want to include in the updated distribution.
         public let trustedSigners: TrustedSigners
-        /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.    https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).   For more information about requiring the HTTPS protocol, see Using an HTTPS Connection to Access Your Objects in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects' cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide. 
+        /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.    https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).   For more information about requiring the HTTPS protocol, see Using an HTTPS Connection to Access Your Objects in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects' cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide. 
         public let viewerProtocolPolicy: ViewerProtocolPolicy
 
         public init(allowedMethods: AllowedMethods? = nil, compress: Bool? = nil, defaultTTL: Int64? = nil, fieldLevelEncryptionId: String? = nil, forwardedValues: ForwardedValues, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, maxTTL: Int64? = nil, minTTL: Int64, smoothStreaming: Bool? = nil, targetOriginId: String, trustedSigners: TrustedSigners, viewerProtocolPolicy: ViewerProtocolPolicy) {
@@ -1152,6 +1174,7 @@ extension CloudFront {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ARN", required: true, type: .string), 
             AWSShapeMember(label: "ActiveTrustedSigners", required: true, type: .structure), 
+            AWSShapeMember(label: "AliasICPRecordals", required: false, type: .list, encoding: .list(member:"AliasICPRecordal")), 
             AWSShapeMember(label: "DistributionConfig", required: true, type: .structure), 
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
             AWSShapeMember(label: "Id", required: true, type: .string), 
@@ -1163,6 +1186,8 @@ extension CloudFront {
         public let arn: String
         /// CloudFront automatically adds this element to the response only if you've set up the distribution to serve private content with signed URLs. The element lists the key pair IDs that CloudFront is aware of for each trusted signer. The Signer child element lists the AWS account number of the trusted signer (or an empty Self element if the signer is you). The Signer element also includes the IDs of any active key pairs associated with the trusted signer's AWS account. If no KeyPairId element appears for a Signer, that signer can't create working signed URLs.
         public let activeTrustedSigners: ActiveTrustedSigners
+        /// AWS services in China customers must file for an Internet Content Provider (ICP) recordal if they want to serve content publicly on an alternate domain name, also known as a CNAME, that they've added to CloudFront. AliasICPRecordal provides the ICP recordal status for CNAMEs associated with distributions. For more information about ICP recordals, see  Signup, Accounts, and Credentials in Getting Started with AWS services in China.
+        public let aliasICPRecordals: [AliasICPRecordal]?
         /// The current configuration information for the distribution. Send a GET request to the /CloudFront API version/distribution ID/config resource.
         public let distributionConfig: DistributionConfig
         /// The domain name corresponding to the distribution, for example, d111111abcdef8.cloudfront.net. 
@@ -1176,9 +1201,10 @@ extension CloudFront {
         /// This response element indicates the current status of the distribution. When the status is Deployed, the distribution's information is fully propagated to all CloudFront edge locations. 
         public let status: String
 
-        public init(activeTrustedSigners: ActiveTrustedSigners, arn: String, distributionConfig: DistributionConfig, domainName: String, id: String, inProgressInvalidationBatches: Int32, lastModifiedTime: TimeStamp, status: String) {
+        public init(activeTrustedSigners: ActiveTrustedSigners, aliasICPRecordals: [AliasICPRecordal]? = nil, arn: String, distributionConfig: DistributionConfig, domainName: String, id: String, inProgressInvalidationBatches: Int32, lastModifiedTime: TimeStamp, status: String) {
             self.arn = arn
             self.activeTrustedSigners = activeTrustedSigners
+            self.aliasICPRecordals = aliasICPRecordals
             self.distributionConfig = distributionConfig
             self.domainName = domainName
             self.id = id
@@ -1190,6 +1216,7 @@ extension CloudFront {
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
             case activeTrustedSigners = "ActiveTrustedSigners"
+            case aliasICPRecordals = "AliasICPRecordals"
             case distributionConfig = "DistributionConfig"
             case domainName = "DomainName"
             case id = "Id"
@@ -1247,7 +1274,9 @@ extension CloudFront {
         public let origins: Origins
         /// The price class that corresponds with the maximum price that you want to pay for CloudFront service. If you specify PriceClass_All, CloudFront responds to requests for your objects from all CloudFront edge locations. If you specify a price class other than PriceClass_All, CloudFront serves your objects from the CloudFront edge location that has the lowest latency among the edge locations in your price class. Viewers who are in or near regions that are excluded from your specified price class may encounter slower performance. For more information about price classes, see Choosing the Price Class for a CloudFront Distribution in the Amazon CloudFront Developer Guide. For information about CloudFront pricing, including how price classes (such as Price Class 100) map to CloudFront regions, see Amazon CloudFront Pricing. For price class information, scroll down to see the table at the bottom of the page.
         public let priceClass: PriceClass?
+        /// A complex type that identifies ways in which you want to restrict distribution of your content.
         public let restrictions: Restrictions?
+        /// A complex type that specifies whether you want viewers to use HTTP or HTTPS to request your objects, whether you're using an alternate domain name with HTTPS, and if so, if you're using AWS Certificate Manager (ACM) or a third-party certificate authority.
         public let viewerCertificate: ViewerCertificate?
         /// A unique identifier that specifies the AWS WAF web ACL, if any, to associate with this distribution. AWS WAF is a web application firewall that lets you monitor the HTTP and HTTPS requests that are forwarded to CloudFront, and lets you control access to your content. Based on conditions that you specify, such as the IP addresses that requests originate from or the values of query strings, CloudFront responds to requests either with the requested content or with an HTTP 403 status code (Forbidden). You can also configure CloudFront to return a custom error page when a request is blocked. For more information about AWS WAF, see the AWS WAF Developer Guide. 
         public let webACLId: String?
@@ -1358,6 +1387,7 @@ extension CloudFront {
     public struct DistributionSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ARN", required: true, type: .string), 
+            AWSShapeMember(label: "AliasICPRecordals", required: false, type: .list, encoding: .list(member:"AliasICPRecordal")), 
             AWSShapeMember(label: "Aliases", required: true, type: .structure), 
             AWSShapeMember(label: "CacheBehaviors", required: true, type: .structure), 
             AWSShapeMember(label: "Comment", required: true, type: .string), 
@@ -1379,6 +1409,8 @@ extension CloudFront {
         ]
         /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your AWS account ID.
         public let arn: String
+        /// AWS services in China customers must file for an Internet Content Provider (ICP) recordal if they want to serve content publicly on an alternate domain name, also known as a CNAME, that they've added to CloudFront. AliasICPRecordal provides the ICP recordal status for CNAMEs associated with distributions. For more information about ICP recordals, see  Signup, Accounts, and Credentials in Getting Started with AWS services in China.
+        public let aliasICPRecordals: [AliasICPRecordal]?
         /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this distribution.
         public let aliases: Aliases
         /// A complex type that contains zero or more CacheBehavior elements.
@@ -1407,15 +1439,18 @@ extension CloudFront {
         public let origins: Origins
         /// A complex type that contains information about price class for this streaming distribution. 
         public let priceClass: PriceClass
+        /// A complex type that identifies ways in which you want to restrict distribution of your content.
         public let restrictions: Restrictions
         /// The current status of the distribution. When the status is Deployed, the distribution's information is propagated to all CloudFront edge locations.
         public let status: String
+        /// A complex type that specifies whether you want viewers to use HTTP or HTTPS to request your objects, whether you're using an alternate domain name with HTTPS, and if so, if you're using AWS Certificate Manager (ACM) or a third-party certificate authority.
         public let viewerCertificate: ViewerCertificate
         /// The Web ACL Id (if any) associated with the distribution.
         public let webACLId: String
 
-        public init(aliases: Aliases, arn: String, cacheBehaviors: CacheBehaviors, comment: String, customErrorResponses: CustomErrorResponses, defaultCacheBehavior: DefaultCacheBehavior, domainName: String, enabled: Bool, httpVersion: HttpVersion, id: String, isIPV6Enabled: Bool, lastModifiedTime: TimeStamp, originGroups: OriginGroups? = nil, origins: Origins, priceClass: PriceClass, restrictions: Restrictions, status: String, viewerCertificate: ViewerCertificate, webACLId: String) {
+        public init(aliasICPRecordals: [AliasICPRecordal]? = nil, aliases: Aliases, arn: String, cacheBehaviors: CacheBehaviors, comment: String, customErrorResponses: CustomErrorResponses, defaultCacheBehavior: DefaultCacheBehavior, domainName: String, enabled: Bool, httpVersion: HttpVersion, id: String, isIPV6Enabled: Bool, lastModifiedTime: TimeStamp, originGroups: OriginGroups? = nil, origins: Origins, priceClass: PriceClass, restrictions: Restrictions, status: String, viewerCertificate: ViewerCertificate, webACLId: String) {
             self.arn = arn
+            self.aliasICPRecordals = aliasICPRecordals
             self.aliases = aliases
             self.cacheBehaviors = cacheBehaviors
             self.comment = comment
@@ -1438,6 +1473,7 @@ extension CloudFront {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
+            case aliasICPRecordals = "AliasICPRecordals"
             case aliases = "Aliases"
             case cacheBehaviors = "CacheBehaviors"
             case comment = "Comment"
@@ -1797,7 +1833,7 @@ extension CloudFront {
         ]
         /// A complex type that specifies whether you want CloudFront to forward cookies to the origin and, if so, which ones. For more information about forwarding cookies to the origin, see How CloudFront Forwards, Caches, and Logs Cookies in the Amazon CloudFront Developer Guide.
         public let cookies: CookiePreference
-        /// A complex type that specifies the Headers, if any, that you want CloudFront to base caching on for this cache behavior. 
+        /// A complex type that specifies the Headers, if any, that you want CloudFront to forward to the origin for this cache behavior (whitelisted headers). For the headers that you specify, CloudFront also caches separate versions of a specified object that is based on the header values in viewer requests. For more information, see  Caching Content Based on Request Headers in the Amazon CloudFront Developer Guide.
         public let headers: Headers?
         /// Indicates whether you want CloudFront to forward query strings to the origin that is associated with this cache behavior and cache based on the query string parameters. CloudFront behavior depends on the value of QueryString and on the values that you specify for QueryStringCacheKeys, if any: If you specify true for QueryString and you don't specify any values for QueryStringCacheKeys, CloudFront forwards all query string parameters to the origin and caches based on all query string parameters. Depending on how many query string parameters and values you have, this can adversely affect performance because CloudFront must forward more requests to the origin. If you specify true for QueryString and you specify one or more values for QueryStringCacheKeys, CloudFront forwards all query string parameters to the origin, but it only caches based on the query string parameters that you specify. If you specify false for QueryString, CloudFront doesn't forward any query string parameters to the origin, and doesn't cache based on query string parameters. For more information, see Configuring CloudFront to Cache Based on Query String Parameters in the Amazon CloudFront Developer Guide.
         public let queryString: Bool
@@ -1934,7 +1970,7 @@ extension CloudFront {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
-        /// The distribution's ID.
+        /// The distribution's ID. If the ID is empty, an empty distribution configuration is returned.
         public let id: String
 
         public init(id: String) {
@@ -1973,7 +2009,7 @@ extension CloudFront {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
-        /// The distribution's ID.
+        /// The distribution's ID. If the ID is empty, an empty distribution configuration is returned.
         public let id: String
 
         public init(id: String) {
@@ -2383,6 +2419,13 @@ extension CloudFront {
     public enum HttpVersion: String, CustomStringConvertible, Codable {
         case http11 = "http1.1"
         case http2 = "http2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ICPRecordalStatus: String, CustomStringConvertible, Codable {
+        case approved = "APPROVED"
+        case suspended = "SUSPENDED"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
@@ -3033,7 +3076,7 @@ extension CloudFront {
             AWSShapeMember(label: "HeaderName", required: true, type: .string), 
             AWSShapeMember(label: "HeaderValue", required: true, type: .string)
         ]
-        /// The name of a header that you want CloudFront to forward to your origin. For more information, see Forwarding Custom Headers to Your Origin (Web Distributions Only) in the Amazon Amazon CloudFront Developer Guide.
+        /// The name of a header that you want CloudFront to forward to your origin. For more information, see Forwarding Custom Headers to Your Origin (Web Distributions Only) in the  Amazon CloudFront Developer Guide.
         public let headerName: String
         /// The value for the header that you specified in the HeaderName field.
         public let headerValue: String
@@ -3205,7 +3248,7 @@ extension CloudFront {
         ]
         /// A complex type that contains a list of the paths that you want to invalidate.
         public let items: [String]?
-        /// The number of objects that you want to invalidate.
+        /// The number of invalidation paths specified for the objects that you want to invalidate.
         public let quantity: Int32
 
         public init(items: [String]? = nil, quantity: Int32) {
@@ -3418,9 +3461,9 @@ extension CloudFront {
             AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"Name")), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
-        /// (Optional) A list that contains the query string parameters that you want CloudFront to use as a basis for caching for this cache behavior. If Quantity is 0, you can omit Items. 
+        /// A list that contains the query string parameters that you want CloudFront to use as a basis for caching for a cache behavior. If Quantity is 0, you can omit Items. 
         public let items: [String]?
-        /// The number of whitelisted query string parameters for this cache behavior.
+        /// The number of whitelisted query string parameters for a cache behavior.
         public let quantity: Int32
 
         public init(items: [String]? = nil, quantity: Int32) {
@@ -3438,6 +3481,7 @@ extension CloudFront {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GeoRestriction", required: true, type: .structure)
         ]
+        /// A complex type that controls the countries in which your content is distributed. CloudFront determines the location of your users using MaxMind GeoIP databases.
         public let geoRestriction: GeoRestriction
 
         public init(geoRestriction: GeoRestriction) {
@@ -3456,7 +3500,7 @@ extension CloudFront {
         ]
         /// The DNS name of the Amazon S3 origin. 
         public let domainName: String
-        /// The CloudFront origin access identity to associate with the RTMP distribution. Use an origin access identity to configure the distribution so that end users can only access objects in an Amazon S3 bucket through CloudFront. If you want end users to be able to access objects using either the CloudFront URL or the Amazon S3 URL, specify an empty OriginAccessIdentity element. To delete the origin access identity from an existing distribution, update the distribution configuration and include an empty OriginAccessIdentity element. To replace the origin access identity, update the distribution configuration and specify the new origin access identity. For more information, see Using an Origin Access Identity to Restrict Access to Your Amazon S3 Content in the Amazon Amazon CloudFront Developer Guide.
+        /// The CloudFront origin access identity to associate with the distribution. Use an origin access identity to configure the distribution so that end users can only access objects in an Amazon S3 bucket through CloudFront. If you want end users to be able to access objects using either the CloudFront URL or the Amazon S3 URL, specify an empty OriginAccessIdentity element. To delete the origin access identity from an existing distribution, update the distribution configuration and include an empty OriginAccessIdentity element. To replace the origin access identity, update the distribution configuration and specify the new origin access identity. For more information, see Using an Origin Access Identity to Restrict Access to Your Amazon S3 Content in the  Amazon CloudFront Developer Guide.
         public let originAccessIdentity: String
 
         public init(domainName: String, originAccessIdentity: String) {
@@ -3497,7 +3541,7 @@ extension CloudFront {
             AWSShapeMember(label: "AwsAccountNumber", required: false, type: .string), 
             AWSShapeMember(label: "KeyPairIds", required: false, type: .structure)
         ]
-        /// An AWS account that is included in the TrustedSigners complex type for this RTMP distribution. Valid values include:    self, which is the AWS account used to create the distribution.   An AWS account number.  
+        /// An AWS account that is included in the TrustedSigners complex type for this distribution. Valid values include:    self, which is the AWS account used to create the distribution.   An AWS account number.  
         public let awsAccountNumber: String?
         /// A complex type that lists the active CloudFront key pairs, if any, that are associated with AwsAccountNumber.
         public let keyPairIds: KeyPairIds?
@@ -3729,12 +3773,13 @@ extension CloudFront {
         public let id: String
         /// The date and time the distribution was last modified.
         public let lastModifiedTime: TimeStamp
+        /// A complex type that contains information about price class for this streaming distribution. 
         public let priceClass: PriceClass
         /// A complex type that contains information about the Amazon S3 bucket from which you want CloudFront to get your media files for distribution.
         public let s3Origin: S3Origin
         ///  Indicates the current status of the distribution. When the status is Deployed, the distribution's information is fully propagated throughout the Amazon CloudFront system.
         public let status: String
-        /// A complex type that specifies the AWS accounts, if any, that you want to allow to create signed URLs for private content. If you want to require signed URLs in requests for objects in the target origin that match the PathPattern for this cache behavior, specify true for Enabled, and specify the applicable values for Quantity and Items.If you don't want to require signed URLs in requests for objects that match PathPattern, specify false for Enabled and 0 for Quantity. Omit Items. To add, change, or remove one or more trusted signers, change Enabled to true (if it's currently false), change Quantity as applicable, and specify all of the trusted signers that you want to include in the updated distribution.
+        /// A complex type that specifies the AWS accounts, if any, that you want to allow to create signed URLs for private content. If you want to require signed URLs in requests for objects in the target origin that match the PathPattern for this cache behavior, specify true for Enabled, and specify the applicable values for Quantity and Items.If you don't want to require signed URLs in requests for objects that match PathPattern, specify false for Enabled and 0 for Quantity. Omit Items. To add, change, or remove one or more trusted signers, change Enabled to true (if it's currently false), change Quantity as applicable, and specify all of the trusted signers that you want to include in the updated distribution. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide. 
         public let trustedSigners: TrustedSigners
 
         public init(aliases: Aliases, arn: String, comment: String, domainName: String, enabled: Bool, id: String, lastModifiedTime: TimeStamp, priceClass: PriceClass, s3Origin: S3Origin, status: String, trustedSigners: TrustedSigners) {
@@ -4233,19 +4278,19 @@ extension CloudFront {
             AWSShapeMember(label: "MinimumProtocolVersion", required: false, type: .enum), 
             AWSShapeMember(label: "SSLSupportMethod", required: false, type: .enum)
         ]
-        /// For information about how and when to use ACMCertificateArn, see ViewerCertificate.
+        /// If you want viewers to use HTTPS to request your objects and you're using an alternate domain name, you must choose the type of certificate that you want to use. Specify the following value if ACM provided your certificate:    &lt;ACMCertificateArn&gt;ARN for ACM SSL/TLS certificate&lt;ACMCertificateArn&gt; where  ARN for ACM SSL/TLS certificate  is the ARN for the ACM SSL/TLS certificate that you want to use for this distribution.   If you specify ACMCertificateArn, you must also specify a value for SSLSupportMethod.
         public let aCMCertificateArn: String?
-        /// This field has been deprecated. Use one of the following fields instead:    ViewerCertificate$ACMCertificateArn     ViewerCertificate$IAMCertificateId     ViewerCertificate$CloudFrontDefaultCertificate   
+        /// This field is no longer used. Use one of the following fields instead:    ACMCertificateArn     IAMCertificateId     CloudFrontDefaultCertificate   
         public let certificate: String?
-        /// This field has been deprecated. Use one of the following fields instead:    ViewerCertificate$ACMCertificateArn     ViewerCertificate$IAMCertificateId     ViewerCertificate$CloudFrontDefaultCertificate   
+        /// This field is no longer used. Use one of the following fields instead:    ACMCertificateArn     IAMCertificateId     CloudFrontDefaultCertificate   
         public let certificateSource: CertificateSource?
-        /// For information about how and when to use CloudFrontDefaultCertificate, see ViewerCertificate.
+        /// If you're using the CloudFront domain name for your distribution, such as d111111abcdef8.cloudfront.net, specify the following value:    &lt;CloudFrontDefaultCertificate&gt;true&lt;CloudFrontDefaultCertificate&gt;    
         public let cloudFrontDefaultCertificate: Bool?
-        /// For information about how and when to use IAMCertificateId, see ViewerCertificate.
+        /// If you want viewers to use HTTPS to request your objects and you're using an alternate domain name, you must choose the type of certificate that you want to use. Specify the following value if you purchased your certificate from a third-party certificate authority:    &lt;IAMCertificateId&gt;IAM certificate ID&lt;IAMCertificateId&gt; where  IAM certificate ID  is the ID that IAM returned when you added the certificate to the IAM certificate store.   If you specify IAMCertificateId, you must also specify a value for SSLSupportMethod.
         public let iAMCertificateId: String?
         /// Specify the security policy that you want CloudFront to use for HTTPS connections. A security policy determines two settings:   The minimum SSL/TLS protocol that CloudFront uses to communicate with viewers   The cipher that CloudFront uses to encrypt the content that it returns to viewers    On the CloudFront console, this setting is called Security policy.  We recommend that you specify TLSv1.1_2016 unless your users are using browsers or devices that do not support TLSv1.1 or later. When both of the following are true, you must specify TLSv1 or later for the security policy:    You're using a custom certificate: you specified a value for ACMCertificateArn or for IAMCertificateId    You're using SNI: you specified sni-only for SSLSupportMethod    If you specify true for CloudFrontDefaultCertificate, CloudFront automatically sets the security policy to TLSv1 regardless of the value that you specify for MinimumProtocolVersion. For information about the relationship between the security policy that you choose and the protocols and ciphers that CloudFront uses to communicate with viewers, see  Supported SSL/TLS Protocols and Ciphers for Communication Between Viewers and CloudFront in the Amazon CloudFront Developer Guide.
         public let minimumProtocolVersion: MinimumProtocolVersion?
-        /// If you specify a value for ViewerCertificate$ACMCertificateArn or for ViewerCertificate$IAMCertificateId, you must also specify how you want CloudFront to serve HTTPS requests: using a method that works for all clients or one that works for most clients:    vip: CloudFront uses dedicated IP addresses for your content and can respond to HTTPS requests from any viewer. However, you will incur additional monthly charges.    sni-only: CloudFront can respond to HTTPS requests from viewers that support Server Name Indication (SNI). All modern browsers support SNI, but some browsers still in use don't support SNI. If some of your users' browsers don't support SNI, we recommend that you do one of the following:   Use the vip option (dedicated IP addresses) instead of sni-only.   Use the CloudFront SSL/TLS certificate instead of a custom certificate. This requires that you use the CloudFront domain name of your distribution in the URLs for your objects, for example, https://d111111abcdef8.cloudfront.net/logo.png.   If you can control which browser your users use, upgrade the browser to one that supports SNI.   Use HTTP instead of HTTPS.     Don't specify a value for SSLSupportMethod if you specified &lt;CloudFrontDefaultCertificate&gt;true&lt;CloudFrontDefaultCertificate&gt;. For more information, see Using Alternate Domain Names and HTTPS in the Amazon CloudFront Developer Guide.
+        /// If you specify a value for ACMCertificateArn or for IAMCertificateId, you must also specify how you want CloudFront to serve HTTPS requests: using a method that works for browsers and clients released after 2010 or one that works for all clients.    sni-only: CloudFront can respond to HTTPS requests from viewers that support Server Name Indication (SNI). All modern browsers support SNI, but there are a few that don't. For a current list of the browsers that support SNI, see the Wikipedia entry Server Name Indication. To learn about options to explore if you have users with browsers that don't include SNI support, see Choosing How CloudFront Serves HTTPS Requests in the Amazon CloudFront Developer Guide.    vip: CloudFront uses dedicated IP addresses for your content and can respond to HTTPS requests from any viewer. However, there are additional monthly charges. For details, including specific pricing information, see Custom SSL options for Amazon CloudFront on the AWS marketing site.   Don't specify a value for SSLSupportMethod if you specified &lt;CloudFrontDefaultCertificate&gt;true&lt;CloudFrontDefaultCertificate&gt;. For more information, see Choosing How CloudFront Serves HTTPS Requests in the Amazon CloudFront Developer Guide.
         public let sSLSupportMethod: SSLSupportMethod?
 
         public init(aCMCertificateArn: String? = nil, certificate: String? = nil, certificateSource: CertificateSource? = nil, cloudFrontDefaultCertificate: Bool? = nil, iAMCertificateId: String? = nil, minimumProtocolVersion: MinimumProtocolVersion? = nil, sSLSupportMethod: SSLSupportMethod? = nil) {

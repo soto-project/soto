@@ -76,6 +76,11 @@ public struct Glue {
         return try client.send(operation: "BatchGetTriggers", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns a list of resource metadata for a given list of workflow names. After calling the ListWorkflows operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
+    public func batchGetWorkflows(_ input: BatchGetWorkflowsRequest) throws -> Future<BatchGetWorkflowsResponse> {
+        return try client.send(operation: "BatchGetWorkflows", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Stops one or more job runs for a specified job definition.
     public func batchStopJobRun(_ input: BatchStopJobRunRequest) throws -> Future<BatchStopJobRunResponse> {
         return try client.send(operation: "BatchStopJobRun", path: "/", httpMethod: "POST", input: input)
@@ -141,6 +146,11 @@ public struct Glue {
         return try client.send(operation: "CreateUserDefinedFunction", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Creates a new workflow.
+    public func createWorkflow(_ input: CreateWorkflowRequest) throws -> Future<CreateWorkflowResponse> {
+        return try client.send(operation: "CreateWorkflow", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Removes a classifier from the Data Catalog.
     public func deleteClassifier(_ input: DeleteClassifierRequest) throws -> Future<DeleteClassifierResponse> {
         return try client.send(operation: "DeleteClassifier", path: "/", httpMethod: "POST", input: input)
@@ -204,6 +214,11 @@ public struct Glue {
     ///  Deletes an existing function definition from the Data Catalog.
     public func deleteUserDefinedFunction(_ input: DeleteUserDefinedFunctionRequest) throws -> Future<DeleteUserDefinedFunctionResponse> {
         return try client.send(operation: "DeleteUserDefinedFunction", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a workflow.
+    public func deleteWorkflow(_ input: DeleteWorkflowRequest) throws -> Future<DeleteWorkflowResponse> {
+        return try client.send(operation: "DeleteWorkflow", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the status of a migration operation.
@@ -376,29 +391,54 @@ public struct Glue {
         return try client.send(operation: "GetUserDefinedFunctions", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Retrieves resource metadata for a workflow.
+    public func getWorkflow(_ input: GetWorkflowRequest) throws -> Future<GetWorkflowResponse> {
+        return try client.send(operation: "GetWorkflow", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves the metadata for a given workflow run. 
+    public func getWorkflowRun(_ input: GetWorkflowRunRequest) throws -> Future<GetWorkflowRunResponse> {
+        return try client.send(operation: "GetWorkflowRun", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves the workflow run properties which were set during the run.
+    public func getWorkflowRunProperties(_ input: GetWorkflowRunPropertiesRequest) throws -> Future<GetWorkflowRunPropertiesResponse> {
+        return try client.send(operation: "GetWorkflowRunProperties", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves metadata for all runs of a given workflow.
+    public func getWorkflowRuns(_ input: GetWorkflowRunsRequest) throws -> Future<GetWorkflowRunsResponse> {
+        return try client.send(operation: "GetWorkflowRuns", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Imports an existing Athena Data Catalog to AWS Glue
     public func importCatalogToGlue(_ input: ImportCatalogToGlueRequest) throws -> Future<ImportCatalogToGlueResponse> {
         return try client.send(operation: "ImportCatalogToGlue", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves the names of all crawler resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag will be retrieved.
+    ///  Retrieves the names of all crawler resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     public func listCrawlers(_ input: ListCrawlersRequest) throws -> Future<ListCrawlersResponse> {
         return try client.send(operation: "ListCrawlers", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves the names of all DevEndpoint resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag will be retrieved.
+    ///  Retrieves the names of all DevEndpoint resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     public func listDevEndpoints(_ input: ListDevEndpointsRequest) throws -> Future<ListDevEndpointsResponse> {
         return try client.send(operation: "ListDevEndpoints", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves the names of all job resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag will be retrieved.
+    ///  Retrieves the names of all job resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     public func listJobs(_ input: ListJobsRequest) throws -> Future<ListJobsResponse> {
         return try client.send(operation: "ListJobs", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves the names of all trigger resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag will be retrieved.
+    ///  Retrieves the names of all trigger resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     public func listTriggers(_ input: ListTriggersRequest) throws -> Future<ListTriggersResponse> {
         return try client.send(operation: "ListTriggers", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists names of workflows created in the account.
+    public func listWorkflows(_ input: ListWorkflowsRequest) throws -> Future<ListWorkflowsResponse> {
+        return try client.send(operation: "ListWorkflows", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Sets the security configuration for a specified catalog. After the configuration has been set, the specified encryption is applied to every catalog write thereafter.
@@ -409,6 +449,11 @@ public struct Glue {
     ///  Sets the Data Catalog resource policy for access control.
     public func putResourcePolicy(_ input: PutResourcePolicyRequest) throws -> Future<PutResourcePolicyResponse> {
         return try client.send(operation: "PutResourcePolicy", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Puts the specified workflow run properties for the given workflow run. If a property already exists for the specified run, then it overrides the value otherwise adds the property to existing properties.
+    public func putWorkflowRunProperties(_ input: PutWorkflowRunPropertiesRequest) throws -> Future<PutWorkflowRunPropertiesResponse> {
+        return try client.send(operation: "PutWorkflowRunProperties", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Resets a bookmark entry.
@@ -434,6 +479,11 @@ public struct Glue {
     ///  Starts an existing trigger. See Triggering Jobs for information about how different types of trigger are started.
     public func startTrigger(_ input: StartTriggerRequest) throws -> Future<StartTriggerResponse> {
         return try client.send(operation: "StartTrigger", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Starts a new run of the specified workflow.
+    public func startWorkflowRun(_ input: StartWorkflowRunRequest) throws -> Future<StartWorkflowRunResponse> {
+        return try client.send(operation: "StartWorkflowRun", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  If the specified crawler is running, stops the crawl.
@@ -514,6 +564,11 @@ public struct Glue {
     ///  Updates an existing function definition in the Data Catalog.
     public func updateUserDefinedFunction(_ input: UpdateUserDefinedFunctionRequest) throws -> Future<UpdateUserDefinedFunctionResponse> {
         return try client.send(operation: "UpdateUserDefinedFunction", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates an existing workflow.
+    public func updateWorkflow(_ input: UpdateWorkflowRequest) throws -> Future<UpdateWorkflowResponse> {
+        return try client.send(operation: "UpdateWorkflow", path: "/", httpMethod: "POST", input: input)
     }
 
 
