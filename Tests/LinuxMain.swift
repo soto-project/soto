@@ -3,5 +3,6 @@ import XCTest
 
 XCTMain([
      testCase(S3Tests.allTests),
-     testCase(DynamoDBTests.allTests)
+     testCase(DynamoDBTests.allTests),
+     testCase(AWSRequestTests.allTests)
 ])
