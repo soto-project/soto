@@ -1017,6 +1017,7 @@ extension RDS {
             AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
             AWSShapeMember(label: "MasterUserPassword", required: false, type: .string), 
             AWSShapeMember(label: "MasterUsername", required: false, type: .string), 
+            AWSShapeMember(label: "MaxAllocatedStorage", required: false, type: .integer), 
             AWSShapeMember(label: "MonitoringInterval", required: false, type: .integer), 
             AWSShapeMember(label: "MonitoringRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
@@ -1089,6 +1090,8 @@ extension RDS {
         public let masterUserPassword: String?
         /// The name for the master user.  Amazon Aurora  Not applicable. The name for the master user is managed by the DB cluster.   MariaDB  Constraints:   Required for MariaDB.   Must be 1 to 16 letters or numbers.   Can't be a reserved word for the chosen database engine.    Microsoft SQL Server  Constraints:   Required for SQL Server.   Must be 1 to 128 letters or numbers.   The first character must be a letter.   Can't be a reserved word for the chosen database engine.    MySQL  Constraints:   Required for MySQL.   Must be 1 to 16 letters or numbers.   First character must be a letter.   Can't be a reserved word for the chosen database engine.    Oracle  Constraints:   Required for Oracle.   Must be 1 to 30 letters or numbers.   First character must be a letter.   Can't be a reserved word for the chosen database engine.    PostgreSQL  Constraints:   Required for PostgreSQL.   Must be 1 to 63 letters or numbers.   First character must be a letter.   Can't be a reserved word for the chosen database engine.  
         public let masterUsername: String?
+        /// The upper limit to which Amazon RDS can automatically scale the storage of the DB instance.
+        public let maxAllocatedStorage: Int32?
         /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance. To disable collecting Enhanced Monitoring metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also set MonitoringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60 
         public let monitoringInterval: Int32?
         /// The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to Amazon CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, go to Setting Up and Enabling Enhanced Monitoring in the Amazon RDS User Guide. If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value.
@@ -1128,7 +1131,7 @@ extension RDS {
         /// A list of Amazon EC2 VPC security groups to associate with this DB instance.  Amazon Aurora  Not applicable. The associated list of EC2 VPC security groups is managed by the DB cluster. Default: The default EC2 VPC security group for the DB subnet group's VPC.
         public let vpcSecurityGroupIds: [String]?
 
-        public init(allocatedStorage: Int32? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int32? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String? = nil, dBInstanceClass: String, dBInstanceIdentifier: String, dBName: String? = nil, dBParameterGroupName: String? = nil, dBSecurityGroups: [String]? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String, engineVersion: String? = nil, iops: Int32? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, masterUsername: String? = nil, monitoringInterval: Int32? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int32? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int32? = nil, publiclyAccessible: Bool? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, timezone: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int32? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int32? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String? = nil, dBInstanceClass: String, dBInstanceIdentifier: String, dBName: String? = nil, dBParameterGroupName: String? = nil, dBSecurityGroups: [String]? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String, engineVersion: String? = nil, iops: Int32? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, masterUsername: String? = nil, maxAllocatedStorage: Int32? = nil, monitoringInterval: Int32? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int32? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int32? = nil, publiclyAccessible: Bool? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, timezone: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -1155,6 +1158,7 @@ extension RDS {
             self.licenseModel = licenseModel
             self.masterUserPassword = masterUserPassword
             self.masterUsername = masterUsername
+            self.maxAllocatedStorage = maxAllocatedStorage
             self.monitoringInterval = monitoringInterval
             self.monitoringRoleArn = monitoringRoleArn
             self.multiAZ = multiAZ
@@ -1203,6 +1207,7 @@ extension RDS {
             case licenseModel = "LicenseModel"
             case masterUserPassword = "MasterUserPassword"
             case masterUsername = "MasterUsername"
+            case maxAllocatedStorage = "MaxAllocatedStorage"
             case monitoringInterval = "MonitoringInterval"
             case monitoringRoleArn = "MonitoringRoleArn"
             case multiAZ = "MultiAZ"
@@ -2690,6 +2695,7 @@ extension RDS {
             AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
             AWSShapeMember(label: "ListenerEndpoint", required: false, type: .structure), 
             AWSShapeMember(label: "MasterUsername", required: false, type: .string), 
+            AWSShapeMember(label: "MaxAllocatedStorage", required: false, type: .integer), 
             AWSShapeMember(label: "MonitoringInterval", required: false, type: .integer), 
             AWSShapeMember(label: "MonitoringRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
@@ -2782,6 +2788,8 @@ extension RDS {
         public let listenerEndpoint: Endpoint?
         /// Contains the master username for the DB instance.
         public let masterUsername: String?
+        /// The upper limit to which Amazon RDS can automatically scale the storage of the DB instance.
+        public let maxAllocatedStorage: Int32?
         /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance.
         public let monitoringInterval: Int32?
         /// The ARN for the IAM role that permits RDS to send Enhanced Monitoring metrics to Amazon CloudWatch Logs.
@@ -2829,7 +2837,7 @@ extension RDS {
         /// Provides a list of VPC security group elements that the DB instance belongs to.
         public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(allocatedStorage: Int32? = nil, associatedRoles: [DBInstanceRole]? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int32? = nil, cACertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String? = nil, dBInstanceArn: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dBInstanceStatus: String? = nil, dBName: String? = nil, dBParameterGroups: [DBParameterGroupStatus]? = nil, dBSecurityGroups: [DBSecurityGroupMembership]? = nil, dBSubnetGroup: DBSubnetGroup? = nil, dbInstancePort: Int32? = nil, dbiResourceId: String? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: TimeStamp? = nil, iops: Int32? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, licenseModel: String? = nil, listenerEndpoint: Endpoint? = nil, masterUsername: String? = nil, monitoringInterval: Int32? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int32? = nil, publiclyAccessible: Bool? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allocatedStorage: Int32? = nil, associatedRoles: [DBInstanceRole]? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int32? = nil, cACertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String? = nil, dBInstanceArn: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dBInstanceStatus: String? = nil, dBName: String? = nil, dBParameterGroups: [DBParameterGroupStatus]? = nil, dBSecurityGroups: [DBSecurityGroupMembership]? = nil, dBSubnetGroup: DBSubnetGroup? = nil, dbInstancePort: Int32? = nil, dbiResourceId: String? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: TimeStamp? = nil, iops: Int32? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, licenseModel: String? = nil, listenerEndpoint: Endpoint? = nil, masterUsername: String? = nil, maxAllocatedStorage: Int32? = nil, monitoringInterval: Int32? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int32? = nil, publiclyAccessible: Bool? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.associatedRoles = associatedRoles
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -2864,6 +2872,7 @@ extension RDS {
             self.licenseModel = licenseModel
             self.listenerEndpoint = listenerEndpoint
             self.masterUsername = masterUsername
+            self.maxAllocatedStorage = maxAllocatedStorage
             self.monitoringInterval = monitoringInterval
             self.monitoringRoleArn = monitoringRoleArn
             self.multiAZ = multiAZ
@@ -2924,6 +2933,7 @@ extension RDS {
             case licenseModel = "LicenseModel"
             case listenerEndpoint = "ListenerEndpoint"
             case masterUsername = "MasterUsername"
+            case maxAllocatedStorage = "MaxAllocatedStorage"
             case monitoringInterval = "MonitoringInterval"
             case monitoringRoleArn = "MonitoringRoleArn"
             case multiAZ = "MultiAZ"
@@ -6159,6 +6169,7 @@ extension RDS {
             AWSShapeMember(label: "Iops", required: false, type: .integer), 
             AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
             AWSShapeMember(label: "MasterUserPassword", required: false, type: .string), 
+            AWSShapeMember(label: "MaxAllocatedStorage", required: false, type: .integer), 
             AWSShapeMember(label: "MonitoringInterval", required: false, type: .integer), 
             AWSShapeMember(label: "MonitoringRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
@@ -6223,6 +6234,8 @@ extension RDS {
         public let licenseModel: String?
         /// The new password for the master user. The password can include any printable ASCII character except "/", """, or "@".  Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response.   Amazon Aurora  Not applicable. The password for the master user is managed by the DB cluster. For more information, see ModifyDBCluster.  Default: Uses existing setting  MariaDB  Constraints: Must contain from 8 to 41 characters.  Microsoft SQL Server  Constraints: Must contain from 8 to 128 characters.  MySQL  Constraints: Must contain from 8 to 41 characters.  Oracle  Constraints: Must contain from 8 to 30 characters.  PostgreSQL  Constraints: Must contain from 8 to 128 characters.  Amazon RDS API actions never return the password, so this action provides a way to regain access to a primary instance user if the password is lost. This includes restoring privileges that might have been accidentally revoked.  
         public let masterUserPassword: String?
+        /// The upper limit to which Amazon RDS can automatically scale the storage of the DB instance.
+        public let maxAllocatedStorage: Int32?
         /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance. To disable collecting Enhanced Monitoring metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also set MonitoringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60 
         public let monitoringInterval: Int32?
         /// The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to Amazon CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, go to To create an IAM role for Amazon RDS Enhanced Monitoring in the Amazon RDS User Guide.  If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value.
@@ -6258,7 +6271,7 @@ extension RDS {
         /// A list of EC2 VPC security groups to authorize on this DB instance. This change is asynchronously applied as soon as possible.  Amazon Aurora  Not applicable. The associated list of EC2 VPC security groups is managed by the DB cluster. For more information, see ModifyDBCluster. Constraints:   If supplied, must match existing VpcSecurityGroupIds.  
         public let vpcSecurityGroupIds: [String]?
 
-        public init(allocatedStorage: Int32? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, backupRetentionPeriod: Int32? = nil, cACertificateIdentifier: String? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String, dBParameterGroupName: String? = nil, dBPortNumber: Int32? = nil, dBSecurityGroups: [String]? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engineVersion: String? = nil, iops: Int32? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, monitoringInterval: Int32? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, newDBInstanceIdentifier: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int32? = nil, publiclyAccessible: Bool? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int32? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, backupRetentionPeriod: Int32? = nil, cACertificateIdentifier: String? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String, dBParameterGroupName: String? = nil, dBPortNumber: Int32? = nil, dBSecurityGroups: [String]? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engineVersion: String? = nil, iops: Int32? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, maxAllocatedStorage: Int32? = nil, monitoringInterval: Int32? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, newDBInstanceIdentifier: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int32? = nil, publiclyAccessible: Bool? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
             self.applyImmediately = applyImmediately
@@ -6282,6 +6295,7 @@ extension RDS {
             self.iops = iops
             self.licenseModel = licenseModel
             self.masterUserPassword = masterUserPassword
+            self.maxAllocatedStorage = maxAllocatedStorage
             self.monitoringInterval = monitoringInterval
             self.monitoringRoleArn = monitoringRoleArn
             self.multiAZ = multiAZ
@@ -6325,6 +6339,7 @@ extension RDS {
             case iops = "Iops"
             case licenseModel = "LicenseModel"
             case masterUserPassword = "MasterUserPassword"
+            case maxAllocatedStorage = "MaxAllocatedStorage"
             case monitoringInterval = "MonitoringInterval"
             case monitoringRoleArn = "MonitoringRoleArn"
             case multiAZ = "MultiAZ"
@@ -7098,6 +7113,7 @@ extension RDS {
             AWSShapeMember(label: "SupportsIAMDatabaseAuthentication", required: false, type: .boolean), 
             AWSShapeMember(label: "SupportsIops", required: false, type: .boolean), 
             AWSShapeMember(label: "SupportsPerformanceInsights", required: false, type: .boolean), 
+            AWSShapeMember(label: "SupportsStorageAutoscaling", required: false, type: .boolean), 
             AWSShapeMember(label: "SupportsStorageEncryption", required: false, type: .boolean), 
             AWSShapeMember(label: "Vpc", required: false, type: .boolean)
         ]
@@ -7141,12 +7157,14 @@ extension RDS {
         public let supportsIops: Bool?
         /// True if a DB instance supports Performance Insights, otherwise false.
         public let supportsPerformanceInsights: Bool?
+        /// Whether or not Amazon RDS can automatically scale storage for DB instances that use the specified instance class.
+        public let supportsStorageAutoscaling: Bool?
         /// Indicates whether a DB instance supports encrypted storage.
         public let supportsStorageEncryption: Bool?
         /// Indicates whether a DB instance is in a VPC.
         public let vpc: Bool?
 
-        public init(availabilityZones: [AvailabilityZone]? = nil, availableProcessorFeatures: [AvailableProcessorFeature]? = nil, dBInstanceClass: String? = nil, engine: String? = nil, engineVersion: String? = nil, licenseModel: String? = nil, maxIopsPerDbInstance: Int32? = nil, maxIopsPerGib: Double? = nil, maxStorageSize: Int32? = nil, minIopsPerDbInstance: Int32? = nil, minIopsPerGib: Double? = nil, minStorageSize: Int32? = nil, multiAZCapable: Bool? = nil, readReplicaCapable: Bool? = nil, storageType: String? = nil, supportedEngineModes: [String]? = nil, supportsEnhancedMonitoring: Bool? = nil, supportsIAMDatabaseAuthentication: Bool? = nil, supportsIops: Bool? = nil, supportsPerformanceInsights: Bool? = nil, supportsStorageEncryption: Bool? = nil, vpc: Bool? = nil) {
+        public init(availabilityZones: [AvailabilityZone]? = nil, availableProcessorFeatures: [AvailableProcessorFeature]? = nil, dBInstanceClass: String? = nil, engine: String? = nil, engineVersion: String? = nil, licenseModel: String? = nil, maxIopsPerDbInstance: Int32? = nil, maxIopsPerGib: Double? = nil, maxStorageSize: Int32? = nil, minIopsPerDbInstance: Int32? = nil, minIopsPerGib: Double? = nil, minStorageSize: Int32? = nil, multiAZCapable: Bool? = nil, readReplicaCapable: Bool? = nil, storageType: String? = nil, supportedEngineModes: [String]? = nil, supportsEnhancedMonitoring: Bool? = nil, supportsIAMDatabaseAuthentication: Bool? = nil, supportsIops: Bool? = nil, supportsPerformanceInsights: Bool? = nil, supportsStorageAutoscaling: Bool? = nil, supportsStorageEncryption: Bool? = nil, vpc: Bool? = nil) {
             self.availabilityZones = availabilityZones
             self.availableProcessorFeatures = availableProcessorFeatures
             self.dBInstanceClass = dBInstanceClass
@@ -7167,6 +7185,7 @@ extension RDS {
             self.supportsIAMDatabaseAuthentication = supportsIAMDatabaseAuthentication
             self.supportsIops = supportsIops
             self.supportsPerformanceInsights = supportsPerformanceInsights
+            self.supportsStorageAutoscaling = supportsStorageAutoscaling
             self.supportsStorageEncryption = supportsStorageEncryption
             self.vpc = vpc
         }
@@ -7192,6 +7211,7 @@ extension RDS {
             case supportsIAMDatabaseAuthentication = "SupportsIAMDatabaseAuthentication"
             case supportsIops = "SupportsIops"
             case supportsPerformanceInsights = "SupportsPerformanceInsights"
+            case supportsStorageAutoscaling = "SupportsStorageAutoscaling"
             case supportsStorageEncryption = "SupportsStorageEncryption"
             case vpc = "Vpc"
         }
@@ -9656,7 +9676,8 @@ extension RDS {
             AWSShapeMember(label: "IopsToStorageRatio", required: false, type: .list, encoding: .list(member:"DoubleRange")), 
             AWSShapeMember(label: "ProvisionedIops", required: false, type: .list, encoding: .list(member:"Range")), 
             AWSShapeMember(label: "StorageSize", required: false, type: .list, encoding: .list(member:"Range")), 
-            AWSShapeMember(label: "StorageType", required: false, type: .string)
+            AWSShapeMember(label: "StorageType", required: false, type: .string), 
+            AWSShapeMember(label: "SupportsStorageAutoscaling", required: false, type: .boolean)
         ]
         /// The valid range of Provisioned IOPS to gibibytes of storage multiplier. For example, 3-10, which means that provisioned IOPS can be between 3 and 10 times storage. 
         public let iopsToStorageRatio: [DoubleRange]?
@@ -9666,12 +9687,15 @@ extension RDS {
         public let storageSize: [Range]?
         /// The valid storage types for your DB instance. For example, gp2, io1. 
         public let storageType: String?
+        /// Whether or not Amazon RDS can automatically scale storage for DB instances that use the new instance class.
+        public let supportsStorageAutoscaling: Bool?
 
-        public init(iopsToStorageRatio: [DoubleRange]? = nil, provisionedIops: [Range]? = nil, storageSize: [Range]? = nil, storageType: String? = nil) {
+        public init(iopsToStorageRatio: [DoubleRange]? = nil, provisionedIops: [Range]? = nil, storageSize: [Range]? = nil, storageType: String? = nil, supportsStorageAutoscaling: Bool? = nil) {
             self.iopsToStorageRatio = iopsToStorageRatio
             self.provisionedIops = provisionedIops
             self.storageSize = storageSize
             self.storageType = storageType
+            self.supportsStorageAutoscaling = supportsStorageAutoscaling
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9679,6 +9703,7 @@ extension RDS {
             case provisionedIops = "ProvisionedIops"
             case storageSize = "StorageSize"
             case storageType = "StorageType"
+            case supportsStorageAutoscaling = "SupportsStorageAutoscaling"
         }
     }
 

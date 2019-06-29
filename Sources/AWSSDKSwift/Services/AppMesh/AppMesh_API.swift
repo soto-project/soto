@@ -9,16 +9,13 @@ AWS App Mesh is a service mesh based on the Envoy proxy that makes it easy to mo
          control microservices. App Mesh standardizes how your microservices communicate, giving you
          end-to-end visibility and helping to ensure high availability for your applications.
          App Mesh gives you consistent visibility and network traffic controls for every
-         microservice in an application. You can use App Mesh with AWS Fargate, Amazon ECS, Amazon EKS, and
-         Kubernetes on AWS.
+         microservice in an application. You can use App Mesh with AWS Fargate, Amazon ECS, Amazon EKS,
+         Kubernetes on AWS, and Amazon EC2.
          
             App Mesh supports microservice applications that use service discovery naming for their
-            components. To use App Mesh, you must have an application running on Amazon EC2 instances,
-            hosted in either Amazon ECS, Amazon EKS, or Kubernetes on AWS. For more information about
-            service discovery on Amazon ECS, see Service
-               Discovery in the Amazon Elastic Container Service Developer Guide. Kubernetes
-               kube-dns and coredns are supported. For more information,
-            see DNS
+            components. For more information about service discovery on Amazon ECS, see Service Discovery in the
+               Amazon Elastic Container Service Developer Guide. Kubernetes kube-dns and
+               coredns are supported. For more information, see DNS
                for Services and Pods in the Kubernetes documentation.
          
 */
@@ -40,8 +37,8 @@ public struct AppMesh {
         )
     }
 
-    ///  Creates a service mesh. A service mesh is a logical boundary for network traffic
-    ///           between the services that reside within it.
+    ///  Creates a service mesh. A service mesh is a logical boundary for network traffic between
+    ///           the services that reside within it.
     ///           After you create your service mesh, you can create virtual services, virtual nodes,
     ///           virtual routers, and routes to distribute traffic between the applications in your
     ///           mesh.
@@ -63,8 +60,8 @@ public struct AppMesh {
 
     ///  Creates a virtual node within a service mesh.
     ///           A virtual node acts as a logical pointer to a particular task group, such as an Amazon ECS
-    ///           service or a Kubernetes deployment. When you create a virtual node, you must specify the
-    ///           DNS service discovery hostname for your task group.
+    ///           service or a Kubernetes deployment. When you create a virtual node, you can specify the
+    ///           service discovery information for your task group.
     ///           Any inbound traffic that your virtual node expects should be specified as a
     ///              listener. Any outbound traffic that your virtual node expects to reach
     ///           should be specified as a backend.
@@ -95,18 +92,18 @@ public struct AppMesh {
     }
 
     ///  Creates a virtual service within a service mesh.
-    ///           A virtual service is an abstraction of a real service that is provided by a
-    ///           virtual node directly or indirectly by means of a virtual router. Dependent services call
-    ///           your virtual service by its virtualServiceName, and those requests are routed
-    ///           to the virtual node or virtual router that is specified as the provider for the virtual
+    ///           A virtual service is an abstraction of a real service that is provided by a virtual node
+    ///           directly or indirectly by means of a virtual router. Dependent services call your virtual
+    ///           service by its virtualServiceName, and those requests are routed to the
+    ///           virtual node or virtual router that is specified as the provider for the virtual
     ///           service.
     public func createVirtualService(_ input: CreateVirtualServiceInput) throws -> Future<CreateVirtualServiceOutput> {
         return try client.send(operation: "CreateVirtualService", path: "/v20190125/meshes/{meshName}/virtualServices", httpMethod: "PUT", input: input)
     }
 
     ///  Deletes an existing service mesh.
-    ///           You must delete all resources (virtual services, routes, virtual routers, and virtual nodes)
-    ///           in the service mesh before you can delete the mesh itself.
+    ///           You must delete all resources (virtual services, routes, virtual routers, and virtual
+    ///           nodes) in the service mesh before you can delete the mesh itself.
     public func deleteMesh(_ input: DeleteMeshInput) throws -> Future<DeleteMeshOutput> {
         return try client.send(operation: "DeleteMesh", path: "/v20190125/meshes/{meshName}", httpMethod: "DELETE", input: input)
     }
@@ -190,10 +187,10 @@ public struct AppMesh {
         return try client.send(operation: "ListVirtualServices", path: "/v20190125/meshes/{meshName}/virtualServices", httpMethod: "GET", input: input)
     }
 
-    ///  Associates the specified tags to a resource with the specified
-    ///           resourceArn. If existing tags on a resource aren't specified in the
-    ///           request parameters, they aren't changed. When a resource is deleted, the tags
-    ///           associated with that resource are also deleted.
+    ///  Associates the specified tags to a resource with the specified resourceArn.
+    ///           If existing tags on a resource aren't specified in the request parameters, they aren't
+    ///           changed. When a resource is deleted, the tags associated with that resource are also
+    ///           deleted.
     public func tagResource(_ input: TagResourceInput) throws -> Future<TagResourceOutput> {
         return try client.send(operation: "TagResource", path: "/v20190125/tag", httpMethod: "PUT", input: input)
     }

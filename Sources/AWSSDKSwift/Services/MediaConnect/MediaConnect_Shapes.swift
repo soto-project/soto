@@ -232,31 +232,56 @@ extension MediaConnect {
     public struct Encryption: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Algorithm", location: .body(locationName: "algorithm"), required: true, type: .enum), 
+            AWSShapeMember(label: "ConstantInitializationVector", location: .body(locationName: "constantInitializationVector"), required: false, type: .string), 
+            AWSShapeMember(label: "DeviceId", location: .body(locationName: "deviceId"), required: false, type: .string), 
             AWSShapeMember(label: "KeyType", location: .body(locationName: "keyType"), required: false, type: .enum), 
+            AWSShapeMember(label: "Region", location: .body(locationName: "region"), required: false, type: .string), 
+            AWSShapeMember(label: "ResourceId", location: .body(locationName: "resourceId"), required: false, type: .string), 
             AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: true, type: .string), 
-            AWSShapeMember(label: "SecretArn", location: .body(locationName: "secretArn"), required: true, type: .string)
+            AWSShapeMember(label: "SecretArn", location: .body(locationName: "secretArn"), required: false, type: .string), 
+            AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string)
         ]
         /// The type of algorithm that is used for the encryption (such as aes128, aes192, or aes256).
         public let algorithm: Algorithm
+        /// A 128-bit, 16-byte hex value represented by a 32-character string, to be used with the key for encrypting content. This parameter is not valid for static key encryption.
+        public let constantInitializationVector: String?
+        /// The value of one of the devices that you configured with your digital rights management (DRM) platform key provider. This parameter is required for SPEKE encryption and is not valid for static key encryption.
+        public let deviceId: String?
         /// The type of key that is used for the encryption. If no keyType is provided, the service will use the default setting (static-key).
         public let keyType: KeyType?
+        /// The AWS Region that the API Gateway proxy endpoint was created in. This parameter is required for SPEKE encryption and is not valid for static key encryption.
+        public let region: String?
+        /// An identifier for the content. The service sends this value to the key server to identify the current endpoint. The resource ID is also known as the content ID. This parameter is required for SPEKE encryption and is not valid for static key encryption.
+        public let resourceId: String?
         /// The ARN of the role that you created during setup (when you set up AWS Elemental MediaConnect as a trusted entity).
         public let roleArn: String
-        /// The ARN that was assigned to the secret that you created in AWS Secrets Manager to store the encryption key.
-        public let secretArn: String
+        /// The ARN of the secret that you created in AWS Secrets Manager to store the encryption key. This parameter is required for static key encryption and is not valid for SPEKE encryption.
+        public let secretArn: String?
+        /// The URL from the API Gateway proxy that you set up to talk to your key server. This parameter is required for SPEKE encryption and is not valid for static key encryption.
+        public let url: String?
 
-        public init(algorithm: Algorithm, keyType: KeyType? = nil, roleArn: String, secretArn: String) {
+        public init(algorithm: Algorithm, constantInitializationVector: String? = nil, deviceId: String? = nil, keyType: KeyType? = nil, region: String? = nil, resourceId: String? = nil, roleArn: String, secretArn: String? = nil, url: String? = nil) {
             self.algorithm = algorithm
+            self.constantInitializationVector = constantInitializationVector
+            self.deviceId = deviceId
             self.keyType = keyType
+            self.region = region
+            self.resourceId = resourceId
             self.roleArn = roleArn
             self.secretArn = secretArn
+            self.url = url
         }
 
         private enum CodingKeys: String, CodingKey {
             case algorithm = "algorithm"
+            case constantInitializationVector = "constantInitializationVector"
+            case deviceId = "deviceId"
             case keyType = "keyType"
+            case region = "region"
+            case resourceId = "resourceId"
             case roleArn = "roleArn"
             case secretArn = "secretArn"
+            case url = "url"
         }
     }
 
@@ -424,6 +449,7 @@ extension MediaConnect {
     }
 
     public enum KeyType: String, CustomStringConvertible, Codable {
+        case speke = "speke"
         case staticKey = "static-key"
         public var description: String { return self.rawValue }
     }
@@ -1060,31 +1086,56 @@ extension MediaConnect {
     public struct UpdateEncryption: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Algorithm", location: .body(locationName: "algorithm"), required: false, type: .enum), 
+            AWSShapeMember(label: "ConstantInitializationVector", location: .body(locationName: "constantInitializationVector"), required: false, type: .string), 
+            AWSShapeMember(label: "DeviceId", location: .body(locationName: "deviceId"), required: false, type: .string), 
             AWSShapeMember(label: "KeyType", location: .body(locationName: "keyType"), required: false, type: .enum), 
+            AWSShapeMember(label: "Region", location: .body(locationName: "region"), required: false, type: .string), 
+            AWSShapeMember(label: "ResourceId", location: .body(locationName: "resourceId"), required: false, type: .string), 
             AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
-            AWSShapeMember(label: "SecretArn", location: .body(locationName: "secretArn"), required: false, type: .string)
+            AWSShapeMember(label: "SecretArn", location: .body(locationName: "secretArn"), required: false, type: .string), 
+            AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string)
         ]
         /// The type of algorithm that is used for the encryption (such as aes128, aes192, or aes256).
         public let algorithm: Algorithm?
+        /// A 128-bit, 16-byte hex value represented by a 32-character string, to be used with the key for encrypting content. This parameter is not valid for static key encryption.
+        public let constantInitializationVector: String?
+        /// The value of one of the devices that you configured with your digital rights management (DRM) platform key provider. This parameter is required for SPEKE encryption and is not valid for static key encryption.
+        public let deviceId: String?
         /// The type of key that is used for the encryption. If no keyType is provided, the service will use the default setting (static-key).
         public let keyType: KeyType?
+        /// The AWS Region that the API Gateway proxy endpoint was created in. This parameter is required for SPEKE encryption and is not valid for static key encryption.
+        public let region: String?
+        /// An identifier for the content. The service sends this value to the key server to identify the current endpoint. The resource ID is also known as the content ID. This parameter is required for SPEKE encryption and is not valid for static key encryption.
+        public let resourceId: String?
         /// The ARN of the role that you created during setup (when you set up AWS Elemental MediaConnect as a trusted entity).
         public let roleArn: String?
-        /// The ARN that was assigned to the secret that you created in AWS Secrets Manager to store the encryption key.
+        /// The ARN of the secret that you created in AWS Secrets Manager to store the encryption key. This parameter is required for static key encryption and is not valid for SPEKE encryption.
         public let secretArn: String?
+        /// The URL from the API Gateway proxy that you set up to talk to your key server. This parameter is required for SPEKE encryption and is not valid for static key encryption.
+        public let url: String?
 
-        public init(algorithm: Algorithm? = nil, keyType: KeyType? = nil, roleArn: String? = nil, secretArn: String? = nil) {
+        public init(algorithm: Algorithm? = nil, constantInitializationVector: String? = nil, deviceId: String? = nil, keyType: KeyType? = nil, region: String? = nil, resourceId: String? = nil, roleArn: String? = nil, secretArn: String? = nil, url: String? = nil) {
             self.algorithm = algorithm
+            self.constantInitializationVector = constantInitializationVector
+            self.deviceId = deviceId
             self.keyType = keyType
+            self.region = region
+            self.resourceId = resourceId
             self.roleArn = roleArn
             self.secretArn = secretArn
+            self.url = url
         }
 
         private enum CodingKeys: String, CodingKey {
             case algorithm = "algorithm"
+            case constantInitializationVector = "constantInitializationVector"
+            case deviceId = "deviceId"
             case keyType = "keyType"
+            case region = "region"
+            case resourceId = "resourceId"
             case roleArn = "roleArn"
             case secretArn = "secretArn"
+            case url = "url"
         }
     }
 

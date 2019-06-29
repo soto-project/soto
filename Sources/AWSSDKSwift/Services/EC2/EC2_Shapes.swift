@@ -3363,9 +3363,9 @@ extension EC2 {
         public let destinationRegion: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// Specifies whether the destination snapshot should be encrypted. You can encrypt a copy of an unencrypted snapshot, but you cannot use it to create an unencrypted copy of an encrypted snapshot. Your default CMK for EBS is used unless you specify a non-default AWS Key Management Service (AWS KMS) CMK using KmsKeyId. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
+        /// Specifies whether the destination snapshot should be encrypted. You can encrypt a copy of an unencrypted snapshot, but you cannot use it to create an unencrypted copy of an encrypted snapshot. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
         public let encrypted: Bool?
-        /// An identifier for the AWS Key Management Service (AWS KMS) customer master key (CMK) to use to encrypt the volume. This parameter is only required if you want to use a customer-managed CMK; if this parameter is not specified, your AWS-managed CMK for the account is used. If a KmsKeyId is specified, the Encrypted flag must also be set.  The CMK identifier may be provided in any of the following formats:    Key ID: For example, key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias: For example, alias/ExampleAlias.    Key ARN: The key ARN contains the arn:aws:kms namespace, followed by the Region of the CMK, the AWS account ID of the CMK owner, the key namespace, and then the CMK ID. For example, arn:aws:kms:us-east-1:012345678910:key/abcd1234-a123-456a-a12b-a123b4cd56ef.    Alias ARN: The alias ARN contains the arn:aws:kms namespace, followed by the Region of the CMK, the AWS account ID of the CMK owner, the alias namespace, and then the CMK alias. For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.    AWS authenticates KmsKeyId asynchronously, meaning that the action you call may appear to complete even though you provided an invalid identifier. The action will eventually fail. 
+        /// The identifier of the AWS Key Management Service (AWS KMS) customer master key (CMK) to use for Amazon EBS encryption. If this parameter is not specified, your AWS managed CMK for EBS is used. If KmsKeyId is specified, the encrypted state must be true. You can specify the CMK using any of the following:   Key ID. For example, key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias. For example, alias/ExampleAlias.   Key ARN. For example, arn:aws:kms:us-east-1:012345678910:key/abcd1234-a123-456a-a12b-a123b4cd56ef.   Alias ARN. For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.   AWS authenticates the CMK asynchronously. Therefore, if you specify an ID, alias, or ARN that is not valid, the action can appear to complete, but eventually fails.
         public let kmsKeyId: String?
         /// When you copy an encrypted source snapshot using the Amazon EC2 Query API, you must supply a pre-signed URL. This parameter is optional for unencrypted snapshots. For more information, see Query Requests. The PresignedUrl should use the snapshot source endpoint, the CopySnapshot action, and include the SourceRegion, SourceSnapshotId, and DestinationRegion parameters. The PresignedUrl must be signed using AWS Signature Version 4. Because EBS snapshots are stored in Amazon S3, the signing algorithm for this parameter uses the same logic that is described in Authenticating Requests by Using Query Parameters (AWS Signature Version 4) in the Amazon Simple Storage Service API Reference. An invalid or improperly signed PresignedUrl will cause the copy operation to fail asynchronously, and the snapshot will move to an error state.
         public let presignedUrl: String?
@@ -5206,6 +5206,294 @@ extension EC2 {
         }
     }
 
+    public struct CreateTrafficMirrorFilterRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientToken", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeMember(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), required: false, type: .list, encoding: .list(member:"item"))
+        ]
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
+        public let clientToken: String?
+        /// The description of the Traffic Mirror filter.
+        public let description: String?
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The tags to assign to a Traffic Mirror filter.
+        public let tagSpecifications: [TagSpecification]?
+
+        public init(clientToken: String? = nil, description: String? = nil, dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil) {
+            self.clientToken = clientToken
+            self.description = description
+            self.dryRun = dryRun
+            self.tagSpecifications = tagSpecifications
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case dryRun = "DryRun"
+            case tagSpecifications = "TagSpecification"
+        }
+    }
+
+    public struct CreateTrafficMirrorFilterResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
+            AWSShapeMember(label: "TrafficMirrorFilter", location: .body(locationName: "trafficMirrorFilter"), required: false, type: .structure)
+        ]
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
+        public let clientToken: String?
+        /// Information about the Traffic Mirror filter.
+        public let trafficMirrorFilter: TrafficMirrorFilter?
+
+        public init(clientToken: String? = nil, trafficMirrorFilter: TrafficMirrorFilter? = nil) {
+            self.clientToken = clientToken
+            self.trafficMirrorFilter = trafficMirrorFilter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case trafficMirrorFilter = "trafficMirrorFilter"
+        }
+    }
+
+    public struct CreateTrafficMirrorFilterRuleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientToken", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "DestinationCidrBlock", required: true, type: .string), 
+            AWSShapeMember(label: "DestinationPortRange", required: false, type: .structure), 
+            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeMember(label: "Protocol", required: false, type: .integer), 
+            AWSShapeMember(label: "RuleAction", required: true, type: .enum), 
+            AWSShapeMember(label: "RuleNumber", required: true, type: .integer), 
+            AWSShapeMember(label: "SourceCidrBlock", required: true, type: .string), 
+            AWSShapeMember(label: "SourcePortRange", required: false, type: .structure), 
+            AWSShapeMember(label: "TrafficDirection", required: true, type: .enum), 
+            AWSShapeMember(label: "TrafficMirrorFilterId", required: true, type: .string)
+        ]
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
+        public let clientToken: String?
+        /// The description of the Traffic Mirror rule.
+        public let description: String?
+        /// The destination CIDR block to assign to the Traffic Mirror rule.
+        public let destinationCidrBlock: String
+        /// The destination port range.
+        public let destinationPortRange: TrafficMirrorPortRangeRequest?
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The protocol, for example UDP, to assign to the Traffic Mirror rule. For information about the protocol value, see Protocol Numbers on the Internet Assigned Numbers Authority (IANA) website.
+        public let `protocol`: Int32?
+        /// The action to take (accept | reject) on the filtered traffic.
+        public let ruleAction: TrafficMirrorRuleAction
+        /// The number of the Traffic Mirror rule. This number must be unique for each Traffic Mirror rule in a given direction. The rules are processed in ascending order by rule number.
+        public let ruleNumber: Int32
+        /// The source CIDR block to assign to the Traffic Mirror rule.
+        public let sourceCidrBlock: String
+        /// The source port range.
+        public let sourcePortRange: TrafficMirrorPortRangeRequest?
+        /// The type of traffic (ingress | egress).
+        public let trafficDirection: TrafficDirection
+        /// The ID of the filter that this rule is associated with.
+        public let trafficMirrorFilterId: String
+
+        public init(clientToken: String? = nil, description: String? = nil, destinationCidrBlock: String, destinationPortRange: TrafficMirrorPortRangeRequest? = nil, dryRun: Bool? = nil, protocol: Int32? = nil, ruleAction: TrafficMirrorRuleAction, ruleNumber: Int32, sourceCidrBlock: String, sourcePortRange: TrafficMirrorPortRangeRequest? = nil, trafficDirection: TrafficDirection, trafficMirrorFilterId: String) {
+            self.clientToken = clientToken
+            self.description = description
+            self.destinationCidrBlock = destinationCidrBlock
+            self.destinationPortRange = destinationPortRange
+            self.dryRun = dryRun
+            self.`protocol` = `protocol`
+            self.ruleAction = ruleAction
+            self.ruleNumber = ruleNumber
+            self.sourceCidrBlock = sourceCidrBlock
+            self.sourcePortRange = sourcePortRange
+            self.trafficDirection = trafficDirection
+            self.trafficMirrorFilterId = trafficMirrorFilterId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case destinationCidrBlock = "DestinationCidrBlock"
+            case destinationPortRange = "DestinationPortRange"
+            case dryRun = "DryRun"
+            case `protocol` = "Protocol"
+            case ruleAction = "RuleAction"
+            case ruleNumber = "RuleNumber"
+            case sourceCidrBlock = "SourceCidrBlock"
+            case sourcePortRange = "SourcePortRange"
+            case trafficDirection = "TrafficDirection"
+            case trafficMirrorFilterId = "TrafficMirrorFilterId"
+        }
+    }
+
+    public struct CreateTrafficMirrorFilterRuleResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
+            AWSShapeMember(label: "TrafficMirrorFilterRule", location: .body(locationName: "trafficMirrorFilterRule"), required: false, type: .structure)
+        ]
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
+        public let clientToken: String?
+        /// The Traffic Mirror rule.
+        public let trafficMirrorFilterRule: TrafficMirrorFilterRule?
+
+        public init(clientToken: String? = nil, trafficMirrorFilterRule: TrafficMirrorFilterRule? = nil) {
+            self.clientToken = clientToken
+            self.trafficMirrorFilterRule = trafficMirrorFilterRule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case trafficMirrorFilterRule = "trafficMirrorFilterRule"
+        }
+    }
+
+    public struct CreateTrafficMirrorSessionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientToken", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeMember(label: "NetworkInterfaceId", required: true, type: .string), 
+            AWSShapeMember(label: "PacketLength", required: false, type: .integer), 
+            AWSShapeMember(label: "SessionNumber", required: true, type: .integer), 
+            AWSShapeMember(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), required: false, type: .list, encoding: .list(member:"item")), 
+            AWSShapeMember(label: "TrafficMirrorFilterId", required: true, type: .string), 
+            AWSShapeMember(label: "TrafficMirrorTargetId", required: true, type: .string), 
+            AWSShapeMember(label: "VirtualNetworkId", required: false, type: .integer)
+        ]
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
+        public let clientToken: String?
+        /// The description of the Traffic Mirror session.
+        public let description: String?
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the source network interface.
+        public let networkInterfaceId: String
+        /// The number of bytes in each packet to mirror. These are bytes after the VXLAN header. Do not specify this parameter when you want to mirror the entire packet. To mirror a subset of the packet, set this to the length (in bytes) that you want to mirror. For example, if you set this value to 1network0, then the first 100 bytes that meet the filter criteria are copied to the target. If you do not want to mirror the entire packet, use the PacketLength parameter to specify the number of bytes in each packet to mirror.
+        public let packetLength: Int32?
+        /// The session number determines the order in which sessions are evaluated when an interface is used by multiple sessions. The first session with a matching filter is the one that mirrors the packets. Valid values are 1-32766.
+        public let sessionNumber: Int32
+        /// The tags to assign to a Traffic Mirror session.
+        public let tagSpecifications: [TagSpecification]?
+        /// The ID of the Traffic Mirror filter.
+        public let trafficMirrorFilterId: String
+        /// The ID of the Traffic Mirror target.
+        public let trafficMirrorTargetId: String
+        /// The VXLAN ID for the Traffic Mirror session. For more information about the VXLAN protocol, see RFC 7348. If you do not specify a VirtualNetworkId, an account-wide unique id is chosen at random.
+        public let virtualNetworkId: Int32?
+
+        public init(clientToken: String? = nil, description: String? = nil, dryRun: Bool? = nil, networkInterfaceId: String, packetLength: Int32? = nil, sessionNumber: Int32, tagSpecifications: [TagSpecification]? = nil, trafficMirrorFilterId: String, trafficMirrorTargetId: String, virtualNetworkId: Int32? = nil) {
+            self.clientToken = clientToken
+            self.description = description
+            self.dryRun = dryRun
+            self.networkInterfaceId = networkInterfaceId
+            self.packetLength = packetLength
+            self.sessionNumber = sessionNumber
+            self.tagSpecifications = tagSpecifications
+            self.trafficMirrorFilterId = trafficMirrorFilterId
+            self.trafficMirrorTargetId = trafficMirrorTargetId
+            self.virtualNetworkId = virtualNetworkId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case dryRun = "DryRun"
+            case networkInterfaceId = "NetworkInterfaceId"
+            case packetLength = "PacketLength"
+            case sessionNumber = "SessionNumber"
+            case tagSpecifications = "TagSpecification"
+            case trafficMirrorFilterId = "TrafficMirrorFilterId"
+            case trafficMirrorTargetId = "TrafficMirrorTargetId"
+            case virtualNetworkId = "VirtualNetworkId"
+        }
+    }
+
+    public struct CreateTrafficMirrorSessionResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
+            AWSShapeMember(label: "TrafficMirrorSession", location: .body(locationName: "trafficMirrorSession"), required: false, type: .structure)
+        ]
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
+        public let clientToken: String?
+        /// Information about the Traffic Mirror session.
+        public let trafficMirrorSession: TrafficMirrorSession?
+
+        public init(clientToken: String? = nil, trafficMirrorSession: TrafficMirrorSession? = nil) {
+            self.clientToken = clientToken
+            self.trafficMirrorSession = trafficMirrorSession
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case trafficMirrorSession = "trafficMirrorSession"
+        }
+    }
+
+    public struct CreateTrafficMirrorTargetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientToken", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeMember(label: "NetworkInterfaceId", required: false, type: .string), 
+            AWSShapeMember(label: "NetworkLoadBalancerArn", required: false, type: .string), 
+            AWSShapeMember(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), required: false, type: .list, encoding: .list(member:"item"))
+        ]
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
+        public let clientToken: String?
+        /// The description of the Traffic Mirror target.
+        public let description: String?
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The network interface ID that is associated with the target.
+        public let networkInterfaceId: String?
+        /// The Amazon Resource Name (ARN) of the Network Load Balancer that is associated with the target.
+        public let networkLoadBalancerArn: String?
+        /// The tags to assign to the Traffic Mirror target.
+        public let tagSpecifications: [TagSpecification]?
+
+        public init(clientToken: String? = nil, description: String? = nil, dryRun: Bool? = nil, networkInterfaceId: String? = nil, networkLoadBalancerArn: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
+            self.clientToken = clientToken
+            self.description = description
+            self.dryRun = dryRun
+            self.networkInterfaceId = networkInterfaceId
+            self.networkLoadBalancerArn = networkLoadBalancerArn
+            self.tagSpecifications = tagSpecifications
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case dryRun = "DryRun"
+            case networkInterfaceId = "NetworkInterfaceId"
+            case networkLoadBalancerArn = "NetworkLoadBalancerArn"
+            case tagSpecifications = "TagSpecification"
+        }
+    }
+
+    public struct CreateTrafficMirrorTargetResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
+            AWSShapeMember(label: "TrafficMirrorTarget", location: .body(locationName: "trafficMirrorTarget"), required: false, type: .structure)
+        ]
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
+        public let clientToken: String?
+        /// Information about the Traffic Mirror target.
+        public let trafficMirrorTarget: TrafficMirrorTarget?
+
+        public init(clientToken: String? = nil, trafficMirrorTarget: TrafficMirrorTarget? = nil) {
+            self.clientToken = clientToken
+            self.trafficMirrorTarget = trafficMirrorTarget
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case trafficMirrorTarget = "trafficMirrorTarget"
+        }
+    }
+
     public struct CreateTransitGatewayRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
@@ -5483,11 +5771,11 @@ extension EC2 {
         public let availabilityZone: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// Specifies the encryption state of the volume. The default effect of setting the Encrypted parameter to true depends on the volume origin (new or from a snapshot), starting encryption state, ownership, and whether account-level encryption is enabled. Each default case can be overridden by specifying a customer master key (CMK) using the KmsKeyId parameter, in addition to setting Encrypted to true. For a complete list of possible encryption cases, see Amazon EBS Encryption. Encrypted Amazon EBS volumes may only be attached to instances that support Amazon EBS encryption. For more information, see Supported Instance Types.
+        /// Specifies whether the volume should be encrypted. The effect of setting the encryption state to true depends on the volume origin (new or from a snapshot), starting encryption state, ownership, and whether encryption by default is enabled. For more information, see Encryption by Default in the Amazon Elastic Compute Cloud User Guide. Encrypted Amazon EBS volumes must be attached to instances that support Amazon EBS encryption. For more information, see Supported Instance Types.
         public let encrypted: Bool?
         /// The number of I/O operations per second (IOPS) to provision for the volume, with a maximum ratio of 50 IOPS/GiB. Range is 100 to 64,000 IOPS for volumes in most Regions. Maximum IOPS of 64,000 is guaranteed only on Nitro-based instances. Other instance families guarantee performance up to 32,000 IOPS. For more information, see Amazon EBS Volume Types in the Amazon Elastic Compute Cloud User Guide. This parameter is valid only for Provisioned IOPS SSD (io1) volumes.
         public let iops: Int32?
-        /// An identifier for the AWS Key Management Service (AWS KMS) customer master key (CMK) to use to encrypt the volume. This parameter is only required if you want to use a customer-managed CMK; if this parameter is not specified, your AWS-managed CMK for the account is used. If a KmsKeyId is specified, the Encrypted flag must also be set.  The CMK identifier may be provided in any of the following formats:    Key ID: For example, key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias: For example, alias/ExampleAlias.    Key ARN: The key ARN contains the arn:aws:kms namespace, followed by the Region of the CMK, the AWS account ID of the CMK owner, the key namespace, and then the CMK ID. For example, arn:aws:kms:us-east-1:012345678910:key/abcd1234-a123-456a-a12b-a123b4cd56ef.    Alias ARN: The alias ARN contains the arn:aws:kms namespace, followed by the Region of the CMK, the AWS account ID of the CMK owner, the alias namespace, and then the CMK alias. For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.    AWS authenticates KmsKeyId asynchronously, meaning that the action you call may appear to complete even though you provided an invalid identifier. The action will eventually fail. 
+        /// The identifier of the AWS Key Management Service (AWS KMS) customer master key (CMK) to use for Amazon EBS encryption. If this parameter is not specified, your AWS managed CMK for EBS is used. If KmsKeyId is specified, the encrypted state must be true. You can specify the CMK using any of the following:   Key ID. For example, key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias. For example, alias/ExampleAlias.   Key ARN. For example, arn:aws:kms:us-east-1:012345678910:key/abcd1234-a123-456a-a12b-a123b4cd56ef.   Alias ARN. For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.   AWS authenticates the CMK asynchronously. Therefore, if you specify an ID, alias, or ARN that is not valid, the action can appear to complete, but eventually fails.
         public let kmsKeyId: String?
         /// The size of the volume, in GiBs. Constraints: 1-16,384 for gp2, 4-16,384 for io1, 500-16,384 for st1, 500-16,384 for sc1, and 1-1,024 for standard. If you specify a snapshot, the volume size must be equal to or larger than the snapshot size. Default: If you're creating the volume from a snapshot and don't specify a volume size, the default is the snapshot size.  At least one of Size or SnapshotId is required. 
         public let size: Int32?
@@ -5835,7 +6123,7 @@ extension EC2 {
         public let options: VpnConnectionOptionsSpecification?
         /// The ID of the transit gateway. If you specify a transit gateway, you cannot specify a virtual private gateway.
         public let transitGatewayId: String?
-        /// The type of VPN connection (ipsec.1 | ipsec.2).
+        /// The type of VPN connection (ipsec.1).
         public let `type`: String
         /// The ID of the virtual private gateway. If you specify a virtual private gateway, you cannot specify a transit gateway.
         public let vpnGatewayId: String?
@@ -6925,6 +7213,154 @@ extension EC2 {
             case dryRun = "dryRun"
             case resources = "resourceId"
             case tags = "tag"
+        }
+    }
+
+    public struct DeleteTrafficMirrorFilterRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeMember(label: "TrafficMirrorFilterId", required: true, type: .string)
+        ]
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the Traffic Mirror filter.
+        public let trafficMirrorFilterId: String
+
+        public init(dryRun: Bool? = nil, trafficMirrorFilterId: String) {
+            self.dryRun = dryRun
+            self.trafficMirrorFilterId = trafficMirrorFilterId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case trafficMirrorFilterId = "TrafficMirrorFilterId"
+        }
+    }
+
+    public struct DeleteTrafficMirrorFilterResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrafficMirrorFilterId", location: .body(locationName: "trafficMirrorFilterId"), required: false, type: .string)
+        ]
+        /// The ID of the Traffic Mirror filter.
+        public let trafficMirrorFilterId: String?
+
+        public init(trafficMirrorFilterId: String? = nil) {
+            self.trafficMirrorFilterId = trafficMirrorFilterId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trafficMirrorFilterId = "trafficMirrorFilterId"
+        }
+    }
+
+    public struct DeleteTrafficMirrorFilterRuleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeMember(label: "TrafficMirrorFilterRuleId", required: true, type: .string)
+        ]
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the Traffic Mirror rule.
+        public let trafficMirrorFilterRuleId: String
+
+        public init(dryRun: Bool? = nil, trafficMirrorFilterRuleId: String) {
+            self.dryRun = dryRun
+            self.trafficMirrorFilterRuleId = trafficMirrorFilterRuleId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case trafficMirrorFilterRuleId = "TrafficMirrorFilterRuleId"
+        }
+    }
+
+    public struct DeleteTrafficMirrorFilterRuleResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrafficMirrorFilterRuleId", location: .body(locationName: "trafficMirrorFilterRuleId"), required: false, type: .string)
+        ]
+        /// The ID of the deleted Traffic Mirror rule.
+        public let trafficMirrorFilterRuleId: String?
+
+        public init(trafficMirrorFilterRuleId: String? = nil) {
+            self.trafficMirrorFilterRuleId = trafficMirrorFilterRuleId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trafficMirrorFilterRuleId = "trafficMirrorFilterRuleId"
+        }
+    }
+
+    public struct DeleteTrafficMirrorSessionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeMember(label: "TrafficMirrorSessionId", required: true, type: .string)
+        ]
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the Traffic Mirror session.
+        public let trafficMirrorSessionId: String
+
+        public init(dryRun: Bool? = nil, trafficMirrorSessionId: String) {
+            self.dryRun = dryRun
+            self.trafficMirrorSessionId = trafficMirrorSessionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case trafficMirrorSessionId = "TrafficMirrorSessionId"
+        }
+    }
+
+    public struct DeleteTrafficMirrorSessionResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrafficMirrorSessionId", location: .body(locationName: "trafficMirrorSessionId"), required: false, type: .string)
+        ]
+        /// The ID of the deleted Traffic Mirror session.
+        public let trafficMirrorSessionId: String?
+
+        public init(trafficMirrorSessionId: String? = nil) {
+            self.trafficMirrorSessionId = trafficMirrorSessionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trafficMirrorSessionId = "trafficMirrorSessionId"
+        }
+    }
+
+    public struct DeleteTrafficMirrorTargetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeMember(label: "TrafficMirrorTargetId", required: true, type: .string)
+        ]
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the Traffic Mirror target.
+        public let trafficMirrorTargetId: String
+
+        public init(dryRun: Bool? = nil, trafficMirrorTargetId: String) {
+            self.dryRun = dryRun
+            self.trafficMirrorTargetId = trafficMirrorTargetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case trafficMirrorTargetId = "TrafficMirrorTargetId"
+        }
+    }
+
+    public struct DeleteTrafficMirrorTargetResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrafficMirrorTargetId", location: .body(locationName: "trafficMirrorTargetId"), required: false, type: .string)
+        ]
+        /// The ID of the deleted Traffic Mirror target.
+        public let trafficMirrorTargetId: String?
+
+        public init(trafficMirrorTargetId: String? = nil) {
+            self.trafficMirrorTargetId = trafficMirrorTargetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trafficMirrorTargetId = "trafficMirrorTargetId"
         }
     }
 
@@ -9084,7 +9520,7 @@ extension EC2 {
         public let dryRun: Bool?
         /// Scopes the images by users with explicit launch permissions. Specify an AWS account ID, self (the sender of the request), or all (public AMIs).
         public let executableUsers: [String]?
-        /// The filters.    architecture - The image architecture (i386 | x86_64).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the EBS volume.    block-device-mapping.volume-size - The volume size of the EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the EBS volume (gp2 | io1 | st1 | sc1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the EBS volume is encrypted.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    hypervisor - The hypervisor type (ovm | xen).    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - String value from an Amazon-maintained list (amazon | aws-marketplace | microsoft) of snapshot owners. Not to be confused with the user-configured AWS account alias, which is set from the IAM console.    owner-id - The AWS account ID of the image owner.    platform - The platform. To only list Windows-based AMIs, use windows.    product-code - The product code.    product-code.type - The type of the product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).  
+        /// The filters.    architecture - The image architecture (i386 | x86_64 | arm64).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the EBS volume.    block-device-mapping.volume-size - The volume size of the EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the EBS volume (gp2 | io1 | st1 | sc1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the EBS volume is encrypted.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    hypervisor - The hypervisor type (ovm | xen).    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - String value from an Amazon-maintained list (amazon | aws-marketplace | microsoft) of snapshot owners. Not to be confused with the user-configured AWS account alias, which is set from the IAM console.    owner-id - The AWS account ID of the image owner.    platform - The platform. To only list Windows-based AMIs, use windows.    product-code - The product code.    product-code.type - The type of the product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).  
         public let filters: [Filter]?
         /// The image IDs. Default: Describes all images available to you.
         public let imageIds: [String]?
@@ -9393,7 +9829,7 @@ extension EC2 {
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The filters.    affinity - The affinity setting for an instance running on a Dedicated Host (default | host).    architecture - The instance architecture (i386 | x86_64).    availability-zone - The Availability Zone of the instance.    block-device-mapping.attach-time - The attach time for an EBS volume mapped to the instance, for example, 2010-09-15T17:15:20.000Z.    block-device-mapping.delete-on-termination - A Boolean that indicates whether the EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.status - The status for the EBS volume (attaching | attached | detaching | detached).    block-device-mapping.volume-id - The volume ID of the EBS volume.    client-token - The idempotency token you provided when you launched the instance.    dns-name - The public DNS name of the instance.    group-id - The ID of the security group for the instance. EC2-Classic only.    group-name - The name of the security group for the instance. EC2-Classic only.    hibernation-options.configured - A Boolean that indicates whether the instance is enabled for hibernation. A value of true means that the instance is enabled for hibernation.     host-id - The ID of the Dedicated Host on which the instance is running, if applicable.    hypervisor - The hypervisor type of the instance (ovm | xen).    iam-instance-profile.arn - The instance profile associated with the instance. Specified as an ARN.    image-id - The ID of the image used to launch the instance.    instance-id - The ID of the instance.    instance-lifecycle - Indicates whether this is a Spot Instance or a Scheduled Instance (spot | scheduled).    instance-state-code - The state of the instance, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are: 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-type - The type of instance (for example, t2.micro).    instance.group-id - The ID of the security group for the instance.     instance.group-name - The name of the security group for the instance.     ip-address - The public IPv4 address of the instance.    kernel-id - The kernel ID.    key-name - The name of the key pair used when the instance was launched.    launch-index - When launching multiple instances, this is the index for the instance in the launch group (for example, 0, 1, 2, and so on).     launch-time - The time when the instance was launched.    monitoring-state - Indicates whether detailed monitoring is enabled (disabled | enabled).    network-interface.addresses.private-ip-address - The private IPv4 address associated with the network interface.    network-interface.addresses.primary - Specifies whether the IPv4 address of the network interface is the primary private IPv4 address.    network-interface.addresses.association.public-ip - The ID of the association of an Elastic IP address (IPv4) with a network interface.    network-interface.addresses.association.ip-owner-id - The owner ID of the private IPv4 address associated with the network interface.    network-interface.association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    network-interface.association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    network-interface.association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    network-interface.association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    network-interface.attachment.attachment-id - The ID of the interface attachment.    network-interface.attachment.instance-id - The ID of the instance to which the network interface is attached.    network-interface.attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    network-interface.attachment.device-index - The device index to which the network interface is attached.    network-interface.attachment.status - The status of the attachment (attaching | attached | detaching | detached).    network-interface.attachment.attach-time - The time that the network interface was attached to an instance.    network-interface.attachment.delete-on-termination - Specifies whether the attachment is deleted when an instance is terminated.    network-interface.availability-zone - The Availability Zone for the network interface.    network-interface.description - The description of the network interface.    network-interface.group-id - The ID of a security group associated with the network interface.    network-interface.group-name - The name of a security group associated with the network interface.    network-interface.ipv6-addresses.ipv6-address - The IPv6 address associated with the network interface.    network-interface.mac-address - The MAC address of the network interface.    network-interface.network-interface-id - The ID of the network interface.    network-interface.owner-id - The ID of the owner of the network interface.    network-interface.private-dns-name - The private DNS name of the network interface.    network-interface.requester-id - The requester ID for the network interface.    network-interface.requester-managed - Indicates whether the network interface is being managed by AWS.    network-interface.status - The status of the network interface (available) | in-use).    network-interface.source-dest-check - Whether the network interface performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.    network-interface.subnet-id - The ID of the subnet for the network interface.    network-interface.vpc-id - The ID of the VPC for the network interface.    owner-id - The AWS account ID of the instance owner.    placement-group-name - The name of the placement group for the instance.    placement-partition-number - The partition in which the instance is located.    platform - The platform. To list only Windows instances, use windows.    private-dns-name - The private IPv4 DNS name of the instance.    private-ip-address - The private IPv4 address of the instance.    product-code - The product code associated with the AMI used to launch the instance.    product-code.type - The type of product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.    reason - The reason for the current state of the instance (for example, shows "User Initiated [date]" when you stop or terminate the instance). Similar to the state-reason-code filter.    requester-id - The ID of the entity that launched the instance on your behalf (for example, AWS Management Console, Auto Scaling, and so on).    reservation-id - The ID of the instance's reservation. A reservation ID is created any time you launch an instance. A reservation ID has a one-to-one relationship with an instance launch request, but can be associated with more than one instance if you launch multiple instances using the same launch request. For example, if you launch one instance, you get one reservation ID. If you launch ten instances using the same launch request, you also get one reservation ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-dest-check - Indicates whether the instance performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the instance to perform network address translation (NAT) in your VPC.     spot-instance-request-id - The ID of the Spot Instance request.    state-reason-code - The reason code for the state change.    state-reason-message - A message that describes the state change.    subnet-id - The ID of the subnet for the instance.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources that have a tag with a specific key, regardless of the tag value.    tenancy - The tenancy of an instance (dedicated | default | host).    virtualization-type - The virtualization type of the instance (paravirtual | hvm).    vpc-id - The ID of the VPC that the instance is running in.  
+        /// The filters.    affinity - The affinity setting for an instance running on a Dedicated Host (default | host).    architecture - The instance architecture (i386 | x86_64 | arm64).    availability-zone - The Availability Zone of the instance.    block-device-mapping.attach-time - The attach time for an EBS volume mapped to the instance, for example, 2010-09-15T17:15:20.000Z.    block-device-mapping.delete-on-termination - A Boolean that indicates whether the EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.status - The status for the EBS volume (attaching | attached | detaching | detached).    block-device-mapping.volume-id - The volume ID of the EBS volume.    client-token - The idempotency token you provided when you launched the instance.    dns-name - The public DNS name of the instance.    group-id - The ID of the security group for the instance. EC2-Classic only.    group-name - The name of the security group for the instance. EC2-Classic only.    hibernation-options.configured - A Boolean that indicates whether the instance is enabled for hibernation. A value of true means that the instance is enabled for hibernation.     host-id - The ID of the Dedicated Host on which the instance is running, if applicable.    hypervisor - The hypervisor type of the instance (ovm | xen).    iam-instance-profile.arn - The instance profile associated with the instance. Specified as an ARN.    image-id - The ID of the image used to launch the instance.    instance-id - The ID of the instance.    instance-lifecycle - Indicates whether this is a Spot Instance or a Scheduled Instance (spot | scheduled).    instance-state-code - The state of the instance, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are: 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-type - The type of instance (for example, t2.micro).    instance.group-id - The ID of the security group for the instance.     instance.group-name - The name of the security group for the instance.     ip-address - The public IPv4 address of the instance.    kernel-id - The kernel ID.    key-name - The name of the key pair used when the instance was launched.    launch-index - When launching multiple instances, this is the index for the instance in the launch group (for example, 0, 1, 2, and so on).     launch-time - The time when the instance was launched.    monitoring-state - Indicates whether detailed monitoring is enabled (disabled | enabled).    network-interface.addresses.private-ip-address - The private IPv4 address associated with the network interface.    network-interface.addresses.primary - Specifies whether the IPv4 address of the network interface is the primary private IPv4 address.    network-interface.addresses.association.public-ip - The ID of the association of an Elastic IP address (IPv4) with a network interface.    network-interface.addresses.association.ip-owner-id - The owner ID of the private IPv4 address associated with the network interface.    network-interface.association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    network-interface.association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    network-interface.association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    network-interface.association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    network-interface.attachment.attachment-id - The ID of the interface attachment.    network-interface.attachment.instance-id - The ID of the instance to which the network interface is attached.    network-interface.attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    network-interface.attachment.device-index - The device index to which the network interface is attached.    network-interface.attachment.status - The status of the attachment (attaching | attached | detaching | detached).    network-interface.attachment.attach-time - The time that the network interface was attached to an instance.    network-interface.attachment.delete-on-termination - Specifies whether the attachment is deleted when an instance is terminated.    network-interface.availability-zone - The Availability Zone for the network interface.    network-interface.description - The description of the network interface.    network-interface.group-id - The ID of a security group associated with the network interface.    network-interface.group-name - The name of a security group associated with the network interface.    network-interface.ipv6-addresses.ipv6-address - The IPv6 address associated with the network interface.    network-interface.mac-address - The MAC address of the network interface.    network-interface.network-interface-id - The ID of the network interface.    network-interface.owner-id - The ID of the owner of the network interface.    network-interface.private-dns-name - The private DNS name of the network interface.    network-interface.requester-id - The requester ID for the network interface.    network-interface.requester-managed - Indicates whether the network interface is being managed by AWS.    network-interface.status - The status of the network interface (available) | in-use).    network-interface.source-dest-check - Whether the network interface performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.    network-interface.subnet-id - The ID of the subnet for the network interface.    network-interface.vpc-id - The ID of the VPC for the network interface.    owner-id - The AWS account ID of the instance owner.    placement-group-name - The name of the placement group for the instance.    placement-partition-number - The partition in which the instance is located.    platform - The platform. To list only Windows instances, use windows.    private-dns-name - The private IPv4 DNS name of the instance.    private-ip-address - The private IPv4 address of the instance.    product-code - The product code associated with the AMI used to launch the instance.    product-code.type - The type of product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.    reason - The reason for the current state of the instance (for example, shows "User Initiated [date]" when you stop or terminate the instance). Similar to the state-reason-code filter.    requester-id - The ID of the entity that launched the instance on your behalf (for example, AWS Management Console, Auto Scaling, and so on).    reservation-id - The ID of the instance's reservation. A reservation ID is created any time you launch an instance. A reservation ID has a one-to-one relationship with an instance launch request, but can be associated with more than one instance if you launch multiple instances using the same launch request. For example, if you launch one instance, you get one reservation ID. If you launch ten instances using the same launch request, you also get one reservation ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-dest-check - Indicates whether the instance performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the instance to perform network address translation (NAT) in your VPC.     spot-instance-request-id - The ID of the Spot Instance request.    state-reason-code - The reason code for the state change.    state-reason-message - A message that describes the state change.    subnet-id - The ID of the subnet for the instance.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources that have a tag with a specific key, regardless of the tag value.    tenancy - The tenancy of an instance (dedicated | default | host).    virtualization-type - The virtualization type of the instance (paravirtual | hvm).    vpc-id - The ID of the VPC that the instance is running in.  
         public let filters: [Filter]?
         /// The instance IDs. Default: Describes all your instances.
         public let instanceIds: [String]?
@@ -11425,6 +11861,177 @@ extension EC2 {
         }
     }
 
+    public struct DescribeTrafficMirrorFiltersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .list, encoding: .list(member:"Filter")), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TrafficMirrorFilterIds", location: .body(locationName: "TrafficMirrorFilterId"), required: false, type: .list, encoding: .list(member:"item"))
+        ]
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// One or more filters. The possible values are:    description: The Traffic Mirror filter description.    traffic-mirror-filter-id: The ID of the Traffic Mirror filter.  
+        public let filters: [Filter]?
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int32?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The ID of the Traffic Mirror filter.
+        public let trafficMirrorFilterIds: [String]?
+
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, trafficMirrorFilterIds: [String]? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.trafficMirrorFilterIds = trafficMirrorFilterIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case trafficMirrorFilterIds = "TrafficMirrorFilterId"
+        }
+    }
+
+    public struct DescribeTrafficMirrorFiltersResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "TrafficMirrorFilters", location: .body(locationName: "trafficMirrorFilterSet"), required: false, type: .list, encoding: .list(member:"item"))
+        ]
+        /// The token to use to retrieve the next page of results. The value is null when there are no more results to return.
+        public let nextToken: String?
+        /// Information about one or more Traffic Mirror filters.
+        public let trafficMirrorFilters: [TrafficMirrorFilter]?
+
+        public init(nextToken: String? = nil, trafficMirrorFilters: [TrafficMirrorFilter]? = nil) {
+            self.nextToken = nextToken
+            self.trafficMirrorFilters = trafficMirrorFilters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case trafficMirrorFilters = "trafficMirrorFilterSet"
+        }
+    }
+
+    public struct DescribeTrafficMirrorSessionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .list, encoding: .list(member:"Filter")), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TrafficMirrorSessionIds", location: .body(locationName: "TrafficMirrorSessionId"), required: false, type: .list, encoding: .list(member:"item"))
+        ]
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// One or more filters. The possible values are:    description: The Traffic Mirror session description.    network-interface-id: The ID of the Traffic Mirror session network interface.    owner-id: The ID of the account that owns the Traffic Mirror session.    packet-length: The assigned number of packets to mirror.     session-number: The assigned session number.     traffic-mirror-filter-id: The ID of the Traffic Mirror filter.    traffic-mirror-session-id: The ID of the Traffic Mirror session.    traffic-mirror-target-id: The ID of the Traffic Mirror target.    virtual-network-id: The virtual network ID of the Traffic Mirror session.  
+        public let filters: [Filter]?
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int32?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The ID of the Traffic Mirror session.
+        public let trafficMirrorSessionIds: [String]?
+
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, trafficMirrorSessionIds: [String]? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.trafficMirrorSessionIds = trafficMirrorSessionIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case trafficMirrorSessionIds = "TrafficMirrorSessionId"
+        }
+    }
+
+    public struct DescribeTrafficMirrorSessionsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "TrafficMirrorSessions", location: .body(locationName: "trafficMirrorSessionSet"), required: false, type: .list, encoding: .list(member:"item"))
+        ]
+        /// The token to use to retrieve the next page of results. The value is null when there are no more results to return.
+        public let nextToken: String?
+        /// Describes one or more Traffic Mirror sessions. By default, all Traffic Mirror sessions are described. Alternatively, you can filter the results.
+        public let trafficMirrorSessions: [TrafficMirrorSession]?
+
+        public init(nextToken: String? = nil, trafficMirrorSessions: [TrafficMirrorSession]? = nil) {
+            self.nextToken = nextToken
+            self.trafficMirrorSessions = trafficMirrorSessions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case trafficMirrorSessions = "trafficMirrorSessionSet"
+        }
+    }
+
+    public struct DescribeTrafficMirrorTargetsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .list, encoding: .list(member:"Filter")), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TrafficMirrorTargetIds", location: .body(locationName: "TrafficMirrorTargetId"), required: false, type: .list, encoding: .list(member:"item"))
+        ]
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// One or more filters. The possible values are:    description: The Traffic Mirror target description.    network-interface-id: The ID of the Traffic Mirror session network interface.    network-load-balancer-arn: The Amazon Resource Name (ARN) of the Network Load Balancer that is associated with the session.    owner-id: The ID of the account that owns the Traffic Mirror session.    traffic-mirror-target-id: The ID of the Traffic Mirror target.  
+        public let filters: [Filter]?
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int32?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The ID of the Traffic Mirror targets.
+        public let trafficMirrorTargetIds: [String]?
+
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, trafficMirrorTargetIds: [String]? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.trafficMirrorTargetIds = trafficMirrorTargetIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case trafficMirrorTargetIds = "TrafficMirrorTargetId"
+        }
+    }
+
+    public struct DescribeTrafficMirrorTargetsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "TrafficMirrorTargets", location: .body(locationName: "trafficMirrorTargetSet"), required: false, type: .list, encoding: .list(member:"item"))
+        ]
+        /// The token to use to retrieve the next page of results. The value is null when there are no more results to return.
+        public let nextToken: String?
+        /// Information about one or more Traffic Mirror targets.
+        public let trafficMirrorTargets: [TrafficMirrorTarget]?
+
+        public init(nextToken: String? = nil, trafficMirrorTargets: [TrafficMirrorTarget]? = nil) {
+            self.nextToken = nextToken
+            self.trafficMirrorTargets = trafficMirrorTargets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case trafficMirrorTargets = "trafficMirrorTargetSet"
+        }
+    }
+
     public struct DescribeTransitGatewayAttachmentsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
@@ -12823,7 +13430,7 @@ extension EC2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EbsEncryptionByDefault", location: .body(locationName: "ebsEncryptionByDefault"), required: false, type: .boolean)
         ]
-        /// Account-level encryption status after performing the action.
+        /// The updated status of encryption by default.
         public let ebsEncryptionByDefault: Bool?
 
         public init(ebsEncryptionByDefault: Bool? = nil) {
@@ -13391,11 +13998,11 @@ extension EC2 {
         ]
         /// Indicates whether the EBS volume is deleted on instance termination.
         public let deleteOnTermination: Bool?
-        /// Indicates whether the encryption state of an EBS volume is changed while being restored from a backing snapshot. The default effect of setting the Encrypted parameter to true through the console, API, or CLI depends on the volume's origin (new or from a snapshot), starting encryption state, ownership, and whether account-level encryption is enabled. Each default case can be overridden by specifying a customer master key (CMK) with the KmsKeyId parameter in addition to setting Encrypted to true. For a complete list of possible encryption cases, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide. In no case can you remove encryption from an encrypted volume. Encrypted volumes can only be attached to instances that support Amazon EBS encryption. For more information, see Supported Instance Types.
+        /// Indicates whether the encryption state of an EBS volume is changed while being restored from a backing snapshot. The effect of setting the encryption state to true depends on the volume origin (new or from a snapshot), starting encryption state, ownership, and whether encryption by default is enabled. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide. In no case can you remove encryption from an encrypted volume. Encrypted volumes can only be attached to instances that support Amazon EBS encryption. For more information, see Supported Instance Types.
         public let encrypted: Bool?
         /// The number of I/O operations per second (IOPS) that the volume supports. For io1 volumes, this represents the number of IOPS that are provisioned for the volume. For gp2 volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting. For more information, see Amazon EBS Volume Types in the Amazon Elastic Compute Cloud User Guide. Constraints: Range is 100-16,000 IOPS for gp2 volumes and 100 to 64,000IOPS for io1 volumes in most Regions. Maximum io1 IOPS of 64,000 is guaranteed only on Nitro-based instances. Other instance families guarantee performance up to 32,000 IOPS. For more information, see Amazon EBS Volume Types in the Amazon Elastic Compute Cloud User Guide. Condition: This parameter is required for requests to create io1 volumes; it is not used in requests to create gp2, st1, sc1, or standard volumes.
         public let iops: Int32?
-        /// Identifier (key ID, key alias, ID ARN, or alias ARN) for a user-managed CMK under which the EBS volume is encrypted. This parameter is only supported on BlockDeviceMapping objects called by RunInstances, RequestSpotFleet, and RequestSpotInstances.
+        /// Identifier (key ID, key alias, ID ARN, or alias ARN) for a customer managed CMK under which the EBS volume is encrypted. This parameter is only supported on BlockDeviceMapping objects called by RunInstances, RequestSpotFleet, and RequestSpotInstances.
         public let kmsKeyId: String?
         /// The ID of the snapshot.
         public let snapshotId: String?
@@ -13696,7 +14303,7 @@ extension EC2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EbsEncryptionByDefault", location: .body(locationName: "ebsEncryptionByDefault"), required: false, type: .boolean)
         ]
-        /// Account-level encryption status after performing the action.
+        /// The updated status of encryption by default.
         public let ebsEncryptionByDefault: Bool?
 
         public init(ebsEncryptionByDefault: Bool? = nil) {
@@ -14121,7 +14728,7 @@ extension EC2 {
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters. The possible values are:    attachment.transit-gateway-attachment-id- The id of the transit gateway attachment.    attachment.resource-id - The resource id of the transit gateway attachment.    route-search.exact-match - The exact match of the specified filter.    route-search.longest-prefix-match - The longest prefix that matches the route.    route-search.subnet-of-match - The routes with a subnet that match the specified CIDR filter.    route-search.supernet-of-match - The routes with a CIDR that encompass the CIDR filter. For example, if you have 10.0.1.0/29 and 10.0.1.0/31 routes in your route table and you specify supernet-of-match as 10.0.1.0/30, then the result returns 10.0.1.0/29.    state - The state of the attachment (available | deleted | deleting | failed | modifying | pendingAcceptance | pending | rollingBack | rejected | rejecting).    transit-gateway-route-destination-cidr-block - The CIDR range.    type - The type of roue (active | blackhole).  
+        /// One or more filters. The possible values are:    attachment.transit-gateway-attachment-id - The id of the transit gateway attachment.    attachment.resource-id - The resource id of the transit gateway attachment.    route-search.exact-match - The exact match of the specified filter.    route-search.longest-prefix-match - The longest prefix that matches the route.    route-search.subnet-of-match - The routes with a subnet that match the specified CIDR filter.    route-search.supernet-of-match - The routes with a CIDR that encompass the CIDR filter. For example, if you have 10.0.1.0/29 and 10.0.1.0/31 routes in your route table and you specify supernet-of-match as 10.0.1.0/30, then the result returns 10.0.1.0/29.    state - The state of the attachment (available | deleted | deleting | failed | modifying | pendingAcceptance | pending | rollingBack | rejected | rejecting).    transit-gateway-route-destination-cidr-block - The CIDR range.    type - The type of route (active | blackhole).  
         public let filters: [Filter]?
         /// The name of the S3 bucket.
         public let s3Bucket: String
@@ -14482,7 +15089,7 @@ extension EC2 {
         public let launchTemplateId: String?
         /// The name of the launch template.
         public let launchTemplateName: String?
-        /// The version number of the launch template. 
+        /// The version number of the launch template. Note: This is a required parameter and will be updated soon. 
         public let version: String?
 
         public init(launchTemplateId: String? = nil, launchTemplateName: String? = nil, version: String? = nil) {
@@ -14878,7 +15485,7 @@ extension EC2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KmsKeyId", location: .body(locationName: "kmsKeyId"), required: false, type: .string)
         ]
-        /// The full ARN of the default CMK that your account uses to encrypt an EBS volume when no CMK is specified in the API call that creates the volume.
+        /// The Amazon Resource Name (ARN) of the default CMK for encryption by default.
         public let kmsKeyId: String?
 
         public init(kmsKeyId: String? = nil) {
@@ -14910,7 +15517,7 @@ extension EC2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EbsEncryptionByDefault", location: .body(locationName: "ebsEncryptionByDefault"), required: false, type: .boolean)
         ]
-        /// Indicates whether default encryption for EBS volumes is enabled or disabled.
+        /// Indicates whether encryption by default is enabled.
         public let ebsEncryptionByDefault: Bool?
 
         public init(ebsEncryptionByDefault: Bool? = nil) {
@@ -15875,7 +16482,7 @@ extension EC2 {
         public let name: String?
         /// The AWS account ID of the image owner.
         public let ownerId: String?
-        /// The value is Windows for Windows AMIs; otherwise blank.
+        /// This value is set for Windows AMIs; otherwise, it is blank.
         public let platform: PlatformValues?
         /// Any product codes associated with the AMI.
         public let productCodes: [ProductCode]?
@@ -16131,7 +16738,7 @@ extension EC2 {
             AWSShapeMember(label: "Platform", required: false, type: .string), 
             AWSShapeMember(label: "RoleName", required: false, type: .string)
         ]
-        /// The architecture of the virtual machine. Valid values: i386 | x86_64 
+        /// The architecture of the virtual machine. Valid values: i386 | x86_64 | arm64 
         public let architecture: String?
         /// The client-specific data.
         public let clientData: ClientData?
@@ -16149,7 +16756,7 @@ extension EC2 {
         public let hypervisor: String?
         /// An identifier for the AWS Key Management Service (AWS KMS) customer master key (CMK) to use when creating the encrypted AMI. This parameter is only required if you want to use a non-default CMK; if this parameter is not specified, the default CMK for EBS is used. If a KmsKeyId is specified, the Encrypted flag must also be set.  The CMK identifier may be provided in any of the following formats:    Key ID   Key alias. The alias ARN contains the arn:aws:kms namespace, followed by the Region of the CMK, the AWS account ID of the CMK owner, the alias namespace, and then the CMK alias. For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.   ARN using key ID. The ID ARN contains the arn:aws:kms namespace, followed by the Region of the CMK, the AWS account ID of the CMK owner, the key namespace, and then the CMK ID. For example, arn:aws:kms:us-east-1:012345678910:key/abcd1234-a123-456a-a12b-a123b4cd56ef.   ARN using key alias. The alias ARN contains the arn:aws:kms namespace, followed by the Region of the CMK, the AWS account ID of the CMK owner, the alias namespace, and then the CMK alias. For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.    AWS parses KmsKeyId asynchronously, meaning that the action you call may appear to complete even though you provided an invalid identifier. This action will eventually report failure.  The specified CMK must exist in the Region that the AMI is being copied to.
         public let kmsKeyId: String?
-        /// The license type to be used for the Amazon Machine Image (AMI) after importing.  Note: You may only use BYOL if you have existing licenses with rights to use these licenses in a third party cloud like AWS. For more information, see Prerequisites in the VM Import/Export User Guide. Valid values include:    Auto - Detects the source-system operating system (OS) and applies the appropriate license.    AWS - Replaces the source-system license with an AWS license, if appropriate.    BYOL - Retains the source-system license, if appropriate.   Default value: Auto 
+        /// The license type to be used for the Amazon Machine Image (AMI) after importing. By default, we detect the source-system operating system (OS) and apply the appropriate license. Specify AWS to replace the source-system license with an AWS license, if appropriate. Specify BYOL to retain the source-system license, if appropriate. To use BYOL, you must have existing licenses with rights to use these licenses in a third party cloud, such as AWS. For more information, see Prerequisites in the VM Import/Export User Guide.
         public let licenseType: String?
         /// The operating system of the virtual machine. Valid values: Windows | Linux 
         public let platform: String?
@@ -16279,7 +16886,7 @@ extension EC2 {
             AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .string), 
             AWSShapeMember(label: "StatusMessage", location: .body(locationName: "statusMessage"), required: false, type: .string)
         ]
-        /// The architecture of the virtual machine. Valid values: i386 | x86_64 
+        /// The architecture of the virtual machine. Valid values: i386 | x86_64 | arm64 
         public let architecture: String?
         /// A description of the import task.
         public let description: String?
@@ -17971,7 +18578,9 @@ extension EC2 {
         case c52Xlarge = "c5.2xlarge"
         case c54Xlarge = "c5.4xlarge"
         case c59Xlarge = "c5.9xlarge"
+        case c512Xlarge = "c5.12xlarge"
         case c518Xlarge = "c5.18xlarge"
+        case c524Xlarge = "c5.24xlarge"
         case c5dLarge = "c5d.large"
         case c5dXlarge = "c5d.xlarge"
         case c5d2Xlarge = "c5d.2xlarge"
@@ -19672,7 +20281,7 @@ extension EC2 {
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// An identifier for the AWS Key Management Service (AWS KMS) customer master key (CMK) to use to encrypt the volume. This parameter is only required if you want to use a customer-managed CMK; if this parameter is not specified, your AWS-managed CMK for the account is used. If a KmsKeyId is specified, the Encrypted flag must also be set.  The CMK identifier may be provided in any of the following formats:    Key ID: For example, key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias: For example, alias/ExampleAlias.    Key ARN: The key ARN contains the arn:aws:kms namespace, followed by the Region of the CMK, the AWS account ID of the CMK owner, the key namespace, and then the CMK ID. For example, arn:aws:kms:us-east-1:012345678910:key/abcd1234-a123-456a-a12b-a123b4cd56ef.    Alias ARN: The alias ARN contains the arn:aws:kms namespace, followed by the Region of the CMK, the AWS account ID of the CMK owner, the alias namespace, and then the CMK alias. For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.    AWS authenticates KmsKeyId asynchronously, meaning that the action you call may appear to complete even though you provided an invalid identifier. The action will eventually fail. 
+        /// The identifier of the AWS Key Management Service (AWS KMS) customer master key (CMK) to use for Amazon EBS encryption. If this parameter is not specified, your AWS managed CMK for EBS is used. If KmsKeyId is specified, the encrypted state must be true. You can specify the CMK using any of the following:   Key ID. For example, key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias. For example, alias/ExampleAlias.   Key ARN. For example, arn:aws:kms:us-east-1:012345678910:key/abcd1234-a123-456a-a12b-a123b4cd56ef.   Alias ARN. For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.   AWS authenticates the CMK asynchronously. Therefore, if you specify an ID, alias, or ARN that is not valid, the action can appear to complete, but eventually fails.
         public let kmsKeyId: String
 
         public init(dryRun: Bool? = nil, kmsKeyId: String) {
@@ -19690,7 +20299,7 @@ extension EC2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KmsKeyId", location: .body(locationName: "kmsKeyId"), required: false, type: .string)
         ]
-        /// The full ARN of the default CMK that your account uses to encrypt an EBS volume when no CMK is specified in the API call that creates the volume.
+        /// The Amazon Resource Name (ARN) of the default CMK for encryption by default.
         public let kmsKeyId: String?
 
         public init(kmsKeyId: String? = nil) {
@@ -20510,6 +21119,212 @@ extension EC2 {
             case assignIpv6AddressOnCreation = "AssignIpv6AddressOnCreation"
             case mapPublicIpOnLaunch = "MapPublicIpOnLaunch"
             case subnetId = "subnetId"
+        }
+    }
+
+    public struct ModifyTrafficMirrorFilterNetworkServicesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AddNetworkServices", location: .body(locationName: "AddNetworkService"), required: false, type: .list, encoding: .list(member:"item")), 
+            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeMember(label: "RemoveNetworkServices", location: .body(locationName: "RemoveNetworkService"), required: false, type: .list, encoding: .list(member:"item")), 
+            AWSShapeMember(label: "TrafficMirrorFilterId", required: true, type: .string)
+        ]
+        /// The network service, for example Amazon DNS, that you want to mirror.
+        public let addNetworkServices: [TrafficMirrorNetworkService]?
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The network service, for example Amazon DNS, that you no longer want to mirror.
+        public let removeNetworkServices: [TrafficMirrorNetworkService]?
+        /// The ID of the Traffic Mirror filter.
+        public let trafficMirrorFilterId: String
+
+        public init(addNetworkServices: [TrafficMirrorNetworkService]? = nil, dryRun: Bool? = nil, removeNetworkServices: [TrafficMirrorNetworkService]? = nil, trafficMirrorFilterId: String) {
+            self.addNetworkServices = addNetworkServices
+            self.dryRun = dryRun
+            self.removeNetworkServices = removeNetworkServices
+            self.trafficMirrorFilterId = trafficMirrorFilterId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addNetworkServices = "AddNetworkService"
+            case dryRun = "DryRun"
+            case removeNetworkServices = "RemoveNetworkService"
+            case trafficMirrorFilterId = "TrafficMirrorFilterId"
+        }
+    }
+
+    public struct ModifyTrafficMirrorFilterNetworkServicesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrafficMirrorFilter", location: .body(locationName: "trafficMirrorFilter"), required: false, type: .structure)
+        ]
+        /// The Traffic Mirror filter that the network service is associated with.
+        public let trafficMirrorFilter: TrafficMirrorFilter?
+
+        public init(trafficMirrorFilter: TrafficMirrorFilter? = nil) {
+            self.trafficMirrorFilter = trafficMirrorFilter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trafficMirrorFilter = "trafficMirrorFilter"
+        }
+    }
+
+    public struct ModifyTrafficMirrorFilterRuleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "DestinationCidrBlock", required: false, type: .string), 
+            AWSShapeMember(label: "DestinationPortRange", required: false, type: .structure), 
+            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeMember(label: "Protocol", required: false, type: .integer), 
+            AWSShapeMember(label: "RemoveFields", location: .body(locationName: "RemoveField"), required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "RuleAction", required: false, type: .enum), 
+            AWSShapeMember(label: "RuleNumber", required: false, type: .integer), 
+            AWSShapeMember(label: "SourceCidrBlock", required: false, type: .string), 
+            AWSShapeMember(label: "SourcePortRange", required: false, type: .structure), 
+            AWSShapeMember(label: "TrafficDirection", required: false, type: .enum), 
+            AWSShapeMember(label: "TrafficMirrorFilterRuleId", required: true, type: .string)
+        ]
+        /// The description to assign to the Traffic Mirror rule.
+        public let description: String?
+        /// The destination CIDR block to assign to the Traffic Mirror rule.
+        public let destinationCidrBlock: String?
+        /// The destination ports that are associated with the Traffic Mirror rule.
+        public let destinationPortRange: TrafficMirrorPortRangeRequest?
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The protocol, for example TCP, to assign to the Traffic Mirror rule.
+        public let `protocol`: Int32?
+        /// The properties that you want to remove from the Traffic Mirror filter rule. When you remove a property from a Traffic Mirror filter rule, the property is set to the default.
+        public let removeFields: [TrafficMirrorFilterRuleField]?
+        /// The action to assign to the rule.
+        public let ruleAction: TrafficMirrorRuleAction?
+        /// The number of the Traffic Mirror rule. This number must be unique for each Traffic Mirror rule in a given direction. The rules are processed in ascending order by rule number.
+        public let ruleNumber: Int32?
+        /// The source CIDR block to assign to the Traffic Mirror rule.
+        public let sourceCidrBlock: String?
+        /// The port range to assign to the Traffic Mirror rule.
+        public let sourcePortRange: TrafficMirrorPortRangeRequest?
+        /// The type of traffic (ingress | egress) to assign to the rule.
+        public let trafficDirection: TrafficDirection?
+        /// The ID of the Traffic Mirror rule.
+        public let trafficMirrorFilterRuleId: String
+
+        public init(description: String? = nil, destinationCidrBlock: String? = nil, destinationPortRange: TrafficMirrorPortRangeRequest? = nil, dryRun: Bool? = nil, protocol: Int32? = nil, removeFields: [TrafficMirrorFilterRuleField]? = nil, ruleAction: TrafficMirrorRuleAction? = nil, ruleNumber: Int32? = nil, sourceCidrBlock: String? = nil, sourcePortRange: TrafficMirrorPortRangeRequest? = nil, trafficDirection: TrafficDirection? = nil, trafficMirrorFilterRuleId: String) {
+            self.description = description
+            self.destinationCidrBlock = destinationCidrBlock
+            self.destinationPortRange = destinationPortRange
+            self.dryRun = dryRun
+            self.`protocol` = `protocol`
+            self.removeFields = removeFields
+            self.ruleAction = ruleAction
+            self.ruleNumber = ruleNumber
+            self.sourceCidrBlock = sourceCidrBlock
+            self.sourcePortRange = sourcePortRange
+            self.trafficDirection = trafficDirection
+            self.trafficMirrorFilterRuleId = trafficMirrorFilterRuleId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case destinationCidrBlock = "DestinationCidrBlock"
+            case destinationPortRange = "DestinationPortRange"
+            case dryRun = "DryRun"
+            case `protocol` = "Protocol"
+            case removeFields = "RemoveField"
+            case ruleAction = "RuleAction"
+            case ruleNumber = "RuleNumber"
+            case sourceCidrBlock = "SourceCidrBlock"
+            case sourcePortRange = "SourcePortRange"
+            case trafficDirection = "TrafficDirection"
+            case trafficMirrorFilterRuleId = "TrafficMirrorFilterRuleId"
+        }
+    }
+
+    public struct ModifyTrafficMirrorFilterRuleResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrafficMirrorFilterRule", location: .body(locationName: "trafficMirrorFilterRule"), required: false, type: .structure)
+        ]
+        /// Modifies a Traffic Mirror rule.
+        public let trafficMirrorFilterRule: TrafficMirrorFilterRule?
+
+        public init(trafficMirrorFilterRule: TrafficMirrorFilterRule? = nil) {
+            self.trafficMirrorFilterRule = trafficMirrorFilterRule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trafficMirrorFilterRule = "trafficMirrorFilterRule"
+        }
+    }
+
+    public struct ModifyTrafficMirrorSessionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeMember(label: "PacketLength", required: false, type: .integer), 
+            AWSShapeMember(label: "RemoveFields", location: .body(locationName: "RemoveField"), required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "SessionNumber", required: false, type: .integer), 
+            AWSShapeMember(label: "TrafficMirrorFilterId", required: false, type: .string), 
+            AWSShapeMember(label: "TrafficMirrorSessionId", required: true, type: .string), 
+            AWSShapeMember(label: "TrafficMirrorTargetId", required: false, type: .string), 
+            AWSShapeMember(label: "VirtualNetworkId", required: false, type: .integer)
+        ]
+        /// The description to assign to the Traffic Mirror session.
+        public let description: String?
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The number of bytes in each packet to mirror. These are bytes after the VXLAN header. To mirror a subset, set this to the length (in bytes) to mirror. For example, if you set this value to 100, then the first 100 bytes that meet the filter criteria are copied to the target. Do not specify this parameter when you want to mirror the entire packet.
+        public let packetLength: Int32?
+        /// The properties that you want to remove from the Traffic Mirror session. When you remove a property from a Traffic Mirror session, the property is set to the default.
+        public let removeFields: [TrafficMirrorSessionField]?
+        /// The session number determines the order in which sessions are evaluated when an interface is used by multiple sessions. The first session with a matching filter is the one that mirrors the packets. Valid values are 1-32766.
+        public let sessionNumber: Int32?
+        /// The ID of the Traffic Mirror filter.
+        public let trafficMirrorFilterId: String?
+        /// The ID of the Traffic Mirror session.
+        public let trafficMirrorSessionId: String
+        /// The Traffic Mirror target. The target must be in the same VPC as the source, or have a VPC peering connection with the source.
+        public let trafficMirrorTargetId: String?
+        /// The virtual network ID of the Traffic Mirror session.
+        public let virtualNetworkId: Int32?
+
+        public init(description: String? = nil, dryRun: Bool? = nil, packetLength: Int32? = nil, removeFields: [TrafficMirrorSessionField]? = nil, sessionNumber: Int32? = nil, trafficMirrorFilterId: String? = nil, trafficMirrorSessionId: String, trafficMirrorTargetId: String? = nil, virtualNetworkId: Int32? = nil) {
+            self.description = description
+            self.dryRun = dryRun
+            self.packetLength = packetLength
+            self.removeFields = removeFields
+            self.sessionNumber = sessionNumber
+            self.trafficMirrorFilterId = trafficMirrorFilterId
+            self.trafficMirrorSessionId = trafficMirrorSessionId
+            self.trafficMirrorTargetId = trafficMirrorTargetId
+            self.virtualNetworkId = virtualNetworkId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case dryRun = "DryRun"
+            case packetLength = "PacketLength"
+            case removeFields = "RemoveField"
+            case sessionNumber = "SessionNumber"
+            case trafficMirrorFilterId = "TrafficMirrorFilterId"
+            case trafficMirrorSessionId = "TrafficMirrorSessionId"
+            case trafficMirrorTargetId = "TrafficMirrorTargetId"
+            case virtualNetworkId = "VirtualNetworkId"
+        }
+    }
+
+    public struct ModifyTrafficMirrorSessionResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrafficMirrorSession", location: .body(locationName: "trafficMirrorSession"), required: false, type: .structure)
+        ]
+        /// Information about the Traffic Mirror session.
+        public let trafficMirrorSession: TrafficMirrorSession?
+
+        public init(trafficMirrorSession: TrafficMirrorSession? = nil) {
+            self.trafficMirrorSession = trafficMirrorSession
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trafficMirrorSession = "trafficMirrorSession"
         }
     }
 
@@ -23494,7 +24309,7 @@ extension EC2 {
         public let licenseSpecifications: [LaunchTemplateLicenseConfigurationRequest]?
         /// The monitoring for the instance.
         public let monitoring: LaunchTemplatesMonitoringRequest?
-        /// One or more network interfaces. If you specify a network interface, you must specify any security groups as part of the network interface.
+        /// One or more network interfaces. If you specify a network interface, you must specify any security groups and subnets as part of the network interface.
         public let networkInterfaces: [LaunchTemplateInstanceNetworkInterfaceSpecificationRequest]?
         /// The placement for the instance.
         public let placement: LaunchTemplatePlacementRequest?
@@ -24298,7 +25113,7 @@ extension EC2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KmsKeyId", location: .body(locationName: "kmsKeyId"), required: false, type: .string)
         ]
-        /// The full ARN of the default CMK that your account uses to encrypt an EBS volume when no CMK is specified in the API call that creates the volume.
+        /// The Amazon Resource Name (ARN) of the default CMK for EBS encryption by default.
         public let kmsKeyId: String?
 
         public init(kmsKeyId: String? = nil) {
@@ -24488,6 +25303,9 @@ extension EC2 {
         case snapshot = "snapshot"
         case spotInstancesRequest = "spot-instances-request"
         case subnet = "subnet"
+        case trafficMirrorFilter = "traffic-mirror-filter"
+        case trafficMirrorSession = "traffic-mirror-session"
+        case trafficMirrorTarget = "traffic-mirror-target"
         case transitGateway = "transit-gateway"
         case transitGatewayAttachment = "transit-gateway-attachment"
         case transitGatewayRouteTable = "transit-gateway-route-table"
@@ -25145,7 +25963,7 @@ extension EC2 {
         public let minCount: Int32
         /// Specifies whether detailed monitoring is enabled for the instance.
         public let monitoring: RunInstancesMonitoringEnabled?
-        /// The network interfaces to associate with the instance. If you specify a network interface, you must specify any security groups as part of the network interface.
+        /// The network interfaces to associate with the instance. If you specify a network interface, you must specify any security groups and subnets as part of the network interface.
         public let networkInterfaces: [InstanceNetworkInterfaceSpecification]?
         /// The placement for the instance.
         public let placement: Placement?
@@ -25157,7 +25975,7 @@ extension EC2 {
         public let securityGroupIds: [String]?
         /// [EC2-Classic, default VPC] The names of the security groups. For a nondefault VPC, you must use security group IDs instead. If you specify a network interface, you must specify any security groups as part of the network interface. Default: Amazon EC2 uses the default security group.
         public let securityGroups: [String]?
-        /// [EC2-VPC] The ID of the subnet to launch the instance into. You cannot specify this option and the network interfaces option in the same request.
+        /// [EC2-VPC] The ID of the subnet to launch the instance into. If you specify a network interface, you must specify any subnets as part of the network interface.
         public let subnetId: String?
         /// The tags to apply to the resources during launch. You can only tag instances and volumes on launch. The specified tags are applied to all instances or volumes that are created during launch. To tag a resource after it has been created, see CreateTags.
         public let tagSpecifications: [TagSpecification]?
@@ -25891,7 +26709,7 @@ extension EC2 {
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters. The possible values are:    attachment.transit-gateway-attachment-id- The id of the transit gateway attachment.    attachment.resource-id - The resource id of the transit gateway attachment.    attachment.resource-type - The attachment resource type (vpc | vpn).    route-search.exact-match - The exact match of the specified filter.    route-search.longest-prefix-match - The longest prefix that matches the route.    route-search.subnet-of-match - The routes with a subnet that match the specified CIDR filter.    route-search.supernet-of-match - The routes with a CIDR that encompass the CIDR filter. For example, if you have 10.0.1.0/29 and 10.0.1.0/31 routes in your route table and you specify supernet-of-match as 10.0.1.0/30, then the result returns 10.0.1.0/29.    state - The state of the attachment (available | deleted | deleting | failed | modifying | pendingAcceptance | pending | rollingBack | rejected | rejecting).    type - The type of roue (active | blackhole).  
+        /// One or more filters. The possible values are:    attachment.transit-gateway-attachment-id- The id of the transit gateway attachment.    attachment.resource-id - The resource id of the transit gateway attachment.    attachment.resource-type - The attachment resource type (vpc | vpn).    route-search.exact-match - The exact match of the specified filter.    route-search.longest-prefix-match - The longest prefix that matches the route.    route-search.subnet-of-match - The routes with a subnet that match the specified CIDR filter.    route-search.supernet-of-match - The routes with a CIDR that encompass the CIDR filter. For example, if you have 10.0.1.0/29 and 10.0.1.0/31 routes in your route table and you specify supernet-of-match as 10.0.1.0/30, then the result returns 10.0.1.0/29.    state - The state of the route (active | blackhole).    type - The type of roue (propagated | static).  
         public let filters: [Filter]
         /// The maximum number of routes to return.
         public let maxResults: Int32?
@@ -26260,13 +27078,13 @@ extension EC2 {
             AWSShapeMember(label: "VolumeId", location: .body(locationName: "volumeId"), required: false, type: .string), 
             AWSShapeMember(label: "VolumeSize", location: .body(locationName: "volumeSize"), required: false, type: .integer)
         ]
-        /// The data encryption key identifier for the snapshot. This value is a unique identifier that corresponds to the data encryption key that was used to encrypt the original volume or snapshot copy. Because data encryption keys are inherited by volumes created from snapshots, and vice versa, if snapshots share the same data encryption key identifier, then they belong to the same volume/snapshot lineage. This parameter is only returned by the DescribeSnapshots API operation.
+        /// The data encryption key identifier for the snapshot. This value is a unique identifier that corresponds to the data encryption key that was used to encrypt the original volume or snapshot copy. Because data encryption keys are inherited by volumes created from snapshots, and vice versa, if snapshots share the same data encryption key identifier, then they belong to the same volume/snapshot lineage. This parameter is only returned by DescribeSnapshots.
         public let dataEncryptionKeyId: String?
         /// The description for the snapshot.
         public let description: String?
         /// Indicates whether the snapshot is encrypted.
         public let encrypted: Bool?
-        /// The full ARN of the AWS Key Management Service (AWS KMS) customer master key (CMK) that was used to protect the volume encryption key for the parent volume.
+        /// The Amazon Resource Name (ARN) of the AWS Key Management Service (AWS KMS) customer master key (CMK) that was used to protect the volume encryption key for the parent volume.
         public let kmsKeyId: String?
         ///  Value from an Amazon-maintained list (amazon | self | all | aws-marketplace | microsoft) of snapshot owners. Not to be confused with the user-configured AWS account alias, which is set from the IAM console. 
         public let ownerAlias: String?
@@ -26280,7 +27098,7 @@ extension EC2 {
         public let startTime: TimeStamp?
         /// The snapshot state.
         public let state: SnapshotState?
-        /// Encrypted Amazon EBS snapshots are copied asynchronously. If a snapshot copy operation fails (for example, if the proper AWS Key Management Service (AWS KMS) permissions are not obtained) this field displays error state details to help you diagnose why the error occurred. This parameter is only returned by the DescribeSnapshots API operation.
+        /// Encrypted Amazon EBS snapshots are copied asynchronously. If a snapshot copy operation fails (for example, if the proper AWS Key Management Service (AWS KMS) permissions are not obtained) this field displays error state details to help you diagnose why the error occurred. This parameter is only returned by DescribeSnapshots.
         public let stateMessage: String?
         /// Any tags assigned to the snapshot.
         public let tags: [Tag]?
@@ -26437,7 +27255,7 @@ extension EC2 {
         ]
         /// Description specified by the CreateSnapshotRequest that has been applied to all snapshots.
         public let description: String?
-        /// Boolean that specifies whether or not this snapshot is encrypted.
+        /// Indicates whether the snapshot is encrypted.
         public let encrypted: Bool?
         /// Account id used when creating this snapshot.
         public let ownerId: String?
@@ -28072,6 +28890,300 @@ extension EC2 {
         }
     }
 
+    public enum TrafficDirection: String, CustomStringConvertible, Codable {
+        case ingress = "ingress"
+        case egress = "egress"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct TrafficMirrorFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "EgressFilterRules", location: .body(locationName: "egressFilterRuleSet"), required: false, type: .list, encoding: .list(member:"item")), 
+            AWSShapeMember(label: "IngressFilterRules", location: .body(locationName: "ingressFilterRuleSet"), required: false, type: .list, encoding: .list(member:"item")), 
+            AWSShapeMember(label: "NetworkServices", location: .body(locationName: "networkServiceSet"), required: false, type: .list, encoding: .list(member:"item")), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .list, encoding: .list(member:"item")), 
+            AWSShapeMember(label: "TrafficMirrorFilterId", location: .body(locationName: "trafficMirrorFilterId"), required: false, type: .string)
+        ]
+        /// The description of the Traffic Mirror filter.
+        public let description: String?
+        /// Information about the egress rules that are associated with the Traffic Mirror filter.
+        public let egressFilterRules: [TrafficMirrorFilterRule]?
+        /// Information about the ingress rules that are associated with the Traffic Mirror filter.
+        public let ingressFilterRules: [TrafficMirrorFilterRule]?
+        /// The network service traffic that is associated with the Traffic Mirror filter.
+        public let networkServices: [TrafficMirrorNetworkService]?
+        /// The tags assigned to the Traffic Mirror filter.
+        public let tags: [Tag]?
+        /// The ID of the Traffic Mirror filter.
+        public let trafficMirrorFilterId: String?
+
+        public init(description: String? = nil, egressFilterRules: [TrafficMirrorFilterRule]? = nil, ingressFilterRules: [TrafficMirrorFilterRule]? = nil, networkServices: [TrafficMirrorNetworkService]? = nil, tags: [Tag]? = nil, trafficMirrorFilterId: String? = nil) {
+            self.description = description
+            self.egressFilterRules = egressFilterRules
+            self.ingressFilterRules = ingressFilterRules
+            self.networkServices = networkServices
+            self.tags = tags
+            self.trafficMirrorFilterId = trafficMirrorFilterId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case egressFilterRules = "egressFilterRuleSet"
+            case ingressFilterRules = "ingressFilterRuleSet"
+            case networkServices = "networkServiceSet"
+            case tags = "tagSet"
+            case trafficMirrorFilterId = "trafficMirrorFilterId"
+        }
+    }
+
+    public struct TrafficMirrorFilterRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "DestinationCidrBlock", location: .body(locationName: "destinationCidrBlock"), required: false, type: .string), 
+            AWSShapeMember(label: "DestinationPortRange", location: .body(locationName: "destinationPortRange"), required: false, type: .structure), 
+            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol"), required: false, type: .integer), 
+            AWSShapeMember(label: "RuleAction", location: .body(locationName: "ruleAction"), required: false, type: .enum), 
+            AWSShapeMember(label: "RuleNumber", location: .body(locationName: "ruleNumber"), required: false, type: .integer), 
+            AWSShapeMember(label: "SourceCidrBlock", location: .body(locationName: "sourceCidrBlock"), required: false, type: .string), 
+            AWSShapeMember(label: "SourcePortRange", location: .body(locationName: "sourcePortRange"), required: false, type: .structure), 
+            AWSShapeMember(label: "TrafficDirection", location: .body(locationName: "trafficDirection"), required: false, type: .enum), 
+            AWSShapeMember(label: "TrafficMirrorFilterId", location: .body(locationName: "trafficMirrorFilterId"), required: false, type: .string), 
+            AWSShapeMember(label: "TrafficMirrorFilterRuleId", location: .body(locationName: "trafficMirrorFilterRuleId"), required: false, type: .string)
+        ]
+        /// The description of the Traffic Mirror rule.
+        public let description: String?
+        /// The destination CIDR block assigned to the Traffic Mirror rule.
+        public let destinationCidrBlock: String?
+        /// The destination port range assigned to the Traffic Mirror rule.
+        public let destinationPortRange: TrafficMirrorPortRange?
+        /// The protocol assigned to the Traffic Mirror rule.
+        public let `protocol`: Int32?
+        /// The action assigned to the Traffic Mirror rule.
+        public let ruleAction: TrafficMirrorRuleAction?
+        /// The rule number of the Traffic Mirror rule.
+        public let ruleNumber: Int32?
+        /// The source CIDR block assigned to the Traffic Mirror rule.
+        public let sourceCidrBlock: String?
+        /// The source port range assigned to the Traffic Mirror rule.
+        public let sourcePortRange: TrafficMirrorPortRange?
+        /// The traffic direction assigned to the Traffic Mirror rule.
+        public let trafficDirection: TrafficDirection?
+        /// The ID of the Traffic Mirror filter that the rule is associated with.
+        public let trafficMirrorFilterId: String?
+        /// The ID of the Traffic Mirror rule.
+        public let trafficMirrorFilterRuleId: String?
+
+        public init(description: String? = nil, destinationCidrBlock: String? = nil, destinationPortRange: TrafficMirrorPortRange? = nil, protocol: Int32? = nil, ruleAction: TrafficMirrorRuleAction? = nil, ruleNumber: Int32? = nil, sourceCidrBlock: String? = nil, sourcePortRange: TrafficMirrorPortRange? = nil, trafficDirection: TrafficDirection? = nil, trafficMirrorFilterId: String? = nil, trafficMirrorFilterRuleId: String? = nil) {
+            self.description = description
+            self.destinationCidrBlock = destinationCidrBlock
+            self.destinationPortRange = destinationPortRange
+            self.`protocol` = `protocol`
+            self.ruleAction = ruleAction
+            self.ruleNumber = ruleNumber
+            self.sourceCidrBlock = sourceCidrBlock
+            self.sourcePortRange = sourcePortRange
+            self.trafficDirection = trafficDirection
+            self.trafficMirrorFilterId = trafficMirrorFilterId
+            self.trafficMirrorFilterRuleId = trafficMirrorFilterRuleId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case destinationCidrBlock = "destinationCidrBlock"
+            case destinationPortRange = "destinationPortRange"
+            case `protocol` = "protocol"
+            case ruleAction = "ruleAction"
+            case ruleNumber = "ruleNumber"
+            case sourceCidrBlock = "sourceCidrBlock"
+            case sourcePortRange = "sourcePortRange"
+            case trafficDirection = "trafficDirection"
+            case trafficMirrorFilterId = "trafficMirrorFilterId"
+            case trafficMirrorFilterRuleId = "trafficMirrorFilterRuleId"
+        }
+    }
+
+    public enum TrafficMirrorFilterRuleField: String, CustomStringConvertible, Codable {
+        case destinationPortRange = "destination-port-range"
+        case sourcePortRange = "source-port-range"
+        case `protocol` = "protocol"
+        case description = "description"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrafficMirrorNetworkService: String, CustomStringConvertible, Codable {
+        case amazonDns = "amazon-dns"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct TrafficMirrorPortRange: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FromPort", location: .body(locationName: "fromPort"), required: false, type: .integer), 
+            AWSShapeMember(label: "ToPort", location: .body(locationName: "toPort"), required: false, type: .integer)
+        ]
+        /// The start of the Traffic Mirror port range. This applies to the TCP and UDP protocols.
+        public let fromPort: Int32?
+        /// The end of the Traffic Mirror port range. This applies to the TCP and UDP protocols.
+        public let toPort: Int32?
+
+        public init(fromPort: Int32? = nil, toPort: Int32? = nil) {
+            self.fromPort = fromPort
+            self.toPort = toPort
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fromPort = "fromPort"
+            case toPort = "toPort"
+        }
+    }
+
+    public struct TrafficMirrorPortRangeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FromPort", required: false, type: .integer), 
+            AWSShapeMember(label: "ToPort", required: false, type: .integer)
+        ]
+        /// The first port in the Traffic Mirror port range. This applies to the TCP and UDP protocols.
+        public let fromPort: Int32?
+        /// The last port in the Traffic Mirror port range. This applies to the TCP and UDP protocols.
+        public let toPort: Int32?
+
+        public init(fromPort: Int32? = nil, toPort: Int32? = nil) {
+            self.fromPort = fromPort
+            self.toPort = toPort
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fromPort = "FromPort"
+            case toPort = "ToPort"
+        }
+    }
+
+    public enum TrafficMirrorRuleAction: String, CustomStringConvertible, Codable {
+        case accept = "accept"
+        case reject = "reject"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct TrafficMirrorSession: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"), required: false, type: .string), 
+            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId"), required: false, type: .string), 
+            AWSShapeMember(label: "PacketLength", location: .body(locationName: "packetLength"), required: false, type: .integer), 
+            AWSShapeMember(label: "SessionNumber", location: .body(locationName: "sessionNumber"), required: false, type: .integer), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .list, encoding: .list(member:"item")), 
+            AWSShapeMember(label: "TrafficMirrorFilterId", location: .body(locationName: "trafficMirrorFilterId"), required: false, type: .string), 
+            AWSShapeMember(label: "TrafficMirrorSessionId", location: .body(locationName: "trafficMirrorSessionId"), required: false, type: .string), 
+            AWSShapeMember(label: "TrafficMirrorTargetId", location: .body(locationName: "trafficMirrorTargetId"), required: false, type: .string), 
+            AWSShapeMember(label: "VirtualNetworkId", location: .body(locationName: "virtualNetworkId"), required: false, type: .integer)
+        ]
+        /// The description of the Traffic Mirror session.
+        public let description: String?
+        /// The ID of the Traffic Mirror session's network interface.
+        public let networkInterfaceId: String?
+        /// The ID of the account that owns the Traffic Mirror session.
+        public let ownerId: String?
+        /// The number of bytes in each packet to mirror. These are the bytes after the VXLAN header. To mirror a subset, set this to the length (in bytes) to mirror. For example, if you set this value to 100, then the first 100 bytes that meet the filter criteria are copied to the target. Do not specify this parameter when you want to mirror the entire packet
+        public let packetLength: Int32?
+        /// The session number determines the order in which sessions are evaluated when an interface is used by multiple sessions. The first session with a matching filter is the one that mirrors the packets. Valid values are 1-32766.
+        public let sessionNumber: Int32?
+        /// The tags assigned to the Traffic Mirror session.
+        public let tags: [Tag]?
+        /// The ID of the Traffic Mirror filter.
+        public let trafficMirrorFilterId: String?
+        /// The ID for the Traffic Mirror session.
+        public let trafficMirrorSessionId: String?
+        /// The ID of the Traffic Mirror target.
+        public let trafficMirrorTargetId: String?
+        /// The virtual network ID associated with the Traffic Mirror session.
+        public let virtualNetworkId: Int32?
+
+        public init(description: String? = nil, networkInterfaceId: String? = nil, ownerId: String? = nil, packetLength: Int32? = nil, sessionNumber: Int32? = nil, tags: [Tag]? = nil, trafficMirrorFilterId: String? = nil, trafficMirrorSessionId: String? = nil, trafficMirrorTargetId: String? = nil, virtualNetworkId: Int32? = nil) {
+            self.description = description
+            self.networkInterfaceId = networkInterfaceId
+            self.ownerId = ownerId
+            self.packetLength = packetLength
+            self.sessionNumber = sessionNumber
+            self.tags = tags
+            self.trafficMirrorFilterId = trafficMirrorFilterId
+            self.trafficMirrorSessionId = trafficMirrorSessionId
+            self.trafficMirrorTargetId = trafficMirrorTargetId
+            self.virtualNetworkId = virtualNetworkId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case networkInterfaceId = "networkInterfaceId"
+            case ownerId = "ownerId"
+            case packetLength = "packetLength"
+            case sessionNumber = "sessionNumber"
+            case tags = "tagSet"
+            case trafficMirrorFilterId = "trafficMirrorFilterId"
+            case trafficMirrorSessionId = "trafficMirrorSessionId"
+            case trafficMirrorTargetId = "trafficMirrorTargetId"
+            case virtualNetworkId = "virtualNetworkId"
+        }
+    }
+
+    public enum TrafficMirrorSessionField: String, CustomStringConvertible, Codable {
+        case packetLength = "packet-length"
+        case description = "description"
+        case virtualNetworkId = "virtual-network-id"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct TrafficMirrorTarget: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"), required: false, type: .string), 
+            AWSShapeMember(label: "NetworkLoadBalancerArn", location: .body(locationName: "networkLoadBalancerArn"), required: false, type: .string), 
+            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId"), required: false, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .list, encoding: .list(member:"item")), 
+            AWSShapeMember(label: "TrafficMirrorTargetId", location: .body(locationName: "trafficMirrorTargetId"), required: false, type: .string), 
+            AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .enum)
+        ]
+        /// Information about the Traffic Mirror target.
+        public let description: String?
+        /// The network interface ID that is attached to the target.
+        public let networkInterfaceId: String?
+        /// The Amazon Resource Name (ARN) of the Network Load Balancer.
+        public let networkLoadBalancerArn: String?
+        /// The ID of the account that owns the Traffic Mirror target.
+        public let ownerId: String?
+        /// The tags assigned to the Traffic Mirror target.
+        public let tags: [Tag]?
+        /// The ID of the Traffic Mirror target.
+        public let trafficMirrorTargetId: String?
+        /// The type of Traffic Mirror target.
+        public let `type`: TrafficMirrorTargetType?
+
+        public init(description: String? = nil, networkInterfaceId: String? = nil, networkLoadBalancerArn: String? = nil, ownerId: String? = nil, tags: [Tag]? = nil, trafficMirrorTargetId: String? = nil, type: TrafficMirrorTargetType? = nil) {
+            self.description = description
+            self.networkInterfaceId = networkInterfaceId
+            self.networkLoadBalancerArn = networkLoadBalancerArn
+            self.ownerId = ownerId
+            self.tags = tags
+            self.trafficMirrorTargetId = trafficMirrorTargetId
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case networkInterfaceId = "networkInterfaceId"
+            case networkLoadBalancerArn = "networkLoadBalancerArn"
+            case ownerId = "ownerId"
+            case tags = "tagSet"
+            case trafficMirrorTargetId = "trafficMirrorTargetId"
+            case `type` = "type"
+        }
+    }
+
+    public enum TrafficMirrorTargetType: String, CustomStringConvertible, Codable {
+        case networkInterface = "network-interface"
+        case networkLoadBalancer = "network-load-balancer"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TrafficType: String, CustomStringConvertible, Codable {
         case accept = "ACCEPT"
         case reject = "REJECT"
@@ -28280,6 +29392,7 @@ extension EC2 {
     public enum TransitGatewayAttachmentResourceType: String, CustomStringConvertible, Codable {
         case vpc = "vpc"
         case vpn = "vpn"
+        case directConnectGateway = "direct-connect-gateway"
         public var description: String { return self.rawValue }
     }
 
@@ -29167,11 +30280,11 @@ extension EC2 {
         public let availabilityZone: String?
         /// The time stamp when volume creation was initiated.
         public let createTime: TimeStamp?
-        /// Indicates whether the volume will be encrypted.
+        /// Indicates whether the volume is encrypted.
         public let encrypted: Bool?
         /// The number of I/O operations per second (IOPS) that the volume supports. For Provisioned IOPS SSD volumes, this represents the number of IOPS that are provisioned for the volume. For General Purpose SSD volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting. For more information, see Amazon EBS Volume Types in the Amazon Elastic Compute Cloud User Guide. Constraints: Range is 100-16,000 IOPS for gp2 volumes and 100 to 64,000IOPS for io1 volumes, in most Regions. The maximum IOPS for io1 of 64,000 is guaranteed only on Nitro-based instances. Other instance families guarantee performance up to 32,000 IOPS. Condition: This parameter is required for requests to create io1 volumes; it is not used in requests to create gp2, st1, sc1, or standard volumes.
         public let iops: Int32?
-        /// The full ARN of the AWS Key Management Service (AWS KMS) customer master key (CMK) that was used to protect the volume encryption key for the volume.
+        /// The Amazon Resource Name (ARN) of the AWS Key Management Service (AWS KMS) customer master key (CMK) that was used to protect the volume encryption key for the volume.
         public let kmsKeyId: String?
         /// The size of the volume, in GiBs.
         public let size: Int32?
@@ -29722,6 +30835,7 @@ extension EC2 {
             AWSShapeMember(label: "DnsEntries", location: .body(locationName: "dnsEntrySet"), required: false, type: .list, encoding: .list(member:"item")), 
             AWSShapeMember(label: "Groups", location: .body(locationName: "groupSet"), required: false, type: .list, encoding: .list(member:"item")), 
             AWSShapeMember(label: "NetworkInterfaceIds", location: .body(locationName: "networkInterfaceIdSet"), required: false, type: .list, encoding: .list(member:"item")), 
+            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId"), required: false, type: .string), 
             AWSShapeMember(label: "PolicyDocument", location: .body(locationName: "policyDocument"), required: false, type: .string), 
             AWSShapeMember(label: "PrivateDnsEnabled", location: .body(locationName: "privateDnsEnabled"), required: false, type: .boolean), 
             AWSShapeMember(label: "RequesterManaged", location: .body(locationName: "requesterManaged"), required: false, type: .boolean), 
@@ -29742,6 +30856,8 @@ extension EC2 {
         public let groups: [SecurityGroupIdentifier]?
         /// (Interface endpoint) One or more network interfaces for the endpoint.
         public let networkInterfaceIds: [String]?
+        /// The ID of the AWS account that owns the VPC endpoint.
+        public let ownerId: String?
         /// The policy document associated with the endpoint, if applicable.
         public let policyDocument: String?
         /// (Interface endpoint) Indicates whether the VPC is associated with a private hosted zone.
@@ -29765,11 +30881,12 @@ extension EC2 {
         /// The ID of the VPC to which the endpoint is associated.
         public let vpcId: String?
 
-        public init(creationTimestamp: TimeStamp? = nil, dnsEntries: [DnsEntry]? = nil, groups: [SecurityGroupIdentifier]? = nil, networkInterfaceIds: [String]? = nil, policyDocument: String? = nil, privateDnsEnabled: Bool? = nil, requesterManaged: Bool? = nil, routeTableIds: [String]? = nil, serviceName: String? = nil, state: State? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, vpcEndpointId: String? = nil, vpcEndpointType: VpcEndpointType? = nil, vpcId: String? = nil) {
+        public init(creationTimestamp: TimeStamp? = nil, dnsEntries: [DnsEntry]? = nil, groups: [SecurityGroupIdentifier]? = nil, networkInterfaceIds: [String]? = nil, ownerId: String? = nil, policyDocument: String? = nil, privateDnsEnabled: Bool? = nil, requesterManaged: Bool? = nil, routeTableIds: [String]? = nil, serviceName: String? = nil, state: State? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, vpcEndpointId: String? = nil, vpcEndpointType: VpcEndpointType? = nil, vpcId: String? = nil) {
             self.creationTimestamp = creationTimestamp
             self.dnsEntries = dnsEntries
             self.groups = groups
             self.networkInterfaceIds = networkInterfaceIds
+            self.ownerId = ownerId
             self.policyDocument = policyDocument
             self.privateDnsEnabled = privateDnsEnabled
             self.requesterManaged = requesterManaged
@@ -29788,6 +30905,7 @@ extension EC2 {
             case dnsEntries = "dnsEntrySet"
             case groups = "groupSet"
             case networkInterfaceIds = "networkInterfaceIdSet"
+            case ownerId = "ownerId"
             case policyDocument = "policyDocument"
             case privateDnsEnabled = "privateDnsEnabled"
             case requesterManaged = "requesterManaged"
@@ -29805,6 +30923,8 @@ extension EC2 {
     public struct VpcEndpointConnection: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationTimestamp", location: .body(locationName: "creationTimestamp"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "DnsEntries", location: .body(locationName: "dnsEntrySet"), required: false, type: .list, encoding: .list(member:"item")), 
+            AWSShapeMember(label: "NetworkLoadBalancerArns", location: .body(locationName: "networkLoadBalancerArnSet"), required: false, type: .list, encoding: .list(member:"item")), 
             AWSShapeMember(label: "ServiceId", location: .body(locationName: "serviceId"), required: false, type: .string), 
             AWSShapeMember(label: "VpcEndpointId", location: .body(locationName: "vpcEndpointId"), required: false, type: .string), 
             AWSShapeMember(label: "VpcEndpointOwner", location: .body(locationName: "vpcEndpointOwner"), required: false, type: .string), 
@@ -29812,6 +30932,10 @@ extension EC2 {
         ]
         /// The date and time the VPC endpoint was created.
         public let creationTimestamp: TimeStamp?
+        /// The DNS entries for the VPC endpoint.
+        public let dnsEntries: [DnsEntry]?
+        /// The Amazon Resource Names (ARNs) of the network load balancers for the service.
+        public let networkLoadBalancerArns: [String]?
         /// The ID of the service to which the endpoint is connected.
         public let serviceId: String?
         /// The ID of the VPC endpoint.
@@ -29821,8 +30945,10 @@ extension EC2 {
         /// The state of the VPC endpoint.
         public let vpcEndpointState: State?
 
-        public init(creationTimestamp: TimeStamp? = nil, serviceId: String? = nil, vpcEndpointId: String? = nil, vpcEndpointOwner: String? = nil, vpcEndpointState: State? = nil) {
+        public init(creationTimestamp: TimeStamp? = nil, dnsEntries: [DnsEntry]? = nil, networkLoadBalancerArns: [String]? = nil, serviceId: String? = nil, vpcEndpointId: String? = nil, vpcEndpointOwner: String? = nil, vpcEndpointState: State? = nil) {
             self.creationTimestamp = creationTimestamp
+            self.dnsEntries = dnsEntries
+            self.networkLoadBalancerArns = networkLoadBalancerArns
             self.serviceId = serviceId
             self.vpcEndpointId = vpcEndpointId
             self.vpcEndpointOwner = vpcEndpointOwner
@@ -29831,6 +30957,8 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case creationTimestamp = "creationTimestamp"
+            case dnsEntries = "dnsEntrySet"
+            case networkLoadBalancerArns = "networkLoadBalancerArnSet"
             case serviceId = "serviceId"
             case vpcEndpointId = "vpcEndpointId"
             case vpcEndpointOwner = "vpcEndpointOwner"

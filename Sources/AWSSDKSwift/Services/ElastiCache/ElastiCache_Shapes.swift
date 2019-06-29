@@ -2585,6 +2585,7 @@ extension ElastiCache {
             AWSShapeMember(label: "NodeGroupId", required: false, type: .string), 
             AWSShapeMember(label: "NodeGroupMembers", required: false, type: .list, encoding: .list(member:"NodeGroupMember")), 
             AWSShapeMember(label: "PrimaryEndpoint", required: false, type: .structure), 
+            AWSShapeMember(label: "ReaderEndpoint", required: false, type: .structure), 
             AWSShapeMember(label: "Slots", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .string)
         ]
@@ -2594,15 +2595,18 @@ extension ElastiCache {
         public let nodeGroupMembers: [NodeGroupMember]?
         /// The endpoint of the primary node in this node group (shard).
         public let primaryEndpoint: Endpoint?
+        /// The endpoint of the replica nodes in this node group (shard).
+        public let readerEndpoint: Endpoint?
         /// The keyspace for this node group (shard).
         public let slots: String?
         /// The current state of this replication group - creating, available, etc.
         public let status: String?
 
-        public init(nodeGroupId: String? = nil, nodeGroupMembers: [NodeGroupMember]? = nil, primaryEndpoint: Endpoint? = nil, slots: String? = nil, status: String? = nil) {
+        public init(nodeGroupId: String? = nil, nodeGroupMembers: [NodeGroupMember]? = nil, primaryEndpoint: Endpoint? = nil, readerEndpoint: Endpoint? = nil, slots: String? = nil, status: String? = nil) {
             self.nodeGroupId = nodeGroupId
             self.nodeGroupMembers = nodeGroupMembers
             self.primaryEndpoint = primaryEndpoint
+            self.readerEndpoint = readerEndpoint
             self.slots = slots
             self.status = status
         }
@@ -2611,6 +2615,7 @@ extension ElastiCache {
             case nodeGroupId = "NodeGroupId"
             case nodeGroupMembers = "NodeGroupMembers"
             case primaryEndpoint = "PrimaryEndpoint"
+            case readerEndpoint = "ReaderEndpoint"
             case slots = "Slots"
             case status = "Status"
         }

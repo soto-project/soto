@@ -5,6 +5,47 @@ import AWSSDKSwiftCore
 
 extension IAM {
 
+    public struct AccessDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EntityPath", required: false, type: .string), 
+            AWSShapeMember(label: "LastAuthenticatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Region", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceName", required: true, type: .string), 
+            AWSShapeMember(label: "ServiceNamespace", required: true, type: .string), 
+            AWSShapeMember(label: "TotalAuthenticatedEntities", required: false, type: .integer)
+        ]
+        /// The path of the Organizations entity (root, organizational unit, or account) from which an authenticated principal last attempted to access the service. AWS does not report unauthenticated requests. This field is null if no principals (IAM users, IAM roles, or root users) in the reported Organizations entity attempted to access the service within the reporting period.
+        public let entityPath: String?
+        /// The date and time, in ISO 8601 date-time format, when an authenticated principal most recently attempted to access the service. AWS does not report unauthenticated requests. This field is null if no principals in the reported Organizations entity attempted to access the service within the reporting period.
+        public let lastAuthenticatedTime: TimeStamp?
+        /// The Region where the last service access attempt occurred. This field is null if no principals in the reported Organizations entity attempted to access the service within the reporting period.
+        public let region: String?
+        /// The name of the service in which access was attempted.
+        public let serviceName: String
+        /// The namespace of the service in which access was attempted. To learn the service namespace of a service, go to Actions, Resources, and Condition Keys for AWS Services in the IAM User Guide. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see AWS Service Namespaces in the AWS General Reference.
+        public let serviceNamespace: String
+        /// The number of accounts with authenticated principals (root users, IAM users, and IAM roles) that attempted to access the service in the reporting period.
+        public let totalAuthenticatedEntities: Int32?
+
+        public init(entityPath: String? = nil, lastAuthenticatedTime: TimeStamp? = nil, region: String? = nil, serviceName: String, serviceNamespace: String, totalAuthenticatedEntities: Int32? = nil) {
+            self.entityPath = entityPath
+            self.lastAuthenticatedTime = lastAuthenticatedTime
+            self.region = region
+            self.serviceName = serviceName
+            self.serviceNamespace = serviceNamespace
+            self.totalAuthenticatedEntities = totalAuthenticatedEntities
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityPath = "EntityPath"
+            case lastAuthenticatedTime = "LastAuthenticatedTime"
+            case region = "Region"
+            case serviceName = "ServiceName"
+            case serviceNamespace = "ServiceNamespace"
+            case totalAuthenticatedEntities = "TotalAuthenticatedEntities"
+        }
+    }
+
     public struct AccessKey: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccessKeyId", required: true, type: .string), 
@@ -47,11 +88,11 @@ extension IAM {
             AWSShapeMember(label: "Region", required: true, type: .string), 
             AWSShapeMember(label: "ServiceName", required: true, type: .string)
         ]
-        /// The date and time, in ISO 8601 date-time format, when the access key was most recently used. This field is null in the following situations:   The user does not have an access key.   An access key exists but has not been used since IAM began tracking this information.   There is no sign-in data associated with the user  
+        /// The date and time, in ISO 8601 date-time format, when the access key was most recently used. This field is null in the following situations:   The user does not have an access key.   An access key exists but has not been used since IAM began tracking this information.   There is no sign-in data associated with the user.  
         public let lastUsedDate: TimeStamp
-        /// The AWS region where this access key was most recently used. The value for this field is "N/A" in the following situations:   The user does not have an access key.   An access key exists but has not been used since IAM began tracking this information.   There is no sign-in data associated with the user   For more information about AWS regions, see Regions and Endpoints in the Amazon Web Services General Reference.
+        /// The AWS Region where this access key was most recently used. The value for this field is "N/A" in the following situations:   The user does not have an access key.   An access key exists but has not been used since IAM began tracking this information.   There is no sign-in data associated with the user.   For more information about AWS Regions, see Regions and Endpoints in the Amazon Web Services General Reference.
         public let region: String
-        /// The name of the AWS service with which this access key was most recently used. The value of this field is "N/A" in the following situations:   The user does not have an access key.   An access key exists but has not been used since IAM started tracking this information.   There is no sign-in data associated with the user  
+        /// The name of the AWS service with which this access key was most recently used. The value of this field is "N/A" in the following situations:   The user does not have an access key.   An access key exists but has not been used since IAM started tracking this information.   There is no sign-in data associated with the user.  
         public let serviceName: String
 
         public init(lastUsedDate: TimeStamp, region: String, serviceName: String) {
@@ -633,7 +674,7 @@ extension IAM {
             AWSShapeMember(label: "RoleName", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member"))
         ]
-        /// The trust relationship policy document that grants an entity permission to assume the role. in IAM, you must provide a JSON policy that has been converted to a string. However, for AWS CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. AWS CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)    Upon success, the response includes the same trust policy as a URL-encoded JSON string.
+        /// The trust relationship policy document that grants an entity permission to assume the role. In IAM, you must provide a JSON policy that has been converted to a string. However, for AWS CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. AWS CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)    Upon success, the response includes the same trust policy as a URL-encoded JSON string.
         public let assumeRolePolicyDocument: String
         /// A description of the role.
         public let description: String?
@@ -1321,7 +1362,7 @@ extension IAM {
         ]
         /// A short description of the reason that the service-linked role deletion failed.
         public let reason: String?
-        /// A list of objects that contains details about the service-linked role deletion failure, if that information is returned by the service. If the service-linked role has active sessions or if any resources that were used by the role have not been deleted from the linked service, the role can't be deleted. This parameter includes a list of the resources that are associated with the role and the region in which the resources are being used.
+        /// A list of objects that contains details about the service-linked role deletion failure, if that information is returned by the service. If the service-linked role has active sessions or if any resources that were used by the role have not been deleted from the linked service, the role can't be deleted. This parameter includes a list of the resources that are associated with the role and the Region in which the resources are being used.
         public let roleUsageList: [RoleUsageType]?
 
         public init(reason: String? = nil, roleUsageList: [RoleUsageType]? = nil) {
@@ -1542,11 +1583,11 @@ extension IAM {
         public let evalDecisionDetails: [String: PolicyEvaluationDecisionType]?
         /// The ARN of the resource that the indicated API operation was tested on.
         public let evalResourceName: String?
-        /// A list of the statements in the input policies that determine the result for this scenario. Remember that even if multiple statements allow the operation on the resource, if only one statement denies that operation, then the explicit deny overrides any allow. Inaddition, the deny statement is the only entry included in the result.
+        /// A list of the statements in the input policies that determine the result for this scenario. Remember that even if multiple statements allow the operation on the resource, if only one statement denies that operation, then the explicit deny overrides any allow. In addition, the deny statement is the only entry included in the result.
         public let matchedStatements: [Statement]?
         /// A list of context keys that are required by the included input policies but that were not provided by one of the input parameters. This list is used when the resource in a simulation is "*", either explicitly, or when the ResourceArns parameter blank. If you include a list of resources, then any missing context values are instead included under the ResourceSpecificResults section. To discover the context keys used by a set of policies, you can call GetContextKeysForCustomPolicy or GetContextKeysForPrincipalPolicy.
         public let missingContextValues: [String]?
-        /// A structure that details how AWS Organizations and its service control policies affect the results of the simulation. Only applies if the simulated user's account is part of an organization.
+        /// A structure that details how Organizations and its service control policies affect the results of the simulation. Only applies if the simulated user's account is part of an organization.
         public let organizationsDecisionDetail: OrganizationsDecisionDetail?
         /// The individual results of the simulation of the API operation specified in EvalActionName on each resource.
         public let resourceSpecificResults: [ResourceSpecificResult]?
@@ -1592,6 +1633,43 @@ extension IAM {
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case state = "State"
+        }
+    }
+
+    public struct GenerateOrganizationsAccessReportRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EntityPath", required: true, type: .string), 
+            AWSShapeMember(label: "OrganizationsPolicyId", required: false, type: .string)
+        ]
+        /// The path of the AWS Organizations entity (root, OU, or account). You can build an entity path using the known structure of your organization. For example, assume that your account ID is 123456789012 and its parent OU ID is ou-rge0-awsabcde. The organization root ID is r-f6g7h8i9j0example and your organization ID is o-a1b2c3d4e5. Your entity path is o-a1b2c3d4e5/r-f6g7h8i9j0example/ou-rge0-awsabcde/123456789012.
+        public let entityPath: String
+        /// The identifier of the AWS Organizations service control policy (SCP). This parameter is optional. This ID is used to generate information about when an account principal that is limited by the SCP attempted to access an AWS service.
+        public let organizationsPolicyId: String?
+
+        public init(entityPath: String, organizationsPolicyId: String? = nil) {
+            self.entityPath = entityPath
+            self.organizationsPolicyId = organizationsPolicyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityPath = "EntityPath"
+            case organizationsPolicyId = "OrganizationsPolicyId"
+        }
+    }
+
+    public struct GenerateOrganizationsAccessReportResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: false, type: .string)
+        ]
+        /// The job identifier that you can use in the GetOrganizationsAccessReport operation.
+        public let jobId: String?
+
+        public init(jobId: String? = nil) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
         }
     }
 
@@ -2057,6 +2135,92 @@ extension IAM {
         }
     }
 
+    public struct GetOrganizationsAccessReportRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: true, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "SortKey", required: false, type: .enum)
+        ]
+        /// The identifier of the request generated by the GenerateOrganizationsAccessReport operation.
+        public let jobId: String
+        /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
+        public let marker: String?
+        /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+        public let maxItems: Int32?
+        /// The key that is used to sort the results. If you choose the namespace key, the results are returned in alphabetical order. If you choose the time key, the results are sorted numerically by the date and time.
+        public let sortKey: SortKeyType?
+
+        public init(jobId: String, marker: String? = nil, maxItems: Int32? = nil, sortKey: SortKeyType? = nil) {
+            self.jobId = jobId
+            self.marker = marker
+            self.maxItems = maxItems
+            self.sortKey = sortKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case sortKey = "SortKey"
+        }
+    }
+
+    public struct GetOrganizationsAccessReportResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessDetails", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "ErrorDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "JobCompletionDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "JobCreationDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "JobStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "NumberOfServicesAccessible", required: false, type: .integer), 
+            AWSShapeMember(label: "NumberOfServicesNotAccessed", required: false, type: .integer)
+        ]
+        /// An object that contains details about the most recent attempt to access the service.
+        public let accessDetails: [AccessDetail]?
+        public let errorDetails: ErrorDetails?
+        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
+        public let isTruncated: Bool?
+        /// The date and time, in ISO 8601 date-time format, when the generated report job was completed or failed. This field is null if the job is still in progress, as indicated by a job status value of IN_PROGRESS.
+        public let jobCompletionDate: TimeStamp?
+        /// The date and time, in ISO 8601 date-time format, when the report job was created.
+        public let jobCreationDate: TimeStamp
+        /// The status of the job.
+        public let jobStatus: JobStatusType
+        /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
+        public let marker: String?
+        /// The number of services that the applicable SCPs allow account principals to access.
+        public let numberOfServicesAccessible: Int32?
+        /// The number of services that account principals are allowed but did not attempt to access.
+        public let numberOfServicesNotAccessed: Int32?
+
+        public init(accessDetails: [AccessDetail]? = nil, errorDetails: ErrorDetails? = nil, isTruncated: Bool? = nil, jobCompletionDate: TimeStamp? = nil, jobCreationDate: TimeStamp, jobStatus: JobStatusType, marker: String? = nil, numberOfServicesAccessible: Int32? = nil, numberOfServicesNotAccessed: Int32? = nil) {
+            self.accessDetails = accessDetails
+            self.errorDetails = errorDetails
+            self.isTruncated = isTruncated
+            self.jobCompletionDate = jobCompletionDate
+            self.jobCreationDate = jobCreationDate
+            self.jobStatus = jobStatus
+            self.marker = marker
+            self.numberOfServicesAccessible = numberOfServicesAccessible
+            self.numberOfServicesNotAccessed = numberOfServicesNotAccessed
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessDetails = "AccessDetails"
+            case errorDetails = "ErrorDetails"
+            case isTruncated = "IsTruncated"
+            case jobCompletionDate = "JobCompletionDate"
+            case jobCreationDate = "JobCreationDate"
+            case jobStatus = "JobStatus"
+            case marker = "Marker"
+            case numberOfServicesAccessible = "NumberOfServicesAccessible"
+            case numberOfServicesNotAccessed = "NumberOfServicesNotAccessed"
+        }
+    }
+
     public struct GetPolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyArn", required: true, type: .string)
@@ -2361,7 +2525,7 @@ extension IAM {
         public let error: ErrorDetails?
         ///  A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
         public let isTruncated: Bool?
-        /// The date and time, in ISO 8601 date-time format, when the generated report job was completed or failed. This field is null if the job is still in progress, as indicated by a JobStatus value of IN_PROGRESS.
+        /// The date and time, in ISO 8601 date-time format, when the generated report job was completed or failed. This field is null if the job is still in progress, as indicated by a job status value of IN_PROGRESS.
         public let jobCompletionDate: TimeStamp
         /// The date and time, in ISO 8601 date-time format, when the report job was created.
         public let jobCreationDate: TimeStamp
@@ -2440,7 +2604,7 @@ extension IAM {
         public let error: ErrorDetails?
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
         public let isTruncated: Bool?
-        /// The date and time, in ISO 8601 date-time format, when the generated report job was completed or failed.
+        /// The date and time, in ISO 8601 date-time format, when the generated report job was completed or failed. This field is null if the job is still in progress, as indicated by a job status value of IN_PROGRESS.
         public let jobCompletionDate: TimeStamp
         /// The date and time, in ISO 8601 date-time format, when the report job was created.
         public let jobCreationDate: TimeStamp
@@ -4303,7 +4467,7 @@ extension IAM {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AllowedByOrganizations", required: false, type: .boolean)
         ]
-        /// Specifies whether the simulated operation is allowed by the AWS Organizations service control policies that impact the simulated user's account.
+        /// Specifies whether the simulated operation is allowed by the Organizations service control policies that impact the simulated user's account.
         public let allowedByOrganizations: Bool?
 
         public init(allowedByOrganizations: Bool? = nil) {
@@ -4647,7 +4811,7 @@ extension IAM {
             AWSShapeMember(label: "PolicyDocument", required: true, type: .string), 
             AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
-        /// The name of the group to associate the policy with. &amp;regex-name;.
+        /// The name of the group to associate the policy with. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-.
         public let groupName: String
         /// The policy document. You must provide policies in JSON format in IAM. However, for AWS CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. AWS CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)  
         public let policyDocument: String
@@ -5071,7 +5235,7 @@ extension IAM {
             AWSShapeMember(label: "Region", required: false, type: .string), 
             AWSShapeMember(label: "Resources", required: false, type: .list, encoding: .list(member:"member"))
         ]
-        /// The name of the region where the service-linked role is being used.
+        /// The name of the Region where the service-linked role is being used.
         public let region: String?
         /// The name of the resource that is using the service-linked role.
         public let resources: [String]?
@@ -5268,7 +5432,7 @@ extension IAM {
         public let serviceName: String
         /// The namespace of the service in which access was attempted. To learn the service namespace of a service, go to Actions, Resources, and Condition Keys for AWS Services in the IAM User Guide. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see AWS Service Namespaces in the AWS General Reference.
         public let serviceNamespace: String
-        /// The total number of authenticated entities that have attempted to access the service. This field is null if no IAM entities attempted to access the service within the reporting period.
+        /// The total number of authenticated principals (root user, IAM users, or IAM roles) that have attempted to access the service. This field is null if no principals attempted to access the service within the reporting period.
         public let totalAuthenticatedEntities: Int32?
 
         public init(lastAuthenticated: TimeStamp? = nil, lastAuthenticatedEntity: String? = nil, serviceName: String, serviceNamespace: String, totalAuthenticatedEntities: Int32? = nil) {
@@ -5553,7 +5717,7 @@ extension IAM {
         public let actionNames: [String]
         /// The ARN of the IAM user that you want to specify as the simulated caller of the API operations. If you do not specify a CallerArn, it defaults to the ARN of the user that you specify in PolicySourceArn, if you specified a user. If you include both a PolicySourceArn (for example, arn:aws:iam::123456789012:user/David) and a CallerArn (for example, arn:aws:iam::123456789012:user/Bob), the result is that you simulate calling the API operations as Bob, as if Bob had David's policies. You can specify only the ARN of an IAM user. You cannot specify the ARN of an assumed role, federated user, or a service principal.  CallerArn is required if you include a ResourcePolicy and the PolicySourceArn is not the ARN for an IAM user. This is required so that the resource-based policy's Principal element has a value to use in evaluating the policy. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let callerArn: String?
-        /// A list of context keys and corresponding values for the simulation to use. Whenever a context key is evaluated in one of the simulated IAM permission policies, the corresponding value is supplied.
+        /// A list of context keys and corresponding values for the simulation to use. Whenever a context key is evaluated in one of the simulated IAM permissions policies, the corresponding value is supplied.
         public let contextEntries: [ContextEntry]?
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
@@ -6291,7 +6455,7 @@ extension IAM {
         public let arn: String
         /// The date and time, in ISO 8601 date-time format, when the user was created.
         public let createDate: TimeStamp
-        /// The date and time, in ISO 8601 date-time format, when the user's password was last used to sign in to an AWS website. For a list of AWS websites that capture a user's last sign-in time, see the Credential Reports topic in the Using IAM guide. If a password is used more than once in a five-minute span, only the first use is returned in this field. If the field is null (no value), then it indicates that they never signed in with a password. This can be because:   The user never had a password.   A password exists but has not been used since IAM started tracking this information on October 20, 2014.   A null valuedoes not mean that the user never had a password. Also, if the user does not currently have a password, but had one in the past, then this field contains the date and time the most recent password was used. This value is returned only in the GetUser and ListUsers operations. 
+        /// The date and time, in ISO 8601 date-time format, when the user's password was last used to sign in to an AWS website. For a list of AWS websites that capture a user's last sign-in time, see the Credential Reports topic in the Using IAM guide. If a password is used more than once in a five-minute span, only the first use is returned in this field. If the field is null (no value), then it indicates that they never signed in with a password. This can be because:   The user never had a password.   A password exists but has not been used since IAM started tracking this information on October 20, 2014.   A null value does not mean that the user never had a password. Also, if the user does not currently have a password, but had one in the past, then this field contains the date and time the most recent password was used. This value is returned only in the GetUser and ListUsers operations. 
         public let passwordLastUsed: TimeStamp?
         /// The path to the user. For more information about paths, see IAM Identifiers in the Using IAM guide.
         public let path: String
@@ -6466,6 +6630,14 @@ extension IAM {
     public enum PolicyType: String, CustomStringConvertible, Codable {
         case inline = "INLINE"
         case managed = "MANAGED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortKeyType: String, CustomStringConvertible, Codable {
+        case serviceNamespaceAscending = "SERVICE_NAMESPACE_ASCENDING"
+        case serviceNamespaceDescending = "SERVICE_NAMESPACE_DESCENDING"
+        case lastAuthenticatedTimeAscending = "LAST_AUTHENTICATED_TIME_ASCENDING"
+        case lastAuthenticatedTimeDescending = "LAST_AUTHENTICATED_TIME_DESCENDING"
         public var description: String { return self.rawValue }
     }
 

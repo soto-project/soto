@@ -135,7 +135,7 @@ extension ACMPCA {
         public let notAfter: TimeStamp?
         /// Date and time before which your private CA certificate is not valid.
         public let notBefore: TimeStamp?
-        /// The period during which a deleted CA can be restored. For more information, see the PermanentDeletionTimeInDays parameter of the DeleteCertificateAuthorityRequest operation. 
+        /// The period during which a deleted CA can be restored. For more information, see the PermanentDeletionTimeInDays parameter of the DeleteCertificateAuthorityRequest action. 
         public let restorableUntil: TimeStamp?
         /// Information about the certificate revocation list (CRL) created and maintained by your private CA. 
         public let revocationConfiguration: RevocationConfiguration?
@@ -183,7 +183,7 @@ extension ACMPCA {
             AWSShapeMember(label: "SigningAlgorithm", required: true, type: .enum), 
             AWSShapeMember(label: "Subject", required: true, type: .structure)
         ]
-        /// Type of the public key algorithm and size, in bits, of the key pair that your key pair creates when it issues a certificate.
+        /// Type of the public key algorithm and size, in bits, of the key pair that your CA creates when it issues a certificate. When you create a subordinate CA, you must use a key algorithm supported by the parent CA.
         public let keyAlgorithm: KeyAlgorithm
         /// Name of the algorithm your private CA uses to sign certificate requests.
         public let signingAlgorithm: SigningAlgorithm
@@ -215,6 +215,7 @@ extension ACMPCA {
     }
 
     public enum CertificateAuthorityType: String, CustomStringConvertible, Codable {
+        case root = "ROOT"
         case subordinate = "SUBORDINATE"
         public var description: String { return self.rawValue }
     }
@@ -276,13 +277,13 @@ extension ACMPCA {
         ]
         /// Name and bit size of the private key algorithm, the name of the signing algorithm, and X.500 certificate subject information.
         public let certificateAuthorityConfiguration: CertificateAuthorityConfiguration
-        /// The type of the certificate authority. Currently, this must be SUBORDINATE.
+        /// The type of the certificate authority.
         public let certificateAuthorityType: CertificateAuthorityType
-        /// Alphanumeric string that can be used to distinguish between calls to CreateCertificateAuthority. Idempotency tokens time out after five minutes. Therefore, if you call CreateCertificateAuthority multiple times with the same idempotency token within a five minute period, ACM PCA recognizes that you are requesting only one certificate. As a result, ACM PCA issues only one. If you change the idempotency token for each call, however, ACM PCA recognizes that you are requesting multiple certificates.
+        /// Alphanumeric string that can be used to distinguish between calls to CreateCertificateAuthority. Idempotency tokens time out after five minutes. Therefore, if you call CreateCertificateAuthority multiple times with the same idempotency token within a five minute period, ACM Private CA recognizes that you are requesting only one certificate. As a result, ACM Private CA issues only one. If you change the idempotency token for each call, however, ACM Private CA recognizes that you are requesting multiple certificates.
         public let idempotencyToken: String?
-        /// Contains a Boolean value that you can use to enable a certification revocation list (CRL) for the CA, the name of the S3 bucket to which ACM PCA will write the CRL, and an optional CNAME alias that you can use to hide the name of your bucket in the CRL Distribution Points extension of your CA certificate. For more information, see the CrlConfiguration structure. 
+        /// Contains a Boolean value that you can use to enable a certification revocation list (CRL) for the CA, the name of the S3 bucket to which ACM Private CA will write the CRL, and an optional CNAME alias that you can use to hide the name of your bucket in the CRL Distribution Points extension of your CA certificate. For more information, see the CrlConfiguration structure. 
         public let revocationConfiguration: RevocationConfiguration?
-        /// Key-value pairs that will be attached to the new private CA. You can associate up to 50 tags with a private CA.
+        /// Key-value pairs that will be attached to the new private CA. You can associate up to 50 tags with a private CA. For information using tags with  IAM to manage permissions, see Controlling Access Using IAM Tags.
         public let tags: [Tag]?
 
         public init(certificateAuthorityConfiguration: CertificateAuthorityConfiguration, certificateAuthorityType: CertificateAuthorityType, idempotencyToken: String? = nil, revocationConfiguration: RevocationConfiguration? = nil, tags: [Tag]? = nil) {
@@ -327,7 +328,7 @@ extension ACMPCA {
         ]
         /// The actions that the specified AWS service principal can use. These include IssueCertificate, GetCertificate, and ListPermissions.
         public let actions: [ActionType]
-        /// The Amazon Resource Name (ARN) of the CA that grants the permissions. You can find the ARN by calling the ListCertificateAuthorities operation. This must have the following form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
+        /// The Amazon Resource Name (ARN) of the CA that grants the permissions. You can find the ARN by calling the ListCertificateAuthorities action. This must have the following form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
         public let certificateAuthorityArn: String
         /// The AWS service or identity that receives the permission. At this time, the only valid principal is acm.amazonaws.com.
         public let principal: String
@@ -358,11 +359,11 @@ extension ACMPCA {
         ]
         /// Name inserted into the certificate CRL Distribution Points extension that enables the use of an alias for the CRL distribution point. Use this value if you don't want the name of your S3 bucket to be public.
         public let customCname: String?
-        /// Boolean value that specifies whether certificate revocation lists (CRLs) are enabled. You can use this value to enable certificate revocation for a new CA when you call the CreateCertificateAuthority operation or for an existing CA when you call the UpdateCertificateAuthority operation. 
+        /// Boolean value that specifies whether certificate revocation lists (CRLs) are enabled. You can use this value to enable certificate revocation for a new CA when you call the CreateCertificateAuthority action or for an existing CA when you call the UpdateCertificateAuthority action. 
         public let enabled: Bool
         /// Number of days until a certificate expires.
         public let expirationInDays: Int32?
-        /// Name of the S3 bucket that contains the CRL. If you do not provide a value for the CustomCname argument, the name of your S3 bucket is placed into the CRL Distribution Points extension of the issued certificate. You can change the name of your bucket by calling the UpdateCertificateAuthority operation. You must specify a bucket policy that allows ACM PCA to write the CRL to your bucket.
+        /// Name of the S3 bucket that contains the CRL. If you do not provide a value for the CustomCname argument, the name of your S3 bucket is placed into the CRL Distribution Points extension of the issued certificate. You can change the name of your bucket by calling the UpdateCertificateAuthority action. You must specify a bucket policy that allows ACM Private CA to write the CRL to your bucket.
         public let s3BucketName: String?
 
         public init(customCname: String? = nil, enabled: Bool, expirationInDays: Int32? = nil, s3BucketName: String? = nil) {
@@ -407,11 +408,11 @@ extension ACMPCA {
             AWSShapeMember(label: "Principal", required: true, type: .string), 
             AWSShapeMember(label: "SourceAccount", required: false, type: .string)
         ]
-        /// The Amazon Resource Number (ARN) of the private CA that issued the permissions. You can find the CA's ARN by calling the ListCertificateAuthorities operation. This must have the following form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
+        /// The Amazon Resource Number (ARN) of the private CA that issued the permissions. You can find the CA's ARN by calling the ListCertificateAuthorities action. This must have the following form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
         public let certificateAuthorityArn: String
         /// The AWS service or identity that will have its CA permissions revoked. At this time, the only valid service principal is acm.amazonaws.com 
         public let principal: String
-        /// The AWS account that calls this operation.
+        /// The AWS account that calls this action.
         public let sourceAccount: String?
 
         public init(certificateAuthorityArn: String, principal: String, sourceAccount: String? = nil) {
@@ -432,7 +433,7 @@ extension ACMPCA {
             AWSShapeMember(label: "AuditReportId", required: true, type: .string), 
             AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string)
         ]
-        /// The report ID returned by calling the CreateCertificateAuthorityAuditReport operation.
+        /// The report ID returned by calling the CreateCertificateAuthorityAuditReport action.
         public let auditReportId: String
         /// The Amazon Resource Name (ARN) of the private CA. This must be of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
         public let certificateAuthorityArn: String
@@ -541,7 +542,7 @@ extension ACMPCA {
         ]
         /// Base64-encoded certificate authority (CA) certificate.
         public let certificate: String?
-        /// Base64-encoded certificate chain that includes any intermediate certificates and chains up to root on-premises certificate that you used to sign your private CA certificate. The chain does not include your private CA certificate. 
+        /// Base64-encoded certificate chain that includes any intermediate certificates and chains up to root on-premises certificate that you used to sign your private CA certificate. The chain does not include your private CA certificate. If this is a root CA, the value will be null.
         public let certificateChain: String?
 
         public init(certificate: String? = nil, certificateChain: String? = nil) {
@@ -559,7 +560,7 @@ extension ACMPCA {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority operation. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
+        /// The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority action. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
         public let certificateAuthorityArn: String
 
         public init(certificateAuthorityArn: String) {
@@ -633,16 +634,16 @@ extension ACMPCA {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Certificate", required: true, type: .blob), 
             AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string), 
-            AWSShapeMember(label: "CertificateChain", required: true, type: .blob)
+            AWSShapeMember(label: "CertificateChain", required: false, type: .blob)
         ]
-        /// The PEM-encoded certificate for your private CA. This must be signed by using your on-premises CA.
+        /// The PEM-encoded certificate for a private CA. This may be a self-signed certificate in the case of a root CA, or it may be signed by another CA that you control.
         public let certificate: Data
         /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
         public let certificateAuthorityArn: String
-        /// A PEM-encoded file that contains all of your certificates, other than the certificate you're importing, chaining up to your root CA. Your on-premises root certificate is the last in the chain, and each certificate in the chain signs the one preceding. 
-        public let certificateChain: Data
+        /// A PEM-encoded file that contains all of your certificates, other than the certificate you're importing, chaining up to your root CA. Your ACM Private CA-hosted or on-premises root certificate is the last in the chain, and each certificate in the chain signs the one preceding.  This parameter must be supplied when you import a subordinate CA. When you import a root CA, there is no chain.
+        public let certificateChain: Data?
 
-        public init(certificate: Data, certificateAuthorityArn: String, certificateChain: Data) {
+        public init(certificate: Data, certificateAuthorityArn: String, certificateChain: Data? = nil) {
             self.certificate = certificate
             self.certificateAuthorityArn = certificateAuthorityArn
             self.certificateChain = certificateChain
@@ -661,24 +662,28 @@ extension ACMPCA {
             AWSShapeMember(label: "Csr", required: true, type: .blob), 
             AWSShapeMember(label: "IdempotencyToken", required: false, type: .string), 
             AWSShapeMember(label: "SigningAlgorithm", required: true, type: .enum), 
+            AWSShapeMember(label: "TemplateArn", required: false, type: .string), 
             AWSShapeMember(label: "Validity", required: true, type: .structure)
         ]
         /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
         public let certificateAuthorityArn: String
         /// The certificate signing request (CSR) for the certificate you want to issue. You can use the following OpenSSL command to create the CSR and a 2048 bit RSA private key.   openssl req -new -newkey rsa:2048 -days 365 -keyout private/test_cert_priv_key.pem -out csr/test_cert_.csr  If you have a configuration file, you can use the following OpenSSL command. The usr_cert block in the configuration file contains your X509 version 3 extensions.   openssl req -new -config openssl_rsa.cnf -extensions usr_cert -newkey rsa:2048 -days -365 -keyout private/test_cert_priv_key.pem -out csr/test_cert_.csr 
         public let csr: Data
-        /// Custom string that can be used to distinguish between calls to the IssueCertificate operation. Idempotency tokens time out after one hour. Therefore, if you call IssueCertificate multiple times with the same idempotency token within 5 minutes, ACM PCA recognizes that you are requesting only one certificate and will issue only one. If you change the idempotency token for each call, PCA recognizes that you are requesting multiple certificates.
+        /// Custom string that can be used to distinguish between calls to the IssueCertificate action. Idempotency tokens time out after one hour. Therefore, if you call IssueCertificate multiple times with the same idempotency token within 5 minutes, ACM Private CA recognizes that you are requesting only one certificate and will issue only one. If you change the idempotency token for each call, PCA recognizes that you are requesting multiple certificates.
         public let idempotencyToken: String?
         /// The name of the algorithm that will be used to sign the certificate to be issued.
         public let signingAlgorithm: SigningAlgorithm
+        /// Specifies a custom configuration template to use when issuing a certificate. If this parameter is not provided, ACM Private CA defaults to the EndEntityCertificate/V1 template. The following service-owned TemplateArn values are supported by ACM Private CA:    arn:aws:acm-pca:::template/EndEntityCertificate/V1   arn:aws:acm-pca:::template/SubordinateCACertificate_PathLen0/V1   arn:aws:acm-pca:::template/SubordinateCACertificate_PathLen1/V1   arn:aws:acm-pca:::template/SubordinateCACertificate_PathLen2/V1   arn:aws:acm-pca:::template/SubordinateCACertificate_PathLen3/V1   arn:aws:acm-pca:::template/RootCACertificate/V1   For more information, see Using Templates.
+        public let templateArn: String?
         /// The type of the validity period.
         public let validity: Validity
 
-        public init(certificateAuthorityArn: String, csr: Data, idempotencyToken: String? = nil, signingAlgorithm: SigningAlgorithm, validity: Validity) {
+        public init(certificateAuthorityArn: String, csr: Data, idempotencyToken: String? = nil, signingAlgorithm: SigningAlgorithm, templateArn: String? = nil, validity: Validity) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.csr = csr
             self.idempotencyToken = idempotencyToken
             self.signingAlgorithm = signingAlgorithm
+            self.templateArn = templateArn
             self.validity = validity
         }
 
@@ -687,6 +692,7 @@ extension ACMPCA {
             case csr = "Csr"
             case idempotencyToken = "IdempotencyToken"
             case signingAlgorithm = "SigningAlgorithm"
+            case templateArn = "TemplateArn"
             case validity = "Validity"
         }
     }
@@ -763,7 +769,7 @@ extension ACMPCA {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The Amazon Resource Number (ARN) of the private CA to inspect. You can find the ARN by calling the ListCertificateAuthorities operation. This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 You can get a private CA's ARN by running the ListCertificateAuthorities operation.
+        /// The Amazon Resource Number (ARN) of the private CA to inspect. You can find the ARN by calling the ListCertificateAuthorities action. This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 You can get a private CA's ARN by running the ListCertificateAuthorities action.
         public let certificateAuthorityArn: String
         /// When paginating results, use this parameter to specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the NextToken element is sent in the response. Use this NextToken value in a subsequent request to retrieve additional items.
         public let maxResults: Int32?
@@ -810,7 +816,7 @@ extension ACMPCA {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority operation. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
+        /// The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority action. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
         public let certificateAuthorityArn: String
         /// Use this parameter when paginating results to specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the NextToken element is sent in the response. Use this NextToken value in a subsequent request to retrieve additional items.
         public let maxResults: Int32?
@@ -860,7 +866,7 @@ extension ACMPCA {
             AWSShapeMember(label: "Principal", required: false, type: .string), 
             AWSShapeMember(label: "SourceAccount", required: false, type: .string)
         ]
-        /// The private CA operations that can be performed by the designated AWS service.
+        /// The private CA actions that can be performed by the designated AWS service.
         public let actions: [ActionType]?
         /// The Amazon Resource Number (ARN) of the private CA from which the permission was issued.
         public let certificateAuthorityArn: String?
@@ -896,7 +902,7 @@ extension ACMPCA {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority operation. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
+        /// The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority action. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
         public let certificateAuthorityArn: String
 
         public init(certificateAuthorityArn: String) {
@@ -944,7 +950,7 @@ extension ACMPCA {
         ]
         /// Amazon Resource Name (ARN) of the private CA that issued the certificate to be revoked. This must be of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
         public let certificateAuthorityArn: String
-        /// Serial number of the certificate to be revoked. This must be in hexadecimal format. You can retrieve the serial number by calling GetCertificate with the Amazon Resource Name (ARN) of the certificate you want and the ARN of your private CA. The GetCertificate operation retrieves the certificate in the PEM format. You can use the following OpenSSL command to list the certificate in text format and copy the hexadecimal serial number.   openssl x509 -in file_path -text -noout  You can also copy the serial number from the console or use the DescribeCertificate operation in the AWS Certificate Manager API Reference. 
+        /// Serial number of the certificate to be revoked. This must be in hexadecimal format. You can retrieve the serial number by calling GetCertificate with the Amazon Resource Name (ARN) of the certificate you want and the ARN of your private CA. The GetCertificate action retrieves the certificate in the PEM format. You can use the following OpenSSL command to list the certificate in text format and copy the hexadecimal serial number.   openssl x509 -in file_path -text -noout  You can also copy the serial number from the console or use the DescribeCertificate action in the AWS Certificate Manager API Reference. 
         public let certificateSerial: String
         /// Specifies why you revoked the certificate.
         public let revocationReason: RevocationReason

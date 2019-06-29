@@ -26,6 +26,7 @@ public enum IAMErrorType: AWSErrorType {
     case passwordPolicyViolationException(message: String?)
     case policyEvaluationException(message: String?)
     case policyNotAttachableException(message: String?)
+    case reportGenerationLimitExceededException(message: String?)
     case serviceFailureException(message: String?)
     case serviceNotSupportedException(message: String?)
     case unmodifiableEntityException(message: String?)
@@ -83,6 +84,8 @@ extension IAMErrorType {
             self = .policyEvaluationException(message: message)
         case "PolicyNotAttachableException":
             self = .policyNotAttachableException(message: message)
+        case "ReportGenerationLimitExceededException":
+            self = .reportGenerationLimitExceededException(message: message)
         case "ServiceFailureException":
             self = .serviceFailureException(message: message)
         case "ServiceNotSupportedException":

@@ -11,6 +11,7 @@ public enum RoboMakerErrorType: AWSErrorType {
     case limitExceededException(message: String?)
     case resourceAlreadyExistsException(message: String?)
     case resourceNotFoundException(message: String?)
+    case serviceUnavailableException(message: String?)
     case throttlingException(message: String?)
 }
 
@@ -35,6 +36,8 @@ extension RoboMakerErrorType {
             self = .resourceAlreadyExistsException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
+        case "ServiceUnavailableException":
+            self = .serviceUnavailableException(message: message)
         case "ThrottlingException":
             self = .throttlingException(message: message)
         default:

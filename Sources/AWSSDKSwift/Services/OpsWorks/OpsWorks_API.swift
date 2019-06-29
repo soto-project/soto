@@ -106,7 +106,7 @@ public struct OpsWorks {
         return try client.send(operation: "DeleteUserProfile", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deregisters a specified Amazon ECS cluster from a stack. For more information, see  Resource Management.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack or an attached policy that explicitly grants permissions. For more information on user permissions, see http://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html.
+    ///  Deregisters a specified Amazon ECS cluster from a stack. For more information, see  Resource Management.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack or an attached policy that explicitly grants permissions. For more information on user permissions, see https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html.
     @discardableResult public func deregisterEcsCluster(_ input: DeregisterEcsClusterRequest) throws -> Future<Void> {
         return try client.send(operation: "DeregisterEcsCluster", path: "/", httpMethod: "POST", input: input)
     }

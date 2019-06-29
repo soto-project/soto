@@ -215,7 +215,7 @@ extension CodeBuild {
         public let serviceRole: String?
         /// Information about the source code to be built.
         public let source: ProjectSource?
-        /// Any version identifier for the version of the source code to be built.
+        /// Any version identifier for the version of the source code to be built. If sourceVersion is specified at the project level, then this sourceVersion (at the build level) takes precedence.   For more information, see Source Version Sample with CodeBuild in the AWS CodeBuild User Guide. 
         public let sourceVersion: String?
         /// When the build process started, expressed in Unix time format.
         public let startTime: TimeStamp?
@@ -460,9 +460,11 @@ extension CodeBuild {
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "queuedTimeoutInMinutes", required: false, type: .integer), 
             AWSShapeMember(label: "secondaryArtifacts", required: false, type: .list), 
+            AWSShapeMember(label: "secondarySourceVersions", required: false, type: .list), 
             AWSShapeMember(label: "secondarySources", required: false, type: .list), 
             AWSShapeMember(label: "serviceRole", required: true, type: .string), 
             AWSShapeMember(label: "source", required: true, type: .structure), 
+            AWSShapeMember(label: "sourceVersion", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "timeoutInMinutes", required: false, type: .integer), 
             AWSShapeMember(label: "vpcConfig", required: false, type: .structure)
@@ -487,12 +489,16 @@ extension CodeBuild {
         public let queuedTimeoutInMinutes: Int32?
         ///  An array of ProjectArtifacts objects. 
         public let secondaryArtifacts: [ProjectArtifacts]?
+        ///  An array of ProjectSourceVersion objects. If secondarySourceVersions is specified at the build level, then they take precedence over these secondarySourceVersions (at the project level). 
+        public let secondarySourceVersions: [ProjectSourceVersion]?
         ///  An array of ProjectSource objects. 
         public let secondarySources: [ProjectSource]?
         /// The ARN of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
         public let serviceRole: String
         /// Information about the build input source code for the build project.
         public let source: ProjectSource
+        ///  A version of the build input to be built for this project. If not specified, the latest version is used. If specified, it must be one of:    For AWS CodeCommit: the commit ID to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.    If sourceVersion is specified at the build level, then that version takes precedence over this sourceVersion (at the project level).   For more information, see Source Version Sample with CodeBuild in the AWS CodeBuild User Guide. 
+        public let sourceVersion: String?
         /// A set of tags for this build project. These tags are available for use by AWS services that support AWS CodeBuild build project tags.
         public let tags: [Tag]?
         /// How long, in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait before it times out any build that has not been marked as completed. The default is 60 minutes.
@@ -500,7 +506,7 @@ extension CodeBuild {
         /// VpcConfig enables AWS CodeBuild to access resources in an Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(artifacts: ProjectArtifacts, badgeEnabled: Bool? = nil, cache: ProjectCache? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment, logsConfig: LogsConfig? = nil, name: String, queuedTimeoutInMinutes: Int32? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, serviceRole: String, source: ProjectSource, tags: [Tag]? = nil, timeoutInMinutes: Int32? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(artifacts: ProjectArtifacts, badgeEnabled: Bool? = nil, cache: ProjectCache? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment, logsConfig: LogsConfig? = nil, name: String, queuedTimeoutInMinutes: Int32? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, secondarySources: [ProjectSource]? = nil, serviceRole: String, source: ProjectSource, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int32? = nil, vpcConfig: VpcConfig? = nil) {
             self.artifacts = artifacts
             self.badgeEnabled = badgeEnabled
             self.cache = cache
@@ -511,9 +517,11 @@ extension CodeBuild {
             self.name = name
             self.queuedTimeoutInMinutes = queuedTimeoutInMinutes
             self.secondaryArtifacts = secondaryArtifacts
+            self.secondarySourceVersions = secondarySourceVersions
             self.secondarySources = secondarySources
             self.serviceRole = serviceRole
             self.source = source
+            self.sourceVersion = sourceVersion
             self.tags = tags
             self.timeoutInMinutes = timeoutInMinutes
             self.vpcConfig = vpcConfig
@@ -530,9 +538,11 @@ extension CodeBuild {
             case name = "name"
             case queuedTimeoutInMinutes = "queuedTimeoutInMinutes"
             case secondaryArtifacts = "secondaryArtifacts"
+            case secondarySourceVersions = "secondarySourceVersions"
             case secondarySources = "secondarySources"
             case serviceRole = "serviceRole"
             case source = "source"
+            case sourceVersion = "sourceVersion"
             case tags = "tags"
             case timeoutInMinutes = "timeoutInMinutes"
             case vpcConfig = "vpcConfig"
@@ -1207,9 +1217,11 @@ extension CodeBuild {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "queuedTimeoutInMinutes", required: false, type: .integer), 
             AWSShapeMember(label: "secondaryArtifacts", required: false, type: .list), 
+            AWSShapeMember(label: "secondarySourceVersions", required: false, type: .list), 
             AWSShapeMember(label: "secondarySources", required: false, type: .list), 
             AWSShapeMember(label: "serviceRole", required: false, type: .string), 
             AWSShapeMember(label: "source", required: false, type: .structure), 
+            AWSShapeMember(label: "sourceVersion", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "timeoutInMinutes", required: false, type: .integer), 
             AWSShapeMember(label: "vpcConfig", required: false, type: .structure), 
@@ -1241,12 +1253,16 @@ extension CodeBuild {
         public let queuedTimeoutInMinutes: Int32?
         ///  An array of ProjectArtifacts objects. 
         public let secondaryArtifacts: [ProjectArtifacts]?
+        ///  An array of ProjectSourceVersion objects. If secondarySourceVersions is specified at the build level, then they take over these secondarySourceVersions (at the project level). 
+        public let secondarySourceVersions: [ProjectSourceVersion]?
         ///  An array of ProjectSource objects. 
         public let secondarySources: [ProjectSource]?
         /// The ARN of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
         public let serviceRole: String?
         /// Information about the build input source code for this build project.
         public let source: ProjectSource?
+        /// A version of the build input to be built for this project. If not specified, the latest version is used. If specified, it must be one of:   For AWS CodeCommit: the commit ID to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.    If sourceVersion is specified at the build level, then that version takes precedence over this sourceVersion (at the project level).   For more information, see Source Version Sample with CodeBuild in the AWS CodeBuild User Guide. 
+        public let sourceVersion: String?
         /// The tags for this build project. These tags are available for use by AWS services that support AWS CodeBuild build project tags.
         public let tags: [Tag]?
         /// How long, in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait before timing out any related build that did not get marked as completed. The default is 60 minutes.
@@ -1256,7 +1272,7 @@ extension CodeBuild {
         /// Information about a webhook that connects repository events to a build project in AWS CodeBuild.
         public let webhook: Webhook?
 
-        public init(arn: String? = nil, artifacts: ProjectArtifacts? = nil, badge: ProjectBadge? = nil, cache: ProjectCache? = nil, created: TimeStamp? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment? = nil, lastModified: TimeStamp? = nil, logsConfig: LogsConfig? = nil, name: String? = nil, queuedTimeoutInMinutes: Int32? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int32? = nil, vpcConfig: VpcConfig? = nil, webhook: Webhook? = nil) {
+        public init(arn: String? = nil, artifacts: ProjectArtifacts? = nil, badge: ProjectBadge? = nil, cache: ProjectCache? = nil, created: TimeStamp? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment? = nil, lastModified: TimeStamp? = nil, logsConfig: LogsConfig? = nil, name: String? = nil, queuedTimeoutInMinutes: Int32? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, secondarySources: [ProjectSource]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int32? = nil, vpcConfig: VpcConfig? = nil, webhook: Webhook? = nil) {
             self.arn = arn
             self.artifacts = artifacts
             self.badge = badge
@@ -1270,9 +1286,11 @@ extension CodeBuild {
             self.name = name
             self.queuedTimeoutInMinutes = queuedTimeoutInMinutes
             self.secondaryArtifacts = secondaryArtifacts
+            self.secondarySourceVersions = secondarySourceVersions
             self.secondarySources = secondarySources
             self.serviceRole = serviceRole
             self.source = source
+            self.sourceVersion = sourceVersion
             self.tags = tags
             self.timeoutInMinutes = timeoutInMinutes
             self.vpcConfig = vpcConfig
@@ -1293,9 +1311,11 @@ extension CodeBuild {
             case name = "name"
             case queuedTimeoutInMinutes = "queuedTimeoutInMinutes"
             case secondaryArtifacts = "secondaryArtifacts"
+            case secondarySourceVersions = "secondarySourceVersions"
             case secondarySources = "secondarySources"
             case serviceRole = "serviceRole"
             case source = "source"
+            case sourceVersion = "sourceVersion"
             case tags = "tags"
             case timeoutInMinutes = "timeoutInMinutes"
             case vpcConfig = "vpcConfig"
@@ -1388,7 +1408,7 @@ extension CodeBuild {
         ]
         /// Information about the cache location:     NO_CACHE or LOCAL: This value is ignored.    S3: This is the S3 bucket name/prefix.  
         public let location: String?
-        ///  If you use a LOCAL cache, the local cache mode. You can use one or more local cache modes at the same time.     LOCAL_SOURCE_CACHE mode caches Git metadata for primary and secondary sources. After the cache is created, subsequent builds pull only the change between commits. This mode is a good choice for projects with a clean working directory and a source that is a large Git repository. If you choose this option and your project does not use a Git repository (GitHub, GitHub Enterprise, or Bitbucket), the option is ignored.     LOCAL_DOCKER_LAYER_CACHE mode caches existing Docker layers. This mode is a good choice for projects that build or pull large Docker images. It can prevent the performance issues caused by pulling large Docker images down from the network.      You can use a Docker layer cache in the Linux enviornment only.     The privileged flag must be set so that your project has the required Docker permissions.     You should consider the security implications before you use a Docker layer cache.          LOCAL_CUSTOM_CACHE mode caches directories you specify in the buildspec file. This mode is a good choice if your build scenario is not suited to one of the other three local cache modes. If you use a custom cache:     Only directories can be specified for caching. You cannot specify individual files.     Symlinks are used to reference cached directories.     Cached directories are linked to your build before it downloads its project sources. Cached items are overriden if a source item has the same name. Directories are specified using cache paths in the buildspec file.     
+        ///  If you use a LOCAL cache, the local cache mode. You can use one or more local cache modes at the same time.     LOCAL_SOURCE_CACHE mode caches Git metadata for primary and secondary sources. After the cache is created, subsequent builds pull only the change between commits. This mode is a good choice for projects with a clean working directory and a source that is a large Git repository. If you choose this option and your project does not use a Git repository (GitHub, GitHub Enterprise, or Bitbucket), the option is ignored.     LOCAL_DOCKER_LAYER_CACHE mode caches existing Docker layers. This mode is a good choice for projects that build or pull large Docker images. It can prevent the performance issues caused by pulling large Docker images down from the network.      You can use a Docker layer cache in the Linux environment only.     The privileged flag must be set so that your project has the required Docker permissions.     You should consider the security implications before you use a Docker layer cache.          LOCAL_CUSTOM_CACHE mode caches directories you specify in the buildspec file. This mode is a good choice if your build scenario is not suited to one of the other three local cache modes. If you use a custom cache:     Only directories can be specified for caching. You cannot specify individual files.     Symlinks are used to reference cached directories.     Cached directories are linked to your build before it downloads its project sources. Cached items are overriden if a source item has the same name. Directories are specified using cache paths in the buildspec file.     
         public let modes: [CacheMode]?
         /// The type of cache used by the build project. Valid values include:    NO_CACHE: The build project does not use any cache.    S3: The build project reads and writes from and to S3.    LOCAL: The build project stores a cache locally on a build host that is only available to that build host.  
         public let `type`: CacheType
@@ -1427,7 +1447,7 @@ extension CodeBuild {
         public let image: String
         ///  The type of credentials AWS CodeBuild uses to pull images in your build. There are two valid values:     CODEBUILD specifies that AWS CodeBuild uses its own credentials. This requires that you modify your ECR repository policy to trust AWS CodeBuild's service principal.     SERVICE_ROLE specifies that AWS CodeBuild uses your build project's service role.     When you use a cross-account or private registry image, you must use SERVICE_ROLE credentials. When you use an AWS CodeBuild curated image, you must use CODEBUILD credentials. 
         public let imagePullCredentialsType: ImagePullCredentialsType?
-        /// Enables running the Docker daemon inside a Docker container. Set to true only if the build project is be used to build Docker images, and the specified build environment image is not provided by AWS CodeBuild with Docker support. Otherwise, all associated builds that attempt to interact with the Docker daemon fail. You must also start the Docker daemon so that builds can interact with it. One way to do this is to initialize the Docker daemon during the install phase of your build spec by running the following build commands. (Do not run these commands if the specified build environment image is provided by AWS CodeBuild with Docker support.) If the operating system's base image is Ubuntu Linux:  - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375 --storage-driver=overlay&amp; - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"  If the operating system's base image is Alpine Linux, add the -t argument to timeout:  - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375 --storage-driver=overlay&amp; - timeout 15 -t sh -c "until docker info; do echo .; sleep 1; done" 
+        /// Enables running the Docker daemon inside a Docker container. Set to true only if the build project is be used to build Docker images, and the specified build environment image is not provided by AWS CodeBuild with Docker support. Otherwise, all associated builds that attempt to interact with the Docker daemon fail. You must also start the Docker daemon so that builds can interact with it. One way to do this is to initialize the Docker daemon during the install phase of your build spec by running the following build commands. (Do not run these commands if the specified build environment image is provided by AWS CodeBuild with Docker support.) If the operating system's base image is Ubuntu Linux:  - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375 --storage-driver=overlay&amp;   - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"  If the operating system's base image is Alpine Linux and the previous command does not work, add the -t argument to timeout:  - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375 --storage-driver=overlay&amp;   - timeout -t 15 sh -c "until docker info; do echo .; sleep 1; done" 
         public let privilegedMode: Bool?
         ///  The credentials for access to a private registry.
         public let registryCredential: RegistryCredential?
@@ -1527,7 +1547,7 @@ extension CodeBuild {
         ]
         /// An identifier for a source in the build project.
         public let sourceIdentifier: String
-        /// The source version for the corresponding source identifier. If specified, must be one of:   For AWS CodeCommit: the commit ID to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example, pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.  
+        /// The source version for the corresponding source identifier. If specified, must be one of:   For AWS CodeCommit: the commit ID to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example, pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.    For more information, see Source Version Sample with CodeBuild in the AWS CodeBuild User Guide. 
         public let sourceVersion: String
 
         public init(sourceIdentifier: String, sourceVersion: String) {
@@ -1747,7 +1767,7 @@ extension CodeBuild {
         public let sourceLocationOverride: String?
         /// A source input type, for this build, that overrides the source input defined in the build project.
         public let sourceTypeOverride: SourceType?
-        /// A version of the build input to be built, for this build only. If not specified, the latest version is used. If specified, must be one of:   For AWS CodeCommit: the commit ID to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.  
+        /// A version of the build input to be built, for this build only. If not specified, the latest version is used. If specified, must be one of:   For AWS CodeCommit: the commit ID to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.    If sourceVersion is specified at the project level, then this sourceVersion (at the build level) takes precedence.   For more information, see Source Version Sample with CodeBuild in the AWS CodeBuild User Guide. 
         public let sourceVersion: String?
         /// The number of build timeout minutes, from 5 to 480 (8 hours), that overrides, for this build only, the latest setting already defined in the build project.
         public let timeoutInMinutesOverride: Int32?
@@ -1906,9 +1926,11 @@ extension CodeBuild {
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "queuedTimeoutInMinutes", required: false, type: .integer), 
             AWSShapeMember(label: "secondaryArtifacts", required: false, type: .list), 
+            AWSShapeMember(label: "secondarySourceVersions", required: false, type: .list), 
             AWSShapeMember(label: "secondarySources", required: false, type: .list), 
             AWSShapeMember(label: "serviceRole", required: false, type: .string), 
             AWSShapeMember(label: "source", required: false, type: .structure), 
+            AWSShapeMember(label: "sourceVersion", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "timeoutInMinutes", required: false, type: .integer), 
             AWSShapeMember(label: "vpcConfig", required: false, type: .structure)
@@ -1933,12 +1955,16 @@ extension CodeBuild {
         public let queuedTimeoutInMinutes: Int32?
         ///  An array of ProjectSource objects. 
         public let secondaryArtifacts: [ProjectArtifacts]?
+        ///  An array of ProjectSourceVersion objects. If secondarySourceVersions is specified at the build level, then they take over these secondarySourceVersions (at the project level). 
+        public let secondarySourceVersions: [ProjectSourceVersion]?
         ///  An array of ProjectSource objects. 
         public let secondarySources: [ProjectSource]?
         /// The replacement ARN of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
         public let serviceRole: String?
         /// Information to be changed about the build input source code for the build project.
         public let source: ProjectSource?
+        ///  A version of the build input to be built for this project. If not specified, the latest version is used. If specified, it must be one of:    For AWS CodeCommit: the commit ID to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.    If sourceVersion is specified at the build level, then that version takes precedence over this sourceVersion (at the project level).   For more information, see Source Version Sample with CodeBuild in the AWS CodeBuild User Guide. 
+        public let sourceVersion: String?
         /// The replacement set of tags for this build project. These tags are available for use by AWS services that support AWS CodeBuild build project tags.
         public let tags: [Tag]?
         /// The replacement value in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait before timing out any related build that did not get marked as completed.
@@ -1946,7 +1972,7 @@ extension CodeBuild {
         /// VpcConfig enables AWS CodeBuild to access resources in an Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(artifacts: ProjectArtifacts? = nil, badgeEnabled: Bool? = nil, cache: ProjectCache? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment? = nil, logsConfig: LogsConfig? = nil, name: String, queuedTimeoutInMinutes: Int32? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int32? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(artifacts: ProjectArtifacts? = nil, badgeEnabled: Bool? = nil, cache: ProjectCache? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment? = nil, logsConfig: LogsConfig? = nil, name: String, queuedTimeoutInMinutes: Int32? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, secondarySources: [ProjectSource]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int32? = nil, vpcConfig: VpcConfig? = nil) {
             self.artifacts = artifacts
             self.badgeEnabled = badgeEnabled
             self.cache = cache
@@ -1957,9 +1983,11 @@ extension CodeBuild {
             self.name = name
             self.queuedTimeoutInMinutes = queuedTimeoutInMinutes
             self.secondaryArtifacts = secondaryArtifacts
+            self.secondarySourceVersions = secondarySourceVersions
             self.secondarySources = secondarySources
             self.serviceRole = serviceRole
             self.source = source
+            self.sourceVersion = sourceVersion
             self.tags = tags
             self.timeoutInMinutes = timeoutInMinutes
             self.vpcConfig = vpcConfig
@@ -1976,9 +2004,11 @@ extension CodeBuild {
             case name = "name"
             case queuedTimeoutInMinutes = "queuedTimeoutInMinutes"
             case secondaryArtifacts = "secondaryArtifacts"
+            case secondarySourceVersions = "secondarySourceVersions"
             case secondarySources = "secondarySources"
             case serviceRole = "serviceRole"
             case source = "source"
+            case sourceVersion = "sourceVersion"
             case tags = "tags"
             case timeoutInMinutes = "timeoutInMinutes"
             case vpcConfig = "vpcConfig"

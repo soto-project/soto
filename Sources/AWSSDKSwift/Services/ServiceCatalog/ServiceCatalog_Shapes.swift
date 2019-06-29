@@ -794,7 +794,7 @@ extension ServiceCatalog {
         public let provisioningArtifactId: String
         /// Parameters specified by the administrator that are required for provisioning the product.
         public let provisioningParameters: [UpdateProvisioningParameter]?
-        /// One or more tags.
+        /// One or more tags. If the plan is for an existing provisioned product, the product must have a RESOURCE_UPDATE constraint with TagUpdatesOnProvisionedProduct set to ALLOWED to allow tag updates.
         public let tags: [Tag]?
 
         public init(acceptLanguage: String? = nil, idempotencyToken: String, notificationArns: [String]? = nil, pathId: String? = nil, planName: String, planType: ProvisionedProductPlanType, productId: String, provisionedProductName: String, provisioningArtifactId: String, provisioningParameters: [UpdateProvisioningParameter]? = nil, tags: [Tag]? = nil) {
@@ -3956,6 +3956,7 @@ extension ServiceCatalog {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Guidance", required: false, type: .enum), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
@@ -3963,14 +3964,17 @@ extension ServiceCatalog {
         public let createdTime: TimeStamp?
         /// The description of the provisioning artifact.
         public let description: String?
+        /// Information set by the administrator to provide guidance to end users about which provisioning artifacts to use.
+        public let guidance: ProvisioningArtifactGuidance?
         /// The identifier of the provisioning artifact.
         public let id: String?
         /// The name of the provisioning artifact.
         public let name: String?
 
-        public init(createdTime: TimeStamp? = nil, description: String? = nil, id: String? = nil, name: String? = nil) {
+        public init(createdTime: TimeStamp? = nil, description: String? = nil, guidance: ProvisioningArtifactGuidance? = nil, id: String? = nil, name: String? = nil) {
             self.createdTime = createdTime
             self.description = description
+            self.guidance = guidance
             self.id = id
             self.name = name
         }
@@ -3978,6 +3982,7 @@ extension ServiceCatalog {
         private enum CodingKeys: String, CodingKey {
             case createdTime = "CreatedTime"
             case description = "Description"
+            case guidance = "Guidance"
             case id = "Id"
             case name = "Name"
         }
@@ -3988,6 +3993,7 @@ extension ServiceCatalog {
             AWSShapeMember(label: "Active", required: false, type: .boolean), 
             AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Guidance", required: false, type: .enum), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
@@ -3998,6 +4004,8 @@ extension ServiceCatalog {
         public let createdTime: TimeStamp?
         /// The description of the provisioning artifact.
         public let description: String?
+        /// Information set by the administrator to provide guidance to end users about which provisioning artifacts to use.
+        public let guidance: ProvisioningArtifactGuidance?
         /// The identifier of the provisioning artifact.
         public let id: String?
         /// The name of the provisioning artifact.
@@ -4005,10 +4013,11 @@ extension ServiceCatalog {
         /// The type of provisioning artifact.    CLOUD_FORMATION_TEMPLATE - AWS CloudFormation template    MARKETPLACE_AMI - AWS Marketplace AMI    MARKETPLACE_CAR - AWS Marketplace Clusters and AWS Resources  
         public let `type`: ProvisioningArtifactType?
 
-        public init(active: Bool? = nil, createdTime: TimeStamp? = nil, description: String? = nil, id: String? = nil, name: String? = nil, type: ProvisioningArtifactType? = nil) {
+        public init(active: Bool? = nil, createdTime: TimeStamp? = nil, description: String? = nil, guidance: ProvisioningArtifactGuidance? = nil, id: String? = nil, name: String? = nil, type: ProvisioningArtifactType? = nil) {
             self.active = active
             self.createdTime = createdTime
             self.description = description
+            self.guidance = guidance
             self.id = id
             self.name = name
             self.`type` = `type`
@@ -4018,10 +4027,17 @@ extension ServiceCatalog {
             case active = "Active"
             case createdTime = "CreatedTime"
             case description = "Description"
+            case guidance = "Guidance"
             case id = "Id"
             case name = "Name"
             case `type` = "Type"
         }
+    }
+
+    public enum ProvisioningArtifactGuidance: String, CustomStringConvertible, Codable {
+        case `default` = "DEFAULT"
+        case deprecated = "DEPRECATED"
+        public var description: String { return self.rawValue }
     }
 
     public struct ProvisioningArtifactParameter: AWSShape {
@@ -5549,6 +5565,7 @@ extension ServiceCatalog {
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "Active", required: false, type: .boolean), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Guidance", required: false, type: .enum), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "ProductId", required: true, type: .string), 
             AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string)
@@ -5559,6 +5576,8 @@ extension ServiceCatalog {
         public let active: Bool?
         /// The updated description of the provisioning artifact.
         public let description: String?
+        /// Information set by the administrator to provide guidance to end users about which provisioning artifacts to use. The DEFAULT value indicates that the product version is active. The administrator can set the guidance to DEPRECATED to inform users that the product version is deprecated. Users are able to make updates to a provisioned product of a deprecated version but cannot launch new provisioned products using a deprecated version.
+        public let guidance: ProvisioningArtifactGuidance?
         /// The updated name of the provisioning artifact.
         public let name: String?
         /// The product identifier.
@@ -5566,10 +5585,11 @@ extension ServiceCatalog {
         /// The identifier of the provisioning artifact.
         public let provisioningArtifactId: String
 
-        public init(acceptLanguage: String? = nil, active: Bool? = nil, description: String? = nil, name: String? = nil, productId: String, provisioningArtifactId: String) {
+        public init(acceptLanguage: String? = nil, active: Bool? = nil, description: String? = nil, guidance: ProvisioningArtifactGuidance? = nil, name: String? = nil, productId: String, provisioningArtifactId: String) {
             self.acceptLanguage = acceptLanguage
             self.active = active
             self.description = description
+            self.guidance = guidance
             self.name = name
             self.productId = productId
             self.provisioningArtifactId = provisioningArtifactId
@@ -5579,6 +5599,7 @@ extension ServiceCatalog {
             case acceptLanguage = "AcceptLanguage"
             case active = "Active"
             case description = "Description"
+            case guidance = "Guidance"
             case name = "Name"
             case productId = "ProductId"
             case provisioningArtifactId = "ProvisioningArtifactId"

@@ -21,7 +21,6 @@ public struct KMS {
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2014-11-01",
             endpoint: endpoint,
-            serviceEndpoints: ["ProdFips": "kms-fips.ca-central-1.amazonaws.com"],
             middlewares: [],
             possibleErrorTypes: [KMSErrorType.self]
         )

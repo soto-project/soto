@@ -5,7 +5,7 @@ import AWSSDKSwiftCore
 import NIO
 
 /**
-Assess, monitor, manage, and remediate security issues across your AWS infrastructure, applications, and data.
+Amazon GuardDuty is a continuous security monitoring service that analyzes and processes the following data sources: VPC Flow Logs, AWS CloudTrail event logs, and DNS logs. It uses threat intelligence feeds, such as lists of malicious IPs and domains, and machine learning to identify unexpected and potentially unauthorized and malicious activity within your AWS environment. This can include issues like escalations of privileges, uses of exposed credentials, or communication with malicious IPs, URLs, or domains. For example, GuardDuty can detect compromised EC2 instances serving malware or mining bitcoin. It also monitors AWS account access behavior for signs of compromise, such as unauthorized infrastructure deployments, like instances deployed in a region that has never been used, or unusual API calls, like a password policy change to reduce password strength. GuardDuty informs you of the status of your AWS environment by producing security findings that you can view in the GuardDuty console or through Amazon CloudWatch events. For more information, see  Amazon GuardDuty User Guide. 
 */
 public struct GuardDuty {
 
@@ -190,6 +190,11 @@ public struct GuardDuty {
         return try client.send(operation: "ListMembers", path: "/detector/{detectorId}/member", httpMethod: "GET", input: input)
     }
 
+    ///  Lists tags for a resource. Tagging is currently supported for detectors, finding filters, IP sets, and Threat Intel sets, with a limit of 50 tags per resource. When invoked, this operation returns all assigned tags for a given resource..
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> Future<ListTagsForResourceResponse> {
+        return try client.send(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: "GET", input: input)
+    }
+
     ///  Lists the ThreatIntelSets of the GuardDuty service specified by the detector ID.
     public func listThreatIntelSets(_ input: ListThreatIntelSetsRequest) throws -> Future<ListThreatIntelSetsResponse> {
         return try client.send(operation: "ListThreatIntelSets", path: "/detector/{detectorId}/threatintelset", httpMethod: "GET", input: input)
@@ -205,9 +210,19 @@ public struct GuardDuty {
         return try client.send(operation: "StopMonitoringMembers", path: "/detector/{detectorId}/member/stop", httpMethod: "POST", input: input)
     }
 
+    ///  Adds tags to a resource.
+    public func tagResource(_ input: TagResourceRequest) throws -> Future<TagResourceResponse> {
+        return try client.send(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: "POST", input: input)
+    }
+
     ///  Unarchives Amazon GuardDuty findings specified by the list of finding IDs.
     public func unarchiveFindings(_ input: UnarchiveFindingsRequest) throws -> Future<UnarchiveFindingsResponse> {
         return try client.send(operation: "UnarchiveFindings", path: "/detector/{detectorId}/findings/unarchive", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes tags from a resource.
+    public func untagResource(_ input: UntagResourceRequest) throws -> Future<UntagResourceResponse> {
+        return try client.send(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: "DELETE", input: input)
     }
 
     ///  Updates an Amazon GuardDuty detector specified by the detectorId.

@@ -136,7 +136,7 @@ public struct DirectConnect {
         return try client.send(operation: "CreatePublicVirtualInterface", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a transit virtual interface. A transit virtual interface is a VLAN that transports traffic from a Direct Connect gateway to one or more transit gateways. A transit virtual interface enables the connection of multiple VPCs attached to a transit gateway to a Direct Connect gateway.
+    ///  Creates a transit virtual interface. A transit virtual interface should be used to access one or more transit gateways associated with Direct Connect gateways. A transit virtual interface enables the connection of multiple VPCs attached to a transit gateway to a Direct Connect gateway.  If you associate your transit gateway with one or more Direct Connect gateways, the Autonomous System Number (ASN) used by the transit gateway and the Direct Connect gateway must be different. For example, if you use the default ASN 64512 for both your the transit gateway and Direct Connect gateway, the association request fails. 
     public func createTransitVirtualInterface(_ input: CreateTransitVirtualInterfaceRequest) throws -> Future<CreateTransitVirtualInterfaceResult> {
         return try client.send(operation: "CreateTransitVirtualInterface", path: "/", httpMethod: "POST", input: input)
     }

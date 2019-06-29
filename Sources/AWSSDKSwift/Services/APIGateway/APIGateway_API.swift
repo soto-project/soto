@@ -489,7 +489,7 @@ public struct APIGateway {
         return try client.send(operation: "TagResource", path: "/tags/{resource_arn}", httpMethod: "PUT", input: input)
     }
 
-    ///  Simulate the execution of an Authorizer in your RestApi with headers, parameters, and an incoming request body.  Enable custom authorizers 
+    ///  Simulate the execution of an Authorizer in your RestApi with headers, parameters, and an incoming request body.  Use Lambda Function as Authorizer Use Cognito User Pool as Authorizer 
     public func testInvokeAuthorizer(_ input: TestInvokeAuthorizerRequest) throws -> Future<TestInvokeAuthorizerResponse> {
         return try client.send(operation: "TestInvokeAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: "POST", input: input)
     }
