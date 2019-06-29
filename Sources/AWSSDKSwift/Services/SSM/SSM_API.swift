@@ -66,6 +66,11 @@ public struct SSM {
         return try client.send(operation: "CreateMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Creates a new OpsItem. You must have permission in AWS Identity and Access Management (IAM) to create a new OpsItem. For more information, see Getting Started with OpsCenter in the AWS Systems Manager User Guide. Operations engineers and IT professionals use OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their AWS resources. For more information, see AWS Systems Manager OpsCenter in the AWS Systems Manager User Guide. 
+    public func createOpsItem(_ input: CreateOpsItemRequest) throws -> Future<CreateOpsItemResponse> {
+        return try client.send(operation: "CreateOpsItem", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a patch baseline.  For information about valid key and value pairs in PatchFilters for each supported operating system type, see PatchFilter. 
     public func createPatchBaseline(_ input: CreatePatchBaselineRequest) throws -> Future<CreatePatchBaselineResult> {
         return try client.send(operation: "CreatePatchBaseline", path: "/", httpMethod: "POST", input: input)
@@ -266,6 +271,11 @@ public struct SSM {
         return try client.send(operation: "DescribeMaintenanceWindowsForTarget", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Query a set of OpsItems. You must have permission in AWS Identity and Access Management (IAM) to query a list of OpsItems. For more information, see Getting Started with OpsCenter in the AWS Systems Manager User Guide. Operations engineers and IT professionals use OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their AWS resources. For more information, see AWS Systems Manager OpsCenter in the AWS Systems Manager User Guide. 
+    public func describeOpsItems(_ input: DescribeOpsItemsRequest) throws -> Future<DescribeOpsItemsResponse> {
+        return try client.send(operation: "DescribeOpsItems", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Get information about a parameter. Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results.
     public func describeParameters(_ input: DescribeParametersRequest) throws -> Future<DescribeParametersResult> {
         return try client.send(operation: "DescribeParameters", path: "/", httpMethod: "POST", input: input)
@@ -359,6 +369,16 @@ public struct SSM {
     ///  Lists the tasks in a maintenance window.
     public func getMaintenanceWindowTask(_ input: GetMaintenanceWindowTaskRequest) throws -> Future<GetMaintenanceWindowTaskResult> {
         return try client.send(operation: "GetMaintenanceWindowTask", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Get information about an OpsItem by using the ID. You must have permission in AWS Identity and Access Management (IAM) to view information about an OpsItem. For more information, see Getting Started with OpsCenter in the AWS Systems Manager User Guide. Operations engineers and IT professionals use OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their AWS resources. For more information, see AWS Systems Manager OpsCenter in the AWS Systems Manager User Guide. 
+    public func getOpsItem(_ input: GetOpsItemRequest) throws -> Future<GetOpsItemResponse> {
+        return try client.send(operation: "GetOpsItem", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  View a summary of OpsItems based on specified filters and aggregators.
+    public func getOpsSummary(_ input: GetOpsSummaryRequest) throws -> Future<GetOpsSummaryResult> {
+        return try client.send(operation: "GetOpsSummary", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Get information about a parameter by using the parameter name. Don't confuse this API action with the GetParameters API action.
@@ -589,6 +609,11 @@ public struct SSM {
     ///  Assigns or changes an Amazon Identity and Access Management (IAM) role to the managed instance.
     public func updateManagedInstanceRole(_ input: UpdateManagedInstanceRoleRequest) throws -> Future<UpdateManagedInstanceRoleResult> {
         return try client.send(operation: "UpdateManagedInstanceRole", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Edit or change an OpsItem. You must have permission in AWS Identity and Access Management (IAM) to update an OpsItem. For more information, see Getting Started with OpsCenter in the AWS Systems Manager User Guide. Operations engineers and IT professionals use OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their AWS resources. For more information, see AWS Systems Manager OpsCenter in the AWS Systems Manager User Guide. 
+    public func updateOpsItem(_ input: UpdateOpsItemRequest) throws -> Future<UpdateOpsItemResponse> {
+        return try client.send(operation: "UpdateOpsItem", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies an existing patch baseline. Fields not specified in the request are left unchanged.  For information about valid key and value pairs in PatchFilters for each supported operating system type, see PatchFilter. 

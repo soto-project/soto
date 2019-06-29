@@ -10,6 +10,7 @@ public enum ACMPCAErrorType: AWSErrorType {
     case invalidArnException(message: String?)
     case invalidNextTokenException(message: String?)
     case invalidPolicyException(message: String?)
+    case invalidRequestException(message: String?)
     case invalidStateException(message: String?)
     case invalidTagException(message: String?)
     case limitExceededException(message: String?)
@@ -42,6 +43,8 @@ extension ACMPCAErrorType {
             self = .invalidNextTokenException(message: message)
         case "InvalidPolicyException":
             self = .invalidPolicyException(message: message)
+        case "InvalidRequestException":
+            self = .invalidRequestException(message: message)
         case "InvalidStateException":
             self = .invalidStateException(message: message)
         case "InvalidTagException":

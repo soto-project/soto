@@ -36,6 +36,11 @@ public struct WorkSpaces {
         return try client.send(operation: "AuthorizeIpRules", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Copies the specified image from the specified Region to the current Region.
+    public func copyWorkspaceImage(_ input: CopyWorkspaceImageRequest) throws -> Future<CopyWorkspaceImageResult> {
+        return try client.send(operation: "CopyWorkspaceImage", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Creates an IP access control group. An IP access control group provides you with the ability to control the IP addresses from which users are allowed to access their WorkSpaces. To specify the CIDR address ranges, add rules to your IP access control group and then associate the group with your directory. You can add rules when you create the group or at any time using AuthorizeIpRules. There is a default IP access control group associated with your directory. If you don't associate an IP access control group with your directory, the default group is used. The default group includes a default rule that allows users to access their WorkSpaces from anywhere. You cannot modify the default IP access control group for your directory.
     public func createIpGroup(_ input: CreateIpGroupRequest) throws -> Future<CreateIpGroupResult> {
         return try client.send(operation: "CreateIpGroup", path: "/", httpMethod: "POST", input: input)
@@ -61,7 +66,7 @@ public struct WorkSpaces {
         return try client.send(operation: "DeleteTags", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the specified image from your account. To delete an image, you must first delete any bundles that are associated with the image. 
+    ///  Deletes the specified image from your account. To delete an image, you must first delete any bundles that are associated with the image and un-share the image if it is shared with other accounts. 
     public func deleteWorkspaceImage(_ input: DeleteWorkspaceImageRequest) throws -> Future<DeleteWorkspaceImageResult> {
         return try client.send(operation: "DeleteWorkspaceImage", path: "/", httpMethod: "POST", input: input)
     }
@@ -106,6 +111,11 @@ public struct WorkSpaces {
         return try client.send(operation: "DescribeWorkspaceImages", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Describes the snapshots for the specified WorkSpace.
+    public func describeWorkspaceSnapshots(_ input: DescribeWorkspaceSnapshotsRequest) throws -> Future<DescribeWorkspaceSnapshotsResult> {
+        return try client.send(operation: "DescribeWorkspaceSnapshots", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Describes the specified WorkSpaces. You can filter the results by using the bundle identifier, directory identifier, or owner, but you can specify only one filter at a time.
     public func describeWorkspaces(_ input: DescribeWorkspacesRequest) throws -> Future<DescribeWorkspacesResult> {
         return try client.send(operation: "DescribeWorkspaces", path: "/", httpMethod: "POST", input: input)
@@ -146,7 +156,7 @@ public struct WorkSpaces {
         return try client.send(operation: "ModifyWorkspaceProperties", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Sets the state of the specified WorkSpace. To maintain a WorkSpace without being interrupted, set the WorkSpace state to ADMIN_MAINTENANCE. WorkSpaces in this state do not respond to requests to reboot, stop, start, or rebuild. An AutoStop WorkSpace in this state is not stopped. Users can log into a WorkSpace in the ADMIN_MAINTENANCE state.
+    ///  Sets the state of the specified WorkSpace. To maintain a WorkSpace without being interrupted, set the WorkSpace state to ADMIN_MAINTENANCE. WorkSpaces in this state do not respond to requests to reboot, stop, start, rebuild, or restore. An AutoStop WorkSpace in this state is not stopped. Users cannot log into a WorkSpace in the ADMIN_MAINTENANCE state.
     public func modifyWorkspaceState(_ input: ModifyWorkspaceStateRequest) throws -> Future<ModifyWorkspaceStateResult> {
         return try client.send(operation: "ModifyWorkspaceState", path: "/", httpMethod: "POST", input: input)
     }
@@ -159,6 +169,11 @@ public struct WorkSpaces {
     ///  Rebuilds the specified WorkSpace. You cannot rebuild a WorkSpace unless its state is AVAILABLE, ERROR, or UNHEALTHY. Rebuilding a WorkSpace is a potentially destructive action that can result in the loss of data. For more information, see Rebuild a WorkSpace. This operation is asynchronous and returns before the WorkSpaces have been completely rebuilt.
     public func rebuildWorkspaces(_ input: RebuildWorkspacesRequest) throws -> Future<RebuildWorkspacesResult> {
         return try client.send(operation: "RebuildWorkspaces", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Restores the specified WorkSpace to its last known healthy state. You cannot restore a WorkSpace unless its state is  AVAILABLE, ERROR, or UNHEALTHY. Restoring a WorkSpace is a potentially destructive action that can result in the loss of data. For more information, see Restore a WorkSpace. This operation is asynchronous and returns before the WorkSpace is completely restored.
+    public func restoreWorkspace(_ input: RestoreWorkspaceRequest) throws -> Future<RestoreWorkspaceResult> {
+        return try client.send(operation: "RestoreWorkspace", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes one or more rules from the specified IP access control group.

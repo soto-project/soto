@@ -5,6 +5,27 @@ import AWSSDKSwiftCore
 
 extension FSx {
 
+    public struct ActiveDirectoryBackupAttributes: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActiveDirectoryId", required: false, type: .string), 
+            AWSShapeMember(label: "DomainName", required: false, type: .string)
+        ]
+        /// The ID of the AWS Managed Microsoft Active Directory instance to which the file system is joined.
+        public let activeDirectoryId: String?
+        /// The fully qualified domain name of the self-managed AD directory.
+        public let domainName: String?
+
+        public init(activeDirectoryId: String? = nil, domainName: String? = nil) {
+            self.activeDirectoryId = activeDirectoryId
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeDirectoryId = "ActiveDirectoryId"
+            case domainName = "DomainName"
+        }
+    }
+
     public enum ActiveDirectoryErrorType: String, CustomStringConvertible, Codable {
         case domainNotFound = "DOMAIN_NOT_FOUND"
         case incompatibleDomainMode = "INCOMPATIBLE_DOMAIN_MODE"
@@ -17,6 +38,7 @@ extension FSx {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BackupId", required: true, type: .string), 
             AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "DirectoryInformation", required: false, type: .structure), 
             AWSShapeMember(label: "FailureDetails", required: false, type: .structure), 
             AWSShapeMember(label: "FileSystem", required: true, type: .structure), 
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
@@ -30,6 +52,8 @@ extension FSx {
         public let backupId: String
         /// The time when a particular backup was created.
         public let creationTime: TimeStamp
+        /// The configuration of the self-managed Microsoft Active Directory (AD) to which the Windows File Server instance is joined.
+        public let directoryInformation: ActiveDirectoryBackupAttributes?
         /// Details explaining any failures that occur when creating a backup.
         public let failureDetails: BackupFailureDetails?
         /// Metadata of the file system associated with the backup. This metadata is persisted even if the file system is deleted.
@@ -46,9 +70,10 @@ extension FSx {
         /// The type of the backup.
         public let `type`: BackupType
 
-        public init(backupId: String, creationTime: TimeStamp, failureDetails: BackupFailureDetails? = nil, fileSystem: FileSystem, kmsKeyId: String? = nil, lifecycle: BackupLifecycle, progressPercent: Int32? = nil, resourceARN: String? = nil, tags: [Tag]? = nil, type: BackupType) {
+        public init(backupId: String, creationTime: TimeStamp, directoryInformation: ActiveDirectoryBackupAttributes? = nil, failureDetails: BackupFailureDetails? = nil, fileSystem: FileSystem, kmsKeyId: String? = nil, lifecycle: BackupLifecycle, progressPercent: Int32? = nil, resourceARN: String? = nil, tags: [Tag]? = nil, type: BackupType) {
             self.backupId = backupId
             self.creationTime = creationTime
+            self.directoryInformation = directoryInformation
             self.failureDetails = failureDetails
             self.fileSystem = fileSystem
             self.kmsKeyId = kmsKeyId
@@ -62,6 +87,7 @@ extension FSx {
         private enum CodingKeys: String, CodingKey {
             case backupId = "BackupId"
             case creationTime = "CreationTime"
+            case directoryInformation = "DirectoryInformation"
             case failureDetails = "FailureDetails"
             case fileSystem = "FileSystem"
             case kmsKeyId = "KmsKeyId"
@@ -246,19 +272,19 @@ extension FSx {
         ]
         /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
         public let clientRequestToken: String?
-        /// The type of file system.
+        /// The type of Amazon FSx file system to create.
         public let fileSystemType: FileSystemType
         public let kmsKeyId: String?
         public let lustreConfiguration: CreateFileSystemLustreConfiguration?
-        /// A list of IDs for the security groups that apply to the specified network interfaces created for file system access. These security groups will apply to all network interfaces. This list isn't returned in later describe requests.
+        /// A list of IDs specifying the security groups to apply to all network interfaces created for file system access. This list isn't returned in later requests to describe the file system.
         public let securityGroupIds: [String]?
-        /// The storage capacity of the file system. For Windows file systems, the storage capacity has a minimum of 300 GiB, and a maximum of 65,536 GiB. For Lustre file systems, the storage capacity has a minimum of 3,600 GiB. Storage capacity is provisioned in increments of 3,600 GiB.
+        /// The storage capacity of the file system being created. For Windows file systems, the storage capacity has a minimum of 300 GiB, and a maximum of 65,536 GiB. For Lustre file systems, the storage capacity has a minimum of 3,600 GiB. Storage capacity is provisioned in increments of 3,600 GiB.
         public let storageCapacity: Int32
-        /// A list of IDs for the subnets that the file system will be accessible from. File systems support only one subnet. The file server is also launched in that subnet's Availability Zone.
+        /// The IDs of the subnets that the file system will be accessible from. File systems support only one subnet. The file server is also launched in that subnet's Availability Zone.
         public let subnetIds: [String]
-        /// The tags to be applied to the file system at file system creation. The key value of the Name tag appears in the console as the file system name.
+        /// The tags to apply to the file system being created. The key value of the Name tag appears in the console as the file system name.
         public let tags: [Tag]?
-        /// The configuration for this Microsoft Windows file system.
+        /// The Microsoft Windows configuration for the file system being created. This value is required if FileSystemType is set to WINDOWS.
         public let windowsConfiguration: CreateFileSystemWindowsConfiguration?
 
         public init(clientRequestToken: String? = nil, fileSystemType: FileSystemType, kmsKeyId: String? = nil, lustreConfiguration: CreateFileSystemLustreConfiguration? = nil, securityGroupIds: [String]? = nil, storageCapacity: Int32, subnetIds: [String], tags: [Tag]? = nil, windowsConfiguration: CreateFileSystemWindowsConfiguration? = nil) {
@@ -290,7 +316,7 @@ extension FSx {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileSystem", required: false, type: .structure)
         ]
-        /// A description of the file system.
+        /// The configuration of the file system that was created.
         public let fileSystem: FileSystem?
 
         public init(fileSystem: FileSystem? = nil) {
@@ -308,27 +334,30 @@ extension FSx {
             AWSShapeMember(label: "AutomaticBackupRetentionDays", required: false, type: .integer), 
             AWSShapeMember(label: "CopyTagsToBackups", required: false, type: .boolean), 
             AWSShapeMember(label: "DailyAutomaticBackupStartTime", required: false, type: .string), 
+            AWSShapeMember(label: "SelfManagedActiveDirectoryConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "ThroughputCapacity", required: true, type: .integer), 
             AWSShapeMember(label: "WeeklyMaintenanceStartTime", required: false, type: .string)
         ]
-        /// The ID for an existing Microsoft Active Directory instance that the file system should join when it's created.
+        /// The ID for an existing AWS Managed Microsoft Active Directory (AD) instance that the file system should join when it's created.
         public let activeDirectoryId: String?
         /// The number of days to retain automatic backups. The default is to retain backups for 7 days. Setting this value to 0 disables the creation of automatic backups. The maximum retention period for backups is 35 days.
         public let automaticBackupRetentionDays: Int32?
-        /// A boolean flag indicating whether tags on the file system should be copied to backups. This value defaults to false. If it's set to true, all tags on the file system are copied to all automatic backups and any user-initiated backups where the user doesn't specify any tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups.
+        /// A boolean flag indicating whether tags for the file system should be copied to backups. This value defaults to false. If it's set to true, all tags for the file system are copied to all automatic and user-initiated backups where the user doesn't specify tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups.
         public let copyTagsToBackups: Bool?
-        /// The preferred time to take daily automatic backups, in the UTC time zone.
+        /// The preferred time to take daily automatic backups, formatted HH:MM in the UTC time zone.
         public let dailyAutomaticBackupStartTime: String?
-        /// The throughput of an Amazon FSx file system, measured in megabytes per second.
+        public let selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfiguration?
+        /// The throughput of an Amazon FSx file system, measured in megabytes per second, in 2 to the nth increments, between 2^3 (8) and 2^11 (2048).
         public let throughputCapacity: Int32
-        /// The preferred start time to perform weekly maintenance, in the UTC time zone.
+        /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone.
         public let weeklyMaintenanceStartTime: String?
 
-        public init(activeDirectoryId: String? = nil, automaticBackupRetentionDays: Int32? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, throughputCapacity: Int32, weeklyMaintenanceStartTime: String? = nil) {
+        public init(activeDirectoryId: String? = nil, automaticBackupRetentionDays: Int32? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfiguration? = nil, throughputCapacity: Int32, weeklyMaintenanceStartTime: String? = nil) {
             self.activeDirectoryId = activeDirectoryId
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
+            self.selfManagedActiveDirectoryConfiguration = selfManagedActiveDirectoryConfiguration
             self.throughputCapacity = throughputCapacity
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
@@ -338,6 +367,7 @@ extension FSx {
             case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
             case copyTagsToBackups = "CopyTagsToBackups"
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
+            case selfManagedActiveDirectoryConfiguration = "SelfManagedActiveDirectoryConfiguration"
             case throughputCapacity = "ThroughputCapacity"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
         }
@@ -626,24 +656,24 @@ extension FSx {
         /// The DNS name for the file system.
         public let dNSName: String?
         public let failureDetails: FileSystemFailureDetails?
-        /// The eight-digit ID of the file system that was automatically assigned by Amazon FSx.
+        /// The system-generated, unique 17-digit ID of the file system.
         public let fileSystemId: String?
-        /// Type of file system. Currently the only supported type is WINDOWS.
+        /// The type of Amazon FSx file system, either LUSTRE or WINDOWS.
         public let fileSystemType: FileSystemType?
         /// The ID of the AWS Key Management Service (AWS KMS) key used to encrypt the file system's data for an Amazon FSx for Windows File Server file system.
         public let kmsKeyId: String?
-        /// The lifecycle status of the file system.
+        /// The lifecycle status of the file system:    AVAILABLE indicates that the file system is reachable and available for use.    CREATING indicates that Amazon FSx is in the process of creating the new file system.    DELETING indicates that Amazon FSx is in the process of deleting the file system.    FAILED indicates that Amazon FSx was not able to create the file system.    MISCONFIGURED indicates that the file system is in a failed but recoverable state.    UPDATING indicates that the file system is undergoing a customer initiated update.  
         public let lifecycle: FileSystemLifecycle?
         public let lustreConfiguration: LustreFileSystemConfiguration?
-        /// The IDs of the elastic network interface from which a specific file system is accessible. The elastic network interface is automatically created in the same VPC that the Amazon FSx file system was created in. For more information, see Elastic Network Interfaces in the Amazon EC2 User Guide.  For an Amazon FSx for Windows File Server file system, you can have one network interface Id. For an Amazon FSx for Lustre file system, you can have more than one.
+        /// The IDs of the elastic network interface from which a specific file system is accessible. The elastic network interface is automatically created in the same VPC that the Amazon FSx file system was created in. For more information, see Elastic Network Interfaces in the Amazon EC2 User Guide.  For an Amazon FSx for Windows File Server file system, you can have one network interface ID. For an Amazon FSx for Lustre file system, you can have more than one.
         public let networkInterfaceIds: [String]?
-        /// The AWS account that created the file system. If the file system was created by an IAM user, the AWS account to which the IAM user belongs is the owner.
+        /// The AWS account that created the file system. If the file system was created by an AWS Identity and Access Management (IAM) user, the AWS account to which the IAM user belongs is the owner.
         public let ownerId: String?
-        /// The resource ARN of the file system.
+        /// The Amazon Resource Name (ARN) for the file system resource.
         public let resourceARN: String?
-        /// The storage capacity of the file system in gigabytes.
+        /// The storage capacity of the file system in gigabytes (GB).
         public let storageCapacity: Int32?
-        /// The IDs of the subnets to contain the endpoint for the file system. One and only one is supported. The file system is launched in the Availability Zone associated with this subnet.
+        /// The ID of the subnet to contain the endpoint for the file system. One and only one is supported. The file system is launched in the Availability Zone associated with this subnet.
         public let subnetIds: [String]?
         /// The tags to associate with the file system. For more information, see Tagging Your Amazon EC2 Resources in the Amazon EC2 User Guide.
         public let tags: [Tag]?
@@ -695,7 +725,7 @@ extension FSx {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Message", required: false, type: .string)
         ]
-        /// Message describing the failures that occurred during file system creation.
+        /// A message describing any failures that occurred during file system creation.
         public let message: String?
 
         public init(message: String? = nil) {
@@ -712,6 +742,8 @@ extension FSx {
         case creating = "CREATING"
         case failed = "FAILED"
         case deleting = "DELETING"
+        case misconfigured = "MISCONFIGURED"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -818,6 +850,109 @@ extension FSx {
         private enum CodingKeys: String, CodingKey {
             case dataRepositoryConfiguration = "DataRepositoryConfiguration"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
+        }
+    }
+
+    public struct SelfManagedActiveDirectoryAttributes: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DnsIps", required: false, type: .list), 
+            AWSShapeMember(label: "DomainName", required: false, type: .string), 
+            AWSShapeMember(label: "FileSystemAdministratorsGroup", required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationalUnitDistinguishedName", required: false, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string)
+        ]
+        /// A list of up to two IP addresses of DNS servers or domain controllers in the self-managed AD directory.
+        public let dnsIps: [String]?
+        /// The fully qualified domain name of the self-managed AD directory.
+        public let domainName: String?
+        /// The name of the domain group whose members have administrative privileges for the FSx file system.
+        public let fileSystemAdministratorsGroup: String?
+        /// The fully qualified distinguished name of the organizational unit within the self-managed AD directory to which the Windows File Server instance is joined.
+        public let organizationalUnitDistinguishedName: String?
+        /// The user name for the service account on your self-managed AD domain that FSx uses to join to your AD domain.
+        public let userName: String?
+
+        public init(dnsIps: [String]? = nil, domainName: String? = nil, fileSystemAdministratorsGroup: String? = nil, organizationalUnitDistinguishedName: String? = nil, userName: String? = nil) {
+            self.dnsIps = dnsIps
+            self.domainName = domainName
+            self.fileSystemAdministratorsGroup = fileSystemAdministratorsGroup
+            self.organizationalUnitDistinguishedName = organizationalUnitDistinguishedName
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dnsIps = "DnsIps"
+            case domainName = "DomainName"
+            case fileSystemAdministratorsGroup = "FileSystemAdministratorsGroup"
+            case organizationalUnitDistinguishedName = "OrganizationalUnitDistinguishedName"
+            case userName = "UserName"
+        }
+    }
+
+    public struct SelfManagedActiveDirectoryConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DnsIps", required: true, type: .list), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "FileSystemAdministratorsGroup", required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationalUnitDistinguishedName", required: false, type: .string), 
+            AWSShapeMember(label: "Password", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string)
+        ]
+        /// A list of up to two IP addresses of DNS servers or domain controllers in the self-managed AD directory. The IP addresses need to be either in the same VPC CIDR range as the one in which your Amazon FSx file system is being created, or in the private IP version 4 (Iv4) address ranges, as specified in RFC 1918:   10.0.0.0 - 10.255.255.255 (10/8 prefix)   172.16.0.0 - 172.31.255.255 (172.16/12 prefix)   192.168.0.0 - 192.168.255.255 (192.168/16 prefix)  
+        public let dnsIps: [String]
+        /// The fully qualified domain name of the self-managed AD directory, such as corp.example.com.
+        public let domainName: String
+        /// (Optional) The name of the domain group whose members are granted administrative privileges for the file system. Administrative privileges include taking ownership of files and folders, and setting audit controls (audit ACLs) on files and folders. The group that you specify must already exist in your domain. If you don't provide one, your AD domain's Domain Admins group is used.
+        public let fileSystemAdministratorsGroup: String?
+        /// (Optional) The fully qualified distinguished name of the organizational unit within your self-managed AD directory that the Windows File Server instance will join. Amazon FSx only accepts OU as the direct parent of the file system. An example is OU=FSx,DC=yourdomain,DC=corp,DC=com. To learn more, see RFC 2253. If none is provided, the FSx file system is created in the default location of your self-managed AD directory.   Only Organizational Unit (OU) objects can be the direct parent of the file system that you're creating. 
+        public let organizationalUnitDistinguishedName: String?
+        /// The password for the service account on your self-managed AD domain that Amazon FSx will use to join to your AD domain.
+        public let password: String
+        /// The user name for the service account on your self-managed AD domain that Amazon FSx will use to join to your AD domain. This account must have the permission to join computers to the domain in the organizational unit provided in OrganizationalUnitDistinguishedName, or in the default location of your AD domain.
+        public let userName: String
+
+        public init(dnsIps: [String], domainName: String, fileSystemAdministratorsGroup: String? = nil, organizationalUnitDistinguishedName: String? = nil, password: String, userName: String) {
+            self.dnsIps = dnsIps
+            self.domainName = domainName
+            self.fileSystemAdministratorsGroup = fileSystemAdministratorsGroup
+            self.organizationalUnitDistinguishedName = organizationalUnitDistinguishedName
+            self.password = password
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dnsIps = "DnsIps"
+            case domainName = "DomainName"
+            case fileSystemAdministratorsGroup = "FileSystemAdministratorsGroup"
+            case organizationalUnitDistinguishedName = "OrganizationalUnitDistinguishedName"
+            case password = "Password"
+            case userName = "UserName"
+        }
+    }
+
+    public struct SelfManagedActiveDirectoryConfigurationUpdates: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DnsIps", required: false, type: .list), 
+            AWSShapeMember(label: "Password", required: false, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string)
+        ]
+        /// A list of up to two IP addresses of DNS servers or domain controllers in the self-managed AD directory.
+        public let dnsIps: [String]?
+        /// The password for the service account on your self-managed AD domain that Amazon FSx will use to join to your AD domain.
+        public let password: String?
+        /// The user name for the service account on your self-managed AD domain that Amazon FSx will use to join to your AD domain. This account must have the permission to join computers to the domain in the organizational unit provided in OrganizationalUnitDistinguishedName.
+        public let userName: String?
+
+        public init(dnsIps: [String]? = nil, password: String? = nil, userName: String? = nil) {
+            self.dnsIps = dnsIps
+            self.password = password
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dnsIps = "DnsIps"
+            case password = "Password"
+            case userName = "UserName"
         }
     }
 
@@ -933,7 +1068,7 @@ extension FSx {
         public let clientRequestToken: String?
         public let fileSystemId: String
         public let lustreConfiguration: UpdateFileSystemLustreConfiguration?
-        /// The configuration for this Microsoft Windows file system. The only supported options are for backup and maintenance.
+        /// The configuration update for this Microsoft Windows file system. The only supported options are for backup and maintenance and for self-managed Active Directory configuration.
         public let windowsConfiguration: UpdateFileSystemWindowsConfiguration?
 
         public init(clientRequestToken: String? = nil, fileSystemId: String, lustreConfiguration: UpdateFileSystemLustreConfiguration? = nil, windowsConfiguration: UpdateFileSystemWindowsConfiguration? = nil) {
@@ -955,7 +1090,7 @@ extension FSx {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileSystem", required: false, type: .structure)
         ]
-        /// A description of the file system.
+        /// A description of the file system that was updated.
         public let fileSystem: FileSystem?
 
         public init(fileSystem: FileSystem? = nil) {
@@ -971,24 +1106,29 @@ extension FSx {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutomaticBackupRetentionDays", required: false, type: .integer), 
             AWSShapeMember(label: "DailyAutomaticBackupStartTime", required: false, type: .string), 
+            AWSShapeMember(label: "SelfManagedActiveDirectoryConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "WeeklyMaintenanceStartTime", required: false, type: .string)
         ]
         /// The number of days to retain automatic backups. Setting this to 0 disables automatic backups. You can retain automatic backups for a maximum of 35 days.
         public let automaticBackupRetentionDays: Int32?
         /// The preferred time to take daily automatic backups, in the UTC time zone.
         public let dailyAutomaticBackupStartTime: String?
+        /// The configuration Amazon FSx uses to join the Windows File Server instance to the self-managed Microsoft AD directory.
+        public let selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfigurationUpdates?
         /// The preferred time to perform weekly maintenance, in the UTC time zone.
         public let weeklyMaintenanceStartTime: String?
 
-        public init(automaticBackupRetentionDays: Int32? = nil, dailyAutomaticBackupStartTime: String? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(automaticBackupRetentionDays: Int32? = nil, dailyAutomaticBackupStartTime: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfigurationUpdates? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
+            self.selfManagedActiveDirectoryConfiguration = selfManagedActiveDirectoryConfiguration
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
 
         private enum CodingKeys: String, CodingKey {
             case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
+            case selfManagedActiveDirectoryConfiguration = "SelfManagedActiveDirectoryConfiguration"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
         }
     }
@@ -1000,6 +1140,7 @@ extension FSx {
             AWSShapeMember(label: "CopyTagsToBackups", required: false, type: .boolean), 
             AWSShapeMember(label: "DailyAutomaticBackupStartTime", required: false, type: .string), 
             AWSShapeMember(label: "MaintenanceOperationsInProgress", required: false, type: .list), 
+            AWSShapeMember(label: "SelfManagedActiveDirectoryConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "ThroughputCapacity", required: false, type: .integer), 
             AWSShapeMember(label: "WeeklyMaintenanceStartTime", required: false, type: .string)
         ]
@@ -1013,17 +1154,19 @@ extension FSx {
         public let dailyAutomaticBackupStartTime: String?
         /// The list of maintenance operations in progress for this file system.
         public let maintenanceOperationsInProgress: [FileSystemMaintenanceOperation]?
+        public let selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryAttributes?
         /// The throughput of an Amazon FSx file system, measured in megabytes per second.
         public let throughputCapacity: Int32?
         /// The preferred time to perform weekly maintenance, in the UTC time zone.
         public let weeklyMaintenanceStartTime: String?
 
-        public init(activeDirectoryId: String? = nil, automaticBackupRetentionDays: Int32? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, maintenanceOperationsInProgress: [FileSystemMaintenanceOperation]? = nil, throughputCapacity: Int32? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(activeDirectoryId: String? = nil, automaticBackupRetentionDays: Int32? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, maintenanceOperationsInProgress: [FileSystemMaintenanceOperation]? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryAttributes? = nil, throughputCapacity: Int32? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.activeDirectoryId = activeDirectoryId
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.maintenanceOperationsInProgress = maintenanceOperationsInProgress
+            self.selfManagedActiveDirectoryConfiguration = selfManagedActiveDirectoryConfiguration
             self.throughputCapacity = throughputCapacity
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
@@ -1034,6 +1177,7 @@ extension FSx {
             case copyTagsToBackups = "CopyTagsToBackups"
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
             case maintenanceOperationsInProgress = "MaintenanceOperationsInProgress"
+            case selfManagedActiveDirectoryConfiguration = "SelfManagedActiveDirectoryConfiguration"
             case throughputCapacity = "ThroughputCapacity"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
         }

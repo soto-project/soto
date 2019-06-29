@@ -12,6 +12,14 @@ extension MediaPackage {
         public var description: String { return self.rawValue }
     }
 
+    public enum AdsOnDeliveryRestrictions: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case restricted = "RESTRICTED"
+        case unrestricted = "UNRESTRICTED"
+        case both = "BOTH"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Channel: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
@@ -401,6 +409,8 @@ extension MediaPackage {
 
     public struct DashPackage: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdTriggers", location: .body(locationName: "adTriggers"), required: false, type: .list), 
+            AWSShapeMember(label: "AdsOnDeliveryRestrictions", location: .body(locationName: "adsOnDeliveryRestrictions"), required: false, type: .enum), 
             AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure), 
             AWSShapeMember(label: "ManifestLayout", location: .body(locationName: "manifestLayout"), required: false, type: .enum), 
             AWSShapeMember(label: "ManifestWindowSeconds", location: .body(locationName: "manifestWindowSeconds"), required: false, type: .integer), 
@@ -413,6 +423,8 @@ extension MediaPackage {
             AWSShapeMember(label: "StreamSelection", location: .body(locationName: "streamSelection"), required: false, type: .structure), 
             AWSShapeMember(label: "SuggestedPresentationDelaySeconds", location: .body(locationName: "suggestedPresentationDelaySeconds"), required: false, type: .integer)
         ]
+        public let adTriggers: [Adtriggerselement]?
+        public let adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions?
         public let encryption: DashEncryption?
         /// Determines the position of some tags in the Media Presentation Description (MPD).  When set to FULL, elements like SegmentTemplate and ContentProtection are included in each Representation.  When set to COMPACT, duplicate elements are combined and presented at the AdaptationSet level.
         public let manifestLayout: ManifestLayout?
@@ -438,7 +450,9 @@ extension MediaPackage {
         /// Duration (in seconds) to delay live content before presentation.
         public let suggestedPresentationDelaySeconds: Int32?
 
-        public init(encryption: DashEncryption? = nil, manifestLayout: ManifestLayout? = nil, manifestWindowSeconds: Int32? = nil, minBufferTimeSeconds: Int32? = nil, minUpdatePeriodSeconds: Int32? = nil, periodTriggers: [Periodtriggerselement]? = nil, profile: Profile? = nil, segmentDurationSeconds: Int32? = nil, segmentTemplateFormat: SegmentTemplateFormat? = nil, streamSelection: StreamSelection? = nil, suggestedPresentationDelaySeconds: Int32? = nil) {
+        public init(adTriggers: [Adtriggerselement]? = nil, adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions? = nil, encryption: DashEncryption? = nil, manifestLayout: ManifestLayout? = nil, manifestWindowSeconds: Int32? = nil, minBufferTimeSeconds: Int32? = nil, minUpdatePeriodSeconds: Int32? = nil, periodTriggers: [Periodtriggerselement]? = nil, profile: Profile? = nil, segmentDurationSeconds: Int32? = nil, segmentTemplateFormat: SegmentTemplateFormat? = nil, streamSelection: StreamSelection? = nil, suggestedPresentationDelaySeconds: Int32? = nil) {
+            self.adTriggers = adTriggers
+            self.adsOnDeliveryRestrictions = adsOnDeliveryRestrictions
             self.encryption = encryption
             self.manifestLayout = manifestLayout
             self.manifestWindowSeconds = manifestWindowSeconds
@@ -453,6 +467,8 @@ extension MediaPackage {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case adTriggers = "adTriggers"
+            case adsOnDeliveryRestrictions = "adsOnDeliveryRestrictions"
             case encryption = "encryption"
             case manifestLayout = "manifestLayout"
             case manifestWindowSeconds = "manifestWindowSeconds"
@@ -766,6 +782,8 @@ extension MediaPackage {
     public struct HlsManifestCreateOrUpdateParameters: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AdMarkers", location: .body(locationName: "adMarkers"), required: false, type: .enum), 
+            AWSShapeMember(label: "AdTriggers", location: .body(locationName: "adTriggers"), required: false, type: .list), 
+            AWSShapeMember(label: "AdsOnDeliveryRestrictions", location: .body(locationName: "adsOnDeliveryRestrictions"), required: false, type: .enum), 
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: true, type: .string), 
             AWSShapeMember(label: "IncludeIframeOnlyStream", location: .body(locationName: "includeIframeOnlyStream"), required: false, type: .boolean), 
             AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string), 
@@ -780,6 +798,8 @@ extension MediaPackage {
         /// "SCTE35_ENHANCED" generates ad markers and blackout tags based on SCTE-35
         /// messages in the input source.
         public let adMarkers: AdMarkers?
+        public let adTriggers: [Adtriggerselement]?
+        public let adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions?
         /// The ID of the manifest. The ID must be unique within the OriginEndpoint and it cannot be changed after it is created.
         public let id: String
         /// When enabled, an I-Frame only stream will be included in the output.
@@ -803,8 +823,10 @@ extension MediaPackage {
         /// it will be passed through to HLS output.
         public let programDateTimeIntervalSeconds: Int32?
 
-        public init(adMarkers: AdMarkers? = nil, id: String, includeIframeOnlyStream: Bool? = nil, manifestName: String? = nil, playlistType: PlaylistType? = nil, playlistWindowSeconds: Int32? = nil, programDateTimeIntervalSeconds: Int32? = nil) {
+        public init(adMarkers: AdMarkers? = nil, adTriggers: [Adtriggerselement]? = nil, adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions? = nil, id: String, includeIframeOnlyStream: Bool? = nil, manifestName: String? = nil, playlistType: PlaylistType? = nil, playlistWindowSeconds: Int32? = nil, programDateTimeIntervalSeconds: Int32? = nil) {
             self.adMarkers = adMarkers
+            self.adTriggers = adTriggers
+            self.adsOnDeliveryRestrictions = adsOnDeliveryRestrictions
             self.id = id
             self.includeIframeOnlyStream = includeIframeOnlyStream
             self.manifestName = manifestName
@@ -815,6 +837,8 @@ extension MediaPackage {
 
         private enum CodingKeys: String, CodingKey {
             case adMarkers = "adMarkers"
+            case adTriggers = "adTriggers"
+            case adsOnDeliveryRestrictions = "adsOnDeliveryRestrictions"
             case id = "id"
             case includeIframeOnlyStream = "includeIframeOnlyStream"
             case manifestName = "manifestName"
@@ -827,6 +851,8 @@ extension MediaPackage {
     public struct HlsPackage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AdMarkers", location: .body(locationName: "adMarkers"), required: false, type: .enum), 
+            AWSShapeMember(label: "AdTriggers", location: .body(locationName: "adTriggers"), required: false, type: .list), 
+            AWSShapeMember(label: "AdsOnDeliveryRestrictions", location: .body(locationName: "adsOnDeliveryRestrictions"), required: false, type: .enum), 
             AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure), 
             AWSShapeMember(label: "IncludeIframeOnlyStream", location: .body(locationName: "includeIframeOnlyStream"), required: false, type: .boolean), 
             AWSShapeMember(label: "PlaylistType", location: .body(locationName: "playlistType"), required: false, type: .enum), 
@@ -843,6 +869,8 @@ extension MediaPackage {
         /// "SCTE35_ENHANCED" generates ad markers and blackout tags based on SCTE-35
         /// messages in the input source.
         public let adMarkers: AdMarkers?
+        public let adTriggers: [Adtriggerselement]?
+        public let adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions?
         public let encryption: HlsEncryption?
         /// When enabled, an I-Frame only stream will be included in the output.
         public let includeIframeOnlyStream: Bool?
@@ -869,8 +897,10 @@ extension MediaPackage {
         /// When enabled, audio streams will be placed in rendition groups in the output.
         public let useAudioRenditionGroup: Bool?
 
-        public init(adMarkers: AdMarkers? = nil, encryption: HlsEncryption? = nil, includeIframeOnlyStream: Bool? = nil, playlistType: PlaylistType? = nil, playlistWindowSeconds: Int32? = nil, programDateTimeIntervalSeconds: Int32? = nil, segmentDurationSeconds: Int32? = nil, streamSelection: StreamSelection? = nil, useAudioRenditionGroup: Bool? = nil) {
+        public init(adMarkers: AdMarkers? = nil, adTriggers: [Adtriggerselement]? = nil, adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions? = nil, encryption: HlsEncryption? = nil, includeIframeOnlyStream: Bool? = nil, playlistType: PlaylistType? = nil, playlistWindowSeconds: Int32? = nil, programDateTimeIntervalSeconds: Int32? = nil, segmentDurationSeconds: Int32? = nil, streamSelection: StreamSelection? = nil, useAudioRenditionGroup: Bool? = nil) {
             self.adMarkers = adMarkers
+            self.adTriggers = adTriggers
+            self.adsOnDeliveryRestrictions = adsOnDeliveryRestrictions
             self.encryption = encryption
             self.includeIframeOnlyStream = includeIframeOnlyStream
             self.playlistType = playlistType
@@ -883,6 +913,8 @@ extension MediaPackage {
 
         private enum CodingKeys: String, CodingKey {
             case adMarkers = "adMarkers"
+            case adTriggers = "adTriggers"
+            case adsOnDeliveryRestrictions = "adsOnDeliveryRestrictions"
             case encryption = "encryption"
             case includeIframeOnlyStream = "includeIframeOnlyStream"
             case playlistType = "playlistType"
@@ -1715,6 +1747,18 @@ extension MediaPackage {
             case url = "url"
             case whitelist = "whitelist"
         }
+    }
+
+    public enum Adtriggerselement: String, CustomStringConvertible, Codable {
+        case spliceInsert = "SPLICE_INSERT"
+        case `break` = "BREAK"
+        case providerAdvertisement = "PROVIDER_ADVERTISEMENT"
+        case distributorAdvertisement = "DISTRIBUTOR_ADVERTISEMENT"
+        case providerPlacementOpportunity = "PROVIDER_PLACEMENT_OPPORTUNITY"
+        case distributorPlacementOpportunity = "DISTRIBUTOR_PLACEMENT_OPPORTUNITY"
+        case providerOverlayPlacementOpportunity = "PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY"
+        case distributorOverlayPlacementOpportunity = "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY"
+        public var description: String { return self.rawValue }
     }
 
     public enum Periodtriggerselement: String, CustomStringConvertible, Codable {

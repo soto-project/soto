@@ -18,6 +18,7 @@ public enum SESErrorType: AWSErrorType {
     case fromEmailAddressNotVerifiedException(message: String?)
     case invalidCloudWatchDestinationException(message: String?)
     case invalidConfigurationSetException(message: String?)
+    case invalidDeliveryOptionsException(message: String?)
     case invalidFirehoseDestinationException(message: String?)
     case invalidLambdaFunctionException(message: String?)
     case invalidPolicyException(message: String?)
@@ -74,6 +75,8 @@ extension SESErrorType {
             self = .invalidCloudWatchDestinationException(message: message)
         case "InvalidConfigurationSetException":
             self = .invalidConfigurationSetException(message: message)
+        case "InvalidDeliveryOptionsException":
+            self = .invalidDeliveryOptionsException(message: message)
         case "InvalidFirehoseDestinationException":
             self = .invalidFirehoseDestinationException(message: message)
         case "InvalidLambdaFunctionException":

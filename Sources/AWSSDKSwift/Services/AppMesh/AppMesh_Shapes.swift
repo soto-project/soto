@@ -21,6 +21,57 @@ extension AppMesh {
         }
     }
 
+    public struct AwsCloudMapInstanceAttribute: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "key", required: true, type: .string), 
+            AWSShapeMember(label: "value", required: true, type: .string)
+        ]
+        /// The name of an AWS Cloud Map service instance attribute key. Any AWS Cloud Map service instance
+        ///          that contains the specified key and value is returned.
+        public let key: String
+        /// The value of an AWS Cloud Map service instance attribute key. Any AWS Cloud Map service
+        ///          instance that contains the specified key and value is returned.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
+        }
+    }
+
+    public struct AwsCloudMapServiceDiscovery: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attributes", required: false, type: .list), 
+            AWSShapeMember(label: "namespaceName", required: true, type: .string), 
+            AWSShapeMember(label: "serviceName", required: true, type: .string)
+        ]
+        /// A string map that contains attributes with values that you can use to filter instances
+        ///          by any custom attribute that you specified when you registered the instance. Only instances
+        ///          that match all of the specified key/value pairs will be returned.
+        public let attributes: [AwsCloudMapInstanceAttribute]?
+        /// The name of the AWS Cloud Map namespace to use.
+        public let namespaceName: String
+        /// The name of the AWS Cloud Map service to use.
+        public let serviceName: String
+
+        public init(attributes: [AwsCloudMapInstanceAttribute]? = nil, namespaceName: String, serviceName: String) {
+            self.attributes = attributes
+            self.namespaceName = namespaceName
+            self.serviceName = serviceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
+            case namespaceName = "namespaceName"
+            case serviceName = "serviceName"
+        }
+    }
+
     public struct Backend: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "virtualService", required: false, type: .structure)
@@ -51,9 +102,9 @@ extension AppMesh {
         public let meshName: String
         /// The service mesh specification to apply.
         public let spec: MeshSpec?
-        /// Optional metadata that you can apply to the service mesh to assist with categorization and organization.
-        ///          Each tag consists of a key and an optional value, both of which you define.
-        ///          Tag keys can have a maximum character length of 128 characters, and tag values can have
+        /// Optional metadata that you can apply to the service mesh to assist with categorization
+        ///          and organization. Each tag consists of a key and an optional value, both of which you
+        ///          define. Tag keys can have a maximum character length of 128 characters, and tag values can have
         ///             a maximum length of 256 characters.
         public let tags: [TagRef]?
 
@@ -108,8 +159,8 @@ extension AppMesh {
         public let routeName: String
         /// The route specification to apply.
         public let spec: RouteSpec
-        /// Optional metadata that you can apply to the route to assist with categorization and organization.
-        ///          Each tag consists of a key and an optional value, both of which you define.
+        /// Optional metadata that you can apply to the route to assist with categorization and
+        ///          organization. Each tag consists of a key and an optional value, both of which you define.
         ///          Tag keys can have a maximum character length of 128 characters, and tag values can have
         ///             a maximum length of 256 characters.
         public let tags: [TagRef]?
@@ -168,9 +219,9 @@ extension AppMesh {
         public let meshName: String
         /// The virtual node specification to apply.
         public let spec: VirtualNodeSpec
-        /// Optional metadata that you can apply to the virtual node to assist with categorization and organization.
-        ///          Each tag consists of a key and an optional value, both of which you define.
-        ///          Tag keys can have a maximum character length of 128 characters, and tag values can have
+        /// Optional metadata that you can apply to the virtual node to assist with categorization
+        ///          and organization. Each tag consists of a key and an optional value, both of which you
+        ///          define. Tag keys can have a maximum character length of 128 characters, and tag values can have
         ///             a maximum length of 256 characters.
         public let tags: [TagRef]?
         /// The name to use for the virtual node.
@@ -226,9 +277,9 @@ extension AppMesh {
         public let meshName: String
         /// The virtual router specification to apply.
         public let spec: VirtualRouterSpec
-        /// Optional metadata that you can apply to the virtual router to assist with categorization and organization.
-        ///          Each tag consists of a key and an optional value, both of which you define.
-        ///          Tag keys can have a maximum character length of 128 characters, and tag values can have
+        /// Optional metadata that you can apply to the virtual router to assist with categorization
+        ///          and organization. Each tag consists of a key and an optional value, both of which you
+        ///          define. Tag keys can have a maximum character length of 128 characters, and tag values can have
         ///             a maximum length of 256 characters.
         public let tags: [TagRef]?
         /// The name to use for the virtual router.
@@ -284,9 +335,9 @@ extension AppMesh {
         public let meshName: String
         /// The virtual service specification to apply.
         public let spec: VirtualServiceSpec
-        /// Optional metadata that you can apply to the virtual service to assist with categorization and organization.
-        ///          Each tag consists of a key and an optional value, both of which you define.
-        ///          Tag keys can have a maximum character length of 128 characters, and tag values can have
+        /// Optional metadata that you can apply to the virtual service to assist with
+        ///          categorization and organization. Each tag consists of a key and an optional value, both of
+        ///          which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have
         ///             a maximum length of 256 characters.
         public let tags: [TagRef]?
         /// The name to use for the virtual service.
@@ -738,10 +789,10 @@ extension AppMesh {
             AWSShapeMember(label: "type", required: true, type: .enum)
         ]
         /// The egress filter type. By default, the type is DROP_ALL, which allows
-        ///          egress only from virtual nodes to other defined resources in the service mesh (and any traffic
-        ///          to *.amazonaws.com for AWS API calls). You can set the egress filter type to
-        ///             ALLOW_ALL to allow egress to any endpoint inside or outside of the service
-        ///          mesh.
+        ///          egress only from virtual nodes to other defined resources in the service mesh (and any
+        ///          traffic to *.amazonaws.com for AWS API calls). You can set the egress filter
+        ///          type to ALLOW_ALL to allow egress to any endpoint inside or outside of the
+        ///          service mesh.
         public let `type`: EgressFilterType
 
         public init(type: EgressFilterType) {
@@ -765,9 +816,9 @@ extension AppMesh {
         ]
         /// The file path to write access logs to. You can use /dev/stdout to send
         ///          access logs to standard out and configure your Envoy container to use a log driver, such as
-        ///             awslogs, to export the access logs to a log storage service such as Amazon CloudWatch
-        ///          Logs. You can also specify a path in the Envoy container's file system to write the files
-        ///          to disk.
+        ///             awslogs, to export the access logs to a log storage service such as Amazon
+        ///          CloudWatch Logs. You can also specify a path in the Envoy container's file system to write
+        ///          the files to disk.
         ///          
         ///             The Envoy process must have write permissions to the path that you specify here.
         ///             Otherwise, Envoy fails to bootstrap properly.
@@ -900,17 +951,17 @@ extension AppMesh {
         ]
         /// The maximum number of results returned by ListMeshes in paginated output.
         ///          When you use this parameter, ListMeshes returns only limit
-        ///          results in a single page along with a nextToken response element. You can see the
-        ///          remaining results of the initial request by sending another
-        ///             ListMeshes request with the returned nextToken value. This
-        ///          value can be between 1 and 100. If you don't use this parameter,
-        ///          ListMeshes returns up to 100 results and a
+        ///          results in a single page along with a nextToken response element. You can see
+        ///          the remaining results of the initial request by sending another ListMeshes
+        ///          request with the returned nextToken value. This value can be between
+        ///          1 and 100. If you don't use this parameter,
+        ///             ListMeshes returns up to 100 results and a
         ///             nextToken value if applicable.
         public let limit: Int32?
         /// The nextToken value returned from a previous paginated
-        ///          ListMeshes request where limit was used and the
-        ///          results exceeded the value of that parameter. Pagination continues from the end of the
-        ///          previous results that returned the nextToken value.
+        ///             ListMeshes request where limit was used and the results
+        ///          exceeded the value of that parameter. Pagination continues from the end of the previous
+        ///          results that returned the nextToken value. 
         ///          
         ///             This token should be treated as an opaque identifier that is used only to
         ///                 retrieve the next items in a list and not for other programmatic purposes.
@@ -935,11 +986,10 @@ extension AppMesh {
         ]
         /// The list of existing service meshes.
         public let meshes: [MeshRef]
-        /// The nextToken value to include in a future ListMeshes
-        ///          request. When the results of a ListMeshes request exceed
-        ///          limit, you can use this value to retrieve the next page of
-        ///          results. This value is null when there are no more results to
-        ///          return.
+        /// The nextToken value to include in a future ListMeshes request.
+        ///          When the results of a ListMeshes request exceed limit, you can
+        ///          use this value to retrieve the next page of results. This value is null when
+        ///          there are no more results to return.
         public let nextToken: String?
 
         public init(meshes: [MeshRef], nextToken: String? = nil) {
@@ -962,19 +1012,19 @@ extension AppMesh {
         ]
         /// The maximum number of results returned by ListRoutes in paginated output.
         ///          When you use this parameter, ListRoutes returns only limit
-        ///          results in a single page along with a nextToken response element. You can see the
-        ///          remaining results of the initial request by sending another
-        ///             ListRoutes request with the returned nextToken value. This
-        ///          value can be between 1 and 100. If you don't use this parameter,
-        ///          ListRoutes returns up to 100 results and a
+        ///          results in a single page along with a nextToken response element. You can see
+        ///          the remaining results of the initial request by sending another ListRoutes
+        ///          request with the returned nextToken value. This value can be between
+        ///          1 and 100. If you don't use this parameter,
+        ///             ListRoutes returns up to 100 results and a
         ///             nextToken value if applicable.
         public let limit: Int32?
         /// The name of the service mesh to list routes in.
         public let meshName: String
         /// The nextToken value returned from a previous paginated
-        ///          ListRoutes request where limit was used and the
-        ///          results exceeded the value of that parameter. Pagination continues from the end of the
-        ///          previous results that returned the nextToken value.
+        ///             ListRoutes request where limit was used and the results
+        ///          exceeded the value of that parameter. Pagination continues from the end of the previous
+        ///          results that returned the nextToken value.
         public let nextToken: String?
         /// The name of the virtual router to list routes in.
         public let virtualRouterName: String
@@ -999,11 +1049,10 @@ extension AppMesh {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "routes", required: true, type: .list)
         ]
-        /// The nextToken value to include in a future ListRoutes
-        ///          request. When the results of a ListRoutes request exceed
-        ///          limit, you can use this value to retrieve the next page of
-        ///          results. This value is null when there are no more results to
-        ///          return.
+        /// The nextToken value to include in a future ListRoutes request.
+        ///          When the results of a ListRoutes request exceed limit, you can
+        ///          use this value to retrieve the next page of results. This value is null when
+        ///          there are no more results to return.
         public let nextToken: String?
         /// The list of existing routes for the specified service mesh and virtual router.
         public let routes: [RouteRef]
@@ -1026,16 +1075,16 @@ extension AppMesh {
             AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"), required: true, type: .string)
         ]
         /// The maximum number of tag results returned by ListTagsForResource in
-        ///          paginated output. When this parameter is used, ListTagsForResource returns only
-        ///          limit results in a single page along with a nextToken
+        ///          paginated output. When this parameter is used, ListTagsForResource returns
+        ///          only limit results in a single page along with a nextToken
         ///          response element. You can see the remaining results of the initial request by sending
         ///          another ListTagsForResource request with the returned nextToken
-        ///          value. This value can be between 1 and 100. If you don't use this
-        ///          parameter, ListTagsForResource returns up to
-        ///          100 results and a nextToken value if applicable.
+        ///          value. This value can be between 1 and 100. If you don't use
+        ///          this parameter, ListTagsForResource returns up to 100
+        ///          results and a nextToken value if applicable.
         public let limit: Int32?
         /// The nextToken value returned from a previous paginated
-        ///          ListTagsForResource request where limit was used and the
+        ///             ListTagsForResource request where limit was used and the
         ///          results exceeded the value of that parameter. Pagination continues from the end of the
         ///          previous results that returned the nextToken value.
         public let nextToken: String?
@@ -1062,9 +1111,8 @@ extension AppMesh {
         ]
         /// The nextToken value to include in a future ListTagsForResource
         ///          request. When the results of a ListTagsForResource request exceed
-        ///          limit, you can use this value to retrieve the next page of
-        ///          results. This value is null when there are no more results to
-        ///          return.
+        ///             limit, you can use this value to retrieve the next page of results. This
+        ///          value is null when there are no more results to return.
         public let nextToken: String?
         /// The tags for the resource.
         public let tags: [TagRef]
@@ -1091,16 +1139,16 @@ extension AppMesh {
         ///             limit results in a single page along with a nextToken response
         ///          element. You can see the remaining results of the initial request by sending another
         ///             ListVirtualNodes request with the returned nextToken value.
-        ///          This value can be between 1 and 100. If you don't use this parameter,
-        ///          ListVirtualNodes returns up to 100 results and a
+        ///          This value can be between 1 and 100. If you don't use this
+        ///          parameter, ListVirtualNodes returns up to 100 results and a
         ///             nextToken value if applicable.
         public let limit: Int32?
         /// The name of the service mesh to list virtual nodes in.
         public let meshName: String
         /// The nextToken value returned from a previous paginated
-        ///          ListVirtualNodes request where limit was used and the
-        ///          results exceeded the value of that parameter. Pagination continues from the end of the
-        ///          previous results that returned the nextToken value.
+        ///             ListVirtualNodes request where limit was used and the results
+        ///          exceeded the value of that parameter. Pagination continues from the end of the previous
+        ///          results that returned the nextToken value.
         public let nextToken: String?
 
         public init(limit: Int32? = nil, meshName: String, nextToken: String? = nil) {
@@ -1123,9 +1171,8 @@ extension AppMesh {
         ]
         /// The nextToken value to include in a future ListVirtualNodes
         ///          request. When the results of a ListVirtualNodes request exceed
-        ///          limit, you can use this value to retrieve the next page of
-        ///          results. This value is null when there are no more results to
-        ///          return.
+        ///             limit, you can use this value to retrieve the next page of results. This
+        ///          value is null when there are no more results to return.
         public let nextToken: String?
         /// The list of existing virtual nodes for the specified service mesh.
         public let virtualNodes: [VirtualNodeRef]
@@ -1152,14 +1199,14 @@ extension AppMesh {
         ///             limit results in a single page along with a nextToken response
         ///          element. You can see the remaining results of the initial request by sending another
         ///             ListVirtualRouters request with the returned nextToken value.
-        ///          This value can be between 1 and 100. If you don't use this parameter, 
-        ///          ListVirtualRouters returns up to 100 results and
+        ///          This value can be between 1 and 100. If you don't use this
+        ///          parameter, ListVirtualRouters returns up to 100 results and
         ///          a nextToken value if applicable.
         public let limit: Int32?
         /// The name of the service mesh to list virtual routers in.
         public let meshName: String
         /// The nextToken value returned from a previous paginated
-        ///          ListVirtualRouters request where limit was used and the
+        ///             ListVirtualRouters request where limit was used and the
         ///          results exceeded the value of that parameter. Pagination continues from the end of the
         ///          previous results that returned the nextToken value.
         public let nextToken: String?
@@ -1184,9 +1231,8 @@ extension AppMesh {
         ]
         /// The nextToken value to include in a future ListVirtualRouters
         ///          request. When the results of a ListVirtualRouters request exceed
-        ///          limit, you can use this value to retrieve the next page of
-        ///          results. This value is null when there are no more results to
-        ///          return.
+        ///             limit, you can use this value to retrieve the next page of results. This
+        ///          value is null when there are no more results to return.
         public let nextToken: String?
         /// The list of existing virtual routers for the specified service mesh.
         public let virtualRouters: [VirtualRouterRef]
@@ -1213,8 +1259,8 @@ extension AppMesh {
         ///             limit results in a single page along with a nextToken response
         ///          element. You can see the remaining results of the initial request by sending another
         ///             ListVirtualServices request with the returned nextToken value.
-        ///          This value can be between 1 and 100. If you don't use this parameter,
-        ///          ListVirtualServices returns up to 100 results and
+        ///          This value can be between 1 and 100. If you don't use this
+        ///          parameter, ListVirtualServices returns up to 100 results and
         ///          a nextToken value if applicable.
         public let limit: Int32?
         /// The name of the service mesh to list virtual services in.
@@ -1572,16 +1618,21 @@ extension AppMesh {
 
     public struct ServiceDiscovery: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "awsCloudMap", required: false, type: .structure), 
             AWSShapeMember(label: "dns", required: false, type: .structure)
         ]
+        /// Specifies any AWS Cloud Map information for the virtual node.
+        public let awsCloudMap: AwsCloudMapServiceDiscovery?
         /// Specifies the DNS information for the virtual node.
         public let dns: DnsServiceDiscovery?
 
-        public init(dns: DnsServiceDiscovery? = nil) {
+        public init(awsCloudMap: AwsCloudMapServiceDiscovery? = nil, dns: DnsServiceDiscovery? = nil) {
+            self.awsCloudMap = awsCloudMap
             self.dns = dns
         }
 
         private enum CodingKeys: String, CodingKey {
+            case awsCloudMap = "awsCloudMap"
             case dns = "dns"
         }
     }
@@ -1594,8 +1645,8 @@ extension AppMesh {
         /// One part of a key-value pair that make up a tag. A key is a general label
         ///          that acts like a category for more specific tag values.
         public let key: String
-        /// The optional part of a key-value pair that make up a tag. A value acts as
-        ///          a descriptor within a tag category (key).
+        /// The optional part of a key-value pair that make up a tag. A value acts as a
+        ///          descriptor within a tag category (key).
         public let value: String?
 
         public init(key: String, value: String? = nil) {
@@ -2037,7 +2088,8 @@ extension AppMesh {
         ]
         /// The backends that the virtual node is expected to send outbound traffic to.
         public let backends: [Backend]?
-        /// The listeners that the virtual node is expected to receive inbound traffic from. Currently only one listener is supported per virtual node.
+        /// The listeners that the virtual node is expected to receive inbound traffic from.
+        ///          Currently only one listener is supported per virtual node.
         public let listeners: [Listener]?
         /// The inbound and outbound access logging information for the virtual node.
         public let logging: Logging?
@@ -2178,12 +2230,13 @@ extension AppMesh {
 
     public struct VirtualRouterSpec: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "listeners", required: true, type: .list)
+            AWSShapeMember(label: "listeners", required: false, type: .list)
         ]
-        /// The listeners that the virtual router is expected to receive inbound traffic from. Currently only one listener is supported per virtual router.
-        public let listeners: [VirtualRouterListener]
+        /// The listeners that the virtual router is expected to receive inbound traffic from.
+        ///          Currently only one listener is supported per virtual router.
+        public let listeners: [VirtualRouterListener]?
 
-        public init(listeners: [VirtualRouterListener]) {
+        public init(listeners: [VirtualRouterListener]? = nil) {
             self.listeners = listeners
         }
 

@@ -345,6 +345,7 @@ extension Neptune {
             AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string), 
             AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
             AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
+            AWSShapeMember(label: "EnableCloudwatchLogsExports", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
             AWSShapeMember(label: "Engine", required: true, type: .string), 
             AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
@@ -375,6 +376,8 @@ extension Neptune {
         public let dBSubnetGroupName: String?
         /// The name for your database of up to 64 alpha-numeric characters. If you do not provide a name, Amazon Neptune will not create a database in the DB cluster you are creating.
         public let databaseName: String?
+        /// The list of log types that need to be enabled for exporting to CloudWatch Logs.
+        public let enableCloudwatchLogsExports: [String]?
         /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false 
         public let enableIAMDatabaseAuthentication: Bool?
         /// The name of the database engine to be used for this DB cluster. Valid Values: neptune 
@@ -406,7 +409,7 @@ extension Neptune {
         /// A list of EC2 VPC security groups to associate with this DB cluster.
         public let vpcSecurityGroupIds: [String]?
 
-        public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int32? = nil, characterSetName: String? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, databaseName: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, masterUserPassword: String? = nil, masterUsername: String? = nil, optionGroupName: String? = nil, port: Int32? = nil, preSignedUrl: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, replicationSourceIdentifier: String? = nil, storageEncrypted: Bool? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int32? = nil, characterSetName: String? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, databaseName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, masterUserPassword: String? = nil, masterUsername: String? = nil, optionGroupName: String? = nil, port: Int32? = nil, preSignedUrl: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, replicationSourceIdentifier: String? = nil, storageEncrypted: Bool? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.backupRetentionPeriod = backupRetentionPeriod
             self.characterSetName = characterSetName
@@ -414,6 +417,7 @@ extension Neptune {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
             self.dBSubnetGroupName = dBSubnetGroupName
             self.databaseName = databaseName
+            self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
             self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
             self.engine = engine
             self.engineVersion = engineVersion
@@ -439,6 +443,7 @@ extension Neptune {
             case dBClusterParameterGroupName = "DBClusterParameterGroupName"
             case dBSubnetGroupName = "DBSubnetGroupName"
             case databaseName = "DatabaseName"
+            case enableCloudwatchLogsExports = "EnableCloudwatchLogsExports"
             case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
             case engine = "Engine"
             case engineVersion = "EngineVersion"
@@ -966,6 +971,7 @@ extension Neptune {
             AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
             AWSShapeMember(label: "DbClusterResourceId", required: false, type: .string), 
             AWSShapeMember(label: "EarliestRestorableTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EnabledCloudwatchLogsExports", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Endpoint", required: false, type: .string), 
             AWSShapeMember(label: "Engine", required: false, type: .string), 
             AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
@@ -1018,6 +1024,8 @@ extension Neptune {
         public let dbClusterResourceId: String?
         /// Specifies the earliest time to which a database can be restored with point-in-time restore.
         public let earliestRestorableTime: TimeStamp?
+        /// A list of log types that this DB cluster is configured to export to CloudWatch Logs.
+        public let enabledCloudwatchLogsExports: [String]?
         /// Specifies the connection endpoint for the primary instance of the DB cluster.
         public let endpoint: String?
         /// Provides the name of the database engine to be used for this DB cluster.
@@ -1057,7 +1065,7 @@ extension Neptune {
         /// Provides a list of VPC security groups that the DB cluster belongs to.
         public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(allocatedStorage: Int32? = nil, associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int32? = nil, characterSetName: String? = nil, cloneGroupId: String? = nil, clusterCreateTime: TimeStamp? = nil, dBClusterArn: String? = nil, dBClusterIdentifier: String? = nil, dBClusterMembers: [DBClusterMember]? = nil, dBClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, dBClusterParameterGroup: String? = nil, dBSubnetGroup: String? = nil, databaseName: String? = nil, dbClusterResourceId: String? = nil, earliestRestorableTime: TimeStamp? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readReplicaIdentifiers: [String]? = nil, readerEndpoint: String? = nil, replicationSourceIdentifier: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allocatedStorage: Int32? = nil, associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int32? = nil, characterSetName: String? = nil, cloneGroupId: String? = nil, clusterCreateTime: TimeStamp? = nil, dBClusterArn: String? = nil, dBClusterIdentifier: String? = nil, dBClusterMembers: [DBClusterMember]? = nil, dBClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, dBClusterParameterGroup: String? = nil, dBSubnetGroup: String? = nil, databaseName: String? = nil, dbClusterResourceId: String? = nil, earliestRestorableTime: TimeStamp? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readReplicaIdentifiers: [String]? = nil, readerEndpoint: String? = nil, replicationSourceIdentifier: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.associatedRoles = associatedRoles
             self.availabilityZones = availabilityZones
@@ -1074,6 +1082,7 @@ extension Neptune {
             self.databaseName = databaseName
             self.dbClusterResourceId = dbClusterResourceId
             self.earliestRestorableTime = earliestRestorableTime
+            self.enabledCloudwatchLogsExports = enabledCloudwatchLogsExports
             self.endpoint = endpoint
             self.engine = engine
             self.engineVersion = engineVersion
@@ -1112,6 +1121,7 @@ extension Neptune {
             case databaseName = "DatabaseName"
             case dbClusterResourceId = "DbClusterResourceId"
             case earliestRestorableTime = "EarliestRestorableTime"
+            case enabledCloudwatchLogsExports = "EnabledCloudwatchLogsExports"
             case endpoint = "Endpoint"
             case engine = "Engine"
             case engineVersion = "EngineVersion"
@@ -3336,6 +3346,7 @@ extension Neptune {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean), 
             AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
+            AWSShapeMember(label: "CloudwatchLogsExportConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string), 
             AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
@@ -3352,6 +3363,8 @@ extension Neptune {
         public let applyImmediately: Bool?
         /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35  
         public let backupRetentionPeriod: Int32?
+        /// The configuration setting for the log types to be enabled for export to CloudWatch Logs for a specific DB cluster.
+        public let cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration?
         /// The DB cluster identifier for the cluster being modified. This parameter is not case-sensitive. Constraints:   Must match the identifier of an existing DBCluster.  
         public let dBClusterIdentifier: String
         /// The name of the DB cluster parameter group to use for the DB cluster.
@@ -3375,9 +3388,10 @@ extension Neptune {
         /// A list of VPC security groups that the DB cluster will belong to.
         public let vpcSecurityGroupIds: [String]?
 
-        public init(applyImmediately: Bool? = nil, backupRetentionPeriod: Int32? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engineVersion: String? = nil, masterUserPassword: String? = nil, newDBClusterIdentifier: String? = nil, optionGroupName: String? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(applyImmediately: Bool? = nil, backupRetentionPeriod: Int32? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engineVersion: String? = nil, masterUserPassword: String? = nil, newDBClusterIdentifier: String? = nil, optionGroupName: String? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.applyImmediately = applyImmediately
             self.backupRetentionPeriod = backupRetentionPeriod
+            self.cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfiguration
             self.dBClusterIdentifier = dBClusterIdentifier
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
             self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
@@ -3394,6 +3408,7 @@ extension Neptune {
         private enum CodingKeys: String, CodingKey {
             case applyImmediately = "ApplyImmediately"
             case backupRetentionPeriod = "BackupRetentionPeriod"
+            case cloudwatchLogsExportConfiguration = "CloudwatchLogsExportConfiguration"
             case dBClusterIdentifier = "DBClusterIdentifier"
             case dBClusterParameterGroupName = "DBClusterParameterGroupName"
             case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
@@ -4438,6 +4453,7 @@ extension Neptune {
             AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string), 
             AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
             AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
+            AWSShapeMember(label: "EnableCloudwatchLogsExports", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
             AWSShapeMember(label: "Engine", required: true, type: .string), 
             AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
@@ -4458,6 +4474,8 @@ extension Neptune {
         public let dBSubnetGroupName: String?
         /// Not supported.
         public let databaseName: String?
+        /// The list of logs that the restored DB cluster is to export to Amazon CloudWatch Logs.
+        public let enableCloudwatchLogsExports: [String]?
         /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false 
         public let enableIAMDatabaseAuthentication: Bool?
         /// The database engine to use for the new DB cluster. Default: The same as source Constraint: Must be compatible with the engine of the source
@@ -4477,12 +4495,13 @@ extension Neptune {
         /// A list of VPC security groups that the new DB cluster will belong to.
         public let vpcSecurityGroupIds: [String]?
 
-        public init(availabilityZones: [String]? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, databaseName: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, optionGroupName: String? = nil, port: Int32? = nil, snapshotIdentifier: String, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, databaseName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, optionGroupName: String? = nil, port: Int32? = nil, snapshotIdentifier: String, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.dBClusterIdentifier = dBClusterIdentifier
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
             self.dBSubnetGroupName = dBSubnetGroupName
             self.databaseName = databaseName
+            self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
             self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
             self.engine = engine
             self.engineVersion = engineVersion
@@ -4500,6 +4519,7 @@ extension Neptune {
             case dBClusterParameterGroupName = "DBClusterParameterGroupName"
             case dBSubnetGroupName = "DBSubnetGroupName"
             case databaseName = "DatabaseName"
+            case enableCloudwatchLogsExports = "EnableCloudwatchLogsExports"
             case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
             case engine = "Engine"
             case engineVersion = "EngineVersion"
@@ -4532,6 +4552,7 @@ extension Neptune {
             AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string), 
             AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "EnableCloudwatchLogsExports", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
@@ -4549,6 +4570,8 @@ extension Neptune {
         public let dBClusterParameterGroupName: String?
         /// The DB subnet group name to use for the new DB cluster. Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup 
         public let dBSubnetGroupName: String?
+        /// The list of logs that the restored DB cluster is to export to CloudWatch Logs.
+        public let enableCloudwatchLogsExports: [String]?
         /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false 
         public let enableIAMDatabaseAuthentication: Bool?
         /// The AWS KMS key identifier to use when restoring an encrypted DB cluster from an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. You can restore to a new DB cluster and encrypt the new DB cluster with a KMS key that is different than the KMS key used to encrypt the source DB cluster. The new DB cluster is encrypted with the KMS key identified by the KmsKeyId parameter. If you do not specify a value for the KmsKeyId parameter, then the following will occur:   If the DB cluster is encrypted, then the restored DB cluster is encrypted using the KMS key that was used to encrypt the source DB cluster.   If the DB cluster is not encrypted, then the restored DB cluster is not encrypted.   If DBClusterIdentifier refers to a DB cluster that is not encrypted, then the restore request is rejected.
@@ -4559,7 +4582,7 @@ extension Neptune {
         public let port: Int32?
         /// The date and time to restore the DB cluster to. Valid Values: Value must be a time in Universal Coordinated Time (UTC) format Constraints:   Must be before the latest restorable time for the DB instance   Must be specified if UseLatestRestorableTime parameter is not provided   Cannot be specified if UseLatestRestorableTime parameter is true   Cannot be specified if RestoreType parameter is copy-on-write    Example: 2015-03-07T23:45:00Z 
         public let restoreToTime: TimeStamp?
-        /// The type of restore to be performed. The only type of restore currently supported is full-copy (the default).
+        /// The type of restore to be performed. You can specify one of the following values:    full-copy - The new DB cluster is restored as a full copy of the source DB cluster.    copy-on-write - The new DB cluster is restored as a clone of the source DB cluster.   If you don't specify a RestoreType value, then the new DB cluster is restored as a full copy of the source DB cluster.
         public let restoreType: String?
         /// The identifier of the source DB cluster from which to restore. Constraints:   Must match the identifier of an existing DBCluster.  
         public let sourceDBClusterIdentifier: String
@@ -4570,10 +4593,11 @@ extension Neptune {
         /// A list of VPC security groups that the new DB cluster belongs to.
         public let vpcSecurityGroupIds: [String]?
 
-        public init(dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, kmsKeyId: String? = nil, optionGroupName: String? = nil, port: Int32? = nil, restoreToTime: TimeStamp? = nil, restoreType: String? = nil, sourceDBClusterIdentifier: String, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, kmsKeyId: String? = nil, optionGroupName: String? = nil, port: Int32? = nil, restoreToTime: TimeStamp? = nil, restoreType: String? = nil, sourceDBClusterIdentifier: String, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
             self.dBSubnetGroupName = dBSubnetGroupName
+            self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
             self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
             self.kmsKeyId = kmsKeyId
             self.optionGroupName = optionGroupName
@@ -4590,6 +4614,7 @@ extension Neptune {
             case dBClusterIdentifier = "DBClusterIdentifier"
             case dBClusterParameterGroupName = "DBClusterParameterGroupName"
             case dBSubnetGroupName = "DBSubnetGroupName"
+            case enableCloudwatchLogsExports = "EnableCloudwatchLogsExports"
             case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
             case kmsKeyId = "KmsKeyId"
             case optionGroupName = "OptionGroupName"

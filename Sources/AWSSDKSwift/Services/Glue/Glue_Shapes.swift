@@ -8,6 +8,7 @@ extension Glue {
     public struct Action: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arguments", required: false, type: .map), 
+            AWSShapeMember(label: "CrawlerName", required: false, type: .string), 
             AWSShapeMember(label: "JobName", required: false, type: .string), 
             AWSShapeMember(label: "NotificationProperty", required: false, type: .structure), 
             AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
@@ -15,6 +16,8 @@ extension Glue {
         ]
         /// The job arguments used when this trigger fires. For this job run, they replace the default arguments set in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
         public let arguments: [String: String]?
+        /// The name of the crawler to be used with this action.
+        public let crawlerName: String?
         /// The name of a job to be executed.
         public let jobName: String?
         /// Specifies configuration properties of a job run notification.
@@ -24,8 +27,9 @@ extension Glue {
         /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours). This overrides the timeout value set in the parent job.
         public let timeout: Int32?
 
-        public init(arguments: [String: String]? = nil, jobName: String? = nil, notificationProperty: NotificationProperty? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil) {
+        public init(arguments: [String: String]? = nil, crawlerName: String? = nil, jobName: String? = nil, notificationProperty: NotificationProperty? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil) {
             self.arguments = arguments
+            self.crawlerName = crawlerName
             self.jobName = jobName
             self.notificationProperty = notificationProperty
             self.securityConfiguration = securityConfiguration
@@ -34,6 +38,7 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case arguments = "Arguments"
+            case crawlerName = "CrawlerName"
             case jobName = "JobName"
             case notificationProperty = "NotificationProperty"
             case securityConfiguration = "SecurityConfiguration"
@@ -344,7 +349,7 @@ extension Glue {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobNames", required: true, type: .list)
         ]
-        /// A list of job names, which may be the names returned from the ListJobs operation.
+        /// A list of job names, which might be the names returned from the ListJobs operation.
         public let jobNames: [String]
 
         public init(jobNames: [String]) {
@@ -466,6 +471,48 @@ extension Glue {
         }
     }
 
+    public struct BatchGetWorkflowsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IncludeGraph", required: false, type: .boolean), 
+            AWSShapeMember(label: "Names", required: true, type: .list)
+        ]
+        /// Specifies whether to include a graph when returning the workflow resource metadata.
+        public let includeGraph: Bool?
+        /// A list of workflow names, which may be the names returned from the ListWorkflows operation.
+        public let names: [String]
+
+        public init(includeGraph: Bool? = nil, names: [String]) {
+            self.includeGraph = includeGraph
+            self.names = names
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeGraph = "IncludeGraph"
+            case names = "Names"
+        }
+    }
+
+    public struct BatchGetWorkflowsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MissingWorkflows", required: false, type: .list), 
+            AWSShapeMember(label: "Workflows", required: false, type: .list)
+        ]
+        /// A list of names of workflows not found.
+        public let missingWorkflows: [String]?
+        /// A list of workflow resource metadata.
+        public let workflows: [Workflow]?
+
+        public init(missingWorkflows: [String]? = nil, workflows: [Workflow]? = nil) {
+            self.missingWorkflows = missingWorkflows
+            self.workflows = workflows
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case missingWorkflows = "MissingWorkflows"
+            case workflows = "Workflows"
+        }
+    }
+
     public struct BatchStopJobRunError: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ErrorDetail", required: false, type: .structure), 
@@ -474,7 +521,7 @@ extension Glue {
         ]
         /// Specifies details about the error that was encountered.
         public let errorDetail: ErrorDetail?
-        /// The name of the job definition used in the job run in question.
+        /// The name of the job definition that is used in the job run in question.
         public let jobName: String?
         /// The JobRunId of the job run in question.
         public let jobRunId: String?
@@ -518,7 +565,7 @@ extension Glue {
             AWSShapeMember(label: "Errors", required: false, type: .list), 
             AWSShapeMember(label: "SuccessfulSubmissions", required: false, type: .list)
         ]
-        /// A list of the errors that were encountered in tryng to stop JobRuns, including the JobRunId for which each error was encountered and details about the error.
+        /// A list of the errors that were encountered in trying to stop JobRuns, including the JobRunId for which each error was encountered and details about the error.
         public let errors: [BatchStopJobRunError]?
         /// A list of the JobRuns that were successfully submitted for stopping.
         public let successfulSubmissions: [BatchStopJobRunSuccessfulSubmission]?
@@ -798,24 +845,34 @@ extension Glue {
 
     public struct Condition: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CrawlState", required: false, type: .enum), 
+            AWSShapeMember(label: "CrawlerName", required: false, type: .string), 
             AWSShapeMember(label: "JobName", required: false, type: .string), 
             AWSShapeMember(label: "LogicalOperator", required: false, type: .enum), 
             AWSShapeMember(label: "State", required: false, type: .enum)
         ]
-        /// The name of the Job to whose JobRuns this condition applies and on which this trigger waits.
+        /// The state of the crawler to which this condition applies.
+        public let crawlState: CrawlState?
+        /// The name of the crawler to which this condition applies.
+        public let crawlerName: String?
+        /// The name of the job whose JobRuns this condition applies to, and on which this trigger waits.
         public let jobName: String?
         /// A logical operator.
         public let logicalOperator: LogicalOperator?
-        /// The condition state. Currently, the values supported are SUCCEEDED, STOPPED, TIMEOUT and FAILED.
+        /// The condition state. Currently, the values supported are SUCCEEDED, STOPPED, TIMEOUT, and FAILED.
         public let state: JobRunState?
 
-        public init(jobName: String? = nil, logicalOperator: LogicalOperator? = nil, state: JobRunState? = nil) {
+        public init(crawlState: CrawlState? = nil, crawlerName: String? = nil, jobName: String? = nil, logicalOperator: LogicalOperator? = nil, state: JobRunState? = nil) {
+            self.crawlState = crawlState
+            self.crawlerName = crawlerName
             self.jobName = jobName
             self.logicalOperator = logicalOperator
             self.state = state
         }
 
         private enum CodingKeys: String, CodingKey {
+            case crawlState = "CrawlState"
+            case crawlerName = "CrawlerName"
             case jobName = "JobName"
             case logicalOperator = "LogicalOperator"
             case state = "State"
@@ -979,6 +1036,55 @@ extension Glue {
         }
     }
 
+    public struct Crawl: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CompletedOn", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "LogGroup", required: false, type: .string), 
+            AWSShapeMember(label: "LogStream", required: false, type: .string), 
+            AWSShapeMember(label: "StartedOn", required: false, type: .timestamp), 
+            AWSShapeMember(label: "State", required: false, type: .enum)
+        ]
+        /// The date and time on which the crawl completed.
+        public let completedOn: TimeStamp?
+        /// The error message associated with the crawl.
+        public let errorMessage: String?
+        /// The log group associated with the crawl.
+        public let logGroup: String?
+        /// The log stream associated with the crawl.
+        public let logStream: String?
+        /// The date and time on which the crawl started.
+        public let startedOn: TimeStamp?
+        /// The state of the crawler.
+        public let state: CrawlState?
+
+        public init(completedOn: TimeStamp? = nil, errorMessage: String? = nil, logGroup: String? = nil, logStream: String? = nil, startedOn: TimeStamp? = nil, state: CrawlState? = nil) {
+            self.completedOn = completedOn
+            self.errorMessage = errorMessage
+            self.logGroup = logGroup
+            self.logStream = logStream
+            self.startedOn = startedOn
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completedOn = "CompletedOn"
+            case errorMessage = "ErrorMessage"
+            case logGroup = "LogGroup"
+            case logStream = "LogStream"
+            case startedOn = "StartedOn"
+            case state = "State"
+        }
+    }
+
+    public enum CrawlState: String, CustomStringConvertible, Codable {
+        case running = "RUNNING"
+        case succeeded = "SUCCEEDED"
+        case cancelled = "CANCELLED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Crawler: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Classifiers", required: false, type: .list), 
@@ -1123,6 +1229,22 @@ extension Glue {
             case tablesDeleted = "TablesDeleted"
             case tablesUpdated = "TablesUpdated"
             case timeLeftSeconds = "TimeLeftSeconds"
+        }
+    }
+
+    public struct CrawlerNodeDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Crawls", required: false, type: .list)
+        ]
+        /// A list of crawls represented by the crawl node.
+        public let crawls: [Crawl]?
+
+        public init(crawls: [Crawl]? = nil) {
+            self.crawls = crawls
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crawls = "Crawls"
         }
     }
 
@@ -1593,9 +1715,9 @@ extension Glue {
             AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .map), 
             AWSShapeMember(label: "Timeout", required: false, type: .integer), 
-            AWSShapeMember(label: "WorkerType", required: false, type: .enum)
+            AWSShapeMember(label: "WorkerType", required: false, type: .string)
         ]
-        /// This parameter is deprecated. Use MaxCapacity instead. The number of AWS Glue data processing units (DPUs) to allocate to this Job. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.
+        /// This parameter is deprecated. Use MaxCapacity instead. The number of AWS Glue data processing units (DPUs) to allocate to this Job. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.
         public let allocatedCapacity: Int32?
         /// The JobCommand that executes this job.
         public let command: JobCommand
@@ -1609,7 +1731,7 @@ extension Glue {
         public let executionProperty: ExecutionProperty?
         /// This field is reserved for future use.
         public let logUri: String?
-        /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a python shell job, or an Apache Spark ETL job:   When you specify a python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.  
+        /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.  
         public let maxCapacity: Double?
         /// The maximum number of times to retry this job if it fails.
         public let maxRetries: Int32?
@@ -1619,7 +1741,7 @@ extension Glue {
         public let notificationProperty: NotificationProperty?
         /// The number of workers of a defined workerType that are allocated when a job runs. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X. 
         public let numberOfWorkers: Int32?
-        /// The name or ARN of the IAM role associated with this job.
+        /// The name or Amazon Resource Name (ARN) of the IAM role associated with this job.
         public let role: String
         /// The name of the SecurityConfiguration structure to be used with this job.
         public let securityConfiguration: String?
@@ -1627,10 +1749,10 @@ extension Glue {
         public let tags: [String: String]?
         /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public let timeout: Int32?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.  
-        public let workerType: WorkerType?
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.  
+        public let workerType: String?
 
-        public init(allocatedCapacity: Int32? = nil, command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int32? = nil, name: String, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int32? = nil, role: String, securityConfiguration: String? = nil, tags: [String: String]? = nil, timeout: Int32? = nil, workerType: WorkerType? = nil) {
+        public init(allocatedCapacity: Int32? = nil, command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int32? = nil, name: String, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int32? = nil, role: String, securityConfiguration: String? = nil, tags: [String: String]? = nil, timeout: Int32? = nil, workerType: String? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.command = command
             self.connections = connections
@@ -1877,7 +1999,8 @@ extension Glue {
             AWSShapeMember(label: "Schedule", required: false, type: .string), 
             AWSShapeMember(label: "StartOnCreation", required: false, type: .boolean), 
             AWSShapeMember(label: "Tags", required: false, type: .map), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
+            AWSShapeMember(label: "Type", required: true, type: .enum), 
+            AWSShapeMember(label: "WorkflowName", required: false, type: .string)
         ]
         /// The actions initiated by this trigger when it fires.
         public let actions: [Action]
@@ -1889,14 +2012,16 @@ extension Glue {
         public let predicate: Predicate?
         /// A cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *). This field is required when the trigger type is SCHEDULED.
         public let schedule: String?
-        /// Set to true to start SCHEDULED and CONDITIONAL triggers when created. True not supported for ON_DEMAND triggers.
+        /// Set to true to start SCHEDULED and CONDITIONAL triggers when created. True is not supported for ON_DEMAND triggers.
         public let startOnCreation: Bool?
         /// The tags to use with this trigger. You may use tags to limit access to the trigger. For more information about tags in AWS Glue, see AWS Tags in AWS Glue in the developer guide. 
         public let tags: [String: String]?
         /// The type of the new trigger.
         public let `type`: TriggerType
+        /// The name of the workflow associated with the trigger.
+        public let workflowName: String?
 
-        public init(actions: [Action], description: String? = nil, name: String, predicate: Predicate? = nil, schedule: String? = nil, startOnCreation: Bool? = nil, tags: [String: String]? = nil, type: TriggerType) {
+        public init(actions: [Action], description: String? = nil, name: String, predicate: Predicate? = nil, schedule: String? = nil, startOnCreation: Bool? = nil, tags: [String: String]? = nil, type: TriggerType, workflowName: String? = nil) {
             self.actions = actions
             self.description = description
             self.name = name
@@ -1905,6 +2030,7 @@ extension Glue {
             self.startOnCreation = startOnCreation
             self.tags = tags
             self.`type` = `type`
+            self.workflowName = workflowName
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1916,6 +2042,7 @@ extension Glue {
             case startOnCreation = "StartOnCreation"
             case tags = "Tags"
             case `type` = "Type"
+            case workflowName = "WorkflowName"
         }
     }
 
@@ -1966,6 +2093,53 @@ extension Glue {
         public init() {
         }
 
+    }
+
+    public struct CreateWorkflowRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DefaultRunProperties", required: false, type: .map), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .map)
+        ]
+        /// A collection of properties to be used as part of each execution of the workflow.
+        public let defaultRunProperties: [String: String]?
+        /// A description of the workflow.
+        public let description: String?
+        /// The name to be assigned to the workflow. It should be unique within your account.
+        public let name: String
+        /// The tags to be used with this workflow.
+        public let tags: [String: String]?
+
+        public init(defaultRunProperties: [String: String]? = nil, description: String? = nil, name: String, tags: [String: String]? = nil) {
+            self.defaultRunProperties = defaultRunProperties
+            self.description = description
+            self.name = name
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultRunProperties = "DefaultRunProperties"
+            case description = "Description"
+            case name = "Name"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateWorkflowResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The name of the workflow which was provided as part of the request.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
     }
 
     public struct CreateXMLClassifierRequest: AWSShape {
@@ -2534,6 +2708,38 @@ extension Glue {
 
     }
 
+    public struct DeleteWorkflowRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// Name of the workflow to be deleted.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DeleteWorkflowResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// Name of the workflow specified in input.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
     public struct DevEndpoint: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arguments", required: false, type: .map), 
@@ -2689,6 +2895,27 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case path = "Path"
+        }
+    }
+
+    public struct Edge: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DestinationId", required: false, type: .string), 
+            AWSShapeMember(label: "SourceId", required: false, type: .string)
+        ]
+        /// The unique of the node within the workflow where the edge ends.
+        public let destinationId: String?
+        /// The unique of the node within the workflow where the edge starts.
+        public let sourceId: String?
+
+        public init(destinationId: String? = nil, sourceId: String? = nil) {
+            self.destinationId = destinationId
+            self.sourceId = sourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationId = "DestinationId"
+            case sourceId = "SourceId"
         }
     }
 
@@ -3462,9 +3689,9 @@ extension Glue {
             AWSShapeMember(label: "JobRuns", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// A list of job-run metatdata objects.
+        /// A list of job-run metadata objects.
         public let jobRuns: [JobRun]?
-        /// A continuation token, if not all reequested job runs have been returned.
+        /// A continuation token, if not all requested job runs have been returned.
         public let nextToken: String?
 
         public init(jobRuns: [JobRun]? = nil, nextToken: String? = nil) {
@@ -4052,7 +4279,7 @@ extension Glue {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
-        /// The Amazon ARN of the resource for which to retrieve tags.
+        /// The Amazon Resource Name (ARN) of the resource for which to retrieve tags.
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -4118,7 +4345,7 @@ extension Glue {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The name of the job for which to retrieve triggers. The trigger that can start this job will be returned, and if there is no such trigger, all triggers will be returned.
+        /// The name of the job to retrieve triggers for. The trigger that can start this job is returned, and if there is no such trigger, all triggers are returned.
         public let dependentJobName: String?
         /// The maximum size of the response.
         public let maxResults: Int32?
@@ -4258,6 +4485,174 @@ extension Glue {
         }
     }
 
+    public struct GetWorkflowRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IncludeGraph", required: false, type: .boolean), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// Specifies whether to include a graph when returning the workflow resource metadata.
+        public let includeGraph: Bool?
+        /// The name of the workflow to retrieve.
+        public let name: String
+
+        public init(includeGraph: Bool? = nil, name: String) {
+            self.includeGraph = includeGraph
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeGraph = "IncludeGraph"
+            case name = "Name"
+        }
+    }
+
+    public struct GetWorkflowResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Workflow", required: false, type: .structure)
+        ]
+        /// The resource metadata for the workflow.
+        public let workflow: Workflow?
+
+        public init(workflow: Workflow? = nil) {
+            self.workflow = workflow
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workflow = "Workflow"
+        }
+    }
+
+    public struct GetWorkflowRunPropertiesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "RunId", required: true, type: .string)
+        ]
+        /// Name of the workflow which was run.
+        public let name: String
+        /// The ID of the workflow run whose run properties should be returned.
+        public let runId: String
+
+        public init(name: String, runId: String) {
+            self.name = name
+            self.runId = runId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case runId = "RunId"
+        }
+    }
+
+    public struct GetWorkflowRunPropertiesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RunProperties", required: false, type: .map)
+        ]
+        /// The workflow run properties which were set during the specified run.
+        public let runProperties: [String: String]?
+
+        public init(runProperties: [String: String]? = nil) {
+            self.runProperties = runProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case runProperties = "RunProperties"
+        }
+    }
+
+    public struct GetWorkflowRunRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IncludeGraph", required: false, type: .boolean), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "RunId", required: true, type: .string)
+        ]
+        /// Specifies whether to include the workflow graph in response or not.
+        public let includeGraph: Bool?
+        /// Name of the workflow being run.
+        public let name: String
+        /// The ID of the workflow run.
+        public let runId: String
+
+        public init(includeGraph: Bool? = nil, name: String, runId: String) {
+            self.includeGraph = includeGraph
+            self.name = name
+            self.runId = runId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeGraph = "IncludeGraph"
+            case name = "Name"
+            case runId = "RunId"
+        }
+    }
+
+    public struct GetWorkflowRunResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Run", required: false, type: .structure)
+        ]
+        /// The requested workflow run metadata.
+        public let run: WorkflowRun?
+
+        public init(run: WorkflowRun? = nil) {
+            self.run = run
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case run = "Run"
+        }
+    }
+
+    public struct GetWorkflowRunsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IncludeGraph", required: false, type: .boolean), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Specifies whether to include the workflow graph in response or not.
+        public let includeGraph: Bool?
+        /// The maximum number of workflow runs to be included in the response.
+        public let maxResults: Int32?
+        /// Name of the workflow whose metadata of runs should be returned.
+        public let name: String
+        /// The maximum size of the response.
+        public let nextToken: String?
+
+        public init(includeGraph: Bool? = nil, maxResults: Int32? = nil, name: String, nextToken: String? = nil) {
+            self.includeGraph = includeGraph
+            self.maxResults = maxResults
+            self.name = name
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeGraph = "IncludeGraph"
+            case maxResults = "MaxResults"
+            case name = "Name"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetWorkflowRunsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Runs", required: false, type: .list)
+        ]
+        /// A continuation token, if not all requested workflow runs have been returned.
+        public let nextToken: String?
+        /// A list of workflow run metadata objects.
+        public let runs: [WorkflowRun]?
+
+        public init(nextToken: String? = nil, runs: [WorkflowRun]? = nil) {
+            self.nextToken = nextToken
+            self.runs = runs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case runs = "Runs"
+        }
+    }
+
     public struct GrokClassifier: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Classification", required: true, type: .string), 
@@ -4374,7 +4769,7 @@ extension Glue {
             AWSShapeMember(label: "Timeout", required: false, type: .integer), 
             AWSShapeMember(label: "WorkerType", required: false, type: .enum)
         ]
-        /// This field is deprecated, use MaxCapacity instead. The number of AWS Glue data processing units (DPUs) allocated to runs of this job. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. 
+        /// This field is deprecated. Use MaxCapacity instead. The number of AWS Glue data processing units (DPUs) allocated to runs of this job. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. 
         public let allocatedCapacity: Int32?
         /// The JobCommand that executes this job.
         public let command: JobCommand?
@@ -4384,7 +4779,7 @@ extension Glue {
         public let createdOn: TimeStamp?
         /// The default arguments for this job, specified as name-value pairs. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
         public let defaultArguments: [String: String]?
-        /// Description of the job being defined.
+        /// A description of the job.
         public let description: String?
         /// An ExecutionProperty specifying the maximum number of concurrent runs allowed for this job.
         public let executionProperty: ExecutionProperty?
@@ -4392,7 +4787,7 @@ extension Glue {
         public let lastModifiedOn: TimeStamp?
         /// This field is reserved for future use.
         public let logUri: String?
-        /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a python shell job, or an Apache Spark ETL job:   When you specify a python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.  
+        /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.  
         public let maxCapacity: Double?
         /// The maximum number of times to retry this job after a JobRun fails.
         public let maxRetries: Int32?
@@ -4402,13 +4797,13 @@ extension Glue {
         public let notificationProperty: NotificationProperty?
         /// The number of workers of a defined workerType that are allocated when a job runs. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X. 
         public let numberOfWorkers: Int32?
-        /// The name or ARN of the IAM role associated with this job.
+        /// The name or Amazon Resource Name (ARN) of the IAM role associated with this job.
         public let role: String?
         /// The name of the SecurityConfiguration structure to be used with this job.
         public let securityConfiguration: String?
         /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public let timeout: Int32?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.  
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.  
         public let workerType: WorkerType?
 
         public init(allocatedCapacity: Int32? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: TimeStamp? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, lastModifiedOn: TimeStamp? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int32? = nil, name: String? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int32? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil, workerType: WorkerType? = nil) {
@@ -4520,21 +4915,42 @@ extension Glue {
     public struct JobCommand: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "PythonVersion", required: false, type: .string), 
             AWSShapeMember(label: "ScriptLocation", required: false, type: .string)
         ]
-        /// The name of the job command: this must be glueetl, for an Apache Spark ETL job, or pythonshell, for a Python shell job.
+        /// The name of the job command. For an Apache Spark ETL job, this must be glueetl. For a Python shell job, it must be pythonshell.
         public let name: String?
-        /// Specifies the S3 path to a script that executes a job (required).
+        /// The Python version being used to execute a Python shell job. Allowed values are 2 or 3.
+        public let pythonVersion: String?
+        /// Specifies the Amazon Simple Storage Service (Amazon S3) path to a script that executes a job.
         public let scriptLocation: String?
 
-        public init(name: String? = nil, scriptLocation: String? = nil) {
+        public init(name: String? = nil, pythonVersion: String? = nil, scriptLocation: String? = nil) {
             self.name = name
+            self.pythonVersion = pythonVersion
             self.scriptLocation = scriptLocation
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
+            case pythonVersion = "PythonVersion"
             case scriptLocation = "ScriptLocation"
+        }
+    }
+
+    public struct JobNodeDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobRuns", required: false, type: .list)
+        ]
+        /// The information for the job runs represented by the job node.
+        public let jobRuns: [JobRun]?
+
+        public init(jobRuns: [JobRun]? = nil) {
+            self.jobRuns = jobRuns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobRuns = "JobRuns"
         }
     }
 
@@ -4562,13 +4978,13 @@ extension Glue {
             AWSShapeMember(label: "TriggerName", required: false, type: .string), 
             AWSShapeMember(label: "WorkerType", required: false, type: .enum)
         ]
-        /// This field is deprecated, use MaxCapacity instead. The number of AWS Glue data processing units (DPUs) allocated to this JobRun. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.
+        /// This field is deprecated. Use MaxCapacity instead. The number of AWS Glue data processing units (DPUs) allocated to this JobRun. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.
         public let allocatedCapacity: Int32?
         /// The job arguments associated with this run. For this job run, they replace the default arguments set in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
         public let arguments: [String: String]?
         /// The number of the attempt to run this job.
         public let attempt: Int32?
-        /// The date and time this job run completed.
+        /// The date and time that this job run completed.
         public let completedOn: TimeStamp?
         /// An error message associated with this job run.
         public let errorMessage: String?
@@ -4580,11 +4996,11 @@ extension Glue {
         public let jobName: String?
         /// The current state of the job run.
         public let jobRunState: JobRunState?
-        /// The last time this job run was modified.
+        /// The last time that this job run was modified.
         public let lastModifiedOn: TimeStamp?
-        /// The name of the log group for secure logging, that can be server-side encrypted in CloudWatch using KMS. This name can be /aws-glue/jobs/, in which case the default encryption is NONE. If you add a role name and SecurityConfiguration name (in other words, /aws-glue/jobs-yourRoleName-yourSecurityConfigurationName/), then that security configuration will be used to encrypt the log group.
+        /// The name of the log group for secure logging that can be server-side encrypted in Amazon CloudWatch using AWS KMS. This name can be /aws-glue/jobs/, in which case the default encryption is NONE. If you add a role name and SecurityConfiguration name (in other words, /aws-glue/jobs-yourRoleName-yourSecurityConfigurationName/), then that security configuration is used to encrypt the log group.
         public let logGroupName: String?
-        /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a python shell job, or an Apache Spark ETL job:   When you specify a python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.  
+        /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.  
         public let maxCapacity: Double?
         /// Specifies configuration properties of a job run notification.
         public let notificationProperty: NotificationProperty?
@@ -4683,7 +5099,7 @@ extension Glue {
             AWSShapeMember(label: "Timeout", required: false, type: .integer), 
             AWSShapeMember(label: "WorkerType", required: false, type: .enum)
         ]
-        /// This field is deprecated. Use MaxCapacity instead. The number of AWS Glue data processing units (DPUs) to allocate to this Job. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.
+        /// This field is deprecated. Use MaxCapacity instead. The number of AWS Glue data processing units (DPUs) to allocate to this job. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.
         public let allocatedCapacity: Int32?
         /// The JobCommand that executes this job (required).
         public let command: JobCommand?
@@ -4697,21 +5113,21 @@ extension Glue {
         public let executionProperty: ExecutionProperty?
         /// This field is reserved for future use.
         public let logUri: String?
-        /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a python shell job, or an Apache Spark ETL job:   When you specify a python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.  
+        /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.  
         public let maxCapacity: Double?
         /// The maximum number of times to retry this job if it fails.
         public let maxRetries: Int32?
-        /// Specifies configuration properties of a job notification.
+        /// Specifies the configuration properties of a job notification.
         public let notificationProperty: NotificationProperty?
         /// The number of workers of a defined workerType that are allocated when a job runs. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X. 
         public let numberOfWorkers: Int32?
-        /// The name or ARN of the IAM role associated with this job (required).
+        /// The name or Amazon Resource Name (ARN) of the IAM role associated with this job (required).
         public let role: String?
         /// The name of the SecurityConfiguration structure to be used with this job.
         public let securityConfiguration: String?
         /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public let timeout: Int32?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.  
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.  
         public let workerType: WorkerType?
 
         public init(allocatedCapacity: Int32? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int32? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int32? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil, workerType: WorkerType? = nil) {
@@ -4919,7 +5335,7 @@ extension Glue {
             AWSShapeMember(label: "DevEndpointNames", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The names of all DevEndpoints in the account, or the DevEndpoints with the specified tags.
+        /// The names of all the DevEndpoints in the account, or the DevEndpoints with the specified tags.
         public let devEndpointNames: [String]?
         /// A continuation token, if the returned list does not contain the last metric available.
         public let nextToken: String?
@@ -4989,7 +5405,7 @@ extension Glue {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .map)
         ]
-        ///  The name of the job for which to retrieve triggers. The trigger that can start this job will be returned, and if there is no such trigger, all triggers will be returned.
+        ///  The name of the job for which to retrieve triggers. The trigger that can start this job is returned. If there is no such trigger, all triggers are returned.
         public let dependentJobName: String?
         /// The maximum size of a list to return.
         public let maxResults: Int32?
@@ -5031,6 +5447,48 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case triggerNames = "TriggerNames"
+        }
+    }
+
+    public struct ListWorkflowsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum size of a list to return.
+        public let maxResults: Int32?
+        /// A continuation token, if this is a continuation request.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListWorkflowsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Workflows", required: false, type: .list)
+        ]
+        /// A continuation token, if not all workflow names have been returned.
+        public let nextToken: String?
+        /// List of names of workflows in the account.
+        public let workflows: [String]?
+
+        public init(nextToken: String? = nil, workflows: [String]? = nil) {
+            self.nextToken = nextToken
+            self.workflows = workflows
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case workflows = "Workflows"
         }
     }
 
@@ -5110,6 +5568,54 @@ extension Glue {
             case targetTable = "TargetTable"
             case targetType = "TargetType"
         }
+    }
+
+    public struct Node: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CrawlerDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "JobDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "TriggerDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "UniqueId", required: false, type: .string)
+        ]
+        /// Details of the crawler when the node represents a crawler.
+        public let crawlerDetails: CrawlerNodeDetails?
+        /// Details of the Job when the node represents a Job.
+        public let jobDetails: JobNodeDetails?
+        /// The name of the AWS Glue component represented by the node.
+        public let name: String?
+        /// Details of the Trigger when the node represents a Trigger.
+        public let triggerDetails: TriggerNodeDetails?
+        /// The type of AWS Glue component represented by the node.
+        public let `type`: NodeType?
+        /// The unique Id assigned to the node within the workflow.
+        public let uniqueId: String?
+
+        public init(crawlerDetails: CrawlerNodeDetails? = nil, jobDetails: JobNodeDetails? = nil, name: String? = nil, triggerDetails: TriggerNodeDetails? = nil, type: NodeType? = nil, uniqueId: String? = nil) {
+            self.crawlerDetails = crawlerDetails
+            self.jobDetails = jobDetails
+            self.name = name
+            self.triggerDetails = triggerDetails
+            self.`type` = `type`
+            self.uniqueId = uniqueId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crawlerDetails = "CrawlerDetails"
+            case jobDetails = "JobDetails"
+            case name = "Name"
+            case triggerDetails = "TriggerDetails"
+            case `type` = "Type"
+            case uniqueId = "UniqueId"
+        }
+    }
+
+    public enum NodeType: String, CustomStringConvertible, Codable {
+        case crawler = "CRAWLER"
+        case job = "JOB"
+        case trigger = "TRIGGER"
+        public var description: String { return self.rawValue }
     }
 
     public struct NotificationProperty: AWSShape {
@@ -5327,7 +5833,7 @@ extension Glue {
         ]
         /// A list of the conditions that determine when the trigger will fire.
         public let conditions: [Condition]?
-        /// Optional field if only one condition is listed. If multiple conditions are listed, then this field is required.
+        /// An optional field if only one condition is listed. If multiple conditions are listed, then this field is required.
         public let logical: Logical?
 
         public init(conditions: [Condition]? = nil, logical: Logical? = nil) {
@@ -5416,6 +5922,39 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case policyHash = "PolicyHash"
         }
+    }
+
+    public struct PutWorkflowRunPropertiesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "RunId", required: true, type: .string), 
+            AWSShapeMember(label: "RunProperties", required: true, type: .map)
+        ]
+        /// Name of the workflow which was run.
+        public let name: String
+        /// The ID of the workflow run for which the run properties should be updated.
+        public let runId: String
+        /// The properties to put for the specified run.
+        public let runProperties: [String: String]
+
+        public init(name: String, runId: String, runProperties: [String: String]) {
+            self.name = name
+            self.runId = runId
+            self.runProperties = runProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case runId = "RunId"
+            case runProperties = "RunProperties"
+        }
+    }
+
+    public struct PutWorkflowRunPropertiesResponse: AWSShape {
+
+        public init() {
+        }
+
     }
 
     public struct ResetJobBookmarkRequest: AWSShape {
@@ -5732,9 +6271,9 @@ extension Glue {
             AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
             AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
             AWSShapeMember(label: "Timeout", required: false, type: .integer), 
-            AWSShapeMember(label: "WorkerType", required: false, type: .enum)
+            AWSShapeMember(label: "WorkerType", required: false, type: .string)
         ]
-        /// This field is deprecated, use MaxCapacity instead. The number of AWS Glue data processing units (DPUs) to allocate to this JobRun. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.
+        /// This field is deprecated. Use MaxCapacity instead. The number of AWS Glue data processing units (DPUs) to allocate to this JobRun. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.
         public let allocatedCapacity: Int32?
         /// The job arguments specifically for this run. For this job run, they replace the default arguments set in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
         public let arguments: [String: String]?
@@ -5742,7 +6281,7 @@ extension Glue {
         public let jobName: String
         /// The ID of a previous JobRun to retry.
         public let jobRunId: String?
-        /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a python shell job, or an Apache Spark ETL job:   When you specify a python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.  
+        /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.  
         public let maxCapacity: Double?
         /// Specifies configuration properties of a job run notification.
         public let notificationProperty: NotificationProperty?
@@ -5753,9 +6292,9 @@ extension Glue {
         /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours). This overrides the timeout value set in the parent job.
         public let timeout: Int32?
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.  
-        public let workerType: WorkerType?
+        public let workerType: String?
 
-        public init(allocatedCapacity: Int32? = nil, arguments: [String: String]? = nil, jobName: String, jobRunId: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int32? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil, workerType: WorkerType? = nil) {
+        public init(allocatedCapacity: Int32? = nil, arguments: [String: String]? = nil, jobName: String, jobRunId: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int32? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil, workerType: String? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.arguments = arguments
             self.jobName = jobName
@@ -5827,6 +6366,38 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
+        }
+    }
+
+    public struct StartWorkflowRunRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The name of the workflow to start.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct StartWorkflowRunResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RunId", required: false, type: .string)
+        ]
+        /// An Id for the new run.
+        public let runId: String?
+
+        public init(runId: String? = nil) {
+            self.runId = runId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case runId = "RunId"
         }
     }
 
@@ -6246,7 +6817,8 @@ extension Glue {
             AWSShapeMember(label: "Predicate", required: false, type: .structure), 
             AWSShapeMember(label: "Schedule", required: false, type: .string), 
             AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "WorkflowName", required: false, type: .string)
         ]
         /// The actions initiated by this trigger.
         public let actions: [Action]?
@@ -6254,7 +6826,7 @@ extension Glue {
         public let description: String?
         /// Reserved for future use.
         public let id: String?
-        /// Name of the trigger.
+        /// The name of the trigger.
         public let name: String?
         /// The predicate of this trigger, which defines when it will fire.
         public let predicate: Predicate?
@@ -6264,8 +6836,10 @@ extension Glue {
         public let state: TriggerState?
         /// The type of trigger that this is.
         public let `type`: TriggerType?
+        /// The name of the workflow associated with the trigger.
+        public let workflowName: String?
 
-        public init(actions: [Action]? = nil, description: String? = nil, id: String? = nil, name: String? = nil, predicate: Predicate? = nil, schedule: String? = nil, state: TriggerState? = nil, type: TriggerType? = nil) {
+        public init(actions: [Action]? = nil, description: String? = nil, id: String? = nil, name: String? = nil, predicate: Predicate? = nil, schedule: String? = nil, state: TriggerState? = nil, type: TriggerType? = nil, workflowName: String? = nil) {
             self.actions = actions
             self.description = description
             self.id = id
@@ -6274,6 +6848,7 @@ extension Glue {
             self.schedule = schedule
             self.state = state
             self.`type` = `type`
+            self.workflowName = workflowName
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6285,6 +6860,23 @@ extension Glue {
             case schedule = "Schedule"
             case state = "State"
             case `type` = "Type"
+            case workflowName = "WorkflowName"
+        }
+    }
+
+    public struct TriggerNodeDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Trigger", required: false, type: .structure)
+        ]
+        /// The information of the trigger represented by the trigger node.
+        public let trigger: Trigger?
+
+        public init(trigger: Trigger? = nil) {
+            self.trigger = trigger
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trigger = "Trigger"
         }
     }
 
@@ -6348,7 +6940,7 @@ extension Glue {
             AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
             AWSShapeMember(label: "TagsToRemove", required: true, type: .list)
         ]
-        /// The ARN of the resource from which to remove the tags.
+        /// The Amazon Resource Name (ARN) of the resource from which to remove the tags.
         public let resourceArn: String
         /// Tags to remove from this resource.
         public let tagsToRemove: [String]
@@ -6722,7 +7314,7 @@ extension Glue {
             AWSShapeMember(label: "JobName", required: true, type: .string), 
             AWSShapeMember(label: "JobUpdate", required: true, type: .structure)
         ]
-        /// Name of the job definition to update.
+        /// The name of the job definition to update.
         public let jobName: String
         /// Specifies the values with which to update the job definition.
         public let jobUpdate: JobUpdate
@@ -6931,6 +7523,48 @@ extension Glue {
 
     }
 
+    public struct UpdateWorkflowRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DefaultRunProperties", required: false, type: .map), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// A collection of properties to be used as part of each execution of the workflow.
+        public let defaultRunProperties: [String: String]?
+        /// The description of the workflow.
+        public let description: String?
+        /// Name of the workflow to be updated.
+        public let name: String
+
+        public init(defaultRunProperties: [String: String]? = nil, description: String? = nil, name: String) {
+            self.defaultRunProperties = defaultRunProperties
+            self.description = description
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultRunProperties = "DefaultRunProperties"
+            case description = "Description"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateWorkflowResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The name of the workflow which was specified in input.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
     public struct UpdateXMLClassifierRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Classification", required: false, type: .string), 
@@ -7038,6 +7672,171 @@ extension Glue {
         case standard = "Standard"
         case g1X = "G.1X"
         case g2X = "G.2X"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Workflow: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedOn", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DefaultRunProperties", required: false, type: .map), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Graph", required: false, type: .structure), 
+            AWSShapeMember(label: "LastModifiedOn", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastRun", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The date and time when the workflow was created.
+        public let createdOn: TimeStamp?
+        /// A collection of properties to be used as part of each execution of the workflow.
+        public let defaultRunProperties: [String: String]?
+        /// A description of the workflow.
+        public let description: String?
+        /// The graph representing all the AWS Glue components that belong to the workflow as nodes and directed connections between them as edges.
+        public let graph: WorkflowGraph?
+        /// The date and time when the workflow was last modified.
+        public let lastModifiedOn: TimeStamp?
+        /// The information about the last execution of the workflow.
+        public let lastRun: WorkflowRun?
+        /// The name of the workflow representing the flow.
+        public let name: String?
+
+        public init(createdOn: TimeStamp? = nil, defaultRunProperties: [String: String]? = nil, description: String? = nil, graph: WorkflowGraph? = nil, lastModifiedOn: TimeStamp? = nil, lastRun: WorkflowRun? = nil, name: String? = nil) {
+            self.createdOn = createdOn
+            self.defaultRunProperties = defaultRunProperties
+            self.description = description
+            self.graph = graph
+            self.lastModifiedOn = lastModifiedOn
+            self.lastRun = lastRun
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdOn = "CreatedOn"
+            case defaultRunProperties = "DefaultRunProperties"
+            case description = "Description"
+            case graph = "Graph"
+            case lastModifiedOn = "LastModifiedOn"
+            case lastRun = "LastRun"
+            case name = "Name"
+        }
+    }
+
+    public struct WorkflowGraph: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Edges", required: false, type: .list), 
+            AWSShapeMember(label: "Nodes", required: false, type: .list)
+        ]
+        /// A list of all the directed connections between the nodes belonging to the workflow.
+        public let edges: [Edge]?
+        /// A list of the the AWS Glue components belong to the workflow represented as nodes.
+        public let nodes: [Node]?
+
+        public init(edges: [Edge]? = nil, nodes: [Node]? = nil) {
+            self.edges = edges
+            self.nodes = nodes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case edges = "Edges"
+            case nodes = "Nodes"
+        }
+    }
+
+    public struct WorkflowRun: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CompletedOn", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Graph", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "StartedOn", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Statistics", required: false, type: .structure), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "WorkflowRunId", required: false, type: .string), 
+            AWSShapeMember(label: "WorkflowRunProperties", required: false, type: .map)
+        ]
+        /// The date and time when the workflow run completed.
+        public let completedOn: TimeStamp?
+        /// The graph representing all the AWS Glue components that belong to the workflow as nodes and directed connections between them as edges.
+        public let graph: WorkflowGraph?
+        /// Name of the workflow which was executed.
+        public let name: String?
+        /// The date and time when the workflow run was started.
+        public let startedOn: TimeStamp?
+        /// The statistics of the run.
+        public let statistics: WorkflowRunStatistics?
+        /// The status of the workflow run.
+        public let status: WorkflowRunStatus?
+        /// The ID of this workflow run.
+        public let workflowRunId: String?
+        /// The workflow run properties which were set during the run.
+        public let workflowRunProperties: [String: String]?
+
+        public init(completedOn: TimeStamp? = nil, graph: WorkflowGraph? = nil, name: String? = nil, startedOn: TimeStamp? = nil, statistics: WorkflowRunStatistics? = nil, status: WorkflowRunStatus? = nil, workflowRunId: String? = nil, workflowRunProperties: [String: String]? = nil) {
+            self.completedOn = completedOn
+            self.graph = graph
+            self.name = name
+            self.startedOn = startedOn
+            self.statistics = statistics
+            self.status = status
+            self.workflowRunId = workflowRunId
+            self.workflowRunProperties = workflowRunProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completedOn = "CompletedOn"
+            case graph = "Graph"
+            case name = "Name"
+            case startedOn = "StartedOn"
+            case statistics = "Statistics"
+            case status = "Status"
+            case workflowRunId = "WorkflowRunId"
+            case workflowRunProperties = "WorkflowRunProperties"
+        }
+    }
+
+    public struct WorkflowRunStatistics: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailedActions", required: false, type: .integer), 
+            AWSShapeMember(label: "RunningActions", required: false, type: .integer), 
+            AWSShapeMember(label: "StoppedActions", required: false, type: .integer), 
+            AWSShapeMember(label: "SucceededActions", required: false, type: .integer), 
+            AWSShapeMember(label: "TimeoutActions", required: false, type: .integer), 
+            AWSShapeMember(label: "TotalActions", required: false, type: .integer)
+        ]
+        /// Total number of Actions which have failed.
+        public let failedActions: Int32?
+        /// Total number Actions in running state.
+        public let runningActions: Int32?
+        /// Total number of Actions which have stopped.
+        public let stoppedActions: Int32?
+        /// Total number of Actions which have succeeded.
+        public let succeededActions: Int32?
+        /// Total number of Actions which timed out.
+        public let timeoutActions: Int32?
+        /// Total number of Actions in the workflow run.
+        public let totalActions: Int32?
+
+        public init(failedActions: Int32? = nil, runningActions: Int32? = nil, stoppedActions: Int32? = nil, succeededActions: Int32? = nil, timeoutActions: Int32? = nil, totalActions: Int32? = nil) {
+            self.failedActions = failedActions
+            self.runningActions = runningActions
+            self.stoppedActions = stoppedActions
+            self.succeededActions = succeededActions
+            self.timeoutActions = timeoutActions
+            self.totalActions = totalActions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedActions = "FailedActions"
+            case runningActions = "RunningActions"
+            case stoppedActions = "StoppedActions"
+            case succeededActions = "SucceededActions"
+            case timeoutActions = "TimeoutActions"
+            case totalActions = "TotalActions"
+        }
+    }
+
+    public enum WorkflowRunStatus: String, CustomStringConvertible, Codable {
+        case running = "RUNNING"
+        case completed = "COMPLETED"
         public var description: String { return self.rawValue }
     }
 

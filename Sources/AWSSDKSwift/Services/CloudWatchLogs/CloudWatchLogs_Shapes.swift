@@ -871,7 +871,7 @@ extension CloudWatchLogs {
         public let endTime: Int64?
         /// The filter pattern to use. For more information, see Filter and Pattern Syntax. If not provided, all the events are matched.
         public let filterPattern: String?
-        /// If the value is true, the operation makes a best effort to provide responses that contain events from multiple log streams within the log group, interleaved in a single response. If the value is false, all the matched log events in the first log stream are searched first, then those in the next log stream, and so on. The default is false.
+        /// If the value is true, the operation makes a best effort to provide responses that contain events from multiple log streams within the log group, interleaved in a single response. If the value is false, all the matched log events in the first log stream are searched first, then those in the next log stream, and so on. The default is false.  IMPORTANT: Starting on June 17, 2019, this parameter will be ignored and the value will be assumed to be true. The response from this operation will always interleave events from multiple log streams within a log group.
         public let interleaved: Bool?
         /// The maximum number of events to return. The default is 10,000 events.
         public let limit: Int32?
@@ -1140,7 +1140,7 @@ extension CloudWatchLogs {
         public let results: [[ResultField]]?
         /// Includes the number of log events scanned by the query, the number of log events that matched the query criteria, and the total number of bytes in the log events that were scanned.
         public let statistics: QueryStatistics?
-        /// The status of the most recent running of the query. Possible values are Cancelled, Complete, Failed, Running, Scheduled, and Unknown.
+        /// The status of the most recent running of the query. Possible values are Cancelled, Complete, Failed, Running, Scheduled, Timeout, and Unknown. Queries time out after 15 minutes of execution. To avoid having your queries time out, reduce the time range being searched, or partition your query into a number of queries.
         public let status: QueryStatus?
 
         public init(results: [[ResultField]]? = nil, statistics: QueryStatistics? = nil, status: QueryStatus? = nil) {
@@ -1298,7 +1298,7 @@ extension CloudWatchLogs {
         public let lastIngestionTime: Int64?
         /// The name of the log stream.
         public let logStreamName: String?
-        /// The number of bytes stored.
+        /// The number of bytes stored.  IMPORTANT: Starting on June 17, 2019, this parameter will be deprecated for log streams, and will be reported as zero. This change applies only to log streams. The storedBytes parameter for log groups is not affected.
         public let storedBytes: Int64?
         /// The sequence token.
         public let uploadSequenceToken: String?
@@ -1601,7 +1601,7 @@ extension CloudWatchLogs {
             AWSShapeMember(label: "policyDocument", required: false, type: .string), 
             AWSShapeMember(label: "policyName", required: false, type: .string)
         ]
-        /// Details of the new policy, including the identity of the principal that is enabled to put logs to this account. This is formatted as a JSON string. The following example creates a resource policy enabling the Route 53 service to put DNS query logs in to the specified log group. Replace "logArn" with the ARN of your CloudWatch Logs resource, such as a log group or log stream.  { "Version": "2012-10-17", "Statement": [ { "Sid": "Route53LogsToCloudWatchLogs", "Effect": "Allow", "Principal": { "Service": [ "route53.amazonaws.com" ] }, "Action":"logs:PutLogEvents", "Resource": "logArn" } ] }  
+        /// Details of the new policy, including the identity of the principal that is enabled to put logs to this account. This is formatted as a JSON string. This parameter is required. The following example creates a resource policy enabling the Route 53 service to put DNS query logs in to the specified log group. Replace "logArn" with the ARN of your CloudWatch Logs resource, such as a log group or log stream.  { "Version": "2012-10-17", "Statement": [ { "Sid": "Route53LogsToCloudWatchLogs", "Effect": "Allow", "Principal": { "Service": [ "route53.amazonaws.com" ] }, "Action":"logs:PutLogEvents", "Resource": "logArn" } ] }  
         public let policyDocument: String?
         /// Name of the new policy. This parameter is required.
         public let policyName: String?
