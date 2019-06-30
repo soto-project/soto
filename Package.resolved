@@ -5,9 +5,9 @@
         "package": "AWSSDKSwiftCore",
         "repositoryURL": "https://github.com/swift-aws/aws-sdk-swift-core.git",
         "state": {
-          "branch": null,
-          "revision": "254c1e3f85414bf0f529f47cc081be2bd0c12c1c",
-          "version": "3.0.1"
+          "branch": "master",
+          "revision": "674179b88c78603edf95217c2f68cad848b3edb5",
+          "version": null
         }
       },
       {
