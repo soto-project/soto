@@ -386,6 +386,6 @@ let package = Package(
         .target(name: "GlacierMiddleware", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Middlewares/Glacier"),
         .target(name: "S3Middleware", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Middlewares/S3"),
 
-        .testTarget(name: "AWSSDKSwiftTests", dependencies: ["DynamoDB", "S3"])
+        .testTarget(name: "AWSSDKSwiftTests", dependencies: ["CloudFront", "EC2", "DynamoDB", "IAM", "S3", "SES", "SNS"])
     ]
 )
