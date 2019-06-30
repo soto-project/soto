@@ -3,7 +3,7 @@
 import Foundation
 import AWSSDKSwiftCore
 
-extension DirectoryService {
+extension AWSDirectoryService {
 
     public struct AcceptSharedDirectoryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
