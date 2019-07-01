@@ -10,9 +10,9 @@ extension SecurityHub {
             AWSShapeMember(label: "InvitationId", required: false, type: .string), 
             AWSShapeMember(label: "MasterId", required: false, type: .string)
         ]
-        /// The ID of the invitation that the Security Hub master account sends to the AWS account.
+        /// The ID of the invitation sent from the Security Hub master account.
         public let invitationId: String?
-        /// The account ID of the Security Hub master account whose invitation you're accepting.
+        /// The account ID of the Security Hub master account that sent the invitation.
         public let masterId: String?
 
         public init(invitationId: String? = nil, masterId: String? = nil) {
@@ -51,6 +51,32 @@ extension SecurityHub {
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
             case email = "Email"
+        }
+    }
+
+    public struct ActionTarget: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActionTargetArn", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The ARN for the target action.
+        public let actionTargetArn: String
+        /// The description of the target action.
+        public let description: String
+        /// The name of the action target.
+        public let name: String
+
+        public init(actionTargetArn: String, description: String, name: String) {
+            self.actionTargetArn = actionTargetArn
+            self.description = description
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionTargetArn = "ActionTargetArn"
+            case description = "Description"
+            case name = "Name"
         }
     }
 
@@ -170,7 +196,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Confidence", required: false, type: .integer), 
             AWSShapeMember(label: "CreatedAt", required: true, type: .string), 
             AWSShapeMember(label: "Criticality", required: false, type: .integer), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: true, type: .string), 
             AWSShapeMember(label: "FirstObservedAt", required: false, type: .string), 
             AWSShapeMember(label: "GeneratorId", required: true, type: .string), 
             AWSShapeMember(label: "Id", required: true, type: .string), 
@@ -189,7 +215,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Severity", required: true, type: .structure), 
             AWSShapeMember(label: "SourceUrl", required: false, type: .string), 
             AWSShapeMember(label: "ThreatIntelIndicators", required: false, type: .list), 
-            AWSShapeMember(label: "Title", required: false, type: .string), 
+            AWSShapeMember(label: "Title", required: true, type: .string), 
             AWSShapeMember(label: "Types", required: true, type: .list), 
             AWSShapeMember(label: "UpdatedAt", required: true, type: .string), 
             AWSShapeMember(label: "UserDefinedFields", required: false, type: .map), 
@@ -204,10 +230,10 @@ extension SecurityHub {
         public let confidence: Int32?
         /// An ISO8601-formatted timestamp that indicates when the security-findings provider created the potential security issue that a finding captured.
         public let createdAt: String
-        /// The level of importance assigned to the resources associated with the finding. A score of 0 means the underlying resources have no criticality, and a score of 100 is reserved for the most critical resources.
+        /// The level of importance assigned to the resources associated with the finding. A score of 0 means that the underlying resources have no criticality, and a score of 100 is reserved for the most critical resources.
         public let criticality: Int32?
         /// A finding's description.  In this release, Description is a required property. 
-        public let description: String?
+        public let description: String
         /// An ISO8601-formatted timestamp that indicates when the security-findings provider first observed the potential security issue that a finding captured.
         public let firstObservedAt: String?
         /// The identifier for the solution-specific component (a discrete unit of logic) that generated a finding. In various security-findings providers' solutions, this generator can be called a rule, a check, a detector, a plug-in, etc. 
@@ -232,7 +258,7 @@ extension SecurityHub {
         public let recordState: RecordState?
         /// A list of related findings.
         public let relatedFindings: [RelatedFinding]?
-        /// An data type that describes the remediation options for a finding.
+        /// A data type that describes the remediation options for a finding.
         public let remediation: Remediation?
         /// A set of resource data types that describe the resources that the finding refers to.
         public let resources: [Resource]
@@ -245,7 +271,7 @@ extension SecurityHub {
         /// Threat intel details related to a finding.
         public let threatIntelIndicators: [ThreatIntelIndicator]?
         /// A finding's title.  In this release, Title is a required property. 
-        public let title: String?
+        public let title: String
         /// One or more finding types in the format of namespace/category/classifier that classify a finding. Valid namespace values are: Software and Configuration Checks | TTPs | Effects | Unusual Behaviors | Sensitive Data Identifications
         public let types: [String]
         /// An ISO8601-formatted timestamp that indicates when the security-findings provider last updated the finding record. 
@@ -257,7 +283,7 @@ extension SecurityHub {
         /// The workflow state of a finding. 
         public let workflowState: WorkflowState?
 
-        public init(awsAccountId: String, compliance: Compliance? = nil, confidence: Int32? = nil, createdAt: String, criticality: Int32? = nil, description: String? = nil, firstObservedAt: String? = nil, generatorId: String, id: String, lastObservedAt: String? = nil, malware: [Malware]? = nil, network: Network? = nil, note: Note? = nil, process: ProcessDetails? = nil, productArn: String, productFields: [String: String]? = nil, recordState: RecordState? = nil, relatedFindings: [RelatedFinding]? = nil, remediation: Remediation? = nil, resources: [Resource], schemaVersion: String, severity: Severity, sourceUrl: String? = nil, threatIntelIndicators: [ThreatIntelIndicator]? = nil, title: String? = nil, types: [String], updatedAt: String, userDefinedFields: [String: String]? = nil, verificationState: VerificationState? = nil, workflowState: WorkflowState? = nil) {
+        public init(awsAccountId: String, compliance: Compliance? = nil, confidence: Int32? = nil, createdAt: String, criticality: Int32? = nil, description: String, firstObservedAt: String? = nil, generatorId: String, id: String, lastObservedAt: String? = nil, malware: [Malware]? = nil, network: Network? = nil, note: Note? = nil, process: ProcessDetails? = nil, productArn: String, productFields: [String: String]? = nil, recordState: RecordState? = nil, relatedFindings: [RelatedFinding]? = nil, remediation: Remediation? = nil, resources: [Resource], schemaVersion: String, severity: Severity, sourceUrl: String? = nil, threatIntelIndicators: [ThreatIntelIndicator]? = nil, title: String, types: [String], updatedAt: String, userDefinedFields: [String: String]? = nil, verificationState: VerificationState? = nil, workflowState: WorkflowState? = nil) {
             self.awsAccountId = awsAccountId
             self.compliance = compliance
             self.confidence = confidence
@@ -420,7 +446,7 @@ extension SecurityHub {
         public let confidence: [NumberFilter]?
         /// An ISO8601-formatted timestamp that indicates when the security-findings provider captured the potential security issue that a finding captured.
         public let createdAt: [DateFilter]?
-        /// The level of importance assigned to the resources associated with the finding. A score of 0 means the underlying resources have no criticality, and a score of 100 is reserved for the most critical resources.
+        /// The level of importance assigned to the resources associated with the finding. A score of 0 means that the underlying resources have no criticality, and a score of 100 is reserved for the most critical resources.
         public let criticality: [NumberFilter]?
         /// A finding's description.
         public let description: [StringFilter]?
@@ -572,7 +598,7 @@ extension SecurityHub {
         public let updatedAt: [DateFilter]?
         /// A list of name/value string pairs associated with the finding. These are custom, user-defined fields added to a finding. 
         public let userDefinedFields: [MapFilter]?
-        /// The veracity of a finding. 
+        /// The veracity of a finding.
         public let verificationState: [StringFilter]?
         /// The workflow state of a finding.
         public let workflowState: [StringFilter]?
@@ -754,7 +780,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StandardsSubscriptionArns", required: true, type: .list)
         ]
-        /// The ARNs of the standards subscriptions that you want to disable.
+        /// The ARNs of the standards subscriptions to disable.
         public let standardsSubscriptionArns: [String]
 
         public init(standardsSubscriptionArns: [String]) {
@@ -786,7 +812,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StandardsSubscriptionRequests", required: true, type: .list)
         ]
-        /// The list of standards that you want to enable.  In this release, Security Hub supports only the CIS AWS Foundations standard. Its ARN is arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0. 
+        /// The list of standards compliance checks to enable.  In this release, Security Hub supports only the CIS AWS Foundations standard. The ARN for the standard is arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0. 
         public let standardsSubscriptionRequests: [StandardsSubscriptionRequest]
 
         public init(standardsSubscriptionRequests: [StandardsSubscriptionRequest]) {
@@ -818,7 +844,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Findings", required: true, type: .list)
         ]
-        /// A list of findings to import. You must submit them in the AwsSecurityFinding format.
+        /// A list of findings to import. To successfully import a finding, it must follow the AWS Security Finding Format.
         public let findings: [AwsSecurityFinding]
 
         public init(findings: [AwsSecurityFinding]) {
@@ -840,7 +866,7 @@ extension SecurityHub {
         public let failedCount: Int32
         /// The list of the findings that failed to import.
         public let failedFindings: [ImportFindingsError]?
-        /// The number of findings that were successfully imported
+        /// The number of findings that were successfully imported.
         public let successCount: Int32
 
         public init(failedCount: Int32, failedFindings: [ImportFindingsError]? = nil, successCount: Int32) {
@@ -891,7 +917,7 @@ extension SecurityHub {
         public let imageId: String?
         /// The name of the image related to a finding.
         public let imageName: String?
-        /// The date/time that the container was started.
+        /// The date and time when the container started.
         public let launchedAt: String?
         /// The name of the container related to a finding.
         public let name: String?
@@ -911,17 +937,59 @@ extension SecurityHub {
         }
     }
 
+    public struct CreateActionTargetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: true, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The description for the custom action target.
+        public let description: String
+        /// The ID for the custom action target.
+        public let id: String
+        /// The name of the custom action target.
+        public let name: String
+
+        public init(description: String, id: String, name: String) {
+            self.description = description
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case id = "Id"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateActionTargetResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActionTargetArn", required: true, type: .string)
+        ]
+        /// The ARN for the custom action target.
+        public let actionTargetArn: String
+
+        public init(actionTargetArn: String) {
+            self.actionTargetArn = actionTargetArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionTargetArn = "ActionTargetArn"
+        }
+    }
+
     public struct CreateInsightRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Filters", required: true, type: .structure), 
             AWSShapeMember(label: "GroupByAttribute", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
-        /// A collection of attributes that are applied to all of the active findings aggregated by Security Hub, and that result in a subset of findings that are included in this insight.
+        /// One or more attributes used to filter the findings included in the insight. Only findings that match the criteria defined in the filters are included in the insight.
         public let filters: AwsSecurityFindingFilters
-        /// The attribute by which the insight's findings are grouped. This attribute is used as a findings aggregator for the purposes of viewing and managing multiple related findings under a single operand.
+        /// The attribute used as the aggregator to group related findings for the insight.
         public let groupByAttribute: String
-        /// The user-defined name that identifies the insight to create.
+        /// The name of the custom insight to create.
         public let name: String
 
         public init(filters: AwsSecurityFindingFilters, groupByAttribute: String, name: String) {
@@ -973,7 +1041,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
         ]
-        /// A list of account ID and email address pairs of the AWS accounts that couldn't be processed.
+        /// A list of account ID and email address pairs of the AWS accounts that weren't processed.
         public let unprocessedAccounts: [Result]?
 
         public init(unprocessedAccounts: [Result]? = nil) {
@@ -1041,7 +1109,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountIds", required: false, type: .list)
         ]
-        /// A list of account IDs that specify the accounts from which invitations to Security Hub are declined.
+        /// A list of account IDs that specify the accounts that invitations to Security Hub are declined from.
         public let accountIds: [String]?
 
         public init(accountIds: [String]? = nil) {
@@ -1057,7 +1125,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
         ]
-        /// A list of account ID and email address pairs of the AWS accounts that couldn't be processed. 
+        /// A list of account ID and email address pairs of the AWS accounts that weren't processed.
         public let unprocessedAccounts: [Result]?
 
         public init(unprocessedAccounts: [Result]? = nil) {
@@ -1066,6 +1134,38 @@ extension SecurityHub {
 
         private enum CodingKeys: String, CodingKey {
             case unprocessedAccounts = "UnprocessedAccounts"
+        }
+    }
+
+    public struct DeleteActionTargetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActionTargetArn", location: .uri(locationName: "ActionTargetArn"), required: true, type: .string)
+        ]
+        /// The ARN of the custom action target to delete.
+        public let actionTargetArn: String
+
+        public init(actionTargetArn: String) {
+            self.actionTargetArn = actionTargetArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionTargetArn = "ActionTargetArn"
+        }
+    }
+
+    public struct DeleteActionTargetResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActionTargetArn", required: true, type: .string)
+        ]
+        /// The ARN of the custom action target that was deleted.
+        public let actionTargetArn: String
+
+        public init(actionTargetArn: String) {
+            self.actionTargetArn = actionTargetArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionTargetArn = "ActionTargetArn"
         }
     }
 
@@ -1105,7 +1205,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountIds", required: false, type: .list)
         ]
-        /// A list of account IDs that specify accounts whose invitations to Security Hub you want to delete. 
+        /// A list of the account IDs that sent the invitations to delete.
         public let accountIds: [String]?
 
         public init(accountIds: [String]? = nil) {
@@ -1121,7 +1221,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
         ]
-        /// A list of account ID and email address pairs of the AWS accounts that couldn't be processed. 
+        /// A list of account ID and email address pairs of the AWS accounts that invitations weren't deleted for.
         public let unprocessedAccounts: [Result]?
 
         public init(unprocessedAccounts: [Result]? = nil) {
@@ -1137,7 +1237,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountIds", required: false, type: .list)
         ]
-        /// A list of account IDs of the Security Hub member accounts that you want to delete. 
+        /// A list of account IDs of the member accounts to delete.
         public let accountIds: [String]?
 
         public init(accountIds: [String]? = nil) {
@@ -1153,7 +1253,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
         ]
-        /// A list of account ID and email address pairs of the AWS accounts that couldn't be processed. 
+        /// A list of account ID and email address pairs of the AWS accounts that weren't deleted.
         public let unprocessedAccounts: [Result]?
 
         public init(unprocessedAccounts: [Result]? = nil) {
@@ -1162,6 +1262,90 @@ extension SecurityHub {
 
         private enum CodingKeys: String, CodingKey {
             case unprocessedAccounts = "UnprocessedAccounts"
+        }
+    }
+
+    public struct DescribeActionTargetsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActionTargetArns", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of custom action target ARNs for the custom action targets to retrieve.
+        public let actionTargetArns: [String]?
+        /// The maximum number of results to return.
+        public let maxResults: Int32?
+        /// The token that is required for pagination.
+        public let nextToken: String?
+
+        public init(actionTargetArns: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.actionTargetArns = actionTargetArns
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionTargetArns = "ActionTargetArns"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeActionTargetsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActionTargets", required: true, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of ActionTarget objects. Each object includes the ActionTargetArn, Description, and Name of a custom action target available in Security Hub.
+        public let actionTargets: [ActionTarget]
+        /// The token that is required for pagination.
+        public let nextToken: String?
+
+        public init(actionTargets: [ActionTarget], nextToken: String? = nil) {
+            self.actionTargets = actionTargets
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionTargets = "ActionTargets"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeHubRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HubArn", required: false, type: .string)
+        ]
+        /// The ARN of the Hub resource to retrieve.
+        public let hubArn: String?
+
+        public init(hubArn: String? = nil) {
+            self.hubArn = hubArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hubArn = "HubArn"
+        }
+    }
+
+    public struct DescribeHubResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HubArn", required: false, type: .string), 
+            AWSShapeMember(label: "SubscribedAt", required: false, type: .string)
+        ]
+        /// The ARN of the Hub resource retrieved.
+        public let hubArn: String?
+        /// The date and time when Security Hub was enabled in the account.
+        public let subscribedAt: String?
+
+        public init(hubArn: String? = nil, subscribedAt: String? = nil) {
+            self.hubArn = hubArn
+            self.subscribedAt = subscribedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hubArn = "HubArn"
+            case subscribedAt = "SubscribedAt"
         }
     }
 
@@ -1193,7 +1377,7 @@ extension SecurityHub {
         ]
         /// The token that is required for pagination.
         public let nextToken: String?
-        /// A list of products.
+        /// A list of products, including details for each product.
         public let products: [Product]
 
         public init(nextToken: String? = nil, products: [Product]) {
@@ -1211,7 +1395,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProductSubscriptionArn", location: .uri(locationName: "ProductSubscriptionArn"), required: true, type: .string)
         ]
-        /// The ARN of a resource that represents your subscription to a supported product.
+        /// The ARN of the integrated product to disable the integration for.
         public let productSubscriptionArn: String
 
         public init(productSubscriptionArn: String) {
@@ -1262,7 +1446,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountIds", required: false, type: .list)
         ]
-        /// The account IDs of the member accounts that you want to disassociate from the master account.
+        /// The account IDs of the member accounts to disassociate from the master account.
         public let accountIds: [String]?
 
         public init(accountIds: [String]? = nil) {
@@ -1285,7 +1469,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProductArn", required: true, type: .string)
         ]
-        /// The ARN of the product that generates findings that you want to import into Security Hub.
+        /// The ARN of the product to enable the integration for.
         public let productArn: String
 
         public init(productArn: String) {
@@ -1301,7 +1485,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProductSubscriptionArn", required: false, type: .string)
         ]
-        /// The ARN of a resource that represents your subscription to the product that generates the findings that you want to import into Security Hub.
+        /// The ARN of your subscription to the product to enable integrations for.
         public let productSubscriptionArn: String?
 
         public init(productSubscriptionArn: String? = nil) {
@@ -1314,10 +1498,19 @@ extension SecurityHub {
     }
 
     public struct EnableSecurityHubRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: false, type: .map)
+        ]
+        /// The tags to add to the Hub resource when you enable Security Hub.
+        public let tags: [String: String]?
 
-        public init() {
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
         }
 
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
     }
 
     public struct EnableSecurityHubResponse: AWSShape {
@@ -1333,11 +1526,11 @@ extension SecurityHub {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "StandardsSubscriptionArns", required: false, type: .list)
         ]
-        /// The maximum number of items that you want in the response.
+        /// The maximum number of results to return in the response.
         public let maxResults: Int32?
         /// Paginates results. On your first call to the GetEnabledStandards operation, set the value of this parameter to NULL. For subsequent calls to the operation, fill nextToken in the request with the value of nextToken from the previous response to continue listing data.
         public let nextToken: String?
-        /// The list of standards subscription ARNS that you want to list and describe.
+        /// A list of the standards subscription ARNs for the standards to retrieve.
         public let standardsSubscriptionArns: [String]?
 
         public init(maxResults: Int32? = nil, nextToken: String? = nil, standardsSubscriptionArns: [String]? = nil) {
@@ -1360,7 +1553,7 @@ extension SecurityHub {
         ]
         /// The token that is required for pagination.
         public let nextToken: String?
-        /// The standards subscription details returned by the operation.
+        /// A list of StandardsSubscriptions objects that include information about the enabled standards.
         public let standardsSubscriptions: [StandardsSubscription]?
 
         public init(nextToken: String? = nil, standardsSubscriptions: [StandardsSubscription]? = nil) {
@@ -1381,13 +1574,13 @@ extension SecurityHub {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "SortCriteria", required: false, type: .list)
         ]
-        /// A collection of attributes that is used for querying findings.
+        /// The findings attributes used to define a condition to filter the findings returned.
         public let filters: AwsSecurityFindingFilters?
-        /// Indicates the maximum number of items that you want in the response.
+        /// The maximum number of findings to return.
         public let maxResults: Int32?
         /// Paginates results. On your first call to the GetFindings operation, set the value of this parameter to NULL. For subsequent calls to the operation, fill nextToken in the request with the value of nextToken from the previous response to continue listing data.
         public let nextToken: String?
-        /// A collection of attributes used for sorting findings.
+        /// Findings attributes used to sort the list of findings returned.
         public let sortCriteria: [SortCriterion]?
 
         public init(filters: AwsSecurityFindingFilters? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortCriteria: [SortCriterion]? = nil) {
@@ -1410,7 +1603,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Findings", required: true, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// Findings details returned by the operation.
+        /// The findings that matched the filters specified in the request.
         public let findings: [AwsSecurityFinding]
         /// The token that is required for pagination.
         public let nextToken: String?
@@ -1594,9 +1787,9 @@ extension SecurityHub {
             AWSShapeMember(label: "ErrorMessage", required: true, type: .string), 
             AWSShapeMember(label: "Id", required: true, type: .string)
         ]
-        /// The code of the error made during the BatchImportFindings operation. 
+        /// The code of the error made during the BatchImportFindings operation.
         public let errorCode: String
-        /// The message of the error made during the BatchImportFindings operation. 
+        /// The message of the error made during the BatchImportFindings operation.
         public let errorMessage: String
         /// The ID of the error made during the BatchImportFindings operation.
         public let id: String
@@ -1621,7 +1814,7 @@ extension SecurityHub {
             AWSShapeMember(label: "InsightArn", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
-        /// A collection of attributes that are applied to all active Security Hub-aggregated findings and that result in a subset of findings that are included in this insight. 
+        /// One or more attributes used to filter the findings included in the insight. Only findings that match the criteria defined in the filters are included in the insight.
         public let filters: AwsSecurityFindingFilters
         /// The attribute that the insight's findings are grouped by. This attribute is used as a findings aggregator for the purposes of viewing and managing multiple related findings under a single operand.
         public let groupByAttribute: String
@@ -1699,13 +1892,13 @@ extension SecurityHub {
             AWSShapeMember(label: "InvitedAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "MemberStatus", required: false, type: .string)
         ]
-        /// The account ID of the Security Hub master account that sent the invitation. 
+        /// The account ID of the Security Hub master account that the invitation was sent from.
         public let accountId: String?
-        /// The ID of the invitation that the Security Hub master account sent.
+        /// The ID of the invitation sent to the member account.
         public let invitationId: String?
         /// The timestamp of when the invitation was sent.
         public let invitedAt: TimeStamp?
-        /// The current relationship status between the inviter and invitee accounts.
+        /// The current status of the association between member and master accounts.
         public let memberStatus: String?
 
         public init(accountId: String? = nil, invitationId: String? = nil, invitedAt: TimeStamp? = nil, memberStatus: String? = nil) {
@@ -1918,50 +2111,35 @@ extension SecurityHub {
         }
     }
 
-    public struct ListProductSubscribersRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "ProductArn", location: .querystring(locationName: "ProductArn"), required: false, type: .string)
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn"), required: true, type: .string)
         ]
-        /// The maximum number of results to return.
-        public let maxResults: Int32?
-        /// The token that is required for pagination.
-        public let nextToken: String?
-        /// The ARN of the product.
-        public let productArn: String?
+        /// The ARN of the resource to retrieve tags for.
+        public let resourceArn: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, productArn: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.productArn = productArn
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case productArn = "ProductArn"
+            case resourceArn = "ResourceArn"
         }
     }
 
-    public struct ListProductSubscribersResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ProductSubscribers", required: false, type: .list)
+            AWSShapeMember(label: "Tags", required: false, type: .map)
         ]
-        /// The token that is required for pagination.
-        public let nextToken: String?
-        /// A list of account IDs that are subscribed to the product.
-        public let productSubscribers: [String]?
+        /// The tags associated with a resource.
+        public let tags: [String: String]?
 
-        public init(nextToken: String? = nil, productSubscribers: [String]? = nil) {
-            self.nextToken = nextToken
-            self.productSubscribers = productSubscribers
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case productSubscribers = "ProductSubscribers"
+            case tags = "Tags"
         }
     }
 
@@ -2028,7 +2206,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
-        /// The condition to be applied to a key value when querying for findings with a map filter.
+        /// The condition to apply to a key value when querying for findings with a map filter.
         public let comparison: MapFilterComparison?
         /// The key of the map filter.
         public let key: String?
@@ -2062,17 +2240,17 @@ extension SecurityHub {
             AWSShapeMember(label: "MemberStatus", required: false, type: .string), 
             AWSShapeMember(label: "UpdatedAt", required: false, type: .timestamp)
         ]
-        /// The AWS account ID of a Security Hub member account.
+        /// The AWS account ID of the member account.
         public let accountId: String?
-        /// The email of a Security Hub member account.
+        /// The email address of the member account.
         public let email: String?
-        /// The timestamp of when the member account was invited to Security Hub.
+        /// A timestamp for the date and time when the invitation was sent to the member account.
         public let invitedAt: TimeStamp?
-        /// The AWS account ID of the Security Hub master account to this member account.
+        /// The AWS account ID of the Security Hub master account associated with this member account.
         public let masterId: String?
         /// The status of the relationship between the member account and its master account. 
         public let memberStatus: String?
-        /// The timestamp of when this member account was updated.
+        /// The timestamp for the date and time when the member account was updated.
         public let updatedAt: TimeStamp?
 
         public init(accountId: String? = nil, email: String? = nil, invitedAt: TimeStamp? = nil, masterId: String? = nil, memberStatus: String? = nil, updatedAt: TimeStamp? = nil) {
@@ -2265,7 +2443,7 @@ extension SecurityHub {
         public let path: String?
         /// The process ID.
         public let pid: Int32?
-        /// The date/time that the process was terminated.
+        /// The date and time when the process was terminated.
         public let terminatedAt: String?
 
         public init(launchedAt: String? = nil, name: String? = nil, parentPid: Int32? = nil, path: String? = nil, pid: Int32? = nil, terminatedAt: String? = nil) {
@@ -2312,7 +2490,7 @@ extension SecurityHub {
         public let productArn: String
         /// The name of the product.
         public let productName: String?
-        /// The resource policy asasociated with the product.
+        /// The resource policy associated with the product.
         public let productSubscriptionResourcePolicy: String?
 
         public init(activationUrl: String? = nil, categories: [String]? = nil, companyName: String? = nil, description: String? = nil, marketplaceUrl: String? = nil, productArn: String, productName: String? = nil, productSubscriptionResourcePolicy: String? = nil) {
@@ -2343,9 +2521,9 @@ extension SecurityHub {
             AWSShapeMember(label: "Text", required: false, type: .string), 
             AWSShapeMember(label: "Url", required: false, type: .string)
         ]
-        /// The recommendation of what to do about the issue described in a finding. 
+        /// Describes the recommended steps to take to remediate an issue identified in a finding.
         public let text: String?
-        /// A URL to link to general remediation information for the finding type of a finding. 
+        /// A URL to a page or site that contains information about how to remediate a finding.
         public let url: String?
 
         public init(text: String? = nil, url: String? = nil) {
@@ -2370,9 +2548,9 @@ extension SecurityHub {
             AWSShapeMember(label: "Id", required: true, type: .string), 
             AWSShapeMember(label: "ProductArn", required: true, type: .string)
         ]
-        /// The solution-generated identifier for a related finding.
+        /// The product-generated identifier for a related finding.
         public let id: String
-        /// The ARN of the solution that generated a related finding.
+        /// The ARN of the product that generated a related finding.
         public let productArn: String
 
         public init(id: String, productArn: String) {
@@ -2390,7 +2568,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Recommendation", required: false, type: .structure)
         ]
-        /// A recommendation on how to remediate the issue identified within a finding.
+        /// A recommendation on the steps to take to remediate the issue identified by a finding.
         public let recommendation: Recommendation?
 
         public init(recommendation: Recommendation? = nil) {
@@ -2411,7 +2589,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Tags", required: false, type: .map), 
             AWSShapeMember(label: "Type", required: true, type: .string)
         ]
-        /// Additional details about the resource.
+        /// Additional details about the resource related to a finding.
         public let details: ResourceDetails?
         /// The canonical identifier for the given resource type.
         public let id: String
@@ -2451,15 +2629,15 @@ extension SecurityHub {
             AWSShapeMember(label: "Container", required: false, type: .structure), 
             AWSShapeMember(label: "Other", required: false, type: .map)
         ]
-        /// The details of an Amazon EC2 instance.
+        /// Details about an Amazon EC2 instance related to a finding.
         public let awsEc2Instance: AwsEc2InstanceDetails?
-        /// IAM access key details related to a finding.
+        /// Details about an IAM access key related to a finding.
         public let awsIamAccessKey: AwsIamAccessKeyDetails?
-        /// The details of an Amazon S3 Bucket.
+        /// Details about an Amazon S3 Bucket related to a finding.
         public let awsS3Bucket: AwsS3BucketDetails?
-        /// Container details related to a finding.
+        /// Details about a container resource related to a finding.
         public let container: ContainerDetails?
-        /// The details of a resource that doesn't have a specific subfield for the resource type defined.
+        /// Details about a resource that doesn't have a specific type defined.
         public let other: [String: String]?
 
         public init(awsEc2Instance: AwsEc2InstanceDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
@@ -2484,9 +2662,9 @@ extension SecurityHub {
             AWSShapeMember(label: "AccountId", required: false, type: .string), 
             AWSShapeMember(label: "ProcessingResult", required: false, type: .string)
         ]
-        /// An ID of the AWS account that couldn't be processed. 
+        /// An AWS account ID of the account that wasn't be processed.
         public let accountId: String?
-        /// The reason for why an account couldn't be processed.
+        /// The reason that the account wasn't be processed.
         public let processingResult: String?
 
         public init(accountId: String? = nil, processingResult: String? = nil) {
@@ -2507,7 +2685,7 @@ extension SecurityHub {
         ]
         /// The normalized severity of a finding.
         public let normalized: Int32
-        /// The native severity as defined by the security-findings provider's solution that generated the finding.
+        /// The native severity as defined by the AWS service or integrated partner product that generated the finding.
         public let product: Double?
 
         public init(normalized: Int32, product: Double? = nil) {
@@ -2526,9 +2704,9 @@ extension SecurityHub {
             AWSShapeMember(label: "Field", required: false, type: .string), 
             AWSShapeMember(label: "SortOrder", required: false, type: .enum)
         ]
-        /// The finding attribute used for sorting findings.
+        /// The finding attribute used to sort findings.
         public let field: String?
-        /// The order used for sorting findings.
+        /// The order used to sort findings.
         public let sortOrder: SortOrder?
 
         public init(field: String? = nil, sortOrder: SortOrder? = nil) {
@@ -2564,10 +2742,11 @@ extension SecurityHub {
             AWSShapeMember(label: "StandardsStatus", required: true, type: .enum), 
             AWSShapeMember(label: "StandardsSubscriptionArn", required: true, type: .string)
         ]
-        /// The ARN of a standard.  In this release, Security Hub supports only the CIS AWS Foundations standard.  Its ARN is arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0. 
+        /// The ARN of a standard. In this release, Security Hub supports only the CIS AWS Foundations standard, which uses the following ARN: arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0. 
         public let standardsArn: String
+        /// A key-value pair of input for the standard.
         public let standardsInput: [String: String]
-        /// The standard's status.
+        /// The status of the standards subscription.
         public let standardsStatus: StandardsStatus
         /// The ARN of a resource that represents your subscription to a supported standard.
         public let standardsSubscriptionArn: String
@@ -2594,6 +2773,7 @@ extension SecurityHub {
         ]
         /// The ARN of the standard that you want to enable.  In this release, Security Hub only supports the CIS AWS Foundations standard.  Its ARN is arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0. 
         public let standardsArn: String
+        /// A key-value pair of input for the standard.
         public let standardsInput: [String: String]?
 
         public init(standardsArn: String, standardsInput: [String: String]? = nil) {
@@ -2634,6 +2814,34 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .map)
+        ]
+        /// The ARN of the resource to apply the tags to.
+        public let resourceArn: String
+        /// The tags to add to the resource.
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
     public struct ThreatIntelIndicator: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Category", required: false, type: .enum), 
@@ -2645,11 +2853,11 @@ extension SecurityHub {
         ]
         /// The category of a threat intel indicator.
         public let category: ThreatIntelIndicatorCategory?
-        /// The date/time of the last observation of a threat intel indicator.
+        /// The date and time when the most recent instance of a threat intel indicator was observed.
         public let lastObservedAt: String?
-        /// The source of the threat intel.
+        /// The source of the threat intel indicator.
         public let source: String?
-        /// The URL for more details from the source of the threat intel.
+        /// The URL to the page or site where you can get more information about the threat intel indicator.
         public let sourceUrl: String?
         /// The type of a threat intel indicator.
         public let `type`: ThreatIntelIndicatorType?
@@ -2698,6 +2906,67 @@ extension SecurityHub {
         case process = "PROCESS"
         case url = "URL"
         public var description: String { return self.rawValue }
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+        ]
+        /// The ARN of the resource to remove the tags from.
+        public let resourceArn: String
+        /// The tag keys associated with the tags to remove from the resource.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tagKeys = "tagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateActionTargetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActionTargetArn", location: .uri(locationName: "ActionTargetArn"), required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The ARN of the custom action target to update.
+        public let actionTargetArn: String
+        /// The updated description for the custom action target.
+        public let description: String?
+        /// The updated name of the custom action target.
+        public let name: String?
+
+        public init(actionTargetArn: String, description: String? = nil, name: String? = nil) {
+            self.actionTargetArn = actionTargetArn
+            self.description = description
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionTargetArn = "ActionTargetArn"
+            case description = "Description"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateActionTargetResponse: AWSShape {
+
+        public init() {
+        }
+
     }
 
     public struct UpdateFindingsRequest: AWSShape {

@@ -27,13 +27,17 @@ func rootPath() -> String {
         .joined(separator: "/")
 }
 
+func apiDirectories() -> [String] {
+    return Glob.entries(pattern: "\(rootPath())/models/apis/**")
+}
+
 func loadEndpointJSON() throws -> JSON {
     let data = try Data(contentsOf: URL(string: "file://\(rootPath())/models/endpoints/endpoints.json")!)
-    return JSON(data: data)
+    return try JSON(data: data)
 }
 
 func loadDocJSONList() throws -> [JSON] {
-    let directories = Glob.entries(pattern: "\(rootPath())/models/apis/**")
+    let directories = apiDirectories()
 
     let docPaths: [String] = directories.map {
         let entries = Glob.entries(pattern: $0+"/**/docs-*.json")
@@ -42,12 +46,12 @@ func loadDocJSONList() throws -> [JSON] {
 
     return try docPaths.map {
         let data = try Data(contentsOf: URL(string: "file://\($0)")!)
-        return JSON(data: data)
+        return try JSON(data: data)
     }
 }
 
 func loadAPIJSONList() throws -> [JSON] {
-    let directories = Glob.entries(pattern: "\(rootPath())/models/apis/**")
+    let directories = apiDirectories()
 
     let apiPaths: [String] = directories.map {
         let entries = Glob.entries(pattern: $0+"/**/api-*.json")
@@ -56,7 +60,7 @@ func loadAPIJSONList() throws -> [JSON] {
 
     return try apiPaths.map {
         let data = try Data(contentsOf: URL(string: "file://\($0)")!)
-        var json = JSON(data: data)
+        var json = try JSON(data: data)
         json["serviceName"].stringValue = serviceNameForApi(apiJSON: json)
         return json
     }
@@ -78,7 +82,7 @@ let serviceAliases: [String:String] = [
 func serviceNameForApi(apiJSON: JSON) -> String {
     var serviceNameJSON = apiJSON["metadata"]["serviceAbbreviation"]
 
-    if serviceNameJSON == nil {
+    if serviceNameJSON == JSON.null {
         serviceNameJSON = apiJSON["metadata"]["serviceFullName"]
     }
 

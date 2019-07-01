@@ -986,6 +986,7 @@ extension RoboMaker {
         case environmentsetuperror = "EnvironmentSetupError"
         case etagmismatch = "EtagMismatch"
         case failurethresholdbreached = "FailureThresholdBreached"
+        case robotdeploymentaborted = "RobotDeploymentAborted"
         case robotdeploymentnoresponse = "RobotDeploymentNoResponse"
         case robotagentconnectiontimeout = "RobotAgentConnectionTimeout"
         case greengrassdeploymentfailed = "GreengrassDeploymentFailed"

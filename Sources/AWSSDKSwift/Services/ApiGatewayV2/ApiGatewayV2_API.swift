@@ -250,6 +250,19 @@ public struct ApiGatewayV2 {
         return try client.send(operation: "GetStages", path: "/v2/apis/{apiId}/stages", httpMethod: "GET", input: input)
     }
 
+    ///  Gets the Tags for a resource.
+    public func getTags(_ input: GetTagsRequest) throws -> Future<GetTagsResponse> {
+        return try client.send(operation: "GetTags", path: "/v2/tags/{resource-arn}", httpMethod: "GET", input: input)
+    }
+
+    public func tagResource(_ input: TagResourceRequest) throws -> Future<TagResourceResponse> {
+        return try client.send(operation: "TagResource", path: "/v2/tags/{resource-arn}", httpMethod: "POST", input: input)
+    }
+
+    @discardableResult public func untagResource(_ input: UntagResourceRequest) throws -> Future<Void> {
+        return try client.send(operation: "UntagResource", path: "/v2/tags/{resource-arn}", httpMethod: "DELETE", input: input)
+    }
+
     ///  Updates an Api resource.
     public func updateApi(_ input: UpdateApiRequest) throws -> Future<UpdateApiResponse> {
         return try client.send(operation: "UpdateApi", path: "/v2/apis/{apiId}", httpMethod: "PATCH", input: input)

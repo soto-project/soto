@@ -52,6 +52,9 @@ public enum CodeCommitErrorType: AWSErrorType {
     case invalidCommentIdException(message: String?)
     case invalidCommitException(message: String?)
     case invalidCommitIdException(message: String?)
+    case invalidConflictDetailLevelException(message: String?)
+    case invalidConflictResolutionException(message: String?)
+    case invalidConflictResolutionStrategyException(message: String?)
     case invalidContinuationTokenException(message: String?)
     case invalidDeletionParameterException(message: String?)
     case invalidDescriptionException(message: String?)
@@ -60,6 +63,8 @@ public enum CodeCommitErrorType: AWSErrorType {
     case invalidFileLocationException(message: String?)
     case invalidFileModeException(message: String?)
     case invalidFilePositionException(message: String?)
+    case invalidMaxConflictFilesException(message: String?)
+    case invalidMaxMergeHunksException(message: String?)
     case invalidMaxResultsException(message: String?)
     case invalidMergeOptionException(message: String?)
     case invalidOrderException(message: String?)
@@ -71,6 +76,8 @@ public enum CodeCommitErrorType: AWSErrorType {
     case invalidPullRequestStatusUpdateException(message: String?)
     case invalidReferenceNameException(message: String?)
     case invalidRelativeFileVersionEnumException(message: String?)
+    case invalidReplacementContentException(message: String?)
+    case invalidReplacementTypeException(message: String?)
     case invalidRepositoryDescriptionException(message: String?)
     case invalidRepositoryNameException(message: String?)
     case invalidRepositoryTriggerBranchNameException(message: String?)
@@ -85,16 +92,21 @@ public enum CodeCommitErrorType: AWSErrorType {
     case invalidSystemTagUsageException(message: String?)
     case invalidTagKeysListException(message: String?)
     case invalidTagsMapException(message: String?)
+    case invalidTargetBranchException(message: String?)
     case invalidTargetException(message: String?)
     case invalidTargetsException(message: String?)
     case invalidTitleException(message: String?)
     case manualMergeRequiredException(message: String?)
     case maximumBranchesExceededException(message: String?)
+    case maximumConflictResolutionEntriesExceededException(message: String?)
+    case maximumFileContentToLoadExceededException(message: String?)
     case maximumFileEntriesExceededException(message: String?)
+    case maximumItemsToCompareExceededException(message: String?)
     case maximumOpenPullRequestsExceededException(message: String?)
     case maximumRepositoryNamesExceededException(message: String?)
     case maximumRepositoryTriggersExceededException(message: String?)
     case mergeOptionRequiredException(message: String?)
+    case multipleConflictResolutionEntriesException(message: String?)
     case multipleRepositoriesInPullRequestException(message: String?)
     case nameLengthExceededException(message: String?)
     case noChangeException(message: String?)
@@ -111,6 +123,8 @@ public enum CodeCommitErrorType: AWSErrorType {
     case referenceDoesNotExistException(message: String?)
     case referenceNameRequiredException(message: String?)
     case referenceTypeNotSupportedException(message: String?)
+    case replacementContentRequiredException(message: String?)
+    case replacementTypeRequiredException(message: String?)
     case repositoryDoesNotExistException(message: String?)
     case repositoryLimitExceededException(message: String?)
     case repositoryNameExistsException(message: String?)
@@ -242,6 +256,12 @@ extension CodeCommitErrorType {
             self = .invalidCommitException(message: message)
         case "InvalidCommitIdException":
             self = .invalidCommitIdException(message: message)
+        case "InvalidConflictDetailLevelException":
+            self = .invalidConflictDetailLevelException(message: message)
+        case "InvalidConflictResolutionException":
+            self = .invalidConflictResolutionException(message: message)
+        case "InvalidConflictResolutionStrategyException":
+            self = .invalidConflictResolutionStrategyException(message: message)
         case "InvalidContinuationTokenException":
             self = .invalidContinuationTokenException(message: message)
         case "InvalidDeletionParameterException":
@@ -258,6 +278,10 @@ extension CodeCommitErrorType {
             self = .invalidFileModeException(message: message)
         case "InvalidFilePositionException":
             self = .invalidFilePositionException(message: message)
+        case "InvalidMaxConflictFilesException":
+            self = .invalidMaxConflictFilesException(message: message)
+        case "InvalidMaxMergeHunksException":
+            self = .invalidMaxMergeHunksException(message: message)
         case "InvalidMaxResultsException":
             self = .invalidMaxResultsException(message: message)
         case "InvalidMergeOptionException":
@@ -280,6 +304,10 @@ extension CodeCommitErrorType {
             self = .invalidReferenceNameException(message: message)
         case "InvalidRelativeFileVersionEnumException":
             self = .invalidRelativeFileVersionEnumException(message: message)
+        case "InvalidReplacementContentException":
+            self = .invalidReplacementContentException(message: message)
+        case "InvalidReplacementTypeException":
+            self = .invalidReplacementTypeException(message: message)
         case "InvalidRepositoryDescriptionException":
             self = .invalidRepositoryDescriptionException(message: message)
         case "InvalidRepositoryNameException":
@@ -308,6 +336,8 @@ extension CodeCommitErrorType {
             self = .invalidTagKeysListException(message: message)
         case "InvalidTagsMapException":
             self = .invalidTagsMapException(message: message)
+        case "InvalidTargetBranchException":
+            self = .invalidTargetBranchException(message: message)
         case "InvalidTargetException":
             self = .invalidTargetException(message: message)
         case "InvalidTargetsException":
@@ -318,8 +348,14 @@ extension CodeCommitErrorType {
             self = .manualMergeRequiredException(message: message)
         case "MaximumBranchesExceededException":
             self = .maximumBranchesExceededException(message: message)
+        case "MaximumConflictResolutionEntriesExceededException":
+            self = .maximumConflictResolutionEntriesExceededException(message: message)
+        case "MaximumFileContentToLoadExceededException":
+            self = .maximumFileContentToLoadExceededException(message: message)
         case "MaximumFileEntriesExceededException":
             self = .maximumFileEntriesExceededException(message: message)
+        case "MaximumItemsToCompareExceededException":
+            self = .maximumItemsToCompareExceededException(message: message)
         case "MaximumOpenPullRequestsExceededException":
             self = .maximumOpenPullRequestsExceededException(message: message)
         case "MaximumRepositoryNamesExceededException":
@@ -328,6 +364,8 @@ extension CodeCommitErrorType {
             self = .maximumRepositoryTriggersExceededException(message: message)
         case "MergeOptionRequiredException":
             self = .mergeOptionRequiredException(message: message)
+        case "MultipleConflictResolutionEntriesException":
+            self = .multipleConflictResolutionEntriesException(message: message)
         case "MultipleRepositoriesInPullRequestException":
             self = .multipleRepositoriesInPullRequestException(message: message)
         case "NameLengthExceededException":
@@ -360,6 +398,10 @@ extension CodeCommitErrorType {
             self = .referenceNameRequiredException(message: message)
         case "ReferenceTypeNotSupportedException":
             self = .referenceTypeNotSupportedException(message: message)
+        case "ReplacementContentRequiredException":
+            self = .replacementContentRequiredException(message: message)
+        case "ReplacementTypeRequiredException":
+            self = .replacementTypeRequiredException(message: message)
         case "RepositoryDoesNotExistException":
             self = .repositoryDoesNotExistException(message: message)
         case "RepositoryLimitExceededException":

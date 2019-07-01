@@ -105,7 +105,7 @@ public struct RoboMaker {
         return try client.send(operation: "DeregisterRobot", path: "/deregisterRobot", httpMethod: "POST", input: input)
     }
 
-    ///  Describes a deployment job. [Does it work regardless of deployment status, e.g. Failed?]
+    ///  Describes a deployment job.
     public func describeDeploymentJob(_ input: DescribeDeploymentJobRequest) throws -> Future<DescribeDeploymentJobResponse> {
         return try client.send(operation: "DescribeDeploymentJob", path: "/describeDeploymentJob", httpMethod: "POST", input: input)
     }

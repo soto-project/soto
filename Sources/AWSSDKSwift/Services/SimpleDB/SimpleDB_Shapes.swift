@@ -37,7 +37,7 @@ extension SimpleDB {
     public struct BatchDeleteAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "Items", location: .body(locationName: "Item"), required: true, type: .list)
+            AWSShapeMember(label: "Items", location: .body(locationName: "Item"), required: true, type: .list, encoding: .flatList)
         ]
         /// The name of the domain in which the attributes are being deleted.
         public let domainName: String
@@ -58,7 +58,7 @@ extension SimpleDB {
     public struct BatchPutAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "Items", location: .body(locationName: "Item"), required: true, type: .list)
+            AWSShapeMember(label: "Items", location: .body(locationName: "Item"), required: true, type: .list, encoding: .flatList)
         ]
         /// The name of the domain in which the attributes are being stored.
         public let domainName: String
@@ -115,7 +115,7 @@ extension SimpleDB {
 
     public struct DeletableItem: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", location: .body(locationName: "Attribute"), required: false, type: .list), 
+            AWSShapeMember(label: "Attributes", location: .body(locationName: "Attribute"), required: false, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "Name", location: .body(locationName: "ItemName"), required: true, type: .string)
         ]
         public let attributes: [DeletableAttribute]?
@@ -134,7 +134,7 @@ extension SimpleDB {
 
     public struct DeleteAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", location: .body(locationName: "Attribute"), required: false, type: .list), 
+            AWSShapeMember(label: "Attributes", location: .body(locationName: "Attribute"), required: false, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
             AWSShapeMember(label: "Expected", required: false, type: .structure), 
             AWSShapeMember(label: "ItemName", required: true, type: .string)
@@ -243,7 +243,7 @@ extension SimpleDB {
 
     public struct GetAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeNames", location: .body(locationName: "AttributeName"), required: false, type: .list), 
+            AWSShapeMember(label: "AttributeNames", location: .body(locationName: "AttributeName"), required: false, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "ConsistentRead", required: false, type: .boolean), 
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
             AWSShapeMember(label: "ItemName", required: true, type: .string)
@@ -274,7 +274,7 @@ extension SimpleDB {
 
     public struct GetAttributesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", location: .body(locationName: "Attribute"), required: false, type: .list)
+            AWSShapeMember(label: "Attributes", location: .body(locationName: "Attribute"), required: false, type: .list, encoding: .flatList)
         ]
         /// The list of attributes returned by the operation.
         public let attributes: [Attribute]?
@@ -291,7 +291,7 @@ extension SimpleDB {
     public struct Item: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AlternateNameEncoding", required: false, type: .string), 
-            AWSShapeMember(label: "Attributes", location: .body(locationName: "Attribute"), required: true, type: .list), 
+            AWSShapeMember(label: "Attributes", location: .body(locationName: "Attribute"), required: true, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         public let alternateNameEncoding: String?
@@ -336,7 +336,7 @@ extension SimpleDB {
 
     public struct ListDomainsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainNames", location: .body(locationName: "DomainName"), required: false, type: .list), 
+            AWSShapeMember(label: "DomainNames", location: .body(locationName: "DomainName"), required: false, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A list of domain names that match the expression.
@@ -357,7 +357,7 @@ extension SimpleDB {
 
     public struct PutAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", location: .body(locationName: "Attribute"), required: true, type: .list), 
+            AWSShapeMember(label: "Attributes", location: .body(locationName: "Attribute"), required: true, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
             AWSShapeMember(label: "Expected", required: false, type: .structure), 
             AWSShapeMember(label: "ItemName", required: true, type: .string)
@@ -414,7 +414,7 @@ extension SimpleDB {
 
     public struct ReplaceableItem: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", location: .body(locationName: "Attribute"), required: true, type: .list), 
+            AWSShapeMember(label: "Attributes", location: .body(locationName: "Attribute"), required: true, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "Name", location: .body(locationName: "ItemName"), required: true, type: .string)
         ]
         /// The list of attributes for a replaceable item.
@@ -461,7 +461,7 @@ extension SimpleDB {
 
     public struct SelectResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", location: .body(locationName: "Item"), required: false, type: .list), 
+            AWSShapeMember(label: "Items", location: .body(locationName: "Item"), required: false, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A list of items that match the select expression.

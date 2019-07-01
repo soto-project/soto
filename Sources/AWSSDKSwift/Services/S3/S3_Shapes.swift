@@ -84,15 +84,15 @@ extension S3 {
 
     public struct AccessControlPolicy: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Grants", location: .body(locationName: "AccessControlList"), required: false, type: .structure), 
+            AWSShapeMember(label: "Grants", location: .body(locationName: "AccessControlList"), required: false, type: .list, encoding: .list(member:"Grant")), 
             AWSShapeMember(label: "Owner", required: false, type: .structure)
         ]
         /// A list of grants.
-        public let grants: Grants?
+        public let grants: [Grant]?
         /// Container for the bucket owner's display name and ID.
         public let owner: Owner?
 
-        public init(grants: Grants? = nil, owner: Owner? = nil) {
+        public init(grants: [Grant]? = nil, owner: Owner? = nil) {
             self.grants = grants
             self.owner = owner
         }
@@ -122,14 +122,14 @@ extension S3 {
     public struct AnalyticsAndOperator: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "Tag"), required: false, type: .structure)
+            AWSShapeMember(label: "Tags", location: .body(locationName: "Tag"), required: false, type: .list, encoding: .flatList)
         ]
         /// The prefix to use when evaluating an AND predicate: The prefix that an object must have to be included in the metrics results.
         public let prefix: String?
         /// The list of tags to use when evaluating an AND predicate.
-        public let tags: TagSet?
+        public let tags: [Tag]?
 
-        public init(prefix: String? = nil, tags: TagSet? = nil) {
+        public init(prefix: String? = nil, tags: [Tag]? = nil) {
             self.prefix = prefix
             self.tags = tags
         }
@@ -281,7 +281,7 @@ extension S3 {
 
     public struct BucketLifecycleConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: true, type: .list)
+            AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: true, type: .list, encoding: .flatList)
         ]
         /// A lifecycle rule for individual objects in an Amazon S3 bucket.
         public let rules: [LifecycleRule]
@@ -338,24 +338,9 @@ extension S3 {
         public var description: String { return self.rawValue }
     }
 
-    public struct Buckets: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", required: false, type: .list)
-        ]
-        public let bucket: [Bucket]?
-
-        public init(bucket: [Bucket]? = nil) {
-            self.bucket = bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
-    }
-
     public struct CORSConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CORSRules", location: .body(locationName: "CORSRule"), required: true, type: .list)
+            AWSShapeMember(label: "CORSRules", location: .body(locationName: "CORSRule"), required: true, type: .list, encoding: .flatList)
         ]
         /// A set of allowed origins and methods.
         public let cORSRules: [CORSRule]
@@ -371,10 +356,10 @@ extension S3 {
 
     public struct CORSRule: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowedHeaders", location: .body(locationName: "AllowedHeader"), required: false, type: .list), 
-            AWSShapeMember(label: "AllowedMethods", location: .body(locationName: "AllowedMethod"), required: true, type: .list), 
-            AWSShapeMember(label: "AllowedOrigins", location: .body(locationName: "AllowedOrigin"), required: true, type: .list), 
-            AWSShapeMember(label: "ExposeHeaders", location: .body(locationName: "ExposeHeader"), required: false, type: .list), 
+            AWSShapeMember(label: "AllowedHeaders", location: .body(locationName: "AllowedHeader"), required: false, type: .list, encoding: .flatList), 
+            AWSShapeMember(label: "AllowedMethods", location: .body(locationName: "AllowedMethod"), required: true, type: .list, encoding: .flatList), 
+            AWSShapeMember(label: "AllowedOrigins", location: .body(locationName: "AllowedOrigin"), required: true, type: .list, encoding: .flatList), 
+            AWSShapeMember(label: "ExposeHeaders", location: .body(locationName: "ExposeHeader"), required: false, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "MaxAgeSeconds", required: false, type: .integer)
         ]
         /// Headers that are specified in the Access-Control-Request-Headers header. These headers are allowed in a preflight OPTIONS request. In response to any preflight OPTIONS request, Amazon S3 returns any requested headers that are allowed.
@@ -491,7 +476,7 @@ extension S3 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CloudFunction", required: false, type: .string), 
             AWSShapeMember(label: "Event", required: false, type: .enum), 
-            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: false, type: .list), 
+            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: false, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "InvocationRole", required: false, type: .string)
         ]
@@ -622,7 +607,7 @@ extension S3 {
 
     public struct CompletedMultipartUpload: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Parts", location: .body(locationName: "Part"), required: false, type: .list)
+            AWSShapeMember(label: "Parts", location: .body(locationName: "Part"), required: false, type: .list, encoding: .flatList)
         ]
         public let parts: [CompletedPart]?
 
@@ -769,7 +754,7 @@ extension S3 {
             AWSShapeMember(label: "GrantReadACP", location: .header(locationName: "x-amz-grant-read-acp"), required: false, type: .string), 
             AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string), 
             AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "Metadata", required: false, type: .map), 
+            AWSShapeMember(label: "Metadata", required: false, type: .map, encoding: .map(entry:"entry", key: "key", value: "value")), 
             AWSShapeMember(label: "MetadataDirective", location: .header(locationName: "x-amz-metadata-directive"), required: false, type: .enum), 
             AWSShapeMember(label: "ObjectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold"), required: false, type: .enum), 
             AWSShapeMember(label: "ObjectLockMode", location: .header(locationName: "x-amz-object-lock-mode"), required: false, type: .enum), 
@@ -1136,7 +1121,7 @@ extension S3 {
             AWSShapeMember(label: "GrantReadACP", location: .header(locationName: "x-amz-grant-read-acp"), required: false, type: .string), 
             AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string), 
             AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "Metadata", required: false, type: .map), 
+            AWSShapeMember(label: "Metadata", required: false, type: .map, encoding: .map(entry:"entry", key: "key", value: "value")), 
             AWSShapeMember(label: "ObjectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold"), required: false, type: .enum), 
             AWSShapeMember(label: "ObjectLockMode", location: .header(locationName: "x-amz-object-lock-mode"), required: false, type: .enum), 
             AWSShapeMember(label: "ObjectLockRetainUntilDate", location: .header(locationName: "x-amz-object-lock-retain-until-date"), required: false, type: .timestamp), 
@@ -1287,7 +1272,7 @@ extension S3 {
 
     public struct Delete: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Objects", location: .body(locationName: "Object"), required: true, type: .list), 
+            AWSShapeMember(label: "Objects", location: .body(locationName: "Object"), required: true, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "Quiet", required: false, type: .boolean)
         ]
         public let objects: [ObjectIdentifier]
@@ -1652,8 +1637,8 @@ extension S3 {
 
     public struct DeleteObjectsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Deleted", required: false, type: .list), 
-            AWSShapeMember(label: "Errors", location: .body(locationName: "Error"), required: false, type: .list), 
+            AWSShapeMember(label: "Deleted", required: false, type: .list, encoding: .flatList), 
+            AWSShapeMember(label: "Errors", location: .body(locationName: "Error"), required: false, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum)
         ]
         public let deleted: [DeletedObject]?
@@ -1978,14 +1963,14 @@ extension S3 {
 
     public struct GetBucketAclOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Grants", location: .body(locationName: "AccessControlList"), required: false, type: .structure), 
+            AWSShapeMember(label: "Grants", location: .body(locationName: "AccessControlList"), required: false, type: .list, encoding: .list(member:"Grant")), 
             AWSShapeMember(label: "Owner", required: false, type: .structure)
         ]
         /// A list of grants.
-        public let grants: Grants?
+        public let grants: [Grant]?
         public let owner: Owner?
 
-        public init(grants: Grants? = nil, owner: Owner? = nil) {
+        public init(grants: [Grant]? = nil, owner: Owner? = nil) {
             self.grants = grants
             self.owner = owner
         }
@@ -2052,7 +2037,7 @@ extension S3 {
 
     public struct GetBucketCorsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CORSRules", location: .body(locationName: "CORSRule"), required: false, type: .list)
+            AWSShapeMember(label: "CORSRules", location: .body(locationName: "CORSRule"), required: false, type: .list, encoding: .flatList)
         ]
         public let cORSRules: [CORSRule]?
 
@@ -2154,7 +2139,7 @@ extension S3 {
 
     public struct GetBucketLifecycleConfigurationOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: false, type: .list)
+            AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: false, type: .list, encoding: .flatList)
         ]
         public let rules: [LifecycleRule]?
 
@@ -2184,7 +2169,7 @@ extension S3 {
 
     public struct GetBucketLifecycleOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: false, type: .list)
+            AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: false, type: .list, encoding: .flatList)
         ]
         public let rules: [Rule]?
 
@@ -2459,11 +2444,11 @@ extension S3 {
 
     public struct GetBucketTaggingOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagSet", required: true, type: .structure)
+            AWSShapeMember(label: "TagSet", required: true, type: .list, encoding: .list(member:"Tag"))
         ]
-        public let tagSet: TagSet
+        public let tagSet: [Tag]
 
-        public init(tagSet: TagSet) {
+        public init(tagSet: [Tag]) {
             self.tagSet = tagSet
         }
 
@@ -2528,14 +2513,14 @@ extension S3 {
             AWSShapeMember(label: "ErrorDocument", required: false, type: .structure), 
             AWSShapeMember(label: "IndexDocument", required: false, type: .structure), 
             AWSShapeMember(label: "RedirectAllRequestsTo", required: false, type: .structure), 
-            AWSShapeMember(label: "RoutingRules", required: false, type: .structure)
+            AWSShapeMember(label: "RoutingRules", required: false, type: .list, encoding: .list(member:"RoutingRule"))
         ]
         public let errorDocument: ErrorDocument?
         public let indexDocument: IndexDocument?
         public let redirectAllRequestsTo: RedirectAllRequestsTo?
-        public let routingRules: RoutingRules?
+        public let routingRules: [RoutingRule]?
 
-        public init(errorDocument: ErrorDocument? = nil, indexDocument: IndexDocument? = nil, redirectAllRequestsTo: RedirectAllRequestsTo? = nil, routingRules: RoutingRules? = nil) {
+        public init(errorDocument: ErrorDocument? = nil, indexDocument: IndexDocument? = nil, redirectAllRequestsTo: RedirectAllRequestsTo? = nil, routingRules: [RoutingRule]? = nil) {
             self.errorDocument = errorDocument
             self.indexDocument = indexDocument
             self.redirectAllRequestsTo = redirectAllRequestsTo
@@ -2567,16 +2552,16 @@ extension S3 {
 
     public struct GetObjectAclOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Grants", location: .body(locationName: "AccessControlList"), required: false, type: .structure), 
+            AWSShapeMember(label: "Grants", location: .body(locationName: "AccessControlList"), required: false, type: .list, encoding: .list(member:"Grant")), 
             AWSShapeMember(label: "Owner", required: false, type: .structure), 
             AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum)
         ]
         /// A list of grants.
-        public let grants: Grants?
+        public let grants: [Grant]?
         public let owner: Owner?
         public let requestCharged: RequestCharged?
 
-        public init(grants: Grants? = nil, owner: Owner? = nil, requestCharged: RequestCharged? = nil) {
+        public init(grants: [Grant]? = nil, owner: Owner? = nil, requestCharged: RequestCharged? = nil) {
             self.grants = grants
             self.owner = owner
             self.requestCharged = requestCharged
@@ -2717,7 +2702,7 @@ extension S3 {
             AWSShapeMember(label: "Expiration", location: .header(locationName: "x-amz-expiration"), required: false, type: .string), 
             AWSShapeMember(label: "Expires", location: .header(locationName: "Expires"), required: false, type: .timestamp), 
             AWSShapeMember(label: "LastModified", location: .header(locationName: "Last-Modified"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Metadata", required: false, type: .map), 
+            AWSShapeMember(label: "Metadata", required: false, type: .map, encoding: .map(entry:"entry", key: "key", value: "value")), 
             AWSShapeMember(label: "MissingMeta", location: .header(locationName: "x-amz-missing-meta"), required: false, type: .integer), 
             AWSShapeMember(label: "ObjectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold"), required: false, type: .enum), 
             AWSShapeMember(label: "ObjectLockMode", location: .header(locationName: "x-amz-object-lock-mode"), required: false, type: .enum), 
@@ -3016,13 +3001,13 @@ extension S3 {
 
     public struct GetObjectTaggingOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagSet", required: true, type: .structure), 
+            AWSShapeMember(label: "TagSet", required: true, type: .list, encoding: .list(member:"Tag")), 
             AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string)
         ]
-        public let tagSet: TagSet
+        public let tagSet: [Tag]
         public let versionId: String?
 
-        public init(tagSet: TagSet, versionId: String? = nil) {
+        public init(tagSet: [Tag], versionId: String? = nil) {
             self.tagSet = tagSet
             self.versionId = versionId
         }
@@ -3206,21 +3191,6 @@ extension S3 {
         }
     }
 
-    public struct Grants: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Grant", required: false, type: .list)
-        ]
-        public let grant: [Grant]?
-
-        public init(grant: [Grant]? = nil) {
-            self.grant = grant
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case grant = "Grant"
-        }
-    }
-
     public struct HeadBucketRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
@@ -3250,7 +3220,7 @@ extension S3 {
             AWSShapeMember(label: "Expiration", location: .header(locationName: "x-amz-expiration"), required: false, type: .string), 
             AWSShapeMember(label: "Expires", location: .header(locationName: "Expires"), required: false, type: .timestamp), 
             AWSShapeMember(label: "LastModified", location: .header(locationName: "Last-Modified"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Metadata", required: false, type: .map), 
+            AWSShapeMember(label: "Metadata", required: false, type: .map, encoding: .map(entry:"entry", key: "key", value: "value")), 
             AWSShapeMember(label: "MissingMeta", location: .header(locationName: "x-amz-missing-meta"), required: false, type: .integer), 
             AWSShapeMember(label: "ObjectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold"), required: false, type: .enum), 
             AWSShapeMember(label: "ObjectLockMode", location: .header(locationName: "x-amz-object-lock-mode"), required: false, type: .enum), 
@@ -3531,7 +3501,7 @@ extension S3 {
             AWSShapeMember(label: "Id", required: true, type: .string), 
             AWSShapeMember(label: "IncludedObjectVersions", required: true, type: .enum), 
             AWSShapeMember(label: "IsEnabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "OptionalFields", required: false, type: .structure), 
+            AWSShapeMember(label: "OptionalFields", required: false, type: .list, encoding: .list(member:"Field")), 
             AWSShapeMember(label: "Schedule", required: true, type: .structure)
         ]
         /// Contains information about where to publish the inventory results.
@@ -3545,11 +3515,11 @@ extension S3 {
         /// Specifies whether the inventory is enabled or disabled. If set to True, an inventory list is generated. If set to False, no inventory list is generated.
         public let isEnabled: Bool
         /// Contains the optional fields that are included in the inventory results.
-        public let optionalFields: InventoryOptionalFields?
+        public let optionalFields: [InventoryOptionalField]?
         /// Specifies the schedule for generating inventory results.
         public let schedule: InventorySchedule
 
-        public init(destination: InventoryDestination, filter: InventoryFilter? = nil, id: String, includedObjectVersions: InventoryIncludedObjectVersions, isEnabled: Bool, optionalFields: InventoryOptionalFields? = nil, schedule: InventorySchedule) {
+        public init(destination: InventoryDestination, filter: InventoryFilter? = nil, id: String, includedObjectVersions: InventoryIncludedObjectVersions, isEnabled: Bool, optionalFields: [InventoryOptionalField]? = nil, schedule: InventorySchedule) {
             self.destination = destination
             self.filter = filter
             self.id = id
@@ -3656,21 +3626,6 @@ extension S3 {
         public var description: String { return self.rawValue }
     }
 
-    public struct InventoryOptionalFields: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Field", required: false, type: .list)
-        ]
-        public let field: [InventoryOptionalField]?
-
-        public init(field: [InventoryOptionalField]? = nil) {
-            self.field = field
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case field = "Field"
-        }
-    }
-
     public struct InventoryS3BucketDestination: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", required: false, type: .string), 
@@ -3763,7 +3718,7 @@ extension S3 {
 
     public struct LambdaFunctionConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: true, type: .list), 
+            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: true, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "Filter", required: false, type: .structure), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "LambdaFunctionArn", location: .body(locationName: "CloudFunction"), required: true, type: .string)
@@ -3792,7 +3747,7 @@ extension S3 {
 
     public struct LifecycleConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: true, type: .list)
+            AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: true, type: .list, encoding: .flatList)
         ]
         public let rules: [Rule]
 
@@ -3838,10 +3793,10 @@ extension S3 {
             AWSShapeMember(label: "Filter", required: false, type: .structure), 
             AWSShapeMember(label: "ID", required: false, type: .string), 
             AWSShapeMember(label: "NoncurrentVersionExpiration", required: false, type: .structure), 
-            AWSShapeMember(label: "NoncurrentVersionTransitions", location: .body(locationName: "NoncurrentVersionTransition"), required: false, type: .list), 
+            AWSShapeMember(label: "NoncurrentVersionTransitions", location: .body(locationName: "NoncurrentVersionTransition"), required: false, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "Prefix", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: true, type: .enum), 
-            AWSShapeMember(label: "Transitions", location: .body(locationName: "Transition"), required: false, type: .list)
+            AWSShapeMember(label: "Transitions", location: .body(locationName: "Transition"), required: false, type: .list, encoding: .flatList)
         ]
         public let abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload?
         public let expiration: LifecycleExpiration?
@@ -3884,13 +3839,13 @@ extension S3 {
     public struct LifecycleRuleAndOperator: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "Tag"), required: false, type: .structure)
+            AWSShapeMember(label: "Tags", location: .body(locationName: "Tag"), required: false, type: .list, encoding: .flatList)
         ]
         public let prefix: String?
         /// All of these tags must exist in the object's tag set in order for the rule to apply.
-        public let tags: TagSet?
+        public let tags: [Tag]?
 
-        public init(prefix: String? = nil, tags: TagSet? = nil) {
+        public init(prefix: String? = nil, tags: [Tag]? = nil) {
             self.prefix = prefix
             self.tags = tags
         }
@@ -3928,7 +3883,7 @@ extension S3 {
 
     public struct ListBucketAnalyticsConfigurationsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AnalyticsConfigurationList", location: .body(locationName: "AnalyticsConfiguration"), required: false, type: .list), 
+            AWSShapeMember(label: "AnalyticsConfigurationList", location: .body(locationName: "AnalyticsConfiguration"), required: false, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "ContinuationToken", required: false, type: .string), 
             AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeMember(label: "NextContinuationToken", required: false, type: .string)
@@ -3981,7 +3936,7 @@ extension S3 {
     public struct ListBucketInventoryConfigurationsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ContinuationToken", required: false, type: .string), 
-            AWSShapeMember(label: "InventoryConfigurationList", location: .body(locationName: "InventoryConfiguration"), required: false, type: .list), 
+            AWSShapeMember(label: "InventoryConfigurationList", location: .body(locationName: "InventoryConfiguration"), required: false, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeMember(label: "NextContinuationToken", required: false, type: .string)
         ]
@@ -4034,7 +3989,7 @@ extension S3 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ContinuationToken", required: false, type: .string), 
             AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeMember(label: "MetricsConfigurationList", location: .body(locationName: "MetricsConfiguration"), required: false, type: .list), 
+            AWSShapeMember(label: "MetricsConfigurationList", location: .body(locationName: "MetricsConfiguration"), required: false, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "NextContinuationToken", required: false, type: .string)
         ]
         /// The marker that is used as a starting point for this metrics configuration list response. This value is present if it was sent in the request.
@@ -4084,13 +4039,13 @@ extension S3 {
 
     public struct ListBucketsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Buckets", required: false, type: .structure), 
+            AWSShapeMember(label: "Buckets", required: false, type: .list, encoding: .list(member:"Bucket")), 
             AWSShapeMember(label: "Owner", required: false, type: .structure)
         ]
-        public let buckets: Buckets?
+        public let buckets: [Bucket]?
         public let owner: Owner?
 
-        public init(buckets: Buckets? = nil, owner: Owner? = nil) {
+        public init(buckets: [Bucket]? = nil, owner: Owner? = nil) {
             self.buckets = buckets
             self.owner = owner
         }
@@ -4104,7 +4059,7 @@ extension S3 {
     public struct ListMultipartUploadsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", required: false, type: .string), 
-            AWSShapeMember(label: "CommonPrefixes", required: false, type: .list), 
+            AWSShapeMember(label: "CommonPrefixes", required: false, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "Delimiter", required: false, type: .string), 
             AWSShapeMember(label: "EncodingType", required: false, type: .enum), 
             AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
@@ -4114,7 +4069,7 @@ extension S3 {
             AWSShapeMember(label: "NextUploadIdMarker", required: false, type: .string), 
             AWSShapeMember(label: "Prefix", required: false, type: .string), 
             AWSShapeMember(label: "UploadIdMarker", required: false, type: .string), 
-            AWSShapeMember(label: "Uploads", location: .body(locationName: "Upload"), required: false, type: .list)
+            AWSShapeMember(label: "Uploads", location: .body(locationName: "Upload"), required: false, type: .list, encoding: .flatList)
         ]
         /// Name of the bucket to which the multipart upload was initiated.
         public let bucket: String?
@@ -4215,8 +4170,8 @@ extension S3 {
 
     public struct ListObjectVersionsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CommonPrefixes", required: false, type: .list), 
-            AWSShapeMember(label: "DeleteMarkers", location: .body(locationName: "DeleteMarker"), required: false, type: .list), 
+            AWSShapeMember(label: "CommonPrefixes", required: false, type: .list, encoding: .flatList), 
+            AWSShapeMember(label: "DeleteMarkers", location: .body(locationName: "DeleteMarker"), required: false, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "Delimiter", required: false, type: .string), 
             AWSShapeMember(label: "EncodingType", required: false, type: .enum), 
             AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
@@ -4227,7 +4182,7 @@ extension S3 {
             AWSShapeMember(label: "NextVersionIdMarker", required: false, type: .string), 
             AWSShapeMember(label: "Prefix", required: false, type: .string), 
             AWSShapeMember(label: "VersionIdMarker", required: false, type: .string), 
-            AWSShapeMember(label: "Versions", location: .body(locationName: "Version"), required: false, type: .list)
+            AWSShapeMember(label: "Versions", location: .body(locationName: "Version"), required: false, type: .list, encoding: .flatList)
         ]
         public let commonPrefixes: [CommonPrefix]?
         public let deleteMarkers: [DeleteMarkerEntry]?
@@ -4327,8 +4282,8 @@ extension S3 {
 
     public struct ListObjectsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CommonPrefixes", required: false, type: .list), 
-            AWSShapeMember(label: "Contents", required: false, type: .list), 
+            AWSShapeMember(label: "CommonPrefixes", required: false, type: .list, encoding: .flatList), 
+            AWSShapeMember(label: "Contents", required: false, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "Delimiter", required: false, type: .string), 
             AWSShapeMember(label: "EncodingType", required: false, type: .enum), 
             AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
@@ -4425,8 +4380,8 @@ extension S3 {
 
     public struct ListObjectsV2Output: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CommonPrefixes", required: false, type: .list), 
-            AWSShapeMember(label: "Contents", required: false, type: .list), 
+            AWSShapeMember(label: "CommonPrefixes", required: false, type: .list, encoding: .flatList), 
+            AWSShapeMember(label: "Contents", required: false, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "ContinuationToken", required: false, type: .string), 
             AWSShapeMember(label: "Delimiter", required: false, type: .string), 
             AWSShapeMember(label: "EncodingType", required: false, type: .enum), 
@@ -4562,7 +4517,7 @@ extension S3 {
             AWSShapeMember(label: "NextPartNumberMarker", required: false, type: .integer), 
             AWSShapeMember(label: "Owner", required: false, type: .structure), 
             AWSShapeMember(label: "PartNumberMarker", required: false, type: .integer), 
-            AWSShapeMember(label: "Parts", location: .body(locationName: "Part"), required: false, type: .list), 
+            AWSShapeMember(label: "Parts", location: .body(locationName: "Part"), required: false, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
             AWSShapeMember(label: "StorageClass", required: false, type: .enum), 
             AWSShapeMember(label: "UploadId", required: false, type: .string)
@@ -4669,16 +4624,16 @@ extension S3 {
     public struct LoggingEnabled: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetBucket", required: true, type: .string), 
-            AWSShapeMember(label: "TargetGrants", required: false, type: .structure), 
+            AWSShapeMember(label: "TargetGrants", required: false, type: .list, encoding: .list(member:"Grant")), 
             AWSShapeMember(label: "TargetPrefix", required: true, type: .string)
         ]
         /// Specifies the bucket where you want Amazon S3 to store server access logs. You can have your logs delivered to any bucket that you own, including the same bucket that is being logged. You can also configure multiple buckets to deliver their logs to the same target bucket. In this case you should choose a different TargetPrefix for each source bucket so that the delivered log files can be distinguished by key.
         public let targetBucket: String
-        public let targetGrants: TargetGrants?
+        public let targetGrants: [TargetGrant]?
         /// A prefix for all log object keys. If you store log files from multiple Amazon S3 buckets in a single bucket, you can use a prefix to distinguish which log files came from which bucket.
         public let targetPrefix: String
 
-        public init(targetBucket: String, targetGrants: TargetGrants? = nil, targetPrefix: String) {
+        public init(targetBucket: String, targetGrants: [TargetGrant]? = nil, targetPrefix: String) {
             self.targetBucket = targetBucket
             self.targetGrants = targetGrants
             self.targetPrefix = targetPrefix
@@ -4731,14 +4686,14 @@ extension S3 {
     public struct MetricsAndOperator: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "Tag"), required: false, type: .structure)
+            AWSShapeMember(label: "Tags", location: .body(locationName: "Tag"), required: false, type: .list, encoding: .flatList)
         ]
         /// The prefix used when evaluating an AND predicate.
         public let prefix: String?
         /// The list of tags used when evaluating an AND predicate.
-        public let tags: TagSet?
+        public let tags: [Tag]?
 
-        public init(prefix: String? = nil, tags: TagSet? = nil) {
+        public init(prefix: String? = nil, tags: [Tag]? = nil) {
             self.prefix = prefix
             self.tags = tags
         }
@@ -4875,9 +4830,9 @@ extension S3 {
 
     public struct NotificationConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LambdaFunctionConfigurations", location: .body(locationName: "CloudFunctionConfiguration"), required: false, type: .list), 
-            AWSShapeMember(label: "QueueConfigurations", location: .body(locationName: "QueueConfiguration"), required: false, type: .list), 
-            AWSShapeMember(label: "TopicConfigurations", location: .body(locationName: "TopicConfiguration"), required: false, type: .list)
+            AWSShapeMember(label: "LambdaFunctionConfigurations", location: .body(locationName: "CloudFunctionConfiguration"), required: false, type: .list, encoding: .flatList), 
+            AWSShapeMember(label: "QueueConfigurations", location: .body(locationName: "QueueConfiguration"), required: false, type: .list, encoding: .flatList), 
+            AWSShapeMember(label: "TopicConfigurations", location: .body(locationName: "TopicConfiguration"), required: false, type: .list, encoding: .flatList)
         ]
         /// Describes the AWS Lambda functions to invoke and the events for which to invoke them.
         public let lambdaFunctionConfigurations: [LambdaFunctionConfiguration]?
@@ -6138,7 +6093,7 @@ extension S3 {
             AWSShapeMember(label: "GrantReadACP", location: .header(locationName: "x-amz-grant-read-acp"), required: false, type: .string), 
             AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string), 
             AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "Metadata", required: false, type: .map), 
+            AWSShapeMember(label: "Metadata", required: false, type: .map, encoding: .map(entry:"entry", key: "key", value: "value")), 
             AWSShapeMember(label: "ObjectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold"), required: false, type: .enum), 
             AWSShapeMember(label: "ObjectLockMode", location: .header(locationName: "x-amz-object-lock-mode"), required: false, type: .enum), 
             AWSShapeMember(label: "ObjectLockRetainUntilDate", location: .header(locationName: "x-amz-object-lock-retain-until-date"), required: false, type: .timestamp), 
@@ -6415,7 +6370,7 @@ extension S3 {
 
     public struct QueueConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: true, type: .list), 
+            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: true, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "Filter", required: false, type: .structure), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "QueueArn", location: .body(locationName: "Queue"), required: true, type: .string)
@@ -6444,7 +6399,7 @@ extension S3 {
     public struct QueueConfigurationDeprecated: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Event", required: false, type: .enum), 
-            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: false, type: .list), 
+            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: false, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Queue", required: false, type: .string)
         ]
@@ -6552,7 +6507,7 @@ extension S3 {
     public struct ReplicationConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Role", required: true, type: .string), 
-            AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: true, type: .list)
+            AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: true, type: .list, encoding: .flatList)
         ]
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that Amazon S3 assumes when replicating objects. For more information, see How to Set Up Cross-Region Replication in the Amazon Simple Storage Service Developer Guide.
         public let role: String
@@ -6622,12 +6577,12 @@ extension S3 {
     public struct ReplicationRuleAndOperator: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "Tag"), required: false, type: .structure)
+            AWSShapeMember(label: "Tags", location: .body(locationName: "Tag"), required: false, type: .list, encoding: .flatList)
         ]
         public let prefix: String?
-        public let tags: TagSet?
+        public let tags: [Tag]?
 
-        public init(prefix: String? = nil, tags: TagSet? = nil) {
+        public init(prefix: String? = nil, tags: [Tag]? = nil) {
             self.prefix = prefix
             self.tags = tags
         }
@@ -6845,21 +6800,6 @@ extension S3 {
         }
     }
 
-    public struct RoutingRules: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoutingRule", required: false, type: .list)
-        ]
-        public let routingRule: [RoutingRule]?
-
-        public init(routingRule: [RoutingRule]? = nil) {
-            self.routingRule = routingRule
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case routingRule = "RoutingRule"
-        }
-    }
-
     public struct Rule: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AbortIncompleteMultipartUpload", required: false, type: .structure), 
@@ -6908,7 +6848,7 @@ extension S3 {
 
     public struct S3KeyFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FilterRules", location: .body(locationName: "FilterRule"), required: false, type: .list)
+            AWSShapeMember(label: "FilterRules", location: .body(locationName: "FilterRule"), required: false, type: .list, encoding: .flatList)
         ]
         public let filterRules: [FilterRule]?
 
@@ -6923,17 +6863,17 @@ extension S3 {
 
     public struct S3Location: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessControlList", required: false, type: .structure), 
+            AWSShapeMember(label: "AccessControlList", required: false, type: .list, encoding: .list(member:"Grant")), 
             AWSShapeMember(label: "BucketName", required: true, type: .string), 
             AWSShapeMember(label: "CannedACL", required: false, type: .enum), 
             AWSShapeMember(label: "Encryption", required: false, type: .structure), 
             AWSShapeMember(label: "Prefix", required: true, type: .string), 
             AWSShapeMember(label: "StorageClass", required: false, type: .enum), 
             AWSShapeMember(label: "Tagging", required: false, type: .structure), 
-            AWSShapeMember(label: "UserMetadata", required: false, type: .structure)
+            AWSShapeMember(label: "UserMetadata", required: false, type: .list, encoding: .list(member:"MetadataEntry"))
         ]
         /// A list of grants that control access to the staged results.
-        public let accessControlList: Grants?
+        public let accessControlList: [Grant]?
         /// The name of the bucket where the restore results will be placed.
         public let bucketName: String
         /// The canned ACL to apply to the restore results.
@@ -6946,9 +6886,9 @@ extension S3 {
         /// The tag-set that is applied to the restore results.
         public let tagging: Tagging?
         /// A list of metadata to store with the restore results in S3.
-        public let userMetadata: UserMetadata?
+        public let userMetadata: [MetadataEntry]?
 
-        public init(accessControlList: Grants? = nil, bucketName: String, cannedACL: ObjectCannedACL? = nil, encryption: Encryption? = nil, prefix: String, storageClass: StorageClass? = nil, tagging: Tagging? = nil, userMetadata: UserMetadata? = nil) {
+        public init(accessControlList: [Grant]? = nil, bucketName: String, cannedACL: ObjectCannedACL? = nil, encryption: Encryption? = nil, prefix: String, storageClass: StorageClass? = nil, tagging: Tagging? = nil, userMetadata: [MetadataEntry]? = nil) {
             self.accessControlList = accessControlList
             self.bucketName = bucketName
             self.cannedACL = cannedACL
@@ -7115,7 +7055,7 @@ extension S3 {
 
     public struct ServerSideEncryptionConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: true, type: .list)
+            AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: true, type: .list, encoding: .flatList)
         ]
         /// Container for information about a particular server-side encryption configuration rule.
         public let rules: [ServerSideEncryptionRule]
@@ -7299,28 +7239,13 @@ extension S3 {
         }
     }
 
-    public struct TagSet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tag", required: false, type: .list)
-        ]
-        public let tag: [Tag]?
-
-        public init(tag: [Tag]? = nil) {
-            self.tag = tag
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tag = "Tag"
-        }
-    }
-
     public struct Tagging: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagSet", required: true, type: .structure)
+            AWSShapeMember(label: "TagSet", required: true, type: .list, encoding: .list(member:"Tag"))
         ]
-        public let tagSet: TagSet
+        public let tagSet: [Tag]
 
-        public init(tagSet: TagSet) {
+        public init(tagSet: [Tag]) {
             self.tagSet = tagSet
         }
 
@@ -7355,21 +7280,6 @@ extension S3 {
         }
     }
 
-    public struct TargetGrants: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Grant", required: false, type: .list)
-        ]
-        public let grant: [TargetGrant]?
-
-        public init(grant: [TargetGrant]? = nil) {
-            self.grant = grant
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case grant = "Grant"
-        }
-    }
-
     public enum Tier: String, CustomStringConvertible, Codable {
         case standard = "Standard"
         case bulk = "Bulk"
@@ -7379,7 +7289,7 @@ extension S3 {
 
     public struct TopicConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: true, type: .list), 
+            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: true, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "Filter", required: false, type: .structure), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "TopicArn", location: .body(locationName: "Topic"), required: true, type: .string)
@@ -7409,7 +7319,7 @@ extension S3 {
     public struct TopicConfigurationDeprecated: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Event", required: false, type: .enum), 
-            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: false, type: .list), 
+            AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: false, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Topic", required: false, type: .string)
         ]
@@ -7725,21 +7635,6 @@ extension S3 {
         }
     }
 
-    public struct UserMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MetadataEntry", required: false, type: .list)
-        ]
-        public let metadataEntry: [MetadataEntry]?
-
-        public init(metadataEntry: [MetadataEntry]? = nil) {
-            self.metadataEntry = metadataEntry
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case metadataEntry = "MetadataEntry"
-        }
-    }
-
     public struct VersioningConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MFADelete", location: .body(locationName: "MfaDelete"), required: false, type: .enum), 
@@ -7766,7 +7661,7 @@ extension S3 {
             AWSShapeMember(label: "ErrorDocument", required: false, type: .structure), 
             AWSShapeMember(label: "IndexDocument", required: false, type: .structure), 
             AWSShapeMember(label: "RedirectAllRequestsTo", required: false, type: .structure), 
-            AWSShapeMember(label: "RoutingRules", required: false, type: .structure)
+            AWSShapeMember(label: "RoutingRules", required: false, type: .list, encoding: .list(member:"RoutingRule"))
         ]
         /// The name of the error document for the website.
         public let errorDocument: ErrorDocument?
@@ -7775,9 +7670,9 @@ extension S3 {
         /// The redirect behavior for every request to this bucket's website endpoint.  If you specify this property, you can't specify any other property. 
         public let redirectAllRequestsTo: RedirectAllRequestsTo?
         /// Rules that define when a redirect is applied and the redirect behavior.
-        public let routingRules: RoutingRules?
+        public let routingRules: [RoutingRule]?
 
-        public init(errorDocument: ErrorDocument? = nil, indexDocument: IndexDocument? = nil, redirectAllRequestsTo: RedirectAllRequestsTo? = nil, routingRules: RoutingRules? = nil) {
+        public init(errorDocument: ErrorDocument? = nil, indexDocument: IndexDocument? = nil, redirectAllRequestsTo: RedirectAllRequestsTo? = nil, routingRules: [RoutingRule]? = nil) {
             self.errorDocument = errorDocument
             self.indexDocument = indexDocument
             self.redirectAllRequestsTo = redirectAllRequestsTo

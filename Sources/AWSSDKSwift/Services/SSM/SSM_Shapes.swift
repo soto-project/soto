@@ -2077,6 +2077,73 @@ extension SSM {
         }
     }
 
+    public struct CreateOpsItemRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: true, type: .string), 
+            AWSShapeMember(label: "Notifications", required: false, type: .list), 
+            AWSShapeMember(label: "OperationalData", required: false, type: .map), 
+            AWSShapeMember(label: "Priority", required: false, type: .integer), 
+            AWSShapeMember(label: "RelatedOpsItems", required: false, type: .list), 
+            AWSShapeMember(label: "Source", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "Title", required: true, type: .string)
+        ]
+        /// Information about the OpsItem. 
+        public let description: String
+        /// The Amazon Resource Name (ARN) of an SNS topic where notifications are sent when this OpsItem is edited or changed.
+        public let notifications: [OpsItemNotification]?
+        /// Operational data is custom data that provides useful reference details about the OpsItem. For example, you can specify log files, error strings, license keys, troubleshooting tips, or other relevant data. You enter operational data as key-value pairs. The key has a maximum length of 128 characters. The value has a maximum size of 20 KB.  Operational data keys can't begin with the following: amazon, aws, amzn, ssm, /amazon, /aws, /amzn, /ssm.  You can choose to make the data searchable by other users in the account or you can restrict search access. Searchable data means that all users with access to the OpsItem Overview page (as provided by the DescribeOpsItems API action) can view and search on the specified data. Operational data that is not searchable is only viewable by users who have access to the OpsItem (as provided by the GetOpsItem API action). Use the /aws/resources key in OperationalData to specify a related resource in the request. Use the /aws/automations key in OperationalData to associate an Automation runbook with the OpsItem. To view AWS CLI example commands that use these keys, see Creating OpsItems Manually in the AWS Systems Manager User Guide.
+        public let operationalData: [String: OpsItemDataValue]?
+        /// The importance of this OpsItem in relation to other OpsItems in the system.
+        public let priority: Int32?
+        /// One or more OpsItems that share something in common with the current OpsItems. For example, related OpsItems can include OpsItems with similar error messages, impacted resources, or statuses for the impacted resource.
+        public let relatedOpsItems: [RelatedOpsItem]?
+        /// The origin of the OpsItem, such as Amazon EC2 or AWS Systems Manager.
+        public let source: String
+        /// Optional metadata that you assign to a resource. You can restrict access to OpsItems by using an inline IAM policy that specifies tags. For more information, see Getting Started with OpsCenter in the AWS Systems Manager User Guide. Tags use a key-value pair. For example:  Key=Department,Value=Finance   To add tags to an existing OpsItem, use the AddTagsToResource action. 
+        public let tags: [Tag]?
+        /// A short heading that describes the nature of the OpsItem and the impacted resource.
+        public let title: String
+
+        public init(description: String, notifications: [OpsItemNotification]? = nil, operationalData: [String: OpsItemDataValue]? = nil, priority: Int32? = nil, relatedOpsItems: [RelatedOpsItem]? = nil, source: String, tags: [Tag]? = nil, title: String) {
+            self.description = description
+            self.notifications = notifications
+            self.operationalData = operationalData
+            self.priority = priority
+            self.relatedOpsItems = relatedOpsItems
+            self.source = source
+            self.tags = tags
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case notifications = "Notifications"
+            case operationalData = "OperationalData"
+            case priority = "Priority"
+            case relatedOpsItems = "RelatedOpsItems"
+            case source = "Source"
+            case tags = "Tags"
+            case title = "Title"
+        }
+    }
+
+    public struct CreateOpsItemResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OpsItemId", required: false, type: .string)
+        ]
+        /// The ID of the OpsItem.
+        public let opsItemId: String?
+
+        public init(opsItemId: String? = nil) {
+            self.opsItemId = opsItemId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case opsItemId = "OpsItemId"
+        }
+    }
+
     public struct CreatePatchBaselineRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApprovalRules", required: false, type: .structure), 
@@ -2255,17 +2322,27 @@ extension SSM {
 
     public struct DeleteDocumentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
+            AWSShapeMember(label: "DocumentVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "VersionName", required: false, type: .string)
         ]
+        /// (Optional) The version of the document that you want to delete. If not provided, all versions of the document are deleted.
+        public let documentVersion: String?
         /// The name of the document.
         public let name: String
+        /// (Optional) The version name of the document that you want to delete. If not provided, all versions of the document are deleted.
+        public let versionName: String?
 
-        public init(name: String) {
+        public init(documentVersion: String? = nil, name: String, versionName: String? = nil) {
+            self.documentVersion = documentVersion
             self.name = name
+            self.versionName = versionName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case documentVersion = "DocumentVersion"
             case name = "Name"
+            case versionName = "VersionName"
         }
     }
 
@@ -3909,6 +3986,53 @@ extension SSM {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case windowIdentities = "WindowIdentities"
+        }
+    }
+
+    public struct DescribeOpsItemsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "OpsItemFilters", required: false, type: .list)
+        ]
+        /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+        public let maxResults: Int32?
+        /// A token to start the list. Use this token to get the next set of results.
+        public let nextToken: String?
+        /// One or more filters to limit the reponse.   Key: CreatedTime Operations: GreaterThan, LessThan   Key: LastModifiedBy Operations: Contains, Equals   Key: LastModifiedTime Operations: GreaterThan, LessThan   Key: Priority Operations: Equals   Key: Source Operations: Contains, Equals   Key: Status Operations: Equals   Key: Title Operations: Contains   Key: OperationalData* Operations: Equals   Key: OperationalDataKey Operations: Equals   Key: OperationalDataValue Operations: Equals, Contains   Key: OpsItemId Operations: Equals   Key: ResourceId Operations: Contains   Key: AutomationId Operations: Equals   *If you filter the response by using the OperationalData operator, specify a key-value pair by using the following JSON format: {"key":"key_name","value":"a_value"}
+        public let opsItemFilters: [OpsItemFilter]?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, opsItemFilters: [OpsItemFilter]? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.opsItemFilters = opsItemFilters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case opsItemFilters = "OpsItemFilters"
+        }
+    }
+
+    public struct DescribeOpsItemsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "OpsItemSummaries", required: false, type: .list)
+        ]
+        /// The token for the next set of items to return. Use this token to get the next set of results.
+        public let nextToken: String?
+        /// A list of OpsItems.
+        public let opsItemSummaries: [OpsItemSummary]?
+
+        public init(nextToken: String? = nil, opsItemSummaries: [OpsItemSummary]? = nil) {
+            self.nextToken = nextToken
+            self.opsItemSummaries = opsItemSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case opsItemSummaries = "OpsItemSummaries"
         }
     }
 
@@ -5624,6 +5748,90 @@ extension SSM {
             case taskType = "TaskType"
             case windowId = "WindowId"
             case windowTaskId = "WindowTaskId"
+        }
+    }
+
+    public struct GetOpsItemRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OpsItemId", required: true, type: .string)
+        ]
+        /// The ID of the OpsItem that you want to get.
+        public let opsItemId: String
+
+        public init(opsItemId: String) {
+            self.opsItemId = opsItemId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case opsItemId = "OpsItemId"
+        }
+    }
+
+    public struct GetOpsItemResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OpsItem", required: false, type: .structure)
+        ]
+        /// The OpsItem.
+        public let opsItem: OpsItem?
+
+        public init(opsItem: OpsItem? = nil) {
+            self.opsItem = opsItem
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case opsItem = "OpsItem"
+        }
+    }
+
+    public struct GetOpsSummaryRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Aggregators", required: true, type: .list), 
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Optional aggregators that return counts of OpsItems based on one or more expressions.
+        public let aggregators: [OpsAggregator]
+        /// Optional filters used to scope down the returned OpsItems. 
+        public let filters: [OpsFilter]?
+        /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+        public let maxResults: Int32?
+        /// A token to start the list. Use this token to get the next set of results. 
+        public let nextToken: String?
+
+        public init(aggregators: [OpsAggregator], filters: [OpsFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.aggregators = aggregators
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregators = "Aggregators"
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetOpsSummaryResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Entities", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The list of aggregated and filtered OpsItems.
+        public let entities: [OpsEntity]?
+        /// The token for the next set of items to return. Use this token to get the next set of results.
+        public let nextToken: String?
+
+        public init(entities: [OpsEntity]? = nil, nextToken: String? = nil) {
+            self.entities = entities
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entities = "Entities"
+            case nextToken = "NextToken"
         }
     }
 
@@ -8185,6 +8393,363 @@ extension SSM {
         public var description: String { return self.rawValue }
     }
 
+    public class OpsAggregator: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AggregatorType", required: false, type: .string), 
+            AWSShapeMember(label: "Aggregators", required: false, type: .list), 
+            AWSShapeMember(label: "AttributeName", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "TypeName", required: false, type: .string), 
+            AWSShapeMember(label: "Values", required: false, type: .map)
+        ]
+        /// Either a Range or Count aggregator for limiting an OpsItem summary.
+        public let aggregatorType: String?
+        /// A nested aggregator for viewing counts of OpsItems.
+        public let aggregators: [OpsAggregator]?
+        /// The name of an OpsItem attribute on which to limit the count of OpsItems.
+        public let attributeName: String?
+        /// The aggregator filters.
+        public let filters: [OpsFilter]?
+        /// The data type name to use for viewing counts of OpsItems.
+        public let typeName: String?
+        /// The aggregator value.
+        public let values: [String: String]?
+
+        public init(aggregatorType: String? = nil, aggregators: [OpsAggregator]? = nil, attributeName: String? = nil, filters: [OpsFilter]? = nil, typeName: String? = nil, values: [String: String]? = nil) {
+            self.aggregatorType = aggregatorType
+            self.aggregators = aggregators
+            self.attributeName = attributeName
+            self.filters = filters
+            self.typeName = typeName
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregatorType = "AggregatorType"
+            case aggregators = "Aggregators"
+            case attributeName = "AttributeName"
+            case filters = "Filters"
+            case typeName = "TypeName"
+            case values = "Values"
+        }
+    }
+
+    public struct OpsEntity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Data", required: false, type: .map), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
+        ]
+        /// The data returned by the query.
+        public let data: [String: OpsEntityItem]?
+        /// The query ID.
+        public let id: String?
+
+        public init(data: [String: OpsEntityItem]? = nil, id: String? = nil) {
+            self.data = data
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case data = "Data"
+            case id = "Id"
+        }
+    }
+
+    public struct OpsEntityItem: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Content", required: false, type: .list)
+        ]
+        /// The detailed data content for an OpsItem summaries result item.
+        public let content: [[String: String]]?
+
+        public init(content: [[String: String]]? = nil) {
+            self.content = content
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+        }
+    }
+
+    public struct OpsFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Values", required: true, type: .list)
+        ]
+        /// The name of the filter.
+        public let key: String
+        /// The type of filter.
+        public let `type`: OpsFilterOperatorType?
+        /// The filter value.
+        public let values: [String]
+
+        public init(key: String, type: OpsFilterOperatorType? = nil, values: [String]) {
+            self.key = key
+            self.`type` = `type`
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case `type` = "Type"
+            case values = "Values"
+        }
+    }
+
+    public enum OpsFilterOperatorType: String, CustomStringConvertible, Codable {
+        case equal = "Equal"
+        case notequal = "NotEqual"
+        case beginwith = "BeginWith"
+        case lessthan = "LessThan"
+        case greaterthan = "GreaterThan"
+        case exists = "Exists"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct OpsItem: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedBy", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedBy", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Notifications", required: false, type: .list), 
+            AWSShapeMember(label: "OperationalData", required: false, type: .map), 
+            AWSShapeMember(label: "OpsItemId", required: false, type: .string), 
+            AWSShapeMember(label: "Priority", required: false, type: .integer), 
+            AWSShapeMember(label: "RelatedOpsItems", required: false, type: .list), 
+            AWSShapeMember(label: "Source", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Title", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+        /// The ARN of the AWS account that created the OpsItem.
+        public let createdBy: String?
+        /// The date and time the OpsItem was created.
+        public let createdTime: TimeStamp?
+        /// The OpsItem description.
+        public let description: String?
+        /// The ARN of the AWS account that last updated the OpsItem.
+        public let lastModifiedBy: String?
+        /// The date and time the OpsItem was last updated.
+        public let lastModifiedTime: TimeStamp?
+        /// The Amazon Resource Name (ARN) of an SNS topic where notifications are sent when this OpsItem is edited or changed.
+        public let notifications: [OpsItemNotification]?
+        /// Operational data is custom data that provides useful reference details about the OpsItem. For example, you can specify log files, error strings, license keys, troubleshooting tips, or other relevant data. You enter operational data as key-value pairs. The key has a maximum length of 128 characters. The value has a maximum size of 20 KB.  Operational data keys can't begin with the following: amazon, aws, amzn, ssm, /amazon, /aws, /amzn, /ssm.  You can choose to make the data searchable by other users in the account or you can restrict search access. Searchable data means that all users with access to the OpsItem Overview page (as provided by the DescribeOpsItems API action) can view and search on the specified data. Operational data that is not searchable is only viewable by users who have access to the OpsItem (as provided by the GetOpsItem API action). Use the /aws/resources key in OperationalData to specify a related resource in the request. Use the /aws/automations key in OperationalData to associate an Automation runbook with the OpsItem. To view AWS CLI example commands that use these keys, see Creating OpsItems Manually in the AWS Systems Manager User Guide.
+        public let operationalData: [String: OpsItemDataValue]?
+        /// The ID of the OpsItem.
+        public let opsItemId: String?
+        /// The importance of this OpsItem in relation to other OpsItems in the system.
+        public let priority: Int32?
+        /// One or more OpsItems that share something in common with the current OpsItem. For example, related OpsItems can include OpsItems with similar error messages, impacted resources, or statuses for the impacted resource.
+        public let relatedOpsItems: [RelatedOpsItem]?
+        /// The origin of the OpsItem, such as Amazon EC2 or AWS Systems Manager. The impacted resource is a subset of source.
+        public let source: String?
+        /// The OpsItem status. Status can be Open, In Progress, or Resolved. For more information, see Editing OpsItem Details in the AWS Systems Manager User Guide.
+        public let status: OpsItemStatus?
+        /// A short heading that describes the nature of the OpsItem and the impacted resource.
+        public let title: String?
+        /// The version of this OpsItem. Each time the OpsItem is edited the version number increments by one.
+        public let version: String?
+
+        public init(createdBy: String? = nil, createdTime: TimeStamp? = nil, description: String? = nil, lastModifiedBy: String? = nil, lastModifiedTime: TimeStamp? = nil, notifications: [OpsItemNotification]? = nil, operationalData: [String: OpsItemDataValue]? = nil, opsItemId: String? = nil, priority: Int32? = nil, relatedOpsItems: [RelatedOpsItem]? = nil, source: String? = nil, status: OpsItemStatus? = nil, title: String? = nil, version: String? = nil) {
+            self.createdBy = createdBy
+            self.createdTime = createdTime
+            self.description = description
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.notifications = notifications
+            self.operationalData = operationalData
+            self.opsItemId = opsItemId
+            self.priority = priority
+            self.relatedOpsItems = relatedOpsItems
+            self.source = source
+            self.status = status
+            self.title = title
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdBy = "CreatedBy"
+            case createdTime = "CreatedTime"
+            case description = "Description"
+            case lastModifiedBy = "LastModifiedBy"
+            case lastModifiedTime = "LastModifiedTime"
+            case notifications = "Notifications"
+            case operationalData = "OperationalData"
+            case opsItemId = "OpsItemId"
+            case priority = "Priority"
+            case relatedOpsItems = "RelatedOpsItems"
+            case source = "Source"
+            case status = "Status"
+            case title = "Title"
+            case version = "Version"
+        }
+    }
+
+    public enum OpsItemDataType: String, CustomStringConvertible, Codable {
+        case searchablestring = "SearchableString"
+        case string = "String"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct OpsItemDataValue: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// The type of key-value pair. Valid types include SearchableString and String.
+        public let `type`: OpsItemDataType?
+        /// The value of the OperationalData key.
+        public let value: String?
+
+        public init(type: OpsItemDataType? = nil, value: String? = nil) {
+            self.`type` = `type`
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case value = "Value"
+        }
+    }
+
+    public struct OpsItemFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .enum), 
+            AWSShapeMember(label: "Operator", required: true, type: .enum), 
+            AWSShapeMember(label: "Values", required: true, type: .list)
+        ]
+        /// The name of the filter.
+        public let key: OpsItemFilterKey
+        /// The operator used by the filter call.
+        public let `operator`: OpsItemFilterOperator
+        /// The filter value.
+        public let values: [String]
+
+        public init(key: OpsItemFilterKey, operator: OpsItemFilterOperator, values: [String]) {
+            self.key = key
+            self.`operator` = `operator`
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case `operator` = "Operator"
+            case values = "Values"
+        }
+    }
+
+    public enum OpsItemFilterKey: String, CustomStringConvertible, Codable {
+        case status = "Status"
+        case createdby = "CreatedBy"
+        case source = "Source"
+        case priority = "Priority"
+        case title = "Title"
+        case opsitemid = "OpsItemId"
+        case createdtime = "CreatedTime"
+        case lastmodifiedtime = "LastModifiedTime"
+        case operationaldata = "OperationalData"
+        case operationaldatakey = "OperationalDataKey"
+        case operationaldatavalue = "OperationalDataValue"
+        case resourceid = "ResourceId"
+        case automationid = "AutomationId"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OpsItemFilterOperator: String, CustomStringConvertible, Codable {
+        case equal = "Equal"
+        case contains = "Contains"
+        case greaterthan = "GreaterThan"
+        case lessthan = "LessThan"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct OpsItemNotification: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of an SNS topic where notifications are sent when this OpsItem is edited or changed.
+        public let arn: String?
+
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
+    public enum OpsItemStatus: String, CustomStringConvertible, Codable {
+        case open = "Open"
+        case inprogress = "InProgress"
+        case resolved = "Resolved"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct OpsItemSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedBy", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastModifiedBy", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "OperationalData", required: false, type: .map), 
+            AWSShapeMember(label: "OpsItemId", required: false, type: .string), 
+            AWSShapeMember(label: "Priority", required: false, type: .integer), 
+            AWSShapeMember(label: "Source", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Title", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the IAM entity that created the OpsItem.
+        public let createdBy: String?
+        /// The date and time the OpsItem was created.
+        public let createdTime: TimeStamp?
+        /// The Amazon Resource Name (ARN) of the IAM entity that created the OpsItem.
+        public let lastModifiedBy: String?
+        /// The date and time the OpsItem was last updated.
+        public let lastModifiedTime: TimeStamp?
+        /// Operational data is custom data that provides useful reference details about the OpsItem. 
+        public let operationalData: [String: OpsItemDataValue]?
+        /// The ID of the OpsItem.
+        public let opsItemId: String?
+        /// The importance of this OpsItem in relation to other OpsItems in the system.
+        public let priority: Int32?
+        /// The impacted AWS resource.
+        public let source: String?
+        /// The OpsItem status. Status can be Open, In Progress, or Resolved.
+        public let status: OpsItemStatus?
+        /// A short heading that describes the nature of the OpsItem and the impacted resource.
+        public let title: String?
+
+        public init(createdBy: String? = nil, createdTime: TimeStamp? = nil, lastModifiedBy: String? = nil, lastModifiedTime: TimeStamp? = nil, operationalData: [String: OpsItemDataValue]? = nil, opsItemId: String? = nil, priority: Int32? = nil, source: String? = nil, status: OpsItemStatus? = nil, title: String? = nil) {
+            self.createdBy = createdBy
+            self.createdTime = createdTime
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.operationalData = operationalData
+            self.opsItemId = opsItemId
+            self.priority = priority
+            self.source = source
+            self.status = status
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdBy = "CreatedBy"
+            case createdTime = "CreatedTime"
+            case lastModifiedBy = "LastModifiedBy"
+            case lastModifiedTime = "LastModifiedTime"
+            case operationalData = "OperationalData"
+            case opsItemId = "OpsItemId"
+            case priority = "Priority"
+            case source = "Source"
+            case status = "Status"
+            case title = "Title"
+        }
+    }
+
     public struct OutputSource: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OutputSourceId", required: false, type: .string), 
@@ -9326,6 +9891,22 @@ extension SSM {
         }
     }
 
+    public struct RelatedOpsItem: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OpsItemId", required: true, type: .string)
+        ]
+        /// The ID of an OpsItem related to the current OpsItem.
+        public let opsItemId: String
+
+        public init(opsItemId: String) {
+            self.opsItemId = opsItemId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case opsItemId = "OpsItemId"
+        }
+    }
+
     public struct RemoveTagsFromResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceId", required: true, type: .string), 
@@ -9563,6 +10144,7 @@ extension SSM {
         case maintenancewindow = "MaintenanceWindow"
         case parameter = "Parameter"
         case patchbaseline = "PatchBaseline"
+        case opsitem = "OpsItem"
         public var description: String { return self.rawValue }
     }
 
@@ -11140,6 +11722,69 @@ extension SSM {
     }
 
     public struct UpdateManagedInstanceRoleResult: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateOpsItemRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Notifications", required: false, type: .list), 
+            AWSShapeMember(label: "OperationalData", required: false, type: .map), 
+            AWSShapeMember(label: "OperationalDataToDelete", required: false, type: .list), 
+            AWSShapeMember(label: "OpsItemId", required: true, type: .string), 
+            AWSShapeMember(label: "Priority", required: false, type: .integer), 
+            AWSShapeMember(label: "RelatedOpsItems", required: false, type: .list), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Title", required: false, type: .string)
+        ]
+        /// Update the information about the OpsItem. Provide enough information so that users reading this OpsItem for the first time understand the issue. 
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of an SNS topic where notifications are sent when this OpsItem is edited or changed.
+        public let notifications: [OpsItemNotification]?
+        /// Add new keys or edit existing key-value pairs of the OperationalData map in the OpsItem object. Operational data is custom data that provides useful reference details about the OpsItem. For example, you can specify log files, error strings, license keys, troubleshooting tips, or other relevant data. You enter operational data as key-value pairs. The key has a maximum length of 128 characters. The value has a maximum size of 20 KB.  Operational data keys can't begin with the following: amazon, aws, amzn, ssm, /amazon, /aws, /amzn, /ssm.  You can choose to make the data searchable by other users in the account or you can restrict search access. Searchable data means that all users with access to the OpsItem Overview page (as provided by the DescribeOpsItems API action) can view and search on the specified data. Operational data that is not searchable is only viewable by users who have access to the OpsItem (as provided by the GetOpsItem API action). Use the /aws/resources key in OperationalData to specify a related resource in the request. Use the /aws/automations key in OperationalData to associate an Automation runbook with the OpsItem. To view AWS CLI example commands that use these keys, see Creating OpsItems Manually in the AWS Systems Manager User Guide.
+        public let operationalData: [String: OpsItemDataValue]?
+        /// Keys that you want to remove from the OperationalData map.
+        public let operationalDataToDelete: [String]?
+        /// The ID of the OpsItem.
+        public let opsItemId: String
+        /// The importance of this OpsItem in relation to other OpsItems in the system.
+        public let priority: Int32?
+        /// One or more OpsItems that share something in common with the current OpsItems. For example, related OpsItems can include OpsItems with similar error messages, impacted resources, or statuses for the impacted resource.
+        public let relatedOpsItems: [RelatedOpsItem]?
+        /// The OpsItem status. Status can be Open, In Progress, or Resolved. For more information, see Editing OpsItem Details in the AWS Systems Manager User Guide.
+        public let status: OpsItemStatus?
+        /// A short heading that describes the nature of the OpsItem and the impacted resource.
+        public let title: String?
+
+        public init(description: String? = nil, notifications: [OpsItemNotification]? = nil, operationalData: [String: OpsItemDataValue]? = nil, operationalDataToDelete: [String]? = nil, opsItemId: String, priority: Int32? = nil, relatedOpsItems: [RelatedOpsItem]? = nil, status: OpsItemStatus? = nil, title: String? = nil) {
+            self.description = description
+            self.notifications = notifications
+            self.operationalData = operationalData
+            self.operationalDataToDelete = operationalDataToDelete
+            self.opsItemId = opsItemId
+            self.priority = priority
+            self.relatedOpsItems = relatedOpsItems
+            self.status = status
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case notifications = "Notifications"
+            case operationalData = "OperationalData"
+            case operationalDataToDelete = "OperationalDataToDelete"
+            case opsItemId = "OpsItemId"
+            case priority = "Priority"
+            case relatedOpsItems = "RelatedOpsItems"
+            case status = "Status"
+            case title = "Title"
+        }
+    }
+
+    public struct UpdateOpsItemResponse: AWSShape {
 
         public init() {
         }

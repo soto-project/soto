@@ -5,6 +5,134 @@ import AWSSDKSwiftCore
 
 extension CodeCommit {
 
+    public struct BatchDescribeMergeConflictsError: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "exceptionName", required: true, type: .string), 
+            AWSShapeMember(label: "filePath", required: true, type: .string), 
+            AWSShapeMember(label: "message", required: true, type: .string)
+        ]
+        /// The name of the exception.
+        public let exceptionName: String
+        /// The path to the file.
+        public let filePath: String
+        /// The message provided by the exception.
+        public let message: String
+
+        public init(exceptionName: String, filePath: String, message: String) {
+            self.exceptionName = exceptionName
+            self.filePath = filePath
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exceptionName = "exceptionName"
+            case filePath = "filePath"
+            case message = "message"
+        }
+    }
+
+    public struct BatchDescribeMergeConflictsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "conflictDetailLevel", required: false, type: .enum), 
+            AWSShapeMember(label: "conflictResolutionStrategy", required: false, type: .enum), 
+            AWSShapeMember(label: "destinationCommitSpecifier", required: true, type: .string), 
+            AWSShapeMember(label: "filePaths", required: false, type: .list), 
+            AWSShapeMember(label: "maxConflictFiles", required: false, type: .integer), 
+            AWSShapeMember(label: "maxMergeHunks", required: false, type: .integer), 
+            AWSShapeMember(label: "mergeOption", required: true, type: .enum), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "sourceCommitSpecifier", required: true, type: .string)
+        ]
+        /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which will return a not mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict will be considered not mergeable if the same file in both branches has differences on the same line.
+        public let conflictDetailLevel: ConflictDetailLevelTypeEnum?
+        /// Specifies which branch to use when resolving conflicts, or whether to attempt automatically merging two versions of a file. The default is NONE, which requires any conflicts to be resolved manually before the merge operation will be successful.
+        public let conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum?
+        /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, a branch name or a full commit ID.
+        public let destinationCommitSpecifier: String
+        /// The path of the target files used to describe the conflicts. If not specified, the default is all conflict files.
+        public let filePaths: [String]?
+        /// The maximum number of files to include in the output.
+        public let maxConflictFiles: Int32?
+        /// The maximum number of merge hunks to include in the output.
+        public let maxMergeHunks: Int32?
+        /// The merge option or strategy you want to use to merge the code.
+        public let mergeOption: MergeOptionTypeEnum
+        /// An enumeration token that when provided in a request, returns the next batch of the results.
+        public let nextToken: String?
+        /// The name of the repository that contains the merge conflicts you want to review.
+        public let repositoryName: String
+        /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, a branch name or a full commit ID.
+        public let sourceCommitSpecifier: String
+
+        public init(conflictDetailLevel: ConflictDetailLevelTypeEnum? = nil, conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum? = nil, destinationCommitSpecifier: String, filePaths: [String]? = nil, maxConflictFiles: Int32? = nil, maxMergeHunks: Int32? = nil, mergeOption: MergeOptionTypeEnum, nextToken: String? = nil, repositoryName: String, sourceCommitSpecifier: String) {
+            self.conflictDetailLevel = conflictDetailLevel
+            self.conflictResolutionStrategy = conflictResolutionStrategy
+            self.destinationCommitSpecifier = destinationCommitSpecifier
+            self.filePaths = filePaths
+            self.maxConflictFiles = maxConflictFiles
+            self.maxMergeHunks = maxMergeHunks
+            self.mergeOption = mergeOption
+            self.nextToken = nextToken
+            self.repositoryName = repositoryName
+            self.sourceCommitSpecifier = sourceCommitSpecifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conflictDetailLevel = "conflictDetailLevel"
+            case conflictResolutionStrategy = "conflictResolutionStrategy"
+            case destinationCommitSpecifier = "destinationCommitSpecifier"
+            case filePaths = "filePaths"
+            case maxConflictFiles = "maxConflictFiles"
+            case maxMergeHunks = "maxMergeHunks"
+            case mergeOption = "mergeOption"
+            case nextToken = "nextToken"
+            case repositoryName = "repositoryName"
+            case sourceCommitSpecifier = "sourceCommitSpecifier"
+        }
+    }
+
+    public struct BatchDescribeMergeConflictsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "baseCommitId", required: false, type: .string), 
+            AWSShapeMember(label: "conflicts", required: true, type: .list), 
+            AWSShapeMember(label: "destinationCommitId", required: true, type: .string), 
+            AWSShapeMember(label: "errors", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "sourceCommitId", required: true, type: .string)
+        ]
+        /// The commit ID of the merge base.
+        public let baseCommitId: String?
+        /// A list of conflicts for each file, including the conflict metadata and the hunks of the differences between the files.
+        public let conflicts: [Conflict]
+        /// The commit ID of the destination commit specifier that was used in the merge evaluation.
+        public let destinationCommitId: String
+        /// A list of any errors returned while describing the merge conflicts for each file.
+        public let errors: [BatchDescribeMergeConflictsError]?
+        /// An enumeration token that can be used in a request to return the next batch of the results.
+        public let nextToken: String?
+        /// The commit ID of the source commit specifier that was used in the merge evaluation.
+        public let sourceCommitId: String
+
+        public init(baseCommitId: String? = nil, conflicts: [Conflict], destinationCommitId: String, errors: [BatchDescribeMergeConflictsError]? = nil, nextToken: String? = nil, sourceCommitId: String) {
+            self.baseCommitId = baseCommitId
+            self.conflicts = conflicts
+            self.destinationCommitId = destinationCommitId
+            self.errors = errors
+            self.nextToken = nextToken
+            self.sourceCommitId = sourceCommitId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseCommitId = "baseCommitId"
+            case conflicts = "conflicts"
+            case destinationCommitId = "destinationCommitId"
+            case errors = "errors"
+            case nextToken = "nextToken"
+            case sourceCommitId = "sourceCommitId"
+        }
+    }
+
     public struct BatchGetRepositoriesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "repositoryNames", required: true, type: .list)
@@ -290,6 +418,128 @@ extension CodeCommit {
         }
     }
 
+    public struct Conflict: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "conflictMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "mergeHunks", required: false, type: .list)
+        ]
+        /// Metadata about a conflict in a merge operation.
+        public let conflictMetadata: ConflictMetadata?
+        /// A list of hunks that contain the differences between files or lines causing the conflict.
+        public let mergeHunks: [MergeHunk]?
+
+        public init(conflictMetadata: ConflictMetadata? = nil, mergeHunks: [MergeHunk]? = nil) {
+            self.conflictMetadata = conflictMetadata
+            self.mergeHunks = mergeHunks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conflictMetadata = "conflictMetadata"
+            case mergeHunks = "mergeHunks"
+        }
+    }
+
+    public enum ConflictDetailLevelTypeEnum: String, CustomStringConvertible, Codable {
+        case fileLevel = "FILE_LEVEL"
+        case lineLevel = "LINE_LEVEL"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ConflictMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "contentConflict", required: false, type: .boolean), 
+            AWSShapeMember(label: "fileModeConflict", required: false, type: .boolean), 
+            AWSShapeMember(label: "fileModes", required: false, type: .structure), 
+            AWSShapeMember(label: "filePath", required: false, type: .string), 
+            AWSShapeMember(label: "fileSizes", required: false, type: .structure), 
+            AWSShapeMember(label: "isBinaryFile", required: false, type: .structure), 
+            AWSShapeMember(label: "mergeOperations", required: false, type: .structure), 
+            AWSShapeMember(label: "numberOfConflicts", required: false, type: .integer), 
+            AWSShapeMember(label: "objectTypeConflict", required: false, type: .boolean), 
+            AWSShapeMember(label: "objectTypes", required: false, type: .structure)
+        ]
+        /// A boolean value indicating whether there are conflicts in the content of a file.
+        public let contentConflict: Bool?
+        /// A boolean value indicating whether there are conflicts in the file mode of a file.
+        public let fileModeConflict: Bool?
+        /// The file modes of the file in the source, destination, and base of the merge.
+        public let fileModes: FileModes?
+        /// The path of the file that contains conflicts.
+        public let filePath: String?
+        /// The file sizes of the file in the source, destination, and base of the merge.
+        public let fileSizes: FileSizes?
+        /// A boolean value (true or false) indicating whether the file is binary or textual in the source, destination, and base of the merge.
+        public let isBinaryFile: IsBinaryFile?
+        /// Whether an add, modify, or delete operation caused the conflict between the source and destination of the merge.
+        public let mergeOperations: MergeOperations?
+        /// The number of conflicts, including both hunk conflicts and metadata conflicts.
+        public let numberOfConflicts: Int32?
+        /// A boolean value (true or false) indicating whether there are conflicts between the branches in the object type of a file, folder, or submodule.
+        public let objectTypeConflict: Bool?
+        /// Information about any object type conflicts in a merge operation.
+        public let objectTypes: ObjectTypes?
+
+        public init(contentConflict: Bool? = nil, fileModeConflict: Bool? = nil, fileModes: FileModes? = nil, filePath: String? = nil, fileSizes: FileSizes? = nil, isBinaryFile: IsBinaryFile? = nil, mergeOperations: MergeOperations? = nil, numberOfConflicts: Int32? = nil, objectTypeConflict: Bool? = nil, objectTypes: ObjectTypes? = nil) {
+            self.contentConflict = contentConflict
+            self.fileModeConflict = fileModeConflict
+            self.fileModes = fileModes
+            self.filePath = filePath
+            self.fileSizes = fileSizes
+            self.isBinaryFile = isBinaryFile
+            self.mergeOperations = mergeOperations
+            self.numberOfConflicts = numberOfConflicts
+            self.objectTypeConflict = objectTypeConflict
+            self.objectTypes = objectTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentConflict = "contentConflict"
+            case fileModeConflict = "fileModeConflict"
+            case fileModes = "fileModes"
+            case filePath = "filePath"
+            case fileSizes = "fileSizes"
+            case isBinaryFile = "isBinaryFile"
+            case mergeOperations = "mergeOperations"
+            case numberOfConflicts = "numberOfConflicts"
+            case objectTypeConflict = "objectTypeConflict"
+            case objectTypes = "objectTypes"
+        }
+    }
+
+    public struct ConflictResolution: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deleteFiles", required: false, type: .list), 
+            AWSShapeMember(label: "replaceContents", required: false, type: .list), 
+            AWSShapeMember(label: "setFileModes", required: false, type: .list)
+        ]
+        /// Files that will be deleted as part of the merge conflict resolution.
+        public let deleteFiles: [DeleteFileEntry]?
+        /// Files that will have content replaced as part of the merge conflict resolution.
+        public let replaceContents: [ReplaceContentEntry]?
+        /// File modes that will be set as part of the merge conflict resolution.
+        public let setFileModes: [SetFileModeEntry]?
+
+        public init(deleteFiles: [DeleteFileEntry]? = nil, replaceContents: [ReplaceContentEntry]? = nil, setFileModes: [SetFileModeEntry]? = nil) {
+            self.deleteFiles = deleteFiles
+            self.replaceContents = replaceContents
+            self.setFileModes = setFileModes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deleteFiles = "deleteFiles"
+            case replaceContents = "replaceContents"
+            case setFileModes = "setFileModes"
+        }
+    }
+
+    public enum ConflictResolutionStrategyTypeEnum: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case acceptSource = "ACCEPT_SOURCE"
+        case acceptDestination = "ACCEPT_DESTINATION"
+        case automerge = "AUTOMERGE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct CreateBranchInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "branchName", required: true, type: .string), 
@@ -339,7 +589,7 @@ extension CodeCommit {
         public let deleteFiles: [DeleteFileEntry]?
         /// The email address of the person who created the commit.
         public let email: String?
-        /// If the commit contains deletions, whether to keep a folder or folder structure if the changes leave the folders empty. If this is specified as true, a .gitkeep file will be created for empty folders.
+        /// If the commit contains deletions, whether to keep a folder or folder structure if the changes leave the folders empty. If this is specified as true, a .gitkeep file will be created for empty folders. The default is false.
         public let keepEmptyFolders: Bool?
         /// The ID of the commit that is the parent of the commit you will create. If this is an empty repository, this is not required.
         public let parentCommitId: String?
@@ -499,6 +749,93 @@ extension CodeCommit {
 
         private enum CodingKeys: String, CodingKey {
             case repositoryMetadata = "repositoryMetadata"
+        }
+    }
+
+    public struct CreateUnreferencedMergeCommitInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "authorName", required: false, type: .string), 
+            AWSShapeMember(label: "commitMessage", required: false, type: .string), 
+            AWSShapeMember(label: "conflictDetailLevel", required: false, type: .enum), 
+            AWSShapeMember(label: "conflictResolution", required: false, type: .structure), 
+            AWSShapeMember(label: "conflictResolutionStrategy", required: false, type: .enum), 
+            AWSShapeMember(label: "destinationCommitSpecifier", required: true, type: .string), 
+            AWSShapeMember(label: "email", required: false, type: .string), 
+            AWSShapeMember(label: "keepEmptyFolders", required: false, type: .boolean), 
+            AWSShapeMember(label: "mergeOption", required: true, type: .enum), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "sourceCommitSpecifier", required: true, type: .string)
+        ]
+        /// The name of the author who created the unreferenced commit. This information will be used as both the author and committer for the commit.
+        public let authorName: String?
+        /// The commit message for the unreferenced commit.
+        public let commitMessage: String?
+        /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which will return a not mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict will be considered not mergeable if the same file in both branches has differences on the same line.
+        public let conflictDetailLevel: ConflictDetailLevelTypeEnum?
+        /// A list of inputs to use when resolving conflicts during a merge if AUTOMERGE is chosen as the conflict resolution strategy.
+        public let conflictResolution: ConflictResolution?
+        /// Specifies which branch to use when resolving conflicts, or whether to attempt automatically merging two versions of a file. The default is NONE, which requires any conflicts to be resolved manually before the merge operation will be successful.
+        public let conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum?
+        /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, a branch name or a full commit ID.
+        public let destinationCommitSpecifier: String
+        /// The email address for the person who created the unreferenced commit.
+        public let email: String?
+        /// If the commit contains deletions, whether to keep a folder or folder structure if the changes leave the folders empty. If this is specified as true, a .gitkeep file will be created for empty folders. The default is false.
+        public let keepEmptyFolders: Bool?
+        /// The merge option or strategy you want to use to merge the code.
+        public let mergeOption: MergeOptionTypeEnum
+        /// The name of the repository where you want to create the unreferenced merge commit.
+        public let repositoryName: String
+        /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, a branch name or a full commit ID.
+        public let sourceCommitSpecifier: String
+
+        public init(authorName: String? = nil, commitMessage: String? = nil, conflictDetailLevel: ConflictDetailLevelTypeEnum? = nil, conflictResolution: ConflictResolution? = nil, conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum? = nil, destinationCommitSpecifier: String, email: String? = nil, keepEmptyFolders: Bool? = nil, mergeOption: MergeOptionTypeEnum, repositoryName: String, sourceCommitSpecifier: String) {
+            self.authorName = authorName
+            self.commitMessage = commitMessage
+            self.conflictDetailLevel = conflictDetailLevel
+            self.conflictResolution = conflictResolution
+            self.conflictResolutionStrategy = conflictResolutionStrategy
+            self.destinationCommitSpecifier = destinationCommitSpecifier
+            self.email = email
+            self.keepEmptyFolders = keepEmptyFolders
+            self.mergeOption = mergeOption
+            self.repositoryName = repositoryName
+            self.sourceCommitSpecifier = sourceCommitSpecifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorName = "authorName"
+            case commitMessage = "commitMessage"
+            case conflictDetailLevel = "conflictDetailLevel"
+            case conflictResolution = "conflictResolution"
+            case conflictResolutionStrategy = "conflictResolutionStrategy"
+            case destinationCommitSpecifier = "destinationCommitSpecifier"
+            case email = "email"
+            case keepEmptyFolders = "keepEmptyFolders"
+            case mergeOption = "mergeOption"
+            case repositoryName = "repositoryName"
+            case sourceCommitSpecifier = "sourceCommitSpecifier"
+        }
+    }
+
+    public struct CreateUnreferencedMergeCommitOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "commitId", required: false, type: .string), 
+            AWSShapeMember(label: "treeId", required: false, type: .string)
+        ]
+        /// The full commit ID of the commit that contains your merge results.
+        public let commitId: String?
+        /// The full SHA-1 pointer of the tree information for the commit that contains the merge results.
+        public let treeId: String?
+
+        public init(commitId: String? = nil, treeId: String? = nil) {
+            self.commitId = commitId
+            self.treeId = treeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commitId = "commitId"
+            case treeId = "treeId"
         }
     }
 
@@ -701,6 +1038,103 @@ extension CodeCommit {
         }
     }
 
+    public struct DescribeMergeConflictsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "conflictDetailLevel", required: false, type: .enum), 
+            AWSShapeMember(label: "conflictResolutionStrategy", required: false, type: .enum), 
+            AWSShapeMember(label: "destinationCommitSpecifier", required: true, type: .string), 
+            AWSShapeMember(label: "filePath", required: true, type: .string), 
+            AWSShapeMember(label: "maxMergeHunks", required: false, type: .integer), 
+            AWSShapeMember(label: "mergeOption", required: true, type: .enum), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "sourceCommitSpecifier", required: true, type: .string)
+        ]
+        /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which will return a not mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict will be considered not mergeable if the same file in both branches has differences on the same line.
+        public let conflictDetailLevel: ConflictDetailLevelTypeEnum?
+        /// Specifies which branch to use when resolving conflicts, or whether to attempt automatically merging two versions of a file. The default is NONE, which requires any conflicts to be resolved manually before the merge operation will be successful.
+        public let conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum?
+        /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, a branch name or a full commit ID.
+        public let destinationCommitSpecifier: String
+        /// The path of the target files used to describe the conflicts. 
+        public let filePath: String
+        /// The maximum number of merge hunks to include in the output.
+        public let maxMergeHunks: Int32?
+        /// The merge option or strategy you want to use to merge the code.
+        public let mergeOption: MergeOptionTypeEnum
+        /// An enumeration token that when provided in a request, returns the next batch of the results.
+        public let nextToken: String?
+        /// The name of the repository where you want to get information about a merge conflict.
+        public let repositoryName: String
+        /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, a branch name or a full commit ID.
+        public let sourceCommitSpecifier: String
+
+        public init(conflictDetailLevel: ConflictDetailLevelTypeEnum? = nil, conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum? = nil, destinationCommitSpecifier: String, filePath: String, maxMergeHunks: Int32? = nil, mergeOption: MergeOptionTypeEnum, nextToken: String? = nil, repositoryName: String, sourceCommitSpecifier: String) {
+            self.conflictDetailLevel = conflictDetailLevel
+            self.conflictResolutionStrategy = conflictResolutionStrategy
+            self.destinationCommitSpecifier = destinationCommitSpecifier
+            self.filePath = filePath
+            self.maxMergeHunks = maxMergeHunks
+            self.mergeOption = mergeOption
+            self.nextToken = nextToken
+            self.repositoryName = repositoryName
+            self.sourceCommitSpecifier = sourceCommitSpecifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conflictDetailLevel = "conflictDetailLevel"
+            case conflictResolutionStrategy = "conflictResolutionStrategy"
+            case destinationCommitSpecifier = "destinationCommitSpecifier"
+            case filePath = "filePath"
+            case maxMergeHunks = "maxMergeHunks"
+            case mergeOption = "mergeOption"
+            case nextToken = "nextToken"
+            case repositoryName = "repositoryName"
+            case sourceCommitSpecifier = "sourceCommitSpecifier"
+        }
+    }
+
+    public struct DescribeMergeConflictsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "baseCommitId", required: false, type: .string), 
+            AWSShapeMember(label: "conflictMetadata", required: true, type: .structure), 
+            AWSShapeMember(label: "destinationCommitId", required: true, type: .string), 
+            AWSShapeMember(label: "mergeHunks", required: true, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "sourceCommitId", required: true, type: .string)
+        ]
+        /// The commit ID of the merge base.
+        public let baseCommitId: String?
+        /// Contains metadata about the conflicts found in the merge.
+        public let conflictMetadata: ConflictMetadata
+        /// The commit ID of the destination commit specifier that was used in the merge evaluation.
+        public let destinationCommitId: String
+        /// A list of merge hunks of the differences between the files or lines.
+        public let mergeHunks: [MergeHunk]
+        /// An enumeration token that can be used in a request to return the next batch of the results.
+        public let nextToken: String?
+        /// The commit ID of the source commit specifier that was used in the merge evaluation.
+        public let sourceCommitId: String
+
+        public init(baseCommitId: String? = nil, conflictMetadata: ConflictMetadata, destinationCommitId: String, mergeHunks: [MergeHunk], nextToken: String? = nil, sourceCommitId: String) {
+            self.baseCommitId = baseCommitId
+            self.conflictMetadata = conflictMetadata
+            self.destinationCommitId = destinationCommitId
+            self.mergeHunks = mergeHunks
+            self.nextToken = nextToken
+            self.sourceCommitId = sourceCommitId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseCommitId = "baseCommitId"
+            case conflictMetadata = "conflictMetadata"
+            case destinationCommitId = "destinationCommitId"
+            case mergeHunks = "mergeHunks"
+            case nextToken = "nextToken"
+            case sourceCommitId = "sourceCommitId"
+        }
+    }
+
     public struct DescribePullRequestEventsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "actorArn", required: false, type: .string), 
@@ -846,6 +1280,58 @@ extension CodeCommit {
         case normal = "NORMAL"
         case symlink = "SYMLINK"
         public var description: String { return self.rawValue }
+    }
+
+    public struct FileModes: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "base", required: false, type: .enum), 
+            AWSShapeMember(label: "destination", required: false, type: .enum), 
+            AWSShapeMember(label: "source", required: false, type: .enum)
+        ]
+        /// The file mode of a file in the base of a merge or pull request.
+        public let base: FileModeTypeEnum?
+        /// The file mode of a file in the destination of a merge or pull request.
+        public let destination: FileModeTypeEnum?
+        /// The file mode of a file in the source of a merge or pull request.
+        public let source: FileModeTypeEnum?
+
+        public init(base: FileModeTypeEnum? = nil, destination: FileModeTypeEnum? = nil, source: FileModeTypeEnum? = nil) {
+            self.base = base
+            self.destination = destination
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case base = "base"
+            case destination = "destination"
+            case source = "source"
+        }
+    }
+
+    public struct FileSizes: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "base", required: false, type: .long), 
+            AWSShapeMember(label: "destination", required: false, type: .long), 
+            AWSShapeMember(label: "source", required: false, type: .long)
+        ]
+        /// The size of a file in the base of a merge or pull request.
+        public let base: Int64?
+        /// The size of a file in the destination of a merge or pull request.
+        public let destination: Int64?
+        /// The size of a file in the source of a merge or pull request.
+        public let source: Int64?
+
+        public init(base: Int64? = nil, destination: Int64? = nil, source: Int64? = nil) {
+            self.base = base
+            self.destination = destination
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case base = "base"
+            case destination = "destination"
+            case source = "source"
+        }
     }
 
     public struct Folder: AWSShape {
@@ -1342,32 +1828,119 @@ extension CodeCommit {
         }
     }
 
-    public struct GetMergeConflictsInput: AWSShape {
+    public struct GetMergeCommitInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "conflictDetailLevel", required: false, type: .enum), 
+            AWSShapeMember(label: "conflictResolutionStrategy", required: false, type: .enum), 
             AWSShapeMember(label: "destinationCommitSpecifier", required: true, type: .string), 
-            AWSShapeMember(label: "mergeOption", required: true, type: .enum), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string), 
             AWSShapeMember(label: "sourceCommitSpecifier", required: true, type: .string)
         ]
+        /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which will return a not mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict will be considered not mergeable if the same file in both branches has differences on the same line.
+        public let conflictDetailLevel: ConflictDetailLevelTypeEnum?
+        /// Specifies which branch to use when resolving conflicts, or whether to attempt automatically merging two versions of a file. The default is NONE, which requires any conflicts to be resolved manually before the merge operation will be successful.
+        public let conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum?
         /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, a branch name or a full commit ID.
         public let destinationCommitSpecifier: String
-        /// The merge option or strategy you want to use to merge the code. The only valid value is FAST_FORWARD_MERGE.
-        public let mergeOption: MergeOptionTypeEnum
-        /// The name of the repository where the pull request was created.
+        /// The name of the repository that contains the merge commit about which you want to get information.
         public let repositoryName: String
         /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, a branch name or a full commit ID.
         public let sourceCommitSpecifier: String
 
-        public init(destinationCommitSpecifier: String, mergeOption: MergeOptionTypeEnum, repositoryName: String, sourceCommitSpecifier: String) {
+        public init(conflictDetailLevel: ConflictDetailLevelTypeEnum? = nil, conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum? = nil, destinationCommitSpecifier: String, repositoryName: String, sourceCommitSpecifier: String) {
+            self.conflictDetailLevel = conflictDetailLevel
+            self.conflictResolutionStrategy = conflictResolutionStrategy
             self.destinationCommitSpecifier = destinationCommitSpecifier
-            self.mergeOption = mergeOption
             self.repositoryName = repositoryName
             self.sourceCommitSpecifier = sourceCommitSpecifier
         }
 
         private enum CodingKeys: String, CodingKey {
+            case conflictDetailLevel = "conflictDetailLevel"
+            case conflictResolutionStrategy = "conflictResolutionStrategy"
             case destinationCommitSpecifier = "destinationCommitSpecifier"
+            case repositoryName = "repositoryName"
+            case sourceCommitSpecifier = "sourceCommitSpecifier"
+        }
+    }
+
+    public struct GetMergeCommitOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "baseCommitId", required: false, type: .string), 
+            AWSShapeMember(label: "destinationCommitId", required: false, type: .string), 
+            AWSShapeMember(label: "mergedCommitId", required: false, type: .string), 
+            AWSShapeMember(label: "sourceCommitId", required: false, type: .string)
+        ]
+        /// The commit ID of the merge base.
+        public let baseCommitId: String?
+        /// The commit ID of the destination commit specifier that was used in the merge evaluation.
+        public let destinationCommitId: String?
+        /// The commit ID for the merge commit created when the source branch was merged into the destination branch. If the fast-forward merge strategy was used, no merge commit exists.
+        public let mergedCommitId: String?
+        /// The commit ID of the source commit specifier that was used in the merge evaluation.
+        public let sourceCommitId: String?
+
+        public init(baseCommitId: String? = nil, destinationCommitId: String? = nil, mergedCommitId: String? = nil, sourceCommitId: String? = nil) {
+            self.baseCommitId = baseCommitId
+            self.destinationCommitId = destinationCommitId
+            self.mergedCommitId = mergedCommitId
+            self.sourceCommitId = sourceCommitId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseCommitId = "baseCommitId"
+            case destinationCommitId = "destinationCommitId"
+            case mergedCommitId = "mergedCommitId"
+            case sourceCommitId = "sourceCommitId"
+        }
+    }
+
+    public struct GetMergeConflictsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "conflictDetailLevel", required: false, type: .enum), 
+            AWSShapeMember(label: "conflictResolutionStrategy", required: false, type: .enum), 
+            AWSShapeMember(label: "destinationCommitSpecifier", required: true, type: .string), 
+            AWSShapeMember(label: "maxConflictFiles", required: false, type: .integer), 
+            AWSShapeMember(label: "mergeOption", required: true, type: .enum), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "sourceCommitSpecifier", required: true, type: .string)
+        ]
+        /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which will return a not mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict will be considered not mergeable if the same file in both branches has differences on the same line.
+        public let conflictDetailLevel: ConflictDetailLevelTypeEnum?
+        /// Specifies which branch to use when resolving conflicts, or whether to attempt automatically merging two versions of a file. The default is NONE, which requires any conflicts to be resolved manually before the merge operation will be successful.
+        public let conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum?
+        /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, a branch name or a full commit ID.
+        public let destinationCommitSpecifier: String
+        /// The maximum number of files to include in the output.
+        public let maxConflictFiles: Int32?
+        /// The merge option or strategy you want to use to merge the code. 
+        public let mergeOption: MergeOptionTypeEnum
+        /// An enumeration token that when provided in a request, returns the next batch of the results.
+        public let nextToken: String?
+        /// The name of the repository where the pull request was created.
+        public let repositoryName: String
+        /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, a branch name or a full commit ID.
+        public let sourceCommitSpecifier: String
+
+        public init(conflictDetailLevel: ConflictDetailLevelTypeEnum? = nil, conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum? = nil, destinationCommitSpecifier: String, maxConflictFiles: Int32? = nil, mergeOption: MergeOptionTypeEnum, nextToken: String? = nil, repositoryName: String, sourceCommitSpecifier: String) {
+            self.conflictDetailLevel = conflictDetailLevel
+            self.conflictResolutionStrategy = conflictResolutionStrategy
+            self.destinationCommitSpecifier = destinationCommitSpecifier
+            self.maxConflictFiles = maxConflictFiles
+            self.mergeOption = mergeOption
+            self.nextToken = nextToken
+            self.repositoryName = repositoryName
+            self.sourceCommitSpecifier = sourceCommitSpecifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conflictDetailLevel = "conflictDetailLevel"
+            case conflictResolutionStrategy = "conflictResolutionStrategy"
+            case destinationCommitSpecifier = "destinationCommitSpecifier"
+            case maxConflictFiles = "maxConflictFiles"
             case mergeOption = "mergeOption"
+            case nextToken = "nextToken"
             case repositoryName = "repositoryName"
             case sourceCommitSpecifier = "sourceCommitSpecifier"
         }
@@ -1375,26 +1948,108 @@ extension CodeCommit {
 
     public struct GetMergeConflictsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "baseCommitId", required: false, type: .string), 
+            AWSShapeMember(label: "conflictMetadataList", required: true, type: .list), 
             AWSShapeMember(label: "destinationCommitId", required: true, type: .string), 
             AWSShapeMember(label: "mergeable", required: true, type: .boolean), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "sourceCommitId", required: true, type: .string)
         ]
+        /// The commit ID of the merge base.
+        public let baseCommitId: String?
+        /// A list of metadata for any conflicting files. If the specified merge strategy is FAST_FORWARD_MERGE, this list will always be empty.
+        public let conflictMetadataList: [ConflictMetadata]
         /// The commit ID of the destination commit specifier that was used in the merge evaluation.
         public let destinationCommitId: String
-        /// A Boolean value that indicates whether the code is mergable by the specified merge option.
+        /// A Boolean value that indicates whether the code is mergeable by the specified merge option.
         public let mergeable: Bool
+        /// An enumeration token that can be used in a request to return the next batch of the results.
+        public let nextToken: String?
         /// The commit ID of the source commit specifier that was used in the merge evaluation.
         public let sourceCommitId: String
 
-        public init(destinationCommitId: String, mergeable: Bool, sourceCommitId: String) {
+        public init(baseCommitId: String? = nil, conflictMetadataList: [ConflictMetadata], destinationCommitId: String, mergeable: Bool, nextToken: String? = nil, sourceCommitId: String) {
+            self.baseCommitId = baseCommitId
+            self.conflictMetadataList = conflictMetadataList
             self.destinationCommitId = destinationCommitId
             self.mergeable = mergeable
+            self.nextToken = nextToken
             self.sourceCommitId = sourceCommitId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case baseCommitId = "baseCommitId"
+            case conflictMetadataList = "conflictMetadataList"
             case destinationCommitId = "destinationCommitId"
             case mergeable = "mergeable"
+            case nextToken = "nextToken"
+            case sourceCommitId = "sourceCommitId"
+        }
+    }
+
+    public struct GetMergeOptionsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "conflictDetailLevel", required: false, type: .enum), 
+            AWSShapeMember(label: "conflictResolutionStrategy", required: false, type: .enum), 
+            AWSShapeMember(label: "destinationCommitSpecifier", required: true, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "sourceCommitSpecifier", required: true, type: .string)
+        ]
+        /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which will return a not mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict will be considered not mergeable if the same file in both branches has differences on the same line.
+        public let conflictDetailLevel: ConflictDetailLevelTypeEnum?
+        /// Specifies which branch to use when resolving conflicts, or whether to attempt automatically merging two versions of a file. The default is NONE, which requires any conflicts to be resolved manually before the merge operation will be successful.
+        public let conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum?
+        /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, a branch name or a full commit ID.
+        public let destinationCommitSpecifier: String
+        /// The name of the repository that contains the commits about which you want to get merge options.
+        public let repositoryName: String
+        /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, a branch name or a full commit ID.
+        public let sourceCommitSpecifier: String
+
+        public init(conflictDetailLevel: ConflictDetailLevelTypeEnum? = nil, conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum? = nil, destinationCommitSpecifier: String, repositoryName: String, sourceCommitSpecifier: String) {
+            self.conflictDetailLevel = conflictDetailLevel
+            self.conflictResolutionStrategy = conflictResolutionStrategy
+            self.destinationCommitSpecifier = destinationCommitSpecifier
+            self.repositoryName = repositoryName
+            self.sourceCommitSpecifier = sourceCommitSpecifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conflictDetailLevel = "conflictDetailLevel"
+            case conflictResolutionStrategy = "conflictResolutionStrategy"
+            case destinationCommitSpecifier = "destinationCommitSpecifier"
+            case repositoryName = "repositoryName"
+            case sourceCommitSpecifier = "sourceCommitSpecifier"
+        }
+    }
+
+    public struct GetMergeOptionsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "baseCommitId", required: true, type: .string), 
+            AWSShapeMember(label: "destinationCommitId", required: true, type: .string), 
+            AWSShapeMember(label: "mergeOptions", required: true, type: .list), 
+            AWSShapeMember(label: "sourceCommitId", required: true, type: .string)
+        ]
+        /// The commit ID of the merge base.
+        public let baseCommitId: String
+        /// The commit ID of the destination commit specifier that was used in the merge evaluation.
+        public let destinationCommitId: String
+        /// The merge option or strategy used to merge the code.
+        public let mergeOptions: [MergeOptionTypeEnum]
+        /// The commit ID of the source commit specifier that was used in the merge evaluation.
+        public let sourceCommitId: String
+
+        public init(baseCommitId: String, destinationCommitId: String, mergeOptions: [MergeOptionTypeEnum], sourceCommitId: String) {
+            self.baseCommitId = baseCommitId
+            self.destinationCommitId = destinationCommitId
+            self.mergeOptions = mergeOptions
+            self.sourceCommitId = sourceCommitId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseCommitId = "baseCommitId"
+            case destinationCommitId = "destinationCommitId"
+            case mergeOptions = "mergeOptions"
             case sourceCommitId = "sourceCommitId"
         }
     }
@@ -1497,6 +2152,32 @@ extension CodeCommit {
         private enum CodingKeys: String, CodingKey {
             case configurationId = "configurationId"
             case triggers = "triggers"
+        }
+    }
+
+    public struct IsBinaryFile: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "base", required: false, type: .boolean), 
+            AWSShapeMember(label: "destination", required: false, type: .boolean), 
+            AWSShapeMember(label: "source", required: false, type: .boolean)
+        ]
+        /// The binary or non-binary status of a file in the base of a merge or pull request.
+        public let base: Bool?
+        /// The binary or non-binary status of a file in the destination of a merge or pull request.
+        public let destination: Bool?
+        /// The binary or non-binary status of file in the source of a merge or pull request.
+        public let source: Bool?
+
+        public init(base: Bool? = nil, destination: Bool? = nil, source: Bool? = nil) {
+            self.base = base
+            self.destination = destination
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case base = "base"
+            case destination = "destination"
+            case source = "source"
         }
     }
 
@@ -1714,29 +2395,345 @@ extension CodeCommit {
         }
     }
 
+    public struct MergeBranchesByFastForwardInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "destinationCommitSpecifier", required: true, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "sourceCommitSpecifier", required: true, type: .string), 
+            AWSShapeMember(label: "targetBranch", required: false, type: .string)
+        ]
+        /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, a branch name or a full commit ID.
+        public let destinationCommitSpecifier: String
+        /// The name of the repository where you want to merge two branches.
+        public let repositoryName: String
+        /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, a branch name or a full commit ID.
+        public let sourceCommitSpecifier: String
+        /// The branch where the merge will be applied.
+        public let targetBranch: String?
+
+        public init(destinationCommitSpecifier: String, repositoryName: String, sourceCommitSpecifier: String, targetBranch: String? = nil) {
+            self.destinationCommitSpecifier = destinationCommitSpecifier
+            self.repositoryName = repositoryName
+            self.sourceCommitSpecifier = sourceCommitSpecifier
+            self.targetBranch = targetBranch
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationCommitSpecifier = "destinationCommitSpecifier"
+            case repositoryName = "repositoryName"
+            case sourceCommitSpecifier = "sourceCommitSpecifier"
+            case targetBranch = "targetBranch"
+        }
+    }
+
+    public struct MergeBranchesByFastForwardOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "commitId", required: false, type: .string), 
+            AWSShapeMember(label: "treeId", required: false, type: .string)
+        ]
+        /// The commit ID of the merge in the destination or target branch.
+        public let commitId: String?
+        /// The tree ID of the merge in the destination or target branch.
+        public let treeId: String?
+
+        public init(commitId: String? = nil, treeId: String? = nil) {
+            self.commitId = commitId
+            self.treeId = treeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commitId = "commitId"
+            case treeId = "treeId"
+        }
+    }
+
+    public struct MergeBranchesBySquashInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "authorName", required: false, type: .string), 
+            AWSShapeMember(label: "commitMessage", required: false, type: .string), 
+            AWSShapeMember(label: "conflictDetailLevel", required: false, type: .enum), 
+            AWSShapeMember(label: "conflictResolution", required: false, type: .structure), 
+            AWSShapeMember(label: "conflictResolutionStrategy", required: false, type: .enum), 
+            AWSShapeMember(label: "destinationCommitSpecifier", required: true, type: .string), 
+            AWSShapeMember(label: "email", required: false, type: .string), 
+            AWSShapeMember(label: "keepEmptyFolders", required: false, type: .boolean), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "sourceCommitSpecifier", required: true, type: .string), 
+            AWSShapeMember(label: "targetBranch", required: false, type: .string)
+        ]
+        /// The name of the author who created the commit. This information will be used as both the author and committer for the commit.
+        public let authorName: String?
+        /// The commit message for the merge.
+        public let commitMessage: String?
+        /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which will return a not mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict will be considered not mergeable if the same file in both branches has differences on the same line.
+        public let conflictDetailLevel: ConflictDetailLevelTypeEnum?
+        /// A list of inputs to use when resolving conflicts during a merge if AUTOMERGE is chosen as the conflict resolution strategy.
+        public let conflictResolution: ConflictResolution?
+        /// Specifies which branch to use when resolving conflicts, or whether to attempt automatically merging two versions of a file. The default is NONE, which requires any conflicts to be resolved manually before the merge operation will be successful.
+        public let conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum?
+        /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, a branch name or a full commit ID.
+        public let destinationCommitSpecifier: String
+        /// The email address of the person merging the branches. This information will be used in the commit information for the merge.
+        public let email: String?
+        /// If the commit contains deletions, whether to keep a folder or folder structure if the changes leave the folders empty. If this is specified as true, a .gitkeep file will be created for empty folders. The default is false.
+        public let keepEmptyFolders: Bool?
+        /// The name of the repository where you want to merge two branches.
+        public let repositoryName: String
+        /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, a branch name or a full commit ID.
+        public let sourceCommitSpecifier: String
+        /// The branch where the merge will be applied. 
+        public let targetBranch: String?
+
+        public init(authorName: String? = nil, commitMessage: String? = nil, conflictDetailLevel: ConflictDetailLevelTypeEnum? = nil, conflictResolution: ConflictResolution? = nil, conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum? = nil, destinationCommitSpecifier: String, email: String? = nil, keepEmptyFolders: Bool? = nil, repositoryName: String, sourceCommitSpecifier: String, targetBranch: String? = nil) {
+            self.authorName = authorName
+            self.commitMessage = commitMessage
+            self.conflictDetailLevel = conflictDetailLevel
+            self.conflictResolution = conflictResolution
+            self.conflictResolutionStrategy = conflictResolutionStrategy
+            self.destinationCommitSpecifier = destinationCommitSpecifier
+            self.email = email
+            self.keepEmptyFolders = keepEmptyFolders
+            self.repositoryName = repositoryName
+            self.sourceCommitSpecifier = sourceCommitSpecifier
+            self.targetBranch = targetBranch
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorName = "authorName"
+            case commitMessage = "commitMessage"
+            case conflictDetailLevel = "conflictDetailLevel"
+            case conflictResolution = "conflictResolution"
+            case conflictResolutionStrategy = "conflictResolutionStrategy"
+            case destinationCommitSpecifier = "destinationCommitSpecifier"
+            case email = "email"
+            case keepEmptyFolders = "keepEmptyFolders"
+            case repositoryName = "repositoryName"
+            case sourceCommitSpecifier = "sourceCommitSpecifier"
+            case targetBranch = "targetBranch"
+        }
+    }
+
+    public struct MergeBranchesBySquashOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "commitId", required: false, type: .string), 
+            AWSShapeMember(label: "treeId", required: false, type: .string)
+        ]
+        /// The commit ID of the merge in the destination or target branch.
+        public let commitId: String?
+        /// The tree ID of the merge in the destination or target branch.
+        public let treeId: String?
+
+        public init(commitId: String? = nil, treeId: String? = nil) {
+            self.commitId = commitId
+            self.treeId = treeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commitId = "commitId"
+            case treeId = "treeId"
+        }
+    }
+
+    public struct MergeBranchesByThreeWayInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "authorName", required: false, type: .string), 
+            AWSShapeMember(label: "commitMessage", required: false, type: .string), 
+            AWSShapeMember(label: "conflictDetailLevel", required: false, type: .enum), 
+            AWSShapeMember(label: "conflictResolution", required: false, type: .structure), 
+            AWSShapeMember(label: "conflictResolutionStrategy", required: false, type: .enum), 
+            AWSShapeMember(label: "destinationCommitSpecifier", required: true, type: .string), 
+            AWSShapeMember(label: "email", required: false, type: .string), 
+            AWSShapeMember(label: "keepEmptyFolders", required: false, type: .boolean), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "sourceCommitSpecifier", required: true, type: .string), 
+            AWSShapeMember(label: "targetBranch", required: false, type: .string)
+        ]
+        /// The name of the author who created the commit. This information will be used as both the author and committer for the commit.
+        public let authorName: String?
+        /// The commit message to include in the commit information for the merge.
+        public let commitMessage: String?
+        /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which will return a not mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict will be considered not mergeable if the same file in both branches has differences on the same line.
+        public let conflictDetailLevel: ConflictDetailLevelTypeEnum?
+        /// A list of inputs to use when resolving conflicts during a merge if AUTOMERGE is chosen as the conflict resolution strategy.
+        public let conflictResolution: ConflictResolution?
+        /// Specifies which branch to use when resolving conflicts, or whether to attempt automatically merging two versions of a file. The default is NONE, which requires any conflicts to be resolved manually before the merge operation will be successful.
+        public let conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum?
+        /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, a branch name or a full commit ID.
+        public let destinationCommitSpecifier: String
+        /// The email address of the person merging the branches. This information will be used in the commit information for the merge.
+        public let email: String?
+        /// If the commit contains deletions, whether to keep a folder or folder structure if the changes leave the folders empty. If this is specified as true, a .gitkeep file will be created for empty folders. The default is false.
+        public let keepEmptyFolders: Bool?
+        /// The name of the repository where you want to merge two branches.
+        public let repositoryName: String
+        /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, a branch name or a full commit ID.
+        public let sourceCommitSpecifier: String
+        /// The branch where the merge will be applied. 
+        public let targetBranch: String?
+
+        public init(authorName: String? = nil, commitMessage: String? = nil, conflictDetailLevel: ConflictDetailLevelTypeEnum? = nil, conflictResolution: ConflictResolution? = nil, conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum? = nil, destinationCommitSpecifier: String, email: String? = nil, keepEmptyFolders: Bool? = nil, repositoryName: String, sourceCommitSpecifier: String, targetBranch: String? = nil) {
+            self.authorName = authorName
+            self.commitMessage = commitMessage
+            self.conflictDetailLevel = conflictDetailLevel
+            self.conflictResolution = conflictResolution
+            self.conflictResolutionStrategy = conflictResolutionStrategy
+            self.destinationCommitSpecifier = destinationCommitSpecifier
+            self.email = email
+            self.keepEmptyFolders = keepEmptyFolders
+            self.repositoryName = repositoryName
+            self.sourceCommitSpecifier = sourceCommitSpecifier
+            self.targetBranch = targetBranch
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorName = "authorName"
+            case commitMessage = "commitMessage"
+            case conflictDetailLevel = "conflictDetailLevel"
+            case conflictResolution = "conflictResolution"
+            case conflictResolutionStrategy = "conflictResolutionStrategy"
+            case destinationCommitSpecifier = "destinationCommitSpecifier"
+            case email = "email"
+            case keepEmptyFolders = "keepEmptyFolders"
+            case repositoryName = "repositoryName"
+            case sourceCommitSpecifier = "sourceCommitSpecifier"
+            case targetBranch = "targetBranch"
+        }
+    }
+
+    public struct MergeBranchesByThreeWayOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "commitId", required: false, type: .string), 
+            AWSShapeMember(label: "treeId", required: false, type: .string)
+        ]
+        /// The commit ID of the merge in the destination or target branch.
+        public let commitId: String?
+        /// The tree ID of the merge in the destination or target branch.
+        public let treeId: String?
+
+        public init(commitId: String? = nil, treeId: String? = nil) {
+            self.commitId = commitId
+            self.treeId = treeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commitId = "commitId"
+            case treeId = "treeId"
+        }
+    }
+
+    public struct MergeHunk: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "base", required: false, type: .structure), 
+            AWSShapeMember(label: "destination", required: false, type: .structure), 
+            AWSShapeMember(label: "isConflict", required: false, type: .boolean), 
+            AWSShapeMember(label: "source", required: false, type: .structure)
+        ]
+        /// Information about the merge hunk in the base of a merge or pull request.
+        public let base: MergeHunkDetail?
+        /// Information about the merge hunk in the destination of a merge or pull request.
+        public let destination: MergeHunkDetail?
+        /// A Boolean value indicating whether a combination of hunks contains a conflict. Conflicts occur when the same file or the same lines in a file were modified in both the source and destination of a merge or pull request. Valid values include true, false, and null. This will be true when the hunk represents a conflict and one or more files contains a line conflict. File mode conflicts in a merge will not set this to be true.
+        public let isConflict: Bool?
+        /// Information about the merge hunk in the source of a merge or pull request.
+        public let source: MergeHunkDetail?
+
+        public init(base: MergeHunkDetail? = nil, destination: MergeHunkDetail? = nil, isConflict: Bool? = nil, source: MergeHunkDetail? = nil) {
+            self.base = base
+            self.destination = destination
+            self.isConflict = isConflict
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case base = "base"
+            case destination = "destination"
+            case isConflict = "isConflict"
+            case source = "source"
+        }
+    }
+
+    public struct MergeHunkDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "endLine", required: false, type: .integer), 
+            AWSShapeMember(label: "hunkContent", required: false, type: .string), 
+            AWSShapeMember(label: "startLine", required: false, type: .integer)
+        ]
+        /// The end position of the hunk in the merge result.
+        public let endLine: Int32?
+        /// The base-64 encoded content of the hunk merged region that might or might not contain a conflict.
+        public let hunkContent: String?
+        /// The start position of the hunk in the merge result.
+        public let startLine: Int32?
+
+        public init(endLine: Int32? = nil, hunkContent: String? = nil, startLine: Int32? = nil) {
+            self.endLine = endLine
+            self.hunkContent = hunkContent
+            self.startLine = startLine
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endLine = "endLine"
+            case hunkContent = "hunkContent"
+            case startLine = "startLine"
+        }
+    }
+
     public struct MergeMetadata: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "isMerged", required: false, type: .boolean), 
+            AWSShapeMember(label: "mergeCommitId", required: false, type: .string), 
+            AWSShapeMember(label: "mergeOption", required: false, type: .enum), 
             AWSShapeMember(label: "mergedBy", required: false, type: .string)
         ]
         /// A Boolean value indicating whether the merge has been made.
         public let isMerged: Bool?
+        /// The commit ID for the merge commit, if any.
+        public let mergeCommitId: String?
+        /// The merge strategy used in the merge.
+        public let mergeOption: MergeOptionTypeEnum?
         /// The Amazon Resource Name (ARN) of the user who merged the branches.
         public let mergedBy: String?
 
-        public init(isMerged: Bool? = nil, mergedBy: String? = nil) {
+        public init(isMerged: Bool? = nil, mergeCommitId: String? = nil, mergeOption: MergeOptionTypeEnum? = nil, mergedBy: String? = nil) {
             self.isMerged = isMerged
+            self.mergeCommitId = mergeCommitId
+            self.mergeOption = mergeOption
             self.mergedBy = mergedBy
         }
 
         private enum CodingKeys: String, CodingKey {
             case isMerged = "isMerged"
+            case mergeCommitId = "mergeCommitId"
+            case mergeOption = "mergeOption"
             case mergedBy = "mergedBy"
+        }
+    }
+
+    public struct MergeOperations: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "destination", required: false, type: .enum), 
+            AWSShapeMember(label: "source", required: false, type: .enum)
+        ]
+        /// The operation on a file in the destination of a merge or pull request.
+        public let destination: ChangeTypeEnum?
+        /// The operation on a file (add, modify, or delete) of a file in the source of a merge or pull request.
+        public let source: ChangeTypeEnum?
+
+        public init(destination: ChangeTypeEnum? = nil, source: ChangeTypeEnum? = nil) {
+            self.destination = destination
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "destination"
+            case source = "source"
         }
     }
 
     public enum MergeOptionTypeEnum: String, CustomStringConvertible, Codable {
         case fastForwardMerge = "FAST_FORWARD_MERGE"
+        case squashMerge = "SQUASH_MERGE"
+        case threeWayMerge = "THREE_WAY_MERGE"
         public var description: String { return self.rawValue }
     }
 
@@ -1782,6 +2779,192 @@ extension CodeCommit {
         }
     }
 
+    public struct MergePullRequestBySquashInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "authorName", required: false, type: .string), 
+            AWSShapeMember(label: "commitMessage", required: false, type: .string), 
+            AWSShapeMember(label: "conflictDetailLevel", required: false, type: .enum), 
+            AWSShapeMember(label: "conflictResolution", required: false, type: .structure), 
+            AWSShapeMember(label: "conflictResolutionStrategy", required: false, type: .enum), 
+            AWSShapeMember(label: "email", required: false, type: .string), 
+            AWSShapeMember(label: "keepEmptyFolders", required: false, type: .boolean), 
+            AWSShapeMember(label: "pullRequestId", required: true, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "sourceCommitId", required: false, type: .string)
+        ]
+        /// The name of the author who created the commit. This information will be used as both the author and committer for the commit.
+        public let authorName: String?
+        /// The commit message to include in the commit information for the merge.
+        public let commitMessage: String?
+        /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which will return a not mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict will be considered not mergeable if the same file in both branches has differences on the same line.
+        public let conflictDetailLevel: ConflictDetailLevelTypeEnum?
+        /// A list of inputs to use when resolving conflicts during a merge if AUTOMERGE is chosen as the conflict resolution strategy.
+        public let conflictResolution: ConflictResolution?
+        /// Specifies which branch to use when resolving conflicts, or whether to attempt automatically merging two versions of a file. The default is NONE, which requires any conflicts to be resolved manually before the merge operation will be successful.
+        public let conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum?
+        /// The email address of the person merging the branches. This information will be used in the commit information for the merge.
+        public let email: String?
+        /// If the commit contains deletions, whether to keep a folder or folder structure if the changes leave the folders empty. If this is specified as true, a .gitkeep file will be created for empty folders. The default is false.
+        public let keepEmptyFolders: Bool?
+        /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
+        public let pullRequestId: String
+        /// The name of the repository where the pull request was created.
+        public let repositoryName: String
+        /// The full commit ID of the original or updated commit in the pull request source branch. Pass this value if you want an exception thrown if the current commit ID of the tip of the source branch does not match this commit ID.
+        public let sourceCommitId: String?
+
+        public init(authorName: String? = nil, commitMessage: String? = nil, conflictDetailLevel: ConflictDetailLevelTypeEnum? = nil, conflictResolution: ConflictResolution? = nil, conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum? = nil, email: String? = nil, keepEmptyFolders: Bool? = nil, pullRequestId: String, repositoryName: String, sourceCommitId: String? = nil) {
+            self.authorName = authorName
+            self.commitMessage = commitMessage
+            self.conflictDetailLevel = conflictDetailLevel
+            self.conflictResolution = conflictResolution
+            self.conflictResolutionStrategy = conflictResolutionStrategy
+            self.email = email
+            self.keepEmptyFolders = keepEmptyFolders
+            self.pullRequestId = pullRequestId
+            self.repositoryName = repositoryName
+            self.sourceCommitId = sourceCommitId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorName = "authorName"
+            case commitMessage = "commitMessage"
+            case conflictDetailLevel = "conflictDetailLevel"
+            case conflictResolution = "conflictResolution"
+            case conflictResolutionStrategy = "conflictResolutionStrategy"
+            case email = "email"
+            case keepEmptyFolders = "keepEmptyFolders"
+            case pullRequestId = "pullRequestId"
+            case repositoryName = "repositoryName"
+            case sourceCommitId = "sourceCommitId"
+        }
+    }
+
+    public struct MergePullRequestBySquashOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pullRequest", required: false, type: .structure)
+        ]
+        public let pullRequest: PullRequest?
+
+        public init(pullRequest: PullRequest? = nil) {
+            self.pullRequest = pullRequest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pullRequest = "pullRequest"
+        }
+    }
+
+    public struct MergePullRequestByThreeWayInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "authorName", required: false, type: .string), 
+            AWSShapeMember(label: "commitMessage", required: false, type: .string), 
+            AWSShapeMember(label: "conflictDetailLevel", required: false, type: .enum), 
+            AWSShapeMember(label: "conflictResolution", required: false, type: .structure), 
+            AWSShapeMember(label: "conflictResolutionStrategy", required: false, type: .enum), 
+            AWSShapeMember(label: "email", required: false, type: .string), 
+            AWSShapeMember(label: "keepEmptyFolders", required: false, type: .boolean), 
+            AWSShapeMember(label: "pullRequestId", required: true, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "sourceCommitId", required: false, type: .string)
+        ]
+        /// The name of the author who created the commit. This information will be used as both the author and committer for the commit.
+        public let authorName: String?
+        /// The commit message to include in the commit information for the merge.
+        public let commitMessage: String?
+        /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which will return a not mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict will be considered not mergeable if the same file in both branches has differences on the same line.
+        public let conflictDetailLevel: ConflictDetailLevelTypeEnum?
+        /// A list of inputs to use when resolving conflicts during a merge if AUTOMERGE is chosen as the conflict resolution strategy.
+        public let conflictResolution: ConflictResolution?
+        /// Specifies which branch to use when resolving conflicts, or whether to attempt automatically merging two versions of a file. The default is NONE, which requires any conflicts to be resolved manually before the merge operation will be successful.
+        public let conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum?
+        /// The email address of the person merging the branches. This information will be used in the commit information for the merge.
+        public let email: String?
+        /// If the commit contains deletions, whether to keep a folder or folder structure if the changes leave the folders empty. If this is specified as true, a .gitkeep file will be created for empty folders. The default is false.
+        public let keepEmptyFolders: Bool?
+        /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
+        public let pullRequestId: String
+        /// The name of the repository where the pull request was created.
+        public let repositoryName: String
+        /// The full commit ID of the original or updated commit in the pull request source branch. Pass this value if you want an exception thrown if the current commit ID of the tip of the source branch does not match this commit ID.
+        public let sourceCommitId: String?
+
+        public init(authorName: String? = nil, commitMessage: String? = nil, conflictDetailLevel: ConflictDetailLevelTypeEnum? = nil, conflictResolution: ConflictResolution? = nil, conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum? = nil, email: String? = nil, keepEmptyFolders: Bool? = nil, pullRequestId: String, repositoryName: String, sourceCommitId: String? = nil) {
+            self.authorName = authorName
+            self.commitMessage = commitMessage
+            self.conflictDetailLevel = conflictDetailLevel
+            self.conflictResolution = conflictResolution
+            self.conflictResolutionStrategy = conflictResolutionStrategy
+            self.email = email
+            self.keepEmptyFolders = keepEmptyFolders
+            self.pullRequestId = pullRequestId
+            self.repositoryName = repositoryName
+            self.sourceCommitId = sourceCommitId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorName = "authorName"
+            case commitMessage = "commitMessage"
+            case conflictDetailLevel = "conflictDetailLevel"
+            case conflictResolution = "conflictResolution"
+            case conflictResolutionStrategy = "conflictResolutionStrategy"
+            case email = "email"
+            case keepEmptyFolders = "keepEmptyFolders"
+            case pullRequestId = "pullRequestId"
+            case repositoryName = "repositoryName"
+            case sourceCommitId = "sourceCommitId"
+        }
+    }
+
+    public struct MergePullRequestByThreeWayOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pullRequest", required: false, type: .structure)
+        ]
+        public let pullRequest: PullRequest?
+
+        public init(pullRequest: PullRequest? = nil) {
+            self.pullRequest = pullRequest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pullRequest = "pullRequest"
+        }
+    }
+
+    public enum ObjectTypeEnum: String, CustomStringConvertible, Codable {
+        case file = "FILE"
+        case directory = "DIRECTORY"
+        case gitLink = "GIT_LINK"
+        case symbolicLink = "SYMBOLIC_LINK"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ObjectTypes: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "base", required: false, type: .enum), 
+            AWSShapeMember(label: "destination", required: false, type: .enum), 
+            AWSShapeMember(label: "source", required: false, type: .enum)
+        ]
+        /// The type of the object in the base commit of the merge.
+        public let base: ObjectTypeEnum?
+        /// The type of the object in the destination branch.
+        public let destination: ObjectTypeEnum?
+        /// The type of the object in the source branch.
+        public let source: ObjectTypeEnum?
+
+        public init(base: ObjectTypeEnum? = nil, destination: ObjectTypeEnum? = nil, source: ObjectTypeEnum? = nil) {
+            self.base = base
+            self.destination = destination
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case base = "base"
+            case destination = "destination"
+            case source = "source"
+        }
+    }
+
     public enum OrderEnum: String, CustomStringConvertible, Codable {
         case ascending = "ascending"
         case descending = "descending"
@@ -1799,7 +2982,7 @@ extension CodeCommit {
         ]
         /// To establish the directionality of the comparison, the full commit ID of the 'after' commit.
         public let afterCommitId: String
-        /// To establish the directionality of the comparison, the full commit ID of the 'before' commit.
+        /// To establish the directionality of the comparison, the full commit ID of the 'before' commit.  This is required for commenting on any commit unless that commit is the initial commit. 
         public let beforeCommitId: String?
         /// A unique, client-generated idempotency token that when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request will return information about the initial request that used that token.
         public let clientRequestToken: String?
@@ -2438,6 +3621,45 @@ extension CodeCommit {
     public enum RelativeFileVersionEnum: String, CustomStringConvertible, Codable {
         case before = "BEFORE"
         case after = "AFTER"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ReplaceContentEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "content", required: false, type: .blob), 
+            AWSShapeMember(label: "fileMode", required: false, type: .enum), 
+            AWSShapeMember(label: "filePath", required: true, type: .string), 
+            AWSShapeMember(label: "replacementType", required: true, type: .enum)
+        ]
+        /// The base-64 encoded content to use when the replacement type is USE_NEW_CONTENT.
+        public let content: Data?
+        /// The file mode to apply during conflict resoltion.
+        public let fileMode: FileModeTypeEnum?
+        /// The path of the conflicting file.
+        public let filePath: String
+        /// The replacement type to use when determining how to resolve the conflict.
+        public let replacementType: ReplacementTypeEnum
+
+        public init(content: Data? = nil, fileMode: FileModeTypeEnum? = nil, filePath: String, replacementType: ReplacementTypeEnum) {
+            self.content = content
+            self.fileMode = fileMode
+            self.filePath = filePath
+            self.replacementType = replacementType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case fileMode = "fileMode"
+            case filePath = "filePath"
+            case replacementType = "replacementType"
+        }
+    }
+
+    public enum ReplacementTypeEnum: String, CustomStringConvertible, Codable {
+        case keepBase = "KEEP_BASE"
+        case keepSource = "KEEP_SOURCE"
+        case keepDestination = "KEEP_DESTINATION"
+        case useNewContent = "USE_NEW_CONTENT"
         public var description: String { return self.rawValue }
     }
 

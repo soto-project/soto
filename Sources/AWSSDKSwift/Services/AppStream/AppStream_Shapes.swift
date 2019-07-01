@@ -2250,6 +2250,8 @@ extension AppStream {
 
     public enum PlatformType: String, CustomStringConvertible, Codable {
         case windows = "WINDOWS"
+        case windowsServer2016 = "WINDOWS_SERVER_2016"
+        case windowsServer2019 = "WINDOWS_SERVER_2019"
         public var description: String { return self.rawValue }
     }
 

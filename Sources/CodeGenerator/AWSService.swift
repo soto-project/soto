@@ -121,27 +121,12 @@ struct AWSService {
 
         case "list":
             let shapeJSON = apiJSON["shapes"][json["member"]["shape"].stringValue]
-            if let locationName = json["member"]["locationName"].string, json["flattened"].bool != true {
-                let _type = try shapeType(from: shapeJSON, level: level+1)
-                let repeats = Shape(name: json["member"]["shape"].stringValue, type: _type)
-                let shape = Shape(name: json["member"]["shape"].stringValue, type: .list(repeats))
-                let member = Member(
-                    name: locationName,
-                    required: false,
-                    shape: shape,
-                    location: nil,
-                    locationName: locationName,
-                    xmlNamespace: nil,
-                    isStreaming: false
-                )
-                type = .structure(StructureShape(members: [member], payload: nil))
-            } else {
-                let _type = try shapeType(from: shapeJSON, level: level+1)
-                let shape = Shape(name: json["member"]["shape"].stringValue, type: _type)
-                type = .list(shape)
-            }
+            let _type = try shapeType(from: shapeJSON, level: level+1)
+            let shape = Shape(name: json["member"]["shape"].stringValue, type: _type)
+            type = .list(shape)
 
         case "structure":
+            // Note that we need to do some extra preprocessing to clean up the formatting of the structure. Sometimes we have a "flattened" object which does not have extra fields (typically named `members`) wrapping the contents. Other times we do, and need to clear that out.
             var structure: [String: ShapeType] = [:]
             for (_, _struct) in json["members"].dictionaryValue {
                 let shapeJSON = apiJSON["shapes"][_struct["shape"].stringValue]
@@ -155,13 +140,37 @@ struct AWSService {
                 let requireds = json["required"].arrayValue.map({ $0.stringValue })
                 let dict = structure.filter({ $0.key == shapeName }).first!
                 let shape = Shape(name: dict.key, type: dict.value)
-                var location = Location(key: name, json: memberJSON)
+                var location = Location(json: memberJSON)
                 var locationName = memberJSON["locationName"].string
-                // if member shape was flattened and has a location name then use that as the location name
                 let shapeJSON = apiJSON["shapes"][shapeName]
-                if let flattenedLocationName = shapeJSON["member"]["locationName"].string, shapeJSON["flattened"] == true {
-                    location = Location(key:flattenedLocationName, json: shapeJSON["member"])
-                    locationName = flattenedLocationName
+                let memberLocationName = shapeJSON["member"]["locationName"].string
+                // if member shape was flattened and has a location name then use that as the location name
+                var encoding : ShapeEncoding? = nil
+                // xml, query and other (ie ec2) encoding needs collection encoding information
+                switch serviceProtocol.type {
+                case .query, .restxml, .other(_):
+                    encoding = ShapeEncoding(json: shapeJSON)
+                    if encoding != nil {
+                        // If this struct should be flattened, then convert from the original format to the equivalent flattened version.
+                        if memberJSON["flattened"].bool == true {
+                            switch encoding! {
+                            case .list(_):
+                                encoding = .flatList
+                            case .map(_, let key, let value):
+                                encoding = .flatMap(key: key, value: value)
+                            default:
+                                break;
+                            }
+                        }
+                    }
+                    
+                default:
+                    break
+                }
+                // If the list is flattened, then we need to pull out the right location name
+                if memberLocationName != nil, shapeJSON["flattened"].bool == true {
+                    location = Location(json: shapeJSON["member"])
+                    locationName = memberLocationName
                 }
                 return Member(
                     name: name,
@@ -169,6 +178,7 @@ struct AWSService {
                     shape: shape,
                     location: location,
                     locationName: locationName,
+                    shapeEncoding: encoding,
                     xmlNamespace: XMLNamespace(dictionary: memberDict),
                     isStreaming: memberJSON["streaming"].bool ?? false
                 )

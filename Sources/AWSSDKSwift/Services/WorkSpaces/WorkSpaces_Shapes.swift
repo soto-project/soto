@@ -173,6 +173,58 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
+    public struct CopyWorkspaceImageRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "SourceImageId", required: true, type: .string), 
+            AWSShapeMember(label: "SourceRegion", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// A description of the image.
+        public let description: String?
+        /// The name of the image.
+        public let name: String
+        /// The identifier of the source image.
+        public let sourceImageId: String
+        /// The identifier of the source Region.
+        public let sourceRegion: String
+        /// The tags for the image.
+        public let tags: [Tag]?
+
+        public init(description: String? = nil, name: String, sourceImageId: String, sourceRegion: String, tags: [Tag]? = nil) {
+            self.description = description
+            self.name = name
+            self.sourceImageId = sourceImageId
+            self.sourceRegion = sourceRegion
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case sourceImageId = "SourceImageId"
+            case sourceRegion = "SourceRegion"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CopyWorkspaceImageResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImageId", required: false, type: .string)
+        ]
+        /// The identifier of the image.
+        public let imageId: String?
+
+        public init(imageId: String? = nil) {
+            self.imageId = imageId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageId = "ImageId"
+        }
+    }
+
     public struct CreateIpGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GroupDesc", required: false, type: .string), 
@@ -722,6 +774,43 @@ extension WorkSpaces {
         private enum CodingKeys: String, CodingKey {
             case images = "Images"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeWorkspaceSnapshotsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WorkspaceId", required: true, type: .string)
+        ]
+        /// The identifier of the WorkSpace.
+        public let workspaceId: String
+
+        public init(workspaceId: String) {
+            self.workspaceId = workspaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workspaceId = "WorkspaceId"
+        }
+    }
+
+    public struct DescribeWorkspaceSnapshotsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RebuildSnapshots", required: false, type: .list), 
+            AWSShapeMember(label: "RestoreSnapshots", required: false, type: .list)
+        ]
+        /// Information about the snapshots that can be used to rebuild a WorkSpace. These snapshots include the root volume.
+        public let rebuildSnapshots: [Snapshot]?
+        /// Information about the snapshots that can be used to restore a WorkSpace. These snapshots include both the root volume and the user volume.
+        public let restoreSnapshots: [Snapshot]?
+
+        public init(rebuildSnapshots: [Snapshot]? = nil, restoreSnapshots: [Snapshot]? = nil) {
+            self.rebuildSnapshots = rebuildSnapshots
+            self.restoreSnapshots = restoreSnapshots
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rebuildSnapshots = "RebuildSnapshots"
+            case restoreSnapshots = "RestoreSnapshots"
         }
     }
 
@@ -1304,6 +1393,34 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
+    public struct RestoreWorkspaceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotCurrentVolumes", required: false, type: .boolean), 
+            AWSShapeMember(label: "WorkspaceId", required: true, type: .string)
+        ]
+        /// Indicates whether to create snapshots of the root volume and user volume before restoring the WorkSpace.
+        public let snapshotCurrentVolumes: Bool?
+        /// The identifier of the WorkSpace.
+        public let workspaceId: String
+
+        public init(snapshotCurrentVolumes: Bool? = nil, workspaceId: String) {
+            self.snapshotCurrentVolumes = snapshotCurrentVolumes
+            self.workspaceId = workspaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshotCurrentVolumes = "SnapshotCurrentVolumes"
+            case workspaceId = "WorkspaceId"
+        }
+    }
+
+    public struct RestoreWorkspaceResult: AWSShape {
+
+        public init() {
+        }
+
+    }
+
     public struct RevokeIpRulesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GroupId", required: true, type: .string), 
@@ -1352,6 +1469,22 @@ extension WorkSpaces {
         case autoStop = "AUTO_STOP"
         case alwaysOn = "ALWAYS_ON"
         public var description: String { return self.rawValue }
+    }
+
+    public struct Snapshot: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotTime", required: false, type: .timestamp)
+        ]
+        /// The time when the snapshot was created.
+        public let snapshotTime: TimeStamp?
+
+        public init(snapshotTime: TimeStamp? = nil) {
+            self.snapshotTime = snapshotTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshotTime = "SnapshotTime"
+        }
     }
 
     public struct StartRequest: AWSShape {
@@ -1989,6 +2122,7 @@ extension WorkSpaces {
         case rebooting = "REBOOTING"
         case starting = "STARTING"
         case rebuilding = "REBUILDING"
+        case restoring = "RESTORING"
         case maintenance = "MAINTENANCE"
         case adminMaintenance = "ADMIN_MAINTENANCE"
         case terminating = "TERMINATING"

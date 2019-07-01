@@ -186,7 +186,7 @@ extension CloudSearch {
 
     public struct BuildSuggestersResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FieldNames", required: false, type: .list)
+            AWSShapeMember(label: "FieldNames", required: false, type: .list, encoding: .list(member:"member"))
         ]
         public let fieldNames: [String]?
 
@@ -620,7 +620,7 @@ extension CloudSearch {
 
     public struct DescribeAnalysisSchemesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AnalysisSchemeNames", required: false, type: .list), 
+            AWSShapeMember(label: "AnalysisSchemeNames", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Deployed", required: false, type: .boolean), 
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
@@ -646,7 +646,7 @@ extension CloudSearch {
 
     public struct DescribeAnalysisSchemesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AnalysisSchemes", required: true, type: .list)
+            AWSShapeMember(label: "AnalysisSchemes", required: true, type: .list, encoding: .list(member:"member"))
         ]
         /// The analysis scheme descriptions.
         public let analysisSchemes: [AnalysisSchemeStatus]
@@ -699,7 +699,7 @@ extension CloudSearch {
 
     public struct DescribeDomainsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainNames", required: false, type: .list)
+            AWSShapeMember(label: "DomainNames", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The names of the domains you want to include in the response.
         public let domainNames: [String]?
@@ -715,7 +715,7 @@ extension CloudSearch {
 
     public struct DescribeDomainsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainStatusList", required: true, type: .list)
+            AWSShapeMember(label: "DomainStatusList", required: true, type: .list, encoding: .list(member:"member"))
         ]
         public let domainStatusList: [DomainStatus]
 
@@ -732,7 +732,7 @@ extension CloudSearch {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Deployed", required: false, type: .boolean), 
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "ExpressionNames", required: false, type: .list)
+            AWSShapeMember(label: "ExpressionNames", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public let deployed: Bool?
@@ -756,7 +756,7 @@ extension CloudSearch {
 
     public struct DescribeExpressionsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Expressions", required: true, type: .list)
+            AWSShapeMember(label: "Expressions", required: true, type: .list, encoding: .list(member:"member"))
         ]
         /// The expressions configured for the domain.
         public let expressions: [ExpressionStatus]
@@ -774,7 +774,7 @@ extension CloudSearch {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Deployed", required: false, type: .boolean), 
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "FieldNames", required: false, type: .list)
+            AWSShapeMember(label: "FieldNames", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public let deployed: Bool?
@@ -798,7 +798,7 @@ extension CloudSearch {
 
     public struct DescribeIndexFieldsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexFields", required: true, type: .list)
+            AWSShapeMember(label: "IndexFields", required: true, type: .list, encoding: .list(member:"member"))
         ]
         /// The index fields configured for the domain.
         public let indexFields: [IndexFieldStatus]
@@ -883,7 +883,7 @@ extension CloudSearch {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Deployed", required: false, type: .boolean), 
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "SuggesterNames", required: false, type: .list)
+            AWSShapeMember(label: "SuggesterNames", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public let deployed: Bool?
@@ -907,7 +907,7 @@ extension CloudSearch {
 
     public struct DescribeSuggestersResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Suggesters", required: true, type: .list)
+            AWSShapeMember(label: "Suggesters", required: true, type: .list, encoding: .list(member:"member"))
         ]
         /// The suggesters configured for the domain specified in the request.
         public let suggesters: [SuggesterStatus]
@@ -1152,7 +1152,7 @@ extension CloudSearch {
 
     public struct IndexDocumentsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FieldNames", required: false, type: .list)
+            AWSShapeMember(label: "FieldNames", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The names of the fields that are currently being indexed.
         public let fieldNames: [String]?
@@ -1402,7 +1402,7 @@ extension CloudSearch {
 
     public struct ListDomainNamesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainNames", required: false, type: .map)
+            AWSShapeMember(label: "DomainNames", required: false, type: .map, encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
         /// The names of the search domains owned by an account.
         public let domainNames: [String: String]?

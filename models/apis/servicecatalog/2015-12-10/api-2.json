@@ -178,7 +178,8 @@
         {"shape":"ResourceNotFoundException"},
         {"shape":"LimitExceededException"},
         {"shape":"InvalidParametersException"},
-        {"shape":"OperationNotSupportedException"}
+        {"shape":"OperationNotSupportedException"},
+        {"shape":"InvalidStateException"}
       ]
     },
     "CreateProduct":{
@@ -289,7 +290,8 @@
       "errors":[
         {"shape":"ResourceNotFoundException"},
         {"shape":"InvalidParametersException"},
-        {"shape":"OperationNotSupportedException"}
+        {"shape":"OperationNotSupportedException"},
+        {"shape":"InvalidStateException"}
       ]
     },
     "DeleteProduct":{
@@ -2948,7 +2950,8 @@
         "Id":{"shape":"Id"},
         "Name":{"shape":"ProvisioningArtifactName"},
         "Description":{"shape":"ProvisioningArtifactDescription"},
-        "CreatedTime":{"shape":"ProvisioningArtifactCreatedTime"}
+        "CreatedTime":{"shape":"ProvisioningArtifactCreatedTime"},
+        "Guidance":{"shape":"ProvisioningArtifactGuidance"}
       }
     },
     "ProvisioningArtifactActive":{"type":"boolean"},
@@ -2962,12 +2965,20 @@
         "Description":{"shape":"ProvisioningArtifactName"},
         "Type":{"shape":"ProvisioningArtifactType"},
         "CreatedTime":{"shape":"CreationTime"},
-        "Active":{"shape":"ProvisioningArtifactActive"}
+        "Active":{"shape":"ProvisioningArtifactActive"},
+        "Guidance":{"shape":"ProvisioningArtifactGuidance"}
       }
     },
     "ProvisioningArtifactDetails":{
       "type":"list",
       "member":{"shape":"ProvisioningArtifactDetail"}
+    },
+    "ProvisioningArtifactGuidance":{
+      "type":"string",
+      "enum":[
+        "DEFAULT",
+        "DEPRECATED"
+      ]
     },
     "ProvisioningArtifactInfo":{
       "type":"map",
@@ -3806,7 +3817,8 @@
         "ProvisioningArtifactId":{"shape":"Id"},
         "Name":{"shape":"ProvisioningArtifactName"},
         "Description":{"shape":"ProvisioningArtifactDescription"},
-        "Active":{"shape":"ProvisioningArtifactActive"}
+        "Active":{"shape":"ProvisioningArtifactActive"},
+        "Guidance":{"shape":"ProvisioningArtifactGuidance"}
       }
     },
     "UpdateProvisioningArtifactOutput":{

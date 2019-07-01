@@ -62,7 +62,7 @@ extension ELBV2 {
 
     public struct AddListenerCertificatesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificates", required: true, type: .list), 
+            AWSShapeMember(label: "Certificates", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ListenerArn", required: true, type: .string)
         ]
         /// The certificate to add. You can specify one certificate per call. Set CertificateArn to the certificate ARN but do not set IsDefault.
@@ -83,9 +83,9 @@ extension ELBV2 {
 
     public struct AddListenerCertificatesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificates", required: false, type: .list)
+            AWSShapeMember(label: "Certificates", required: false, type: .list, encoding: .list(member:"member"))
         ]
-        /// Information about the certificates.
+        /// Information about the certificates in the certificate list.
         public let certificates: [Certificate]?
 
         public init(certificates: [Certificate]? = nil) {
@@ -99,8 +99,8 @@ extension ELBV2 {
 
     public struct AddTagsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArns", required: true, type: .list), 
-            AWSShapeMember(label: "Tags", required: true, type: .list)
+            AWSShapeMember(label: "ResourceArns", required: true, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Tags", required: true, type: .list, encoding: .list(member:"member"))
         ]
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArns: [String]
@@ -134,7 +134,7 @@ extension ELBV2 {
 
     public struct AuthenticateCognitoActionConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationRequestExtraParams", required: false, type: .map), 
+            AWSShapeMember(label: "AuthenticationRequestExtraParams", required: false, type: .map, encoding: .map(entry:"entry", key: "key", value: "value")), 
             AWSShapeMember(label: "OnUnauthenticatedRequest", required: false, type: .enum), 
             AWSShapeMember(label: "Scope", required: false, type: .string), 
             AWSShapeMember(label: "SessionCookieName", required: false, type: .string), 
@@ -192,7 +192,7 @@ extension ELBV2 {
 
     public struct AuthenticateOidcActionConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthenticationRequestExtraParams", required: false, type: .map), 
+            AWSShapeMember(label: "AuthenticationRequestExtraParams", required: false, type: .map, encoding: .map(entry:"entry", key: "key", value: "value")), 
             AWSShapeMember(label: "AuthorizationEndpoint", required: true, type: .string), 
             AWSShapeMember(label: "ClientId", required: true, type: .string), 
             AWSShapeMember(label: "ClientSecret", required: false, type: .string), 
@@ -263,7 +263,7 @@ extension ELBV2 {
 
     public struct AvailabilityZone: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBalancerAddresses", required: false, type: .list), 
+            AWSShapeMember(label: "LoadBalancerAddresses", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "SubnetId", required: false, type: .string), 
             AWSShapeMember(label: "ZoneName", required: false, type: .string)
         ]
@@ -294,7 +294,7 @@ extension ELBV2 {
         ]
         /// The Amazon Resource Name (ARN) of the certificate.
         public let certificateArn: String?
-        /// Indicates whether the certificate is the default certificate. Do not set IsDefault when specifying a certificate as an input parameter.
+        /// Indicates whether the certificate is the default certificate. Do not set this value when specifying a certificate as an input. This value is not included in the output when describing a listener, but is included when describing listener certificates.
         public let isDefault: Bool?
 
         public init(certificateArn: String? = nil, isDefault: Bool? = nil) {
@@ -331,22 +331,22 @@ extension ELBV2 {
 
     public struct CreateListenerInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificates", required: false, type: .list), 
-            AWSShapeMember(label: "DefaultActions", required: true, type: .list), 
+            AWSShapeMember(label: "Certificates", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "DefaultActions", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string), 
             AWSShapeMember(label: "Port", required: true, type: .integer), 
             AWSShapeMember(label: "Protocol", required: true, type: .enum), 
             AWSShapeMember(label: "SslPolicy", required: false, type: .string)
         ]
-        /// [HTTPS and TLS listeners] The default SSL server certificate. You must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not set IsDefault. To create a certificate list, use AddListenerCertificates.
+        /// [HTTPS and TLS listeners] The default certificate for the listener. You must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not set IsDefault. To create a certificate list for the listener, use AddListenerCertificates.
         public let certificates: [Certificate]?
-        /// The actions for the default rule. The rule must include one forward action or one or more fixed-response actions. If the action type is forward, you specify a target group. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer. The protocol of the target group must be TCP or TLS for a Network Load Balancer. [HTTPS listeners] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listeners] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
+        /// The actions for the default rule. The rule must include one forward action or one or more fixed-response actions. If the action type is forward, you specify a target group. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer. The protocol of the target group must be TCP, TLS, UDP, or TCP_UDP for a Network Load Balancer. [HTTPS listeners] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listeners] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
         public let defaultActions: [Action]
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
         /// The port on which the load balancer is listening.
         public let port: Int32
-        /// The protocol for connections from clients to the load balancer. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocols are TCP and TLS.
+        /// The protocol for connections from clients to the load balancer. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocols are TCP, TLS, UDP, and TCP_UDP.
         public let `protocol`: ProtocolEnum
         /// [HTTPS and TLS listeners] The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
         public let sslPolicy: String?
@@ -372,7 +372,7 @@ extension ELBV2 {
 
     public struct CreateListenerOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Listeners", required: false, type: .list)
+            AWSShapeMember(label: "Listeners", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Information about the listener.
         public let listeners: [Listener]?
@@ -391,10 +391,10 @@ extension ELBV2 {
             AWSShapeMember(label: "IpAddressType", required: false, type: .enum), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Scheme", required: false, type: .enum), 
-            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
-            AWSShapeMember(label: "SubnetMappings", required: false, type: .list), 
-            AWSShapeMember(label: "Subnets", required: false, type: .list), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "SubnetMappings", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Subnets", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
         /// [Application Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4.
@@ -439,7 +439,7 @@ extension ELBV2 {
 
     public struct CreateLoadBalancerOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBalancers", required: false, type: .list)
+            AWSShapeMember(label: "LoadBalancers", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Information about the load balancer.
         public let loadBalancers: [LoadBalancer]?
@@ -455,14 +455,14 @@ extension ELBV2 {
 
     public struct CreateRuleInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Actions", required: true, type: .list), 
-            AWSShapeMember(label: "Conditions", required: true, type: .list), 
+            AWSShapeMember(label: "Actions", required: true, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Conditions", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ListenerArn", required: true, type: .string), 
             AWSShapeMember(label: "Priority", required: true, type: .integer)
         ]
-        /// The actions. Each rule must include exactly one of the following types of actions: forward, fixed-response, or redirect. If the action type is forward, you specify a target group. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer. The protocol of the target group must be TCP or TLS for a Network Load Balancer. [HTTPS listeners] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listeners] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
+        /// The actions. Each rule must include exactly one of the following types of actions: forward, fixed-response, or redirect. If the action type is forward, you specify a target group. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer. The protocol of the target group must be TCP, TLS, UDP, or TCP_UDP for a Network Load Balancer. [HTTPS listeners] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listeners] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
         public let actions: [Action]
-        /// The conditions. Each condition specifies a field name and a single value. If the field name is host-header, you can specify a single host name (for example, my.example.com). A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters. You can include up to three wildcard characters.   A-Z, a-z, 0-9   - .   * (matches 0 or more characters)   ? (matches exactly 1 character)   If the field name is path-pattern, you can specify a single path pattern. A path pattern is case-sensitive, can be up to 128 characters in length, and can contain any of the following characters. You can include up to three wildcard characters.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
+        /// The conditions. Each rule can include zero or one of the following conditions: http-request-method, host-header, path-pattern, and source-ip, and zero or more of the following conditions: http-header and query-string.
         public let conditions: [RuleCondition]
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
@@ -486,7 +486,7 @@ extension ELBV2 {
 
     public struct CreateRuleOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rules", required: false, type: .list)
+            AWSShapeMember(label: "Rules", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Information about the rule.
         public let rules: [Rule]?
@@ -517,19 +517,19 @@ extension ELBV2 {
             AWSShapeMember(label: "UnhealthyThresholdCount", required: false, type: .integer), 
             AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
-        /// Indicates whether health checks are enabled. If the target type is instance or ip, the default is true. If the target type is lambda, the default is false.
+        /// Indicates whether health checks are enabled. If the target type is lambda, health checks are disabled by default but can be enabled. If the target type is instance or ip, health checks are always enabled and cannot be disabled.
         public let healthCheckEnabled: Bool?
-        /// The approximate amount of time, in seconds, between health checks of an individual target. For Application Load Balancers, the range is 5–300 seconds. For Network Load Balancers, the supported values are 10 or 30 seconds. If the target type is instance or ip, the default is 30 seconds. If the target type is lambda, the default is 35 seconds.
+        /// The approximate amount of time, in seconds, between health checks of an individual target. For HTTP and HTTPS health checks, the range is 5–300 seconds. For TCP health checks, the supported values are 10 and 30 seconds. If the target type is instance or ip, the default is 30 seconds. If the target type is lambda, the default is 35 seconds.
         public let healthCheckIntervalSeconds: Int32?
         /// [HTTP/HTTPS health checks] The ping path that is the destination on the targets for health checks. The default is /.
         public let healthCheckPath: String?
         /// The port the load balancer uses when performing health checks on targets. The default is traffic-port, which is the port on which each target receives traffic from the load balancer.
         public let healthCheckPort: String?
-        /// The protocol the load balancer uses when performing health checks on targets. For Application Load Balancers, the default is HTTP. For Network Load Balancers, the default is TCP. The TCP protocol is supported for health checks only if the protocol of the target group is TCP or TLS. The TLS protocol is not supported for health checks.
+        /// The protocol the load balancer uses when performing health checks on targets. For Application Load Balancers, the default is HTTP. For Network Load Balancers, the default is TCP. The TCP protocol is supported for health checks only if the protocol of the target group is TCP, TLS, UDP, or TCP_UDP. The TLS, UDP, and TCP_UDP protocols are not supported for health checks.
         public let healthCheckProtocol: ProtocolEnum?
-        /// The amount of time, in seconds, during which no response from a target means a failed health check. For Application Load Balancers, the range is 2–120 seconds and the default is 5 seconds if the target type is instance or ip and 30 seconds if the target type is lambda. For Network Load Balancers, this is 10 seconds for TCP and HTTPS health checks and 6 seconds for HTTP health checks.
+        /// The amount of time, in seconds, during which no response from a target means a failed health check. For target groups with a protocol of HTTP or HTTPS, the default is 5 seconds. For target groups with a protocol of TCP or TLS, this value must be 6 seconds for HTTP health checks and 10 seconds for TCP and HTTPS health checks. If the target type is lambda, the default is 30 seconds.
         public let healthCheckTimeoutSeconds: Int32?
-        /// The number of consecutive health checks successes required before considering an unhealthy target healthy. For Application Load Balancers, the default is 5. For Network Load Balancers, the default is 3.
+        /// The number of consecutive health checks successes required before considering an unhealthy target healthy. For target groups with a protocol of HTTP or HTTPS, the default is 5. For target groups with a protocol of TCP or TLS, the default is 3. If the target type is lambda, the default is 5.
         public let healthyThresholdCount: Int32?
         /// [HTTP/HTTPS health checks] The HTTP codes to use when checking for a successful response from a target.
         public let matcher: Matcher?
@@ -537,11 +537,11 @@ extension ELBV2 {
         public let name: String
         /// The port on which the targets receive traffic. This port is used unless you specify a port override when registering the target. If the target is a Lambda function, this parameter does not apply.
         public let port: Int32?
-        /// The protocol to use for routing traffic to the targets. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocols are TCP and TLS. If the target is a Lambda function, this parameter does not apply.
+        /// The protocol to use for routing traffic to the targets. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocols are TCP, TLS, UDP, or TCP_UDP. A TCP_UDP listener must be associated with a TCP_UDP target group. If the target is a Lambda function, this parameter does not apply.
         public let `protocol`: ProtocolEnum?
-        /// The type of target that you must specify when registering targets with this target group. You can't specify targets for a target group using more than one target type.    instance - Targets are specified by instance ID. This is the default value.    ip - Targets are specified by IP address. You can specify IP addresses from the subnets of the virtual private cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't specify publicly routable IP addresses.    lambda - The target groups contains a single Lambda function.  
+        /// The type of target that you must specify when registering targets with this target group. You can't specify targets for a target group using more than one target type.    instance - Targets are specified by instance ID. This is the default value. If the target group protocol is UDP or TCP_UDP, the target type must be instance.    ip - Targets are specified by IP address. You can specify IP addresses from the subnets of the virtual private cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't specify publicly routable IP addresses.    lambda - The target groups contains a single Lambda function.  
         public let targetType: TargetTypeEnum?
-        /// The number of consecutive health check failures required before considering a target unhealthy. For Application Load Balancers, the default is 2. For Network Load Balancers, this value must be the same as the healthy threshold count.
+        /// The number of consecutive health check failures required before considering a target unhealthy. For target groups with a protocol of HTTP or HTTPS, the default is 2. For target groups with a protocol of TCP or TLS, this value must be the same as the healthy threshold count. If the target type is lambda, the default is 2.
         public let unhealthyThresholdCount: Int32?
         /// The identifier of the virtual private cloud (VPC). If the target is a Lambda function, this parameter does not apply.
         public let vpcId: String?
@@ -583,7 +583,7 @@ extension ELBV2 {
 
     public struct CreateTargetGroupOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetGroups", required: false, type: .list)
+            AWSShapeMember(label: "TargetGroups", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Information about the target group.
         public let targetGroups: [TargetGroup]?
@@ -692,7 +692,7 @@ extension ELBV2 {
     public struct DeregisterTargetsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetGroupArn", required: true, type: .string), 
-            AWSShapeMember(label: "Targets", required: true, type: .list)
+            AWSShapeMember(label: "Targets", required: true, type: .list, encoding: .list(member:"member"))
         ]
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
@@ -740,12 +740,12 @@ extension ELBV2 {
 
     public struct DescribeAccountLimitsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limits", required: false, type: .list), 
+            AWSShapeMember(label: "Limits", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
         /// Information about the limits.
         public let limits: [Limit]?
-        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
+        /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
 
         public init(limits: [Limit]? = nil, nextMarker: String? = nil) {
@@ -787,12 +787,12 @@ extension ELBV2 {
 
     public struct DescribeListenerCertificatesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificates", required: false, type: .list), 
+            AWSShapeMember(label: "Certificates", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
         /// Information about the certificates.
         public let certificates: [Certificate]?
-        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
+        /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
 
         public init(certificates: [Certificate]? = nil, nextMarker: String? = nil) {
@@ -808,7 +808,7 @@ extension ELBV2 {
 
     public struct DescribeListenersInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ListenerArns", required: false, type: .list), 
+            AWSShapeMember(label: "ListenerArns", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "LoadBalancerArn", required: false, type: .string), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "PageSize", required: false, type: .integer)
@@ -839,12 +839,12 @@ extension ELBV2 {
 
     public struct DescribeListenersOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Listeners", required: false, type: .list), 
+            AWSShapeMember(label: "Listeners", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
         /// Information about the listeners.
         public let listeners: [Listener]?
-        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
+        /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
 
         public init(listeners: [Listener]? = nil, nextMarker: String? = nil) {
@@ -876,7 +876,7 @@ extension ELBV2 {
 
     public struct DescribeLoadBalancerAttributesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .list)
+            AWSShapeMember(label: "Attributes", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Information about the load balancer attributes.
         public let attributes: [LoadBalancerAttribute]?
@@ -892,9 +892,9 @@ extension ELBV2 {
 
     public struct DescribeLoadBalancersInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBalancerArns", required: false, type: .list), 
+            AWSShapeMember(label: "LoadBalancerArns", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Names", required: false, type: .list), 
+            AWSShapeMember(label: "Names", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "PageSize", required: false, type: .integer)
         ]
         /// The Amazon Resource Names (ARN) of the load balancers. You can specify up to 20 load balancers in a single call.
@@ -923,12 +923,12 @@ extension ELBV2 {
 
     public struct DescribeLoadBalancersOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBalancers", required: false, type: .list), 
+            AWSShapeMember(label: "LoadBalancers", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
         /// Information about the load balancers.
         public let loadBalancers: [LoadBalancer]?
-        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
+        /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
 
         public init(loadBalancers: [LoadBalancer]? = nil, nextMarker: String? = nil) {
@@ -947,7 +947,7 @@ extension ELBV2 {
             AWSShapeMember(label: "ListenerArn", required: false, type: .string), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "PageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "RuleArns", required: false, type: .list)
+            AWSShapeMember(label: "RuleArns", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String?
@@ -976,9 +976,9 @@ extension ELBV2 {
     public struct DescribeRulesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "Rules", required: false, type: .list)
+            AWSShapeMember(label: "Rules", required: false, type: .list, encoding: .list(member:"member"))
         ]
-        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
+        /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
         /// Information about the rules.
         public let rules: [Rule]?
@@ -997,7 +997,7 @@ extension ELBV2 {
     public struct DescribeSSLPoliciesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Names", required: false, type: .list), 
+            AWSShapeMember(label: "Names", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "PageSize", required: false, type: .integer)
         ]
         /// The marker for the next set of results. (You received this marker from a previous call.)
@@ -1023,9 +1023,9 @@ extension ELBV2 {
     public struct DescribeSSLPoliciesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "SslPolicies", required: false, type: .list)
+            AWSShapeMember(label: "SslPolicies", required: false, type: .list, encoding: .list(member:"member"))
         ]
-        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
+        /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
         /// Information about the policies.
         public let sslPolicies: [SslPolicy]?
@@ -1043,7 +1043,7 @@ extension ELBV2 {
 
     public struct DescribeTagsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArns", required: true, type: .list)
+            AWSShapeMember(label: "ResourceArns", required: true, type: .list, encoding: .list(member:"member"))
         ]
         /// The Amazon Resource Names (ARN) of the resources.
         public let resourceArns: [String]
@@ -1059,7 +1059,7 @@ extension ELBV2 {
 
     public struct DescribeTagsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagDescriptions", required: false, type: .list)
+            AWSShapeMember(label: "TagDescriptions", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Information about the tags.
         public let tagDescriptions: [TagDescription]?
@@ -1091,7 +1091,7 @@ extension ELBV2 {
 
     public struct DescribeTargetGroupAttributesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .list)
+            AWSShapeMember(label: "Attributes", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Information about the target group attributes
         public let attributes: [TargetGroupAttribute]?
@@ -1109,9 +1109,9 @@ extension ELBV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerArn", required: false, type: .string), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Names", required: false, type: .list), 
+            AWSShapeMember(label: "Names", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "PageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "TargetGroupArns", required: false, type: .list)
+            AWSShapeMember(label: "TargetGroupArns", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String?
@@ -1144,9 +1144,9 @@ extension ELBV2 {
     public struct DescribeTargetGroupsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "TargetGroups", required: false, type: .list)
+            AWSShapeMember(label: "TargetGroups", required: false, type: .list, encoding: .list(member:"member"))
         ]
-        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
+        /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
         /// Information about the target groups.
         public let targetGroups: [TargetGroup]?
@@ -1165,7 +1165,7 @@ extension ELBV2 {
     public struct DescribeTargetHealthInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetGroupArn", required: true, type: .string), 
-            AWSShapeMember(label: "Targets", required: false, type: .list)
+            AWSShapeMember(label: "Targets", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
@@ -1185,7 +1185,7 @@ extension ELBV2 {
 
     public struct DescribeTargetHealthOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetHealthDescriptions", required: false, type: .list)
+            AWSShapeMember(label: "TargetHealthDescriptions", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Information about the health of the targets.
         public let targetHealthDescriptions: [TargetHealthDescription]?
@@ -1227,8 +1227,9 @@ extension ELBV2 {
 
     public struct HostHeaderConditionConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Values", required: false, type: .list)
+            AWSShapeMember(label: "Values", required: false, type: .list, encoding: .list(member:"member"))
         ]
+        /// One or more host names. The maximum size of each name is 128 characters. The comparison is case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If you specify multiple strings, the condition is satisfied if one of the strings matches the host name.
         public let values: [String]?
 
         public init(values: [String]? = nil) {
@@ -1243,9 +1244,11 @@ extension ELBV2 {
     public struct HttpHeaderConditionConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HttpHeaderName", required: false, type: .string), 
-            AWSShapeMember(label: "Values", required: false, type: .list)
+            AWSShapeMember(label: "Values", required: false, type: .list, encoding: .list(member:"member"))
         ]
+        /// The name of the HTTP header field. The maximum size is 40 characters. The header name is case insensitive. The allowed characters are specified by RFC 7230. Wildcards are not supported. You can't use an HTTP header condition to specify the host header. Use HostHeaderConditionConfig to specify a host header condition.
         public let httpHeaderName: String?
+        /// One or more strings to compare against the value of the HTTP header. The maximum size of each string is 128 characters. The comparison strings are case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request, we search them in order until a match is found. If you specify multiple strings, the condition is satisfied if one of the strings matches the value of the HTTP header. To require that all of the strings are a match, create one condition per string.
         public let values: [String]?
 
         public init(httpHeaderName: String? = nil, values: [String]? = nil) {
@@ -1261,8 +1264,9 @@ extension ELBV2 {
 
     public struct HttpRequestMethodConditionConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Values", required: false, type: .list)
+            AWSShapeMember(label: "Values", required: false, type: .list, encoding: .list(member:"member"))
         ]
+        /// The name of the request method. The maximum size is 40 characters. The allowed characters are A-Z, hyphen (-), and underscore (_). The comparison is case sensitive. Wildcards are not supported; therefore, the method name must be an exact match. If you specify multiple strings, the condition is satisfied if one of the strings matches the HTTP request method. We recommend that you route GET and HEAD requests in the same way, because the response to a HEAD request may be cached.
         public let values: [String]?
 
         public init(values: [String]? = nil) {
@@ -1303,15 +1307,15 @@ extension ELBV2 {
 
     public struct Listener: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificates", required: false, type: .list), 
-            AWSShapeMember(label: "DefaultActions", required: false, type: .list), 
+            AWSShapeMember(label: "Certificates", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "DefaultActions", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ListenerArn", required: false, type: .string), 
             AWSShapeMember(label: "LoadBalancerArn", required: false, type: .string), 
             AWSShapeMember(label: "Port", required: false, type: .integer), 
             AWSShapeMember(label: "Protocol", required: false, type: .enum), 
             AWSShapeMember(label: "SslPolicy", required: false, type: .string)
         ]
-        /// The SSL server certificate. You must provide a certificate if the protocol is HTTPS or TLS.
+        /// [HTTPS or TLS listener] The default certificate for the listener.
         public let certificates: [Certificate]?
         /// The default actions for the listener.
         public let defaultActions: [Action]?
@@ -1323,7 +1327,7 @@ extension ELBV2 {
         public let port: Int32?
         /// The protocol for connections from clients to the load balancer.
         public let `protocol`: ProtocolEnum?
-        /// The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
+        /// [HTTPS or TLS listener] The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
         public let sslPolicy: String?
 
         public init(certificates: [Certificate]? = nil, defaultActions: [Action]? = nil, listenerArn: String? = nil, loadBalancerArn: String? = nil, port: Int32? = nil, protocol: ProtocolEnum? = nil, sslPolicy: String? = nil) {
@@ -1349,7 +1353,7 @@ extension ELBV2 {
 
     public struct LoadBalancer: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "CanonicalHostedZoneId", required: false, type: .string), 
             AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "DNSName", required: false, type: .string), 
@@ -1357,7 +1361,7 @@ extension ELBV2 {
             AWSShapeMember(label: "LoadBalancerArn", required: false, type: .string), 
             AWSShapeMember(label: "LoadBalancerName", required: false, type: .string), 
             AWSShapeMember(label: "Scheme", required: false, type: .enum), 
-            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "State", required: false, type: .structure), 
             AWSShapeMember(label: "Type", required: false, type: .enum), 
             AWSShapeMember(label: "VpcId", required: false, type: .string)
@@ -1519,22 +1523,22 @@ extension ELBV2 {
 
     public struct ModifyListenerInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificates", required: false, type: .list), 
-            AWSShapeMember(label: "DefaultActions", required: false, type: .list), 
+            AWSShapeMember(label: "Certificates", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "DefaultActions", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ListenerArn", required: true, type: .string), 
             AWSShapeMember(label: "Port", required: false, type: .integer), 
             AWSShapeMember(label: "Protocol", required: false, type: .enum), 
             AWSShapeMember(label: "SslPolicy", required: false, type: .string)
         ]
-        /// [HTTPS and TLS listeners] The default SSL server certificate. You must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not set IsDefault. To create a certificate list, use AddListenerCertificates.
+        /// [HTTPS and TLS listeners] The default certificate for the listener. You must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not set IsDefault. To create a certificate list, use AddListenerCertificates.
         public let certificates: [Certificate]?
-        /// The actions for the default rule. The rule must include one forward action or one or more fixed-response actions. If the action type is forward, you specify a target group. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer. The protocol of the target group must be TCP or TLS for a Network Load Balancer. [HTTPS listeners] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listeners] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
+        /// The actions for the default rule. The rule must include one forward action or one or more fixed-response actions. If the action type is forward, you specify a target group. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer. The protocol of the target group must be TCP, TLS, UDP, or TCP_UDP for a Network Load Balancer. [HTTPS listeners] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listeners] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
         public let defaultActions: [Action]?
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
         /// The port for connections from clients to the load balancer.
         public let port: Int32?
-        /// The protocol for connections from clients to the load balancer. Application Load Balancers support the HTTP and HTTPS protocols. Network Load Balancers support the TCP and TLS protocols.
+        /// The protocol for connections from clients to the load balancer. Application Load Balancers support the HTTP and HTTPS protocols. Network Load Balancers support the TCP, TLS, UDP, and TCP_UDP protocols.
         public let `protocol`: ProtocolEnum?
         /// [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. For more information, see Security Policies in the Application Load Balancers Guide.
         public let sslPolicy: String?
@@ -1560,7 +1564,7 @@ extension ELBV2 {
 
     public struct ModifyListenerOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Listeners", required: false, type: .list)
+            AWSShapeMember(label: "Listeners", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Information about the modified listener.
         public let listeners: [Listener]?
@@ -1576,7 +1580,7 @@ extension ELBV2 {
 
     public struct ModifyLoadBalancerAttributesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: true, type: .list), 
+            AWSShapeMember(label: "Attributes", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string)
         ]
         /// The load balancer attributes.
@@ -1597,7 +1601,7 @@ extension ELBV2 {
 
     public struct ModifyLoadBalancerAttributesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .list)
+            AWSShapeMember(label: "Attributes", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Information about the load balancer attributes.
         public let attributes: [LoadBalancerAttribute]?
@@ -1613,13 +1617,13 @@ extension ELBV2 {
 
     public struct ModifyRuleInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Actions", required: false, type: .list), 
-            AWSShapeMember(label: "Conditions", required: false, type: .list), 
+            AWSShapeMember(label: "Actions", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Conditions", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "RuleArn", required: true, type: .string)
         ]
-        /// The actions. If the action type is forward, you specify a target group. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer. The protocol of the target group must be TCP or TLS for a Network Load Balancer. [HTTPS listeners] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listeners] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
+        /// The actions. Each rule must include exactly one of the following types of actions: forward, fixed-response, or redirect. If the action type is forward, you specify a target group. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer. The protocol of the target group must be TCP, TLS, UDP, or TCP_UDP for a Network Load Balancer. [HTTPS listeners] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listeners] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
         public let actions: [Action]?
-        /// The conditions. Each condition specifies a field name and a single value. If the field name is host-header, you can specify a single host name (for example, my.example.com). A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters. You can include up to three wildcard characters.   A-Z, a-z, 0-9   - .   * (matches 0 or more characters)   ? (matches exactly 1 character)   If the field name is path-pattern, you can specify a single path pattern. A path pattern is case-sensitive, can be up to 128 characters in length, and can contain any of the following characters. You can include up to three wildcard characters.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
+        /// The conditions. Each rule can include zero or one of the following conditions: http-request-method, host-header, path-pattern, and source-ip, and zero or more of the following conditions: http-header and query-string.
         public let conditions: [RuleCondition]?
         /// The Amazon Resource Name (ARN) of the rule.
         public let ruleArn: String
@@ -1639,7 +1643,7 @@ extension ELBV2 {
 
     public struct ModifyRuleOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rules", required: false, type: .list)
+            AWSShapeMember(label: "Rules", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Information about the modified rule.
         public let rules: [Rule]?
@@ -1655,7 +1659,7 @@ extension ELBV2 {
 
     public struct ModifyTargetGroupAttributesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: true, type: .list), 
+            AWSShapeMember(label: "Attributes", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "TargetGroupArn", required: true, type: .string)
         ]
         /// The attributes.
@@ -1676,7 +1680,7 @@ extension ELBV2 {
 
     public struct ModifyTargetGroupAttributesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .list)
+            AWSShapeMember(label: "Attributes", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Information about the attributes.
         public let attributes: [TargetGroupAttribute]?
@@ -1705,13 +1709,13 @@ extension ELBV2 {
         ]
         /// Indicates whether health checks are enabled.
         public let healthCheckEnabled: Bool?
-        /// The approximate amount of time, in seconds, between health checks of an individual target. For Application Load Balancers, the range is 5–300 seconds. For Network Load Balancers, the supported values are 10 or 30 seconds. If the protocol of the target group is TCP, you can't modify this setting.
+        /// The approximate amount of time, in seconds, between health checks of an individual target. For Application Load Balancers, the range is 5 to 300 seconds. For Network Load Balancers, the supported values are 10 or 30 seconds. If the protocol of the target group is TCP, you can't modify this setting.
         public let healthCheckIntervalSeconds: Int32?
         /// [HTTP/HTTPS health checks] The ping path that is the destination for the health check request.
         public let healthCheckPath: String?
         /// The port the load balancer uses when performing health checks on targets.
         public let healthCheckPort: String?
-        /// The protocol the load balancer uses when performing health checks on targets. The TCP protocol is supported for health checks only if the protocol of the target group is TCP or TLS. The TLS protocol is not supported for health checks. If the protocol of the target group is TCP, you can't modify this setting.
+        /// The protocol the load balancer uses when performing health checks on targets. The TCP protocol is supported for health checks only if the protocol of the target group is TCP, TLS, UDP, or TCP_UDP. The TLS, UDP, and TCP_UDP protocols are not supported for health checks. If the protocol of the target group is TCP, you can't modify this setting.
         public let healthCheckProtocol: ProtocolEnum?
         /// [HTTP/HTTPS health checks] The amount of time, in seconds, during which no response means a failed health check. If the protocol of the target group is TCP, you can't modify this setting.
         public let healthCheckTimeoutSeconds: Int32?
@@ -1753,7 +1757,7 @@ extension ELBV2 {
 
     public struct ModifyTargetGroupOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetGroups", required: false, type: .list)
+            AWSShapeMember(label: "TargetGroups", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Information about the modified target group.
         public let targetGroups: [TargetGroup]?
@@ -1769,8 +1773,9 @@ extension ELBV2 {
 
     public struct PathPatternConditionConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Values", required: false, type: .list)
+            AWSShapeMember(label: "Values", required: false, type: .list, encoding: .list(member:"member"))
         ]
+        /// One or more path patterns to compare against the request URL. The maximum size of each string is 128 characters. The comparison is case sensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If you specify multiple strings, the condition is satisfied if one of them matches the request URL. The path pattern is compared only to the path of the URL, not to its query string. To compare against the query string, use QueryStringConditionConfig.
         public let values: [String]?
 
         public init(values: [String]? = nil) {
@@ -1787,13 +1792,16 @@ extension ELBV2 {
         case https = "HTTPS"
         case tcp = "TCP"
         case tls = "TLS"
+        case udp = "UDP"
+        case tcpUdp = "TCP_UDP"
         public var description: String { return self.rawValue }
     }
 
     public struct QueryStringConditionConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Values", required: false, type: .list)
+            AWSShapeMember(label: "Values", required: false, type: .list, encoding: .list(member:"member"))
         ]
+        /// One or more key/value pairs or values to find in the query string. The maximum size of each string is 128 characters. The comparison is case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). To search for a literal '*' or '?' character in a query string, you must escape these characters in Values using a '\' character. If you specify multiple key/value pairs or values, the condition is satisfied if one of them is found in the query string.
         public let values: [QueryStringKeyValuePair]?
 
         public init(values: [QueryStringKeyValuePair]? = nil) {
@@ -1810,7 +1818,9 @@ extension ELBV2 {
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+        /// The key. You can omit the key.
         public let key: String?
+        /// The value.
         public let value: String?
 
         public init(key: String? = nil, value: String? = nil) {
@@ -1874,7 +1884,7 @@ extension ELBV2 {
     public struct RegisterTargetsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetGroupArn", required: true, type: .string), 
-            AWSShapeMember(label: "Targets", required: true, type: .list)
+            AWSShapeMember(label: "Targets", required: true, type: .list, encoding: .list(member:"member"))
         ]
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
@@ -1901,7 +1911,7 @@ extension ELBV2 {
 
     public struct RemoveListenerCertificatesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificates", required: true, type: .list), 
+            AWSShapeMember(label: "Certificates", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ListenerArn", required: true, type: .string)
         ]
         /// The certificate to remove. You can specify one certificate per call. Set CertificateArn to the certificate ARN but do not set IsDefault.
@@ -1929,8 +1939,8 @@ extension ELBV2 {
 
     public struct RemoveTagsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArns", required: true, type: .list), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
+            AWSShapeMember(label: "ResourceArns", required: true, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list, encoding: .list(member:"member"))
         ]
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArns: [String]
@@ -1957,15 +1967,15 @@ extension ELBV2 {
 
     public struct Rule: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Actions", required: false, type: .list), 
-            AWSShapeMember(label: "Conditions", required: false, type: .list), 
+            AWSShapeMember(label: "Actions", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Conditions", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "IsDefault", required: false, type: .boolean), 
             AWSShapeMember(label: "Priority", required: false, type: .string), 
             AWSShapeMember(label: "RuleArn", required: false, type: .string)
         ]
-        /// The actions.
+        /// The actions. Each rule must include exactly one of the following types of actions: forward, redirect, or fixed-response, and it must be the last action to be performed.
         public let actions: [Action]?
-        /// The conditions.
+        /// The conditions. Each rule can include zero or one of the following conditions: http-request-method, host-header, path-pattern, and source-ip, and zero or more of the following conditions: http-header and query-string.
         public let conditions: [RuleCondition]?
         /// Indicates whether this is the default rule.
         public let isDefault: Bool?
@@ -2000,17 +2010,23 @@ extension ELBV2 {
             AWSShapeMember(label: "PathPatternConfig", required: false, type: .structure), 
             AWSShapeMember(label: "QueryStringConfig", required: false, type: .structure), 
             AWSShapeMember(label: "SourceIpConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "Values", required: false, type: .list)
+            AWSShapeMember(label: "Values", required: false, type: .list, encoding: .list(member:"member"))
         ]
-        /// The name of the field. The possible values are host-header and path-pattern.
+        /// The field in the HTTP request. The following are the possible values:    http-header     http-request-method     host-header     path-pattern     query-string     source-ip   
         public let field: String?
+        /// Information for a host header condition. Specify only when Field is host-header.
         public let hostHeaderConfig: HostHeaderConditionConfig?
+        /// Information for an HTTP header condition. Specify only when Field is http-header.
         public let httpHeaderConfig: HttpHeaderConditionConfig?
+        /// Information for an HTTP method condition. Specify only when Field is http-request-method.
         public let httpRequestMethodConfig: HttpRequestMethodConditionConfig?
+        /// Information for a path pattern condition. Specify only when Field is path-pattern.
         public let pathPatternConfig: PathPatternConditionConfig?
+        /// Information for a query string condition. Specify only when Field is query-string.
         public let queryStringConfig: QueryStringConditionConfig?
+        /// Information for a source IP condition. Specify only when Field is source-ip.
         public let sourceIpConfig: SourceIpConditionConfig?
-        /// The condition value. If the field name is host-header, you can specify a single host name (for example, my.example.com). A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters. You can include up to three wildcard characters.   A-Z, a-z, 0-9   - .   * (matches 0 or more characters)   ? (matches exactly 1 character)   If the field name is path-pattern, you can specify a single path pattern (for example, /img/*). A path pattern is case-sensitive, can be up to 128 characters in length, and can contain any of the following characters. You can include up to three wildcard characters.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
+        /// The condition value. You can use Values if the rule contains only host-header and path-pattern conditions. Otherwise, you can use HostHeaderConfig for host-header conditions and PathPatternConfig for path-pattern conditions. If Field is host-header, you can specify a single host name (for example, my.example.com). A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters.   A-Z, a-z, 0-9   - .   * (matches 0 or more characters)   ? (matches exactly 1 character)   If Field is path-pattern, you can specify a single path pattern (for example, /img/*). A path pattern is case-sensitive, can be up to 128 characters in length, and can contain any of the following characters.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
         public let values: [String]?
 
         public init(field: String? = nil, hostHeaderConfig: HostHeaderConditionConfig? = nil, httpHeaderConfig: HttpHeaderConditionConfig? = nil, httpRequestMethodConfig: HttpRequestMethodConditionConfig? = nil, pathPatternConfig: PathPatternConditionConfig? = nil, queryStringConfig: QueryStringConditionConfig? = nil, sourceIpConfig: SourceIpConditionConfig? = nil, values: [String]? = nil) {
@@ -2062,7 +2078,7 @@ extension ELBV2 {
             AWSShapeMember(label: "IpAddressType", required: true, type: .enum), 
             AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string)
         ]
-        /// The IP address type. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4.
+        /// The IP address type. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4. Network Load Balancers must use ipv4.
         public let ipAddressType: IpAddressType
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
@@ -2096,7 +2112,7 @@ extension ELBV2 {
 
     public struct SetRulePrioritiesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RulePriorities", required: true, type: .list)
+            AWSShapeMember(label: "RulePriorities", required: true, type: .list, encoding: .list(member:"member"))
         ]
         /// The rule priorities.
         public let rulePriorities: [RulePriorityPair]
@@ -2112,7 +2128,7 @@ extension ELBV2 {
 
     public struct SetRulePrioritiesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rules", required: false, type: .list)
+            AWSShapeMember(label: "Rules", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Information about the rules.
         public let rules: [Rule]?
@@ -2129,7 +2145,7 @@ extension ELBV2 {
     public struct SetSecurityGroupsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string), 
-            AWSShapeMember(label: "SecurityGroups", required: true, type: .list)
+            AWSShapeMember(label: "SecurityGroups", required: true, type: .list, encoding: .list(member:"member"))
         ]
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
@@ -2149,7 +2165,7 @@ extension ELBV2 {
 
     public struct SetSecurityGroupsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list)
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The IDs of the security groups associated with the load balancer.
         public let securityGroupIds: [String]?
@@ -2166,8 +2182,8 @@ extension ELBV2 {
     public struct SetSubnetsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string), 
-            AWSShapeMember(label: "SubnetMappings", required: false, type: .list), 
-            AWSShapeMember(label: "Subnets", required: false, type: .list)
+            AWSShapeMember(label: "SubnetMappings", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Subnets", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
@@ -2191,7 +2207,7 @@ extension ELBV2 {
 
     public struct SetSubnetsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list)
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// Information about the subnet and Availability Zone.
         public let availabilityZones: [AvailabilityZone]?
@@ -2207,8 +2223,9 @@ extension ELBV2 {
 
     public struct SourceIpConditionConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Values", required: false, type: .list)
+            AWSShapeMember(label: "Values", required: false, type: .list, encoding: .list(member:"member"))
         ]
+        /// One or more source IP addresses, in CIDR format. You can use both IPv4 and IPv6 addresses. Wildcards are not supported. If you specify multiple addresses, the condition is satisfied if the source IP address of the request matches one of the CIDR blocks. This condition is not satisfied by the addresses in the X-Forwarded-For header. To search for addresses in the X-Forwarded-For header, use HttpHeaderConditionConfig.
         public let values: [String]?
 
         public init(values: [String]? = nil) {
@@ -2222,9 +2239,9 @@ extension ELBV2 {
 
     public struct SslPolicy: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ciphers", required: false, type: .list), 
+            AWSShapeMember(label: "Ciphers", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "SslProtocols", required: false, type: .list)
+            AWSShapeMember(label: "SslProtocols", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The ciphers.
         public let ciphers: [Cipher]?
@@ -2291,7 +2308,7 @@ extension ELBV2 {
     public struct TagDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
+            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member"))
         ]
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String?
@@ -2344,7 +2361,7 @@ extension ELBV2 {
             AWSShapeMember(label: "HealthCheckProtocol", required: false, type: .enum), 
             AWSShapeMember(label: "HealthCheckTimeoutSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "HealthyThresholdCount", required: false, type: .integer), 
-            AWSShapeMember(label: "LoadBalancerArns", required: false, type: .list), 
+            AWSShapeMember(label: "LoadBalancerArns", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Matcher", required: false, type: .structure), 
             AWSShapeMember(label: "Port", required: false, type: .integer), 
             AWSShapeMember(label: "Protocol", required: false, type: .enum), 
