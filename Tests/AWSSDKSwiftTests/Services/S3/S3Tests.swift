@@ -83,7 +83,7 @@ class S3Tests: XCTestCase {
         XCTAssertEqual(output.maxKeys, 1000)
         XCTAssertEqual(output.contents?.first?.key, TestData.shared.key)
         XCTAssertEqual(output.contents?.first?.size, Int64(TestData.shared.bodyData.count))
-        XCTAssertEqual(output.contents?.first?.eTag, putResult.eTag?.replacingOccurrences(of: "\"", with: ""))
+        XCTAssertEqual(output.contents?.first?.eTag, putResult.eTag)
     }
 
 
