@@ -12,6 +12,14 @@ import SwiftyJSON
 // Patch operations
 //
 let servicePatches : [String: [Patch]] = [
+    // Backup clashes with a macOS framework, so need to rename the framework
+    "Backup" : [
+        Patch(operation:.replace, entry:["serviceName"], value:"AWSBackup", originalValue:"Backup")
+    ],
+    // DirectoryService clashes with a macOS framework, so need to rename the framework
+    "DirectoryService" : [
+        Patch(operation:.replace, entry:["serviceName"], value:"AWSDirectoryService", originalValue:"DirectoryService")
+    ],
     "ECS" : [
         Patch(operation:.add, entry:["shapes", "PropagateTags", "enum"], value:"NONE")
     ],

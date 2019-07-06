@@ -7,7 +7,7 @@ import NIO
 /**
 AWS Backup AWS Backup is a unified backup service designed to protect AWS services and their associated data. AWS Backup simplifies the creation, migration, restoration, and deletion of backups, while also providing reporting and auditing.
 */
-public struct Backup {
+public struct AWSBackup {
 
     let client: AWSClient
 
@@ -21,7 +21,7 @@ public struct Backup {
             apiVersion: "2018-11-15",
             endpoint: endpoint,
             middlewares: [],
-            possibleErrorTypes: [BackupErrorType.self]
+            possibleErrorTypes: [AWSBackupErrorType.self]
         )
     }
 

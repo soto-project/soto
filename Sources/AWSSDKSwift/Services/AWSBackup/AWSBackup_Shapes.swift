@@ -3,7 +3,7 @@
 import Foundation
 import AWSSDKSwiftCore
 
-extension Backup {
+extension AWSBackup {
 
     public struct BackupJob: AWSShape {
         public static var _members: [AWSShapeMember] = [
