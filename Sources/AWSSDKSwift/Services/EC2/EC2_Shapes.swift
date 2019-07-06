@@ -22905,7 +22905,7 @@ extension EC2 {
     }
 
     public enum PlatformValues: String, CustomStringConvertible, Codable {
-        case windows = "Windows"
+        case windows = "windows"
         public var description: String { return self.rawValue }
     }
 

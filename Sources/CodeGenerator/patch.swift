@@ -23,6 +23,9 @@ let servicePatches : [String: [Patch]] = [
     "ECS" : [
         Patch(operation:.add, entry:["shapes", "PropagateTags", "enum"], value:"NONE")
     ],
+    "EC2" : [
+        Patch(operation:.replace, entry:["shapes", "PlatformValues", "enum", 0], value:"windows", originalValue:"Windows")
+    ],
     "ELB" : [
         Patch(operation:.replace, entry:["shapes", "SecurityGroupOwnerAlias", "type"], value:"integer", originalValue:"string")
     ],
