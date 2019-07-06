@@ -2,8 +2,8 @@
 
 import AWSSDKSwiftCore
 
-/// Error enum for Backup
-public enum BackupErrorType: AWSErrorType {
+/// Error enum for AWSBackup
+public enum AWSBackupErrorType: AWSErrorType {
     case alreadyExistsException(message: String?)
     case dependencyFailureException(message: String?)
     case invalidParameterValueException(message: String?)
@@ -14,7 +14,7 @@ public enum BackupErrorType: AWSErrorType {
     case serviceUnavailableException(message: String?)
 }
 
-extension BackupErrorType {
+extension AWSBackupErrorType {
     public init?(errorCode: String, message: String?){
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
