@@ -7,3 +7,4 @@ node_modules
 build
 awssdkswift.json
 docs/docsets
+/CodeGenerator/.build
