@@ -126,6 +126,7 @@ public struct Lambda {
     }
 
     ///   For asynchronous function invocation, use Invoke.  Invokes a function asynchronously.
+    @available(*, deprecated, message:"InvokeAsync is deprecated.")
     public func invokeAsync(_ input: InvokeAsyncRequest) throws -> Future<InvokeAsyncResponse> {
         return try client.send(operation: "InvokeAsync", path: "/2014-11-13/functions/{FunctionName}/invoke-async/", httpMethod: "POST", input: input)
     }

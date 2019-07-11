@@ -70,6 +70,7 @@ public struct RDSDataService {
     ///              This operation is deprecated. Use the BatchExecuteStatement or
     ///                      ExecuteStatement operation.
     ///          
+    @available(*, deprecated, message:"ExecuteSql is deprecated.")
     public func executeSql(_ input: ExecuteSqlRequest) throws -> Future<ExecuteSqlResponse> {
         return try client.send(operation: "ExecuteSql", path: "/ExecuteSql", httpMethod: "POST", input: input)
     }

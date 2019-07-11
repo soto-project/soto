@@ -289,6 +289,7 @@ extension AWSService {
             context["name"] = operation.name
             context["path"] = operation.path
             context["httpMethod"] = operation.httpMethod
+            context["deprecated"] = operation.deprecatedMessage
             operationContexts.append(context)
         }
         context["operations"] = operationContexts

@@ -257,6 +257,7 @@ struct AWSService {
         var shapes = [Shape]()
         for (key, json) in apiJSON["shapes"].dictionaryValue {
             do {
+                //if json["deprecated"].bool == true { continue }
                 let shape = try Shape(name: key, type: shapeType(from: json))
                 shapes.append(shape)
             } catch AWSServiceError.eventStreamingCodeGenerationsAreUnsupported {
@@ -281,6 +282,15 @@ struct AWSService {
                 }
             }
 
+            var deprecatedMessage : String? = nil
+            if json["deprecated"].bool == true {
+                if let message = json["deprecatedMessage"].string {
+                    deprecatedMessage = message
+                } else {
+                    deprecatedMessage = "\(json["name"].stringValue) is deprecated."
+                }
+            }
+
             var inputShape: Shape?
             if let inputShapeName = json["input"]["shape"].string {
                 if let index = shapes.index(where: { inputShapeName == $0.name }) {
@@ -300,7 +310,8 @@ struct AWSService {
                 httpMethod: json["http"]["method"].stringValue,
                 path: json["http"]["requestUri"].stringValue,
                 inputShape: inputShape,
-                outputShape: outputShape
+                outputShape: outputShape,
+                deprecatedMessage: deprecatedMessage
             )
 
             operations.append(operation)

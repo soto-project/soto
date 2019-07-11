@@ -30,8 +30,9 @@ public struct {{ name }} {
         )
     }
 {% for op in operations %}
-{%for comment in op.comment %}    ///  {{comment}}
-{%endfor %}    {% if not op.outputShape %}@discardableResult {% endif %}public func {{op.funcName}}({% if op.inputShape %}_ input: {{op.inputShape}}{% endif %}) throws -> Future<{% if op.outputShape %}{{op.outputShape}}{% else %}Void{% endif %}> {
+    {%for comment in op.comment %}///  {{comment}}
+    {%endfor %}{%if op.deprecated %}@available(*, deprecated, message:"{{op.deprecated}}")
+    {%endif %}{% if not op.outputShape %}@discardableResult {% endif %}public func {{op.funcName}}({% if op.inputShape %}_ input: {{op.inputShape}}{% endif %}) throws -> Future<{% if op.outputShape %}{{op.outputShape}}{% else %}Void{% endif %}> {
         return try client.send(operation: "{{op.name}}", path: "{{op.path}}", httpMethod: "{{op.httpMethod}}"{% if op.inputShape %}, input: input{% endif %})
     }
 {% endfor %}

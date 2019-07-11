@@ -70,6 +70,7 @@ public struct MediaPackage {
     }
 
     ///  Changes the Channel's first IngestEndpoint's username and password. WARNING - This API is deprecated. Please use RotateIngestEndpointCredentials instead
+    @available(*, deprecated, message:"This API is deprecated. Please use RotateIngestEndpointCredentials instead")
     public func rotateChannelCredentials(_ input: RotateChannelCredentialsRequest) throws -> Future<RotateChannelCredentialsResponse> {
         return try client.send(operation: "RotateChannelCredentials", path: "/channels/{id}/credentials", httpMethod: "PUT", input: input)
     }

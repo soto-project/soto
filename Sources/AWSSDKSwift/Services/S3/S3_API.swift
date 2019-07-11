@@ -158,6 +158,7 @@ public struct S3 {
     }
 
     ///   No longer used, see the GetBucketLifecycleConfiguration operation.
+    @available(*, deprecated, message:"GetBucketLifecycle is deprecated.")
     public func getBucketLifecycle(_ input: GetBucketLifecycleRequest) throws -> Future<GetBucketLifecycleOutput> {
         return try client.send(operation: "GetBucketLifecycle", path: "/{Bucket}?lifecycle", httpMethod: "GET", input: input)
     }
@@ -183,6 +184,7 @@ public struct S3 {
     }
 
     ///   No longer used, see the GetBucketNotificationConfiguration operation.
+    @available(*, deprecated, message:"GetBucketNotification is deprecated.")
     public func getBucketNotification(_ input: GetBucketNotificationConfigurationRequest) throws -> Future<NotificationConfigurationDeprecated> {
         return try client.send(operation: "GetBucketNotification", path: "/{Bucket}?notification", httpMethod: "GET", input: input)
     }
@@ -353,6 +355,7 @@ public struct S3 {
     }
 
     ///   No longer used, see the PutBucketLifecycleConfiguration operation.
+    @available(*, deprecated, message:"PutBucketLifecycle is deprecated.")
     @discardableResult public func putBucketLifecycle(_ input: PutBucketLifecycleRequest) throws -> Future<Void> {
         return try client.send(operation: "PutBucketLifecycle", path: "/{Bucket}?lifecycle", httpMethod: "PUT", input: input)
     }
@@ -373,6 +376,7 @@ public struct S3 {
     }
 
     ///   No longer used, see the PutBucketNotificationConfiguration operation.
+    @available(*, deprecated, message:"PutBucketNotification is deprecated.")
     @discardableResult public func putBucketNotification(_ input: PutBucketNotificationRequest) throws -> Future<Void> {
         return try client.send(operation: "PutBucketNotification", path: "/{Bucket}?notification", httpMethod: "PUT", input: input)
     }
