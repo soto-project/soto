@@ -1410,25 +1410,20 @@ extension WorkDocs {
     public struct DescribeUsersResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "TotalNumberOfUsers", required: false, type: .long), 
             AWSShapeMember(label: "Users", required: false, type: .list)
         ]
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let marker: String?
-        /// The total number of users included in the results.
-        public let totalNumberOfUsers: Int64?
         /// The users.
         public let users: [User]?
         
-        public init(marker: String? = nil, totalNumberOfUsers: Int64? = nil, users: [User]? = nil) {
+        public init(marker: String? = nil, users: [User]? = nil) {
             self.marker = marker
-            self.totalNumberOfUsers = totalNumberOfUsers
             self.users = users
         }
 
         private enum CodingKeys: String, CodingKey {
             case marker = "Marker"
-            case totalNumberOfUsers = "TotalNumberOfUsers"
             case users = "Users"
         }
     }

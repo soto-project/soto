@@ -8038,29 +8038,24 @@ extension IoT {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "caCertificatePem", required: false, type: .string), 
             AWSShapeMember(label: "certificatePem", required: true, type: .string), 
-            AWSShapeMember(label: "setAsActive", location: .querystring(locationName: "setAsActive"), required: false, type: .boolean), 
             AWSShapeMember(label: "status", required: false, type: .enum)
         ]
         /// The CA certificate used to sign the device certificate being registered.
         public let caCertificatePem: String?
         /// The certificate data, in PEM format.
         public let certificatePem: String
-        /// A boolean value that specifies if the certificate is set to active.
-        public let setAsActive: Bool?
         /// The status of the register certificate request.
         public let status: CertificateStatus?
         
-        public init(caCertificatePem: String? = nil, certificatePem: String, setAsActive: Bool? = nil, status: CertificateStatus? = nil) {
+        public init(caCertificatePem: String? = nil, certificatePem: String, status: CertificateStatus? = nil) {
             self.caCertificatePem = caCertificatePem
             self.certificatePem = certificatePem
-            self.setAsActive = setAsActive
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case caCertificatePem = "caCertificatePem"
             case certificatePem = "certificatePem"
-            case setAsActive = "setAsActive"
             case status = "status"
         }
     }

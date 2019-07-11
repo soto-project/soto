@@ -2814,7 +2814,6 @@ extension EC2 {
 
     public struct ClientVpnEndpoint: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssociatedTargetNetworks", location: .body(locationName: "associatedTargetNetwork"), required: false, type: .list, encoding: .list(member:"item")), 
             AWSShapeMember(label: "AuthenticationOptions", location: .body(locationName: "authenticationOptions"), required: false, type: .list, encoding: .list(member:"item")), 
             AWSShapeMember(label: "ClientCidrBlock", location: .body(locationName: "clientCidrBlock"), required: false, type: .string), 
             AWSShapeMember(label: "ClientVpnEndpointId", location: .body(locationName: "clientVpnEndpointId"), required: false, type: .string), 
@@ -2831,8 +2830,6 @@ extension EC2 {
             AWSShapeMember(label: "TransportProtocol", location: .body(locationName: "transportProtocol"), required: false, type: .enum), 
             AWSShapeMember(label: "VpnProtocol", location: .body(locationName: "vpnProtocol"), required: false, type: .enum)
         ]
-        /// Information about the associated target networks. A target network is a subnet in a VPC.
-        public let associatedTargetNetworks: [AssociatedTargetNetwork]?
         /// Information about the authentication method used by the Client VPN endpoint.
         public let authenticationOptions: [ClientVpnAuthentication]?
         /// The IPv4 address range, in CIDR notation, from which client IP addresses are assigned.
@@ -2864,8 +2861,7 @@ extension EC2 {
         /// The protocol used by the VPN session.
         public let vpnProtocol: VpnProtocol?
         
-        public init(associatedTargetNetworks: [AssociatedTargetNetwork]? = nil, authenticationOptions: [ClientVpnAuthentication]? = nil, clientCidrBlock: String? = nil, clientVpnEndpointId: String? = nil, connectionLogOptions: ConnectionLogResponseOptions? = nil, creationTime: String? = nil, deletionTime: String? = nil, description: String? = nil, dnsName: String? = nil, dnsServers: [String]? = nil, serverCertificateArn: String? = nil, splitTunnel: Bool? = nil, status: ClientVpnEndpointStatus? = nil, tags: [Tag]? = nil, transportProtocol: TransportProtocol? = nil, vpnProtocol: VpnProtocol? = nil) {
-            self.associatedTargetNetworks = associatedTargetNetworks
+        public init(authenticationOptions: [ClientVpnAuthentication]? = nil, clientCidrBlock: String? = nil, clientVpnEndpointId: String? = nil, connectionLogOptions: ConnectionLogResponseOptions? = nil, creationTime: String? = nil, deletionTime: String? = nil, description: String? = nil, dnsName: String? = nil, dnsServers: [String]? = nil, serverCertificateArn: String? = nil, splitTunnel: Bool? = nil, status: ClientVpnEndpointStatus? = nil, tags: [Tag]? = nil, transportProtocol: TransportProtocol? = nil, vpnProtocol: VpnProtocol? = nil) {
             self.authenticationOptions = authenticationOptions
             self.clientCidrBlock = clientCidrBlock
             self.clientVpnEndpointId = clientVpnEndpointId
@@ -2884,7 +2880,6 @@ extension EC2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associatedTargetNetworks = "associatedTargetNetwork"
             case authenticationOptions = "authenticationOptions"
             case clientCidrBlock = "clientCidrBlock"
             case clientVpnEndpointId = "clientVpnEndpointId"

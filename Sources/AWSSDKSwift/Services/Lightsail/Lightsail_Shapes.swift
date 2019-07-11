@@ -887,7 +887,6 @@ extension Lightsail {
             AWSShapeMember(label: "availabilityZone", required: true, type: .string), 
             AWSShapeMember(label: "blueprintId", required: true, type: .string), 
             AWSShapeMember(label: "bundleId", required: true, type: .string), 
-            AWSShapeMember(label: "customImageName", required: false, type: .string), 
             AWSShapeMember(label: "instanceNames", required: true, type: .list), 
             AWSShapeMember(label: "keyPairName", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list), 
@@ -899,8 +898,6 @@ extension Lightsail {
         public let blueprintId: String
         /// The bundle of specification information for your virtual private server (or instance), including the pricing plan (e.g., micro_1_0).
         public let bundleId: String
-        /// (Deprecated) The name for your custom image.  In releases prior to June 12, 2017, this parameter was ignored by the API. It is now deprecated. 
-        public let customImageName: String?
         /// The names to use for your new Lightsail instances. Separate multiple values using quotation marks and commas, for example: ["MyFirstInstance","MySecondInstance"] 
         public let instanceNames: [String]
         /// The name of your key pair.
@@ -910,11 +907,10 @@ extension Lightsail {
         /// A launch script you can create that configures a server with additional user data. For example, you might want to run apt-get -y update.  Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the Dev Guide. 
         public let userData: String?
         
-        public init(availabilityZone: String, blueprintId: String, bundleId: String, customImageName: String? = nil, instanceNames: [String], keyPairName: String? = nil, tags: [Tag]? = nil, userData: String? = nil) {
+        public init(availabilityZone: String, blueprintId: String, bundleId: String, instanceNames: [String], keyPairName: String? = nil, tags: [Tag]? = nil, userData: String? = nil) {
             self.availabilityZone = availabilityZone
             self.blueprintId = blueprintId
             self.bundleId = bundleId
-            self.customImageName = customImageName
             self.instanceNames = instanceNames
             self.keyPairName = keyPairName
             self.tags = tags
@@ -925,7 +921,6 @@ extension Lightsail {
             case availabilityZone = "availabilityZone"
             case blueprintId = "blueprintId"
             case bundleId = "bundleId"
-            case customImageName = "customImageName"
             case instanceNames = "instanceNames"
             case keyPairName = "keyPairName"
             case tags = "tags"
@@ -1846,9 +1841,7 @@ extension Lightsail {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: false, type: .string), 
             AWSShapeMember(label: "attachedTo", required: false, type: .string), 
-            AWSShapeMember(label: "attachmentState", required: false, type: .string), 
             AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "gbInUse", required: false, type: .integer), 
             AWSShapeMember(label: "iops", required: false, type: .integer), 
             AWSShapeMember(label: "isAttached", required: false, type: .boolean), 
             AWSShapeMember(label: "isSystemDisk", required: false, type: .boolean), 
@@ -1865,12 +1858,8 @@ extension Lightsail {
         public let arn: String?
         /// The resources to which the disk is attached.
         public let attachedTo: String?
-        /// (Deprecated) The attachment state of the disk.  In releases prior to November 14, 2017, this parameter returned attached for system disks in the API response. It is now deprecated, but still included in the response. Use isAttached instead. 
-        public let attachmentState: String?
         /// The date when the disk was created.
         public let createdAt: TimeStamp?
-        /// (Deprecated) The number of GB in use by the disk.  In releases prior to November 14, 2017, this parameter was not included in the API response. It is now deprecated. 
-        public let gbInUse: Int32?
         /// The input/output operations per second (IOPS) of the disk.
         public let iops: Int32?
         /// A Boolean value indicating whether the disk is attached.
@@ -1894,12 +1883,10 @@ extension Lightsail {
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
         public let tags: [Tag]?
         
-        public init(arn: String? = nil, attachedTo: String? = nil, attachmentState: String? = nil, createdAt: TimeStamp? = nil, gbInUse: Int32? = nil, iops: Int32? = nil, isAttached: Bool? = nil, isSystemDisk: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, path: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int32? = nil, state: DiskState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
+        public init(arn: String? = nil, attachedTo: String? = nil, createdAt: TimeStamp? = nil, iops: Int32? = nil, isAttached: Bool? = nil, isSystemDisk: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, path: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int32? = nil, state: DiskState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.attachedTo = attachedTo
-            self.attachmentState = attachmentState
             self.createdAt = createdAt
-            self.gbInUse = gbInUse
             self.iops = iops
             self.isAttached = isAttached
             self.isSystemDisk = isSystemDisk
@@ -1916,9 +1903,7 @@ extension Lightsail {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case attachedTo = "attachedTo"
-            case attachmentState = "attachmentState"
             case createdAt = "createdAt"
-            case gbInUse = "gbInUse"
             case iops = "iops"
             case isAttached = "isAttached"
             case isSystemDisk = "isSystemDisk"
@@ -2155,7 +2140,6 @@ extension Lightsail {
             AWSShapeMember(label: "id", required: false, type: .string), 
             AWSShapeMember(label: "isAlias", required: false, type: .boolean), 
             AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "options", required: false, type: .map), 
             AWSShapeMember(label: "target", required: false, type: .string), 
             AWSShapeMember(label: "type", required: false, type: .string)
         ]
@@ -2165,18 +2149,15 @@ extension Lightsail {
         public let isAlias: Bool?
         /// The name of the domain.
         public let name: String?
-        /// (Deprecated) The options for the domain entry.  In releases prior to November 29, 2017, this parameter was not included in the API response. It is now deprecated. 
-        public let options: [String: String]?
         /// The target AWS name server (e.g., ns-111.awsdns-22.com.). For Lightsail load balancers, the value looks like ab1234c56789c6b86aba6fb203d443bc-123456789.us-east-2.elb.amazonaws.com. Be sure to also set isAlias to true when setting up an A record for a load balancer.
         public let target: String?
         /// The type of domain entry, such as address (A), canonical name (CNAME), mail exchanger (MX), name server (NS), start of authority (SOA), service locator (SRV), or text (TXT). The following domain entry types can be used:    A     CNAME     MX     NS     SOA     SRV     TXT   
         public let `type`: String?
         
-        public init(id: String? = nil, isAlias: Bool? = nil, name: String? = nil, options: [String: String]? = nil, target: String? = nil, type: String? = nil) {
+        public init(id: String? = nil, isAlias: Bool? = nil, name: String? = nil, target: String? = nil, type: String? = nil) {
             self.id = id
             self.isAlias = isAlias
             self.name = name
-            self.options = options
             self.target = target
             self.`type` = `type`
         }
@@ -2185,7 +2166,6 @@ extension Lightsail {
             case id = "id"
             case isAlias = "isAlias"
             case name = "name"
-            case options = "options"
             case target = "target"
             case `type` = "type"
         }
@@ -3360,25 +3340,20 @@ extension Lightsail {
 
     public struct GetOperationsForResourceResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextPageCount", required: false, type: .string), 
             AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
             AWSShapeMember(label: "operations", required: false, type: .list)
         ]
-        /// (Deprecated) Returns the number of pages of results that remain.  In releases prior to June 12, 2017, this parameter returned null by the API. It is now deprecated, and the API returns the next page token parameter instead. 
-        public let nextPageCount: String?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextPageToken: String?
         /// An array of key-value pairs containing information about the results of your get operations for resource request.
         public let operations: [Operation]?
         
-        public init(nextPageCount: String? = nil, nextPageToken: String? = nil, operations: [Operation]? = nil) {
-            self.nextPageCount = nextPageCount
+        public init(nextPageToken: String? = nil, operations: [Operation]? = nil) {
             self.nextPageToken = nextPageToken
             self.operations = operations
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextPageCount = "nextPageCount"
             case nextPageToken = "nextPageToken"
             case operations = "operations"
         }

@@ -2770,7 +2770,6 @@ extension AppStream {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AttributesToDelete", required: false, type: .list), 
             AWSShapeMember(label: "ComputeCapacity", required: false, type: .structure), 
-            AWSShapeMember(label: "DeleteVpcConfig", required: false, type: .boolean), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "DisconnectTimeoutInSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "DisplayName", required: false, type: .string), 
@@ -2788,8 +2787,6 @@ extension AppStream {
         public let attributesToDelete: [FleetAttribute]?
         /// The desired capacity for the fleet.
         public let computeCapacity: ComputeCapacity?
-        /// Deletes the VPC association for the specified fleet.
-        public let deleteVpcConfig: Bool?
         /// The description to display.
         public let description: String?
         /// The amount of time that a streaming session remains active after users disconnect. If users try to reconnect to the streaming session after a disconnection or network interruption within this time interval, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance.  Specify a value between 60 and 360000.
@@ -2815,10 +2812,9 @@ extension AppStream {
         /// The VPC configuration for the fleet.
         public let vpcConfig: VpcConfig?
         
-        public init(attributesToDelete: [FleetAttribute]? = nil, computeCapacity: ComputeCapacity? = nil, deleteVpcConfig: Bool? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int32? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, idleDisconnectTimeoutInSeconds: Int32? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxUserDurationInSeconds: Int32? = nil, name: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(attributesToDelete: [FleetAttribute]? = nil, computeCapacity: ComputeCapacity? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int32? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, idleDisconnectTimeoutInSeconds: Int32? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxUserDurationInSeconds: Int32? = nil, name: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.attributesToDelete = attributesToDelete
             self.computeCapacity = computeCapacity
-            self.deleteVpcConfig = deleteVpcConfig
             self.description = description
             self.disconnectTimeoutInSeconds = disconnectTimeoutInSeconds
             self.displayName = displayName
@@ -2836,7 +2832,6 @@ extension AppStream {
         private enum CodingKeys: String, CodingKey {
             case attributesToDelete = "AttributesToDelete"
             case computeCapacity = "ComputeCapacity"
-            case deleteVpcConfig = "DeleteVpcConfig"
             case description = "Description"
             case disconnectTimeoutInSeconds = "DisconnectTimeoutInSeconds"
             case displayName = "DisplayName"
@@ -2906,7 +2901,6 @@ extension AppStream {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationSettings", required: false, type: .structure), 
             AWSShapeMember(label: "AttributesToDelete", required: false, type: .list), 
-            AWSShapeMember(label: "DeleteStorageConnectors", required: false, type: .boolean), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "DisplayName", required: false, type: .string), 
             AWSShapeMember(label: "FeedbackURL", required: false, type: .string), 
@@ -2919,8 +2913,6 @@ extension AppStream {
         public let applicationSettings: ApplicationSettings?
         /// The stack attributes to delete.
         public let attributesToDelete: [StackAttribute]?
-        /// Deletes the storage connectors currently enabled for the stack.
-        public let deleteStorageConnectors: Bool?
         /// The description to display.
         public let description: String?
         /// The stack name to display.
@@ -2936,10 +2928,9 @@ extension AppStream {
         /// The actions that are enabled or disabled for users during their streaming sessions. By default, these actions are enabled.
         public let userSettings: [UserSetting]?
         
-        public init(applicationSettings: ApplicationSettings? = nil, attributesToDelete: [StackAttribute]? = nil, deleteStorageConnectors: Bool? = nil, description: String? = nil, displayName: String? = nil, feedbackURL: String? = nil, name: String, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, userSettings: [UserSetting]? = nil) {
+        public init(applicationSettings: ApplicationSettings? = nil, attributesToDelete: [StackAttribute]? = nil, description: String? = nil, displayName: String? = nil, feedbackURL: String? = nil, name: String, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, userSettings: [UserSetting]? = nil) {
             self.applicationSettings = applicationSettings
             self.attributesToDelete = attributesToDelete
-            self.deleteStorageConnectors = deleteStorageConnectors
             self.description = description
             self.displayName = displayName
             self.feedbackURL = feedbackURL
@@ -2952,7 +2943,6 @@ extension AppStream {
         private enum CodingKeys: String, CodingKey {
             case applicationSettings = "ApplicationSettings"
             case attributesToDelete = "AttributesToDelete"
-            case deleteStorageConnectors = "DeleteStorageConnectors"
             case description = "Description"
             case displayName = "DisplayName"
             case feedbackURL = "FeedbackURL"

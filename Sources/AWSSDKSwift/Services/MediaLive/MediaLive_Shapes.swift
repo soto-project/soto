@@ -1385,7 +1385,6 @@ extension MediaLive {
             AWSShapeMember(label: "LogLevel", location: .body(locationName: "logLevel"), required: false, type: .enum), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "RequestId", location: .body(locationName: "requestId"), required: false, type: .string), 
-            AWSShapeMember(label: "Reserved", location: .body(locationName: "reserved"), required: false, type: .string), 
             AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
@@ -1404,14 +1403,12 @@ extension MediaLive {
         /// Unique request ID to be specified. This is needed to prevent retries from
         /// creating multiple resources.
         public let requestId: String?
-        /// Deprecated field that's only usable by whitelisted customers.
-        public let reserved: String?
         /// An optional Amazon Resource Name (ARN) of the role to assume when running the Channel.
         public let roleArn: String?
         /// A collection of key-value pairs.
         public let tags: [String: String]?
         
-        public init(channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, requestId: String? = nil, reserved: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil) {
+        public init(channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, requestId: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil) {
             self.channelClass = channelClass
             self.destinations = destinations
             self.encoderSettings = encoderSettings
@@ -1420,7 +1417,6 @@ extension MediaLive {
             self.logLevel = logLevel
             self.name = name
             self.requestId = requestId
-            self.reserved = reserved
             self.roleArn = roleArn
             self.tags = tags
         }
@@ -1434,7 +1430,6 @@ extension MediaLive {
             case logLevel = "logLevel"
             case name = "name"
             case requestId = "requestId"
-            case reserved = "reserved"
             case roleArn = "roleArn"
             case tags = "tags"
         }
@@ -1450,7 +1445,6 @@ extension MediaLive {
             AWSShapeMember(label: "LogLevel", location: .body(locationName: "logLevel"), required: false, type: .enum), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "RequestId", location: .body(locationName: "requestId"), required: false, type: .string), 
-            AWSShapeMember(label: "Reserved", location: .body(locationName: "reserved"), required: false, type: .string), 
             AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
@@ -1462,11 +1456,10 @@ extension MediaLive {
         public let logLevel: LogLevel?
         public let name: String?
         public let requestId: String?
-        public let reserved: String?
         public let roleArn: String?
         public let tags: [String: String]?
         
-        public init(channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, requestId: String? = nil, reserved: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil) {
+        public init(channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, requestId: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil) {
             self.channelClass = channelClass
             self.destinations = destinations
             self.encoderSettings = encoderSettings
@@ -1475,7 +1468,6 @@ extension MediaLive {
             self.logLevel = logLevel
             self.name = name
             self.requestId = requestId
-            self.reserved = reserved
             self.roleArn = roleArn
             self.tags = tags
         }
@@ -1489,7 +1481,6 @@ extension MediaLive {
             case logLevel = "logLevel"
             case name = "name"
             case requestId = "requestId"
-            case reserved = "reserved"
             case roleArn = "roleArn"
             case tags = "tags"
         }

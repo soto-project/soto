@@ -475,20 +475,17 @@ extension S3 {
     public struct CloudFunctionConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CloudFunction", required: false, type: .string), 
-            AWSShapeMember(label: "Event", required: false, type: .enum), 
             AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: false, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "InvocationRole", required: false, type: .string)
         ]
         public let cloudFunction: String?
-        public let event: Event?
         public let events: [Event]?
         public let id: String?
         public let invocationRole: String?
         
-        public init(cloudFunction: String? = nil, event: Event? = nil, events: [Event]? = nil, id: String? = nil, invocationRole: String? = nil) {
+        public init(cloudFunction: String? = nil, events: [Event]? = nil, id: String? = nil, invocationRole: String? = nil) {
             self.cloudFunction = cloudFunction
-            self.event = event
             self.events = events
             self.id = id
             self.invocationRole = invocationRole
@@ -496,8 +493,7 @@ extension S3 {
 
         private enum CodingKeys: String, CodingKey {
             case cloudFunction = "CloudFunction"
-            case event = "Event"
-            case events = "_Event" // TODO this is temporary measure for avoiding CodingKey duplication.
+            case events = "Event"
             case id = "Id"
             case invocationRole = "InvocationRole"
         }
@@ -3794,7 +3790,6 @@ extension S3 {
             AWSShapeMember(label: "ID", required: false, type: .string), 
             AWSShapeMember(label: "NoncurrentVersionExpiration", required: false, type: .structure), 
             AWSShapeMember(label: "NoncurrentVersionTransitions", location: .body(locationName: "NoncurrentVersionTransition"), required: false, type: .list, encoding: .flatList), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: true, type: .enum), 
             AWSShapeMember(label: "Transitions", location: .body(locationName: "Transition"), required: false, type: .list, encoding: .flatList)
         ]
@@ -3805,20 +3800,17 @@ extension S3 {
         public let id: String?
         public let noncurrentVersionExpiration: NoncurrentVersionExpiration?
         public let noncurrentVersionTransitions: [NoncurrentVersionTransition]?
-        /// Prefix identifying one or more objects to which the rule applies. This is No longer used; use Filter instead.
-        public let prefix: String?
         /// If 'Enabled', the rule is currently being applied. If 'Disabled', the rule is not currently being applied.
         public let status: ExpirationStatus
         public let transitions: [Transition]?
         
-        public init(abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil, expiration: LifecycleExpiration? = nil, filter: LifecycleRuleFilter? = nil, id: String? = nil, noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil, noncurrentVersionTransitions: [NoncurrentVersionTransition]? = nil, prefix: String? = nil, status: ExpirationStatus, transitions: [Transition]? = nil) {
+        public init(abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil, expiration: LifecycleExpiration? = nil, filter: LifecycleRuleFilter? = nil, id: String? = nil, noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil, noncurrentVersionTransitions: [NoncurrentVersionTransition]? = nil, status: ExpirationStatus, transitions: [Transition]? = nil) {
             self.abortIncompleteMultipartUpload = abortIncompleteMultipartUpload
             self.expiration = expiration
             self.filter = filter
             self.id = id
             self.noncurrentVersionExpiration = noncurrentVersionExpiration
             self.noncurrentVersionTransitions = noncurrentVersionTransitions
-            self.prefix = prefix
             self.status = status
             self.transitions = transitions
         }
@@ -3830,7 +3822,6 @@ extension S3 {
             case id = "ID"
             case noncurrentVersionExpiration = "NoncurrentVersionExpiration"
             case noncurrentVersionTransitions = "NoncurrentVersionTransition"
-            case prefix = "Prefix"
             case status = "Status"
             case transitions = "Transition"
         }
@@ -6399,26 +6390,22 @@ extension S3 {
 
     public struct QueueConfigurationDeprecated: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Event", required: false, type: .enum), 
             AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: false, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Queue", required: false, type: .string)
         ]
-        public let event: Event?
         public let events: [Event]?
         public let id: String?
         public let queue: String?
         
-        public init(event: Event? = nil, events: [Event]? = nil, id: String? = nil, queue: String? = nil) {
-            self.event = event
+        public init(events: [Event]? = nil, id: String? = nil, queue: String? = nil) {
             self.events = events
             self.id = id
             self.queue = queue
         }
 
         private enum CodingKeys: String, CodingKey {
-            case event = "Event"
-            case events = "_Event" // TODO this is temporary measure for avoiding CodingKey duplication.
+            case events = "Event"
             case id = "Id"
             case queue = "Queue"
         }
@@ -6530,7 +6517,6 @@ extension S3 {
             AWSShapeMember(label: "Destination", required: true, type: .structure), 
             AWSShapeMember(label: "Filter", required: false, type: .structure), 
             AWSShapeMember(label: "ID", required: false, type: .string), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
             AWSShapeMember(label: "Priority", required: false, type: .integer), 
             AWSShapeMember(label: "SourceSelectionCriteria", required: false, type: .structure), 
             AWSShapeMember(label: "Status", required: true, type: .enum)
@@ -6541,8 +6527,6 @@ extension S3 {
         public let filter: ReplicationRuleFilter?
         /// A unique identifier for the rule. The maximum value is 255 characters.
         public let id: String?
-        /// An object keyname prefix that identifies the object or objects to which the rule applies. The maximum prefix length is 1,024 characters. To include all objects in a bucket, specify an empty string. 
-        public let prefix: String?
         /// The priority associated with the rule. If you specify multiple rules in a replication configuration, Amazon S3 prioritizes the rules to prevent conflicts when filtering. If two or more rules identify the same object based on a specified filter, the rule with higher priority takes precedence. For example:   Same object quality prefix based filter criteria If prefixes you specified in multiple rules overlap    Same object qualify tag based filter criteria specified in multiple rules   For more information, see Cross-Region Replication (CRR) in the Amazon S3 Developer Guide.
         public let priority: Int32?
         /// A container that describes additional filters for identifying the source objects that you want to replicate. You can choose to enable or disable the replication of these objects. Currently, Amazon S3 supports only the filter that you can specify for objects created with server-side encryption using an AWS KMS-Managed Key (SSE-KMS).
@@ -6550,12 +6534,11 @@ extension S3 {
         /// Specifies whether the rule is enabled.
         public let status: ReplicationRuleStatus
         
-        public init(deleteMarkerReplication: DeleteMarkerReplication? = nil, destination: Destination, filter: ReplicationRuleFilter? = nil, id: String? = nil, prefix: String? = nil, priority: Int32? = nil, sourceSelectionCriteria: SourceSelectionCriteria? = nil, status: ReplicationRuleStatus) {
+        public init(deleteMarkerReplication: DeleteMarkerReplication? = nil, destination: Destination, filter: ReplicationRuleFilter? = nil, id: String? = nil, priority: Int32? = nil, sourceSelectionCriteria: SourceSelectionCriteria? = nil, status: ReplicationRuleStatus) {
             self.deleteMarkerReplication = deleteMarkerReplication
             self.destination = destination
             self.filter = filter
             self.id = id
-            self.prefix = prefix
             self.priority = priority
             self.sourceSelectionCriteria = sourceSelectionCriteria
             self.status = status
@@ -6566,7 +6549,6 @@ extension S3 {
             case destination = "Destination"
             case filter = "Filter"
             case id = "ID"
-            case prefix = "Prefix"
             case priority = "Priority"
             case sourceSelectionCriteria = "SourceSelectionCriteria"
             case status = "Status"
@@ -7318,28 +7300,23 @@ extension S3 {
 
     public struct TopicConfigurationDeprecated: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Event", required: false, type: .enum), 
             AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: false, type: .list, encoding: .flatList), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Topic", required: false, type: .string)
         ]
-        /// Bucket event for which to send notifications.
-        public let event: Event?
         public let events: [Event]?
         public let id: String?
         /// Amazon SNS topic to which Amazon S3 will publish a message to report the specified events for the bucket.
         public let topic: String?
         
-        public init(event: Event? = nil, events: [Event]? = nil, id: String? = nil, topic: String? = nil) {
-            self.event = event
+        public init(events: [Event]? = nil, id: String? = nil, topic: String? = nil) {
             self.events = events
             self.id = id
             self.topic = topic
         }
 
         private enum CodingKeys: String, CodingKey {
-            case event = "Event"
-            case events = "_Event" // TODO this is temporary measure for avoiding CodingKey duplication.
+            case events = "Event"
             case id = "Id"
             case topic = "Topic"
         }

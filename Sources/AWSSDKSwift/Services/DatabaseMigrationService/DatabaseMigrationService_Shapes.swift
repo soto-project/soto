@@ -3083,9 +3083,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "ReplicationInstanceArn", required: false, type: .string), 
             AWSShapeMember(label: "ReplicationInstanceClass", required: false, type: .string), 
             AWSShapeMember(label: "ReplicationInstanceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationInstancePrivateIpAddress", required: false, type: .string), 
             AWSShapeMember(label: "ReplicationInstancePrivateIpAddresses", required: false, type: .list), 
-            AWSShapeMember(label: "ReplicationInstancePublicIpAddress", required: false, type: .string), 
             AWSShapeMember(label: "ReplicationInstancePublicIpAddresses", required: false, type: .list), 
             AWSShapeMember(label: "ReplicationInstanceStatus", required: false, type: .string), 
             AWSShapeMember(label: "ReplicationSubnetGroup", required: false, type: .structure), 
@@ -3123,11 +3121,7 @@ extension DatabaseMigrationService {
         /// The replication instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: myrepinstance 
         public let replicationInstanceIdentifier: String?
         /// The private IP address of the replication instance.
-        public let replicationInstancePrivateIpAddress: String?
-        /// The private IP address of the replication instance.
         public let replicationInstancePrivateIpAddresses: [String]?
-        /// The public IP address of the replication instance.
-        public let replicationInstancePublicIpAddress: String?
         /// The public IP address of the replication instance.
         public let replicationInstancePublicIpAddresses: [String]?
         /// The status of the replication instance.
@@ -3139,7 +3133,7 @@ extension DatabaseMigrationService {
         /// The VPC security group for the instance.
         public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
         
-        public init(allocatedStorage: Int32? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dnsNameServers: String? = nil, engineVersion: String? = nil, freeUntil: TimeStamp? = nil, instanceCreateTime: TimeStamp? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, replicationInstanceArn: String? = nil, replicationInstanceClass: String? = nil, replicationInstanceIdentifier: String? = nil, replicationInstancePrivateIpAddress: String? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, replicationInstancePublicIpAddress: String? = nil, replicationInstancePublicIpAddresses: [String]? = nil, replicationInstanceStatus: String? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, secondaryAvailabilityZone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allocatedStorage: Int32? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dnsNameServers: String? = nil, engineVersion: String? = nil, freeUntil: TimeStamp? = nil, instanceCreateTime: TimeStamp? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, replicationInstanceArn: String? = nil, replicationInstanceClass: String? = nil, replicationInstanceIdentifier: String? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, replicationInstancePublicIpAddresses: [String]? = nil, replicationInstanceStatus: String? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, secondaryAvailabilityZone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -3155,9 +3149,7 @@ extension DatabaseMigrationService {
             self.replicationInstanceArn = replicationInstanceArn
             self.replicationInstanceClass = replicationInstanceClass
             self.replicationInstanceIdentifier = replicationInstanceIdentifier
-            self.replicationInstancePrivateIpAddress = replicationInstancePrivateIpAddress
             self.replicationInstancePrivateIpAddresses = replicationInstancePrivateIpAddresses
-            self.replicationInstancePublicIpAddress = replicationInstancePublicIpAddress
             self.replicationInstancePublicIpAddresses = replicationInstancePublicIpAddresses
             self.replicationInstanceStatus = replicationInstanceStatus
             self.replicationSubnetGroup = replicationSubnetGroup
@@ -3181,9 +3173,7 @@ extension DatabaseMigrationService {
             case replicationInstanceArn = "ReplicationInstanceArn"
             case replicationInstanceClass = "ReplicationInstanceClass"
             case replicationInstanceIdentifier = "ReplicationInstanceIdentifier"
-            case replicationInstancePrivateIpAddress = "ReplicationInstancePrivateIpAddress"
             case replicationInstancePrivateIpAddresses = "ReplicationInstancePrivateIpAddresses"
-            case replicationInstancePublicIpAddress = "ReplicationInstancePublicIpAddress"
             case replicationInstancePublicIpAddresses = "ReplicationInstancePublicIpAddresses"
             case replicationInstanceStatus = "ReplicationInstanceStatus"
             case replicationSubnetGroup = "ReplicationSubnetGroup"

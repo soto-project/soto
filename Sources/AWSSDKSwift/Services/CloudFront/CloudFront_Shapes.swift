@@ -4271,8 +4271,6 @@ extension CloudFront {
     public struct ViewerCertificate: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ACMCertificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "Certificate", required: false, type: .string), 
-            AWSShapeMember(label: "CertificateSource", required: false, type: .enum), 
             AWSShapeMember(label: "CloudFrontDefaultCertificate", required: false, type: .boolean), 
             AWSShapeMember(label: "IAMCertificateId", required: false, type: .string), 
             AWSShapeMember(label: "MinimumProtocolVersion", required: false, type: .enum), 
@@ -4280,10 +4278,6 @@ extension CloudFront {
         ]
         /// If you want viewers to use HTTPS to request your objects and you're using an alternate domain name, you must choose the type of certificate that you want to use. Specify the following value if ACM provided your certificate:    &lt;ACMCertificateArn&gt;ARN for ACM SSL/TLS certificate&lt;ACMCertificateArn&gt; where  ARN for ACM SSL/TLS certificate  is the ARN for the ACM SSL/TLS certificate that you want to use for this distribution.   If you specify ACMCertificateArn, you must also specify a value for SSLSupportMethod.
         public let aCMCertificateArn: String?
-        /// This field is no longer used. Use one of the following fields instead:    ACMCertificateArn     IAMCertificateId     CloudFrontDefaultCertificate   
-        public let certificate: String?
-        /// This field is no longer used. Use one of the following fields instead:    ACMCertificateArn     IAMCertificateId     CloudFrontDefaultCertificate   
-        public let certificateSource: CertificateSource?
         /// If you're using the CloudFront domain name for your distribution, such as d111111abcdef8.cloudfront.net, specify the following value:    &lt;CloudFrontDefaultCertificate&gt;true&lt;CloudFrontDefaultCertificate&gt;    
         public let cloudFrontDefaultCertificate: Bool?
         /// If you want viewers to use HTTPS to request your objects and you're using an alternate domain name, you must choose the type of certificate that you want to use. Specify the following value if you purchased your certificate from a third-party certificate authority:    &lt;IAMCertificateId&gt;IAM certificate ID&lt;IAMCertificateId&gt; where  IAM certificate ID  is the ID that IAM returned when you added the certificate to the IAM certificate store.   If you specify IAMCertificateId, you must also specify a value for SSLSupportMethod.
@@ -4293,10 +4287,8 @@ extension CloudFront {
         /// If you specify a value for ACMCertificateArn or for IAMCertificateId, you must also specify how you want CloudFront to serve HTTPS requests: using a method that works for browsers and clients released after 2010 or one that works for all clients.    sni-only: CloudFront can respond to HTTPS requests from viewers that support Server Name Indication (SNI). All modern browsers support SNI, but there are a few that don't. For a current list of the browsers that support SNI, see the Wikipedia entry Server Name Indication. To learn about options to explore if you have users with browsers that don't include SNI support, see Choosing How CloudFront Serves HTTPS Requests in the Amazon CloudFront Developer Guide.    vip: CloudFront uses dedicated IP addresses for your content and can respond to HTTPS requests from any viewer. However, there are additional monthly charges. For details, including specific pricing information, see Custom SSL options for Amazon CloudFront on the AWS marketing site.   Don't specify a value for SSLSupportMethod if you specified &lt;CloudFrontDefaultCertificate&gt;true&lt;CloudFrontDefaultCertificate&gt;. For more information, see Choosing How CloudFront Serves HTTPS Requests in the Amazon CloudFront Developer Guide.
         public let sSLSupportMethod: SSLSupportMethod?
         
-        public init(aCMCertificateArn: String? = nil, certificate: String? = nil, certificateSource: CertificateSource? = nil, cloudFrontDefaultCertificate: Bool? = nil, iAMCertificateId: String? = nil, minimumProtocolVersion: MinimumProtocolVersion? = nil, sSLSupportMethod: SSLSupportMethod? = nil) {
+        public init(aCMCertificateArn: String? = nil, cloudFrontDefaultCertificate: Bool? = nil, iAMCertificateId: String? = nil, minimumProtocolVersion: MinimumProtocolVersion? = nil, sSLSupportMethod: SSLSupportMethod? = nil) {
             self.aCMCertificateArn = aCMCertificateArn
-            self.certificate = certificate
-            self.certificateSource = certificateSource
             self.cloudFrontDefaultCertificate = cloudFrontDefaultCertificate
             self.iAMCertificateId = iAMCertificateId
             self.minimumProtocolVersion = minimumProtocolVersion
@@ -4305,8 +4297,6 @@ extension CloudFront {
 
         private enum CodingKeys: String, CodingKey {
             case aCMCertificateArn = "ACMCertificateArn"
-            case certificate = "Certificate"
-            case certificateSource = "CertificateSource"
             case cloudFrontDefaultCertificate = "CloudFrontDefaultCertificate"
             case iAMCertificateId = "IAMCertificateId"
             case minimumProtocolVersion = "MinimumProtocolVersion"

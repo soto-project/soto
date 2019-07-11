@@ -2417,7 +2417,6 @@ extension ElastiCache {
             AWSShapeMember(label: "CacheParameterGroupName", required: false, type: .string), 
             AWSShapeMember(label: "CacheSecurityGroupNames", required: false, type: .list, encoding: .list(member:"CacheSecurityGroupName")), 
             AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "NodeGroupId", required: false, type: .string), 
             AWSShapeMember(label: "NotificationTopicArn", required: false, type: .string), 
             AWSShapeMember(label: "NotificationTopicStatus", required: false, type: .string), 
             AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
@@ -2443,8 +2442,6 @@ extension ElastiCache {
         public let cacheSecurityGroupNames: [String]?
         /// The upgraded version of the cache engine to be run on the clusters in the replication group.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing replication group and create it anew with the earlier engine version. 
         public let engineVersion: String?
-        /// Deprecated. This parameter is not used.
-        public let nodeGroupId: String?
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which notifications are sent.  The Amazon SNS topic owner must be same as the replication group owner.  
         public let notificationTopicArn: String?
         /// The status of the Amazon SNS notification topic for the replication group. Notifications are sent only if the status is active. Valid values: active | inactive 
@@ -2466,7 +2463,7 @@ extension ElastiCache {
         /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of the node group (shard) specified by SnapshottingClusterId. Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.
         public let snapshotWindow: String?
         
-        public init(applyImmediately: Bool? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, engineVersion: String? = nil, nodeGroupId: String? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int32? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil) {
+        public init(applyImmediately: Bool? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, engineVersion: String? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int32? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil) {
             self.applyImmediately = applyImmediately
             self.automaticFailoverEnabled = automaticFailoverEnabled
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -2474,7 +2471,6 @@ extension ElastiCache {
             self.cacheParameterGroupName = cacheParameterGroupName
             self.cacheSecurityGroupNames = cacheSecurityGroupNames
             self.engineVersion = engineVersion
-            self.nodeGroupId = nodeGroupId
             self.notificationTopicArn = notificationTopicArn
             self.notificationTopicStatus = notificationTopicStatus
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
@@ -2495,7 +2491,6 @@ extension ElastiCache {
             case cacheParameterGroupName = "CacheParameterGroupName"
             case cacheSecurityGroupNames = "CacheSecurityGroupNames"
             case engineVersion = "EngineVersion"
-            case nodeGroupId = "NodeGroupId"
             case notificationTopicArn = "NotificationTopicArn"
             case notificationTopicStatus = "NotificationTopicStatus"
             case preferredMaintenanceWindow = "PreferredMaintenanceWindow"

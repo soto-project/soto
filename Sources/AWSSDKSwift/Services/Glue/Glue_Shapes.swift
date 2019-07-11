@@ -1703,7 +1703,6 @@ extension Glue {
 
     public struct CreateJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocatedCapacity", required: false, type: .integer), 
             AWSShapeMember(label: "Command", required: true, type: .structure), 
             AWSShapeMember(label: "Connections", required: false, type: .structure), 
             AWSShapeMember(label: "DefaultArguments", required: false, type: .map), 
@@ -1721,8 +1720,6 @@ extension Glue {
             AWSShapeMember(label: "Timeout", required: false, type: .integer), 
             AWSShapeMember(label: "WorkerType", required: false, type: .string)
         ]
-        /// This parameter is deprecated. Use MaxCapacity instead. The number of AWS Glue data processing units (DPUs) to allocate to this Job. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.
-        public let allocatedCapacity: Int32?
         /// The JobCommand that executes this job.
         public let command: JobCommand
         /// The connections used for this job.
@@ -1756,8 +1753,7 @@ extension Glue {
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.  
         public let workerType: String?
         
-        public init(allocatedCapacity: Int32? = nil, command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int32? = nil, name: String, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int32? = nil, role: String, securityConfiguration: String? = nil, tags: [String: String]? = nil, timeout: Int32? = nil, workerType: String? = nil) {
-            self.allocatedCapacity = allocatedCapacity
+        public init(command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int32? = nil, name: String, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int32? = nil, role: String, securityConfiguration: String? = nil, tags: [String: String]? = nil, timeout: Int32? = nil, workerType: String? = nil) {
             self.command = command
             self.connections = connections
             self.defaultArguments = defaultArguments
@@ -1777,7 +1773,6 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allocatedCapacity = "AllocatedCapacity"
             case command = "Command"
             case connections = "Connections"
             case defaultArguments = "DefaultArguments"
@@ -4770,7 +4765,6 @@ extension Glue {
 
     public struct Job: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocatedCapacity", required: false, type: .integer), 
             AWSShapeMember(label: "Command", required: false, type: .structure), 
             AWSShapeMember(label: "Connections", required: false, type: .structure), 
             AWSShapeMember(label: "CreatedOn", required: false, type: .timestamp), 
@@ -4789,8 +4783,6 @@ extension Glue {
             AWSShapeMember(label: "Timeout", required: false, type: .integer), 
             AWSShapeMember(label: "WorkerType", required: false, type: .enum)
         ]
-        /// This field is deprecated. Use MaxCapacity instead. The number of AWS Glue data processing units (DPUs) allocated to runs of this job. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. 
-        public let allocatedCapacity: Int32?
         /// The JobCommand that executes this job.
         public let command: JobCommand?
         /// The connections used for this job.
@@ -4826,8 +4818,7 @@ extension Glue {
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.  
         public let workerType: WorkerType?
         
-        public init(allocatedCapacity: Int32? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: TimeStamp? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, lastModifiedOn: TimeStamp? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int32? = nil, name: String? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int32? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil, workerType: WorkerType? = nil) {
-            self.allocatedCapacity = allocatedCapacity
+        public init(command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: TimeStamp? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, lastModifiedOn: TimeStamp? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int32? = nil, name: String? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int32? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil, workerType: WorkerType? = nil) {
             self.command = command
             self.connections = connections
             self.createdOn = createdOn
@@ -4848,7 +4839,6 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allocatedCapacity = "AllocatedCapacity"
             case command = "Command"
             case connections = "Connections"
             case createdOn = "CreatedOn"
@@ -4976,7 +4966,6 @@ extension Glue {
 
     public struct JobRun: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocatedCapacity", required: false, type: .integer), 
             AWSShapeMember(label: "Arguments", required: false, type: .map), 
             AWSShapeMember(label: "Attempt", required: false, type: .integer), 
             AWSShapeMember(label: "CompletedOn", required: false, type: .timestamp), 
@@ -4998,8 +4987,6 @@ extension Glue {
             AWSShapeMember(label: "TriggerName", required: false, type: .string), 
             AWSShapeMember(label: "WorkerType", required: false, type: .enum)
         ]
-        /// This field is deprecated. Use MaxCapacity instead. The number of AWS Glue data processing units (DPUs) allocated to this JobRun. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.
-        public let allocatedCapacity: Int32?
         /// The job arguments associated with this run. For this job run, they replace the default arguments set in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
         public let arguments: [String: String]?
         /// The number of the attempt to run this job.
@@ -5041,8 +5028,7 @@ extension Glue {
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.  
         public let workerType: WorkerType?
         
-        public init(allocatedCapacity: Int32? = nil, arguments: [String: String]? = nil, attempt: Int32? = nil, completedOn: TimeStamp? = nil, errorMessage: String? = nil, executionTime: Int32? = nil, id: String? = nil, jobName: String? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: TimeStamp? = nil, logGroupName: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int32? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, securityConfiguration: String? = nil, startedOn: TimeStamp? = nil, timeout: Int32? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
-            self.allocatedCapacity = allocatedCapacity
+        public init(arguments: [String: String]? = nil, attempt: Int32? = nil, completedOn: TimeStamp? = nil, errorMessage: String? = nil, executionTime: Int32? = nil, id: String? = nil, jobName: String? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: TimeStamp? = nil, logGroupName: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int32? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, securityConfiguration: String? = nil, startedOn: TimeStamp? = nil, timeout: Int32? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
             self.arguments = arguments
             self.attempt = attempt
             self.completedOn = completedOn
@@ -5066,7 +5052,6 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allocatedCapacity = "AllocatedCapacity"
             case arguments = "Arguments"
             case attempt = "Attempt"
             case completedOn = "CompletedOn"
@@ -5103,7 +5088,6 @@ extension Glue {
 
     public struct JobUpdate: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocatedCapacity", required: false, type: .integer), 
             AWSShapeMember(label: "Command", required: false, type: .structure), 
             AWSShapeMember(label: "Connections", required: false, type: .structure), 
             AWSShapeMember(label: "DefaultArguments", required: false, type: .map), 
@@ -5119,8 +5103,6 @@ extension Glue {
             AWSShapeMember(label: "Timeout", required: false, type: .integer), 
             AWSShapeMember(label: "WorkerType", required: false, type: .enum)
         ]
-        /// This field is deprecated. Use MaxCapacity instead. The number of AWS Glue data processing units (DPUs) to allocate to this job. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.
-        public let allocatedCapacity: Int32?
         /// The JobCommand that executes this job (required).
         public let command: JobCommand?
         /// The connections used for this job.
@@ -5150,8 +5132,7 @@ extension Glue {
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.  
         public let workerType: WorkerType?
         
-        public init(allocatedCapacity: Int32? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int32? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int32? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil, workerType: WorkerType? = nil) {
-            self.allocatedCapacity = allocatedCapacity
+        public init(command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int32? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int32? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil, workerType: WorkerType? = nil) {
             self.command = command
             self.connections = connections
             self.defaultArguments = defaultArguments
@@ -5169,7 +5150,6 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allocatedCapacity = "AllocatedCapacity"
             case command = "Command"
             case connections = "Connections"
             case defaultArguments = "DefaultArguments"
@@ -6286,7 +6266,6 @@ extension Glue {
 
     public struct StartJobRunRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllocatedCapacity", required: false, type: .integer), 
             AWSShapeMember(label: "Arguments", required: false, type: .map), 
             AWSShapeMember(label: "JobName", required: true, type: .string), 
             AWSShapeMember(label: "JobRunId", required: false, type: .string), 
@@ -6297,8 +6276,6 @@ extension Glue {
             AWSShapeMember(label: "Timeout", required: false, type: .integer), 
             AWSShapeMember(label: "WorkerType", required: false, type: .string)
         ]
-        /// This field is deprecated. Use MaxCapacity instead. The number of AWS Glue data processing units (DPUs) to allocate to this JobRun. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.
-        public let allocatedCapacity: Int32?
         /// The job arguments specifically for this run. For this job run, they replace the default arguments set in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
         public let arguments: [String: String]?
         /// The name of the job definition to use.
@@ -6318,8 +6295,7 @@ extension Glue {
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.  
         public let workerType: String?
         
-        public init(allocatedCapacity: Int32? = nil, arguments: [String: String]? = nil, jobName: String, jobRunId: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int32? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil, workerType: String? = nil) {
-            self.allocatedCapacity = allocatedCapacity
+        public init(arguments: [String: String]? = nil, jobName: String, jobRunId: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int32? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil, workerType: String? = nil) {
             self.arguments = arguments
             self.jobName = jobName
             self.jobRunId = jobRunId
@@ -6332,7 +6308,6 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allocatedCapacity = "AllocatedCapacity"
             case arguments = "Arguments"
             case jobName = "JobName"
             case jobRunId = "JobRunId"

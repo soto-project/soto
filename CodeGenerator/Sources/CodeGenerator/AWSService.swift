@@ -133,7 +133,10 @@ struct AWSService {
                 structure[_struct["shape"].stringValue] = try shapeType(from: shapeJSON, level: level+1)
             }
 
-            let members: [Member] = try json["members"].dictionaryValue.map { name, memberJSON in
+            let members: [Member] = try json["members"].dictionaryValue.compactMap { name, memberJSON in
+                if memberJSON["deprecated"].bool == true {
+                    return nil
+                }
                 let name = name
                 let memberDict = try JSONSerialization.jsonObject(with: memberJSON.rawData(), options: []) as? [String: Any] ?? [:]
                 let shapeName = memberJSON["shape"].stringValue
