@@ -30,7 +30,7 @@ for index in 0..<apis.count {
             let basePath = "\(rootPath())/Sources/AWSSDKSwift/Services/\(service.serviceName)/"
             _ = mkdirp(basePath)
 
-           /* let apiContext = service.generateServiceContext()
+            let apiContext = service.generateServiceContext()
             try environment.renderTemplate(name: "api.stencil", context: apiContext).write(
                     toFile: "\(basePath)/\(service.serviceName)_API.swift",
                     atomically: true,
@@ -49,9 +49,9 @@ for index in 0..<apis.count {
                 toFile: "\(basePath)/\(service.serviceName)_Error.swift",
                 atomically: true,
                 encoding: .utf8
-            )*/
+            )
 
-            try service.generateServiceCode()
+            /*try service.generateServiceCode()
                 .write(
                     toFile: "\(basePath)/\(service.serviceName)_API.swift",
                     atomically: true,
@@ -73,7 +73,7 @@ for index in 0..<apis.count {
                         atomically: true,
                         encoding: .utf8
                 )
-            }
+            }*/
 
             log("Succesfully Generated \(service.serviceName) codes!")
             group.leave()

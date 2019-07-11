@@ -265,9 +265,9 @@ extension AWSService {
         switch endpointPrefix {
         case "s3":
             context["middlewareFramework"] = "S3Middleware"
-            context["middlewareClass"] = "S3RequestMiddleware"
+            context["middlewareClass"] = "S3RequestMiddleware()"
         case "glacier":
-            context["middlewareFramework"] = "GlacierMiddleware()"
+            context["middlewareFramework"] = "GlacierMiddleware"
             context["middlewareClass"] = "GlacierRequestMiddleware(apiVersion: \"\(version)\")"
         default:
             break
@@ -280,7 +280,7 @@ extension AWSService {
         var operationContexts : [[String : Any]] = []
         for operation in operations {
             var context : [String: Any] = [:]
-            context["comment"] = docJSON["operations"][operation.name].stringValue.tagStriped()
+            context["comment"] = docJSON["operations"][operation.name].stringValue.tagStriped().split(separator: "\n")
             context["funcName"] = operation.name.toSwiftVariableCase()
             context["inputShape"] = operation.inputShape?.toSwiftType()
             context["outputShape"] = operation.outputShape?.toSwiftType()
@@ -527,7 +527,9 @@ extension AWSService {
         context["type"] = member.swiftTypeName + (member.required ? "" : "?")
         context["typeEnum"] = "\(shape2Hint(shape: member.shape))"
         context["encoding"] = member.shapeEncoding?.enumStyleDescription()
-        context["comment"] = shapeDoc[shape.name]?[member.name]
+        if let comment = shapeDoc[shape.name]?[member.name] {
+            context["comment"] = comment.split(separator: "\n")
+        }
         return context
     }
     

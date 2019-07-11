@@ -4,8 +4,8 @@
 {%endif %}{%if shape.struct.members.count > 0%}        public static var _members: [AWSShapeMember] = [
         {%for member in shape.struct.members %}    AWSShapeMember(label: "{{member.name}}", {%if member.location %}location: {{member.location}}, {%endif %}required: {{member.required}}, type: .{{member.typeEnum}}{%if member.encoding %}, encoding: {{member.encoding}}{%endif %}){%if not forloop.last %}, {%endif %}
         {%endfor %}]
-{%endif %}{%for member in shape.struct.members %}{%if member.comment %}        /// {{member.comment}}
-{%endif %}        public let {{member.variable}}: {{member.type}}
+{%endif %}{%for member in shape.struct.members %}{%for comment in member.comment %}        /// {{comment}}
+{%endfor %}        public let {{member.variable}}: {{member.type}}
 {%endfor %}
         public init({%for member in shape.struct.members %}{{member.parameter}}: {{member.type}}{%if not member.required%} = nil{%endif %}{%if not forloop.last %}, {%endif %}{%endfor %}) {
         {%for member in shape.struct.members %}    self.{{member.variable}} = {{member.variable}}
