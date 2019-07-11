@@ -45,36 +45,13 @@ for index in 0..<apis.count {
             )
             
             let errorContext = service.generateErrorContext()
-            try environment.renderTemplate(name: "error.stencil", context: errorContext).write(
-                toFile: "\(basePath)/\(service.serviceName)_Error.swift",
-                atomically: true,
-                encoding: .utf8
-            )
-
-            /*try service.generateServiceCode()
-                .write(
-                    toFile: "\(basePath)/\(service.serviceName)_API.swift",
+            if errorContext["errors"] != nil {
+                try environment.renderTemplate(name: "error.stencil", context: errorContext).write(
+                    toFile: "\(basePath)/\(service.serviceName)_Error.swift",
                     atomically: true,
                     encoding: .utf8
-            )
-            
-            try service.generateShapesCode()
-                .write(
-                    toFile: "\(basePath)/\(service.serviceName)_Shapes.swift",
-                    atomically: true,
-                    encoding: .utf8
-            )
-            
-            if !service.errorShapeNames.isEmpty {
-                errorShapeMap[service.endpointPrefix] = service.serviceErrorName
-                try service.generateErrorCode()
-                    .write(
-                        toFile: "\(basePath)/\(service.serviceName)_Error.swift",
-                        atomically: true,
-                        encoding: .utf8
                 )
-            }*/
-
+            }
             log("Succesfully Generated \(service.serviceName) codes!")
             group.leave()
         } catch {

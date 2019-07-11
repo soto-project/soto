@@ -208,7 +208,9 @@ extension AWSService {
             context["string"] = error
             errorContexts.append(context)
         }
-        context["errors"] = errorContexts
+        if errorContexts.count > 0 {
+            context["errors"] = errorContexts
+        }
         return context
     }
 

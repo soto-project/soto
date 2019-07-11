@@ -2359,7 +2359,7 @@ extension ElasticBeanstalk {
         /// The average latency for the slowest 0.1 percent of requests over the last 10 seconds.
         public let p999: Double?
 
-        public init(p10: Double? = nil, p50: Double? = nil, p75: Double? = nil, p85: Double? = nil, p90: Double? = nil, p95: Double? = nil, p999: Double? = nil, p99: Double? = nil) {
+        public init(p10: Double? = nil, p50: Double? = nil, p75: Double? = nil, p85: Double? = nil, p90: Double? = nil, p95: Double? = nil, p99: Double? = nil, p999: Double? = nil) {
             self.p10 = p10
             self.p50 = p50
             self.p75 = p75
