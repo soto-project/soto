@@ -12,7 +12,7 @@
         {%endfor %}}
 
         {%if shape.struct.members.count > 0%}private enum CodingKeys: String, CodingKey {
-        {%for member in shape.struct.members %}{%if member.duplicate %}    case {{member.variable}} = "_{{member.locationPath}}" // TODO this is temporary measure for avoiding CondingKey duplication.
+        {%for member in shape.struct.members %}{%if member.duplicate %}    case {{member.variable}} = "_{{member.locationPath}}" // TODO this is temporary measure for avoiding CodingKey duplication.
         {%else %}    case {{member.variable}} = "{{member.locationPath}}"
         {%endif %}{%endfor %}}
     {%endif %}}

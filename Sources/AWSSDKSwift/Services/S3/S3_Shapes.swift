@@ -497,7 +497,7 @@ extension S3 {
         private enum CodingKeys: String, CodingKey {
             case cloudFunction = "CloudFunction"
             case event = "Event"
-            case events = "_Event" // TODO this is temporary measure for avoiding CondingKey duplication.
+            case events = "_Event" // TODO this is temporary measure for avoiding CodingKey duplication.
             case id = "Id"
             case invocationRole = "InvocationRole"
         }
@@ -6418,7 +6418,7 @@ extension S3 {
 
         private enum CodingKeys: String, CodingKey {
             case event = "Event"
-            case events = "_Event" // TODO this is temporary measure for avoiding CondingKey duplication.
+            case events = "_Event" // TODO this is temporary measure for avoiding CodingKey duplication.
             case id = "Id"
             case queue = "Queue"
         }
@@ -7339,7 +7339,7 @@ extension S3 {
 
         private enum CodingKeys: String, CodingKey {
             case event = "Event"
-            case events = "_Event" // TODO this is temporary measure for avoiding CondingKey duplication.
+            case events = "_Event" // TODO this is temporary measure for avoiding CodingKey duplication.
             case id = "Id"
             case topic = "Topic"
         }
