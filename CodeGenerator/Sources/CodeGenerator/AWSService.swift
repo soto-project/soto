@@ -182,7 +182,7 @@ struct AWSService {
                     xmlNamespace: XMLNamespace(dictionary: memberDict),
                     isStreaming: memberJSON["streaming"].bool ?? false
                 )
-            }.sorted{ $0.name.toSwiftLabelCase() < $1.name.toSwiftLabelCase() }
+            }.sorted{ $0.name.lowercased() < $1.name.lowercased() }
 
             let shape = StructureShape(members: members, payload: json["payload"].string)
             type = .structure(shape)

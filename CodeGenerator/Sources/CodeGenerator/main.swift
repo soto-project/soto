@@ -52,7 +52,7 @@ for index in 0..<apis.count {
                     encoding: .utf8
                 )
             }
-            log("Succesfully Generated \(service.serviceName) codes!")
+            print("Succesfully Generated \(service.serviceName) codes!")
             group.leave()
         } catch {
             DispatchQueue.main.sync {
