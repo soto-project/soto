@@ -22,7 +22,7 @@ func indt(_ times: Int, hard: Bool = true) -> String {
 func rootPath() -> String {
     return #file
         .split(separator: "/", omittingEmptySubsequences: false)
-        .dropLast(3)
+        .dropLast(4)
         .map { String(describing: $0) }
         .joined(separator: "/")
 }
@@ -33,7 +33,7 @@ func apiDirectories() -> [String] {
 
 func loadEndpointJSON() throws -> JSON {
     let data = try Data(contentsOf: URL(string: "file://\(rootPath())/models/endpoints/endpoints.json")!)
-    return try JSON(data: data)
+    return JSON(data: data)
 }
 
 func loadDocJSONList() throws -> [JSON] {
@@ -46,7 +46,7 @@ func loadDocJSONList() throws -> [JSON] {
 
     return try docPaths.map {
         let data = try Data(contentsOf: URL(string: "file://\($0)")!)
-        return try JSON(data: data)
+        return JSON(data: data)
     }
 }
 
@@ -60,7 +60,7 @@ func loadAPIJSONList() throws -> [JSON] {
 
     return try apiPaths.map {
         let data = try Data(contentsOf: URL(string: "file://\($0)")!)
-        var json = try JSON(data: data)
+        var json = JSON(data: data)
         json["serviceName"].stringValue = serviceNameForApi(apiJSON: json)
         return json
     }
@@ -82,7 +82,7 @@ let serviceAliases: [String:String] = [
 func serviceNameForApi(apiJSON: JSON) -> String {
     var serviceNameJSON = apiJSON["metadata"]["serviceAbbreviation"]
 
-    if serviceNameJSON == JSON.null {
+    if serviceNameJSON == nil {
         serviceNameJSON = apiJSON["metadata"]["serviceFullName"]
     }
 
