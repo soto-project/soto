@@ -828,8 +828,8 @@ extension MachineLearning {
             AWSShapeMember(label: "GE", required: false, type: .string), 
             AWSShapeMember(label: "GT", required: false, type: .string), 
             AWSShapeMember(label: "LE", required: false, type: .string), 
-            AWSShapeMember(label: "LT", required: false, type: .string), 
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "LT", required: false, type: .string), 
             AWSShapeMember(label: "NE", required: false, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Prefix", required: false, type: .string), 
@@ -845,10 +845,10 @@ extension MachineLearning {
         public let gt: String?
         /// The less than or equal to operator. The BatchPrediction results will have FilterVariable values that are less than or equal to the value specified with LE.
         public let le: String?
-        /// The less than operator. The BatchPrediction results will have FilterVariable values that are less than the value specified with LT.
-        public let lt: String?
         /// The number of pages of information to include in the result. The range of acceptable values is 1 through 100. The default value is 100.
         public let limit: Int32?
+        /// The less than operator. The BatchPrediction results will have FilterVariable values that are less than the value specified with LT.
+        public let lt: String?
         /// The not equal to operator. The BatchPrediction results will have FilterVariable values not equal to the value specified with NE.
         public let ne: String?
         /// An ID of the page in the paginated results.
@@ -864,8 +864,8 @@ extension MachineLearning {
             self.ge = ge
             self.gt = gt
             self.le = le
-            self.lt = lt
             self.limit = limit
+            self.lt = lt
             self.ne = ne
             self.nextToken = nextToken
             self.prefix = prefix
@@ -878,8 +878,8 @@ extension MachineLearning {
             case ge = "GE"
             case gt = "GT"
             case le = "LE"
-            case lt = "LT"
             case limit = "Limit"
+            case lt = "LT"
             case ne = "NE"
             case nextToken = "NextToken"
             case prefix = "Prefix"
@@ -915,8 +915,8 @@ extension MachineLearning {
             AWSShapeMember(label: "GE", required: false, type: .string), 
             AWSShapeMember(label: "GT", required: false, type: .string), 
             AWSShapeMember(label: "LE", required: false, type: .string), 
-            AWSShapeMember(label: "LT", required: false, type: .string), 
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "LT", required: false, type: .string), 
             AWSShapeMember(label: "NE", required: false, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Prefix", required: false, type: .string), 
@@ -932,10 +932,10 @@ extension MachineLearning {
         public let gt: String?
         /// The less than or equal to operator. The DataSource results will have FilterVariable values that are less than or equal to the value specified with LE.
         public let le: String?
-        /// The less than operator. The DataSource results will have FilterVariable values that are less than the value specified with LT.
-        public let lt: String?
         ///  The maximum number of DataSource to include in the result.
         public let limit: Int32?
+        /// The less than operator. The DataSource results will have FilterVariable values that are less than the value specified with LT.
+        public let lt: String?
         /// The not equal to operator. The DataSource results will have FilterVariable values not equal to the value specified with NE.
         public let ne: String?
         /// The ID of the page in the paginated results.
@@ -951,8 +951,8 @@ extension MachineLearning {
             self.ge = ge
             self.gt = gt
             self.le = le
-            self.lt = lt
             self.limit = limit
+            self.lt = lt
             self.ne = ne
             self.nextToken = nextToken
             self.prefix = prefix
@@ -965,8 +965,8 @@ extension MachineLearning {
             case ge = "GE"
             case gt = "GT"
             case le = "LE"
-            case lt = "LT"
             case limit = "Limit"
+            case lt = "LT"
             case ne = "NE"
             case nextToken = "NextToken"
             case prefix = "Prefix"
@@ -1002,8 +1002,8 @@ extension MachineLearning {
             AWSShapeMember(label: "GE", required: false, type: .string), 
             AWSShapeMember(label: "GT", required: false, type: .string), 
             AWSShapeMember(label: "LE", required: false, type: .string), 
-            AWSShapeMember(label: "LT", required: false, type: .string), 
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "LT", required: false, type: .string), 
             AWSShapeMember(label: "NE", required: false, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Prefix", required: false, type: .string), 
@@ -1019,10 +1019,10 @@ extension MachineLearning {
         public let gt: String?
         /// The less than or equal to operator. The Evaluation results will have FilterVariable values that are less than or equal to the value specified with LE.
         public let le: String?
-        /// The less than operator. The Evaluation results will have FilterVariable values that are less than the value specified with LT.
-        public let lt: String?
         ///  The maximum number of Evaluation to include in the result.
         public let limit: Int32?
+        /// The less than operator. The Evaluation results will have FilterVariable values that are less than the value specified with LT.
+        public let lt: String?
         /// The not equal to operator. The Evaluation results will have FilterVariable values not equal to the value specified with NE.
         public let ne: String?
         /// The ID of the page in the paginated results.
@@ -1038,8 +1038,8 @@ extension MachineLearning {
             self.ge = ge
             self.gt = gt
             self.le = le
-            self.lt = lt
             self.limit = limit
+            self.lt = lt
             self.ne = ne
             self.nextToken = nextToken
             self.prefix = prefix
@@ -1052,8 +1052,8 @@ extension MachineLearning {
             case ge = "GE"
             case gt = "GT"
             case le = "LE"
-            case lt = "LT"
             case limit = "Limit"
+            case lt = "LT"
             case ne = "NE"
             case nextToken = "NextToken"
             case prefix = "Prefix"
@@ -1089,8 +1089,8 @@ extension MachineLearning {
             AWSShapeMember(label: "GE", required: false, type: .string), 
             AWSShapeMember(label: "GT", required: false, type: .string), 
             AWSShapeMember(label: "LE", required: false, type: .string), 
-            AWSShapeMember(label: "LT", required: false, type: .string), 
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "LT", required: false, type: .string), 
             AWSShapeMember(label: "NE", required: false, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Prefix", required: false, type: .string), 
@@ -1106,10 +1106,10 @@ extension MachineLearning {
         public let gt: String?
         /// The less than or equal to operator. The MLModel results will have FilterVariable values that are less than or equal to the value specified with LE.
         public let le: String?
-        /// The less than operator. The MLModel results will have FilterVariable values that are less than the value specified with LT.
-        public let lt: String?
         /// The number of pages of information to include in the result. The range of acceptable values is 1 through 100. The default value is 100.
         public let limit: Int32?
+        /// The less than operator. The MLModel results will have FilterVariable values that are less than the value specified with LT.
+        public let lt: String?
         /// The not equal to operator. The MLModel results will have FilterVariable values not equal to the value specified with NE.
         public let ne: String?
         /// The ID of the page in the paginated results.
@@ -1125,8 +1125,8 @@ extension MachineLearning {
             self.ge = ge
             self.gt = gt
             self.le = le
-            self.lt = lt
             self.limit = limit
+            self.lt = lt
             self.ne = ne
             self.nextToken = nextToken
             self.prefix = prefix
@@ -1139,8 +1139,8 @@ extension MachineLearning {
             case ge = "GE"
             case gt = "GT"
             case le = "LE"
-            case lt = "LT"
             case limit = "Limit"
+            case lt = "LT"
             case ne = "NE"
             case nextToken = "NextToken"
             case prefix = "Prefix"

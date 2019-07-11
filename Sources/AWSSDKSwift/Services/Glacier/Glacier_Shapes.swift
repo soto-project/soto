@@ -61,26 +61,26 @@ extension Glacier {
 
     public struct AddTagsToVaultInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .map), 
             AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .map), 
             AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string)
         ]
-        /// The tags to add to the vault. Each tag is composed of a key and a value. The value can be an empty string.
-        public let tags: [String: String]?
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
+        /// The tags to add to the vault. Each tag is composed of a key and a value. The value can be an empty string.
+        public let tags: [String: String]?
         /// The name of the vault.
         public let vaultName: String
 
         public init(accountId: String, tags: [String: String]? = nil, vaultName: String) {
-            self.tags = tags
             self.accountId = accountId
+            self.tags = tags
             self.vaultName = vaultName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
             case accountId = "accountId"
+            case tags = "Tags"
             case vaultName = "vaultName"
         }
     }
@@ -1704,26 +1704,26 @@ extension Glacier {
 
     public struct RemoveTagsFromVaultInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagKeys", required: false, type: .list), 
             AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: false, type: .list), 
             AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string)
         ]
-        /// A list of tag keys. Each corresponding tag is removed from the vault.
-        public let tagKeys: [String]?
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
+        /// A list of tag keys. Each corresponding tag is removed from the vault.
+        public let tagKeys: [String]?
         /// The name of the vault.
         public let vaultName: String
 
         public init(accountId: String, tagKeys: [String]? = nil, vaultName: String) {
-            self.tagKeys = tagKeys
             self.accountId = accountId
+            self.tagKeys = tagKeys
             self.vaultName = vaultName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tagKeys = "TagKeys"
             case accountId = "accountId"
+            case tagKeys = "TagKeys"
             case vaultName = "vaultName"
         }
     }
@@ -1812,22 +1812,22 @@ extension Glacier {
 
     public struct SetDataRetrievalPolicyInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Policy", required: false, type: .structure), 
-            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string)
+            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "Policy", required: false, type: .structure)
         ]
-        /// The data retrieval policy in JSON format.
-        public let policy: DataRetrievalPolicy?
         /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
+        /// The data retrieval policy in JSON format.
+        public let policy: DataRetrievalPolicy?
 
         public init(accountId: String, policy: DataRetrievalPolicy? = nil) {
-            self.policy = policy
             self.accountId = accountId
+            self.policy = policy
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy = "Policy"
             case accountId = "accountId"
+            case policy = "Policy"
         }
     }
 

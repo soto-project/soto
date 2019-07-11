@@ -1874,12 +1874,12 @@ extension WorkSpaces {
             AWSShapeMember(label: "DirectoryType", required: false, type: .enum), 
             AWSShapeMember(label: "DnsIpAddresses", required: false, type: .list), 
             AWSShapeMember(label: "IamRoleId", required: false, type: .string), 
+            AWSShapeMember(label: "ipGroupIds", required: false, type: .list), 
             AWSShapeMember(label: "RegistrationCode", required: false, type: .string), 
             AWSShapeMember(label: "State", required: false, type: .enum), 
             AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
             AWSShapeMember(label: "WorkspaceCreationProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "WorkspaceSecurityGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "ipGroupIds", required: false, type: .list)
+            AWSShapeMember(label: "WorkspaceSecurityGroupId", required: false, type: .string)
         ]
         /// The directory alias.
         public let alias: String?
@@ -1895,6 +1895,8 @@ extension WorkSpaces {
         public let dnsIpAddresses: [String]?
         /// The identifier of the IAM role. This is the role that allows Amazon WorkSpaces to make calls to other services, such as Amazon EC2, on your behalf.
         public let iamRoleId: String?
+        /// The identifiers of the IP access control groups associated with the directory.
+        public let ipGroupIds: [String]?
         /// The registration code for the directory. This is the code that users enter in their Amazon WorkSpaces client application to connect to the directory.
         public let registrationCode: String?
         /// The state of the directory's registration with Amazon WorkSpaces
@@ -1905,8 +1907,6 @@ extension WorkSpaces {
         public let workspaceCreationProperties: DefaultWorkspaceCreationProperties?
         /// The identifier of the security group that is assigned to new WorkSpaces.
         public let workspaceSecurityGroupId: String?
-        /// The identifiers of the IP access control groups associated with the directory.
-        public let ipGroupIds: [String]?
 
         public init(alias: String? = nil, customerUserName: String? = nil, directoryId: String? = nil, directoryName: String? = nil, directoryType: WorkspaceDirectoryType? = nil, dnsIpAddresses: [String]? = nil, iamRoleId: String? = nil, ipGroupIds: [String]? = nil, registrationCode: String? = nil, state: WorkspaceDirectoryState? = nil, subnetIds: [String]? = nil, workspaceCreationProperties: DefaultWorkspaceCreationProperties? = nil, workspaceSecurityGroupId: String? = nil) {
             self.alias = alias
@@ -1916,12 +1916,12 @@ extension WorkSpaces {
             self.directoryType = directoryType
             self.dnsIpAddresses = dnsIpAddresses
             self.iamRoleId = iamRoleId
+            self.ipGroupIds = ipGroupIds
             self.registrationCode = registrationCode
             self.state = state
             self.subnetIds = subnetIds
             self.workspaceCreationProperties = workspaceCreationProperties
             self.workspaceSecurityGroupId = workspaceSecurityGroupId
-            self.ipGroupIds = ipGroupIds
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1932,12 +1932,12 @@ extension WorkSpaces {
             case directoryType = "DirectoryType"
             case dnsIpAddresses = "DnsIpAddresses"
             case iamRoleId = "IamRoleId"
+            case ipGroupIds = "ipGroupIds"
             case registrationCode = "RegistrationCode"
             case state = "State"
             case subnetIds = "SubnetIds"
             case workspaceCreationProperties = "WorkspaceCreationProperties"
             case workspaceSecurityGroupId = "WorkspaceSecurityGroupId"
-            case ipGroupIds = "ipGroupIds"
         }
     }
 

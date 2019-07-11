@@ -1172,9 +1172,9 @@ extension CloudFront {
 
     public struct Distribution: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: true, type: .string), 
             AWSShapeMember(label: "ActiveTrustedSigners", required: true, type: .structure), 
             AWSShapeMember(label: "AliasICPRecordals", required: false, type: .list, encoding: .list(member:"AliasICPRecordal")), 
+            AWSShapeMember(label: "ARN", required: true, type: .string), 
             AWSShapeMember(label: "DistributionConfig", required: true, type: .structure), 
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
             AWSShapeMember(label: "Id", required: true, type: .string), 
@@ -1182,12 +1182,12 @@ extension CloudFront {
             AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
             AWSShapeMember(label: "Status", required: true, type: .string)
         ]
-        /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your AWS account ID.
-        public let arn: String
         /// CloudFront automatically adds this element to the response only if you've set up the distribution to serve private content with signed URLs. The element lists the key pair IDs that CloudFront is aware of for each trusted signer. The Signer child element lists the AWS account number of the trusted signer (or an empty Self element if the signer is you). The Signer element also includes the IDs of any active key pairs associated with the trusted signer's AWS account. If no KeyPairId element appears for a Signer, that signer can't create working signed URLs.
         public let activeTrustedSigners: ActiveTrustedSigners
         /// AWS services in China customers must file for an Internet Content Provider (ICP) recordal if they want to serve content publicly on an alternate domain name, also known as a CNAME, that they've added to CloudFront. AliasICPRecordal provides the ICP recordal status for CNAMEs associated with distributions. For more information about ICP recordals, see  Signup, Accounts, and Credentials in Getting Started with AWS services in China.
         public let aliasICPRecordals: [AliasICPRecordal]?
+        /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your AWS account ID.
+        public let arn: String
         /// The current configuration information for the distribution. Send a GET request to the /CloudFront API version/distribution ID/config resource.
         public let distributionConfig: DistributionConfig
         /// The domain name corresponding to the distribution, for example, d111111abcdef8.cloudfront.net. 
@@ -1202,9 +1202,9 @@ extension CloudFront {
         public let status: String
 
         public init(activeTrustedSigners: ActiveTrustedSigners, aliasICPRecordals: [AliasICPRecordal]? = nil, arn: String, distributionConfig: DistributionConfig, domainName: String, id: String, inProgressInvalidationBatches: Int32, lastModifiedTime: TimeStamp, status: String) {
-            self.arn = arn
             self.activeTrustedSigners = activeTrustedSigners
             self.aliasICPRecordals = aliasICPRecordals
+            self.arn = arn
             self.distributionConfig = distributionConfig
             self.domainName = domainName
             self.id = id
@@ -1214,9 +1214,9 @@ extension CloudFront {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "ARN"
             case activeTrustedSigners = "ActiveTrustedSigners"
             case aliasICPRecordals = "AliasICPRecordals"
+            case arn = "ARN"
             case distributionConfig = "DistributionConfig"
             case domainName = "DomainName"
             case id = "Id"
@@ -1386,9 +1386,9 @@ extension CloudFront {
 
     public struct DistributionSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: true, type: .string), 
             AWSShapeMember(label: "AliasICPRecordals", required: false, type: .list, encoding: .list(member:"AliasICPRecordal")), 
             AWSShapeMember(label: "Aliases", required: true, type: .structure), 
+            AWSShapeMember(label: "ARN", required: true, type: .string), 
             AWSShapeMember(label: "CacheBehaviors", required: true, type: .structure), 
             AWSShapeMember(label: "Comment", required: true, type: .string), 
             AWSShapeMember(label: "CustomErrorResponses", required: true, type: .structure), 
@@ -1407,12 +1407,12 @@ extension CloudFront {
             AWSShapeMember(label: "ViewerCertificate", required: true, type: .structure), 
             AWSShapeMember(label: "WebACLId", required: true, type: .string)
         ]
-        /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your AWS account ID.
-        public let arn: String
         /// AWS services in China customers must file for an Internet Content Provider (ICP) recordal if they want to serve content publicly on an alternate domain name, also known as a CNAME, that they've added to CloudFront. AliasICPRecordal provides the ICP recordal status for CNAMEs associated with distributions. For more information about ICP recordals, see  Signup, Accounts, and Credentials in Getting Started with AWS services in China.
         public let aliasICPRecordals: [AliasICPRecordal]?
         /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this distribution.
         public let aliases: Aliases
+        /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your AWS account ID.
+        public let arn: String
         /// A complex type that contains zero or more CacheBehavior elements.
         public let cacheBehaviors: CacheBehaviors
         /// The comment originally specified when this distribution was created.
@@ -1449,9 +1449,9 @@ extension CloudFront {
         public let webACLId: String
 
         public init(aliasICPRecordals: [AliasICPRecordal]? = nil, aliases: Aliases, arn: String, cacheBehaviors: CacheBehaviors, comment: String, customErrorResponses: CustomErrorResponses, defaultCacheBehavior: DefaultCacheBehavior, domainName: String, enabled: Bool, httpVersion: HttpVersion, id: String, isIPV6Enabled: Bool, lastModifiedTime: TimeStamp, originGroups: OriginGroups? = nil, origins: Origins, priceClass: PriceClass, restrictions: Restrictions, status: String, viewerCertificate: ViewerCertificate, webACLId: String) {
-            self.arn = arn
             self.aliasICPRecordals = aliasICPRecordals
             self.aliases = aliases
+            self.arn = arn
             self.cacheBehaviors = cacheBehaviors
             self.comment = comment
             self.customErrorResponses = customErrorResponses
@@ -1472,9 +1472,9 @@ extension CloudFront {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "ARN"
             case aliasICPRecordals = "AliasICPRecordals"
             case aliases = "Aliases"
+            case arn = "ARN"
             case cacheBehaviors = "CacheBehaviors"
             case comment = "Comment"
             case customErrorResponses = "CustomErrorResponses"
@@ -3588,18 +3588,18 @@ extension CloudFront {
 
     public struct StreamingDistribution: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: true, type: .string), 
             AWSShapeMember(label: "ActiveTrustedSigners", required: true, type: .structure), 
+            AWSShapeMember(label: "ARN", required: true, type: .string), 
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
             AWSShapeMember(label: "Id", required: true, type: .string), 
             AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Status", required: true, type: .string), 
             AWSShapeMember(label: "StreamingDistributionConfig", required: true, type: .structure)
         ]
-        /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your AWS account ID.
-        public let arn: String
         /// A complex type that lists the AWS accounts, if any, that you included in the TrustedSigners complex type for this distribution. These are the accounts that you want to allow to create signed URLs for private content. The Signer complex type lists the AWS account number of the trusted signer or self if the signer is the AWS account that created the distribution. The Signer element also includes the IDs of any active CloudFront key pairs that are associated with the trusted signer's AWS account. If no KeyPairId element appears for a Signer, that signer can't create signed URLs. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide. 
         public let activeTrustedSigners: ActiveTrustedSigners
+        /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your AWS account ID.
+        public let arn: String
         /// The domain name that corresponds to the streaming distribution, for example, s5c39gqb8ow64r.cloudfront.net. 
         public let domainName: String
         /// The identifier for the RTMP distribution. For example: EGTXBD79EXAMPLE.
@@ -3612,8 +3612,8 @@ extension CloudFront {
         public let streamingDistributionConfig: StreamingDistributionConfig
 
         public init(activeTrustedSigners: ActiveTrustedSigners, arn: String, domainName: String, id: String, lastModifiedTime: TimeStamp? = nil, status: String, streamingDistributionConfig: StreamingDistributionConfig) {
-            self.arn = arn
             self.activeTrustedSigners = activeTrustedSigners
+            self.arn = arn
             self.domainName = domainName
             self.id = id
             self.lastModifiedTime = lastModifiedTime
@@ -3622,8 +3622,8 @@ extension CloudFront {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "ARN"
             case activeTrustedSigners = "ActiveTrustedSigners"
+            case arn = "ARN"
             case domainName = "DomainName"
             case id = "Id"
             case lastModifiedTime = "LastModifiedTime"
@@ -3747,8 +3747,8 @@ extension CloudFront {
 
     public struct StreamingDistributionSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ARN", required: true, type: .string), 
             AWSShapeMember(label: "Aliases", required: true, type: .structure), 
+            AWSShapeMember(label: "ARN", required: true, type: .string), 
             AWSShapeMember(label: "Comment", required: true, type: .string), 
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
             AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
@@ -3759,10 +3759,10 @@ extension CloudFront {
             AWSShapeMember(label: "Status", required: true, type: .string), 
             AWSShapeMember(label: "TrustedSigners", required: true, type: .structure)
         ]
-        ///  The ARN (Amazon Resource Name) for the streaming distribution. For example: arn:aws:cloudfront::123456789012:streaming-distribution/EDFDVBD632BHDS5, where 123456789012 is your AWS account ID.
-        public let arn: String
         /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this streaming distribution.
         public let aliases: Aliases
+        ///  The ARN (Amazon Resource Name) for the streaming distribution. For example: arn:aws:cloudfront::123456789012:streaming-distribution/EDFDVBD632BHDS5, where 123456789012 is your AWS account ID.
+        public let arn: String
         /// The comment originally specified when this distribution was created.
         public let comment: String
         /// The domain name corresponding to the distribution, for example, d111111abcdef8.cloudfront.net.
@@ -3783,8 +3783,8 @@ extension CloudFront {
         public let trustedSigners: TrustedSigners
 
         public init(aliases: Aliases, arn: String, comment: String, domainName: String, enabled: Bool, id: String, lastModifiedTime: TimeStamp, priceClass: PriceClass, s3Origin: S3Origin, status: String, trustedSigners: TrustedSigners) {
-            self.arn = arn
             self.aliases = aliases
+            self.arn = arn
             self.comment = comment
             self.domainName = domainName
             self.enabled = enabled
@@ -3797,8 +3797,8 @@ extension CloudFront {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "ARN"
             case aliases = "Aliases"
+            case arn = "ARN"
             case comment = "Comment"
             case domainName = "DomainName"
             case enabled = "Enabled"

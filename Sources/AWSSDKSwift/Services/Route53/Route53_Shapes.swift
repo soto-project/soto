@@ -570,35 +570,35 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HostedZoneId", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "TTL", required: true, type: .long), 
             AWSShapeMember(label: "TrafficPolicyId", required: true, type: .string), 
-            AWSShapeMember(label: "TrafficPolicyVersion", required: true, type: .integer)
+            AWSShapeMember(label: "TrafficPolicyVersion", required: true, type: .integer), 
+            AWSShapeMember(label: "TTL", required: true, type: .long)
         ]
         /// The ID of the hosted zone that you want Amazon Route 53 to create resource record sets in by using the configuration in a traffic policy.
         public let hostedZoneId: String
         /// The domain name (such as example.com) or subdomain name (such as www.example.com) for which Amazon Route 53 responds to DNS queries by using the resource record sets that Route 53 creates for this traffic policy instance.
         public let name: String
-        /// (Optional) The TTL that you want Amazon Route 53 to assign to all of the resource record sets that it creates in the specified hosted zone.
-        public let ttl: Int64
         /// The ID of the traffic policy that you want to use to create resource record sets in the specified hosted zone.
         public let trafficPolicyId: String
         /// The version of the traffic policy that you want to use to create resource record sets in the specified hosted zone.
         public let trafficPolicyVersion: Int32
+        /// (Optional) The TTL that you want Amazon Route 53 to assign to all of the resource record sets that it creates in the specified hosted zone.
+        public let ttl: Int64
 
         public init(hostedZoneId: String, name: String, trafficPolicyId: String, trafficPolicyVersion: Int32, ttl: Int64) {
             self.hostedZoneId = hostedZoneId
             self.name = name
-            self.ttl = ttl
             self.trafficPolicyId = trafficPolicyId
             self.trafficPolicyVersion = trafficPolicyVersion
+            self.ttl = ttl
         }
 
         private enum CodingKeys: String, CodingKey {
             case hostedZoneId = "HostedZoneId"
             case name = "Name"
-            case ttl = "TTL"
             case trafficPolicyId = "TrafficPolicyId"
             case trafficPolicyVersion = "TrafficPolicyVersion"
+            case ttl = "TTL"
         }
     }
 
@@ -2933,8 +2933,8 @@ extension Route53 {
             AWSShapeMember(label: "Region", required: false, type: .enum), 
             AWSShapeMember(label: "ResourceRecords", required: false, type: .list, encoding: .list(member:"ResourceRecord")), 
             AWSShapeMember(label: "SetIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "TTL", required: false, type: .long), 
             AWSShapeMember(label: "TrafficPolicyInstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "TTL", required: false, type: .long), 
             AWSShapeMember(label: "Type", required: true, type: .enum), 
             AWSShapeMember(label: "Weight", required: false, type: .long)
         ]
@@ -2956,10 +2956,10 @@ extension Route53 {
         public let resourceRecords: [ResourceRecord]?
         ///  Resource record sets that have a routing policy other than simple: An identifier that differentiates among multiple resource record sets that have the same combination of name and type, such as multiple weighted resource record sets named acme.example.com that have a type of A. In a group of resource record sets that have the same name and type, the value of SetIdentifier must be unique for each resource record set.  For information about routing policies, see Choosing a Routing Policy in the Amazon Route 53 Developer Guide.
         public let setIdentifier: String?
-        /// The resource record cache time to live (TTL), in seconds. Note the following:   If you're creating or updating an alias resource record set, omit TTL. Amazon Route 53 uses the value of TTL for the alias target.    If you're associating this resource record set with a health check (if you're adding a HealthCheckId element), we recommend that you specify a TTL of 60 seconds or less so clients respond quickly to changes in health status.   All of the resource record sets in a group of weighted resource record sets must have the same value for TTL.   If a group of weighted resource record sets includes one or more weighted alias resource record sets for which the alias target is an ELB load balancer, we recommend that you specify a TTL of 60 seconds for all of the non-alias weighted resource record sets that have the same name and type. Values other than 60 seconds (the TTL for load balancers) will change the effect of the values that you specify for Weight.  
-        public let ttl: Int64?
         /// When you create a traffic policy instance, Amazon Route 53 automatically creates a resource record set. TrafficPolicyInstanceId is the ID of the traffic policy instance that Route 53 created this resource record set for.  To delete the resource record set that is associated with a traffic policy instance, use DeleteTrafficPolicyInstance. Route 53 will delete the resource record set automatically. If you delete the resource record set by using ChangeResourceRecordSets, Route 53 doesn't automatically delete the traffic policy instance, and you'll continue to be charged for it even though it's no longer in use.  
         public let trafficPolicyInstanceId: String?
+        /// The resource record cache time to live (TTL), in seconds. Note the following:   If you're creating or updating an alias resource record set, omit TTL. Amazon Route 53 uses the value of TTL for the alias target.    If you're associating this resource record set with a health check (if you're adding a HealthCheckId element), we recommend that you specify a TTL of 60 seconds or less so clients respond quickly to changes in health status.   All of the resource record sets in a group of weighted resource record sets must have the same value for TTL.   If a group of weighted resource record sets includes one or more weighted alias resource record sets for which the alias target is an ELB load balancer, we recommend that you specify a TTL of 60 seconds for all of the non-alias weighted resource record sets that have the same name and type. Values other than 60 seconds (the TTL for load balancers) will change the effect of the values that you specify for Weight.  
+        public let ttl: Int64?
         /// The DNS record type. For information about different record types and how data is encoded for them, see Supported DNS Resource Record Types in the Amazon Route 53 Developer Guide. Valid values for basic resource record sets: A | AAAA | CAA | CNAME | MX | NAPTR | NS | PTR | SOA | SPF | SRV | TXT  Values for weighted, latency, geolocation, and failover resource record sets: A | AAAA | CAA | CNAME | MX | NAPTR | PTR | SPF | SRV | TXT. When creating a group of weighted, latency, geolocation, or failover resource record sets, specify the same value for all of the resource record sets in the group. Valid values for multivalue answer resource record sets: A | AAAA | MX | NAPTR | PTR | SPF | SRV | TXT   SPF records were formerly used to verify the identity of the sender of email messages. However, we no longer recommend that you create resource record sets for which the value of Type is SPF. RFC 7208, Sender Policy Framework (SPF) for Authorizing Use of Domains in Email, Version 1, has been updated to say, "...[I]ts existence and mechanism defined in [RFC4408] have led to some interoperability issues. Accordingly, its use is no longer appropriate for SPF version 1; implementations are not to use it." In RFC 7208, see section 14.1, The SPF DNS Record Type.  Values for alias resource record sets:    Amazon API Gateway custom regional APIs and edge-optimized APIs: A     CloudFront distributions: A  If IPv6 is enabled for the distribution, create two resource record sets to route traffic to your distribution, one with a value of A and one with a value of AAAA.     AWS Elastic Beanstalk environment that has a regionalized subdomain: A     ELB load balancers: A | AAAA     Amazon S3 buckets: A     Amazon Virtual Private Cloud interface VPC endpoints A     Another resource record set in this hosted zone: Specify the type of the resource record set that you're creating the alias for. All values are supported except NS and SOA.  If you're creating an alias record that has the same name as the hosted zone (known as the zone apex), you can't route traffic to a record for which the value of Type is CNAME. This is because the alias record must have the same type as the record you're routing traffic to, and creating a CNAME record for the zone apex isn't supported even for an alias record.   
         public let `type`: RRType
         ///  Weighted resource record sets only: Among resource record sets that have the same combination of DNS name and type, a value that determines the proportion of DNS queries that Amazon Route 53 responds to using the current resource record set. Route 53 calculates the sum of the weights for the resource record sets that have the same combination of DNS name and type. Route 53 then responds to queries based on the ratio of a resource's weight to the total. Note the following:   You must specify a value for the Weight element for every weighted resource record set.   You can only specify one ResourceRecord per weighted resource record set.   You can't create latency, failover, or geolocation resource record sets that have the same values for the Name and Type elements as weighted resource record sets.   You can create a maximum of 100 weighted resource record sets that have the same values for the Name and Type elements.   For weighted (but not weighted alias) resource record sets, if you set Weight to 0 for a resource record set, Route 53 never responds to queries with the applicable value for that resource record set. However, if you set Weight to 0 for all resource record sets that have the same combination of DNS name and type, traffic is routed to all resources with equal probability. The effect of setting Weight to 0 is different when you associate health checks with weighted resource record sets. For more information, see Options for Configuring Route 53 Active-Active and Active-Passive Failover in the Amazon Route 53 Developer Guide.  
@@ -2975,8 +2975,8 @@ extension Route53 {
             self.region = region
             self.resourceRecords = resourceRecords
             self.setIdentifier = setIdentifier
-            self.ttl = ttl
             self.trafficPolicyInstanceId = trafficPolicyInstanceId
+            self.ttl = ttl
             self.`type` = `type`
             self.weight = weight
         }
@@ -2991,8 +2991,8 @@ extension Route53 {
             case region = "Region"
             case resourceRecords = "ResourceRecords"
             case setIdentifier = "SetIdentifier"
-            case ttl = "TTL"
             case trafficPolicyInstanceId = "TrafficPolicyInstanceId"
+            case ttl = "TTL"
             case `type` = "Type"
             case weight = "Weight"
         }
@@ -3267,10 +3267,10 @@ extension Route53 {
             AWSShapeMember(label: "Message", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "State", required: true, type: .string), 
-            AWSShapeMember(label: "TTL", required: true, type: .long), 
             AWSShapeMember(label: "TrafficPolicyId", required: true, type: .string), 
             AWSShapeMember(label: "TrafficPolicyType", required: true, type: .enum), 
-            AWSShapeMember(label: "TrafficPolicyVersion", required: true, type: .integer)
+            AWSShapeMember(label: "TrafficPolicyVersion", required: true, type: .integer), 
+            AWSShapeMember(label: "TTL", required: true, type: .long)
         ]
         /// The ID of the hosted zone that Amazon Route 53 created resource record sets in.
         public let hostedZoneId: String
@@ -3282,14 +3282,14 @@ extension Route53 {
         public let name: String
         /// The value of State is one of the following values:  Applied  Amazon Route 53 has finished creating resource record sets, and changes have propagated to all Route 53 edge locations.  Creating  Route 53 is creating the resource record sets. Use GetTrafficPolicyInstance to confirm that the CreateTrafficPolicyInstance request completed successfully.  Failed  Route 53 wasn't able to create or update the resource record sets. When the value of State is Failed, see Message for an explanation of what caused the request to fail.  
         public let state: String
-        /// The TTL that Amazon Route 53 assigned to all of the resource record sets that it created in the specified hosted zone.
-        public let ttl: Int64
         /// The ID of the traffic policy that Amazon Route 53 used to create resource record sets in the specified hosted zone.
         public let trafficPolicyId: String
         /// The DNS type that Amazon Route 53 assigned to all of the resource record sets that it created for this traffic policy instance. 
         public let trafficPolicyType: RRType
         /// The version of the traffic policy that Amazon Route 53 used to create resource record sets in the specified hosted zone.
         public let trafficPolicyVersion: Int32
+        /// The TTL that Amazon Route 53 assigned to all of the resource record sets that it created in the specified hosted zone.
+        public let ttl: Int64
 
         public init(hostedZoneId: String, id: String, message: String, name: String, state: String, trafficPolicyId: String, trafficPolicyType: RRType, trafficPolicyVersion: Int32, ttl: Int64) {
             self.hostedZoneId = hostedZoneId
@@ -3297,10 +3297,10 @@ extension Route53 {
             self.message = message
             self.name = name
             self.state = state
-            self.ttl = ttl
             self.trafficPolicyId = trafficPolicyId
             self.trafficPolicyType = trafficPolicyType
             self.trafficPolicyVersion = trafficPolicyVersion
+            self.ttl = ttl
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3309,10 +3309,10 @@ extension Route53 {
             case message = "Message"
             case name = "Name"
             case state = "State"
-            case ttl = "TTL"
             case trafficPolicyId = "TrafficPolicyId"
             case trafficPolicyType = "TrafficPolicyType"
             case trafficPolicyVersion = "TrafficPolicyVersion"
+            case ttl = "TTL"
         }
     }
 
@@ -3546,31 +3546,31 @@ extension Route53 {
     public struct UpdateTrafficPolicyInstanceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
-            AWSShapeMember(label: "TTL", required: true, type: .long), 
             AWSShapeMember(label: "TrafficPolicyId", required: true, type: .string), 
-            AWSShapeMember(label: "TrafficPolicyVersion", required: true, type: .integer)
+            AWSShapeMember(label: "TrafficPolicyVersion", required: true, type: .integer), 
+            AWSShapeMember(label: "TTL", required: true, type: .long)
         ]
         /// The ID of the traffic policy instance that you want to update.
         public let id: String
-        /// The TTL that you want Amazon Route 53 to assign to all of the updated resource record sets.
-        public let ttl: Int64
         /// The ID of the traffic policy that you want Amazon Route 53 to use to update resource record sets for the specified traffic policy instance.
         public let trafficPolicyId: String
         /// The version of the traffic policy that you want Amazon Route 53 to use to update resource record sets for the specified traffic policy instance.
         public let trafficPolicyVersion: Int32
+        /// The TTL that you want Amazon Route 53 to assign to all of the updated resource record sets.
+        public let ttl: Int64
 
         public init(id: String, trafficPolicyId: String, trafficPolicyVersion: Int32, ttl: Int64) {
             self.id = id
-            self.ttl = ttl
             self.trafficPolicyId = trafficPolicyId
             self.trafficPolicyVersion = trafficPolicyVersion
+            self.ttl = ttl
         }
 
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
-            case ttl = "TTL"
             case trafficPolicyId = "TrafficPolicyId"
             case trafficPolicyVersion = "TrafficPolicyVersion"
+            case ttl = "TTL"
         }
     }
 

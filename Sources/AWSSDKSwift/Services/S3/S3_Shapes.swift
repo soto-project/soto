@@ -3465,30 +3465,30 @@ extension S3 {
 
     public struct InputSerialization: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CSV", required: false, type: .structure), 
             AWSShapeMember(label: "CompressionType", required: false, type: .enum), 
+            AWSShapeMember(label: "CSV", required: false, type: .structure), 
             AWSShapeMember(label: "JSON", required: false, type: .structure), 
             AWSShapeMember(label: "Parquet", required: false, type: .structure)
         ]
-        /// Describes the serialization of a CSV-encoded object.
-        public let csv: CSVInput?
         /// Specifies object's compression format. Valid values: NONE, GZIP, BZIP2. Default Value: NONE.
         public let compressionType: CompressionType?
+        /// Describes the serialization of a CSV-encoded object.
+        public let csv: CSVInput?
         /// Specifies JSON as object's input serialization format.
         public let json: JSONInput?
         /// Specifies Parquet as object's input serialization format.
         public let parquet: ParquetInput?
 
         public init(compressionType: CompressionType? = nil, csv: CSVInput? = nil, json: JSONInput? = nil, parquet: ParquetInput? = nil) {
-            self.csv = csv
             self.compressionType = compressionType
+            self.csv = csv
             self.json = json
             self.parquet = parquet
         }
 
         private enum CodingKeys: String, CodingKey {
-            case csv = "CSV"
             case compressionType = "CompressionType"
+            case csv = "CSV"
             case json = "JSON"
             case parquet = "Parquet"
         }
@@ -5358,8 +5358,8 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "AccessControlPolicy"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ACL", location: .header(locationName: "x-amz-acl"), required: false, type: .enum), 
             AWSShapeMember(label: "AccessControlPolicy", location: .body(locationName: "AccessControlPolicy"), required: false, type: .structure), 
+            AWSShapeMember(label: "ACL", location: .header(locationName: "x-amz-acl"), required: false, type: .enum), 
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
             AWSShapeMember(label: "GrantFullControl", location: .header(locationName: "x-amz-grant-full-control"), required: false, type: .string), 
@@ -5368,10 +5368,10 @@ extension S3 {
             AWSShapeMember(label: "GrantWrite", location: .header(locationName: "x-amz-grant-write"), required: false, type: .string), 
             AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string)
         ]
-        /// The canned ACL to apply to the bucket.
-        public let acl: BucketCannedACL?
         /// Contains the elements that set the ACL permissions for an object per grantee.
         public let accessControlPolicy: AccessControlPolicy?
+        /// The canned ACL to apply to the bucket.
+        public let acl: BucketCannedACL?
         public let bucket: String
         public let contentMD5: String?
         /// Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.
@@ -5386,8 +5386,8 @@ extension S3 {
         public let grantWriteACP: String?
 
         public init(accessControlPolicy: AccessControlPolicy? = nil, acl: BucketCannedACL? = nil, bucket: String, contentMD5: String? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWrite: String? = nil, grantWriteACP: String? = nil) {
-            self.acl = acl
             self.accessControlPolicy = accessControlPolicy
+            self.acl = acl
             self.bucket = bucket
             self.contentMD5 = contentMD5
             self.grantFullControl = grantFullControl
@@ -5398,8 +5398,8 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acl = "x-amz-acl"
             case accessControlPolicy = "AccessControlPolicy"
+            case acl = "x-amz-acl"
             case bucket = "Bucket"
             case contentMD5 = "Content-MD5"
             case grantFullControl = "x-amz-grant-full-control"
@@ -5849,8 +5849,8 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "AccessControlPolicy"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ACL", location: .header(locationName: "x-amz-acl"), required: false, type: .enum), 
             AWSShapeMember(label: "AccessControlPolicy", location: .body(locationName: "AccessControlPolicy"), required: false, type: .structure), 
+            AWSShapeMember(label: "ACL", location: .header(locationName: "x-amz-acl"), required: false, type: .enum), 
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
             AWSShapeMember(label: "GrantFullControl", location: .header(locationName: "x-amz-grant-full-control"), required: false, type: .string), 
@@ -5862,10 +5862,10 @@ extension S3 {
             AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
             AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
         ]
-        /// The canned ACL to apply to the object.
-        public let acl: ObjectCannedACL?
         /// Contains the elements that set the ACL permissions for an object per grantee.
         public let accessControlPolicy: AccessControlPolicy?
+        /// The canned ACL to apply to the object.
+        public let acl: ObjectCannedACL?
         public let bucket: String
         public let contentMD5: String?
         /// Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.
@@ -5884,8 +5884,8 @@ extension S3 {
         public let versionId: String?
 
         public init(accessControlPolicy: AccessControlPolicy? = nil, acl: ObjectCannedACL? = nil, bucket: String, contentMD5: String? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWrite: String? = nil, grantWriteACP: String? = nil, key: String, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
-            self.acl = acl
             self.accessControlPolicy = accessControlPolicy
+            self.acl = acl
             self.bucket = bucket
             self.contentMD5 = contentMD5
             self.grantFullControl = grantFullControl
@@ -5899,8 +5899,8 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acl = "x-amz-acl"
             case accessControlPolicy = "AccessControlPolicy"
+            case acl = "x-amz-acl"
             case bucket = "Bucket"
             case contentMD5 = "Content-MD5"
             case grantFullControl = "x-amz-grant-full-control"

@@ -460,8 +460,8 @@ extension ElasticBeanstalk {
     public struct CPUUtilization: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IOWait", required: false, type: .double), 
-            AWSShapeMember(label: "IRQ", required: false, type: .double), 
             AWSShapeMember(label: "Idle", required: false, type: .double), 
+            AWSShapeMember(label: "IRQ", required: false, type: .double), 
             AWSShapeMember(label: "Nice", required: false, type: .double), 
             AWSShapeMember(label: "Privileged", required: false, type: .double), 
             AWSShapeMember(label: "SoftIRQ", required: false, type: .double), 
@@ -470,10 +470,10 @@ extension ElasticBeanstalk {
         ]
         /// Available on Linux environments only. Percentage of time that the CPU has spent in the I/O Wait state over the last 10 seconds.
         public let iOWait: Double?
-        /// Available on Linux environments only. Percentage of time that the CPU has spent in the IRQ state over the last 10 seconds.
-        public let irq: Double?
         /// Percentage of time that the CPU has spent in the Idle state over the last 10 seconds.
         public let idle: Double?
+        /// Available on Linux environments only. Percentage of time that the CPU has spent in the IRQ state over the last 10 seconds.
+        public let irq: Double?
         /// Available on Linux environments only. Percentage of time that the CPU has spent in the Nice state over the last 10 seconds.
         public let nice: Double?
         /// Available on Windows environments only. Percentage of time that the CPU has spent in the Privileged state over the last 10 seconds.
@@ -487,8 +487,8 @@ extension ElasticBeanstalk {
 
         public init(iOWait: Double? = nil, idle: Double? = nil, irq: Double? = nil, nice: Double? = nil, privileged: Double? = nil, softIRQ: Double? = nil, system: Double? = nil, user: Double? = nil) {
             self.iOWait = iOWait
-            self.irq = irq
             self.idle = idle
+            self.irq = irq
             self.nice = nice
             self.privileged = privileged
             self.softIRQ = softIRQ
@@ -498,8 +498,8 @@ extension ElasticBeanstalk {
 
         private enum CodingKeys: String, CodingKey {
             case iOWait = "IOWait"
-            case irq = "IRQ"
             case idle = "Idle"
+            case irq = "IRQ"
             case nice = "Nice"
             case privileged = "Privileged"
             case softIRQ = "SoftIRQ"

@@ -1355,10 +1355,10 @@ extension Pinpoint {
             AWSShapeMember(label: "SegmentId", required: true, type: .string), 
             AWSShapeMember(label: "SegmentVersion", required: true, type: .integer), 
             AWSShapeMember(label: "State", required: false, type: .structure), 
+            AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "TreatmentDescription", required: false, type: .string), 
             AWSShapeMember(label: "TreatmentName", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .integer), 
-            AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: false, type: .map)
+            AWSShapeMember(label: "Version", required: false, type: .integer)
         ]
         /// An array of responses, one for each treatment that you defined for the campaign, in addition to the default treatment.
         public let additionalTreatments: [TreatmentResource]?
@@ -1396,14 +1396,14 @@ extension Pinpoint {
         public let segmentVersion: Int32
         /// The current status of the campaign.
         public let state: CampaignState?
+        /// A string-to-string map of key-value pairs that identifies the tags that are associated with the campaign. Each tag consists of a required tag key and an associated tag value.
+        public let tags: [String: String]?
         /// The custom description of a variation of the campaign that's used for A/B testing.
         public let treatmentDescription: String?
         /// The custom name of a variation of the campaign that's used for A/B testing.
         public let treatmentName: String?
         /// The version number of the campaign.
         public let version: Int32?
-        /// A string-to-string map of key-value pairs that identifies the tags that are associated with the campaign. Each tag consists of a required tag key and an associated tag value.
-        public let tags: [String: String]?
 
         public init(additionalTreatments: [TreatmentResource]? = nil, applicationId: String, arn: String, creationDate: String, defaultState: CampaignState? = nil, description: String? = nil, holdoutPercent: Int32? = nil, hook: CampaignHook? = nil, id: String, isPaused: Bool? = nil, lastModifiedDate: String, limits: CampaignLimits? = nil, messageConfiguration: MessageConfiguration? = nil, name: String? = nil, schedule: Schedule? = nil, segmentId: String, segmentVersion: Int32, state: CampaignState? = nil, tags: [String: String]? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil, version: Int32? = nil) {
             self.additionalTreatments = additionalTreatments
@@ -1424,10 +1424,10 @@ extension Pinpoint {
             self.segmentId = segmentId
             self.segmentVersion = segmentVersion
             self.state = state
+            self.tags = tags
             self.treatmentDescription = treatmentDescription
             self.treatmentName = treatmentName
             self.version = version
-            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1449,10 +1449,10 @@ extension Pinpoint {
             case segmentId = "SegmentId"
             case segmentVersion = "SegmentVersion"
             case state = "State"
+            case tags = "tags"
             case treatmentDescription = "TreatmentDescription"
             case treatmentName = "TreatmentName"
             case version = "Version"
-            case tags = "tags"
         }
     }
 
@@ -6274,8 +6274,8 @@ extension Pinpoint {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "SegmentGroups", required: false, type: .structure), 
             AWSShapeMember(label: "SegmentType", required: true, type: .enum), 
-            AWSShapeMember(label: "Version", required: false, type: .integer), 
-            AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: false, type: .map)
+            AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: false, type: .map), 
+            AWSShapeMember(label: "Version", required: false, type: .integer)
         ]
         /// The unique identifier for the application that the segment is associated with.
         public let applicationId: String
@@ -6297,10 +6297,10 @@ extension Pinpoint {
         public let segmentGroups: SegmentGroupList?
         /// The segment type. Valid values are: DIMENSIONAL - A dynamic segment, which is a segment that uses selection criteria that you specify and is based on endpoint data that's reported by your app. Dynamic segments can change over time. IMPORT - A static segment, which is a segment that uses selection criteria that you specify and is based on endpoint definitions that you import from a file. Imported segments are static; they don't change over time.
         public let segmentType: SegmentType
-        /// The version number of the segment.
-        public let version: Int32?
         /// A string-to-string map of key-value pairs that identifies the tags that are associated with the segment. Each tag consists of a required tag key and an associated tag value.
         public let tags: [String: String]?
+        /// The version number of the segment.
+        public let version: Int32?
 
         public init(applicationId: String, arn: String, creationDate: String, dimensions: SegmentDimensions? = nil, id: String, importDefinition: SegmentImportResource? = nil, lastModifiedDate: String? = nil, name: String? = nil, segmentGroups: SegmentGroupList? = nil, segmentType: SegmentType, tags: [String: String]? = nil, version: Int32? = nil) {
             self.applicationId = applicationId
@@ -6313,8 +6313,8 @@ extension Pinpoint {
             self.name = name
             self.segmentGroups = segmentGroups
             self.segmentType = segmentType
-            self.version = version
             self.tags = tags
+            self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6328,8 +6328,8 @@ extension Pinpoint {
             case name = "Name"
             case segmentGroups = "SegmentGroups"
             case segmentType = "SegmentType"
-            case version = "Version"
             case tags = "tags"
+            case version = "Version"
         }
     }
 
@@ -7463,9 +7463,9 @@ extension Pinpoint {
             AWSShapeMember(label: "Schedule", required: false, type: .structure), 
             AWSShapeMember(label: "SegmentId", required: false, type: .string), 
             AWSShapeMember(label: "SegmentVersion", required: false, type: .integer), 
+            AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "TreatmentDescription", required: false, type: .string), 
-            AWSShapeMember(label: "TreatmentName", required: false, type: .string), 
-            AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: false, type: .map)
+            AWSShapeMember(label: "TreatmentName", required: false, type: .string)
         ]
         /// An array of requests that defines additional treatments for the campaign, in addition to the default treatment for the campaign.
         public let additionalTreatments: [WriteTreatmentResource]?
@@ -7489,12 +7489,12 @@ extension Pinpoint {
         public let segmentId: String?
         /// The version of the segment to associate with the campaign.
         public let segmentVersion: Int32?
+        /// A string-to-string map of key-value pairs that defines the tags to associate with the campaign. Each tag consists of a required tag key and an associated tag value.
+        public let tags: [String: String]?
         /// The custom description of a variation of the campaign to use for A/B testing.
         public let treatmentDescription: String?
         /// The custom name of a variation of the campaign to use for A/B testing.
         public let treatmentName: String?
-        /// A string-to-string map of key-value pairs that defines the tags to associate with the campaign. Each tag consists of a required tag key and an associated tag value.
-        public let tags: [String: String]?
 
         public init(additionalTreatments: [WriteTreatmentResource]? = nil, description: String? = nil, holdoutPercent: Int32? = nil, hook: CampaignHook? = nil, isPaused: Bool? = nil, limits: CampaignLimits? = nil, messageConfiguration: MessageConfiguration? = nil, name: String? = nil, schedule: Schedule? = nil, segmentId: String? = nil, segmentVersion: Int32? = nil, tags: [String: String]? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil) {
             self.additionalTreatments = additionalTreatments
@@ -7508,9 +7508,9 @@ extension Pinpoint {
             self.schedule = schedule
             self.segmentId = segmentId
             self.segmentVersion = segmentVersion
+            self.tags = tags
             self.treatmentDescription = treatmentDescription
             self.treatmentName = treatmentName
-            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7525,9 +7525,9 @@ extension Pinpoint {
             case schedule = "Schedule"
             case segmentId = "SegmentId"
             case segmentVersion = "SegmentVersion"
+            case tags = "tags"
             case treatmentDescription = "TreatmentDescription"
             case treatmentName = "TreatmentName"
-            case tags = "tags"
         }
     }
 

@@ -4763,30 +4763,30 @@ extension CognitoIdentityProvider {
 
     public struct SetUICustomizationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CSS", required: false, type: .string), 
             AWSShapeMember(label: "ClientId", required: false, type: .string), 
+            AWSShapeMember(label: "CSS", required: false, type: .string), 
             AWSShapeMember(label: "ImageFile", required: false, type: .blob), 
             AWSShapeMember(label: "UserPoolId", required: true, type: .string)
         ]
-        /// The CSS values in the UI customization.
-        public let css: String?
         /// The client ID for the client app.
         public let clientId: String?
+        /// The CSS values in the UI customization.
+        public let css: String?
         /// The uploaded logo image for the UI customization.
         public let imageFile: Data?
         /// The user pool ID for the user pool.
         public let userPoolId: String
 
         public init(clientId: String? = nil, css: String? = nil, imageFile: Data? = nil, userPoolId: String) {
-            self.css = css
             self.clientId = clientId
+            self.css = css
             self.imageFile = imageFile
             self.userPoolId = userPoolId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case css = "CSS"
             case clientId = "ClientId"
+            case css = "CSS"
             case imageFile = "ImageFile"
             case userPoolId = "UserPoolId"
         }
@@ -5213,22 +5213,22 @@ extension CognitoIdentityProvider {
 
     public struct UICustomizationType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CSS", required: false, type: .string), 
             AWSShapeMember(label: "CSSVersion", required: false, type: .string), 
             AWSShapeMember(label: "ClientId", required: false, type: .string), 
             AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CSS", required: false, type: .string), 
             AWSShapeMember(label: "ImageUrl", required: false, type: .string), 
             AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "UserPoolId", required: false, type: .string)
         ]
-        /// The CSS values in the UI customization.
-        public let css: String?
         /// The CSS version number.
         public let cSSVersion: String?
         /// The client ID for the client app.
         public let clientId: String?
         /// The creation date for the UI customization.
         public let creationDate: TimeStamp?
+        /// The CSS values in the UI customization.
+        public let css: String?
         /// The logo image for the UI customization.
         public let imageUrl: String?
         /// The last-modified date for the UI customization.
@@ -5237,20 +5237,20 @@ extension CognitoIdentityProvider {
         public let userPoolId: String?
 
         public init(cSSVersion: String? = nil, clientId: String? = nil, creationDate: TimeStamp? = nil, css: String? = nil, imageUrl: String? = nil, lastModifiedDate: TimeStamp? = nil, userPoolId: String? = nil) {
-            self.css = css
             self.cSSVersion = cSSVersion
             self.clientId = clientId
             self.creationDate = creationDate
+            self.css = css
             self.imageUrl = imageUrl
             self.lastModifiedDate = lastModifiedDate
             self.userPoolId = userPoolId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case css = "CSS"
             case cSSVersion = "CSSVersion"
             case clientId = "ClientId"
             case creationDate = "CreationDate"
+            case css = "CSS"
             case imageUrl = "ImageUrl"
             case lastModifiedDate = "LastModifiedDate"
             case userPoolId = "UserPoolId"

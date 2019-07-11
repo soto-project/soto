@@ -1624,18 +1624,14 @@ extension CodeCommit {
 
     public struct GetDifferencesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "afterCommitSpecifier", required: true, type: .string), 
             AWSShapeMember(label: "afterPath", required: false, type: .string), 
             AWSShapeMember(label: "beforeCommitSpecifier", required: false, type: .string), 
             AWSShapeMember(label: "beforePath", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
-        /// A non-negative integer used to limit the number of returned results.
-        public let maxResults: Int32?
-        /// An enumeration token that when provided in a request, returns the next batch of the results.
-        public let nextToken: String?
         /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit.
         public let afterCommitSpecifier: String
         /// The file path in which to check differences. Limits the results to this path. Can also be used to specify the changed name of a directory or folder, if it has changed. If not specified, differences will be shown for all paths.
@@ -1644,48 +1640,52 @@ extension CodeCommit {
         public let beforeCommitSpecifier: String?
         /// The file path in which to check for differences. Limits the results to this path. Can also be used to specify the previous name of a directory or folder. If beforePath and afterPath are not specified, differences will be shown for all paths.
         public let beforePath: String?
+        /// A non-negative integer used to limit the number of returned results.
+        public let maxResults: Int32?
+        /// An enumeration token that when provided in a request, returns the next batch of the results.
+        public let nextToken: String?
         /// The name of the repository where you want to get differences.
         public let repositoryName: String
 
         public init(afterCommitSpecifier: String, afterPath: String? = nil, beforeCommitSpecifier: String? = nil, beforePath: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, repositoryName: String) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
             self.afterCommitSpecifier = afterCommitSpecifier
             self.afterPath = afterPath
             self.beforeCommitSpecifier = beforeCommitSpecifier
             self.beforePath = beforePath
+            self.maxResults = maxResults
+            self.nextToken = nextToken
             self.repositoryName = repositoryName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
             case afterCommitSpecifier = "afterCommitSpecifier"
             case afterPath = "afterPath"
             case beforeCommitSpecifier = "beforeCommitSpecifier"
             case beforePath = "beforePath"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
             case repositoryName = "repositoryName"
         }
     }
 
     public struct GetDifferencesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "differences", required: false, type: .list)
+            AWSShapeMember(label: "differences", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// An enumeration token that can be used in a request to return the next batch of the results.
-        public let nextToken: String?
         /// A differences data type object that contains information about the differences, including whether the difference is added, modified, or deleted (A, D, M).
         public let differences: [Difference]?
+        /// An enumeration token that can be used in a request to return the next batch of the results.
+        public let nextToken: String?
 
         public init(differences: [Difference]? = nil, nextToken: String? = nil) {
-            self.nextToken = nextToken
             self.differences = differences
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
             case differences = "differences"
+            case nextToken = "NextToken"
         }
     }
 
@@ -3665,8 +3665,8 @@ extension CodeCommit {
 
     public struct RepositoryMetadata: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
             AWSShapeMember(label: "accountId", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
             AWSShapeMember(label: "cloneUrlHttp", required: false, type: .string), 
             AWSShapeMember(label: "cloneUrlSsh", required: false, type: .string), 
             AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
@@ -3676,10 +3676,10 @@ extension CodeCommit {
             AWSShapeMember(label: "repositoryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: false, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) of the repository.
-        public let arn: String?
         /// The ID of the AWS account associated with the repository.
         public let accountId: String?
+        /// The Amazon Resource Name (ARN) of the repository.
+        public let arn: String?
         /// The URL to use for cloning the repository over HTTPS.
         public let cloneUrlHttp: String?
         /// The URL to use for cloning the repository over SSH.
@@ -3698,8 +3698,8 @@ extension CodeCommit {
         public let repositoryName: String?
 
         public init(accountId: String? = nil, arn: String? = nil, cloneUrlHttp: String? = nil, cloneUrlSsh: String? = nil, creationDate: TimeStamp? = nil, defaultBranch: String? = nil, lastModifiedDate: TimeStamp? = nil, repositoryDescription: String? = nil, repositoryId: String? = nil, repositoryName: String? = nil) {
-            self.arn = arn
             self.accountId = accountId
+            self.arn = arn
             self.cloneUrlHttp = cloneUrlHttp
             self.cloneUrlSsh = cloneUrlSsh
             self.creationDate = creationDate
@@ -3711,8 +3711,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
             case accountId = "accountId"
+            case arn = "Arn"
             case cloneUrlHttp = "cloneUrlHttp"
             case cloneUrlSsh = "cloneUrlSsh"
             case creationDate = "creationDate"
