@@ -242,7 +242,7 @@ extension AWSService {
         code += "\(indt(3))return nil\n"
         code += "\(indt(2))}\n"
         code += "\(indt(1))}\n"
-        code += "}"
+        code += "}\n"
 
         return code
     }
@@ -379,7 +379,7 @@ extension AWSService {
             code += "\n\n"
         }
         code += "\n"
-        code += "}"
+        code += "}\n"
 
         return code
     }
@@ -689,7 +689,7 @@ extension AWSService {
             }
         }
 
-        code += "}"
+        code += "}\n"
 
         return code
     }

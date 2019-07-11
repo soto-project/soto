@@ -28,7 +28,7 @@ func rootPath() -> String {
 }
 
 func apiDirectories() -> [String] {
-    return Glob.entries(pattern: "\(rootPath())/models/apis/codestar")
+    return Glob.entries(pattern: "\(rootPath())/models/apis/**")
 }
 
 func loadEndpointJSON() throws -> JSON {
