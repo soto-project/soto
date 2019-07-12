@@ -136,7 +136,7 @@ public struct AlexaForBusiness {
         return try client.send(operation: "DeleteDevice", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  When this action is called for a specified shared device, it allows authorized users to delete the device's entire previous history of voice input data. This action can be called once every 24 hours for a specific shared device. 
+    ///  When this action is called for a specified shared device, it allows authorized users to delete the device's entire previous history of voice input data and associated response data. This action can be called once every 24 hours for a specific shared device. When this action is called for a specified shared device, it allows authorized users to delete the device's entire previous history of voice input data. This action can be called once every 24 hours for a specific shared device. 
     public func deleteDeviceUsageData(_ input: DeleteDeviceUsageDataRequest) throws -> Future<DeleteDeviceUsageDataResponse> {
         return try client.send(operation: "DeleteDeviceUsageData", path: "/", httpMethod: "POST", input: input)
     }
@@ -411,7 +411,7 @@ public struct AlexaForBusiness {
         return try client.send(operation: "SendAnnouncement", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Sends an enrollment invitation email with a URL to a user. The URL is valid for 72 hours or until you call this operation again, whichever comes first. 
+    ///  Sends an enrollment invitation email with a URL to a user. The URL is valid for 30 days or until you call this operation again, whichever comes first. 
     public func sendInvitation(_ input: SendInvitationRequest) throws -> Future<SendInvitationResponse> {
         return try client.send(operation: "SendInvitation", path: "/", httpMethod: "POST", input: input)
     }

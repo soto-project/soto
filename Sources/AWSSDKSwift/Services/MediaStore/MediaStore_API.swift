@@ -76,6 +76,11 @@ public struct MediaStore {
         return try client.send(operation: "ListContainers", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns a list of the tags assigned to the specified container. 
+    public func listTagsForResource(_ input: ListTagsForResourceInput) throws -> Future<ListTagsForResourceOutput> {
+        return try client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Creates an access policy for the specified container to restrict the users and clients that can access it. For information about the data that is included in an access policy, see the AWS Identity and Access Management User Guide. For this release of the REST API, you can create only one policy for a container. If you enter PutContainerPolicy twice, the second command modifies the existing policy. 
     public func putContainerPolicy(_ input: PutContainerPolicyInput) throws -> Future<PutContainerPolicyOutput> {
         return try client.send(operation: "PutContainerPolicy", path: "/", httpMethod: "POST", input: input)
@@ -99,6 +104,16 @@ public struct MediaStore {
     ///  Stops access logging on the specified container. When you stop access logging on a container, MediaStore stops sending access logs to Amazon CloudWatch Logs. These access logs are not saved and are not retrievable.
     public func stopAccessLogging(_ input: StopAccessLoggingInput) throws -> Future<StopAccessLoggingOutput> {
         return try client.send(operation: "StopAccessLogging", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Adds tags to the specified AWS Elemental MediaStore container. Tags are key:value pairs that you can associate with AWS resources. For example, the tag key might be "customer" and the tag value might be "companyA." You can specify one or more tags to add to each container. You can add up to 50 tags to each container. For more information about tagging, including naming and usage conventions, see Tagging Resources in MediaStore.
+    public func tagResource(_ input: TagResourceInput) throws -> Future<TagResourceOutput> {
+        return try client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes tags from the specified container. You can specify one or more tags to remove. 
+    public func untagResource(_ input: UntagResourceInput) throws -> Future<UntagResourceOutput> {
+        return try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
 
 

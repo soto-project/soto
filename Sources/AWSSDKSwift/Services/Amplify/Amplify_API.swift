@@ -35,9 +35,19 @@ public struct Amplify {
         return try client.send(operation: "CreateBranch", path: "/apps/{appId}/branches", httpMethod: "POST", input: input)
     }
 
+    ///   Create a deployment for manual deploy apps. (Apps are not connected to repository) 
+    public func createDeployment(_ input: CreateDeploymentRequest) throws -> Future<CreateDeploymentResult> {
+        return try client.send(operation: "CreateDeployment", path: "/apps/{appId}/branches/{branchName}/deployments", httpMethod: "POST", input: input)
+    }
+
     ///   Create a new DomainAssociation on an App 
     public func createDomainAssociation(_ input: CreateDomainAssociationRequest) throws -> Future<CreateDomainAssociationResult> {
         return try client.send(operation: "CreateDomainAssociation", path: "/apps/{appId}/domains", httpMethod: "POST", input: input)
+    }
+
+    ///   Create a new webhook on an App. 
+    public func createWebhook(_ input: CreateWebhookRequest) throws -> Future<CreateWebhookResult> {
+        return try client.send(operation: "CreateWebhook", path: "/apps/{appId}/webhooks", httpMethod: "POST", input: input)
     }
 
     ///   Delete an existing Amplify App by appId. 
@@ -60,6 +70,11 @@ public struct Amplify {
         return try client.send(operation: "DeleteJob", path: "/apps/{appId}/branches/{branchName}/jobs/{jobId}", httpMethod: "DELETE", input: input)
     }
 
+    ///   Deletes a webhook. 
+    public func deleteWebhook(_ input: DeleteWebhookRequest) throws -> Future<DeleteWebhookResult> {
+        return try client.send(operation: "DeleteWebhook", path: "/webhooks/{webhookId}", httpMethod: "DELETE", input: input)
+    }
+
     ///   Retrieves an existing Amplify App by appId. 
     public func getApp(_ input: GetAppRequest) throws -> Future<GetAppResult> {
         return try client.send(operation: "GetApp", path: "/apps/{appId}", httpMethod: "GET", input: input)
@@ -78,6 +93,11 @@ public struct Amplify {
     ///   Get a job for a branch, part of an Amplify App. 
     public func getJob(_ input: GetJobRequest) throws -> Future<GetJobResult> {
         return try client.send(operation: "GetJob", path: "/apps/{appId}/branches/{branchName}/jobs/{jobId}", httpMethod: "GET", input: input)
+    }
+
+    ///   Retrieves webhook info that corresponds to a webhookId. 
+    public func getWebhook(_ input: GetWebhookRequest) throws -> Future<GetWebhookResult> {
+        return try client.send(operation: "GetWebhook", path: "/webhooks/{webhookId}", httpMethod: "GET", input: input)
     }
 
     ///   Lists existing Amplify Apps. 
@@ -100,6 +120,21 @@ public struct Amplify {
         return try client.send(operation: "ListJobs", path: "/apps/{appId}/branches/{branchName}/jobs", httpMethod: "GET", input: input)
     }
 
+    ///   List tags for resource. 
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> Future<ListTagsForResourceResponse> {
+        return try client.send(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: "GET", input: input)
+    }
+
+    ///   List webhooks with an app. 
+    public func listWebhooks(_ input: ListWebhooksRequest) throws -> Future<ListWebhooksResult> {
+        return try client.send(operation: "ListWebhooks", path: "/apps/{appId}/webhooks", httpMethod: "GET", input: input)
+    }
+
+    ///   Start a deployment for manual deploy apps. (Apps are not connected to repository) 
+    public func startDeployment(_ input: StartDeploymentRequest) throws -> Future<StartDeploymentResult> {
+        return try client.send(operation: "StartDeployment", path: "/apps/{appId}/branches/{branchName}/deployments/start", httpMethod: "POST", input: input)
+    }
+
     ///   Starts a new job for a branch, part of an Amplify App. 
     public func startJob(_ input: StartJobRequest) throws -> Future<StartJobResult> {
         return try client.send(operation: "StartJob", path: "/apps/{appId}/branches/{branchName}/jobs", httpMethod: "POST", input: input)
@@ -108,6 +143,16 @@ public struct Amplify {
     ///   Stop a job that is in progress, for an Amplify branch, part of Amplify App. 
     public func stopJob(_ input: StopJobRequest) throws -> Future<StopJobResult> {
         return try client.send(operation: "StopJob", path: "/apps/{appId}/branches/{branchName}/jobs/{jobId}/stop", httpMethod: "DELETE", input: input)
+    }
+
+    ///   Tag resource with tag key and value. 
+    public func tagResource(_ input: TagResourceRequest) throws -> Future<TagResourceResponse> {
+        return try client.send(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: "POST", input: input)
+    }
+
+    ///   Untag resource with resourceArn. 
+    public func untagResource(_ input: UntagResourceRequest) throws -> Future<UntagResourceResponse> {
+        return try client.send(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: "DELETE", input: input)
     }
 
     ///   Updates an existing Amplify App. 
@@ -123,6 +168,11 @@ public struct Amplify {
     ///   Create a new DomainAssociation on an App 
     public func updateDomainAssociation(_ input: UpdateDomainAssociationRequest) throws -> Future<UpdateDomainAssociationResult> {
         return try client.send(operation: "UpdateDomainAssociation", path: "/apps/{appId}/domains/{domainName}", httpMethod: "POST", input: input)
+    }
+
+    ///   Update a webhook. 
+    public func updateWebhook(_ input: UpdateWebhookRequest) throws -> Future<UpdateWebhookResult> {
+        return try client.send(operation: "UpdateWebhook", path: "/webhooks/{webhookId}", httpMethod: "POST", input: input)
     }
 
 

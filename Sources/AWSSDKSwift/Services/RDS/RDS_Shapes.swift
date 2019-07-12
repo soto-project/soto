@@ -1767,6 +1767,7 @@ extension RDS {
             AWSShapeMember(label: "CloneGroupId", required: false, type: .string), 
             AWSShapeMember(label: "ClusterCreateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "CopyTagsToSnapshot", required: false, type: .boolean), 
+            AWSShapeMember(label: "CrossAccountClone", required: false, type: .boolean), 
             AWSShapeMember(label: "CustomEndpoints", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "DBClusterArn", required: false, type: .string), 
             AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
@@ -1833,6 +1834,8 @@ extension RDS {
         public let clusterCreateTime: TimeStamp?
         /// Specifies whether tags are copied from the DB cluster to snapshots of the DB cluster.
         public let copyTagsToSnapshot: Bool?
+        /// Specifies whether the DB cluster is a clone of a DB cluster owned by a different AWS account.
+        public let crossAccountClone: Bool?
         /// Identifies all custom endpoints associated with the cluster.
         public let customEndpoints: [String]?
         /// The Amazon Resource Name (ARN) for the DB cluster.
@@ -1903,7 +1906,7 @@ extension RDS {
         /// Provides a list of VPC security groups that the DB cluster belongs to.
         public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(activityStreamKinesisStreamName: String? = nil, activityStreamKmsKeyId: String? = nil, activityStreamMode: ActivityStreamMode? = nil, activityStreamStatus: ActivityStreamStatus? = nil, allocatedStorage: Int32? = nil, associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backtrackConsumedChangeRecords: Int64? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int32? = nil, capacity: Int32? = nil, characterSetName: String? = nil, cloneGroupId: String? = nil, clusterCreateTime: TimeStamp? = nil, copyTagsToSnapshot: Bool? = nil, customEndpoints: [String]? = nil, dBClusterArn: String? = nil, dBClusterIdentifier: String? = nil, dBClusterMembers: [DBClusterMember]? = nil, dBClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, dBClusterParameterGroup: String? = nil, dBSubnetGroup: String? = nil, databaseName: String? = nil, dbClusterResourceId: String? = nil, deletionProtection: Bool? = nil, earliestBacktrackTime: TimeStamp? = nil, earliestRestorableTime: TimeStamp? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineMode: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, httpEndpointEnabled: Bool? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readReplicaIdentifiers: [String]? = nil, readerEndpoint: String? = nil, replicationSourceIdentifier: String? = nil, scalingConfigurationInfo: ScalingConfigurationInfo? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(activityStreamKinesisStreamName: String? = nil, activityStreamKmsKeyId: String? = nil, activityStreamMode: ActivityStreamMode? = nil, activityStreamStatus: ActivityStreamStatus? = nil, allocatedStorage: Int32? = nil, associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backtrackConsumedChangeRecords: Int64? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int32? = nil, capacity: Int32? = nil, characterSetName: String? = nil, cloneGroupId: String? = nil, clusterCreateTime: TimeStamp? = nil, copyTagsToSnapshot: Bool? = nil, crossAccountClone: Bool? = nil, customEndpoints: [String]? = nil, dBClusterArn: String? = nil, dBClusterIdentifier: String? = nil, dBClusterMembers: [DBClusterMember]? = nil, dBClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, dBClusterParameterGroup: String? = nil, dBSubnetGroup: String? = nil, databaseName: String? = nil, dbClusterResourceId: String? = nil, deletionProtection: Bool? = nil, earliestBacktrackTime: TimeStamp? = nil, earliestRestorableTime: TimeStamp? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineMode: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, httpEndpointEnabled: Bool? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readReplicaIdentifiers: [String]? = nil, readerEndpoint: String? = nil, replicationSourceIdentifier: String? = nil, scalingConfigurationInfo: ScalingConfigurationInfo? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.activityStreamKinesisStreamName = activityStreamKinesisStreamName
             self.activityStreamKmsKeyId = activityStreamKmsKeyId
             self.activityStreamMode = activityStreamMode
@@ -1919,6 +1922,7 @@ extension RDS {
             self.cloneGroupId = cloneGroupId
             self.clusterCreateTime = clusterCreateTime
             self.copyTagsToSnapshot = copyTagsToSnapshot
+            self.crossAccountClone = crossAccountClone
             self.customEndpoints = customEndpoints
             self.dBClusterArn = dBClusterArn
             self.dBClusterIdentifier = dBClusterIdentifier
@@ -1972,6 +1976,7 @@ extension RDS {
             case cloneGroupId = "CloneGroupId"
             case clusterCreateTime = "ClusterCreateTime"
             case copyTagsToSnapshot = "CopyTagsToSnapshot"
+            case crossAccountClone = "CrossAccountClone"
             case customEndpoints = "CustomEndpoints"
             case dBClusterArn = "DBClusterArn"
             case dBClusterIdentifier = "DBClusterIdentifier"
@@ -4260,6 +4265,7 @@ extension RDS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
+            AWSShapeMember(label: "IncludeShared", required: false, type: .boolean), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
@@ -4267,14 +4273,17 @@ extension RDS {
         public let dBClusterIdentifier: String?
         /// A filter that specifies one or more DB clusters to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB clusters identified by these ARNs.  
         public let filters: [Filter]?
+        /// Optional Boolean parameter that specifies whether the output includes information about clusters shared from other AWS accounts.
+        public let includeShared: Bool?
         /// An optional pagination token provided by a previous DescribeDBClusters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
 
-        public init(dBClusterIdentifier: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(dBClusterIdentifier: String? = nil, filters: [Filter]? = nil, includeShared: Bool? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.filters = filters
+            self.includeShared = includeShared
             self.marker = marker
             self.maxRecords = maxRecords
         }
@@ -4282,6 +4291,7 @@ extension RDS {
         private enum CodingKeys: String, CodingKey {
             case dBClusterIdentifier = "DBClusterIdentifier"
             case filters = "Filters"
+            case includeShared = "IncludeShared"
             case marker = "Marker"
             case maxRecords = "MaxRecords"
         }
@@ -5958,6 +5968,7 @@ extension RDS {
 
     public struct ModifyDBClusterMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowMajorVersionUpgrade", required: false, type: .boolean), 
             AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean), 
             AWSShapeMember(label: "BacktrackWindow", required: false, type: .long), 
             AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
@@ -5965,6 +5976,7 @@ extension RDS {
             AWSShapeMember(label: "CopyTagsToSnapshot", required: false, type: .boolean), 
             AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "DBInstanceParameterGroupName", required: false, type: .string), 
             AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
             AWSShapeMember(label: "EnableHttpEndpoint", required: false, type: .boolean), 
             AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
@@ -5978,6 +5990,8 @@ extension RDS {
             AWSShapeMember(label: "ScalingConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
         ]
+        /// A value that indicates whether major version upgrades are allowed. Constraints: You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the DB cluster's current version.
+        public let allowMajorVersionUpgrade: Bool?
         /// A value that indicates whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is disabled, changes to the DB cluster are applied during the next maintenance window. The ApplyImmediately parameter only affects the EnableIAMDatabaseAuthentication, MasterUserPassword, and NewDBClusterIdentifier values. If the ApplyImmediately parameter is disabled, then changes to the EnableIAMDatabaseAuthentication, MasterUserPassword, and NewDBClusterIdentifier values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. By default, this parameter is disabled.
         public let applyImmediately: Bool?
         /// The target backtrack window, in seconds. To disable backtracking, set this value to 0. Default: 0 Constraints:   If specified, this value must be set to a number from 0 to 259,200 (72 hours).  
@@ -5988,10 +6002,12 @@ extension RDS {
         public let cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration?
         /// A value that indicates whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them.
         public let copyTagsToSnapshot: Bool?
-        /// The DB cluster identifier for the cluster being modified. This parameter is not case-sensitive. Constraints:   Must match the identifier of an existing DBCluster.  
+        /// The DB cluster identifier for the cluster being modified. This parameter is not case-sensitive. Constraints: This identifier must match the identifier of an existing DB cluster.
         public let dBClusterIdentifier: String
         /// The name of the DB cluster parameter group to use for the DB cluster.
         public let dBClusterParameterGroupName: String?
+        /// The name of the DB parameter group to apply to all instances of the DB cluster.   When you apply a parameter group using the DBInstanceParameterGroupName parameter, the DB cluster isn't rebooted automatically. Also, parameter changes aren't applied during the next maintenance window but instead are applied immediately.  Default: The existing name setting Constraints:   The DB parameter group must be in the same DB parameter group family as this DB cluster.   The DBInstanceParameterGroupName parameter is only valid in combination with the AllowMajorVersionUpgrade parameter.  
+        public let dBInstanceParameterGroupName: String?
         /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. 
         public let deletionProtection: Bool?
         /// A value that indicates whether to enable the HTTP endpoint for an Aurora Serverless DB cluster. By default, the HTTP endpoint is disabled. When enabled, the HTTP endpoint provides a connectionless web service API for running SQL queries on the Aurora Serverless DB cluster. You can also query your database from inside the RDS console with the query editor. For more information, see Using the Data API for Aurora Serverless in the Amazon Aurora User Guide.
@@ -6017,7 +6033,8 @@ extension RDS {
         /// A list of VPC security groups that the DB cluster will belong to.
         public let vpcSecurityGroupIds: [String]?
 
-        public init(applyImmediately: Bool? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int32? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, deletionProtection: Bool? = nil, enableHttpEndpoint: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engineVersion: String? = nil, masterUserPassword: String? = nil, newDBClusterIdentifier: String? = nil, optionGroupName: String? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, scalingConfiguration: ScalingConfiguration? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int32? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBInstanceParameterGroupName: String? = nil, deletionProtection: Bool? = nil, enableHttpEndpoint: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engineVersion: String? = nil, masterUserPassword: String? = nil, newDBClusterIdentifier: String? = nil, optionGroupName: String? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, scalingConfiguration: ScalingConfiguration? = nil, vpcSecurityGroupIds: [String]? = nil) {
+            self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
             self.applyImmediately = applyImmediately
             self.backtrackWindow = backtrackWindow
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -6025,6 +6042,7 @@ extension RDS {
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.dBClusterIdentifier = dBClusterIdentifier
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
+            self.dBInstanceParameterGroupName = dBInstanceParameterGroupName
             self.deletionProtection = deletionProtection
             self.enableHttpEndpoint = enableHttpEndpoint
             self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
@@ -6040,6 +6058,7 @@ extension RDS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowMajorVersionUpgrade = "AllowMajorVersionUpgrade"
             case applyImmediately = "ApplyImmediately"
             case backtrackWindow = "BacktrackWindow"
             case backupRetentionPeriod = "BackupRetentionPeriod"
@@ -6047,6 +6066,7 @@ extension RDS {
             case copyTagsToSnapshot = "CopyTagsToSnapshot"
             case dBClusterIdentifier = "DBClusterIdentifier"
             case dBClusterParameterGroupName = "DBClusterParameterGroupName"
+            case dBInstanceParameterGroupName = "DBInstanceParameterGroupName"
             case deletionProtection = "DeletionProtection"
             case enableHttpEndpoint = "EnableHttpEndpoint"
             case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
@@ -6208,7 +6228,7 @@ extension RDS {
         public let dBInstanceClass: String?
         /// The DB instance identifier. This value is stored as a lowercase string. Constraints:   Must match the identifier of an existing DBInstance.  
         public let dBInstanceIdentifier: String
-        /// The name of the DB parameter group to apply to the DB instance. Changing this setting doesn't result in an outage. The parameter group name itself is changed immediately, but the actual parameter changes are not applied until you reboot the instance without failover. The DB instance will NOT be rebooted automatically and the parameter changes will NOT be applied during the next maintenance window. Default: Uses existing setting Constraints: The DB parameter group must be in the same DB parameter group family as this DB instance.
+        /// The name of the DB parameter group to apply to the DB instance. Changing this setting doesn't result in an outage. The parameter group name itself is changed immediately, but the actual parameter changes are not applied until you reboot the instance without failover. In this case, the DB instance isn't rebooted automatically and the parameter changes isn't applied during the next maintenance window. Default: Uses existing setting Constraints: The DB parameter group must be in the same DB parameter group family as this DB instance.
         public let dBParameterGroupName: String?
         /// The port number on which the database accepts connections. The value of the DBPortNumber parameter must not match any of the port values specified for options in the option group for the DB instance. Your database will restart when you change the DBPortNumber value regardless of the value of the ApplyImmediately parameter.  MySQL   Default: 3306   Valid Values: 1150-65535   MariaDB   Default: 3306   Valid Values: 1150-65535   PostgreSQL   Default: 5432   Valid Values: 1150-65535  Type: Integer  Oracle   Default: 1521   Valid Values: 1150-65535   SQL Server   Default: 1433   Valid Values: 1150-65535 except for 1434, 3389, 47001, 49152, and 49152 through 49156.   Amazon Aurora   Default: 3306   Valid Values: 1150-65535 
         public let dBPortNumber: Int32?

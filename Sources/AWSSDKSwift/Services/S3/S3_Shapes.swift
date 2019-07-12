@@ -686,6 +686,7 @@ extension S3 {
             AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
             AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
             AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "SSEKMSEncryptionContext", location: .header(locationName: "x-amz-server-side-encryption-context"), required: false, type: .string), 
             AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
             AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
             AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string)
@@ -699,6 +700,8 @@ extension S3 {
         public let sSECustomerAlgorithm: String?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
         public let sSECustomerKeyMD5: String?
+        /// If present, specifies the AWS KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
+        public let sSEKMSEncryptionContext: String?
         /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
         public let sSEKMSKeyId: String?
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
@@ -706,13 +709,14 @@ extension S3 {
         /// Version ID of the newly created copy.
         public let versionId: String?
 
-        public init(copyObjectResult: CopyObjectResult? = nil, copySourceVersionId: String? = nil, expiration: String? = nil, requestCharged: RequestCharged? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, versionId: String? = nil) {
+        public init(copyObjectResult: CopyObjectResult? = nil, copySourceVersionId: String? = nil, expiration: String? = nil, requestCharged: RequestCharged? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, versionId: String? = nil) {
             self.copyObjectResult = copyObjectResult
             self.copySourceVersionId = copySourceVersionId
             self.expiration = expiration
             self.requestCharged = requestCharged
             self.sSECustomerAlgorithm = sSECustomerAlgorithm
             self.sSECustomerKeyMD5 = sSECustomerKeyMD5
+            self.sSEKMSEncryptionContext = sSEKMSEncryptionContext
             self.sSEKMSKeyId = sSEKMSKeyId
             self.serverSideEncryption = serverSideEncryption
             self.versionId = versionId
@@ -725,6 +729,7 @@ extension S3 {
             case requestCharged = "x-amz-request-charged"
             case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
             case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
+            case sSEKMSEncryptionContext = "x-amz-server-side-encryption-context"
             case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
             case serverSideEncryption = "x-amz-server-side-encryption"
             case versionId = "x-amz-version-id"
@@ -763,6 +768,7 @@ extension S3 {
             AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
             AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
             AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "SSEKMSEncryptionContext", location: .header(locationName: "x-amz-server-side-encryption-context"), required: false, type: .string), 
             AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
             AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
             AWSShapeMember(label: "StorageClass", location: .header(locationName: "x-amz-storage-class"), required: false, type: .enum), 
@@ -827,6 +833,8 @@ extension S3 {
         public let sSECustomerKey: String?
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
         public let sSECustomerKeyMD5: String?
+        /// Specifies the AWS KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
+        public let sSEKMSEncryptionContext: String?
         /// Specifies the AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if not made via SSL or using SigV4. Documentation on configuring any of the officially supported AWS SDKs and CLI can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version
         public let sSEKMSKeyId: String?
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
@@ -840,7 +848,7 @@ extension S3 {
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
         public let websiteRedirectLocation: String?
 
-        public init(acl: ObjectCannedACL? = nil, bucket: String, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, copySource: String, copySourceIfMatch: String? = nil, copySourceIfModifiedSince: TimeStamp? = nil, copySourceIfNoneMatch: String? = nil, copySourceIfUnmodifiedSince: TimeStamp? = nil, copySourceSSECustomerAlgorithm: String? = nil, copySourceSSECustomerKey: String? = nil, copySourceSSECustomerKeyMD5: String? = nil, expires: TimeStamp? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, metadataDirective: MetadataDirective? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, requestPayer: RequestPayer? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, taggingDirective: TaggingDirective? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acl: ObjectCannedACL? = nil, bucket: String, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, copySource: String, copySourceIfMatch: String? = nil, copySourceIfModifiedSince: TimeStamp? = nil, copySourceIfNoneMatch: String? = nil, copySourceIfUnmodifiedSince: TimeStamp? = nil, copySourceSSECustomerAlgorithm: String? = nil, copySourceSSECustomerKey: String? = nil, copySourceSSECustomerKeyMD5: String? = nil, expires: TimeStamp? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, metadataDirective: MetadataDirective? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, requestPayer: RequestPayer? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, taggingDirective: TaggingDirective? = nil, websiteRedirectLocation: String? = nil) {
             self.acl = acl
             self.bucket = bucket
             self.cacheControl = cacheControl
@@ -871,6 +879,7 @@ extension S3 {
             self.sSECustomerAlgorithm = sSECustomerAlgorithm
             self.sSECustomerKey = sSECustomerKey
             self.sSECustomerKeyMD5 = sSECustomerKeyMD5
+            self.sSEKMSEncryptionContext = sSEKMSEncryptionContext
             self.sSEKMSKeyId = sSEKMSKeyId
             self.serverSideEncryption = serverSideEncryption
             self.storageClass = storageClass
@@ -910,6 +919,7 @@ extension S3 {
             case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
             case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
             case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
+            case sSEKMSEncryptionContext = "x-amz-server-side-encryption-context"
             case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
             case serverSideEncryption = "x-amz-server-side-encryption"
             case storageClass = "x-amz-storage-class"
@@ -1055,6 +1065,7 @@ extension S3 {
             AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
             AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
             AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "SSEKMSEncryptionContext", location: .header(locationName: "x-amz-server-side-encryption-context"), required: false, type: .string), 
             AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
             AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
             AWSShapeMember(label: "UploadId", required: false, type: .string)
@@ -1072,6 +1083,8 @@ extension S3 {
         public let sSECustomerAlgorithm: String?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
         public let sSECustomerKeyMD5: String?
+        /// If present, specifies the AWS KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
+        public let sSEKMSEncryptionContext: String?
         /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
         public let sSEKMSKeyId: String?
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
@@ -1079,7 +1092,7 @@ extension S3 {
         /// ID for the initiated multipart upload.
         public let uploadId: String?
 
-        public init(abortDate: TimeStamp? = nil, abortRuleId: String? = nil, bucket: String? = nil, key: String? = nil, requestCharged: RequestCharged? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, uploadId: String? = nil) {
+        public init(abortDate: TimeStamp? = nil, abortRuleId: String? = nil, bucket: String? = nil, key: String? = nil, requestCharged: RequestCharged? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, uploadId: String? = nil) {
             self.abortDate = abortDate
             self.abortRuleId = abortRuleId
             self.bucket = bucket
@@ -1087,6 +1100,7 @@ extension S3 {
             self.requestCharged = requestCharged
             self.sSECustomerAlgorithm = sSECustomerAlgorithm
             self.sSECustomerKeyMD5 = sSECustomerKeyMD5
+            self.sSEKMSEncryptionContext = sSEKMSEncryptionContext
             self.sSEKMSKeyId = sSEKMSKeyId
             self.serverSideEncryption = serverSideEncryption
             self.uploadId = uploadId
@@ -1100,6 +1114,7 @@ extension S3 {
             case requestCharged = "x-amz-request-charged"
             case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
             case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
+            case sSEKMSEncryptionContext = "x-amz-server-side-encryption-context"
             case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
             case serverSideEncryption = "x-amz-server-side-encryption"
             case uploadId = "UploadId"
@@ -1129,6 +1144,7 @@ extension S3 {
             AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
             AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
             AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "SSEKMSEncryptionContext", location: .header(locationName: "x-amz-server-side-encryption-context"), required: false, type: .string), 
             AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
             AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
             AWSShapeMember(label: "StorageClass", location: .header(locationName: "x-amz-storage-class"), required: false, type: .enum), 
@@ -1174,6 +1190,8 @@ extension S3 {
         public let sSECustomerKey: String?
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
         public let sSECustomerKeyMD5: String?
+        /// Specifies the AWS KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
+        public let sSEKMSEncryptionContext: String?
         /// Specifies the AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if not made via SSL or using SigV4. Documentation on configuring any of the officially supported AWS SDKs and CLI can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version
         public let sSEKMSKeyId: String?
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
@@ -1185,7 +1203,7 @@ extension S3 {
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
         public let websiteRedirectLocation: String?
 
-        public init(acl: ObjectCannedACL? = nil, bucket: String, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, expires: TimeStamp? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, requestPayer: RequestPayer? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acl: ObjectCannedACL? = nil, bucket: String, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, expires: TimeStamp? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, requestPayer: RequestPayer? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acl = acl
             self.bucket = bucket
             self.cacheControl = cacheControl
@@ -1207,6 +1225,7 @@ extension S3 {
             self.sSECustomerAlgorithm = sSECustomerAlgorithm
             self.sSECustomerKey = sSECustomerKey
             self.sSECustomerKeyMD5 = sSECustomerKeyMD5
+            self.sSEKMSEncryptionContext = sSEKMSEncryptionContext
             self.sSEKMSKeyId = sSEKMSKeyId
             self.serverSideEncryption = serverSideEncryption
             self.storageClass = storageClass
@@ -1236,6 +1255,7 @@ extension S3 {
             case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
             case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
             case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
+            case sSEKMSEncryptionContext = "x-amz-server-side-encryption-context"
             case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
             case serverSideEncryption = "x-amz-server-side-encryption"
             case storageClass = "x-amz-storage-class"
@@ -6030,6 +6050,7 @@ extension S3 {
             AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
             AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
             AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "SSEKMSEncryptionContext", location: .header(locationName: "x-amz-server-side-encryption-context"), required: false, type: .string), 
             AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
             AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
             AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string)
@@ -6043,6 +6064,8 @@ extension S3 {
         public let sSECustomerAlgorithm: String?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
         public let sSECustomerKeyMD5: String?
+        /// If present, specifies the AWS KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
+        public let sSEKMSEncryptionContext: String?
         /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
         public let sSEKMSKeyId: String?
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
@@ -6050,12 +6073,13 @@ extension S3 {
         /// Version of the object.
         public let versionId: String?
 
-        public init(eTag: String? = nil, expiration: String? = nil, requestCharged: RequestCharged? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, versionId: String? = nil) {
+        public init(eTag: String? = nil, expiration: String? = nil, requestCharged: RequestCharged? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, versionId: String? = nil) {
             self.eTag = eTag
             self.expiration = expiration
             self.requestCharged = requestCharged
             self.sSECustomerAlgorithm = sSECustomerAlgorithm
             self.sSECustomerKeyMD5 = sSECustomerKeyMD5
+            self.sSEKMSEncryptionContext = sSEKMSEncryptionContext
             self.sSEKMSKeyId = sSEKMSKeyId
             self.serverSideEncryption = serverSideEncryption
             self.versionId = versionId
@@ -6067,6 +6091,7 @@ extension S3 {
             case requestCharged = "x-amz-request-charged"
             case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
             case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
+            case sSEKMSEncryptionContext = "x-amz-server-side-encryption-context"
             case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
             case serverSideEncryption = "x-amz-server-side-encryption"
             case versionId = "x-amz-version-id"
@@ -6101,6 +6126,7 @@ extension S3 {
             AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
             AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
             AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "SSEKMSEncryptionContext", location: .header(locationName: "x-amz-server-side-encryption-context"), required: false, type: .string), 
             AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
             AWSShapeMember(label: "ServerSideEncryption", location: .header(locationName: "x-amz-server-side-encryption"), required: false, type: .enum), 
             AWSShapeMember(label: "StorageClass", location: .header(locationName: "x-amz-storage-class"), required: false, type: .enum), 
@@ -6154,6 +6180,8 @@ extension S3 {
         public let sSECustomerKey: String?
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
         public let sSECustomerKeyMD5: String?
+        /// Specifies the AWS KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
+        public let sSEKMSEncryptionContext: String?
         /// Specifies the AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if not made via SSL or using SigV4. Documentation on configuring any of the officially supported AWS SDKs and CLI can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version
         public let sSEKMSKeyId: String?
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
@@ -6165,7 +6193,7 @@ extension S3 {
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
         public let websiteRedirectLocation: String?
 
-        public init(acl: ObjectCannedACL? = nil, body: Data? = nil, bucket: String, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, expires: TimeStamp? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, requestPayer: RequestPayer? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acl: ObjectCannedACL? = nil, body: Data? = nil, bucket: String, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, expires: TimeStamp? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, requestPayer: RequestPayer? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acl = acl
             self.body = body
             self.bucket = bucket
@@ -6190,6 +6218,7 @@ extension S3 {
             self.sSECustomerAlgorithm = sSECustomerAlgorithm
             self.sSECustomerKey = sSECustomerKey
             self.sSECustomerKeyMD5 = sSECustomerKeyMD5
+            self.sSEKMSEncryptionContext = sSEKMSEncryptionContext
             self.sSEKMSKeyId = sSEKMSKeyId
             self.serverSideEncryption = serverSideEncryption
             self.storageClass = storageClass
@@ -6222,6 +6251,7 @@ extension S3 {
             case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
             case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
             case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
+            case sSEKMSEncryptionContext = "x-amz-server-side-encryption-context"
             case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
             case serverSideEncryption = "x-amz-server-side-encryption"
             case storageClass = "x-amz-storage-class"

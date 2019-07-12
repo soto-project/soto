@@ -106,6 +106,11 @@ public struct SWF {
         return try client.send(operation: "ListOpenWorkflowExecutions", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  List tags for a given domain.
+    public func listTagsForResource(_ input: ListTagsForResourceInput) throws -> Future<ListTagsForResourceOutput> {
+        return try client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns information about workflow types in the specified domain. The results may be split into multiple pages that can be retrieved by making the call repeatedly.  Access Control  You can use IAM policies to control this action's access to Amazon SWF resources as follows:   Use a Resource element with the domain name to limit the action to only specified domains.   Use an Action element to allow or deny permission to call this action.   You cannot use an IAM policy to constrain this action's parameters.   If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
     public func listWorkflowTypes(_ input: ListWorkflowTypesInput) throws -> Future<WorkflowTypeInfos> {
         return try client.send(operation: "ListWorkflowTypes", path: "/", httpMethod: "POST", input: input)
@@ -176,9 +181,34 @@ public struct SWF {
         return try client.send(operation: "StartWorkflowExecution", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Add a tag to a Amazon SWF domain.  Amazon SWF supports a maximum of 50 tags per resource. 
+    @discardableResult public func tagResource(_ input: TagResourceInput) throws -> Future<Void> {
+        return try client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Records a WorkflowExecutionTerminated event and forces closure of the workflow execution identified by the given domain, runId, and workflowId. The child policy, registered with the workflow type or specified when starting this execution, is applied to any open child workflow executions of this workflow execution.  If the identified workflow execution was in progress, it is terminated immediately.   If a runId isn't specified, then the WorkflowExecutionTerminated event is recorded in the history of the current open workflow with the matching workflowId in the domain.   You should consider using RequestCancelWorkflowExecution action instead because it allows the workflow to gracefully close while TerminateWorkflowExecution doesn't.   Access Control  You can use IAM policies to control this action's access to Amazon SWF resources as follows:   Use a Resource element with the domain name to limit the action to only specified domains.   Use an Action element to allow or deny permission to call this action.   You cannot use an IAM policy to constrain this action's parameters.   If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
     @discardableResult public func terminateWorkflowExecution(_ input: TerminateWorkflowExecutionInput) throws -> Future<Void> {
         return try client.send(operation: "TerminateWorkflowExecution", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Undeprecates a previously deprecated activity type. After an activity type has been undeprecated, you can create new tasks of that activity type.  This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes.   Access Control  You can use IAM policies to control this action's access to Amazon SWF resources as follows:   Use a Resource element with the domain name to limit the action to only specified domains.   Use an Action element to allow or deny permission to call this action.   Constrain the following parameters by using a Condition element with the appropriate keys.    activityType.name: String constraint. The key is swf:activityType.name.    activityType.version: String constraint. The key is swf:activityType.version.     If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
+    @discardableResult public func undeprecateActivityType(_ input: UndeprecateActivityTypeInput) throws -> Future<Void> {
+        return try client.send(operation: "UndeprecateActivityType", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Undeprecates a previously deprecated domain. After a domain has been undeprecated it can be used to create new workflow executions or register new types.  This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes.   Access Control  You can use IAM policies to control this action's access to Amazon SWF resources as follows:   Use a Resource element with the domain name to limit the action to only specified domains.   Use an Action element to allow or deny permission to call this action.   You cannot use an IAM policy to constrain this action's parameters.   If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
+    @discardableResult public func undeprecateDomain(_ input: UndeprecateDomainInput) throws -> Future<Void> {
+        return try client.send(operation: "UndeprecateDomain", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Undeprecates a previously deprecated workflow type. After a workflow type has been undeprecated, you can create new executions of that type.   This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes.   Access Control  You can use IAM policies to control this action's access to Amazon SWF resources as follows:   Use a Resource element with the domain name to limit the action to only specified domains.   Use an Action element to allow or deny permission to call this action.   Constrain the following parameters by using a Condition element with the appropriate keys.    workflowType.name: String constraint. The key is swf:workflowType.name.    workflowType.version: String constraint. The key is swf:workflowType.version.     If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
+    @discardableResult public func undeprecateWorkflowType(_ input: UndeprecateWorkflowTypeInput) throws -> Future<Void> {
+        return try client.send(operation: "UndeprecateWorkflowType", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Remove a tag from a Amazon SWF domain.
+    @discardableResult public func untagResource(_ input: UntagResourceInput) throws -> Future<Void> {
+        return try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
 
 

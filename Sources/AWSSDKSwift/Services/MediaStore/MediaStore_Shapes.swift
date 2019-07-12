@@ -91,17 +91,22 @@ extension MediaStore {
 
     public struct CreateContainerInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContainerName", required: true, type: .string)
+            AWSShapeMember(label: "ContainerName", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// The name for the container. The name must be from 1 to 255 characters. Container names must be unique to your AWS account within a specific region. As an example, you could create a container named movies in every region, as long as you don’t have an existing container with that name.
         public let containerName: String
+        /// An array of key:value pairs that you define. These values can be anything that you want. Typically, the tag key represents a category (such as "environment") and the tag value represents a specific value within that category (such as "test," "development," or "production"). You can add up to 50 tags to each container. For more information about tagging, including naming and usage conventions, see Tagging Resources in MediaStore.
+        public let tags: [Tag]?
 
-        public init(containerName: String) {
+        public init(containerName: String, tags: [Tag]? = nil) {
             self.containerName = containerName
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case containerName = "ContainerName"
+            case tags = "Tags"
         }
     }
 
@@ -383,6 +388,38 @@ extension MediaStore {
         }
     }
 
+    public struct ListTagsForResourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Resource", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) for the container.
+        public let resource: String
+
+        public init(resource: String) {
+            self.resource = resource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resource = "Resource"
+        }
+    }
+
+    public struct ListTagsForResourceOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// An array of key:value pairs that are assigned to the container.
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
     public enum MethodName: String, CustomStringConvertible, Codable {
         case put = "PUT"
         case get = "GET"
@@ -515,6 +552,83 @@ extension MediaStore {
     }
 
     public struct StopAccessLoggingOutput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// Part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive.
+        public let key: String?
+        /// Part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensitive.
+        public let value: String?
+
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Resource", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) for the container. 
+        public let resource: String
+        /// An array of key:value pairs that you want to add to the container. You need to specify only the tags that you want to add or update. For example, suppose a container already has two tags (customer:CompanyA and priority:High). You want to change the priority tag and also add a third tag (type:Contract). For TagResource, you specify the following tags: priority:Medium, type:Contract. The result is that your container has three tags: customer:CompanyA, priority:Medium, and type:Contract.
+        public let tags: [Tag]
+
+        public init(resource: String, tags: [Tag]) {
+            self.resource = resource
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resource = "Resource"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceOutput: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UntagResourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Resource", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) for the container.
+        public let resource: String
+        /// A comma-separated list of keys for tags that you want to remove from the container. For example, if your container has two tags (customer:CompanyA and priority:High) and you want to remove one of the tags (priority:High), you specify the key for the tag that you want to remove (priority).
+        public let tagKeys: [String]
+
+        public init(resource: String, tagKeys: [String]) {
+            self.resource = resource
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resource = "Resource"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceOutput: AWSShape {
 
         public init() {
         }

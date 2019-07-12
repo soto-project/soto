@@ -541,7 +541,9 @@ extension AlexaForBusiness {
             AWSShapeMember(label: "DisplayName", required: false, type: .string), 
             AWSShapeMember(label: "FirstName", required: false, type: .string), 
             AWSShapeMember(label: "LastName", required: false, type: .string), 
-            AWSShapeMember(label: "PhoneNumber", required: false, type: .string)
+            AWSShapeMember(label: "PhoneNumber", required: false, type: .string), 
+            AWSShapeMember(label: "PhoneNumbers", required: false, type: .list), 
+            AWSShapeMember(label: "SipAddresses", required: false, type: .list)
         ]
         /// The ARN of the contact.
         public let contactArn: String?
@@ -551,15 +553,21 @@ extension AlexaForBusiness {
         public let firstName: String?
         /// The last name of the contact, used to call the contact on the device.
         public let lastName: String?
-        /// The phone number of the contact.
+        /// The phone number of the contact. The phone number type defaults to WORK. You can either specify PhoneNumber or PhoneNumbers. We recommend that you use PhoneNumbers, which lets you specify the phone number type and multiple numbers.
         public let phoneNumber: String?
+        /// The list of phone numbers for the contact.
+        public let phoneNumbers: [PhoneNumber]?
+        /// The list of SIP addresses for the contact.
+        public let sipAddresses: [SipAddress]?
 
-        public init(contactArn: String? = nil, displayName: String? = nil, firstName: String? = nil, lastName: String? = nil, phoneNumber: String? = nil) {
+        public init(contactArn: String? = nil, displayName: String? = nil, firstName: String? = nil, lastName: String? = nil, phoneNumber: String? = nil, phoneNumbers: [PhoneNumber]? = nil, sipAddresses: [SipAddress]? = nil) {
             self.contactArn = contactArn
             self.displayName = displayName
             self.firstName = firstName
             self.lastName = lastName
             self.phoneNumber = phoneNumber
+            self.phoneNumbers = phoneNumbers
+            self.sipAddresses = sipAddresses
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -568,6 +576,8 @@ extension AlexaForBusiness {
             case firstName = "FirstName"
             case lastName = "LastName"
             case phoneNumber = "PhoneNumber"
+            case phoneNumbers = "PhoneNumbers"
+            case sipAddresses = "SipAddresses"
         }
     }
 
@@ -577,7 +587,9 @@ extension AlexaForBusiness {
             AWSShapeMember(label: "DisplayName", required: false, type: .string), 
             AWSShapeMember(label: "FirstName", required: false, type: .string), 
             AWSShapeMember(label: "LastName", required: false, type: .string), 
-            AWSShapeMember(label: "PhoneNumber", required: false, type: .string)
+            AWSShapeMember(label: "PhoneNumber", required: false, type: .string), 
+            AWSShapeMember(label: "PhoneNumbers", required: false, type: .list), 
+            AWSShapeMember(label: "SipAddresses", required: false, type: .list)
         ]
         /// The ARN of the contact.
         public let contactArn: String?
@@ -587,15 +599,21 @@ extension AlexaForBusiness {
         public let firstName: String?
         /// The last name of the contact, used to call the contact on the device.
         public let lastName: String?
-        /// The phone number of the contact.
+        /// The phone number of the contact. The phone number type defaults to WORK. You can specify PhoneNumber or PhoneNumbers. We recommend that you use PhoneNumbers, which lets you specify the phone number type and multiple numbers.
         public let phoneNumber: String?
+        /// The list of phone numbers for the contact.
+        public let phoneNumbers: [PhoneNumber]?
+        /// The list of SIP addresses for the contact.
+        public let sipAddresses: [SipAddress]?
 
-        public init(contactArn: String? = nil, displayName: String? = nil, firstName: String? = nil, lastName: String? = nil, phoneNumber: String? = nil) {
+        public init(contactArn: String? = nil, displayName: String? = nil, firstName: String? = nil, lastName: String? = nil, phoneNumber: String? = nil, phoneNumbers: [PhoneNumber]? = nil, sipAddresses: [SipAddress]? = nil) {
             self.contactArn = contactArn
             self.displayName = displayName
             self.firstName = firstName
             self.lastName = lastName
             self.phoneNumber = phoneNumber
+            self.phoneNumbers = phoneNumbers
+            self.sipAddresses = sipAddresses
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -604,6 +622,8 @@ extension AlexaForBusiness {
             case firstName = "FirstName"
             case lastName = "LastName"
             case phoneNumber = "PhoneNumber"
+            case phoneNumbers = "PhoneNumbers"
+            case sipAddresses = "SipAddresses"
         }
     }
 
@@ -800,7 +820,9 @@ extension AlexaForBusiness {
             AWSShapeMember(label: "DisplayName", required: false, type: .string), 
             AWSShapeMember(label: "FirstName", required: true, type: .string), 
             AWSShapeMember(label: "LastName", required: false, type: .string), 
-            AWSShapeMember(label: "PhoneNumber", required: false, type: .string)
+            AWSShapeMember(label: "PhoneNumber", required: false, type: .string), 
+            AWSShapeMember(label: "PhoneNumbers", required: false, type: .list), 
+            AWSShapeMember(label: "SipAddresses", required: false, type: .list)
         ]
         /// A unique, user-specified identifier for this request that ensures idempotency.
         public let clientRequestToken: String?
@@ -810,15 +832,21 @@ extension AlexaForBusiness {
         public let firstName: String
         /// The last name of the contact that is used to call the contact on the device.
         public let lastName: String?
-        /// The phone number of the contact in E.164 format.
+        /// The phone number of the contact in E.164 format. The phone number type defaults to WORK. You can specify PhoneNumber or PhoneNumbers. We recommend that you use PhoneNumbers, which lets you specify the phone number type and multiple numbers.
         public let phoneNumber: String?
+        /// The list of phone numbers for the contact.
+        public let phoneNumbers: [PhoneNumber]?
+        /// The list of SIP addresses for the contact.
+        public let sipAddresses: [SipAddress]?
 
-        public init(clientRequestToken: String? = nil, displayName: String? = nil, firstName: String, lastName: String? = nil, phoneNumber: String? = nil) {
+        public init(clientRequestToken: String? = nil, displayName: String? = nil, firstName: String, lastName: String? = nil, phoneNumber: String? = nil, phoneNumbers: [PhoneNumber]? = nil, sipAddresses: [SipAddress]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.displayName = displayName
             self.firstName = firstName
             self.lastName = lastName
             self.phoneNumber = phoneNumber
+            self.phoneNumbers = phoneNumbers
+            self.sipAddresses = sipAddresses
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -827,6 +855,8 @@ extension AlexaForBusiness {
             case firstName = "FirstName"
             case lastName = "LastName"
             case phoneNumber = "PhoneNumber"
+            case phoneNumbers = "PhoneNumbers"
+            case sipAddresses = "SipAddresses"
         }
     }
 
@@ -3253,6 +3283,34 @@ extension AlexaForBusiness {
         }
     }
 
+    public struct PhoneNumber: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Number", required: true, type: .string), 
+            AWSShapeMember(label: "Type", required: true, type: .enum)
+        ]
+        /// The raw value of the phone number.
+        public let number: String
+        /// The type of the phone number.
+        public let `type`: PhoneNumberType
+
+        public init(number: String, type: PhoneNumberType) {
+            self.number = number
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case number = "Number"
+            case `type` = "Type"
+        }
+    }
+
+    public enum PhoneNumberType: String, CustomStringConvertible, Codable {
+        case mobile = "MOBILE"
+        case work = "WORK"
+        case home = "HOME"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Profile: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Address", required: false, type: .string), 
@@ -4278,6 +4336,32 @@ extension AlexaForBusiness {
 
     }
 
+    public struct SipAddress: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: true, type: .enum), 
+            AWSShapeMember(label: "Uri", required: true, type: .string)
+        ]
+        /// The type of the SIP address.
+        public let `type`: SipType
+        /// The URI for the SIP address.
+        public let uri: String
+
+        public init(type: SipType, uri: String) {
+            self.`type` = `type`
+            self.uri = uri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case uri = "Uri"
+        }
+    }
+
+    public enum SipType: String, CustomStringConvertible, Codable {
+        case work = "WORK"
+        public var description: String { return self.rawValue }
+    }
+
     public struct SkillDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BulletPoints", required: false, type: .list), 
@@ -4850,7 +4934,9 @@ extension AlexaForBusiness {
             AWSShapeMember(label: "DisplayName", required: false, type: .string), 
             AWSShapeMember(label: "FirstName", required: false, type: .string), 
             AWSShapeMember(label: "LastName", required: false, type: .string), 
-            AWSShapeMember(label: "PhoneNumber", required: false, type: .string)
+            AWSShapeMember(label: "PhoneNumber", required: false, type: .string), 
+            AWSShapeMember(label: "PhoneNumbers", required: false, type: .list), 
+            AWSShapeMember(label: "SipAddresses", required: false, type: .list)
         ]
         /// The ARN of the contact to update.
         public let contactArn: String
@@ -4860,15 +4946,21 @@ extension AlexaForBusiness {
         public let firstName: String?
         /// The updated last name of the contact.
         public let lastName: String?
-        /// The updated phone number of the contact.
+        /// The updated phone number of the contact. The phone number type defaults to WORK. You can either specify PhoneNumber or PhoneNumbers. We recommend that you use PhoneNumbers, which lets you specify the phone number type and multiple numbers.
         public let phoneNumber: String?
+        /// The list of phone numbers for the contact.
+        public let phoneNumbers: [PhoneNumber]?
+        /// The list of SIP addresses for the contact.
+        public let sipAddresses: [SipAddress]?
 
-        public init(contactArn: String, displayName: String? = nil, firstName: String? = nil, lastName: String? = nil, phoneNumber: String? = nil) {
+        public init(contactArn: String, displayName: String? = nil, firstName: String? = nil, lastName: String? = nil, phoneNumber: String? = nil, phoneNumbers: [PhoneNumber]? = nil, sipAddresses: [SipAddress]? = nil) {
             self.contactArn = contactArn
             self.displayName = displayName
             self.firstName = firstName
             self.lastName = lastName
             self.phoneNumber = phoneNumber
+            self.phoneNumbers = phoneNumbers
+            self.sipAddresses = sipAddresses
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4877,6 +4969,8 @@ extension AlexaForBusiness {
             case firstName = "FirstName"
             case lastName = "LastName"
             case phoneNumber = "PhoneNumber"
+            case phoneNumbers = "PhoneNumbers"
+            case sipAddresses = "SipAddresses"
         }
     }
 

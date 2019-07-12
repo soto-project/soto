@@ -642,6 +642,43 @@ extension EC2 {
         }
     }
 
+    public struct AssignPrivateIpAddressesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssignedPrivateIpAddresses", location: .body(locationName: "assignedPrivateIpAddressesSet"), required: false, type: .list, encoding: .list(member:"item")), 
+            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"), required: false, type: .string)
+        ]
+        /// The private IP addresses assigned to the network interface.
+        public let assignedPrivateIpAddresses: [AssignedPrivateIpAddress]?
+        /// The ID of the network interface.
+        public let networkInterfaceId: String?
+
+        public init(assignedPrivateIpAddresses: [AssignedPrivateIpAddress]? = nil, networkInterfaceId: String? = nil) {
+            self.assignedPrivateIpAddresses = assignedPrivateIpAddresses
+            self.networkInterfaceId = networkInterfaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assignedPrivateIpAddresses = "assignedPrivateIpAddressesSet"
+            case networkInterfaceId = "networkInterfaceId"
+        }
+    }
+
+    public struct AssignedPrivateIpAddress: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress"), required: false, type: .string)
+        ]
+        /// The private IP address assigned to the network interface.
+        public let privateIpAddress: String?
+
+        public init(privateIpAddress: String? = nil) {
+            self.privateIpAddress = privateIpAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case privateIpAddress = "privateIpAddress"
+        }
+    }
+
     public struct AssociateAddressRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AllocationId", required: false, type: .string), 
@@ -3363,7 +3400,7 @@ extension EC2 {
         public let destinationRegion: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// Specifies whether the destination snapshot should be encrypted. You can encrypt a copy of an unencrypted snapshot, but you cannot use it to create an unencrypted copy of an encrypted snapshot. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
+        /// To encrypt a copy of an unencrypted snapshot if encryption by default is not enabled, enable encryption using this parameter. Otherwise, omit this parameter. Encrypted snapshots are encrypted, even if you omit this parameter and encryption by default is not enabled. You cannot set this parameter to false. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
         public let encrypted: Bool?
         /// The identifier of the AWS Key Management Service (AWS KMS) customer master key (CMK) to use for Amazon EBS encryption. If this parameter is not specified, your AWS managed CMK for EBS is used. If KmsKeyId is specified, the encrypted state must be true. You can specify the CMK using any of the following:   Key ID. For example, key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias. For example, alias/ExampleAlias.   Key ARN. For example, arn:aws:kms:us-east-1:012345678910:key/abcd1234-a123-456a-a12b-a123b4cd56ef.   Alias ARN. For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.   AWS authenticates the CMK asynchronously. Therefore, if you specify an ID, alias, or ARN that is not valid, the action can appear to complete, but eventually fails.
         public let kmsKeyId: String?
@@ -3987,7 +4024,7 @@ extension EC2 {
         public let excessCapacityTerminationPolicy: FleetExcessCapacityTerminationPolicy?
         /// The configuration for the EC2 Fleet.
         public let launchTemplateConfigs: [FleetLaunchTemplateConfigRequest]
-        /// The allocation strategy of On-Demand Instances in an EC2 Fleet.
+        /// Describes the configuration of On-Demand Instances in an EC2 Fleet.
         public let onDemandOptions: OnDemandOptionsRequest?
         /// Indicates whether EC2 Fleet should replace unhealthy instances.
         public let replaceUnhealthyInstances: Bool?
@@ -3995,7 +4032,7 @@ extension EC2 {
         public let spotOptions: SpotOptionsRequest?
         /// The key-value pair for tagging the EC2 Fleet request on creation. The value for ResourceType must be fleet, otherwise the fleet request fails. To tag instances at launch, specify the tags in the launch template. For information about tagging after launch, see Tagging Your Resources. 
         public let tagSpecifications: [TagSpecification]?
-        /// The TotalTargetCapacity, OnDemandTargetCapacity, SpotTargetCapacity, and DefaultCapacityType structure.
+        /// The number of units to request.
         public let targetCapacitySpecification: TargetCapacitySpecificationRequest
         /// Indicates whether running instances should be terminated when the EC2 Fleet expires.
         public let terminateInstancesWithExpiration: Bool?
@@ -4696,7 +4733,7 @@ extension EC2 {
         public let dryRun: Bool?
         /// The IDs of one or more security groups.
         public let groups: [String]?
-        /// Indicates the type of network interface. To create an Elastic Fabric Adapter (EFA), specify efa. For more information, see  Elastic Fabric Adapter in the Amazon Elastic Compute Cloud User Guide. If you are not creating an EFA, specify interface or omit this parameter.
+        /// Indicates the type of network interface. To create an Elastic Fabric Adapter (EFA), specify efa. For more information, see  Elastic Fabric Adapter in the Amazon Elastic Compute Cloud User Guide.
         public let interfaceType: NetworkInterfaceCreationType?
         /// The number of IPv6 addresses to assign to a network interface. Amazon EC2 automatically selects the IPv6 addresses from the subnet range. You can't use this option if specifying specific IPv6 addresses. If your subnet has the AssignIpv6AddressOnCreation attribute set to true, you can specify 0 to override this setting.
         public let ipv6AddressCount: Int32?
@@ -14513,6 +14550,7 @@ extension EC2 {
         case instancechange = "instanceChange"
         case fleetrequestchange = "fleetRequestChange"
         case error = "error"
+        case information = "information"
         public var description: String { return self.rawValue }
     }
 
@@ -18509,20 +18547,26 @@ extension EC2 {
         case r5Xlarge = "r5.xlarge"
         case r52Xlarge = "r5.2xlarge"
         case r54Xlarge = "r5.4xlarge"
+        case r58Xlarge = "r5.8xlarge"
         case r512Xlarge = "r5.12xlarge"
+        case r516Xlarge = "r5.16xlarge"
         case r524Xlarge = "r5.24xlarge"
         case r5Metal = "r5.metal"
         case r5aLarge = "r5a.large"
         case r5aXlarge = "r5a.xlarge"
         case r5a2Xlarge = "r5a.2xlarge"
         case r5a4Xlarge = "r5a.4xlarge"
+        case r5a8Xlarge = "r5a.8xlarge"
         case r5a12Xlarge = "r5a.12xlarge"
+        case r5a16Xlarge = "r5a.16xlarge"
         case r5a24Xlarge = "r5a.24xlarge"
         case r5dLarge = "r5d.large"
         case r5dXlarge = "r5d.xlarge"
         case r5d2Xlarge = "r5d.2xlarge"
         case r5d4Xlarge = "r5d.4xlarge"
+        case r5d8Xlarge = "r5d.8xlarge"
         case r5d12Xlarge = "r5d.12xlarge"
+        case r5d16Xlarge = "r5d.16xlarge"
         case r5d24Xlarge = "r5d.24xlarge"
         case r5dMetal = "r5d.metal"
         case r5adLarge = "r5ad.large"
@@ -18581,6 +18625,7 @@ extension EC2 {
         case c512Xlarge = "c5.12xlarge"
         case c518Xlarge = "c5.18xlarge"
         case c524Xlarge = "c5.24xlarge"
+        case c5Metal = "c5.metal"
         case c5dLarge = "c5d.large"
         case c5dXlarge = "c5d.xlarge"
         case c5d2Xlarge = "c5d.2xlarge"
@@ -18620,20 +18665,26 @@ extension EC2 {
         case m5Xlarge = "m5.xlarge"
         case m52Xlarge = "m5.2xlarge"
         case m54Xlarge = "m5.4xlarge"
+        case m58Xlarge = "m5.8xlarge"
         case m512Xlarge = "m5.12xlarge"
+        case m516Xlarge = "m5.16xlarge"
         case m524Xlarge = "m5.24xlarge"
         case m5Metal = "m5.metal"
         case m5aLarge = "m5a.large"
         case m5aXlarge = "m5a.xlarge"
         case m5a2Xlarge = "m5a.2xlarge"
         case m5a4Xlarge = "m5a.4xlarge"
+        case m5a8Xlarge = "m5a.8xlarge"
         case m5a12Xlarge = "m5a.12xlarge"
+        case m5a16Xlarge = "m5a.16xlarge"
         case m5a24Xlarge = "m5a.24xlarge"
         case m5dLarge = "m5d.large"
         case m5dXlarge = "m5d.xlarge"
         case m5d2Xlarge = "m5d.2xlarge"
         case m5d4Xlarge = "m5d.4xlarge"
+        case m5d8Xlarge = "m5d.8xlarge"
         case m5d12Xlarge = "m5d.12xlarge"
+        case m5d16Xlarge = "m5d.16xlarge"
         case m5d24Xlarge = "m5d.24xlarge"
         case m5dMetal = "m5d.metal"
         case m5adLarge = "m5ad.large"
@@ -21057,24 +21108,29 @@ extension EC2 {
     public struct ModifySpotFleetRequestRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ExcessCapacityTerminationPolicy", location: .body(locationName: "excessCapacityTerminationPolicy"), required: false, type: .enum), 
+            AWSShapeMember(label: "OnDemandTargetCapacity", required: false, type: .integer), 
             AWSShapeMember(label: "SpotFleetRequestId", location: .body(locationName: "spotFleetRequestId"), required: true, type: .string), 
             AWSShapeMember(label: "TargetCapacity", location: .body(locationName: "targetCapacity"), required: false, type: .integer)
         ]
         /// Indicates whether running Spot Instances should be terminated if the target capacity of the Spot Fleet request is decreased below the current size of the Spot Fleet.
         public let excessCapacityTerminationPolicy: ExcessCapacityTerminationPolicy?
+        /// The number of On-Demand Instances in the fleet.
+        public let onDemandTargetCapacity: Int32?
         /// The ID of the Spot Fleet request.
         public let spotFleetRequestId: String
         /// The size of the fleet.
         public let targetCapacity: Int32?
 
-        public init(excessCapacityTerminationPolicy: ExcessCapacityTerminationPolicy? = nil, spotFleetRequestId: String, targetCapacity: Int32? = nil) {
+        public init(excessCapacityTerminationPolicy: ExcessCapacityTerminationPolicy? = nil, onDemandTargetCapacity: Int32? = nil, spotFleetRequestId: String, targetCapacity: Int32? = nil) {
             self.excessCapacityTerminationPolicy = excessCapacityTerminationPolicy
+            self.onDemandTargetCapacity = onDemandTargetCapacity
             self.spotFleetRequestId = spotFleetRequestId
             self.targetCapacity = targetCapacity
         }
 
         private enum CodingKeys: String, CodingKey {
             case excessCapacityTerminationPolicy = "excessCapacityTerminationPolicy"
+            case onDemandTargetCapacity = "OnDemandTargetCapacity"
             case spotFleetRequestId = "spotFleetRequestId"
             case targetCapacity = "targetCapacity"
         }
@@ -22636,12 +22692,15 @@ extension EC2 {
     public struct OnDemandOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AllocationStrategy", location: .body(locationName: "allocationStrategy"), required: false, type: .enum), 
+            AWSShapeMember(label: "MaxTotalPrice", location: .body(locationName: "maxTotalPrice"), required: false, type: .string), 
             AWSShapeMember(label: "MinTargetCapacity", location: .body(locationName: "minTargetCapacity"), required: false, type: .integer), 
             AWSShapeMember(label: "SingleAvailabilityZone", location: .body(locationName: "singleAvailabilityZone"), required: false, type: .boolean), 
             AWSShapeMember(label: "SingleInstanceType", location: .body(locationName: "singleInstanceType"), required: false, type: .boolean)
         ]
         /// The order of the launch template overrides to use in fulfilling On-Demand capacity. If you specify lowest-price, EC2 Fleet uses price to determine the order, launching the lowest price first. If you specify prioritized, EC2 Fleet uses the priority that you assigned to each launch template override, launching the highest priority first. If you do not specify a value, EC2 Fleet defaults to lowest-price.
         public let allocationStrategy: FleetOnDemandAllocationStrategy?
+        /// The maximum amount per hour for On-Demand Instances that you're willing to pay.
+        public let maxTotalPrice: String?
         /// The minimum target capacity for On-Demand Instances in the fleet. If the minimum target capacity is not reached, the fleet launches no instances.
         public let minTargetCapacity: Int32?
         /// Indicates that the fleet launches all On-Demand Instances into a single Availability Zone.
@@ -22649,8 +22708,9 @@ extension EC2 {
         /// Indicates that the fleet uses a single instance type to launch all On-Demand Instances in the fleet.
         public let singleInstanceType: Bool?
 
-        public init(allocationStrategy: FleetOnDemandAllocationStrategy? = nil, minTargetCapacity: Int32? = nil, singleAvailabilityZone: Bool? = nil, singleInstanceType: Bool? = nil) {
+        public init(allocationStrategy: FleetOnDemandAllocationStrategy? = nil, maxTotalPrice: String? = nil, minTargetCapacity: Int32? = nil, singleAvailabilityZone: Bool? = nil, singleInstanceType: Bool? = nil) {
             self.allocationStrategy = allocationStrategy
+            self.maxTotalPrice = maxTotalPrice
             self.minTargetCapacity = minTargetCapacity
             self.singleAvailabilityZone = singleAvailabilityZone
             self.singleInstanceType = singleInstanceType
@@ -22658,6 +22718,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case allocationStrategy = "allocationStrategy"
+            case maxTotalPrice = "maxTotalPrice"
             case minTargetCapacity = "minTargetCapacity"
             case singleAvailabilityZone = "singleAvailabilityZone"
             case singleInstanceType = "singleInstanceType"
@@ -22667,12 +22728,15 @@ extension EC2 {
     public struct OnDemandOptionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AllocationStrategy", required: false, type: .enum), 
+            AWSShapeMember(label: "MaxTotalPrice", required: false, type: .string), 
             AWSShapeMember(label: "MinTargetCapacity", required: false, type: .integer), 
             AWSShapeMember(label: "SingleAvailabilityZone", required: false, type: .boolean), 
             AWSShapeMember(label: "SingleInstanceType", required: false, type: .boolean)
         ]
         /// The order of the launch template overrides to use in fulfilling On-Demand capacity. If you specify lowest-price, EC2 Fleet uses price to determine the order, launching the lowest price first. If you specify prioritized, EC2 Fleet uses the priority that you assigned to each launch template override, launching the highest priority first. If you do not specify a value, EC2 Fleet defaults to lowest-price.
         public let allocationStrategy: FleetOnDemandAllocationStrategy?
+        /// The maximum amount per hour for On-Demand Instances that you're willing to pay.
+        public let maxTotalPrice: String?
         /// The minimum target capacity for On-Demand Instances in the fleet. If the minimum target capacity is not reached, the fleet launches no instances.
         public let minTargetCapacity: Int32?
         /// Indicates that the fleet launches all On-Demand Instances into a single Availability Zone.
@@ -22680,8 +22744,9 @@ extension EC2 {
         /// Indicates that the fleet uses a single instance type to launch all On-Demand Instances in the fleet.
         public let singleInstanceType: Bool?
 
-        public init(allocationStrategy: FleetOnDemandAllocationStrategy? = nil, minTargetCapacity: Int32? = nil, singleAvailabilityZone: Bool? = nil, singleInstanceType: Bool? = nil) {
+        public init(allocationStrategy: FleetOnDemandAllocationStrategy? = nil, maxTotalPrice: String? = nil, minTargetCapacity: Int32? = nil, singleAvailabilityZone: Bool? = nil, singleInstanceType: Bool? = nil) {
             self.allocationStrategy = allocationStrategy
+            self.maxTotalPrice = maxTotalPrice
             self.minTargetCapacity = minTargetCapacity
             self.singleAvailabilityZone = singleAvailabilityZone
             self.singleInstanceType = singleInstanceType
@@ -22689,6 +22754,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case allocationStrategy = "AllocationStrategy"
+            case maxTotalPrice = "MaxTotalPrice"
             case minTargetCapacity = "MinTargetCapacity"
             case singleAvailabilityZone = "SingleAvailabilityZone"
             case singleInstanceType = "SingleInstanceType"
@@ -27583,8 +27649,10 @@ extension EC2 {
             AWSShapeMember(label: "LoadBalancersConfig", location: .body(locationName: "loadBalancersConfig"), required: false, type: .structure), 
             AWSShapeMember(label: "OnDemandAllocationStrategy", location: .body(locationName: "onDemandAllocationStrategy"), required: false, type: .enum), 
             AWSShapeMember(label: "OnDemandFulfilledCapacity", location: .body(locationName: "onDemandFulfilledCapacity"), required: false, type: .double), 
+            AWSShapeMember(label: "OnDemandMaxTotalPrice", location: .body(locationName: "onDemandMaxTotalPrice"), required: false, type: .string), 
             AWSShapeMember(label: "OnDemandTargetCapacity", location: .body(locationName: "onDemandTargetCapacity"), required: false, type: .integer), 
             AWSShapeMember(label: "ReplaceUnhealthyInstances", location: .body(locationName: "replaceUnhealthyInstances"), required: false, type: .boolean), 
+            AWSShapeMember(label: "SpotMaxTotalPrice", location: .body(locationName: "spotMaxTotalPrice"), required: false, type: .string), 
             AWSShapeMember(label: "SpotPrice", location: .body(locationName: "spotPrice"), required: false, type: .string), 
             AWSShapeMember(label: "TargetCapacity", location: .body(locationName: "targetCapacity"), required: true, type: .integer), 
             AWSShapeMember(label: "TerminateInstancesWithExpiration", location: .body(locationName: "terminateInstancesWithExpiration"), required: false, type: .boolean), 
@@ -27616,10 +27684,14 @@ extension EC2 {
         public let onDemandAllocationStrategy: OnDemandAllocationStrategy?
         /// The number of On-Demand units fulfilled by this request compared to the set target On-Demand capacity.
         public let onDemandFulfilledCapacity: Double?
+        /// The maximum amount per hour for On-Demand Instances that you're willing to pay. You can use the onDemandMaxTotalPrice parameter, the spotMaxTotalPrice parameter, or both parameters to ensure that your fleet cost does not exceed your budget. If you set a maximum price per hour for the On-Demand Instances and Spot Instances in your request, Spot Fleet will launch instances until it reaches the maximum amount you're willing to pay. When the maximum amount you're willing to pay is reached, the fleet stops launching instances even if it hasn’t met the target capacity.
+        public let onDemandMaxTotalPrice: String?
         /// The number of On-Demand units to request. You can choose to set the target capacity in terms of instances or a performance characteristic that is important to your application workload, such as vCPUs, memory, or I/O. If the request type is maintain, you can specify a target capacity of 0 and add capacity later.
         public let onDemandTargetCapacity: Int32?
         /// Indicates whether Spot Fleet should replace unhealthy instances.
         public let replaceUnhealthyInstances: Bool?
+        /// The maximum amount per hour for Spot Instances that you're willing to pay. You can use the spotdMaxTotalPrice parameter, the onDemandMaxTotalPrice parameter, or both parameters to ensure that your fleet cost does not exceed your budget. If you set a maximum price per hour for the On-Demand Instances and Spot Instances in your request, Spot Fleet will launch instances until it reaches the maximum amount you're willing to pay. When the maximum amount you're willing to pay is reached, the fleet stops launching instances even if it hasn’t met the target capacity.
+        public let spotMaxTotalPrice: String?
         /// The maximum price per unit hour that you are willing to pay for a Spot Instance. The default is the On-Demand price.
         public let spotPrice: String?
         /// The number of units to request for the Spot Fleet. You can choose to set the target capacity in terms of instances or a performance characteristic that is important to your application workload, such as vCPUs, memory, or I/O. If the request type is maintain, you can specify a target capacity of 0 and add capacity later.
@@ -27633,7 +27705,7 @@ extension EC2 {
         /// The end date and time of the request, in UTC format (YYYY-MM-DDTHH:MM:SSZ). After the end date and time, no new Spot Instance requests are placed or able to fulfill the request. If no value is specified, the Spot Fleet request remains until you cancel it.
         public let validUntil: TimeStamp?
 
-        public init(allocationStrategy: AllocationStrategy? = nil, clientToken: String? = nil, excessCapacityTerminationPolicy: ExcessCapacityTerminationPolicy? = nil, fulfilledCapacity: Double? = nil, iamFleetRole: String, instanceInterruptionBehavior: InstanceInterruptionBehavior? = nil, instancePoolsToUseCount: Int32? = nil, launchSpecifications: [SpotFleetLaunchSpecification]? = nil, launchTemplateConfigs: [LaunchTemplateConfig]? = nil, loadBalancersConfig: LoadBalancersConfig? = nil, onDemandAllocationStrategy: OnDemandAllocationStrategy? = nil, onDemandFulfilledCapacity: Double? = nil, onDemandTargetCapacity: Int32? = nil, replaceUnhealthyInstances: Bool? = nil, spotPrice: String? = nil, targetCapacity: Int32, terminateInstancesWithExpiration: Bool? = nil, type: FleetType? = nil, validFrom: TimeStamp? = nil, validUntil: TimeStamp? = nil) {
+        public init(allocationStrategy: AllocationStrategy? = nil, clientToken: String? = nil, excessCapacityTerminationPolicy: ExcessCapacityTerminationPolicy? = nil, fulfilledCapacity: Double? = nil, iamFleetRole: String, instanceInterruptionBehavior: InstanceInterruptionBehavior? = nil, instancePoolsToUseCount: Int32? = nil, launchSpecifications: [SpotFleetLaunchSpecification]? = nil, launchTemplateConfigs: [LaunchTemplateConfig]? = nil, loadBalancersConfig: LoadBalancersConfig? = nil, onDemandAllocationStrategy: OnDemandAllocationStrategy? = nil, onDemandFulfilledCapacity: Double? = nil, onDemandMaxTotalPrice: String? = nil, onDemandTargetCapacity: Int32? = nil, replaceUnhealthyInstances: Bool? = nil, spotMaxTotalPrice: String? = nil, spotPrice: String? = nil, targetCapacity: Int32, terminateInstancesWithExpiration: Bool? = nil, type: FleetType? = nil, validFrom: TimeStamp? = nil, validUntil: TimeStamp? = nil) {
             self.allocationStrategy = allocationStrategy
             self.clientToken = clientToken
             self.excessCapacityTerminationPolicy = excessCapacityTerminationPolicy
@@ -27646,8 +27718,10 @@ extension EC2 {
             self.loadBalancersConfig = loadBalancersConfig
             self.onDemandAllocationStrategy = onDemandAllocationStrategy
             self.onDemandFulfilledCapacity = onDemandFulfilledCapacity
+            self.onDemandMaxTotalPrice = onDemandMaxTotalPrice
             self.onDemandTargetCapacity = onDemandTargetCapacity
             self.replaceUnhealthyInstances = replaceUnhealthyInstances
+            self.spotMaxTotalPrice = spotMaxTotalPrice
             self.spotPrice = spotPrice
             self.targetCapacity = targetCapacity
             self.terminateInstancesWithExpiration = terminateInstancesWithExpiration
@@ -27669,8 +27743,10 @@ extension EC2 {
             case loadBalancersConfig = "loadBalancersConfig"
             case onDemandAllocationStrategy = "onDemandAllocationStrategy"
             case onDemandFulfilledCapacity = "onDemandFulfilledCapacity"
+            case onDemandMaxTotalPrice = "onDemandMaxTotalPrice"
             case onDemandTargetCapacity = "onDemandTargetCapacity"
             case replaceUnhealthyInstances = "replaceUnhealthyInstances"
+            case spotMaxTotalPrice = "spotMaxTotalPrice"
             case spotPrice = "spotPrice"
             case targetCapacity = "targetCapacity"
             case terminateInstancesWithExpiration = "terminateInstancesWithExpiration"
@@ -27917,6 +27993,7 @@ extension EC2 {
             AWSShapeMember(label: "AllocationStrategy", location: .body(locationName: "allocationStrategy"), required: false, type: .enum), 
             AWSShapeMember(label: "InstanceInterruptionBehavior", location: .body(locationName: "instanceInterruptionBehavior"), required: false, type: .enum), 
             AWSShapeMember(label: "InstancePoolsToUseCount", location: .body(locationName: "instancePoolsToUseCount"), required: false, type: .integer), 
+            AWSShapeMember(label: "MaxTotalPrice", location: .body(locationName: "maxTotalPrice"), required: false, type: .string), 
             AWSShapeMember(label: "MinTargetCapacity", location: .body(locationName: "minTargetCapacity"), required: false, type: .integer), 
             AWSShapeMember(label: "SingleAvailabilityZone", location: .body(locationName: "singleAvailabilityZone"), required: false, type: .boolean), 
             AWSShapeMember(label: "SingleInstanceType", location: .body(locationName: "singleInstanceType"), required: false, type: .boolean)
@@ -27927,6 +28004,8 @@ extension EC2 {
         public let instanceInterruptionBehavior: SpotInstanceInterruptionBehavior?
         /// The number of Spot pools across which to allocate your target Spot capacity. Valid only when AllocationStrategy is set to lowestPrice. EC2 Fleet selects the cheapest Spot pools and evenly allocates your target Spot capacity across the number of Spot pools that you specify.
         public let instancePoolsToUseCount: Int32?
+        /// The maximum amount per hour for Spot Instances that you're willing to pay.
+        public let maxTotalPrice: String?
         /// The minimum target capacity for Spot Instances in the fleet. If the minimum target capacity is not reached, the fleet launches no instances.
         public let minTargetCapacity: Int32?
         /// Indicates that the fleet launches all Spot Instances into a single Availability Zone.
@@ -27934,10 +28013,11 @@ extension EC2 {
         /// Indicates that the fleet uses a single instance type to launch all Spot Instances in the fleet.
         public let singleInstanceType: Bool?
 
-        public init(allocationStrategy: SpotAllocationStrategy? = nil, instanceInterruptionBehavior: SpotInstanceInterruptionBehavior? = nil, instancePoolsToUseCount: Int32? = nil, minTargetCapacity: Int32? = nil, singleAvailabilityZone: Bool? = nil, singleInstanceType: Bool? = nil) {
+        public init(allocationStrategy: SpotAllocationStrategy? = nil, instanceInterruptionBehavior: SpotInstanceInterruptionBehavior? = nil, instancePoolsToUseCount: Int32? = nil, maxTotalPrice: String? = nil, minTargetCapacity: Int32? = nil, singleAvailabilityZone: Bool? = nil, singleInstanceType: Bool? = nil) {
             self.allocationStrategy = allocationStrategy
             self.instanceInterruptionBehavior = instanceInterruptionBehavior
             self.instancePoolsToUseCount = instancePoolsToUseCount
+            self.maxTotalPrice = maxTotalPrice
             self.minTargetCapacity = minTargetCapacity
             self.singleAvailabilityZone = singleAvailabilityZone
             self.singleInstanceType = singleInstanceType
@@ -27947,6 +28027,7 @@ extension EC2 {
             case allocationStrategy = "allocationStrategy"
             case instanceInterruptionBehavior = "instanceInterruptionBehavior"
             case instancePoolsToUseCount = "instancePoolsToUseCount"
+            case maxTotalPrice = "maxTotalPrice"
             case minTargetCapacity = "minTargetCapacity"
             case singleAvailabilityZone = "singleAvailabilityZone"
             case singleInstanceType = "singleInstanceType"
@@ -27958,6 +28039,7 @@ extension EC2 {
             AWSShapeMember(label: "AllocationStrategy", required: false, type: .enum), 
             AWSShapeMember(label: "InstanceInterruptionBehavior", required: false, type: .enum), 
             AWSShapeMember(label: "InstancePoolsToUseCount", required: false, type: .integer), 
+            AWSShapeMember(label: "MaxTotalPrice", required: false, type: .string), 
             AWSShapeMember(label: "MinTargetCapacity", required: false, type: .integer), 
             AWSShapeMember(label: "SingleAvailabilityZone", required: false, type: .boolean), 
             AWSShapeMember(label: "SingleInstanceType", required: false, type: .boolean)
@@ -27968,6 +28050,8 @@ extension EC2 {
         public let instanceInterruptionBehavior: SpotInstanceInterruptionBehavior?
         /// The number of Spot pools across which to allocate your target Spot capacity. Valid only when Spot AllocationStrategy is set to lowest-price. EC2 Fleet selects the cheapest Spot pools and evenly allocates your target Spot capacity across the number of Spot pools that you specify.
         public let instancePoolsToUseCount: Int32?
+        /// The maximum amount per hour for Spot Instances that you're willing to pay.
+        public let maxTotalPrice: String?
         /// The minimum target capacity for Spot Instances in the fleet. If the minimum target capacity is not reached, the fleet launches no instances.
         public let minTargetCapacity: Int32?
         /// Indicates that the fleet launches all Spot Instances into a single Availability Zone.
@@ -27975,10 +28059,11 @@ extension EC2 {
         /// Indicates that the fleet uses a single instance type to launch all Spot Instances in the fleet.
         public let singleInstanceType: Bool?
 
-        public init(allocationStrategy: SpotAllocationStrategy? = nil, instanceInterruptionBehavior: SpotInstanceInterruptionBehavior? = nil, instancePoolsToUseCount: Int32? = nil, minTargetCapacity: Int32? = nil, singleAvailabilityZone: Bool? = nil, singleInstanceType: Bool? = nil) {
+        public init(allocationStrategy: SpotAllocationStrategy? = nil, instanceInterruptionBehavior: SpotInstanceInterruptionBehavior? = nil, instancePoolsToUseCount: Int32? = nil, maxTotalPrice: String? = nil, minTargetCapacity: Int32? = nil, singleAvailabilityZone: Bool? = nil, singleInstanceType: Bool? = nil) {
             self.allocationStrategy = allocationStrategy
             self.instanceInterruptionBehavior = instanceInterruptionBehavior
             self.instancePoolsToUseCount = instancePoolsToUseCount
+            self.maxTotalPrice = maxTotalPrice
             self.minTargetCapacity = minTargetCapacity
             self.singleAvailabilityZone = singleAvailabilityZone
             self.singleInstanceType = singleInstanceType
@@ -27988,6 +28073,7 @@ extension EC2 {
             case allocationStrategy = "AllocationStrategy"
             case instanceInterruptionBehavior = "InstanceInterruptionBehavior"
             case instancePoolsToUseCount = "InstancePoolsToUseCount"
+            case maxTotalPrice = "MaxTotalPrice"
             case minTargetCapacity = "MinTargetCapacity"
             case singleAvailabilityZone = "SingleAvailabilityZone"
             case singleInstanceType = "SingleInstanceType"
@@ -28568,9 +28654,9 @@ extension EC2 {
         ]
         /// The default TotalTargetCapacity, which is either Spot or On-Demand.
         public let defaultTargetCapacityType: DefaultTargetCapacityType?
-        /// The number of On-Demand units to request.
+        /// The number of On-Demand units to request. If you specify a target capacity for Spot units, you cannot specify a target capacity for On-Demand units.
         public let onDemandTargetCapacity: Int32?
-        /// The maximum number of Spot units to launch.
+        /// The maximum number of Spot units to launch. If you specify a target capacity for On-Demand units, you cannot specify a target capacity for Spot units.
         public let spotTargetCapacity: Int32?
         /// The number of units to request, filled using DefaultTargetCapacityType.
         public let totalTargetCapacity: Int32?

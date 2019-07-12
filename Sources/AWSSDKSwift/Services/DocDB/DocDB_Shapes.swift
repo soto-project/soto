@@ -219,12 +219,13 @@ extension DocDB {
             AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string), 
             AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
             AWSShapeMember(label: "EnableCloudwatchLogsExports", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Engine", required: true, type: .string), 
             AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "MasterUserPassword", required: false, type: .string), 
-            AWSShapeMember(label: "MasterUsername", required: false, type: .string), 
+            AWSShapeMember(label: "MasterUserPassword", required: true, type: .string), 
+            AWSShapeMember(label: "MasterUsername", required: true, type: .string), 
             AWSShapeMember(label: "Port", required: false, type: .integer), 
             AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
             AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
@@ -242,6 +243,8 @@ extension DocDB {
         public let dBClusterParameterGroupName: String?
         /// A DB subnet group to associate with this DB cluster. Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup 
         public let dBSubnetGroupName: String?
+        /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
+        public let deletionProtection: Bool?
         /// A list of log types that need to be enabled for exporting to Amazon CloudWatch Logs.
         public let enableCloudwatchLogsExports: [String]?
         /// The name of the database engine to be used for this DB cluster. Valid values: docdb 
@@ -250,10 +253,10 @@ extension DocDB {
         public let engineVersion: String?
         /// The AWS KMS key identifier for an encrypted DB cluster. The AWS KMS key identifier is the Amazon Resource Name (ARN) for the AWS KMS encryption key. If you are creating a DB cluster using the same AWS account that owns the AWS KMS encryption key that is used to encrypt the new DB cluster, you can use the AWS KMS key alias instead of the ARN for the AWS KMS encryption key. If an encryption key is not specified in KmsKeyId:   If ReplicationSourceIdentifier identifies an encrypted source, then Amazon DocumentDB uses the encryption key that is used to encrypt the source. Otherwise, Amazon DocumentDB uses your default encryption key.    If the StorageEncrypted parameter is true and ReplicationSourceIdentifier is not specified, Amazon DocumentDB uses your default encryption key.   AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region. If you create a replica of an encrypted DB cluster in another AWS Region, you must set KmsKeyId to a KMS key ID that is valid in the destination AWS Region. This key is used to encrypt the replica in that AWS Region.
         public let kmsKeyId: String?
-        /// The password for the master database user. This password can contain any printable ASCII character except "/", """, or "@". Constraints: Must contain from 8 to 41 characters.
-        public let masterUserPassword: String?
+        /// The password for the master database user. This password can contain any printable ASCII character except forward slash (/), double quote ("), or the "at" symbol (@). Constraints: Must contain from 8 to 41 characters.
+        public let masterUserPassword: String
         /// The name of the master user for the DB cluster. Constraints:   Must be from 1 to 16 letters or numbers.   The first character must be a letter.   Cannot be a reserved word for the chosen database engine.  
-        public let masterUsername: String?
+        public let masterUsername: String
         /// The port number on which the instances in the DB cluster accept connections.
         public let port: Int32?
         /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter.  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
@@ -267,12 +270,13 @@ extension DocDB {
         /// A list of EC2 VPC security groups to associate with this DB cluster.
         public let vpcSecurityGroupIds: [String]?
 
-        public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int32? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, masterUserPassword: String? = nil, masterUsername: String? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, storageEncrypted: Bool? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int32? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, masterUserPassword: String, masterUsername: String, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, storageEncrypted: Bool? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.backupRetentionPeriod = backupRetentionPeriod
             self.dBClusterIdentifier = dBClusterIdentifier
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
             self.dBSubnetGroupName = dBSubnetGroupName
+            self.deletionProtection = deletionProtection
             self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
             self.engine = engine
             self.engineVersion = engineVersion
@@ -293,6 +297,7 @@ extension DocDB {
             case dBClusterIdentifier = "DBClusterIdentifier"
             case dBClusterParameterGroupName = "DBClusterParameterGroupName"
             case dBSubnetGroupName = "DBSubnetGroupName"
+            case deletionProtection = "DeletionProtection"
             case enableCloudwatchLogsExports = "EnableCloudwatchLogsExports"
             case engine = "Engine"
             case engineVersion = "EngineVersion"
@@ -428,7 +433,7 @@ extension DocDB {
         public let availabilityZone: String?
         /// The identifier of the DB cluster that the instance will belong to.
         public let dBClusterIdentifier: String
-        /// The compute and memory capacity of the DB instance; for example, db.m4.large. 
+        /// The compute and memory capacity of the DB instance; for example, db.r5.large. 
         public let dBInstanceClass: String
         /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: mydbinstance 
         public let dBInstanceIdentifier: String
@@ -539,6 +544,7 @@ extension DocDB {
             AWSShapeMember(label: "DBClusterParameterGroup", required: false, type: .string), 
             AWSShapeMember(label: "DBSubnetGroup", required: false, type: .string), 
             AWSShapeMember(label: "DbClusterResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
             AWSShapeMember(label: "EarliestRestorableTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "EnabledCloudwatchLogsExports", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Endpoint", required: false, type: .string), 
@@ -578,6 +584,8 @@ extension DocDB {
         public let dBSubnetGroup: String?
         /// The AWS Region-unique, immutable identifier for the DB cluster. This identifier is found in AWS CloudTrail log entries whenever the AWS KMS key for the DB cluster is accessed.
         public let dbClusterResourceId: String?
+        /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
+        public let deletionProtection: Bool?
         /// The earliest time to which a database can be restored with point-in-time restore.
         public let earliestRestorableTime: TimeStamp?
         /// A list of log types that this DB cluster is configured to export to Amazon CloudWatch Logs.
@@ -615,7 +623,7 @@ extension DocDB {
         /// Provides a list of virtual private cloud (VPC) security groups that the DB cluster belongs to.
         public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int32? = nil, clusterCreateTime: TimeStamp? = nil, dBClusterArn: String? = nil, dBClusterIdentifier: String? = nil, dBClusterMembers: [DBClusterMember]? = nil, dBClusterParameterGroup: String? = nil, dBSubnetGroup: String? = nil, dbClusterResourceId: String? = nil, earliestRestorableTime: TimeStamp? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int32? = nil, clusterCreateTime: TimeStamp? = nil, dBClusterArn: String? = nil, dBClusterIdentifier: String? = nil, dBClusterMembers: [DBClusterMember]? = nil, dBClusterParameterGroup: String? = nil, dBSubnetGroup: String? = nil, dbClusterResourceId: String? = nil, deletionProtection: Bool? = nil, earliestRestorableTime: TimeStamp? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.associatedRoles = associatedRoles
             self.availabilityZones = availabilityZones
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -626,6 +634,7 @@ extension DocDB {
             self.dBClusterParameterGroup = dBClusterParameterGroup
             self.dBSubnetGroup = dBSubnetGroup
             self.dbClusterResourceId = dbClusterResourceId
+            self.deletionProtection = deletionProtection
             self.earliestRestorableTime = earliestRestorableTime
             self.enabledCloudwatchLogsExports = enabledCloudwatchLogsExports
             self.endpoint = endpoint
@@ -657,6 +666,7 @@ extension DocDB {
             case dBClusterParameterGroup = "DBClusterParameterGroup"
             case dBSubnetGroup = "DBSubnetGroup"
             case dbClusterResourceId = "DbClusterResourceId"
+            case deletionProtection = "DeletionProtection"
             case earliestRestorableTime = "EarliestRestorableTime"
             case enabledCloudwatchLogsExports = "EnabledCloudwatchLogsExports"
             case endpoint = "Endpoint"
@@ -2195,6 +2205,7 @@ extension DocDB {
             AWSShapeMember(label: "CloudwatchLogsExportConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
             AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
             AWSShapeMember(label: "MasterUserPassword", required: false, type: .string), 
             AWSShapeMember(label: "NewDBClusterIdentifier", required: false, type: .string), 
@@ -2213,9 +2224,11 @@ extension DocDB {
         public let dBClusterIdentifier: String
         /// The name of the DB cluster parameter group to use for the DB cluster.
         public let dBClusterParameterGroupName: String?
+        /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
+        public let deletionProtection: Bool?
         /// The version number of the database engine to which you want to upgrade. Changing this parameter results in an outage. The change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true.
         public let engineVersion: String?
-        /// The new password for the master database user. This password can contain any printable ASCII character except "/", """, or "@". Constraints: Must contain from 8 to 41 characters.
+        /// The password for the master database user. This password can contain any printable ASCII character except forward slash (/), double quote ("), or the "at" symbol (@). Constraints: Must contain from 8 to 41 characters.
         public let masterUserPassword: String?
         /// The new DB cluster identifier for the DB cluster when renaming a DB cluster. This value is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster2 
         public let newDBClusterIdentifier: String?
@@ -2228,12 +2241,13 @@ extension DocDB {
         /// A list of virtual private cloud (VPC) security groups that the DB cluster will belong to.
         public let vpcSecurityGroupIds: [String]?
 
-        public init(applyImmediately: Bool? = nil, backupRetentionPeriod: Int32? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, engineVersion: String? = nil, masterUserPassword: String? = nil, newDBClusterIdentifier: String? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(applyImmediately: Bool? = nil, backupRetentionPeriod: Int32? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, deletionProtection: Bool? = nil, engineVersion: String? = nil, masterUserPassword: String? = nil, newDBClusterIdentifier: String? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.applyImmediately = applyImmediately
             self.backupRetentionPeriod = backupRetentionPeriod
             self.cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfiguration
             self.dBClusterIdentifier = dBClusterIdentifier
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
+            self.deletionProtection = deletionProtection
             self.engineVersion = engineVersion
             self.masterUserPassword = masterUserPassword
             self.newDBClusterIdentifier = newDBClusterIdentifier
@@ -2249,6 +2263,7 @@ extension DocDB {
             case cloudwatchLogsExportConfiguration = "CloudwatchLogsExportConfiguration"
             case dBClusterIdentifier = "DBClusterIdentifier"
             case dBClusterParameterGroupName = "DBClusterParameterGroupName"
+            case deletionProtection = "DeletionProtection"
             case engineVersion = "EngineVersion"
             case masterUserPassword = "MasterUserPassword"
             case newDBClusterIdentifier = "NewDBClusterIdentifier"
@@ -2355,7 +2370,7 @@ extension DocDB {
         public let applyImmediately: Bool?
         /// Indicates that minor version upgrades are applied automatically to the DB instance during the maintenance window. Changing this parameter doesn't result in an outage except in the following case, and the change is asynchronously applied as soon as possible. An outage results if this parameter is set to true during the maintenance window, and a newer minor version is available, and Amazon DocumentDB has enabled automatic patching for that engine version. 
         public let autoMinorVersionUpgrade: Bool?
-        /// The new compute and memory capacity of the DB instance; for example, db.m4.large. Not all DB instance classes are available in all AWS Regions.  If you modify the DB instance class, an outage occurs during the change. The change is applied during the next maintenance window, unless ApplyImmediately is specified as true for this request.  Default: Uses existing setting.
+        /// The new compute and memory capacity of the DB instance; for example, db.r5.large. Not all DB instance classes are available in all AWS Regions.  If you modify the DB instance class, an outage occurs during the change. The change is applied during the next maintenance window, unless ApplyImmediately is specified as true for this request.  Default: Uses existing setting.
         public let dBInstanceClass: String?
         /// The DB instance identifier. This value is stored as a lowercase string. Constraints:   Must match the identifier of an existing DBInstance.  
         public let dBInstanceIdentifier: String
@@ -2839,6 +2854,7 @@ extension DocDB {
             AWSShapeMember(label: "AvailabilityZones", required: false, type: .list, encoding: .list(member:"AvailabilityZone")), 
             AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
             AWSShapeMember(label: "EnableCloudwatchLogsExports", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Engine", required: true, type: .string), 
             AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
@@ -2854,6 +2870,8 @@ extension DocDB {
         public let dBClusterIdentifier: String
         /// The name of the DB subnet group to use for the new DB cluster. Constraints: If provided, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup 
         public let dBSubnetGroupName: String?
+        /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
+        public let deletionProtection: Bool?
         /// A list of log types that must be enabled for exporting to Amazon CloudWatch Logs.
         public let enableCloudwatchLogsExports: [String]?
         /// The database engine to use for the new DB cluster. Default: The same as source. Constraint: Must be compatible with the engine of the source.
@@ -2871,10 +2889,11 @@ extension DocDB {
         /// A list of virtual private cloud (VPC) security groups that the new DB cluster will belong to.
         public let vpcSecurityGroupIds: [String]?
 
-        public init(availabilityZones: [String]? = nil, dBClusterIdentifier: String, dBSubnetGroupName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, port: Int32? = nil, snapshotIdentifier: String, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, dBClusterIdentifier: String, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, port: Int32? = nil, snapshotIdentifier: String, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.dBClusterIdentifier = dBClusterIdentifier
             self.dBSubnetGroupName = dBSubnetGroupName
+            self.deletionProtection = deletionProtection
             self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
             self.engine = engine
             self.engineVersion = engineVersion
@@ -2889,6 +2908,7 @@ extension DocDB {
             case availabilityZones = "AvailabilityZones"
             case dBClusterIdentifier = "DBClusterIdentifier"
             case dBSubnetGroupName = "DBSubnetGroupName"
+            case deletionProtection = "DeletionProtection"
             case enableCloudwatchLogsExports = "EnableCloudwatchLogsExports"
             case engine = "Engine"
             case engineVersion = "EngineVersion"
@@ -2919,6 +2939,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
             AWSShapeMember(label: "EnableCloudwatchLogsExports", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeMember(label: "Port", required: false, type: .integer), 
@@ -2932,6 +2953,8 @@ extension DocDB {
         public let dBClusterIdentifier: String
         /// The DB subnet group name to use for the new DB cluster. Constraints: If provided, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup 
         public let dBSubnetGroupName: String?
+        /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
+        public let deletionProtection: Bool?
         /// A list of log types that must be enabled for exporting to Amazon CloudWatch Logs.
         public let enableCloudwatchLogsExports: [String]?
         /// The AWS KMS key identifier to use when restoring an encrypted DB cluster from an encrypted DB cluster. The AWS KMS key identifier is the Amazon Resource Name (ARN) for the AWS KMS encryption key. If you are restoring a DB cluster with the same AWS account that owns the AWS KMS encryption key used to encrypt the new DB cluster, then you can use the AWS KMS key alias instead of the ARN for the AWS KMS encryption key. You can restore to a new DB cluster and encrypt the new DB cluster with an AWS KMS key that is different from the AWS KMS key used to encrypt the source DB cluster. The new DB cluster is encrypted with the AWS KMS key identified by the KmsKeyId parameter. If you do not specify a value for the KmsKeyId parameter, then the following occurs:   If the DB cluster is encrypted, then the restored DB cluster is encrypted using the AWS KMS key that was used to encrypt the source DB cluster.   If the DB cluster is not encrypted, then the restored DB cluster is not encrypted.   If DBClusterIdentifier refers to a DB cluster that is not encrypted, then the restore request is rejected.
@@ -2949,9 +2972,10 @@ extension DocDB {
         /// A list of VPC security groups that the new DB cluster belongs to.
         public let vpcSecurityGroupIds: [String]?
 
-        public init(dBClusterIdentifier: String, dBSubnetGroupName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, kmsKeyId: String? = nil, port: Int32? = nil, restoreToTime: TimeStamp? = nil, sourceDBClusterIdentifier: String, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(dBClusterIdentifier: String, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, kmsKeyId: String? = nil, port: Int32? = nil, restoreToTime: TimeStamp? = nil, sourceDBClusterIdentifier: String, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.dBSubnetGroupName = dBSubnetGroupName
+            self.deletionProtection = deletionProtection
             self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
             self.kmsKeyId = kmsKeyId
             self.port = port
@@ -2965,6 +2989,7 @@ extension DocDB {
         private enum CodingKeys: String, CodingKey {
             case dBClusterIdentifier = "DBClusterIdentifier"
             case dBSubnetGroupName = "DBSubnetGroupName"
+            case deletionProtection = "DeletionProtection"
             case enableCloudwatchLogsExports = "EnableCloudwatchLogsExports"
             case kmsKeyId = "KmsKeyId"
             case port = "Port"
@@ -2999,6 +3024,68 @@ extension DocDB {
         case dbCluster = "db-cluster"
         case dbClusterSnapshot = "db-cluster-snapshot"
         public var description: String { return self.rawValue }
+    }
+
+    public struct StartDBClusterMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string)
+        ]
+        /// The identifier of the cluster to restart. Example: docdb-2019-05-28-15-24-52 
+        public let dBClusterIdentifier: String
+
+        public init(dBClusterIdentifier: String) {
+            self.dBClusterIdentifier = dBClusterIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBClusterIdentifier = "DBClusterIdentifier"
+        }
+    }
+
+    public struct StartDBClusterResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBCluster", required: false, type: .structure)
+        ]
+        public let dBCluster: DBCluster?
+
+        public init(dBCluster: DBCluster? = nil) {
+            self.dBCluster = dBCluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBCluster = "DBCluster"
+        }
+    }
+
+    public struct StopDBClusterMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string)
+        ]
+        /// The identifier of the cluster to stop. Example: docdb-2019-05-28-15-24-52 
+        public let dBClusterIdentifier: String
+
+        public init(dBClusterIdentifier: String) {
+            self.dBClusterIdentifier = dBClusterIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBClusterIdentifier = "DBClusterIdentifier"
+        }
+    }
+
+    public struct StopDBClusterResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBCluster", required: false, type: .structure)
+        ]
+        public let dBCluster: DBCluster?
+
+        public init(dBCluster: DBCluster? = nil) {
+            self.dBCluster = dBCluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBCluster = "DBCluster"
+        }
     }
 
     public struct Subnet: AWSShape {
