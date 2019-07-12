@@ -1182,6 +1182,21 @@ extension ConfigService {
 
     }
 
+    public struct DeleteOrganizationConfigRuleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrganizationConfigRuleName", required: true, type: .string)
+        ]
+        public let organizationConfigRuleName: String
+
+        public init(organizationConfigRuleName: String) {
+            self.organizationConfigRuleName = organizationConfigRuleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationConfigRuleName = "OrganizationConfigRuleName"
+        }
+    }
+
     public struct DeletePendingAggregationRequestRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RequesterAccountId", required: true, type: .string), 
@@ -1864,6 +1879,90 @@ extension ConfigService {
 
         private enum CodingKeys: String, CodingKey {
             case deliveryChannels = "DeliveryChannels"
+        }
+    }
+
+    public struct DescribeOrganizationConfigRuleStatusesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationConfigRuleNames", required: false, type: .list)
+        ]
+        public let limit: Int32?
+        public let nextToken: String?
+        public let organizationConfigRuleNames: [String]?
+
+        public init(limit: Int32? = nil, nextToken: String? = nil, organizationConfigRuleNames: [String]? = nil) {
+            self.limit = limit
+            self.nextToken = nextToken
+            self.organizationConfigRuleNames = organizationConfigRuleNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case organizationConfigRuleNames = "OrganizationConfigRuleNames"
+        }
+    }
+
+    public struct DescribeOrganizationConfigRuleStatusesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationConfigRuleStatuses", required: false, type: .list)
+        ]
+        public let nextToken: String?
+        public let organizationConfigRuleStatuses: [OrganizationConfigRuleStatus]?
+
+        public init(nextToken: String? = nil, organizationConfigRuleStatuses: [OrganizationConfigRuleStatus]? = nil) {
+            self.nextToken = nextToken
+            self.organizationConfigRuleStatuses = organizationConfigRuleStatuses
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case organizationConfigRuleStatuses = "OrganizationConfigRuleStatuses"
+        }
+    }
+
+    public struct DescribeOrganizationConfigRulesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationConfigRuleNames", required: false, type: .list)
+        ]
+        public let limit: Int32?
+        public let nextToken: String?
+        public let organizationConfigRuleNames: [String]?
+
+        public init(limit: Int32? = nil, nextToken: String? = nil, organizationConfigRuleNames: [String]? = nil) {
+            self.limit = limit
+            self.nextToken = nextToken
+            self.organizationConfigRuleNames = organizationConfigRuleNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case organizationConfigRuleNames = "OrganizationConfigRuleNames"
+        }
+    }
+
+    public struct DescribeOrganizationConfigRulesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationConfigRules", required: false, type: .list)
+        ]
+        public let nextToken: String?
+        public let organizationConfigRules: [OrganizationConfigRule]?
+
+        public init(nextToken: String? = nil, organizationConfigRules: [OrganizationConfigRule]? = nil) {
+            self.nextToken = nextToken
+            self.organizationConfigRules = organizationConfigRules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case organizationConfigRules = "OrganizationConfigRules"
         }
     }
 
@@ -2638,6 +2737,52 @@ extension ConfigService {
         }
     }
 
+    public struct GetOrganizationConfigRuleDetailedStatusRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .structure), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationConfigRuleName", required: true, type: .string)
+        ]
+        public let filters: StatusDetailFilters?
+        public let limit: Int32?
+        public let nextToken: String?
+        public let organizationConfigRuleName: String
+
+        public init(filters: StatusDetailFilters? = nil, limit: Int32? = nil, nextToken: String? = nil, organizationConfigRuleName: String) {
+            self.filters = filters
+            self.limit = limit
+            self.nextToken = nextToken
+            self.organizationConfigRuleName = organizationConfigRuleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case organizationConfigRuleName = "OrganizationConfigRuleName"
+        }
+    }
+
+    public struct GetOrganizationConfigRuleDetailedStatusResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationConfigRuleDetailedStatus", required: false, type: .list)
+        ]
+        public let nextToken: String?
+        public let organizationConfigRuleDetailedStatus: [MemberAccountStatus]?
+
+        public init(nextToken: String? = nil, organizationConfigRuleDetailedStatus: [MemberAccountStatus]? = nil) {
+            self.nextToken = nextToken
+            self.organizationConfigRuleDetailedStatus = organizationConfigRuleDetailedStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case organizationConfigRuleDetailedStatus = "OrganizationConfigRuleDetailedStatus"
+        }
+    }
+
     public struct GetResourceConfigHistoryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "chronologicalOrder", required: false, type: .enum), 
@@ -2901,6 +3046,51 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
+    public enum MemberAccountRuleStatus: String, CustomStringConvertible, Codable {
+        case createSuccessful = "CREATE_SUCCESSFUL"
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case createFailed = "CREATE_FAILED"
+        case deleteSuccessful = "DELETE_SUCCESSFUL"
+        case deleteFailed = "DELETE_FAILED"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct MemberAccountStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "ConfigRuleName", required: true, type: .string), 
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MemberAccountRuleStatus", required: true, type: .enum)
+        ]
+        public let accountId: String
+        public let configRuleName: String
+        public let errorCode: String?
+        public let errorMessage: String?
+        public let lastUpdateTime: TimeStamp?
+        public let memberAccountRuleStatus: MemberAccountRuleStatus
+
+        public init(accountId: String, configRuleName: String, errorCode: String? = nil, errorMessage: String? = nil, lastUpdateTime: TimeStamp? = nil, memberAccountRuleStatus: MemberAccountRuleStatus) {
+            self.accountId = accountId
+            self.configRuleName = configRuleName
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.lastUpdateTime = lastUpdateTime
+            self.memberAccountRuleStatus = memberAccountRuleStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case configRuleName = "ConfigRuleName"
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case lastUpdateTime = "LastUpdateTime"
+            case memberAccountRuleStatus = "MemberAccountRuleStatus"
+        }
+    }
+
     public enum MessageType: String, CustomStringConvertible, Codable {
         case configurationitemchangenotification = "ConfigurationItemChangeNotification"
         case configurationsnapshotdeliverycompleted = "ConfigurationSnapshotDeliveryCompleted"
@@ -2933,6 +3123,179 @@ extension ConfigService {
             case awsRegions = "AwsRegions"
             case roleArn = "RoleArn"
         }
+    }
+
+    public struct OrganizationConfigRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExcludedAccounts", required: false, type: .list), 
+            AWSShapeMember(label: "LastUpdateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "OrganizationConfigRuleArn", required: true, type: .string), 
+            AWSShapeMember(label: "OrganizationConfigRuleName", required: true, type: .string), 
+            AWSShapeMember(label: "OrganizationCustomRuleMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "OrganizationManagedRuleMetadata", required: false, type: .structure)
+        ]
+        public let excludedAccounts: [String]?
+        public let lastUpdateTime: TimeStamp?
+        public let organizationConfigRuleArn: String
+        public let organizationConfigRuleName: String
+        public let organizationCustomRuleMetadata: OrganizationCustomRuleMetadata?
+        public let organizationManagedRuleMetadata: OrganizationManagedRuleMetadata?
+
+        public init(excludedAccounts: [String]? = nil, lastUpdateTime: TimeStamp? = nil, organizationConfigRuleArn: String, organizationConfigRuleName: String, organizationCustomRuleMetadata: OrganizationCustomRuleMetadata? = nil, organizationManagedRuleMetadata: OrganizationManagedRuleMetadata? = nil) {
+            self.excludedAccounts = excludedAccounts
+            self.lastUpdateTime = lastUpdateTime
+            self.organizationConfigRuleArn = organizationConfigRuleArn
+            self.organizationConfigRuleName = organizationConfigRuleName
+            self.organizationCustomRuleMetadata = organizationCustomRuleMetadata
+            self.organizationManagedRuleMetadata = organizationManagedRuleMetadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case excludedAccounts = "ExcludedAccounts"
+            case lastUpdateTime = "LastUpdateTime"
+            case organizationConfigRuleArn = "OrganizationConfigRuleArn"
+            case organizationConfigRuleName = "OrganizationConfigRuleName"
+            case organizationCustomRuleMetadata = "OrganizationCustomRuleMetadata"
+            case organizationManagedRuleMetadata = "OrganizationManagedRuleMetadata"
+        }
+    }
+
+    public struct OrganizationConfigRuleStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "OrganizationConfigRuleName", required: true, type: .string), 
+            AWSShapeMember(label: "OrganizationRuleStatus", required: true, type: .enum)
+        ]
+        public let errorCode: String?
+        public let errorMessage: String?
+        public let lastUpdateTime: TimeStamp?
+        public let organizationConfigRuleName: String
+        public let organizationRuleStatus: OrganizationRuleStatus
+
+        public init(errorCode: String? = nil, errorMessage: String? = nil, lastUpdateTime: TimeStamp? = nil, organizationConfigRuleName: String, organizationRuleStatus: OrganizationRuleStatus) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.lastUpdateTime = lastUpdateTime
+            self.organizationConfigRuleName = organizationConfigRuleName
+            self.organizationRuleStatus = organizationRuleStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case lastUpdateTime = "LastUpdateTime"
+            case organizationConfigRuleName = "OrganizationConfigRuleName"
+            case organizationRuleStatus = "OrganizationRuleStatus"
+        }
+    }
+
+    public enum OrganizationConfigRuleTriggerType: String, CustomStringConvertible, Codable {
+        case configurationitemchangenotification = "ConfigurationItemChangeNotification"
+        case oversizedconfigurationitemchangenotification = "OversizedConfigurationItemChangeNotification"
+        case schedulednotification = "ScheduledNotification"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct OrganizationCustomRuleMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "InputParameters", required: false, type: .string), 
+            AWSShapeMember(label: "LambdaFunctionArn", required: true, type: .string), 
+            AWSShapeMember(label: "MaximumExecutionFrequency", required: false, type: .enum), 
+            AWSShapeMember(label: "OrganizationConfigRuleTriggerTypes", required: true, type: .list), 
+            AWSShapeMember(label: "ResourceIdScope", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceTypesScope", required: false, type: .list), 
+            AWSShapeMember(label: "TagKeyScope", required: false, type: .string), 
+            AWSShapeMember(label: "TagValueScope", required: false, type: .string)
+        ]
+        public let description: String?
+        public let inputParameters: String?
+        public let lambdaFunctionArn: String
+        public let maximumExecutionFrequency: MaximumExecutionFrequency?
+        public let organizationConfigRuleTriggerTypes: [OrganizationConfigRuleTriggerType]
+        public let resourceIdScope: String?
+        public let resourceTypesScope: [String]?
+        public let tagKeyScope: String?
+        public let tagValueScope: String?
+
+        public init(description: String? = nil, inputParameters: String? = nil, lambdaFunctionArn: String, maximumExecutionFrequency: MaximumExecutionFrequency? = nil, organizationConfigRuleTriggerTypes: [OrganizationConfigRuleTriggerType], resourceIdScope: String? = nil, resourceTypesScope: [String]? = nil, tagKeyScope: String? = nil, tagValueScope: String? = nil) {
+            self.description = description
+            self.inputParameters = inputParameters
+            self.lambdaFunctionArn = lambdaFunctionArn
+            self.maximumExecutionFrequency = maximumExecutionFrequency
+            self.organizationConfigRuleTriggerTypes = organizationConfigRuleTriggerTypes
+            self.resourceIdScope = resourceIdScope
+            self.resourceTypesScope = resourceTypesScope
+            self.tagKeyScope = tagKeyScope
+            self.tagValueScope = tagValueScope
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case inputParameters = "InputParameters"
+            case lambdaFunctionArn = "LambdaFunctionArn"
+            case maximumExecutionFrequency = "MaximumExecutionFrequency"
+            case organizationConfigRuleTriggerTypes = "OrganizationConfigRuleTriggerTypes"
+            case resourceIdScope = "ResourceIdScope"
+            case resourceTypesScope = "ResourceTypesScope"
+            case tagKeyScope = "TagKeyScope"
+            case tagValueScope = "TagValueScope"
+        }
+    }
+
+    public struct OrganizationManagedRuleMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "InputParameters", required: false, type: .string), 
+            AWSShapeMember(label: "MaximumExecutionFrequency", required: false, type: .enum), 
+            AWSShapeMember(label: "ResourceIdScope", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceTypesScope", required: false, type: .list), 
+            AWSShapeMember(label: "RuleIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeyScope", required: false, type: .string), 
+            AWSShapeMember(label: "TagValueScope", required: false, type: .string)
+        ]
+        public let description: String?
+        public let inputParameters: String?
+        public let maximumExecutionFrequency: MaximumExecutionFrequency?
+        public let resourceIdScope: String?
+        public let resourceTypesScope: [String]?
+        public let ruleIdentifier: String
+        public let tagKeyScope: String?
+        public let tagValueScope: String?
+
+        public init(description: String? = nil, inputParameters: String? = nil, maximumExecutionFrequency: MaximumExecutionFrequency? = nil, resourceIdScope: String? = nil, resourceTypesScope: [String]? = nil, ruleIdentifier: String, tagKeyScope: String? = nil, tagValueScope: String? = nil) {
+            self.description = description
+            self.inputParameters = inputParameters
+            self.maximumExecutionFrequency = maximumExecutionFrequency
+            self.resourceIdScope = resourceIdScope
+            self.resourceTypesScope = resourceTypesScope
+            self.ruleIdentifier = ruleIdentifier
+            self.tagKeyScope = tagKeyScope
+            self.tagValueScope = tagValueScope
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case inputParameters = "InputParameters"
+            case maximumExecutionFrequency = "MaximumExecutionFrequency"
+            case resourceIdScope = "ResourceIdScope"
+            case resourceTypesScope = "ResourceTypesScope"
+            case ruleIdentifier = "RuleIdentifier"
+            case tagKeyScope = "TagKeyScope"
+            case tagValueScope = "TagValueScope"
+        }
+    }
+
+    public enum OrganizationRuleStatus: String, CustomStringConvertible, Codable {
+        case createSuccessful = "CREATE_SUCCESSFUL"
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case createFailed = "CREATE_FAILED"
+        case deleteSuccessful = "DELETE_SUCCESSFUL"
+        case deleteFailed = "DELETE_FAILED"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        public var description: String { return self.rawValue }
     }
 
     public enum Owner: String, CustomStringConvertible, Codable {
@@ -3140,6 +3503,48 @@ extension ConfigService {
 
         private enum CodingKeys: String, CodingKey {
             case failedEvaluations = "FailedEvaluations"
+        }
+    }
+
+    public struct PutOrganizationConfigRuleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExcludedAccounts", required: false, type: .list), 
+            AWSShapeMember(label: "OrganizationConfigRuleName", required: true, type: .string), 
+            AWSShapeMember(label: "OrganizationCustomRuleMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "OrganizationManagedRuleMetadata", required: false, type: .structure)
+        ]
+        public let excludedAccounts: [String]?
+        public let organizationConfigRuleName: String
+        public let organizationCustomRuleMetadata: OrganizationCustomRuleMetadata?
+        public let organizationManagedRuleMetadata: OrganizationManagedRuleMetadata?
+
+        public init(excludedAccounts: [String]? = nil, organizationConfigRuleName: String, organizationCustomRuleMetadata: OrganizationCustomRuleMetadata? = nil, organizationManagedRuleMetadata: OrganizationManagedRuleMetadata? = nil) {
+            self.excludedAccounts = excludedAccounts
+            self.organizationConfigRuleName = organizationConfigRuleName
+            self.organizationCustomRuleMetadata = organizationCustomRuleMetadata
+            self.organizationManagedRuleMetadata = organizationManagedRuleMetadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case excludedAccounts = "ExcludedAccounts"
+            case organizationConfigRuleName = "OrganizationConfigRuleName"
+            case organizationCustomRuleMetadata = "OrganizationCustomRuleMetadata"
+            case organizationManagedRuleMetadata = "OrganizationManagedRuleMetadata"
+        }
+    }
+
+    public struct PutOrganizationConfigRuleResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrganizationConfigRuleArn", required: false, type: .string)
+        ]
+        public let organizationConfigRuleArn: String?
+
+        public init(organizationConfigRuleArn: String? = nil) {
+            self.organizationConfigRuleArn = organizationConfigRuleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationConfigRuleArn = "OrganizationConfigRuleArn"
         }
     }
 
@@ -3916,6 +4321,25 @@ extension ConfigService {
 
         private enum CodingKeys: String, CodingKey {
             case values = "Values"
+        }
+    }
+
+    public struct StatusDetailFilters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: false, type: .string), 
+            AWSShapeMember(label: "MemberAccountRuleStatus", required: false, type: .enum)
+        ]
+        public let accountId: String?
+        public let memberAccountRuleStatus: MemberAccountRuleStatus?
+
+        public init(accountId: String? = nil, memberAccountRuleStatus: MemberAccountRuleStatus? = nil) {
+            self.accountId = accountId
+            self.memberAccountRuleStatus = memberAccountRuleStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case memberAccountRuleStatus = "MemberAccountRuleStatus"
         }
     }
 

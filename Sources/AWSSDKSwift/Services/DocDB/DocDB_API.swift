@@ -220,5 +220,15 @@ public struct DocDB {
         return try client.send(operation: "RestoreDBClusterToPointInTime", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Restarts the stopped cluster that is specified by DBClusterIdentifier. For more information, see Stopping and Starting an Amazon DocumentDB Cluster.
+    public func startDBCluster(_ input: StartDBClusterMessage) throws -> Future<StartDBClusterResult> {
+        return try client.send(operation: "StartDBCluster", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Stops the running cluster that is specified by DBClusterIdentifier. The cluster must be in the available state. For more information, see Stopping and Starting an Amazon DocumentDB Cluster.
+    public func stopDBCluster(_ input: StopDBClusterMessage) throws -> Future<StopDBClusterResult> {
+        return try client.send(operation: "StopDBCluster", path: "/", httpMethod: "POST", input: input)
+    }
+
 
 }

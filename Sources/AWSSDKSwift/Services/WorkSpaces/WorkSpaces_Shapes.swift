@@ -777,43 +777,6 @@ extension WorkSpaces {
         }
     }
 
-    public struct DescribeWorkspaceSnapshotsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkspaceId", required: true, type: .string)
-        ]
-        /// The identifier of the WorkSpace.
-        public let workspaceId: String
-
-        public init(workspaceId: String) {
-            self.workspaceId = workspaceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case workspaceId = "WorkspaceId"
-        }
-    }
-
-    public struct DescribeWorkspaceSnapshotsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RebuildSnapshots", required: false, type: .list), 
-            AWSShapeMember(label: "RestoreSnapshots", required: false, type: .list)
-        ]
-        /// Information about the snapshots that can be used to rebuild a WorkSpace. These snapshots include the root volume.
-        public let rebuildSnapshots: [Snapshot]?
-        /// Information about the snapshots that can be used to restore a WorkSpace. These snapshots include both the root volume and the user volume.
-        public let restoreSnapshots: [Snapshot]?
-
-        public init(rebuildSnapshots: [Snapshot]? = nil, restoreSnapshots: [Snapshot]? = nil) {
-            self.rebuildSnapshots = rebuildSnapshots
-            self.restoreSnapshots = restoreSnapshots
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rebuildSnapshots = "RebuildSnapshots"
-            case restoreSnapshots = "RestoreSnapshots"
-        }
-    }
-
     public struct DescribeWorkspacesConnectionStatusRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
@@ -1352,21 +1315,16 @@ extension WorkSpaces {
 
     public struct RebuildWorkspacesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdditionalInfo", required: false, type: .string), 
             AWSShapeMember(label: "RebuildWorkspaceRequests", required: true, type: .list)
         ]
-        /// Reserved.
-        public let additionalInfo: String?
         /// The WorkSpace to rebuild. You can specify a single WorkSpace.
         public let rebuildWorkspaceRequests: [RebuildRequest]
 
-        public init(additionalInfo: String? = nil, rebuildWorkspaceRequests: [RebuildRequest]) {
-            self.additionalInfo = additionalInfo
+        public init(rebuildWorkspaceRequests: [RebuildRequest]) {
             self.rebuildWorkspaceRequests = rebuildWorkspaceRequests
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalInfo = "AdditionalInfo"
             case rebuildWorkspaceRequests = "RebuildWorkspaceRequests"
         }
     }
@@ -1391,34 +1349,6 @@ extension WorkSpaces {
         case enabled = "ENABLED"
         case disabled = "DISABLED"
         public var description: String { return self.rawValue }
-    }
-
-    public struct RestoreWorkspaceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnapshotCurrentVolumes", required: false, type: .boolean), 
-            AWSShapeMember(label: "WorkspaceId", required: true, type: .string)
-        ]
-        /// Indicates whether to create snapshots of the root volume and user volume before restoring the WorkSpace.
-        public let snapshotCurrentVolumes: Bool?
-        /// The identifier of the WorkSpace.
-        public let workspaceId: String
-
-        public init(snapshotCurrentVolumes: Bool? = nil, workspaceId: String) {
-            self.snapshotCurrentVolumes = snapshotCurrentVolumes
-            self.workspaceId = workspaceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case snapshotCurrentVolumes = "SnapshotCurrentVolumes"
-            case workspaceId = "WorkspaceId"
-        }
-    }
-
-    public struct RestoreWorkspaceResult: AWSShape {
-
-        public init() {
-        }
-
     }
 
     public struct RevokeIpRulesRequest: AWSShape {
@@ -1469,22 +1399,6 @@ extension WorkSpaces {
         case autoStop = "AUTO_STOP"
         case alwaysOn = "ALWAYS_ON"
         public var description: String { return self.rawValue }
-    }
-
-    public struct Snapshot: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnapshotTime", required: false, type: .timestamp)
-        ]
-        /// The time when the snapshot was created.
-        public let snapshotTime: TimeStamp?
-
-        public init(snapshotTime: TimeStamp? = nil) {
-            self.snapshotTime = snapshotTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case snapshotTime = "SnapshotTime"
-        }
     }
 
     public struct StartRequest: AWSShape {
@@ -2122,7 +2036,6 @@ extension WorkSpaces {
         case rebooting = "REBOOTING"
         case starting = "STARTING"
         case rebuilding = "REBUILDING"
-        case restoring = "RESTORING"
         case maintenance = "MAINTENANCE"
         case adminMaintenance = "ADMIN_MAINTENANCE"
         case terminating = "TERMINATING"

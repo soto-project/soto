@@ -2083,15 +2083,15 @@ extension Organizations {
 
     public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
         ]
         /// The key identifier, or name, of the tag.
-        public let key: String?
-        /// The string value that's associated with the key of the tag.
-        public let value: String?
+        public let key: String
+        /// The string value that's associated with the key of the tag. You can set the value of a tag to an empty string, but you can't set the value of a tag to null.
+        public let value: String
 
-        public init(key: String? = nil, value: String? = nil) {
+        public init(key: String, value: String) {
             self.key = key
             self.value = value
         }
@@ -2109,7 +2109,7 @@ extension Organizations {
         ]
         /// The ID of the resource to add a tag to.
         public let resourceId: String
-        /// The tag to add to the specified resource.
+        /// The tag to add to the specified resource. Specifying the tag key is required. You can set the value of a tag to an empty string, but you can't set the value of a tag to null.
         public let tags: [Tag]
 
         public init(resourceId: String, tags: [Tag]) {

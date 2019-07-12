@@ -66,6 +66,10 @@ public struct ConfigService {
         return try client.send(operation: "DeleteEvaluationResults", path: "/", httpMethod: "POST", input: input)
     }
 
+    @discardableResult public func deleteOrganizationConfigRule(_ input: DeleteOrganizationConfigRuleRequest) throws -> Future<Void> {
+        return try client.send(operation: "DeleteOrganizationConfigRule", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes pending authorization requests for a specified aggregator account in a specified region.
     @discardableResult public func deletePendingAggregationRequest(_ input: DeletePendingAggregationRequestRequest) throws -> Future<Void> {
         return try client.send(operation: "DeletePendingAggregationRequest", path: "/", httpMethod: "POST", input: input)
@@ -146,6 +150,14 @@ public struct ConfigService {
         return try client.send(operation: "DescribeDeliveryChannels", path: "/", httpMethod: "POST", input: input)
     }
 
+    public func describeOrganizationConfigRuleStatuses(_ input: DescribeOrganizationConfigRuleStatusesRequest) throws -> Future<DescribeOrganizationConfigRuleStatusesResponse> {
+        return try client.send(operation: "DescribeOrganizationConfigRuleStatuses", path: "/", httpMethod: "POST", input: input)
+    }
+
+    public func describeOrganizationConfigRules(_ input: DescribeOrganizationConfigRulesRequest) throws -> Future<DescribeOrganizationConfigRulesResponse> {
+        return try client.send(operation: "DescribeOrganizationConfigRules", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns a list of all pending aggregation requests.
     public func describePendingAggregationRequests(_ input: DescribePendingAggregationRequestsRequest) throws -> Future<DescribePendingAggregationRequestsResponse> {
         return try client.send(operation: "DescribePendingAggregationRequests", path: "/", httpMethod: "POST", input: input)
@@ -211,6 +223,10 @@ public struct ConfigService {
         return try client.send(operation: "GetDiscoveredResourceCounts", path: "/", httpMethod: "POST", input: input)
     }
 
+    public func getOrganizationConfigRuleDetailedStatus(_ input: GetOrganizationConfigRuleDetailedStatusRequest) throws -> Future<GetOrganizationConfigRuleDetailedStatusResponse> {
+        return try client.send(operation: "GetOrganizationConfigRuleDetailedStatus", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns a list of configuration items for the specified resource. The list contains details about each state of the resource during the specified time interval. If you specified a retention period to retain your ConfigurationItems between a minimum of 30 days and a maximum of 7 years (2557 days), AWS Config returns the ConfigurationItems for the specified retention period.  The response is paginated. By default, AWS Config returns a limit of 10 configuration items per page. You can customize this number with the limit parameter. The response includes a nextToken string. To get the next page of results, run the request again and specify the string for the nextToken parameter.  Each call to the API is limited to span a duration of seven days. It is likely that the number of records returned is smaller than the specified limit. In such cases, you can make another call, using the nextToken. 
     public func getResourceConfigHistory(_ input: GetResourceConfigHistoryRequest) throws -> Future<GetResourceConfigHistoryResponse> {
         return try client.send(operation: "GetResourceConfigHistory", path: "/", httpMethod: "POST", input: input)
@@ -259,6 +275,10 @@ public struct ConfigService {
     ///  Used by an AWS Lambda function to deliver evaluation results to AWS Config. This action is required in every AWS Lambda function that is invoked by an AWS Config rule.
     public func putEvaluations(_ input: PutEvaluationsRequest) throws -> Future<PutEvaluationsResponse> {
         return try client.send(operation: "PutEvaluations", path: "/", httpMethod: "POST", input: input)
+    }
+
+    public func putOrganizationConfigRule(_ input: PutOrganizationConfigRuleRequest) throws -> Future<PutOrganizationConfigRuleResponse> {
+        return try client.send(operation: "PutOrganizationConfigRule", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds or updates the remediation configuration with a specific AWS Config rule with the selected target or action. The API creates the RemediationConfiguration object for the AWS Config rule. The AWS Config rule must already exist for you to add a remediation configuration. The target (SSM document) must exist and have permissions to use the target. 
