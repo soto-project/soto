@@ -1,4 +1,4 @@
-    public enum {{shape.enum.name}}: String, CustomStringConvertible, Codable {
-        {%for value in shape.enum.values %}case {{value.case}} = "{{value.string}}"
+    public enum {{enum.name}}: String, CustomStringConvertible, Codable {
+        {%for value in enum.values %}case {{value.case}} = "{{value.string}}"
         {%endfor %}public var description: String { return self.rawValue }
     }
