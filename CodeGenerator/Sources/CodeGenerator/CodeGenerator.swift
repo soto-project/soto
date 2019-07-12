@@ -3,10 +3,8 @@
 //  AWSSDKSwift
 //
 //  Created by Yuki Takei on 2017/04/04.
+//  Edited by Adam Fowler to use Stencil (https://github.com/stencilproject/Stencil.git) templating library
 //
-//
-
-// TODO should use template engine to generate code
 
 import Foundation
 import SwiftyJSON
@@ -100,102 +98,87 @@ extension ServiceProtocol {
     }
 }
 
-extension Operation {
-    func generateSwiftFunctionCode() -> String {
-        var code = ""
-
-        if let _ = self.outputShape { }
-        else {
-            code += "@discardableResult "
-        }
-
-        if let shape = self.inputShape {
-            code += "public func \(name.toSwiftVariableCase())(_ input: \(shape.swiftTypeName))"
-        } else {
-            code += "public func \(name.toSwiftVariableCase())()"
-        }
-
-        code += " throws"
-
-        if let shape = self.outputShape {
-            code += " -> Future<\(shape.swiftTypeName)>"
-        } else {
-            code += " -> Future<Void>"
-        }
-
-        code += " {\n"
-
-        code += "\(indt(1))return try client.send("
-
-        code += "operation: \"\(name)\", "
-        code += "path: \"\(path)\", "
-        code += "httpMethod: \"\(httpMethod)\""
-        if inputShape != nil {
-            code += ", "
-            code += "input: input"
-        }
-
-        code += ")\n"
-        code += "}"
-
-        return code
-    }
-}
-
-extension Member {
-    var variableName: String {
-        return name.toSwiftVariableCase()
-    }
-
-    var defaultValue: String {
-        if !required {
-            return "nil"
-        }
-
-        switch shape.type {
-        case .integer(_), .float(_), .double(_), .long(_):
-            return "0"
-        case .boolean:
-            return "false"
-        case .blob(_):
-            return "Data()"
-        case .timestamp:
-            return "Date()"
-        case .list(_):
-            return "[]"
-        case .map(_):
-            return "[:]"
+extension Shape {
+    public var swiftTypeName: String {
+        switch self.type {
+        case .string(_):
+            return "String"
+        case .integer(_):
+            return "Int32"
         case .structure(_):
-            return "\(shape.name)()"
-        default:
-            return "\"\""
+            return name.toSwiftClassCase()
+        case .boolean:
+            return "Bool"
+        case .list(let shape):
+            return "[\(shape.swiftTypeName)]"
+        case .map(key: let keyShape, value: let valueShape):
+            return "[\(keyShape.swiftTypeName): \(valueShape.swiftTypeName)]"
+        case .long(_):
+            return "Int64"
+        case .double(_):
+            return "Double"
+        case .float(_):
+            return "Float"
+        case .blob:
+            return "Data"
+        case .timestamp:
+            return "TimeStamp"
+        case .enum(_):
+            return name.toSwiftClassCase()
+        case .unhandledType:
+            return "Any"
         }
-    }
-
-    func toSwiftMutableMemberSyntax() -> String {
-        let optionalSuffix = required ? "" : "?"
-        return "var \(name.toSwiftVariableCase()): \(swiftTypeName)\(optionalSuffix) = \(defaultValue)"
-    }
-
-    func toSwiftImmutableMemberSyntax() -> String {
-        let optionalSuffix = required ? "" : "?"
-        return "let \(name.toSwiftVariableCase()): \(swiftTypeName)\(optionalSuffix)"
-    }
-
-    func toSwiftArgumentSyntax() -> String {
-        let optionalSuffix = required ? "" : "?"
-        let defaultArgument = required ? "" : " = nil"
-        return "\(name.toSwiftLabelCase()): \(swiftTypeName)\(optionalSuffix)\(defaultArgument)"
     }
 }
 
-extension AWSShapeMember.Shape {
-    public var enumStyleDescription: String {
-        return ".\(self)"
+extension String {
+    func allLetterIsNumeric() -> Bool {
+        for character in self {
+            if let ascii = character.unicodeScalars.first?.value, (0x30..<0x39).contains(ascii) {
+                continue
+            } else {
+                return false
+            }
+        }
+        return true
+    }
+}
+
+extension ShapeType {
+    var memberShapeType : AWSShapeMember.Shape {
+        switch self {
+        case .structure:
+            return .structure
+        case .list:
+            return .list
+        case .map:
+            return .map
+        case .enum:
+            return .enum
+        case .boolean:
+            return .boolean
+        case .blob:
+            return .blob
+        case .double:
+            return .double
+        case .float:
+            return .float
+        case .long:
+            return .long
+        case .integer:
+            return .integer
+        case .string:
+            return .string
+        case .timestamp:
+            return .timestamp
+        case .unhandledType:
+            return .any
+        }
     }
 }
 
 extension AWSService {
+    /// Generate the context information for outputting the error enums
     func generateErrorContext() -> [String: Any] {
         var context : [String: Any] = [:]
         context["name"] = serviceName
@@ -214,41 +197,7 @@ extension AWSService {
         return context
     }
 
-    func generateErrorCode() -> String {
-        if errorShapeNames.isEmpty { return "" }
-        var code = ""
-        code += autoGeneratedHeader
-        code += "import AWSSDKSwiftCore"
-        code += "\n\n"
-        code += "/// Error enum for \(serviceName)\n"
-        code += ""
-        code += "public enum \(serviceErrorName): AWSErrorType {\n"
-        for name in errorShapeNames {
-            code += "\(indt(1))case \(name.toSwiftVariableCase())(message: String?)\n"
-        }
-        code += "}"
-        code += "\n\n"
-        code += "extension \(serviceErrorName) {\n"
-        code += "\(indt(1))public init?(errorCode: String, message: String?){\n"
-        code += "\(indt(2))var errorCode = errorCode\n"
-        code += "\(indt(2))if let index = errorCode.index(of: \"#\") {\n"
-            code += "\(indt(3))errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])\n"
-        code += "\(indt(2))}\n"
-
-        code += "\(indt(2))switch errorCode {\n"
-        for name in errorShapeNames {
-            code += "\(indt(2))case \"\(name)\":\n"
-            code += "\(indt(3))self = .\(name.toSwiftVariableCase())(message: message)\n"
-        }
-        code += "\(indt(2))default:\n"
-        code += "\(indt(3))return nil\n"
-        code += "\(indt(2))}\n"
-        code += "\(indt(1))}\n"
-        code += "}\n"
-
-        return code
-    }
-
+    /// Generate the context information for outputting the service api calls
     func generateServiceContext() -> [String: Any] {
         var context : [String: Any] = [:]
         
@@ -284,8 +233,8 @@ extension AWSService {
             var context : [String: Any] = [:]
             context["comment"] = docJSON["operations"][operation.name].stringValue.tagStriped().split(separator: "\n")
             context["funcName"] = operation.name.toSwiftVariableCase()
-            context["inputShape"] = operation.inputShape?.toSwiftType()
-            context["outputShape"] = operation.outputShape?.toSwiftType()
+            context["inputShape"] = operation.inputShape?.swiftTypeName
+            context["outputShape"] = operation.outputShape?.swiftTypeName
             context["name"] = operation.name
             context["path"] = operation.path
             context["httpMethod"] = operation.httpMethod
@@ -296,160 +245,6 @@ extension AWSService {
         return context
     }
     
-    func generateServiceCode() -> String {
-        var code = ""
-        code += autoGeneratedHeader
-        code += "import Foundation\n"
-        code += "import AWSSDKSwiftCore\n"
-        code += "import NIO\n\n"
-
-        switch endpointPrefix {
-        case "s3":
-            code += "import S3Middleware\n\n"
-        case "glacier":
-            code += "import GlacierMiddleware\n\n"
-        default:
-            break
-        }
-
-        code += "/**\n"
-        code += serviceDescription+"\n"
-        code += "*/\n"
-        code += "public "
-        code += "struct \(serviceName) {\n\n"
-        code += "\(indt(1))let client: AWSClient\n\n"
-
-        var middlewares = "[]"
-        switch endpointPrefix {
-        case "s3":
-            middlewares = "[S3RequestMiddleware()]"
-        case "glacier":
-            middlewares = "[GlacierRequestMiddleware(apiVersion: \"\(version)\")]"
-        default:
-            break
-        }
-
-        code += "\(indt(1))public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {\n"
-        code += "\(indt(2))self.client = AWSClient(\n"
-        code += "\(indt(3))accessKeyId: accessKeyId,\n"
-        code += "\(indt(3))secretAccessKey: secretAccessKey,\n"
-        code += "\(indt(3))region: region,\n"
-        if let target = apiJSON["metadata"]["targetPrefix"].string {
-            code += "\(indt(3))amzTarget: \"\(target)\",\n"
-        }
-        code += "\(indt(3))service: \"\(endpointPrefix)\",\n"
-
-        code += "\(indt(3))serviceProtocol: \(serviceProtocol.instantiationCode()),\n"
-        code += "\(indt(3))apiVersion: \"\(version)\",\n"
-        code += "\(indt(3))endpoint: endpoint,\n"
-
-        let endpoints = serviceEndpoints.sorted { $0.key < $1.key }
-        if endpoints.count > 0 {
-            code += "\(indt(3))serviceEndpoints: ["
-                for (i, endpoint) in endpoints.enumerated() {
-                    code += "\"\(endpoint.key)\": \"\(endpoint.value)\""
-                    if i < endpoints.count - 1 {
-                        code += ", "
-                    }
-                }
-            code += "],\n"
-        }
-
-        if let partitionEndpoint = partitionEndpoint {
-            code += "\(indt(3))partitionEndpoint: \"\(partitionEndpoint)\",\n"
-        }
-
-        code += "\(indt(3))middlewares: \(middlewares)"
-        if !errorShapeNames.isEmpty {
-            code += ",\n"
-            code += "\(indt(3))possibleErrorTypes: [\(serviceErrorName).self]"
-        }
-        code += "\n"
-        code += indt(2)+")\n"
-        code += "\(indt(1))}\n"
-        code += "\n"
-        for operation in operations {
-            let functionCode = operation.generateSwiftFunctionCode()
-                .components(separatedBy: "\n")
-                .map({ indt(1)+$0 })
-                .joined(separator: "\n")
-
-            let comment = docJSON["operations"][operation.name].stringValue.tagStriped()
-            comment.split(separator: "\n").forEach({
-                code += "\(indt(1))///  \($0)\n"
-            })
-            code += functionCode
-            code += "\n\n"
-        }
-        code += "\n"
-        code += "}\n"
-
-        return code
-    }
-
-    func generateMembers(_ structure: StructureShape) -> String {
-        var code = ""
-
-        func shape2Hint(shape: Shape) -> AWSShapeMember.Shape {
-            var typeForHint: AWSShapeMember.Shape
-            switch shape.type {
-            case .structure:
-                typeForHint = .structure
-            case .list:
-                typeForHint = .list
-            case .map:
-                typeForHint = .map
-            case .enum:
-                typeForHint = .enum
-            case .boolean:
-                typeForHint = .boolean
-            case .blob:
-                typeForHint = .blob
-            case .double:
-                typeForHint = .double
-            case .float:
-                typeForHint = .float
-            case .long:
-                typeForHint = .long
-            case .integer:
-                typeForHint = .integer
-            case .string:
-                typeForHint = .string
-            case .timestamp:
-                typeForHint = .timestamp
-            case .unhandledType:
-                typeForHint = .any
-            }
-
-            return typeForHint
-        }
-
-        let hints: [String] = structure.members.map({ member in
-            let hint = shape2Hint(shape: member.shape)
-
-            var code = ""
-            code += "\(indt(3))AWSShapeMember(label: \"\(member.name)\""
-            if let location = member.location?.enumStyleDescription() {
-                code += ", location: \(location)"
-            }
-            code += ", required: \(member.required), type: \(hint.enumStyleDescription)"
-            if let encoding = member.shapeEncoding?.enumStyleDescription() {
-                code += ", encoding: \(encoding)"
-            }
-            code += ")"
-            return code
-        })
-        if hints.count > 0 {
-            code += "\(indt(2))public static var _members: [AWSShapeMember] = ["
-            code += "\n"
-            code += hints.joined(separator: ", \n")
-            code += "\n"
-            code += "\(indt(2))]"
-            code += "\n"
-        }
-        return code
-    }
-
     /// Generate the context information for outputting an enum
     func generateEnumContext(_ shape: Shape, values: [String]) -> [String: Any] {
         var context : [String: Any] = [:]
@@ -487,39 +282,6 @@ extension AWSService {
     
     /// Generate the context information for outputting a member variable
     func generateMemberContext(_ member: Member, shape: Shape) -> [String: Any] {
-        func shape2Hint(shape: Shape) -> AWSShapeMember.Shape {
-            var typeForHint: AWSShapeMember.Shape
-            switch shape.type {
-            case .structure:
-                typeForHint = .structure
-            case .list:
-                typeForHint = .list
-            case .map:
-                typeForHint = .map
-            case .enum:
-                typeForHint = .enum
-            case .boolean:
-                typeForHint = .boolean
-            case .blob:
-                typeForHint = .blob
-            case .double:
-                typeForHint = .double
-            case .float:
-                typeForHint = .float
-            case .long:
-                typeForHint = .long
-            case .integer:
-                typeForHint = .integer
-            case .string:
-                typeForHint = .string
-            case .timestamp:
-                typeForHint = .timestamp
-            case .unhandledType:
-                typeForHint = .any
-            }
-            return typeForHint
-        }
-        
         var context : [String: Any] = [:]
         context["name"] = member.name
         context["variable"] = member.name.toSwiftVariableCase()
@@ -527,8 +289,8 @@ extension AWSService {
         context["location"] = member.location?.enumStyleDescription()
         context["parameter"] = member.name.toSwiftLabelCase()
         context["required"] = member.required
-        context["type"] = member.swiftTypeName + (member.required ? "" : "?")
-        context["typeEnum"] = "\(shape2Hint(shape: member.shape))"
+        context["type"] = member.shape.swiftTypeName + (member.required ? "" : "?")
+        context["typeEnum"] = "\(member.shape.type.memberShapeType)"
         context["encoding"] = member.shapeEncoding?.enumStyleDescription()
         if let comment = shapeDoc[shape.name]?[member.name] {
             context["comment"] = comment.split(separator: "\n")
@@ -596,188 +358,4 @@ extension AWSService {
         return context
     }
     
-    func generateShapesCode() -> String {
-        var code = ""
-        code += autoGeneratedHeader
-        code += "import Foundation\n"
-        code += "import AWSSDKSwiftCore\n\n"
-        code += "extension \(serviceName) {\n\n"
-
-        for shape in shapes {
-            if errorShapeNames.contains(shape.name) { continue }
-            switch shape.type {
-            case .enum(let values):
-                code += "\(indt(1))public enum \(shape.name.toSwiftClassCase().reservedwordEscaped()): String, CustomStringConvertible, Codable {\n"
-                for value in values {
-                    var key = value.lowercased()
-                        .replacingOccurrences(of: ".", with: "_")
-                        .replacingOccurrences(of: ":", with: "_")
-                        .replacingOccurrences(of: "-", with: "_")
-                        .replacingOccurrences(of: " ", with: "_")
-                        .replacingOccurrences(of: "/", with: "_")
-                        .replacingOccurrences(of: "(", with: "_")
-                        .replacingOccurrences(of: ")", with: "_")
-                        .replacingOccurrences(of: "*", with: "all")
-
-                    if Int(String(key[key.startIndex])) != nil { key = "_"+key }
-
-                    let caseName = key.camelCased().reservedwordEscaped()
-                    if caseName.allLetterIsNumeric() {
-                        code += "\(indt(2))case \(shape.name.toSwiftVariableCase())\(caseName) = \"\(value)\"\n"
-                    } else {
-                        code += "\(indt(2))case \(caseName) = \"\(value)\"\n"
-                    }
-                }
-                code += "\(indt(2))public var description: String { return self.rawValue }\n"
-                code += "\(indt(1))}"
-                code += "\n\n"
-
-            case .structure(let type):
-                let hasRecursiveOwnReference = type.members.contains(where: {
-                    return $0.shape.swiftTypeName == shape.swiftTypeName
-                            || $0.shape.swiftTypeName == "[\(shape.swiftTypeName)]"
-                })
-
-                let classOrStruct = hasRecursiveOwnReference ? "class" : "struct"
-                code += "\(indt(1))public \(classOrStruct) \(shape.swiftTypeName): AWSShape {\n"
-                if let payload = type.payload {
-                    code += "\(indt(2))/// The key for the payload\n"
-                    code += "\(indt(2))public static let payloadPath: String? = \"\(payload)\"\n"
-                }
-
-                code += "\(generateMembers(type))"
-
-                for member in type.members {
-                    if let comment = shapeDoc[shape.name]?[member.name], !comment.isEmpty {
-                        comment.split(separator: "\n").forEach({
-                            code += "\(indt(2))/// \($0)\n"
-                        })
-                    }
-                    code += "\(indt(2))public \(member.toSwiftImmutableMemberSyntax())\n"
-                }
-                code += "\n"
-                code += "\(indt(2))public init(\(type.members.toSwiftArgumentSyntax())) {\n"
-                for member in type.members {
-                    code += "\(indt(3))self.\(member.name.toSwiftVariableCase()) = \(member.name.toSwiftVariableCase())\n"
-                }
-                code += "\(indt(2))}\n\n"
-
-                if type.members.count > 0 {
-                    // CoadingKyes
-                    code += "\(indt(2))private enum CodingKeys: String, CodingKey {\n"
-
-                    var usedLocationPath: [String] = []
-
-                    for member in type.members {
-                        let locationPath = member.location?.name ?? member.name
-                        if usedLocationPath.contains(locationPath) {
-                            code += "\(indt(3))// TODO this is temporary measure for avoiding CondingKey duplication.\n"
-                            code += "\(indt(3))// Should decode duplidated paths with same type for JSON\n"
-                            code += "\(indt(3))case \(member.name.toSwiftVariableCase()) = \"_\(locationPath)\""
-                        } else {
-                            code += "\(indt(3))case \(member.name.toSwiftVariableCase()) = \"\(locationPath)\""
-                            usedLocationPath.append(locationPath)
-                        }
-
-                        code += "\n"
-                    }
-
-                    code += "\(indt(2))}\n"
-                }
-
-                code += "\(indt(1))}"
-
-                code += "\n\n"
-
-            default:
-                continue
-            }
-        }
-
-        code += "}\n"
-
-        return code
-    }
-}
-
-
-extension Collection where Iterator.Element == Member {
-    public func toSwiftArgumentSyntax() -> String {
-        return self.map({ $0.toSwiftArgumentSyntax() }).sorted { $0 < $1 }.joined(separator: ", ")
-    }
-}
-
-
-extension Shape {
-    public func toSwiftType() -> String {
-        switch self.type {
-        case .string(_):
-            return "String"
-
-        case .integer(_):
-            return "Int32"
-
-        case .structure(_):
-            return name.toSwiftClassCase()
-
-        case .boolean:
-            return "Bool"
-
-        case .list(let shape):
-            return "[\(shape.swiftTypeName)]"
-
-        case .map(key: let keyShape, value: let valueShape):
-            return "[\(keyShape.swiftTypeName): \(valueShape.swiftTypeName)]"
-
-        case .long(_):
-            return "Int64"
-
-        case .double(_):
-            return "Double"
-
-        case .float(_):
-            return "Float"
-
-        case .blob:
-            return "Data"
-
-        case .timestamp:
-            return "TimeStamp"
-
-        case .enum(_):
-            return name.toSwiftClassCase()
-
-        case .unhandledType:
-            return "Any"
-        }
-    }
-}
-
-extension Shape {
-    public var swiftTypeName: String {
-        if isStruct {
-            return name.toSwiftClassCase()
-        }
-
-        return toSwiftType()
-    }
-}
-
-extension Member {
-    public var swiftTypeName: String {
-        return shape.swiftTypeName
-    }
-}
-
-extension String {
-    func allLetterIsNumeric() -> Bool {
-        for character in self {
-            if let ascii = character.unicodeScalars.first?.value, (0x30..<0x39).contains(ascii) {
-                continue
-            } else {
-                return false
-            }
-        }
-        return true
-    }
 }
