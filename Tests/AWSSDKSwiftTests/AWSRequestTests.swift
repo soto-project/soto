@@ -112,11 +112,11 @@ class AWSRequestTests: XCTestCase {
         return [
             ("testS3CreateMultipartUpload", testS3CreateMultipartUpload),
             ("testSNSCreateTopic", testSNSCreateTopic),
-            ("testCloudFrontCreateDistribution", testCloudFrontCreateDistribution),
+            //("testCloudFrontCreateDistribution", testCloudFrontCreateDistribution),
             ("testEC2CreateImage", testEC2CreateImage),
             ("testEC2CreateInstanceExportTask", testEC2CreateInstanceExportTask),
             ("testIAMSimulateCustomPolicy", testIAMSimulateCustomPolicy),
-            ("testSESSendEmail", testIAMSimulateCustomPolicy),
+            ("testSESSendEmail", testSESSendEmail),
         ]
     }
 }

@@ -43,11 +43,14 @@ build_files()
 {
     # build the code generator and run it
     echo "Build the code generator"
-    swift build --product aws-sdk-swift-codegen
+    CURRENT_FOLDER=$(pwd)
+    cd "$CURRENT_FOLDER"/CodeGenerator
+    swift build
     echo "Run the code generator"
     swift run
     echo "Compile service files"
     # build services after having generated the files
+    cd "$CURRENT_FOLDER"
     swift build
 }
 

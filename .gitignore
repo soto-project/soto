@@ -1,9 +1,10 @@
 .DS_Store
 /.build
 /Packages
-/*.xcodeproj
+*.xcodeproj
 .env
 node_modules
 build
 awssdkswift.json
 docs/docsets
+/CodeGenerator/.build
