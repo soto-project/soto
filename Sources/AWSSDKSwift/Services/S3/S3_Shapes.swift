@@ -759,7 +759,7 @@ extension S3 {
             AWSShapeMember(label: "GrantReadACP", location: .header(locationName: "x-amz-grant-read-acp"), required: false, type: .string), 
             AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string), 
             AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "Metadata", required: false, type: .map, encoding: .map(entry:"entry", key: "key", value: "value")), 
+            AWSShapeMember(label: "Metadata", location: .header(locationName: "x-amz-meta-"), required: false, type: .map, encoding: .map(entry:"entry", key: "key", value: "value")), 
             AWSShapeMember(label: "MetadataDirective", location: .header(locationName: "x-amz-metadata-directive"), required: false, type: .enum), 
             AWSShapeMember(label: "ObjectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold"), required: false, type: .enum), 
             AWSShapeMember(label: "ObjectLockMode", location: .header(locationName: "x-amz-object-lock-mode"), required: false, type: .enum), 
@@ -910,7 +910,7 @@ extension S3 {
             case grantReadACP = "x-amz-grant-read-acp"
             case grantWriteACP = "x-amz-grant-write-acp"
             case key = "Key"
-            case metadata = "Metadata"
+            case metadata = "x-amz-meta-"
             case metadataDirective = "x-amz-metadata-directive"
             case objectLockLegalHoldStatus = "x-amz-object-lock-legal-hold"
             case objectLockMode = "x-amz-object-lock-mode"
@@ -1136,7 +1136,7 @@ extension S3 {
             AWSShapeMember(label: "GrantReadACP", location: .header(locationName: "x-amz-grant-read-acp"), required: false, type: .string), 
             AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string), 
             AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "Metadata", required: false, type: .map, encoding: .map(entry:"entry", key: "key", value: "value")), 
+            AWSShapeMember(label: "Metadata", location: .header(locationName: "x-amz-meta-"), required: false, type: .map, encoding: .map(entry:"entry", key: "key", value: "value")), 
             AWSShapeMember(label: "ObjectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold"), required: false, type: .enum), 
             AWSShapeMember(label: "ObjectLockMode", location: .header(locationName: "x-amz-object-lock-mode"), required: false, type: .enum), 
             AWSShapeMember(label: "ObjectLockRetainUntilDate", location: .header(locationName: "x-amz-object-lock-retain-until-date"), required: false, type: .timestamp), 
@@ -1247,7 +1247,7 @@ extension S3 {
             case grantReadACP = "x-amz-grant-read-acp"
             case grantWriteACP = "x-amz-grant-write-acp"
             case key = "Key"
-            case metadata = "Metadata"
+            case metadata = "x-amz-meta-"
             case objectLockLegalHoldStatus = "x-amz-object-lock-legal-hold"
             case objectLockMode = "x-amz-object-lock-mode"
             case objectLockRetainUntilDate = "x-amz-object-lock-retain-until-date"
@@ -2722,7 +2722,7 @@ extension S3 {
             AWSShapeMember(label: "Expiration", location: .header(locationName: "x-amz-expiration"), required: false, type: .string), 
             AWSShapeMember(label: "Expires", location: .header(locationName: "Expires"), required: false, type: .timestamp), 
             AWSShapeMember(label: "LastModified", location: .header(locationName: "Last-Modified"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Metadata", required: false, type: .map, encoding: .map(entry:"entry", key: "key", value: "value")), 
+            AWSShapeMember(label: "Metadata", location: .header(locationName: "x-amz-meta-"), required: false, type: .map, encoding: .map(entry:"entry", key: "key", value: "value")), 
             AWSShapeMember(label: "MissingMeta", location: .header(locationName: "x-amz-missing-meta"), required: false, type: .integer), 
             AWSShapeMember(label: "ObjectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold"), required: false, type: .enum), 
             AWSShapeMember(label: "ObjectLockMode", location: .header(locationName: "x-amz-object-lock-mode"), required: false, type: .enum), 
@@ -2848,7 +2848,7 @@ extension S3 {
             case expiration = "x-amz-expiration"
             case expires = "Expires"
             case lastModified = "Last-Modified"
-            case metadata = "Metadata"
+            case metadata = "x-amz-meta-"
             case missingMeta = "x-amz-missing-meta"
             case objectLockLegalHoldStatus = "x-amz-object-lock-legal-hold"
             case objectLockMode = "x-amz-object-lock-mode"
@@ -3240,7 +3240,7 @@ extension S3 {
             AWSShapeMember(label: "Expiration", location: .header(locationName: "x-amz-expiration"), required: false, type: .string), 
             AWSShapeMember(label: "Expires", location: .header(locationName: "Expires"), required: false, type: .timestamp), 
             AWSShapeMember(label: "LastModified", location: .header(locationName: "Last-Modified"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Metadata", required: false, type: .map, encoding: .map(entry:"entry", key: "key", value: "value")), 
+            AWSShapeMember(label: "Metadata", location: .header(locationName: "x-amz-meta-"), required: false, type: .map, encoding: .map(entry:"entry", key: "key", value: "value")), 
             AWSShapeMember(label: "MissingMeta", location: .header(locationName: "x-amz-missing-meta"), required: false, type: .integer), 
             AWSShapeMember(label: "ObjectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold"), required: false, type: .enum), 
             AWSShapeMember(label: "ObjectLockMode", location: .header(locationName: "x-amz-object-lock-mode"), required: false, type: .enum), 
@@ -3354,7 +3354,7 @@ extension S3 {
             case expiration = "x-amz-expiration"
             case expires = "Expires"
             case lastModified = "Last-Modified"
-            case metadata = "Metadata"
+            case metadata = "x-amz-meta-"
             case missingMeta = "x-amz-missing-meta"
             case objectLockLegalHoldStatus = "x-amz-object-lock-legal-hold"
             case objectLockMode = "x-amz-object-lock-mode"
@@ -6118,7 +6118,7 @@ extension S3 {
             AWSShapeMember(label: "GrantReadACP", location: .header(locationName: "x-amz-grant-read-acp"), required: false, type: .string), 
             AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string), 
             AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
-            AWSShapeMember(label: "Metadata", required: false, type: .map, encoding: .map(entry:"entry", key: "key", value: "value")), 
+            AWSShapeMember(label: "Metadata", location: .header(locationName: "x-amz-meta-"), required: false, type: .map, encoding: .map(entry:"entry", key: "key", value: "value")), 
             AWSShapeMember(label: "ObjectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold"), required: false, type: .enum), 
             AWSShapeMember(label: "ObjectLockMode", location: .header(locationName: "x-amz-object-lock-mode"), required: false, type: .enum), 
             AWSShapeMember(label: "ObjectLockRetainUntilDate", location: .header(locationName: "x-amz-object-lock-retain-until-date"), required: false, type: .timestamp), 
@@ -6243,7 +6243,7 @@ extension S3 {
             case grantReadACP = "x-amz-grant-read-acp"
             case grantWriteACP = "x-amz-grant-write-acp"
             case key = "Key"
-            case metadata = "Metadata"
+            case metadata = "x-amz-meta-"
             case objectLockLegalHoldStatus = "x-amz-object-lock-legal-hold"
             case objectLockMode = "x-amz-object-lock-mode"
             case objectLockRetainUntilDate = "x-amz-object-lock-retain-until-date"
