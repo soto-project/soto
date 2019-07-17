@@ -1188,7 +1188,7 @@ extension ConfigService {
             AWSShapeMember(label: "OrganizationConfigRuleName", required: true, type: .string)
         ]
         public let organizationConfigRuleName: String
-
+        
         public init(organizationConfigRuleName: String) {
             self.organizationConfigRuleName = organizationConfigRuleName
         }
@@ -1893,7 +1893,7 @@ extension ConfigService {
         public let limit: Int32?
         public let nextToken: String?
         public let organizationConfigRuleNames: [String]?
-
+        
         public init(limit: Int32? = nil, nextToken: String? = nil, organizationConfigRuleNames: [String]? = nil) {
             self.limit = limit
             self.nextToken = nextToken
@@ -1914,7 +1914,7 @@ extension ConfigService {
         ]
         public let nextToken: String?
         public let organizationConfigRuleStatuses: [OrganizationConfigRuleStatus]?
-
+        
         public init(nextToken: String? = nil, organizationConfigRuleStatuses: [OrganizationConfigRuleStatus]? = nil) {
             self.nextToken = nextToken
             self.organizationConfigRuleStatuses = organizationConfigRuleStatuses
@@ -1935,7 +1935,7 @@ extension ConfigService {
         public let limit: Int32?
         public let nextToken: String?
         public let organizationConfigRuleNames: [String]?
-
+        
         public init(limit: Int32? = nil, nextToken: String? = nil, organizationConfigRuleNames: [String]? = nil) {
             self.limit = limit
             self.nextToken = nextToken
@@ -1956,7 +1956,7 @@ extension ConfigService {
         ]
         public let nextToken: String?
         public let organizationConfigRules: [OrganizationConfigRule]?
-
+        
         public init(nextToken: String? = nil, organizationConfigRules: [OrganizationConfigRule]? = nil) {
             self.nextToken = nextToken
             self.organizationConfigRules = organizationConfigRules
@@ -2750,7 +2750,7 @@ extension ConfigService {
         public let limit: Int32?
         public let nextToken: String?
         public let organizationConfigRuleName: String
-
+        
         public init(filters: StatusDetailFilters? = nil, limit: Int32? = nil, nextToken: String? = nil, organizationConfigRuleName: String) {
             self.filters = filters
             self.limit = limit
@@ -2773,7 +2773,7 @@ extension ConfigService {
         ]
         public let nextToken: String?
         public let organizationConfigRuleDetailedStatus: [MemberAccountStatus]?
-
+        
         public init(nextToken: String? = nil, organizationConfigRuleDetailedStatus: [MemberAccountStatus]? = nil) {
             self.nextToken = nextToken
             self.organizationConfigRuleDetailedStatus = organizationConfigRuleDetailedStatus
@@ -3073,7 +3073,7 @@ extension ConfigService {
         public let errorMessage: String?
         public let lastUpdateTime: TimeStamp?
         public let memberAccountRuleStatus: MemberAccountRuleStatus
-
+        
         public init(accountId: String, configRuleName: String, errorCode: String? = nil, errorMessage: String? = nil, lastUpdateTime: TimeStamp? = nil, memberAccountRuleStatus: MemberAccountRuleStatus) {
             self.accountId = accountId
             self.configRuleName = configRuleName
@@ -3142,7 +3142,7 @@ extension ConfigService {
         public let organizationConfigRuleName: String
         public let organizationCustomRuleMetadata: OrganizationCustomRuleMetadata?
         public let organizationManagedRuleMetadata: OrganizationManagedRuleMetadata?
-
+        
         public init(excludedAccounts: [String]? = nil, lastUpdateTime: TimeStamp? = nil, organizationConfigRuleArn: String, organizationConfigRuleName: String, organizationCustomRuleMetadata: OrganizationCustomRuleMetadata? = nil, organizationManagedRuleMetadata: OrganizationManagedRuleMetadata? = nil) {
             self.excludedAccounts = excludedAccounts
             self.lastUpdateTime = lastUpdateTime
@@ -3175,7 +3175,7 @@ extension ConfigService {
         public let lastUpdateTime: TimeStamp?
         public let organizationConfigRuleName: String
         public let organizationRuleStatus: OrganizationRuleStatus
-
+        
         public init(errorCode: String? = nil, errorMessage: String? = nil, lastUpdateTime: TimeStamp? = nil, organizationConfigRuleName: String, organizationRuleStatus: OrganizationRuleStatus) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -3221,7 +3221,7 @@ extension ConfigService {
         public let resourceTypesScope: [String]?
         public let tagKeyScope: String?
         public let tagValueScope: String?
-
+        
         public init(description: String? = nil, inputParameters: String? = nil, lambdaFunctionArn: String, maximumExecutionFrequency: MaximumExecutionFrequency? = nil, organizationConfigRuleTriggerTypes: [OrganizationConfigRuleTriggerType], resourceIdScope: String? = nil, resourceTypesScope: [String]? = nil, tagKeyScope: String? = nil, tagValueScope: String? = nil) {
             self.description = description
             self.inputParameters = inputParameters
@@ -3266,7 +3266,7 @@ extension ConfigService {
         public let ruleIdentifier: String
         public let tagKeyScope: String?
         public let tagValueScope: String?
-
+        
         public init(description: String? = nil, inputParameters: String? = nil, maximumExecutionFrequency: MaximumExecutionFrequency? = nil, resourceIdScope: String? = nil, resourceTypesScope: [String]? = nil, ruleIdentifier: String, tagKeyScope: String? = nil, tagValueScope: String? = nil) {
             self.description = description
             self.inputParameters = inputParameters
@@ -3519,7 +3519,7 @@ extension ConfigService {
         public let organizationConfigRuleName: String
         public let organizationCustomRuleMetadata: OrganizationCustomRuleMetadata?
         public let organizationManagedRuleMetadata: OrganizationManagedRuleMetadata?
-
+        
         public init(excludedAccounts: [String]? = nil, organizationConfigRuleName: String, organizationCustomRuleMetadata: OrganizationCustomRuleMetadata? = nil, organizationManagedRuleMetadata: OrganizationManagedRuleMetadata? = nil) {
             self.excludedAccounts = excludedAccounts
             self.organizationConfigRuleName = organizationConfigRuleName
@@ -3540,7 +3540,7 @@ extension ConfigService {
             AWSShapeMember(label: "OrganizationConfigRuleArn", required: false, type: .string)
         ]
         public let organizationConfigRuleArn: String?
-
+        
         public init(organizationConfigRuleArn: String? = nil) {
             self.organizationConfigRuleArn = organizationConfigRuleArn
         }
@@ -4334,7 +4334,7 @@ extension ConfigService {
         ]
         public let accountId: String?
         public let memberAccountRuleStatus: MemberAccountRuleStatus?
-
+        
         public init(accountId: String? = nil, memberAccountRuleStatus: MemberAccountRuleStatus? = nil) {
             self.accountId = accountId
             self.memberAccountRuleStatus = memberAccountRuleStatus

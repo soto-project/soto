@@ -929,7 +929,7 @@ extension CostExplorer {
         public let predictionIntervalLevel: Int32?
         /// The start and end dates of the period that you want to retrieve usage forecast for. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
         public let timePeriod: DateInterval
-
+        
         public init(filter: Expression? = nil, granularity: Granularity, metric: Metric, predictionIntervalLevel: Int32? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.granularity = granularity
@@ -956,7 +956,7 @@ extension CostExplorer {
         public let forecastResultsByTime: [ForecastResult]?
         /// How much you're forecasted to use over the forecast period.
         public let total: MetricValue?
-
+        
         public init(forecastResultsByTime: [ForecastResult]? = nil, total: MetricValue? = nil) {
             self.forecastResultsByTime = forecastResultsByTime
             self.total = total
