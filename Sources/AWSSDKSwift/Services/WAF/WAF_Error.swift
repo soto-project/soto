@@ -4,6 +4,7 @@ import AWSSDKSwiftCore
 
 /// Error enum for WAF
 public enum WAFErrorType: AWSErrorType {
+    case wAFBadRequestException(message: String?)
     case wAFDisallowedNameException(message: String?)
     case wAFInternalErrorException(message: String?)
     case wAFInvalidAccountException(message: String?)
@@ -19,6 +20,8 @@ public enum WAFErrorType: AWSErrorType {
     case wAFServiceLinkedRoleErrorException(message: String?)
     case wAFStaleDataException(message: String?)
     case wAFSubscriptionNotFoundException(message: String?)
+    case wAFTagOperationException(message: String?)
+    case wAFTagOperationInternalErrorException(message: String?)
 }
 
 extension WAFErrorType {
@@ -28,6 +31,8 @@ extension WAFErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "WAFBadRequestException":
+            self = .wAFBadRequestException(message: message)
         case "WAFDisallowedNameException":
             self = .wAFDisallowedNameException(message: message)
         case "WAFInternalErrorException":
@@ -58,6 +63,10 @@ extension WAFErrorType {
             self = .wAFStaleDataException(message: message)
         case "WAFSubscriptionNotFoundException":
             self = .wAFSubscriptionNotFoundException(message: message)
+        case "WAFTagOperationException":
+            self = .wAFTagOperationException(message: message)
+        case "WAFTagOperationInternalErrorException":
+            self = .wAFTagOperationInternalErrorException(message: message)
         default:
             return nil
         }

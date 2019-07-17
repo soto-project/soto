@@ -9,6 +9,7 @@ public enum SWFErrorType: AWSErrorType {
     case domainDeprecatedFault(message: String?)
     case limitExceededFault(message: String?)
     case operationNotPermittedFault(message: String?)
+    case tooManyTagsFault(message: String?)
     case typeAlreadyExistsFault(message: String?)
     case typeDeprecatedFault(message: String?)
     case unknownResourceFault(message: String?)
@@ -32,6 +33,8 @@ extension SWFErrorType {
             self = .limitExceededFault(message: message)
         case "OperationNotPermittedFault":
             self = .operationNotPermittedFault(message: message)
+        case "TooManyTagsFault":
+            self = .tooManyTagsFault(message: message)
         case "TypeAlreadyExistsFault":
             self = .typeAlreadyExistsFault(message: message)
         case "TypeDeprecatedFault":

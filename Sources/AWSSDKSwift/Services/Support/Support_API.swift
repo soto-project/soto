@@ -21,6 +21,8 @@ public struct Support {
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2013-04-15",
             endpoint: endpoint,
+            serviceEndpoints: ["aws-global": "support.us-east-1.amazonaws.com"],
+            partitionEndpoint: "aws-global",
             middlewares: [],
             possibleErrorTypes: [SupportErrorType.self]
         )

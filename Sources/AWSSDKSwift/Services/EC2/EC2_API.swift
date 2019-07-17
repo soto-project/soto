@@ -70,7 +70,7 @@ public struct EC2 {
     }
 
     ///  Assigns one or more secondary private IP addresses to the specified network interface. You can specify one or more specific secondary IP addresses, or you can specify the number of secondary IP addresses to be automatically assigned within the subnet's CIDR block range. The number of secondary IP addresses that you can assign to an instance varies by instance type. For information about instance types, see Instance Types in the Amazon Elastic Compute Cloud User Guide. For more information about Elastic IP addresses, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide. When you move a secondary private IP address to another network interface, any Elastic IP address that is associated with the IP address is also moved. Remapping an IP address is an asynchronous operation. When you move an IP address from one network interface to another, check network/interfaces/macs/mac/local-ipv4s in the instance metadata to confirm that the remapping is complete.
-    @discardableResult public func assignPrivateIpAddresses(_ input: AssignPrivateIpAddressesRequest) throws -> Future<Void> {
+    public func assignPrivateIpAddresses(_ input: AssignPrivateIpAddressesRequest) throws -> Future<AssignPrivateIpAddressesResult> {
         return try client.send(operation: "AssignPrivateIpAddresses", path: "/", httpMethod: "POST", input: input)
     }
 
@@ -874,7 +874,7 @@ public struct EC2 {
         return try client.send(operation: "DescribeInstanceStatus", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the specified instances or all of your instances. If you specify one or more instance IDs, Amazon EC2 returns information for those instances. If you do not specify instance IDs, Amazon EC2 returns information for all relevant instances. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the returned results. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally.
+    ///  Describes the specified instances or all of AWS account's instances. If you specify one or more instance IDs, Amazon EC2 returns information for those instances. If you do not specify instance IDs, Amazon EC2 returns information for all relevant instances. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the returned results. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally.
     public func describeInstances(_ input: DescribeInstancesRequest) throws -> Future<DescribeInstancesResult> {
         return try client.send(operation: "DescribeInstances", path: "/", httpMethod: "POST", input: input)
     }

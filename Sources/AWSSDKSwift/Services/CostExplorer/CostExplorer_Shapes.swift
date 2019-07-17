@@ -526,7 +526,7 @@ extension CostExplorer {
         public let filter: Expression?
         /// How granular you want the forecast to be. You can get 3 months of DAILY forecasts or 12 months of MONTHLY forecasts. The GetCostForecast operation supports only DAILY and MONTHLY granularities.
         public let granularity: Granularity
-        /// Which metric Cost Explorer uses to create your forecast. For more information about blended and unblended rates, see Why does the "blended" annotation appear on some line items in my bill?.  Valid values for a GetCostForecast call are the following:   AmortizedCost   BlendedCost   NetAmortizedCost   NetUnblendedCost   UnblendedCost  
+        /// Which metric Cost Explorer uses to create your forecast. For more information about blended and unblended rates, see Why does the "blended" annotation appear on some line items in my bill?.  Valid values for a GetCostForecast call are the following:   AMORTIZED_COST   BLENDED_COST   NET_AMORTIZED_COST   NET_UNBLENDED_COST   UNBLENDED_COST  
         public let metric: Metric
         /// Cost Explorer always returns the mean forecast as a single point. You can request a prediction interval around the mean by specifying a confidence level. The higher the confidence level, the more confident Cost Explorer is about the actual value falling in the prediction interval. Higher confidence levels result in wider prediction intervals.
         public let predictionIntervalLevel: Int32?
@@ -908,6 +908,63 @@ extension CostExplorer {
             case returnSize = "ReturnSize"
             case tags = "Tags"
             case totalSize = "TotalSize"
+        }
+    }
+
+    public struct GetUsageForecastRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "Granularity", required: true, type: .enum), 
+            AWSShapeMember(label: "Metric", required: true, type: .enum), 
+            AWSShapeMember(label: "PredictionIntervalLevel", required: false, type: .integer), 
+            AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
+        ]
+        /// The filters that you want to use to filter your forecast. Cost Explorer API supports all of the Cost Explorer filters.
+        public let filter: Expression?
+        /// How granular you want the forecast to be. You can get 3 months of DAILY forecasts or 12 months of MONTHLY forecasts. The GetUsageForecast operation supports only DAILY and MONTHLY granularities.
+        public let granularity: Granularity
+        /// Which metric Cost Explorer uses to create your forecast. Valid values for a GetUsageForecast call are the following:   USAGE_QUANTITY   NORMALIZED_USAGE_AMOUNT  
+        public let metric: Metric
+        /// Cost Explorer always returns the mean forecast as a single point. You can request a prediction interval around the mean by specifying a confidence level. The higher the confidence level, the more confident Cost Explorer is about the actual value falling in the prediction interval. Higher confidence levels result in wider prediction intervals.
+        public let predictionIntervalLevel: Int32?
+        /// The start and end dates of the period that you want to retrieve usage forecast for. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
+        public let timePeriod: DateInterval
+
+        public init(filter: Expression? = nil, granularity: Granularity, metric: Metric, predictionIntervalLevel: Int32? = nil, timePeriod: DateInterval) {
+            self.filter = filter
+            self.granularity = granularity
+            self.metric = metric
+            self.predictionIntervalLevel = predictionIntervalLevel
+            self.timePeriod = timePeriod
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case granularity = "Granularity"
+            case metric = "Metric"
+            case predictionIntervalLevel = "PredictionIntervalLevel"
+            case timePeriod = "TimePeriod"
+        }
+    }
+
+    public struct GetUsageForecastResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ForecastResultsByTime", required: false, type: .list), 
+            AWSShapeMember(label: "Total", required: false, type: .structure)
+        ]
+        /// The forecasts for your query, in order. For DAILY forecasts, this is a list of days. For MONTHLY forecasts, this is a list of months.
+        public let forecastResultsByTime: [ForecastResult]?
+        /// How much you're forecasted to use over the forecast period.
+        public let total: MetricValue?
+
+        public init(forecastResultsByTime: [ForecastResult]? = nil, total: MetricValue? = nil) {
+            self.forecastResultsByTime = forecastResultsByTime
+            self.total = total
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case forecastResultsByTime = "ForecastResultsByTime"
+            case total = "Total"
         }
     }
 

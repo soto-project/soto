@@ -148,6 +148,12 @@ extension GameLift {
         }
     }
 
+    public enum BackfillMode: String, CustomStringConvertible, Codable {
+        case automatic = "AUTOMATIC"
+        case manual = "MANUAL"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Build: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BuildId", required: false, type: .string), 
@@ -544,6 +550,7 @@ extension GameLift {
             AWSShapeMember(label: "AcceptanceRequired", required: true, type: .boolean), 
             AWSShapeMember(label: "AcceptanceTimeoutSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "AdditionalPlayerCount", required: false, type: .integer), 
+            AWSShapeMember(label: "BackfillMode", required: false, type: .enum), 
             AWSShapeMember(label: "CustomEventData", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "GameProperties", required: false, type: .list), 
@@ -554,13 +561,15 @@ extension GameLift {
             AWSShapeMember(label: "RequestTimeoutSeconds", required: true, type: .integer), 
             AWSShapeMember(label: "RuleSetName", required: true, type: .string)
         ]
-        /// Flag that determines whether or not a match that was created with this configuration must be accepted by the matched players. To require acceptance, set to TRUE.
+        /// Flag that determines whether a match that was created with this configuration must be accepted by the matched players. To require acceptance, set to TRUE.
         public let acceptanceRequired: Bool
         /// Length of time (in seconds) to wait for players to accept a proposed match. If any player rejects the match or fails to accept before the timeout, the ticket continues to look for an acceptable match.
         public let acceptanceTimeoutSeconds: Int32?
         /// Number of player slots in a match to keep open for future players. For example, if the configuration's rule set specifies a match for a single 12-person team, and the additional player count is set to 2, only 10 players are selected for the match.
         public let additionalPlayerCount: Int32?
-        /// Information to attached to all events related to the matchmaking configuration. 
+        /// Method used to backfill game sessions created with this matchmaking configuration. Specify MANUAL when your game manages backfill requests manually or does not use the match backfill feature. Specify AUTOMATIC to have GameLift create a StartMatchBackfill request whenever a game session has one or more open slots. Learn more about manual and automatic backfill in  Backfill Existing Games with FlexMatch. 
+        public let backfillMode: BackfillMode?
+        /// Information to be added to all events related to this matchmaking configuration. 
         public let customEventData: String?
         /// Meaningful description of the matchmaking configuration. 
         public let description: String?
@@ -568,21 +577,22 @@ extension GameLift {
         public let gameProperties: [GameProperty]?
         /// Set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match.
         public let gameSessionData: String?
-        /// Amazon Resource Name (ARN) that is assigned to a game session queue and uniquely identifies it. Format is arn:aws:gamelift:&lt;region&gt;::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912. These queues are used when placing game sessions for matches that are created with this matchmaking configuration. Queues can be located in any region.
+        /// Amazon Resource Name (ARN) that is assigned to a game session queue and uniquely identifies it. Format is arn:aws:gamelift:&lt;region&gt;:&lt;aws account&gt;:gamesessionqueue/&lt;queue name&gt;. These queues are used when placing game sessions for matches that are created with this matchmaking configuration. Queues can be located in any region.
         public let gameSessionQueueArns: [String]
         /// Unique identifier for a matchmaking configuration. This name is used to identify the configuration associated with a matchmaking request or ticket.
         public let name: String
         /// SNS topic ARN that is set up to receive matchmaking notifications.
         public let notificationTarget: String?
-        /// Maximum duration, in seconds, that a matchmaking ticket can remain in process before timing out. Requests that time out can be resubmitted as needed.
+        /// Maximum duration, in seconds, that a matchmaking ticket can remain in process before timing out. Requests that fail due to timing out can be resubmitted as needed.
         public let requestTimeoutSeconds: Int32
         /// Unique identifier for a matchmaking rule set to use with this configuration. A matchmaking configuration can only use rule sets that are defined in the same region.
         public let ruleSetName: String
         
-        public init(acceptanceRequired: Bool, acceptanceTimeoutSeconds: Int32? = nil, additionalPlayerCount: Int32? = nil, customEventData: String? = nil, description: String? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionQueueArns: [String], name: String, notificationTarget: String? = nil, requestTimeoutSeconds: Int32, ruleSetName: String) {
+        public init(acceptanceRequired: Bool, acceptanceTimeoutSeconds: Int32? = nil, additionalPlayerCount: Int32? = nil, backfillMode: BackfillMode? = nil, customEventData: String? = nil, description: String? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionQueueArns: [String], name: String, notificationTarget: String? = nil, requestTimeoutSeconds: Int32, ruleSetName: String) {
             self.acceptanceRequired = acceptanceRequired
             self.acceptanceTimeoutSeconds = acceptanceTimeoutSeconds
             self.additionalPlayerCount = additionalPlayerCount
+            self.backfillMode = backfillMode
             self.customEventData = customEventData
             self.description = description
             self.gameProperties = gameProperties
@@ -598,6 +608,7 @@ extension GameLift {
             case acceptanceRequired = "AcceptanceRequired"
             case acceptanceTimeoutSeconds = "AcceptanceTimeoutSeconds"
             case additionalPlayerCount = "AdditionalPlayerCount"
+            case backfillMode = "BackfillMode"
             case customEventData = "CustomEventData"
             case description = "Description"
             case gameProperties = "GameProperties"
@@ -633,7 +644,7 @@ extension GameLift {
         ]
         /// Unique identifier for a matchmaking rule set. A matchmaking configuration identifies the rule set it uses by this name value. (Note: The rule set name is different from the optional "name" field in the rule set body.) 
         public let name: String
-        /// Collection of matchmaking rules, formatted as a JSON string. Note that comments are not allowed in JSON, but most elements support a description field.
+        /// Collection of matchmaking rules, formatted as a JSON string. Comments are not allowed in JSON, but most elements support a description field.
         public let ruleSetBody: String
         
         public init(name: String, ruleSetBody: String) {
@@ -2710,7 +2721,7 @@ extension GameLift {
         ]
         /// List of fleets that can be used to fulfill game session placement requests in the queue. Fleets are identified by either a fleet ARN or a fleet alias ARN. Destinations are listed in default preference order.
         public let destinations: [GameSessionQueueDestination]?
-        /// Amazon Resource Name (ARN) that is assigned to a game session queue and uniquely identifies it. Format is arn:aws:gamelift:&lt;region&gt;::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
+        /// Amazon Resource Name (ARN) that is assigned to a game session queue and uniquely identifies it. Format is arn:aws:gamelift:&lt;region&gt;:&lt;aws account&gt;:gamesessionqueue/&lt;queue name&gt;.
         public let gameSessionQueueArn: String?
         /// Descriptive label that is associated with game session queue. Queue names must be unique within each region.
         public let name: String?
@@ -3201,6 +3212,7 @@ extension GameLift {
             AWSShapeMember(label: "AcceptanceRequired", required: false, type: .boolean), 
             AWSShapeMember(label: "AcceptanceTimeoutSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "AdditionalPlayerCount", required: false, type: .integer), 
+            AWSShapeMember(label: "BackfillMode", required: false, type: .enum), 
             AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "CustomEventData", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
@@ -3212,15 +3224,17 @@ extension GameLift {
             AWSShapeMember(label: "RequestTimeoutSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "RuleSetName", required: false, type: .string)
         ]
-        /// Flag that determines whether or not a match that was created with this configuration must be accepted by the matched players. To require acceptance, set to TRUE.
+        /// Flag that determines whether a match that was created with this configuration must be accepted by the matched players. To require acceptance, set to TRUE.
         public let acceptanceRequired: Bool?
         /// Length of time (in seconds) to wait for players to accept a proposed match. If any player rejects the match or fails to accept before the timeout, the ticket continues to look for an acceptable match.
         public let acceptanceTimeoutSeconds: Int32?
         /// Number of player slots in a match to keep open for future players. For example, if the configuration's rule set specifies a match for a single 12-person team, and the additional player count is set to 2, only 10 players are selected for the match.
         public let additionalPlayerCount: Int32?
+        /// Method used to backfill game sessions created with this matchmaking configuration. MANUAL indicates that the game makes backfill requests or does not use the match backfill feature. AUTOMATIC indicates that GameLift creates StartMatchBackfill requests whenever a game session has one or more open slots. Learn more about manual and automatic backfill in Backfill Existing Games with FlexMatch.
+        public let backfillMode: BackfillMode?
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: TimeStamp?
-        /// Information to attached to all events related to the matchmaking configuration. 
+        /// Information to attach to all events related to the matchmaking configuration. 
         public let customEventData: String?
         /// Descriptive label that is associated with matchmaking configuration.
         public let description: String?
@@ -3228,21 +3242,22 @@ extension GameLift {
         public let gameProperties: [GameProperty]?
         /// Set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. 
         public let gameSessionData: String?
-        /// Amazon Resource Name (ARN) that is assigned to a game session queue and uniquely identifies it. Format is arn:aws:gamelift:&lt;region&gt;::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912. These queues are used when placing game sessions for matches that are created with this matchmaking configuration. Queues can be located in any region.
+        /// Amazon Resource Name (ARN) that is assigned to a game session queue and uniquely identifies it. Format is arn:aws:gamelift:&lt;region&gt;:&lt;aws account&gt;:gamesessionqueue/&lt;queue name&gt;. These queues are used when placing game sessions for matches that are created with this matchmaking configuration. Queues can be located in any region.
         public let gameSessionQueueArns: [String]?
         /// Unique identifier for a matchmaking configuration. This name is used to identify the configuration associated with a matchmaking request or ticket.
         public let name: String?
         /// SNS topic ARN that is set up to receive matchmaking notifications.
         public let notificationTarget: String?
-        /// Maximum duration, in seconds, that a matchmaking ticket can remain in process before timing out. Requests that time out can be resubmitted as needed.
+        /// Maximum duration, in seconds, that a matchmaking ticket can remain in process before timing out. Requests that fail due to timing out can be resubmitted as needed.
         public let requestTimeoutSeconds: Int32?
         /// Unique identifier for a matchmaking rule set to use with this configuration. A matchmaking configuration can only use rule sets that are defined in the same region.
         public let ruleSetName: String?
         
-        public init(acceptanceRequired: Bool? = nil, acceptanceTimeoutSeconds: Int32? = nil, additionalPlayerCount: Int32? = nil, creationTime: TimeStamp? = nil, customEventData: String? = nil, description: String? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionQueueArns: [String]? = nil, name: String? = nil, notificationTarget: String? = nil, requestTimeoutSeconds: Int32? = nil, ruleSetName: String? = nil) {
+        public init(acceptanceRequired: Bool? = nil, acceptanceTimeoutSeconds: Int32? = nil, additionalPlayerCount: Int32? = nil, backfillMode: BackfillMode? = nil, creationTime: TimeStamp? = nil, customEventData: String? = nil, description: String? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionQueueArns: [String]? = nil, name: String? = nil, notificationTarget: String? = nil, requestTimeoutSeconds: Int32? = nil, ruleSetName: String? = nil) {
             self.acceptanceRequired = acceptanceRequired
             self.acceptanceTimeoutSeconds = acceptanceTimeoutSeconds
             self.additionalPlayerCount = additionalPlayerCount
+            self.backfillMode = backfillMode
             self.creationTime = creationTime
             self.customEventData = customEventData
             self.description = description
@@ -3259,6 +3274,7 @@ extension GameLift {
             case acceptanceRequired = "AcceptanceRequired"
             case acceptanceTimeoutSeconds = "AcceptanceTimeoutSeconds"
             case additionalPlayerCount = "AdditionalPlayerCount"
+            case backfillMode = "BackfillMode"
             case creationTime = "CreationTime"
             case customEventData = "CustomEventData"
             case description = "Description"
@@ -3292,7 +3308,7 @@ extension GameLift {
         ]
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: TimeStamp?
-        /// Collection of matchmaking rules, formatted as a JSON string. (Note that comments14 are not allowed in JSON, but most elements support a description field.)
+        /// Collection of matchmaking rules, formatted as a JSON string. Comments are not allowed in JSON, but most elements support a description field.
         public let ruleSetBody: String
         /// Unique identifier for a matchmaking rule set
         public let ruleSetName: String?
@@ -3335,7 +3351,7 @@ extension GameLift {
         public let players: [Player]?
         /// Time stamp indicating when this matchmaking request was received. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let startTime: TimeStamp?
-        /// Current status of the matchmaking request.    QUEUED -- The matchmaking request has been received and is currently waiting to be processed.    SEARCHING -- The matchmaking request is currently being processed.     REQUIRES_ACCEPTANCE -- A match has been proposed and the players must accept the match (see AcceptMatch). This status is used only with requests that use a matchmaking configuration with a player acceptance requirement.    PLACING -- The FlexMatch engine has matched players and is in the process of placing a new game session for the match.    COMPLETED -- Players have been matched and a game session is ready to host the players. A ticket in this state contains the necessary connection information for players.    FAILED -- The matchmaking request was not completed. Tickets with players who fail to accept a proposed match are placed in FAILED status.    CANCELLED -- The matchmaking request was canceled with a call to StopMatchmaking.    TIMED_OUT -- The matchmaking request was not successful within the duration specified in the matchmaking configuration.     Matchmaking requests that fail to successfully complete (statuses FAILED, CANCELLED, TIMED_OUT) can be resubmitted as new requests with new ticket IDs. 
+        /// Current status of the matchmaking request.    QUEUED -- The matchmaking request has been received and is currently waiting to be processed.    SEARCHING -- The matchmaking request is currently being processed.     REQUIRES_ACCEPTANCE -- A match has been proposed and the players must accept the match (see AcceptMatch). This status is used only with requests that use a matchmaking configuration with a player acceptance requirement.    PLACING -- The FlexMatch engine has matched players and is in the process of placing a new game session for the match.    COMPLETED -- Players have been matched and a game session is ready to host the players. A ticket in this state contains the necessary connection information for players.    FAILED -- The matchmaking request was not completed.    CANCELLED -- The matchmaking request was canceled. This may be the result of a call to StopMatchmaking or a proposed match that one or more players failed to accept.    TIMED_OUT -- The matchmaking request was not successful within the duration specified in the matchmaking configuration.     Matchmaking requests that fail to successfully complete (statuses FAILED, CANCELLED, TIMED_OUT) can be resubmitted as new requests with new ticket IDs. 
         public let status: MatchmakingConfigurationStatus?
         /// Additional information about the current status.
         public let statusMessage: String?
@@ -4671,6 +4687,7 @@ extension GameLift {
             AWSShapeMember(label: "AcceptanceRequired", required: false, type: .boolean), 
             AWSShapeMember(label: "AcceptanceTimeoutSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "AdditionalPlayerCount", required: false, type: .integer), 
+            AWSShapeMember(label: "BackfillMode", required: false, type: .enum), 
             AWSShapeMember(label: "CustomEventData", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "GameProperties", required: false, type: .list), 
@@ -4681,13 +4698,15 @@ extension GameLift {
             AWSShapeMember(label: "RequestTimeoutSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "RuleSetName", required: false, type: .string)
         ]
-        /// Flag that determines whether or not a match that was created with this configuration must be accepted by the matched players. To require acceptance, set to TRUE.
+        /// Flag that determines whether a match that was created with this configuration must be accepted by the matched players. To require acceptance, set to TRUE.
         public let acceptanceRequired: Bool?
         /// Length of time (in seconds) to wait for players to accept a proposed match. If any player rejects the match or fails to accept before the timeout, the ticket continues to look for an acceptable match.
         public let acceptanceTimeoutSeconds: Int32?
         /// Number of player slots in a match to keep open for future players. For example, if the configuration's rule set specifies a match for a single 12-person team, and the additional player count is set to 2, only 10 players are selected for the match.
         public let additionalPlayerCount: Int32?
-        /// Information to attached to all events related to the matchmaking configuration. 
+        /// Method used to backfill game sessions created with this matchmaking configuration. Specify MANUAL when your game manages backfill requests manually or does not use the match backfill feature. Specify AUTOMATIC to have GameLift create a StartMatchBackfill request whenever a game session has one or more open slots. Learn more about manual and automatic backfill in Backfill Existing Games with FlexMatch.
+        public let backfillMode: BackfillMode?
+        /// Information to add to all events related to the matchmaking configuration. 
         public let customEventData: String?
         /// Descriptive label that is associated with matchmaking configuration.
         public let description: String?
@@ -4695,21 +4714,22 @@ extension GameLift {
         public let gameProperties: [GameProperty]?
         /// Set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. 
         public let gameSessionData: String?
-        /// Amazon Resource Name (ARN) that is assigned to a game session queue and uniquely identifies it. Format is arn:aws:gamelift:&lt;region&gt;::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912. These queues are used when placing game sessions for matches that are created with this matchmaking configuration. Queues can be located in any region.
+        /// Amazon Resource Name (ARN) that is assigned to a game session queue and uniquely identifies it. Format is arn:aws:gamelift:&lt;region&gt;:&lt;aws account&gt;:gamesessionqueue/&lt;queue name&gt;. These queues are used when placing game sessions for matches that are created with this matchmaking configuration. Queues can be located in any region.
         public let gameSessionQueueArns: [String]?
         /// Unique identifier for a matchmaking configuration to update.
         public let name: String
         /// SNS topic ARN that is set up to receive matchmaking notifications. See  Setting up Notifications for Matchmaking for more information.
         public let notificationTarget: String?
-        /// Maximum duration, in seconds, that a matchmaking ticket can remain in process before timing out. Requests that time out can be resubmitted as needed.
+        /// Maximum duration, in seconds, that a matchmaking ticket can remain in process before timing out. Requests that fail due to timing out can be resubmitted as needed.
         public let requestTimeoutSeconds: Int32?
         /// Unique identifier for a matchmaking rule set to use with this configuration. A matchmaking configuration can only use rule sets that are defined in the same region.
         public let ruleSetName: String?
         
-        public init(acceptanceRequired: Bool? = nil, acceptanceTimeoutSeconds: Int32? = nil, additionalPlayerCount: Int32? = nil, customEventData: String? = nil, description: String? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionQueueArns: [String]? = nil, name: String, notificationTarget: String? = nil, requestTimeoutSeconds: Int32? = nil, ruleSetName: String? = nil) {
+        public init(acceptanceRequired: Bool? = nil, acceptanceTimeoutSeconds: Int32? = nil, additionalPlayerCount: Int32? = nil, backfillMode: BackfillMode? = nil, customEventData: String? = nil, description: String? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionQueueArns: [String]? = nil, name: String, notificationTarget: String? = nil, requestTimeoutSeconds: Int32? = nil, ruleSetName: String? = nil) {
             self.acceptanceRequired = acceptanceRequired
             self.acceptanceTimeoutSeconds = acceptanceTimeoutSeconds
             self.additionalPlayerCount = additionalPlayerCount
+            self.backfillMode = backfillMode
             self.customEventData = customEventData
             self.description = description
             self.gameProperties = gameProperties
@@ -4725,6 +4745,7 @@ extension GameLift {
             case acceptanceRequired = "AcceptanceRequired"
             case acceptanceTimeoutSeconds = "AcceptanceTimeoutSeconds"
             case additionalPlayerCount = "AdditionalPlayerCount"
+            case backfillMode = "BackfillMode"
             case customEventData = "CustomEventData"
             case description = "Description"
             case gameProperties = "GameProperties"
@@ -4862,7 +4883,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Valid", required: false, type: .boolean)
         ]
-        /// Response indicating whether or not the rule set is valid.
+        /// Response indicating whether the rule set is valid.
         public let valid: Bool?
         
         public init(valid: Bool? = nil) {

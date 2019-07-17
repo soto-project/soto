@@ -11,6 +11,7 @@ extension KinesisVideo {
         case listFragments = "LIST_FRAGMENTS"
         case getMediaForFragmentList = "GET_MEDIA_FOR_FRAGMENT_LIST"
         case getHlsStreamingSessionUrl = "GET_HLS_STREAMING_SESSION_URL"
+        case getDashStreamingSessionUrl = "GET_DASH_STREAMING_SESSION_URL"
         public var description: String { return self.rawValue }
     }
 

@@ -111,11 +111,6 @@ public struct WorkSpaces {
         return try client.send(operation: "DescribeWorkspaceImages", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the snapshots for the specified WorkSpace.
-    public func describeWorkspaceSnapshots(_ input: DescribeWorkspaceSnapshotsRequest) throws -> Future<DescribeWorkspaceSnapshotsResult> {
-        return try client.send(operation: "DescribeWorkspaceSnapshots", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Describes the specified WorkSpaces. You can filter the results by using the bundle identifier, directory identifier, or owner, but you can specify only one filter at a time.
     public func describeWorkspaces(_ input: DescribeWorkspacesRequest) throws -> Future<DescribeWorkspacesResult> {
         return try client.send(operation: "DescribeWorkspaces", path: "/", httpMethod: "POST", input: input)
@@ -169,11 +164,6 @@ public struct WorkSpaces {
     ///  Rebuilds the specified WorkSpace. You cannot rebuild a WorkSpace unless its state is AVAILABLE, ERROR, or UNHEALTHY. Rebuilding a WorkSpace is a potentially destructive action that can result in the loss of data. For more information, see Rebuild a WorkSpace. This operation is asynchronous and returns before the WorkSpaces have been completely rebuilt.
     public func rebuildWorkspaces(_ input: RebuildWorkspacesRequest) throws -> Future<RebuildWorkspacesResult> {
         return try client.send(operation: "RebuildWorkspaces", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Restores the specified WorkSpace to its last known healthy state. You cannot restore a WorkSpace unless its state is  AVAILABLE, ERROR, or UNHEALTHY. Restoring a WorkSpace is a potentially destructive action that can result in the loss of data. For more information, see Restore a WorkSpace. This operation is asynchronous and returns before the WorkSpace is completely restored.
-    public func restoreWorkspace(_ input: RestoreWorkspaceRequest) throws -> Future<RestoreWorkspaceResult> {
-        return try client.send(operation: "RestoreWorkspace", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes one or more rules from the specified IP access control group.
