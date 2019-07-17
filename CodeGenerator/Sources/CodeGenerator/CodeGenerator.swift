@@ -178,18 +178,63 @@ extension ShapeType {
 }
 
 extension AWSService {
+    struct ErrorContext {
+        let `enum` : String
+        let string : String
+    }
+    
+    struct OperationContext {
+        let comment : [String.SubSequence]
+        let funcName : String
+        let inputShape : String?
+        let outputShape : String?
+        let name : String
+        let path : String
+        let httpMethod : String
+        let deprecated : String?
+    }
+    
+    struct EnumMemberContext {
+        let `case` : String
+        let string : String
+    }
+    
+    struct EnumContext {
+        let name : String
+        let values : [EnumMemberContext]
+    }
+    
+    struct MemberContext {
+        let name : String
+        let variable : String
+        let locationPath : String
+        let location : String?
+        let parameter : String
+        let required : Bool
+        let type : String
+        let typeEnum : String
+        let encoding : String?
+        let comment : [String.SubSequence]
+        var duplicate : Bool
+    }
+    
+    struct StructureContext {
+        let object : String
+        let name : String
+        let payload : String?
+        let namespace : String?
+        let members : [MemberContext]
+    }
+    
     /// Generate the context information for outputting the error enums
     func generateErrorContext() -> [String: Any] {
         var context : [String: Any] = [:]
         context["name"] = serviceName
         context["errorName"] = serviceErrorName
         
-        var errorContexts : [[String : Any]] = []
+        var errorContexts : [ErrorContext] = []
         for error in errorShapeNames {
-            var context : [String: Any] = [:]
-            context["enum"] = error.toSwiftVariableCase()
-            context["string"] = error
-            errorContexts.append(context)
+            errorContexts.append(ErrorContext(enum: error.toSwiftVariableCase(), string: error))
         }
         if errorContexts.count > 0 {
             context["errors"] = errorContexts
@@ -228,33 +273,28 @@ extension AWSService {
         }
 
         // Operations
-        var operationContexts : [[String : Any]] = []
+        var operationContexts : [OperationContext] = []
         for operation in operations {
-            var context : [String: Any] = [:]
-            context["comment"] = docJSON["operations"][operation.name].stringValue.tagStriped().split(separator: "\n")
-            context["funcName"] = operation.name.toSwiftVariableCase()
-            context["inputShape"] = operation.inputShape?.swiftTypeName
-            context["outputShape"] = operation.outputShape?.swiftTypeName
-            context["name"] = operation.name
-            context["path"] = operation.path
-            context["httpMethod"] = operation.httpMethod
-            context["deprecated"] = operation.deprecatedMessage
-            operationContexts.append(context)
+            operationContexts.append(OperationContext(
+                comment: docJSON["operations"][operation.name].stringValue.tagStriped().split(separator: "\n"),
+                funcName: operation.name.toSwiftVariableCase(),
+                inputShape: operation.inputShape?.swiftTypeName,
+                outputShape: operation.outputShape?.swiftTypeName,
+                name: operation.name,
+                path: operation.path,
+                httpMethod: operation.httpMethod,
+                deprecated: operation.deprecatedMessage))
         }
         context["operations"] = operationContexts
         return context
     }
     
     /// Generate the context information for outputting an enum
-    func generateEnumContext(_ shape: Shape, values: [String]) -> [String: Any] {
-        var context : [String: Any] = [:]
-        
-        context["name"] = shape.name.toSwiftClassCase().reservedwordEscaped()
+    func generateEnumContext(_ shape: Shape, values: [String]) -> EnumContext {
         
         // Operations
-        var valueContexts : [[String : Any]] = []
+        var valueContexts : [EnumMemberContext] = []
         for value in values {
-            var context : [String: Any] = [:]
             var key = value.lowercased()
                 .replacingOccurrences(of: ".", with: "_")
                 .replacingOccurrences(of: ":", with: "_")
@@ -267,51 +307,44 @@ extension AWSService {
             
             if Int(String(key[key.startIndex])) != nil { key = "_"+key }
             
-            let caseName = key.camelCased().reservedwordEscaped()
+            var caseName = key.camelCased().reservedwordEscaped()
             if caseName.allLetterIsNumeric() {
-                context["case"] = "\(shape.name.toSwiftVariableCase())\(caseName)"
-            } else {
-                context["case"] = caseName
+                caseName = "\(shape.name.toSwiftVariableCase())\(caseName)"
             }
-            context["string"] = value
-            valueContexts.append(context)
+            valueContexts.append(EnumMemberContext(case: caseName, string: value))
         }
-        context["values"] = valueContexts
-        return context
+
+        return EnumContext(
+            name: shape.name.toSwiftClassCase().reservedwordEscaped(),
+            values: valueContexts
+        )
     }
     
     /// Generate the context information for outputting a member variable
-    func generateMemberContext(_ member: Member, shape: Shape) -> [String: Any] {
-        var context : [String: Any] = [:]
-        context["name"] = member.name
-        context["variable"] = member.name.toSwiftVariableCase()
-        context["locationPath"] = member.location?.name ?? member.name
-        context["location"] = member.location?.enumStyleDescription()
-        context["parameter"] = member.name.toSwiftLabelCase()
-        context["required"] = member.required
-        context["type"] = member.shape.swiftTypeName + (member.required ? "" : "?")
-        context["typeEnum"] = "\(member.shape.type.memberShapeType)"
-        context["encoding"] = member.shapeEncoding?.enumStyleDescription()
-        if let comment = shapeDoc[shape.name]?[member.name] {
-            context["comment"] = comment.split(separator: "\n")
-        }
-        return context
+    func generateMemberContext(_ member: Member, shape: Shape) -> MemberContext {
+        return MemberContext(
+            name: member.name,
+            variable: member.name.toSwiftVariableCase(),
+            locationPath: member.location?.name ?? member.name,
+            location: member.location?.enumStyleDescription(),
+            parameter: member.name.toSwiftLabelCase(),
+            required: member.required,
+            type: member.shape.swiftTypeName + (member.required ? "" : "?"),
+            typeEnum: "\(member.shape.type.memberShapeType)",
+            encoding: member.shapeEncoding?.enumStyleDescription(),
+            comment: shapeDoc[shape.name]?[member.name]?.split(separator: "\n") ?? [],
+            duplicate: false
+        )
     }
     
     /// Generate the context for outputting a single AWSShape
-    func generateStructureContext(_ shape: Shape, type: StructureShape) -> [String: Any] {
-        var context : [String: Any] = [:]
+    func generateStructureContext(_ shape: Shape, type: StructureShape) -> StructureContext {
         let hasRecursiveOwnReference = type.members.contains(where: {
             return $0.shape.swiftTypeName == shape.swiftTypeName
                 || $0.shape.swiftTypeName == "[\(shape.swiftTypeName)]"
         })
         
-        context["object"] = hasRecursiveOwnReference ? "class" : "struct"
-        context["name"] = shape.swiftTypeName
-        context["payload"] = type.payload
-        context["namespace"] = type.xmlNamespace
-        
-        var memberContexts : [[String : Any]] = []
+        var memberContexts : [MemberContext] = []
         var usedLocationPath : [String] = []
         for member in type.members {
             var memberContext = generateMemberContext(member, shape: shape)
@@ -319,15 +352,20 @@ extension AWSService {
             // check for duplicates, this seems to be mainly caused by deprecated variables
             let locationPath = member.location?.name ?? member.name
             if usedLocationPath.contains(locationPath) {
-                memberContext["duplicate"] = true
+                memberContext.duplicate = true
             } else {
                 usedLocationPath.append(locationPath)
             }
 
             memberContexts.append(memberContext)
         }
-        context["members"] = memberContexts
-        return context
+
+        return StructureContext(
+            object: hasRecursiveOwnReference ? "class" : "struct",
+            name: shape.swiftTypeName,
+            payload: type.payload,
+            namespace: type.xmlNamespace,
+            members: memberContexts)
     }
     
     /// Generate the context for outputting all the AWSShape (enums and structures)

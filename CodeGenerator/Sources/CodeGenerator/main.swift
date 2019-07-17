@@ -4,7 +4,7 @@ import Dispatch
 import Stencil
 import PathKit
 
-
+let startTime = Date()
 let apis = try loadAPIJSONList()
 let docs = try loadDocJSONList()
 let endpoint = try loadEndpointJSON()
@@ -52,7 +52,7 @@ for index in 0..<apis.count {
                     encoding: .utf8
                 )
             }
-            print("Succesfully Generated \(service.serviceName) codes!")
+            print("Succesfully Generated \(service.serviceName)")
             group.leave()
         } catch {
             DispatchQueue.main.sync {
@@ -64,5 +64,5 @@ for index in 0..<apis.count {
 }
 
 group.wait()
-
+print("Code Generation took \(Int(-startTime.timeIntervalSinceNow)) seconds")
 print("Done.")
