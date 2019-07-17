@@ -40,7 +40,7 @@ extension Location {
         case "querystring":
             self = .querystring(locationName: name)
 
-        case "header":
+        case "header", "headers":
             self = .header(locationName: name)
 
         case  "body":
