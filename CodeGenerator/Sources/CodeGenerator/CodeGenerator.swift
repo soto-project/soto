@@ -8,7 +8,6 @@
 
 import Foundation
 import SwiftyJSON
-import AWSSDKSwiftCore
 
 extension Location {
     func enumStyleDescription() -> String {
@@ -131,48 +130,35 @@ extension Shape {
     }
 }
 
-extension String {
-    func allLetterIsNumeric() -> Bool {
-        for character in self {
-            if let ascii = character.unicodeScalars.first?.value, (0x30..<0x39).contains(ascii) {
-                continue
-            } else {
-                return false
-            }
-        }
-        return true
-    }
-}
-
 extension ShapeType {
-    var memberShapeType : AWSShapeMember.Shape {
+    var description : String {
         switch self {
         case .structure:
-            return .structure
+            return "structure"
         case .list:
-            return .list
+            return "list"
         case .map:
-            return .map
+            return "map"
         case .enum:
-            return .enum
+            return "enum"
         case .boolean:
-            return .boolean
+            return "boolean"
         case .blob:
-            return .blob
+            return "blob"
         case .double:
-            return .double
+            return "double"
         case .float:
-            return .float
+            return "float"
         case .long:
-            return .long
+            return "long"
         case .integer:
-            return .integer
+            return "integer"
         case .string:
-            return .string
+            return "string"
         case .timestamp:
-            return .timestamp
+            return "timestamp"
         case .unhandledType:
-            return .any
+            return "any"
         }
     }
 }
@@ -330,7 +316,7 @@ extension AWSService {
             parameter: member.name.toSwiftLabelCase(),
             required: member.required,
             type: member.shape.swiftTypeName + (member.required ? "" : "?"),
-            typeEnum: "\(member.shape.type.memberShapeType)",
+            typeEnum: "\(member.shape.type.description)",
             encoding: member.shapeEncoding?.enumStyleDescription(),
             comment: shapeDoc[shape.name]?[member.name]?.split(separator: "\n") ?? [],
             duplicate: false

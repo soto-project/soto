@@ -8,7 +8,6 @@
 
 import Foundation
 import SwiftyJSON
-import AWSSDKSwiftCore
 
 enum AWSServiceError: Error {
     case eventStreamingCodeGenerationsAreUnsupported
