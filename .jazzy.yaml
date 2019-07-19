@@ -33,6 +33,16 @@ custom_categories:
       - APIGateway
       - APIGatewayErrorType
 
+  - name: ApiGatewayManagementApi
+    children:
+      - ApiGatewayManagementApi
+      - ApiGatewayManagementApiErrorType
+
+  - name: ApiGatewayV2
+    children:
+      - ApiGatewayV2
+      - ApiGatewayV2ErrorType
+
   - name: ApplicationAutoScaling
     children:
       - ApplicationAutoScaling
@@ -42,6 +52,11 @@ custom_categories:
     children:
       - ApplicationDiscoveryService
       - ApplicationDiscoveryServiceErrorType
+
+  - name: ApplicationInsights
+    children:
+      - ApplicationInsights
+      - ApplicationInsightsErrorType
 
   - name: AppMesh
     children:
@@ -72,6 +87,16 @@ custom_categories:
     children:
       - AutoScalingPlans
       - AutoScalingPlansErrorType
+
+  - name: AWSBackup
+    children:
+      - AWSBackup
+      - AWSBackupErrorType
+
+  - name: AWSDirectoryService
+    children:
+      - AWSDirectoryService
+      - AWSDirectoryServiceErrorType
 
   - name: Batch
     children:
@@ -248,15 +273,15 @@ custom_categories:
       - DirectConnect
       - DirectConnectErrorType
 
-  - name: DirectoryService
-    children:
-      - DirectoryService
-      - DirectoryServiceErrorType
-
   - name: DLM
     children:
       - DLM
       - DLMErrorType
+
+  - name: DocDB
+    children:
+      - DocDB
+      - DocDBErrorType
 
   - name: DynamoDB
     children:
@@ -272,6 +297,11 @@ custom_categories:
     children:
       - EC2
       - EC2ErrorType
+
+  - name: EC2InstanceConnect
+    children:
+      - EC2InstanceConnect
+      - EC2InstanceConnectErrorType
 
   - name: ECR
     children:
@@ -368,6 +398,11 @@ custom_categories:
       - Greengrass
       - GreengrassErrorType
 
+  - name: GroundStation
+    children:
+      - GroundStation
+      - GroundStationErrorType
+
   - name: GuardDuty
     children:
       - GuardDuty
@@ -418,10 +453,25 @@ custom_categories:
       - IoTDataPlane
       - IoTDataPlaneErrorType
 
+  - name: IoTEvents
+    children:
+      - IoTEvents
+      - IoTEventsErrorType
+
+  - name: IoTEventsData
+    children:
+      - IoTEventsData
+      - IoTEventsDataErrorType
+
   - name: IoTJobsDataPlane
     children:
       - IoTJobsDataPlane
       - IoTJobsDataPlaneErrorType
+
+  - name: IoTThingsGraph
+    children:
+      - IoTThingsGraph
+      - IoTThingsGraphErrorType
 
   - name: Kafka
     children:
@@ -498,6 +548,11 @@ custom_categories:
       - Macie
       - MacieErrorType
 
+  - name: ManagedBlockchain
+    children:
+      - ManagedBlockchain
+      - ManagedBlockchainErrorType
+
   - name: MarketplaceCommerceAnalytics
     children:
       - MarketplaceCommerceAnalytics
@@ -532,6 +587,11 @@ custom_categories:
     children:
       - MediaPackage
       - MediaPackageErrorType
+
+  - name: MediaPackageVod
+    children:
+      - MediaPackageVod
+      - MediaPackageVodErrorType
 
   - name: MediaStore
     children:
@@ -592,6 +652,21 @@ custom_categories:
     children:
       - Organizations
       - OrganizationsErrorType
+
+  - name: Personalize
+    children:
+      - Personalize
+      - PersonalizeErrorType
+
+  - name: PersonalizeEvents
+    children:
+      - PersonalizeEvents
+      - PersonalizeEventsErrorType
+
+  - name: PersonalizeRuntime
+    children:
+      - PersonalizeRuntime
+      - PersonalizeRuntimeErrorType
 
   - name: PI
     children:
@@ -728,6 +803,11 @@ custom_categories:
       - ServiceDiscovery
       - ServiceDiscoveryErrorType
 
+  - name: ServiceQuotas
+    children:
+      - ServiceQuotas
+      - ServiceQuotasErrorType
+
   - name: SES
     children:
       - SES
@@ -798,6 +878,11 @@ custom_categories:
       - SWF
       - SWFErrorType
 
+  - name: Textract
+    children:
+      - Textract
+      - TextractErrorType
+
   - name: TranscribeService
     children:
       - TranscribeService
@@ -828,6 +913,11 @@ custom_categories:
       - WorkDocs
       - WorkDocsErrorType
 
+  - name: WorkLink
+    children:
+      - WorkLink
+      - WorkLinkErrorType
+
   - name: WorkMail
     children:
       - WorkMail
@@ -842,3 +932,4 @@ custom_categories:
     children:
       - XRay
       - XRayErrorType
+
