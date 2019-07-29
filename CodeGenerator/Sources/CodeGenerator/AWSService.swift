@@ -186,7 +186,9 @@ struct AWSService {
                 )
             }.sorted{ $0.name.lowercased() < $1.name.lowercased() }
 
-            let shape = StructureShape(members: members, payload: json["payload"].string)
+            let payloadMember = members.first(where:{$0.name == json["payload"].string})
+            let xmlNamespace = payloadMember?.xmlNamespace?.attributeMap["uri"] as? String
+            let shape = StructureShape(members: members, payload: json["payload"].string, xmlNamespace: xmlNamespace)
             type = .structure(shape)
 
         case "map":

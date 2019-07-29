@@ -569,6 +569,7 @@ extension S3 {
     public struct CompleteMultipartUploadRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "MultipartUpload"
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
@@ -998,6 +999,7 @@ extension S3 {
     public struct CreateBucketRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "CreateBucketConfiguration"
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ACL", location: .header(locationName: "x-amz-acl"), required: false, type: .enum), 
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
@@ -1676,6 +1678,7 @@ extension S3 {
     public struct DeleteObjectsRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "Delete"
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "BypassGovernanceRetention", location: .header(locationName: "x-amz-bypass-governance-retention"), required: false, type: .boolean), 
@@ -5346,6 +5349,7 @@ extension S3 {
     public struct PutBucketAccelerateConfigurationRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "AccelerateConfiguration"
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccelerateConfiguration", location: .body(locationName: "AccelerateConfiguration"), required: true, type: .structure), 
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
@@ -5369,6 +5373,7 @@ extension S3 {
     public struct PutBucketAclRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "AccessControlPolicy"
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccessControlPolicy", location: .body(locationName: "AccessControlPolicy"), required: false, type: .structure), 
             AWSShapeMember(label: "ACL", location: .header(locationName: "x-amz-acl"), required: false, type: .enum), 
@@ -5425,6 +5430,7 @@ extension S3 {
     public struct PutBucketAnalyticsConfigurationRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "AnalyticsConfiguration"
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AnalyticsConfiguration", location: .body(locationName: "AnalyticsConfiguration"), required: true, type: .structure), 
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
@@ -5453,6 +5459,7 @@ extension S3 {
     public struct PutBucketCorsRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "CORSConfiguration"
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
@@ -5478,6 +5485,7 @@ extension S3 {
     public struct PutBucketEncryptionRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "ServerSideEncryptionConfiguration"
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
@@ -5505,6 +5513,7 @@ extension S3 {
     public struct PutBucketInventoryConfigurationRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "InventoryConfiguration"
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string), 
@@ -5533,6 +5542,7 @@ extension S3 {
     public struct PutBucketLifecycleConfigurationRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "LifecycleConfiguration"
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "LifecycleConfiguration", location: .body(locationName: "LifecycleConfiguration"), required: false, type: .structure)
@@ -5554,6 +5564,7 @@ extension S3 {
     public struct PutBucketLifecycleRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "LifecycleConfiguration"
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
@@ -5579,6 +5590,7 @@ extension S3 {
     public struct PutBucketLoggingRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "BucketLoggingStatus"
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "BucketLoggingStatus", location: .body(locationName: "BucketLoggingStatus"), required: true, type: .structure), 
@@ -5604,6 +5616,7 @@ extension S3 {
     public struct PutBucketMetricsConfigurationRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "MetricsConfiguration"
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string), 
@@ -5632,6 +5645,7 @@ extension S3 {
     public struct PutBucketNotificationConfigurationRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "NotificationConfiguration"
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "NotificationConfiguration", location: .body(locationName: "NotificationConfiguration"), required: true, type: .structure)
@@ -5653,6 +5667,7 @@ extension S3 {
     public struct PutBucketNotificationRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "NotificationConfiguration"
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
@@ -5709,6 +5724,7 @@ extension S3 {
     public struct PutBucketReplicationRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "ReplicationConfiguration"
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
@@ -5740,6 +5756,7 @@ extension S3 {
     public struct PutBucketRequestPaymentRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "RequestPaymentConfiguration"
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
@@ -5765,6 +5782,7 @@ extension S3 {
     public struct PutBucketTaggingRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "Tagging"
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
@@ -5790,6 +5808,7 @@ extension S3 {
     public struct PutBucketVersioningRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "VersioningConfiguration"
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
@@ -5820,6 +5839,7 @@ extension S3 {
     public struct PutBucketWebsiteRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "WebsiteConfiguration"
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
@@ -5860,6 +5880,7 @@ extension S3 {
     public struct PutObjectAclRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "AccessControlPolicy"
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccessControlPolicy", location: .body(locationName: "AccessControlPolicy"), required: false, type: .structure), 
             AWSShapeMember(label: "ACL", location: .header(locationName: "x-amz-acl"), required: false, type: .enum), 
@@ -5944,6 +5965,7 @@ extension S3 {
     public struct PutObjectLegalHoldRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "LegalHold"
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
@@ -6001,6 +6023,7 @@ extension S3 {
     public struct PutObjectLockConfigurationRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "ObjectLockConfiguration"
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
@@ -6270,6 +6293,7 @@ extension S3 {
     public struct PutObjectRetentionRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "Retention"
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "BypassGovernanceRetention", location: .header(locationName: "x-amz-bypass-governance-retention"), required: false, type: .boolean), 
@@ -6332,6 +6356,7 @@ extension S3 {
     public struct PutObjectTaggingRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "Tagging"
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
@@ -6365,6 +6390,7 @@ extension S3 {
     public struct PutPublicAccessBlockRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "PublicAccessBlockConfiguration"
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
@@ -6709,6 +6735,7 @@ extension S3 {
     public struct RestoreObjectRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "RestoreRequest"
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 

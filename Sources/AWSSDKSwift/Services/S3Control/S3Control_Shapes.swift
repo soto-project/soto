@@ -638,6 +638,7 @@ extension S3Control {
     public struct PutPublicAccessBlockRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "PublicAccessBlockConfiguration"
+        public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string), 
             AWSShapeMember(label: "PublicAccessBlockConfiguration", location: .body(locationName: "PublicAccessBlockConfiguration"), required: true, type: .structure)
