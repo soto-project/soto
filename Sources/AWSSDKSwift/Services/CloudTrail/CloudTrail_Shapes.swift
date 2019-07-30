@@ -633,6 +633,11 @@ extension CloudTrail {
             self.startTime = startTime
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 50)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case endTime = "EndTime"
             case lookupAttributes = "LookupAttributes"

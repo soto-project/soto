@@ -678,6 +678,10 @@ extension APIGateway {
             self.restApiId = restApiId
         }
 
+        public func validate() throws {
+            try location.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case location = "location"
             case properties = "properties"
@@ -1323,6 +1327,10 @@ extension APIGateway {
             self.statusCode = statusCode
         }
 
+        public func validate() throws {
+            try validate(statusCode, name:"statusCode", pattern: "[1-5]\\d\\d")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case httpMethod = "http_method"
             case resourceId = "resource_id"
@@ -1378,6 +1386,10 @@ extension APIGateway {
             self.resourceId = resourceId
             self.restApiId = restApiId
             self.statusCode = statusCode
+        }
+
+        public func validate() throws {
+            try validate(statusCode, name:"statusCode", pattern: "[1-5]\\d\\d")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1637,6 +1649,10 @@ extension APIGateway {
             self.properties = properties
         }
 
+        public func validate() throws {
+            try location?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case id = "id"
             case location = "location"
@@ -1690,6 +1706,10 @@ extension APIGateway {
             self.path = path
             self.statusCode = statusCode
             self.`type` = `type`
+        }
+
+        public func validate() throws {
+            try validate(statusCode, name:"statusCode", pattern: "^([1-5]\\d\\d|\\*|\\s*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2014,6 +2034,10 @@ extension APIGateway {
             self.responseTemplates = responseTemplates
             self.responseType = responseType
             self.statusCode = statusCode
+        }
+
+        public func validate() throws {
+            try validate(statusCode, name:"statusCode", pattern: "[1-5]\\d\\d")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2621,6 +2645,10 @@ extension APIGateway {
             self.statusCode = statusCode
         }
 
+        public func validate() throws {
+            try validate(statusCode, name:"statusCode", pattern: "[1-5]\\d\\d")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case httpMethod = "http_method"
             case resourceId = "resource_id"
@@ -2676,6 +2704,10 @@ extension APIGateway {
             self.resourceId = resourceId
             self.restApiId = restApiId
             self.statusCode = statusCode
+        }
+
+        public func validate() throws {
+            try validate(statusCode, name:"statusCode", pattern: "[1-5]\\d\\d")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3405,6 +3437,10 @@ extension APIGateway {
             self.statusCode = statusCode
         }
 
+        public func validate() throws {
+            try validate(statusCode, name:"statusCode", pattern: "[1-5]\\d\\d")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case contentHandling = "contentHandling"
             case responseParameters = "responseParameters"
@@ -3512,6 +3548,10 @@ extension APIGateway {
             self.responseModels = responseModels
             self.responseParameters = responseParameters
             self.statusCode = statusCode
+        }
+
+        public func validate() throws {
+            try validate(statusCode, name:"statusCode", pattern: "[1-5]\\d\\d")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3727,6 +3767,10 @@ extension APIGateway {
             self.statusCode = statusCode
         }
 
+        public func validate() throws {
+            try validate(statusCode, name:"statusCode", pattern: "[1-5]\\d\\d")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case responseParameters = "responseParameters"
             case responseTemplates = "responseTemplates"
@@ -3866,6 +3910,10 @@ extension APIGateway {
             self.statusCode = statusCode
         }
 
+        public func validate() throws {
+            try validate(statusCode, name:"statusCode", pattern: "[1-5]\\d\\d")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case contentHandling = "contentHandling"
             case httpMethod = "http_method"
@@ -3973,6 +4021,10 @@ extension APIGateway {
             self.responseParameters = responseParameters
             self.restApiId = restApiId
             self.statusCode = statusCode
+        }
+
+        public func validate() throws {
+            try validate(statusCode, name:"statusCode", pattern: "[1-5]\\d\\d")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5102,6 +5154,10 @@ extension APIGateway {
             self.statusCode = statusCode
         }
 
+        public func validate() throws {
+            try validate(statusCode, name:"statusCode", pattern: "[1-5]\\d\\d")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case httpMethod = "http_method"
             case patchOperations = "patchOperations"
@@ -5167,6 +5223,10 @@ extension APIGateway {
             self.resourceId = resourceId
             self.restApiId = restApiId
             self.statusCode = statusCode
+        }
+
+        public func validate() throws {
+            try validate(statusCode, name:"statusCode", pattern: "[1-5]\\d\\d")
         }
 
         private enum CodingKeys: String, CodingKey {

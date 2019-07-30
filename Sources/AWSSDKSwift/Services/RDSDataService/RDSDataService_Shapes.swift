@@ -44,6 +44,15 @@ extension RDSDataService {
             self.transactionId = transactionId
         }
 
+        public func validate() throws {
+            try validate(database, name:"database", max: 64)
+            try validate(resourceArn, name:"resourceArn", max: 100)
+            try validate(schema, name:"schema", max: 64)
+            try validate(secretArn, name:"secretArn", max: 100)
+            try validate(sql, name:"sql", max: 65536)
+            try validate(transactionId, name:"transactionId", max: 192)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case database = "database"
             case parameterSets = "parameterSets"
@@ -94,6 +103,13 @@ extension RDSDataService {
             self.secretArn = secretArn
         }
 
+        public func validate() throws {
+            try validate(database, name:"database", max: 64)
+            try validate(resourceArn, name:"resourceArn", max: 100)
+            try validate(schema, name:"schema", max: 64)
+            try validate(secretArn, name:"secretArn", max: 100)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case database = "database"
             case resourceArn = "resourceArn"
@@ -111,6 +127,10 @@ extension RDSDataService {
         
         public init(transactionId: String? = nil) {
             self.transactionId = transactionId
+        }
+
+        public func validate() throws {
+            try validate(transactionId, name:"transactionId", max: 192)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -218,6 +238,12 @@ extension RDSDataService {
             self.transactionId = transactionId
         }
 
+        public func validate() throws {
+            try validate(resourceArn, name:"resourceArn", max: 100)
+            try validate(secretArn, name:"secretArn", max: 100)
+            try validate(transactionId, name:"transactionId", max: 192)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "resourceArn"
             case secretArn = "secretArn"
@@ -234,6 +260,10 @@ extension RDSDataService {
         
         public init(transactionStatus: String? = nil) {
             self.transactionStatus = transactionStatus
+        }
+
+        public func validate() throws {
+            try validate(transactionStatus, name:"transactionStatus", max: 128)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -269,6 +299,14 @@ extension RDSDataService {
             self.dbClusterOrInstanceArn = dbClusterOrInstanceArn
             self.schema = schema
             self.sqlStatements = sqlStatements
+        }
+
+        public func validate() throws {
+            try validate(awsSecretStoreArn, name:"awsSecretStoreArn", max: 100)
+            try validate(database, name:"database", max: 64)
+            try validate(dbClusterOrInstanceArn, name:"dbClusterOrInstanceArn", max: 100)
+            try validate(schema, name:"schema", max: 64)
+            try validate(sqlStatements, name:"sqlStatements", max: 65536)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -347,6 +385,15 @@ extension RDSDataService {
             self.secretArn = secretArn
             self.sql = sql
             self.transactionId = transactionId
+        }
+
+        public func validate() throws {
+            try validate(database, name:"database", max: 64)
+            try validate(resourceArn, name:"resourceArn", max: 100)
+            try validate(schema, name:"schema", max: 64)
+            try validate(secretArn, name:"secretArn", max: 100)
+            try validate(sql, name:"sql", max: 65536)
+            try validate(transactionId, name:"transactionId", max: 192)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -511,6 +558,12 @@ extension RDSDataService {
             self.transactionId = transactionId
         }
 
+        public func validate() throws {
+            try validate(resourceArn, name:"resourceArn", max: 100)
+            try validate(secretArn, name:"secretArn", max: 100)
+            try validate(transactionId, name:"transactionId", max: 192)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "resourceArn"
             case secretArn = "secretArn"
@@ -527,6 +580,10 @@ extension RDSDataService {
         
         public init(transactionStatus: String? = nil) {
             self.transactionStatus = transactionStatus
+        }
+
+        public func validate() throws {
+            try validate(transactionStatus, name:"transactionStatus", max: 128)
         }
 
         private enum CodingKeys: String, CodingKey {

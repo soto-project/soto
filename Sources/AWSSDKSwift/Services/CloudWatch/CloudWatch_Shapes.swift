@@ -32,6 +32,15 @@ extension CloudWatch {
             self.timestamp = timestamp
         }
 
+        public func validate() throws {
+            try validate(alarmName, name:"alarmName", max: 255)
+            try validate(alarmName, name:"alarmName", min: 1)
+            try validate(historyData, name:"historyData", max: 4095)
+            try validate(historyData, name:"historyData", min: 1)
+            try validate(historySummary, name:"historySummary", max: 255)
+            try validate(historySummary, name:"historySummary", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case alarmName = "AlarmName"
             case historyData = "HistoryData"
@@ -66,6 +75,14 @@ extension CloudWatch {
             self.metricName = metricName
             self.namespace = namespace
             self.stat = stat
+        }
+
+        public func validate() throws {
+            try validate(metricName, name:"metricName", max: 255)
+            try validate(metricName, name:"metricName", min: 1)
+            try validate(namespace, name:"namespace", max: 255)
+            try validate(namespace, name:"namespace", min: 1)
+            try validate(namespace, name:"namespace", pattern: "[^:].*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -251,6 +268,14 @@ extension CloudWatch {
             self.stat = stat
         }
 
+        public func validate() throws {
+            try validate(metricName, name:"metricName", max: 255)
+            try validate(metricName, name:"metricName", min: 1)
+            try validate(namespace, name:"namespace", max: 255)
+            try validate(namespace, name:"namespace", min: 1)
+            try validate(namespace, name:"namespace", pattern: "[^:].*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dimensions = "Dimensions"
             case metricName = "MetricName"
@@ -322,6 +347,13 @@ extension CloudWatch {
             self.startDate = startDate
         }
 
+        public func validate() throws {
+            try validate(alarmName, name:"alarmName", max: 255)
+            try validate(alarmName, name:"alarmName", min: 1)
+            try validate(maxRecords, name:"maxRecords", max: 100)
+            try validate(maxRecords, name:"maxRecords", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case alarmName = "AlarmName"
             case endDate = "EndDate"
@@ -388,6 +420,16 @@ extension CloudWatch {
             self.unit = unit
         }
 
+        public func validate() throws {
+            try validate(extendedStatistic, name:"extendedStatistic", pattern: "p(\\d{1,2}(\\.\\d{0,2})?|100)")
+            try validate(metricName, name:"metricName", max: 255)
+            try validate(metricName, name:"metricName", min: 1)
+            try validate(namespace, name:"namespace", max: 255)
+            try validate(namespace, name:"namespace", min: 1)
+            try validate(namespace, name:"namespace", pattern: "[^:].*")
+            try validate(period, name:"period", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dimensions = "Dimensions"
             case extendedStatistic = "ExtendedStatistic"
@@ -444,6 +486,15 @@ extension CloudWatch {
             self.maxRecords = maxRecords
             self.nextToken = nextToken
             self.stateValue = stateValue
+        }
+
+        public func validate() throws {
+            try validate(actionPrefix, name:"actionPrefix", max: 1024)
+            try validate(actionPrefix, name:"actionPrefix", min: 1)
+            try validate(alarmNamePrefix, name:"alarmNamePrefix", max: 255)
+            try validate(alarmNamePrefix, name:"alarmNamePrefix", min: 1)
+            try validate(maxRecords, name:"maxRecords", max: 100)
+            try validate(maxRecords, name:"maxRecords", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -504,6 +555,15 @@ extension CloudWatch {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(metricName, name:"metricName", max: 255)
+            try validate(metricName, name:"metricName", min: 1)
+            try validate(namespace, name:"namespace", max: 255)
+            try validate(namespace, name:"namespace", min: 1)
+            try validate(namespace, name:"namespace", pattern: "[^:].*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dimensions = "Dimensions"
             case maxResults = "MaxResults"
@@ -549,6 +609,13 @@ extension CloudWatch {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(name, name:"name", max: 255)
+            try validate(name, name:"name", min: 1)
+            try validate(value, name:"value", max: 255)
+            try validate(value, name:"value", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case value = "Value"
@@ -568,6 +635,13 @@ extension CloudWatch {
         public init(name: String, value: String? = nil) {
             self.name = name
             self.value = value
+        }
+
+        public func validate() throws {
+            try validate(name, name:"name", max: 255)
+            try validate(name, name:"name", min: 1)
+            try validate(value, name:"value", max: 255)
+            try validate(value, name:"value", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -760,6 +834,15 @@ extension CloudWatch {
             self.unit = unit
         }
 
+        public func validate() throws {
+            try validate(metricName, name:"metricName", max: 255)
+            try validate(metricName, name:"metricName", min: 1)
+            try validate(namespace, name:"namespace", max: 255)
+            try validate(namespace, name:"namespace", min: 1)
+            try validate(namespace, name:"namespace", pattern: "[^:].*")
+            try validate(period, name:"period", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dimensions = "Dimensions"
             case endTime = "EndTime"
@@ -903,6 +986,14 @@ extension CloudWatch {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(metricName, name:"metricName", max: 255)
+            try validate(metricName, name:"metricName", min: 1)
+            try validate(namespace, name:"namespace", max: 255)
+            try validate(namespace, name:"namespace", min: 1)
+            try validate(namespace, name:"namespace", pattern: "[^:].*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dimensions = "Dimensions"
             case metricName = "MetricName"
@@ -941,6 +1032,11 @@ extension CloudWatch {
         
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
+        }
+
+        public func validate() throws {
+            try validate(resourceARN, name:"resourceARN", max: 1024)
+            try validate(resourceARN, name:"resourceARN", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1002,6 +1098,14 @@ extension CloudWatch {
             self.dimensions = dimensions
             self.metricName = metricName
             self.namespace = namespace
+        }
+
+        public func validate() throws {
+            try validate(metricName, name:"metricName", max: 255)
+            try validate(metricName, name:"metricName", min: 1)
+            try validate(namespace, name:"namespace", max: 255)
+            try validate(namespace, name:"namespace", min: 1)
+            try validate(namespace, name:"namespace", pattern: "[^:].*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1126,6 +1230,34 @@ extension CloudWatch {
             self.unit = unit
         }
 
+        public func validate() throws {
+            try validate(alarmArn, name:"alarmArn", max: 1600)
+            try validate(alarmArn, name:"alarmArn", min: 1)
+            try validate(alarmDescription, name:"alarmDescription", max: 1024)
+            try validate(alarmDescription, name:"alarmDescription", min: 0)
+            try validate(alarmName, name:"alarmName", max: 255)
+            try validate(alarmName, name:"alarmName", min: 1)
+            try validate(datapointsToAlarm, name:"datapointsToAlarm", min: 1)
+            try validate(evaluateLowSampleCountPercentile, name:"evaluateLowSampleCountPercentile", max: 255)
+            try validate(evaluateLowSampleCountPercentile, name:"evaluateLowSampleCountPercentile", min: 1)
+            try validate(evaluationPeriods, name:"evaluationPeriods", min: 1)
+            try validate(extendedStatistic, name:"extendedStatistic", pattern: "p(\\d{1,2}(\\.\\d{0,2})?|100)")
+            try validate(metricName, name:"metricName", max: 255)
+            try validate(metricName, name:"metricName", min: 1)
+            try validate(namespace, name:"namespace", max: 255)
+            try validate(namespace, name:"namespace", min: 1)
+            try validate(namespace, name:"namespace", pattern: "[^:].*")
+            try validate(period, name:"period", min: 1)
+            try validate(stateReason, name:"stateReason", max: 1023)
+            try validate(stateReason, name:"stateReason", min: 0)
+            try validate(stateReasonData, name:"stateReasonData", max: 4000)
+            try validate(stateReasonData, name:"stateReasonData", min: 0)
+            try validate(thresholdMetricId, name:"thresholdMetricId", max: 255)
+            try validate(thresholdMetricId, name:"thresholdMetricId", min: 1)
+            try validate(treatMissingData, name:"treatMissingData", max: 255)
+            try validate(treatMissingData, name:"treatMissingData", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case actionsEnabled = "ActionsEnabled"
             case alarmActions = "AlarmActions"
@@ -1184,6 +1316,14 @@ extension CloudWatch {
             self.returnData = returnData
         }
 
+        public func validate() throws {
+            try validate(expression, name:"expression", max: 1024)
+            try validate(expression, name:"expression", min: 1)
+            try validate(id, name:"id", max: 255)
+            try validate(id, name:"id", min: 1)
+            try metricStat?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case expression = "Expression"
             case id = "Id"
@@ -1222,6 +1362,11 @@ extension CloudWatch {
             self.statusCode = statusCode
             self.timestamps = timestamps
             self.values = values
+        }
+
+        public func validate() throws {
+            try validate(id, name:"id", max: 255)
+            try validate(id, name:"id", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1277,6 +1422,12 @@ extension CloudWatch {
             self.values = values
         }
 
+        public func validate() throws {
+            try validate(metricName, name:"metricName", max: 255)
+            try validate(metricName, name:"metricName", min: 1)
+            try validate(storageResolution, name:"storageResolution", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case counts = "Counts"
             case dimensions = "Dimensions"
@@ -1313,6 +1464,11 @@ extension CloudWatch {
             self.unit = unit
         }
 
+        public func validate() throws {
+            try metric.validate()
+            try validate(period, name:"period", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case metric = "Metric"
             case period = "Period"
@@ -1346,6 +1502,14 @@ extension CloudWatch {
             self.metricName = metricName
             self.namespace = namespace
             self.stat = stat
+        }
+
+        public func validate() throws {
+            try validate(metricName, name:"metricName", max: 255)
+            try validate(metricName, name:"metricName", min: 1)
+            try validate(namespace, name:"namespace", max: 255)
+            try validate(namespace, name:"namespace", min: 1)
+            try validate(namespace, name:"namespace", pattern: "[^:].*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1497,6 +1661,28 @@ extension CloudWatch {
             self.unit = unit
         }
 
+        public func validate() throws {
+            try validate(alarmDescription, name:"alarmDescription", max: 1024)
+            try validate(alarmDescription, name:"alarmDescription", min: 0)
+            try validate(alarmName, name:"alarmName", max: 255)
+            try validate(alarmName, name:"alarmName", min: 1)
+            try validate(datapointsToAlarm, name:"datapointsToAlarm", min: 1)
+            try validate(evaluateLowSampleCountPercentile, name:"evaluateLowSampleCountPercentile", max: 255)
+            try validate(evaluateLowSampleCountPercentile, name:"evaluateLowSampleCountPercentile", min: 1)
+            try validate(evaluationPeriods, name:"evaluationPeriods", min: 1)
+            try validate(extendedStatistic, name:"extendedStatistic", pattern: "p(\\d{1,2}(\\.\\d{0,2})?|100)")
+            try validate(metricName, name:"metricName", max: 255)
+            try validate(metricName, name:"metricName", min: 1)
+            try validate(namespace, name:"namespace", max: 255)
+            try validate(namespace, name:"namespace", min: 1)
+            try validate(namespace, name:"namespace", pattern: "[^:].*")
+            try validate(period, name:"period", min: 1)
+            try validate(thresholdMetricId, name:"thresholdMetricId", max: 255)
+            try validate(thresholdMetricId, name:"thresholdMetricId", min: 1)
+            try validate(treatMissingData, name:"treatMissingData", max: 255)
+            try validate(treatMissingData, name:"treatMissingData", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case actionsEnabled = "ActionsEnabled"
             case alarmActions = "AlarmActions"
@@ -1536,6 +1722,12 @@ extension CloudWatch {
         public init(metricData: [MetricDatum], namespace: String) {
             self.metricData = metricData
             self.namespace = namespace
+        }
+
+        public func validate() throws {
+            try validate(namespace, name:"namespace", max: 255)
+            try validate(namespace, name:"namespace", min: 1)
+            try validate(namespace, name:"namespace", pattern: "[^:].*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1592,6 +1784,15 @@ extension CloudWatch {
             self.stateReason = stateReason
             self.stateReasonData = stateReasonData
             self.stateValue = stateValue
+        }
+
+        public func validate() throws {
+            try validate(alarmName, name:"alarmName", max: 255)
+            try validate(alarmName, name:"alarmName", min: 1)
+            try validate(stateReason, name:"stateReason", max: 1023)
+            try validate(stateReason, name:"stateReason", min: 0)
+            try validate(stateReasonData, name:"stateReasonData", max: 4000)
+            try validate(stateReasonData, name:"stateReasonData", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1702,6 +1903,13 @@ extension CloudWatch {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", max: 128)
+            try validate(key, name:"key", min: 1)
+            try validate(value, name:"value", max: 256)
+            try validate(value, name:"value", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
@@ -1721,6 +1929,11 @@ extension CloudWatch {
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try validate(resourceARN, name:"resourceARN", max: 1024)
+            try validate(resourceARN, name:"resourceARN", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1750,6 +1963,11 @@ extension CloudWatch {
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
+        }
+
+        public func validate() throws {
+            try validate(resourceARN, name:"resourceARN", max: 1024)
+            try validate(resourceARN, name:"resourceARN", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

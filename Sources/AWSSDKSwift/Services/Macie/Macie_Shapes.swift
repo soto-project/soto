@@ -16,6 +16,10 @@ extension Macie {
             self.memberAccountId = memberAccountId
         }
 
+        public func validate() throws {
+            try validate(memberAccountId, name:"memberAccountId", pattern: "[0-9]{12}")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case memberAccountId = "memberAccountId"
         }
@@ -34,6 +38,10 @@ extension Macie {
         public init(memberAccountId: String? = nil, s3Resources: [S3ResourceClassification]) {
             self.memberAccountId = memberAccountId
             self.s3Resources = s3Resources
+        }
+
+        public func validate() throws {
+            try validate(memberAccountId, name:"memberAccountId", pattern: "[0-9]{12}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -111,6 +119,10 @@ extension Macie {
             self.memberAccountId = memberAccountId
         }
 
+        public func validate() throws {
+            try validate(memberAccountId, name:"memberAccountId", pattern: "[0-9]{12}")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case memberAccountId = "memberAccountId"
         }
@@ -129,6 +141,10 @@ extension Macie {
         public init(associatedS3Resources: [S3Resource], memberAccountId: String? = nil) {
             self.associatedS3Resources = associatedS3Resources
             self.memberAccountId = memberAccountId
+        }
+
+        public func validate() throws {
+            try validate(memberAccountId, name:"memberAccountId", pattern: "[0-9]{12}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -172,6 +188,12 @@ extension Macie {
             self.failedItem = failedItem
         }
 
+        public func validate() throws {
+            try validate(errorCode, name:"errorCode", max: 10)
+            try validate(errorMessage, name:"errorMessage", max: 10000)
+            try failedItem?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case errorCode = "errorCode"
             case errorMessage = "errorMessage"
@@ -194,6 +216,11 @@ extension Macie {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 250)
+            try validate(nextToken, name:"nextToken", max: 500)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "maxResults"
             case nextToken = "nextToken"
@@ -213,6 +240,10 @@ extension Macie {
         public init(memberAccounts: [MemberAccount]? = nil, nextToken: String? = nil) {
             self.memberAccounts = memberAccounts
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 500)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -240,6 +271,12 @@ extension Macie {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 250)
+            try validate(memberAccountId, name:"memberAccountId", pattern: "[0-9]{12}")
+            try validate(nextToken, name:"nextToken", max: 500)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "maxResults"
             case memberAccountId = "memberAccountId"
@@ -262,6 +299,10 @@ extension Macie {
             self.s3Resources = s3Resources
         }
 
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 500)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case s3Resources = "s3Resources"
@@ -277,6 +318,10 @@ extension Macie {
         
         public init(accountId: String? = nil) {
             self.accountId = accountId
+        }
+
+        public func validate() throws {
+            try validate(accountId, name:"accountId", pattern: "[0-9]{12}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -310,6 +355,11 @@ extension Macie {
             self.prefix = prefix
         }
 
+        public func validate() throws {
+            try validate(bucketName, name:"bucketName", max: 500)
+            try validate(prefix, name:"prefix", max: 10000)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bucketName = "bucketName"
             case prefix = "prefix"
@@ -333,6 +383,11 @@ extension Macie {
             self.bucketName = bucketName
             self.classificationType = classificationType
             self.prefix = prefix
+        }
+
+        public func validate() throws {
+            try validate(bucketName, name:"bucketName", max: 500)
+            try validate(prefix, name:"prefix", max: 10000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -361,6 +416,11 @@ extension Macie {
             self.prefix = prefix
         }
 
+        public func validate() throws {
+            try validate(bucketName, name:"bucketName", max: 500)
+            try validate(prefix, name:"prefix", max: 10000)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bucketName = "bucketName"
             case classificationTypeUpdate = "classificationTypeUpdate"
@@ -381,6 +441,10 @@ extension Macie {
         public init(memberAccountId: String? = nil, s3ResourcesUpdate: [S3ResourceClassificationUpdate]) {
             self.memberAccountId = memberAccountId
             self.s3ResourcesUpdate = s3ResourcesUpdate
+        }
+
+        public func validate() throws {
+            try validate(memberAccountId, name:"memberAccountId", pattern: "[0-9]{12}")
         }
 
         private enum CodingKeys: String, CodingKey {

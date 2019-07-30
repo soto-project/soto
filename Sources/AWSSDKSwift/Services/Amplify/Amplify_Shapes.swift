@@ -96,6 +96,25 @@ extension Amplify {
             self.updateTime = updateTime
         }
 
+        public func validate() throws {
+            try validate(appArn, name:"appArn", max: 1000)
+            try validate(appId, name:"appId", max: 255)
+            try validate(appId, name:"appId", min: 1)
+            try autoBranchCreationConfig?.validate()
+            try validate(basicAuthCredentials, name:"basicAuthCredentials", max: 2000)
+            try validate(buildSpec, name:"buildSpec", max: 25000)
+            try validate(buildSpec, name:"buildSpec", min: 1)
+            try validate(defaultDomain, name:"defaultDomain", max: 1000)
+            try validate(defaultDomain, name:"defaultDomain", min: 1)
+            try validate(description, name:"description", max: 1000)
+            try validate(iamServiceRoleArn, name:"iamServiceRoleArn", max: 1000)
+            try validate(iamServiceRoleArn, name:"iamServiceRoleArn", min: 1)
+            try validate(name, name:"name", max: 255)
+            try validate(name, name:"name", min: 1)
+            try productionBranch?.validate()
+            try validate(repository, name:"repository", max: 1000)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case appArn = "appArn"
             case appId = "appId"
@@ -154,6 +173,13 @@ extension Amplify {
             self.environmentVariables = environmentVariables
             self.framework = framework
             self.stage = stage
+        }
+
+        public func validate() throws {
+            try validate(basicAuthCredentials, name:"basicAuthCredentials", max: 2000)
+            try validate(buildSpec, name:"buildSpec", max: 25000)
+            try validate(buildSpec, name:"buildSpec", min: 1)
+            try validate(framework, name:"framework", max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -258,6 +284,22 @@ extension Amplify {
             self.updateTime = updateTime
         }
 
+        public func validate() throws {
+            try validate(activeJobId, name:"activeJobId", max: 1000)
+            try validate(basicAuthCredentials, name:"basicAuthCredentials", max: 2000)
+            try validate(branchArn, name:"branchArn", max: 1000)
+            try validate(branchName, name:"branchName", max: 255)
+            try validate(branchName, name:"branchName", min: 1)
+            try validate(buildSpec, name:"buildSpec", max: 25000)
+            try validate(buildSpec, name:"buildSpec", min: 1)
+            try validate(description, name:"description", max: 1000)
+            try validate(displayName, name:"displayName", max: 255)
+            try validate(framework, name:"framework", max: 255)
+            try validate(thumbnailUrl, name:"thumbnailUrl", max: 2000)
+            try validate(thumbnailUrl, name:"thumbnailUrl", min: 1)
+            try validate(totalNumberOfJobs, name:"totalNumberOfJobs", max: 1000)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case activeJobId = "activeJobId"
             case associatedResources = "associatedResources"
@@ -358,6 +400,22 @@ extension Amplify {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(accessToken, name:"accessToken", max: 255)
+            try validate(accessToken, name:"accessToken", min: 1)
+            try autoBranchCreationConfig?.validate()
+            try validate(basicAuthCredentials, name:"basicAuthCredentials", max: 2000)
+            try validate(buildSpec, name:"buildSpec", max: 25000)
+            try validate(buildSpec, name:"buildSpec", min: 1)
+            try validate(description, name:"description", max: 1000)
+            try validate(iamServiceRoleArn, name:"iamServiceRoleArn", max: 1000)
+            try validate(iamServiceRoleArn, name:"iamServiceRoleArn", min: 1)
+            try validate(name, name:"name", max: 255)
+            try validate(name, name:"name", min: 1)
+            try validate(oauthToken, name:"oauthToken", max: 100)
+            try validate(repository, name:"repository", max: 1000)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accessToken = "accessToken"
             case autoBranchCreationConfig = "autoBranchCreationConfig"
@@ -387,6 +445,10 @@ extension Amplify {
         
         public init(app: App) {
             self.app = app
+        }
+
+        public func validate() throws {
+            try app.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -457,6 +519,19 @@ extension Amplify {
             self.ttl = ttl
         }
 
+        public func validate() throws {
+            try validate(appId, name:"appId", max: 255)
+            try validate(appId, name:"appId", min: 1)
+            try validate(basicAuthCredentials, name:"basicAuthCredentials", max: 2000)
+            try validate(branchName, name:"branchName", max: 255)
+            try validate(branchName, name:"branchName", min: 1)
+            try validate(buildSpec, name:"buildSpec", max: 25000)
+            try validate(buildSpec, name:"buildSpec", min: 1)
+            try validate(description, name:"description", max: 1000)
+            try validate(displayName, name:"displayName", max: 255)
+            try validate(framework, name:"framework", max: 255)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case appId = "appId"
             case basicAuthCredentials = "basicAuthCredentials"
@@ -486,6 +561,10 @@ extension Amplify {
             self.branch = branch
         }
 
+        public func validate() throws {
+            try branch.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case branch = "branch"
         }
@@ -508,6 +587,13 @@ extension Amplify {
             self.appId = appId
             self.branchName = branchName
             self.fileMap = fileMap
+        }
+
+        public func validate() throws {
+            try validate(appId, name:"appId", max: 255)
+            try validate(appId, name:"appId", min: 1)
+            try validate(branchName, name:"branchName", max: 255)
+            try validate(branchName, name:"branchName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -534,6 +620,11 @@ extension Amplify {
             self.fileUploadUrls = fileUploadUrls
             self.jobId = jobId
             self.zipUploadUrl = zipUploadUrl
+        }
+
+        public func validate() throws {
+            try validate(jobId, name:"jobId", max: 255)
+            try validate(zipUploadUrl, name:"zipUploadUrl", max: 1000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -566,6 +657,12 @@ extension Amplify {
             self.subDomainSettings = subDomainSettings
         }
 
+        public func validate() throws {
+            try validate(appId, name:"appId", max: 255)
+            try validate(appId, name:"appId", min: 1)
+            try validate(domainName, name:"domainName", max: 255)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case appId = "appId"
             case domainName = "domainName"
@@ -583,6 +680,10 @@ extension Amplify {
         
         public init(domainAssociation: DomainAssociation) {
             self.domainAssociation = domainAssociation
+        }
+
+        public func validate() throws {
+            try domainAssociation.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -609,6 +710,14 @@ extension Amplify {
             self.description = description
         }
 
+        public func validate() throws {
+            try validate(appId, name:"appId", max: 255)
+            try validate(appId, name:"appId", min: 1)
+            try validate(branchName, name:"branchName", max: 255)
+            try validate(branchName, name:"branchName", min: 1)
+            try validate(description, name:"description", max: 1000)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case appId = "appId"
             case branchName = "branchName"
@@ -625,6 +734,10 @@ extension Amplify {
         
         public init(webhook: Webhook) {
             self.webhook = webhook
+        }
+
+        public func validate() throws {
+            try webhook.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -655,6 +768,17 @@ extension Amplify {
             self.target = target
         }
 
+        public func validate() throws {
+            try validate(condition, name:"condition", max: 2048)
+            try validate(condition, name:"condition", min: 1)
+            try validate(source, name:"source", max: 2048)
+            try validate(source, name:"source", min: 1)
+            try validate(status, name:"status", max: 3)
+            try validate(status, name:"status", min: 3)
+            try validate(target, name:"target", max: 2048)
+            try validate(target, name:"target", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case condition = "condition"
             case source = "source"
@@ -674,6 +798,11 @@ extension Amplify {
             self.appId = appId
         }
 
+        public func validate() throws {
+            try validate(appId, name:"appId", max: 255)
+            try validate(appId, name:"appId", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case appId = "appId"
         }
@@ -687,6 +816,10 @@ extension Amplify {
         
         public init(app: App) {
             self.app = app
+        }
+
+        public func validate() throws {
+            try app.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -709,6 +842,13 @@ extension Amplify {
             self.branchName = branchName
         }
 
+        public func validate() throws {
+            try validate(appId, name:"appId", max: 255)
+            try validate(appId, name:"appId", min: 1)
+            try validate(branchName, name:"branchName", max: 255)
+            try validate(branchName, name:"branchName", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case appId = "appId"
             case branchName = "branchName"
@@ -724,6 +864,10 @@ extension Amplify {
         
         public init(branch: Branch) {
             self.branch = branch
+        }
+
+        public func validate() throws {
+            try branch.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -746,6 +890,12 @@ extension Amplify {
             self.domainName = domainName
         }
 
+        public func validate() throws {
+            try validate(appId, name:"appId", max: 255)
+            try validate(appId, name:"appId", min: 1)
+            try validate(domainName, name:"domainName", max: 255)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case appId = "appId"
             case domainName = "domainName"
@@ -760,6 +910,10 @@ extension Amplify {
         
         public init(domainAssociation: DomainAssociation) {
             self.domainAssociation = domainAssociation
+        }
+
+        public func validate() throws {
+            try domainAssociation.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -786,6 +940,14 @@ extension Amplify {
             self.jobId = jobId
         }
 
+        public func validate() throws {
+            try validate(appId, name:"appId", max: 255)
+            try validate(appId, name:"appId", min: 1)
+            try validate(branchName, name:"branchName", max: 255)
+            try validate(branchName, name:"branchName", min: 1)
+            try validate(jobId, name:"jobId", max: 255)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case appId = "appId"
             case branchName = "branchName"
@@ -801,6 +963,10 @@ extension Amplify {
         
         public init(jobSummary: JobSummary) {
             self.jobSummary = jobSummary
+        }
+
+        public func validate() throws {
+            try jobSummary.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -819,6 +985,10 @@ extension Amplify {
             self.webhookId = webhookId
         }
 
+        public func validate() throws {
+            try validate(webhookId, name:"webhookId", max: 255)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case webhookId = "webhookId"
         }
@@ -833,6 +1003,10 @@ extension Amplify {
         
         public init(webhook: Webhook) {
             self.webhook = webhook
+        }
+
+        public func validate() throws {
+            try webhook.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -875,6 +1049,13 @@ extension Amplify {
             self.subDomains = subDomains
         }
 
+        public func validate() throws {
+            try validate(certificateVerificationDNSRecord, name:"certificateVerificationDNSRecord", max: 1000)
+            try validate(domainAssociationArn, name:"domainAssociationArn", max: 1000)
+            try validate(domainName, name:"domainName", max: 255)
+            try validate(statusReason, name:"statusReason", max: 1000)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case certificateVerificationDNSRecord = "certificateVerificationDNSRecord"
             case domainAssociationArn = "domainAssociationArn"
@@ -909,6 +1090,11 @@ extension Amplify {
             self.appId = appId
         }
 
+        public func validate() throws {
+            try validate(appId, name:"appId", max: 255)
+            try validate(appId, name:"appId", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case appId = "appId"
         }
@@ -922,6 +1108,10 @@ extension Amplify {
         
         public init(app: App) {
             self.app = app
+        }
+
+        public func validate() throws {
+            try app.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -944,6 +1134,13 @@ extension Amplify {
             self.branchName = branchName
         }
 
+        public func validate() throws {
+            try validate(appId, name:"appId", max: 255)
+            try validate(appId, name:"appId", min: 1)
+            try validate(branchName, name:"branchName", max: 255)
+            try validate(branchName, name:"branchName", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case appId = "appId"
             case branchName = "branchName"
@@ -958,6 +1155,10 @@ extension Amplify {
         
         public init(branch: Branch) {
             self.branch = branch
+        }
+
+        public func validate() throws {
+            try branch.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -980,6 +1181,12 @@ extension Amplify {
             self.domainName = domainName
         }
 
+        public func validate() throws {
+            try validate(appId, name:"appId", max: 255)
+            try validate(appId, name:"appId", min: 1)
+            try validate(domainName, name:"domainName", max: 255)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case appId = "appId"
             case domainName = "domainName"
@@ -995,6 +1202,10 @@ extension Amplify {
         
         public init(domainAssociation: DomainAssociation) {
             self.domainAssociation = domainAssociation
+        }
+
+        public func validate() throws {
+            try domainAssociation.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1021,6 +1232,14 @@ extension Amplify {
             self.jobId = jobId
         }
 
+        public func validate() throws {
+            try validate(appId, name:"appId", max: 255)
+            try validate(appId, name:"appId", min: 1)
+            try validate(branchName, name:"branchName", max: 255)
+            try validate(branchName, name:"branchName", min: 1)
+            try validate(jobId, name:"jobId", max: 255)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case appId = "appId"
             case branchName = "branchName"
@@ -1036,6 +1255,10 @@ extension Amplify {
         
         public init(job: Job) {
             self.job = job
+        }
+
+        public func validate() throws {
+            try job.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1054,6 +1277,10 @@ extension Amplify {
             self.webhookId = webhookId
         }
 
+        public func validate() throws {
+            try validate(webhookId, name:"webhookId", max: 255)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case webhookId = "webhookId"
         }
@@ -1068,6 +1295,10 @@ extension Amplify {
         
         public init(webhook: Webhook) {
             self.webhook = webhook
+        }
+
+        public func validate() throws {
+            try webhook.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1088,6 +1319,10 @@ extension Amplify {
         public init(steps: [Step], summary: JobSummary) {
             self.steps = steps
             self.summary = summary
+        }
+
+        public func validate() throws {
+            try summary.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1150,6 +1385,13 @@ extension Amplify {
             self.status = status
         }
 
+        public func validate() throws {
+            try validate(commitId, name:"commitId", max: 255)
+            try validate(commitMessage, name:"commitMessage", max: 10000)
+            try validate(jobArn, name:"jobArn", max: 1000)
+            try validate(jobId, name:"jobId", max: 255)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case commitId = "commitId"
             case commitMessage = "commitMessage"
@@ -1186,6 +1428,12 @@ extension Amplify {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(nextToken, name:"nextToken", max: 2000)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "maxResults"
             case nextToken = "nextToken"
@@ -1205,6 +1453,10 @@ extension Amplify {
         public init(apps: [App], nextToken: String? = nil) {
             self.apps = apps
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 2000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1232,6 +1484,14 @@ extension Amplify {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(appId, name:"appId", max: 255)
+            try validate(appId, name:"appId", min: 1)
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(nextToken, name:"nextToken", max: 2000)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case appId = "appId"
             case maxResults = "maxResults"
@@ -1252,6 +1512,10 @@ extension Amplify {
         public init(branches: [Branch], nextToken: String? = nil) {
             self.branches = branches
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 2000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1279,6 +1543,14 @@ extension Amplify {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(appId, name:"appId", max: 255)
+            try validate(appId, name:"appId", min: 1)
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(nextToken, name:"nextToken", max: 2000)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case appId = "appId"
             case maxResults = "maxResults"
@@ -1299,6 +1571,10 @@ extension Amplify {
         public init(domainAssociations: [DomainAssociation], nextToken: String? = nil) {
             self.domainAssociations = domainAssociations
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 2000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1330,6 +1606,16 @@ extension Amplify {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(appId, name:"appId", max: 255)
+            try validate(appId, name:"appId", min: 1)
+            try validate(branchName, name:"branchName", max: 255)
+            try validate(branchName, name:"branchName", min: 1)
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(nextToken, name:"nextToken", max: 2000)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case appId = "appId"
             case branchName = "branchName"
@@ -1353,6 +1639,10 @@ extension Amplify {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 2000)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case jobSummaries = "jobSummaries"
             case nextToken = "nextToken"
@@ -1368,6 +1658,10 @@ extension Amplify {
         
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func validate() throws {
+            try validate(resourceArn, name:"resourceArn", pattern: "^arn:aws:amplify:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1410,6 +1704,14 @@ extension Amplify {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(appId, name:"appId", max: 255)
+            try validate(appId, name:"appId", min: 1)
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(nextToken, name:"nextToken", max: 2000)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case appId = "appId"
             case maxResults = "maxResults"
@@ -1430,6 +1732,10 @@ extension Amplify {
         public init(nextToken: String? = nil, webhooks: [Webhook]) {
             self.nextToken = nextToken
             self.webhooks = webhooks
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 2000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1464,6 +1770,15 @@ extension Amplify {
             self.lastDeployTime = lastDeployTime
             self.status = status
             self.thumbnailUrl = thumbnailUrl
+        }
+
+        public func validate() throws {
+            try validate(branchName, name:"branchName", max: 255)
+            try validate(branchName, name:"branchName", min: 1)
+            try validate(status, name:"status", max: 3)
+            try validate(status, name:"status", min: 3)
+            try validate(thumbnailUrl, name:"thumbnailUrl", max: 2000)
+            try validate(thumbnailUrl, name:"thumbnailUrl", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1505,6 +1820,15 @@ extension Amplify {
             self.sourceUrl = sourceUrl
         }
 
+        public func validate() throws {
+            try validate(appId, name:"appId", max: 255)
+            try validate(appId, name:"appId", min: 1)
+            try validate(branchName, name:"branchName", max: 255)
+            try validate(branchName, name:"branchName", min: 1)
+            try validate(jobId, name:"jobId", max: 255)
+            try validate(sourceUrl, name:"sourceUrl", max: 1000)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case appId = "appId"
             case branchName = "branchName"
@@ -1522,6 +1846,10 @@ extension Amplify {
         
         public init(jobSummary: JobSummary) {
             self.jobSummary = jobSummary
+        }
+
+        public func validate() throws {
+            try jobSummary.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1568,6 +1896,17 @@ extension Amplify {
             self.jobType = jobType
         }
 
+        public func validate() throws {
+            try validate(appId, name:"appId", max: 255)
+            try validate(appId, name:"appId", min: 1)
+            try validate(branchName, name:"branchName", max: 255)
+            try validate(branchName, name:"branchName", min: 1)
+            try validate(commitId, name:"commitId", max: 255)
+            try validate(commitMessage, name:"commitMessage", max: 10000)
+            try validate(jobId, name:"jobId", max: 255)
+            try validate(jobReason, name:"jobReason", max: 255)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case appId = "appId"
             case branchName = "branchName"
@@ -1589,6 +1928,10 @@ extension Amplify {
         
         public init(jobSummary: JobSummary) {
             self.jobSummary = jobSummary
+        }
+
+        public func validate() throws {
+            try jobSummary.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1639,6 +1982,13 @@ extension Amplify {
             self.stepName = stepName
         }
 
+        public func validate() throws {
+            try validate(artifactsUrl, name:"artifactsUrl", max: 1000)
+            try validate(logUrl, name:"logUrl", max: 1000)
+            try validate(statusReason, name:"statusReason", max: 1000)
+            try validate(stepName, name:"stepName", max: 255)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case artifactsUrl = "artifactsUrl"
             case context = "context"
@@ -1671,6 +2021,14 @@ extension Amplify {
             self.jobId = jobId
         }
 
+        public func validate() throws {
+            try validate(appId, name:"appId", max: 255)
+            try validate(appId, name:"appId", min: 1)
+            try validate(branchName, name:"branchName", max: 255)
+            try validate(branchName, name:"branchName", min: 1)
+            try validate(jobId, name:"jobId", max: 255)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case appId = "appId"
             case branchName = "branchName"
@@ -1687,6 +2045,10 @@ extension Amplify {
         
         public init(jobSummary: JobSummary) {
             self.jobSummary = jobSummary
+        }
+
+        public func validate() throws {
+            try jobSummary.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1713,6 +2075,11 @@ extension Amplify {
             self.verified = verified
         }
 
+        public func validate() throws {
+            try validate(dnsRecord, name:"dnsRecord", max: 1000)
+            try subDomainSetting.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dnsRecord = "dnsRecord"
             case subDomainSetting = "subDomainSetting"
@@ -1735,6 +2102,12 @@ extension Amplify {
             self.prefix = prefix
         }
 
+        public func validate() throws {
+            try validate(branchName, name:"branchName", max: 255)
+            try validate(branchName, name:"branchName", min: 1)
+            try validate(prefix, name:"prefix", max: 255)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case branchName = "branchName"
             case prefix = "prefix"
@@ -1754,6 +2127,10 @@ extension Amplify {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try validate(resourceArn, name:"resourceArn", pattern: "^arn:aws:amplify:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1783,6 +2160,10 @@ extension Amplify {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func validate() throws {
+            try validate(resourceArn, name:"resourceArn", pattern: "^arn:aws:amplify:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1862,6 +2243,20 @@ extension Amplify {
             self.platform = platform
         }
 
+        public func validate() throws {
+            try validate(appId, name:"appId", max: 255)
+            try validate(appId, name:"appId", min: 1)
+            try autoBranchCreationConfig?.validate()
+            try validate(basicAuthCredentials, name:"basicAuthCredentials", max: 2000)
+            try validate(buildSpec, name:"buildSpec", max: 25000)
+            try validate(buildSpec, name:"buildSpec", min: 1)
+            try validate(description, name:"description", max: 1000)
+            try validate(iamServiceRoleArn, name:"iamServiceRoleArn", max: 1000)
+            try validate(iamServiceRoleArn, name:"iamServiceRoleArn", min: 1)
+            try validate(name, name:"name", max: 255)
+            try validate(name, name:"name", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case appId = "appId"
             case autoBranchCreationConfig = "autoBranchCreationConfig"
@@ -1889,6 +2284,10 @@ extension Amplify {
         
         public init(app: App) {
             self.app = app
+        }
+
+        public func validate() throws {
+            try app.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1955,6 +2354,19 @@ extension Amplify {
             self.ttl = ttl
         }
 
+        public func validate() throws {
+            try validate(appId, name:"appId", max: 255)
+            try validate(appId, name:"appId", min: 1)
+            try validate(basicAuthCredentials, name:"basicAuthCredentials", max: 2000)
+            try validate(branchName, name:"branchName", max: 255)
+            try validate(branchName, name:"branchName", min: 1)
+            try validate(buildSpec, name:"buildSpec", max: 25000)
+            try validate(buildSpec, name:"buildSpec", min: 1)
+            try validate(description, name:"description", max: 1000)
+            try validate(displayName, name:"displayName", max: 255)
+            try validate(framework, name:"framework", max: 255)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case appId = "appId"
             case basicAuthCredentials = "basicAuthCredentials"
@@ -1981,6 +2393,10 @@ extension Amplify {
         
         public init(branch: Branch) {
             self.branch = branch
+        }
+
+        public func validate() throws {
+            try branch.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2011,6 +2427,12 @@ extension Amplify {
             self.subDomainSettings = subDomainSettings
         }
 
+        public func validate() throws {
+            try validate(appId, name:"appId", max: 255)
+            try validate(appId, name:"appId", min: 1)
+            try validate(domainName, name:"domainName", max: 255)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case appId = "appId"
             case domainName = "domainName"
@@ -2028,6 +2450,10 @@ extension Amplify {
         
         public init(domainAssociation: DomainAssociation) {
             self.domainAssociation = domainAssociation
+        }
+
+        public func validate() throws {
+            try domainAssociation.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2054,6 +2480,13 @@ extension Amplify {
             self.webhookId = webhookId
         }
 
+        public func validate() throws {
+            try validate(branchName, name:"branchName", max: 255)
+            try validate(branchName, name:"branchName", min: 1)
+            try validate(description, name:"description", max: 1000)
+            try validate(webhookId, name:"webhookId", max: 255)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case branchName = "branchName"
             case description = "description"
@@ -2070,6 +2503,10 @@ extension Amplify {
         
         public init(webhook: Webhook) {
             self.webhook = webhook
+        }
+
+        public func validate() throws {
+            try webhook.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2110,6 +2547,15 @@ extension Amplify {
             self.webhookArn = webhookArn
             self.webhookId = webhookId
             self.webhookUrl = webhookUrl
+        }
+
+        public func validate() throws {
+            try validate(branchName, name:"branchName", max: 255)
+            try validate(branchName, name:"branchName", min: 1)
+            try validate(description, name:"description", max: 1000)
+            try validate(webhookArn, name:"webhookArn", max: 1000)
+            try validate(webhookId, name:"webhookId", max: 255)
+            try validate(webhookUrl, name:"webhookUrl", max: 1000)
         }
 
         private enum CodingKeys: String, CodingKey {

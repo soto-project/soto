@@ -24,6 +24,14 @@ extension IoTThingsGraph {
             self.thingName = thingName
         }
 
+        public func validate() throws {
+            try validate(entityId, name:"entityId", max: 160)
+            try validate(entityId, name:"entityId", pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+            try validate(thingName, name:"thingName", max: 128)
+            try validate(thingName, name:"thingName", min: 1)
+            try validate(thingName, name:"thingName", pattern: "[a-zA-Z0-9:_-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case entityId = "entityId"
             case namespaceVersion = "namespaceVersion"
@@ -54,6 +62,10 @@ extension IoTThingsGraph {
             self.definition = definition
         }
 
+        public func validate() throws {
+            try definition.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case compatibleNamespaceVersion = "compatibleNamespaceVersion"
             case definition = "definition"
@@ -69,6 +81,10 @@ extension IoTThingsGraph {
         
         public init(summary: FlowTemplateSummary? = nil) {
             self.summary = summary
+        }
+
+        public func validate() throws {
+            try summary?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -109,6 +125,13 @@ extension IoTThingsGraph {
             self.target = target
         }
 
+        public func validate() throws {
+            try definition.validate()
+            try validate(flowActionsRoleArn, name:"flowActionsRoleArn", max: 2048)
+            try validate(flowActionsRoleArn, name:"flowActionsRoleArn", min: 20)
+            try metricsConfiguration?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case definition = "definition"
             case flowActionsRoleArn = "flowActionsRoleArn"
@@ -131,6 +154,10 @@ extension IoTThingsGraph {
             self.summary = summary
         }
 
+        public func validate() throws {
+            try summary?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case summary = "summary"
         }
@@ -151,6 +178,10 @@ extension IoTThingsGraph {
             self.definition = definition
         }
 
+        public func validate() throws {
+            try definition.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case compatibleNamespaceVersion = "compatibleNamespaceVersion"
             case definition = "definition"
@@ -166,6 +197,10 @@ extension IoTThingsGraph {
         
         public init(summary: SystemTemplateSummary? = nil) {
             self.summary = summary
+        }
+
+        public func validate() throws {
+            try summary?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -188,6 +223,10 @@ extension IoTThingsGraph {
             self.text = text
         }
 
+        public func validate() throws {
+            try validate(text, name:"text", max: 1048576)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case language = "language"
             case text = "text"
@@ -208,6 +247,11 @@ extension IoTThingsGraph {
         
         public init(id: String) {
             self.id = id
+        }
+
+        public func validate() throws {
+            try validate(id, name:"id", max: 160)
+            try validate(id, name:"id", pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -246,6 +290,10 @@ extension IoTThingsGraph {
             self.namespaceName = namespaceName
         }
 
+        public func validate() throws {
+            try validate(namespaceName, name:"namespaceName", max: 128)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case namespaceArn = "namespaceArn"
             case namespaceName = "namespaceName"
@@ -261,6 +309,11 @@ extension IoTThingsGraph {
         
         public init(id: String? = nil) {
             self.id = id
+        }
+
+        public func validate() throws {
+            try validate(id, name:"id", max: 160)
+            try validate(id, name:"id", pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -285,6 +338,11 @@ extension IoTThingsGraph {
         
         public init(id: String) {
             self.id = id
+        }
+
+        public func validate() throws {
+            try validate(id, name:"id", max: 160)
+            try validate(id, name:"id", pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -315,6 +373,11 @@ extension IoTThingsGraph {
             self.revisionNumber = revisionNumber
         }
 
+        public func validate() throws {
+            try validate(id, name:"id", max: 160)
+            try validate(id, name:"id", pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case id = "id"
             case revisionNumber = "revisionNumber"
@@ -330,6 +393,11 @@ extension IoTThingsGraph {
         
         public init(id: String? = nil) {
             self.id = id
+        }
+
+        public func validate() throws {
+            try validate(id, name:"id", max: 160)
+            try validate(id, name:"id", pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -350,6 +418,10 @@ extension IoTThingsGraph {
         public init(greengrassDeploymentId: String? = nil, summary: SystemInstanceSummary) {
             self.greengrassDeploymentId = greengrassDeploymentId
             self.summary = summary
+        }
+
+        public func validate() throws {
+            try summary.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -373,6 +445,11 @@ extension IoTThingsGraph {
         
         public init(id: String) {
             self.id = id
+        }
+
+        public func validate() throws {
+            try validate(id, name:"id", max: 160)
+            try validate(id, name:"id", pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -399,6 +476,11 @@ extension IoTThingsGraph {
             self.id = id
         }
 
+        public func validate() throws {
+            try validate(id, name:"id", max: 160)
+            try validate(id, name:"id", pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case id = "id"
         }
@@ -421,6 +503,10 @@ extension IoTThingsGraph {
         
         public init(namespaceName: String? = nil) {
             self.namespaceName = namespaceName
+        }
+
+        public func validate() throws {
+            try validate(namespaceName, name:"namespaceName", max: 128)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -455,6 +541,11 @@ extension IoTThingsGraph {
             self.trackingNamespaceVersion = trackingNamespaceVersion
         }
 
+        public func validate() throws {
+            try validate(namespaceName, name:"namespaceName", max: 128)
+            try validate(trackingNamespaceName, name:"trackingNamespaceName", max: 128)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case namespaceArn = "namespaceArn"
             case namespaceName = "namespaceName"
@@ -477,6 +568,12 @@ extension IoTThingsGraph {
         public init(entityType: EntityType, thingName: String) {
             self.entityType = entityType
             self.thingName = thingName
+        }
+
+        public func validate() throws {
+            try validate(thingName, name:"thingName", max: 128)
+            try validate(thingName, name:"thingName", min: 1)
+            try validate(thingName, name:"thingName", pattern: "[a-zA-Z0-9:_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -518,6 +615,12 @@ extension IoTThingsGraph {
             self.definition = definition
             self.id = id
             self.`type` = `type`
+        }
+
+        public func validate() throws {
+            try definition?.validate()
+            try validate(id, name:"id", max: 160)
+            try validate(id, name:"id", pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -663,6 +766,13 @@ extension IoTThingsGraph {
             self.updatedAt = updatedAt
         }
 
+        public func validate() throws {
+            try validate(flowTemplateId, name:"flowTemplateId", max: 160)
+            try validate(flowTemplateId, name:"flowTemplateId", pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+            try validate(systemInstanceId, name:"systemInstanceId", max: 160)
+            try validate(systemInstanceId, name:"systemInstanceId", pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
             case flowExecutionId = "flowExecutionId"
@@ -690,6 +800,11 @@ extension IoTThingsGraph {
             self.definition = definition
             self.summary = summary
             self.validatedNamespaceVersion = validatedNamespaceVersion
+        }
+
+        public func validate() throws {
+            try definition?.validate()
+            try summary?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -746,6 +861,11 @@ extension IoTThingsGraph {
             self.createdAt = createdAt
             self.id = id
             self.revisionNumber = revisionNumber
+        }
+
+        public func validate() throws {
+            try validate(id, name:"id", max: 160)
+            try validate(id, name:"id", pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -808,6 +928,11 @@ extension IoTThingsGraph {
             self.revisionNumber = revisionNumber
         }
 
+        public func validate() throws {
+            try validate(id, name:"id", max: 160)
+            try validate(id, name:"id", pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case id = "id"
             case revisionNumber = "revisionNumber"
@@ -823,6 +948,10 @@ extension IoTThingsGraph {
         
         public init(description: FlowTemplateDescription? = nil) {
             self.description = description
+        }
+
+        public func validate() throws {
+            try description?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -847,6 +976,13 @@ extension IoTThingsGraph {
             self.id = id
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(id, name:"id", max: 160)
+            try validate(id, name:"id", pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+            try validate(maxResults, name:"maxResults", max: 250)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -912,6 +1048,10 @@ extension IoTThingsGraph {
             self.status = status
         }
 
+        public func validate() throws {
+            try validate(namespaceName, name:"namespaceName", max: 128)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case errorCode = "errorCode"
             case errorMessage = "errorMessage"
@@ -932,6 +1072,11 @@ extension IoTThingsGraph {
             self.id = id
         }
 
+        public func validate() throws {
+            try validate(id, name:"id", max: 160)
+            try validate(id, name:"id", pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case id = "id"
         }
@@ -946,6 +1091,10 @@ extension IoTThingsGraph {
         
         public init(description: SystemInstanceDescription? = nil) {
             self.description = description
+        }
+
+        public func validate() throws {
+            try description?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -968,6 +1117,11 @@ extension IoTThingsGraph {
             self.revisionNumber = revisionNumber
         }
 
+        public func validate() throws {
+            try validate(id, name:"id", max: 160)
+            try validate(id, name:"id", pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case id = "id"
             case revisionNumber = "revisionNumber"
@@ -983,6 +1137,10 @@ extension IoTThingsGraph {
         
         public init(description: SystemTemplateDescription? = nil) {
             self.description = description
+        }
+
+        public func validate() throws {
+            try description?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1007,6 +1165,13 @@ extension IoTThingsGraph {
             self.id = id
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(id, name:"id", max: 160)
+            try validate(id, name:"id", pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+            try validate(maxResults, name:"maxResults", max: 250)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1046,6 +1211,11 @@ extension IoTThingsGraph {
         
         public init(uploadId: String) {
             self.uploadId = uploadId
+        }
+
+        public func validate() throws {
+            try validate(uploadId, name:"uploadId", max: 40)
+            try validate(uploadId, name:"uploadId", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1088,6 +1258,12 @@ extension IoTThingsGraph {
             self.uploadStatus = uploadStatus
         }
 
+        public func validate() throws {
+            try validate(namespaceName, name:"namespaceName", max: 128)
+            try validate(uploadId, name:"uploadId", max: 40)
+            try validate(uploadId, name:"uploadId", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case createdDate = "createdDate"
             case failureReason = "failureReason"
@@ -1116,6 +1292,11 @@ extension IoTThingsGraph {
             self.flowExecutionId = flowExecutionId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 250)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1165,6 +1346,13 @@ extension IoTThingsGraph {
             self.resourceArn = resourceArn
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 250)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(resourceArn, name:"resourceArn", max: 2048)
+            try validate(resourceArn, name:"resourceArn", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "maxResults"
             case nextToken = "nextToken"
@@ -1206,6 +1394,11 @@ extension IoTThingsGraph {
         public init(cloudMetricEnabled: Bool? = nil, metricRuleRoleArn: String? = nil) {
             self.cloudMetricEnabled = cloudMetricEnabled
             self.metricRuleRoleArn = metricRuleRoleArn
+        }
+
+        public func validate() throws {
+            try validate(metricRuleRoleArn, name:"metricRuleRoleArn", max: 2048)
+            try validate(metricRuleRoleArn, name:"metricRuleRoleArn", min: 20)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1251,6 +1444,11 @@ extension IoTThingsGraph {
             self.maxResults = maxResults
             self.namespaceVersion = namespaceVersion
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 250)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1314,6 +1512,13 @@ extension IoTThingsGraph {
             self.systemInstanceId = systemInstanceId
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 250)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(systemInstanceId, name:"systemInstanceId", max: 160)
+            try validate(systemInstanceId, name:"systemInstanceId", pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case endTime = "endTime"
             case flowExecutionId = "flowExecutionId"
@@ -1364,6 +1569,11 @@ extension IoTThingsGraph {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 250)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filters = "filters"
             case maxResults = "maxResults"
@@ -1411,6 +1621,11 @@ extension IoTThingsGraph {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 250)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filters = "filters"
             case maxResults = "maxResults"
@@ -1456,6 +1671,11 @@ extension IoTThingsGraph {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 250)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1507,6 +1727,13 @@ extension IoTThingsGraph {
             self.maxResults = maxResults
             self.namespaceVersion = namespaceVersion
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(entityId, name:"entityId", max: 160)
+            try validate(entityId, name:"entityId", pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+            try validate(maxResults, name:"maxResults", max: 250)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1581,6 +1808,14 @@ extension IoTThingsGraph {
             self.summary = summary
             self.validatedDependencyRevisions = validatedDependencyRevisions
             self.validatedNamespaceVersion = validatedNamespaceVersion
+        }
+
+        public func validate() throws {
+            try definition?.validate()
+            try validate(flowActionsRoleArn, name:"flowActionsRoleArn", max: 2048)
+            try validate(flowActionsRoleArn, name:"flowActionsRoleArn", min: 20)
+            try metricsConfiguration?.validate()
+            try summary?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1665,6 +1900,11 @@ extension IoTThingsGraph {
             self.updatedAt = updatedAt
         }
 
+        public func validate() throws {
+            try validate(id, name:"id", max: 160)
+            try validate(id, name:"id", pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case createdAt = "createdAt"
@@ -1695,6 +1935,11 @@ extension IoTThingsGraph {
             self.definition = definition
             self.summary = summary
             self.validatedNamespaceVersion = validatedNamespaceVersion
+        }
+
+        public func validate() throws {
+            try definition?.validate()
+            try summary?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1753,6 +1998,11 @@ extension IoTThingsGraph {
             self.revisionNumber = revisionNumber
         }
 
+        public func validate() throws {
+            try validate(id, name:"id", max: 160)
+            try validate(id, name:"id", pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case createdAt = "createdAt"
@@ -1776,6 +2026,14 @@ extension IoTThingsGraph {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", max: 128)
+            try validate(key, name:"key", min: 1)
+            try validate(key, name:"key", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(value, name:"value", max: 256)
+            try validate(value, name:"value", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case key = "key"
             case value = "value"
@@ -1795,6 +2053,11 @@ extension IoTThingsGraph {
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try validate(resourceArn, name:"resourceArn", max: 2048)
+            try validate(resourceArn, name:"resourceArn", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1826,6 +2089,12 @@ extension IoTThingsGraph {
             self.thingName = thingName
         }
 
+        public func validate() throws {
+            try validate(thingName, name:"thingName", max: 128)
+            try validate(thingName, name:"thingName", min: 1)
+            try validate(thingName, name:"thingName", pattern: "[a-zA-Z0-9:_-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case thingArn = "thingArn"
             case thingName = "thingName"
@@ -1843,6 +2112,11 @@ extension IoTThingsGraph {
             self.id = id
         }
 
+        public func validate() throws {
+            try validate(id, name:"id", max: 160)
+            try validate(id, name:"id", pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case id = "id"
         }
@@ -1857,6 +2131,10 @@ extension IoTThingsGraph {
         
         public init(summary: SystemInstanceSummary? = nil) {
             self.summary = summary
+        }
+
+        public func validate() throws {
+            try summary?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1877,6 +2155,11 @@ extension IoTThingsGraph {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func validate() throws {
+            try validate(resourceArn, name:"resourceArn", max: 2048)
+            try validate(resourceArn, name:"resourceArn", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1912,6 +2195,12 @@ extension IoTThingsGraph {
             self.id = id
         }
 
+        public func validate() throws {
+            try definition.validate()
+            try validate(id, name:"id", max: 160)
+            try validate(id, name:"id", pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case compatibleNamespaceVersion = "compatibleNamespaceVersion"
             case definition = "definition"
@@ -1928,6 +2217,10 @@ extension IoTThingsGraph {
         
         public init(summary: FlowTemplateSummary? = nil) {
             self.summary = summary
+        }
+
+        public func validate() throws {
+            try summary?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1954,6 +2247,12 @@ extension IoTThingsGraph {
             self.id = id
         }
 
+        public func validate() throws {
+            try definition.validate()
+            try validate(id, name:"id", max: 160)
+            try validate(id, name:"id", pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case compatibleNamespaceVersion = "compatibleNamespaceVersion"
             case definition = "definition"
@@ -1970,6 +2269,10 @@ extension IoTThingsGraph {
         
         public init(summary: SystemTemplateSummary? = nil) {
             self.summary = summary
+        }
+
+        public func validate() throws {
+            try summary?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1996,6 +2299,10 @@ extension IoTThingsGraph {
             self.syncWithPublicNamespace = syncWithPublicNamespace
         }
 
+        public func validate() throws {
+            try document?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case deprecateExistingEntities = "deprecateExistingEntities"
             case document = "document"
@@ -2012,6 +2319,11 @@ extension IoTThingsGraph {
         
         public init(uploadId: String) {
             self.uploadId = uploadId
+        }
+
+        public func validate() throws {
+            try validate(uploadId, name:"uploadId", max: 40)
+            try validate(uploadId, name:"uploadId", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -16,6 +16,10 @@ extension Organizations {
             self.handshakeId = handshakeId
         }
 
+        public func validate() throws {
+            try validate(handshakeId, name:"handshakeId", pattern: "^h-[0-9a-z]{8,32}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case handshakeId = "HandshakeId"
         }
@@ -30,6 +34,10 @@ extension Organizations {
         
         public init(handshake: Handshake? = nil) {
             self.handshake = handshake
+        }
+
+        public func validate() throws {
+            try handshake?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -75,6 +83,17 @@ extension Organizations {
             self.joinedTimestamp = joinedTimestamp
             self.name = name
             self.status = status
+        }
+
+        public func validate() throws {
+            try validate(arn, name:"arn", pattern: "^arn:aws:organizations::\\d{12}:account\\/o-[a-z0-9]{10,32}\\/\\d{12}")
+            try validate(email, name:"email", max: 64)
+            try validate(email, name:"email", min: 6)
+            try validate(email, name:"email", pattern: "[^\\s@]+@[^\\s@]+\\.[^\\s@]+")
+            try validate(id, name:"id", pattern: "^\\d{12}$")
+            try validate(name, name:"name", max: 50)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "[\\u0020-\\u007E]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -123,6 +142,11 @@ extension Organizations {
             self.targetId = targetId
         }
 
+        public func validate() throws {
+            try validate(policyId, name:"policyId", pattern: "^p-[0-9a-zA-Z_]{8,128}$")
+            try validate(targetId, name:"targetId", pattern: "^(r-[0-9a-z]{4,32})|(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case policyId = "PolicyId"
             case targetId = "TargetId"
@@ -140,6 +164,10 @@ extension Organizations {
             self.handshakeId = handshakeId
         }
 
+        public func validate() throws {
+            try validate(handshakeId, name:"handshakeId", pattern: "^h-[0-9a-z]{8,32}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case handshakeId = "HandshakeId"
         }
@@ -154,6 +182,10 @@ extension Organizations {
         
         public init(handshake: Handshake? = nil) {
             self.handshake = handshake
+        }
+
+        public func validate() throws {
+            try handshake?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -174,6 +206,10 @@ extension Organizations {
         public init(id: String? = nil, type: ChildType? = nil) {
             self.id = id
             self.`type` = `type`
+        }
+
+        public func validate() throws {
+            try validate(id, name:"id", pattern: "^(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -247,6 +283,16 @@ extension Organizations {
             self.roleName = roleName
         }
 
+        public func validate() throws {
+            try validate(accountName, name:"accountName", max: 50)
+            try validate(accountName, name:"accountName", min: 1)
+            try validate(accountName, name:"accountName", pattern: "[\\u0020-\\u007E]+")
+            try validate(email, name:"email", max: 64)
+            try validate(email, name:"email", min: 6)
+            try validate(email, name:"email", pattern: "[^\\s@]+@[^\\s@]+\\.[^\\s@]+")
+            try validate(roleName, name:"roleName", pattern: "[\\w+=,.@-]{1,64}")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountName = "AccountName"
             case email = "Email"
@@ -264,6 +310,10 @@ extension Organizations {
         
         public init(createAccountStatus: CreateAccountStatus? = nil) {
             self.createAccountStatus = createAccountStatus
+        }
+
+        public func validate() throws {
+            try createAccountStatus?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -317,6 +367,15 @@ extension Organizations {
             self.state = state
         }
 
+        public func validate() throws {
+            try validate(accountId, name:"accountId", pattern: "^\\d{12}$")
+            try validate(accountName, name:"accountName", max: 50)
+            try validate(accountName, name:"accountName", min: 1)
+            try validate(accountName, name:"accountName", pattern: "[\\u0020-\\u007E]+")
+            try validate(govCloudAccountId, name:"govCloudAccountId", pattern: "^\\d{12}$")
+            try validate(id, name:"id", pattern: "^car-[a-z0-9]{8,32}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
             case accountName = "AccountName"
@@ -352,6 +411,16 @@ extension Organizations {
             self.roleName = roleName
         }
 
+        public func validate() throws {
+            try validate(accountName, name:"accountName", max: 50)
+            try validate(accountName, name:"accountName", min: 1)
+            try validate(accountName, name:"accountName", pattern: "[\\u0020-\\u007E]+")
+            try validate(email, name:"email", max: 64)
+            try validate(email, name:"email", min: 6)
+            try validate(email, name:"email", pattern: "[^\\s@]+@[^\\s@]+\\.[^\\s@]+")
+            try validate(roleName, name:"roleName", pattern: "[\\w+=,.@-]{1,64}")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountName = "AccountName"
             case email = "Email"
@@ -368,6 +437,10 @@ extension Organizations {
         
         public init(createAccountStatus: CreateAccountStatus? = nil) {
             self.createAccountStatus = createAccountStatus
+        }
+
+        public func validate() throws {
+            try createAccountStatus?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -402,6 +475,10 @@ extension Organizations {
             self.organization = organization
         }
 
+        public func validate() throws {
+            try organization?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case organization = "Organization"
         }
@@ -422,6 +499,12 @@ extension Organizations {
             self.parentId = parentId
         }
 
+        public func validate() throws {
+            try validate(name, name:"name", max: 128)
+            try validate(name, name:"name", min: 1)
+            try validate(parentId, name:"parentId", pattern: "^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case parentId = "ParentId"
@@ -437,6 +520,10 @@ extension Organizations {
         
         public init(organizationalUnit: OrganizationalUnit? = nil) {
             self.organizationalUnit = organizationalUnit
+        }
+
+        public func validate() throws {
+            try organizationalUnit?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -467,6 +554,14 @@ extension Organizations {
             self.`type` = `type`
         }
 
+        public func validate() throws {
+            try validate(content, name:"content", max: 1000000)
+            try validate(content, name:"content", min: 1)
+            try validate(description, name:"description", max: 512)
+            try validate(name, name:"name", max: 128)
+            try validate(name, name:"name", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case content = "Content"
             case description = "Description"
@@ -486,6 +581,10 @@ extension Organizations {
             self.policy = policy
         }
 
+        public func validate() throws {
+            try policy?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case policy = "Policy"
         }
@@ -500,6 +599,10 @@ extension Organizations {
         
         public init(handshakeId: String) {
             self.handshakeId = handshakeId
+        }
+
+        public func validate() throws {
+            try validate(handshakeId, name:"handshakeId", pattern: "^h-[0-9a-z]{8,32}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -518,6 +621,10 @@ extension Organizations {
             self.handshake = handshake
         }
 
+        public func validate() throws {
+            try handshake?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case handshake = "Handshake"
         }
@@ -532,6 +639,10 @@ extension Organizations {
         
         public init(organizationalUnitId: String) {
             self.organizationalUnitId = organizationalUnitId
+        }
+
+        public func validate() throws {
+            try validate(organizationalUnitId, name:"organizationalUnitId", pattern: "^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -550,6 +661,10 @@ extension Organizations {
             self.policyId = policyId
         }
 
+        public func validate() throws {
+            try validate(policyId, name:"policyId", pattern: "^p-[0-9a-zA-Z_]{8,128}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case policyId = "PolicyId"
         }
@@ -564,6 +679,10 @@ extension Organizations {
         
         public init(accountId: String) {
             self.accountId = accountId
+        }
+
+        public func validate() throws {
+            try validate(accountId, name:"accountId", pattern: "^\\d{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -582,6 +701,10 @@ extension Organizations {
             self.account = account
         }
 
+        public func validate() throws {
+            try account?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case account = "Account"
         }
@@ -596,6 +719,10 @@ extension Organizations {
         
         public init(createAccountRequestId: String) {
             self.createAccountRequestId = createAccountRequestId
+        }
+
+        public func validate() throws {
+            try validate(createAccountRequestId, name:"createAccountRequestId", pattern: "^car-[a-z0-9]{8,32}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -614,6 +741,10 @@ extension Organizations {
             self.createAccountStatus = createAccountStatus
         }
 
+        public func validate() throws {
+            try createAccountStatus?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case createAccountStatus = "CreateAccountStatus"
         }
@@ -628,6 +759,10 @@ extension Organizations {
         
         public init(handshakeId: String) {
             self.handshakeId = handshakeId
+        }
+
+        public func validate() throws {
+            try validate(handshakeId, name:"handshakeId", pattern: "^h-[0-9a-z]{8,32}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -646,6 +781,10 @@ extension Organizations {
             self.handshake = handshake
         }
 
+        public func validate() throws {
+            try handshake?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case handshake = "Handshake"
         }
@@ -660,6 +799,10 @@ extension Organizations {
         
         public init(organization: Organization? = nil) {
             self.organization = organization
+        }
+
+        public func validate() throws {
+            try organization?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -678,6 +821,10 @@ extension Organizations {
             self.organizationalUnitId = organizationalUnitId
         }
 
+        public func validate() throws {
+            try validate(organizationalUnitId, name:"organizationalUnitId", pattern: "^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case organizationalUnitId = "OrganizationalUnitId"
         }
@@ -692,6 +839,10 @@ extension Organizations {
         
         public init(organizationalUnit: OrganizationalUnit? = nil) {
             self.organizationalUnit = organizationalUnit
+        }
+
+        public func validate() throws {
+            try organizationalUnit?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -710,6 +861,10 @@ extension Organizations {
             self.policyId = policyId
         }
 
+        public func validate() throws {
+            try validate(policyId, name:"policyId", pattern: "^p-[0-9a-zA-Z_]{8,128}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case policyId = "PolicyId"
         }
@@ -724,6 +879,10 @@ extension Organizations {
         
         public init(policy: Policy? = nil) {
             self.policy = policy
+        }
+
+        public func validate() throws {
+            try policy?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -746,6 +905,11 @@ extension Organizations {
             self.targetId = targetId
         }
 
+        public func validate() throws {
+            try validate(policyId, name:"policyId", pattern: "^p-[0-9a-zA-Z_]{8,128}$")
+            try validate(targetId, name:"targetId", pattern: "^(r-[0-9a-z]{4,32})|(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case policyId = "PolicyId"
             case targetId = "TargetId"
@@ -761,6 +925,12 @@ extension Organizations {
         
         public init(servicePrincipal: String) {
             self.servicePrincipal = servicePrincipal
+        }
+
+        public func validate() throws {
+            try validate(servicePrincipal, name:"servicePrincipal", max: 128)
+            try validate(servicePrincipal, name:"servicePrincipal", min: 1)
+            try validate(servicePrincipal, name:"servicePrincipal", pattern: "[\\w+=,.@-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -783,6 +953,10 @@ extension Organizations {
             self.rootId = rootId
         }
 
+        public func validate() throws {
+            try validate(rootId, name:"rootId", pattern: "^r-[0-9a-z]{4,32}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case policyType = "PolicyType"
             case rootId = "RootId"
@@ -800,6 +974,10 @@ extension Organizations {
             self.root = root
         }
 
+        public func validate() throws {
+            try root?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case root = "Root"
         }
@@ -814,6 +992,12 @@ extension Organizations {
         
         public init(servicePrincipal: String) {
             self.servicePrincipal = servicePrincipal
+        }
+
+        public func validate() throws {
+            try validate(servicePrincipal, name:"servicePrincipal", max: 128)
+            try validate(servicePrincipal, name:"servicePrincipal", min: 1)
+            try validate(servicePrincipal, name:"servicePrincipal", pattern: "[\\w+=,.@-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -840,6 +1024,10 @@ extension Organizations {
             self.handshake = handshake
         }
 
+        public func validate() throws {
+            try handshake?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case handshake = "Handshake"
         }
@@ -860,6 +1048,10 @@ extension Organizations {
             self.rootId = rootId
         }
 
+        public func validate() throws {
+            try validate(rootId, name:"rootId", pattern: "^r-[0-9a-z]{4,32}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case policyType = "PolicyType"
             case rootId = "RootId"
@@ -875,6 +1067,10 @@ extension Organizations {
         
         public init(root: Root? = nil) {
             self.root = root
+        }
+
+        public func validate() throws {
+            try root?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -895,6 +1091,12 @@ extension Organizations {
         public init(dateEnabled: TimeStamp? = nil, servicePrincipal: String? = nil) {
             self.dateEnabled = dateEnabled
             self.servicePrincipal = servicePrincipal
+        }
+
+        public func validate() throws {
+            try validate(servicePrincipal, name:"servicePrincipal", max: 128)
+            try validate(servicePrincipal, name:"servicePrincipal", min: 1)
+            try validate(servicePrincipal, name:"servicePrincipal", pattern: "[\\w+=,.@-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -942,6 +1144,11 @@ extension Organizations {
             self.state = state
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", pattern: "^arn:aws:organizations::\\d{12}:handshake\\/o-[a-z0-9]{10,32}\\/[a-z_]{1,32}\\/h-[0-9a-z]{8,32}")
+            try validate(id, name:"id", pattern: "^h-[0-9a-z]{8,32}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case action = "Action"
             case arn = "Arn"
@@ -981,6 +1188,10 @@ extension Organizations {
             self.parentHandshakeId = parentHandshakeId
         }
 
+        public func validate() throws {
+            try validate(parentHandshakeId, name:"parentHandshakeId", pattern: "^h-[0-9a-z]{8,32}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case actionType = "ActionType"
             case parentHandshakeId = "ParentHandshakeId"
@@ -1000,6 +1211,11 @@ extension Organizations {
         public init(id: String, type: HandshakePartyType) {
             self.id = id
             self.`type` = `type`
+        }
+
+        public func validate() throws {
+            try validate(id, name:"id", max: 64)
+            try validate(id, name:"id", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1108,6 +1324,11 @@ extension Organizations {
             self.target = target
         }
 
+        public func validate() throws {
+            try validate(notes, name:"notes", max: 1024)
+            try target.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case notes = "Notes"
             case target = "Target"
@@ -1123,6 +1344,10 @@ extension Organizations {
         
         public init(handshake: Handshake? = nil) {
             self.handshake = handshake
+        }
+
+        public func validate() throws {
+            try handshake?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1143,6 +1368,11 @@ extension Organizations {
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 20)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1191,6 +1421,12 @@ extension Organizations {
             self.parentId = parentId
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 20)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(parentId, name:"parentId", pattern: "^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -1232,6 +1468,11 @@ extension Organizations {
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 20)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1284,6 +1525,12 @@ extension Organizations {
             self.parentId = parentId
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 20)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(parentId, name:"parentId", pattern: "^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case childType = "ChildType"
             case maxResults = "MaxResults"
@@ -1330,6 +1577,11 @@ extension Organizations {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.states = states
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 20)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1379,6 +1631,12 @@ extension Organizations {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try filter?.validate()
+            try validate(maxResults, name:"maxResults", max: 20)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filter = "Filter"
             case maxResults = "MaxResults"
@@ -1424,6 +1682,12 @@ extension Organizations {
             self.filter = filter
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try filter?.validate()
+            try validate(maxResults, name:"maxResults", max: 20)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1473,6 +1737,12 @@ extension Organizations {
             self.parentId = parentId
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 20)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(parentId, name:"parentId", pattern: "^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -1518,6 +1788,12 @@ extension Organizations {
             self.childId = childId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(childId, name:"childId", pattern: "^(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
+            try validate(maxResults, name:"maxResults", max: 20)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1571,6 +1847,12 @@ extension Organizations {
             self.targetId = targetId
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 20)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(targetId, name:"targetId", pattern: "^(r-[0-9a-z]{4,32})|(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filter = "Filter"
             case maxResults = "MaxResults"
@@ -1619,6 +1901,11 @@ extension Organizations {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 20)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filter = "Filter"
             case maxResults = "MaxResults"
@@ -1662,6 +1949,11 @@ extension Organizations {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 20)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -1702,6 +1994,10 @@ extension Organizations {
         public init(nextToken: String? = nil, resourceId: String) {
             self.nextToken = nextToken
             self.resourceId = resourceId
+        }
+
+        public func validate() throws {
+            try validate(resourceId, name:"resourceId", pattern: "^\\d{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1748,6 +2044,12 @@ extension Organizations {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.policyId = policyId
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 20)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(policyId, name:"policyId", pattern: "^p-[0-9a-zA-Z_]{8,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1797,6 +2099,12 @@ extension Organizations {
             self.sourceParentId = sourceParentId
         }
 
+        public func validate() throws {
+            try validate(accountId, name:"accountId", pattern: "^\\d{12}$")
+            try validate(destinationParentId, name:"destinationParentId", pattern: "^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
+            try validate(sourceParentId, name:"sourceParentId", pattern: "^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
             case destinationParentId = "DestinationParentId"
@@ -1839,6 +2147,16 @@ extension Organizations {
             self.masterAccountId = masterAccountId
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", pattern: "^arn:aws:organizations::\\d{12}:organization\\/o-[a-z0-9]{10,32}")
+            try validate(id, name:"id", pattern: "^o-[a-z0-9]{10,32}$")
+            try validate(masterAccountArn, name:"masterAccountArn", pattern: "^arn:aws:organizations::\\d{12}:account\\/o-[a-z0-9]{10,32}\\/\\d{12}")
+            try validate(masterAccountEmail, name:"masterAccountEmail", max: 64)
+            try validate(masterAccountEmail, name:"masterAccountEmail", min: 6)
+            try validate(masterAccountEmail, name:"masterAccountEmail", pattern: "[^\\s@]+@[^\\s@]+\\.[^\\s@]+")
+            try validate(masterAccountId, name:"masterAccountId", pattern: "^\\d{12}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case availablePolicyTypes = "AvailablePolicyTypes"
@@ -1875,6 +2193,13 @@ extension Organizations {
             self.name = name
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", pattern: "^arn:aws:organizations::\\d{12}:ou\\/o-[a-z0-9]{10,32}\\/ou-[0-9a-z]{4,32}-[0-9a-z]{8,32}")
+            try validate(id, name:"id", pattern: "^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$")
+            try validate(name, name:"name", max: 128)
+            try validate(name, name:"name", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case id = "Id"
@@ -1895,6 +2220,10 @@ extension Organizations {
         public init(id: String? = nil, type: ParentType? = nil) {
             self.id = id
             self.`type` = `type`
+        }
+
+        public func validate() throws {
+            try validate(id, name:"id", pattern: "^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1922,6 +2251,12 @@ extension Organizations {
         public init(content: String? = nil, policySummary: PolicySummary? = nil) {
             self.content = content
             self.policySummary = policySummary
+        }
+
+        public func validate() throws {
+            try validate(content, name:"content", max: 1000000)
+            try validate(content, name:"content", min: 1)
+            try policySummary?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1961,6 +2296,14 @@ extension Organizations {
             self.`type` = `type`
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", pattern: "^(arn:aws:organizations::\\d{12}:policy\\/o-[a-z0-9]{10,32}\\/[0-9a-z_]+\\/p-[0-9a-z]{10,32})|(arn:aws:organizations::aws:policy\\/[0-9a-z_]+\\/p-[0-9a-zA-Z_]{10,128})")
+            try validate(description, name:"description", max: 512)
+            try validate(id, name:"id", pattern: "^p-[0-9a-zA-Z_]{8,128}$")
+            try validate(name, name:"name", max: 128)
+            try validate(name, name:"name", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case awsManaged = "AwsManaged"
@@ -1992,6 +2335,13 @@ extension Organizations {
             self.name = name
             self.targetId = targetId
             self.`type` = `type`
+        }
+
+        public func validate() throws {
+            try validate(arn, name:"arn", pattern: "^arn:aws:organizations::.+:.+")
+            try validate(name, name:"name", max: 128)
+            try validate(name, name:"name", min: 1)
+            try validate(targetId, name:"targetId", pattern: "^(r-[0-9a-z]{4,32})|(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2046,6 +2396,10 @@ extension Organizations {
             self.accountId = accountId
         }
 
+        public func validate() throws {
+            try validate(accountId, name:"accountId", pattern: "^\\d{12}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
         }
@@ -2074,6 +2428,13 @@ extension Organizations {
             self.policyTypes = policyTypes
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", pattern: "^arn:aws:organizations::\\d{12}:root\\/o-[a-z0-9]{10,32}\\/r-[0-9a-z]{4,32}")
+            try validate(id, name:"id", pattern: "^r-[0-9a-z]{4,32}$")
+            try validate(name, name:"name", max: 128)
+            try validate(name, name:"name", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case id = "Id"
@@ -2097,6 +2458,15 @@ extension Organizations {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", max: 128)
+            try validate(key, name:"key", min: 1)
+            try validate(key, name:"key", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(value, name:"value", max: 256)
+            try validate(value, name:"value", min: 0)
+            try validate(value, name:"value", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
@@ -2116,6 +2486,10 @@ extension Organizations {
         public init(resourceId: String, tags: [Tag]) {
             self.resourceId = resourceId
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try validate(resourceId, name:"resourceId", pattern: "^\\d{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2146,6 +2520,10 @@ extension Organizations {
             self.tagKeys = tagKeys
         }
 
+        public func validate() throws {
+            try validate(resourceId, name:"resourceId", pattern: "^\\d{12}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceId = "ResourceId"
             case tagKeys = "TagKeys"
@@ -2167,6 +2545,12 @@ extension Organizations {
             self.organizationalUnitId = organizationalUnitId
         }
 
+        public func validate() throws {
+            try validate(name, name:"name", max: 128)
+            try validate(name, name:"name", min: 1)
+            try validate(organizationalUnitId, name:"organizationalUnitId", pattern: "^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case organizationalUnitId = "OrganizationalUnitId"
@@ -2182,6 +2566,10 @@ extension Organizations {
         
         public init(organizationalUnit: OrganizationalUnit? = nil) {
             self.organizationalUnit = organizationalUnit
+        }
+
+        public func validate() throws {
+            try organizationalUnit?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2212,6 +2600,15 @@ extension Organizations {
             self.policyId = policyId
         }
 
+        public func validate() throws {
+            try validate(content, name:"content", max: 1000000)
+            try validate(content, name:"content", min: 1)
+            try validate(description, name:"description", max: 512)
+            try validate(name, name:"name", max: 128)
+            try validate(name, name:"name", min: 1)
+            try validate(policyId, name:"policyId", pattern: "^p-[0-9a-zA-Z_]{8,128}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case content = "Content"
             case description = "Description"
@@ -2229,6 +2626,10 @@ extension Organizations {
         
         public init(policy: Policy? = nil) {
             self.policy = policy
+        }
+
+        public func validate() throws {
+            try policy?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

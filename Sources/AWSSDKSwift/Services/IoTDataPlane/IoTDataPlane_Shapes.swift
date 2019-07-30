@@ -16,6 +16,12 @@ extension IoTDataPlane {
             self.thingName = thingName
         }
 
+        public func validate() throws {
+            try validate(thingName, name:"thingName", max: 128)
+            try validate(thingName, name:"thingName", min: 1)
+            try validate(thingName, name:"thingName", pattern: "[a-zA-Z0-9_-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case thingName = "thingName"
         }
@@ -48,6 +54,12 @@ extension IoTDataPlane {
         
         public init(thingName: String) {
             self.thingName = thingName
+        }
+
+        public func validate() throws {
+            try validate(thingName, name:"thingName", max: 128)
+            try validate(thingName, name:"thingName", min: 1)
+            try validate(thingName, name:"thingName", pattern: "[a-zA-Z0-9_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -94,6 +106,11 @@ extension IoTDataPlane {
             self.topic = topic
         }
 
+        public func validate() throws {
+            try validate(qos, name:"qos", max: 1)
+            try validate(qos, name:"qos", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case payload = "payload"
             case qos = "qos"
@@ -116,6 +133,12 @@ extension IoTDataPlane {
         public init(payload: Data, thingName: String) {
             self.payload = payload
             self.thingName = thingName
+        }
+
+        public func validate() throws {
+            try validate(thingName, name:"thingName", max: 128)
+            try validate(thingName, name:"thingName", min: 1)
+            try validate(thingName, name:"thingName", pattern: "[a-zA-Z0-9_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {

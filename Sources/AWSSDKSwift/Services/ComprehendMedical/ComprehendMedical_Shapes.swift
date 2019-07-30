@@ -44,6 +44,10 @@ extension ComprehendMedical {
             self.`type` = `type`
         }
 
+        public func validate() throws {
+            try validate(text, name:"text", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case beginOffset = "BeginOffset"
             case endOffset = "EndOffset"
@@ -75,6 +79,11 @@ extension ComprehendMedical {
             self.text = text
         }
 
+        public func validate() throws {
+            try validate(text, name:"text", max: 20000)
+            try validate(text, name:"text", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case text = "Text"
         }
@@ -99,6 +108,10 @@ extension ComprehendMedical {
             self.unmappedAttributes = unmappedAttributes
         }
 
+        public func validate() throws {
+            try validate(paginationToken, name:"paginationToken", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case entities = "Entities"
             case paginationToken = "PaginationToken"
@@ -115,6 +128,11 @@ extension ComprehendMedical {
         
         public init(text: String) {
             self.text = text
+        }
+
+        public func validate() throws {
+            try validate(text, name:"text", max: 20000)
+            try validate(text, name:"text", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -135,6 +153,10 @@ extension ComprehendMedical {
         public init(entities: [Entity], paginationToken: String? = nil) {
             self.entities = entities
             self.paginationToken = paginationToken
+        }
+
+        public func validate() throws {
+            try validate(paginationToken, name:"paginationToken", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -184,6 +206,10 @@ extension ComprehendMedical {
             self.text = text
             self.traits = traits
             self.`type` = `type`
+        }
+
+        public func validate() throws {
+            try validate(text, name:"text", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -274,6 +300,10 @@ extension ComprehendMedical {
         public init(attribute: Attribute? = nil, type: EntityType? = nil) {
             self.attribute = attribute
             self.`type` = `type`
+        }
+
+        public func validate() throws {
+            try attribute?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

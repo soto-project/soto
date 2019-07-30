@@ -24,6 +24,12 @@ extension MachineLearning {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(resourceId, name:"resourceId", max: 64)
+            try validate(resourceId, name:"resourceId", min: 1)
+            try validate(resourceId, name:"resourceId", pattern: "[a-zA-Z0-9_.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
@@ -44,6 +50,12 @@ extension MachineLearning {
         public init(resourceId: String? = nil, resourceType: TaggableResourceType? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
+        }
+
+        public func validate() throws {
+            try validate(resourceId, name:"resourceId", max: 64)
+            try validate(resourceId, name:"resourceId", min: 1)
+            try validate(resourceId, name:"resourceId", pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -123,6 +135,26 @@ extension MachineLearning {
             self.totalRecordCount = totalRecordCount
         }
 
+        public func validate() throws {
+            try validate(batchPredictionDataSourceId, name:"batchPredictionDataSourceId", max: 64)
+            try validate(batchPredictionDataSourceId, name:"batchPredictionDataSourceId", min: 1)
+            try validate(batchPredictionDataSourceId, name:"batchPredictionDataSourceId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(batchPredictionId, name:"batchPredictionId", max: 64)
+            try validate(batchPredictionId, name:"batchPredictionId", min: 1)
+            try validate(batchPredictionId, name:"batchPredictionId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(createdByIamUser, name:"createdByIamUser", pattern: "arn:aws:iam::[0-9]+:((user/.+)|(root))")
+            try validate(inputDataLocationS3, name:"inputDataLocationS3", max: 2048)
+            try validate(inputDataLocationS3, name:"inputDataLocationS3", pattern: "s3://([^/]+)(/.*)?")
+            try validate(message, name:"message", max: 10240)
+            try validate(mLModelId, name:"mLModelId", max: 64)
+            try validate(mLModelId, name:"mLModelId", min: 1)
+            try validate(mLModelId, name:"mLModelId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(name, name:"name", max: 1024)
+            try validate(name, name:"name", pattern: ".*\\S.*|^$")
+            try validate(outputUri, name:"outputUri", max: 2048)
+            try validate(outputUri, name:"outputUri", pattern: "s3://([^/]+)(/.*)?")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case batchPredictionDataSourceId = "BatchPredictionDataSourceId"
             case batchPredictionId = "BatchPredictionId"
@@ -182,6 +214,22 @@ extension MachineLearning {
             self.outputUri = outputUri
         }
 
+        public func validate() throws {
+            try validate(batchPredictionDataSourceId, name:"batchPredictionDataSourceId", max: 64)
+            try validate(batchPredictionDataSourceId, name:"batchPredictionDataSourceId", min: 1)
+            try validate(batchPredictionDataSourceId, name:"batchPredictionDataSourceId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(batchPredictionId, name:"batchPredictionId", max: 64)
+            try validate(batchPredictionId, name:"batchPredictionId", min: 1)
+            try validate(batchPredictionId, name:"batchPredictionId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(batchPredictionName, name:"batchPredictionName", max: 1024)
+            try validate(batchPredictionName, name:"batchPredictionName", pattern: ".*\\S.*|^$")
+            try validate(mLModelId, name:"mLModelId", max: 64)
+            try validate(mLModelId, name:"mLModelId", min: 1)
+            try validate(mLModelId, name:"mLModelId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(outputUri, name:"outputUri", max: 2048)
+            try validate(outputUri, name:"outputUri", pattern: "s3://([^/]+)(/.*)?")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case batchPredictionDataSourceId = "BatchPredictionDataSourceId"
             case batchPredictionId = "BatchPredictionId"
@@ -200,6 +248,12 @@ extension MachineLearning {
         
         public init(batchPredictionId: String? = nil) {
             self.batchPredictionId = batchPredictionId
+        }
+
+        public func validate() throws {
+            try validate(batchPredictionId, name:"batchPredictionId", max: 64)
+            try validate(batchPredictionId, name:"batchPredictionId", min: 1)
+            try validate(batchPredictionId, name:"batchPredictionId", pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -234,6 +288,17 @@ extension MachineLearning {
             self.roleARN = roleARN
         }
 
+        public func validate() throws {
+            try validate(dataSourceId, name:"dataSourceId", max: 64)
+            try validate(dataSourceId, name:"dataSourceId", min: 1)
+            try validate(dataSourceId, name:"dataSourceId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(dataSourceName, name:"dataSourceName", max: 1024)
+            try validate(dataSourceName, name:"dataSourceName", pattern: ".*\\S.*|^$")
+            try rDSData.validate()
+            try validate(roleARN, name:"roleARN", max: 110)
+            try validate(roleARN, name:"roleARN", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case computeStatistics = "ComputeStatistics"
             case dataSourceId = "DataSourceId"
@@ -252,6 +317,12 @@ extension MachineLearning {
         
         public init(dataSourceId: String? = nil) {
             self.dataSourceId = dataSourceId
+        }
+
+        public func validate() throws {
+            try validate(dataSourceId, name:"dataSourceId", max: 64)
+            try validate(dataSourceId, name:"dataSourceId", min: 1)
+            try validate(dataSourceId, name:"dataSourceId", pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -286,6 +357,17 @@ extension MachineLearning {
             self.roleARN = roleARN
         }
 
+        public func validate() throws {
+            try validate(dataSourceId, name:"dataSourceId", max: 64)
+            try validate(dataSourceId, name:"dataSourceId", min: 1)
+            try validate(dataSourceId, name:"dataSourceId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(dataSourceName, name:"dataSourceName", max: 1024)
+            try validate(dataSourceName, name:"dataSourceName", pattern: ".*\\S.*|^$")
+            try dataSpec.validate()
+            try validate(roleARN, name:"roleARN", max: 110)
+            try validate(roleARN, name:"roleARN", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case computeStatistics = "ComputeStatistics"
             case dataSourceId = "DataSourceId"
@@ -304,6 +386,12 @@ extension MachineLearning {
         
         public init(dataSourceId: String? = nil) {
             self.dataSourceId = dataSourceId
+        }
+
+        public func validate() throws {
+            try validate(dataSourceId, name:"dataSourceId", max: 64)
+            try validate(dataSourceId, name:"dataSourceId", min: 1)
+            try validate(dataSourceId, name:"dataSourceId", pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -334,6 +422,15 @@ extension MachineLearning {
             self.dataSpec = dataSpec
         }
 
+        public func validate() throws {
+            try validate(dataSourceId, name:"dataSourceId", max: 64)
+            try validate(dataSourceId, name:"dataSourceId", min: 1)
+            try validate(dataSourceId, name:"dataSourceId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(dataSourceName, name:"dataSourceName", max: 1024)
+            try validate(dataSourceName, name:"dataSourceName", pattern: ".*\\S.*|^$")
+            try dataSpec.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case computeStatistics = "ComputeStatistics"
             case dataSourceId = "DataSourceId"
@@ -351,6 +448,12 @@ extension MachineLearning {
         
         public init(dataSourceId: String? = nil) {
             self.dataSourceId = dataSourceId
+        }
+
+        public func validate() throws {
+            try validate(dataSourceId, name:"dataSourceId", max: 64)
+            try validate(dataSourceId, name:"dataSourceId", min: 1)
+            try validate(dataSourceId, name:"dataSourceId", pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -381,6 +484,20 @@ extension MachineLearning {
             self.mLModelId = mLModelId
         }
 
+        public func validate() throws {
+            try validate(evaluationDataSourceId, name:"evaluationDataSourceId", max: 64)
+            try validate(evaluationDataSourceId, name:"evaluationDataSourceId", min: 1)
+            try validate(evaluationDataSourceId, name:"evaluationDataSourceId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(evaluationId, name:"evaluationId", max: 64)
+            try validate(evaluationId, name:"evaluationId", min: 1)
+            try validate(evaluationId, name:"evaluationId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(evaluationName, name:"evaluationName", max: 1024)
+            try validate(evaluationName, name:"evaluationName", pattern: ".*\\S.*|^$")
+            try validate(mLModelId, name:"mLModelId", max: 64)
+            try validate(mLModelId, name:"mLModelId", min: 1)
+            try validate(mLModelId, name:"mLModelId", pattern: "[a-zA-Z0-9_.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case evaluationDataSourceId = "EvaluationDataSourceId"
             case evaluationId = "EvaluationId"
@@ -398,6 +515,12 @@ extension MachineLearning {
         
         public init(evaluationId: String? = nil) {
             self.evaluationId = evaluationId
+        }
+
+        public func validate() throws {
+            try validate(evaluationId, name:"evaluationId", max: 64)
+            try validate(evaluationId, name:"evaluationId", min: 1)
+            try validate(evaluationId, name:"evaluationId", pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -440,6 +563,20 @@ extension MachineLearning {
             self.trainingDataSourceId = trainingDataSourceId
         }
 
+        public func validate() throws {
+            try validate(mLModelId, name:"mLModelId", max: 64)
+            try validate(mLModelId, name:"mLModelId", min: 1)
+            try validate(mLModelId, name:"mLModelId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(mLModelName, name:"mLModelName", max: 1024)
+            try validate(mLModelName, name:"mLModelName", pattern: ".*\\S.*|^$")
+            try validate(recipe, name:"recipe", max: 131071)
+            try validate(recipeUri, name:"recipeUri", max: 2048)
+            try validate(recipeUri, name:"recipeUri", pattern: "s3://([^/]+)(/.*)?")
+            try validate(trainingDataSourceId, name:"trainingDataSourceId", max: 64)
+            try validate(trainingDataSourceId, name:"trainingDataSourceId", min: 1)
+            try validate(trainingDataSourceId, name:"trainingDataSourceId", pattern: "[a-zA-Z0-9_.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case mLModelId = "MLModelId"
             case mLModelName = "MLModelName"
@@ -462,6 +599,12 @@ extension MachineLearning {
             self.mLModelId = mLModelId
         }
 
+        public func validate() throws {
+            try validate(mLModelId, name:"mLModelId", max: 64)
+            try validate(mLModelId, name:"mLModelId", min: 1)
+            try validate(mLModelId, name:"mLModelId", pattern: "[a-zA-Z0-9_.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case mLModelId = "MLModelId"
         }
@@ -476,6 +619,12 @@ extension MachineLearning {
         
         public init(mLModelId: String) {
             self.mLModelId = mLModelId
+        }
+
+        public func validate() throws {
+            try validate(mLModelId, name:"mLModelId", max: 64)
+            try validate(mLModelId, name:"mLModelId", min: 1)
+            try validate(mLModelId, name:"mLModelId", pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -496,6 +645,13 @@ extension MachineLearning {
         public init(mLModelId: String? = nil, realtimeEndpointInfo: RealtimeEndpointInfo? = nil) {
             self.mLModelId = mLModelId
             self.realtimeEndpointInfo = realtimeEndpointInfo
+        }
+
+        public func validate() throws {
+            try validate(mLModelId, name:"mLModelId", max: 64)
+            try validate(mLModelId, name:"mLModelId", min: 1)
+            try validate(mLModelId, name:"mLModelId", pattern: "[a-zA-Z0-9_.-]+")
+            try realtimeEndpointInfo?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -577,6 +733,22 @@ extension MachineLearning {
             self.status = status
         }
 
+        public func validate() throws {
+            try validate(createdByIamUser, name:"createdByIamUser", pattern: "arn:aws:iam::[0-9]+:((user/.+)|(root))")
+            try validate(dataLocationS3, name:"dataLocationS3", max: 2048)
+            try validate(dataLocationS3, name:"dataLocationS3", pattern: "s3://([^/]+)(/.*)?")
+            try validate(dataSourceId, name:"dataSourceId", max: 64)
+            try validate(dataSourceId, name:"dataSourceId", min: 1)
+            try validate(dataSourceId, name:"dataSourceId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(message, name:"message", max: 10240)
+            try validate(name, name:"name", max: 1024)
+            try validate(name, name:"name", pattern: ".*\\S.*|^$")
+            try rDSMetadata?.validate()
+            try redshiftMetadata?.validate()
+            try validate(roleARN, name:"roleARN", max: 110)
+            try validate(roleARN, name:"roleARN", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case computeStatistics = "ComputeStatistics"
             case computeTime = "ComputeTime"
@@ -620,6 +792,12 @@ extension MachineLearning {
             self.batchPredictionId = batchPredictionId
         }
 
+        public func validate() throws {
+            try validate(batchPredictionId, name:"batchPredictionId", max: 64)
+            try validate(batchPredictionId, name:"batchPredictionId", min: 1)
+            try validate(batchPredictionId, name:"batchPredictionId", pattern: "[a-zA-Z0-9_.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case batchPredictionId = "BatchPredictionId"
         }
@@ -634,6 +812,12 @@ extension MachineLearning {
         
         public init(batchPredictionId: String? = nil) {
             self.batchPredictionId = batchPredictionId
+        }
+
+        public func validate() throws {
+            try validate(batchPredictionId, name:"batchPredictionId", max: 64)
+            try validate(batchPredictionId, name:"batchPredictionId", min: 1)
+            try validate(batchPredictionId, name:"batchPredictionId", pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -652,6 +836,12 @@ extension MachineLearning {
             self.dataSourceId = dataSourceId
         }
 
+        public func validate() throws {
+            try validate(dataSourceId, name:"dataSourceId", max: 64)
+            try validate(dataSourceId, name:"dataSourceId", min: 1)
+            try validate(dataSourceId, name:"dataSourceId", pattern: "[a-zA-Z0-9_.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dataSourceId = "DataSourceId"
         }
@@ -666,6 +856,12 @@ extension MachineLearning {
         
         public init(dataSourceId: String? = nil) {
             self.dataSourceId = dataSourceId
+        }
+
+        public func validate() throws {
+            try validate(dataSourceId, name:"dataSourceId", max: 64)
+            try validate(dataSourceId, name:"dataSourceId", min: 1)
+            try validate(dataSourceId, name:"dataSourceId", pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -684,6 +880,12 @@ extension MachineLearning {
             self.evaluationId = evaluationId
         }
 
+        public func validate() throws {
+            try validate(evaluationId, name:"evaluationId", max: 64)
+            try validate(evaluationId, name:"evaluationId", min: 1)
+            try validate(evaluationId, name:"evaluationId", pattern: "[a-zA-Z0-9_.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case evaluationId = "EvaluationId"
         }
@@ -698,6 +900,12 @@ extension MachineLearning {
         
         public init(evaluationId: String? = nil) {
             self.evaluationId = evaluationId
+        }
+
+        public func validate() throws {
+            try validate(evaluationId, name:"evaluationId", max: 64)
+            try validate(evaluationId, name:"evaluationId", min: 1)
+            try validate(evaluationId, name:"evaluationId", pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -716,6 +924,12 @@ extension MachineLearning {
             self.mLModelId = mLModelId
         }
 
+        public func validate() throws {
+            try validate(mLModelId, name:"mLModelId", max: 64)
+            try validate(mLModelId, name:"mLModelId", min: 1)
+            try validate(mLModelId, name:"mLModelId", pattern: "[a-zA-Z0-9_.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case mLModelId = "MLModelId"
         }
@@ -732,6 +946,12 @@ extension MachineLearning {
             self.mLModelId = mLModelId
         }
 
+        public func validate() throws {
+            try validate(mLModelId, name:"mLModelId", max: 64)
+            try validate(mLModelId, name:"mLModelId", min: 1)
+            try validate(mLModelId, name:"mLModelId", pattern: "[a-zA-Z0-9_.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case mLModelId = "MLModelId"
         }
@@ -746,6 +966,12 @@ extension MachineLearning {
         
         public init(mLModelId: String) {
             self.mLModelId = mLModelId
+        }
+
+        public func validate() throws {
+            try validate(mLModelId, name:"mLModelId", max: 64)
+            try validate(mLModelId, name:"mLModelId", min: 1)
+            try validate(mLModelId, name:"mLModelId", pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -766,6 +992,13 @@ extension MachineLearning {
         public init(mLModelId: String? = nil, realtimeEndpointInfo: RealtimeEndpointInfo? = nil) {
             self.mLModelId = mLModelId
             self.realtimeEndpointInfo = realtimeEndpointInfo
+        }
+
+        public func validate() throws {
+            try validate(mLModelId, name:"mLModelId", max: 64)
+            try validate(mLModelId, name:"mLModelId", min: 1)
+            try validate(mLModelId, name:"mLModelId", pattern: "[a-zA-Z0-9_.-]+")
+            try realtimeEndpointInfo?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -793,6 +1026,12 @@ extension MachineLearning {
             self.tagKeys = tagKeys
         }
 
+        public func validate() throws {
+            try validate(resourceId, name:"resourceId", max: 64)
+            try validate(resourceId, name:"resourceId", min: 1)
+            try validate(resourceId, name:"resourceId", pattern: "[a-zA-Z0-9_.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
@@ -813,6 +1052,12 @@ extension MachineLearning {
         public init(resourceId: String? = nil, resourceType: TaggableResourceType? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
+        }
+
+        public func validate() throws {
+            try validate(resourceId, name:"resourceId", max: 64)
+            try validate(resourceId, name:"resourceId", min: 1)
+            try validate(resourceId, name:"resourceId", pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -870,6 +1115,25 @@ extension MachineLearning {
             self.nextToken = nextToken
             self.prefix = prefix
             self.sortOrder = sortOrder
+        }
+
+        public func validate() throws {
+            try validate(eq, name:"eq", max: 1024)
+            try validate(eq, name:"eq", pattern: ".*\\S.*|^$")
+            try validate(ge, name:"ge", max: 1024)
+            try validate(ge, name:"ge", pattern: ".*\\S.*|^$")
+            try validate(gt, name:"gt", max: 1024)
+            try validate(gt, name:"gt", pattern: ".*\\S.*|^$")
+            try validate(le, name:"le", max: 1024)
+            try validate(le, name:"le", pattern: ".*\\S.*|^$")
+            try validate(limit, name:"limit", max: 100)
+            try validate(limit, name:"limit", min: 1)
+            try validate(lt, name:"lt", max: 1024)
+            try validate(lt, name:"lt", pattern: ".*\\S.*|^$")
+            try validate(ne, name:"ne", max: 1024)
+            try validate(ne, name:"ne", pattern: ".*\\S.*|^$")
+            try validate(prefix, name:"prefix", max: 1024)
+            try validate(prefix, name:"prefix", pattern: ".*\\S.*|^$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -959,6 +1223,25 @@ extension MachineLearning {
             self.sortOrder = sortOrder
         }
 
+        public func validate() throws {
+            try validate(eq, name:"eq", max: 1024)
+            try validate(eq, name:"eq", pattern: ".*\\S.*|^$")
+            try validate(ge, name:"ge", max: 1024)
+            try validate(ge, name:"ge", pattern: ".*\\S.*|^$")
+            try validate(gt, name:"gt", max: 1024)
+            try validate(gt, name:"gt", pattern: ".*\\S.*|^$")
+            try validate(le, name:"le", max: 1024)
+            try validate(le, name:"le", pattern: ".*\\S.*|^$")
+            try validate(limit, name:"limit", max: 100)
+            try validate(limit, name:"limit", min: 1)
+            try validate(lt, name:"lt", max: 1024)
+            try validate(lt, name:"lt", pattern: ".*\\S.*|^$")
+            try validate(ne, name:"ne", max: 1024)
+            try validate(ne, name:"ne", pattern: ".*\\S.*|^$")
+            try validate(prefix, name:"prefix", max: 1024)
+            try validate(prefix, name:"prefix", pattern: ".*\\S.*|^$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case eq = "EQ"
             case filterVariable = "FilterVariable"
@@ -1044,6 +1327,25 @@ extension MachineLearning {
             self.nextToken = nextToken
             self.prefix = prefix
             self.sortOrder = sortOrder
+        }
+
+        public func validate() throws {
+            try validate(eq, name:"eq", max: 1024)
+            try validate(eq, name:"eq", pattern: ".*\\S.*|^$")
+            try validate(ge, name:"ge", max: 1024)
+            try validate(ge, name:"ge", pattern: ".*\\S.*|^$")
+            try validate(gt, name:"gt", max: 1024)
+            try validate(gt, name:"gt", pattern: ".*\\S.*|^$")
+            try validate(le, name:"le", max: 1024)
+            try validate(le, name:"le", pattern: ".*\\S.*|^$")
+            try validate(limit, name:"limit", max: 100)
+            try validate(limit, name:"limit", min: 1)
+            try validate(lt, name:"lt", max: 1024)
+            try validate(lt, name:"lt", pattern: ".*\\S.*|^$")
+            try validate(ne, name:"ne", max: 1024)
+            try validate(ne, name:"ne", pattern: ".*\\S.*|^$")
+            try validate(prefix, name:"prefix", max: 1024)
+            try validate(prefix, name:"prefix", pattern: ".*\\S.*|^$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1133,6 +1435,25 @@ extension MachineLearning {
             self.sortOrder = sortOrder
         }
 
+        public func validate() throws {
+            try validate(eq, name:"eq", max: 1024)
+            try validate(eq, name:"eq", pattern: ".*\\S.*|^$")
+            try validate(ge, name:"ge", max: 1024)
+            try validate(ge, name:"ge", pattern: ".*\\S.*|^$")
+            try validate(gt, name:"gt", max: 1024)
+            try validate(gt, name:"gt", pattern: ".*\\S.*|^$")
+            try validate(le, name:"le", max: 1024)
+            try validate(le, name:"le", pattern: ".*\\S.*|^$")
+            try validate(limit, name:"limit", max: 100)
+            try validate(limit, name:"limit", min: 1)
+            try validate(lt, name:"lt", max: 1024)
+            try validate(lt, name:"lt", pattern: ".*\\S.*|^$")
+            try validate(ne, name:"ne", max: 1024)
+            try validate(ne, name:"ne", pattern: ".*\\S.*|^$")
+            try validate(prefix, name:"prefix", max: 1024)
+            try validate(prefix, name:"prefix", pattern: ".*\\S.*|^$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case eq = "EQ"
             case filterVariable = "FilterVariable"
@@ -1184,6 +1505,12 @@ extension MachineLearning {
             self.resourceType = resourceType
         }
 
+        public func validate() throws {
+            try validate(resourceId, name:"resourceId", max: 64)
+            try validate(resourceId, name:"resourceId", min: 1)
+            try validate(resourceId, name:"resourceId", pattern: "[a-zA-Z0-9_.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
@@ -1207,6 +1534,12 @@ extension MachineLearning {
             self.resourceId = resourceId
             self.resourceType = resourceType
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try validate(resourceId, name:"resourceId", max: 64)
+            try validate(resourceId, name:"resourceId", min: 1)
+            try validate(resourceId, name:"resourceId", pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1291,6 +1624,24 @@ extension MachineLearning {
             self.status = status
         }
 
+        public func validate() throws {
+            try validate(createdByIamUser, name:"createdByIamUser", pattern: "arn:aws:iam::[0-9]+:((user/.+)|(root))")
+            try validate(evaluationDataSourceId, name:"evaluationDataSourceId", max: 64)
+            try validate(evaluationDataSourceId, name:"evaluationDataSourceId", min: 1)
+            try validate(evaluationDataSourceId, name:"evaluationDataSourceId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(evaluationId, name:"evaluationId", max: 64)
+            try validate(evaluationId, name:"evaluationId", min: 1)
+            try validate(evaluationId, name:"evaluationId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(inputDataLocationS3, name:"inputDataLocationS3", max: 2048)
+            try validate(inputDataLocationS3, name:"inputDataLocationS3", pattern: "s3://([^/]+)(/.*)?")
+            try validate(message, name:"message", max: 10240)
+            try validate(mLModelId, name:"mLModelId", max: 64)
+            try validate(mLModelId, name:"mLModelId", min: 1)
+            try validate(mLModelId, name:"mLModelId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(name, name:"name", max: 1024)
+            try validate(name, name:"name", pattern: ".*\\S.*|^$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case computeTime = "ComputeTime"
             case createdAt = "CreatedAt"
@@ -1330,6 +1681,12 @@ extension MachineLearning {
         
         public init(batchPredictionId: String) {
             self.batchPredictionId = batchPredictionId
+        }
+
+        public func validate() throws {
+            try validate(batchPredictionId, name:"batchPredictionId", max: 64)
+            try validate(batchPredictionId, name:"batchPredictionId", min: 1)
+            try validate(batchPredictionId, name:"batchPredictionId", pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1412,6 +1769,26 @@ extension MachineLearning {
             self.totalRecordCount = totalRecordCount
         }
 
+        public func validate() throws {
+            try validate(batchPredictionDataSourceId, name:"batchPredictionDataSourceId", max: 64)
+            try validate(batchPredictionDataSourceId, name:"batchPredictionDataSourceId", min: 1)
+            try validate(batchPredictionDataSourceId, name:"batchPredictionDataSourceId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(batchPredictionId, name:"batchPredictionId", max: 64)
+            try validate(batchPredictionId, name:"batchPredictionId", min: 1)
+            try validate(batchPredictionId, name:"batchPredictionId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(createdByIamUser, name:"createdByIamUser", pattern: "arn:aws:iam::[0-9]+:((user/.+)|(root))")
+            try validate(inputDataLocationS3, name:"inputDataLocationS3", max: 2048)
+            try validate(inputDataLocationS3, name:"inputDataLocationS3", pattern: "s3://([^/]+)(/.*)?")
+            try validate(message, name:"message", max: 10240)
+            try validate(mLModelId, name:"mLModelId", max: 64)
+            try validate(mLModelId, name:"mLModelId", min: 1)
+            try validate(mLModelId, name:"mLModelId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(name, name:"name", max: 1024)
+            try validate(name, name:"name", pattern: ".*\\S.*|^$")
+            try validate(outputUri, name:"outputUri", max: 2048)
+            try validate(outputUri, name:"outputUri", pattern: "s3://([^/]+)(/.*)?")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case batchPredictionDataSourceId = "BatchPredictionDataSourceId"
             case batchPredictionId = "BatchPredictionId"
@@ -1446,6 +1823,12 @@ extension MachineLearning {
         public init(dataSourceId: String, verbose: Bool? = nil) {
             self.dataSourceId = dataSourceId
             self.verbose = verbose
+        }
+
+        public func validate() throws {
+            try validate(dataSourceId, name:"dataSourceId", max: 64)
+            try validate(dataSourceId, name:"dataSourceId", min: 1)
+            try validate(dataSourceId, name:"dataSourceId", pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1538,6 +1921,23 @@ extension MachineLearning {
             self.status = status
         }
 
+        public func validate() throws {
+            try validate(createdByIamUser, name:"createdByIamUser", pattern: "arn:aws:iam::[0-9]+:((user/.+)|(root))")
+            try validate(dataLocationS3, name:"dataLocationS3", max: 2048)
+            try validate(dataLocationS3, name:"dataLocationS3", pattern: "s3://([^/]+)(/.*)?")
+            try validate(dataSourceId, name:"dataSourceId", max: 64)
+            try validate(dataSourceId, name:"dataSourceId", min: 1)
+            try validate(dataSourceId, name:"dataSourceId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(dataSourceSchema, name:"dataSourceSchema", max: 131071)
+            try validate(message, name:"message", max: 10240)
+            try validate(name, name:"name", max: 1024)
+            try validate(name, name:"name", pattern: ".*\\S.*|^$")
+            try rDSMetadata?.validate()
+            try redshiftMetadata?.validate()
+            try validate(roleARN, name:"roleARN", max: 110)
+            try validate(roleARN, name:"roleARN", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case computeStatistics = "ComputeStatistics"
             case computeTime = "ComputeTime"
@@ -1571,6 +1971,12 @@ extension MachineLearning {
         
         public init(evaluationId: String) {
             self.evaluationId = evaluationId
+        }
+
+        public func validate() throws {
+            try validate(evaluationId, name:"evaluationId", max: 64)
+            try validate(evaluationId, name:"evaluationId", min: 1)
+            try validate(evaluationId, name:"evaluationId", pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1645,6 +2051,24 @@ extension MachineLearning {
             self.status = status
         }
 
+        public func validate() throws {
+            try validate(createdByIamUser, name:"createdByIamUser", pattern: "arn:aws:iam::[0-9]+:((user/.+)|(root))")
+            try validate(evaluationDataSourceId, name:"evaluationDataSourceId", max: 64)
+            try validate(evaluationDataSourceId, name:"evaluationDataSourceId", min: 1)
+            try validate(evaluationDataSourceId, name:"evaluationDataSourceId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(evaluationId, name:"evaluationId", max: 64)
+            try validate(evaluationId, name:"evaluationId", min: 1)
+            try validate(evaluationId, name:"evaluationId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(inputDataLocationS3, name:"inputDataLocationS3", max: 2048)
+            try validate(inputDataLocationS3, name:"inputDataLocationS3", pattern: "s3://([^/]+)(/.*)?")
+            try validate(message, name:"message", max: 10240)
+            try validate(mLModelId, name:"mLModelId", max: 64)
+            try validate(mLModelId, name:"mLModelId", min: 1)
+            try validate(mLModelId, name:"mLModelId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(name, name:"name", max: 1024)
+            try validate(name, name:"name", pattern: ".*\\S.*|^$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case computeTime = "ComputeTime"
             case createdAt = "CreatedAt"
@@ -1677,6 +2101,12 @@ extension MachineLearning {
         public init(mLModelId: String, verbose: Bool? = nil) {
             self.mLModelId = mLModelId
             self.verbose = verbose
+        }
+
+        public func validate() throws {
+            try validate(mLModelId, name:"mLModelId", max: 64)
+            try validate(mLModelId, name:"mLModelId", min: 1)
+            try validate(mLModelId, name:"mLModelId", pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1773,6 +2203,23 @@ extension MachineLearning {
             self.status = status
             self.trainingDataSourceId = trainingDataSourceId
             self.trainingParameters = trainingParameters
+        }
+
+        public func validate() throws {
+            try validate(createdByIamUser, name:"createdByIamUser", pattern: "arn:aws:iam::[0-9]+:((user/.+)|(root))")
+            try endpointInfo?.validate()
+            try validate(inputDataLocationS3, name:"inputDataLocationS3", max: 2048)
+            try validate(inputDataLocationS3, name:"inputDataLocationS3", pattern: "s3://([^/]+)(/.*)?")
+            try validate(message, name:"message", max: 10240)
+            try validate(mLModelId, name:"mLModelId", max: 64)
+            try validate(mLModelId, name:"mLModelId", min: 1)
+            try validate(mLModelId, name:"mLModelId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(name, name:"name", max: 1024)
+            try validate(recipe, name:"recipe", max: 131071)
+            try validate(schema, name:"schema", max: 131071)
+            try validate(trainingDataSourceId, name:"trainingDataSourceId", max: 64)
+            try validate(trainingDataSourceId, name:"trainingDataSourceId", min: 1)
+            try validate(trainingDataSourceId, name:"trainingDataSourceId", pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1878,6 +2325,21 @@ extension MachineLearning {
             self.trainingParameters = trainingParameters
         }
 
+        public func validate() throws {
+            try validate(createdByIamUser, name:"createdByIamUser", pattern: "arn:aws:iam::[0-9]+:((user/.+)|(root))")
+            try endpointInfo?.validate()
+            try validate(inputDataLocationS3, name:"inputDataLocationS3", max: 2048)
+            try validate(inputDataLocationS3, name:"inputDataLocationS3", pattern: "s3://([^/]+)(/.*)?")
+            try validate(message, name:"message", max: 10240)
+            try validate(mLModelId, name:"mLModelId", max: 64)
+            try validate(mLModelId, name:"mLModelId", min: 1)
+            try validate(mLModelId, name:"mLModelId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(name, name:"name", max: 1024)
+            try validate(trainingDataSourceId, name:"trainingDataSourceId", max: 64)
+            try validate(trainingDataSourceId, name:"trainingDataSourceId", min: 1)
+            try validate(trainingDataSourceId, name:"trainingDataSourceId", pattern: "[a-zA-Z0-9_.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case algorithm = "Algorithm"
             case computeTime = "ComputeTime"
@@ -1954,6 +2416,14 @@ extension MachineLearning {
             self.record = record
         }
 
+        public func validate() throws {
+            try validate(mLModelId, name:"mLModelId", max: 64)
+            try validate(mLModelId, name:"mLModelId", min: 1)
+            try validate(mLModelId, name:"mLModelId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(predictEndpoint, name:"predictEndpoint", max: 2048)
+            try validate(predictEndpoint, name:"predictEndpoint", pattern: "https://[a-zA-Z0-9-.]*\\.amazon(aws)?\\.com[/]?")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case mLModelId = "MLModelId"
             case predictEndpoint = "PredictEndpoint"
@@ -1969,6 +2439,10 @@ extension MachineLearning {
         
         public init(prediction: Prediction? = nil) {
             self.prediction = prediction
+        }
+
+        public func validate() throws {
+            try prediction?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1995,6 +2469,10 @@ extension MachineLearning {
             self.predictedLabel = predictedLabel
             self.predictedScores = predictedScores
             self.predictedValue = predictedValue
+        }
+
+        public func validate() throws {
+            try validate(predictedLabel, name:"predictedLabel", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2056,6 +2534,24 @@ extension MachineLearning {
             self.subnetId = subnetId
         }
 
+        public func validate() throws {
+            try databaseCredentials.validate()
+            try databaseInformation.validate()
+            try validate(dataSchema, name:"dataSchema", max: 131071)
+            try validate(dataSchemaUri, name:"dataSchemaUri", max: 2048)
+            try validate(dataSchemaUri, name:"dataSchemaUri", pattern: "s3://([^/]+)(/.*)?")
+            try validate(resourceRole, name:"resourceRole", max: 64)
+            try validate(resourceRole, name:"resourceRole", min: 1)
+            try validate(s3StagingLocation, name:"s3StagingLocation", max: 2048)
+            try validate(s3StagingLocation, name:"s3StagingLocation", pattern: "s3://([^/]+)(/.*)?")
+            try validate(selectSqlQuery, name:"selectSqlQuery", max: 16777216)
+            try validate(selectSqlQuery, name:"selectSqlQuery", min: 1)
+            try validate(serviceRole, name:"serviceRole", max: 64)
+            try validate(serviceRole, name:"serviceRole", min: 1)
+            try validate(subnetId, name:"subnetId", max: 255)
+            try validate(subnetId, name:"subnetId", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case databaseCredentials = "DatabaseCredentials"
             case databaseInformation = "DatabaseInformation"
@@ -2085,6 +2581,14 @@ extension MachineLearning {
             self.instanceIdentifier = instanceIdentifier
         }
 
+        public func validate() throws {
+            try validate(databaseName, name:"databaseName", max: 64)
+            try validate(databaseName, name:"databaseName", min: 1)
+            try validate(instanceIdentifier, name:"instanceIdentifier", max: 63)
+            try validate(instanceIdentifier, name:"instanceIdentifier", min: 1)
+            try validate(instanceIdentifier, name:"instanceIdentifier", pattern: "[a-z0-9-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case databaseName = "DatabaseName"
             case instanceIdentifier = "InstanceIdentifier"
@@ -2102,6 +2606,13 @@ extension MachineLearning {
         public init(password: String, username: String) {
             self.password = password
             self.username = username
+        }
+
+        public func validate() throws {
+            try validate(password, name:"password", max: 128)
+            try validate(password, name:"password", min: 8)
+            try validate(username, name:"username", max: 128)
+            try validate(username, name:"username", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2140,6 +2651,20 @@ extension MachineLearning {
             self.serviceRole = serviceRole
         }
 
+        public func validate() throws {
+            try database?.validate()
+            try validate(databaseUserName, name:"databaseUserName", max: 128)
+            try validate(databaseUserName, name:"databaseUserName", min: 1)
+            try validate(dataPipelineId, name:"dataPipelineId", max: 1024)
+            try validate(dataPipelineId, name:"dataPipelineId", min: 1)
+            try validate(resourceRole, name:"resourceRole", max: 64)
+            try validate(resourceRole, name:"resourceRole", min: 1)
+            try validate(selectSqlQuery, name:"selectSqlQuery", max: 16777216)
+            try validate(selectSqlQuery, name:"selectSqlQuery", min: 1)
+            try validate(serviceRole, name:"serviceRole", max: 64)
+            try validate(serviceRole, name:"serviceRole", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case database = "Database"
             case databaseUserName = "DatabaseUserName"
@@ -2171,6 +2696,11 @@ extension MachineLearning {
             self.endpointStatus = endpointStatus
             self.endpointUrl = endpointUrl
             self.peakRequestsPerSecond = peakRequestsPerSecond
+        }
+
+        public func validate() throws {
+            try validate(endpointUrl, name:"endpointUrl", max: 2048)
+            try validate(endpointUrl, name:"endpointUrl", pattern: "https://[a-zA-Z0-9-.]*\\.amazon(aws)?\\.com[/]?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2224,6 +2754,18 @@ extension MachineLearning {
             self.selectSqlQuery = selectSqlQuery
         }
 
+        public func validate() throws {
+            try databaseCredentials.validate()
+            try databaseInformation.validate()
+            try validate(dataSchema, name:"dataSchema", max: 131071)
+            try validate(dataSchemaUri, name:"dataSchemaUri", max: 2048)
+            try validate(dataSchemaUri, name:"dataSchemaUri", pattern: "s3://([^/]+)(/.*)?")
+            try validate(s3StagingLocation, name:"s3StagingLocation", max: 2048)
+            try validate(s3StagingLocation, name:"s3StagingLocation", pattern: "s3://([^/]+)(/.*)?")
+            try validate(selectSqlQuery, name:"selectSqlQuery", max: 16777216)
+            try validate(selectSqlQuery, name:"selectSqlQuery", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case databaseCredentials = "DatabaseCredentials"
             case databaseInformation = "DatabaseInformation"
@@ -2248,6 +2790,15 @@ extension MachineLearning {
             self.databaseName = databaseName
         }
 
+        public func validate() throws {
+            try validate(clusterIdentifier, name:"clusterIdentifier", max: 63)
+            try validate(clusterIdentifier, name:"clusterIdentifier", min: 1)
+            try validate(clusterIdentifier, name:"clusterIdentifier", pattern: "[a-z0-9-]+")
+            try validate(databaseName, name:"databaseName", max: 64)
+            try validate(databaseName, name:"databaseName", min: 1)
+            try validate(databaseName, name:"databaseName", pattern: "[a-z0-9]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case clusterIdentifier = "ClusterIdentifier"
             case databaseName = "DatabaseName"
@@ -2265,6 +2816,13 @@ extension MachineLearning {
         public init(password: String, username: String) {
             self.password = password
             self.username = username
+        }
+
+        public func validate() throws {
+            try validate(password, name:"password", max: 64)
+            try validate(password, name:"password", min: 8)
+            try validate(username, name:"username", max: 128)
+            try validate(username, name:"username", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2288,6 +2846,14 @@ extension MachineLearning {
             self.databaseUserName = databaseUserName
             self.redshiftDatabase = redshiftDatabase
             self.selectSqlQuery = selectSqlQuery
+        }
+
+        public func validate() throws {
+            try validate(databaseUserName, name:"databaseUserName", max: 128)
+            try validate(databaseUserName, name:"databaseUserName", min: 1)
+            try redshiftDatabase?.validate()
+            try validate(selectSqlQuery, name:"selectSqlQuery", max: 16777216)
+            try validate(selectSqlQuery, name:"selectSqlQuery", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2320,6 +2886,14 @@ extension MachineLearning {
             self.dataSchemaLocationS3 = dataSchemaLocationS3
         }
 
+        public func validate() throws {
+            try validate(dataLocationS3, name:"dataLocationS3", max: 2048)
+            try validate(dataLocationS3, name:"dataLocationS3", pattern: "s3://([^/]+)(/.*)?")
+            try validate(dataSchema, name:"dataSchema", max: 131071)
+            try validate(dataSchemaLocationS3, name:"dataSchemaLocationS3", max: 2048)
+            try validate(dataSchemaLocationS3, name:"dataSchemaLocationS3", pattern: "s3://([^/]+)(/.*)?")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dataLocationS3 = "DataLocationS3"
             case dataRearrangement = "DataRearrangement"
@@ -2347,6 +2921,15 @@ extension MachineLearning {
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
+        }
+
+        public func validate() throws {
+            try validate(key, name:"key", max: 128)
+            try validate(key, name:"key", min: 1)
+            try validate(key, name:"key", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(value, name:"value", max: 256)
+            try validate(value, name:"value", min: 0)
+            try validate(value, name:"value", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2378,6 +2961,14 @@ extension MachineLearning {
             self.batchPredictionName = batchPredictionName
         }
 
+        public func validate() throws {
+            try validate(batchPredictionId, name:"batchPredictionId", max: 64)
+            try validate(batchPredictionId, name:"batchPredictionId", min: 1)
+            try validate(batchPredictionId, name:"batchPredictionId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(batchPredictionName, name:"batchPredictionName", max: 1024)
+            try validate(batchPredictionName, name:"batchPredictionName", pattern: ".*\\S.*|^$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case batchPredictionId = "BatchPredictionId"
             case batchPredictionName = "BatchPredictionName"
@@ -2393,6 +2984,12 @@ extension MachineLearning {
         
         public init(batchPredictionId: String? = nil) {
             self.batchPredictionId = batchPredictionId
+        }
+
+        public func validate() throws {
+            try validate(batchPredictionId, name:"batchPredictionId", max: 64)
+            try validate(batchPredictionId, name:"batchPredictionId", min: 1)
+            try validate(batchPredictionId, name:"batchPredictionId", pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2415,6 +3012,14 @@ extension MachineLearning {
             self.dataSourceName = dataSourceName
         }
 
+        public func validate() throws {
+            try validate(dataSourceId, name:"dataSourceId", max: 64)
+            try validate(dataSourceId, name:"dataSourceId", min: 1)
+            try validate(dataSourceId, name:"dataSourceId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(dataSourceName, name:"dataSourceName", max: 1024)
+            try validate(dataSourceName, name:"dataSourceName", pattern: ".*\\S.*|^$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dataSourceId = "DataSourceId"
             case dataSourceName = "DataSourceName"
@@ -2430,6 +3035,12 @@ extension MachineLearning {
         
         public init(dataSourceId: String? = nil) {
             self.dataSourceId = dataSourceId
+        }
+
+        public func validate() throws {
+            try validate(dataSourceId, name:"dataSourceId", max: 64)
+            try validate(dataSourceId, name:"dataSourceId", min: 1)
+            try validate(dataSourceId, name:"dataSourceId", pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2452,6 +3063,14 @@ extension MachineLearning {
             self.evaluationName = evaluationName
         }
 
+        public func validate() throws {
+            try validate(evaluationId, name:"evaluationId", max: 64)
+            try validate(evaluationId, name:"evaluationId", min: 1)
+            try validate(evaluationId, name:"evaluationId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(evaluationName, name:"evaluationName", max: 1024)
+            try validate(evaluationName, name:"evaluationName", pattern: ".*\\S.*|^$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case evaluationId = "EvaluationId"
             case evaluationName = "EvaluationName"
@@ -2467,6 +3086,12 @@ extension MachineLearning {
         
         public init(evaluationId: String? = nil) {
             self.evaluationId = evaluationId
+        }
+
+        public func validate() throws {
+            try validate(evaluationId, name:"evaluationId", max: 64)
+            try validate(evaluationId, name:"evaluationId", min: 1)
+            try validate(evaluationId, name:"evaluationId", pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2493,6 +3118,14 @@ extension MachineLearning {
             self.scoreThreshold = scoreThreshold
         }
 
+        public func validate() throws {
+            try validate(mLModelId, name:"mLModelId", max: 64)
+            try validate(mLModelId, name:"mLModelId", min: 1)
+            try validate(mLModelId, name:"mLModelId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(mLModelName, name:"mLModelName", max: 1024)
+            try validate(mLModelName, name:"mLModelName", pattern: ".*\\S.*|^$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case mLModelId = "MLModelId"
             case mLModelName = "MLModelName"
@@ -2509,6 +3142,12 @@ extension MachineLearning {
         
         public init(mLModelId: String? = nil) {
             self.mLModelId = mLModelId
+        }
+
+        public func validate() throws {
+            try validate(mLModelId, name:"mLModelId", max: 64)
+            try validate(mLModelId, name:"mLModelId", min: 1)
+            try validate(mLModelId, name:"mLModelId", pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {

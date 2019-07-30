@@ -28,6 +28,15 @@ extension PersonalizeEvents {
             self.sentAt = sentAt
         }
 
+        public func validate() throws {
+            try validate(eventId, name:"eventId", max: 256)
+            try validate(eventId, name:"eventId", min: 1)
+            try validate(eventType, name:"eventType", max: 256)
+            try validate(eventType, name:"eventType", min: 1)
+            try validate(properties, name:"properties", max: 1024)
+            try validate(properties, name:"properties", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case eventId = "eventId"
             case eventType = "eventType"
@@ -57,6 +66,15 @@ extension PersonalizeEvents {
             self.sessionId = sessionId
             self.trackingId = trackingId
             self.userId = userId
+        }
+
+        public func validate() throws {
+            try validate(sessionId, name:"sessionId", max: 256)
+            try validate(sessionId, name:"sessionId", min: 1)
+            try validate(trackingId, name:"trackingId", max: 256)
+            try validate(trackingId, name:"trackingId", min: 1)
+            try validate(userId, name:"userId", max: 256)
+            try validate(userId, name:"userId", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

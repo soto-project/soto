@@ -52,6 +52,18 @@ extension Personalize {
             self.trainingInputMode = trainingInputMode
         }
 
+        public func validate() throws {
+            try validate(algorithmArn, name:"algorithmArn", max: 256)
+            try validate(algorithmArn, name:"algorithmArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try algorithmImage?.validate()
+            try validate(name, name:"name", max: 63)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try validate(roleArn, name:"roleArn", max: 256)
+            try validate(roleArn, name:"roleArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(trainingInputMode, name:"trainingInputMode", max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case algorithmArn = "algorithmArn"
             case algorithmImage = "algorithmImage"
@@ -81,6 +93,13 @@ extension Personalize {
             self.name = name
         }
 
+        public func validate() throws {
+            try validate(dockerURI, name:"dockerURI", max: 256)
+            try validate(name, name:"name", max: 63)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dockerURI = "dockerURI"
             case name = "name"
@@ -102,6 +121,10 @@ extension Personalize {
             self.recipeList = recipeList
         }
 
+        public func validate() throws {
+            try validate(metricName, name:"metricName", max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case metricName = "metricName"
             case recipeList = "recipeList"
@@ -117,6 +140,11 @@ extension Personalize {
         
         public init(bestRecipeArn: String? = nil) {
             self.bestRecipeArn = bestRecipeArn
+        }
+
+        public func validate() throws {
+            try validate(bestRecipeArn, name:"bestRecipeArn", max: 256)
+            try validate(bestRecipeArn, name:"bestRecipeArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -166,6 +194,19 @@ extension Personalize {
             self.status = status
         }
 
+        public func validate() throws {
+            try validate(campaignArn, name:"campaignArn", max: 256)
+            try validate(campaignArn, name:"campaignArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try latestCampaignUpdate?.validate()
+            try validate(minProvisionedTPS, name:"minProvisionedTPS", min: 1)
+            try validate(name, name:"name", max: 63)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try validate(solutionVersionArn, name:"solutionVersionArn", max: 256)
+            try validate(solutionVersionArn, name:"solutionVersionArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(status, name:"status", max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case campaignArn = "campaignArn"
             case creationDateTime = "creationDateTime"
@@ -210,6 +251,15 @@ extension Personalize {
             self.status = status
         }
 
+        public func validate() throws {
+            try validate(campaignArn, name:"campaignArn", max: 256)
+            try validate(campaignArn, name:"campaignArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(name, name:"name", max: 63)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try validate(status, name:"status", max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case campaignArn = "campaignArn"
             case creationDateTime = "creationDateTime"
@@ -251,6 +301,13 @@ extension Personalize {
             self.status = status
         }
 
+        public func validate() throws {
+            try validate(minProvisionedTPS, name:"minProvisionedTPS", min: 1)
+            try validate(solutionVersionArn, name:"solutionVersionArn", max: 256)
+            try validate(solutionVersionArn, name:"solutionVersionArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(status, name:"status", max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case creationDateTime = "creationDateTime"
             case failureReason = "failureReason"
@@ -276,6 +333,10 @@ extension Personalize {
             self.values = values
         }
 
+        public func validate() throws {
+            try validate(name, name:"name", max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case name = "name"
             case values = "values"
@@ -299,6 +360,12 @@ extension Personalize {
             self.maxValue = maxValue
             self.minValue = minValue
             self.name = name
+        }
+
+        public func validate() throws {
+            try validate(maxValue, name:"maxValue", min: -1000000)
+            try validate(minValue, name:"minValue", min: -1000000)
+            try validate(name, name:"name", max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -327,6 +394,15 @@ extension Personalize {
             self.solutionVersionArn = solutionVersionArn
         }
 
+        public func validate() throws {
+            try validate(minProvisionedTPS, name:"minProvisionedTPS", min: 1)
+            try validate(name, name:"name", max: 63)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try validate(solutionVersionArn, name:"solutionVersionArn", max: 256)
+            try validate(solutionVersionArn, name:"solutionVersionArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case minProvisionedTPS = "minProvisionedTPS"
             case name = "name"
@@ -343,6 +419,11 @@ extension Personalize {
         
         public init(campaignArn: String? = nil) {
             self.campaignArn = campaignArn
+        }
+
+        public func validate() throws {
+            try validate(campaignArn, name:"campaignArn", max: 256)
+            try validate(campaignArn, name:"campaignArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -369,6 +450,14 @@ extension Personalize {
             self.roleArn = roleArn
         }
 
+        public func validate() throws {
+            try validate(name, name:"name", max: 63)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try validate(roleArn, name:"roleArn", max: 256)
+            try validate(roleArn, name:"roleArn", pattern: "arn:([a-z\\d-]+):iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case kmsKeyArn = "kmsKeyArn"
             case name = "name"
@@ -385,6 +474,11 @@ extension Personalize {
         
         public init(datasetGroupArn: String? = nil) {
             self.datasetGroupArn = datasetGroupArn
+        }
+
+        public func validate() throws {
+            try validate(datasetGroupArn, name:"datasetGroupArn", max: 256)
+            try validate(datasetGroupArn, name:"datasetGroupArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -415,6 +509,17 @@ extension Personalize {
             self.roleArn = roleArn
         }
 
+        public func validate() throws {
+            try validate(datasetArn, name:"datasetArn", max: 256)
+            try validate(datasetArn, name:"datasetArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try dataSource.validate()
+            try validate(jobName, name:"jobName", max: 63)
+            try validate(jobName, name:"jobName", min: 1)
+            try validate(jobName, name:"jobName", pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try validate(roleArn, name:"roleArn", max: 256)
+            try validate(roleArn, name:"roleArn", pattern: "arn:([a-z\\d-]+):iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case datasetArn = "datasetArn"
             case dataSource = "dataSource"
@@ -432,6 +537,11 @@ extension Personalize {
         
         public init(datasetImportJobArn: String? = nil) {
             self.datasetImportJobArn = datasetImportJobArn
+        }
+
+        public func validate() throws {
+            try validate(datasetImportJobArn, name:"datasetImportJobArn", max: 256)
+            try validate(datasetImportJobArn, name:"datasetImportJobArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -462,6 +572,17 @@ extension Personalize {
             self.schemaArn = schemaArn
         }
 
+        public func validate() throws {
+            try validate(datasetGroupArn, name:"datasetGroupArn", max: 256)
+            try validate(datasetGroupArn, name:"datasetGroupArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(datasetType, name:"datasetType", max: 256)
+            try validate(name, name:"name", max: 63)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try validate(schemaArn, name:"schemaArn", max: 256)
+            try validate(schemaArn, name:"schemaArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case datasetGroupArn = "datasetGroupArn"
             case datasetType = "datasetType"
@@ -479,6 +600,11 @@ extension Personalize {
         
         public init(datasetArn: String? = nil) {
             self.datasetArn = datasetArn
+        }
+
+        public func validate() throws {
+            try validate(datasetArn, name:"datasetArn", max: 256)
+            try validate(datasetArn, name:"datasetArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -499,6 +625,14 @@ extension Personalize {
         public init(datasetGroupArn: String, name: String) {
             self.datasetGroupArn = datasetGroupArn
             self.name = name
+        }
+
+        public func validate() throws {
+            try validate(datasetGroupArn, name:"datasetGroupArn", max: 256)
+            try validate(datasetGroupArn, name:"datasetGroupArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(name, name:"name", max: 63)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -522,6 +656,12 @@ extension Personalize {
             self.trackingId = trackingId
         }
 
+        public func validate() throws {
+            try validate(eventTrackerArn, name:"eventTrackerArn", max: 256)
+            try validate(eventTrackerArn, name:"eventTrackerArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(trackingId, name:"trackingId", max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case eventTrackerArn = "eventTrackerArn"
             case trackingId = "trackingId"
@@ -543,6 +683,13 @@ extension Personalize {
             self.schema = schema
         }
 
+        public func validate() throws {
+            try validate(name, name:"name", max: 63)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try validate(schema, name:"schema", max: 10000)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case name = "name"
             case schema = "schema"
@@ -558,6 +705,11 @@ extension Personalize {
         
         public init(schemaArn: String? = nil) {
             self.schemaArn = schemaArn
+        }
+
+        public func validate() throws {
+            try validate(schemaArn, name:"schemaArn", max: 256)
+            try validate(schemaArn, name:"schemaArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -600,6 +752,18 @@ extension Personalize {
             self.solutionConfig = solutionConfig
         }
 
+        public func validate() throws {
+            try validate(datasetGroupArn, name:"datasetGroupArn", max: 256)
+            try validate(datasetGroupArn, name:"datasetGroupArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(eventType, name:"eventType", max: 256)
+            try validate(name, name:"name", max: 63)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try validate(recipeArn, name:"recipeArn", max: 256)
+            try validate(recipeArn, name:"recipeArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try solutionConfig?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case datasetGroupArn = "datasetGroupArn"
             case eventType = "eventType"
@@ -622,6 +786,11 @@ extension Personalize {
             self.solutionArn = solutionArn
         }
 
+        public func validate() throws {
+            try validate(solutionArn, name:"solutionArn", max: 256)
+            try validate(solutionArn, name:"solutionArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case solutionArn = "solutionArn"
         }
@@ -636,6 +805,11 @@ extension Personalize {
         
         public init(solutionArn: String) {
             self.solutionArn = solutionArn
+        }
+
+        public func validate() throws {
+            try validate(solutionArn, name:"solutionArn", max: 256)
+            try validate(solutionArn, name:"solutionArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -654,6 +828,11 @@ extension Personalize {
             self.solutionVersionArn = solutionVersionArn
         }
 
+        public func validate() throws {
+            try validate(solutionVersionArn, name:"solutionVersionArn", max: 256)
+            try validate(solutionVersionArn, name:"solutionVersionArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case solutionVersionArn = "solutionVersionArn"
         }
@@ -668,6 +847,10 @@ extension Personalize {
         
         public init(dataLocation: String? = nil) {
             self.dataLocation = dataLocation
+        }
+
+        public func validate() throws {
+            try validate(dataLocation, name:"dataLocation", max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -712,6 +895,20 @@ extension Personalize {
             self.name = name
             self.schemaArn = schemaArn
             self.status = status
+        }
+
+        public func validate() throws {
+            try validate(datasetArn, name:"datasetArn", max: 256)
+            try validate(datasetArn, name:"datasetArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(datasetGroupArn, name:"datasetGroupArn", max: 256)
+            try validate(datasetGroupArn, name:"datasetGroupArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(datasetType, name:"datasetType", max: 256)
+            try validate(name, name:"name", max: 63)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try validate(schemaArn, name:"schemaArn", max: 256)
+            try validate(schemaArn, name:"schemaArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(status, name:"status", max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -765,6 +962,17 @@ extension Personalize {
             self.status = status
         }
 
+        public func validate() throws {
+            try validate(datasetGroupArn, name:"datasetGroupArn", max: 256)
+            try validate(datasetGroupArn, name:"datasetGroupArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(name, name:"name", max: 63)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try validate(roleArn, name:"roleArn", max: 256)
+            try validate(roleArn, name:"roleArn", pattern: "arn:([a-z\\d-]+):iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
+            try validate(status, name:"status", max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case creationDateTime = "creationDateTime"
             case datasetGroupArn = "datasetGroupArn"
@@ -806,6 +1014,15 @@ extension Personalize {
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.name = name
             self.status = status
+        }
+
+        public func validate() throws {
+            try validate(datasetGroupArn, name:"datasetGroupArn", max: 256)
+            try validate(datasetGroupArn, name:"datasetGroupArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(name, name:"name", max: 63)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try validate(status, name:"status", max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -861,6 +1078,20 @@ extension Personalize {
             self.status = status
         }
 
+        public func validate() throws {
+            try validate(datasetArn, name:"datasetArn", max: 256)
+            try validate(datasetArn, name:"datasetArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(datasetImportJobArn, name:"datasetImportJobArn", max: 256)
+            try validate(datasetImportJobArn, name:"datasetImportJobArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try dataSource?.validate()
+            try validate(jobName, name:"jobName", max: 63)
+            try validate(jobName, name:"jobName", min: 1)
+            try validate(jobName, name:"jobName", pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try validate(roleArn, name:"roleArn", max: 256)
+            try validate(roleArn, name:"roleArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(status, name:"status", max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case creationDateTime = "creationDateTime"
             case datasetArn = "datasetArn"
@@ -905,6 +1136,15 @@ extension Personalize {
             self.status = status
         }
 
+        public func validate() throws {
+            try validate(datasetImportJobArn, name:"datasetImportJobArn", max: 256)
+            try validate(datasetImportJobArn, name:"datasetImportJobArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(jobName, name:"jobName", max: 63)
+            try validate(jobName, name:"jobName", min: 1)
+            try validate(jobName, name:"jobName", pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try validate(status, name:"status", max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case creationDateTime = "creationDateTime"
             case datasetImportJobArn = "datasetImportJobArn"
@@ -942,6 +1182,15 @@ extension Personalize {
             self.schemaArn = schemaArn
         }
 
+        public func validate() throws {
+            try validate(name, name:"name", max: 63)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try validate(schema, name:"schema", max: 10000)
+            try validate(schemaArn, name:"schemaArn", max: 256)
+            try validate(schemaArn, name:"schemaArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case creationDateTime = "creationDateTime"
             case lastUpdatedDateTime = "lastUpdatedDateTime"
@@ -972,6 +1221,14 @@ extension Personalize {
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.name = name
             self.schemaArn = schemaArn
+        }
+
+        public func validate() throws {
+            try validate(name, name:"name", max: 63)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try validate(schemaArn, name:"schemaArn", max: 256)
+            try validate(schemaArn, name:"schemaArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1013,6 +1270,16 @@ extension Personalize {
             self.status = status
         }
 
+        public func validate() throws {
+            try validate(datasetArn, name:"datasetArn", max: 256)
+            try validate(datasetArn, name:"datasetArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(datasetType, name:"datasetType", max: 256)
+            try validate(name, name:"name", max: 63)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try validate(status, name:"status", max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case creationDateTime = "creationDateTime"
             case datasetArn = "datasetArn"
@@ -1040,6 +1307,10 @@ extension Personalize {
             self.isTunable = isTunable
             self.name = name
             self.values = values
+        }
+
+        public func validate() throws {
+            try validate(name, name:"name", max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1070,6 +1341,12 @@ extension Personalize {
             self.maxValue = maxValue
             self.minValue = minValue
             self.name = name
+        }
+
+        public func validate() throws {
+            try validate(maxValue, name:"maxValue", min: -1000000)
+            try validate(minValue, name:"minValue", min: -1000000)
+            try validate(name, name:"name", max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1129,6 +1406,12 @@ extension Personalize {
             self.name = name
         }
 
+        public func validate() throws {
+            try validate(maxValue, name:"maxValue", max: 1000000)
+            try validate(minValue, name:"minValue", min: -1000000)
+            try validate(name, name:"name", max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case isTunable = "isTunable"
             case maxValue = "maxValue"
@@ -1148,6 +1431,11 @@ extension Personalize {
             self.campaignArn = campaignArn
         }
 
+        public func validate() throws {
+            try validate(campaignArn, name:"campaignArn", max: 256)
+            try validate(campaignArn, name:"campaignArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case campaignArn = "campaignArn"
         }
@@ -1162,6 +1450,11 @@ extension Personalize {
         
         public init(datasetGroupArn: String) {
             self.datasetGroupArn = datasetGroupArn
+        }
+
+        public func validate() throws {
+            try validate(datasetGroupArn, name:"datasetGroupArn", max: 256)
+            try validate(datasetGroupArn, name:"datasetGroupArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1180,6 +1473,11 @@ extension Personalize {
             self.datasetArn = datasetArn
         }
 
+        public func validate() throws {
+            try validate(datasetArn, name:"datasetArn", max: 256)
+            try validate(datasetArn, name:"datasetArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case datasetArn = "datasetArn"
         }
@@ -1194,6 +1492,11 @@ extension Personalize {
         
         public init(eventTrackerArn: String) {
             self.eventTrackerArn = eventTrackerArn
+        }
+
+        public func validate() throws {
+            try validate(eventTrackerArn, name:"eventTrackerArn", max: 256)
+            try validate(eventTrackerArn, name:"eventTrackerArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1212,6 +1515,11 @@ extension Personalize {
             self.schemaArn = schemaArn
         }
 
+        public func validate() throws {
+            try validate(schemaArn, name:"schemaArn", max: 256)
+            try validate(schemaArn, name:"schemaArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case schemaArn = "schemaArn"
         }
@@ -1226,6 +1534,11 @@ extension Personalize {
         
         public init(solutionArn: String) {
             self.solutionArn = solutionArn
+        }
+
+        public func validate() throws {
+            try validate(solutionArn, name:"solutionArn", max: 256)
+            try validate(solutionArn, name:"solutionArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1244,6 +1557,11 @@ extension Personalize {
             self.algorithmArn = algorithmArn
         }
 
+        public func validate() throws {
+            try validate(algorithmArn, name:"algorithmArn", max: 256)
+            try validate(algorithmArn, name:"algorithmArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case algorithmArn = "algorithmArn"
         }
@@ -1258,6 +1576,10 @@ extension Personalize {
         
         public init(algorithm: Algorithm? = nil) {
             self.algorithm = algorithm
+        }
+
+        public func validate() throws {
+            try algorithm?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1276,6 +1598,11 @@ extension Personalize {
             self.campaignArn = campaignArn
         }
 
+        public func validate() throws {
+            try validate(campaignArn, name:"campaignArn", max: 256)
+            try validate(campaignArn, name:"campaignArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case campaignArn = "campaignArn"
         }
@@ -1290,6 +1617,10 @@ extension Personalize {
         
         public init(campaign: Campaign? = nil) {
             self.campaign = campaign
+        }
+
+        public func validate() throws {
+            try campaign?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1308,6 +1639,11 @@ extension Personalize {
             self.datasetGroupArn = datasetGroupArn
         }
 
+        public func validate() throws {
+            try validate(datasetGroupArn, name:"datasetGroupArn", max: 256)
+            try validate(datasetGroupArn, name:"datasetGroupArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case datasetGroupArn = "datasetGroupArn"
         }
@@ -1322,6 +1658,10 @@ extension Personalize {
         
         public init(datasetGroup: DatasetGroup? = nil) {
             self.datasetGroup = datasetGroup
+        }
+
+        public func validate() throws {
+            try datasetGroup?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1340,6 +1680,11 @@ extension Personalize {
             self.datasetImportJobArn = datasetImportJobArn
         }
 
+        public func validate() throws {
+            try validate(datasetImportJobArn, name:"datasetImportJobArn", max: 256)
+            try validate(datasetImportJobArn, name:"datasetImportJobArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case datasetImportJobArn = "datasetImportJobArn"
         }
@@ -1354,6 +1699,10 @@ extension Personalize {
         
         public init(datasetImportJob: DatasetImportJob? = nil) {
             self.datasetImportJob = datasetImportJob
+        }
+
+        public func validate() throws {
+            try datasetImportJob?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1372,6 +1721,11 @@ extension Personalize {
             self.datasetArn = datasetArn
         }
 
+        public func validate() throws {
+            try validate(datasetArn, name:"datasetArn", max: 256)
+            try validate(datasetArn, name:"datasetArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case datasetArn = "datasetArn"
         }
@@ -1386,6 +1740,10 @@ extension Personalize {
         
         public init(dataset: Dataset? = nil) {
             self.dataset = dataset
+        }
+
+        public func validate() throws {
+            try dataset?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1404,6 +1762,11 @@ extension Personalize {
             self.eventTrackerArn = eventTrackerArn
         }
 
+        public func validate() throws {
+            try validate(eventTrackerArn, name:"eventTrackerArn", max: 256)
+            try validate(eventTrackerArn, name:"eventTrackerArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case eventTrackerArn = "eventTrackerArn"
         }
@@ -1418,6 +1781,10 @@ extension Personalize {
         
         public init(eventTracker: EventTracker? = nil) {
             self.eventTracker = eventTracker
+        }
+
+        public func validate() throws {
+            try eventTracker?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1436,6 +1803,11 @@ extension Personalize {
             self.featureTransformationArn = featureTransformationArn
         }
 
+        public func validate() throws {
+            try validate(featureTransformationArn, name:"featureTransformationArn", max: 256)
+            try validate(featureTransformationArn, name:"featureTransformationArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case featureTransformationArn = "featureTransformationArn"
         }
@@ -1450,6 +1822,10 @@ extension Personalize {
         
         public init(featureTransformation: FeatureTransformation? = nil) {
             self.featureTransformation = featureTransformation
+        }
+
+        public func validate() throws {
+            try featureTransformation?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1468,6 +1844,11 @@ extension Personalize {
             self.recipeArn = recipeArn
         }
 
+        public func validate() throws {
+            try validate(recipeArn, name:"recipeArn", max: 256)
+            try validate(recipeArn, name:"recipeArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case recipeArn = "recipeArn"
         }
@@ -1482,6 +1863,10 @@ extension Personalize {
         
         public init(recipe: Recipe? = nil) {
             self.recipe = recipe
+        }
+
+        public func validate() throws {
+            try recipe?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1500,6 +1885,11 @@ extension Personalize {
             self.schemaArn = schemaArn
         }
 
+        public func validate() throws {
+            try validate(schemaArn, name:"schemaArn", max: 256)
+            try validate(schemaArn, name:"schemaArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case schemaArn = "schemaArn"
         }
@@ -1514,6 +1904,10 @@ extension Personalize {
         
         public init(schema: DatasetSchema? = nil) {
             self.schema = schema
+        }
+
+        public func validate() throws {
+            try schema?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1532,6 +1926,11 @@ extension Personalize {
             self.solutionArn = solutionArn
         }
 
+        public func validate() throws {
+            try validate(solutionArn, name:"solutionArn", max: 256)
+            try validate(solutionArn, name:"solutionArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case solutionArn = "solutionArn"
         }
@@ -1546,6 +1945,10 @@ extension Personalize {
         
         public init(solution: Solution? = nil) {
             self.solution = solution
+        }
+
+        public func validate() throws {
+            try solution?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1564,6 +1967,11 @@ extension Personalize {
             self.solutionVersionArn = solutionVersionArn
         }
 
+        public func validate() throws {
+            try validate(solutionVersionArn, name:"solutionVersionArn", max: 256)
+            try validate(solutionVersionArn, name:"solutionVersionArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case solutionVersionArn = "solutionVersionArn"
         }
@@ -1578,6 +1986,10 @@ extension Personalize {
         
         public init(solutionVersion: SolutionVersion? = nil) {
             self.solutionVersion = solutionVersion
+        }
+
+        public func validate() throws {
+            try solutionVersion?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1624,6 +2036,19 @@ extension Personalize {
             self.trackingId = trackingId
         }
 
+        public func validate() throws {
+            try validate(accountId, name:"accountId", max: 256)
+            try validate(datasetGroupArn, name:"datasetGroupArn", max: 256)
+            try validate(datasetGroupArn, name:"datasetGroupArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(eventTrackerArn, name:"eventTrackerArn", max: 256)
+            try validate(eventTrackerArn, name:"eventTrackerArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(name, name:"name", max: 63)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try validate(status, name:"status", max: 256)
+            try validate(trackingId, name:"trackingId", max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
             case creationDateTime = "creationDateTime"
@@ -1661,6 +2086,15 @@ extension Personalize {
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.name = name
             self.status = status
+        }
+
+        public func validate() throws {
+            try validate(eventTrackerArn, name:"eventTrackerArn", max: 256)
+            try validate(eventTrackerArn, name:"eventTrackerArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(name, name:"name", max: 63)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try validate(status, name:"status", max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1703,6 +2137,15 @@ extension Personalize {
             self.status = status
         }
 
+        public func validate() throws {
+            try validate(featureTransformationArn, name:"featureTransformationArn", max: 256)
+            try validate(featureTransformationArn, name:"featureTransformationArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(name, name:"name", max: 63)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try validate(status, name:"status", max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case creationDateTime = "creationDateTime"
             case defaultParameters = "defaultParameters"
@@ -1724,6 +2167,11 @@ extension Personalize {
             self.solutionVersionArn = solutionVersionArn
         }
 
+        public func validate() throws {
+            try validate(solutionVersionArn, name:"solutionVersionArn", max: 256)
+            try validate(solutionVersionArn, name:"solutionVersionArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case solutionVersionArn = "solutionVersionArn"
         }
@@ -1742,6 +2190,11 @@ extension Personalize {
         public init(metrics: [String: Double]? = nil, solutionVersionArn: String? = nil) {
             self.metrics = metrics
             self.solutionVersionArn = solutionVersionArn
+        }
+
+        public func validate() throws {
+            try validate(solutionVersionArn, name:"solutionVersionArn", max: 256)
+            try validate(solutionVersionArn, name:"solutionVersionArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1767,6 +2220,11 @@ extension Personalize {
             self.algorithmHyperParameterRanges = algorithmHyperParameterRanges
             self.hpoObjective = hpoObjective
             self.hpoResourceConfig = hpoResourceConfig
+        }
+
+        public func validate() throws {
+            try hpoObjective?.validate()
+            try hpoResourceConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1795,6 +2253,12 @@ extension Personalize {
             self.`type` = `type`
         }
 
+        public func validate() throws {
+            try validate(metricName, name:"metricName", max: 256)
+            try validate(metricRegex, name:"metricRegex", max: 256)
+            try validate(`type`, name:"`type`", max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case metricName = "metricName"
             case metricRegex = "metricRegex"
@@ -1815,6 +2279,11 @@ extension Personalize {
         public init(maxNumberOfTrainingJobs: String? = nil, maxParallelTrainingJobs: String? = nil) {
             self.maxNumberOfTrainingJobs = maxNumberOfTrainingJobs
             self.maxParallelTrainingJobs = maxParallelTrainingJobs
+        }
+
+        public func validate() throws {
+            try validate(maxNumberOfTrainingJobs, name:"maxNumberOfTrainingJobs", max: 256)
+            try validate(maxParallelTrainingJobs, name:"maxParallelTrainingJobs", max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1868,6 +2337,12 @@ extension Personalize {
             self.name = name
         }
 
+        public func validate() throws {
+            try validate(maxValue, name:"maxValue", max: 1000000)
+            try validate(minValue, name:"minValue", min: -1000000)
+            try validate(name, name:"name", max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxValue = "maxValue"
             case minValue = "minValue"
@@ -1894,6 +2369,14 @@ extension Personalize {
             self.solutionArn = solutionArn
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(nextToken, name:"nextToken", max: 1300)
+            try validate(solutionArn, name:"solutionArn", max: 256)
+            try validate(solutionArn, name:"solutionArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "maxResults"
             case nextToken = "nextToken"
@@ -1914,6 +2397,10 @@ extension Personalize {
         public init(campaigns: [CampaignSummary]? = nil, nextToken: String? = nil) {
             self.campaigns = campaigns
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1300)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1937,6 +2424,12 @@ extension Personalize {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(nextToken, name:"nextToken", max: 1300)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "maxResults"
             case nextToken = "nextToken"
@@ -1956,6 +2449,10 @@ extension Personalize {
         public init(datasetGroups: [DatasetGroupSummary]? = nil, nextToken: String? = nil) {
             self.datasetGroups = datasetGroups
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1300)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1983,6 +2480,14 @@ extension Personalize {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(datasetArn, name:"datasetArn", max: 256)
+            try validate(datasetArn, name:"datasetArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(nextToken, name:"nextToken", max: 1300)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case datasetArn = "datasetArn"
             case maxResults = "maxResults"
@@ -2003,6 +2508,10 @@ extension Personalize {
         public init(datasetImportJobs: [DatasetImportJobSummary]? = nil, nextToken: String? = nil) {
             self.datasetImportJobs = datasetImportJobs
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1300)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2030,6 +2539,14 @@ extension Personalize {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(datasetGroupArn, name:"datasetGroupArn", max: 256)
+            try validate(datasetGroupArn, name:"datasetGroupArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(nextToken, name:"nextToken", max: 1300)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case datasetGroupArn = "datasetGroupArn"
             case maxResults = "maxResults"
@@ -2050,6 +2567,10 @@ extension Personalize {
         public init(datasets: [DatasetSummary]? = nil, nextToken: String? = nil) {
             self.datasets = datasets
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1300)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2077,6 +2598,14 @@ extension Personalize {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(datasetGroupArn, name:"datasetGroupArn", max: 256)
+            try validate(datasetGroupArn, name:"datasetGroupArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(nextToken, name:"nextToken", max: 1300)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case datasetGroupArn = "datasetGroupArn"
             case maxResults = "maxResults"
@@ -2097,6 +2626,10 @@ extension Personalize {
         public init(eventTrackers: [EventTrackerSummary]? = nil, nextToken: String? = nil) {
             self.eventTrackers = eventTrackers
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1300)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2124,6 +2657,12 @@ extension Personalize {
             self.recipeProvider = recipeProvider
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(nextToken, name:"nextToken", max: 1300)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "maxResults"
             case nextToken = "nextToken"
@@ -2144,6 +2683,10 @@ extension Personalize {
         public init(nextToken: String? = nil, recipes: [RecipeSummary]? = nil) {
             self.nextToken = nextToken
             self.recipes = recipes
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1300)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2167,6 +2710,12 @@ extension Personalize {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(nextToken, name:"nextToken", max: 1300)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "maxResults"
             case nextToken = "nextToken"
@@ -2186,6 +2735,10 @@ extension Personalize {
         public init(nextToken: String? = nil, schemas: [DatasetSchemaSummary]? = nil) {
             self.nextToken = nextToken
             self.schemas = schemas
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1300)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2213,6 +2766,14 @@ extension Personalize {
             self.solutionArn = solutionArn
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(nextToken, name:"nextToken", max: 1300)
+            try validate(solutionArn, name:"solutionArn", max: 256)
+            try validate(solutionArn, name:"solutionArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "maxResults"
             case nextToken = "nextToken"
@@ -2233,6 +2794,10 @@ extension Personalize {
         public init(nextToken: String? = nil, solutionVersions: [SolutionVersionSummary]? = nil) {
             self.nextToken = nextToken
             self.solutionVersions = solutionVersions
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1300)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2260,6 +2825,14 @@ extension Personalize {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(datasetGroupArn, name:"datasetGroupArn", max: 256)
+            try validate(datasetGroupArn, name:"datasetGroupArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(nextToken, name:"nextToken", max: 1300)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case datasetGroupArn = "datasetGroupArn"
             case maxResults = "maxResults"
@@ -2280,6 +2853,10 @@ extension Personalize {
         public init(nextToken: String? = nil, solutions: [SolutionSummary]? = nil) {
             self.nextToken = nextToken
             self.solutions = solutions
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1300)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2331,6 +2908,20 @@ extension Personalize {
             self.status = status
         }
 
+        public func validate() throws {
+            try validate(algorithmArn, name:"algorithmArn", max: 256)
+            try validate(algorithmArn, name:"algorithmArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(featureTransformationArn, name:"featureTransformationArn", max: 256)
+            try validate(featureTransformationArn, name:"featureTransformationArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(name, name:"name", max: 63)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try validate(recipeArn, name:"recipeArn", max: 256)
+            try validate(recipeArn, name:"recipeArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(recipeType, name:"recipeType", max: 256)
+            try validate(status, name:"status", max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case algorithmArn = "algorithmArn"
             case creationDateTime = "creationDateTime"
@@ -2374,6 +2965,15 @@ extension Personalize {
             self.name = name
             self.recipeArn = recipeArn
             self.status = status
+        }
+
+        public func validate() throws {
+            try validate(name, name:"name", max: 63)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try validate(recipeArn, name:"recipeArn", max: 256)
+            try validate(recipeArn, name:"recipeArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(status, name:"status", max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2444,6 +3044,23 @@ extension Personalize {
             self.status = status
         }
 
+        public func validate() throws {
+            try autoMLResult?.validate()
+            try validate(datasetGroupArn, name:"datasetGroupArn", max: 256)
+            try validate(datasetGroupArn, name:"datasetGroupArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(eventType, name:"eventType", max: 256)
+            try latestSolutionVersion?.validate()
+            try validate(name, name:"name", max: 63)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try validate(recipeArn, name:"recipeArn", max: 256)
+            try validate(recipeArn, name:"recipeArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(solutionArn, name:"solutionArn", max: 256)
+            try validate(solutionArn, name:"solutionArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try solutionConfig?.validate()
+            try validate(status, name:"status", max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case autoMLResult = "autoMLResult"
             case creationDateTime = "creationDateTime"
@@ -2488,6 +3105,12 @@ extension Personalize {
             self.hpoConfig = hpoConfig
         }
 
+        public func validate() throws {
+            try autoMLConfig?.validate()
+            try validate(eventValueThreshold, name:"eventValueThreshold", max: 256)
+            try hpoConfig?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case algorithmHyperParameters = "algorithmHyperParameters"
             case autoMLConfig = "autoMLConfig"
@@ -2522,6 +3145,15 @@ extension Personalize {
             self.name = name
             self.solutionArn = solutionArn
             self.status = status
+        }
+
+        public func validate() throws {
+            try validate(name, name:"name", max: 63)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try validate(solutionArn, name:"solutionArn", max: 256)
+            try validate(solutionArn, name:"solutionArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(status, name:"status", max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2588,6 +3220,20 @@ extension Personalize {
             self.status = status
         }
 
+        public func validate() throws {
+            try validate(datasetGroupArn, name:"datasetGroupArn", max: 256)
+            try validate(datasetGroupArn, name:"datasetGroupArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(eventType, name:"eventType", max: 256)
+            try validate(recipeArn, name:"recipeArn", max: 256)
+            try validate(recipeArn, name:"recipeArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(solutionArn, name:"solutionArn", max: 256)
+            try validate(solutionArn, name:"solutionArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try solutionConfig?.validate()
+            try validate(solutionVersionArn, name:"solutionVersionArn", max: 256)
+            try validate(solutionVersionArn, name:"solutionVersionArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(status, name:"status", max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case creationDateTime = "creationDateTime"
             case datasetGroupArn = "datasetGroupArn"
@@ -2631,6 +3277,12 @@ extension Personalize {
             self.status = status
         }
 
+        public func validate() throws {
+            try validate(solutionVersionArn, name:"solutionVersionArn", max: 256)
+            try validate(solutionVersionArn, name:"solutionVersionArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(status, name:"status", max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case creationDateTime = "creationDateTime"
             case failureReason = "failureReason"
@@ -2659,6 +3311,14 @@ extension Personalize {
             self.solutionVersionArn = solutionVersionArn
         }
 
+        public func validate() throws {
+            try validate(campaignArn, name:"campaignArn", max: 256)
+            try validate(campaignArn, name:"campaignArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(minProvisionedTPS, name:"minProvisionedTPS", min: 1)
+            try validate(solutionVersionArn, name:"solutionVersionArn", max: 256)
+            try validate(solutionVersionArn, name:"solutionVersionArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case campaignArn = "campaignArn"
             case minProvisionedTPS = "minProvisionedTPS"
@@ -2675,6 +3335,11 @@ extension Personalize {
         
         public init(campaignArn: String? = nil) {
             self.campaignArn = campaignArn
+        }
+
+        public func validate() throws {
+            try validate(campaignArn, name:"campaignArn", max: 256)
+            try validate(campaignArn, name:"campaignArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
 
         private enum CodingKeys: String, CodingKey {

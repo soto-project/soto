@@ -20,6 +20,13 @@ extension LexRuntimeService {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(text, name:"text", max: 15)
+            try validate(text, name:"text", min: 1)
+            try validate(value, name:"value", max: 1000)
+            try validate(value, name:"value", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case text = "text"
             case value = "value"
@@ -66,6 +73,17 @@ extension LexRuntimeService {
             self.imageUrl = imageUrl
             self.subTitle = subTitle
             self.title = title
+        }
+
+        public func validate() throws {
+            try validate(attachmentLinkUrl, name:"attachmentLinkUrl", max: 2048)
+            try validate(attachmentLinkUrl, name:"attachmentLinkUrl", min: 1)
+            try validate(imageUrl, name:"imageUrl", max: 2048)
+            try validate(imageUrl, name:"imageUrl", min: 1)
+            try validate(subTitle, name:"subTitle", max: 80)
+            try validate(subTitle, name:"subTitle", min: 1)
+            try validate(title, name:"title", max: 80)
+            try validate(title, name:"title", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -124,6 +142,12 @@ extension LexRuntimeService {
             self.requestAttributes = requestAttributes
             self.sessionAttributes = sessionAttributes
             self.userId = userId
+        }
+
+        public func validate() throws {
+            try validate(userId, name:"userId", max: 100)
+            try validate(userId, name:"userId", min: 2)
+            try validate(userId, name:"userId", pattern: "[0-9a-zA-Z._:-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -187,6 +211,11 @@ extension LexRuntimeService {
             self.slotToElicit = slotToElicit
         }
 
+        public func validate() throws {
+            try validate(message, name:"message", max: 1024)
+            try validate(message, name:"message", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case audioStream = "audioStream"
             case contentType = "Content-Type"
@@ -230,6 +259,14 @@ extension LexRuntimeService {
             self.requestAttributes = requestAttributes
             self.sessionAttributes = sessionAttributes
             self.userId = userId
+        }
+
+        public func validate() throws {
+            try validate(inputText, name:"inputText", max: 1024)
+            try validate(inputText, name:"inputText", min: 1)
+            try validate(userId, name:"userId", max: 100)
+            try validate(userId, name:"userId", min: 2)
+            try validate(userId, name:"userId", pattern: "[0-9a-zA-Z._:-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -279,6 +316,11 @@ extension LexRuntimeService {
             self.sessionAttributes = sessionAttributes
             self.slots = slots
             self.slotToElicit = slotToElicit
+        }
+
+        public func validate() throws {
+            try validate(message, name:"message", max: 1024)
+            try validate(message, name:"message", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

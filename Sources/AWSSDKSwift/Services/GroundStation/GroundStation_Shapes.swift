@@ -46,6 +46,11 @@ extension GroundStation {
             self.spectrumConfig = spectrumConfig
         }
 
+        public func validate() throws {
+            try decodeConfig.validate()
+            try demodulationConfig.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case decodeConfig = "decodeConfig"
             case demodulationConfig = "demodulationConfig"
@@ -196,6 +201,10 @@ extension GroundStation {
             self.uplinkEchoConfig = uplinkEchoConfig
         }
 
+        public func validate() throws {
+            try antennaDownlinkDemodDecodeConfig?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case antennaDownlinkConfig = "antennaDownlinkConfig"
             case antennaDownlinkDemodDecodeConfig = "antennaDownlinkDemodDecodeConfig"
@@ -327,6 +336,13 @@ extension GroundStation {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try configData.validate()
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[ a-zA-Z0-9_:-]+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case configData = "configData"
             case name = "name"
@@ -391,6 +407,18 @@ extension GroundStation {
             self.trackingConfigArn = trackingConfigArn
         }
 
+        public func validate() throws {
+            try validate(contactPostPassDurationSeconds, name:"contactPostPassDurationSeconds", max: 21600)
+            try validate(contactPostPassDurationSeconds, name:"contactPostPassDurationSeconds", min: 1)
+            try validate(contactPrePassDurationSeconds, name:"contactPrePassDurationSeconds", max: 21600)
+            try validate(contactPrePassDurationSeconds, name:"contactPrePassDurationSeconds", min: 1)
+            try validate(minimumViableContactDurationSeconds, name:"minimumViableContactDurationSeconds", max: 21600)
+            try validate(minimumViableContactDurationSeconds, name:"minimumViableContactDurationSeconds", min: 1)
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[ a-zA-Z0-9_:-]+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case contactPostPassDurationSeconds = "contactPostPassDurationSeconds"
             case contactPrePassDurationSeconds = "contactPrePassDurationSeconds"
@@ -426,6 +454,12 @@ extension GroundStation {
             self.address = address
             self.name = name
             self.status = status
+        }
+
+        public func validate() throws {
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[ a-zA-Z0-9_:-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -499,6 +533,11 @@ extension GroundStation {
             self.unvalidatedJSON = unvalidatedJSON
         }
 
+        public func validate() throws {
+            try validate(unvalidatedJSON, name:"unvalidatedJSON", max: 8192)
+            try validate(unvalidatedJSON, name:"unvalidatedJSON", min: 2)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case unvalidatedJSON = "unvalidatedJSON"
         }
@@ -566,6 +605,11 @@ extension GroundStation {
         
         public init(unvalidatedJSON: String) {
             self.unvalidatedJSON = unvalidatedJSON
+        }
+
+        public func validate() throws {
+            try validate(unvalidatedJSON, name:"unvalidatedJSON", max: 8192)
+            try validate(unvalidatedJSON, name:"unvalidatedJSON", min: 2)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -722,6 +766,10 @@ extension GroundStation {
             self.securityDetails = securityDetails
         }
 
+        public func validate() throws {
+            try endpoint?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case endpoint = "endpoint"
             case securityDetails = "securityDetails"
@@ -837,6 +885,10 @@ extension GroundStation {
             self.configType = configType
             self.name = name
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try configData.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1017,6 +1069,15 @@ extension GroundStation {
             self.trackingConfigArn = trackingConfigArn
         }
 
+        public func validate() throws {
+            try validate(contactPostPassDurationSeconds, name:"contactPostPassDurationSeconds", max: 21600)
+            try validate(contactPostPassDurationSeconds, name:"contactPostPassDurationSeconds", min: 1)
+            try validate(contactPrePassDurationSeconds, name:"contactPrePassDurationSeconds", max: 21600)
+            try validate(contactPrePassDurationSeconds, name:"contactPrePassDurationSeconds", min: 1)
+            try validate(minimumViableContactDurationSeconds, name:"minimumViableContactDurationSeconds", max: 21600)
+            try validate(minimumViableContactDurationSeconds, name:"minimumViableContactDurationSeconds", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case contactPostPassDurationSeconds = "contactPostPassDurationSeconds"
             case contactPrePassDurationSeconds = "contactPrePassDurationSeconds"
@@ -1076,6 +1137,14 @@ extension GroundStation {
             self.satelliteArn = satelliteArn
             self.satelliteId = satelliteId
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try validate(noradSatelliteID, name:"noradSatelliteID", max: 99999)
+            try validate(noradSatelliteID, name:"noradSatelliteID", min: 1)
+            try validate(satelliteId, name:"satelliteId", max: 128)
+            try validate(satelliteId, name:"satelliteId", min: 1)
+            try validate(satelliteId, name:"satelliteId", pattern: "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1542,6 +1611,14 @@ extension GroundStation {
             self.satelliteId = satelliteId
         }
 
+        public func validate() throws {
+            try validate(noradSatelliteID, name:"noradSatelliteID", max: 99999)
+            try validate(noradSatelliteID, name:"noradSatelliteID", min: 1)
+            try validate(satelliteId, name:"satelliteId", max: 128)
+            try validate(satelliteId, name:"satelliteId", min: 1)
+            try validate(satelliteId, name:"satelliteId", pattern: "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case noradSatelliteID = "noradSatelliteID"
             case satelliteArn = "satelliteArn"
@@ -1719,6 +1796,13 @@ extension GroundStation {
             self.name = name
         }
 
+        public func validate() throws {
+            try configData.validate()
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[ a-zA-Z0-9_:-]+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case configData = "configData"
             case configId = "configId"
@@ -1761,6 +1845,18 @@ extension GroundStation {
             self.missionProfileId = missionProfileId
             self.name = name
             self.trackingConfigArn = trackingConfigArn
+        }
+
+        public func validate() throws {
+            try validate(contactPostPassDurationSeconds, name:"contactPostPassDurationSeconds", max: 21600)
+            try validate(contactPostPassDurationSeconds, name:"contactPostPassDurationSeconds", min: 1)
+            try validate(contactPrePassDurationSeconds, name:"contactPrePassDurationSeconds", max: 21600)
+            try validate(contactPrePassDurationSeconds, name:"contactPrePassDurationSeconds", min: 1)
+            try validate(minimumViableContactDurationSeconds, name:"minimumViableContactDurationSeconds", max: 21600)
+            try validate(minimumViableContactDurationSeconds, name:"minimumViableContactDurationSeconds", min: 1)
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[ a-zA-Z0-9_:-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {

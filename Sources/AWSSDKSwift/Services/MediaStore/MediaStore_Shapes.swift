@@ -36,6 +36,17 @@ extension MediaStore {
             self.status = status
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1024)
+            try validate(arn, name:"arn", min: 1)
+            try validate(arn, name:"arn", pattern: "arn:aws:mediastore:[a-z]+-[a-z]+-\\d:\\d{12}:container/[\\w-]{1,255}")
+            try validate(endpoint, name:"endpoint", max: 255)
+            try validate(endpoint, name:"endpoint", min: 1)
+            try validate(name, name:"name", max: 255)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "[\\w-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accessLoggingEnabled = "AccessLoggingEnabled"
             case arn = "ARN"
@@ -80,6 +91,11 @@ extension MediaStore {
             self.maxAgeSeconds = maxAgeSeconds
         }
 
+        public func validate() throws {
+            try validate(maxAgeSeconds, name:"maxAgeSeconds", max: 2147483647)
+            try validate(maxAgeSeconds, name:"maxAgeSeconds", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case allowedHeaders = "AllowedHeaders"
             case allowedMethods = "AllowedMethods"
@@ -104,6 +120,12 @@ extension MediaStore {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(containerName, name:"containerName", max: 255)
+            try validate(containerName, name:"containerName", min: 1)
+            try validate(containerName, name:"containerName", pattern: "[\\w-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case containerName = "ContainerName"
             case tags = "Tags"
@@ -121,6 +143,10 @@ extension MediaStore {
             self.container = container
         }
 
+        public func validate() throws {
+            try container.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case container = "Container"
         }
@@ -135,6 +161,12 @@ extension MediaStore {
         
         public init(containerName: String) {
             self.containerName = containerName
+        }
+
+        public func validate() throws {
+            try validate(containerName, name:"containerName", max: 255)
+            try validate(containerName, name:"containerName", min: 1)
+            try validate(containerName, name:"containerName", pattern: "[\\w-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -161,6 +193,12 @@ extension MediaStore {
             self.containerName = containerName
         }
 
+        public func validate() throws {
+            try validate(containerName, name:"containerName", max: 255)
+            try validate(containerName, name:"containerName", min: 1)
+            try validate(containerName, name:"containerName", pattern: "[\\w-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case containerName = "ContainerName"
         }
@@ -183,6 +221,12 @@ extension MediaStore {
         
         public init(containerName: String) {
             self.containerName = containerName
+        }
+
+        public func validate() throws {
+            try validate(containerName, name:"containerName", max: 255)
+            try validate(containerName, name:"containerName", min: 1)
+            try validate(containerName, name:"containerName", pattern: "[\\w-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -209,6 +253,12 @@ extension MediaStore {
             self.containerName = containerName
         }
 
+        public func validate() throws {
+            try validate(containerName, name:"containerName", max: 255)
+            try validate(containerName, name:"containerName", min: 1)
+            try validate(containerName, name:"containerName", pattern: "[\\w-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case containerName = "ContainerName"
         }
@@ -233,6 +283,12 @@ extension MediaStore {
             self.containerName = containerName
         }
 
+        public func validate() throws {
+            try validate(containerName, name:"containerName", max: 255)
+            try validate(containerName, name:"containerName", min: 1)
+            try validate(containerName, name:"containerName", pattern: "[\\w-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case containerName = "ContainerName"
         }
@@ -247,6 +303,10 @@ extension MediaStore {
         
         public init(container: Container? = nil) {
             self.container = container
+        }
+
+        public func validate() throws {
+            try container?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -265,6 +325,12 @@ extension MediaStore {
             self.containerName = containerName
         }
 
+        public func validate() throws {
+            try validate(containerName, name:"containerName", max: 255)
+            try validate(containerName, name:"containerName", min: 1)
+            try validate(containerName, name:"containerName", pattern: "[\\w-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case containerName = "ContainerName"
         }
@@ -281,6 +347,12 @@ extension MediaStore {
             self.policy = policy
         }
 
+        public func validate() throws {
+            try validate(policy, name:"policy", max: 8192)
+            try validate(policy, name:"policy", min: 1)
+            try validate(policy, name:"policy", pattern: "[\\x00-\\x7F]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case policy = "Policy"
         }
@@ -295,6 +367,12 @@ extension MediaStore {
         
         public init(containerName: String) {
             self.containerName = containerName
+        }
+
+        public func validate() throws {
+            try validate(containerName, name:"containerName", max: 255)
+            try validate(containerName, name:"containerName", min: 1)
+            try validate(containerName, name:"containerName", pattern: "[\\w-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -329,6 +407,12 @@ extension MediaStore {
             self.containerName = containerName
         }
 
+        public func validate() throws {
+            try validate(containerName, name:"containerName", max: 255)
+            try validate(containerName, name:"containerName", min: 1)
+            try validate(containerName, name:"containerName", pattern: "[\\w-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case containerName = "ContainerName"
         }
@@ -343,6 +427,12 @@ extension MediaStore {
         
         public init(lifecyclePolicy: String) {
             self.lifecyclePolicy = lifecyclePolicy
+        }
+
+        public func validate() throws {
+            try validate(lifecyclePolicy, name:"lifecyclePolicy", max: 8192)
+            try validate(lifecyclePolicy, name:"lifecyclePolicy", min: 0)
+            try validate(lifecyclePolicy, name:"lifecyclePolicy", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -363,6 +453,14 @@ extension MediaStore {
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 1)
+            try validate(nextToken, name:"nextToken", pattern: "[0-9A-Za-z=/+]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -386,6 +484,12 @@ extension MediaStore {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 1)
+            try validate(nextToken, name:"nextToken", pattern: "[0-9A-Za-z=/+]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case containers = "Containers"
             case nextToken = "NextToken"
@@ -401,6 +505,12 @@ extension MediaStore {
         
         public init(resource: String) {
             self.resource = resource
+        }
+
+        public func validate() throws {
+            try validate(resource, name:"resource", max: 1024)
+            try validate(resource, name:"resource", min: 1)
+            try validate(resource, name:"resource", pattern: "arn:aws:mediastore:[a-z]+-[a-z]+-\\d:\\d{12}:container/[\\w-]{1,255}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -447,6 +557,15 @@ extension MediaStore {
             self.policy = policy
         }
 
+        public func validate() throws {
+            try validate(containerName, name:"containerName", max: 255)
+            try validate(containerName, name:"containerName", min: 1)
+            try validate(containerName, name:"containerName", pattern: "[\\w-]+")
+            try validate(policy, name:"policy", max: 8192)
+            try validate(policy, name:"policy", min: 1)
+            try validate(policy, name:"policy", pattern: "[\\x00-\\x7F]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case containerName = "ContainerName"
             case policy = "Policy"
@@ -474,6 +593,12 @@ extension MediaStore {
         public init(containerName: String, corsPolicy: [CorsRule]) {
             self.containerName = containerName
             self.corsPolicy = corsPolicy
+        }
+
+        public func validate() throws {
+            try validate(containerName, name:"containerName", max: 255)
+            try validate(containerName, name:"containerName", min: 1)
+            try validate(containerName, name:"containerName", pattern: "[\\w-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -505,6 +630,15 @@ extension MediaStore {
             self.lifecyclePolicy = lifecyclePolicy
         }
 
+        public func validate() throws {
+            try validate(containerName, name:"containerName", max: 255)
+            try validate(containerName, name:"containerName", min: 1)
+            try validate(containerName, name:"containerName", pattern: "[\\w-]+")
+            try validate(lifecyclePolicy, name:"lifecyclePolicy", max: 8192)
+            try validate(lifecyclePolicy, name:"lifecyclePolicy", min: 0)
+            try validate(lifecyclePolicy, name:"lifecyclePolicy", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case containerName = "ContainerName"
             case lifecyclePolicy = "LifecyclePolicy"
@@ -530,6 +664,12 @@ extension MediaStore {
             self.containerName = containerName
         }
 
+        public func validate() throws {
+            try validate(containerName, name:"containerName", max: 255)
+            try validate(containerName, name:"containerName", min: 1)
+            try validate(containerName, name:"containerName", pattern: "[\\w-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case containerName = "ContainerName"
         }
@@ -552,6 +692,12 @@ extension MediaStore {
         
         public init(containerName: String) {
             self.containerName = containerName
+        }
+
+        public func validate() throws {
+            try validate(containerName, name:"containerName", max: 255)
+            try validate(containerName, name:"containerName", min: 1)
+            try validate(containerName, name:"containerName", pattern: "[\\w-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -582,6 +728,13 @@ extension MediaStore {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", max: 128)
+            try validate(key, name:"key", min: 1)
+            try validate(value, name:"value", max: 256)
+            try validate(value, name:"value", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
@@ -601,6 +754,12 @@ extension MediaStore {
         public init(resource: String, tags: [Tag]) {
             self.resource = resource
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try validate(resource, name:"resource", max: 1024)
+            try validate(resource, name:"resource", min: 1)
+            try validate(resource, name:"resource", pattern: "arn:aws:mediastore:[a-z]+-[a-z]+-\\d:\\d{12}:container/[\\w-]{1,255}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -630,6 +789,12 @@ extension MediaStore {
         public init(resource: String, tagKeys: [String]) {
             self.resource = resource
             self.tagKeys = tagKeys
+        }
+
+        public func validate() throws {
+            try validate(resource, name:"resource", max: 1024)
+            try validate(resource, name:"resource", min: 1)
+            try validate(resource, name:"resource", pattern: "arn:aws:mediastore:[a-z]+-[a-z]+-\\d:\\d{12}:container/[\\w-]{1,255}")
         }
 
         private enum CodingKeys: String, CodingKey {

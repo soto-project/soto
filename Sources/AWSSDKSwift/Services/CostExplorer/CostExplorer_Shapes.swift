@@ -62,6 +62,10 @@ extension CostExplorer {
             self.total = total
         }
 
+        public func validate() throws {
+            try timePeriod?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case groups = "Groups"
             case timePeriod = "TimePeriod"
@@ -160,6 +164,11 @@ extension CostExplorer {
         public init(end: String, start: String) {
             self.end = end
             self.start = start
+        }
+
+        public func validate() throws {
+            try validate(end, name:"end", pattern: "(\\d{4}-\\d{2}-\\d{2})(T\\d{2}:\\d{2}:\\d{2}Z)?")
+            try validate(start, name:"start", pattern: "(\\d{4}-\\d{2}-\\d{2})(T\\d{2}:\\d{2}:\\d{2}Z)?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -439,6 +448,10 @@ extension CostExplorer {
             self.timePeriod = timePeriod
         }
 
+        public func validate() throws {
+            try timePeriod?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case meanValue = "MeanValue"
             case predictionIntervalLowerBound = "PredictionIntervalLowerBound"
@@ -476,6 +489,10 @@ extension CostExplorer {
             self.metrics = metrics
             self.nextPageToken = nextPageToken
             self.timePeriod = timePeriod
+        }
+
+        public func validate() throws {
+            try timePeriod.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -541,6 +558,12 @@ extension CostExplorer {
             self.timePeriod = timePeriod
         }
 
+        public func validate() throws {
+            try validate(predictionIntervalLevel, name:"predictionIntervalLevel", max: 99)
+            try validate(predictionIntervalLevel, name:"predictionIntervalLevel", min: 51)
+            try timePeriod.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filter = "Filter"
             case granularity = "Granularity"
@@ -596,6 +619,10 @@ extension CostExplorer {
             self.nextPageToken = nextPageToken
             self.searchString = searchString
             self.timePeriod = timePeriod
+        }
+
+        public func validate() throws {
+            try timePeriod.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -667,6 +694,10 @@ extension CostExplorer {
             self.metrics = metrics
             self.nextPageToken = nextPageToken
             self.timePeriod = timePeriod
+        }
+
+        public func validate() throws {
+            try timePeriod.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -748,6 +779,10 @@ extension CostExplorer {
             self.termInYears = termInYears
         }
 
+        public func validate() throws {
+            try validate(pageSize, name:"pageSize", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
             case accountScope = "AccountScope"
@@ -814,6 +849,10 @@ extension CostExplorer {
             self.timePeriod = timePeriod
         }
 
+        public func validate() throws {
+            try timePeriod.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filter = "Filter"
             case granularity = "Granularity"
@@ -870,6 +909,10 @@ extension CostExplorer {
             self.searchString = searchString
             self.tagKey = tagKey
             self.timePeriod = timePeriod
+        }
+
+        public func validate() throws {
+            try timePeriod.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -936,6 +979,12 @@ extension CostExplorer {
             self.metric = metric
             self.predictionIntervalLevel = predictionIntervalLevel
             self.timePeriod = timePeriod
+        }
+
+        public func validate() throws {
+            try validate(predictionIntervalLevel, name:"predictionIntervalLevel", max: 99)
+            try validate(predictionIntervalLevel, name:"predictionIntervalLevel", min: 51)
+            try timePeriod.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1561,6 +1610,10 @@ extension CostExplorer {
             self.total = total
         }
 
+        public func validate() throws {
+            try timePeriod?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case estimated = "Estimated"
             case groups = "Groups"
@@ -1629,6 +1682,10 @@ extension CostExplorer {
             self.groups = groups
             self.timePeriod = timePeriod
             self.total = total
+        }
+
+        public func validate() throws {
+            try timePeriod?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

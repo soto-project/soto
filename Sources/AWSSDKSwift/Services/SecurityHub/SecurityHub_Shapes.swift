@@ -20,6 +20,11 @@ extension SecurityHub {
             self.masterId = masterId
         }
 
+        public func validate() throws {
+            try validate(invitationId, name:"invitationId", pattern: ".*\\S.*")
+            try validate(masterId, name:"masterId", pattern: ".*\\S.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case invitationId = "InvitationId"
             case masterId = "MasterId"
@@ -49,6 +54,10 @@ extension SecurityHub {
             self.email = email
         }
 
+        public func validate() throws {
+            try validate(email, name:"email", pattern: ".*\\S.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
             case email = "Email"
@@ -72,6 +81,12 @@ extension SecurityHub {
             self.actionTargetArn = actionTargetArn
             self.description = description
             self.name = name
+        }
+
+        public func validate() throws {
+            try validate(actionTargetArn, name:"actionTargetArn", pattern: ".*\\S.*")
+            try validate(description, name:"description", pattern: ".*\\S.*")
+            try validate(name, name:"name", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -124,6 +139,16 @@ extension SecurityHub {
             self.vpcId = vpcId
         }
 
+        public func validate() throws {
+            try validate(iamInstanceProfileArn, name:"iamInstanceProfileArn", pattern: ".*\\S.*")
+            try validate(imageId, name:"imageId", pattern: ".*\\S.*")
+            try validate(keyName, name:"keyName", pattern: ".*\\S.*")
+            try validate(launchedAt, name:"launchedAt", pattern: ".*\\S.*")
+            try validate(subnetId, name:"subnetId", pattern: ".*\\S.*")
+            try validate(`type`, name:"`type`", pattern: ".*\\S.*")
+            try validate(vpcId, name:"vpcId", pattern: ".*\\S.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case iamInstanceProfileArn = "IamInstanceProfileArn"
             case imageId = "ImageId"
@@ -156,6 +181,11 @@ extension SecurityHub {
             self.userName = userName
         }
 
+        public func validate() throws {
+            try validate(createdAt, name:"createdAt", pattern: ".*\\S.*")
+            try validate(userName, name:"userName", pattern: ".*\\S.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case createdAt = "CreatedAt"
             case status = "Status"
@@ -182,6 +212,11 @@ extension SecurityHub {
         public init(ownerId: String? = nil, ownerName: String? = nil) {
             self.ownerId = ownerId
             self.ownerName = ownerName
+        }
+
+        public func validate() throws {
+            try validate(ownerId, name:"ownerId", pattern: ".*\\S.*")
+            try validate(ownerName, name:"ownerName", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -315,6 +350,25 @@ extension SecurityHub {
             self.userDefinedFields = userDefinedFields
             self.verificationState = verificationState
             self.workflowState = workflowState
+        }
+
+        public func validate() throws {
+            try validate(awsAccountId, name:"awsAccountId", pattern: ".*\\S.*")
+            try validate(createdAt, name:"createdAt", pattern: ".*\\S.*")
+            try validate(description, name:"description", pattern: ".*\\S.*")
+            try validate(firstObservedAt, name:"firstObservedAt", pattern: ".*\\S.*")
+            try validate(generatorId, name:"generatorId", pattern: ".*\\S.*")
+            try validate(id, name:"id", pattern: ".*\\S.*")
+            try validate(lastObservedAt, name:"lastObservedAt", pattern: ".*\\S.*")
+            try network?.validate()
+            try note?.validate()
+            try process?.validate()
+            try validate(productArn, name:"productArn", pattern: ".*\\S.*")
+            try remediation?.validate()
+            try validate(schemaVersion, name:"schemaVersion", pattern: ".*\\S.*")
+            try validate(sourceUrl, name:"sourceUrl", pattern: ".*\\S.*")
+            try validate(title, name:"title", pattern: ".*\\S.*")
+            try validate(updatedAt, name:"updatedAt", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -930,6 +984,13 @@ extension SecurityHub {
             self.name = name
         }
 
+        public func validate() throws {
+            try validate(imageId, name:"imageId", pattern: ".*\\S.*")
+            try validate(imageName, name:"imageName", pattern: ".*\\S.*")
+            try validate(launchedAt, name:"launchedAt", pattern: ".*\\S.*")
+            try validate(name, name:"name", pattern: ".*\\S.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case imageId = "ImageId"
             case imageName = "ImageName"
@@ -957,6 +1018,12 @@ extension SecurityHub {
             self.name = name
         }
 
+        public func validate() throws {
+            try validate(description, name:"description", pattern: ".*\\S.*")
+            try validate(id, name:"id", pattern: ".*\\S.*")
+            try validate(name, name:"name", pattern: ".*\\S.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case id = "Id"
@@ -973,6 +1040,10 @@ extension SecurityHub {
         
         public init(actionTargetArn: String) {
             self.actionTargetArn = actionTargetArn
+        }
+
+        public func validate() throws {
+            try validate(actionTargetArn, name:"actionTargetArn", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -999,6 +1070,11 @@ extension SecurityHub {
             self.name = name
         }
 
+        public func validate() throws {
+            try validate(groupByAttribute, name:"groupByAttribute", pattern: ".*\\S.*")
+            try validate(name, name:"name", pattern: ".*\\S.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filters = "Filters"
             case groupByAttribute = "GroupByAttribute"
@@ -1015,6 +1091,10 @@ extension SecurityHub {
         
         public init(insightArn: String) {
             self.insightArn = insightArn
+        }
+
+        public func validate() throws {
+            try validate(insightArn, name:"insightArn", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1071,6 +1151,11 @@ extension SecurityHub {
             self.dateRange = dateRange
             self.end = end
             self.start = start
+        }
+
+        public func validate() throws {
+            try validate(end, name:"end", pattern: ".*\\S.*")
+            try validate(start, name:"start", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1149,6 +1234,10 @@ extension SecurityHub {
             self.actionTargetArn = actionTargetArn
         }
 
+        public func validate() throws {
+            try validate(actionTargetArn, name:"actionTargetArn", pattern: ".*\\S.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case actionTargetArn = "ActionTargetArn"
         }
@@ -1163,6 +1252,10 @@ extension SecurityHub {
         
         public init(actionTargetArn: String) {
             self.actionTargetArn = actionTargetArn
+        }
+
+        public func validate() throws {
+            try validate(actionTargetArn, name:"actionTargetArn", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1181,6 +1274,10 @@ extension SecurityHub {
             self.insightArn = insightArn
         }
 
+        public func validate() throws {
+            try validate(insightArn, name:"insightArn", pattern: ".*\\S.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case insightArn = "InsightArn"
         }
@@ -1195,6 +1292,10 @@ extension SecurityHub {
         
         public init(insightArn: String) {
             self.insightArn = insightArn
+        }
+
+        public func validate() throws {
+            try validate(insightArn, name:"insightArn", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1285,6 +1386,11 @@ extension SecurityHub {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case actionTargetArns = "ActionTargetArns"
             case maxResults = "MaxResults"
@@ -1324,6 +1430,10 @@ extension SecurityHub {
             self.hubArn = hubArn
         }
 
+        public func validate() throws {
+            try validate(hubArn, name:"hubArn", pattern: ".*\\S.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case hubArn = "HubArn"
         }
@@ -1342,6 +1452,11 @@ extension SecurityHub {
         public init(hubArn: String? = nil, subscribedAt: String? = nil) {
             self.hubArn = hubArn
             self.subscribedAt = subscribedAt
+        }
+
+        public func validate() throws {
+            try validate(hubArn, name:"hubArn", pattern: ".*\\S.*")
+            try validate(subscribedAt, name:"subscribedAt", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1363,6 +1478,11 @@ extension SecurityHub {
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1401,6 +1521,10 @@ extension SecurityHub {
         
         public init(productSubscriptionArn: String) {
             self.productSubscriptionArn = productSubscriptionArn
+        }
+
+        public func validate() throws {
+            try validate(productSubscriptionArn, name:"productSubscriptionArn", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1483,6 +1607,10 @@ extension SecurityHub {
             self.productArn = productArn
         }
 
+        public func validate() throws {
+            try validate(productArn, name:"productArn", pattern: ".*\\S.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case productArn = "ProductArn"
         }
@@ -1497,6 +1625,10 @@ extension SecurityHub {
         
         public init(productSubscriptionArn: String? = nil) {
             self.productSubscriptionArn = productSubscriptionArn
+        }
+
+        public func validate() throws {
+            try validate(productSubscriptionArn, name:"productSubscriptionArn", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1545,6 +1677,11 @@ extension SecurityHub {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.standardsSubscriptionArns = standardsSubscriptionArns
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1598,6 +1735,11 @@ extension SecurityHub {
             self.sortCriteria = sortCriteria
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filters = "Filters"
             case maxResults = "MaxResults"
@@ -1638,6 +1780,10 @@ extension SecurityHub {
             self.insightArn = insightArn
         }
 
+        public func validate() throws {
+            try validate(insightArn, name:"insightArn", pattern: ".*\\S.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case insightArn = "InsightArn"
         }
@@ -1652,6 +1798,10 @@ extension SecurityHub {
         
         public init(insightResults: InsightResults) {
             self.insightResults = insightResults
+        }
+
+        public func validate() throws {
+            try insightResults.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1676,6 +1826,11 @@ extension SecurityHub {
             self.insightArns = insightArns
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1749,6 +1904,10 @@ extension SecurityHub {
             self.master = master
         }
 
+        public func validate() throws {
+            try master?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case master = "Master"
         }
@@ -1810,6 +1969,12 @@ extension SecurityHub {
             self.id = id
         }
 
+        public func validate() throws {
+            try validate(errorCode, name:"errorCode", pattern: ".*\\S.*")
+            try validate(errorMessage, name:"errorMessage", pattern: ".*\\S.*")
+            try validate(id, name:"id", pattern: ".*\\S.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case errorCode = "ErrorCode"
             case errorMessage = "ErrorMessage"
@@ -1840,6 +2005,12 @@ extension SecurityHub {
             self.name = name
         }
 
+        public func validate() throws {
+            try validate(groupByAttribute, name:"groupByAttribute", pattern: ".*\\S.*")
+            try validate(insightArn, name:"insightArn", pattern: ".*\\S.*")
+            try validate(name, name:"name", pattern: ".*\\S.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filters = "Filters"
             case groupByAttribute = "GroupByAttribute"
@@ -1861,6 +2032,10 @@ extension SecurityHub {
         public init(count: Int32, groupByAttributeValue: String) {
             self.count = count
             self.groupByAttributeValue = groupByAttributeValue
+        }
+
+        public func validate() throws {
+            try validate(groupByAttributeValue, name:"groupByAttributeValue", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1886,6 +2061,11 @@ extension SecurityHub {
             self.groupByAttribute = groupByAttribute
             self.insightArn = insightArn
             self.resultValues = resultValues
+        }
+
+        public func validate() throws {
+            try validate(groupByAttribute, name:"groupByAttribute", pattern: ".*\\S.*")
+            try validate(insightArn, name:"insightArn", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1916,6 +2096,11 @@ extension SecurityHub {
             self.invitationId = invitationId
             self.invitedAt = invitedAt
             self.memberStatus = memberStatus
+        }
+
+        public func validate() throws {
+            try validate(invitationId, name:"invitationId", pattern: ".*\\S.*")
+            try validate(memberStatus, name:"memberStatus", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1969,6 +2154,10 @@ extension SecurityHub {
             self.cidr = cidr
         }
 
+        public func validate() throws {
+            try validate(cidr, name:"cidr", pattern: ".*\\S.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case cidr = "Cidr"
         }
@@ -1983,6 +2172,10 @@ extension SecurityHub {
         
         public init(value: String? = nil) {
             self.value = value
+        }
+
+        public func validate() throws {
+            try validate(value, name:"value", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2003,6 +2196,11 @@ extension SecurityHub {
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2047,6 +2245,11 @@ extension SecurityHub {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -2066,6 +2269,10 @@ extension SecurityHub {
         public init(invitations: [Invitation]? = nil, nextToken: String? = nil) {
             self.invitations = invitations
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2093,6 +2300,11 @@ extension SecurityHub {
             self.onlyAssociated = onlyAssociated
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -2115,6 +2327,10 @@ extension SecurityHub {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", pattern: ".*\\S.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case members = "Members"
             case nextToken = "NextToken"
@@ -2130,6 +2346,10 @@ extension SecurityHub {
         
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func validate() throws {
+            try validate(resourceArn, name:"resourceArn", pattern: "^arn:aws:securityhub:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2174,6 +2394,11 @@ extension SecurityHub {
             self.path = path
             self.state = state
             self.`type` = `type`
+        }
+
+        public func validate() throws {
+            try validate(name, name:"name", pattern: ".*\\S.*")
+            try validate(path, name:"path", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2229,6 +2454,11 @@ extension SecurityHub {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", pattern: ".*\\S.*")
+            try validate(value, name:"value", pattern: ".*\\S.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case comparison = "Comparison"
             case key = "Key"
@@ -2270,6 +2500,12 @@ extension SecurityHub {
             self.masterId = masterId
             self.memberStatus = memberStatus
             self.updatedAt = updatedAt
+        }
+
+        public func validate() throws {
+            try validate(email, name:"email", pattern: ".*\\S.*")
+            try validate(masterId, name:"masterId", pattern: ".*\\S.*")
+            try validate(memberStatus, name:"memberStatus", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2333,6 +2569,17 @@ extension SecurityHub {
             self.sourcePort = sourcePort
         }
 
+        public func validate() throws {
+            try validate(destinationDomain, name:"destinationDomain", pattern: ".*\\S.*")
+            try validate(destinationIpV4, name:"destinationIpV4", pattern: ".*\\S.*")
+            try validate(destinationIpV6, name:"destinationIpV6", pattern: ".*\\S.*")
+            try validate(`protocol`, name:"`protocol`", pattern: ".*\\S.*")
+            try validate(sourceDomain, name:"sourceDomain", pattern: ".*\\S.*")
+            try validate(sourceIpV4, name:"sourceIpV4", pattern: ".*\\S.*")
+            try validate(sourceIpV6, name:"sourceIpV6", pattern: ".*\\S.*")
+            try validate(sourceMac, name:"sourceMac", pattern: ".*\\S.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case destinationDomain = "DestinationDomain"
             case destinationIpV4 = "DestinationIpV4"
@@ -2373,6 +2620,12 @@ extension SecurityHub {
             self.updatedBy = updatedBy
         }
 
+        public func validate() throws {
+            try validate(text, name:"text", pattern: ".*\\S.*")
+            try validate(updatedAt, name:"updatedAt", pattern: ".*\\S.*")
+            try validate(updatedBy, name:"updatedBy", pattern: ".*\\S.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case text = "Text"
             case updatedAt = "UpdatedAt"
@@ -2393,6 +2646,11 @@ extension SecurityHub {
         public init(text: String, updatedBy: String) {
             self.text = text
             self.updatedBy = updatedBy
+        }
+
+        public func validate() throws {
+            try validate(text, name:"text", pattern: ".*\\S.*")
+            try validate(updatedBy, name:"updatedBy", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2465,6 +2723,13 @@ extension SecurityHub {
             self.terminatedAt = terminatedAt
         }
 
+        public func validate() throws {
+            try validate(launchedAt, name:"launchedAt", pattern: ".*\\S.*")
+            try validate(name, name:"name", pattern: ".*\\S.*")
+            try validate(path, name:"path", pattern: ".*\\S.*")
+            try validate(terminatedAt, name:"terminatedAt", pattern: ".*\\S.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case launchedAt = "LaunchedAt"
             case name = "Name"
@@ -2514,6 +2779,16 @@ extension SecurityHub {
             self.productSubscriptionResourcePolicy = productSubscriptionResourcePolicy
         }
 
+        public func validate() throws {
+            try validate(activationUrl, name:"activationUrl", pattern: ".*\\S.*")
+            try validate(companyName, name:"companyName", pattern: ".*\\S.*")
+            try validate(description, name:"description", pattern: ".*\\S.*")
+            try validate(marketplaceUrl, name:"marketplaceUrl", pattern: ".*\\S.*")
+            try validate(productArn, name:"productArn", pattern: ".*\\S.*")
+            try validate(productName, name:"productName", pattern: ".*\\S.*")
+            try validate(productSubscriptionResourcePolicy, name:"productSubscriptionResourcePolicy", pattern: ".*\\S.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case activationUrl = "ActivationUrl"
             case categories = "Categories"
@@ -2539,6 +2814,11 @@ extension SecurityHub {
         public init(text: String? = nil, url: String? = nil) {
             self.text = text
             self.url = url
+        }
+
+        public func validate() throws {
+            try validate(text, name:"text", pattern: ".*\\S.*")
+            try validate(url, name:"url", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2568,6 +2848,11 @@ extension SecurityHub {
             self.productArn = productArn
         }
 
+        public func validate() throws {
+            try validate(id, name:"id", pattern: ".*\\S.*")
+            try validate(productArn, name:"productArn", pattern: ".*\\S.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
             case productArn = "ProductArn"
@@ -2583,6 +2868,10 @@ extension SecurityHub {
         
         public init(recommendation: Recommendation? = nil) {
             self.recommendation = recommendation
+        }
+
+        public func validate() throws {
+            try recommendation?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2619,6 +2908,13 @@ extension SecurityHub {
             self.region = region
             self.tags = tags
             self.`type` = `type`
+        }
+
+        public func validate() throws {
+            try details?.validate()
+            try validate(id, name:"id", pattern: ".*\\S.*")
+            try validate(region, name:"region", pattern: ".*\\S.*")
+            try validate(`type`, name:"`type`", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2658,6 +2954,13 @@ extension SecurityHub {
             self.other = other
         }
 
+        public func validate() throws {
+            try awsEc2Instance?.validate()
+            try awsIamAccessKey?.validate()
+            try awsS3Bucket?.validate()
+            try container?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case awsEc2Instance = "AwsEc2Instance"
             case awsIamAccessKey = "AwsIamAccessKey"
@@ -2680,6 +2983,10 @@ extension SecurityHub {
         public init(accountId: String? = nil, processingResult: String? = nil) {
             self.accountId = accountId
             self.processingResult = processingResult
+        }
+
+        public func validate() throws {
+            try validate(processingResult, name:"processingResult", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2722,6 +3029,10 @@ extension SecurityHub {
         public init(field: String? = nil, sortOrder: SortOrder? = nil) {
             self.field = field
             self.sortOrder = sortOrder
+        }
+
+        public func validate() throws {
+            try validate(field, name:"field", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2768,6 +3079,11 @@ extension SecurityHub {
             self.standardsSubscriptionArn = standardsSubscriptionArn
         }
 
+        public func validate() throws {
+            try validate(standardsArn, name:"standardsArn", pattern: ".*\\S.*")
+            try validate(standardsSubscriptionArn, name:"standardsSubscriptionArn", pattern: ".*\\S.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case standardsArn = "StandardsArn"
             case standardsInput = "StandardsInput"
@@ -2791,6 +3107,10 @@ extension SecurityHub {
             self.standardsInput = standardsInput
         }
 
+        public func validate() throws {
+            try validate(standardsArn, name:"standardsArn", pattern: ".*\\S.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case standardsArn = "StandardsArn"
             case standardsInput = "StandardsInput"
@@ -2810,6 +3130,10 @@ extension SecurityHub {
         public init(comparison: StringFilterComparison? = nil, value: String? = nil) {
             self.comparison = comparison
             self.value = value
+        }
+
+        public func validate() throws {
+            try validate(value, name:"value", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2837,6 +3161,10 @@ extension SecurityHub {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try validate(resourceArn, name:"resourceArn", pattern: "^arn:aws:securityhub:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2882,6 +3210,13 @@ extension SecurityHub {
             self.sourceUrl = sourceUrl
             self.`type` = `type`
             self.value = value
+        }
+
+        public func validate() throws {
+            try validate(lastObservedAt, name:"lastObservedAt", pattern: ".*\\S.*")
+            try validate(source, name:"source", pattern: ".*\\S.*")
+            try validate(sourceUrl, name:"sourceUrl", pattern: ".*\\S.*")
+            try validate(value, name:"value", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2934,6 +3269,10 @@ extension SecurityHub {
             self.tagKeys = tagKeys
         }
 
+        public func validate() throws {
+            try validate(resourceArn, name:"resourceArn", pattern: "^arn:aws:securityhub:.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "ResourceArn"
             case tagKeys = "tagKeys"
@@ -2965,6 +3304,12 @@ extension SecurityHub {
             self.actionTargetArn = actionTargetArn
             self.description = description
             self.name = name
+        }
+
+        public func validate() throws {
+            try validate(actionTargetArn, name:"actionTargetArn", pattern: ".*\\S.*")
+            try validate(description, name:"description", pattern: ".*\\S.*")
+            try validate(name, name:"name", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2999,6 +3344,10 @@ extension SecurityHub {
             self.filters = filters
             self.note = note
             self.recordState = recordState
+        }
+
+        public func validate() throws {
+            try note?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3037,6 +3386,12 @@ extension SecurityHub {
             self.groupByAttribute = groupByAttribute
             self.insightArn = insightArn
             self.name = name
+        }
+
+        public func validate() throws {
+            try validate(groupByAttribute, name:"groupByAttribute", pattern: ".*\\S.*")
+            try validate(insightArn, name:"insightArn", pattern: ".*\\S.*")
+            try validate(name, name:"name", pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {

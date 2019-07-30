@@ -40,6 +40,13 @@ extension ELBV2 {
             self.`type` = `type`
         }
 
+        public func validate() throws {
+            try fixedResponseConfig?.validate()
+            try validate(order, name:"order", max: 50000)
+            try validate(order, name:"order", min: 1)
+            try redirectConfig?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authenticateCognitoConfig = "AuthenticateCognitoConfig"
             case authenticateOidcConfig = "AuthenticateOidcConfig"
@@ -361,6 +368,11 @@ extension ELBV2 {
             self.sslPolicy = sslPolicy
         }
 
+        public func validate() throws {
+            try validate(port, name:"port", max: 65535)
+            try validate(port, name:"port", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case certificates = "Certificates"
             case defaultActions = "DefaultActions"
@@ -477,6 +489,11 @@ extension ELBV2 {
             self.priority = priority
         }
 
+        public func validate() throws {
+            try validate(priority, name:"priority", max: 50000)
+            try validate(priority, name:"priority", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case actions = "Actions"
             case conditions = "Conditions"
@@ -562,6 +579,21 @@ extension ELBV2 {
             self.targetType = targetType
             self.unhealthyThresholdCount = unhealthyThresholdCount
             self.vpcId = vpcId
+        }
+
+        public func validate() throws {
+            try validate(healthCheckIntervalSeconds, name:"healthCheckIntervalSeconds", max: 300)
+            try validate(healthCheckIntervalSeconds, name:"healthCheckIntervalSeconds", min: 5)
+            try validate(healthCheckPath, name:"healthCheckPath", max: 1024)
+            try validate(healthCheckPath, name:"healthCheckPath", min: 1)
+            try validate(healthCheckTimeoutSeconds, name:"healthCheckTimeoutSeconds", max: 120)
+            try validate(healthCheckTimeoutSeconds, name:"healthCheckTimeoutSeconds", min: 2)
+            try validate(healthyThresholdCount, name:"healthyThresholdCount", max: 10)
+            try validate(healthyThresholdCount, name:"healthyThresholdCount", min: 2)
+            try validate(port, name:"port", max: 65535)
+            try validate(port, name:"port", min: 1)
+            try validate(unhealthyThresholdCount, name:"unhealthyThresholdCount", max: 10)
+            try validate(unhealthyThresholdCount, name:"unhealthyThresholdCount", min: 2)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -738,6 +770,11 @@ extension ELBV2 {
             self.pageSize = pageSize
         }
 
+        public func validate() throws {
+            try validate(pageSize, name:"pageSize", max: 400)
+            try validate(pageSize, name:"pageSize", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case marker = "Marker"
             case pageSize = "PageSize"
@@ -782,6 +819,11 @@ extension ELBV2 {
             self.listenerArn = listenerArn
             self.marker = marker
             self.pageSize = pageSize
+        }
+
+        public func validate() throws {
+            try validate(pageSize, name:"pageSize", max: 400)
+            try validate(pageSize, name:"pageSize", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -833,6 +875,11 @@ extension ELBV2 {
             self.loadBalancerArn = loadBalancerArn
             self.marker = marker
             self.pageSize = pageSize
+        }
+
+        public func validate() throws {
+            try validate(pageSize, name:"pageSize", max: 400)
+            try validate(pageSize, name:"pageSize", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -919,6 +966,11 @@ extension ELBV2 {
             self.pageSize = pageSize
         }
 
+        public func validate() throws {
+            try validate(pageSize, name:"pageSize", max: 400)
+            try validate(pageSize, name:"pageSize", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case loadBalancerArns = "LoadBalancerArns"
             case marker = "Marker"
@@ -971,6 +1023,11 @@ extension ELBV2 {
             self.ruleArns = ruleArns
         }
 
+        public func validate() throws {
+            try validate(pageSize, name:"pageSize", max: 400)
+            try validate(pageSize, name:"pageSize", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case listenerArn = "ListenerArn"
             case marker = "Marker"
@@ -1017,6 +1074,11 @@ extension ELBV2 {
             self.marker = marker
             self.names = names
             self.pageSize = pageSize
+        }
+
+        public func validate() throws {
+            try validate(pageSize, name:"pageSize", max: 400)
+            try validate(pageSize, name:"pageSize", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1138,6 +1200,11 @@ extension ELBV2 {
             self.targetGroupArns = targetGroupArns
         }
 
+        public func validate() throws {
+            try validate(pageSize, name:"pageSize", max: 400)
+            try validate(pageSize, name:"pageSize", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case loadBalancerArn = "LoadBalancerArn"
             case marker = "Marker"
@@ -1222,6 +1289,14 @@ extension ELBV2 {
             self.contentType = contentType
             self.messageBody = messageBody
             self.statusCode = statusCode
+        }
+
+        public func validate() throws {
+            try validate(contentType, name:"contentType", max: 32)
+            try validate(contentType, name:"contentType", min: 0)
+            try validate(messageBody, name:"messageBody", max: 1024)
+            try validate(messageBody, name:"messageBody", min: 0)
+            try validate(statusCode, name:"statusCode", pattern: "^(2|4|5)\\d\\d$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1346,6 +1421,11 @@ extension ELBV2 {
             self.sslPolicy = sslPolicy
         }
 
+        public func validate() throws {
+            try validate(port, name:"port", max: 65535)
+            try validate(port, name:"port", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case certificates = "Certificates"
             case defaultActions = "DefaultActions"
@@ -1464,6 +1544,12 @@ extension ELBV2 {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", max: 256)
+            try validate(key, name:"key", pattern: "^[a-zA-Z0-9._]+$")
+            try validate(value, name:"value", max: 1024)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
@@ -1556,6 +1642,11 @@ extension ELBV2 {
             self.port = port
             self.`protocol` = `protocol`
             self.sslPolicy = sslPolicy
+        }
+
+        public func validate() throws {
+            try validate(port, name:"port", max: 65535)
+            try validate(port, name:"port", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1747,6 +1838,19 @@ extension ELBV2 {
             self.unhealthyThresholdCount = unhealthyThresholdCount
         }
 
+        public func validate() throws {
+            try validate(healthCheckIntervalSeconds, name:"healthCheckIntervalSeconds", max: 300)
+            try validate(healthCheckIntervalSeconds, name:"healthCheckIntervalSeconds", min: 5)
+            try validate(healthCheckPath, name:"healthCheckPath", max: 1024)
+            try validate(healthCheckPath, name:"healthCheckPath", min: 1)
+            try validate(healthCheckTimeoutSeconds, name:"healthCheckTimeoutSeconds", max: 120)
+            try validate(healthCheckTimeoutSeconds, name:"healthCheckTimeoutSeconds", min: 2)
+            try validate(healthyThresholdCount, name:"healthyThresholdCount", max: 10)
+            try validate(healthyThresholdCount, name:"healthyThresholdCount", min: 2)
+            try validate(unhealthyThresholdCount, name:"unhealthyThresholdCount", max: 10)
+            try validate(unhealthyThresholdCount, name:"unhealthyThresholdCount", min: 2)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case healthCheckEnabled = "HealthCheckEnabled"
             case healthCheckIntervalSeconds = "HealthCheckIntervalSeconds"
@@ -1869,6 +1973,16 @@ extension ELBV2 {
             self.`protocol` = `protocol`
             self.query = query
             self.statusCode = statusCode
+        }
+
+        public func validate() throws {
+            try validate(host, name:"host", max: 128)
+            try validate(host, name:"host", min: 1)
+            try validate(path, name:"path", max: 128)
+            try validate(path, name:"path", min: 1)
+            try validate(`protocol`, name:"`protocol`", pattern: "^(HTTPS?|#\\{protocol\\})$")
+            try validate(query, name:"query", max: 128)
+            try validate(query, name:"query", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2049,6 +2163,10 @@ extension ELBV2 {
             self.values = values
         }
 
+        public func validate() throws {
+            try validate(field, name:"field", max: 64)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case field = "Field"
             case hostHeaderConfig = "HostHeaderConfig"
@@ -2074,6 +2192,11 @@ extension ELBV2 {
         public init(priority: Int32? = nil, ruleArn: String? = nil) {
             self.priority = priority
             self.ruleArn = ruleArn
+        }
+
+        public func validate() throws {
+            try validate(priority, name:"priority", max: 50000)
+            try validate(priority, name:"priority", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2308,6 +2431,15 @@ extension ELBV2 {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", max: 128)
+            try validate(key, name:"key", min: 1)
+            try validate(key, name:"key", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(value, name:"value", max: 256)
+            try validate(value, name:"value", min: 0)
+            try validate(value, name:"value", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
@@ -2352,6 +2484,11 @@ extension ELBV2 {
             self.availabilityZone = availabilityZone
             self.id = id
             self.port = port
+        }
+
+        public func validate() throws {
+            try validate(port, name:"port", max: 65535)
+            try validate(port, name:"port", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2432,6 +2569,21 @@ extension ELBV2 {
             self.vpcId = vpcId
         }
 
+        public func validate() throws {
+            try validate(healthCheckIntervalSeconds, name:"healthCheckIntervalSeconds", max: 300)
+            try validate(healthCheckIntervalSeconds, name:"healthCheckIntervalSeconds", min: 5)
+            try validate(healthCheckPath, name:"healthCheckPath", max: 1024)
+            try validate(healthCheckPath, name:"healthCheckPath", min: 1)
+            try validate(healthCheckTimeoutSeconds, name:"healthCheckTimeoutSeconds", max: 120)
+            try validate(healthCheckTimeoutSeconds, name:"healthCheckTimeoutSeconds", min: 2)
+            try validate(healthyThresholdCount, name:"healthyThresholdCount", max: 10)
+            try validate(healthyThresholdCount, name:"healthyThresholdCount", min: 2)
+            try validate(port, name:"port", max: 65535)
+            try validate(port, name:"port", min: 1)
+            try validate(unhealthyThresholdCount, name:"unhealthyThresholdCount", max: 10)
+            try validate(unhealthyThresholdCount, name:"unhealthyThresholdCount", min: 2)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case healthCheckEnabled = "HealthCheckEnabled"
             case healthCheckIntervalSeconds = "HealthCheckIntervalSeconds"
@@ -2465,6 +2617,11 @@ extension ELBV2 {
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
+        }
+
+        public func validate() throws {
+            try validate(key, name:"key", max: 256)
+            try validate(key, name:"key", pattern: "^[a-zA-Z0-9._]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2516,6 +2673,10 @@ extension ELBV2 {
             self.healthCheckPort = healthCheckPort
             self.target = target
             self.targetHealth = targetHealth
+        }
+
+        public func validate() throws {
+            try target?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

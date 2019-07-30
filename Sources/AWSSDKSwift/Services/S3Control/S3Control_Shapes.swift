@@ -47,6 +47,21 @@ extension S3Control {
             self.roleArn = roleArn
         }
 
+        public func validate() throws {
+            try validate(accountId, name:"accountId", max: 64)
+            try validate(clientRequestToken, name:"clientRequestToken", max: 64)
+            try validate(clientRequestToken, name:"clientRequestToken", min: 1)
+            try validate(description, name:"description", max: 256)
+            try validate(description, name:"description", min: 1)
+            try manifest.validate()
+            try operation.validate()
+            try validate(priority, name:"priority", max: 2147483647)
+            try validate(priority, name:"priority", min: 0)
+            try report.validate()
+            try validate(roleArn, name:"roleArn", max: 2048)
+            try validate(roleArn, name:"roleArn", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountId = "x-amz-account-id"
             case clientRequestToken = "ClientRequestToken"
@@ -71,6 +86,11 @@ extension S3Control {
             self.jobId = jobId
         }
 
+        public func validate() throws {
+            try validate(jobId, name:"jobId", max: 36)
+            try validate(jobId, name:"jobId", min: 5)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case jobId = "JobId"
         }
@@ -85,6 +105,10 @@ extension S3Control {
         
         public init(accountId: String) {
             self.accountId = accountId
+        }
+
+        public func validate() throws {
+            try validate(accountId, name:"accountId", max: 64)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -106,6 +130,12 @@ extension S3Control {
             self.jobId = jobId
         }
 
+        public func validate() throws {
+            try validate(accountId, name:"accountId", max: 64)
+            try validate(jobId, name:"jobId", max: 36)
+            try validate(jobId, name:"jobId", min: 5)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountId = "x-amz-account-id"
             case jobId = "id"
@@ -121,6 +151,10 @@ extension S3Control {
         
         public init(job: JobDescriptor? = nil) {
             self.job = job
+        }
+
+        public func validate() throws {
+            try job?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -153,6 +187,10 @@ extension S3Control {
         
         public init(accountId: String) {
             self.accountId = accountId
+        }
+
+        public func validate() throws {
+            try validate(accountId, name:"accountId", max: 64)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -234,6 +272,27 @@ extension S3Control {
             self.terminationDate = terminationDate
         }
 
+        public func validate() throws {
+            try validate(description, name:"description", max: 256)
+            try validate(description, name:"description", min: 1)
+            try validate(jobArn, name:"jobArn", max: 1024)
+            try validate(jobArn, name:"jobArn", min: 1)
+            try validate(jobId, name:"jobId", max: 36)
+            try validate(jobId, name:"jobId", min: 5)
+            try manifest?.validate()
+            try operation?.validate()
+            try validate(priority, name:"priority", max: 2147483647)
+            try validate(priority, name:"priority", min: 0)
+            try progressSummary?.validate()
+            try report?.validate()
+            try validate(roleArn, name:"roleArn", max: 2048)
+            try validate(roleArn, name:"roleArn", min: 1)
+            try validate(statusUpdateReason, name:"statusUpdateReason", max: 256)
+            try validate(statusUpdateReason, name:"statusUpdateReason", min: 1)
+            try validate(suspendedCause, name:"suspendedCause", max: 1024)
+            try validate(suspendedCause, name:"suspendedCause", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case confirmationRequired = "ConfirmationRequired"
             case creationTime = "CreationTime"
@@ -268,6 +327,13 @@ extension S3Control {
         public init(failureCode: String? = nil, failureReason: String? = nil) {
             self.failureCode = failureCode
             self.failureReason = failureReason
+        }
+
+        public func validate() throws {
+            try validate(failureCode, name:"failureCode", max: 64)
+            try validate(failureCode, name:"failureCode", min: 1)
+            try validate(failureReason, name:"failureReason", max: 256)
+            try validate(failureReason, name:"failureReason", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -315,6 +381,16 @@ extension S3Control {
             self.terminationDate = terminationDate
         }
 
+        public func validate() throws {
+            try validate(description, name:"description", max: 256)
+            try validate(description, name:"description", min: 1)
+            try validate(jobId, name:"jobId", max: 36)
+            try validate(jobId, name:"jobId", min: 5)
+            try validate(priority, name:"priority", max: 2147483647)
+            try validate(priority, name:"priority", min: 0)
+            try progressSummary?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case creationTime = "CreationTime"
             case description = "Description"
@@ -340,6 +416,10 @@ extension S3Control {
         public init(location: JobManifestLocation, spec: JobManifestSpec) {
             self.location = location
             self.spec = spec
+        }
+
+        public func validate() throws {
+            try location.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -379,6 +459,15 @@ extension S3Control {
             self.eTag = eTag
             self.objectArn = objectArn
             self.objectVersionId = objectVersionId
+        }
+
+        public func validate() throws {
+            try validate(eTag, name:"eTag", max: 1024)
+            try validate(eTag, name:"eTag", min: 1)
+            try validate(objectArn, name:"objectArn", max: 2000)
+            try validate(objectArn, name:"objectArn", min: 1)
+            try validate(objectVersionId, name:"objectVersionId", max: 2000)
+            try validate(objectVersionId, name:"objectVersionId", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -436,6 +525,13 @@ extension S3Control {
             self.s3PutObjectTagging = s3PutObjectTagging
         }
 
+        public func validate() throws {
+            try lambdaInvoke?.validate()
+            try s3InitiateRestoreObject?.validate()
+            try s3PutObjectAcl?.validate()
+            try s3PutObjectCopy?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case lambdaInvoke = "LambdaInvoke"
             case s3InitiateRestoreObject = "S3InitiateRestoreObject"
@@ -459,6 +555,12 @@ extension S3Control {
             self.numberOfTasksFailed = numberOfTasksFailed
             self.numberOfTasksSucceeded = numberOfTasksSucceeded
             self.totalNumberOfTasks = totalNumberOfTasks
+        }
+
+        public func validate() throws {
+            try validate(numberOfTasksFailed, name:"numberOfTasksFailed", min: 0)
+            try validate(numberOfTasksSucceeded, name:"numberOfTasksSucceeded", min: 0)
+            try validate(totalNumberOfTasks, name:"totalNumberOfTasks", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -493,6 +595,13 @@ extension S3Control {
             self.format = format
             self.prefix = prefix
             self.reportScope = reportScope
+        }
+
+        public func validate() throws {
+            try validate(bucket, name:"bucket", max: 128)
+            try validate(bucket, name:"bucket", min: 1)
+            try validate(prefix, name:"prefix", max: 512)
+            try validate(prefix, name:"prefix", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -543,6 +652,11 @@ extension S3Control {
             self.functionArn = functionArn
         }
 
+        public func validate() throws {
+            try validate(functionArn, name:"functionArn", max: 1024)
+            try validate(functionArn, name:"functionArn", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case functionArn = "FunctionArn"
         }
@@ -570,6 +684,14 @@ extension S3Control {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(accountId, name:"accountId", max: 64)
+            try validate(maxResults, name:"maxResults", max: 1000)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountId = "x-amz-account-id"
             case jobStatuses = "jobStatuses"
@@ -591,6 +713,11 @@ extension S3Control {
         public init(jobs: [JobListDescriptor]? = nil, nextToken: String? = nil) {
             self.jobs = jobs
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -651,6 +778,10 @@ extension S3Control {
             self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
         }
 
+        public func validate() throws {
+            try validate(accountId, name:"accountId", max: 64)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountId = "x-amz-account-id"
             case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
@@ -676,6 +807,10 @@ extension S3Control {
             self.owner = owner
         }
 
+        public func validate() throws {
+            try owner.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case grants = "Grants"
             case owner = "Owner"
@@ -693,6 +828,10 @@ extension S3Control {
         public init(accessControlList: S3AccessControlList? = nil, cannedAccessControlList: S3CannedAccessControlList? = nil) {
             self.accessControlList = accessControlList
             self.cannedAccessControlList = cannedAccessControlList
+        }
+
+        public func validate() throws {
+            try accessControlList?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -767,6 +906,18 @@ extension S3Control {
             self.unModifiedSinceConstraint = unModifiedSinceConstraint
         }
 
+        public func validate() throws {
+            try newObjectMetadata?.validate()
+            try validate(redirectLocation, name:"redirectLocation", max: 2048)
+            try validate(redirectLocation, name:"redirectLocation", min: 1)
+            try validate(sSEAwsKmsKeyId, name:"sSEAwsKmsKeyId", max: 2000)
+            try validate(sSEAwsKmsKeyId, name:"sSEAwsKmsKeyId", min: 1)
+            try validate(targetKeyPrefix, name:"targetKeyPrefix", max: 1024)
+            try validate(targetKeyPrefix, name:"targetKeyPrefix", min: 1)
+            try validate(targetResource, name:"targetResource", max: 128)
+            try validate(targetResource, name:"targetResource", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accessControlGrants = "AccessControlGrants"
             case cannedAccessControlList = "CannedAccessControlList"
@@ -806,6 +957,10 @@ extension S3Control {
             self.permission = permission
         }
 
+        public func validate() throws {
+            try grantee?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case grantee = "Grantee"
             case permission = "Permission"
@@ -826,6 +981,13 @@ extension S3Control {
             self.displayName = displayName
             self.identifier = identifier
             self.typeIdentifier = typeIdentifier
+        }
+
+        public func validate() throws {
+            try validate(displayName, name:"displayName", max: 1024)
+            try validate(displayName, name:"displayName", min: 1)
+            try validate(identifier, name:"identifier", max: 1024)
+            try validate(identifier, name:"identifier", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -853,6 +1015,10 @@ extension S3Control {
         public init(expirationInDays: Int32? = nil, glacierJobTier: S3GlacierJobTier? = nil) {
             self.expirationInDays = expirationInDays
             self.glacierJobTier = glacierJobTier
+        }
+
+        public func validate() throws {
+            try validate(expirationInDays, name:"expirationInDays", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -919,6 +1085,22 @@ extension S3Control {
             self.userMetadata = userMetadata
         }
 
+        public func validate() throws {
+            try validate(cacheControl, name:"cacheControl", max: 1024)
+            try validate(cacheControl, name:"cacheControl", min: 1)
+            try validate(contentDisposition, name:"contentDisposition", max: 1024)
+            try validate(contentDisposition, name:"contentDisposition", min: 1)
+            try validate(contentEncoding, name:"contentEncoding", max: 1024)
+            try validate(contentEncoding, name:"contentEncoding", min: 1)
+            try validate(contentLanguage, name:"contentLanguage", max: 1024)
+            try validate(contentLanguage, name:"contentLanguage", min: 1)
+            try validate(contentLength, name:"contentLength", min: 0)
+            try validate(contentMD5, name:"contentMD5", max: 1024)
+            try validate(contentMD5, name:"contentMD5", min: 1)
+            try validate(contentType, name:"contentType", max: 1024)
+            try validate(contentType, name:"contentType", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case cacheControl = "CacheControl"
             case contentDisposition = "ContentDisposition"
@@ -945,6 +1127,13 @@ extension S3Control {
         public init(displayName: String? = nil, id: String? = nil) {
             self.displayName = displayName
             self.id = id
+        }
+
+        public func validate() throws {
+            try validate(displayName, name:"displayName", max: 1024)
+            try validate(displayName, name:"displayName", min: 1)
+            try validate(id, name:"id", max: 1024)
+            try validate(id, name:"id", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -976,6 +1165,10 @@ extension S3Control {
         
         public init(accessControlPolicy: S3AccessControlPolicy? = nil) {
             self.accessControlPolicy = accessControlPolicy
+        }
+
+        public func validate() throws {
+            try accessControlPolicy?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1021,6 +1214,12 @@ extension S3Control {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", max: 1024)
+            try validate(key, name:"key", min: 1)
+            try validate(value, name:"value", max: 1024)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
@@ -1045,6 +1244,14 @@ extension S3Control {
             self.priority = priority
         }
 
+        public func validate() throws {
+            try validate(accountId, name:"accountId", max: 64)
+            try validate(jobId, name:"jobId", max: 36)
+            try validate(jobId, name:"jobId", min: 5)
+            try validate(priority, name:"priority", max: 2147483647)
+            try validate(priority, name:"priority", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountId = "x-amz-account-id"
             case jobId = "id"
@@ -1065,6 +1272,13 @@ extension S3Control {
         public init(jobId: String, priority: Int32) {
             self.jobId = jobId
             self.priority = priority
+        }
+
+        public func validate() throws {
+            try validate(jobId, name:"jobId", max: 36)
+            try validate(jobId, name:"jobId", min: 5)
+            try validate(priority, name:"priority", max: 2147483647)
+            try validate(priority, name:"priority", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1095,6 +1309,14 @@ extension S3Control {
             self.statusUpdateReason = statusUpdateReason
         }
 
+        public func validate() throws {
+            try validate(accountId, name:"accountId", max: 64)
+            try validate(jobId, name:"jobId", max: 36)
+            try validate(jobId, name:"jobId", min: 5)
+            try validate(statusUpdateReason, name:"statusUpdateReason", max: 256)
+            try validate(statusUpdateReason, name:"statusUpdateReason", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountId = "x-amz-account-id"
             case jobId = "id"
@@ -1120,6 +1342,13 @@ extension S3Control {
             self.jobId = jobId
             self.status = status
             self.statusUpdateReason = statusUpdateReason
+        }
+
+        public func validate() throws {
+            try validate(jobId, name:"jobId", max: 36)
+            try validate(jobId, name:"jobId", min: 5)
+            try validate(statusUpdateReason, name:"statusUpdateReason", max: 256)
+            try validate(statusUpdateReason, name:"statusUpdateReason", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

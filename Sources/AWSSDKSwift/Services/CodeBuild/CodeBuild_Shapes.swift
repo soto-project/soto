@@ -253,6 +253,20 @@ extension CodeBuild {
             self.vpcConfig = vpcConfig
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", min: 1)
+            try validate(encryptionKey, name:"encryptionKey", min: 1)
+            try environment?.validate()
+            try validate(id, name:"id", min: 1)
+            try networkInterface?.validate()
+            try validate(projectName, name:"projectName", min: 1)
+            try validate(resolvedSourceVersion, name:"resolvedSourceVersion", min: 1)
+            try validate(serviceRole, name:"serviceRole", min: 1)
+            try source?.validate()
+            try validate(sourceVersion, name:"sourceVersion", min: 1)
+            try vpcConfig?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case artifacts = "artifacts"
@@ -337,6 +351,10 @@ extension CodeBuild {
         public init(id: String? = nil, statusCode: String? = nil) {
             self.id = id
             self.statusCode = statusCode
+        }
+
+        public func validate() throws {
+            try validate(id, name:"id", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -527,6 +545,23 @@ extension CodeBuild {
             self.vpcConfig = vpcConfig
         }
 
+        public func validate() throws {
+            try validate(description, name:"description", max: 255)
+            try validate(description, name:"description", min: 0)
+            try validate(encryptionKey, name:"encryptionKey", min: 1)
+            try environment.validate()
+            try validate(name, name:"name", max: 255)
+            try validate(name, name:"name", min: 2)
+            try validate(name, name:"name", pattern: "[A-Za-z0-9][A-Za-z0-9\\-_]{1,254}")
+            try validate(queuedTimeoutInMinutes, name:"queuedTimeoutInMinutes", max: 480)
+            try validate(queuedTimeoutInMinutes, name:"queuedTimeoutInMinutes", min: 5)
+            try validate(serviceRole, name:"serviceRole", min: 1)
+            try source.validate()
+            try validate(timeoutInMinutes, name:"timeoutInMinutes", max: 480)
+            try validate(timeoutInMinutes, name:"timeoutInMinutes", min: 5)
+            try vpcConfig?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case artifacts = "artifacts"
             case badgeEnabled = "badgeEnabled"
@@ -560,6 +595,10 @@ extension CodeBuild {
             self.project = project
         }
 
+        public func validate() throws {
+            try project?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case project = "project"
         }
@@ -584,6 +623,12 @@ extension CodeBuild {
             self.projectName = projectName
         }
 
+        public func validate() throws {
+            try validate(projectName, name:"projectName", max: 255)
+            try validate(projectName, name:"projectName", min: 2)
+            try validate(projectName, name:"projectName", pattern: "[A-Za-z0-9][A-Za-z0-9\\-_]{1,254}")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case branchFilter = "branchFilter"
             case filterGroups = "filterGroups"
@@ -600,6 +645,10 @@ extension CodeBuild {
         
         public init(webhook: Webhook? = nil) {
             self.webhook = webhook
+        }
+
+        public func validate() throws {
+            try webhook?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -621,6 +670,10 @@ extension CodeBuild {
         
         public init(name: String) {
             self.name = name
+        }
+
+        public func validate() throws {
+            try validate(name, name:"name", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -647,6 +700,10 @@ extension CodeBuild {
             self.arn = arn
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
         }
@@ -663,6 +720,10 @@ extension CodeBuild {
             self.arn = arn
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
         }
@@ -677,6 +738,12 @@ extension CodeBuild {
         
         public init(projectName: String) {
             self.projectName = projectName
+        }
+
+        public func validate() throws {
+            try validate(projectName, name:"projectName", max: 255)
+            try validate(projectName, name:"projectName", min: 2)
+            try validate(projectName, name:"projectName", pattern: "[A-Za-z0-9][A-Za-z0-9\\-_]{1,254}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -785,6 +852,10 @@ extension CodeBuild {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(name, name:"name", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case name = "name"
             case `type` = "type"
@@ -843,6 +914,11 @@ extension CodeBuild {
             self.username = username
         }
 
+        public func validate() throws {
+            try validate(token, name:"token", min: 1)
+            try validate(username, name:"username", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authType = "authType"
             case serverType = "serverType"
@@ -862,6 +938,10 @@ extension CodeBuild {
             self.arn = arn
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
         }
@@ -876,6 +956,10 @@ extension CodeBuild {
         
         public init(projectName: String) {
             self.projectName = projectName
+        }
+
+        public func validate() throws {
+            try validate(projectName, name:"projectName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -922,6 +1006,10 @@ extension CodeBuild {
             self.nextToken = nextToken
             self.projectName = projectName
             self.sortOrder = sortOrder
+        }
+
+        public func validate() throws {
+            try validate(projectName, name:"projectName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1035,6 +1123,10 @@ extension CodeBuild {
             self.nextToken = nextToken
             self.sortBy = sortBy
             self.sortOrder = sortOrder
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1172,6 +1264,11 @@ extension CodeBuild {
             self.subnetId = subnetId
         }
 
+        public func validate() throws {
+            try validate(networkInterfaceId, name:"networkInterfaceId", min: 1)
+            try validate(subnetId, name:"subnetId", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case networkInterfaceId = "networkInterfaceId"
             case subnetId = "subnetId"
@@ -1300,6 +1397,24 @@ extension CodeBuild {
             self.timeoutInMinutes = timeoutInMinutes
             self.vpcConfig = vpcConfig
             self.webhook = webhook
+        }
+
+        public func validate() throws {
+            try validate(description, name:"description", max: 255)
+            try validate(description, name:"description", min: 0)
+            try validate(encryptionKey, name:"encryptionKey", min: 1)
+            try environment?.validate()
+            try validate(name, name:"name", max: 255)
+            try validate(name, name:"name", min: 2)
+            try validate(name, name:"name", pattern: "[A-Za-z0-9][A-Za-z0-9\\-_]{1,254}")
+            try validate(queuedTimeoutInMinutes, name:"queuedTimeoutInMinutes", max: 480)
+            try validate(queuedTimeoutInMinutes, name:"queuedTimeoutInMinutes", min: 5)
+            try validate(serviceRole, name:"serviceRole", min: 1)
+            try source?.validate()
+            try validate(timeoutInMinutes, name:"timeoutInMinutes", max: 480)
+            try validate(timeoutInMinutes, name:"timeoutInMinutes", min: 5)
+            try vpcConfig?.validate()
+            try webhook?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1470,6 +1585,11 @@ extension CodeBuild {
             self.`type` = `type`
         }
 
+        public func validate() throws {
+            try validate(image, name:"image", min: 1)
+            try registryCredential?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case certificate = "certificate"
             case computeType = "computeType"
@@ -1532,6 +1652,10 @@ extension CodeBuild {
             self.`type` = `type`
         }
 
+        public func validate() throws {
+            try validate(gitCloneDepth, name:"gitCloneDepth", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case auth = "auth"
             case buildspec = "buildspec"
@@ -1579,6 +1703,10 @@ extension CodeBuild {
         public init(credential: String, credentialProvider: CredentialProviderType) {
             self.credential = credential
             self.credentialProvider = credentialProvider
+        }
+
+        public func validate() throws {
+            try validate(credential, name:"credential", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1669,6 +1797,10 @@ extension CodeBuild {
             self.arn = arn
             self.authType = authType
             self.serverType = serverType
+        }
+
+        public func validate() throws {
+            try validate(arn, name:"arn", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1808,6 +1940,18 @@ extension CodeBuild {
             self.timeoutInMinutesOverride = timeoutInMinutesOverride
         }
 
+        public func validate() throws {
+            try validate(gitCloneDepthOverride, name:"gitCloneDepthOverride", min: 0)
+            try validate(imageOverride, name:"imageOverride", min: 1)
+            try validate(projectName, name:"projectName", min: 1)
+            try validate(queuedTimeoutInMinutesOverride, name:"queuedTimeoutInMinutesOverride", max: 480)
+            try validate(queuedTimeoutInMinutesOverride, name:"queuedTimeoutInMinutesOverride", min: 5)
+            try registryCredentialOverride?.validate()
+            try validate(serviceRoleOverride, name:"serviceRoleOverride", min: 1)
+            try validate(timeoutInMinutesOverride, name:"timeoutInMinutesOverride", max: 480)
+            try validate(timeoutInMinutesOverride, name:"timeoutInMinutesOverride", min: 5)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case artifactsOverride = "artifactsOverride"
             case buildspecOverride = "buildspecOverride"
@@ -1851,6 +1995,10 @@ extension CodeBuild {
             self.build = build
         }
 
+        public func validate() throws {
+            try build?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case build = "build"
         }
@@ -1877,6 +2025,10 @@ extension CodeBuild {
             self.id = id
         }
 
+        public func validate() throws {
+            try validate(id, name:"id", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case id = "id"
         }
@@ -1891,6 +2043,10 @@ extension CodeBuild {
         
         public init(build: Build? = nil) {
             self.build = build
+        }
+
+        public func validate() throws {
+            try build?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1911,6 +2067,15 @@ extension CodeBuild {
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
+        }
+
+        public func validate() throws {
+            try validate(key, name:"key", max: 127)
+            try validate(key, name:"key", min: 1)
+            try validate(key, name:"key", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=@+\\-]*)$")
+            try validate(value, name:"value", max: 255)
+            try validate(value, name:"value", min: 1)
+            try validate(value, name:"value", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=@+\\-]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1998,6 +2163,21 @@ extension CodeBuild {
             self.vpcConfig = vpcConfig
         }
 
+        public func validate() throws {
+            try validate(description, name:"description", max: 255)
+            try validate(description, name:"description", min: 0)
+            try validate(encryptionKey, name:"encryptionKey", min: 1)
+            try environment?.validate()
+            try validate(name, name:"name", min: 1)
+            try validate(queuedTimeoutInMinutes, name:"queuedTimeoutInMinutes", max: 480)
+            try validate(queuedTimeoutInMinutes, name:"queuedTimeoutInMinutes", min: 5)
+            try validate(serviceRole, name:"serviceRole", min: 1)
+            try source?.validate()
+            try validate(timeoutInMinutes, name:"timeoutInMinutes", max: 480)
+            try validate(timeoutInMinutes, name:"timeoutInMinutes", min: 5)
+            try vpcConfig?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case artifacts = "artifacts"
             case badgeEnabled = "badgeEnabled"
@@ -2031,6 +2211,10 @@ extension CodeBuild {
             self.project = project
         }
 
+        public func validate() throws {
+            try project?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case project = "project"
         }
@@ -2059,6 +2243,12 @@ extension CodeBuild {
             self.rotateSecret = rotateSecret
         }
 
+        public func validate() throws {
+            try validate(projectName, name:"projectName", max: 255)
+            try validate(projectName, name:"projectName", min: 2)
+            try validate(projectName, name:"projectName", pattern: "[A-Za-z0-9][A-Za-z0-9\\-_]{1,254}")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case branchFilter = "branchFilter"
             case filterGroups = "filterGroups"
@@ -2076,6 +2266,10 @@ extension CodeBuild {
         
         public init(webhook: Webhook? = nil) {
             self.webhook = webhook
+        }
+
+        public func validate() throws {
+            try webhook?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2100,6 +2294,10 @@ extension CodeBuild {
             self.securityGroupIds = securityGroupIds
             self.subnets = subnets
             self.vpcId = vpcId
+        }
+
+        public func validate() throws {
+            try validate(vpcId, name:"vpcId", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2138,6 +2336,12 @@ extension CodeBuild {
             self.payloadUrl = payloadUrl
             self.secret = secret
             self.url = url
+        }
+
+        public func validate() throws {
+            try validate(payloadUrl, name:"payloadUrl", min: 1)
+            try validate(secret, name:"secret", min: 1)
+            try validate(url, name:"url", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

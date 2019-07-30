@@ -20,6 +20,10 @@ extension Route53 {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(value, name:"value", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case `type` = "Type"
             case value = "Value"
@@ -50,6 +54,11 @@ extension Route53 {
             self.region = region
         }
 
+        public func validate() throws {
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case region = "Region"
@@ -73,6 +82,11 @@ extension Route53 {
             self.dNSName = dNSName
             self.evaluateTargetHealth = evaluateTargetHealth
             self.hostedZoneId = hostedZoneId
+        }
+
+        public func validate() throws {
+            try validate(dNSName, name:"dNSName", max: 1024)
+            try validate(hostedZoneId, name:"hostedZoneId", max: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -101,6 +115,11 @@ extension Route53 {
             self.vpc = vpc
         }
 
+        public func validate() throws {
+            try validate(hostedZoneId, name:"hostedZoneId", max: 32)
+            try vpc.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case comment = "Comment"
             case hostedZoneId = "Id"
@@ -117,6 +136,10 @@ extension Route53 {
         
         public init(changeInfo: ChangeInfo) {
             self.changeInfo = changeInfo
+        }
+
+        public func validate() throws {
+            try changeInfo.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -137,6 +160,10 @@ extension Route53 {
         public init(action: ChangeAction, resourceRecordSet: ResourceRecordSet) {
             self.action = action
             self.resourceRecordSet = resourceRecordSet
+        }
+
+        public func validate() throws {
+            try resourceRecordSet.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -165,6 +192,10 @@ extension Route53 {
         public init(changes: [Change], comment: String? = nil) {
             self.changes = changes
             self.comment = comment
+        }
+
+        public func validate() throws {
+            try validate(comment, name:"comment", max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -196,6 +227,11 @@ extension Route53 {
             self.submittedAt = submittedAt
         }
 
+        public func validate() throws {
+            try validate(comment, name:"comment", max: 256)
+            try validate(id, name:"id", max: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case comment = "Comment"
             case id = "Id"
@@ -219,6 +255,11 @@ extension Route53 {
             self.hostedZoneId = hostedZoneId
         }
 
+        public func validate() throws {
+            try changeBatch.validate()
+            try validate(hostedZoneId, name:"hostedZoneId", max: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case changeBatch = "ChangeBatch"
             case hostedZoneId = "Id"
@@ -234,6 +275,10 @@ extension Route53 {
         
         public init(changeInfo: ChangeInfo) {
             self.changeInfo = changeInfo
+        }
+
+        public func validate() throws {
+            try changeInfo.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -268,6 +313,10 @@ extension Route53 {
             self.removeTagKeys = removeTagKeys
             self.resourceId = resourceId
             self.resourceType = resourceType
+        }
+
+        public func validate() throws {
+            try validate(resourceId, name:"resourceId", max: 64)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -323,6 +372,15 @@ extension Route53 {
             self.period = period
             self.statistic = statistic
             self.threshold = threshold
+        }
+
+        public func validate() throws {
+            try validate(evaluationPeriods, name:"evaluationPeriods", min: 1)
+            try validate(metricName, name:"metricName", max: 255)
+            try validate(metricName, name:"metricName", min: 1)
+            try validate(namespace, name:"namespace", max: 255)
+            try validate(namespace, name:"namespace", min: 1)
+            try validate(period, name:"period", min: 60)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -384,6 +442,12 @@ extension Route53 {
             self.healthCheckConfig = healthCheckConfig
         }
 
+        public func validate() throws {
+            try validate(callerReference, name:"callerReference", max: 64)
+            try validate(callerReference, name:"callerReference", min: 1)
+            try healthCheckConfig.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case callerReference = "CallerReference"
             case healthCheckConfig = "HealthCheckConfig"
@@ -403,6 +467,11 @@ extension Route53 {
         public init(healthCheck: HealthCheck, location: String) {
             self.healthCheck = healthCheck
             self.location = location
+        }
+
+        public func validate() throws {
+            try healthCheck.validate()
+            try validate(location, name:"location", max: 1024)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -436,6 +505,15 @@ extension Route53 {
             self.hostedZoneConfig = hostedZoneConfig
             self.name = name
             self.vpc = vpc
+        }
+
+        public func validate() throws {
+            try validate(callerReference, name:"callerReference", max: 128)
+            try validate(callerReference, name:"callerReference", min: 1)
+            try validate(delegationSetId, name:"delegationSetId", max: 32)
+            try hostedZoneConfig?.validate()
+            try validate(name, name:"name", max: 1024)
+            try vpc?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -474,6 +552,14 @@ extension Route53 {
             self.vpc = vpc
         }
 
+        public func validate() throws {
+            try changeInfo.validate()
+            try delegationSet.validate()
+            try hostedZone.validate()
+            try validate(location, name:"location", max: 1024)
+            try vpc?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case changeInfo = "ChangeInfo"
             case delegationSet = "DelegationSet"
@@ -498,6 +584,10 @@ extension Route53 {
             self.hostedZoneId = hostedZoneId
         }
 
+        public func validate() throws {
+            try validate(hostedZoneId, name:"hostedZoneId", max: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case cloudWatchLogsLogGroupArn = "CloudWatchLogsLogGroupArn"
             case hostedZoneId = "HostedZoneId"
@@ -517,6 +607,11 @@ extension Route53 {
         public init(location: String, queryLoggingConfig: QueryLoggingConfig) {
             self.location = location
             self.queryLoggingConfig = queryLoggingConfig
+        }
+
+        public func validate() throws {
+            try validate(location, name:"location", max: 1024)
+            try queryLoggingConfig.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -540,6 +635,12 @@ extension Route53 {
             self.hostedZoneId = hostedZoneId
         }
 
+        public func validate() throws {
+            try validate(callerReference, name:"callerReference", max: 128)
+            try validate(callerReference, name:"callerReference", min: 1)
+            try validate(hostedZoneId, name:"hostedZoneId", max: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case callerReference = "CallerReference"
             case hostedZoneId = "HostedZoneId"
@@ -559,6 +660,11 @@ extension Route53 {
         public init(delegationSet: DelegationSet, location: String) {
             self.delegationSet = delegationSet
             self.location = location
+        }
+
+        public func validate() throws {
+            try delegationSet.validate()
+            try validate(location, name:"location", max: 1024)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -594,6 +700,17 @@ extension Route53 {
             self.ttl = ttl
         }
 
+        public func validate() throws {
+            try validate(hostedZoneId, name:"hostedZoneId", max: 32)
+            try validate(name, name:"name", max: 1024)
+            try validate(trafficPolicyId, name:"trafficPolicyId", max: 36)
+            try validate(trafficPolicyId, name:"trafficPolicyId", min: 1)
+            try validate(trafficPolicyVersion, name:"trafficPolicyVersion", max: 1000)
+            try validate(trafficPolicyVersion, name:"trafficPolicyVersion", min: 1)
+            try validate(ttl, name:"ttl", max: 2147483647)
+            try validate(ttl, name:"ttl", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case hostedZoneId = "HostedZoneId"
             case name = "Name"
@@ -616,6 +733,11 @@ extension Route53 {
         public init(location: String, trafficPolicyInstance: TrafficPolicyInstance) {
             self.location = location
             self.trafficPolicyInstance = trafficPolicyInstance
+        }
+
+        public func validate() throws {
+            try validate(location, name:"location", max: 1024)
+            try trafficPolicyInstance.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -643,6 +765,12 @@ extension Route53 {
             self.name = name
         }
 
+        public func validate() throws {
+            try validate(comment, name:"comment", max: 1024)
+            try validate(document, name:"document", max: 102400)
+            try validate(name, name:"name", max: 512)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case comment = "Comment"
             case document = "Document"
@@ -663,6 +791,11 @@ extension Route53 {
         public init(location: String, trafficPolicy: TrafficPolicy) {
             self.location = location
             self.trafficPolicy = trafficPolicy
+        }
+
+        public func validate() throws {
+            try validate(location, name:"location", max: 1024)
+            try trafficPolicy.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -690,6 +823,13 @@ extension Route53 {
             self.id = id
         }
 
+        public func validate() throws {
+            try validate(comment, name:"comment", max: 1024)
+            try validate(document, name:"document", max: 102400)
+            try validate(id, name:"id", max: 36)
+            try validate(id, name:"id", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case comment = "Comment"
             case document = "Document"
@@ -710,6 +850,11 @@ extension Route53 {
         public init(location: String, trafficPolicy: TrafficPolicy) {
             self.location = location
             self.trafficPolicy = trafficPolicy
+        }
+
+        public func validate() throws {
+            try validate(location, name:"location", max: 1024)
+            try trafficPolicy.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -733,6 +878,11 @@ extension Route53 {
             self.vpc = vpc
         }
 
+        public func validate() throws {
+            try validate(hostedZoneId, name:"hostedZoneId", max: 32)
+            try vpc.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case hostedZoneId = "Id"
             case vpc = "VPC"
@@ -752,6 +902,11 @@ extension Route53 {
         public init(hostedZoneId: String, vpc: VPC) {
             self.hostedZoneId = hostedZoneId
             self.vpc = vpc
+        }
+
+        public func validate() throws {
+            try validate(hostedZoneId, name:"hostedZoneId", max: 32)
+            try vpc.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -779,6 +934,12 @@ extension Route53 {
             self.nameServers = nameServers
         }
 
+        public func validate() throws {
+            try validate(callerReference, name:"callerReference", max: 128)
+            try validate(callerReference, name:"callerReference", min: 1)
+            try validate(id, name:"id", max: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case callerReference = "CallerReference"
             case id = "Id"
@@ -795,6 +956,10 @@ extension Route53 {
         
         public init(healthCheckId: String) {
             self.healthCheckId = healthCheckId
+        }
+
+        public func validate() throws {
+            try validate(healthCheckId, name:"healthCheckId", max: 64)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -821,6 +986,10 @@ extension Route53 {
             self.id = id
         }
 
+        public func validate() throws {
+            try validate(id, name:"id", max: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
         }
@@ -837,6 +1006,10 @@ extension Route53 {
             self.changeInfo = changeInfo
         }
 
+        public func validate() throws {
+            try changeInfo.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case changeInfo = "ChangeInfo"
         }
@@ -851,6 +1024,11 @@ extension Route53 {
         
         public init(id: String) {
             self.id = id
+        }
+
+        public func validate() throws {
+            try validate(id, name:"id", max: 36)
+            try validate(id, name:"id", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -877,6 +1055,10 @@ extension Route53 {
             self.id = id
         }
 
+        public func validate() throws {
+            try validate(id, name:"id", max: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
         }
@@ -899,6 +1081,11 @@ extension Route53 {
         
         public init(id: String) {
             self.id = id
+        }
+
+        public func validate() throws {
+            try validate(id, name:"id", max: 36)
+            try validate(id, name:"id", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -927,6 +1114,13 @@ extension Route53 {
         public init(id: String, version: Int32) {
             self.id = id
             self.version = version
+        }
+
+        public func validate() throws {
+            try validate(id, name:"id", max: 36)
+            try validate(id, name:"id", min: 1)
+            try validate(version, name:"version", max: 1000)
+            try validate(version, name:"version", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -958,6 +1152,11 @@ extension Route53 {
             self.vpc = vpc
         }
 
+        public func validate() throws {
+            try validate(hostedZoneId, name:"hostedZoneId", max: 32)
+            try vpc.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case hostedZoneId = "Id"
             case vpc = "VPC"
@@ -987,6 +1186,13 @@ extension Route53 {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(name, name:"name", max: 255)
+            try validate(name, name:"name", min: 1)
+            try validate(value, name:"value", max: 255)
+            try validate(value, name:"value", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case value = "Value"
@@ -1012,6 +1218,11 @@ extension Route53 {
             self.vpc = vpc
         }
 
+        public func validate() throws {
+            try validate(hostedZoneId, name:"hostedZoneId", max: 32)
+            try vpc.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case comment = "Comment"
             case hostedZoneId = "Id"
@@ -1028,6 +1239,10 @@ extension Route53 {
         
         public init(changeInfo: ChangeInfo) {
             self.changeInfo = changeInfo
+        }
+
+        public func validate() throws {
+            try changeInfo.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1052,6 +1267,15 @@ extension Route53 {
             self.continentCode = continentCode
             self.countryCode = countryCode
             self.subdivisionCode = subdivisionCode
+        }
+
+        public func validate() throws {
+            try validate(continentCode, name:"continentCode", max: 2)
+            try validate(continentCode, name:"continentCode", min: 2)
+            try validate(countryCode, name:"countryCode", max: 2)
+            try validate(countryCode, name:"countryCode", min: 1)
+            try validate(subdivisionCode, name:"subdivisionCode", max: 3)
+            try validate(subdivisionCode, name:"subdivisionCode", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1090,6 +1314,21 @@ extension Route53 {
             self.countryName = countryName
             self.subdivisionCode = subdivisionCode
             self.subdivisionName = subdivisionName
+        }
+
+        public func validate() throws {
+            try validate(continentCode, name:"continentCode", max: 2)
+            try validate(continentCode, name:"continentCode", min: 2)
+            try validate(continentName, name:"continentName", max: 32)
+            try validate(continentName, name:"continentName", min: 1)
+            try validate(countryCode, name:"countryCode", max: 2)
+            try validate(countryCode, name:"countryCode", min: 1)
+            try validate(countryName, name:"countryName", max: 64)
+            try validate(countryName, name:"countryName", min: 1)
+            try validate(subdivisionCode, name:"subdivisionCode", max: 3)
+            try validate(subdivisionCode, name:"subdivisionCode", min: 1)
+            try validate(subdivisionName, name:"subdivisionName", max: 64)
+            try validate(subdivisionName, name:"subdivisionName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1133,6 +1372,11 @@ extension Route53 {
             self.limit = limit
         }
 
+        public func validate() throws {
+            try validate(count, name:"count", min: 0)
+            try limit.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case count = "Count"
             case limit = "Limit"
@@ -1150,6 +1394,10 @@ extension Route53 {
             self.id = id
         }
 
+        public func validate() throws {
+            try validate(id, name:"id", max: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
         }
@@ -1164,6 +1412,10 @@ extension Route53 {
         
         public init(changeInfo: ChangeInfo) {
             self.changeInfo = changeInfo
+        }
+
+        public func validate() throws {
+            try changeInfo.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1214,6 +1466,15 @@ extension Route53 {
             self.subdivisionCode = subdivisionCode
         }
 
+        public func validate() throws {
+            try validate(continentCode, name:"continentCode", max: 2)
+            try validate(continentCode, name:"continentCode", min: 2)
+            try validate(countryCode, name:"countryCode", max: 2)
+            try validate(countryCode, name:"countryCode", min: 1)
+            try validate(subdivisionCode, name:"subdivisionCode", max: 3)
+            try validate(subdivisionCode, name:"subdivisionCode", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case continentCode = "continentcode"
             case countryCode = "countrycode"
@@ -1230,6 +1491,10 @@ extension Route53 {
         
         public init(geoLocationDetails: GeoLocationDetails) {
             self.geoLocationDetails = geoLocationDetails
+        }
+
+        public func validate() throws {
+            try geoLocationDetails.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1272,6 +1537,10 @@ extension Route53 {
             self.healthCheckId = healthCheckId
         }
 
+        public func validate() throws {
+            try validate(healthCheckId, name:"healthCheckId", max: 64)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case healthCheckId = "HealthCheckId"
         }
@@ -1304,6 +1573,10 @@ extension Route53 {
             self.healthCheckId = healthCheckId
         }
 
+        public func validate() throws {
+            try validate(healthCheckId, name:"healthCheckId", max: 64)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case healthCheckId = "HealthCheckId"
         }
@@ -1320,6 +1593,10 @@ extension Route53 {
             self.healthCheck = healthCheck
         }
 
+        public func validate() throws {
+            try healthCheck.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case healthCheck = "HealthCheck"
         }
@@ -1334,6 +1611,10 @@ extension Route53 {
         
         public init(healthCheckId: String) {
             self.healthCheckId = healthCheckId
+        }
+
+        public func validate() throws {
+            try validate(healthCheckId, name:"healthCheckId", max: 64)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1396,6 +1677,10 @@ extension Route53 {
             self.`type` = `type`
         }
 
+        public func validate() throws {
+            try validate(hostedZoneId, name:"hostedZoneId", max: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case hostedZoneId = "Id"
             case `type` = "Type"
@@ -1417,6 +1702,11 @@ extension Route53 {
             self.limit = limit
         }
 
+        public func validate() throws {
+            try validate(count, name:"count", min: 0)
+            try limit.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case count = "Count"
             case limit = "Limit"
@@ -1432,6 +1722,10 @@ extension Route53 {
         
         public init(id: String) {
             self.id = id
+        }
+
+        public func validate() throws {
+            try validate(id, name:"id", max: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1458,6 +1752,11 @@ extension Route53 {
             self.vPCs = vPCs
         }
 
+        public func validate() throws {
+            try delegationSet?.validate()
+            try hostedZone.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case delegationSet = "DelegationSet"
             case hostedZone = "HostedZone"
@@ -1476,6 +1775,11 @@ extension Route53 {
             self.id = id
         }
 
+        public func validate() throws {
+            try validate(id, name:"id", max: 36)
+            try validate(id, name:"id", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
         }
@@ -1490,6 +1794,10 @@ extension Route53 {
         
         public init(queryLoggingConfig: QueryLoggingConfig) {
             self.queryLoggingConfig = queryLoggingConfig
+        }
+
+        public func validate() throws {
+            try queryLoggingConfig.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1510,6 +1818,10 @@ extension Route53 {
         public init(delegationSetId: String, type: ReusableDelegationSetLimitType) {
             self.delegationSetId = delegationSetId
             self.`type` = `type`
+        }
+
+        public func validate() throws {
+            try validate(delegationSetId, name:"delegationSetId", max: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1533,6 +1845,11 @@ extension Route53 {
             self.limit = limit
         }
 
+        public func validate() throws {
+            try validate(count, name:"count", min: 0)
+            try limit.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case count = "Count"
             case limit = "Limit"
@@ -1550,6 +1867,10 @@ extension Route53 {
             self.id = id
         }
 
+        public func validate() throws {
+            try validate(id, name:"id", max: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
         }
@@ -1564,6 +1885,10 @@ extension Route53 {
         
         public init(delegationSet: DelegationSet) {
             self.delegationSet = delegationSet
+        }
+
+        public func validate() throws {
+            try delegationSet.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1606,6 +1931,11 @@ extension Route53 {
             self.id = id
         }
 
+        public func validate() throws {
+            try validate(id, name:"id", max: 36)
+            try validate(id, name:"id", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
         }
@@ -1620,6 +1950,10 @@ extension Route53 {
         
         public init(trafficPolicyInstance: TrafficPolicyInstance) {
             self.trafficPolicyInstance = trafficPolicyInstance
+        }
+
+        public func validate() throws {
+            try trafficPolicyInstance.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1642,6 +1976,13 @@ extension Route53 {
             self.version = version
         }
 
+        public func validate() throws {
+            try validate(id, name:"id", max: 36)
+            try validate(id, name:"id", min: 1)
+            try validate(version, name:"version", max: 1000)
+            try validate(version, name:"version", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
             case version = "Version"
@@ -1657,6 +1998,10 @@ extension Route53 {
         
         public init(trafficPolicy: TrafficPolicy) {
             self.trafficPolicy = trafficPolicy
+        }
+
+        public func validate() throws {
+            try trafficPolicy.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1693,6 +2038,16 @@ extension Route53 {
             self.healthCheckVersion = healthCheckVersion
             self.id = id
             self.linkedService = linkedService
+        }
+
+        public func validate() throws {
+            try validate(callerReference, name:"callerReference", max: 64)
+            try validate(callerReference, name:"callerReference", min: 1)
+            try cloudWatchAlarmConfiguration?.validate()
+            try healthCheckConfig.validate()
+            try validate(healthCheckVersion, name:"healthCheckVersion", min: 1)
+            try validate(id, name:"id", max: 64)
+            try linkedService?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1780,6 +2135,23 @@ extension Route53 {
             self.`type` = `type`
         }
 
+        public func validate() throws {
+            try alarmIdentifier?.validate()
+            try validate(failureThreshold, name:"failureThreshold", max: 10)
+            try validate(failureThreshold, name:"failureThreshold", min: 1)
+            try validate(fullyQualifiedDomainName, name:"fullyQualifiedDomainName", max: 255)
+            try validate(healthThreshold, name:"healthThreshold", max: 256)
+            try validate(healthThreshold, name:"healthThreshold", min: 0)
+            try validate(iPAddress, name:"iPAddress", max: 45)
+            try validate(iPAddress, name:"iPAddress", pattern: "(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)")
+            try validate(port, name:"port", max: 65535)
+            try validate(port, name:"port", min: 1)
+            try validate(requestInterval, name:"requestInterval", max: 30)
+            try validate(requestInterval, name:"requestInterval", min: 10)
+            try validate(resourcePath, name:"resourcePath", max: 255)
+            try validate(searchString, name:"searchString", max: 255)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case alarmIdentifier = "AlarmIdentifier"
             case childHealthChecks = "ChildHealthChecks"
@@ -1818,6 +2190,11 @@ extension Route53 {
             self.iPAddress = iPAddress
             self.region = region
             self.statusReport = statusReport
+        }
+
+        public func validate() throws {
+            try validate(iPAddress, name:"iPAddress", max: 45)
+            try validate(iPAddress, name:"iPAddress", pattern: "(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1881,6 +2258,15 @@ extension Route53 {
             self.resourceRecordSetCount = resourceRecordSetCount
         }
 
+        public func validate() throws {
+            try validate(callerReference, name:"callerReference", max: 128)
+            try validate(callerReference, name:"callerReference", min: 1)
+            try config?.validate()
+            try validate(id, name:"id", max: 32)
+            try linkedService?.validate()
+            try validate(name, name:"name", max: 1024)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case callerReference = "CallerReference"
             case config = "Config"
@@ -1906,6 +2292,10 @@ extension Route53 {
             self.privateZone = privateZone
         }
 
+        public func validate() throws {
+            try validate(comment, name:"comment", max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case comment = "Comment"
             case privateZone = "PrivateZone"
@@ -1925,6 +2315,10 @@ extension Route53 {
         public init(type: HostedZoneLimitType, value: Int64) {
             self.`type` = `type`
             self.value = value
+        }
+
+        public func validate() throws {
+            try validate(value, name:"value", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1961,6 +2355,11 @@ extension Route53 {
             self.servicePrincipal = servicePrincipal
         }
 
+        public func validate() throws {
+            try validate(description, name:"description", max: 256)
+            try validate(servicePrincipal, name:"servicePrincipal", max: 128)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case servicePrincipal = "ServicePrincipal"
@@ -1988,6 +2387,15 @@ extension Route53 {
             self.startContinentCode = startContinentCode
             self.startCountryCode = startCountryCode
             self.startSubdivisionCode = startSubdivisionCode
+        }
+
+        public func validate() throws {
+            try validate(startContinentCode, name:"startContinentCode", max: 2)
+            try validate(startContinentCode, name:"startContinentCode", min: 2)
+            try validate(startCountryCode, name:"startCountryCode", max: 2)
+            try validate(startCountryCode, name:"startCountryCode", min: 1)
+            try validate(startSubdivisionCode, name:"startSubdivisionCode", max: 3)
+            try validate(startSubdivisionCode, name:"startSubdivisionCode", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2029,6 +2437,15 @@ extension Route53 {
             self.nextSubdivisionCode = nextSubdivisionCode
         }
 
+        public func validate() throws {
+            try validate(nextContinentCode, name:"nextContinentCode", max: 2)
+            try validate(nextContinentCode, name:"nextContinentCode", min: 2)
+            try validate(nextCountryCode, name:"nextCountryCode", max: 2)
+            try validate(nextCountryCode, name:"nextCountryCode", min: 1)
+            try validate(nextSubdivisionCode, name:"nextSubdivisionCode", max: 3)
+            try validate(nextSubdivisionCode, name:"nextSubdivisionCode", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case geoLocationDetailsList = "GeoLocationDetailsList"
             case isTruncated = "IsTruncated"
@@ -2052,6 +2469,10 @@ extension Route53 {
         public init(marker: String? = nil, maxItems: String? = nil) {
             self.marker = marker
             self.maxItems = maxItems
+        }
+
+        public func validate() throws {
+            try validate(marker, name:"marker", max: 64)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2087,6 +2508,11 @@ extension Route53 {
             self.nextMarker = nextMarker
         }
 
+        public func validate() throws {
+            try validate(marker, name:"marker", max: 64)
+            try validate(nextMarker, name:"nextMarker", max: 64)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case healthChecks = "HealthChecks"
             case isTruncated = "IsTruncated"
@@ -2113,6 +2539,11 @@ extension Route53 {
             self.dNSName = dNSName
             self.hostedZoneId = hostedZoneId
             self.maxItems = maxItems
+        }
+
+        public func validate() throws {
+            try validate(dNSName, name:"dNSName", max: 1024)
+            try validate(hostedZoneId, name:"hostedZoneId", max: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2157,6 +2588,13 @@ extension Route53 {
             self.nextHostedZoneId = nextHostedZoneId
         }
 
+        public func validate() throws {
+            try validate(dNSName, name:"dNSName", max: 1024)
+            try validate(hostedZoneId, name:"hostedZoneId", max: 32)
+            try validate(nextDNSName, name:"nextDNSName", max: 1024)
+            try validate(nextHostedZoneId, name:"nextHostedZoneId", max: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dNSName = "DNSName"
             case hostedZoneId = "HostedZoneId"
@@ -2185,6 +2623,11 @@ extension Route53 {
             self.delegationSetId = delegationSetId
             self.marker = marker
             self.maxItems = maxItems
+        }
+
+        public func validate() throws {
+            try validate(delegationSetId, name:"delegationSetId", max: 32)
+            try validate(marker, name:"marker", max: 64)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2221,6 +2664,11 @@ extension Route53 {
             self.nextMarker = nextMarker
         }
 
+        public func validate() throws {
+            try validate(marker, name:"marker", max: 64)
+            try validate(nextMarker, name:"nextMarker", max: 64)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case hostedZones = "HostedZones"
             case isTruncated = "IsTruncated"
@@ -2249,6 +2697,11 @@ extension Route53 {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(hostedZoneId, name:"hostedZoneId", max: 32)
+            try validate(nextToken, name:"nextToken", max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case hostedZoneId = "hostedzoneid"
             case maxResults = "maxresults"
@@ -2269,6 +2722,10 @@ extension Route53 {
         public init(nextToken: String? = nil, queryLoggingConfigs: [QueryLoggingConfig]) {
             self.nextToken = nextToken
             self.queryLoggingConfigs = queryLoggingConfigs
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2302,6 +2759,13 @@ extension Route53 {
             self.startRecordIdentifier = startRecordIdentifier
             self.startRecordName = startRecordName
             self.startRecordType = startRecordType
+        }
+
+        public func validate() throws {
+            try validate(hostedZoneId, name:"hostedZoneId", max: 32)
+            try validate(startRecordIdentifier, name:"startRecordIdentifier", max: 128)
+            try validate(startRecordIdentifier, name:"startRecordIdentifier", min: 1)
+            try validate(startRecordName, name:"startRecordName", max: 1024)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2344,6 +2808,12 @@ extension Route53 {
             self.resourceRecordSets = resourceRecordSets
         }
 
+        public func validate() throws {
+            try validate(nextRecordIdentifier, name:"nextRecordIdentifier", max: 128)
+            try validate(nextRecordIdentifier, name:"nextRecordIdentifier", min: 1)
+            try validate(nextRecordName, name:"nextRecordName", max: 1024)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case isTruncated = "IsTruncated"
             case maxItems = "MaxItems"
@@ -2367,6 +2837,10 @@ extension Route53 {
         public init(marker: String? = nil, maxItems: String? = nil) {
             self.marker = marker
             self.maxItems = maxItems
+        }
+
+        public func validate() throws {
+            try validate(marker, name:"marker", max: 64)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2402,6 +2876,11 @@ extension Route53 {
             self.nextMarker = nextMarker
         }
 
+        public func validate() throws {
+            try validate(marker, name:"marker", max: 64)
+            try validate(nextMarker, name:"nextMarker", max: 64)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case delegationSets = "DelegationSets"
             case isTruncated = "IsTruncated"
@@ -2426,6 +2905,10 @@ extension Route53 {
             self.resourceType = resourceType
         }
 
+        public func validate() throws {
+            try validate(resourceId, name:"resourceId", max: 64)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
@@ -2441,6 +2924,10 @@ extension Route53 {
         
         public init(resourceTagSet: ResourceTagSet) {
             self.resourceTagSet = resourceTagSet
+        }
+
+        public func validate() throws {
+            try resourceTagSet.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2500,6 +2987,11 @@ extension Route53 {
             self.trafficPolicyIdMarker = trafficPolicyIdMarker
         }
 
+        public func validate() throws {
+            try validate(trafficPolicyIdMarker, name:"trafficPolicyIdMarker", max: 36)
+            try validate(trafficPolicyIdMarker, name:"trafficPolicyIdMarker", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxItems = "maxitems"
             case trafficPolicyIdMarker = "trafficpolicyid"
@@ -2527,6 +3019,11 @@ extension Route53 {
             self.maxItems = maxItems
             self.trafficPolicyIdMarker = trafficPolicyIdMarker
             self.trafficPolicySummaries = trafficPolicySummaries
+        }
+
+        public func validate() throws {
+            try validate(trafficPolicyIdMarker, name:"trafficPolicyIdMarker", max: 36)
+            try validate(trafficPolicyIdMarker, name:"trafficPolicyIdMarker", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2558,6 +3055,11 @@ extension Route53 {
             self.maxItems = maxItems
             self.trafficPolicyInstanceNameMarker = trafficPolicyInstanceNameMarker
             self.trafficPolicyInstanceTypeMarker = trafficPolicyInstanceTypeMarker
+        }
+
+        public func validate() throws {
+            try validate(hostedZoneId, name:"hostedZoneId", max: 32)
+            try validate(trafficPolicyInstanceNameMarker, name:"trafficPolicyInstanceNameMarker", max: 1024)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2593,6 +3095,10 @@ extension Route53 {
             self.trafficPolicyInstanceNameMarker = trafficPolicyInstanceNameMarker
             self.trafficPolicyInstances = trafficPolicyInstances
             self.trafficPolicyInstanceTypeMarker = trafficPolicyInstanceTypeMarker
+        }
+
+        public func validate() throws {
+            try validate(trafficPolicyInstanceNameMarker, name:"trafficPolicyInstanceNameMarker", max: 1024)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2633,6 +3139,15 @@ extension Route53 {
             self.trafficPolicyInstanceNameMarker = trafficPolicyInstanceNameMarker
             self.trafficPolicyInstanceTypeMarker = trafficPolicyInstanceTypeMarker
             self.trafficPolicyVersion = trafficPolicyVersion
+        }
+
+        public func validate() throws {
+            try validate(hostedZoneIdMarker, name:"hostedZoneIdMarker", max: 32)
+            try validate(trafficPolicyId, name:"trafficPolicyId", max: 36)
+            try validate(trafficPolicyId, name:"trafficPolicyId", min: 1)
+            try validate(trafficPolicyInstanceNameMarker, name:"trafficPolicyInstanceNameMarker", max: 1024)
+            try validate(trafficPolicyVersion, name:"trafficPolicyVersion", max: 1000)
+            try validate(trafficPolicyVersion, name:"trafficPolicyVersion", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2676,6 +3191,11 @@ extension Route53 {
             self.trafficPolicyInstanceTypeMarker = trafficPolicyInstanceTypeMarker
         }
 
+        public func validate() throws {
+            try validate(hostedZoneIdMarker, name:"hostedZoneIdMarker", max: 32)
+            try validate(trafficPolicyInstanceNameMarker, name:"trafficPolicyInstanceNameMarker", max: 1024)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case hostedZoneIdMarker = "HostedZoneIdMarker"
             case isTruncated = "IsTruncated"
@@ -2707,6 +3227,11 @@ extension Route53 {
             self.maxItems = maxItems
             self.trafficPolicyInstanceNameMarker = trafficPolicyInstanceNameMarker
             self.trafficPolicyInstanceTypeMarker = trafficPolicyInstanceTypeMarker
+        }
+
+        public func validate() throws {
+            try validate(hostedZoneIdMarker, name:"hostedZoneIdMarker", max: 32)
+            try validate(trafficPolicyInstanceNameMarker, name:"trafficPolicyInstanceNameMarker", max: 1024)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2748,6 +3273,11 @@ extension Route53 {
             self.trafficPolicyInstanceTypeMarker = trafficPolicyInstanceTypeMarker
         }
 
+        public func validate() throws {
+            try validate(hostedZoneIdMarker, name:"hostedZoneIdMarker", max: 32)
+            try validate(trafficPolicyInstanceNameMarker, name:"trafficPolicyInstanceNameMarker", max: 1024)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case hostedZoneIdMarker = "HostedZoneIdMarker"
             case isTruncated = "IsTruncated"
@@ -2775,6 +3305,12 @@ extension Route53 {
             self.id = id
             self.maxItems = maxItems
             self.trafficPolicyVersionMarker = trafficPolicyVersionMarker
+        }
+
+        public func validate() throws {
+            try validate(id, name:"id", max: 36)
+            try validate(id, name:"id", min: 1)
+            try validate(trafficPolicyVersionMarker, name:"trafficPolicyVersionMarker", max: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2807,6 +3343,10 @@ extension Route53 {
             self.trafficPolicyVersionMarker = trafficPolicyVersionMarker
         }
 
+        public func validate() throws {
+            try validate(trafficPolicyVersionMarker, name:"trafficPolicyVersionMarker", max: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case isTruncated = "IsTruncated"
             case maxItems = "MaxItems"
@@ -2832,6 +3372,11 @@ extension Route53 {
             self.hostedZoneId = hostedZoneId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(hostedZoneId, name:"hostedZoneId", max: 32)
+            try validate(nextToken, name:"nextToken", max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2860,6 +3405,11 @@ extension Route53 {
             self.vPCs = vPCs
         }
 
+        public func validate() throws {
+            try validate(hostedZoneId, name:"hostedZoneId", max: 32)
+            try validate(nextToken, name:"nextToken", max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case hostedZoneId = "HostedZoneId"
             case nextToken = "NextToken"
@@ -2884,6 +3434,12 @@ extension Route53 {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.hostedZoneId = hostedZoneId
             self.id = id
+        }
+
+        public func validate() throws {
+            try validate(hostedZoneId, name:"hostedZoneId", max: 32)
+            try validate(id, name:"id", max: 36)
+            try validate(id, name:"id", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2926,6 +3482,10 @@ extension Route53 {
         
         public init(value: String) {
             self.value = value
+        }
+
+        public func validate() throws {
+            try validate(value, name:"value", max: 4000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2990,6 +3550,21 @@ extension Route53 {
             self.ttl = ttl
             self.`type` = `type`
             self.weight = weight
+        }
+
+        public func validate() throws {
+            try aliasTarget?.validate()
+            try geoLocation?.validate()
+            try validate(healthCheckId, name:"healthCheckId", max: 64)
+            try validate(name, name:"name", max: 1024)
+            try validate(setIdentifier, name:"setIdentifier", max: 128)
+            try validate(setIdentifier, name:"setIdentifier", min: 1)
+            try validate(trafficPolicyInstanceId, name:"trafficPolicyInstanceId", max: 36)
+            try validate(trafficPolicyInstanceId, name:"trafficPolicyInstanceId", min: 1)
+            try validate(ttl, name:"ttl", max: 2147483647)
+            try validate(ttl, name:"ttl", min: 0)
+            try validate(weight, name:"weight", max: 255)
+            try validate(weight, name:"weight", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3058,6 +3633,10 @@ extension Route53 {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(resourceId, name:"resourceId", max: 64)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
@@ -3078,6 +3657,10 @@ extension Route53 {
         public init(type: ReusableDelegationSetLimitType, value: Int64) {
             self.`type` = `type`
             self.value = value
+        }
+
+        public func validate() throws {
+            try validate(value, name:"value", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3136,6 +3719,11 @@ extension Route53 {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", max: 128)
+            try validate(value, name:"value", max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
@@ -3179,6 +3767,17 @@ extension Route53 {
             self.resolverIP = resolverIP
         }
 
+        public func validate() throws {
+            try validate(eDNS0ClientSubnetIP, name:"eDNS0ClientSubnetIP", max: 45)
+            try validate(eDNS0ClientSubnetIP, name:"eDNS0ClientSubnetIP", pattern: "(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)")
+            try validate(eDNS0ClientSubnetMask, name:"eDNS0ClientSubnetMask", max: 3)
+            try validate(eDNS0ClientSubnetMask, name:"eDNS0ClientSubnetMask", min: 0)
+            try validate(hostedZoneId, name:"hostedZoneId", max: 32)
+            try validate(recordName, name:"recordName", max: 1024)
+            try validate(resolverIP, name:"resolverIP", max: 45)
+            try validate(resolverIP, name:"resolverIP", pattern: "(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case eDNS0ClientSubnetIP = "edns0clientsubnetip"
             case eDNS0ClientSubnetMask = "edns0clientsubnetmask"
@@ -3220,6 +3819,12 @@ extension Route53 {
             self.responseCode = responseCode
         }
 
+        public func validate() throws {
+            try validate(nameserver, name:"nameserver", max: 255)
+            try validate(nameserver, name:"nameserver", min: 0)
+            try validate(recordName, name:"recordName", max: 1024)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case nameserver = "Nameserver"
             case `protocol` = "Protocol"
@@ -3259,6 +3864,16 @@ extension Route53 {
             self.name = name
             self.`type` = `type`
             self.version = version
+        }
+
+        public func validate() throws {
+            try validate(comment, name:"comment", max: 1024)
+            try validate(document, name:"document", max: 102400)
+            try validate(id, name:"id", max: 36)
+            try validate(id, name:"id", min: 1)
+            try validate(name, name:"name", max: 512)
+            try validate(version, name:"version", max: 1000)
+            try validate(version, name:"version", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3314,6 +3929,20 @@ extension Route53 {
             self.ttl = ttl
         }
 
+        public func validate() throws {
+            try validate(hostedZoneId, name:"hostedZoneId", max: 32)
+            try validate(id, name:"id", max: 36)
+            try validate(id, name:"id", min: 1)
+            try validate(message, name:"message", max: 1024)
+            try validate(name, name:"name", max: 1024)
+            try validate(trafficPolicyId, name:"trafficPolicyId", max: 36)
+            try validate(trafficPolicyId, name:"trafficPolicyId", min: 1)
+            try validate(trafficPolicyVersion, name:"trafficPolicyVersion", max: 1000)
+            try validate(trafficPolicyVersion, name:"trafficPolicyVersion", min: 1)
+            try validate(ttl, name:"ttl", max: 2147483647)
+            try validate(ttl, name:"ttl", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case hostedZoneId = "HostedZoneId"
             case id = "Id"
@@ -3352,6 +3981,16 @@ extension Route53 {
             self.name = name
             self.trafficPolicyCount = trafficPolicyCount
             self.`type` = `type`
+        }
+
+        public func validate() throws {
+            try validate(id, name:"id", max: 36)
+            try validate(id, name:"id", min: 1)
+            try validate(latestVersion, name:"latestVersion", max: 1000)
+            try validate(latestVersion, name:"latestVersion", min: 1)
+            try validate(name, name:"name", max: 512)
+            try validate(trafficPolicyCount, name:"trafficPolicyCount", max: 1000)
+            try validate(trafficPolicyCount, name:"trafficPolicyCount", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3438,6 +4077,23 @@ extension Route53 {
             self.searchString = searchString
         }
 
+        public func validate() throws {
+            try alarmIdentifier?.validate()
+            try validate(failureThreshold, name:"failureThreshold", max: 10)
+            try validate(failureThreshold, name:"failureThreshold", min: 1)
+            try validate(fullyQualifiedDomainName, name:"fullyQualifiedDomainName", max: 255)
+            try validate(healthCheckId, name:"healthCheckId", max: 64)
+            try validate(healthCheckVersion, name:"healthCheckVersion", min: 1)
+            try validate(healthThreshold, name:"healthThreshold", max: 256)
+            try validate(healthThreshold, name:"healthThreshold", min: 0)
+            try validate(iPAddress, name:"iPAddress", max: 45)
+            try validate(iPAddress, name:"iPAddress", pattern: "(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)")
+            try validate(port, name:"port", max: 65535)
+            try validate(port, name:"port", min: 1)
+            try validate(resourcePath, name:"resourcePath", max: 255)
+            try validate(searchString, name:"searchString", max: 255)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case alarmIdentifier = "AlarmIdentifier"
             case childHealthChecks = "ChildHealthChecks"
@@ -3470,6 +4126,10 @@ extension Route53 {
             self.healthCheck = healthCheck
         }
 
+        public func validate() throws {
+            try healthCheck.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case healthCheck = "HealthCheck"
         }
@@ -3490,6 +4150,11 @@ extension Route53 {
             self.id = id
         }
 
+        public func validate() throws {
+            try validate(comment, name:"comment", max: 256)
+            try validate(id, name:"id", max: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case comment = "Comment"
             case id = "Id"
@@ -3505,6 +4170,10 @@ extension Route53 {
         
         public init(hostedZone: HostedZone) {
             self.hostedZone = hostedZone
+        }
+
+        public func validate() throws {
+            try hostedZone.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3531,6 +4200,14 @@ extension Route53 {
             self.version = version
         }
 
+        public func validate() throws {
+            try validate(comment, name:"comment", max: 1024)
+            try validate(id, name:"id", max: 36)
+            try validate(id, name:"id", min: 1)
+            try validate(version, name:"version", max: 1000)
+            try validate(version, name:"version", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case comment = "Comment"
             case id = "Id"
@@ -3547,6 +4224,10 @@ extension Route53 {
         
         public init(trafficPolicy: TrafficPolicy) {
             self.trafficPolicy = trafficPolicy
+        }
+
+        public func validate() throws {
+            try trafficPolicy.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3577,6 +4258,17 @@ extension Route53 {
             self.ttl = ttl
         }
 
+        public func validate() throws {
+            try validate(id, name:"id", max: 36)
+            try validate(id, name:"id", min: 1)
+            try validate(trafficPolicyId, name:"trafficPolicyId", max: 36)
+            try validate(trafficPolicyId, name:"trafficPolicyId", min: 1)
+            try validate(trafficPolicyVersion, name:"trafficPolicyVersion", max: 1000)
+            try validate(trafficPolicyVersion, name:"trafficPolicyVersion", min: 1)
+            try validate(ttl, name:"ttl", max: 2147483647)
+            try validate(ttl, name:"ttl", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
             case trafficPolicyId = "TrafficPolicyId"
@@ -3596,6 +4288,10 @@ extension Route53 {
             self.trafficPolicyInstance = trafficPolicyInstance
         }
 
+        public func validate() throws {
+            try trafficPolicyInstance.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case trafficPolicyInstance = "TrafficPolicyInstance"
         }
@@ -3613,6 +4309,10 @@ extension Route53 {
         public init(vPCId: String? = nil, vPCRegion: VPCRegion? = nil) {
             self.vPCId = vPCId
             self.vPCRegion = vPCRegion
+        }
+
+        public func validate() throws {
+            try validate(vPCId, name:"vPCId", max: 1024)
         }
 
         private enum CodingKeys: String, CodingKey {

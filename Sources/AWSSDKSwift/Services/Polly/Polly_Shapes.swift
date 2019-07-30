@@ -16,6 +16,10 @@ extension Polly {
             self.name = name
         }
 
+        public func validate() throws {
+            try validate(name, name:"name", pattern: "[0-9A-Za-z]{1,20}")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case name = "LexiconName"
         }
@@ -48,6 +52,11 @@ extension Polly {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 4096)
+            try validate(nextToken, name:"nextToken", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case includeAdditionalLanguageCodes = "IncludeAdditionalLanguageCodes"
             case languageCode = "LanguageCode"
@@ -68,6 +77,11 @@ extension Polly {
         public init(nextToken: String? = nil, voices: [Voice]? = nil) {
             self.nextToken = nextToken
             self.voices = voices
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 4096)
+            try validate(nextToken, name:"nextToken", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -93,6 +107,10 @@ extension Polly {
             self.name = name
         }
 
+        public func validate() throws {
+            try validate(name, name:"name", pattern: "[0-9A-Za-z]{1,20}")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case name = "LexiconName"
         }
@@ -113,6 +131,10 @@ extension Polly {
             self.lexiconAttributes = lexiconAttributes
         }
 
+        public func validate() throws {
+            try lexicon?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case lexicon = "Lexicon"
             case lexiconAttributes = "LexiconAttributes"
@@ -130,6 +152,10 @@ extension Polly {
             self.taskId = taskId
         }
 
+        public func validate() throws {
+            try validate(taskId, name:"taskId", pattern: "^[a-zA-Z0-9_-]{1,100}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case taskId = "TaskId"
         }
@@ -144,6 +170,10 @@ extension Polly {
         
         public init(synthesisTask: SynthesisTask? = nil) {
             self.synthesisTask = synthesisTask
+        }
+
+        public func validate() throws {
+            try synthesisTask?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -197,6 +227,10 @@ extension Polly {
         public init(content: String? = nil, name: String? = nil) {
             self.content = content
             self.name = name
+        }
+
+        public func validate() throws {
+            try validate(name, name:"name", pattern: "[0-9A-Za-z]{1,20}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -261,6 +295,10 @@ extension Polly {
             self.name = name
         }
 
+        public func validate() throws {
+            try validate(name, name:"name", pattern: "[0-9A-Za-z]{1,20}")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case attributes = "Attributes"
             case name = "Name"
@@ -276,6 +314,11 @@ extension Polly {
         
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 4096)
+            try validate(nextToken, name:"nextToken", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -296,6 +339,11 @@ extension Polly {
         public init(lexicons: [LexiconDescription]? = nil, nextToken: String? = nil) {
             self.lexicons = lexicons
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 4096)
+            try validate(nextToken, name:"nextToken", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -323,6 +371,13 @@ extension Polly {
             self.status = status
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(nextToken, name:"nextToken", max: 4096)
+            try validate(nextToken, name:"nextToken", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -343,6 +398,11 @@ extension Polly {
         public init(nextToken: String? = nil, synthesisTasks: [SynthesisTask]? = nil) {
             self.nextToken = nextToken
             self.synthesisTasks = synthesisTasks
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 4096)
+            try validate(nextToken, name:"nextToken", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -372,6 +432,10 @@ extension Polly {
         public init(content: String, name: String) {
             self.content = content
             self.name = name
+        }
+
+        public func validate() throws {
+            try validate(name, name:"name", pattern: "[0-9A-Za-z]{1,20}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -447,6 +511,12 @@ extension Polly {
             self.voiceId = voiceId
         }
 
+        public func validate() throws {
+            try validate(outputS3BucketName, name:"outputS3BucketName", pattern: "^[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]$")
+            try validate(outputS3KeyPrefix, name:"outputS3KeyPrefix", pattern: "^[0-9a-zA-Z\\/\\!\\-_\\.\\*\\'\\(\\)]{0,800}$")
+            try validate(snsTopicArn, name:"snsTopicArn", pattern: "^arn:aws(-(cn|iso(-b)?|us-gov))?:sns:[a-z0-9_-]{1,50}:\\d{12}:[a-zA-Z0-9_-]{1,256}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case languageCode = "LanguageCode"
             case lexiconNames = "LexiconNames"
@@ -471,6 +541,10 @@ extension Polly {
         
         public init(synthesisTask: SynthesisTask? = nil) {
             self.synthesisTask = synthesisTask
+        }
+
+        public func validate() throws {
+            try synthesisTask?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -539,6 +613,11 @@ extension Polly {
             self.taskStatusReason = taskStatusReason
             self.textType = textType
             self.voiceId = voiceId
+        }
+
+        public func validate() throws {
+            try validate(snsTopicArn, name:"snsTopicArn", pattern: "^arn:aws(-(cn|iso(-b)?|us-gov))?:sns:[a-z0-9_-]{1,50}:\\d{12}:[a-zA-Z0-9_-]{1,256}$")
+            try validate(taskId, name:"taskId", pattern: "^[a-zA-Z0-9_-]{1,100}$")
         }
 
         private enum CodingKeys: String, CodingKey {

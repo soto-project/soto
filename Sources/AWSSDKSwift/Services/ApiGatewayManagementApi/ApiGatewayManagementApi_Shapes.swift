@@ -20,6 +20,10 @@ extension ApiGatewayManagementApi {
             self.data = data
         }
 
+        public func validate() throws {
+            try validate(data, name:"data", max: 131072)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case connectionId = "connectionId"
             case data = "Data"

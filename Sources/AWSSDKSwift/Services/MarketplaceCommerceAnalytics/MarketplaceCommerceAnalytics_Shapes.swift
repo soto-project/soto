@@ -65,6 +65,12 @@ extension MarketplaceCommerceAnalytics {
             self.snsTopicArn = snsTopicArn
         }
 
+        public func validate() throws {
+            try validate(destinationS3BucketName, name:"destinationS3BucketName", min: 1)
+            try validate(roleNameArn, name:"roleNameArn", min: 1)
+            try validate(snsTopicArn, name:"snsTopicArn", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case customerDefinedValues = "customerDefinedValues"
             case dataSetPublicationDate = "dataSetPublicationDate"
@@ -125,6 +131,12 @@ extension MarketplaceCommerceAnalytics {
             self.fromDate = fromDate
             self.roleNameArn = roleNameArn
             self.snsTopicArn = snsTopicArn
+        }
+
+        public func validate() throws {
+            try validate(destinationS3BucketName, name:"destinationS3BucketName", min: 1)
+            try validate(roleNameArn, name:"roleNameArn", min: 1)
+            try validate(snsTopicArn, name:"snsTopicArn", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

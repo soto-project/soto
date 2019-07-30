@@ -148,6 +148,10 @@ extension SES {
             self.replacementTemplateData = replacementTemplateData
         }
 
+        public func validate() throws {
+            try validate(replacementTemplateData, name:"replacementTemplateData", max: 262144)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case destination = "Destination"
             case replacementTags = "ReplacementTags"
@@ -693,6 +697,11 @@ extension SES {
         public init(identity: String, policyName: String) {
             self.identity = identity
             self.policyName = policyName
+        }
+
+        public func validate() throws {
+            try validate(policyName, name:"policyName", max: 64)
+            try validate(policyName, name:"policyName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1687,6 +1696,11 @@ extension SES {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 50)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -2033,6 +2047,12 @@ extension SES {
             self.identity = identity
             self.policy = policy
             self.policyName = policyName
+        }
+
+        public func validate() throws {
+            try validate(policy, name:"policy", min: 1)
+            try validate(policyName, name:"policyName", max: 64)
+            try validate(policyName, name:"policyName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2505,6 +2525,10 @@ extension SES {
             self.templateArn = templateArn
         }
 
+        public func validate() throws {
+            try validate(defaultTemplateData, name:"defaultTemplateData", max: 262144)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case configurationSetName = "ConfigurationSetName"
             case defaultTags = "DefaultTags"
@@ -2802,6 +2826,10 @@ extension SES {
             self.template = template
             self.templateArn = templateArn
             self.templateData = templateData
+        }
+
+        public func validate() throws {
+            try validate(templateData, name:"templateData", max: 262144)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3144,6 +3172,10 @@ extension SES {
         public init(templateData: String, templateName: String) {
             self.templateData = templateData
             self.templateName = templateName
+        }
+
+        public func validate() throws {
+            try validate(templateData, name:"templateData", max: 262144)
         }
 
         private enum CodingKeys: String, CodingKey {

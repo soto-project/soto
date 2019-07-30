@@ -756,6 +756,12 @@ extension ElastiCache {
             self.preferredAvailabilityZones = preferredAvailabilityZones
         }
 
+        public func validate() throws {
+            try validate(nodeGroupId, name:"nodeGroupId", max: 4)
+            try validate(nodeGroupId, name:"nodeGroupId", min: 1)
+            try validate(nodeGroupId, name:"nodeGroupId", pattern: "\\d+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case newReplicaCount = "NewReplicaCount"
             case nodeGroupId = "NodeGroupId"
@@ -2643,6 +2649,12 @@ extension ElastiCache {
             self.slots = slots
         }
 
+        public func validate() throws {
+            try validate(nodeGroupId, name:"nodeGroupId", max: 4)
+            try validate(nodeGroupId, name:"nodeGroupId", min: 1)
+            try validate(nodeGroupId, name:"nodeGroupId", pattern: "\\d+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case nodeGroupId = "NodeGroupId"
             case primaryAvailabilityZone = "PrimaryAvailabilityZone"
@@ -2798,6 +2810,10 @@ extension ElastiCache {
             self.nodeGroupConfiguration = nodeGroupConfiguration
             self.nodeGroupId = nodeGroupId
             self.snapshotCreateTime = snapshotCreateTime
+        }
+
+        public func validate() throws {
+            try nodeGroupConfiguration?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3455,6 +3471,12 @@ extension ElastiCache {
             self.preferredAvailabilityZones = preferredAvailabilityZones
         }
 
+        public func validate() throws {
+            try validate(nodeGroupId, name:"nodeGroupId", max: 4)
+            try validate(nodeGroupId, name:"nodeGroupId", min: 1)
+            try validate(nodeGroupId, name:"nodeGroupId", pattern: "\\d+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case nodeGroupId = "NodeGroupId"
             case preferredAvailabilityZones = "PreferredAvailabilityZones"
@@ -3885,6 +3907,12 @@ extension ElastiCache {
         public init(nodeGroupId: String, replicationGroupId: String) {
             self.nodeGroupId = nodeGroupId
             self.replicationGroupId = replicationGroupId
+        }
+
+        public func validate() throws {
+            try validate(nodeGroupId, name:"nodeGroupId", max: 4)
+            try validate(nodeGroupId, name:"nodeGroupId", min: 1)
+            try validate(nodeGroupId, name:"nodeGroupId", pattern: "\\d+")
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -466,6 +466,11 @@ extension ApplicationInsights {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 40)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -510,6 +515,11 @@ extension ApplicationInsights {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceGroupName = resourceGroupName
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 40)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -565,6 +575,11 @@ extension ApplicationInsights {
             self.nextToken = nextToken
             self.resourceGroupName = resourceGroupName
             self.startTime = startTime
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 40)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

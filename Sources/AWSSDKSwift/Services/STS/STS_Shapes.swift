@@ -44,6 +44,29 @@ extension STS {
             self.tokenCode = tokenCode
         }
 
+        public func validate() throws {
+            try validate(durationSeconds, name:"durationSeconds", max: 43200)
+            try validate(durationSeconds, name:"durationSeconds", min: 900)
+            try validate(externalId, name:"externalId", max: 1224)
+            try validate(externalId, name:"externalId", min: 2)
+            try validate(externalId, name:"externalId", pattern: "[\\w+=,.@:\\/-]*")
+            try validate(policy, name:"policy", max: 2048)
+            try validate(policy, name:"policy", min: 1)
+            try validate(policy, name:"policy", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
+            try validate(roleArn, name:"roleArn", max: 2048)
+            try validate(roleArn, name:"roleArn", min: 20)
+            try validate(roleArn, name:"roleArn", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+")
+            try validate(roleSessionName, name:"roleSessionName", max: 64)
+            try validate(roleSessionName, name:"roleSessionName", min: 2)
+            try validate(roleSessionName, name:"roleSessionName", pattern: "[\\w+=,.@-]*")
+            try validate(serialNumber, name:"serialNumber", max: 256)
+            try validate(serialNumber, name:"serialNumber", min: 9)
+            try validate(serialNumber, name:"serialNumber", pattern: "[\\w+=/:,.@-]*")
+            try validate(tokenCode, name:"tokenCode", max: 6)
+            try validate(tokenCode, name:"tokenCode", min: 6)
+            try validate(tokenCode, name:"tokenCode", pattern: "[\\d]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case durationSeconds = "DurationSeconds"
             case externalId = "ExternalId"
@@ -73,6 +96,12 @@ extension STS {
             self.assumedRoleUser = assumedRoleUser
             self.credentials = credentials
             self.packedPolicySize = packedPolicySize
+        }
+
+        public func validate() throws {
+            try assumedRoleUser?.validate()
+            try credentials?.validate()
+            try validate(packedPolicySize, name:"packedPolicySize", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -111,6 +140,22 @@ extension STS {
             self.principalArn = principalArn
             self.roleArn = roleArn
             self.sAMLAssertion = sAMLAssertion
+        }
+
+        public func validate() throws {
+            try validate(durationSeconds, name:"durationSeconds", max: 43200)
+            try validate(durationSeconds, name:"durationSeconds", min: 900)
+            try validate(policy, name:"policy", max: 2048)
+            try validate(policy, name:"policy", min: 1)
+            try validate(policy, name:"policy", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
+            try validate(principalArn, name:"principalArn", max: 2048)
+            try validate(principalArn, name:"principalArn", min: 20)
+            try validate(principalArn, name:"principalArn", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+")
+            try validate(roleArn, name:"roleArn", max: 2048)
+            try validate(roleArn, name:"roleArn", min: 20)
+            try validate(roleArn, name:"roleArn", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+")
+            try validate(sAMLAssertion, name:"sAMLAssertion", max: 100000)
+            try validate(sAMLAssertion, name:"sAMLAssertion", min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -162,6 +207,12 @@ extension STS {
             self.subjectType = subjectType
         }
 
+        public func validate() throws {
+            try assumedRoleUser?.validate()
+            try credentials?.validate()
+            try validate(packedPolicySize, name:"packedPolicySize", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case assumedRoleUser = "AssumedRoleUser"
             case audience = "Audience"
@@ -209,6 +260,24 @@ extension STS {
             self.webIdentityToken = webIdentityToken
         }
 
+        public func validate() throws {
+            try validate(durationSeconds, name:"durationSeconds", max: 43200)
+            try validate(durationSeconds, name:"durationSeconds", min: 900)
+            try validate(policy, name:"policy", max: 2048)
+            try validate(policy, name:"policy", min: 1)
+            try validate(policy, name:"policy", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
+            try validate(providerId, name:"providerId", max: 2048)
+            try validate(providerId, name:"providerId", min: 4)
+            try validate(roleArn, name:"roleArn", max: 2048)
+            try validate(roleArn, name:"roleArn", min: 20)
+            try validate(roleArn, name:"roleArn", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+")
+            try validate(roleSessionName, name:"roleSessionName", max: 64)
+            try validate(roleSessionName, name:"roleSessionName", min: 2)
+            try validate(roleSessionName, name:"roleSessionName", pattern: "[\\w+=,.@-]*")
+            try validate(webIdentityToken, name:"webIdentityToken", max: 2048)
+            try validate(webIdentityToken, name:"webIdentityToken", min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case durationSeconds = "DurationSeconds"
             case policy = "Policy"
@@ -251,6 +320,14 @@ extension STS {
             self.subjectFromWebIdentityToken = subjectFromWebIdentityToken
         }
 
+        public func validate() throws {
+            try assumedRoleUser?.validate()
+            try credentials?.validate()
+            try validate(packedPolicySize, name:"packedPolicySize", min: 0)
+            try validate(subjectFromWebIdentityToken, name:"subjectFromWebIdentityToken", max: 255)
+            try validate(subjectFromWebIdentityToken, name:"subjectFromWebIdentityToken", min: 6)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case assumedRoleUser = "AssumedRoleUser"
             case audience = "Audience"
@@ -274,6 +351,15 @@ extension STS {
         public init(arn: String, assumedRoleId: String) {
             self.arn = arn
             self.assumedRoleId = assumedRoleId
+        }
+
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 2048)
+            try validate(arn, name:"arn", min: 20)
+            try validate(arn, name:"arn", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+")
+            try validate(assumedRoleId, name:"assumedRoleId", max: 193)
+            try validate(assumedRoleId, name:"assumedRoleId", min: 2)
+            try validate(assumedRoleId, name:"assumedRoleId", pattern: "[\\w+=,.@:-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -305,6 +391,12 @@ extension STS {
             self.sessionToken = sessionToken
         }
 
+        public func validate() throws {
+            try validate(accessKeyId, name:"accessKeyId", max: 128)
+            try validate(accessKeyId, name:"accessKeyId", min: 16)
+            try validate(accessKeyId, name:"accessKeyId", pattern: "[\\w]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accessKeyId = "AccessKeyId"
             case expiration = "Expiration"
@@ -322,6 +414,11 @@ extension STS {
         
         public init(encodedMessage: String) {
             self.encodedMessage = encodedMessage
+        }
+
+        public func validate() throws {
+            try validate(encodedMessage, name:"encodedMessage", max: 10240)
+            try validate(encodedMessage, name:"encodedMessage", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -360,6 +457,15 @@ extension STS {
             self.federatedUserId = federatedUserId
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 2048)
+            try validate(arn, name:"arn", min: 20)
+            try validate(arn, name:"arn", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+")
+            try validate(federatedUserId, name:"federatedUserId", max: 193)
+            try validate(federatedUserId, name:"federatedUserId", min: 2)
+            try validate(federatedUserId, name:"federatedUserId", pattern: "[\\w+=,.@\\:-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case federatedUserId = "FederatedUserId"
@@ -393,6 +499,12 @@ extension STS {
             self.userId = userId
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 2048)
+            try validate(arn, name:"arn", min: 20)
+            try validate(arn, name:"arn", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case account = "Account"
             case arn = "Arn"
@@ -423,6 +535,17 @@ extension STS {
             self.policyArns = policyArns
         }
 
+        public func validate() throws {
+            try validate(durationSeconds, name:"durationSeconds", max: 129600)
+            try validate(durationSeconds, name:"durationSeconds", min: 900)
+            try validate(name, name:"name", max: 32)
+            try validate(name, name:"name", min: 2)
+            try validate(name, name:"name", pattern: "[\\w+=,.@-]*")
+            try validate(policy, name:"policy", max: 2048)
+            try validate(policy, name:"policy", min: 1)
+            try validate(policy, name:"policy", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case durationSeconds = "DurationSeconds"
             case name = "Name"
@@ -448,6 +571,12 @@ extension STS {
             self.credentials = credentials
             self.federatedUser = federatedUser
             self.packedPolicySize = packedPolicySize
+        }
+
+        public func validate() throws {
+            try credentials?.validate()
+            try federatedUser?.validate()
+            try validate(packedPolicySize, name:"packedPolicySize", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -476,6 +605,17 @@ extension STS {
             self.tokenCode = tokenCode
         }
 
+        public func validate() throws {
+            try validate(durationSeconds, name:"durationSeconds", max: 129600)
+            try validate(durationSeconds, name:"durationSeconds", min: 900)
+            try validate(serialNumber, name:"serialNumber", max: 256)
+            try validate(serialNumber, name:"serialNumber", min: 9)
+            try validate(serialNumber, name:"serialNumber", pattern: "[\\w+=/:,.@-]*")
+            try validate(tokenCode, name:"tokenCode", max: 6)
+            try validate(tokenCode, name:"tokenCode", min: 6)
+            try validate(tokenCode, name:"tokenCode", pattern: "[\\d]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case durationSeconds = "DurationSeconds"
             case serialNumber = "SerialNumber"
@@ -494,6 +634,10 @@ extension STS {
             self.credentials = credentials
         }
 
+        public func validate() throws {
+            try credentials?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case credentials = "Credentials"
         }
@@ -508,6 +652,12 @@ extension STS {
         
         public init(arn: String? = nil) {
             self.arn = arn
+        }
+
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 2048)
+            try validate(arn, name:"arn", min: 20)
+            try validate(arn, name:"arn", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+")
         }
 
         private enum CodingKeys: String, CodingKey {

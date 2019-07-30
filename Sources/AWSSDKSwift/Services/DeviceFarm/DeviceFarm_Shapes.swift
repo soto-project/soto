@@ -44,6 +44,11 @@ extension DeviceFarm {
             self.unmeteredRemoteAccessDevices = unmeteredRemoteAccessDevices
         }
 
+        public func validate() throws {
+            try validate(awsAccountNumber, name:"awsAccountNumber", max: 16)
+            try validate(awsAccountNumber, name:"awsAccountNumber", min: 2)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case awsAccountNumber = "awsAccountNumber"
             case defaultJobTimeoutMinutes = "defaultJobTimeoutMinutes"
@@ -81,6 +86,15 @@ extension DeviceFarm {
             self.name = name
             self.`type` = `type`
             self.url = url
+        }
+
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 0)
+            try validate(url, name:"url", max: 2048)
+            try validate(url, name:"url", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -236,6 +250,15 @@ extension DeviceFarm {
             self.rules = rules
         }
 
+        public func validate() throws {
+            try validate(description, name:"description", max: 16384)
+            try validate(description, name:"description", min: 0)
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 0)
+            try validate(projectArn, name:"projectArn", max: 1011)
+            try validate(projectArn, name:"projectArn", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case maxDevices = "maxDevices"
@@ -254,6 +277,10 @@ extension DeviceFarm {
         
         public init(devicePool: DevicePool? = nil) {
             self.devicePool = devicePool
+        }
+
+        public func validate() throws {
+            try devicePool?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -288,6 +315,13 @@ extension DeviceFarm {
             self.rebootAfterUse = rebootAfterUse
         }
 
+        public func validate() throws {
+            try validate(description, name:"description", max: 16384)
+            try validate(description, name:"description", min: 0)
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case excludeAppPackagesFromCleanup = "excludeAppPackagesFromCleanup"
@@ -306,6 +340,10 @@ extension DeviceFarm {
         
         public init(instanceProfile: InstanceProfile? = nil) {
             self.instanceProfile = instanceProfile
+        }
+
+        public func validate() throws {
+            try instanceProfile?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -368,6 +406,19 @@ extension DeviceFarm {
             self.uplinkLossPercent = uplinkLossPercent
         }
 
+        public func validate() throws {
+            try validate(description, name:"description", max: 16384)
+            try validate(description, name:"description", min: 0)
+            try validate(downlinkLossPercent, name:"downlinkLossPercent", max: 100)
+            try validate(downlinkLossPercent, name:"downlinkLossPercent", min: 0)
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 0)
+            try validate(projectArn, name:"projectArn", max: 1011)
+            try validate(projectArn, name:"projectArn", min: 32)
+            try validate(uplinkLossPercent, name:"uplinkLossPercent", max: 100)
+            try validate(uplinkLossPercent, name:"uplinkLossPercent", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case downlinkBandwidthBits = "downlinkBandwidthBits"
@@ -395,6 +446,10 @@ extension DeviceFarm {
             self.networkProfile = networkProfile
         }
 
+        public func validate() throws {
+            try networkProfile?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case networkProfile = "networkProfile"
         }
@@ -415,6 +470,11 @@ extension DeviceFarm {
             self.name = name
         }
 
+        public func validate() throws {
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case defaultJobTimeoutMinutes = "defaultJobTimeoutMinutes"
             case name = "name"
@@ -430,6 +490,10 @@ extension DeviceFarm {
         
         public init(project: Project? = nil) {
             self.project = project
+        }
+
+        public func validate() throws {
+            try project?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -513,6 +577,23 @@ extension DeviceFarm {
             self.sshPublicKey = sshPublicKey
         }
 
+        public func validate() throws {
+            try validate(clientId, name:"clientId", max: 64)
+            try validate(clientId, name:"clientId", min: 0)
+            try validate(deviceArn, name:"deviceArn", max: 1011)
+            try validate(deviceArn, name:"deviceArn", min: 32)
+            try validate(instanceArn, name:"instanceArn", max: 1011)
+            try validate(instanceArn, name:"instanceArn", min: 32)
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 0)
+            try validate(projectArn, name:"projectArn", max: 1011)
+            try validate(projectArn, name:"projectArn", min: 32)
+            try validate(remoteRecordAppArn, name:"remoteRecordAppArn", max: 1011)
+            try validate(remoteRecordAppArn, name:"remoteRecordAppArn", min: 32)
+            try validate(sshPublicKey, name:"sshPublicKey", max: 8192)
+            try validate(sshPublicKey, name:"sshPublicKey", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case clientId = "clientId"
             case configuration = "configuration"
@@ -538,6 +619,10 @@ extension DeviceFarm {
         
         public init(remoteAccessSession: RemoteAccessSession? = nil) {
             self.remoteAccessSession = remoteAccessSession
+        }
+
+        public func validate() throws {
+            try remoteAccessSession?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -568,6 +653,15 @@ extension DeviceFarm {
             self.`type` = `type`
         }
 
+        public func validate() throws {
+            try validate(contentType, name:"contentType", max: 64)
+            try validate(contentType, name:"contentType", min: 0)
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 0)
+            try validate(projectArn, name:"projectArn", max: 1011)
+            try validate(projectArn, name:"projectArn", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case contentType = "contentType"
             case name = "name"
@@ -585,6 +679,10 @@ extension DeviceFarm {
         
         public init(upload: Upload? = nil) {
             self.upload = upload
+        }
+
+        public func validate() throws {
+            try upload?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -615,6 +713,17 @@ extension DeviceFarm {
             self.vpceServiceName = vpceServiceName
         }
 
+        public func validate() throws {
+            try validate(serviceDnsName, name:"serviceDnsName", max: 2048)
+            try validate(serviceDnsName, name:"serviceDnsName", min: 0)
+            try validate(vpceConfigurationDescription, name:"vpceConfigurationDescription", max: 2048)
+            try validate(vpceConfigurationDescription, name:"vpceConfigurationDescription", min: 0)
+            try validate(vpceConfigurationName, name:"vpceConfigurationName", max: 1024)
+            try validate(vpceConfigurationName, name:"vpceConfigurationName", min: 0)
+            try validate(vpceServiceName, name:"vpceServiceName", max: 2048)
+            try validate(vpceServiceName, name:"vpceServiceName", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case serviceDnsName = "serviceDnsName"
             case vpceConfigurationDescription = "vpceConfigurationDescription"
@@ -632,6 +741,10 @@ extension DeviceFarm {
         
         public init(vpceConfiguration: VPCEConfiguration? = nil) {
             self.vpceConfiguration = vpceConfiguration
+        }
+
+        public func validate() throws {
+            try vpceConfiguration?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -681,6 +794,11 @@ extension DeviceFarm {
             self.arn = arn
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
         }
@@ -703,6 +821,11 @@ extension DeviceFarm {
         
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -729,6 +852,11 @@ extension DeviceFarm {
             self.arn = arn
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
         }
@@ -751,6 +879,11 @@ extension DeviceFarm {
         
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -777,6 +910,11 @@ extension DeviceFarm {
             self.arn = arn
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
         }
@@ -799,6 +937,11 @@ extension DeviceFarm {
         
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -825,6 +968,11 @@ extension DeviceFarm {
             self.arn = arn
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
         }
@@ -847,6 +995,11 @@ extension DeviceFarm {
         
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -951,6 +1104,13 @@ extension DeviceFarm {
             self.remoteAccessEnabled = remoteAccessEnabled
             self.remoteDebugEnabled = remoteDebugEnabled
             self.resolution = resolution
+        }
+
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1082,6 +1242,14 @@ extension DeviceFarm {
             self.udid = udid
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(deviceArn, name:"deviceArn", max: 1011)
+            try validate(deviceArn, name:"deviceArn", min: 32)
+            try instanceProfile?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case deviceArn = "deviceArn"
@@ -1155,6 +1323,15 @@ extension DeviceFarm {
             self.`type` = `type`
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(description, name:"description", max: 16384)
+            try validate(description, name:"description", min: 0)
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case description = "description"
@@ -1182,6 +1359,10 @@ extension DeviceFarm {
             self.compatible = compatible
             self.device = device
             self.incompatibilityMessages = incompatibilityMessages
+        }
+
+        public func validate() throws {
+            try device?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1329,6 +1510,10 @@ extension DeviceFarm {
             self.accountSettings = accountSettings
         }
 
+        public func validate() throws {
+            try accountSettings?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountSettings = "accountSettings"
         }
@@ -1345,6 +1530,11 @@ extension DeviceFarm {
             self.arn = arn
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
         }
@@ -1359,6 +1549,10 @@ extension DeviceFarm {
         
         public init(deviceInstance: DeviceInstance? = nil) {
             self.deviceInstance = deviceInstance
+        }
+
+        public func validate() throws {
+            try deviceInstance?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1391,6 +1585,15 @@ extension DeviceFarm {
             self.devicePoolArn = devicePoolArn
             self.test = test
             self.testType = testType
+        }
+
+        public func validate() throws {
+            try validate(appArn, name:"appArn", max: 1011)
+            try validate(appArn, name:"appArn", min: 32)
+            try configuration?.validate()
+            try validate(devicePoolArn, name:"devicePoolArn", max: 1011)
+            try validate(devicePoolArn, name:"devicePoolArn", min: 32)
+            try test?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1434,6 +1637,11 @@ extension DeviceFarm {
             self.arn = arn
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
         }
@@ -1448,6 +1656,10 @@ extension DeviceFarm {
         
         public init(devicePool: DevicePool? = nil) {
             self.devicePool = devicePool
+        }
+
+        public func validate() throws {
+            try devicePool?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1466,6 +1678,11 @@ extension DeviceFarm {
             self.arn = arn
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
         }
@@ -1480,6 +1697,10 @@ extension DeviceFarm {
         
         public init(device: Device? = nil) {
             self.device = device
+        }
+
+        public func validate() throws {
+            try device?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1498,6 +1719,11 @@ extension DeviceFarm {
             self.arn = arn
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
         }
@@ -1512,6 +1738,10 @@ extension DeviceFarm {
         
         public init(instanceProfile: InstanceProfile? = nil) {
             self.instanceProfile = instanceProfile
+        }
+
+        public func validate() throws {
+            try instanceProfile?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1530,6 +1760,11 @@ extension DeviceFarm {
             self.arn = arn
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
         }
@@ -1544,6 +1779,10 @@ extension DeviceFarm {
         
         public init(job: Job? = nil) {
             self.job = job
+        }
+
+        public func validate() throws {
+            try job?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1562,6 +1801,11 @@ extension DeviceFarm {
             self.arn = arn
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
         }
@@ -1578,6 +1822,10 @@ extension DeviceFarm {
             self.networkProfile = networkProfile
         }
 
+        public func validate() throws {
+            try networkProfile?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case networkProfile = "networkProfile"
         }
@@ -1592,6 +1840,11 @@ extension DeviceFarm {
         
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1618,6 +1871,11 @@ extension DeviceFarm {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case current = "current"
             case nextPeriod = "nextPeriod"
@@ -1636,6 +1894,11 @@ extension DeviceFarm {
             self.arn = arn
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
         }
@@ -1650,6 +1913,10 @@ extension DeviceFarm {
         
         public init(project: Project? = nil) {
             self.project = project
+        }
+
+        public func validate() throws {
+            try project?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1668,6 +1935,11 @@ extension DeviceFarm {
             self.arn = arn
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
         }
@@ -1682,6 +1954,10 @@ extension DeviceFarm {
         
         public init(remoteAccessSession: RemoteAccessSession? = nil) {
             self.remoteAccessSession = remoteAccessSession
+        }
+
+        public func validate() throws {
+            try remoteAccessSession?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1700,6 +1976,11 @@ extension DeviceFarm {
             self.arn = arn
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
         }
@@ -1714,6 +1995,10 @@ extension DeviceFarm {
         
         public init(run: Run? = nil) {
             self.run = run
+        }
+
+        public func validate() throws {
+            try run?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1732,6 +2017,11 @@ extension DeviceFarm {
             self.arn = arn
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
         }
@@ -1746,6 +2036,10 @@ extension DeviceFarm {
         
         public init(suite: Suite? = nil) {
             self.suite = suite
+        }
+
+        public func validate() throws {
+            try suite?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1764,6 +2058,11 @@ extension DeviceFarm {
             self.arn = arn
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
         }
@@ -1778,6 +2077,10 @@ extension DeviceFarm {
         
         public init(test: Test? = nil) {
             self.test = test
+        }
+
+        public func validate() throws {
+            try test?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1796,6 +2099,11 @@ extension DeviceFarm {
             self.arn = arn
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
         }
@@ -1810,6 +2118,10 @@ extension DeviceFarm {
         
         public init(upload: Upload? = nil) {
             self.upload = upload
+        }
+
+        public func validate() throws {
+            try upload?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1828,6 +2140,11 @@ extension DeviceFarm {
             self.arn = arn
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
         }
@@ -1842,6 +2159,10 @@ extension DeviceFarm {
         
         public init(vpceConfiguration: VPCEConfiguration? = nil) {
             self.vpceConfiguration = vpceConfiguration
+        }
+
+        public func validate() throws {
+            try vpceConfiguration?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1862,6 +2183,11 @@ extension DeviceFarm {
         public init(message: String? = nil, type: DeviceAttribute? = nil) {
             self.message = message
             self.`type` = `type`
+        }
+
+        public func validate() throws {
+            try validate(message, name:"message", max: 16384)
+            try validate(message, name:"message", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1885,6 +2211,13 @@ extension DeviceFarm {
             self.remoteAccessSessionArn = remoteAccessSessionArn
         }
 
+        public func validate() throws {
+            try validate(appArn, name:"appArn", max: 1011)
+            try validate(appArn, name:"appArn", min: 32)
+            try validate(remoteAccessSessionArn, name:"remoteAccessSessionArn", max: 1011)
+            try validate(remoteAccessSessionArn, name:"remoteAccessSessionArn", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case appArn = "appArn"
             case remoteAccessSessionArn = "remoteAccessSessionArn"
@@ -1900,6 +2233,10 @@ extension DeviceFarm {
         
         public init(appUpload: Upload? = nil) {
             self.appUpload = appUpload
+        }
+
+        public func validate() throws {
+            try appUpload?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1936,6 +2273,15 @@ extension DeviceFarm {
             self.name = name
             self.packageCleanup = packageCleanup
             self.rebootAfterUse = rebootAfterUse
+        }
+
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(description, name:"description", max: 16384)
+            try validate(description, name:"description", min: 0)
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2030,6 +2376,18 @@ extension DeviceFarm {
             self.videoEndpoint = videoEndpoint
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try device?.validate()
+            try validate(instanceArn, name:"instanceArn", max: 1011)
+            try validate(instanceArn, name:"instanceArn", min: 32)
+            try validate(message, name:"message", max: 16384)
+            try validate(message, name:"message", min: 0)
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case counters = "counters"
@@ -2068,6 +2426,13 @@ extension DeviceFarm {
             self.`type` = `type`
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case nextToken = "nextToken"
@@ -2088,6 +2453,11 @@ extension DeviceFarm {
         public init(artifacts: [Artifact]? = nil, nextToken: String? = nil) {
             self.artifacts = artifacts
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2111,6 +2481,11 @@ extension DeviceFarm {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "maxResults"
             case nextToken = "nextToken"
@@ -2130,6 +2505,11 @@ extension DeviceFarm {
         public init(deviceInstances: [DeviceInstance]? = nil, nextToken: String? = nil) {
             self.deviceInstances = deviceInstances
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2157,6 +2537,13 @@ extension DeviceFarm {
             self.`type` = `type`
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case nextToken = "nextToken"
@@ -2177,6 +2564,11 @@ extension DeviceFarm {
         public init(devicePools: [DevicePool]? = nil, nextToken: String? = nil) {
             self.devicePools = devicePools
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2204,6 +2596,13 @@ extension DeviceFarm {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case filters = "filters"
@@ -2224,6 +2623,11 @@ extension DeviceFarm {
         public init(devices: [Device]? = nil, nextToken: String? = nil) {
             self.devices = devices
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2247,6 +2651,11 @@ extension DeviceFarm {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "maxResults"
             case nextToken = "nextToken"
@@ -2266,6 +2675,11 @@ extension DeviceFarm {
         public init(instanceProfiles: [InstanceProfile]? = nil, nextToken: String? = nil) {
             self.instanceProfiles = instanceProfiles
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2289,6 +2703,13 @@ extension DeviceFarm {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case nextToken = "nextToken"
@@ -2308,6 +2729,11 @@ extension DeviceFarm {
         public init(jobs: [Job]? = nil, nextToken: String? = nil) {
             self.jobs = jobs
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2335,6 +2761,13 @@ extension DeviceFarm {
             self.`type` = `type`
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case nextToken = "nextToken"
@@ -2357,6 +2790,11 @@ extension DeviceFarm {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case networkProfiles = "networkProfiles"
             case nextToken = "nextToken"
@@ -2372,6 +2810,11 @@ extension DeviceFarm {
         
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2394,6 +2837,11 @@ extension DeviceFarm {
             self.offeringPromotions = offeringPromotions
         }
 
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case offeringPromotions = "offeringPromotions"
@@ -2409,6 +2857,11 @@ extension DeviceFarm {
         
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2431,6 +2884,11 @@ extension DeviceFarm {
             self.offeringTransactions = offeringTransactions
         }
 
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case offeringTransactions = "offeringTransactions"
@@ -2446,6 +2904,11 @@ extension DeviceFarm {
         
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2466,6 +2929,11 @@ extension DeviceFarm {
         public init(nextToken: String? = nil, offerings: [Offering]? = nil) {
             self.nextToken = nextToken
             self.offerings = offerings
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2489,6 +2957,13 @@ extension DeviceFarm {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case nextToken = "nextToken"
@@ -2508,6 +2983,11 @@ extension DeviceFarm {
         public init(nextToken: String? = nil, projects: [Project]? = nil) {
             self.nextToken = nextToken
             self.projects = projects
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2531,6 +3011,13 @@ extension DeviceFarm {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case nextToken = "nextToken"
@@ -2550,6 +3037,11 @@ extension DeviceFarm {
         public init(nextToken: String? = nil, remoteAccessSessions: [RemoteAccessSession]? = nil) {
             self.nextToken = nextToken
             self.remoteAccessSessions = remoteAccessSessions
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2573,6 +3065,13 @@ extension DeviceFarm {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case nextToken = "nextToken"
@@ -2592,6 +3091,11 @@ extension DeviceFarm {
         public init(nextToken: String? = nil, runs: [Run]? = nil) {
             self.nextToken = nextToken
             self.runs = runs
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2615,6 +3119,13 @@ extension DeviceFarm {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case nextToken = "nextToken"
@@ -2634,6 +3145,11 @@ extension DeviceFarm {
         public init(nextToken: String? = nil, samples: [Sample]? = nil) {
             self.nextToken = nextToken
             self.samples = samples
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2657,6 +3173,13 @@ extension DeviceFarm {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case nextToken = "nextToken"
@@ -2678,6 +3201,11 @@ extension DeviceFarm {
             self.suites = suites
         }
 
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case suites = "suites"
@@ -2693,6 +3221,11 @@ extension DeviceFarm {
         
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
+        }
+
+        public func validate() throws {
+            try validate(resourceARN, name:"resourceARN", max: 1011)
+            try validate(resourceARN, name:"resourceARN", min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2731,6 +3264,13 @@ extension DeviceFarm {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case nextToken = "nextToken"
@@ -2750,6 +3290,11 @@ extension DeviceFarm {
         public init(nextToken: String? = nil, tests: [Test]? = nil) {
             self.nextToken = nextToken
             self.tests = tests
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2773,6 +3318,13 @@ extension DeviceFarm {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case nextToken = "nextToken"
@@ -2792,6 +3344,11 @@ extension DeviceFarm {
         public init(nextToken: String? = nil, uniqueProblems: [ExecutionResult: [UniqueProblem]]? = nil) {
             self.nextToken = nextToken
             self.uniqueProblems = uniqueProblems
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2819,6 +3376,13 @@ extension DeviceFarm {
             self.`type` = `type`
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case nextToken = "nextToken"
@@ -2839,6 +3403,11 @@ extension DeviceFarm {
         public init(nextToken: String? = nil, uploads: [Upload]? = nil) {
             self.nextToken = nextToken
             self.uploads = uploads
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2862,6 +3431,11 @@ extension DeviceFarm {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "maxResults"
             case nextToken = "nextToken"
@@ -2881,6 +3455,11 @@ extension DeviceFarm {
         public init(nextToken: String? = nil, vpceConfigurations: [VPCEConfiguration]? = nil) {
             self.nextToken = nextToken
             self.vpceConfigurations = vpceConfigurations
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 1024)
+            try validate(nextToken, name:"nextToken", min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2986,6 +3565,19 @@ extension DeviceFarm {
             self.uplinkLossPercent = uplinkLossPercent
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(description, name:"description", max: 16384)
+            try validate(description, name:"description", min: 0)
+            try validate(downlinkLossPercent, name:"downlinkLossPercent", max: 100)
+            try validate(downlinkLossPercent, name:"downlinkLossPercent", min: 0)
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 0)
+            try validate(uplinkLossPercent, name:"uplinkLossPercent", max: 100)
+            try validate(uplinkLossPercent, name:"uplinkLossPercent", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case description = "description"
@@ -3035,6 +3627,12 @@ extension DeviceFarm {
             self.`type` = `type`
         }
 
+        public func validate() throws {
+            try validate(description, name:"description", max: 16384)
+            try validate(description, name:"description", min: 0)
+            try validate(id, name:"id", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case id = "id"
@@ -3057,6 +3655,12 @@ extension DeviceFarm {
         public init(description: String? = nil, id: String? = nil) {
             self.description = description
             self.id = id
+        }
+
+        public func validate() throws {
+            try validate(description, name:"description", max: 16384)
+            try validate(description, name:"description", min: 0)
+            try validate(id, name:"id", min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3086,6 +3690,10 @@ extension DeviceFarm {
             self.offering = offering
             self.quantity = quantity
             self.`type` = `type`
+        }
+
+        public func validate() throws {
+            try offering?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3121,6 +3729,12 @@ extension DeviceFarm {
             self.offeringPromotionId = offeringPromotionId
             self.offeringStatus = offeringStatus
             self.transactionId = transactionId
+        }
+
+        public func validate() throws {
+            try validate(offeringPromotionId, name:"offeringPromotionId", min: 4)
+            try offeringStatus?.validate()
+            try validate(transactionId, name:"transactionId", min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3179,6 +3793,16 @@ extension DeviceFarm {
             self.test = test
         }
 
+        public func validate() throws {
+            try device?.validate()
+            try job?.validate()
+            try validate(message, name:"message", max: 16384)
+            try validate(message, name:"message", min: 0)
+            try run?.validate()
+            try suite?.validate()
+            try test?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case device = "device"
             case job = "job"
@@ -3203,6 +3827,13 @@ extension DeviceFarm {
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
+        }
+
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3234,6 +3865,13 @@ extension DeviceFarm {
             self.name = name
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case created = "created"
@@ -3261,6 +3899,11 @@ extension DeviceFarm {
             self.quantity = quantity
         }
 
+        public func validate() throws {
+            try validate(offeringId, name:"offeringId", min: 32)
+            try validate(offeringPromotionId, name:"offeringPromotionId", min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case offeringId = "offeringId"
             case offeringPromotionId = "offeringPromotionId"
@@ -3277,6 +3920,10 @@ extension DeviceFarm {
         
         public init(offeringTransaction: OfferingTransaction? = nil) {
             self.offeringTransaction = offeringTransaction
+        }
+
+        public func validate() throws {
+            try offeringTransaction?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3432,6 +4079,23 @@ extension DeviceFarm {
             self.stopped = stopped
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(clientId, name:"clientId", max: 64)
+            try validate(clientId, name:"clientId", min: 0)
+            try device?.validate()
+            try validate(hostAddress, name:"hostAddress", max: 1024)
+            try validate(instanceArn, name:"instanceArn", max: 1011)
+            try validate(instanceArn, name:"instanceArn", min: 32)
+            try validate(message, name:"message", max: 16384)
+            try validate(message, name:"message", min: 0)
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 0)
+            try validate(remoteRecordAppArn, name:"remoteRecordAppArn", max: 1011)
+            try validate(remoteRecordAppArn, name:"remoteRecordAppArn", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case billingMethod = "billingMethod"
@@ -3472,6 +4136,10 @@ extension DeviceFarm {
             self.quantity = quantity
         }
 
+        public func validate() throws {
+            try validate(offeringId, name:"offeringId", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case offeringId = "offeringId"
             case quantity = "quantity"
@@ -3487,6 +4155,10 @@ extension DeviceFarm {
         
         public init(offeringTransaction: OfferingTransaction? = nil) {
             self.offeringTransaction = offeringTransaction
+        }
+
+        public func validate() throws {
+            try offeringTransaction?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3684,6 +4356,22 @@ extension DeviceFarm {
             self.webUrl = webUrl
         }
 
+        public func validate() throws {
+            try validate(appUpload, name:"appUpload", max: 1011)
+            try validate(appUpload, name:"appUpload", min: 32)
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(devicePoolArn, name:"devicePoolArn", max: 1011)
+            try validate(devicePoolArn, name:"devicePoolArn", min: 32)
+            try validate(message, name:"message", max: 16384)
+            try validate(message, name:"message", min: 0)
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 0)
+            try networkProfile?.validate()
+            try validate(testSpecArn, name:"testSpecArn", max: 1011)
+            try validate(testSpecArn, name:"testSpecArn", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case appUpload = "appUpload"
             case arn = "arn"
@@ -3736,6 +4424,13 @@ extension DeviceFarm {
             self.arn = arn
             self.`type` = `type`
             self.url = url
+        }
+
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(url, name:"url", max: 2048)
+            try validate(url, name:"url", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3809,6 +4504,13 @@ extension DeviceFarm {
             self.vpceConfigurationArns = vpceConfigurationArns
         }
 
+        public func validate() throws {
+            try validate(extraDataPackageArn, name:"extraDataPackageArn", max: 1011)
+            try validate(extraDataPackageArn, name:"extraDataPackageArn", min: 32)
+            try validate(networkProfileArn, name:"networkProfileArn", max: 1011)
+            try validate(networkProfileArn, name:"networkProfileArn", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case auxiliaryApps = "auxiliaryApps"
             case billingMethod = "billingMethod"
@@ -3861,6 +4563,19 @@ extension DeviceFarm {
             self.test = test
         }
 
+        public func validate() throws {
+            try validate(appArn, name:"appArn", max: 1011)
+            try validate(appArn, name:"appArn", min: 32)
+            try configuration?.validate()
+            try validate(devicePoolArn, name:"devicePoolArn", max: 1011)
+            try validate(devicePoolArn, name:"devicePoolArn", min: 32)
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 0)
+            try validate(projectArn, name:"projectArn", max: 1011)
+            try validate(projectArn, name:"projectArn", min: 32)
+            try test.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case appArn = "appArn"
             case configuration = "configuration"
@@ -3882,6 +4597,10 @@ extension DeviceFarm {
         
         public init(run: Run? = nil) {
             self.run = run
+        }
+
+        public func validate() throws {
+            try run?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3916,6 +4635,15 @@ extension DeviceFarm {
             self.`type` = `type`
         }
 
+        public func validate() throws {
+            try validate(filter, name:"filter", max: 8192)
+            try validate(filter, name:"filter", min: 0)
+            try validate(testPackageArn, name:"testPackageArn", max: 1011)
+            try validate(testPackageArn, name:"testPackageArn", min: 32)
+            try validate(testSpecArn, name:"testSpecArn", max: 1011)
+            try validate(testSpecArn, name:"testSpecArn", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filter = "filter"
             case parameters = "parameters"
@@ -3936,6 +4664,11 @@ extension DeviceFarm {
             self.arn = arn
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
         }
@@ -3950,6 +4683,10 @@ extension DeviceFarm {
         
         public init(job: Job? = nil) {
             self.job = job
+        }
+
+        public func validate() throws {
+            try job?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3968,6 +4705,11 @@ extension DeviceFarm {
             self.arn = arn
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
         }
@@ -3982,6 +4724,10 @@ extension DeviceFarm {
         
         public init(remoteAccessSession: RemoteAccessSession? = nil) {
             self.remoteAccessSession = remoteAccessSession
+        }
+
+        public func validate() throws {
+            try remoteAccessSession?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4000,6 +4746,11 @@ extension DeviceFarm {
             self.arn = arn
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
         }
@@ -4014,6 +4765,10 @@ extension DeviceFarm {
         
         public init(run: Run? = nil) {
             self.run = run
+        }
+
+        public func validate() throws {
+            try run?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4072,6 +4827,15 @@ extension DeviceFarm {
             self.`type` = `type`
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(message, name:"message", max: 16384)
+            try validate(message, name:"message", min: 0)
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case counters = "counters"
@@ -4102,6 +4866,13 @@ extension DeviceFarm {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", max: 128)
+            try validate(key, name:"key", min: 1)
+            try validate(value, name:"value", max: 256)
+            try validate(value, name:"value", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
@@ -4121,6 +4892,11 @@ extension DeviceFarm {
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try validate(resourceARN, name:"resourceARN", max: 1011)
+            try validate(resourceARN, name:"resourceARN", min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4186,6 +4962,15 @@ extension DeviceFarm {
             self.status = status
             self.stopped = stopped
             self.`type` = `type`
+        }
+
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(message, name:"message", max: 16384)
+            try validate(message, name:"message", min: 0)
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4264,6 +5049,11 @@ extension DeviceFarm {
             self.problems = problems
         }
 
+        public func validate() throws {
+            try validate(message, name:"message", max: 16384)
+            try validate(message, name:"message", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case message = "message"
             case problems = "problems"
@@ -4283,6 +5073,11 @@ extension DeviceFarm {
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
+        }
+
+        public func validate() throws {
+            try validate(resourceARN, name:"resourceARN", max: 1011)
+            try validate(resourceARN, name:"resourceARN", min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4318,6 +5113,13 @@ extension DeviceFarm {
             self.profileArn = profileArn
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(profileArn, name:"profileArn", max: 1011)
+            try validate(profileArn, name:"profileArn", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case labels = "labels"
@@ -4334,6 +5136,10 @@ extension DeviceFarm {
         
         public init(deviceInstance: DeviceInstance? = nil) {
             self.deviceInstance = deviceInstance
+        }
+
+        public func validate() throws {
+            try deviceInstance?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4372,6 +5178,15 @@ extension DeviceFarm {
             self.rules = rules
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(description, name:"description", max: 16384)
+            try validate(description, name:"description", min: 0)
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case clearMaxDevices = "clearMaxDevices"
@@ -4391,6 +5206,10 @@ extension DeviceFarm {
         
         public init(devicePool: DevicePool? = nil) {
             self.devicePool = devicePool
+        }
+
+        public func validate() throws {
+            try devicePool?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4429,6 +5248,15 @@ extension DeviceFarm {
             self.rebootAfterUse = rebootAfterUse
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(description, name:"description", max: 16384)
+            try validate(description, name:"description", min: 0)
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case description = "description"
@@ -4448,6 +5276,10 @@ extension DeviceFarm {
         
         public init(instanceProfile: InstanceProfile? = nil) {
             self.instanceProfile = instanceProfile
+        }
+
+        public func validate() throws {
+            try instanceProfile?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4510,6 +5342,19 @@ extension DeviceFarm {
             self.uplinkLossPercent = uplinkLossPercent
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(description, name:"description", max: 16384)
+            try validate(description, name:"description", min: 0)
+            try validate(downlinkLossPercent, name:"downlinkLossPercent", max: 100)
+            try validate(downlinkLossPercent, name:"downlinkLossPercent", min: 0)
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 0)
+            try validate(uplinkLossPercent, name:"uplinkLossPercent", max: 100)
+            try validate(uplinkLossPercent, name:"uplinkLossPercent", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case description = "description"
@@ -4537,6 +5382,10 @@ extension DeviceFarm {
             self.networkProfile = networkProfile
         }
 
+        public func validate() throws {
+            try networkProfile?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case networkProfile = "networkProfile"
         }
@@ -4561,6 +5410,13 @@ extension DeviceFarm {
             self.name = name
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case defaultJobTimeoutMinutes = "defaultJobTimeoutMinutes"
@@ -4577,6 +5433,10 @@ extension DeviceFarm {
         
         public init(project: Project? = nil) {
             self.project = project
+        }
+
+        public func validate() throws {
+            try project?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4607,6 +5467,15 @@ extension DeviceFarm {
             self.name = name
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(contentType, name:"contentType", max: 64)
+            try validate(contentType, name:"contentType", min: 0)
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case contentType = "contentType"
@@ -4624,6 +5493,10 @@ extension DeviceFarm {
         
         public init(upload: Upload? = nil) {
             self.upload = upload
+        }
+
+        public func validate() throws {
+            try upload?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4658,6 +5531,19 @@ extension DeviceFarm {
             self.vpceServiceName = vpceServiceName
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(serviceDnsName, name:"serviceDnsName", max: 2048)
+            try validate(serviceDnsName, name:"serviceDnsName", min: 0)
+            try validate(vpceConfigurationDescription, name:"vpceConfigurationDescription", max: 2048)
+            try validate(vpceConfigurationDescription, name:"vpceConfigurationDescription", min: 0)
+            try validate(vpceConfigurationName, name:"vpceConfigurationName", max: 1024)
+            try validate(vpceConfigurationName, name:"vpceConfigurationName", min: 0)
+            try validate(vpceServiceName, name:"vpceServiceName", max: 2048)
+            try validate(vpceServiceName, name:"vpceServiceName", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case serviceDnsName = "serviceDnsName"
@@ -4676,6 +5562,10 @@ extension DeviceFarm {
         
         public init(vpceConfiguration: VPCEConfiguration? = nil) {
             self.vpceConfiguration = vpceConfiguration
+        }
+
+        public func validate() throws {
+            try vpceConfiguration?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4728,6 +5618,21 @@ extension DeviceFarm {
             self.status = status
             self.`type` = `type`
             self.url = url
+        }
+
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(contentType, name:"contentType", max: 64)
+            try validate(contentType, name:"contentType", min: 0)
+            try validate(message, name:"message", max: 16384)
+            try validate(message, name:"message", min: 0)
+            try validate(metadata, name:"metadata", max: 8192)
+            try validate(metadata, name:"metadata", min: 0)
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 0)
+            try validate(url, name:"url", max: 2048)
+            try validate(url, name:"url", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4819,6 +5724,19 @@ extension DeviceFarm {
             self.vpceConfigurationDescription = vpceConfigurationDescription
             self.vpceConfigurationName = vpceConfigurationName
             self.vpceServiceName = vpceServiceName
+        }
+
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1011)
+            try validate(arn, name:"arn", min: 32)
+            try validate(serviceDnsName, name:"serviceDnsName", max: 2048)
+            try validate(serviceDnsName, name:"serviceDnsName", min: 0)
+            try validate(vpceConfigurationDescription, name:"vpceConfigurationDescription", max: 2048)
+            try validate(vpceConfigurationDescription, name:"vpceConfigurationDescription", min: 0)
+            try validate(vpceConfigurationName, name:"vpceConfigurationName", max: 1024)
+            try validate(vpceConfigurationName, name:"vpceConfigurationName", min: 0)
+            try validate(vpceServiceName, name:"vpceServiceName", max: 2048)
+            try validate(vpceServiceName, name:"vpceServiceName", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -24,6 +24,16 @@ extension KinesisVideoMedia {
             self.streamName = streamName
         }
 
+        public func validate() throws {
+            try startSelector.validate()
+            try validate(streamARN, name:"streamARN", max: 1024)
+            try validate(streamARN, name:"streamARN", min: 1)
+            try validate(streamARN, name:"streamARN", pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try validate(streamName, name:"streamName", max: 256)
+            try validate(streamName, name:"streamName", min: 1)
+            try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case startSelector = "StartSelector"
             case streamARN = "StreamARN"
@@ -46,6 +56,12 @@ extension KinesisVideoMedia {
         public init(contentType: String? = nil, payload: Data? = nil) {
             self.contentType = contentType
             self.payload = payload
+        }
+
+        public func validate() throws {
+            try validate(contentType, name:"contentType", max: 128)
+            try validate(contentType, name:"contentType", min: 1)
+            try validate(contentType, name:"contentType", pattern: "^[a-zA-Z0-9_\\.\\-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -75,6 +91,15 @@ extension KinesisVideoMedia {
             self.continuationToken = continuationToken
             self.startSelectorType = startSelectorType
             self.startTimestamp = startTimestamp
+        }
+
+        public func validate() throws {
+            try validate(afterFragmentNumber, name:"afterFragmentNumber", max: 128)
+            try validate(afterFragmentNumber, name:"afterFragmentNumber", min: 1)
+            try validate(afterFragmentNumber, name:"afterFragmentNumber", pattern: "^[0-9]+$")
+            try validate(continuationToken, name:"continuationToken", max: 128)
+            try validate(continuationToken, name:"continuationToken", min: 1)
+            try validate(continuationToken, name:"continuationToken", pattern: "^[a-zA-Z0-9_\\.\\-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {

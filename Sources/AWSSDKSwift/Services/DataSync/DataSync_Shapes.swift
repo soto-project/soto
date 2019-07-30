@@ -24,6 +24,14 @@ extension DataSync {
             self.status = status
         }
 
+        public func validate() throws {
+            try validate(agentArn, name:"agentArn", max: 128)
+            try validate(agentArn, name:"agentArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9\\s+=._:/-]+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case agentArn = "AgentArn"
             case name = "Name"
@@ -52,6 +60,11 @@ extension DataSync {
         
         public init(taskExecutionArn: String) {
             self.taskExecutionArn = taskExecutionArn
+        }
+
+        public func validate() throws {
+            try validate(taskExecutionArn, name:"taskExecutionArn", max: 128)
+            try validate(taskExecutionArn, name:"taskExecutionArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}/execution/exec-[0-9a-f]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -86,6 +99,14 @@ extension DataSync {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(activationKey, name:"activationKey", max: 29)
+            try validate(activationKey, name:"activationKey", pattern: "[A-Z0-9]{5}(-[A-Z0-9]{5}){4}")
+            try validate(agentName, name:"agentName", max: 256)
+            try validate(agentName, name:"agentName", min: 1)
+            try validate(agentName, name:"agentName", pattern: "^[a-zA-Z0-9\\s+=._:/-]+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case activationKey = "ActivationKey"
             case agentName = "AgentName"
@@ -102,6 +123,11 @@ extension DataSync {
         
         public init(agentArn: String? = nil) {
             self.agentArn = agentArn
+        }
+
+        public func validate() throws {
+            try validate(agentArn, name:"agentArn", max: 128)
+            try validate(agentArn, name:"agentArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -132,6 +158,14 @@ extension DataSync {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try ec2Config.validate()
+            try validate(efsFilesystemArn, name:"efsFilesystemArn", max: 128)
+            try validate(efsFilesystemArn, name:"efsFilesystemArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):elasticfilesystem:[a-z\\-0-9]*:[0-9]{12}:file-system/fs-.*$")
+            try validate(subdirectory, name:"subdirectory", max: 4096)
+            try validate(subdirectory, name:"subdirectory", pattern: "^[a-zA-Z0-9_\\-\\./]*$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case ec2Config = "Ec2Config"
             case efsFilesystemArn = "EfsFilesystemArn"
@@ -149,6 +183,11 @@ extension DataSync {
         
         public init(locationArn: String? = nil) {
             self.locationArn = locationArn
+        }
+
+        public func validate() throws {
+            try validate(locationArn, name:"locationArn", max: 128)
+            try validate(locationArn, name:"locationArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -183,6 +222,13 @@ extension DataSync {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(serverHostname, name:"serverHostname", max: 255)
+            try validate(serverHostname, name:"serverHostname", pattern: "^(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])$")
+            try validate(subdirectory, name:"subdirectory", max: 4096)
+            try validate(subdirectory, name:"subdirectory", pattern: "^[a-zA-Z0-9_\\-\\./]+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case mountOptions = "MountOptions"
             case onPremConfig = "OnPremConfig"
@@ -201,6 +247,11 @@ extension DataSync {
         
         public init(locationArn: String? = nil) {
             self.locationArn = locationArn
+        }
+
+        public func validate() throws {
+            try validate(locationArn, name:"locationArn", max: 128)
+            try validate(locationArn, name:"locationArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -230,6 +281,14 @@ extension DataSync {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(s3BucketArn, name:"s3BucketArn", max: 76)
+            try validate(s3BucketArn, name:"s3BucketArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):s3:::([^/]*)$")
+            try s3Config.validate()
+            try validate(subdirectory, name:"subdirectory", max: 4096)
+            try validate(subdirectory, name:"subdirectory", pattern: "^[a-zA-Z0-9_\\-\\./]*$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case s3BucketArn = "S3BucketArn"
             case s3Config = "S3Config"
@@ -247,6 +306,11 @@ extension DataSync {
         
         public init(locationArn: String? = nil) {
             self.locationArn = locationArn
+        }
+
+        public func validate() throws {
+            try validate(locationArn, name:"locationArn", max: 128)
+            try validate(locationArn, name:"locationArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -289,6 +353,19 @@ extension DataSync {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(cloudWatchLogGroupArn, name:"cloudWatchLogGroupArn", max: 562)
+            try validate(cloudWatchLogGroupArn, name:"cloudWatchLogGroupArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):logs:[a-z\\-0-9]*:[0-9]{12}:log-group:([^:\\*]*)$")
+            try validate(destinationLocationArn, name:"destinationLocationArn", max: 128)
+            try validate(destinationLocationArn, name:"destinationLocationArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9\\s+=._:/-]+$")
+            try options?.validate()
+            try validate(sourceLocationArn, name:"sourceLocationArn", max: 128)
+            try validate(sourceLocationArn, name:"sourceLocationArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case cloudWatchLogGroupArn = "CloudWatchLogGroupArn"
             case destinationLocationArn = "DestinationLocationArn"
@@ -311,6 +388,11 @@ extension DataSync {
             self.taskArn = taskArn
         }
 
+        public func validate() throws {
+            try validate(taskArn, name:"taskArn", max: 128)
+            try validate(taskArn, name:"taskArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case taskArn = "TaskArn"
         }
@@ -325,6 +407,11 @@ extension DataSync {
         
         public init(agentArn: String) {
             self.agentArn = agentArn
+        }
+
+        public func validate() throws {
+            try validate(agentArn, name:"agentArn", max: 128)
+            try validate(agentArn, name:"agentArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -351,6 +438,11 @@ extension DataSync {
             self.locationArn = locationArn
         }
 
+        public func validate() throws {
+            try validate(locationArn, name:"locationArn", max: 128)
+            try validate(locationArn, name:"locationArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case locationArn = "LocationArn"
         }
@@ -375,6 +467,11 @@ extension DataSync {
             self.taskArn = taskArn
         }
 
+        public func validate() throws {
+            try validate(taskArn, name:"taskArn", max: 128)
+            try validate(taskArn, name:"taskArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case taskArn = "TaskArn"
         }
@@ -397,6 +494,11 @@ extension DataSync {
         
         public init(agentArn: String) {
             self.agentArn = agentArn
+        }
+
+        public func validate() throws {
+            try validate(agentArn, name:"agentArn", max: 128)
+            try validate(agentArn, name:"agentArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -437,6 +539,14 @@ extension DataSync {
             self.status = status
         }
 
+        public func validate() throws {
+            try validate(agentArn, name:"agentArn", max: 128)
+            try validate(agentArn, name:"agentArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9\\s+=._:/-]+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case agentArn = "AgentArn"
             case creationTime = "CreationTime"
@@ -457,6 +567,11 @@ extension DataSync {
         
         public init(locationArn: String) {
             self.locationArn = locationArn
+        }
+
+        public func validate() throws {
+            try validate(locationArn, name:"locationArn", max: 128)
+            try validate(locationArn, name:"locationArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -486,6 +601,13 @@ extension DataSync {
             self.locationUri = locationUri
         }
 
+        public func validate() throws {
+            try ec2Config?.validate()
+            try validate(locationArn, name:"locationArn", max: 128)
+            try validate(locationArn, name:"locationArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
+            try validate(locationUri, name:"locationUri", pattern: "(efs|nfs|s3)://[a-zA-Z0-9.\\-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case creationTime = "CreationTime"
             case ec2Config = "Ec2Config"
@@ -503,6 +625,11 @@ extension DataSync {
         
         public init(locationArn: String) {
             self.locationArn = locationArn
+        }
+
+        public func validate() throws {
+            try validate(locationArn, name:"locationArn", max: 128)
+            try validate(locationArn, name:"locationArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -536,6 +663,12 @@ extension DataSync {
             self.onPremConfig = onPremConfig
         }
 
+        public func validate() throws {
+            try validate(locationArn, name:"locationArn", max: 128)
+            try validate(locationArn, name:"locationArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
+            try validate(locationUri, name:"locationUri", pattern: "(efs|nfs|s3)://[a-zA-Z0-9.\\-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case creationTime = "CreationTime"
             case locationArn = "LocationArn"
@@ -554,6 +687,11 @@ extension DataSync {
         
         public init(locationArn: String) {
             self.locationArn = locationArn
+        }
+
+        public func validate() throws {
+            try validate(locationArn, name:"locationArn", max: 128)
+            try validate(locationArn, name:"locationArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -583,6 +721,13 @@ extension DataSync {
             self.s3Config = s3Config
         }
 
+        public func validate() throws {
+            try validate(locationArn, name:"locationArn", max: 128)
+            try validate(locationArn, name:"locationArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
+            try validate(locationUri, name:"locationUri", pattern: "(efs|nfs|s3)://[a-zA-Z0-9.\\-]+")
+            try s3Config?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case creationTime = "CreationTime"
             case locationArn = "LocationArn"
@@ -600,6 +745,11 @@ extension DataSync {
         
         public init(taskExecutionArn: String) {
             self.taskExecutionArn = taskExecutionArn
+        }
+
+        public func validate() throws {
+            try validate(taskExecutionArn, name:"taskExecutionArn", max: 128)
+            try validate(taskExecutionArn, name:"taskExecutionArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}/execution/exec-[0-9a-f]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -661,6 +811,13 @@ extension DataSync {
             self.taskExecutionArn = taskExecutionArn
         }
 
+        public func validate() throws {
+            try options?.validate()
+            try result?.validate()
+            try validate(taskExecutionArn, name:"taskExecutionArn", max: 128)
+            try validate(taskExecutionArn, name:"taskExecutionArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}/execution/exec-[0-9a-f]{17}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bytesTransferred = "BytesTransferred"
             case bytesWritten = "BytesWritten"
@@ -686,6 +843,11 @@ extension DataSync {
         
         public init(taskArn: String) {
             self.taskArn = taskArn
+        }
+
+        public func validate() throws {
+            try validate(taskArn, name:"taskArn", max: 128)
+            try validate(taskArn, name:"taskArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -748,6 +910,23 @@ extension DataSync {
             self.taskArn = taskArn
         }
 
+        public func validate() throws {
+            try validate(cloudWatchLogGroupArn, name:"cloudWatchLogGroupArn", max: 562)
+            try validate(cloudWatchLogGroupArn, name:"cloudWatchLogGroupArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):logs:[a-z\\-0-9]*:[0-9]{12}:log-group:([^:\\*]*)$")
+            try validate(currentTaskExecutionArn, name:"currentTaskExecutionArn", max: 128)
+            try validate(currentTaskExecutionArn, name:"currentTaskExecutionArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}/execution/exec-[0-9a-f]{17}$")
+            try validate(destinationLocationArn, name:"destinationLocationArn", max: 128)
+            try validate(destinationLocationArn, name:"destinationLocationArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9\\s+=._:/-]+$")
+            try options?.validate()
+            try validate(sourceLocationArn, name:"sourceLocationArn", max: 128)
+            try validate(sourceLocationArn, name:"sourceLocationArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
+            try validate(taskArn, name:"taskArn", max: 128)
+            try validate(taskArn, name:"taskArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case cloudWatchLogGroupArn = "CloudWatchLogGroupArn"
             case creationTime = "CreationTime"
@@ -777,6 +956,11 @@ extension DataSync {
         public init(securityGroupArns: [String], subnetArn: String) {
             self.securityGroupArns = securityGroupArns
             self.subnetArn = subnetArn
+        }
+
+        public func validate() throws {
+            try validate(subnetArn, name:"subnetArn", max: 128)
+            try validate(subnetArn, name:"subnetArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):ec2:[a-z\\-0-9]*:[0-9]{12}:subnet/.*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -819,6 +1003,11 @@ extension DataSync {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(value, name:"value", max: 409600)
+            try validate(value, name:"value", pattern: "^[^\\x00]+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filterType = "FilterType"
             case value = "Value"
@@ -853,6 +1042,13 @@ extension DataSync {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 0)
+            try validate(nextToken, name:"nextToken", max: 65535)
+            try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9=_-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -872,6 +1068,11 @@ extension DataSync {
         public init(agents: [AgentListEntry]? = nil, nextToken: String? = nil) {
             self.agents = agents
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 65535)
+            try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9=_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -895,6 +1096,13 @@ extension DataSync {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 0)
+            try validate(nextToken, name:"nextToken", max: 65535)
+            try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9=_-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -914,6 +1122,11 @@ extension DataSync {
         public init(locations: [LocationListEntry]? = nil, nextToken: String? = nil) {
             self.locations = locations
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 65535)
+            try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9=_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -941,6 +1154,15 @@ extension DataSync {
             self.resourceArn = resourceArn
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 0)
+            try validate(nextToken, name:"nextToken", max: 65535)
+            try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9=_-]+")
+            try validate(resourceArn, name:"resourceArn", max: 128)
+            try validate(resourceArn, name:"resourceArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:(agent|task|location)/(agent|task|loc)-[0-9a-z]{17}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -961,6 +1183,11 @@ extension DataSync {
         public init(nextToken: String? = nil, tags: [TagListEntry]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 65535)
+            try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9=_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -988,6 +1215,15 @@ extension DataSync {
             self.taskArn = taskArn
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 0)
+            try validate(nextToken, name:"nextToken", max: 65535)
+            try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9=_-]+")
+            try validate(taskArn, name:"taskArn", max: 128)
+            try validate(taskArn, name:"taskArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -1008,6 +1244,11 @@ extension DataSync {
         public init(nextToken: String? = nil, taskExecutions: [TaskExecutionListEntry]? = nil) {
             self.nextToken = nextToken
             self.taskExecutions = taskExecutions
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 65535)
+            try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9=_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1031,6 +1272,13 @@ extension DataSync {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 0)
+            try validate(nextToken, name:"nextToken", max: 65535)
+            try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9=_-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -1052,6 +1300,11 @@ extension DataSync {
             self.tasks = tasks
         }
 
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 65535)
+            try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9=_-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case tasks = "Tasks"
@@ -1071,6 +1324,12 @@ extension DataSync {
         public init(locationArn: String? = nil, locationUri: String? = nil) {
             self.locationArn = locationArn
             self.locationUri = locationUri
+        }
+
+        public func validate() throws {
+            try validate(locationArn, name:"locationArn", max: 128)
+            try validate(locationArn, name:"locationArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
+            try validate(locationUri, name:"locationUri", pattern: "(efs|nfs|s3)://[a-zA-Z0-9.\\-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1168,6 +1427,10 @@ extension DataSync {
             self.verifyMode = verifyMode
         }
 
+        public func validate() throws {
+            try validate(bytesPerSecond, name:"bytesPerSecond", min: -1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case atime = "Atime"
             case bytesPerSecond = "BytesPerSecond"
@@ -1241,6 +1504,11 @@ extension DataSync {
             self.bucketAccessRoleArn = bucketAccessRoleArn
         }
 
+        public func validate() throws {
+            try validate(bucketAccessRoleArn, name:"bucketAccessRoleArn", max: 2048)
+            try validate(bucketAccessRoleArn, name:"bucketAccessRoleArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):iam::[0-9]{12}:role/.*$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bucketAccessRoleArn = "BucketAccessRoleArn"
         }
@@ -1264,6 +1532,12 @@ extension DataSync {
             self.taskArn = taskArn
         }
 
+        public func validate() throws {
+            try overrideOptions?.validate()
+            try validate(taskArn, name:"taskArn", max: 128)
+            try validate(taskArn, name:"taskArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case includes = "Includes"
             case overrideOptions = "OverrideOptions"
@@ -1280,6 +1554,11 @@ extension DataSync {
         
         public init(taskExecutionArn: String? = nil) {
             self.taskExecutionArn = taskExecutionArn
+        }
+
+        public func validate() throws {
+            try validate(taskExecutionArn, name:"taskExecutionArn", max: 128)
+            try validate(taskExecutionArn, name:"taskExecutionArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}/execution/exec-[0-9a-f]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1302,6 +1581,15 @@ extension DataSync {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", max: 256)
+            try validate(key, name:"key", min: 1)
+            try validate(key, name:"key", pattern: "^[a-zA-Z0-9\\s+=._:/-]+$")
+            try validate(value, name:"value", max: 256)
+            try validate(value, name:"value", min: 1)
+            try validate(value, name:"value", pattern: "^[a-zA-Z0-9\\s+=._:/-]+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
@@ -1321,6 +1609,11 @@ extension DataSync {
         public init(resourceArn: String, tags: [TagListEntry]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try validate(resourceArn, name:"resourceArn", max: 128)
+            try validate(resourceArn, name:"resourceArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:(agent|task|location)/(agent|task|loc)-[0-9a-z]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1350,6 +1643,11 @@ extension DataSync {
         public init(status: TaskExecutionStatus? = nil, taskExecutionArn: String? = nil) {
             self.status = status
             self.taskExecutionArn = taskExecutionArn
+        }
+
+        public func validate() throws {
+            try validate(taskExecutionArn, name:"taskExecutionArn", max: 128)
+            try validate(taskExecutionArn, name:"taskExecutionArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}/execution/exec-[0-9a-f]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1397,6 +1695,12 @@ extension DataSync {
             self.verifyStatus = verifyStatus
         }
 
+        public func validate() throws {
+            try validate(prepareDuration, name:"prepareDuration", min: 0)
+            try validate(transferDuration, name:"transferDuration", min: 0)
+            try validate(verifyDuration, name:"verifyDuration", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case errorCode = "ErrorCode"
             case errorDetail = "ErrorDetail"
@@ -1438,6 +1742,14 @@ extension DataSync {
             self.taskArn = taskArn
         }
 
+        public func validate() throws {
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9\\s+=._:/-]+$")
+            try validate(taskArn, name:"taskArn", max: 128)
+            try validate(taskArn, name:"taskArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case status = "Status"
@@ -1476,6 +1788,11 @@ extension DataSync {
             self.resourceArn = resourceArn
         }
 
+        public func validate() throws {
+            try validate(resourceArn, name:"resourceArn", max: 128)
+            try validate(resourceArn, name:"resourceArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:(agent|task|location)/(agent|task|loc)-[0-9a-z]{17}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case keys = "Keys"
             case resourceArn = "ResourceArn"
@@ -1503,6 +1820,14 @@ extension DataSync {
         public init(agentArn: String, name: String? = nil) {
             self.agentArn = agentArn
             self.name = name
+        }
+
+        public func validate() throws {
+            try validate(agentArn, name:"agentArn", max: 128)
+            try validate(agentArn, name:"agentArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9\\s+=._:/-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1543,6 +1868,17 @@ extension DataSync {
             self.name = name
             self.options = options
             self.taskArn = taskArn
+        }
+
+        public func validate() throws {
+            try validate(cloudWatchLogGroupArn, name:"cloudWatchLogGroupArn", max: 562)
+            try validate(cloudWatchLogGroupArn, name:"cloudWatchLogGroupArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):logs:[a-z\\-0-9]*:[0-9]{12}:log-group:([^:\\*]*)$")
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9\\s+=._:/-]+$")
+            try options?.validate()
+            try validate(taskArn, name:"taskArn", max: 128)
+            try validate(taskArn, name:"taskArn", pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {

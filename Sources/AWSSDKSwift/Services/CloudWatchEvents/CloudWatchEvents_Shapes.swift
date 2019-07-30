@@ -141,6 +141,12 @@ extension CloudWatchEvents {
             self.name = name
         }
 
+        public func validate() throws {
+            try validate(name, name:"name", max: 64)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "[\\.\\-_A-Za-z0-9]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case force = "Force"
             case name = "Name"
@@ -192,6 +198,12 @@ extension CloudWatchEvents {
             self.name = name
         }
 
+        public func validate() throws {
+            try validate(name, name:"name", max: 64)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "[\\.\\-_A-Za-z0-9]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
         }
@@ -236,6 +248,20 @@ extension CloudWatchEvents {
             self.state = state
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1600)
+            try validate(arn, name:"arn", min: 1)
+            try validate(description, name:"description", max: 512)
+            try validate(managedBy, name:"managedBy", max: 128)
+            try validate(managedBy, name:"managedBy", min: 1)
+            try validate(name, name:"name", max: 64)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "[\\.\\-_A-Za-z0-9]+")
+            try validate(roleArn, name:"roleArn", max: 1600)
+            try validate(roleArn, name:"roleArn", min: 1)
+            try validate(scheduleExpression, name:"scheduleExpression", max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case description = "Description"
@@ -257,6 +283,12 @@ extension CloudWatchEvents {
         
         public init(name: String) {
             self.name = name
+        }
+
+        public func validate() throws {
+            try validate(name, name:"name", max: 64)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "[\\.\\-_A-Za-z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -295,6 +327,12 @@ extension CloudWatchEvents {
             self.taskDefinitionArn = taskDefinitionArn
         }
 
+        public func validate() throws {
+            try validate(taskCount, name:"taskCount", min: 1)
+            try validate(taskDefinitionArn, name:"taskDefinitionArn", max: 1600)
+            try validate(taskDefinitionArn, name:"taskDefinitionArn", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case group = "Group"
             case launchType = "LaunchType"
@@ -314,6 +352,12 @@ extension CloudWatchEvents {
         
         public init(name: String) {
             self.name = name
+        }
+
+        public func validate() throws {
+            try validate(name, name:"name", max: 64)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "[\\.\\-_A-Za-z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -336,6 +380,11 @@ extension CloudWatchEvents {
             self.inputTemplate = inputTemplate
         }
 
+        public func validate() throws {
+            try validate(inputTemplate, name:"inputTemplate", max: 8192)
+            try validate(inputTemplate, name:"inputTemplate", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case inputPathsMap = "InputPathsMap"
             case inputTemplate = "InputTemplate"
@@ -351,6 +400,10 @@ extension CloudWatchEvents {
         
         public init(partitionKeyPath: String) {
             self.partitionKeyPath = partitionKeyPath
+        }
+
+        public func validate() throws {
+            try validate(partitionKeyPath, name:"partitionKeyPath", max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -383,6 +436,15 @@ extension CloudWatchEvents {
             self.targetArn = targetArn
         }
 
+        public func validate() throws {
+            try validate(limit, name:"limit", max: 100)
+            try validate(limit, name:"limit", min: 1)
+            try validate(nextToken, name:"nextToken", max: 2048)
+            try validate(nextToken, name:"nextToken", min: 1)
+            try validate(targetArn, name:"targetArn", max: 1600)
+            try validate(targetArn, name:"targetArn", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case limit = "Limit"
             case nextToken = "NextToken"
@@ -403,6 +465,11 @@ extension CloudWatchEvents {
         public init(nextToken: String? = nil, ruleNames: [String]? = nil) {
             self.nextToken = nextToken
             self.ruleNames = ruleNames
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 2048)
+            try validate(nextToken, name:"nextToken", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -430,6 +497,16 @@ extension CloudWatchEvents {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(limit, name:"limit", max: 100)
+            try validate(limit, name:"limit", min: 1)
+            try validate(namePrefix, name:"namePrefix", max: 64)
+            try validate(namePrefix, name:"namePrefix", min: 1)
+            try validate(namePrefix, name:"namePrefix", pattern: "[\\.\\-_A-Za-z0-9]+")
+            try validate(nextToken, name:"nextToken", max: 2048)
+            try validate(nextToken, name:"nextToken", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case limit = "Limit"
             case namePrefix = "NamePrefix"
@@ -452,6 +529,11 @@ extension CloudWatchEvents {
             self.rules = rules
         }
 
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 2048)
+            try validate(nextToken, name:"nextToken", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case rules = "Rules"
@@ -467,6 +549,11 @@ extension CloudWatchEvents {
         
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
+        }
+
+        public func validate() throws {
+            try validate(resourceARN, name:"resourceARN", max: 1600)
+            try validate(resourceARN, name:"resourceARN", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -509,6 +596,16 @@ extension CloudWatchEvents {
             self.rule = rule
         }
 
+        public func validate() throws {
+            try validate(limit, name:"limit", max: 100)
+            try validate(limit, name:"limit", min: 1)
+            try validate(nextToken, name:"nextToken", max: 2048)
+            try validate(nextToken, name:"nextToken", min: 1)
+            try validate(rule, name:"rule", max: 64)
+            try validate(rule, name:"rule", min: 1)
+            try validate(rule, name:"rule", pattern: "[\\.\\-_A-Za-z0-9]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case limit = "Limit"
             case nextToken = "NextToken"
@@ -529,6 +626,11 @@ extension CloudWatchEvents {
         public init(nextToken: String? = nil, targets: [Target]? = nil) {
             self.nextToken = nextToken
             self.targets = targets
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 2048)
+            try validate(nextToken, name:"nextToken", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -675,6 +777,18 @@ extension CloudWatchEvents {
             self.statementId = statementId
         }
 
+        public func validate() throws {
+            try validate(action, name:"action", max: 64)
+            try validate(action, name:"action", min: 1)
+            try validate(action, name:"action", pattern: "events:[a-zA-Z]+")
+            try validate(principal, name:"principal", max: 12)
+            try validate(principal, name:"principal", min: 1)
+            try validate(principal, name:"principal", pattern: "(\\d{12}|\\*)")
+            try validate(statementId, name:"statementId", max: 64)
+            try validate(statementId, name:"statementId", min: 1)
+            try validate(statementId, name:"statementId", pattern: "[a-zA-Z0-9-_]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case action = "Action"
             case condition = "Condition"
@@ -718,6 +832,16 @@ extension CloudWatchEvents {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(description, name:"description", max: 512)
+            try validate(name, name:"name", max: 64)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "[\\.\\-_A-Za-z0-9]+")
+            try validate(roleArn, name:"roleArn", max: 1600)
+            try validate(roleArn, name:"roleArn", min: 1)
+            try validate(scheduleExpression, name:"scheduleExpression", max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case eventPattern = "EventPattern"
@@ -740,6 +864,11 @@ extension CloudWatchEvents {
             self.ruleArn = ruleArn
         }
 
+        public func validate() throws {
+            try validate(ruleArn, name:"ruleArn", max: 1600)
+            try validate(ruleArn, name:"ruleArn", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case ruleArn = "RuleArn"
         }
@@ -758,6 +887,12 @@ extension CloudWatchEvents {
         public init(rule: String, targets: [Target]) {
             self.rule = rule
             self.targets = targets
+        }
+
+        public func validate() throws {
+            try validate(rule, name:"rule", max: 64)
+            try validate(rule, name:"rule", min: 1)
+            try validate(rule, name:"rule", pattern: "[\\.\\-_A-Za-z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -806,6 +941,12 @@ extension CloudWatchEvents {
             self.targetId = targetId
         }
 
+        public func validate() throws {
+            try validate(targetId, name:"targetId", max: 64)
+            try validate(targetId, name:"targetId", min: 1)
+            try validate(targetId, name:"targetId", pattern: "[\\.\\-_A-Za-z0-9]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case errorCode = "ErrorCode"
             case errorMessage = "ErrorMessage"
@@ -822,6 +963,12 @@ extension CloudWatchEvents {
         
         public init(statementId: String) {
             self.statementId = statementId
+        }
+
+        public func validate() throws {
+            try validate(statementId, name:"statementId", max: 64)
+            try validate(statementId, name:"statementId", min: 1)
+            try validate(statementId, name:"statementId", pattern: "[a-zA-Z0-9-_]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -846,6 +993,12 @@ extension CloudWatchEvents {
             self.force = force
             self.ids = ids
             self.rule = rule
+        }
+
+        public func validate() throws {
+            try validate(rule, name:"rule", max: 64)
+            try validate(rule, name:"rule", min: 1)
+            try validate(rule, name:"rule", pattern: "[\\.\\-_A-Za-z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -895,6 +1048,12 @@ extension CloudWatchEvents {
             self.targetId = targetId
         }
 
+        public func validate() throws {
+            try validate(targetId, name:"targetId", max: 64)
+            try validate(targetId, name:"targetId", min: 1)
+            try validate(targetId, name:"targetId", pattern: "[\\.\\-_A-Za-z0-9]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case errorCode = "ErrorCode"
             case errorMessage = "ErrorMessage"
@@ -939,6 +1098,20 @@ extension CloudWatchEvents {
             self.roleArn = roleArn
             self.scheduleExpression = scheduleExpression
             self.state = state
+        }
+
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1600)
+            try validate(arn, name:"arn", min: 1)
+            try validate(description, name:"description", max: 512)
+            try validate(managedBy, name:"managedBy", max: 128)
+            try validate(managedBy, name:"managedBy", min: 1)
+            try validate(name, name:"name", max: 64)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "[\\.\\-_A-Za-z0-9]+")
+            try validate(roleArn, name:"roleArn", max: 1600)
+            try validate(roleArn, name:"roleArn", min: 1)
+            try validate(scheduleExpression, name:"scheduleExpression", max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -990,6 +1163,12 @@ extension CloudWatchEvents {
             self.values = values
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", max: 128)
+            try validate(key, name:"key", min: 1)
+            try validate(key, name:"key", pattern: "^[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case values = "Values"
@@ -1027,6 +1206,13 @@ extension CloudWatchEvents {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", max: 128)
+            try validate(key, name:"key", min: 1)
+            try validate(value, name:"value", max: 256)
+            try validate(value, name:"value", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
@@ -1046,6 +1232,11 @@ extension CloudWatchEvents {
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try validate(resourceARN, name:"resourceARN", max: 1600)
+            try validate(resourceARN, name:"resourceARN", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1113,6 +1304,21 @@ extension CloudWatchEvents {
             self.sqsParameters = sqsParameters
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1600)
+            try validate(arn, name:"arn", min: 1)
+            try ecsParameters?.validate()
+            try validate(id, name:"id", max: 64)
+            try validate(id, name:"id", min: 1)
+            try validate(id, name:"id", pattern: "[\\.\\-_A-Za-z0-9]+")
+            try validate(input, name:"input", max: 8192)
+            try validate(inputPath, name:"inputPath", max: 256)
+            try inputTransformer?.validate()
+            try kinesisParameters?.validate()
+            try validate(roleArn, name:"roleArn", max: 1600)
+            try validate(roleArn, name:"roleArn", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case batchParameters = "BatchParameters"
@@ -1178,6 +1384,11 @@ extension CloudWatchEvents {
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
+        }
+
+        public func validate() throws {
+            try validate(resourceARN, name:"resourceARN", max: 1600)
+            try validate(resourceARN, name:"resourceARN", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

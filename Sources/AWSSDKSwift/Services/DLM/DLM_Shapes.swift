@@ -28,6 +28,11 @@ extension DLM {
             self.state = state
         }
 
+        public func validate() throws {
+            try validate(description, name:"description", max: 500)
+            try validate(description, name:"description", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case executionRoleArn = "ExecutionRoleArn"
@@ -69,6 +74,10 @@ extension DLM {
             self.interval = interval
             self.intervalUnit = intervalUnit
             self.times = times
+        }
+
+        public func validate() throws {
+            try validate(interval, name:"interval", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -181,6 +190,10 @@ extension DLM {
             self.policy = policy
         }
 
+        public func validate() throws {
+            try policy?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case policy = "Policy"
         }
@@ -233,6 +246,11 @@ extension DLM {
             self.state = state
         }
 
+        public func validate() throws {
+            try validate(description, name:"description", max: 500)
+            try validate(description, name:"description", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dateCreated = "DateCreated"
             case dateModified = "DateModified"
@@ -261,6 +279,11 @@ extension DLM {
             self.description = description
             self.policyId = policyId
             self.state = state
+        }
+
+        public func validate() throws {
+            try validate(description, name:"description", max: 500)
+            try validate(description, name:"description", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -344,6 +367,11 @@ extension DLM {
             self.count = count
         }
 
+        public func validate() throws {
+            try validate(count, name:"count", max: 1000)
+            try validate(count, name:"count", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case count = "Count"
         }
@@ -378,6 +406,13 @@ extension DLM {
             self.retainRule = retainRule
             self.tagsToAdd = tagsToAdd
             self.variableTags = variableTags
+        }
+
+        public func validate() throws {
+            try createRule?.validate()
+            try validate(name, name:"name", max: 500)
+            try validate(name, name:"name", min: 0)
+            try retainRule?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -442,6 +477,11 @@ extension DLM {
             self.policyDetails = policyDetails
             self.policyId = policyId
             self.state = state
+        }
+
+        public func validate() throws {
+            try validate(description, name:"description", max: 500)
+            try validate(description, name:"description", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {

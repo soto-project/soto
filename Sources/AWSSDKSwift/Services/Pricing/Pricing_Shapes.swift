@@ -44,6 +44,11 @@ extension Pricing {
             self.serviceCode = serviceCode
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case formatVersion = "FormatVersion"
             case maxResults = "MaxResults"
@@ -132,6 +137,11 @@ extension Pricing {
             self.serviceCode = serviceCode
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case attributeName = "AttributeName"
             case maxResults = "MaxResults"
@@ -186,6 +196,11 @@ extension Pricing {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.serviceCode = serviceCode
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -170,6 +170,11 @@ extension XRay {
             self.groupName = groupName
         }
 
+        public func validate() throws {
+            try validate(groupName, name:"groupName", max: 32)
+            try validate(groupName, name:"groupName", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filterExpression = "FilterExpression"
             case groupName = "GroupName"
@@ -203,6 +208,10 @@ extension XRay {
             self.samplingRule = samplingRule
         }
 
+        public func validate() throws {
+            try samplingRule.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case samplingRule = "SamplingRule"
         }
@@ -217,6 +226,10 @@ extension XRay {
         
         public init(samplingRuleRecord: SamplingRuleRecord? = nil) {
             self.samplingRuleRecord = samplingRuleRecord
+        }
+
+        public func validate() throws {
+            try samplingRuleRecord?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -237,6 +250,13 @@ extension XRay {
         public init(groupARN: String? = nil, groupName: String? = nil) {
             self.groupARN = groupARN
             self.groupName = groupName
+        }
+
+        public func validate() throws {
+            try validate(groupARN, name:"groupARN", max: 400)
+            try validate(groupARN, name:"groupARN", min: 1)
+            try validate(groupName, name:"groupName", max: 32)
+            try validate(groupName, name:"groupName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -283,6 +303,10 @@ extension XRay {
         
         public init(samplingRuleRecord: SamplingRuleRecord? = nil) {
             self.samplingRuleRecord = samplingRuleRecord
+        }
+
+        public func validate() throws {
+            try samplingRuleRecord?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -657,6 +681,13 @@ extension XRay {
             self.groupName = groupName
         }
 
+        public func validate() throws {
+            try validate(groupARN, name:"groupARN", max: 400)
+            try validate(groupARN, name:"groupARN", min: 1)
+            try validate(groupName, name:"groupName", max: 32)
+            try validate(groupName, name:"groupName", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case groupARN = "GroupARN"
             case groupName = "GroupName"
@@ -688,6 +719,11 @@ extension XRay {
         
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 100)
+            try validate(nextToken, name:"nextToken", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -859,6 +895,13 @@ extension XRay {
             self.startTime = startTime
         }
 
+        public func validate() throws {
+            try validate(groupARN, name:"groupARN", max: 400)
+            try validate(groupARN, name:"groupARN", min: 1)
+            try validate(groupName, name:"groupName", max: 32)
+            try validate(groupName, name:"groupName", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case endTime = "EndTime"
             case groupARN = "GroupARN"
@@ -937,6 +980,15 @@ extension XRay {
             self.nextToken = nextToken
             self.period = period
             self.startTime = startTime
+        }
+
+        public func validate() throws {
+            try validate(entitySelectorExpression, name:"entitySelectorExpression", max: 500)
+            try validate(entitySelectorExpression, name:"entitySelectorExpression", min: 1)
+            try validate(groupARN, name:"groupARN", max: 400)
+            try validate(groupARN, name:"groupARN", min: 1)
+            try validate(groupName, name:"groupName", max: 32)
+            try validate(groupName, name:"groupName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1235,6 +1287,11 @@ extension XRay {
             self.`type` = `type`
         }
 
+        public func validate() throws {
+            try validate(keyId, name:"keyId", max: 3000)
+            try validate(keyId, name:"keyId", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case keyId = "KeyId"
             case `type` = "Type"
@@ -1274,6 +1331,12 @@ extension XRay {
             self.hostname = hostname
             self.resourceARN = resourceARN
             self.telemetryRecords = telemetryRecords
+        }
+
+        public func validate() throws {
+            try validate(eC2InstanceId, name:"eC2InstanceId", max: 20)
+            try validate(hostname, name:"hostname", max: 255)
+            try validate(resourceARN, name:"resourceARN", max: 500)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1503,6 +1566,23 @@ extension XRay {
             self.version = version
         }
 
+        public func validate() throws {
+            try validate(fixedRate, name:"fixedRate", max: 1)
+            try validate(fixedRate, name:"fixedRate", min: 0)
+            try validate(host, name:"host", max: 64)
+            try validate(hTTPMethod, name:"hTTPMethod", max: 10)
+            try validate(priority, name:"priority", max: 9999)
+            try validate(priority, name:"priority", min: 1)
+            try validate(reservoirSize, name:"reservoirSize", min: 0)
+            try validate(resourceARN, name:"resourceARN", max: 500)
+            try validate(ruleName, name:"ruleName", max: 32)
+            try validate(ruleName, name:"ruleName", min: 1)
+            try validate(serviceName, name:"serviceName", max: 64)
+            try validate(serviceType, name:"serviceType", max: 64)
+            try validate(uRLPath, name:"uRLPath", max: 128)
+            try validate(version, name:"version", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case attributes = "Attributes"
             case fixedRate = "FixedRate"
@@ -1537,6 +1617,10 @@ extension XRay {
             self.createdAt = createdAt
             self.modifiedAt = modifiedAt
             self.samplingRule = samplingRule
+        }
+
+        public func validate() throws {
+            try samplingRule?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1599,6 +1683,17 @@ extension XRay {
             self.serviceName = serviceName
             self.serviceType = serviceType
             self.uRLPath = uRLPath
+        }
+
+        public func validate() throws {
+            try validate(host, name:"host", max: 64)
+            try validate(hTTPMethod, name:"hTTPMethod", max: 10)
+            try validate(resourceARN, name:"resourceARN", max: 500)
+            try validate(ruleName, name:"ruleName", max: 32)
+            try validate(ruleName, name:"ruleName", min: 1)
+            try validate(serviceName, name:"serviceName", max: 64)
+            try validate(serviceType, name:"serviceType", max: 64)
+            try validate(uRLPath, name:"uRLPath", max: 128)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1682,6 +1777,16 @@ extension XRay {
             self.ruleName = ruleName
             self.sampledCount = sampledCount
             self.timestamp = timestamp
+        }
+
+        public func validate() throws {
+            try validate(borrowCount, name:"borrowCount", min: 0)
+            try validate(clientID, name:"clientID", max: 24)
+            try validate(clientID, name:"clientID", min: 24)
+            try validate(requestCount, name:"requestCount", min: 0)
+            try validate(ruleName, name:"ruleName", max: 32)
+            try validate(ruleName, name:"ruleName", min: 1)
+            try validate(sampledCount, name:"sampledCount", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1770,6 +1875,10 @@ extension XRay {
         public init(document: String? = nil, id: String? = nil) {
             self.document = document
             self.id = id
+        }
+
+        public func validate() throws {
+            try validate(document, name:"document", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2006,6 +2115,11 @@ extension XRay {
             self.segments = segments
         }
 
+        public func validate() throws {
+            try validate(id, name:"id", max: 35)
+            try validate(id, name:"id", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case duration = "Duration"
             case id = "Id"
@@ -2098,6 +2212,11 @@ extension XRay {
             self.revision = revision
             self.serviceIds = serviceIds
             self.users = users
+        }
+
+        public func validate() throws {
+            try validate(id, name:"id", max: 35)
+            try validate(id, name:"id", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2216,6 +2335,13 @@ extension XRay {
             self.groupName = groupName
         }
 
+        public func validate() throws {
+            try validate(groupARN, name:"groupARN", max: 400)
+            try validate(groupARN, name:"groupARN", min: 1)
+            try validate(groupName, name:"groupName", max: 32)
+            try validate(groupName, name:"groupName", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filterExpression = "FilterExpression"
             case groupARN = "GroupARN"
@@ -2250,6 +2376,10 @@ extension XRay {
             self.samplingRuleUpdate = samplingRuleUpdate
         }
 
+        public func validate() throws {
+            try samplingRuleUpdate.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case samplingRuleUpdate = "SamplingRuleUpdate"
         }
@@ -2264,6 +2394,10 @@ extension XRay {
         
         public init(samplingRuleRecord: SamplingRuleRecord? = nil) {
             self.samplingRuleRecord = samplingRuleRecord
+        }
+
+        public func validate() throws {
+            try samplingRuleRecord?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

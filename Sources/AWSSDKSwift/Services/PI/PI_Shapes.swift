@@ -77,6 +77,13 @@ extension PI {
             self.startTime = startTime
         }
 
+        public func validate() throws {
+            try groupBy.validate()
+            try validate(maxResults, name:"maxResults", max: 20)
+            try validate(maxResults, name:"maxResults", min: 0)
+            try partitionBy?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case endTime = "EndTime"
             case filter = "Filter"
@@ -145,6 +152,11 @@ extension PI {
             self.dimensions = dimensions
             self.group = group
             self.limit = limit
+        }
+
+        public func validate() throws {
+            try validate(limit, name:"limit", max: 10)
+            try validate(limit, name:"limit", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -217,6 +229,11 @@ extension PI {
             self.periodInSeconds = periodInSeconds
             self.serviceType = serviceType
             self.startTime = startTime
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 20)
+            try validate(maxResults, name:"maxResults", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -305,6 +322,10 @@ extension PI {
             self.filter = filter
             self.groupBy = groupBy
             self.metric = metric
+        }
+
+        public func validate() throws {
+            try groupBy?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

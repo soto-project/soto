@@ -24,6 +24,13 @@ extension ServiceCatalog {
             self.portfolioShareType = portfolioShareType
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(portfolioId, name:"portfolioId", max: 100)
+            try validate(portfolioId, name:"portfolioId", min: 1)
+            try validate(portfolioId, name:"portfolioId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case portfolioId = "PortfolioId"
@@ -89,6 +96,14 @@ extension ServiceCatalog {
             self.resourceId = resourceId
         }
 
+        public func validate() throws {
+            try validate(budgetName, name:"budgetName", max: 100)
+            try validate(budgetName, name:"budgetName", min: 1)
+            try validate(resourceId, name:"resourceId", max: 100)
+            try validate(resourceId, name:"resourceId", min: 1)
+            try validate(resourceId, name:"resourceId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case budgetName = "BudgetName"
             case resourceId = "ResourceId"
@@ -124,6 +139,15 @@ extension ServiceCatalog {
             self.portfolioId = portfolioId
             self.principalARN = principalARN
             self.principalType = principalType
+        }
+
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(portfolioId, name:"portfolioId", max: 100)
+            try validate(portfolioId, name:"portfolioId", min: 1)
+            try validate(portfolioId, name:"portfolioId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(principalARN, name:"principalARN", max: 1000)
+            try validate(principalARN, name:"principalARN", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -165,6 +189,19 @@ extension ServiceCatalog {
             self.sourcePortfolioId = sourcePortfolioId
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(portfolioId, name:"portfolioId", max: 100)
+            try validate(portfolioId, name:"portfolioId", min: 1)
+            try validate(portfolioId, name:"portfolioId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(productId, name:"productId", max: 100)
+            try validate(productId, name:"productId", min: 1)
+            try validate(productId, name:"productId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(sourcePortfolioId, name:"sourcePortfolioId", max: 100)
+            try validate(sourcePortfolioId, name:"sourcePortfolioId", min: 1)
+            try validate(sourcePortfolioId, name:"sourcePortfolioId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case portfolioId = "PortfolioId"
@@ -204,6 +241,19 @@ extension ServiceCatalog {
             self.serviceActionId = serviceActionId
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(productId, name:"productId", max: 100)
+            try validate(productId, name:"productId", min: 1)
+            try validate(productId, name:"productId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", max: 100)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", min: 1)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(serviceActionId, name:"serviceActionId", max: 100)
+            try validate(serviceActionId, name:"serviceActionId", min: 1)
+            try validate(serviceActionId, name:"serviceActionId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case productId = "ProductId"
@@ -235,6 +285,11 @@ extension ServiceCatalog {
             self.tagOptionId = tagOptionId
         }
 
+        public func validate() throws {
+            try validate(tagOptionId, name:"tagOptionId", max: 100)
+            try validate(tagOptionId, name:"tagOptionId", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceId = "ResourceId"
             case tagOptionId = "TagOptionId"
@@ -262,6 +317,10 @@ extension ServiceCatalog {
         public init(acceptLanguage: String? = nil, serviceActionAssociations: [ServiceActionAssociation]) {
             self.acceptLanguage = acceptLanguage
             self.serviceActionAssociations = serviceActionAssociations
+        }
+
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -301,6 +360,10 @@ extension ServiceCatalog {
             self.serviceActionAssociations = serviceActionAssociations
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case serviceActionAssociations = "ServiceActionAssociations"
@@ -332,6 +395,11 @@ extension ServiceCatalog {
         
         public init(budgetName: String? = nil) {
             self.budgetName = budgetName
+        }
+
+        public func validate() throws {
+            try validate(budgetName, name:"budgetName", max: 100)
+            try validate(budgetName, name:"budgetName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -385,6 +453,16 @@ extension ServiceCatalog {
             self.`type` = `type`
         }
 
+        public func validate() throws {
+            try validate(constraintId, name:"constraintId", max: 100)
+            try validate(constraintId, name:"constraintId", min: 1)
+            try validate(constraintId, name:"constraintId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(description, name:"description", max: 2000)
+            try validate(owner, name:"owner", pattern: "^[0-9]{12}$")
+            try validate(`type`, name:"`type`", max: 1024)
+            try validate(`type`, name:"`type`", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case constraintId = "ConstraintId"
             case description = "Description"
@@ -406,6 +484,12 @@ extension ServiceCatalog {
         public init(description: String? = nil, type: String? = nil) {
             self.description = description
             self.`type` = `type`
+        }
+
+        public func validate() throws {
+            try validate(description, name:"description", max: 2000)
+            try validate(`type`, name:"`type`", max: 1024)
+            try validate(`type`, name:"`type`", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -454,6 +538,20 @@ extension ServiceCatalog {
             self.targetProductName = targetProductName
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(idempotencyToken, name:"idempotencyToken", max: 128)
+            try validate(idempotencyToken, name:"idempotencyToken", min: 1)
+            try validate(idempotencyToken, name:"idempotencyToken", pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try validate(sourceProductArn, name:"sourceProductArn", max: 1224)
+            try validate(sourceProductArn, name:"sourceProductArn", min: 1)
+            try validate(sourceProductArn, name:"sourceProductArn", pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(targetProductId, name:"targetProductId", max: 100)
+            try validate(targetProductId, name:"targetProductId", min: 1)
+            try validate(targetProductId, name:"targetProductId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(targetProductName, name:"targetProductName", max: 8191)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case copyOptions = "CopyOptions"
@@ -474,6 +572,12 @@ extension ServiceCatalog {
         
         public init(copyProductToken: String? = nil) {
             self.copyProductToken = copyProductToken
+        }
+
+        public func validate() throws {
+            try validate(copyProductToken, name:"copyProductToken", max: 100)
+            try validate(copyProductToken, name:"copyProductToken", min: 1)
+            try validate(copyProductToken, name:"copyProductToken", pattern: "^[a-zA-Z0-9_\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -523,6 +627,22 @@ extension ServiceCatalog {
             self.`type` = `type`
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(description, name:"description", max: 2000)
+            try validate(idempotencyToken, name:"idempotencyToken", max: 128)
+            try validate(idempotencyToken, name:"idempotencyToken", min: 1)
+            try validate(idempotencyToken, name:"idempotencyToken", pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try validate(portfolioId, name:"portfolioId", max: 100)
+            try validate(portfolioId, name:"portfolioId", min: 1)
+            try validate(portfolioId, name:"portfolioId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(productId, name:"productId", max: 100)
+            try validate(productId, name:"productId", min: 1)
+            try validate(productId, name:"productId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(`type`, name:"`type`", max: 1024)
+            try validate(`type`, name:"`type`", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case description = "Description"
@@ -551,6 +671,10 @@ extension ServiceCatalog {
             self.constraintDetail = constraintDetail
             self.constraintParameters = constraintParameters
             self.status = status
+        }
+
+        public func validate() throws {
+            try constraintDetail?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -591,6 +715,18 @@ extension ServiceCatalog {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(description, name:"description", max: 2000)
+            try validate(displayName, name:"displayName", max: 100)
+            try validate(displayName, name:"displayName", min: 1)
+            try validate(idempotencyToken, name:"idempotencyToken", max: 128)
+            try validate(idempotencyToken, name:"idempotencyToken", min: 1)
+            try validate(idempotencyToken, name:"idempotencyToken", pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try validate(providerName, name:"providerName", max: 50)
+            try validate(providerName, name:"providerName", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case description = "Description"
@@ -614,6 +750,10 @@ extension ServiceCatalog {
         public init(portfolioDetail: PortfolioDetail? = nil, tags: [Tag]? = nil) {
             self.portfolioDetail = portfolioDetail
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try portfolioDetail?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -645,6 +785,15 @@ extension ServiceCatalog {
             self.portfolioId = portfolioId
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(accountId, name:"accountId", pattern: "^[0-9]{12}$")
+            try organizationNode?.validate()
+            try validate(portfolioId, name:"portfolioId", max: 100)
+            try validate(portfolioId, name:"portfolioId", min: 1)
+            try validate(portfolioId, name:"portfolioId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case accountId = "AccountId"
@@ -662,6 +811,12 @@ extension ServiceCatalog {
         
         public init(portfolioShareToken: String? = nil) {
             self.portfolioShareToken = portfolioShareToken
+        }
+
+        public func validate() throws {
+            try validate(portfolioShareToken, name:"portfolioShareToken", max: 100)
+            try validate(portfolioShareToken, name:"portfolioShareToken", min: 1)
+            try validate(portfolioShareToken, name:"portfolioShareToken", pattern: "^[a-zA-Z0-9_\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -724,6 +879,20 @@ extension ServiceCatalog {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(description, name:"description", max: 8191)
+            try validate(distributor, name:"distributor", max: 8191)
+            try validate(idempotencyToken, name:"idempotencyToken", max: 128)
+            try validate(idempotencyToken, name:"idempotencyToken", min: 1)
+            try validate(idempotencyToken, name:"idempotencyToken", pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try validate(name, name:"name", max: 8191)
+            try validate(owner, name:"owner", max: 8191)
+            try validate(supportDescription, name:"supportDescription", max: 8191)
+            try validate(supportEmail, name:"supportEmail", max: 254)
+            try validate(supportUrl, name:"supportUrl", max: 2083)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case description = "Description"
@@ -757,6 +926,11 @@ extension ServiceCatalog {
             self.productViewDetail = productViewDetail
             self.provisioningArtifactDetail = provisioningArtifactDetail
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try productViewDetail?.validate()
+            try provisioningArtifactDetail?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -817,6 +991,25 @@ extension ServiceCatalog {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(idempotencyToken, name:"idempotencyToken", max: 128)
+            try validate(idempotencyToken, name:"idempotencyToken", min: 1)
+            try validate(idempotencyToken, name:"idempotencyToken", pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try validate(pathId, name:"pathId", max: 100)
+            try validate(pathId, name:"pathId", min: 1)
+            try validate(pathId, name:"pathId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(productId, name:"productId", max: 100)
+            try validate(productId, name:"productId", min: 1)
+            try validate(productId, name:"productId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(provisionedProductName, name:"provisionedProductName", max: 128)
+            try validate(provisionedProductName, name:"provisionedProductName", min: 1)
+            try validate(provisionedProductName, name:"provisionedProductName", pattern: "[a-zA-Z0-9][a-zA-Z0-9._-]*")
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", max: 100)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", min: 1)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case idempotencyToken = "IdempotencyToken"
@@ -859,6 +1052,21 @@ extension ServiceCatalog {
             self.provisionProductId = provisionProductId
         }
 
+        public func validate() throws {
+            try validate(planId, name:"planId", max: 100)
+            try validate(planId, name:"planId", min: 1)
+            try validate(planId, name:"planId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(provisionedProductName, name:"provisionedProductName", max: 128)
+            try validate(provisionedProductName, name:"provisionedProductName", min: 1)
+            try validate(provisionedProductName, name:"provisionedProductName", pattern: "[a-zA-Z0-9][a-zA-Z0-9._-]*")
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", max: 100)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", min: 1)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(provisionProductId, name:"provisionProductId", max: 100)
+            try validate(provisionProductId, name:"provisionProductId", min: 1)
+            try validate(provisionProductId, name:"provisionProductId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case planId = "PlanId"
             case planName = "PlanName"
@@ -891,6 +1099,16 @@ extension ServiceCatalog {
             self.productId = productId
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(idempotencyToken, name:"idempotencyToken", max: 128)
+            try validate(idempotencyToken, name:"idempotencyToken", min: 1)
+            try validate(idempotencyToken, name:"idempotencyToken", pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try validate(productId, name:"productId", max: 100)
+            try validate(productId, name:"productId", min: 1)
+            try validate(productId, name:"productId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case idempotencyToken = "IdempotencyToken"
@@ -916,6 +1134,10 @@ extension ServiceCatalog {
             self.info = info
             self.provisioningArtifactDetail = provisioningArtifactDetail
             self.status = status
+        }
+
+        public func validate() throws {
+            try provisioningArtifactDetail?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -956,6 +1178,17 @@ extension ServiceCatalog {
             self.name = name
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(description, name:"description", max: 1024)
+            try validate(idempotencyToken, name:"idempotencyToken", max: 128)
+            try validate(idempotencyToken, name:"idempotencyToken", min: 1)
+            try validate(idempotencyToken, name:"idempotencyToken", pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_\\-.]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case definition = "Definition"
@@ -975,6 +1208,10 @@ extension ServiceCatalog {
         
         public init(serviceActionDetail: ServiceActionDetail? = nil) {
             self.serviceActionDetail = serviceActionDetail
+        }
+
+        public func validate() throws {
+            try serviceActionDetail?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -997,6 +1234,15 @@ extension ServiceCatalog {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", max: 128)
+            try validate(key, name:"key", min: 1)
+            try validate(key, name:"key", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(value, name:"value", max: 256)
+            try validate(value, name:"value", min: 1)
+            try validate(value, name:"value", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
@@ -1012,6 +1258,10 @@ extension ServiceCatalog {
         
         public init(tagOptionDetail: TagOptionDetail? = nil) {
             self.tagOptionDetail = tagOptionDetail
+        }
+
+        public func validate() throws {
+            try tagOptionDetail?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1032,6 +1282,13 @@ extension ServiceCatalog {
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
             self.id = id
+        }
+
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(id, name:"id", max: 100)
+            try validate(id, name:"id", min: 1)
+            try validate(id, name:"id", pattern: "^[a-zA-Z0-9_\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1061,6 +1318,13 @@ extension ServiceCatalog {
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
             self.id = id
+        }
+
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(id, name:"id", max: 100)
+            try validate(id, name:"id", min: 1)
+            try validate(id, name:"id", pattern: "^[a-zA-Z0-9_\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1100,6 +1364,15 @@ extension ServiceCatalog {
             self.portfolioId = portfolioId
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(accountId, name:"accountId", pattern: "^[0-9]{12}$")
+            try organizationNode?.validate()
+            try validate(portfolioId, name:"portfolioId", max: 100)
+            try validate(portfolioId, name:"portfolioId", min: 1)
+            try validate(portfolioId, name:"portfolioId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case accountId = "AccountId"
@@ -1117,6 +1390,12 @@ extension ServiceCatalog {
         
         public init(portfolioShareToken: String? = nil) {
             self.portfolioShareToken = portfolioShareToken
+        }
+
+        public func validate() throws {
+            try validate(portfolioShareToken, name:"portfolioShareToken", max: 100)
+            try validate(portfolioShareToken, name:"portfolioShareToken", min: 1)
+            try validate(portfolioShareToken, name:"portfolioShareToken", pattern: "^[a-zA-Z0-9_\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1137,6 +1416,13 @@ extension ServiceCatalog {
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
             self.id = id
+        }
+
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(id, name:"id", max: 100)
+            try validate(id, name:"id", min: 1)
+            try validate(id, name:"id", pattern: "^[a-zA-Z0-9_\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1170,6 +1456,13 @@ extension ServiceCatalog {
             self.acceptLanguage = acceptLanguage
             self.ignoreErrors = ignoreErrors
             self.planId = planId
+        }
+
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(planId, name:"planId", max: 100)
+            try validate(planId, name:"planId", min: 1)
+            try validate(planId, name:"planId", pattern: "^[a-zA-Z0-9_\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1206,6 +1499,16 @@ extension ServiceCatalog {
             self.provisioningArtifactId = provisioningArtifactId
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(productId, name:"productId", max: 100)
+            try validate(productId, name:"productId", min: 1)
+            try validate(productId, name:"productId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", max: 100)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", min: 1)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case productId = "ProductId"
@@ -1236,6 +1539,13 @@ extension ServiceCatalog {
             self.id = id
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(id, name:"id", max: 100)
+            try validate(id, name:"id", min: 1)
+            try validate(id, name:"id", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case id = "Id"
@@ -1259,6 +1569,11 @@ extension ServiceCatalog {
         
         public init(id: String) {
             self.id = id
+        }
+
+        public func validate() throws {
+            try validate(id, name:"id", max: 100)
+            try validate(id, name:"id", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1289,6 +1604,13 @@ extension ServiceCatalog {
             self.id = id
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(id, name:"id", max: 100)
+            try validate(id, name:"id", min: 1)
+            try validate(id, name:"id", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case id = "Id"
@@ -1314,6 +1636,10 @@ extension ServiceCatalog {
             self.status = status
         }
 
+        public func validate() throws {
+            try constraintDetail?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case constraintDetail = "ConstraintDetail"
             case constraintParameters = "ConstraintParameters"
@@ -1334,6 +1660,13 @@ extension ServiceCatalog {
         public init(acceptLanguage: String? = nil, copyProductToken: String) {
             self.acceptLanguage = acceptLanguage
             self.copyProductToken = copyProductToken
+        }
+
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(copyProductToken, name:"copyProductToken", max: 100)
+            try validate(copyProductToken, name:"copyProductToken", min: 1)
+            try validate(copyProductToken, name:"copyProductToken", pattern: "^[a-zA-Z0-9_\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1361,6 +1694,12 @@ extension ServiceCatalog {
             self.targetProductId = targetProductId
         }
 
+        public func validate() throws {
+            try validate(targetProductId, name:"targetProductId", max: 100)
+            try validate(targetProductId, name:"targetProductId", min: 1)
+            try validate(targetProductId, name:"targetProductId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case copyProductStatus = "CopyProductStatus"
             case statusDetail = "StatusDetail"
@@ -1381,6 +1720,13 @@ extension ServiceCatalog {
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
             self.id = id
+        }
+
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(id, name:"id", max: 100)
+            try validate(id, name:"id", min: 1)
+            try validate(id, name:"id", pattern: "^[a-zA-Z0-9_\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1412,6 +1758,10 @@ extension ServiceCatalog {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try portfolioDetail?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case budgets = "Budgets"
             case portfolioDetail = "PortfolioDetail"
@@ -1429,6 +1779,12 @@ extension ServiceCatalog {
         
         public init(portfolioShareToken: String) {
             self.portfolioShareToken = portfolioShareToken
+        }
+
+        public func validate() throws {
+            try validate(portfolioShareToken, name:"portfolioShareToken", max: 100)
+            try validate(portfolioShareToken, name:"portfolioShareToken", min: 1)
+            try validate(portfolioShareToken, name:"portfolioShareToken", pattern: "^[a-zA-Z0-9_\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1463,6 +1819,16 @@ extension ServiceCatalog {
             self.status = status
         }
 
+        public func validate() throws {
+            try validate(organizationNodeValue, name:"organizationNodeValue", pattern: "(^[0-9]{12}$)|(^arn:aws:organizations::\\d{12}:organization\\/o-[a-z0-9]{10,32})|(^o-[a-z0-9]{10,32}$)|(^arn:aws:organizations::\\d{12}:ou\\/o-[a-z0-9]{10,32}\\/ou-[0-9a-z]{4,32}-[0-9a-z]{8,32}$)|(^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$)")
+            try validate(portfolioId, name:"portfolioId", max: 100)
+            try validate(portfolioId, name:"portfolioId", min: 1)
+            try validate(portfolioId, name:"portfolioId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(portfolioShareToken, name:"portfolioShareToken", max: 100)
+            try validate(portfolioShareToken, name:"portfolioShareToken", min: 1)
+            try validate(portfolioShareToken, name:"portfolioShareToken", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case organizationNodeValue = "OrganizationNodeValue"
             case portfolioId = "PortfolioId"
@@ -1485,6 +1851,13 @@ extension ServiceCatalog {
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
             self.id = id
+        }
+
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(id, name:"id", max: 100)
+            try validate(id, name:"id", min: 1)
+            try validate(id, name:"id", pattern: "^[a-zA-Z0-9_\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1520,6 +1893,10 @@ extension ServiceCatalog {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try productViewDetail?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case budgets = "Budgets"
             case productViewDetail = "ProductViewDetail"
@@ -1542,6 +1919,13 @@ extension ServiceCatalog {
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
             self.id = id
+        }
+
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(id, name:"id", max: 100)
+            try validate(id, name:"id", min: 1)
+            try validate(id, name:"id", pattern: "^[a-zA-Z0-9_\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1569,6 +1953,10 @@ extension ServiceCatalog {
             self.provisioningArtifacts = provisioningArtifacts
         }
 
+        public func validate() throws {
+            try productViewSummary?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case budgets = "Budgets"
             case productViewSummary = "ProductViewSummary"
@@ -1589,6 +1977,13 @@ extension ServiceCatalog {
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
             self.id = id
+        }
+
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(id, name:"id", max: 100)
+            try validate(id, name:"id", min: 1)
+            try validate(id, name:"id", pattern: "^[a-zA-Z0-9_\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1612,6 +2007,10 @@ extension ServiceCatalog {
             self.provisioningArtifacts = provisioningArtifacts
         }
 
+        public func validate() throws {
+            try productViewSummary?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case productViewSummary = "ProductViewSummary"
             case provisioningArtifacts = "ProvisioningArtifacts"
@@ -1633,6 +2032,13 @@ extension ServiceCatalog {
             self.id = id
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(id, name:"id", max: 100)
+            try validate(id, name:"id", min: 1)
+            try validate(id, name:"id", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case id = "Id"
@@ -1652,6 +2058,10 @@ extension ServiceCatalog {
         public init(cloudWatchDashboards: [CloudWatchDashboard]? = nil, provisionedProductDetail: ProvisionedProductDetail? = nil) {
             self.cloudWatchDashboards = cloudWatchDashboards
             self.provisionedProductDetail = provisionedProductDetail
+        }
+
+        public func validate() throws {
+            try provisionedProductDetail?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1683,6 +2093,17 @@ extension ServiceCatalog {
             self.planId = planId
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(pageSize, name:"pageSize", max: 20)
+            try validate(pageSize, name:"pageSize", min: 0)
+            try validate(pageToken, name:"pageToken", max: 2024)
+            try validate(pageToken, name:"pageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try validate(planId, name:"planId", max: 100)
+            try validate(planId, name:"planId", min: 1)
+            try validate(planId, name:"planId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case pageSize = "PageSize"
@@ -1708,6 +2129,12 @@ extension ServiceCatalog {
             self.nextPageToken = nextPageToken
             self.provisionedProductPlanDetails = provisionedProductPlanDetails
             self.resourceChanges = resourceChanges
+        }
+
+        public func validate() throws {
+            try validate(nextPageToken, name:"nextPageToken", max: 2024)
+            try validate(nextPageToken, name:"nextPageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try provisionedProductPlanDetails?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1740,6 +2167,16 @@ extension ServiceCatalog {
             self.verbose = verbose
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(productId, name:"productId", max: 100)
+            try validate(productId, name:"productId", min: 1)
+            try validate(productId, name:"productId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", max: 100)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", min: 1)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case productId = "ProductId"
@@ -1765,6 +2202,10 @@ extension ServiceCatalog {
             self.info = info
             self.provisioningArtifactDetail = provisioningArtifactDetail
             self.status = status
+        }
+
+        public func validate() throws {
+            try provisioningArtifactDetail?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1795,6 +2236,19 @@ extension ServiceCatalog {
             self.pathId = pathId
             self.productId = productId
             self.provisioningArtifactId = provisioningArtifactId
+        }
+
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(pathId, name:"pathId", max: 100)
+            try validate(pathId, name:"pathId", min: 1)
+            try validate(pathId, name:"pathId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(productId, name:"productId", max: 100)
+            try validate(productId, name:"productId", min: 1)
+            try validate(productId, name:"productId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", max: 100)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", min: 1)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", pattern: "^[a-zA-Z0-9_\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1864,6 +2318,17 @@ extension ServiceCatalog {
             self.pageToken = pageToken
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(id, name:"id", max: 100)
+            try validate(id, name:"id", min: 1)
+            try validate(id, name:"id", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(pageSize, name:"pageSize", max: 20)
+            try validate(pageSize, name:"pageSize", min: 0)
+            try validate(pageToken, name:"pageToken", max: 2024)
+            try validate(pageToken, name:"pageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case id = "Id"
@@ -1891,6 +2356,12 @@ extension ServiceCatalog {
             self.recordOutputs = recordOutputs
         }
 
+        public func validate() throws {
+            try validate(nextPageToken, name:"nextPageToken", max: 2024)
+            try validate(nextPageToken, name:"nextPageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try recordDetail?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case nextPageToken = "NextPageToken"
             case recordDetail = "RecordDetail"
@@ -1913,6 +2384,13 @@ extension ServiceCatalog {
             self.id = id
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(id, name:"id", max: 100)
+            try validate(id, name:"id", min: 1)
+            try validate(id, name:"id", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case id = "Id"
@@ -1928,6 +2406,10 @@ extension ServiceCatalog {
         
         public init(serviceActionDetail: ServiceActionDetail? = nil) {
             self.serviceActionDetail = serviceActionDetail
+        }
+
+        public func validate() throws {
+            try serviceActionDetail?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1946,6 +2428,11 @@ extension ServiceCatalog {
             self.id = id
         }
 
+        public func validate() throws {
+            try validate(id, name:"id", max: 100)
+            try validate(id, name:"id", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
         }
@@ -1960,6 +2447,10 @@ extension ServiceCatalog {
         
         public init(tagOptionDetail: TagOptionDetail? = nil) {
             self.tagOptionDetail = tagOptionDetail
+        }
+
+        public func validate() throws {
+            try tagOptionDetail?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1998,6 +2489,14 @@ extension ServiceCatalog {
             self.resourceId = resourceId
         }
 
+        public func validate() throws {
+            try validate(budgetName, name:"budgetName", max: 100)
+            try validate(budgetName, name:"budgetName", min: 1)
+            try validate(resourceId, name:"resourceId", max: 100)
+            try validate(resourceId, name:"resourceId", min: 1)
+            try validate(resourceId, name:"resourceId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case budgetName = "BudgetName"
             case resourceId = "ResourceId"
@@ -2029,6 +2528,15 @@ extension ServiceCatalog {
             self.acceptLanguage = acceptLanguage
             self.portfolioId = portfolioId
             self.principalARN = principalARN
+        }
+
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(portfolioId, name:"portfolioId", max: 100)
+            try validate(portfolioId, name:"portfolioId", min: 1)
+            try validate(portfolioId, name:"portfolioId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(principalARN, name:"principalARN", max: 1000)
+            try validate(principalARN, name:"principalARN", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2063,6 +2571,16 @@ extension ServiceCatalog {
             self.acceptLanguage = acceptLanguage
             self.portfolioId = portfolioId
             self.productId = productId
+        }
+
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(portfolioId, name:"portfolioId", max: 100)
+            try validate(portfolioId, name:"portfolioId", min: 1)
+            try validate(portfolioId, name:"portfolioId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(productId, name:"productId", max: 100)
+            try validate(productId, name:"productId", min: 1)
+            try validate(productId, name:"productId", pattern: "^[a-zA-Z0-9_\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2103,6 +2621,19 @@ extension ServiceCatalog {
             self.serviceActionId = serviceActionId
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(productId, name:"productId", max: 100)
+            try validate(productId, name:"productId", min: 1)
+            try validate(productId, name:"productId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", max: 100)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", min: 1)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(serviceActionId, name:"serviceActionId", max: 100)
+            try validate(serviceActionId, name:"serviceActionId", min: 1)
+            try validate(serviceActionId, name:"serviceActionId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case productId = "ProductId"
@@ -2132,6 +2663,11 @@ extension ServiceCatalog {
         public init(resourceId: String, tagOptionId: String) {
             self.resourceId = resourceId
             self.tagOptionId = tagOptionId
+        }
+
+        public func validate() throws {
+            try validate(tagOptionId, name:"tagOptionId", max: 100)
+            try validate(tagOptionId, name:"tagOptionId", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2189,6 +2725,16 @@ extension ServiceCatalog {
             self.planId = planId
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(idempotencyToken, name:"idempotencyToken", max: 128)
+            try validate(idempotencyToken, name:"idempotencyToken", min: 1)
+            try validate(idempotencyToken, name:"idempotencyToken", pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try validate(planId, name:"planId", max: 100)
+            try validate(planId, name:"planId", min: 1)
+            try validate(planId, name:"planId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case idempotencyToken = "IdempotencyToken"
@@ -2205,6 +2751,10 @@ extension ServiceCatalog {
         
         public init(recordDetail: RecordDetail? = nil) {
             self.recordDetail = recordDetail
+        }
+
+        public func validate() throws {
+            try recordDetail?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2235,6 +2785,19 @@ extension ServiceCatalog {
             self.serviceActionId = serviceActionId
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(executeToken, name:"executeToken", max: 128)
+            try validate(executeToken, name:"executeToken", min: 1)
+            try validate(executeToken, name:"executeToken", pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try validate(provisionedProductId, name:"provisionedProductId", max: 100)
+            try validate(provisionedProductId, name:"provisionedProductId", min: 1)
+            try validate(provisionedProductId, name:"provisionedProductId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(serviceActionId, name:"serviceActionId", max: 100)
+            try validate(serviceActionId, name:"serviceActionId", min: 1)
+            try validate(serviceActionId, name:"serviceActionId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case executeToken = "ExecuteToken"
@@ -2252,6 +2815,10 @@ extension ServiceCatalog {
         
         public init(recordDetail: RecordDetail? = nil) {
             self.recordDetail = recordDetail
+        }
+
+        public func validate() throws {
+            try recordDetail?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2284,6 +2851,20 @@ extension ServiceCatalog {
             self.productId = productId
             self.provisioningArtifactId = provisioningArtifactId
             self.serviceActionId = serviceActionId
+        }
+
+        public func validate() throws {
+            try validate(errorMessage, name:"errorMessage", max: 1024)
+            try validate(errorMessage, name:"errorMessage", min: 1)
+            try validate(productId, name:"productId", max: 100)
+            try validate(productId, name:"productId", min: 1)
+            try validate(productId, name:"productId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", max: 100)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", min: 1)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(serviceActionId, name:"serviceActionId", max: 100)
+            try validate(serviceActionId, name:"serviceActionId", min: 1)
+            try validate(serviceActionId, name:"serviceActionId", pattern: "^[a-zA-Z0-9_\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2342,6 +2923,12 @@ extension ServiceCatalog {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(id, name:"id", max: 100)
+            try validate(id, name:"id", min: 1)
+            try validate(id, name:"id", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case constraintSummaries = "ConstraintSummaries"
             case id = "Id"
@@ -2373,6 +2960,14 @@ extension ServiceCatalog {
             self.portfolioShareType = portfolioShareType
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(pageSize, name:"pageSize", max: 20)
+            try validate(pageSize, name:"pageSize", min: 0)
+            try validate(pageToken, name:"pageToken", max: 2024)
+            try validate(pageToken, name:"pageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case pageSize = "PageSize"
@@ -2394,6 +2989,11 @@ extension ServiceCatalog {
         public init(nextPageToken: String? = nil, portfolioDetails: [PortfolioDetail]? = nil) {
             self.nextPageToken = nextPageToken
             self.portfolioDetails = portfolioDetails
+        }
+
+        public func validate() throws {
+            try validate(nextPageToken, name:"nextPageToken", max: 2024)
+            try validate(nextPageToken, name:"nextPageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2425,6 +3025,17 @@ extension ServiceCatalog {
             self.resourceId = resourceId
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(pageSize, name:"pageSize", max: 20)
+            try validate(pageSize, name:"pageSize", min: 0)
+            try validate(pageToken, name:"pageToken", max: 2024)
+            try validate(pageToken, name:"pageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try validate(resourceId, name:"resourceId", max: 100)
+            try validate(resourceId, name:"resourceId", min: 1)
+            try validate(resourceId, name:"resourceId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case pageSize = "PageSize"
@@ -2446,6 +3057,11 @@ extension ServiceCatalog {
         public init(budgets: [BudgetDetail]? = nil, nextPageToken: String? = nil) {
             self.budgets = budgets
             self.nextPageToken = nextPageToken
+        }
+
+        public func validate() throws {
+            try validate(nextPageToken, name:"nextPageToken", max: 2024)
+            try validate(nextPageToken, name:"nextPageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2481,6 +3097,20 @@ extension ServiceCatalog {
             self.productId = productId
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(pageSize, name:"pageSize", max: 20)
+            try validate(pageSize, name:"pageSize", min: 0)
+            try validate(pageToken, name:"pageToken", max: 2024)
+            try validate(pageToken, name:"pageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try validate(portfolioId, name:"portfolioId", max: 100)
+            try validate(portfolioId, name:"portfolioId", min: 1)
+            try validate(portfolioId, name:"portfolioId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(productId, name:"productId", max: 100)
+            try validate(productId, name:"productId", min: 1)
+            try validate(productId, name:"productId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case pageSize = "PageSize"
@@ -2503,6 +3133,11 @@ extension ServiceCatalog {
         public init(constraintDetails: [ConstraintDetail]? = nil, nextPageToken: String? = nil) {
             self.constraintDetails = constraintDetails
             self.nextPageToken = nextPageToken
+        }
+
+        public func validate() throws {
+            try validate(nextPageToken, name:"nextPageToken", max: 2024)
+            try validate(nextPageToken, name:"nextPageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2534,6 +3169,17 @@ extension ServiceCatalog {
             self.productId = productId
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(pageSize, name:"pageSize", max: 20)
+            try validate(pageSize, name:"pageSize", min: 0)
+            try validate(pageToken, name:"pageToken", max: 2024)
+            try validate(pageToken, name:"pageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try validate(productId, name:"productId", max: 100)
+            try validate(productId, name:"productId", min: 1)
+            try validate(productId, name:"productId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case pageSize = "PageSize"
@@ -2555,6 +3201,11 @@ extension ServiceCatalog {
         public init(launchPathSummaries: [LaunchPathSummary]? = nil, nextPageToken: String? = nil) {
             self.launchPathSummaries = launchPathSummaries
             self.nextPageToken = nextPageToken
+        }
+
+        public func validate() throws {
+            try validate(nextPageToken, name:"nextPageToken", max: 2024)
+            try validate(nextPageToken, name:"nextPageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2590,6 +3241,17 @@ extension ServiceCatalog {
             self.portfolioId = portfolioId
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(pageSize, name:"pageSize", max: 20)
+            try validate(pageSize, name:"pageSize", min: 0)
+            try validate(pageToken, name:"pageToken", max: 2024)
+            try validate(pageToken, name:"pageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try validate(portfolioId, name:"portfolioId", max: 100)
+            try validate(portfolioId, name:"portfolioId", min: 1)
+            try validate(portfolioId, name:"portfolioId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case organizationNodeType = "OrganizationNodeType"
@@ -2614,6 +3276,11 @@ extension ServiceCatalog {
             self.organizationNodes = organizationNodes
         }
 
+        public func validate() throws {
+            try validate(nextPageToken, name:"nextPageToken", max: 2024)
+            try validate(nextPageToken, name:"nextPageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case nextPageToken = "NextPageToken"
             case organizationNodes = "OrganizationNodes"
@@ -2635,6 +3302,13 @@ extension ServiceCatalog {
             self.portfolioId = portfolioId
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(portfolioId, name:"portfolioId", max: 100)
+            try validate(portfolioId, name:"portfolioId", min: 1)
+            try validate(portfolioId, name:"portfolioId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case portfolioId = "PortfolioId"
@@ -2654,6 +3328,11 @@ extension ServiceCatalog {
         public init(accountIds: [String]? = nil, nextPageToken: String? = nil) {
             self.accountIds = accountIds
             self.nextPageToken = nextPageToken
+        }
+
+        public func validate() throws {
+            try validate(nextPageToken, name:"nextPageToken", max: 2024)
+            try validate(nextPageToken, name:"nextPageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2685,6 +3364,17 @@ extension ServiceCatalog {
             self.productId = productId
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(pageSize, name:"pageSize", max: 20)
+            try validate(pageSize, name:"pageSize", min: 0)
+            try validate(pageToken, name:"pageToken", max: 2024)
+            try validate(pageToken, name:"pageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try validate(productId, name:"productId", max: 100)
+            try validate(productId, name:"productId", min: 1)
+            try validate(productId, name:"productId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case pageSize = "PageSize"
@@ -2706,6 +3396,11 @@ extension ServiceCatalog {
         public init(nextPageToken: String? = nil, portfolioDetails: [PortfolioDetail]? = nil) {
             self.nextPageToken = nextPageToken
             self.portfolioDetails = portfolioDetails
+        }
+
+        public func validate() throws {
+            try validate(nextPageToken, name:"nextPageToken", max: 2024)
+            try validate(nextPageToken, name:"nextPageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2733,6 +3428,14 @@ extension ServiceCatalog {
             self.pageToken = pageToken
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(pageSize, name:"pageSize", max: 20)
+            try validate(pageSize, name:"pageSize", min: 0)
+            try validate(pageToken, name:"pageToken", max: 2024)
+            try validate(pageToken, name:"pageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case pageSize = "PageSize"
@@ -2753,6 +3456,11 @@ extension ServiceCatalog {
         public init(nextPageToken: String? = nil, portfolioDetails: [PortfolioDetail]? = nil) {
             self.nextPageToken = nextPageToken
             self.portfolioDetails = portfolioDetails
+        }
+
+        public func validate() throws {
+            try validate(nextPageToken, name:"nextPageToken", max: 2024)
+            try validate(nextPageToken, name:"nextPageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2784,6 +3492,17 @@ extension ServiceCatalog {
             self.portfolioId = portfolioId
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(pageSize, name:"pageSize", max: 20)
+            try validate(pageSize, name:"pageSize", min: 0)
+            try validate(pageToken, name:"pageToken", max: 2024)
+            try validate(pageToken, name:"pageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try validate(portfolioId, name:"portfolioId", max: 100)
+            try validate(portfolioId, name:"portfolioId", min: 1)
+            try validate(portfolioId, name:"portfolioId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case pageSize = "PageSize"
@@ -2805,6 +3524,11 @@ extension ServiceCatalog {
         public init(nextPageToken: String? = nil, principals: [Principal]? = nil) {
             self.nextPageToken = nextPageToken
             self.principals = principals
+        }
+
+        public func validate() throws {
+            try validate(nextPageToken, name:"nextPageToken", max: 2024)
+            try validate(nextPageToken, name:"nextPageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2840,6 +3564,17 @@ extension ServiceCatalog {
             self.provisionProductId = provisionProductId
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(pageSize, name:"pageSize", max: 20)
+            try validate(pageSize, name:"pageSize", min: 0)
+            try validate(pageToken, name:"pageToken", max: 2024)
+            try validate(pageToken, name:"pageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try validate(provisionProductId, name:"provisionProductId", max: 100)
+            try validate(provisionProductId, name:"provisionProductId", min: 1)
+            try validate(provisionProductId, name:"provisionProductId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case accessLevelFilter = "AccessLevelFilter"
@@ -2862,6 +3597,11 @@ extension ServiceCatalog {
         public init(nextPageToken: String? = nil, provisionedProductPlans: [ProvisionedProductPlanSummary]? = nil) {
             self.nextPageToken = nextPageToken
             self.provisionedProductPlans = provisionedProductPlans
+        }
+
+        public func validate() throws {
+            try validate(nextPageToken, name:"nextPageToken", max: 2024)
+            try validate(nextPageToken, name:"nextPageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2893,6 +3633,17 @@ extension ServiceCatalog {
             self.serviceActionId = serviceActionId
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(pageSize, name:"pageSize", max: 20)
+            try validate(pageSize, name:"pageSize", min: 0)
+            try validate(pageToken, name:"pageToken", max: 2024)
+            try validate(pageToken, name:"pageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try validate(serviceActionId, name:"serviceActionId", max: 100)
+            try validate(serviceActionId, name:"serviceActionId", min: 1)
+            try validate(serviceActionId, name:"serviceActionId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case pageSize = "PageSize"
@@ -2916,6 +3667,11 @@ extension ServiceCatalog {
             self.provisioningArtifactViews = provisioningArtifactViews
         }
 
+        public func validate() throws {
+            try validate(nextPageToken, name:"nextPageToken", max: 2024)
+            try validate(nextPageToken, name:"nextPageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case nextPageToken = "NextPageToken"
             case provisioningArtifactViews = "ProvisioningArtifactViews"
@@ -2937,6 +3693,13 @@ extension ServiceCatalog {
             self.productId = productId
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(productId, name:"productId", max: 100)
+            try validate(productId, name:"productId", min: 1)
+            try validate(productId, name:"productId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case productId = "ProductId"
@@ -2956,6 +3719,11 @@ extension ServiceCatalog {
         public init(nextPageToken: String? = nil, provisioningArtifactDetails: [ProvisioningArtifactDetail]? = nil) {
             self.nextPageToken = nextPageToken
             self.provisioningArtifactDetails = provisioningArtifactDetails
+        }
+
+        public func validate() throws {
+            try validate(nextPageToken, name:"nextPageToken", max: 2024)
+            try validate(nextPageToken, name:"nextPageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2991,6 +3759,14 @@ extension ServiceCatalog {
             self.searchFilter = searchFilter
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(pageSize, name:"pageSize", max: 20)
+            try validate(pageSize, name:"pageSize", min: 0)
+            try validate(pageToken, name:"pageToken", max: 2024)
+            try validate(pageToken, name:"pageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case accessLevelFilter = "AccessLevelFilter"
@@ -3013,6 +3789,11 @@ extension ServiceCatalog {
         public init(nextPageToken: String? = nil, recordDetails: [RecordDetail]? = nil) {
             self.nextPageToken = nextPageToken
             self.recordDetails = recordDetails
+        }
+
+        public func validate() throws {
+            try validate(nextPageToken, name:"nextPageToken", max: 2024)
+            try validate(nextPageToken, name:"nextPageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3065,6 +3846,15 @@ extension ServiceCatalog {
             self.tagOptionId = tagOptionId
         }
 
+        public func validate() throws {
+            try validate(pageSize, name:"pageSize", max: 20)
+            try validate(pageSize, name:"pageSize", min: 0)
+            try validate(pageToken, name:"pageToken", max: 2024)
+            try validate(pageToken, name:"pageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try validate(tagOptionId, name:"tagOptionId", max: 100)
+            try validate(tagOptionId, name:"tagOptionId", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case pageSize = "PageSize"
             case pageToken = "PageToken"
@@ -3086,6 +3876,11 @@ extension ServiceCatalog {
         public init(pageToken: String? = nil, resourceDetails: [ResourceDetail]? = nil) {
             self.pageToken = pageToken
             self.resourceDetails = resourceDetails
+        }
+
+        public func validate() throws {
+            try validate(pageToken, name:"pageToken", max: 2024)
+            try validate(pageToken, name:"pageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3121,6 +3916,20 @@ extension ServiceCatalog {
             self.provisioningArtifactId = provisioningArtifactId
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(pageSize, name:"pageSize", max: 20)
+            try validate(pageSize, name:"pageSize", min: 0)
+            try validate(pageToken, name:"pageToken", max: 2024)
+            try validate(pageToken, name:"pageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try validate(productId, name:"productId", max: 100)
+            try validate(productId, name:"productId", min: 1)
+            try validate(productId, name:"productId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", max: 100)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", min: 1)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case pageSize = "PageSize"
@@ -3143,6 +3952,11 @@ extension ServiceCatalog {
         public init(nextPageToken: String? = nil, serviceActionSummaries: [ServiceActionSummary]? = nil) {
             self.nextPageToken = nextPageToken
             self.serviceActionSummaries = serviceActionSummaries
+        }
+
+        public func validate() throws {
+            try validate(nextPageToken, name:"nextPageToken", max: 2024)
+            try validate(nextPageToken, name:"nextPageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3170,6 +3984,14 @@ extension ServiceCatalog {
             self.pageToken = pageToken
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(pageSize, name:"pageSize", max: 20)
+            try validate(pageSize, name:"pageSize", min: 0)
+            try validate(pageToken, name:"pageToken", max: 2024)
+            try validate(pageToken, name:"pageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case pageSize = "PageSize"
@@ -3190,6 +4012,11 @@ extension ServiceCatalog {
         public init(nextPageToken: String? = nil, serviceActionSummaries: [ServiceActionSummary]? = nil) {
             self.nextPageToken = nextPageToken
             self.serviceActionSummaries = serviceActionSummaries
+        }
+
+        public func validate() throws {
+            try validate(nextPageToken, name:"nextPageToken", max: 2024)
+            try validate(nextPageToken, name:"nextPageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3221,6 +4048,17 @@ extension ServiceCatalog {
             self.provisionedProductId = provisionedProductId
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(pageSize, name:"pageSize", max: 20)
+            try validate(pageSize, name:"pageSize", min: 0)
+            try validate(pageToken, name:"pageToken", max: 2024)
+            try validate(pageToken, name:"pageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try validate(provisionedProductId, name:"provisionedProductId", max: 100)
+            try validate(provisionedProductId, name:"provisionedProductId", min: 1)
+            try validate(provisionedProductId, name:"provisionedProductId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case pageSize = "PageSize"
@@ -3242,6 +4080,11 @@ extension ServiceCatalog {
         public init(nextPageToken: String? = nil, stackInstances: [StackInstance]? = nil) {
             self.nextPageToken = nextPageToken
             self.stackInstances = stackInstances
+        }
+
+        public func validate() throws {
+            try validate(nextPageToken, name:"nextPageToken", max: 2024)
+            try validate(nextPageToken, name:"nextPageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3267,6 +4110,15 @@ extension ServiceCatalog {
             self.active = active
             self.key = key
             self.value = value
+        }
+
+        public func validate() throws {
+            try validate(key, name:"key", max: 128)
+            try validate(key, name:"key", min: 1)
+            try validate(key, name:"key", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(value, name:"value", max: 256)
+            try validate(value, name:"value", min: 1)
+            try validate(value, name:"value", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3295,6 +4147,14 @@ extension ServiceCatalog {
             self.pageToken = pageToken
         }
 
+        public func validate() throws {
+            try filters?.validate()
+            try validate(pageSize, name:"pageSize", max: 20)
+            try validate(pageSize, name:"pageSize", min: 0)
+            try validate(pageToken, name:"pageToken", max: 2024)
+            try validate(pageToken, name:"pageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filters = "Filters"
             case pageSize = "PageSize"
@@ -3317,6 +4177,11 @@ extension ServiceCatalog {
             self.tagOptionDetails = tagOptionDetails
         }
 
+        public func validate() throws {
+            try validate(pageToken, name:"pageToken", max: 2024)
+            try validate(pageToken, name:"pageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case pageToken = "PageToken"
             case tagOptionDetails = "TagOptionDetails"
@@ -3336,6 +4201,10 @@ extension ServiceCatalog {
         public init(type: OrganizationNodeType? = nil, value: String? = nil) {
             self.`type` = `type`
             self.value = value
+        }
+
+        public func validate() throws {
+            try validate(value, name:"value", pattern: "(^[0-9]{12}$)|(^arn:aws:organizations::\\d{12}:organization\\/o-[a-z0-9]{10,32})|(^o-[a-z0-9]{10,32}$)|(^arn:aws:organizations::\\d{12}:ou\\/o-[a-z0-9]{10,32}\\/ou-[0-9a-z]{4,32}-[0-9a-z]{8,32}$)|(^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3398,6 +4267,19 @@ extension ServiceCatalog {
             self.providerName = providerName
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 150)
+            try validate(arn, name:"arn", min: 1)
+            try validate(description, name:"description", max: 2000)
+            try validate(displayName, name:"displayName", max: 100)
+            try validate(displayName, name:"displayName", min: 1)
+            try validate(id, name:"id", max: 100)
+            try validate(id, name:"id", min: 1)
+            try validate(id, name:"id", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(providerName, name:"providerName", max: 50)
+            try validate(providerName, name:"providerName", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
             case createdTime = "CreatedTime"
@@ -3428,6 +4310,11 @@ extension ServiceCatalog {
         public init(principalARN: String? = nil, principalType: PrincipalType? = nil) {
             self.principalARN = principalARN
             self.principalType = principalType
+        }
+
+        public func validate() throws {
+            try validate(principalARN, name:"principalARN", max: 1000)
+            try validate(principalARN, name:"principalARN", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3494,6 +4381,12 @@ extension ServiceCatalog {
             self.productARN = productARN
             self.productViewSummary = productViewSummary
             self.status = status
+        }
+
+        public func validate() throws {
+            try validate(productARN, name:"productARN", max: 150)
+            try validate(productARN, name:"productARN", min: 1)
+            try productViewSummary?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3570,6 +4463,21 @@ extension ServiceCatalog {
             self.`type` = `type`
         }
 
+        public func validate() throws {
+            try validate(id, name:"id", max: 100)
+            try validate(id, name:"id", min: 1)
+            try validate(id, name:"id", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(name, name:"name", max: 8191)
+            try validate(owner, name:"owner", max: 8191)
+            try validate(productId, name:"productId", max: 100)
+            try validate(productId, name:"productId", min: 1)
+            try validate(productId, name:"productId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(shortDescription, name:"shortDescription", max: 8191)
+            try validate(supportDescription, name:"supportDescription", max: 8191)
+            try validate(supportEmail, name:"supportEmail", max: 254)
+            try validate(supportUrl, name:"supportUrl", max: 2083)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case distributor = "Distributor"
             case hasDefaultPath = "HasDefaultPath"
@@ -3637,6 +4545,26 @@ extension ServiceCatalog {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(pathId, name:"pathId", max: 100)
+            try validate(pathId, name:"pathId", min: 1)
+            try validate(pathId, name:"pathId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(productId, name:"productId", max: 100)
+            try validate(productId, name:"productId", min: 1)
+            try validate(productId, name:"productId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(provisionedProductName, name:"provisionedProductName", max: 128)
+            try validate(provisionedProductName, name:"provisionedProductName", min: 1)
+            try validate(provisionedProductName, name:"provisionedProductName", pattern: "[a-zA-Z0-9][a-zA-Z0-9._-]*")
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", max: 100)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", min: 1)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try provisioningPreferences?.validate()
+            try validate(provisionToken, name:"provisionToken", max: 128)
+            try validate(provisionToken, name:"provisionToken", min: 1)
+            try validate(provisionToken, name:"provisionToken", pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case notificationArns = "NotificationArns"
@@ -3660,6 +4588,10 @@ extension ServiceCatalog {
         
         public init(recordDetail: RecordDetail? = nil) {
             self.recordDetail = recordDetail
+        }
+
+        public func validate() throws {
+            try recordDetail?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3734,6 +4666,30 @@ extension ServiceCatalog {
             self.userArnSession = userArnSession
         }
 
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1224)
+            try validate(arn, name:"arn", min: 1)
+            try validate(arn, name:"arn", pattern: "[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}|arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(id, name:"id", max: 100)
+            try validate(id, name:"id", min: 1)
+            try validate(id, name:"id", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(idempotencyToken, name:"idempotencyToken", max: 128)
+            try validate(idempotencyToken, name:"idempotencyToken", min: 1)
+            try validate(idempotencyToken, name:"idempotencyToken", pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try validate(lastRecordId, name:"lastRecordId", max: 100)
+            try validate(lastRecordId, name:"lastRecordId", min: 1)
+            try validate(lastRecordId, name:"lastRecordId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(name, name:"name", max: 1224)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}|arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(productId, name:"productId", max: 100)
+            try validate(productId, name:"productId", min: 1)
+            try validate(productId, name:"productId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", max: 100)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", min: 1)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case createdTime = "CreatedTime"
@@ -3802,6 +4758,24 @@ extension ServiceCatalog {
             self.status = status
             self.statusMessage = statusMessage
             self.`type` = `type`
+        }
+
+        public func validate() throws {
+            try validate(arn, name:"arn", max: 1224)
+            try validate(arn, name:"arn", min: 1)
+            try validate(arn, name:"arn", pattern: "[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}|arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(idempotencyToken, name:"idempotencyToken", max: 128)
+            try validate(idempotencyToken, name:"idempotencyToken", min: 1)
+            try validate(idempotencyToken, name:"idempotencyToken", pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try validate(name, name:"name", max: 1224)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}|arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(productId, name:"productId", max: 100)
+            try validate(productId, name:"productId", min: 1)
+            try validate(productId, name:"productId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", max: 100)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", min: 1)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", pattern: "^[a-zA-Z0-9_\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3886,6 +4860,28 @@ extension ServiceCatalog {
             self.updatedTime = updatedTime
         }
 
+        public func validate() throws {
+            try validate(pathId, name:"pathId", max: 100)
+            try validate(pathId, name:"pathId", min: 1)
+            try validate(pathId, name:"pathId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(planId, name:"planId", max: 100)
+            try validate(planId, name:"planId", min: 1)
+            try validate(planId, name:"planId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(productId, name:"productId", max: 100)
+            try validate(productId, name:"productId", min: 1)
+            try validate(productId, name:"productId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", max: 100)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", min: 1)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(provisionProductId, name:"provisionProductId", max: 100)
+            try validate(provisionProductId, name:"provisionProductId", min: 1)
+            try validate(provisionProductId, name:"provisionProductId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(provisionProductName, name:"provisionProductName", max: 128)
+            try validate(provisionProductName, name:"provisionProductName", min: 1)
+            try validate(provisionProductName, name:"provisionProductName", pattern: "[a-zA-Z0-9][a-zA-Z0-9._-]*")
+            try validate(statusMessage, name:"statusMessage", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case createdTime = "CreatedTime"
             case notificationArns = "NotificationArns"
@@ -3946,6 +4942,21 @@ extension ServiceCatalog {
             self.provisionProductName = provisionProductName
         }
 
+        public func validate() throws {
+            try validate(planId, name:"planId", max: 100)
+            try validate(planId, name:"planId", min: 1)
+            try validate(planId, name:"planId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", max: 100)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", min: 1)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(provisionProductId, name:"provisionProductId", max: 100)
+            try validate(provisionProductId, name:"provisionProductId", min: 1)
+            try validate(provisionProductId, name:"provisionProductId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(provisionProductName, name:"provisionProductName", max: 128)
+            try validate(provisionProductName, name:"provisionProductName", min: 1)
+            try validate(provisionProductName, name:"provisionProductName", pattern: "[a-zA-Z0-9][a-zA-Z0-9._-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case planId = "PlanId"
             case planName = "PlanName"
@@ -4002,6 +5013,12 @@ extension ServiceCatalog {
             self.name = name
         }
 
+        public func validate() throws {
+            try validate(id, name:"id", max: 100)
+            try validate(id, name:"id", min: 1)
+            try validate(id, name:"id", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case createdTime = "CreatedTime"
             case description = "Description"
@@ -4044,6 +5061,12 @@ extension ServiceCatalog {
             self.id = id
             self.name = name
             self.`type` = `type`
+        }
+
+        public func validate() throws {
+            try validate(id, name:"id", max: 100)
+            try validate(id, name:"id", min: 1)
+            try validate(id, name:"id", pattern: "^[a-zA-Z0-9_\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4092,6 +5115,11 @@ extension ServiceCatalog {
             self.parameterConstraints = parameterConstraints
             self.parameterKey = parameterKey
             self.parameterType = parameterType
+        }
+
+        public func validate() throws {
+            try validate(parameterKey, name:"parameterKey", max: 1000)
+            try validate(parameterKey, name:"parameterKey", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4193,6 +5221,12 @@ extension ServiceCatalog {
             self.provisioningArtifactMetadata = provisioningArtifactMetadata
         }
 
+        public func validate() throws {
+            try validate(id, name:"id", max: 100)
+            try validate(id, name:"id", min: 1)
+            try validate(id, name:"id", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case createdTime = "CreatedTime"
             case description = "Description"
@@ -4224,6 +5258,11 @@ extension ServiceCatalog {
             self.provisioningArtifact = provisioningArtifact
         }
 
+        public func validate() throws {
+            try productViewSummary?.validate()
+            try provisioningArtifact?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case productViewSummary = "ProductViewSummary"
             case provisioningArtifact = "ProvisioningArtifact"
@@ -4243,6 +5282,12 @@ extension ServiceCatalog {
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
+        }
+
+        public func validate() throws {
+            try validate(key, name:"key", max: 1000)
+            try validate(key, name:"key", min: 1)
+            try validate(value, name:"value", max: 4096)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4280,6 +5325,15 @@ extension ServiceCatalog {
             self.stackSetMaxConcurrencyCount = stackSetMaxConcurrencyCount
             self.stackSetMaxConcurrencyPercentage = stackSetMaxConcurrencyPercentage
             self.stackSetRegions = stackSetRegions
+        }
+
+        public func validate() throws {
+            try validate(stackSetFailureToleranceCount, name:"stackSetFailureToleranceCount", min: 0)
+            try validate(stackSetFailureTolerancePercentage, name:"stackSetFailureTolerancePercentage", max: 100)
+            try validate(stackSetFailureTolerancePercentage, name:"stackSetFailureTolerancePercentage", min: 0)
+            try validate(stackSetMaxConcurrencyCount, name:"stackSetMaxConcurrencyCount", min: 1)
+            try validate(stackSetMaxConcurrencyPercentage, name:"stackSetMaxConcurrencyPercentage", max: 100)
+            try validate(stackSetMaxConcurrencyPercentage, name:"stackSetMaxConcurrencyPercentage", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4349,6 +5403,27 @@ extension ServiceCatalog {
             self.recordType = recordType
             self.status = status
             self.updatedTime = updatedTime
+        }
+
+        public func validate() throws {
+            try validate(pathId, name:"pathId", max: 100)
+            try validate(pathId, name:"pathId", min: 1)
+            try validate(pathId, name:"pathId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(productId, name:"productId", max: 100)
+            try validate(productId, name:"productId", min: 1)
+            try validate(productId, name:"productId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(provisionedProductId, name:"provisionedProductId", max: 100)
+            try validate(provisionedProductId, name:"provisionedProductId", min: 1)
+            try validate(provisionedProductId, name:"provisionedProductId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(provisionedProductName, name:"provisionedProductName", max: 128)
+            try validate(provisionedProductName, name:"provisionedProductName", min: 1)
+            try validate(provisionedProductName, name:"provisionedProductName", pattern: "[a-zA-Z0-9][a-zA-Z0-9._-]*")
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", max: 100)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", min: 1)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(recordId, name:"recordId", max: 100)
+            try validate(recordId, name:"recordId", min: 1)
+            try validate(recordId, name:"recordId", pattern: "^[a-zA-Z0-9_\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4439,6 +5514,15 @@ extension ServiceCatalog {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", max: 128)
+            try validate(key, name:"key", min: 1)
+            try validate(key, name:"key", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+            try validate(value, name:"value", max: 256)
+            try validate(value, name:"value", min: 1)
+            try validate(value, name:"value", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
@@ -4462,6 +5546,13 @@ extension ServiceCatalog {
             self.acceptLanguage = acceptLanguage
             self.portfolioId = portfolioId
             self.portfolioShareType = portfolioShareType
+        }
+
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(portfolioId, name:"portfolioId", max: 100)
+            try validate(portfolioId, name:"portfolioId", min: 1)
+            try validate(portfolioId, name:"portfolioId", pattern: "^[a-zA-Z0-9_\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4536,6 +5627,11 @@ extension ServiceCatalog {
             self.replacement = replacement
             self.resourceType = resourceType
             self.scope = scope
+        }
+
+        public func validate() throws {
+            try validate(resourceType, name:"resourceType", max: 256)
+            try validate(resourceType, name:"resourceType", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4660,6 +5756,14 @@ extension ServiceCatalog {
             self.pageToken = pageToken
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(pageSize, name:"pageSize", max: 20)
+            try validate(pageSize, name:"pageSize", min: 0)
+            try validate(pageToken, name:"pageToken", max: 2024)
+            try validate(pageToken, name:"pageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case accessLevelFilter = "AccessLevelFilter"
@@ -4681,6 +5785,11 @@ extension ServiceCatalog {
         public init(nextPageToken: String? = nil, provisionedProducts: [ProvisionedProductDetail]? = nil) {
             self.nextPageToken = nextPageToken
             self.provisionedProducts = provisionedProducts
+        }
+
+        public func validate() throws {
+            try validate(nextPageToken, name:"nextPageToken", max: 2024)
+            try validate(nextPageToken, name:"nextPageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4728,6 +5837,17 @@ extension ServiceCatalog {
             self.sortOrder = sortOrder
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(pageSize, name:"pageSize", max: 20)
+            try validate(pageSize, name:"pageSize", min: 0)
+            try validate(pageToken, name:"pageToken", max: 2024)
+            try validate(pageToken, name:"pageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try validate(portfolioId, name:"portfolioId", max: 100)
+            try validate(portfolioId, name:"portfolioId", min: 1)
+            try validate(portfolioId, name:"portfolioId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case filters = "Filters"
@@ -4753,6 +5873,11 @@ extension ServiceCatalog {
         public init(nextPageToken: String? = nil, productViewDetails: [ProductViewDetail]? = nil) {
             self.nextPageToken = nextPageToken
             self.productViewDetails = productViewDetails
+        }
+
+        public func validate() throws {
+            try validate(nextPageToken, name:"nextPageToken", max: 2024)
+            try validate(nextPageToken, name:"nextPageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4792,6 +5917,14 @@ extension ServiceCatalog {
             self.sortOrder = sortOrder
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(pageSize, name:"pageSize", max: 20)
+            try validate(pageSize, name:"pageSize", min: 0)
+            try validate(pageToken, name:"pageToken", max: 2024)
+            try validate(pageToken, name:"pageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case filters = "Filters"
@@ -4819,6 +5952,11 @@ extension ServiceCatalog {
             self.nextPageToken = nextPageToken
             self.productViewAggregations = productViewAggregations
             self.productViewSummaries = productViewSummaries
+        }
+
+        public func validate() throws {
+            try validate(nextPageToken, name:"nextPageToken", max: 2024)
+            try validate(nextPageToken, name:"nextPageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4863,6 +6001,14 @@ extension ServiceCatalog {
             self.sortOrder = sortOrder
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(pageSize, name:"pageSize", max: 100)
+            try validate(pageSize, name:"pageSize", min: 0)
+            try validate(pageToken, name:"pageToken", max: 2024)
+            try validate(pageToken, name:"pageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case accessLevelFilter = "AccessLevelFilter"
@@ -4893,6 +6039,11 @@ extension ServiceCatalog {
             self.totalResultsCount = totalResultsCount
         }
 
+        public func validate() throws {
+            try validate(nextPageToken, name:"nextPageToken", max: 2024)
+            try validate(nextPageToken, name:"nextPageToken", pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case nextPageToken = "NextPageToken"
             case provisionedProducts = "ProvisionedProducts"
@@ -4917,6 +6068,18 @@ extension ServiceCatalog {
             self.productId = productId
             self.provisioningArtifactId = provisioningArtifactId
             self.serviceActionId = serviceActionId
+        }
+
+        public func validate() throws {
+            try validate(productId, name:"productId", max: 100)
+            try validate(productId, name:"productId", min: 1)
+            try validate(productId, name:"productId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", max: 100)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", min: 1)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(serviceActionId, name:"serviceActionId", max: 100)
+            try validate(serviceActionId, name:"serviceActionId", min: 1)
+            try validate(serviceActionId, name:"serviceActionId", pattern: "^[a-zA-Z0-9_\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4963,6 +6126,10 @@ extension ServiceCatalog {
             self.serviceActionSummary = serviceActionSummary
         }
 
+        public func validate() throws {
+            try serviceActionSummary?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case definition = "Definition"
             case serviceActionSummary = "ServiceActionSummary"
@@ -4990,6 +6157,16 @@ extension ServiceCatalog {
             self.description = description
             self.id = id
             self.name = name
+        }
+
+        public func validate() throws {
+            try validate(description, name:"description", max: 1024)
+            try validate(id, name:"id", max: 100)
+            try validate(id, name:"id", min: 1)
+            try validate(id, name:"id", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_\\-.]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5081,6 +6258,10 @@ extension ServiceCatalog {
             self.stackInstanceStatus = stackInstanceStatus
         }
 
+        public func validate() throws {
+            try validate(account, name:"account", pattern: "^[0-9]{12}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case account = "Account"
             case region = "Region"
@@ -5124,6 +6305,15 @@ extension ServiceCatalog {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", max: 128)
+            try validate(key, name:"key", min: 1)
+            try validate(key, name:"key", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(value, name:"value", max: 256)
+            try validate(value, name:"value", min: 1)
+            try validate(value, name:"value", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
@@ -5153,6 +6343,17 @@ extension ServiceCatalog {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(id, name:"id", max: 100)
+            try validate(id, name:"id", min: 1)
+            try validate(key, name:"key", max: 128)
+            try validate(key, name:"key", min: 1)
+            try validate(key, name:"key", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(value, name:"value", max: 256)
+            try validate(value, name:"value", min: 1)
+            try validate(value, name:"value", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case active = "Active"
             case id = "Id"
@@ -5174,6 +6375,12 @@ extension ServiceCatalog {
         public init(key: String? = nil, values: [String]? = nil) {
             self.key = key
             self.values = values
+        }
+
+        public func validate() throws {
+            try validate(key, name:"key", max: 128)
+            try validate(key, name:"key", min: 1)
+            try validate(key, name:"key", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5209,6 +6416,19 @@ extension ServiceCatalog {
             self.terminateToken = terminateToken
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(provisionedProductId, name:"provisionedProductId", max: 100)
+            try validate(provisionedProductId, name:"provisionedProductId", min: 1)
+            try validate(provisionedProductId, name:"provisionedProductId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(provisionedProductName, name:"provisionedProductName", max: 1224)
+            try validate(provisionedProductName, name:"provisionedProductName", min: 1)
+            try validate(provisionedProductName, name:"provisionedProductName", pattern: "[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}|arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(terminateToken, name:"terminateToken", max: 128)
+            try validate(terminateToken, name:"terminateToken", min: 1)
+            try validate(terminateToken, name:"terminateToken", pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case ignoreErrors = "IgnoreErrors"
@@ -5227,6 +6447,10 @@ extension ServiceCatalog {
         
         public init(recordDetail: RecordDetail? = nil) {
             self.recordDetail = recordDetail
+        }
+
+        public func validate() throws {
+            try recordDetail?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5257,6 +6481,14 @@ extension ServiceCatalog {
             self.parameters = parameters
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(description, name:"description", max: 2000)
+            try validate(id, name:"id", max: 100)
+            try validate(id, name:"id", min: 1)
+            try validate(id, name:"id", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case description = "Description"
@@ -5282,6 +6514,10 @@ extension ServiceCatalog {
             self.constraintDetail = constraintDetail
             self.constraintParameters = constraintParameters
             self.status = status
+        }
+
+        public func validate() throws {
+            try constraintDetail?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5326,6 +6562,18 @@ extension ServiceCatalog {
             self.removeTags = removeTags
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(description, name:"description", max: 2000)
+            try validate(displayName, name:"displayName", max: 100)
+            try validate(displayName, name:"displayName", min: 1)
+            try validate(id, name:"id", max: 100)
+            try validate(id, name:"id", min: 1)
+            try validate(id, name:"id", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(providerName, name:"providerName", max: 50)
+            try validate(providerName, name:"providerName", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case addTags = "AddTags"
@@ -5350,6 +6598,10 @@ extension ServiceCatalog {
         public init(portfolioDetail: PortfolioDetail? = nil, tags: [Tag]? = nil) {
             self.portfolioDetail = portfolioDetail
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try portfolioDetail?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5409,6 +6661,20 @@ extension ServiceCatalog {
             self.supportUrl = supportUrl
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(description, name:"description", max: 8191)
+            try validate(distributor, name:"distributor", max: 8191)
+            try validate(id, name:"id", max: 100)
+            try validate(id, name:"id", min: 1)
+            try validate(id, name:"id", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(name, name:"name", max: 8191)
+            try validate(owner, name:"owner", max: 8191)
+            try validate(supportDescription, name:"supportDescription", max: 8191)
+            try validate(supportEmail, name:"supportEmail", max: 254)
+            try validate(supportUrl, name:"supportUrl", max: 2083)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case addTags = "AddTags"
@@ -5437,6 +6703,10 @@ extension ServiceCatalog {
         public init(productViewDetail: ProductViewDetail? = nil, tags: [Tag]? = nil) {
             self.productViewDetail = productViewDetail
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try productViewDetail?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5492,6 +6762,29 @@ extension ServiceCatalog {
             self.updateToken = updateToken
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(pathId, name:"pathId", max: 100)
+            try validate(pathId, name:"pathId", min: 1)
+            try validate(pathId, name:"pathId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(productId, name:"productId", max: 100)
+            try validate(productId, name:"productId", min: 1)
+            try validate(productId, name:"productId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(provisionedProductId, name:"provisionedProductId", max: 100)
+            try validate(provisionedProductId, name:"provisionedProductId", min: 1)
+            try validate(provisionedProductId, name:"provisionedProductId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(provisionedProductName, name:"provisionedProductName", max: 1224)
+            try validate(provisionedProductName, name:"provisionedProductName", min: 1)
+            try validate(provisionedProductName, name:"provisionedProductName", pattern: "[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}|arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", max: 100)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", min: 1)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try provisioningPreferences?.validate()
+            try validate(updateToken, name:"updateToken", max: 128)
+            try validate(updateToken, name:"updateToken", min: 1)
+            try validate(updateToken, name:"updateToken", pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case pathId = "PathId"
@@ -5515,6 +6808,10 @@ extension ServiceCatalog {
         
         public init(recordDetail: RecordDetail? = nil) {
             self.recordDetail = recordDetail
+        }
+
+        public func validate() throws {
+            try recordDetail?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5543,6 +6840,16 @@ extension ServiceCatalog {
             self.idempotencyToken = idempotencyToken
             self.provisionedProductId = provisionedProductId
             self.provisionedProductProperties = provisionedProductProperties
+        }
+
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(idempotencyToken, name:"idempotencyToken", max: 128)
+            try validate(idempotencyToken, name:"idempotencyToken", min: 1)
+            try validate(idempotencyToken, name:"idempotencyToken", pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try validate(provisionedProductId, name:"provisionedProductId", max: 100)
+            try validate(provisionedProductId, name:"provisionedProductId", min: 1)
+            try validate(provisionedProductId, name:"provisionedProductId", pattern: "^[a-zA-Z0-9_\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5574,6 +6881,15 @@ extension ServiceCatalog {
             self.provisionedProductProperties = provisionedProductProperties
             self.recordId = recordId
             self.status = status
+        }
+
+        public func validate() throws {
+            try validate(provisionedProductId, name:"provisionedProductId", max: 100)
+            try validate(provisionedProductId, name:"provisionedProductId", min: 1)
+            try validate(provisionedProductId, name:"provisionedProductId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(recordId, name:"recordId", max: 100)
+            try validate(recordId, name:"recordId", min: 1)
+            try validate(recordId, name:"recordId", pattern: "^[a-zA-Z0-9_\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5619,6 +6935,16 @@ extension ServiceCatalog {
             self.provisioningArtifactId = provisioningArtifactId
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(productId, name:"productId", max: 100)
+            try validate(productId, name:"productId", min: 1)
+            try validate(productId, name:"productId", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", max: 100)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", min: 1)
+            try validate(provisioningArtifactId, name:"provisioningArtifactId", pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case active = "Active"
@@ -5649,6 +6975,10 @@ extension ServiceCatalog {
             self.status = status
         }
 
+        public func validate() throws {
+            try provisioningArtifactDetail?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case info = "Info"
             case provisioningArtifactDetail = "ProvisioningArtifactDetail"
@@ -5673,6 +7003,12 @@ extension ServiceCatalog {
             self.key = key
             self.usePreviousValue = usePreviousValue
             self.value = value
+        }
+
+        public func validate() throws {
+            try validate(key, name:"key", max: 1000)
+            try validate(key, name:"key", min: 1)
+            try validate(value, name:"value", max: 4096)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5717,6 +7053,15 @@ extension ServiceCatalog {
             self.stackSetRegions = stackSetRegions
         }
 
+        public func validate() throws {
+            try validate(stackSetFailureToleranceCount, name:"stackSetFailureToleranceCount", min: 0)
+            try validate(stackSetFailureTolerancePercentage, name:"stackSetFailureTolerancePercentage", max: 100)
+            try validate(stackSetFailureTolerancePercentage, name:"stackSetFailureTolerancePercentage", min: 0)
+            try validate(stackSetMaxConcurrencyCount, name:"stackSetMaxConcurrencyCount", min: 1)
+            try validate(stackSetMaxConcurrencyPercentage, name:"stackSetMaxConcurrencyPercentage", max: 100)
+            try validate(stackSetMaxConcurrencyPercentage, name:"stackSetMaxConcurrencyPercentage", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case stackSetAccounts = "StackSetAccounts"
             case stackSetFailureToleranceCount = "StackSetFailureToleranceCount"
@@ -5755,6 +7100,17 @@ extension ServiceCatalog {
             self.name = name
         }
 
+        public func validate() throws {
+            try validate(acceptLanguage, name:"acceptLanguage", max: 100)
+            try validate(description, name:"description", max: 1024)
+            try validate(id, name:"id", max: 100)
+            try validate(id, name:"id", min: 1)
+            try validate(id, name:"id", pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[a-zA-Z0-9_\\-.]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case definition = "Definition"
@@ -5773,6 +7129,10 @@ extension ServiceCatalog {
         
         public init(serviceActionDetail: ServiceActionDetail? = nil) {
             self.serviceActionDetail = serviceActionDetail
+        }
+
+        public func validate() throws {
+            try serviceActionDetail?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5799,6 +7159,14 @@ extension ServiceCatalog {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(id, name:"id", max: 100)
+            try validate(id, name:"id", min: 1)
+            try validate(value, name:"value", max: 256)
+            try validate(value, name:"value", min: 1)
+            try validate(value, name:"value", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case active = "Active"
             case id = "Id"
@@ -5815,6 +7183,10 @@ extension ServiceCatalog {
         
         public init(tagOptionDetail: TagOptionDetail? = nil) {
             self.tagOptionDetail = tagOptionDetail
+        }
+
+        public func validate() throws {
+            try tagOptionDetail?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

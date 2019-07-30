@@ -20,6 +20,11 @@ extension ElasticBeanstalk {
             self.environmentName = environmentName
         }
 
+        public func validate() throws {
+            try validate(environmentName, name:"environmentName", max: 40)
+            try validate(environmentName, name:"environmentName", min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case environmentId = "EnvironmentId"
             case environmentName = "EnvironmentName"
@@ -87,6 +92,12 @@ extension ElasticBeanstalk {
             self.versions = versions
         }
 
+        public func validate() throws {
+            try validate(applicationName, name:"applicationName", max: 100)
+            try validate(applicationName, name:"applicationName", min: 1)
+            try validate(description, name:"description", max: 200)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case applicationArn = "ApplicationArn"
             case applicationName = "ApplicationName"
@@ -108,6 +119,10 @@ extension ElasticBeanstalk {
         
         public init(application: ApplicationDescription? = nil) {
             self.application = application
+        }
+
+        public func validate() throws {
+            try application?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -198,6 +213,11 @@ extension ElasticBeanstalk {
             self.resourceLifecycleConfig = resourceLifecycleConfig
         }
 
+        public func validate() throws {
+            try validate(applicationName, name:"applicationName", max: 100)
+            try validate(applicationName, name:"applicationName", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case applicationName = "ApplicationName"
             case resourceLifecycleConfig = "ResourceLifecycleConfig"
@@ -251,6 +271,16 @@ extension ElasticBeanstalk {
             self.versionLabel = versionLabel
         }
 
+        public func validate() throws {
+            try validate(applicationName, name:"applicationName", max: 100)
+            try validate(applicationName, name:"applicationName", min: 1)
+            try validate(description, name:"description", max: 200)
+            try sourceBuildInformation?.validate()
+            try sourceBundle?.validate()
+            try validate(versionLabel, name:"versionLabel", max: 100)
+            try validate(versionLabel, name:"versionLabel", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case applicationName = "ApplicationName"
             case applicationVersionArn = "ApplicationVersionArn"
@@ -274,6 +304,10 @@ extension ElasticBeanstalk {
         
         public init(applicationVersion: ApplicationVersionDescription? = nil) {
             self.applicationVersion = applicationVersion
+        }
+
+        public func validate() throws {
+            try applicationVersion?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -432,6 +466,11 @@ extension ElasticBeanstalk {
             self.timeoutInMinutes = timeoutInMinutes
         }
 
+        public func validate() throws {
+            try validate(codeBuildServiceRole, name:"codeBuildServiceRole", pattern: ".*\\S.*")
+            try validate(image, name:"image", pattern: ".*\\S.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case artifactName = "ArtifactName"
             case codeBuildServiceRole = "CodeBuildServiceRole"
@@ -519,6 +558,11 @@ extension ElasticBeanstalk {
             self.cNAMEPrefix = cNAMEPrefix
         }
 
+        public func validate() throws {
+            try validate(cNAMEPrefix, name:"cNAMEPrefix", max: 63)
+            try validate(cNAMEPrefix, name:"cNAMEPrefix", min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case cNAMEPrefix = "CNAMEPrefix"
         }
@@ -537,6 +581,11 @@ extension ElasticBeanstalk {
         public init(available: Bool? = nil, fullyQualifiedCNAME: String? = nil) {
             self.available = available
             self.fullyQualifiedCNAME = fullyQualifiedCNAME
+        }
+
+        public func validate() throws {
+            try validate(fullyQualifiedCNAME, name:"fullyQualifiedCNAME", max: 255)
+            try validate(fullyQualifiedCNAME, name:"fullyQualifiedCNAME", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -562,6 +611,13 @@ extension ElasticBeanstalk {
             self.applicationName = applicationName
             self.groupName = groupName
             self.versionLabels = versionLabels
+        }
+
+        public func validate() throws {
+            try validate(applicationName, name:"applicationName", max: 100)
+            try validate(applicationName, name:"applicationName", min: 1)
+            try validate(groupName, name:"groupName", max: 19)
+            try validate(groupName, name:"groupName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -674,6 +730,11 @@ extension ElasticBeanstalk {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(resourceName, name:"resourceName", max: 256)
+            try validate(resourceName, name:"resourceName", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case namespace = "Namespace"
             case optionName = "OptionName"
@@ -761,6 +822,16 @@ extension ElasticBeanstalk {
             self.templateName = templateName
         }
 
+        public func validate() throws {
+            try validate(applicationName, name:"applicationName", max: 100)
+            try validate(applicationName, name:"applicationName", min: 1)
+            try validate(description, name:"description", max: 200)
+            try validate(environmentName, name:"environmentName", max: 40)
+            try validate(environmentName, name:"environmentName", min: 4)
+            try validate(templateName, name:"templateName", max: 100)
+            try validate(templateName, name:"templateName", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case applicationName = "ApplicationName"
             case dateCreated = "DateCreated"
@@ -830,6 +901,12 @@ extension ElasticBeanstalk {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(applicationName, name:"applicationName", max: 100)
+            try validate(applicationName, name:"applicationName", min: 1)
+            try validate(description, name:"description", max: 200)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case applicationName = "ApplicationName"
             case description = "Description"
@@ -879,6 +956,17 @@ extension ElasticBeanstalk {
             self.sourceBundle = sourceBundle
             self.tags = tags
             self.versionLabel = versionLabel
+        }
+
+        public func validate() throws {
+            try validate(applicationName, name:"applicationName", max: 100)
+            try validate(applicationName, name:"applicationName", min: 1)
+            try buildConfiguration?.validate()
+            try validate(description, name:"description", max: 200)
+            try sourceBuildInformation?.validate()
+            try sourceBundle?.validate()
+            try validate(versionLabel, name:"versionLabel", max: 100)
+            try validate(versionLabel, name:"versionLabel", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -935,6 +1023,15 @@ extension ElasticBeanstalk {
             self.sourceConfiguration = sourceConfiguration
             self.tags = tags
             self.templateName = templateName
+        }
+
+        public func validate() throws {
+            try validate(applicationName, name:"applicationName", max: 100)
+            try validate(applicationName, name:"applicationName", min: 1)
+            try validate(description, name:"description", max: 200)
+            try sourceConfiguration?.validate()
+            try validate(templateName, name:"templateName", max: 100)
+            try validate(templateName, name:"templateName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1009,6 +1106,22 @@ extension ElasticBeanstalk {
             self.versionLabel = versionLabel
         }
 
+        public func validate() throws {
+            try validate(applicationName, name:"applicationName", max: 100)
+            try validate(applicationName, name:"applicationName", min: 1)
+            try validate(cNAMEPrefix, name:"cNAMEPrefix", max: 63)
+            try validate(cNAMEPrefix, name:"cNAMEPrefix", min: 4)
+            try validate(description, name:"description", max: 200)
+            try validate(environmentName, name:"environmentName", max: 40)
+            try validate(environmentName, name:"environmentName", min: 4)
+            try validate(groupName, name:"groupName", max: 19)
+            try validate(groupName, name:"groupName", min: 1)
+            try validate(templateName, name:"templateName", max: 100)
+            try validate(templateName, name:"templateName", min: 1)
+            try validate(versionLabel, name:"versionLabel", max: 100)
+            try validate(versionLabel, name:"versionLabel", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case applicationName = "ApplicationName"
             case cNAMEPrefix = "CNAMEPrefix"
@@ -1057,6 +1170,12 @@ extension ElasticBeanstalk {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(environmentName, name:"environmentName", max: 40)
+            try validate(environmentName, name:"environmentName", min: 4)
+            try platformDefinitionBundle.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case environmentName = "EnvironmentName"
             case optionSettings = "OptionSettings"
@@ -1097,6 +1216,10 @@ extension ElasticBeanstalk {
         
         public init(s3Bucket: String? = nil) {
             self.s3Bucket = s3Bucket
+        }
+
+        public func validate() throws {
+            try validate(s3Bucket, name:"s3Bucket", max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1140,6 +1263,11 @@ extension ElasticBeanstalk {
             self.terminateEnvByForce = terminateEnvByForce
         }
 
+        public func validate() throws {
+            try validate(applicationName, name:"applicationName", max: 100)
+            try validate(applicationName, name:"applicationName", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case applicationName = "ApplicationName"
             case terminateEnvByForce = "TerminateEnvByForce"
@@ -1165,6 +1293,13 @@ extension ElasticBeanstalk {
             self.versionLabel = versionLabel
         }
 
+        public func validate() throws {
+            try validate(applicationName, name:"applicationName", max: 100)
+            try validate(applicationName, name:"applicationName", min: 1)
+            try validate(versionLabel, name:"versionLabel", max: 100)
+            try validate(versionLabel, name:"versionLabel", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case applicationName = "ApplicationName"
             case deleteSourceBundle = "DeleteSourceBundle"
@@ -1187,6 +1322,13 @@ extension ElasticBeanstalk {
             self.templateName = templateName
         }
 
+        public func validate() throws {
+            try validate(applicationName, name:"applicationName", max: 100)
+            try validate(applicationName, name:"applicationName", min: 1)
+            try validate(templateName, name:"templateName", max: 100)
+            try validate(templateName, name:"templateName", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case applicationName = "ApplicationName"
             case templateName = "TemplateName"
@@ -1206,6 +1348,13 @@ extension ElasticBeanstalk {
         public init(applicationName: String, environmentName: String) {
             self.applicationName = applicationName
             self.environmentName = environmentName
+        }
+
+        public func validate() throws {
+            try validate(applicationName, name:"applicationName", max: 100)
+            try validate(applicationName, name:"applicationName", min: 1)
+            try validate(environmentName, name:"environmentName", max: 40)
+            try validate(environmentName, name:"environmentName", min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1316,6 +1465,13 @@ extension ElasticBeanstalk {
             self.versionLabels = versionLabels
         }
 
+        public func validate() throws {
+            try validate(applicationName, name:"applicationName", max: 100)
+            try validate(applicationName, name:"applicationName", min: 1)
+            try validate(maxRecords, name:"maxRecords", max: 1000)
+            try validate(maxRecords, name:"maxRecords", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case applicationName = "ApplicationName"
             case maxRecords = "MaxRecords"
@@ -1371,6 +1527,15 @@ extension ElasticBeanstalk {
             self.templateName = templateName
         }
 
+        public func validate() throws {
+            try validate(applicationName, name:"applicationName", max: 100)
+            try validate(applicationName, name:"applicationName", min: 1)
+            try validate(environmentName, name:"environmentName", max: 40)
+            try validate(environmentName, name:"environmentName", min: 4)
+            try validate(templateName, name:"templateName", max: 100)
+            try validate(templateName, name:"templateName", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case applicationName = "ApplicationName"
             case environmentName = "EnvironmentName"
@@ -1400,6 +1565,15 @@ extension ElasticBeanstalk {
             self.templateName = templateName
         }
 
+        public func validate() throws {
+            try validate(applicationName, name:"applicationName", max: 100)
+            try validate(applicationName, name:"applicationName", min: 1)
+            try validate(environmentName, name:"environmentName", max: 40)
+            try validate(environmentName, name:"environmentName", min: 4)
+            try validate(templateName, name:"templateName", max: 100)
+            try validate(templateName, name:"templateName", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case applicationName = "ApplicationName"
             case environmentName = "EnvironmentName"
@@ -1424,6 +1598,11 @@ extension ElasticBeanstalk {
             self.attributeNames = attributeNames
             self.environmentId = environmentId
             self.environmentName = environmentName
+        }
+
+        public func validate() throws {
+            try validate(environmentName, name:"environmentName", max: 40)
+            try validate(environmentName, name:"environmentName", min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1472,6 +1651,11 @@ extension ElasticBeanstalk {
             self.status = status
         }
 
+        public func validate() throws {
+            try validate(environmentName, name:"environmentName", max: 40)
+            try validate(environmentName, name:"environmentName", min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case applicationMetrics = "ApplicationMetrics"
             case causes = "Causes"
@@ -1505,6 +1689,11 @@ extension ElasticBeanstalk {
             self.environmentName = environmentName
             self.maxItems = maxItems
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(environmentName, name:"environmentName", max: 40)
+            try validate(environmentName, name:"environmentName", min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1593,6 +1782,11 @@ extension ElasticBeanstalk {
             self.environmentName = environmentName
         }
 
+        public func validate() throws {
+            try validate(environmentName, name:"environmentName", max: 40)
+            try validate(environmentName, name:"environmentName", min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case environmentId = "EnvironmentId"
             case environmentName = "EnvironmentName"
@@ -1636,6 +1830,15 @@ extension ElasticBeanstalk {
             self.maxRecords = maxRecords
             self.nextToken = nextToken
             self.versionLabel = versionLabel
+        }
+
+        public func validate() throws {
+            try validate(applicationName, name:"applicationName", max: 100)
+            try validate(applicationName, name:"applicationName", min: 1)
+            try validate(maxRecords, name:"maxRecords", max: 1000)
+            try validate(maxRecords, name:"maxRecords", min: 1)
+            try validate(versionLabel, name:"versionLabel", max: 100)
+            try validate(versionLabel, name:"versionLabel", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1705,6 +1908,19 @@ extension ElasticBeanstalk {
             self.versionLabel = versionLabel
         }
 
+        public func validate() throws {
+            try validate(applicationName, name:"applicationName", max: 100)
+            try validate(applicationName, name:"applicationName", min: 1)
+            try validate(environmentName, name:"environmentName", max: 40)
+            try validate(environmentName, name:"environmentName", min: 4)
+            try validate(maxRecords, name:"maxRecords", max: 1000)
+            try validate(maxRecords, name:"maxRecords", min: 1)
+            try validate(templateName, name:"templateName", max: 100)
+            try validate(templateName, name:"templateName", min: 1)
+            try validate(versionLabel, name:"versionLabel", max: 100)
+            try validate(versionLabel, name:"versionLabel", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case applicationName = "ApplicationName"
             case endTime = "EndTime"
@@ -1744,6 +1960,13 @@ extension ElasticBeanstalk {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(environmentName, name:"environmentName", max: 40)
+            try validate(environmentName, name:"environmentName", min: 4)
+            try validate(nextToken, name:"nextToken", max: 100)
+            try validate(nextToken, name:"nextToken", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case attributeNames = "AttributeNames"
             case environmentId = "EnvironmentId"
@@ -1769,6 +1992,11 @@ extension ElasticBeanstalk {
             self.instanceHealthList = instanceHealthList
             self.nextToken = nextToken
             self.refreshedAt = refreshedAt
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 100)
+            try validate(nextToken, name:"nextToken", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1803,6 +2031,10 @@ extension ElasticBeanstalk {
         
         public init(platformDescription: PlatformDescription? = nil) {
             self.platformDescription = platformDescription
+        }
+
+        public func validate() throws {
+            try platformDescription?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1895,6 +2127,20 @@ extension ElasticBeanstalk {
             self.templateName = templateName
             self.tier = tier
             self.versionLabel = versionLabel
+        }
+
+        public func validate() throws {
+            try validate(applicationName, name:"applicationName", max: 100)
+            try validate(applicationName, name:"applicationName", min: 1)
+            try validate(cname, name:"cname", max: 255)
+            try validate(cname, name:"cname", min: 1)
+            try validate(description, name:"description", max: 200)
+            try validate(environmentName, name:"environmentName", max: 40)
+            try validate(environmentName, name:"environmentName", min: 4)
+            try validate(templateName, name:"templateName", max: 100)
+            try validate(templateName, name:"templateName", min: 1)
+            try validate(versionLabel, name:"versionLabel", max: 100)
+            try validate(versionLabel, name:"versionLabel", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2072,6 +2318,11 @@ extension ElasticBeanstalk {
             self.triggers = triggers
         }
 
+        public func validate() throws {
+            try validate(environmentName, name:"environmentName", max: 40)
+            try validate(environmentName, name:"environmentName", min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case autoScalingGroups = "AutoScalingGroups"
             case environmentName = "EnvironmentName"
@@ -2093,6 +2344,10 @@ extension ElasticBeanstalk {
         
         public init(environmentResources: EnvironmentResourceDescription? = nil) {
             self.environmentResources = environmentResources
+        }
+
+        public func validate() throws {
+            try environmentResources?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2192,6 +2447,17 @@ extension ElasticBeanstalk {
             self.severity = severity
             self.templateName = templateName
             self.versionLabel = versionLabel
+        }
+
+        public func validate() throws {
+            try validate(applicationName, name:"applicationName", max: 100)
+            try validate(applicationName, name:"applicationName", min: 1)
+            try validate(environmentName, name:"environmentName", max: 40)
+            try validate(environmentName, name:"environmentName", min: 4)
+            try validate(templateName, name:"templateName", max: 100)
+            try validate(templateName, name:"templateName", min: 1)
+            try validate(versionLabel, name:"versionLabel", max: 100)
+            try validate(versionLabel, name:"versionLabel", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2452,6 +2718,10 @@ extension ElasticBeanstalk {
             self.filters = filters
             self.maxRecords = maxRecords
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(maxRecords, name:"maxRecords", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2740,6 +3010,11 @@ extension ElasticBeanstalk {
             self.resourceName = resourceName
         }
 
+        public func validate() throws {
+            try validate(resourceName, name:"resourceName", max: 256)
+            try validate(resourceName, name:"resourceName", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case namespace = "Namespace"
             case optionName = "OptionName"
@@ -2824,6 +3099,10 @@ extension ElasticBeanstalk {
             self.solutionStackName = solutionStackName
             self.supportedAddonList = supportedAddonList
             self.supportedTierList = supportedTierList
+        }
+
+        public func validate() throws {
+            try validate(description, name:"description", max: 200)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3012,6 +3291,11 @@ extension ElasticBeanstalk {
             self.environmentName = environmentName
         }
 
+        public func validate() throws {
+            try validate(environmentName, name:"environmentName", max: 40)
+            try validate(environmentName, name:"environmentName", min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case environmentId = "EnvironmentId"
             case environmentName = "EnvironmentName"
@@ -3035,6 +3319,11 @@ extension ElasticBeanstalk {
             self.environmentId = environmentId
             self.environmentName = environmentName
             self.infoType = infoType
+        }
+
+        public func validate() throws {
+            try validate(environmentName, name:"environmentName", max: 40)
+            try validate(environmentName, name:"environmentName", min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3132,6 +3421,11 @@ extension ElasticBeanstalk {
             self.environmentName = environmentName
         }
 
+        public func validate() throws {
+            try validate(environmentName, name:"environmentName", max: 40)
+            try validate(environmentName, name:"environmentName", min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case environmentId = "EnvironmentId"
             case environmentName = "EnvironmentName"
@@ -3155,6 +3449,11 @@ extension ElasticBeanstalk {
             self.environmentId = environmentId
             self.environmentName = environmentName
             self.infoType = infoType
+        }
+
+        public func validate() throws {
+            try validate(environmentName, name:"environmentName", max: 40)
+            try validate(environmentName, name:"environmentName", min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3193,6 +3492,11 @@ extension ElasticBeanstalk {
         public init(s3Bucket: String? = nil, s3Key: String? = nil) {
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
+        }
+
+        public func validate() throws {
+            try validate(s3Bucket, name:"s3Bucket", max: 255)
+            try validate(s3Key, name:"s3Key", max: 1024)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3246,6 +3550,11 @@ extension ElasticBeanstalk {
             self.instanceType = instanceType
             self.launchedAt = launchedAt
             self.system = system
+        }
+
+        public func validate() throws {
+            try validate(instanceId, name:"instanceId", max: 255)
+            try validate(instanceId, name:"instanceId", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3302,6 +3611,12 @@ extension ElasticBeanstalk {
             self.sourceType = sourceType
         }
 
+        public func validate() throws {
+            try validate(sourceLocation, name:"sourceLocation", max: 255)
+            try validate(sourceLocation, name:"sourceLocation", min: 3)
+            try validate(sourceLocation, name:"sourceLocation", pattern: ".+/.+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case sourceLocation = "SourceLocation"
             case sourceRepository = "SourceRepository"
@@ -3322,6 +3637,13 @@ extension ElasticBeanstalk {
         public init(applicationName: String? = nil, templateName: String? = nil) {
             self.applicationName = applicationName
             self.templateName = templateName
+        }
+
+        public func validate() throws {
+            try validate(applicationName, name:"applicationName", max: 100)
+            try validate(applicationName, name:"applicationName", min: 1)
+            try validate(templateName, name:"templateName", max: 100)
+            try validate(templateName, name:"templateName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3396,6 +3718,13 @@ extension ElasticBeanstalk {
             self.sourceEnvironmentName = sourceEnvironmentName
         }
 
+        public func validate() throws {
+            try validate(destinationEnvironmentName, name:"destinationEnvironmentName", max: 40)
+            try validate(destinationEnvironmentName, name:"destinationEnvironmentName", min: 4)
+            try validate(sourceEnvironmentName, name:"sourceEnvironmentName", max: 40)
+            try validate(sourceEnvironmentName, name:"sourceEnvironmentName", min: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case destinationEnvironmentId = "DestinationEnvironmentId"
             case destinationEnvironmentName = "DestinationEnvironmentName"
@@ -3440,6 +3769,13 @@ extension ElasticBeanstalk {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", max: 128)
+            try validate(key, name:"key", min: 1)
+            try validate(value, name:"value", max: 256)
+            try validate(value, name:"value", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
@@ -3467,6 +3803,11 @@ extension ElasticBeanstalk {
             self.environmentName = environmentName
             self.forceTerminate = forceTerminate
             self.terminateResources = terminateResources
+        }
+
+        public func validate() throws {
+            try validate(environmentName, name:"environmentName", max: 40)
+            try validate(environmentName, name:"environmentName", min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3508,6 +3849,12 @@ extension ElasticBeanstalk {
             self.description = description
         }
 
+        public func validate() throws {
+            try validate(applicationName, name:"applicationName", max: 100)
+            try validate(applicationName, name:"applicationName", min: 1)
+            try validate(description, name:"description", max: 200)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case applicationName = "ApplicationName"
             case description = "Description"
@@ -3527,6 +3874,11 @@ extension ElasticBeanstalk {
         public init(applicationName: String, resourceLifecycleConfig: ApplicationResourceLifecycleConfig) {
             self.applicationName = applicationName
             self.resourceLifecycleConfig = resourceLifecycleConfig
+        }
+
+        public func validate() throws {
+            try validate(applicationName, name:"applicationName", max: 100)
+            try validate(applicationName, name:"applicationName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3552,6 +3904,14 @@ extension ElasticBeanstalk {
             self.applicationName = applicationName
             self.description = description
             self.versionLabel = versionLabel
+        }
+
+        public func validate() throws {
+            try validate(applicationName, name:"applicationName", max: 100)
+            try validate(applicationName, name:"applicationName", min: 1)
+            try validate(description, name:"description", max: 200)
+            try validate(versionLabel, name:"versionLabel", max: 100)
+            try validate(versionLabel, name:"versionLabel", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3586,6 +3946,14 @@ extension ElasticBeanstalk {
             self.optionSettings = optionSettings
             self.optionsToRemove = optionsToRemove
             self.templateName = templateName
+        }
+
+        public func validate() throws {
+            try validate(applicationName, name:"applicationName", max: 100)
+            try validate(applicationName, name:"applicationName", min: 1)
+            try validate(description, name:"description", max: 200)
+            try validate(templateName, name:"templateName", max: 100)
+            try validate(templateName, name:"templateName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3652,6 +4020,20 @@ extension ElasticBeanstalk {
             self.versionLabel = versionLabel
         }
 
+        public func validate() throws {
+            try validate(applicationName, name:"applicationName", max: 100)
+            try validate(applicationName, name:"applicationName", min: 1)
+            try validate(description, name:"description", max: 200)
+            try validate(environmentName, name:"environmentName", max: 40)
+            try validate(environmentName, name:"environmentName", min: 4)
+            try validate(groupName, name:"groupName", max: 19)
+            try validate(groupName, name:"groupName", min: 1)
+            try validate(templateName, name:"templateName", max: 100)
+            try validate(templateName, name:"templateName", min: 1)
+            try validate(versionLabel, name:"versionLabel", max: 100)
+            try validate(versionLabel, name:"versionLabel", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case applicationName = "ApplicationName"
             case description = "Description"
@@ -3715,6 +4097,15 @@ extension ElasticBeanstalk {
             self.environmentName = environmentName
             self.optionSettings = optionSettings
             self.templateName = templateName
+        }
+
+        public func validate() throws {
+            try validate(applicationName, name:"applicationName", max: 100)
+            try validate(applicationName, name:"applicationName", min: 1)
+            try validate(environmentName, name:"environmentName", max: 40)
+            try validate(environmentName, name:"environmentName", min: 4)
+            try validate(templateName, name:"templateName", max: 100)
+            try validate(templateName, name:"templateName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

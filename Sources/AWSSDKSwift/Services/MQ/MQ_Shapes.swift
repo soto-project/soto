@@ -61,6 +61,11 @@ extension MQ {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 5)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case brokerEngineTypes = "brokerEngineTypes"
             case maxResults = "maxResults"
@@ -142,6 +147,11 @@ extension MQ {
             self.brokerInstanceOptions = brokerInstanceOptions
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -873,6 +883,11 @@ extension MQ {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case engineType = "engineType"
             case maxResults = "maxResults"
@@ -894,6 +909,11 @@ extension MQ {
             self.brokerEngineTypes = brokerEngineTypes
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -922,6 +942,11 @@ extension MQ {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case engineType = "engineType"
             case hostInstanceType = "hostInstanceType"
@@ -944,6 +969,11 @@ extension MQ {
             self.brokerInstanceOptions = brokerInstanceOptions
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1471,6 +1501,11 @@ extension MQ {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "maxResults"
             case nextToken = "nextToken"
@@ -1541,6 +1576,11 @@ extension MQ {
             self.configurationId = configurationId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1614,6 +1654,11 @@ extension MQ {
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1698,6 +1743,11 @@ extension MQ {
             self.users = users
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 5)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case brokerId = "brokerId"
             case maxResults = "maxResults"
@@ -1720,6 +1770,11 @@ extension MQ {
             self.brokerId = brokerId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1746,6 +1801,11 @@ extension MQ {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.users = users
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {

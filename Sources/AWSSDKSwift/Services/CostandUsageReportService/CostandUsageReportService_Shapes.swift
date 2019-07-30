@@ -43,6 +43,11 @@ extension CostandUsageReportService {
             self.reportName = reportName
         }
 
+        public func validate() throws {
+            try validate(reportName, name:"reportName", max: 256)
+            try validate(reportName, name:"reportName", pattern: "[0-9A-Za-z!\\-_.*\\'()]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case reportName = "ReportName"
         }
@@ -74,6 +79,11 @@ extension CostandUsageReportService {
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 5)
+            try validate(maxResults, name:"maxResults", min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -111,6 +121,10 @@ extension CostandUsageReportService {
         
         public init(reportDefinition: ReportDefinition) {
             self.reportDefinition = reportDefinition
+        }
+
+        public func validate() throws {
+            try reportDefinition.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -168,6 +182,14 @@ extension CostandUsageReportService {
             self.s3Prefix = s3Prefix
             self.s3Region = s3Region
             self.timeUnit = timeUnit
+        }
+
+        public func validate() throws {
+            try validate(reportName, name:"reportName", max: 256)
+            try validate(reportName, name:"reportName", pattern: "[0-9A-Za-z!\\-_.*\\'()]+")
+            try validate(s3Bucket, name:"s3Bucket", max: 256)
+            try validate(s3Prefix, name:"s3Prefix", max: 256)
+            try validate(s3Prefix, name:"s3Prefix", pattern: "[0-9A-Za-z!\\-_.*\\'()/]*")
         }
 
         private enum CodingKeys: String, CodingKey {

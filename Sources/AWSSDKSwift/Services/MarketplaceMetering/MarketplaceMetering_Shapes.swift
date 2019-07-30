@@ -20,6 +20,11 @@ extension MarketplaceMetering {
             self.usageRecords = usageRecords
         }
 
+        public func validate() throws {
+            try validate(productCode, name:"productCode", max: 255)
+            try validate(productCode, name:"productCode", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case productCode = "ProductCode"
             case usageRecords = "UsageRecords"
@@ -74,6 +79,15 @@ extension MarketplaceMetering {
             self.usageQuantity = usageQuantity
         }
 
+        public func validate() throws {
+            try validate(productCode, name:"productCode", max: 255)
+            try validate(productCode, name:"productCode", min: 1)
+            try validate(usageDimension, name:"usageDimension", max: 255)
+            try validate(usageDimension, name:"usageDimension", min: 1)
+            try validate(usageQuantity, name:"usageQuantity", max: 2147483647)
+            try validate(usageQuantity, name:"usageQuantity", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dryRun = "DryRun"
             case productCode = "ProductCode"
@@ -118,6 +132,13 @@ extension MarketplaceMetering {
             self.publicKeyVersion = publicKeyVersion
         }
 
+        public func validate() throws {
+            try validate(nonce, name:"nonce", max: 255)
+            try validate(productCode, name:"productCode", max: 255)
+            try validate(productCode, name:"productCode", min: 1)
+            try validate(publicKeyVersion, name:"publicKeyVersion", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case nonce = "Nonce"
             case productCode = "ProductCode"
@@ -140,6 +161,10 @@ extension MarketplaceMetering {
             self.signature = signature
         }
 
+        public func validate() throws {
+            try validate(signature, name:"signature", pattern: "\\S+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case publicKeyRotationTimestamp = "PublicKeyRotationTimestamp"
             case signature = "Signature"
@@ -155,6 +180,10 @@ extension MarketplaceMetering {
         
         public init(registrationToken: String) {
             self.registrationToken = registrationToken
+        }
+
+        public func validate() throws {
+            try validate(registrationToken, name:"registrationToken", pattern: "\\S+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -175,6 +204,13 @@ extension MarketplaceMetering {
         public init(customerIdentifier: String? = nil, productCode: String? = nil) {
             self.customerIdentifier = customerIdentifier
             self.productCode = productCode
+        }
+
+        public func validate() throws {
+            try validate(customerIdentifier, name:"customerIdentifier", max: 255)
+            try validate(customerIdentifier, name:"customerIdentifier", min: 1)
+            try validate(productCode, name:"productCode", max: 255)
+            try validate(productCode, name:"productCode", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -206,6 +242,15 @@ extension MarketplaceMetering {
             self.timestamp = timestamp
         }
 
+        public func validate() throws {
+            try validate(customerIdentifier, name:"customerIdentifier", max: 255)
+            try validate(customerIdentifier, name:"customerIdentifier", min: 1)
+            try validate(dimension, name:"dimension", max: 255)
+            try validate(dimension, name:"dimension", min: 1)
+            try validate(quantity, name:"quantity", max: 2147483647)
+            try validate(quantity, name:"quantity", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case customerIdentifier = "CustomerIdentifier"
             case dimension = "Dimension"
@@ -231,6 +276,10 @@ extension MarketplaceMetering {
             self.meteringRecordId = meteringRecordId
             self.status = status
             self.usageRecord = usageRecord
+        }
+
+        public func validate() throws {
+            try usageRecord?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

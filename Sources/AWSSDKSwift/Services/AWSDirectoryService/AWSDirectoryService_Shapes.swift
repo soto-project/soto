@@ -16,6 +16,10 @@ extension AWSDirectoryService {
             self.sharedDirectoryId = sharedDirectoryId
         }
 
+        public func validate() throws {
+            try validate(sharedDirectoryId, name:"sharedDirectoryId", pattern: "^d-[0-9a-f]{10}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case sharedDirectoryId = "SharedDirectoryId"
         }
@@ -30,6 +34,10 @@ extension AWSDirectoryService {
         
         public init(sharedDirectory: SharedDirectory? = nil) {
             self.sharedDirectory = sharedDirectory
+        }
+
+        public func validate() throws {
+            try sharedDirectory?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -54,6 +62,10 @@ extension AWSDirectoryService {
             self.directoryId = directoryId
             self.ipRoutes = ipRoutes
             self.updateSecurityGroupForDirectoryControllers = updateSecurityGroupForDirectoryControllers
+        }
+
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -86,6 +98,10 @@ extension AWSDirectoryService {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(resourceId, name:"resourceId", pattern: "^[d]-[0-9a-f]{10}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceId = "ResourceId"
             case tags = "Tags"
@@ -115,6 +131,10 @@ extension AWSDirectoryService {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(name, name:"name", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case value = "Value"
@@ -134,6 +154,11 @@ extension AWSDirectoryService {
         public init(directoryId: String, schemaExtensionId: String) {
             self.directoryId = directoryId
             self.schemaExtensionId = schemaExtensionId
+        }
+
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(schemaExtensionId, name:"schemaExtensionId", pattern: "^e-[0-9a-f]{10}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -169,6 +194,14 @@ extension AWSDirectoryService {
             self.computerName = computerName
         }
 
+        public func validate() throws {
+            try validate(computerId, name:"computerId", max: 256)
+            try validate(computerId, name:"computerId", min: 1)
+            try validate(computerId, name:"computerId", pattern: "[&\\w+-.@]+")
+            try validate(computerName, name:"computerName", max: 15)
+            try validate(computerName, name:"computerName", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case computerAttributes = "ComputerAttributes"
             case computerId = "ComputerId"
@@ -193,6 +226,10 @@ extension AWSDirectoryService {
             self.dnsIpAddrs = dnsIpAddrs
             self.remoteDomainName = remoteDomainName
             self.replicationScope = replicationScope
+        }
+
+        public func validate() throws {
+            try validate(remoteDomainName, name:"remoteDomainName", pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+[.]?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -237,6 +274,17 @@ extension AWSDirectoryService {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try connectSettings.validate()
+            try validate(description, name:"description", max: 128)
+            try validate(description, name:"description", min: 0)
+            try validate(description, name:"description", pattern: "^([a-zA-Z0-9_])[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
+            try validate(name, name:"name", pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+$")
+            try validate(password, name:"password", max: 128)
+            try validate(password, name:"password", min: 1)
+            try validate(shortName, name:"shortName", pattern: "^[^\\\\/:*?\\\"\\<\\>|.]+[^\\\\/:*?\\\"<>|]*$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case connectSettings = "ConnectSettings"
             case description = "Description"
@@ -259,6 +307,10 @@ extension AWSDirectoryService {
             self.directoryId = directoryId
         }
 
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case directoryId = "DirectoryId"
         }
@@ -277,6 +329,13 @@ extension AWSDirectoryService {
         public init(alias: String, directoryId: String) {
             self.alias = alias
             self.directoryId = directoryId
+        }
+
+        public func validate() throws {
+            try validate(alias, name:"alias", max: 62)
+            try validate(alias, name:"alias", min: 1)
+            try validate(alias, name:"alias", pattern: "^(?!d-)([\\da-zA-Z]+)([-]*[\\da-zA-Z])*")
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -298,6 +357,13 @@ extension AWSDirectoryService {
         public init(alias: String? = nil, directoryId: String? = nil) {
             self.alias = alias
             self.directoryId = directoryId
+        }
+
+        public func validate() throws {
+            try validate(alias, name:"alias", max: 62)
+            try validate(alias, name:"alias", min: 1)
+            try validate(alias, name:"alias", pattern: "^(?!d-)([\\da-zA-Z]+)([-]*[\\da-zA-Z])*")
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -333,6 +399,17 @@ extension AWSDirectoryService {
             self.password = password
         }
 
+        public func validate() throws {
+            try validate(computerName, name:"computerName", max: 15)
+            try validate(computerName, name:"computerName", min: 1)
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(organizationalUnitDistinguishedName, name:"organizationalUnitDistinguishedName", max: 2000)
+            try validate(organizationalUnitDistinguishedName, name:"organizationalUnitDistinguishedName", min: 1)
+            try validate(password, name:"password", max: 64)
+            try validate(password, name:"password", min: 8)
+            try validate(password, name:"password", pattern: "[\\u0020-\\u00FF]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case computerAttributes = "ComputerAttributes"
             case computerName = "ComputerName"
@@ -351,6 +428,10 @@ extension AWSDirectoryService {
         
         public init(computer: Computer? = nil) {
             self.computer = computer
+        }
+
+        public func validate() throws {
+            try computer?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -375,6 +456,11 @@ extension AWSDirectoryService {
             self.directoryId = directoryId
             self.dnsIpAddrs = dnsIpAddrs
             self.remoteDomainName = remoteDomainName
+        }
+
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(remoteDomainName, name:"remoteDomainName", pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+[.]?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -427,6 +513,16 @@ extension AWSDirectoryService {
             self.vpcSettings = vpcSettings
         }
 
+        public func validate() throws {
+            try validate(description, name:"description", max: 128)
+            try validate(description, name:"description", min: 0)
+            try validate(description, name:"description", pattern: "^([a-zA-Z0-9_])[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
+            try validate(name, name:"name", pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+$")
+            try validate(password, name:"password", pattern: "(?=^.{8,64}$)((?=.*\\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[^A-Za-z0-9\\s])(?=.*[a-z])|(?=.*[^A-Za-z0-9\\s])(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9\\s]))^.*")
+            try validate(shortName, name:"shortName", pattern: "^[^\\\\/:*?\\\"\\<\\>|.]+[^\\\\/:*?\\\"<>|]*$")
+            try vpcSettings?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case name = "Name"
@@ -449,6 +545,10 @@ extension AWSDirectoryService {
             self.directoryId = directoryId
         }
 
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case directoryId = "DirectoryId"
         }
@@ -467,6 +567,13 @@ extension AWSDirectoryService {
         public init(directoryId: String, logGroupName: String) {
             self.directoryId = directoryId
             self.logGroupName = logGroupName
+        }
+
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(logGroupName, name:"logGroupName", max: 512)
+            try validate(logGroupName, name:"logGroupName", min: 1)
+            try validate(logGroupName, name:"logGroupName", pattern: "[-._/#A-Za-z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -518,6 +625,16 @@ extension AWSDirectoryService {
             self.vpcSettings = vpcSettings
         }
 
+        public func validate() throws {
+            try validate(description, name:"description", max: 128)
+            try validate(description, name:"description", min: 0)
+            try validate(description, name:"description", pattern: "^([a-zA-Z0-9_])[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
+            try validate(name, name:"name", pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+$")
+            try validate(password, name:"password", pattern: "(?=^.{8,64}$)((?=.*\\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[^A-Za-z0-9\\s])(?=.*[a-z])|(?=.*[^A-Za-z0-9\\s])(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9\\s]))^.*")
+            try validate(shortName, name:"shortName", pattern: "^[^\\\\/:*?\\\"\\<\\>|.]+[^\\\\/:*?\\\"<>|]*$")
+            try vpcSettings.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case edition = "Edition"
@@ -540,6 +657,10 @@ extension AWSDirectoryService {
             self.directoryId = directoryId
         }
 
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case directoryId = "DirectoryId"
         }
@@ -560,6 +681,13 @@ extension AWSDirectoryService {
             self.name = name
         }
 
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(name, name:"name", max: 128)
+            try validate(name, name:"name", min: 0)
+            try validate(name, name:"name", pattern: "^([a-zA-Z0-9_])[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case directoryId = "DirectoryId"
             case name = "Name"
@@ -575,6 +703,10 @@ extension AWSDirectoryService {
         
         public init(snapshotId: String? = nil) {
             self.snapshotId = snapshotId
+        }
+
+        public func validate() throws {
+            try validate(snapshotId, name:"snapshotId", pattern: "^s-[0-9a-f]{10}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -617,6 +749,14 @@ extension AWSDirectoryService {
             self.trustType = trustType
         }
 
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(remoteDomainName, name:"remoteDomainName", pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+[.]?$")
+            try validate(trustPassword, name:"trustPassword", max: 128)
+            try validate(trustPassword, name:"trustPassword", min: 1)
+            try validate(trustPassword, name:"trustPassword", pattern: "(.|\\s)*\\S(.|\\s)*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case conditionalForwarderIpAddrs = "ConditionalForwarderIpAddrs"
             case directoryId = "DirectoryId"
@@ -639,6 +779,10 @@ extension AWSDirectoryService {
             self.trustId = trustId
         }
 
+        public func validate() throws {
+            try validate(trustId, name:"trustId", pattern: "^t-[0-9a-f]{10}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case trustId = "TrustId"
         }
@@ -657,6 +801,11 @@ extension AWSDirectoryService {
         public init(directoryId: String, remoteDomainName: String) {
             self.directoryId = directoryId
             self.remoteDomainName = remoteDomainName
+        }
+
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(remoteDomainName, name:"remoteDomainName", pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+[.]?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -684,6 +833,10 @@ extension AWSDirectoryService {
             self.directoryId = directoryId
         }
 
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case directoryId = "DirectoryId"
         }
@@ -700,6 +853,10 @@ extension AWSDirectoryService {
             self.directoryId = directoryId
         }
 
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case directoryId = "DirectoryId"
         }
@@ -714,6 +871,10 @@ extension AWSDirectoryService {
         
         public init(directoryId: String) {
             self.directoryId = directoryId
+        }
+
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -740,6 +901,10 @@ extension AWSDirectoryService {
             self.snapshotId = snapshotId
         }
 
+        public func validate() throws {
+            try validate(snapshotId, name:"snapshotId", pattern: "^s-[0-9a-f]{10}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case snapshotId = "SnapshotId"
         }
@@ -754,6 +919,10 @@ extension AWSDirectoryService {
         
         public init(snapshotId: String? = nil) {
             self.snapshotId = snapshotId
+        }
+
+        public func validate() throws {
+            try validate(snapshotId, name:"snapshotId", pattern: "^s-[0-9a-f]{10}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -776,6 +945,10 @@ extension AWSDirectoryService {
             self.trustId = trustId
         }
 
+        public func validate() throws {
+            try validate(trustId, name:"trustId", pattern: "^t-[0-9a-f]{10}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case deleteAssociatedConditionalForwarder = "DeleteAssociatedConditionalForwarder"
             case trustId = "TrustId"
@@ -791,6 +964,10 @@ extension AWSDirectoryService {
         
         public init(trustId: String? = nil) {
             self.trustId = trustId
+        }
+
+        public func validate() throws {
+            try validate(trustId, name:"trustId", pattern: "^t-[0-9a-f]{10}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -811,6 +988,13 @@ extension AWSDirectoryService {
         public init(directoryId: String, topicName: String) {
             self.directoryId = directoryId
             self.topicName = topicName
+        }
+
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(topicName, name:"topicName", max: 256)
+            try validate(topicName, name:"topicName", min: 1)
+            try validate(topicName, name:"topicName", pattern: "[a-zA-Z0-9_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -840,6 +1024,10 @@ extension AWSDirectoryService {
         public init(directoryId: String, remoteDomainNames: [String]? = nil) {
             self.directoryId = directoryId
             self.remoteDomainNames = remoteDomainNames
+        }
+
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -881,6 +1069,10 @@ extension AWSDirectoryService {
             self.directoryIds = directoryIds
             self.limit = limit
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(limit, name:"limit", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -934,6 +1126,11 @@ extension AWSDirectoryService {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(limit, name:"limit", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case directoryId = "DirectoryId"
             case domainControllerIds = "DomainControllerIds"
@@ -976,6 +1173,10 @@ extension AWSDirectoryService {
         public init(directoryId: String? = nil, topicNames: [String]? = nil) {
             self.directoryId = directoryId
             self.topicNames = topicNames
+        }
+
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1021,6 +1222,11 @@ extension AWSDirectoryService {
             self.nextToken = nextToken
             self.ownerDirectoryId = ownerDirectoryId
             self.sharedDirectoryIds = sharedDirectoryIds
+        }
+
+        public func validate() throws {
+            try validate(limit, name:"limit", min: 0)
+            try validate(ownerDirectoryId, name:"ownerDirectoryId", pattern: "^d-[0-9a-f]{10}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1075,6 +1281,11 @@ extension AWSDirectoryService {
             self.snapshotIds = snapshotIds
         }
 
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(limit, name:"limit", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case directoryId = "DirectoryId"
             case limit = "Limit"
@@ -1125,6 +1336,11 @@ extension AWSDirectoryService {
             self.limit = limit
             self.nextToken = nextToken
             self.trustIds = trustIds
+        }
+
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(limit, name:"limit", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1179,6 +1395,12 @@ extension AWSDirectoryService {
             self.vpcId = vpcId
         }
 
+        public func validate() throws {
+            try validate(customerUserName, name:"customerUserName", min: 1)
+            try validate(customerUserName, name:"customerUserName", pattern: "[a-zA-Z0-9._-]+")
+            try validate(vpcId, name:"vpcId", pattern: "^(vpc-[0-9a-f]{8}|vpc-[0-9a-f]{17})$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case customerDnsIps = "CustomerDnsIps"
             case customerUserName = "CustomerUserName"
@@ -1216,6 +1438,13 @@ extension AWSDirectoryService {
             self.securityGroupId = securityGroupId
             self.subnetIds = subnetIds
             self.vpcId = vpcId
+        }
+
+        public func validate() throws {
+            try validate(customerUserName, name:"customerUserName", min: 1)
+            try validate(customerUserName, name:"customerUserName", pattern: "[a-zA-Z0-9._-]+")
+            try validate(securityGroupId, name:"securityGroupId", pattern: "^(sg-[0-9a-f]{8}|sg-[0-9a-f]{17})$")
+            try validate(vpcId, name:"vpcId", pattern: "^(vpc-[0-9a-f]{8}|vpc-[0-9a-f]{17})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1331,6 +1560,26 @@ extension AWSDirectoryService {
             self.vpcSettings = vpcSettings
         }
 
+        public func validate() throws {
+            try validate(accessUrl, name:"accessUrl", max: 128)
+            try validate(accessUrl, name:"accessUrl", min: 1)
+            try validate(alias, name:"alias", max: 62)
+            try validate(alias, name:"alias", min: 1)
+            try validate(alias, name:"alias", pattern: "^(?!d-)([\\da-zA-Z]+)([-]*[\\da-zA-Z])*")
+            try connectSettings?.validate()
+            try validate(description, name:"description", max: 128)
+            try validate(description, name:"description", min: 0)
+            try validate(description, name:"description", pattern: "^([a-zA-Z0-9_])[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
+            try validate(desiredNumberOfDomainControllers, name:"desiredNumberOfDomainControllers", min: 2)
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(name, name:"name", pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+$")
+            try ownerDirectoryDescription?.validate()
+            try radiusSettings?.validate()
+            try validate(shareNotes, name:"shareNotes", max: 1024)
+            try validate(shortName, name:"shortName", pattern: "^[^\\\\/:*?\\\"\\<\\>|.]+[^\\\\/:*?\\\"<>|]*$")
+            try vpcSettings?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accessUrl = "AccessUrl"
             case alias = "Alias"
@@ -1408,6 +1657,15 @@ extension AWSDirectoryService {
             self.connectedDirectoriesLimitReached = connectedDirectoriesLimitReached
         }
 
+        public func validate() throws {
+            try validate(cloudOnlyDirectoriesCurrentCount, name:"cloudOnlyDirectoriesCurrentCount", min: 0)
+            try validate(cloudOnlyDirectoriesLimit, name:"cloudOnlyDirectoriesLimit", min: 0)
+            try validate(cloudOnlyMicrosoftADCurrentCount, name:"cloudOnlyMicrosoftADCurrentCount", min: 0)
+            try validate(cloudOnlyMicrosoftADLimit, name:"cloudOnlyMicrosoftADLimit", min: 0)
+            try validate(connectedDirectoriesCurrentCount, name:"connectedDirectoriesCurrentCount", min: 0)
+            try validate(connectedDirectoriesLimit, name:"connectedDirectoriesLimit", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case cloudOnlyDirectoriesCurrentCount = "CloudOnlyDirectoriesCurrentCount"
             case cloudOnlyDirectoriesLimit = "CloudOnlyDirectoriesLimit"
@@ -1465,6 +1723,10 @@ extension AWSDirectoryService {
             self.vpcId = vpcId
         }
 
+        public func validate() throws {
+            try validate(vpcId, name:"vpcId", pattern: "^(vpc-[0-9a-f]{8}|vpc-[0-9a-f]{17})$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case subnetIds = "SubnetIds"
             case vpcId = "VpcId"
@@ -1494,6 +1756,11 @@ extension AWSDirectoryService {
             self.vpcId = vpcId
         }
 
+        public func validate() throws {
+            try validate(securityGroupId, name:"securityGroupId", pattern: "^(sg-[0-9a-f]{8}|sg-[0-9a-f]{17})$")
+            try validate(vpcId, name:"vpcId", pattern: "^(vpc-[0-9a-f]{8}|vpc-[0-9a-f]{17})$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case availabilityZones = "AvailabilityZones"
             case securityGroupId = "SecurityGroupId"
@@ -1511,6 +1778,10 @@ extension AWSDirectoryService {
         
         public init(directoryId: String) {
             self.directoryId = directoryId
+        }
+
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1543,6 +1814,14 @@ extension AWSDirectoryService {
             self.directoryId = directoryId
             self.password = password
             self.userName = userName
+        }
+
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(password, name:"password", max: 128)
+            try validate(password, name:"password", min: 1)
+            try validate(userName, name:"userName", min: 1)
+            try validate(userName, name:"userName", pattern: "[a-zA-Z0-9._-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1607,6 +1886,14 @@ extension AWSDirectoryService {
             self.vpcId = vpcId
         }
 
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(dnsIpAddr, name:"dnsIpAddr", pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
+            try validate(domainControllerId, name:"domainControllerId", pattern: "^dc-[0-9a-f]{10}$")
+            try validate(subnetId, name:"subnetId", pattern: "^(subnet-[0-9a-f]{8}|subnet-[0-9a-f]{17})$")
+            try validate(vpcId, name:"vpcId", pattern: "^(vpc-[0-9a-f]{8}|vpc-[0-9a-f]{17})$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "AvailabilityZone"
             case directoryId = "DirectoryId"
@@ -1647,6 +1934,11 @@ extension AWSDirectoryService {
             self.radiusSettings = radiusSettings
         }
 
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try radiusSettings.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case directoryId = "DirectoryId"
             case radiusSettings = "RadiusSettings"
@@ -1678,6 +1970,14 @@ extension AWSDirectoryService {
             self.directoryId = directoryId
             self.password = password
             self.userName = userName
+        }
+
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(password, name:"password", max: 128)
+            try validate(password, name:"password", min: 1)
+            try validate(userName, name:"userName", min: 1)
+            try validate(userName, name:"userName", pattern: "[a-zA-Z0-9._-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1722,6 +2022,13 @@ extension AWSDirectoryService {
             self.topicName = topicName
         }
 
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(topicName, name:"topicName", max: 256)
+            try validate(topicName, name:"topicName", min: 1)
+            try validate(topicName, name:"topicName", pattern: "[a-zA-Z0-9_-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case createdDateTime = "CreatedDateTime"
             case directoryId = "DirectoryId"
@@ -1750,6 +2057,10 @@ extension AWSDirectoryService {
             self.directoryLimits = directoryLimits
         }
 
+        public func validate() throws {
+            try directoryLimits?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case directoryLimits = "DirectoryLimits"
         }
@@ -1766,6 +2077,10 @@ extension AWSDirectoryService {
             self.directoryId = directoryId
         }
 
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case directoryId = "DirectoryId"
         }
@@ -1780,6 +2095,10 @@ extension AWSDirectoryService {
         
         public init(snapshotLimits: SnapshotLimits? = nil) {
             self.snapshotLimits = snapshotLimits
+        }
+
+        public func validate() throws {
+            try snapshotLimits?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1800,6 +2119,13 @@ extension AWSDirectoryService {
         public init(cidrIp: String? = nil, description: String? = nil) {
             self.cidrIp = cidrIp
             self.description = description
+        }
+
+        public func validate() throws {
+            try validate(cidrIp, name:"cidrIp", pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([1-9]|[1-2][0-9]|3[0-2]))$")
+            try validate(description, name:"description", max: 128)
+            try validate(description, name:"description", min: 0)
+            try validate(description, name:"description", pattern: "^([a-zA-Z0-9_])[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1839,6 +2165,14 @@ extension AWSDirectoryService {
             self.ipRouteStatusReason = ipRouteStatusReason
         }
 
+        public func validate() throws {
+            try validate(cidrIp, name:"cidrIp", pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([1-9]|[1-2][0-9]|3[0-2]))$")
+            try validate(description, name:"description", max: 128)
+            try validate(description, name:"description", min: 0)
+            try validate(description, name:"description", pattern: "^([a-zA-Z0-9_])[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case addedDateTime = "AddedDateTime"
             case cidrIp = "CidrIp"
@@ -1876,6 +2210,11 @@ extension AWSDirectoryService {
             self.directoryId = directoryId
             self.limit = limit
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(limit, name:"limit", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1925,6 +2264,11 @@ extension AWSDirectoryService {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(limit, name:"limit", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case directoryId = "DirectoryId"
             case limit = "Limit"
@@ -1970,6 +2314,11 @@ extension AWSDirectoryService {
             self.directoryId = directoryId
             self.limit = limit
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(limit, name:"limit", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2019,6 +2368,11 @@ extension AWSDirectoryService {
             self.resourceId = resourceId
         }
 
+        public func validate() throws {
+            try validate(limit, name:"limit", min: 0)
+            try validate(resourceId, name:"resourceId", pattern: "^[d]-[0-9a-f]{10}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case limit = "Limit"
             case nextToken = "NextToken"
@@ -2066,6 +2420,13 @@ extension AWSDirectoryService {
             self.subscriptionCreatedDateTime = subscriptionCreatedDateTime
         }
 
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(logGroupName, name:"logGroupName", max: 512)
+            try validate(logGroupName, name:"logGroupName", min: 1)
+            try validate(logGroupName, name:"logGroupName", pattern: "[-._/#A-Za-z0-9]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case directoryId = "DirectoryId"
             case logGroupName = "LogGroupName"
@@ -2102,6 +2463,13 @@ extension AWSDirectoryService {
             self.radiusSettings = radiusSettings
             self.radiusStatus = radiusStatus
             self.vpcSettings = vpcSettings
+        }
+
+        public func validate() throws {
+            try validate(accountId, name:"accountId", pattern: "^(\\d{12})$")
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try radiusSettings?.validate()
+            try vpcSettings?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2161,6 +2529,19 @@ extension AWSDirectoryService {
             self.useSameUsername = useSameUsername
         }
 
+        public func validate() throws {
+            try validate(displayLabel, name:"displayLabel", max: 64)
+            try validate(displayLabel, name:"displayLabel", min: 1)
+            try validate(radiusPort, name:"radiusPort", max: 65535)
+            try validate(radiusPort, name:"radiusPort", min: 1025)
+            try validate(radiusRetries, name:"radiusRetries", max: 10)
+            try validate(radiusRetries, name:"radiusRetries", min: 0)
+            try validate(radiusTimeout, name:"radiusTimeout", max: 20)
+            try validate(radiusTimeout, name:"radiusTimeout", min: 1)
+            try validate(sharedSecret, name:"sharedSecret", max: 512)
+            try validate(sharedSecret, name:"sharedSecret", min: 8)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authenticationProtocol = "AuthenticationProtocol"
             case displayLabel = "DisplayLabel"
@@ -2195,6 +2576,13 @@ extension AWSDirectoryService {
             self.topicName = topicName
         }
 
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(topicName, name:"topicName", max: 256)
+            try validate(topicName, name:"topicName", min: 1)
+            try validate(topicName, name:"topicName", pattern: "[a-zA-Z0-9_-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case directoryId = "DirectoryId"
             case topicName = "TopicName"
@@ -2220,6 +2608,10 @@ extension AWSDirectoryService {
             self.sharedDirectoryId = sharedDirectoryId
         }
 
+        public func validate() throws {
+            try validate(sharedDirectoryId, name:"sharedDirectoryId", pattern: "^d-[0-9a-f]{10}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case sharedDirectoryId = "SharedDirectoryId"
         }
@@ -2234,6 +2626,10 @@ extension AWSDirectoryService {
         
         public init(sharedDirectoryId: String? = nil) {
             self.sharedDirectoryId = sharedDirectoryId
+        }
+
+        public func validate() throws {
+            try validate(sharedDirectoryId, name:"sharedDirectoryId", pattern: "^d-[0-9a-f]{10}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2254,6 +2650,10 @@ extension AWSDirectoryService {
         public init(cidrIps: [String], directoryId: String) {
             self.cidrIps = cidrIps
             self.directoryId = directoryId
+        }
+
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2283,6 +2683,10 @@ extension AWSDirectoryService {
         public init(resourceId: String, tagKeys: [String]) {
             self.resourceId = resourceId
             self.tagKeys = tagKeys
+        }
+
+        public func validate() throws {
+            try validate(resourceId, name:"resourceId", pattern: "^[d]-[0-9a-f]{10}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2323,6 +2727,15 @@ extension AWSDirectoryService {
             self.userName = userName
         }
 
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(newPassword, name:"newPassword", max: 127)
+            try validate(newPassword, name:"newPassword", min: 1)
+            try validate(userName, name:"userName", max: 64)
+            try validate(userName, name:"userName", min: 1)
+            try validate(userName, name:"userName", pattern: "^(?!.*\\\\|.*\"|.*\\/|.*\\[|.*\\]|.*:|.*;|.*\\||.*=|.*,|.*\\+|.*\\*|.*\\?|.*<|.*>|.*@).*$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case directoryId = "DirectoryId"
             case newPassword = "NewPassword"
@@ -2347,6 +2760,10 @@ extension AWSDirectoryService {
         
         public init(snapshotId: String) {
             self.snapshotId = snapshotId
+        }
+
+        public func validate() throws {
+            try validate(snapshotId, name:"snapshotId", pattern: "^s-[0-9a-f]{10}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2395,6 +2812,14 @@ extension AWSDirectoryService {
             self.schemaExtensionStatus = schemaExtensionStatus
             self.schemaExtensionStatusReason = schemaExtensionStatusReason
             self.startDateTime = startDateTime
+        }
+
+        public func validate() throws {
+            try validate(description, name:"description", max: 128)
+            try validate(description, name:"description", min: 0)
+            try validate(description, name:"description", pattern: "^([a-zA-Z0-9_])[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(schemaExtensionId, name:"schemaExtensionId", pattern: "^e-[0-9a-f]{10}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2450,6 +2875,12 @@ extension AWSDirectoryService {
             self.shareTarget = shareTarget
         }
 
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(shareNotes, name:"shareNotes", max: 1024)
+            try shareTarget.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case directoryId = "DirectoryId"
             case shareMethod = "ShareMethod"
@@ -2467,6 +2898,10 @@ extension AWSDirectoryService {
         
         public init(sharedDirectoryId: String? = nil) {
             self.sharedDirectoryId = sharedDirectoryId
+        }
+
+        public func validate() throws {
+            try validate(sharedDirectoryId, name:"sharedDirectoryId", pattern: "^d-[0-9a-f]{10}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2506,6 +2941,11 @@ extension AWSDirectoryService {
         public init(id: String, type: TargetType) {
             self.id = id
             self.`type` = `type`
+        }
+
+        public func validate() throws {
+            try validate(id, name:"id", max: 64)
+            try validate(id, name:"id", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2557,6 +2997,14 @@ extension AWSDirectoryService {
             self.shareStatus = shareStatus
         }
 
+        public func validate() throws {
+            try validate(ownerAccountId, name:"ownerAccountId", pattern: "^(\\d{12})$")
+            try validate(ownerDirectoryId, name:"ownerDirectoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(sharedAccountId, name:"sharedAccountId", pattern: "^(\\d{12})$")
+            try validate(sharedDirectoryId, name:"sharedDirectoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(shareNotes, name:"shareNotes", max: 1024)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case createdDateTime = "CreatedDateTime"
             case lastUpdatedDateTime = "LastUpdatedDateTime"
@@ -2601,6 +3049,14 @@ extension AWSDirectoryService {
             self.`type` = `type`
         }
 
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(name, name:"name", max: 128)
+            try validate(name, name:"name", min: 0)
+            try validate(name, name:"name", pattern: "^([a-zA-Z0-9_])[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
+            try validate(snapshotId, name:"snapshotId", pattern: "^s-[0-9a-f]{10}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case directoryId = "DirectoryId"
             case name = "Name"
@@ -2628,6 +3084,11 @@ extension AWSDirectoryService {
             self.manualSnapshotsCurrentCount = manualSnapshotsCurrentCount
             self.manualSnapshotsLimit = manualSnapshotsLimit
             self.manualSnapshotsLimitReached = manualSnapshotsLimitReached
+        }
+
+        public func validate() throws {
+            try validate(manualSnapshotsCurrentCount, name:"manualSnapshotsCurrentCount", min: 0)
+            try validate(manualSnapshotsLimit, name:"manualSnapshotsLimit", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2673,6 +3134,15 @@ extension AWSDirectoryService {
             self.ldifContent = ldifContent
         }
 
+        public func validate() throws {
+            try validate(description, name:"description", max: 128)
+            try validate(description, name:"description", min: 0)
+            try validate(description, name:"description", pattern: "^([a-zA-Z0-9_])[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(ldifContent, name:"ldifContent", max: 500000)
+            try validate(ldifContent, name:"ldifContent", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case createSnapshotBeforeSchemaExtension = "CreateSnapshotBeforeSchemaExtension"
             case description = "Description"
@@ -2690,6 +3160,10 @@ extension AWSDirectoryService {
         
         public init(schemaExtensionId: String? = nil) {
             self.schemaExtensionId = schemaExtensionId
+        }
+
+        public func validate() throws {
+            try validate(schemaExtensionId, name:"schemaExtensionId", pattern: "^e-[0-9a-f]{10}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2710,6 +3184,15 @@ extension AWSDirectoryService {
         public init(key: String, value: String) {
             self.key = key
             self.value = value
+        }
+
+        public func validate() throws {
+            try validate(key, name:"key", max: 128)
+            try validate(key, name:"key", min: 1)
+            try validate(key, name:"key", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(value, name:"value", max: 256)
+            try validate(value, name:"value", min: 0)
+            try validate(value, name:"value", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2782,6 +3265,12 @@ extension AWSDirectoryService {
             self.trustType = trustType
         }
 
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(remoteDomainName, name:"remoteDomainName", pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+[.]?$")
+            try validate(trustId, name:"trustId", pattern: "^t-[0-9a-f]{10}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case createdDateTime = "CreatedDateTime"
             case directoryId = "DirectoryId"
@@ -2840,6 +3329,11 @@ extension AWSDirectoryService {
             self.unshareTarget = unshareTarget
         }
 
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try unshareTarget.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case directoryId = "DirectoryId"
             case unshareTarget = "UnshareTarget"
@@ -2855,6 +3349,10 @@ extension AWSDirectoryService {
         
         public init(sharedDirectoryId: String? = nil) {
             self.sharedDirectoryId = sharedDirectoryId
+        }
+
+        public func validate() throws {
+            try validate(sharedDirectoryId, name:"sharedDirectoryId", pattern: "^d-[0-9a-f]{10}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2875,6 +3373,11 @@ extension AWSDirectoryService {
         public init(id: String, type: TargetType) {
             self.id = id
             self.`type` = `type`
+        }
+
+        public func validate() throws {
+            try validate(id, name:"id", max: 64)
+            try validate(id, name:"id", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2900,6 +3403,11 @@ extension AWSDirectoryService {
             self.directoryId = directoryId
             self.dnsIpAddrs = dnsIpAddrs
             self.remoteDomainName = remoteDomainName
+        }
+
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(remoteDomainName, name:"remoteDomainName", pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+[.]?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2932,6 +3440,11 @@ extension AWSDirectoryService {
             self.directoryId = directoryId
         }
 
+        public func validate() throws {
+            try validate(desiredNumber, name:"desiredNumber", min: 2)
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case desiredNumber = "DesiredNumber"
             case directoryId = "DirectoryId"
@@ -2959,6 +3472,11 @@ extension AWSDirectoryService {
         public init(directoryId: String, radiusSettings: RadiusSettings) {
             self.directoryId = directoryId
             self.radiusSettings = radiusSettings
+        }
+
+        public func validate() throws {
+            try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try radiusSettings.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2990,6 +3508,10 @@ extension AWSDirectoryService {
             self.trustId = trustId
         }
 
+        public func validate() throws {
+            try validate(trustId, name:"trustId", pattern: "^t-[0-9a-f]{10}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case selectiveAuth = "SelectiveAuth"
             case trustId = "TrustId"
@@ -3010,6 +3532,11 @@ extension AWSDirectoryService {
             self.trustId = trustId
         }
 
+        public func validate() throws {
+            try validate(requestId, name:"requestId", pattern: "^([A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12})$")
+            try validate(trustId, name:"trustId", pattern: "^t-[0-9a-f]{10}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
             case trustId = "TrustId"
@@ -3027,6 +3554,10 @@ extension AWSDirectoryService {
             self.trustId = trustId
         }
 
+        public func validate() throws {
+            try validate(trustId, name:"trustId", pattern: "^t-[0-9a-f]{10}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case trustId = "TrustId"
         }
@@ -3041,6 +3572,10 @@ extension AWSDirectoryService {
         
         public init(trustId: String? = nil) {
             self.trustId = trustId
+        }
+
+        public func validate() throws {
+            try validate(trustId, name:"trustId", pattern: "^t-[0-9a-f]{10}$")
         }
 
         private enum CodingKeys: String, CodingKey {

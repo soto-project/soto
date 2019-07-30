@@ -20,6 +20,10 @@ extension AutoScalingPlans {
             self.tagFilters = tagFilters
         }
 
+        public func validate() throws {
+            try validate(cloudFormationStackARN, name:"cloudFormationStackARN", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case cloudFormationStackARN = "CloudFormationStackARN"
             case tagFilters = "TagFilters"
@@ -43,6 +47,13 @@ extension AutoScalingPlans {
             self.applicationSource = applicationSource
             self.scalingInstructions = scalingInstructions
             self.scalingPlanName = scalingPlanName
+        }
+
+        public func validate() throws {
+            try applicationSource.validate()
+            try validate(scalingPlanName, name:"scalingPlanName", max: 128)
+            try validate(scalingPlanName, name:"scalingPlanName", min: 1)
+            try validate(scalingPlanName, name:"scalingPlanName", pattern: "[\\p{Print}&&[^|:/]]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -176,6 +187,12 @@ extension AutoScalingPlans {
             self.scalingPlanVersion = scalingPlanVersion
         }
 
+        public func validate() throws {
+            try validate(scalingPlanName, name:"scalingPlanName", max: 128)
+            try validate(scalingPlanName, name:"scalingPlanName", min: 1)
+            try validate(scalingPlanName, name:"scalingPlanName", pattern: "[\\p{Print}&&[^|:/]]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case scalingPlanName = "ScalingPlanName"
             case scalingPlanVersion = "ScalingPlanVersion"
@@ -211,6 +228,12 @@ extension AutoScalingPlans {
             self.nextToken = nextToken
             self.scalingPlanName = scalingPlanName
             self.scalingPlanVersion = scalingPlanVersion
+        }
+
+        public func validate() throws {
+            try validate(scalingPlanName, name:"scalingPlanName", max: 128)
+            try validate(scalingPlanName, name:"scalingPlanName", min: 1)
+            try validate(scalingPlanName, name:"scalingPlanName", pattern: "[\\p{Print}&&[^|:/]]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -346,6 +369,13 @@ extension AutoScalingPlans {
             self.startTime = startTime
         }
 
+        public func validate() throws {
+            try validate(resourceId, name:"resourceId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(scalingPlanName, name:"scalingPlanName", max: 128)
+            try validate(scalingPlanName, name:"scalingPlanName", min: 1)
+            try validate(scalingPlanName, name:"scalingPlanName", pattern: "[\\p{Print}&&[^|:/]]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case endTime = "EndTime"
             case forecastDataType = "ForecastDataType"
@@ -432,6 +462,11 @@ extension AutoScalingPlans {
             self.resourceLabel = resourceLabel
         }
 
+        public func validate() throws {
+            try validate(resourceLabel, name:"resourceLabel", max: 1023)
+            try validate(resourceLabel, name:"resourceLabel", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case predefinedLoadMetricType = "PredefinedLoadMetricType"
             case resourceLabel = "ResourceLabel"
@@ -451,6 +486,11 @@ extension AutoScalingPlans {
         public init(predefinedScalingMetricType: ScalingMetricType, resourceLabel: String? = nil) {
             self.predefinedScalingMetricType = predefinedScalingMetricType
             self.resourceLabel = resourceLabel
+        }
+
+        public func validate() throws {
+            try validate(resourceLabel, name:"resourceLabel", max: 1023)
+            try validate(resourceLabel, name:"resourceLabel", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -547,6 +587,14 @@ extension AutoScalingPlans {
             self.targetTrackingConfigurations = targetTrackingConfigurations
         }
 
+        public func validate() throws {
+            try predefinedLoadMetricSpecification?.validate()
+            try validate(resourceId, name:"resourceId", max: 1600)
+            try validate(resourceId, name:"resourceId", min: 1)
+            try validate(resourceId, name:"resourceId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(scheduledActionBufferTime, name:"scheduledActionBufferTime", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case customizedLoadMetricSpecification = "CustomizedLoadMetricSpecification"
             case disableDynamicScaling = "DisableDynamicScaling"
@@ -621,6 +669,14 @@ extension AutoScalingPlans {
             self.statusStartTime = statusStartTime
         }
 
+        public func validate() throws {
+            try applicationSource.validate()
+            try validate(scalingPlanName, name:"scalingPlanName", max: 128)
+            try validate(scalingPlanName, name:"scalingPlanName", min: 1)
+            try validate(scalingPlanName, name:"scalingPlanName", pattern: "[\\p{Print}&&[^|:/]]+")
+            try validate(statusMessage, name:"statusMessage", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case applicationSource = "ApplicationSource"
             case creationTime = "CreationTime"
@@ -672,6 +728,16 @@ extension AutoScalingPlans {
             self.serviceNamespace = serviceNamespace
         }
 
+        public func validate() throws {
+            try validate(resourceId, name:"resourceId", max: 1600)
+            try validate(resourceId, name:"resourceId", min: 1)
+            try validate(resourceId, name:"resourceId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(scalingPlanName, name:"scalingPlanName", max: 128)
+            try validate(scalingPlanName, name:"scalingPlanName", min: 1)
+            try validate(scalingPlanName, name:"scalingPlanName", pattern: "[\\p{Print}&&[^|:/]]+")
+            try validate(scalingStatusMessage, name:"scalingStatusMessage", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceId = "ResourceId"
             case scalableDimension = "ScalableDimension"
@@ -713,6 +779,13 @@ extension AutoScalingPlans {
             self.policyName = policyName
             self.policyType = policyType
             self.targetTrackingConfiguration = targetTrackingConfiguration
+        }
+
+        public func validate() throws {
+            try validate(policyName, name:"policyName", max: 256)
+            try validate(policyName, name:"policyName", min: 1)
+            try validate(policyName, name:"policyName", pattern: "\\p{Print}+")
+            try targetTrackingConfiguration?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -759,6 +832,12 @@ extension AutoScalingPlans {
             self.values = values
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", max: 128)
+            try validate(key, name:"key", min: 1)
+            try validate(key, name:"key", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case values = "Values"
@@ -800,6 +879,10 @@ extension AutoScalingPlans {
             self.targetValue = targetValue
         }
 
+        public func validate() throws {
+            try predefinedScalingMetricSpecification?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case customizedScalingMetricSpecification = "CustomizedScalingMetricSpecification"
             case disableScaleIn = "DisableScaleIn"
@@ -832,6 +915,13 @@ extension AutoScalingPlans {
             self.scalingInstructions = scalingInstructions
             self.scalingPlanName = scalingPlanName
             self.scalingPlanVersion = scalingPlanVersion
+        }
+
+        public func validate() throws {
+            try applicationSource?.validate()
+            try validate(scalingPlanName, name:"scalingPlanName", max: 128)
+            try validate(scalingPlanName, name:"scalingPlanName", min: 1)
+            try validate(scalingPlanName, name:"scalingPlanName", pattern: "[\\p{Print}&&[^|:/]]+")
         }
 
         private enum CodingKeys: String, CodingKey {

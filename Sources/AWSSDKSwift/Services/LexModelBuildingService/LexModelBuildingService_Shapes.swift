@@ -40,6 +40,20 @@ extension LexModelBuildingService {
             self.name = name
         }
 
+        public func validate() throws {
+            try validate(botName, name:"botName", max: 50)
+            try validate(botName, name:"botName", min: 2)
+            try validate(botName, name:"botName", pattern: "^([A-Za-z]_?)+$")
+            try validate(botVersion, name:"botVersion", max: 64)
+            try validate(botVersion, name:"botVersion", min: 1)
+            try validate(botVersion, name:"botVersion", pattern: "\\$LATEST|[0-9]+")
+            try validate(description, name:"description", max: 200)
+            try validate(description, name:"description", min: 0)
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case botName = "botName"
             case botVersion = "botVersion"
@@ -94,6 +108,20 @@ extension LexModelBuildingService {
             self.`type` = `type`
         }
 
+        public func validate() throws {
+            try validate(botAlias, name:"botAlias", max: 100)
+            try validate(botAlias, name:"botAlias", min: 1)
+            try validate(botAlias, name:"botAlias", pattern: "^([A-Za-z]_?)+$")
+            try validate(botName, name:"botName", max: 50)
+            try validate(botName, name:"botName", min: 2)
+            try validate(botName, name:"botName", pattern: "^([A-Za-z]_?)+$")
+            try validate(description, name:"description", max: 200)
+            try validate(description, name:"description", min: 0)
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case botAlias = "botAlias"
             case botConfiguration = "botConfiguration"
@@ -136,6 +164,17 @@ extension LexModelBuildingService {
             self.name = name
             self.status = status
             self.version = version
+        }
+
+        public func validate() throws {
+            try validate(description, name:"description", max: 200)
+            try validate(description, name:"description", min: 0)
+            try validate(name, name:"name", max: 50)
+            try validate(name, name:"name", min: 2)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
+            try validate(version, name:"version", max: 64)
+            try validate(version, name:"version", min: 1)
+            try validate(version, name:"version", pattern: "\\$LATEST|[0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -236,6 +275,14 @@ extension LexModelBuildingService {
             self.uri = uri
         }
 
+        public func validate() throws {
+            try validate(messageVersion, name:"messageVersion", max: 5)
+            try validate(messageVersion, name:"messageVersion", min: 1)
+            try validate(uri, name:"uri", max: 2048)
+            try validate(uri, name:"uri", min: 20)
+            try validate(uri, name:"uri", pattern: "arn:aws:lambda:[a-z]+-[a-z]+-[0-9]:[0-9]{12}:function:[a-zA-Z0-9-_]+(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})?(:[a-zA-Z0-9-_]+)?")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case messageVersion = "messageVersion"
             case uri = "uri"
@@ -262,6 +309,12 @@ extension LexModelBuildingService {
         public init(checksum: String? = nil, name: String) {
             self.checksum = checksum
             self.name = name
+        }
+
+        public func validate() throws {
+            try validate(name, name:"name", max: 50)
+            try validate(name, name:"name", min: 2)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -337,6 +390,21 @@ extension LexModelBuildingService {
             self.voiceId = voiceId
         }
 
+        public func validate() throws {
+            try abortStatement?.validate()
+            try clarificationPrompt?.validate()
+            try validate(description, name:"description", max: 200)
+            try validate(description, name:"description", min: 0)
+            try validate(idleSessionTTLInSeconds, name:"idleSessionTTLInSeconds", max: 86400)
+            try validate(idleSessionTTLInSeconds, name:"idleSessionTTLInSeconds", min: 60)
+            try validate(name, name:"name", max: 50)
+            try validate(name, name:"name", min: 2)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
+            try validate(version, name:"version", max: 64)
+            try validate(version, name:"version", min: 1)
+            try validate(version, name:"version", pattern: "\\$LATEST|[0-9]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case abortStatement = "abortStatement"
             case checksum = "checksum"
@@ -369,6 +437,12 @@ extension LexModelBuildingService {
         public init(checksum: String? = nil, name: String) {
             self.checksum = checksum
             self.name = name
+        }
+
+        public func validate() throws {
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -444,6 +518,23 @@ extension LexModelBuildingService {
             self.version = version
         }
 
+        public func validate() throws {
+            try conclusionStatement?.validate()
+            try confirmationPrompt?.validate()
+            try validate(description, name:"description", max: 200)
+            try validate(description, name:"description", min: 0)
+            try dialogCodeHook?.validate()
+            try followUpPrompt?.validate()
+            try fulfillmentActivity?.validate()
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
+            try rejectionStatement?.validate()
+            try validate(version, name:"version", max: 64)
+            try validate(version, name:"version", min: 1)
+            try validate(version, name:"version", pattern: "\\$LATEST|[0-9]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case checksum = "checksum"
             case conclusionStatement = "conclusionStatement"
@@ -476,6 +567,12 @@ extension LexModelBuildingService {
         public init(checksum: String? = nil, name: String) {
             self.checksum = checksum
             self.name = name
+        }
+
+        public func validate() throws {
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -523,6 +620,17 @@ extension LexModelBuildingService {
             self.version = version
         }
 
+        public func validate() throws {
+            try validate(description, name:"description", max: 200)
+            try validate(description, name:"description", min: 0)
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
+            try validate(version, name:"version", max: 64)
+            try validate(version, name:"version", min: 1)
+            try validate(version, name:"version", pattern: "\\$LATEST|[0-9]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case checksum = "checksum"
             case createdDate = "createdDate"
@@ -550,6 +658,15 @@ extension LexModelBuildingService {
             self.name = name
         }
 
+        public func validate() throws {
+            try validate(botName, name:"botName", max: 50)
+            try validate(botName, name:"botName", min: 2)
+            try validate(botName, name:"botName", pattern: "^([A-Za-z]_?)+$")
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case botName = "botName"
             case name = "name"
@@ -575,6 +692,18 @@ extension LexModelBuildingService {
             self.name = name
         }
 
+        public func validate() throws {
+            try validate(botAlias, name:"botAlias", max: 100)
+            try validate(botAlias, name:"botAlias", min: 1)
+            try validate(botAlias, name:"botAlias", pattern: "^([A-Za-z]_?)+$")
+            try validate(botName, name:"botName", max: 50)
+            try validate(botName, name:"botName", min: 2)
+            try validate(botName, name:"botName", pattern: "^([A-Za-z]_?)+$")
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case botAlias = "aliasName"
             case botName = "botName"
@@ -591,6 +720,12 @@ extension LexModelBuildingService {
         
         public init(name: String) {
             self.name = name
+        }
+
+        public func validate() throws {
+            try validate(name, name:"name", max: 50)
+            try validate(name, name:"name", min: 2)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -613,6 +748,15 @@ extension LexModelBuildingService {
             self.version = version
         }
 
+        public func validate() throws {
+            try validate(name, name:"name", max: 50)
+            try validate(name, name:"name", min: 2)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
+            try validate(version, name:"version", max: 64)
+            try validate(version, name:"version", min: 1)
+            try validate(version, name:"version", pattern: "[0-9]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case name = "name"
             case version = "version"
@@ -628,6 +772,12 @@ extension LexModelBuildingService {
         
         public init(name: String) {
             self.name = name
+        }
+
+        public func validate() throws {
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -650,6 +800,15 @@ extension LexModelBuildingService {
             self.version = version
         }
 
+        public func validate() throws {
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
+            try validate(version, name:"version", max: 64)
+            try validate(version, name:"version", min: 1)
+            try validate(version, name:"version", pattern: "[0-9]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case name = "name"
             case version = "version"
@@ -665,6 +824,12 @@ extension LexModelBuildingService {
         
         public init(name: String) {
             self.name = name
+        }
+
+        public func validate() throws {
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -685,6 +850,15 @@ extension LexModelBuildingService {
         public init(name: String, version: String) {
             self.name = name
             self.version = version
+        }
+
+        public func validate() throws {
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
+            try validate(version, name:"version", max: 64)
+            try validate(version, name:"version", min: 1)
+            try validate(version, name:"version", pattern: "[0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -708,6 +882,14 @@ extension LexModelBuildingService {
             self.userId = userId
         }
 
+        public func validate() throws {
+            try validate(botName, name:"botName", max: 50)
+            try validate(botName, name:"botName", min: 2)
+            try validate(botName, name:"botName", pattern: "^([A-Za-z]_?)+$")
+            try validate(userId, name:"userId", max: 100)
+            try validate(userId, name:"userId", min: 2)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case botName = "botName"
             case userId = "userId"
@@ -727,6 +909,11 @@ extension LexModelBuildingService {
         public init(synonyms: [String]? = nil, value: String) {
             self.synonyms = synonyms
             self.value = value
+        }
+
+        public func validate() throws {
+            try validate(value, name:"value", max: 140)
+            try validate(value, name:"value", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -763,6 +950,11 @@ extension LexModelBuildingService {
             self.rejectionStatement = rejectionStatement
         }
 
+        public func validate() throws {
+            try prompt.validate()
+            try rejectionStatement.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case prompt = "prompt"
             case rejectionStatement = "rejectionStatement"
@@ -782,6 +974,10 @@ extension LexModelBuildingService {
         public init(codeHook: CodeHook? = nil, type: FulfillmentActivityType) {
             self.codeHook = codeHook
             self.`type` = `type`
+        }
+
+        public func validate() throws {
+            try codeHook?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -809,6 +1005,15 @@ extension LexModelBuildingService {
         public init(botName: String, name: String) {
             self.botName = botName
             self.name = name
+        }
+
+        public func validate() throws {
+            try validate(botName, name:"botName", max: 50)
+            try validate(botName, name:"botName", min: 2)
+            try validate(botName, name:"botName", pattern: "^([A-Za-z]_?)+$")
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -852,6 +1057,20 @@ extension LexModelBuildingService {
             self.name = name
         }
 
+        public func validate() throws {
+            try validate(botName, name:"botName", max: 50)
+            try validate(botName, name:"botName", min: 2)
+            try validate(botName, name:"botName", pattern: "^([A-Za-z]_?)+$")
+            try validate(botVersion, name:"botVersion", max: 64)
+            try validate(botVersion, name:"botVersion", min: 1)
+            try validate(botVersion, name:"botVersion", pattern: "\\$LATEST|[0-9]+")
+            try validate(description, name:"description", max: 200)
+            try validate(description, name:"description", min: 0)
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case botName = "botName"
             case botVersion = "botVersion"
@@ -884,6 +1103,17 @@ extension LexModelBuildingService {
             self.maxResults = maxResults
             self.nameContains = nameContains
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(botName, name:"botName", max: 50)
+            try validate(botName, name:"botName", min: 2)
+            try validate(botName, name:"botName", pattern: "^([A-Za-z]_?)+$")
+            try validate(maxResults, name:"maxResults", max: 50)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(nameContains, name:"nameContains", max: 100)
+            try validate(nameContains, name:"nameContains", min: 1)
+            try validate(nameContains, name:"nameContains", pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -932,6 +1162,18 @@ extension LexModelBuildingService {
             self.botAlias = botAlias
             self.botName = botName
             self.name = name
+        }
+
+        public func validate() throws {
+            try validate(botAlias, name:"botAlias", max: 100)
+            try validate(botAlias, name:"botAlias", min: 1)
+            try validate(botAlias, name:"botAlias", pattern: "^([A-Za-z]_?)+$")
+            try validate(botName, name:"botName", max: 50)
+            try validate(botName, name:"botName", min: 2)
+            try validate(botName, name:"botName", pattern: "^([A-Za-z]_?)+$")
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -984,6 +1226,20 @@ extension LexModelBuildingService {
             self.`type` = `type`
         }
 
+        public func validate() throws {
+            try validate(botAlias, name:"botAlias", max: 100)
+            try validate(botAlias, name:"botAlias", min: 1)
+            try validate(botAlias, name:"botAlias", pattern: "^([A-Za-z]_?)+$")
+            try validate(botName, name:"botName", max: 50)
+            try validate(botName, name:"botName", min: 2)
+            try validate(botName, name:"botName", pattern: "^([A-Za-z]_?)+$")
+            try validate(description, name:"description", max: 200)
+            try validate(description, name:"description", min: 0)
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case botAlias = "botAlias"
             case botConfiguration = "botConfiguration"
@@ -1022,6 +1278,20 @@ extension LexModelBuildingService {
             self.maxResults = maxResults
             self.nameContains = nameContains
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(botAlias, name:"botAlias", max: 100)
+            try validate(botAlias, name:"botAlias", min: 1)
+            try validate(botAlias, name:"botAlias", pattern: "^(-|^([A-Za-z]_?)+$)$")
+            try validate(botName, name:"botName", max: 50)
+            try validate(botName, name:"botName", min: 2)
+            try validate(botName, name:"botName", pattern: "^([A-Za-z]_?)+$")
+            try validate(maxResults, name:"maxResults", max: 50)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(nameContains, name:"nameContains", max: 100)
+            try validate(nameContains, name:"nameContains", min: 1)
+            try validate(nameContains, name:"nameContains", pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1067,6 +1337,12 @@ extension LexModelBuildingService {
         public init(name: String, versionOrAlias: String) {
             self.name = name
             self.versionOrAlias = versionOrAlias
+        }
+
+        public func validate() throws {
+            try validate(name, name:"name", max: 50)
+            try validate(name, name:"name", min: 2)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1142,6 +1418,21 @@ extension LexModelBuildingService {
             self.voiceId = voiceId
         }
 
+        public func validate() throws {
+            try abortStatement?.validate()
+            try clarificationPrompt?.validate()
+            try validate(description, name:"description", max: 200)
+            try validate(description, name:"description", min: 0)
+            try validate(idleSessionTTLInSeconds, name:"idleSessionTTLInSeconds", max: 86400)
+            try validate(idleSessionTTLInSeconds, name:"idleSessionTTLInSeconds", min: 60)
+            try validate(name, name:"name", max: 50)
+            try validate(name, name:"name", min: 2)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
+            try validate(version, name:"version", max: 64)
+            try validate(version, name:"version", min: 1)
+            try validate(version, name:"version", pattern: "\\$LATEST|[0-9]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case abortStatement = "abortStatement"
             case checksum = "checksum"
@@ -1178,6 +1469,14 @@ extension LexModelBuildingService {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 50)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(name, name:"name", max: 50)
+            try validate(name, name:"name", min: 2)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1225,6 +1524,14 @@ extension LexModelBuildingService {
             self.maxResults = maxResults
             self.nameContains = nameContains
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 50)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(nameContains, name:"nameContains", max: 50)
+            try validate(nameContains, name:"nameContains", min: 2)
+            try validate(nameContains, name:"nameContains", pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1320,6 +1627,11 @@ extension LexModelBuildingService {
             self.signatureContains = signatureContains
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 50)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case locale = "locale"
             case maxResults = "maxResults"
@@ -1370,6 +1682,11 @@ extension LexModelBuildingService {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.signatureContains = signatureContains
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 50)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1424,6 +1741,15 @@ extension LexModelBuildingService {
             self.version = version
         }
 
+        public func validate() throws {
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "[a-zA-Z_]+")
+            try validate(version, name:"version", max: 64)
+            try validate(version, name:"version", min: 1)
+            try validate(version, name:"version", pattern: "[0-9]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case exportType = "exportType"
             case name = "name"
@@ -1465,6 +1791,15 @@ extension LexModelBuildingService {
             self.resourceType = resourceType
             self.url = url
             self.version = version
+        }
+
+        public func validate() throws {
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "[a-zA-Z_]+")
+            try validate(version, name:"version", max: 64)
+            try validate(version, name:"version", min: 1)
+            try validate(version, name:"version", pattern: "[0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1529,6 +1864,12 @@ extension LexModelBuildingService {
             self.resourceType = resourceType
         }
 
+        public func validate() throws {
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "[a-zA-Z_]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case createdDate = "createdDate"
             case failureReason = "failureReason"
@@ -1553,6 +1894,15 @@ extension LexModelBuildingService {
         public init(name: String, version: String) {
             self.name = name
             self.version = version
+        }
+
+        public func validate() throws {
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
+            try validate(version, name:"version", max: 64)
+            try validate(version, name:"version", min: 1)
+            try validate(version, name:"version", pattern: "\\$LATEST|[0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1628,6 +1978,23 @@ extension LexModelBuildingService {
             self.version = version
         }
 
+        public func validate() throws {
+            try conclusionStatement?.validate()
+            try confirmationPrompt?.validate()
+            try validate(description, name:"description", max: 200)
+            try validate(description, name:"description", min: 0)
+            try dialogCodeHook?.validate()
+            try followUpPrompt?.validate()
+            try fulfillmentActivity?.validate()
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
+            try rejectionStatement?.validate()
+            try validate(version, name:"version", max: 64)
+            try validate(version, name:"version", min: 1)
+            try validate(version, name:"version", pattern: "\\$LATEST|[0-9]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case checksum = "checksum"
             case conclusionStatement = "conclusionStatement"
@@ -1664,6 +2031,14 @@ extension LexModelBuildingService {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 50)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1713,6 +2088,14 @@ extension LexModelBuildingService {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 50)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(nameContains, name:"nameContains", max: 100)
+            try validate(nameContains, name:"nameContains", min: 1)
+            try validate(nameContains, name:"nameContains", pattern: "^([A-Za-z]_?)+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "maxResults"
             case nameContains = "nameContains"
@@ -1754,6 +2137,15 @@ extension LexModelBuildingService {
         public init(name: String, version: String) {
             self.name = name
             self.version = version
+        }
+
+        public func validate() throws {
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
+            try validate(version, name:"version", max: 64)
+            try validate(version, name:"version", min: 1)
+            try validate(version, name:"version", pattern: "\\$LATEST|[0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1801,6 +2193,17 @@ extension LexModelBuildingService {
             self.version = version
         }
 
+        public func validate() throws {
+            try validate(description, name:"description", max: 200)
+            try validate(description, name:"description", min: 0)
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
+            try validate(version, name:"version", max: 64)
+            try validate(version, name:"version", min: 1)
+            try validate(version, name:"version", pattern: "\\$LATEST|[0-9]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case checksum = "checksum"
             case createdDate = "createdDate"
@@ -1830,6 +2233,14 @@ extension LexModelBuildingService {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 50)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1879,6 +2290,14 @@ extension LexModelBuildingService {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 50)
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(nameContains, name:"nameContains", max: 100)
+            try validate(nameContains, name:"nameContains", min: 1)
+            try validate(nameContains, name:"nameContains", pattern: "^([A-Za-z]_?)+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "maxResults"
             case nameContains = "nameContains"
@@ -1926,6 +2345,12 @@ extension LexModelBuildingService {
             self.statusType = statusType
         }
 
+        public func validate() throws {
+            try validate(botName, name:"botName", max: 50)
+            try validate(botName, name:"botName", min: 2)
+            try validate(botName, name:"botName", pattern: "^([A-Za-z]_?)+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case botName = "botname"
             case botVersions = "bot_versions"
@@ -1946,6 +2371,12 @@ extension LexModelBuildingService {
         public init(botName: String? = nil, utterances: [UtteranceList]? = nil) {
             self.botName = botName
             self.utterances = utterances
+        }
+
+        public func validate() throws {
+            try validate(botName, name:"botName", max: 50)
+            try validate(botName, name:"botName", min: 2)
+            try validate(botName, name:"botName", pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1974,6 +2405,15 @@ extension LexModelBuildingService {
         public init(intentName: String, intentVersion: String) {
             self.intentName = intentName
             self.intentVersion = intentVersion
+        }
+
+        public func validate() throws {
+            try validate(intentName, name:"intentName", max: 100)
+            try validate(intentName, name:"intentName", min: 1)
+            try validate(intentName, name:"intentName", pattern: "^([A-Za-z]_?)+$")
+            try validate(intentVersion, name:"intentVersion", max: 64)
+            try validate(intentVersion, name:"intentVersion", min: 1)
+            try validate(intentVersion, name:"intentVersion", pattern: "\\$LATEST|[0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2007,6 +2447,17 @@ extension LexModelBuildingService {
             self.lastUpdatedDate = lastUpdatedDate
             self.name = name
             self.version = version
+        }
+
+        public func validate() throws {
+            try validate(description, name:"description", max: 200)
+            try validate(description, name:"description", min: 0)
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
+            try validate(version, name:"version", max: 64)
+            try validate(version, name:"version", min: 1)
+            try validate(version, name:"version", pattern: "\\$LATEST|[0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2050,6 +2501,13 @@ extension LexModelBuildingService {
             self.groupNumber = groupNumber
         }
 
+        public func validate() throws {
+            try validate(content, name:"content", max: 1000)
+            try validate(content, name:"content", min: 1)
+            try validate(groupNumber, name:"groupNumber", max: 5)
+            try validate(groupNumber, name:"groupNumber", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case content = "content"
             case contentType = "contentType"
@@ -2080,6 +2538,13 @@ extension LexModelBuildingService {
             self.maxAttempts = maxAttempts
             self.messages = messages
             self.responseCard = responseCard
+        }
+
+        public func validate() throws {
+            try validate(maxAttempts, name:"maxAttempts", max: 5)
+            try validate(maxAttempts, name:"maxAttempts", min: 1)
+            try validate(responseCard, name:"responseCard", max: 50000)
+            try validate(responseCard, name:"responseCard", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2114,6 +2579,20 @@ extension LexModelBuildingService {
             self.checksum = checksum
             self.description = description
             self.name = name
+        }
+
+        public func validate() throws {
+            try validate(botName, name:"botName", max: 50)
+            try validate(botName, name:"botName", min: 2)
+            try validate(botName, name:"botName", pattern: "^([A-Za-z]_?)+$")
+            try validate(botVersion, name:"botVersion", max: 64)
+            try validate(botVersion, name:"botVersion", min: 1)
+            try validate(botVersion, name:"botVersion", pattern: "\\$LATEST|[0-9]+")
+            try validate(description, name:"description", max: 200)
+            try validate(description, name:"description", min: 0)
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2158,6 +2637,20 @@ extension LexModelBuildingService {
             self.description = description
             self.lastUpdatedDate = lastUpdatedDate
             self.name = name
+        }
+
+        public func validate() throws {
+            try validate(botName, name:"botName", max: 50)
+            try validate(botName, name:"botName", min: 2)
+            try validate(botName, name:"botName", pattern: "^([A-Za-z]_?)+$")
+            try validate(botVersion, name:"botVersion", max: 64)
+            try validate(botVersion, name:"botVersion", min: 1)
+            try validate(botVersion, name:"botVersion", pattern: "\\$LATEST|[0-9]+")
+            try validate(description, name:"description", max: 200)
+            try validate(description, name:"description", min: 0)
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2223,6 +2716,18 @@ extension LexModelBuildingService {
             self.name = name
             self.processBehavior = processBehavior
             self.voiceId = voiceId
+        }
+
+        public func validate() throws {
+            try abortStatement?.validate()
+            try clarificationPrompt?.validate()
+            try validate(description, name:"description", max: 200)
+            try validate(description, name:"description", min: 0)
+            try validate(idleSessionTTLInSeconds, name:"idleSessionTTLInSeconds", max: 86400)
+            try validate(idleSessionTTLInSeconds, name:"idleSessionTTLInSeconds", min: 60)
+            try validate(name, name:"name", max: 50)
+            try validate(name, name:"name", min: 2)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2311,6 +2816,21 @@ extension LexModelBuildingService {
             self.voiceId = voiceId
         }
 
+        public func validate() throws {
+            try abortStatement?.validate()
+            try clarificationPrompt?.validate()
+            try validate(description, name:"description", max: 200)
+            try validate(description, name:"description", min: 0)
+            try validate(idleSessionTTLInSeconds, name:"idleSessionTTLInSeconds", max: 86400)
+            try validate(idleSessionTTLInSeconds, name:"idleSessionTTLInSeconds", min: 60)
+            try validate(name, name:"name", max: 50)
+            try validate(name, name:"name", min: 2)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
+            try validate(version, name:"version", max: 64)
+            try validate(version, name:"version", min: 1)
+            try validate(version, name:"version", pattern: "\\$LATEST|[0-9]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case abortStatement = "abortStatement"
             case checksum = "checksum"
@@ -2387,6 +2907,20 @@ extension LexModelBuildingService {
             self.rejectionStatement = rejectionStatement
             self.sampleUtterances = sampleUtterances
             self.slots = slots
+        }
+
+        public func validate() throws {
+            try conclusionStatement?.validate()
+            try confirmationPrompt?.validate()
+            try validate(description, name:"description", max: 200)
+            try validate(description, name:"description", min: 0)
+            try dialogCodeHook?.validate()
+            try followUpPrompt?.validate()
+            try fulfillmentActivity?.validate()
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
+            try rejectionStatement?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2476,6 +3010,23 @@ extension LexModelBuildingService {
             self.version = version
         }
 
+        public func validate() throws {
+            try conclusionStatement?.validate()
+            try confirmationPrompt?.validate()
+            try validate(description, name:"description", max: 200)
+            try validate(description, name:"description", min: 0)
+            try dialogCodeHook?.validate()
+            try followUpPrompt?.validate()
+            try fulfillmentActivity?.validate()
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
+            try rejectionStatement?.validate()
+            try validate(version, name:"version", max: 64)
+            try validate(version, name:"version", min: 1)
+            try validate(version, name:"version", pattern: "\\$LATEST|[0-9]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case checksum = "checksum"
             case conclusionStatement = "conclusionStatement"
@@ -2524,6 +3075,14 @@ extension LexModelBuildingService {
             self.enumerationValues = enumerationValues
             self.name = name
             self.valueSelectionStrategy = valueSelectionStrategy
+        }
+
+        public func validate() throws {
+            try validate(description, name:"description", max: 200)
+            try validate(description, name:"description", min: 0)
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2578,6 +3137,17 @@ extension LexModelBuildingService {
             self.version = version
         }
 
+        public func validate() throws {
+            try validate(description, name:"description", max: 200)
+            try validate(description, name:"description", min: 0)
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
+            try validate(version, name:"version", max: 64)
+            try validate(version, name:"version", min: 1)
+            try validate(version, name:"version", pattern: "\\$LATEST|[0-9]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case checksum = "checksum"
             case createdDate = "createdDate"
@@ -2612,6 +3182,15 @@ extension LexModelBuildingService {
         public init(name: String? = nil, version: String? = nil) {
             self.name = name
             self.version = version
+        }
+
+        public func validate() throws {
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "[a-zA-Z_]+")
+            try validate(version, name:"version", max: 64)
+            try validate(version, name:"version", min: 1)
+            try validate(version, name:"version", pattern: "\\$LATEST|[0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2670,6 +3249,25 @@ extension LexModelBuildingService {
             self.valueElicitationPrompt = valueElicitationPrompt
         }
 
+        public func validate() throws {
+            try validate(description, name:"description", max: 200)
+            try validate(description, name:"description", min: 0)
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^([A-Za-z](-|_|.)?)+$")
+            try validate(priority, name:"priority", max: 100)
+            try validate(priority, name:"priority", min: 0)
+            try validate(responseCard, name:"responseCard", max: 50000)
+            try validate(responseCard, name:"responseCard", min: 1)
+            try validate(slotType, name:"slotType", max: 100)
+            try validate(slotType, name:"slotType", min: 1)
+            try validate(slotType, name:"slotType", pattern: "^((AMAZON\\.)_?|[A-Za-z]_?)+")
+            try validate(slotTypeVersion, name:"slotTypeVersion", max: 64)
+            try validate(slotTypeVersion, name:"slotTypeVersion", min: 1)
+            try validate(slotTypeVersion, name:"slotTypeVersion", pattern: "\\$LATEST|[0-9]+")
+            try valueElicitationPrompt?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case name = "name"
@@ -2714,6 +3312,17 @@ extension LexModelBuildingService {
             self.lastUpdatedDate = lastUpdatedDate
             self.name = name
             self.version = version
+        }
+
+        public func validate() throws {
+            try validate(description, name:"description", max: 200)
+            try validate(description, name:"description", min: 0)
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
+            try validate(version, name:"version", max: 64)
+            try validate(version, name:"version", min: 1)
+            try validate(version, name:"version", pattern: "\\$LATEST|[0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2788,6 +3397,12 @@ extension LexModelBuildingService {
             self.resourceType = resourceType
         }
 
+        public func validate() throws {
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "[a-zA-Z_]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case createdDate = "createdDate"
             case importId = "importId"
@@ -2811,6 +3426,11 @@ extension LexModelBuildingService {
         public init(messages: [Message], responseCard: String? = nil) {
             self.messages = messages
             self.responseCard = responseCard
+        }
+
+        public func validate() throws {
+            try validate(responseCard, name:"responseCard", max: 50000)
+            try validate(responseCard, name:"responseCard", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2861,6 +3481,11 @@ extension LexModelBuildingService {
             self.utteranceString = utteranceString
         }
 
+        public func validate() throws {
+            try validate(utteranceString, name:"utteranceString", max: 2000)
+            try validate(utteranceString, name:"utteranceString", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case count = "count"
             case distinctUsers = "distinctUsers"
@@ -2883,6 +3508,12 @@ extension LexModelBuildingService {
         public init(botVersion: String? = nil, utterances: [UtteranceData]? = nil) {
             self.botVersion = botVersion
             self.utterances = utterances
+        }
+
+        public func validate() throws {
+            try validate(botVersion, name:"botVersion", max: 64)
+            try validate(botVersion, name:"botVersion", min: 1)
+            try validate(botVersion, name:"botVersion", pattern: "\\$LATEST|[0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {

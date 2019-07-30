@@ -251,6 +251,13 @@ extension OpsWorks {
             self.thresholdsWaitTime = thresholdsWaitTime
         }
 
+        public func validate() throws {
+            try validate(ignoreMetricsTime, name:"ignoreMetricsTime", max: 100)
+            try validate(ignoreMetricsTime, name:"ignoreMetricsTime", min: 1)
+            try validate(thresholdsWaitTime, name:"thresholdsWaitTime", max: 100)
+            try validate(thresholdsWaitTime, name:"thresholdsWaitTime", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case alarms = "Alarms"
             case cpuThreshold = "CpuThreshold"
@@ -2645,6 +2652,11 @@ extension OpsWorks {
             self.validForInMinutes = validForInMinutes
         }
 
+        public func validate() throws {
+            try validate(validForInMinutes, name:"validForInMinutes", max: 1440)
+            try validate(validForInMinutes, name:"validForInMinutes", min: 60)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case instanceId = "InstanceId"
             case validForInMinutes = "ValidForInMinutes"
@@ -3272,6 +3284,11 @@ extension OpsWorks {
             self.upScaling = upScaling
         }
 
+        public func validate() throws {
+            try downScaling?.validate()
+            try upScaling?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case downScaling = "DownScaling"
             case enable = "Enable"
@@ -3896,6 +3913,11 @@ extension OpsWorks {
             self.enable = enable
             self.layerId = layerId
             self.upScaling = upScaling
+        }
+
+        public func validate() throws {
+            try downScaling?.validate()
+            try upScaling?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

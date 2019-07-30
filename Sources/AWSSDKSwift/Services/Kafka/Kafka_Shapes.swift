@@ -66,6 +66,12 @@ extension Kafka {
             self.storageInfo = storageInfo
         }
 
+        public func validate() throws {
+            try validate(instanceType, name:"instanceType", max: 32)
+            try validate(instanceType, name:"instanceType", min: 5)
+            try storageInfo?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case brokerAZDistribution = "brokerAZDistribution"
             case clientSubnets = "clientSubnets"
@@ -249,6 +255,10 @@ extension Kafka {
             self.state = state
             self.tags = tags
             self.zookeeperConnectString = zookeeperConnectString
+        }
+
+        public func validate() throws {
+            try brokerNodeGroupInfo?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -495,6 +505,16 @@ extension Kafka {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try brokerNodeGroupInfo.validate()
+            try validate(clusterName, name:"clusterName", max: 64)
+            try validate(clusterName, name:"clusterName", min: 1)
+            try validate(kafkaVersion, name:"kafkaVersion", max: 128)
+            try validate(kafkaVersion, name:"kafkaVersion", min: 1)
+            try validate(numberOfBrokerNodes, name:"numberOfBrokerNodes", max: 15)
+            try validate(numberOfBrokerNodes, name:"numberOfBrokerNodes", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case brokerNodeGroupInfo = "brokerNodeGroupInfo"
             case clientAuthentication = "clientAuthentication"
@@ -705,6 +725,10 @@ extension Kafka {
             self.clusterInfo = clusterInfo
         }
 
+        public func validate() throws {
+            try clusterInfo?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case clusterInfo = "clusterInfo"
         }
@@ -838,6 +862,11 @@ extension Kafka {
         
         public init(volumeSize: Int32? = nil) {
             self.volumeSize = volumeSize
+        }
+
+        public func validate() throws {
+            try validate(volumeSize, name:"volumeSize", max: 16384)
+            try validate(volumeSize, name:"volumeSize", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1023,6 +1052,11 @@ extension Kafka {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case clusterArn = "clusterArn"
             case maxResults = "maxResults"
@@ -1067,6 +1101,11 @@ extension Kafka {
             self.clusterNameFilter = clusterNameFilter
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1116,6 +1155,11 @@ extension Kafka {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case maxResults = "maxResults"
@@ -1157,6 +1201,11 @@ extension Kafka {
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1203,6 +1252,11 @@ extension Kafka {
             self.clusterArn = clusterArn
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1359,6 +1413,10 @@ extension Kafka {
         
         public init(ebsStorageInfo: EBSStorageInfo? = nil) {
             self.ebsStorageInfo = ebsStorageInfo
+        }
+
+        public func validate() throws {
+            try ebsStorageInfo?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

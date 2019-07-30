@@ -33,6 +33,15 @@ extension SageMakerRuntime {
             self.endpointName = endpointName
         }
 
+        public func validate() throws {
+            try validate(accept, name:"accept", max: 1024)
+            try validate(body, name:"body", max: 5242880)
+            try validate(contentType, name:"contentType", max: 1024)
+            try validate(customAttributes, name:"customAttributes", max: 1024)
+            try validate(endpointName, name:"endpointName", max: 63)
+            try validate(endpointName, name:"endpointName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accept = "Accept"
             case body = "Body"
@@ -64,6 +73,13 @@ extension SageMakerRuntime {
             self.contentType = contentType
             self.customAttributes = customAttributes
             self.invokedProductionVariant = invokedProductionVariant
+        }
+
+        public func validate() throws {
+            try validate(body, name:"body", max: 5242880)
+            try validate(contentType, name:"contentType", max: 1024)
+            try validate(customAttributes, name:"customAttributes", max: 1024)
+            try validate(invokedProductionVariant, name:"invokedProductionVariant", max: 1024)
         }
 
         private enum CodingKeys: String, CodingKey {

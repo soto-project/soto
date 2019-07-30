@@ -183,6 +183,11 @@ extension MediaLive {
             self.metadataControl = metadataControl
         }
 
+        public func validate() throws {
+            try validate(dialnorm, name:"dialnorm", max: 31)
+            try validate(dialnorm, name:"dialnorm", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bitrate = "bitrate"
             case bitstreamMode = "bitstreamMode"
@@ -226,6 +231,10 @@ extension MediaLive {
             self.m2tsSettings = m2tsSettings
         }
 
+        public func validate() throws {
+            try m2tsSettings?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case m2tsSettings = "m2tsSettings"
         }
@@ -244,6 +253,10 @@ extension MediaLive {
         public init(destination: OutputLocationRef, rolloverInterval: Int32? = nil) {
             self.destination = destination
             self.rolloverInterval = rolloverInterval
+        }
+
+        public func validate() throws {
+            try validate(rolloverInterval, name:"rolloverInterval", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -269,6 +282,10 @@ extension MediaLive {
             self.containerSettings = containerSettings
             self.`extension` = `extension`
             self.nameModifier = nameModifier
+        }
+
+        public func validate() throws {
+            try containerSettings.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -309,6 +326,11 @@ extension MediaLive {
             self.outputChannel = outputChannel
         }
 
+        public func validate() throws {
+            try validate(outputChannel, name:"outputChannel", max: 7)
+            try validate(outputChannel, name:"outputChannel", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case inputChannelLevels = "inputChannelLevels"
             case outputChannel = "outputChannel"
@@ -335,6 +357,11 @@ extension MediaLive {
             self.eac3Settings = eac3Settings
             self.mp2Settings = mp2Settings
             self.passThroughSettings = passThroughSettings
+        }
+
+        public func validate() throws {
+            try ac3Settings?.validate()
+            try eac3Settings?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -394,6 +421,13 @@ extension MediaLive {
             self.name = name
             self.remixSettings = remixSettings
             self.streamName = streamName
+        }
+
+        public func validate() throws {
+            try codecSettings?.validate()
+            try validate(languageCode, name:"languageCode", max: 3)
+            try validate(languageCode, name:"languageCode", min: 3)
+            try remixSettings?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -539,6 +573,11 @@ extension MediaLive {
             self.pid = pid
         }
 
+        public func validate() throws {
+            try validate(pid, name:"pid", max: 8191)
+            try validate(pid, name:"pid", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case pid = "pid"
         }
@@ -559,6 +598,11 @@ extension MediaLive {
             self.selectorSettings = selectorSettings
         }
 
+        public func validate() throws {
+            try validate(name, name:"name", min: 1)
+            try selectorSettings?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case name = "name"
             case selectorSettings = "selectorSettings"
@@ -576,6 +620,10 @@ extension MediaLive {
         public init(audioLanguageSelection: AudioLanguageSelection? = nil, audioPidSelection: AudioPidSelection? = nil) {
             self.audioLanguageSelection = audioLanguageSelection
             self.audioPidSelection = audioPidSelection
+        }
+
+        public func validate() throws {
+            try audioPidSelection?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -636,6 +684,10 @@ extension MediaLive {
             self.availSettings = availSettings
         }
 
+        public func validate() throws {
+            try availSettings?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case availSettings = "availSettings"
         }
@@ -652,6 +704,11 @@ extension MediaLive {
         public init(scte35SpliceInsert: Scte35SpliceInsert? = nil, scte35TimeSignalApos: Scte35TimeSignalApos? = nil) {
             self.scte35SpliceInsert = scte35SpliceInsert
             self.scte35TimeSignalApos = scte35TimeSignalApos
+        }
+
+        public func validate() throws {
+            try scte35SpliceInsert?.validate()
+            try scte35TimeSignalApos?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -816,6 +873,11 @@ extension MediaLive {
             self.state = state
         }
 
+        public func validate() throws {
+            try validate(networkId, name:"networkId", max: 34)
+            try validate(networkId, name:"networkId", min: 34)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case blackoutSlateImage = "blackoutSlateImage"
             case networkEndBlackout = "networkEndBlackout"
@@ -926,6 +988,21 @@ extension MediaLive {
             self.yPosition = yPosition
         }
 
+        public func validate() throws {
+            try validate(backgroundOpacity, name:"backgroundOpacity", max: 255)
+            try validate(backgroundOpacity, name:"backgroundOpacity", min: 0)
+            try validate(fontOpacity, name:"fontOpacity", max: 255)
+            try validate(fontOpacity, name:"fontOpacity", min: 0)
+            try validate(fontResolution, name:"fontResolution", max: 600)
+            try validate(fontResolution, name:"fontResolution", min: 96)
+            try validate(outlineSize, name:"outlineSize", max: 10)
+            try validate(outlineSize, name:"outlineSize", min: 0)
+            try validate(shadowOpacity, name:"shadowOpacity", max: 255)
+            try validate(shadowOpacity, name:"shadowOpacity", min: 0)
+            try validate(xPosition, name:"xPosition", min: 0)
+            try validate(yPosition, name:"yPosition", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case alignment = "alignment"
             case backgroundColor = "backgroundColor"
@@ -1007,6 +1084,10 @@ extension MediaLive {
             self.name = name
         }
 
+        public func validate() throws {
+            try destinationSettings?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case captionSelectorName = "captionSelectorName"
             case destinationSettings = "destinationSettings"
@@ -1059,6 +1140,11 @@ extension MediaLive {
             self.webvttDestinationSettings = webvttDestinationSettings
         }
 
+        public func validate() throws {
+            try burnInDestinationSettings?.validate()
+            try dvbSubDestinationSettings?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case aribDestinationSettings = "aribDestinationSettings"
             case burnInDestinationSettings = "burnInDestinationSettings"
@@ -1094,6 +1180,14 @@ extension MediaLive {
             self.languageDescription = languageDescription
         }
 
+        public func validate() throws {
+            try validate(captionChannel, name:"captionChannel", max: 4)
+            try validate(captionChannel, name:"captionChannel", min: 1)
+            try validate(languageCode, name:"languageCode", max: 3)
+            try validate(languageCode, name:"languageCode", min: 3)
+            try validate(languageDescription, name:"languageDescription", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case captionChannel = "captionChannel"
             case languageCode = "languageCode"
@@ -1118,6 +1212,11 @@ extension MediaLive {
             self.languageCode = languageCode
             self.name = name
             self.selectorSettings = selectorSettings
+        }
+
+        public func validate() throws {
+            try validate(name, name:"name", min: 1)
+            try selectorSettings?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1150,6 +1249,13 @@ extension MediaLive {
             self.scte20SourceSettings = scte20SourceSettings
             self.scte27SourceSettings = scte27SourceSettings
             self.teletextSourceSettings = teletextSourceSettings
+        }
+
+        public func validate() throws {
+            try dvbSubSourceSettings?.validate()
+            try embeddedSourceSettings?.validate()
+            try scte20SourceSettings?.validate()
+            try scte27SourceSettings?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1222,6 +1328,10 @@ extension MediaLive {
             self.roleArn = roleArn
             self.state = state
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try encoderSettings?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1421,6 +1531,10 @@ extension MediaLive {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try encoderSettings?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case channelClass = "channelClass"
             case destinations = "destinations"
@@ -1472,6 +1586,10 @@ extension MediaLive {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try encoderSettings?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case channelClass = "channelClass"
             case destinations = "destinations"
@@ -1496,6 +1614,10 @@ extension MediaLive {
             self.channel = channel
         }
 
+        public func validate() throws {
+            try channel?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case channel = "channel"
         }
@@ -1509,6 +1631,10 @@ extension MediaLive {
         
         public init(channel: Channel? = nil) {
             self.channel = channel
+        }
+
+        public func validate() throws {
+            try channel?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1793,6 +1919,10 @@ extension MediaLive {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try encoderSettings?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case channelClass = "channelClass"
@@ -2059,6 +2189,10 @@ extension MediaLive {
             self.roleArn = roleArn
             self.state = state
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try encoderSettings?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2391,6 +2525,11 @@ extension MediaLive {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 1000)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case channelId = "channelId"
             case maxResults = "maxResults"
@@ -2436,6 +2575,15 @@ extension MediaLive {
             self.repInterval = repInterval
         }
 
+        public func validate() throws {
+            try validate(networkId, name:"networkId", max: 65536)
+            try validate(networkId, name:"networkId", min: 0)
+            try validate(networkName, name:"networkName", max: 256)
+            try validate(networkName, name:"networkName", min: 1)
+            try validate(repInterval, name:"repInterval", max: 10000)
+            try validate(repInterval, name:"repInterval", min: 25)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case networkId = "networkId"
             case networkName = "networkName"
@@ -2472,6 +2620,15 @@ extension MediaLive {
             self.repInterval = repInterval
             self.serviceName = serviceName
             self.serviceProviderName = serviceProviderName
+        }
+
+        public func validate() throws {
+            try validate(repInterval, name:"repInterval", max: 2000)
+            try validate(repInterval, name:"repInterval", min: 25)
+            try validate(serviceName, name:"serviceName", max: 256)
+            try validate(serviceName, name:"serviceName", min: 1)
+            try validate(serviceProviderName, name:"serviceProviderName", max: 256)
+            try validate(serviceProviderName, name:"serviceProviderName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2591,6 +2748,21 @@ extension MediaLive {
             self.yPosition = yPosition
         }
 
+        public func validate() throws {
+            try validate(backgroundOpacity, name:"backgroundOpacity", max: 255)
+            try validate(backgroundOpacity, name:"backgroundOpacity", min: 0)
+            try validate(fontOpacity, name:"fontOpacity", max: 255)
+            try validate(fontOpacity, name:"fontOpacity", min: 0)
+            try validate(fontResolution, name:"fontResolution", max: 600)
+            try validate(fontResolution, name:"fontResolution", min: 96)
+            try validate(outlineSize, name:"outlineSize", max: 10)
+            try validate(outlineSize, name:"outlineSize", min: 0)
+            try validate(shadowOpacity, name:"shadowOpacity", max: 255)
+            try validate(shadowOpacity, name:"shadowOpacity", min: 0)
+            try validate(xPosition, name:"xPosition", min: 0)
+            try validate(yPosition, name:"yPosition", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case alignment = "alignment"
             case backgroundColor = "backgroundColor"
@@ -2636,6 +2808,10 @@ extension MediaLive {
             self.pid = pid
         }
 
+        public func validate() throws {
+            try validate(pid, name:"pid", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case pid = "pid"
         }
@@ -2650,6 +2826,11 @@ extension MediaLive {
         
         public init(repInterval: Int32? = nil) {
             self.repInterval = repInterval
+        }
+
+        public func validate() throws {
+            try validate(repInterval, name:"repInterval", max: 30000)
+            try validate(repInterval, name:"repInterval", min: 1000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2822,6 +3003,11 @@ extension MediaLive {
             self.surroundMode = surroundMode
         }
 
+        public func validate() throws {
+            try validate(dialnorm, name:"dialnorm", max: 31)
+            try validate(dialnorm, name:"dialnorm", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case attenuationControl = "attenuationControl"
             case bitrate = "bitrate"
@@ -2919,6 +3105,13 @@ extension MediaLive {
             self.source608TrackNumber = source608TrackNumber
         }
 
+        public func validate() throws {
+            try validate(source608ChannelNumber, name:"source608ChannelNumber", max: 4)
+            try validate(source608ChannelNumber, name:"source608ChannelNumber", min: 1)
+            try validate(source608TrackNumber, name:"source608TrackNumber", max: 5)
+            try validate(source608TrackNumber, name:"source608TrackNumber", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case convert608To708 = "convert608To708"
             case scte20Detection = "scte20Detection"
@@ -2975,6 +3168,13 @@ extension MediaLive {
             self.videoDescriptions = videoDescriptions
         }
 
+        public func validate() throws {
+            try availConfiguration?.validate()
+            try blackoutSlate?.validate()
+            try globalConfiguration?.validate()
+            try timecodeConfig.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case audioDescriptions = "audioDescriptions"
             case availBlanking = "availBlanking"
@@ -3011,6 +3211,13 @@ extension MediaLive {
             self.columnDepth = columnDepth
             self.includeFec = includeFec
             self.rowLength = rowLength
+        }
+
+        public func validate() throws {
+            try validate(columnDepth, name:"columnDepth", max: 20)
+            try validate(columnDepth, name:"columnDepth", min: 4)
+            try validate(rowLength, name:"rowLength", max: 20)
+            try validate(rowLength, name:"rowLength", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3121,6 +3328,11 @@ extension MediaLive {
             self.captureInterval = captureInterval
         }
 
+        public func validate() throws {
+            try validate(captureInterval, name:"captureInterval", max: 3600)
+            try validate(captureInterval, name:"captureInterval", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case captureInterval = "captureInterval"
         }
@@ -3157,6 +3369,12 @@ extension MediaLive {
             self.outputLockingMode = outputLockingMode
             self.outputTimingSource = outputTimingSource
             self.supportLowFramerateInputs = supportLowFramerateInputs
+        }
+
+        public func validate() throws {
+            try validate(initialAudioGain, name:"initialAudioGain", max: 60)
+            try validate(initialAudioGain, name:"initialAudioGain", min: -60)
+            try inputLossBehavior?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3472,6 +3690,30 @@ extension MediaLive {
             self.timecodeInsertion = timecodeInsertion
         }
 
+        public func validate() throws {
+            try validate(bitrate, name:"bitrate", min: 1000)
+            try validate(bufFillPct, name:"bufFillPct", max: 100)
+            try validate(bufFillPct, name:"bufFillPct", min: 0)
+            try validate(bufSize, name:"bufSize", min: 0)
+            try validate(framerateDenominator, name:"framerateDenominator", min: 1)
+            try validate(framerateNumerator, name:"framerateNumerator", min: 1)
+            try validate(gopClosedCadence, name:"gopClosedCadence", min: 0)
+            try validate(gopNumBFrames, name:"gopNumBFrames", max: 7)
+            try validate(gopNumBFrames, name:"gopNumBFrames", min: 0)
+            try validate(maxBitrate, name:"maxBitrate", min: 1000)
+            try validate(minIInterval, name:"minIInterval", max: 30)
+            try validate(minIInterval, name:"minIInterval", min: 0)
+            try validate(numRefFrames, name:"numRefFrames", max: 6)
+            try validate(numRefFrames, name:"numRefFrames", min: 1)
+            try validate(parDenominator, name:"parDenominator", min: 1)
+            try validate(qvbrQualityLevel, name:"qvbrQualityLevel", max: 10)
+            try validate(qvbrQualityLevel, name:"qvbrQualityLevel", min: 1)
+            try validate(slices, name:"slices", max: 32)
+            try validate(slices, name:"slices", min: 1)
+            try validate(softness, name:"softness", max: 128)
+            try validate(softness, name:"softness", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case adaptiveQuantization = "adaptiveQuantization"
             case afdSignaling = "afdSignaling"
@@ -3591,6 +3833,15 @@ extension MediaLive {
             self.token = token
         }
 
+        public func validate() throws {
+            try validate(connectionRetryInterval, name:"connectionRetryInterval", min: 0)
+            try validate(filecacheDuration, name:"filecacheDuration", max: 600)
+            try validate(filecacheDuration, name:"filecacheDuration", min: 0)
+            try validate(numRetries, name:"numRetries", min: 0)
+            try validate(restartDelay, name:"restartDelay", max: 15)
+            try validate(restartDelay, name:"restartDelay", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case connectionRetryInterval = "connectionRetryInterval"
             case filecacheDuration = "filecacheDuration"
@@ -3625,6 +3876,15 @@ extension MediaLive {
             self.restartDelay = restartDelay
         }
 
+        public func validate() throws {
+            try validate(connectionRetryInterval, name:"connectionRetryInterval", min: 0)
+            try validate(filecacheDuration, name:"filecacheDuration", max: 600)
+            try validate(filecacheDuration, name:"filecacheDuration", min: 0)
+            try validate(numRetries, name:"numRetries", min: 0)
+            try validate(restartDelay, name:"restartDelay", max: 15)
+            try validate(restartDelay, name:"restartDelay", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case connectionRetryInterval = "connectionRetryInterval"
             case filecacheDuration = "filecacheDuration"
@@ -3657,6 +3917,13 @@ extension MediaLive {
             self.hlsBasicPutSettings = hlsBasicPutSettings
             self.hlsMediaStoreSettings = hlsMediaStoreSettings
             self.hlsWebdavSettings = hlsWebdavSettings
+        }
+
+        public func validate() throws {
+            try hlsAkamaiSettings?.validate()
+            try hlsBasicPutSettings?.validate()
+            try hlsMediaStoreSettings?.validate()
+            try hlsWebdavSettings?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3855,6 +4122,22 @@ extension MediaLive {
             self.tsFileMode = tsFileMode
         }
 
+        public func validate() throws {
+            try validate(constantIv, name:"constantIv", max: 32)
+            try validate(constantIv, name:"constantIv", min: 32)
+            try hlsCdnSettings?.validate()
+            try validate(indexNSegments, name:"indexNSegments", min: 3)
+            try validate(keepSegments, name:"keepSegments", min: 1)
+            try keyProviderSettings?.validate()
+            try validate(minSegmentLength, name:"minSegmentLength", min: 0)
+            try validate(programDateTimePeriod, name:"programDateTimePeriod", max: 3600)
+            try validate(programDateTimePeriod, name:"programDateTimePeriod", min: 0)
+            try validate(segmentLength, name:"segmentLength", min: 1)
+            try validate(segmentsPerSubdirectory, name:"segmentsPerSubdirectory", min: 1)
+            try validate(timedMetadataId3Period, name:"timedMetadataId3Period", min: 0)
+            try validate(timestampDeltaMilliseconds, name:"timestampDeltaMilliseconds", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case adMarkers = "adMarkers"
             case baseUrlContent = "baseUrlContent"
@@ -3919,6 +4202,13 @@ extension MediaLive {
             self.retryInterval = retryInterval
         }
 
+        public func validate() throws {
+            try validate(bandwidth, name:"bandwidth", min: 0)
+            try validate(bufferSegments, name:"bufferSegments", min: 0)
+            try validate(retries, name:"retries", min: 0)
+            try validate(retryInterval, name:"retryInterval", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bandwidth = "bandwidth"
             case bufferSegments = "bufferSegments"
@@ -3978,6 +4268,15 @@ extension MediaLive {
             self.restartDelay = restartDelay
         }
 
+        public func validate() throws {
+            try validate(connectionRetryInterval, name:"connectionRetryInterval", min: 0)
+            try validate(filecacheDuration, name:"filecacheDuration", max: 600)
+            try validate(filecacheDuration, name:"filecacheDuration", min: 0)
+            try validate(numRetries, name:"numRetries", min: 0)
+            try validate(restartDelay, name:"restartDelay", max: 15)
+            try validate(restartDelay, name:"restartDelay", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case connectionRetryInterval = "connectionRetryInterval"
             case filecacheDuration = "filecacheDuration"
@@ -4023,6 +4322,11 @@ extension MediaLive {
             self.segmentModifier = segmentModifier
         }
 
+        public func validate() throws {
+            try hlsSettings.validate()
+            try validate(nameModifier, name:"nameModifier", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case hlsSettings = "hlsSettings"
             case nameModifier = "nameModifier"
@@ -4059,6 +4363,10 @@ extension MediaLive {
         public init(audioOnlyHlsSettings: AudioOnlyHlsSettings? = nil, standardHlsSettings: StandardHlsSettings? = nil) {
             self.audioOnlyHlsSettings = audioOnlyHlsSettings
             self.standardHlsSettings = standardHlsSettings
+        }
+
+        public func validate() throws {
+            try standardHlsSettings?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4133,6 +4441,15 @@ extension MediaLive {
             self.httpTransferMode = httpTransferMode
             self.numRetries = numRetries
             self.restartDelay = restartDelay
+        }
+
+        public func validate() throws {
+            try validate(connectionRetryInterval, name:"connectionRetryInterval", min: 0)
+            try validate(filecacheDuration, name:"filecacheDuration", max: 600)
+            try validate(filecacheDuration, name:"filecacheDuration", min: 0)
+            try validate(numRetries, name:"numRetries", min: 0)
+            try validate(restartDelay, name:"restartDelay", max: 15)
+            try validate(restartDelay, name:"restartDelay", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4244,6 +4561,10 @@ extension MediaLive {
             self.inputSettings = inputSettings
         }
 
+        public func validate() throws {
+            try inputSettings?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case inputAttachmentName = "inputAttachmentName"
             case inputId = "inputId"
@@ -4264,6 +4585,13 @@ extension MediaLive {
         public init(gain: Int32, inputChannel: Int32) {
             self.gain = gain
             self.inputChannel = inputChannel
+        }
+
+        public func validate() throws {
+            try validate(gain, name:"gain", max: 6)
+            try validate(gain, name:"gain", min: -60)
+            try validate(inputChannel, name:"inputChannel", max: 15)
+            try validate(inputChannel, name:"inputChannel", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4452,6 +4780,15 @@ extension MediaLive {
             self.repeatFrameMsec = repeatFrameMsec
         }
 
+        public func validate() throws {
+            try validate(blackFrameMsec, name:"blackFrameMsec", max: 1000000)
+            try validate(blackFrameMsec, name:"blackFrameMsec", min: 0)
+            try validate(inputLossImageColor, name:"inputLossImageColor", max: 6)
+            try validate(inputLossImageColor, name:"inputLossImageColor", min: 6)
+            try validate(repeatFrameMsec, name:"repeatFrameMsec", max: 1000000)
+            try validate(repeatFrameMsec, name:"repeatFrameMsec", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case blackFrameMsec = "blackFrameMsec"
             case inputLossImageColor = "inputLossImageColor"
@@ -4595,6 +4932,13 @@ extension MediaLive {
             self.networkInputSettings = networkInputSettings
             self.sourceEndBehavior = sourceEndBehavior
             self.videoSelector = videoSelector
+        }
+
+        public func validate() throws {
+            try validate(filterStrength, name:"filterStrength", max: 5)
+            try validate(filterStrength, name:"filterStrength", min: 1)
+            try networkInputSettings?.validate()
+            try videoSelector?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4827,6 +5171,10 @@ extension MediaLive {
             self.staticKeySettings = staticKeySettings
         }
 
+        public func validate() throws {
+            try staticKeySettings?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case staticKeySettings = "staticKeySettings"
         }
@@ -4858,6 +5206,11 @@ extension MediaLive {
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 1000)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4917,6 +5270,11 @@ extension MediaLive {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 1000)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "maxResults"
             case nextToken = "nextToken"
@@ -4973,6 +5331,11 @@ extension MediaLive {
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 1000)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5057,6 +5420,11 @@ extension MediaLive {
             self.resourceType = resourceType
             self.specialFeature = specialFeature
             self.videoQuality = videoQuality
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 1000)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5149,6 +5517,11 @@ extension MediaLive {
             self.resourceType = resourceType
             self.specialFeature = specialFeature
             self.videoQuality = videoQuality
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 1000)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5543,6 +5916,26 @@ extension MediaLive {
             self.videoPid = videoPid
         }
 
+        public func validate() throws {
+            try validate(audioFramesPerPes, name:"audioFramesPerPes", min: 0)
+            try validate(bitrate, name:"bitrate", min: 0)
+            try dvbNitSettings?.validate()
+            try dvbSdtSettings?.validate()
+            try dvbTdtSettings?.validate()
+            try validate(ebpLookaheadMs, name:"ebpLookaheadMs", max: 10000)
+            try validate(ebpLookaheadMs, name:"ebpLookaheadMs", min: 0)
+            try validate(patInterval, name:"patInterval", max: 1000)
+            try validate(patInterval, name:"patInterval", min: 0)
+            try validate(pcrPeriod, name:"pcrPeriod", max: 500)
+            try validate(pcrPeriod, name:"pcrPeriod", min: 0)
+            try validate(pmtInterval, name:"pmtInterval", max: 1000)
+            try validate(pmtInterval, name:"pmtInterval", min: 0)
+            try validate(programNum, name:"programNum", max: 65535)
+            try validate(programNum, name:"programNum", min: 0)
+            try validate(transportStreamId, name:"transportStreamId", max: 65535)
+            try validate(transportStreamId, name:"transportStreamId", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case absentInputAudioBehavior = "absentInputAudioBehavior"
             case arib = "arib"
@@ -5682,6 +6075,20 @@ extension MediaLive {
             self.videoPid = videoPid
         }
 
+        public func validate() throws {
+            try validate(audioFramesPerPes, name:"audioFramesPerPes", min: 0)
+            try validate(patInterval, name:"patInterval", max: 1000)
+            try validate(patInterval, name:"patInterval", min: 0)
+            try validate(pcrPeriod, name:"pcrPeriod", max: 500)
+            try validate(pcrPeriod, name:"pcrPeriod", min: 0)
+            try validate(pmtInterval, name:"pmtInterval", max: 1000)
+            try validate(pmtInterval, name:"pmtInterval", min: 0)
+            try validate(programNum, name:"programNum", max: 65535)
+            try validate(programNum, name:"programNum", min: 0)
+            try validate(transportStreamId, name:"transportStreamId", max: 65535)
+            try validate(transportStreamId, name:"transportStreamId", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case audioFramesPerPes = "audioFramesPerPes"
             case audioPids = "audioPids"
@@ -5765,6 +6172,10 @@ extension MediaLive {
         
         public init(channelId: String? = nil) {
             self.channelId = channelId
+        }
+
+        public func validate() throws {
+            try validate(channelId, name:"channelId", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5902,6 +6313,16 @@ extension MediaLive {
             self.timestampOffsetMode = timestampOffsetMode
         }
 
+        public func validate() throws {
+            try validate(connectionRetryInterval, name:"connectionRetryInterval", min: 0)
+            try validate(filecacheDuration, name:"filecacheDuration", min: 0)
+            try validate(fragmentLength, name:"fragmentLength", min: 1)
+            try validate(numRetries, name:"numRetries", min: 0)
+            try validate(restartDelay, name:"restartDelay", min: 0)
+            try validate(sendDelayMs, name:"sendDelayMs", max: 10000)
+            try validate(sendDelayMs, name:"sendDelayMs", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acquisitionPointId = "acquisitionPointId"
             case audioOnlyTimecodeControl = "audioOnlyTimecodeControl"
@@ -5960,6 +6381,10 @@ extension MediaLive {
         public init(hlsInputSettings: HlsInputSettings? = nil, serverValidation: NetworkInputServerValidation? = nil) {
             self.hlsInputSettings = hlsInputSettings
             self.serverValidation = serverValidation
+        }
+
+        public func validate() throws {
+            try hlsInputSettings?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6071,6 +6496,12 @@ extension MediaLive {
             self.videoDescriptionName = videoDescriptionName
         }
 
+        public func validate() throws {
+            try validate(outputName, name:"outputName", max: 255)
+            try validate(outputName, name:"outputName", min: 1)
+            try outputSettings.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case audioDescriptionNames = "audioDescriptionNames"
             case captionDescriptionNames = "captionDescriptionNames"
@@ -6155,6 +6586,11 @@ extension MediaLive {
             self.outputs = outputs
         }
 
+        public func validate() throws {
+            try validate(name, name:"name", max: 32)
+            try outputGroupSettings.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case name = "name"
             case outputGroupSettings = "outputGroupSettings"
@@ -6188,6 +6624,14 @@ extension MediaLive {
             self.msSmoothGroupSettings = msSmoothGroupSettings
             self.rtmpGroupSettings = rtmpGroupSettings
             self.udpGroupSettings = udpGroupSettings
+        }
+
+        public func validate() throws {
+            try archiveGroupSettings?.validate()
+            try hlsGroupSettings?.validate()
+            try msSmoothGroupSettings?.validate()
+            try rtmpGroupSettings?.validate()
+            try udpGroupSettings?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6242,6 +6686,13 @@ extension MediaLive {
             self.msSmoothOutputSettings = msSmoothOutputSettings
             self.rtmpOutputSettings = rtmpOutputSettings
             self.udpOutputSettings = udpOutputSettings
+        }
+
+        public func validate() throws {
+            try archiveOutputSettings?.validate()
+            try hlsOutputSettings?.validate()
+            try rtmpOutputSettings?.validate()
+            try udpOutputSettings?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6327,6 +6778,10 @@ extension MediaLive {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(count, name:"count", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case count = "count"
             case name = "name"
@@ -6359,6 +6814,10 @@ extension MediaLive {
             self.requestId = requestId
             self.start = start
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try validate(count, name:"count", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6419,6 +6878,13 @@ extension MediaLive {
             self.channelMappings = channelMappings
             self.channelsIn = channelsIn
             self.channelsOut = channelsOut
+        }
+
+        public func validate() throws {
+            try validate(channelsIn, name:"channelsIn", max: 16)
+            try validate(channelsIn, name:"channelsIn", min: 1)
+            try validate(channelsOut, name:"channelsOut", max: 8)
+            try validate(channelsOut, name:"channelsOut", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6720,6 +7186,11 @@ extension MediaLive {
             self.restartDelay = restartDelay
         }
 
+        public func validate() throws {
+            try validate(cacheLength, name:"cacheLength", min: 30)
+            try validate(restartDelay, name:"restartDelay", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authenticationScheme = "authenticationScheme"
             case cacheFullBehavior = "cacheFullBehavior"
@@ -6759,6 +7230,11 @@ extension MediaLive {
             self.numRetries = numRetries
         }
 
+        public func validate() throws {
+            try validate(connectionRetryInterval, name:"connectionRetryInterval", min: 1)
+            try validate(numRetries, name:"numRetries", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case certificateMode = "certificateMode"
             case connectionRetryInterval = "connectionRetryInterval"
@@ -6784,6 +7260,10 @@ extension MediaLive {
             self.actionName = actionName
             self.scheduleActionSettings = scheduleActionSettings
             self.scheduleActionStartSettings = scheduleActionStartSettings
+        }
+
+        public func validate() throws {
+            try scheduleActionSettings.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6830,6 +7310,13 @@ extension MediaLive {
             self.scte35TimeSignalSettings = scte35TimeSignalSettings
             self.staticImageActivateSettings = staticImageActivateSettings
             self.staticImageDeactivateSettings = staticImageDeactivateSettings
+        }
+
+        public func validate() throws {
+            try scte35ReturnToNetworkSettings?.validate()
+            try scte35SpliceInsertSettings?.validate()
+            try staticImageActivateSettings?.validate()
+            try staticImageDeactivateSettings?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6923,6 +7410,11 @@ extension MediaLive {
             self.source608ChannelNumber = source608ChannelNumber
         }
 
+        public func validate() throws {
+            try validate(source608ChannelNumber, name:"source608ChannelNumber", max: 4)
+            try validate(source608ChannelNumber, name:"source608ChannelNumber", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case convert608To708 = "convert608To708"
             case source608ChannelNumber = "source608ChannelNumber"
@@ -6950,6 +7442,10 @@ extension MediaLive {
         
         public init(pid: Int32? = nil) {
             self.pid = pid
+        }
+
+        public func validate() throws {
+            try validate(pid, name:"pid", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7017,6 +7513,10 @@ extension MediaLive {
             self.scte35DescriptorSettings = scte35DescriptorSettings
         }
 
+        public func validate() throws {
+            try scte35DescriptorSettings.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case scte35DescriptorSettings = "scte35DescriptorSettings"
         }
@@ -7031,6 +7531,10 @@ extension MediaLive {
         
         public init(segmentationDescriptorScte35DescriptorSettings: Scte35SegmentationDescriptor) {
             self.segmentationDescriptorScte35DescriptorSettings = segmentationDescriptorScte35DescriptorSettings
+        }
+
+        public func validate() throws {
+            try segmentationDescriptorScte35DescriptorSettings.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7061,6 +7565,11 @@ extension MediaLive {
         
         public init(spliceEventId: Int64) {
             self.spliceEventId = spliceEventId
+        }
+
+        public func validate() throws {
+            try validate(spliceEventId, name:"spliceEventId", max: 4294967295)
+            try validate(spliceEventId, name:"spliceEventId", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7125,6 +7634,25 @@ extension MediaLive {
             self.subSegmentsExpected = subSegmentsExpected
         }
 
+        public func validate() throws {
+            try validate(segmentationDuration, name:"segmentationDuration", max: 1099511627775)
+            try validate(segmentationDuration, name:"segmentationDuration", min: 0)
+            try validate(segmentationEventId, name:"segmentationEventId", max: 4294967295)
+            try validate(segmentationEventId, name:"segmentationEventId", min: 0)
+            try validate(segmentationTypeId, name:"segmentationTypeId", max: 255)
+            try validate(segmentationTypeId, name:"segmentationTypeId", min: 0)
+            try validate(segmentationUpidType, name:"segmentationUpidType", max: 255)
+            try validate(segmentationUpidType, name:"segmentationUpidType", min: 0)
+            try validate(segmentNum, name:"segmentNum", max: 255)
+            try validate(segmentNum, name:"segmentNum", min: 0)
+            try validate(segmentsExpected, name:"segmentsExpected", max: 255)
+            try validate(segmentsExpected, name:"segmentsExpected", min: 0)
+            try validate(subSegmentNum, name:"subSegmentNum", max: 255)
+            try validate(subSegmentNum, name:"subSegmentNum", min: 0)
+            try validate(subSegmentsExpected, name:"subSegmentsExpected", max: 255)
+            try validate(subSegmentsExpected, name:"subSegmentsExpected", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case deliveryRestrictions = "deliveryRestrictions"
             case segmentationCancelIndicator = "segmentationCancelIndicator"
@@ -7159,6 +7687,11 @@ extension MediaLive {
             self.webDeliveryAllowedFlag = webDeliveryAllowedFlag
         }
 
+        public func validate() throws {
+            try validate(adAvailOffset, name:"adAvailOffset", max: 1000)
+            try validate(adAvailOffset, name:"adAvailOffset", min: -1000)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case adAvailOffset = "adAvailOffset"
             case noRegionalBlackoutFlag = "noRegionalBlackoutFlag"
@@ -7185,6 +7718,13 @@ extension MediaLive {
         public init(duration: Int64? = nil, spliceEventId: Int64) {
             self.duration = duration
             self.spliceEventId = spliceEventId
+        }
+
+        public func validate() throws {
+            try validate(duration, name:"duration", max: 8589934591)
+            try validate(duration, name:"duration", min: 0)
+            try validate(spliceEventId, name:"spliceEventId", max: 4294967295)
+            try validate(spliceEventId, name:"spliceEventId", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7216,6 +7756,11 @@ extension MediaLive {
             self.adAvailOffset = adAvailOffset
             self.noRegionalBlackoutFlag = noRegionalBlackoutFlag
             self.webDeliveryAllowedFlag = webDeliveryAllowedFlag
+        }
+
+        public func validate() throws {
+            try validate(adAvailOffset, name:"adAvailOffset", max: 1000)
+            try validate(adAvailOffset, name:"adAvailOffset", min: -1000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7318,6 +7863,10 @@ extension MediaLive {
             self.m3u8Settings = m3u8Settings
         }
 
+        public func validate() throws {
+            try m3u8Settings.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case audioRenditionSets = "audioRenditionSets"
             case m3u8Settings = "m3u8Settings"
@@ -7388,6 +7937,10 @@ extension MediaLive {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try encoderSettings?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case channelClass = "channelClass"
@@ -7453,6 +8006,20 @@ extension MediaLive {
             self.width = width
         }
 
+        public func validate() throws {
+            try validate(duration, name:"duration", min: 0)
+            try validate(fadeIn, name:"fadeIn", min: 0)
+            try validate(fadeOut, name:"fadeOut", min: 0)
+            try validate(height, name:"height", min: 1)
+            try validate(imageX, name:"imageX", min: 0)
+            try validate(imageY, name:"imageY", min: 0)
+            try validate(layer, name:"layer", max: 7)
+            try validate(layer, name:"layer", min: 0)
+            try validate(opacity, name:"opacity", max: 100)
+            try validate(opacity, name:"opacity", min: 0)
+            try validate(width, name:"width", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case duration = "duration"
             case fadeIn = "fadeIn"
@@ -7482,6 +8049,12 @@ extension MediaLive {
             self.layer = layer
         }
 
+        public func validate() throws {
+            try validate(fadeOut, name:"fadeOut", min: 0)
+            try validate(layer, name:"layer", max: 7)
+            try validate(layer, name:"layer", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case fadeOut = "fadeOut"
             case layer = "layer"
@@ -7501,6 +8074,11 @@ extension MediaLive {
         public init(keyProviderServer: InputLocation? = nil, staticKeyValue: String) {
             self.keyProviderServer = keyProviderServer
             self.staticKeyValue = staticKeyValue
+        }
+
+        public func validate() throws {
+            try validate(staticKeyValue, name:"staticKeyValue", max: 32)
+            try validate(staticKeyValue, name:"staticKeyValue", min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7571,6 +8149,10 @@ extension MediaLive {
             self.roleArn = roleArn
             self.state = state
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try encoderSettings?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7648,6 +8230,11 @@ extension MediaLive {
             self.syncThreshold = syncThreshold
         }
 
+        public func validate() throws {
+            try validate(syncThreshold, name:"syncThreshold", max: 1000000)
+            try validate(syncThreshold, name:"syncThreshold", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case source = "source"
             case syncThreshold = "syncThreshold"
@@ -7693,6 +8280,10 @@ extension MediaLive {
             self.m2tsSettings = m2tsSettings
         }
 
+        public func validate() throws {
+            try m2tsSettings?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case m2tsSettings = "m2tsSettings"
         }
@@ -7715,6 +8306,10 @@ extension MediaLive {
             self.inputLossAction = inputLossAction
             self.timedMetadataId3Frame = timedMetadataId3Frame
             self.timedMetadataId3Period = timedMetadataId3Period
+        }
+
+        public func validate() throws {
+            try validate(timedMetadataId3Period, name:"timedMetadataId3Period", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7744,6 +8339,13 @@ extension MediaLive {
             self.containerSettings = containerSettings
             self.destination = destination
             self.fecOutputSettings = fecOutputSettings
+        }
+
+        public func validate() throws {
+            try validate(bufferMsec, name:"bufferMsec", max: 10000)
+            try validate(bufferMsec, name:"bufferMsec", min: 0)
+            try containerSettings.validate()
+            try fecOutputSettings?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7793,6 +8395,10 @@ extension MediaLive {
             self.logLevel = logLevel
             self.name = name
             self.roleArn = roleArn
+        }
+
+        public func validate() throws {
+            try encoderSettings?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7860,6 +8466,10 @@ extension MediaLive {
             self.channel = channel
         }
 
+        public func validate() throws {
+            try channel?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case channel = "channel"
         }
@@ -7896,6 +8506,10 @@ extension MediaLive {
             self.roleArn = roleArn
         }
 
+        public func validate() throws {
+            try encoderSettings?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case channelId = "channelId"
             case destinations = "destinations"
@@ -7918,6 +8532,10 @@ extension MediaLive {
             self.channel = channel
         }
 
+        public func validate() throws {
+            try channel?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case channel = "channel"
         }
@@ -7931,6 +8549,10 @@ extension MediaLive {
         
         public init(channel: Channel? = nil) {
             self.channel = channel
+        }
+
+        public func validate() throws {
+            try channel?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8202,6 +8824,11 @@ extension MediaLive {
             self.h264Settings = h264Settings
         }
 
+        public func validate() throws {
+            try frameCaptureSettings?.validate()
+            try h264Settings?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case frameCaptureSettings = "frameCaptureSettings"
             case h264Settings = "h264Settings"
@@ -8241,6 +8868,12 @@ extension MediaLive {
             self.scalingBehavior = scalingBehavior
             self.sharpness = sharpness
             self.width = width
+        }
+
+        public func validate() throws {
+            try codecSettings?.validate()
+            try validate(sharpness, name:"sharpness", max: 100)
+            try validate(sharpness, name:"sharpness", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8286,6 +8919,10 @@ extension MediaLive {
             self.selectorSettings = selectorSettings
         }
 
+        public func validate() throws {
+            try selectorSettings?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case colorSpace = "colorSpace"
             case colorSpaceUsage = "colorSpaceUsage"
@@ -8317,6 +8954,11 @@ extension MediaLive {
             self.pid = pid
         }
 
+        public func validate() throws {
+            try validate(pid, name:"pid", max: 8191)
+            try validate(pid, name:"pid", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case pid = "pid"
         }
@@ -8331,6 +8973,11 @@ extension MediaLive {
         
         public init(programId: Int32? = nil) {
             self.programId = programId
+        }
+
+        public func validate() throws {
+            try validate(programId, name:"programId", max: 65536)
+            try validate(programId, name:"programId", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8349,6 +8996,11 @@ extension MediaLive {
         public init(videoSelectorPid: VideoSelectorPid? = nil, videoSelectorProgramId: VideoSelectorProgramId? = nil) {
             self.videoSelectorPid = videoSelectorPid
             self.videoSelectorProgramId = videoSelectorProgramId
+        }
+
+        public func validate() throws {
+            try videoSelectorPid?.validate()
+            try videoSelectorProgramId?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

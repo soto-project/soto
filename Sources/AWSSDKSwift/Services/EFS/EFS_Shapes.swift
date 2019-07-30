@@ -40,6 +40,14 @@ extension EFS {
             self.throughputMode = throughputMode
         }
 
+        public func validate() throws {
+            try validate(creationToken, name:"creationToken", max: 64)
+            try validate(creationToken, name:"creationToken", min: 1)
+            try validate(kmsKeyId, name:"kmsKeyId", max: 2048)
+            try validate(kmsKeyId, name:"kmsKeyId", min: 1)
+            try validate(provisionedThroughputInMibps, name:"provisionedThroughputInMibps", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case creationToken = "CreationToken"
             case encrypted = "Encrypted"
@@ -179,6 +187,12 @@ extension EFS {
             self.maxItems = maxItems
         }
 
+        public func validate() throws {
+            try validate(creationToken, name:"creationToken", max: 64)
+            try validate(creationToken, name:"creationToken", min: 1)
+            try validate(maxItems, name:"maxItems", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case creationToken = "CreationToken"
             case fileSystemId = "FileSystemId"
@@ -284,6 +298,10 @@ extension EFS {
             self.mountTargetId = mountTargetId
         }
 
+        public func validate() throws {
+            try validate(maxItems, name:"maxItems", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case fileSystemId = "FileSystemId"
             case marker = "Marker"
@@ -335,6 +353,10 @@ extension EFS {
             self.fileSystemId = fileSystemId
             self.marker = marker
             self.maxItems = maxItems
+        }
+
+        public func validate() throws {
+            try validate(maxItems, name:"maxItems", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -433,6 +455,17 @@ extension EFS {
             self.throughputMode = throughputMode
         }
 
+        public func validate() throws {
+            try validate(creationToken, name:"creationToken", max: 64)
+            try validate(creationToken, name:"creationToken", min: 1)
+            try validate(kmsKeyId, name:"kmsKeyId", max: 2048)
+            try validate(kmsKeyId, name:"kmsKeyId", min: 1)
+            try validate(name, name:"name", max: 256)
+            try validate(numberOfMountTargets, name:"numberOfMountTargets", min: 0)
+            try validate(provisionedThroughputInMibps, name:"provisionedThroughputInMibps", min: 1)
+            try sizeInBytes.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case creationTime = "CreationTime"
             case creationToken = "CreationToken"
@@ -472,6 +505,12 @@ extension EFS {
             self.value = value
             self.valueInIA = valueInIA
             self.valueInStandard = valueInStandard
+        }
+
+        public func validate() throws {
+            try validate(value, name:"value", min: 0)
+            try validate(valueInIA, name:"valueInIA", min: 0)
+            try validate(valueInStandard, name:"valueInStandard", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -632,6 +671,12 @@ extension EFS {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", max: 128)
+            try validate(key, name:"key", min: 1)
+            try validate(value, name:"value", max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
@@ -669,6 +714,10 @@ extension EFS {
             self.fileSystemId = fileSystemId
             self.provisionedThroughputInMibps = provisionedThroughputInMibps
             self.throughputMode = throughputMode
+        }
+
+        public func validate() throws {
+            try validate(provisionedThroughputInMibps, name:"provisionedThroughputInMibps", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

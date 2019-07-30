@@ -16,6 +16,12 @@ extension Signer {
             self.profileName = profileName
         }
 
+        public func validate() throws {
+            try validate(profileName, name:"profileName", max: 20)
+            try validate(profileName, name:"profileName", min: 2)
+            try validate(profileName, name:"profileName", pattern: "^[a-zA-Z0-9_]{2,}")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case profileName = "profileName"
         }
@@ -99,6 +105,12 @@ extension Signer {
             self.source = source
             self.status = status
             self.statusReason = statusReason
+        }
+
+        public func validate() throws {
+            try validate(profileName, name:"profileName", max: 20)
+            try validate(profileName, name:"profileName", min: 2)
+            try validate(profileName, name:"profileName", pattern: "^[a-zA-Z0-9_]{2,}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -239,6 +251,12 @@ extension Signer {
             self.profileName = profileName
         }
 
+        public func validate() throws {
+            try validate(profileName, name:"profileName", max: 20)
+            try validate(profileName, name:"profileName", min: 2)
+            try validate(profileName, name:"profileName", pattern: "^[a-zA-Z0-9_]{2,}")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case profileName = "profileName"
         }
@@ -273,6 +291,12 @@ extension Signer {
             self.signingMaterial = signingMaterial
             self.signingParameters = signingParameters
             self.status = status
+        }
+
+        public func validate() throws {
+            try validate(profileName, name:"profileName", max: 20)
+            try validate(profileName, name:"profileName", min: 2)
+            try validate(profileName, name:"profileName", pattern: "^[a-zA-Z0-9_]{2,}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -344,6 +368,11 @@ extension Signer {
             self.status = status
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 25)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "maxResults"
             case nextToken = "nextToken"
@@ -401,6 +430,11 @@ extension Signer {
             self.target = target
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 25)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case category = "category"
             case maxResults = "maxResults"
@@ -448,6 +482,11 @@ extension Signer {
             self.includeCanceled = includeCanceled
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 25)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -503,6 +542,12 @@ extension Signer {
             self.profileName = profileName
             self.signingMaterial = signingMaterial
             self.signingParameters = signingParameters
+        }
+
+        public func validate() throws {
+            try validate(profileName, name:"profileName", max: 20)
+            try validate(profileName, name:"profileName", min: 2)
+            try validate(profileName, name:"profileName", pattern: "^[a-zA-Z0-9_]{2,}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -827,6 +872,12 @@ extension Signer {
             self.status = status
         }
 
+        public func validate() throws {
+            try validate(profileName, name:"profileName", max: 20)
+            try validate(profileName, name:"profileName", min: 2)
+            try validate(profileName, name:"profileName", pattern: "^[a-zA-Z0-9_]{2,}")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case platformId = "platformId"
             case profileName = "profileName"
@@ -886,6 +937,12 @@ extension Signer {
             self.destination = destination
             self.profileName = profileName
             self.source = source
+        }
+
+        public func validate() throws {
+            try validate(profileName, name:"profileName", max: 20)
+            try validate(profileName, name:"profileName", min: 2)
+            try validate(profileName, name:"profileName", pattern: "^[a-zA-Z0-9_]{2,}")
         }
 
         private enum CodingKeys: String, CodingKey {

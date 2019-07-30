@@ -82,6 +82,13 @@ extension MediaConvert {
             self.vbrQuality = vbrQuality
         }
 
+        public func validate() throws {
+            try validate(bitrate, name:"bitrate", max: 1024000)
+            try validate(bitrate, name:"bitrate", min: 6000)
+            try validate(sampleRate, name:"sampleRate", max: 96000)
+            try validate(sampleRate, name:"sampleRate", min: 8000)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case audioDescriptionBroadcasterMix = "audioDescriptionBroadcasterMix"
             case bitrate = "bitrate"
@@ -186,6 +193,15 @@ extension MediaConvert {
             self.sampleRate = sampleRate
         }
 
+        public func validate() throws {
+            try validate(bitrate, name:"bitrate", max: 640000)
+            try validate(bitrate, name:"bitrate", min: 64000)
+            try validate(dialnorm, name:"dialnorm", max: 31)
+            try validate(dialnorm, name:"dialnorm", min: 1)
+            try validate(sampleRate, name:"sampleRate", max: 48000)
+            try validate(sampleRate, name:"sampleRate", min: 48000)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bitrate = "bitrate"
             case bitstreamMode = "bitstreamMode"
@@ -246,6 +262,15 @@ extension MediaConvert {
             self.sampleRate = sampleRate
         }
 
+        public func validate() throws {
+            try validate(bitDepth, name:"bitDepth", max: 24)
+            try validate(bitDepth, name:"bitDepth", min: 16)
+            try validate(channels, name:"channels", max: 2)
+            try validate(channels, name:"channels", min: 1)
+            try validate(sampleRate, name:"sampleRate", max: 192000)
+            try validate(sampleRate, name:"sampleRate", min: 8000)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bitDepth = "bitDepth"
             case channels = "channels"
@@ -262,6 +287,11 @@ extension MediaConvert {
         
         public init(sourceAncillaryChannelNumber: Int32? = nil) {
             self.sourceAncillaryChannelNumber = sourceAncillaryChannelNumber
+        }
+
+        public func validate() throws {
+            try validate(sourceAncillaryChannelNumber, name:"sourceAncillaryChannelNumber", max: 4)
+            try validate(sourceAncillaryChannelNumber, name:"sourceAncillaryChannelNumber", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -345,6 +375,15 @@ extension MediaConvert {
             self.wavSettings = wavSettings
         }
 
+        public func validate() throws {
+            try aacSettings?.validate()
+            try ac3Settings?.validate()
+            try aiffSettings?.validate()
+            try eac3Settings?.validate()
+            try mp2Settings?.validate()
+            try wavSettings?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case aacSettings = "aacSettings"
             case ac3Settings = "ac3Settings"
@@ -407,6 +446,18 @@ extension MediaConvert {
             self.languageCodeControl = languageCodeControl
             self.remixSettings = remixSettings
             self.streamName = streamName
+        }
+
+        public func validate() throws {
+            try audioNormalizationSettings?.validate()
+            try validate(audioType, name:"audioType", max: 255)
+            try validate(audioType, name:"audioType", min: 0)
+            try codecSettings?.validate()
+            try validate(customLanguageCode, name:"customLanguageCode", max: 3)
+            try validate(customLanguageCode, name:"customLanguageCode", min: 3)
+            try validate(customLanguageCode, name:"customLanguageCode", pattern: "^[A-Za-z]{3}$")
+            try remixSettings?.validate()
+            try validate(streamName, name:"streamName", pattern: "^[\\w\\s]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -484,6 +535,11 @@ extension MediaConvert {
             self.targetLkfs = targetLkfs
         }
 
+        public func validate() throws {
+            try validate(correctionGateLevel, name:"correctionGateLevel", max: 0)
+            try validate(correctionGateLevel, name:"correctionGateLevel", min: -70)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case algorithm = "algorithm"
             case algorithmControl = "algorithmControl"
@@ -541,6 +597,18 @@ extension MediaConvert {
             self.tracks = tracks
         }
 
+        public func validate() throws {
+            try validate(customLanguageCode, name:"customLanguageCode", max: 3)
+            try validate(customLanguageCode, name:"customLanguageCode", min: 3)
+            try validate(customLanguageCode, name:"customLanguageCode", pattern: "^[A-Za-z]{3}$")
+            try validate(externalAudioFileInput, name:"externalAudioFileInput", pattern: "^(s3:\\/\\/)([^\\/]+\\/)+([^\\/\\.]+|(([^\\/]*)\\.([mM]2[vV]|[mM][pP][eE][gG]|[aA][vV][iI]|[mM][pP]4|[fF][lL][vV]|[mM][pP][tT]|[mM][pP][gG]|[mM]4[vV]|[tT][rR][pP]|[fF]4[vV]|[mM]2[tT][sS]|[tT][sS]|264|[hH]264|[mM][kK][vV]|[mM][oO][vV]|[mM][tT][sS]|[mM]2[tT]|[wW][mM][vV]|[aA][sS][fF]|[vV][oO][bB]|3[gG][pP]|3[gG][pP][pP]|[mM][xX][fF]|[dD][iI][vV][xX]|[xX][vV][iI][dD]|[rR][aA][wW]|[dD][vV]|[gG][xX][fF]|[mM]1[vV]|3[gG]2|[vV][mM][fF]|[mM]3[uU]8|[lL][cC][hH]|[gG][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF][hH][dD]|[wW][aA][vV]|[yY]4[mM]|[aA][aA][cC]|[aA][iI][fF][fF]|[mM][pP]2|[aA][cC]3|[eE][cC]3|[dD][tT][sS][eE])))$")
+            try validate(offset, name:"offset", max: 2147483647)
+            try validate(offset, name:"offset", min: -2147483648)
+            try validate(programSelection, name:"programSelection", max: 8)
+            try validate(programSelection, name:"programSelection", min: 0)
+            try remixSettings?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case customLanguageCode = "customLanguageCode"
             case defaultSelection = "defaultSelection"
@@ -593,6 +661,11 @@ extension MediaConvert {
         
         public init(availBlankingImage: String? = nil) {
             self.availBlankingImage = availBlankingImage
+        }
+
+        public func validate() throws {
+            try validate(availBlankingImage, name:"availBlankingImage", min: 14)
+            try validate(availBlankingImage, name:"availBlankingImage", pattern: "^(s3:\\/\\/)(.*?)\\.(bmp|BMP|png|PNG)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -684,6 +757,29 @@ extension MediaConvert {
             self.teletextSpacing = teletextSpacing
             self.xPosition = xPosition
             self.yPosition = yPosition
+        }
+
+        public func validate() throws {
+            try validate(backgroundOpacity, name:"backgroundOpacity", max: 255)
+            try validate(backgroundOpacity, name:"backgroundOpacity", min: 0)
+            try validate(fontOpacity, name:"fontOpacity", max: 255)
+            try validate(fontOpacity, name:"fontOpacity", min: 0)
+            try validate(fontResolution, name:"fontResolution", max: 600)
+            try validate(fontResolution, name:"fontResolution", min: 96)
+            try validate(fontSize, name:"fontSize", max: 96)
+            try validate(fontSize, name:"fontSize", min: 0)
+            try validate(outlineSize, name:"outlineSize", max: 10)
+            try validate(outlineSize, name:"outlineSize", min: 0)
+            try validate(shadowOpacity, name:"shadowOpacity", max: 255)
+            try validate(shadowOpacity, name:"shadowOpacity", min: 0)
+            try validate(shadowXOffset, name:"shadowXOffset", max: 2147483647)
+            try validate(shadowXOffset, name:"shadowXOffset", min: -2147483648)
+            try validate(shadowYOffset, name:"shadowYOffset", max: 2147483647)
+            try validate(shadowYOffset, name:"shadowYOffset", min: -2147483648)
+            try validate(xPosition, name:"xPosition", max: 2147483647)
+            try validate(xPosition, name:"xPosition", min: 0)
+            try validate(yPosition, name:"yPosition", max: 2147483647)
+            try validate(yPosition, name:"yPosition", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -804,6 +900,14 @@ extension MediaConvert {
             self.languageDescription = languageDescription
         }
 
+        public func validate() throws {
+            try validate(captionSelectorName, name:"captionSelectorName", min: 1)
+            try validate(customLanguageCode, name:"customLanguageCode", max: 3)
+            try validate(customLanguageCode, name:"customLanguageCode", min: 3)
+            try validate(customLanguageCode, name:"customLanguageCode", pattern: "^[A-Za-z]{3}$")
+            try destinationSettings?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case captionSelectorName = "captionSelectorName"
             case customLanguageCode = "customLanguageCode"
@@ -834,6 +938,13 @@ extension MediaConvert {
             self.destinationSettings = destinationSettings
             self.languageCode = languageCode
             self.languageDescription = languageDescription
+        }
+
+        public func validate() throws {
+            try validate(customLanguageCode, name:"customLanguageCode", max: 3)
+            try validate(customLanguageCode, name:"customLanguageCode", min: 3)
+            try validate(customLanguageCode, name:"customLanguageCode", pattern: "^[A-Za-z]{3}$")
+            try destinationSettings?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -877,6 +988,13 @@ extension MediaConvert {
             self.sccDestinationSettings = sccDestinationSettings
             self.teletextDestinationSettings = teletextDestinationSettings
             self.ttmlDestinationSettings = ttmlDestinationSettings
+        }
+
+        public func validate() throws {
+            try burninDestinationSettings?.validate()
+            try dvbSubDestinationSettings?.validate()
+            try embeddedDestinationSettings?.validate()
+            try teletextDestinationSettings?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -924,6 +1042,13 @@ extension MediaConvert {
             self.sourceSettings = sourceSettings
         }
 
+        public func validate() throws {
+            try validate(customLanguageCode, name:"customLanguageCode", max: 3)
+            try validate(customLanguageCode, name:"customLanguageCode", min: 3)
+            try validate(customLanguageCode, name:"customLanguageCode", pattern: "^[A-Za-z]{3}$")
+            try sourceSettings?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case customLanguageCode = "customLanguageCode"
             case languageCode = "languageCode"
@@ -964,6 +1089,15 @@ extension MediaConvert {
             self.sourceType = sourceType
             self.teletextSourceSettings = teletextSourceSettings
             self.trackSourceSettings = trackSourceSettings
+        }
+
+        public func validate() throws {
+            try ancillarySourceSettings?.validate()
+            try dvbSubSourceSettings?.validate()
+            try embeddedSourceSettings?.validate()
+            try fileSourceSettings?.validate()
+            try teletextSourceSettings?.validate()
+            try trackSourceSettings?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1046,6 +1180,13 @@ extension MediaConvert {
             self.initializationVectorInManifest = initializationVectorInManifest
             self.staticKeyProvider = staticKeyProvider
             self.`type` = `type`
+        }
+
+        public func validate() throws {
+            try validate(constantInitializationVector, name:"constantInitializationVector", max: 32)
+            try validate(constantInitializationVector, name:"constantInitializationVector", min: 32)
+            try validate(constantInitializationVector, name:"constantInitializationVector", pattern: "^[0-9a-fA-F]{32}$")
+            try staticKeyProvider?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1131,6 +1272,18 @@ extension MediaConvert {
             self.streamInfResolution = streamInfResolution
             self.writeDashManifest = writeDashManifest
             self.writeHlsManifest = writeHlsManifest
+        }
+
+        public func validate() throws {
+            try validate(destination, name:"destination", pattern: "^s3:\\/\\/")
+            try destinationSettings?.validate()
+            try encryption?.validate()
+            try validate(fragmentLength, name:"fragmentLength", max: 2147483647)
+            try validate(fragmentLength, name:"fragmentLength", min: 1)
+            try validate(minBufferTime, name:"minBufferTime", max: 2147483647)
+            try validate(minBufferTime, name:"minBufferTime", min: 0)
+            try validate(segmentLength, name:"segmentLength", max: 2147483647)
+            try validate(segmentLength, name:"segmentLength", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1231,6 +1384,18 @@ extension MediaConvert {
             self.saturation = saturation
         }
 
+        public func validate() throws {
+            try validate(brightness, name:"brightness", max: 100)
+            try validate(brightness, name:"brightness", min: 1)
+            try validate(contrast, name:"contrast", max: 100)
+            try validate(contrast, name:"contrast", min: 1)
+            try hdr10Metadata?.validate()
+            try validate(hue, name:"hue", max: 180)
+            try validate(hue, name:"hue", min: -180)
+            try validate(saturation, name:"saturation", max: 100)
+            try validate(saturation, name:"saturation", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case brightness = "brightness"
             case colorSpaceConversion = "colorSpaceConversion"
@@ -1307,6 +1472,11 @@ extension MediaConvert {
             self.mp4Settings = mp4Settings
         }
 
+        public func validate() throws {
+            try m2tsSettings?.validate()
+            try m3u8Settings?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case container = "container"
             case f4vSettings = "f4vSettings"
@@ -1374,6 +1544,10 @@ extension MediaConvert {
             self.userMetadata = userMetadata
         }
 
+        public func validate() throws {
+            try settings.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accelerationSettings = "accelerationSettings"
             case billingTagsSource = "billingTagsSource"
@@ -1396,6 +1570,10 @@ extension MediaConvert {
         
         public init(job: Job? = nil) {
             self.job = job
+        }
+
+        public func validate() throws {
+            try job?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1442,6 +1620,10 @@ extension MediaConvert {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try settings.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accelerationSettings = "accelerationSettings"
             case category = "category"
@@ -1463,6 +1645,10 @@ extension MediaConvert {
         
         public init(jobTemplate: JobTemplate? = nil) {
             self.jobTemplate = jobTemplate
+        }
+
+        public func validate() throws {
+            try jobTemplate?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1497,6 +1683,10 @@ extension MediaConvert {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try settings.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case category = "category"
             case description = "description"
@@ -1515,6 +1705,10 @@ extension MediaConvert {
         
         public init(preset: Preset? = nil) {
             self.preset = preset
+        }
+
+        public func validate() throws {
+            try preset?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1589,6 +1783,10 @@ extension MediaConvert {
             self.spekeKeyProvider = spekeKeyProvider
         }
 
+        public func validate() throws {
+            try spekeKeyProvider?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case playbackDeviceCompatibility = "playbackDeviceCompatibility"
             case spekeKeyProvider = "spekeKeyProvider"
@@ -1640,6 +1838,18 @@ extension MediaConvert {
             self.segmentControl = segmentControl
             self.segmentLength = segmentLength
             self.writeSegmentTimelineInRepresentation = writeSegmentTimelineInRepresentation
+        }
+
+        public func validate() throws {
+            try validate(destination, name:"destination", pattern: "^s3:\\/\\/")
+            try destinationSettings?.validate()
+            try encryption?.validate()
+            try validate(fragmentLength, name:"fragmentLength", max: 2147483647)
+            try validate(fragmentLength, name:"fragmentLength", min: 1)
+            try validate(minBufferTime, name:"minBufferTime", max: 2147483647)
+            try validate(minBufferTime, name:"minBufferTime", min: 0)
+            try validate(segmentLength, name:"segmentLength", max: 2147483647)
+            try validate(segmentLength, name:"segmentLength", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1870,6 +2080,10 @@ extension MediaConvert {
             self.s3Settings = s3Settings
         }
 
+        public func validate() throws {
+            try s3Settings?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case s3Settings = "s3Settings"
         }
@@ -1924,6 +2138,15 @@ extension MediaConvert {
             self.nitInterval = nitInterval
         }
 
+        public func validate() throws {
+            try validate(networkId, name:"networkId", max: 65535)
+            try validate(networkId, name:"networkId", min: 0)
+            try validate(networkName, name:"networkName", max: 256)
+            try validate(networkName, name:"networkName", min: 1)
+            try validate(nitInterval, name:"nitInterval", max: 10000)
+            try validate(nitInterval, name:"nitInterval", min: 25)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case networkId = "networkId"
             case networkName = "networkName"
@@ -1952,6 +2175,15 @@ extension MediaConvert {
             self.sdtInterval = sdtInterval
             self.serviceName = serviceName
             self.serviceProviderName = serviceProviderName
+        }
+
+        public func validate() throws {
+            try validate(sdtInterval, name:"sdtInterval", max: 2000)
+            try validate(sdtInterval, name:"sdtInterval", min: 25)
+            try validate(serviceName, name:"serviceName", max: 256)
+            try validate(serviceName, name:"serviceName", min: 1)
+            try validate(serviceProviderName, name:"serviceProviderName", max: 256)
+            try validate(serviceProviderName, name:"serviceProviderName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2041,6 +2273,29 @@ extension MediaConvert {
             self.yPosition = yPosition
         }
 
+        public func validate() throws {
+            try validate(backgroundOpacity, name:"backgroundOpacity", max: 255)
+            try validate(backgroundOpacity, name:"backgroundOpacity", min: 0)
+            try validate(fontOpacity, name:"fontOpacity", max: 255)
+            try validate(fontOpacity, name:"fontOpacity", min: 0)
+            try validate(fontResolution, name:"fontResolution", max: 600)
+            try validate(fontResolution, name:"fontResolution", min: 96)
+            try validate(fontSize, name:"fontSize", max: 96)
+            try validate(fontSize, name:"fontSize", min: 0)
+            try validate(outlineSize, name:"outlineSize", max: 10)
+            try validate(outlineSize, name:"outlineSize", min: 0)
+            try validate(shadowOpacity, name:"shadowOpacity", max: 255)
+            try validate(shadowOpacity, name:"shadowOpacity", min: 0)
+            try validate(shadowXOffset, name:"shadowXOffset", max: 2147483647)
+            try validate(shadowXOffset, name:"shadowXOffset", min: -2147483648)
+            try validate(shadowYOffset, name:"shadowYOffset", max: 2147483647)
+            try validate(shadowYOffset, name:"shadowYOffset", min: -2147483648)
+            try validate(xPosition, name:"xPosition", max: 2147483647)
+            try validate(xPosition, name:"xPosition", min: 0)
+            try validate(yPosition, name:"yPosition", max: 2147483647)
+            try validate(yPosition, name:"yPosition", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case alignment = "alignment"
             case backgroundColor = "backgroundColor"
@@ -2071,6 +2326,11 @@ extension MediaConvert {
         
         public init(pid: Int32? = nil) {
             self.pid = pid
+        }
+
+        public func validate() throws {
+            try validate(pid, name:"pid", max: 2147483647)
+            try validate(pid, name:"pid", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2133,6 +2393,11 @@ extension MediaConvert {
         
         public init(tdtInterval: Int32? = nil) {
             self.tdtInterval = tdtInterval
+        }
+
+        public func validate() throws {
+            try validate(tdtInterval, name:"tdtInterval", max: 30000)
+            try validate(tdtInterval, name:"tdtInterval", min: 1000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2313,6 +2578,15 @@ extension MediaConvert {
             self.surroundMode = surroundMode
         }
 
+        public func validate() throws {
+            try validate(bitrate, name:"bitrate", max: 640000)
+            try validate(bitrate, name:"bitrate", min: 64000)
+            try validate(dialnorm, name:"dialnorm", max: 31)
+            try validate(dialnorm, name:"dialnorm", min: 1)
+            try validate(sampleRate, name:"sampleRate", max: 48000)
+            try validate(sampleRate, name:"sampleRate", min: 48000)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case attenuationControl = "attenuationControl"
             case bitrate = "bitrate"
@@ -2377,6 +2651,11 @@ extension MediaConvert {
             self.destination608ChannelNumber = destination608ChannelNumber
         }
 
+        public func validate() throws {
+            try validate(destination608ChannelNumber, name:"destination608ChannelNumber", max: 4)
+            try validate(destination608ChannelNumber, name:"destination608ChannelNumber", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case destination608ChannelNumber = "destination608ChannelNumber"
         }
@@ -2399,6 +2678,13 @@ extension MediaConvert {
             self.convert608To708 = convert608To708
             self.source608ChannelNumber = source608ChannelNumber
             self.source608TrackNumber = source608TrackNumber
+        }
+
+        public func validate() throws {
+            try validate(source608ChannelNumber, name:"source608ChannelNumber", max: 4)
+            try validate(source608ChannelNumber, name:"source608ChannelNumber", min: 1)
+            try validate(source608TrackNumber, name:"source608TrackNumber", max: 1)
+            try validate(source608TrackNumber, name:"source608TrackNumber", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2435,6 +2721,10 @@ extension MediaConvert {
             self.mccXml = mccXml
         }
 
+        public func validate() throws {
+            try validate(mccXml, name:"mccXml", pattern: "^\\s*<(.|\\n)*ManifestConfirmConditionNotification(.|\\n)*>\\s*$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case mccXml = "mccXml"
         }
@@ -2459,6 +2749,13 @@ extension MediaConvert {
             self.signalProcessingNotification = signalProcessingNotification
         }
 
+        public func validate() throws {
+            try manifestConfirmConditionNotification?.validate()
+            try validate(responseSignalPreroll, name:"responseSignalPreroll", max: 30000)
+            try validate(responseSignalPreroll, name:"responseSignalPreroll", min: 0)
+            try signalProcessingNotification?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case manifestConfirmConditionNotification = "manifestConfirmConditionNotification"
             case responseSignalPreroll = "responseSignalPreroll"
@@ -2475,6 +2772,10 @@ extension MediaConvert {
         
         public init(sccXml: String? = nil) {
             self.sccXml = sccXml
+        }
+
+        public func validate() throws {
+            try validate(sccXml, name:"sccXml", pattern: "^\\s*<(.|\\n)*SignalProcessingNotification(.|\\n)*>\\s*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2534,6 +2835,11 @@ extension MediaConvert {
             self.destinationSettings = destinationSettings
         }
 
+        public func validate() throws {
+            try validate(destination, name:"destination", pattern: "^s3:\\/\\/")
+            try destinationSettings?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case destination = "destination"
             case destinationSettings = "destinationSettings"
@@ -2563,6 +2869,13 @@ extension MediaConvert {
             self.convert608To708 = convert608To708
             self.sourceFile = sourceFile
             self.timeDelta = timeDelta
+        }
+
+        public func validate() throws {
+            try validate(sourceFile, name:"sourceFile", min: 14)
+            try validate(sourceFile, name:"sourceFile", pattern: "^(s3:\\/\\/)(.*?)\\.(scc|SCC|ttml|TTML|dfxp|DFXP|stl|STL|srt|SRT|smi|SMI)$")
+            try validate(timeDelta, name:"timeDelta", max: 2147483647)
+            try validate(timeDelta, name:"timeDelta", min: -2147483648)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2602,6 +2915,17 @@ extension MediaConvert {
             self.quality = quality
         }
 
+        public func validate() throws {
+            try validate(framerateDenominator, name:"framerateDenominator", max: 2147483647)
+            try validate(framerateDenominator, name:"framerateDenominator", min: 1)
+            try validate(framerateNumerator, name:"framerateNumerator", max: 2147483647)
+            try validate(framerateNumerator, name:"framerateNumerator", min: 1)
+            try validate(maxCaptures, name:"maxCaptures", max: 10000000)
+            try validate(maxCaptures, name:"maxCaptures", min: 1)
+            try validate(quality, name:"quality", max: 100)
+            try validate(quality, name:"quality", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case framerateDenominator = "framerateDenominator"
             case framerateNumerator = "framerateNumerator"
@@ -2637,6 +2961,10 @@ extension MediaConvert {
             self.job = job
         }
 
+        public func validate() throws {
+            try job?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case job = "job"
         }
@@ -2669,6 +2997,10 @@ extension MediaConvert {
             self.jobTemplate = jobTemplate
         }
 
+        public func validate() throws {
+            try jobTemplate?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case jobTemplate = "jobTemplate"
         }
@@ -2699,6 +3031,10 @@ extension MediaConvert {
         
         public init(preset: Preset? = nil) {
             self.preset = preset
+        }
+
+        public func validate() throws {
+            try preset?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2862,6 +3198,13 @@ extension MediaConvert {
         public init(maxAverageBitrate: Int32? = nil, qvbrQualityLevel: Int32? = nil) {
             self.maxAverageBitrate = maxAverageBitrate
             self.qvbrQualityLevel = qvbrQualityLevel
+        }
+
+        public func validate() throws {
+            try validate(maxAverageBitrate, name:"maxAverageBitrate", max: 1152000000)
+            try validate(maxAverageBitrate, name:"maxAverageBitrate", min: 1000)
+            try validate(qvbrQualityLevel, name:"qvbrQualityLevel", max: 10)
+            try validate(qvbrQualityLevel, name:"qvbrQualityLevel", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3052,6 +3395,38 @@ extension MediaConvert {
             self.telecine = telecine
             self.temporalAdaptiveQuantization = temporalAdaptiveQuantization
             self.unregisteredSeiTimecode = unregisteredSeiTimecode
+        }
+
+        public func validate() throws {
+            try validate(bitrate, name:"bitrate", max: 1152000000)
+            try validate(bitrate, name:"bitrate", min: 1000)
+            try validate(framerateDenominator, name:"framerateDenominator", max: 2147483647)
+            try validate(framerateDenominator, name:"framerateDenominator", min: 1)
+            try validate(framerateNumerator, name:"framerateNumerator", max: 2147483647)
+            try validate(framerateNumerator, name:"framerateNumerator", min: 1)
+            try validate(gopClosedCadence, name:"gopClosedCadence", max: 2147483647)
+            try validate(gopClosedCadence, name:"gopClosedCadence", min: 0)
+            try validate(hrdBufferInitialFillPercentage, name:"hrdBufferInitialFillPercentage", max: 100)
+            try validate(hrdBufferInitialFillPercentage, name:"hrdBufferInitialFillPercentage", min: 0)
+            try validate(hrdBufferSize, name:"hrdBufferSize", max: 1152000000)
+            try validate(hrdBufferSize, name:"hrdBufferSize", min: 0)
+            try validate(maxBitrate, name:"maxBitrate", max: 1152000000)
+            try validate(maxBitrate, name:"maxBitrate", min: 1000)
+            try validate(minIInterval, name:"minIInterval", max: 30)
+            try validate(minIInterval, name:"minIInterval", min: 0)
+            try validate(numberBFramesBetweenReferenceFrames, name:"numberBFramesBetweenReferenceFrames", max: 7)
+            try validate(numberBFramesBetweenReferenceFrames, name:"numberBFramesBetweenReferenceFrames", min: 0)
+            try validate(numberReferenceFrames, name:"numberReferenceFrames", max: 6)
+            try validate(numberReferenceFrames, name:"numberReferenceFrames", min: 1)
+            try validate(parDenominator, name:"parDenominator", max: 2147483647)
+            try validate(parDenominator, name:"parDenominator", min: 1)
+            try validate(parNumerator, name:"parNumerator", max: 2147483647)
+            try validate(parNumerator, name:"parNumerator", min: 1)
+            try qvbrSettings?.validate()
+            try validate(slices, name:"slices", max: 32)
+            try validate(slices, name:"slices", min: 1)
+            try validate(softness, name:"softness", max: 128)
+            try validate(softness, name:"softness", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3253,6 +3628,13 @@ extension MediaConvert {
             self.qvbrQualityLevel = qvbrQualityLevel
         }
 
+        public func validate() throws {
+            try validate(maxAverageBitrate, name:"maxAverageBitrate", max: 1466400000)
+            try validate(maxAverageBitrate, name:"maxAverageBitrate", min: 1000)
+            try validate(qvbrQualityLevel, name:"qvbrQualityLevel", max: 10)
+            try validate(qvbrQualityLevel, name:"qvbrQualityLevel", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxAverageBitrate = "maxAverageBitrate"
             case qvbrQualityLevel = "qvbrQualityLevel"
@@ -3444,6 +3826,36 @@ extension MediaConvert {
             self.writeMp4PackagingType = writeMp4PackagingType
         }
 
+        public func validate() throws {
+            try validate(bitrate, name:"bitrate", max: 1466400000)
+            try validate(bitrate, name:"bitrate", min: 1000)
+            try validate(framerateDenominator, name:"framerateDenominator", max: 2147483647)
+            try validate(framerateDenominator, name:"framerateDenominator", min: 1)
+            try validate(framerateNumerator, name:"framerateNumerator", max: 2147483647)
+            try validate(framerateNumerator, name:"framerateNumerator", min: 1)
+            try validate(gopClosedCadence, name:"gopClosedCadence", max: 2147483647)
+            try validate(gopClosedCadence, name:"gopClosedCadence", min: 0)
+            try validate(hrdBufferInitialFillPercentage, name:"hrdBufferInitialFillPercentage", max: 100)
+            try validate(hrdBufferInitialFillPercentage, name:"hrdBufferInitialFillPercentage", min: 0)
+            try validate(hrdBufferSize, name:"hrdBufferSize", max: 1466400000)
+            try validate(hrdBufferSize, name:"hrdBufferSize", min: 0)
+            try validate(maxBitrate, name:"maxBitrate", max: 1466400000)
+            try validate(maxBitrate, name:"maxBitrate", min: 1000)
+            try validate(minIInterval, name:"minIInterval", max: 30)
+            try validate(minIInterval, name:"minIInterval", min: 0)
+            try validate(numberBFramesBetweenReferenceFrames, name:"numberBFramesBetweenReferenceFrames", max: 7)
+            try validate(numberBFramesBetweenReferenceFrames, name:"numberBFramesBetweenReferenceFrames", min: 0)
+            try validate(numberReferenceFrames, name:"numberReferenceFrames", max: 6)
+            try validate(numberReferenceFrames, name:"numberReferenceFrames", min: 1)
+            try validate(parDenominator, name:"parDenominator", max: 2147483647)
+            try validate(parDenominator, name:"parDenominator", min: 1)
+            try validate(parNumerator, name:"parNumerator", max: 2147483647)
+            try validate(parNumerator, name:"parNumerator", min: 1)
+            try qvbrSettings?.validate()
+            try validate(slices, name:"slices", max: 32)
+            try validate(slices, name:"slices", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case adaptiveQuantization = "adaptiveQuantization"
             case alternateTransferFunctionSei = "alternateTransferFunctionSei"
@@ -3591,6 +4003,33 @@ extension MediaConvert {
             self.whitePointY = whitePointY
         }
 
+        public func validate() throws {
+            try validate(bluePrimaryX, name:"bluePrimaryX", max: 50000)
+            try validate(bluePrimaryX, name:"bluePrimaryX", min: 0)
+            try validate(bluePrimaryY, name:"bluePrimaryY", max: 50000)
+            try validate(bluePrimaryY, name:"bluePrimaryY", min: 0)
+            try validate(greenPrimaryX, name:"greenPrimaryX", max: 50000)
+            try validate(greenPrimaryX, name:"greenPrimaryX", min: 0)
+            try validate(greenPrimaryY, name:"greenPrimaryY", max: 50000)
+            try validate(greenPrimaryY, name:"greenPrimaryY", min: 0)
+            try validate(maxContentLightLevel, name:"maxContentLightLevel", max: 65535)
+            try validate(maxContentLightLevel, name:"maxContentLightLevel", min: 0)
+            try validate(maxFrameAverageLightLevel, name:"maxFrameAverageLightLevel", max: 65535)
+            try validate(maxFrameAverageLightLevel, name:"maxFrameAverageLightLevel", min: 0)
+            try validate(maxLuminance, name:"maxLuminance", max: 2147483647)
+            try validate(maxLuminance, name:"maxLuminance", min: 0)
+            try validate(minLuminance, name:"minLuminance", max: 2147483647)
+            try validate(minLuminance, name:"minLuminance", min: 0)
+            try validate(redPrimaryX, name:"redPrimaryX", max: 50000)
+            try validate(redPrimaryX, name:"redPrimaryX", min: 0)
+            try validate(redPrimaryY, name:"redPrimaryY", max: 50000)
+            try validate(redPrimaryY, name:"redPrimaryY", min: 0)
+            try validate(whitePointX, name:"whitePointX", max: 50000)
+            try validate(whitePointX, name:"whitePointX", min: 0)
+            try validate(whitePointY, name:"whitePointY", max: 50000)
+            try validate(whitePointY, name:"whitePointY", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bluePrimaryX = "bluePrimaryX"
             case bluePrimaryY = "bluePrimaryY"
@@ -3642,6 +4081,14 @@ extension MediaConvert {
             self.customLanguageCode = customLanguageCode
             self.languageCode = languageCode
             self.languageDescription = languageDescription
+        }
+
+        public func validate() throws {
+            try validate(captionChannel, name:"captionChannel", max: 2147483647)
+            try validate(captionChannel, name:"captionChannel", min: -2147483648)
+            try validate(customLanguageCode, name:"customLanguageCode", max: 3)
+            try validate(customLanguageCode, name:"customLanguageCode", min: 3)
+            try validate(customLanguageCode, name:"customLanguageCode", pattern: "^[A-Za-z]{3}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3710,6 +4157,14 @@ extension MediaConvert {
             self.spekeKeyProvider = spekeKeyProvider
             self.staticKeyProvider = staticKeyProvider
             self.`type` = `type`
+        }
+
+        public func validate() throws {
+            try validate(constantInitializationVector, name:"constantInitializationVector", max: 32)
+            try validate(constantInitializationVector, name:"constantInitializationVector", min: 32)
+            try validate(constantInitializationVector, name:"constantInitializationVector", pattern: "^[0-9a-fA-F]{32}$")
+            try spekeKeyProvider?.validate()
+            try staticKeyProvider?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3830,6 +4285,24 @@ extension MediaConvert {
             self.timedMetadataId3Frame = timedMetadataId3Frame
             self.timedMetadataId3Period = timedMetadataId3Period
             self.timestampDeltaMilliseconds = timestampDeltaMilliseconds
+        }
+
+        public func validate() throws {
+            try validate(destination, name:"destination", pattern: "^s3:\\/\\/")
+            try destinationSettings?.validate()
+            try encryption?.validate()
+            try validate(minSegmentLength, name:"minSegmentLength", max: 2147483647)
+            try validate(minSegmentLength, name:"minSegmentLength", min: 0)
+            try validate(programDateTimePeriod, name:"programDateTimePeriod", max: 3600)
+            try validate(programDateTimePeriod, name:"programDateTimePeriod", min: 0)
+            try validate(segmentLength, name:"segmentLength", max: 2147483647)
+            try validate(segmentLength, name:"segmentLength", min: 1)
+            try validate(segmentsPerSubdirectory, name:"segmentsPerSubdirectory", max: 2147483647)
+            try validate(segmentsPerSubdirectory, name:"segmentsPerSubdirectory", min: 1)
+            try validate(timedMetadataId3Period, name:"timedMetadataId3Period", max: 2147483647)
+            try validate(timedMetadataId3Period, name:"timedMetadataId3Period", min: -2147483648)
+            try validate(timestampDeltaMilliseconds, name:"timestampDeltaMilliseconds", max: 2147483647)
+            try validate(timestampDeltaMilliseconds, name:"timestampDeltaMilliseconds", min: -2147483648)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3978,6 +4451,11 @@ extension MediaConvert {
             self.timecode = timecode
         }
 
+        public func validate() throws {
+            try validate(id3, name:"id3", pattern: "^[A-Za-z0-9+\\/]+={0,2}$")
+            try validate(timecode, name:"timecode", pattern: "^([01][0-9]|2[0-4]):[0-5][0-9]:[0-5][0-9][:;][0-9]{2}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case id3 = "id3"
             case timecode = "timecode"
@@ -4071,6 +4549,16 @@ extension MediaConvert {
             self.videoSelector = videoSelector
         }
 
+        public func validate() throws {
+            try decryptionSettings?.validate()
+            try validate(fileInput, name:"fileInput", pattern: "^(s3:\\/\\/)([^\\/]+\\/)+([^\\/\\.]+|(([^\\/]*)\\.([mM]2[vV]|[mM][pP][eE][gG]|[aA][vV][iI]|[mM][pP]4|[fF][lL][vV]|[mM][pP][tT]|[mM][pP][gG]|[mM]4[vV]|[tT][rR][pP]|[fF]4[vV]|[mM]2[tT][sS]|[tT][sS]|264|[hH]264|[mM][kK][vV]|[mM][oO][vV]|[mM][tT][sS]|[mM]2[tT]|[wW][mM][vV]|[aA][sS][fF]|[vV][oO][bB]|3[gG][pP]|3[gG][pP][pP]|[mM][xX][fF]|[dD][iI][vV][xX]|[xX][vV][iI][dD]|[rR][aA][wW]|[dD][vV]|[gG][xX][fF]|[mM]1[vV]|3[gG]2|[vV][mM][fF]|[mM]3[uU]8|[lL][cC][hH]|[gG][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF][hH][dD]|[wW][aA][vV]|[yY]4[mM]|[xX][mM][lL])))$")
+            try validate(filterStrength, name:"filterStrength", max: 5)
+            try validate(filterStrength, name:"filterStrength", min: -5)
+            try validate(programNumber, name:"programNumber", max: 2147483647)
+            try validate(programNumber, name:"programNumber", min: 1)
+            try videoSelector?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case audioSelectorGroups = "audioSelectorGroups"
             case audioSelectors = "audioSelectors"
@@ -4106,6 +4594,11 @@ extension MediaConvert {
             self.startTimecode = startTimecode
         }
 
+        public func validate() throws {
+            try validate(endTimecode, name:"endTimecode", pattern: "^([01][0-9]|2[0-4]):[0-5][0-9]:[0-5][0-9][:;][0-9]{2}$")
+            try validate(startTimecode, name:"startTimecode", pattern: "^([01][0-9]|2[0-4]):[0-5][0-9]:[0-5][0-9][:;][0-9]{2}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case endTimecode = "endTimecode"
             case startTimecode = "startTimecode"
@@ -4139,6 +4632,18 @@ extension MediaConvert {
             self.encryptedDecryptionKey = encryptedDecryptionKey
             self.initializationVector = initializationVector
             self.kmsKeyRegion = kmsKeyRegion
+        }
+
+        public func validate() throws {
+            try validate(encryptedDecryptionKey, name:"encryptedDecryptionKey", max: 512)
+            try validate(encryptedDecryptionKey, name:"encryptedDecryptionKey", min: 24)
+            try validate(encryptedDecryptionKey, name:"encryptedDecryptionKey", pattern: "^[A-Za-z0-9+\\/]+={0,2}$")
+            try validate(initializationVector, name:"initializationVector", max: 24)
+            try validate(initializationVector, name:"initializationVector", min: 16)
+            try validate(initializationVector, name:"initializationVector", pattern: "^[A-Za-z0-9+\\/]{22}==$|^[A-Za-z0-9+\\/]{16}$")
+            try validate(kmsKeyRegion, name:"kmsKeyRegion", max: 19)
+            try validate(kmsKeyRegion, name:"kmsKeyRegion", min: 9)
+            try validate(kmsKeyRegion, name:"kmsKeyRegion", pattern: "^[a-z-]{2,6}-(east|west|central|((north|south)(east|west)?))-[1-9]{1,2}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4236,6 +4741,14 @@ extension MediaConvert {
             self.videoSelector = videoSelector
         }
 
+        public func validate() throws {
+            try validate(filterStrength, name:"filterStrength", max: 5)
+            try validate(filterStrength, name:"filterStrength", min: -5)
+            try validate(programNumber, name:"programNumber", max: 2147483647)
+            try validate(programNumber, name:"programNumber", min: 1)
+            try videoSelector?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case audioSelectorGroups = "audioSelectorGroups"
             case audioSelectors = "audioSelectors"
@@ -4309,6 +4822,30 @@ extension MediaConvert {
             self.opacity = opacity
             self.startTime = startTime
             self.width = width
+        }
+
+        public func validate() throws {
+            try validate(duration, name:"duration", max: 2147483647)
+            try validate(duration, name:"duration", min: 0)
+            try validate(fadeIn, name:"fadeIn", max: 2147483647)
+            try validate(fadeIn, name:"fadeIn", min: 0)
+            try validate(fadeOut, name:"fadeOut", max: 2147483647)
+            try validate(fadeOut, name:"fadeOut", min: 0)
+            try validate(height, name:"height", max: 2147483647)
+            try validate(height, name:"height", min: 0)
+            try validate(imageInserterInput, name:"imageInserterInput", min: 14)
+            try validate(imageInserterInput, name:"imageInserterInput", pattern: "^(s3:\\/\\/)(.*?)\\.(bmp|BMP|png|PNG|tga|TGA)$")
+            try validate(imageX, name:"imageX", max: 2147483647)
+            try validate(imageX, name:"imageX", min: 0)
+            try validate(imageY, name:"imageY", max: 2147483647)
+            try validate(imageY, name:"imageY", min: 0)
+            try validate(layer, name:"layer", max: 99)
+            try validate(layer, name:"layer", min: 0)
+            try validate(opacity, name:"opacity", max: 100)
+            try validate(opacity, name:"opacity", min: 0)
+            try validate(startTime, name:"startTime", pattern: "^((([0-1]\\d)|(2[0-3]))(:[0-5]\\d){2}([:;][0-5]\\d))$")
+            try validate(width, name:"width", max: 2147483647)
+            try validate(width, name:"width", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4409,6 +4946,10 @@ extension MediaConvert {
             self.userMetadata = userMetadata
         }
 
+        public func validate() throws {
+            try settings.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accelerationSettings = "accelerationSettings"
             case arn = "arn"
@@ -4480,6 +5021,16 @@ extension MediaConvert {
             self.outputGroups = outputGroups
             self.timecodeConfig = timecodeConfig
             self.timedMetadataInsertion = timedMetadataInsertion
+        }
+
+        public func validate() throws {
+            try validate(adAvailOffset, name:"adAvailOffset", max: 1000)
+            try validate(adAvailOffset, name:"adAvailOffset", min: -1000)
+            try availBlanking?.validate()
+            try esam?.validate()
+            try motionImageInserter?.validate()
+            try nielsenConfiguration?.validate()
+            try timecodeConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4555,6 +5106,10 @@ extension MediaConvert {
             self.`type` = `type`
         }
 
+        public func validate() throws {
+            try settings.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accelerationSettings = "accelerationSettings"
             case arn = "arn"
@@ -4618,6 +5173,16 @@ extension MediaConvert {
             self.outputGroups = outputGroups
             self.timecodeConfig = timecodeConfig
             self.timedMetadataInsertion = timedMetadataInsertion
+        }
+
+        public func validate() throws {
+            try validate(adAvailOffset, name:"adAvailOffset", max: 1000)
+            try validate(adAvailOffset, name:"adAvailOffset", min: -1000)
+            try availBlanking?.validate()
+            try esam?.validate()
+            try motionImageInserter?.validate()
+            try nielsenConfiguration?.validate()
+            try timecodeConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4855,6 +5420,11 @@ extension MediaConvert {
             self.order = order
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 20)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case category = "category"
             case listBy = "listBy"
@@ -4910,6 +5480,11 @@ extension MediaConvert {
             self.order = order
             self.queue = queue
             self.status = status
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 20)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4969,6 +5544,11 @@ extension MediaConvert {
             self.order = order
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 20)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case category = "category"
             case listBy = "listBy"
@@ -5020,6 +5600,11 @@ extension MediaConvert {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.order = order
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 20)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5146,6 +5731,11 @@ extension MediaConvert {
         
         public init(scte35EsamPid: Int32? = nil) {
             self.scte35EsamPid = scte35EsamPid
+        }
+
+        public func validate() throws {
+            try validate(scte35EsamPid, name:"scte35EsamPid", max: 8182)
+            try validate(scte35EsamPid, name:"scte35EsamPid", min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5326,6 +5916,43 @@ extension MediaConvert {
             self.videoPid = videoPid
         }
 
+        public func validate() throws {
+            try validate(audioFramesPerPes, name:"audioFramesPerPes", max: 2147483647)
+            try validate(audioFramesPerPes, name:"audioFramesPerPes", min: 0)
+            try validate(bitrate, name:"bitrate", max: 2147483647)
+            try validate(bitrate, name:"bitrate", min: 0)
+            try dvbNitSettings?.validate()
+            try dvbSdtSettings?.validate()
+            try dvbTdtSettings?.validate()
+            try validate(dvbTeletextPid, name:"dvbTeletextPid", max: 8182)
+            try validate(dvbTeletextPid, name:"dvbTeletextPid", min: 32)
+            try validate(maxPcrInterval, name:"maxPcrInterval", max: 500)
+            try validate(maxPcrInterval, name:"maxPcrInterval", min: 0)
+            try validate(minEbpInterval, name:"minEbpInterval", max: 10000)
+            try validate(minEbpInterval, name:"minEbpInterval", min: 0)
+            try validate(patInterval, name:"patInterval", max: 1000)
+            try validate(patInterval, name:"patInterval", min: 0)
+            try validate(pcrPid, name:"pcrPid", max: 8182)
+            try validate(pcrPid, name:"pcrPid", min: 32)
+            try validate(pmtInterval, name:"pmtInterval", max: 1000)
+            try validate(pmtInterval, name:"pmtInterval", min: 0)
+            try validate(pmtPid, name:"pmtPid", max: 8182)
+            try validate(pmtPid, name:"pmtPid", min: 32)
+            try validate(privateMetadataPid, name:"privateMetadataPid", max: 8182)
+            try validate(privateMetadataPid, name:"privateMetadataPid", min: 32)
+            try validate(programNumber, name:"programNumber", max: 65535)
+            try validate(programNumber, name:"programNumber", min: 0)
+            try scte35Esam?.validate()
+            try validate(scte35Pid, name:"scte35Pid", max: 8182)
+            try validate(scte35Pid, name:"scte35Pid", min: 32)
+            try validate(timedMetadataPid, name:"timedMetadataPid", max: 8182)
+            try validate(timedMetadataPid, name:"timedMetadataPid", min: 32)
+            try validate(transportStreamId, name:"transportStreamId", max: 65535)
+            try validate(transportStreamId, name:"transportStreamId", min: 0)
+            try validate(videoPid, name:"videoPid", max: 8182)
+            try validate(videoPid, name:"videoPid", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case audioBufferModel = "audioBufferModel"
             case audioFramesPerPes = "audioFramesPerPes"
@@ -5455,6 +6082,31 @@ extension MediaConvert {
             self.videoPid = videoPid
         }
 
+        public func validate() throws {
+            try validate(audioFramesPerPes, name:"audioFramesPerPes", max: 2147483647)
+            try validate(audioFramesPerPes, name:"audioFramesPerPes", min: 0)
+            try validate(patInterval, name:"patInterval", max: 1000)
+            try validate(patInterval, name:"patInterval", min: 0)
+            try validate(pcrPid, name:"pcrPid", max: 8182)
+            try validate(pcrPid, name:"pcrPid", min: 32)
+            try validate(pmtInterval, name:"pmtInterval", max: 1000)
+            try validate(pmtInterval, name:"pmtInterval", min: 0)
+            try validate(pmtPid, name:"pmtPid", max: 8182)
+            try validate(pmtPid, name:"pmtPid", min: 32)
+            try validate(privateMetadataPid, name:"privateMetadataPid", max: 8182)
+            try validate(privateMetadataPid, name:"privateMetadataPid", min: 32)
+            try validate(programNumber, name:"programNumber", max: 65535)
+            try validate(programNumber, name:"programNumber", min: 0)
+            try validate(scte35Pid, name:"scte35Pid", max: 8182)
+            try validate(scte35Pid, name:"scte35Pid", min: 32)
+            try validate(timedMetadataPid, name:"timedMetadataPid", max: 8182)
+            try validate(timedMetadataPid, name:"timedMetadataPid", min: 32)
+            try validate(transportStreamId, name:"transportStreamId", max: 65535)
+            try validate(transportStreamId, name:"transportStreamId", min: 0)
+            try validate(videoPid, name:"videoPid", max: 8182)
+            try validate(videoPid, name:"videoPid", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case audioFramesPerPes = "audioFramesPerPes"
             case audioPids = "audioPids"
@@ -5506,6 +6158,17 @@ extension MediaConvert {
             self.startTime = startTime
         }
 
+        public func validate() throws {
+            try framerate?.validate()
+            try validate(input, name:"input", max: 1285)
+            try validate(input, name:"input", min: 14)
+            try validate(input, name:"input", pattern: "^(s3:\\/\\/)(.*)(\\.mov|[0-9]+\\.png)$")
+            try offset?.validate()
+            try validate(startTime, name:"startTime", max: 11)
+            try validate(startTime, name:"startTime", min: 11)
+            try validate(startTime, name:"startTime", pattern: "^((([0-1]\\d)|(2[0-3]))(:[0-5]\\d){2}([:;][0-5]\\d))$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case framerate = "framerate"
             case input = "input"
@@ -5529,6 +6192,13 @@ extension MediaConvert {
         public init(framerateDenominator: Int32? = nil, framerateNumerator: Int32? = nil) {
             self.framerateDenominator = framerateDenominator
             self.framerateNumerator = framerateNumerator
+        }
+
+        public func validate() throws {
+            try validate(framerateDenominator, name:"framerateDenominator", max: 17895697)
+            try validate(framerateDenominator, name:"framerateDenominator", min: 1)
+            try validate(framerateNumerator, name:"framerateNumerator", max: 2147483640)
+            try validate(framerateNumerator, name:"framerateNumerator", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5556,6 +6226,13 @@ extension MediaConvert {
         public init(imageX: Int32? = nil, imageY: Int32? = nil) {
             self.imageX = imageX
             self.imageY = imageY
+        }
+
+        public func validate() throws {
+            try validate(imageX, name:"imageX", max: 2147483647)
+            try validate(imageX, name:"imageX", min: 0)
+            try validate(imageY, name:"imageY", max: 2147483647)
+            try validate(imageY, name:"imageY", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5653,6 +6330,15 @@ extension MediaConvert {
             self.bitrate = bitrate
             self.channels = channels
             self.sampleRate = sampleRate
+        }
+
+        public func validate() throws {
+            try validate(bitrate, name:"bitrate", max: 384000)
+            try validate(bitrate, name:"bitrate", min: 32000)
+            try validate(channels, name:"channels", max: 2)
+            try validate(channels, name:"channels", min: 1)
+            try validate(sampleRate, name:"sampleRate", max: 48000)
+            try validate(sampleRate, name:"sampleRate", min: 32000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5933,6 +6619,33 @@ extension MediaConvert {
             self.temporalAdaptiveQuantization = temporalAdaptiveQuantization
         }
 
+        public func validate() throws {
+            try validate(bitrate, name:"bitrate", max: 288000000)
+            try validate(bitrate, name:"bitrate", min: 1000)
+            try validate(framerateDenominator, name:"framerateDenominator", max: 1001)
+            try validate(framerateDenominator, name:"framerateDenominator", min: 1)
+            try validate(framerateNumerator, name:"framerateNumerator", max: 60000)
+            try validate(framerateNumerator, name:"framerateNumerator", min: 24)
+            try validate(gopClosedCadence, name:"gopClosedCadence", max: 2147483647)
+            try validate(gopClosedCadence, name:"gopClosedCadence", min: 0)
+            try validate(hrdBufferInitialFillPercentage, name:"hrdBufferInitialFillPercentage", max: 100)
+            try validate(hrdBufferInitialFillPercentage, name:"hrdBufferInitialFillPercentage", min: 0)
+            try validate(hrdBufferSize, name:"hrdBufferSize", max: 47185920)
+            try validate(hrdBufferSize, name:"hrdBufferSize", min: 0)
+            try validate(maxBitrate, name:"maxBitrate", max: 300000000)
+            try validate(maxBitrate, name:"maxBitrate", min: 1000)
+            try validate(minIInterval, name:"minIInterval", max: 30)
+            try validate(minIInterval, name:"minIInterval", min: 0)
+            try validate(numberBFramesBetweenReferenceFrames, name:"numberBFramesBetweenReferenceFrames", max: 7)
+            try validate(numberBFramesBetweenReferenceFrames, name:"numberBFramesBetweenReferenceFrames", min: 0)
+            try validate(parDenominator, name:"parDenominator", max: 2147483647)
+            try validate(parDenominator, name:"parDenominator", min: 1)
+            try validate(parNumerator, name:"parNumerator", max: 2147483647)
+            try validate(parNumerator, name:"parNumerator", min: 1)
+            try validate(softness, name:"softness", max: 128)
+            try validate(softness, name:"softness", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case adaptiveQuantization = "adaptiveQuantization"
             case bitrate = "bitrate"
@@ -6016,6 +6729,10 @@ extension MediaConvert {
             self.spekeKeyProvider = spekeKeyProvider
         }
 
+        public func validate() throws {
+            try spekeKeyProvider?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case spekeKeyProvider = "spekeKeyProvider"
         }
@@ -6052,6 +6769,14 @@ extension MediaConvert {
             self.manifestEncoding = manifestEncoding
         }
 
+        public func validate() throws {
+            try validate(destination, name:"destination", pattern: "^s3:\\/\\/")
+            try destinationSettings?.validate()
+            try encryption?.validate()
+            try validate(fragmentLength, name:"fragmentLength", max: 2147483647)
+            try validate(fragmentLength, name:"fragmentLength", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case audioDeduplication = "audioDeduplication"
             case destination = "destination"
@@ -6083,6 +6808,11 @@ extension MediaConvert {
             self.distributorId = distributorId
         }
 
+        public func validate() throws {
+            try validate(breakoutCode, name:"breakoutCode", max: 9)
+            try validate(breakoutCode, name:"breakoutCode", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case breakoutCode = "breakoutCode"
             case distributorId = "distributorId"
@@ -6106,6 +6836,11 @@ extension MediaConvert {
             self.filter = filter
             self.filterSettings = filterSettings
             self.spatialFilterSettings = spatialFilterSettings
+        }
+
+        public func validate() throws {
+            try filterSettings?.validate()
+            try spatialFilterSettings?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6137,6 +6872,11 @@ extension MediaConvert {
             self.strength = strength
         }
 
+        public func validate() throws {
+            try validate(strength, name:"strength", max: 3)
+            try validate(strength, name:"strength", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case strength = "strength"
         }
@@ -6159,6 +6899,15 @@ extension MediaConvert {
             self.postFilterSharpenStrength = postFilterSharpenStrength
             self.speed = speed
             self.strength = strength
+        }
+
+        public func validate() throws {
+            try validate(postFilterSharpenStrength, name:"postFilterSharpenStrength", max: 3)
+            try validate(postFilterSharpenStrength, name:"postFilterSharpenStrength", min: 0)
+            try validate(speed, name:"speed", max: 3)
+            try validate(speed, name:"speed", min: -2)
+            try validate(strength, name:"strength", max: 16)
+            try validate(strength, name:"strength", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6211,6 +6960,13 @@ extension MediaConvert {
             self.outputSettings = outputSettings
             self.preset = preset
             self.videoDescription = videoDescription
+        }
+
+        public func validate() throws {
+            try containerSettings?.validate()
+            try validate(nameModifier, name:"nameModifier", min: 1)
+            try validate(preset, name:"preset", min: 0)
+            try videoDescription?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6285,6 +7041,10 @@ extension MediaConvert {
             self.outputs = outputs
         }
 
+        public func validate() throws {
+            try outputGroupSettings?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case customName = "customName"
             case name = "name"
@@ -6338,6 +7098,14 @@ extension MediaConvert {
             self.hlsGroupSettings = hlsGroupSettings
             self.msSmoothGroupSettings = msSmoothGroupSettings
             self.`type` = `type`
+        }
+
+        public func validate() throws {
+            try cmafGroupSettings?.validate()
+            try dashIsoGroupSettings?.validate()
+            try fileGroupSettings?.validate()
+            try hlsGroupSettings?.validate()
+            try msSmoothGroupSettings?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6422,6 +7190,10 @@ extension MediaConvert {
             self.`type` = `type`
         }
 
+        public func validate() throws {
+            try settings.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case category = "category"
@@ -6462,6 +7234,11 @@ extension MediaConvert {
             self.captionDescriptions = captionDescriptions
             self.containerSettings = containerSettings
             self.videoDescription = videoDescription
+        }
+
+        public func validate() throws {
+            try containerSettings?.validate()
+            try videoDescription?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6564,6 +7341,17 @@ extension MediaConvert {
             self.parNumerator = parNumerator
             self.slowPal = slowPal
             self.telecine = telecine
+        }
+
+        public func validate() throws {
+            try validate(framerateDenominator, name:"framerateDenominator", max: 2147483647)
+            try validate(framerateDenominator, name:"framerateDenominator", min: 1)
+            try validate(framerateNumerator, name:"framerateNumerator", max: 2147483647)
+            try validate(framerateNumerator, name:"framerateNumerator", min: 1)
+            try validate(parDenominator, name:"parDenominator", max: 2147483647)
+            try validate(parDenominator, name:"parDenominator", min: 1)
+            try validate(parNumerator, name:"parNumerator", max: 2147483647)
+            try validate(parNumerator, name:"parNumerator", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6694,6 +7482,17 @@ extension MediaConvert {
             self.y = y
         }
 
+        public func validate() throws {
+            try validate(height, name:"height", max: 2147483647)
+            try validate(height, name:"height", min: 2)
+            try validate(width, name:"width", max: 2147483647)
+            try validate(width, name:"width", min: 2)
+            try validate(x, name:"x", max: 2147483647)
+            try validate(x, name:"x", min: 0)
+            try validate(y, name:"y", max: 2147483647)
+            try validate(y, name:"y", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case height = "height"
             case width = "width"
@@ -6719,6 +7518,13 @@ extension MediaConvert {
             self.channelMapping = channelMapping
             self.channelsIn = channelsIn
             self.channelsOut = channelsOut
+        }
+
+        public func validate() throws {
+            try validate(channelsIn, name:"channelsIn", max: 16)
+            try validate(channelsIn, name:"channelsIn", min: 1)
+            try validate(channelsOut, name:"channelsOut", max: 8)
+            try validate(channelsOut, name:"channelsOut", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6846,6 +7652,10 @@ extension MediaConvert {
             self.encryption = encryption
         }
 
+        public func validate() throws {
+            try encryption?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case encryption = "encryption"
         }
@@ -6864,6 +7674,10 @@ extension MediaConvert {
         public init(encryptionType: S3ServerSideEncryptionType? = nil, kmsKeyArn: String? = nil) {
             self.encryptionType = encryptionType
             self.kmsKeyArn = kmsKeyArn
+        }
+
+        public func validate() throws {
+            try validate(kmsKeyArn, name:"kmsKeyArn", pattern: "^arn:aws(-us-gov)?:kms:[a-z-]{2,6}-(east|west|central|((north|south)(east|west)?))-[1-9]{1,2}:\\d{12}:key/[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6931,6 +7745,11 @@ extension MediaConvert {
             self.url = url
         }
 
+        public func validate() throws {
+            try validate(certificateArn, name:"certificateArn", pattern: "^arn:aws(-us-gov)?:acm:")
+            try validate(url, name:"url", pattern: "^https:\\/\\/")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case certificateArn = "certificateArn"
             case resourceId = "resourceId"
@@ -6960,6 +7779,12 @@ extension MediaConvert {
             self.keyFormatVersions = keyFormatVersions
             self.staticKeyValue = staticKeyValue
             self.url = url
+        }
+
+        public func validate() throws {
+            try validate(keyFormat, name:"keyFormat", pattern: "^(identity|[A-Za-z]{2,6}(\\.[A-Za-z0-9-]{1,63})+)$")
+            try validate(keyFormatVersions, name:"keyFormatVersions", pattern: "^(\\d+(\\/\\d+)*)$")
+            try validate(staticKeyValue, name:"staticKeyValue", pattern: "^[A-Za-z0-9]{32}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7029,6 +7854,12 @@ extension MediaConvert {
             self.pageNumber = pageNumber
         }
 
+        public func validate() throws {
+            try validate(pageNumber, name:"pageNumber", max: 3)
+            try validate(pageNumber, name:"pageNumber", min: 3)
+            try validate(pageNumber, name:"pageNumber", pattern: "^[1-8][0-9a-fA-F][0-9a-eA-E]$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case pageNumber = "pageNumber"
         }
@@ -7043,6 +7874,12 @@ extension MediaConvert {
         
         public init(pageNumber: String? = nil) {
             self.pageNumber = pageNumber
+        }
+
+        public func validate() throws {
+            try validate(pageNumber, name:"pageNumber", max: 3)
+            try validate(pageNumber, name:"pageNumber", min: 3)
+            try validate(pageNumber, name:"pageNumber", pattern: "^[1-8][0-9a-fA-F][0-9a-eA-E]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7067,6 +7904,12 @@ extension MediaConvert {
             self.fontSize = fontSize
             self.position = position
             self.prefix = prefix
+        }
+
+        public func validate() throws {
+            try validate(fontSize, name:"fontSize", max: 48)
+            try validate(fontSize, name:"fontSize", min: 10)
+            try validate(prefix, name:"prefix", pattern: "^[ -~]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7110,6 +7953,12 @@ extension MediaConvert {
             self.source = source
             self.start = start
             self.timestampOffset = timestampOffset
+        }
+
+        public func validate() throws {
+            try validate(anchor, name:"anchor", pattern: "^([01][0-9]|2[0-4]):[0-5][0-9]:[0-5][0-9][:;][0-9]{2}$")
+            try validate(start, name:"start", pattern: "^([01][0-9]|2[0-4]):[0-5][0-9]:[0-5][0-9][:;][0-9]{2}$")
+            try validate(timestampOffset, name:"timestampOffset", pattern: "^([0-9]{4})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7184,6 +8033,11 @@ extension MediaConvert {
         
         public init(trackNumber: Int32? = nil) {
             self.trackNumber = trackNumber
+        }
+
+        public func validate() throws {
+            try validate(trackNumber, name:"trackNumber", max: 2147483647)
+            try validate(trackNumber, name:"trackNumber", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7283,6 +8137,10 @@ extension MediaConvert {
             self.statusUpdateInterval = statusUpdateInterval
         }
 
+        public func validate() throws {
+            try settings?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accelerationSettings = "accelerationSettings"
             case category = "category"
@@ -7303,6 +8161,10 @@ extension MediaConvert {
         
         public init(jobTemplate: JobTemplate? = nil) {
             self.jobTemplate = jobTemplate
+        }
+
+        public func validate() throws {
+            try jobTemplate?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7333,6 +8195,10 @@ extension MediaConvert {
             self.settings = settings
         }
 
+        public func validate() throws {
+            try settings?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case category = "category"
             case description = "description"
@@ -7350,6 +8216,10 @@ extension MediaConvert {
         
         public init(preset: Preset? = nil) {
             self.preset = preset
+        }
+
+        public func validate() throws {
+            try preset?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7444,6 +8314,14 @@ extension MediaConvert {
             self.proresSettings = proresSettings
         }
 
+        public func validate() throws {
+            try frameCaptureSettings?.validate()
+            try h264Settings?.validate()
+            try h265Settings?.validate()
+            try mpeg2Settings?.validate()
+            try proresSettings?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case codec = "codec"
             case frameCaptureSettings = "frameCaptureSettings"
@@ -7521,6 +8399,21 @@ extension MediaConvert {
             self.width = width
         }
 
+        public func validate() throws {
+            try codecSettings?.validate()
+            try crop?.validate()
+            try validate(fixedAfd, name:"fixedAfd", max: 15)
+            try validate(fixedAfd, name:"fixedAfd", min: 0)
+            try validate(height, name:"height", max: 2160)
+            try validate(height, name:"height", min: 32)
+            try position?.validate()
+            try validate(sharpness, name:"sharpness", max: 100)
+            try validate(sharpness, name:"sharpness", min: 0)
+            try videoPreprocessors?.validate()
+            try validate(width, name:"width", max: 4096)
+            try validate(width, name:"width", min: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case afdSignaling = "afdSignaling"
             case antiAlias = "antiAlias"
@@ -7588,6 +8481,12 @@ extension MediaConvert {
             self.timecodeBurnin = timecodeBurnin
         }
 
+        public func validate() throws {
+            try colorCorrector?.validate()
+            try noiseReducer?.validate()
+            try timecodeBurnin?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case colorCorrector = "colorCorrector"
             case deinterlacer = "deinterlacer"
@@ -7626,6 +8525,14 @@ extension MediaConvert {
             self.pid = pid
             self.programNumber = programNumber
             self.rotate = rotate
+        }
+
+        public func validate() throws {
+            try hdr10Metadata?.validate()
+            try validate(pid, name:"pid", max: 2147483647)
+            try validate(pid, name:"pid", min: 1)
+            try validate(programNumber, name:"programNumber", max: 2147483647)
+            try validate(programNumber, name:"programNumber", min: -2147483648)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7671,6 +8578,15 @@ extension MediaConvert {
             self.channels = channels
             self.format = format
             self.sampleRate = sampleRate
+        }
+
+        public func validate() throws {
+            try validate(bitDepth, name:"bitDepth", max: 24)
+            try validate(bitDepth, name:"bitDepth", min: 16)
+            try validate(channels, name:"channels", max: 8)
+            try validate(channels, name:"channels", min: 1)
+            try validate(sampleRate, name:"sampleRate", max: 192000)
+            try validate(sampleRate, name:"sampleRate", min: 8000)
         }
 
         private enum CodingKeys: String, CodingKey {

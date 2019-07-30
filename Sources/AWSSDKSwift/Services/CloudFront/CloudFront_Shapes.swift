@@ -2965,6 +2965,10 @@ extension CloudFront {
             self.resource = resource
         }
 
+        public func validate() throws {
+            try validate(resource, name:"resource", pattern: "arn:aws(-cn)?:cloudfront::[0-9]+:.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resource = "Resource"
         }
@@ -3861,6 +3865,15 @@ extension CloudFront {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", max: 128)
+            try validate(key, name:"key", min: 1)
+            try validate(key, name:"key", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(value, name:"value", max: 256)
+            try validate(value, name:"value", min: 0)
+            try validate(value, name:"value", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
@@ -3899,6 +3912,10 @@ extension CloudFront {
         public init(resource: String, tags: Tags) {
             self.resource = resource
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try validate(resource, name:"resource", pattern: "arn:aws(-cn)?:cloudfront::[0-9]+:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3965,6 +3982,10 @@ extension CloudFront {
         public init(resource: String, tagKeys: TagKeys) {
             self.resource = resource
             self.tagKeys = tagKeys
+        }
+
+        public func validate() throws {
+            try validate(resource, name:"resource", pattern: "arn:aws(-cn)?:cloudfront::[0-9]+:.*")
         }
 
         private enum CodingKeys: String, CodingKey {

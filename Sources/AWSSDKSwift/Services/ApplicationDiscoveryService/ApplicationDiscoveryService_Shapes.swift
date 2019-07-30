@@ -300,6 +300,11 @@ extension ApplicationDiscoveryService {
             self.stopTime = stopTime
         }
 
+        public func validate() throws {
+            try validate(statusDetail, name:"statusDetail", max: 255)
+            try validate(statusDetail, name:"statusDetail", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dataSource = "dataSource"
             case exportId = "exportId"
@@ -642,6 +647,11 @@ extension ApplicationDiscoveryService {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case exportIds = "exportIds"
             case maxResults = "maxResults"
@@ -785,6 +795,11 @@ extension ApplicationDiscoveryService {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1144,6 +1159,15 @@ extension ApplicationDiscoveryService {
             self.serverImportFailure = serverImportFailure
             self.serverImportSuccess = serverImportSuccess
             self.status = status
+        }
+
+        public func validate() throws {
+            try validate(clientRequestToken, name:"clientRequestToken", max: 100)
+            try validate(clientRequestToken, name:"clientRequestToken", min: 1)
+            try validate(importUrl, name:"importUrl", max: 4000)
+            try validate(importUrl, name:"importUrl", min: 1)
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1509,6 +1533,15 @@ extension ApplicationDiscoveryService {
             self.name = name
         }
 
+        public func validate() throws {
+            try validate(clientRequestToken, name:"clientRequestToken", max: 100)
+            try validate(clientRequestToken, name:"clientRequestToken", min: 1)
+            try validate(importUrl, name:"importUrl", max: 4000)
+            try validate(importUrl, name:"importUrl", min: 1)
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "clientRequestToken"
             case importUrl = "importUrl"
@@ -1525,6 +1558,10 @@ extension ApplicationDiscoveryService {
         
         public init(task: ImportTask? = nil) {
             self.task = task
+        }
+
+        public func validate() throws {
+            try task?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

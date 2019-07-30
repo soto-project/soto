@@ -27,6 +27,11 @@ extension ApplicationAutoScaling {
             self.alarmName = alarmName
         }
 
+        public func validate() throws {
+            try validate(alarmARN, name:"alarmARN", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(alarmName, name:"alarmName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case alarmARN = "AlarmARN"
             case alarmName = "AlarmName"
@@ -92,6 +97,15 @@ extension ApplicationAutoScaling {
             self.serviceNamespace = serviceNamespace
         }
 
+        public func validate() throws {
+            try validate(policyName, name:"policyName", max: 1600)
+            try validate(policyName, name:"policyName", min: 1)
+            try validate(policyName, name:"policyName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(resourceId, name:"resourceId", max: 1600)
+            try validate(resourceId, name:"resourceId", min: 1)
+            try validate(resourceId, name:"resourceId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case policyName = "PolicyName"
             case resourceId = "ResourceId"
@@ -131,6 +145,15 @@ extension ApplicationAutoScaling {
             self.serviceNamespace = serviceNamespace
         }
 
+        public func validate() throws {
+            try validate(resourceId, name:"resourceId", max: 1600)
+            try validate(resourceId, name:"resourceId", min: 1)
+            try validate(resourceId, name:"resourceId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(scheduledActionName, name:"scheduledActionName", max: 1600)
+            try validate(scheduledActionName, name:"scheduledActionName", min: 1)
+            try validate(scheduledActionName, name:"scheduledActionName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceId = "ResourceId"
             case scalableDimension = "ScalableDimension"
@@ -164,6 +187,12 @@ extension ApplicationAutoScaling {
             self.resourceId = resourceId
             self.scalableDimension = scalableDimension
             self.serviceNamespace = serviceNamespace
+        }
+
+        public func validate() throws {
+            try validate(resourceId, name:"resourceId", max: 1600)
+            try validate(resourceId, name:"resourceId", min: 1)
+            try validate(resourceId, name:"resourceId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -208,6 +237,10 @@ extension ApplicationAutoScaling {
             self.serviceNamespace = serviceNamespace
         }
 
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -230,6 +263,10 @@ extension ApplicationAutoScaling {
         public init(nextToken: String? = nil, scalableTargets: [ScalableTarget]? = nil) {
             self.nextToken = nextToken
             self.scalableTargets = scalableTargets
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -265,6 +302,13 @@ extension ApplicationAutoScaling {
             self.serviceNamespace = serviceNamespace
         }
 
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(resourceId, name:"resourceId", max: 1600)
+            try validate(resourceId, name:"resourceId", min: 1)
+            try validate(resourceId, name:"resourceId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -287,6 +331,10 @@ extension ApplicationAutoScaling {
         public init(nextToken: String? = nil, scalingActivities: [ScalingActivity]? = nil) {
             self.nextToken = nextToken
             self.scalingActivities = scalingActivities
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -326,6 +374,13 @@ extension ApplicationAutoScaling {
             self.serviceNamespace = serviceNamespace
         }
 
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(resourceId, name:"resourceId", max: 1600)
+            try validate(resourceId, name:"resourceId", min: 1)
+            try validate(resourceId, name:"resourceId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -349,6 +404,10 @@ extension ApplicationAutoScaling {
         public init(nextToken: String? = nil, scalingPolicies: [ScalingPolicy]? = nil) {
             self.nextToken = nextToken
             self.scalingPolicies = scalingPolicies
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -388,6 +447,13 @@ extension ApplicationAutoScaling {
             self.serviceNamespace = serviceNamespace
         }
 
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(resourceId, name:"resourceId", max: 1600)
+            try validate(resourceId, name:"resourceId", min: 1)
+            try validate(resourceId, name:"resourceId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -411,6 +477,10 @@ extension ApplicationAutoScaling {
         public init(nextToken: String? = nil, scheduledActions: [ScheduledAction]? = nil) {
             self.nextToken = nextToken
             self.scheduledActions = scheduledActions
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -492,6 +562,11 @@ extension ApplicationAutoScaling {
             self.resourceLabel = resourceLabel
         }
 
+        public func validate() throws {
+            try validate(resourceLabel, name:"resourceLabel", max: 1023)
+            try validate(resourceLabel, name:"resourceLabel", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case predefinedMetricType = "PredefinedMetricType"
             case resourceLabel = "ResourceLabel"
@@ -533,6 +608,16 @@ extension ApplicationAutoScaling {
             self.targetTrackingScalingPolicyConfiguration = targetTrackingScalingPolicyConfiguration
         }
 
+        public func validate() throws {
+            try validate(policyName, name:"policyName", max: 256)
+            try validate(policyName, name:"policyName", min: 1)
+            try validate(policyName, name:"policyName", pattern: "\\p{Print}+")
+            try validate(resourceId, name:"resourceId", max: 1600)
+            try validate(resourceId, name:"resourceId", min: 1)
+            try validate(resourceId, name:"resourceId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try targetTrackingScalingPolicyConfiguration?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case policyName = "PolicyName"
             case policyType = "PolicyType"
@@ -557,6 +642,12 @@ extension ApplicationAutoScaling {
         public init(alarms: [Alarm]? = nil, policyARN: String) {
             self.alarms = alarms
             self.policyARN = policyARN
+        }
+
+        public func validate() throws {
+            try validate(policyARN, name:"policyARN", max: 1600)
+            try validate(policyARN, name:"policyARN", min: 1)
+            try validate(policyARN, name:"policyARN", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -602,6 +693,18 @@ extension ApplicationAutoScaling {
             self.scheduledActionName = scheduledActionName
             self.serviceNamespace = serviceNamespace
             self.startTime = startTime
+        }
+
+        public func validate() throws {
+            try validate(resourceId, name:"resourceId", max: 1600)
+            try validate(resourceId, name:"resourceId", min: 1)
+            try validate(resourceId, name:"resourceId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(schedule, name:"schedule", max: 1600)
+            try validate(schedule, name:"schedule", min: 1)
+            try validate(schedule, name:"schedule", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(scheduledActionName, name:"scheduledActionName", max: 256)
+            try validate(scheduledActionName, name:"scheduledActionName", min: 1)
+            try validate(scheduledActionName, name:"scheduledActionName", pattern: "(?!((^[ ]+.*)|(.*([\\u0000-\\u001f]|[\\u007f-\\u009f]|[:/|])+.*)|(.*[ ]+$))).+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -653,6 +756,15 @@ extension ApplicationAutoScaling {
             self.roleARN = roleARN
             self.scalableDimension = scalableDimension
             self.serviceNamespace = serviceNamespace
+        }
+
+        public func validate() throws {
+            try validate(resourceId, name:"resourceId", max: 1600)
+            try validate(resourceId, name:"resourceId", min: 1)
+            try validate(resourceId, name:"resourceId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(roleARN, name:"roleARN", max: 1600)
+            try validate(roleARN, name:"roleARN", min: 1)
+            try validate(roleARN, name:"roleARN", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -721,6 +833,15 @@ extension ApplicationAutoScaling {
             self.roleARN = roleARN
             self.scalableDimension = scalableDimension
             self.serviceNamespace = serviceNamespace
+        }
+
+        public func validate() throws {
+            try validate(resourceId, name:"resourceId", max: 1600)
+            try validate(resourceId, name:"resourceId", min: 1)
+            try validate(resourceId, name:"resourceId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(roleARN, name:"roleARN", max: 1600)
+            try validate(roleARN, name:"roleARN", min: 1)
+            try validate(roleARN, name:"roleARN", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -806,6 +927,17 @@ extension ApplicationAutoScaling {
             self.statusMessage = statusMessage
         }
 
+        public func validate() throws {
+            try validate(activityId, name:"activityId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(cause, name:"cause", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(description, name:"description", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(details, name:"details", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(resourceId, name:"resourceId", max: 1600)
+            try validate(resourceId, name:"resourceId", min: 1)
+            try validate(resourceId, name:"resourceId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(statusMessage, name:"statusMessage", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case activityId = "ActivityId"
             case cause = "Cause"
@@ -878,6 +1010,19 @@ extension ApplicationAutoScaling {
             self.targetTrackingScalingPolicyConfiguration = targetTrackingScalingPolicyConfiguration
         }
 
+        public func validate() throws {
+            try validate(policyARN, name:"policyARN", max: 1600)
+            try validate(policyARN, name:"policyARN", min: 1)
+            try validate(policyARN, name:"policyARN", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(policyName, name:"policyName", max: 256)
+            try validate(policyName, name:"policyName", min: 1)
+            try validate(policyName, name:"policyName", pattern: "\\p{Print}+")
+            try validate(resourceId, name:"resourceId", max: 1600)
+            try validate(resourceId, name:"resourceId", min: 1)
+            try validate(resourceId, name:"resourceId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try targetTrackingScalingPolicyConfiguration?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case alarms = "Alarms"
             case creationTime = "CreationTime"
@@ -937,6 +1082,21 @@ extension ApplicationAutoScaling {
             self.scheduledActionName = scheduledActionName
             self.serviceNamespace = serviceNamespace
             self.startTime = startTime
+        }
+
+        public func validate() throws {
+            try validate(resourceId, name:"resourceId", max: 1600)
+            try validate(resourceId, name:"resourceId", min: 1)
+            try validate(resourceId, name:"resourceId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(schedule, name:"schedule", max: 1600)
+            try validate(schedule, name:"schedule", min: 1)
+            try validate(schedule, name:"schedule", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(scheduledActionARN, name:"scheduledActionARN", max: 1600)
+            try validate(scheduledActionARN, name:"scheduledActionARN", min: 1)
+            try validate(scheduledActionARN, name:"scheduledActionARN", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(scheduledActionName, name:"scheduledActionName", max: 256)
+            try validate(scheduledActionName, name:"scheduledActionName", min: 1)
+            try validate(scheduledActionName, name:"scheduledActionName", pattern: "(?!((^[ ]+.*)|(.*([\\u0000-\\u001f]|[\\u007f-\\u009f]|[:/|])+.*)|(.*[ ]+$))).+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1056,6 +1216,10 @@ extension ApplicationAutoScaling {
             self.scaleInCooldown = scaleInCooldown
             self.scaleOutCooldown = scaleOutCooldown
             self.targetValue = targetValue
+        }
+
+        public func validate() throws {
+            try predefinedMetricSpecification?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

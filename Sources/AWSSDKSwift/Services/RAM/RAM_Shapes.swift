@@ -302,6 +302,11 @@ extension RAM {
             self.resourceArns = resourceArns
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 500)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "maxResults"
             case nextToken = "nextToken"
@@ -366,6 +371,11 @@ extension RAM {
             self.resourceShareArns = resourceShareArns
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 500)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case associationStatus = "associationStatus"
             case associationType = "associationType"
@@ -419,6 +429,11 @@ extension RAM {
             self.nextToken = nextToken
             self.resourceShareArns = resourceShareArns
             self.resourceShareInvitationArns = resourceShareInvitationArns
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 500)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -483,6 +498,11 @@ extension RAM {
             self.resourceShareArns = resourceShareArns
             self.resourceShareStatus = resourceShareStatus
             self.tagFilters = tagFilters
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 500)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -552,6 +572,11 @@ extension RAM {
             self.resourceType = resourceType
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 500)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "maxResults"
             case nextToken = "nextToken"
@@ -617,6 +642,11 @@ extension RAM {
             self.resourceOwner = resourceOwner
             self.resourceShareArns = resourceShareArns
             self.resourceType = resourceType
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 500)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

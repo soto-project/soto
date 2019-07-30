@@ -44,6 +44,11 @@ extension IoT1ClickDevicesService {
             self.total = total
         }
 
+        public func validate() throws {
+            try validate(claimCode, name:"claimCode", max: 40)
+            try validate(claimCode, name:"claimCode", min: 12)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case claimCode = "claimCode"
             case total = "total"
@@ -400,6 +405,11 @@ extension IoT1ClickDevicesService {
             self.toTimeStamp = toTimeStamp
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 250)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case deviceId = "deviceId"
             case fromTimeStamp = "fromTimeStamp"
@@ -442,6 +452,11 @@ extension IoT1ClickDevicesService {
             self.deviceType = deviceType
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 250)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

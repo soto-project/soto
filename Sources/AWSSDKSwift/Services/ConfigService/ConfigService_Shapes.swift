@@ -54,6 +54,14 @@ extension ConfigService {
             self.configRuleName = configRuleName
         }
 
+        public func validate() throws {
+            try validate(accountId, name:"accountId", pattern: "\\d{12}")
+            try validate(awsRegion, name:"awsRegion", max: 64)
+            try validate(awsRegion, name:"awsRegion", min: 1)
+            try validate(configRuleName, name:"configRuleName", max: 64)
+            try validate(configRuleName, name:"configRuleName", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
             case awsRegion = "AwsRegion"
@@ -75,6 +83,11 @@ extension ConfigService {
         public init(complianceSummary: ComplianceSummary? = nil, groupName: String? = nil) {
             self.complianceSummary = complianceSummary
             self.groupName = groupName
+        }
+
+        public func validate() throws {
+            try validate(groupName, name:"groupName", max: 256)
+            try validate(groupName, name:"groupName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -118,6 +131,15 @@ extension ConfigService {
             self.resultRecordedTime = resultRecordedTime
         }
 
+        public func validate() throws {
+            try validate(accountId, name:"accountId", pattern: "\\d{12}")
+            try validate(annotation, name:"annotation", max: 256)
+            try validate(annotation, name:"annotation", min: 1)
+            try validate(awsRegion, name:"awsRegion", max: 64)
+            try validate(awsRegion, name:"awsRegion", min: 1)
+            try evaluationResultIdentifier?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
             case annotation = "Annotation"
@@ -154,6 +176,14 @@ extension ConfigService {
             self.resourceType = resourceType
             self.sourceAccountId = sourceAccountId
             self.sourceRegion = sourceRegion
+        }
+
+        public func validate() throws {
+            try validate(resourceId, name:"resourceId", max: 768)
+            try validate(resourceId, name:"resourceId", min: 1)
+            try validate(sourceAccountId, name:"sourceAccountId", pattern: "\\d{12}")
+            try validate(sourceRegion, name:"sourceRegion", max: 64)
+            try validate(sourceRegion, name:"sourceRegion", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -198,6 +228,11 @@ extension ConfigService {
             self.lastUpdateTime = lastUpdateTime
             self.sourceId = sourceId
             self.sourceType = sourceType
+        }
+
+        public func validate() throws {
+            try validate(awsRegion, name:"awsRegion", max: 64)
+            try validate(awsRegion, name:"awsRegion", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -245,6 +280,12 @@ extension ConfigService {
             self.authorizedAccountId = authorizedAccountId
             self.authorizedAwsRegion = authorizedAwsRegion
             self.creationTime = creationTime
+        }
+
+        public func validate() throws {
+            try validate(authorizedAccountId, name:"authorizedAccountId", pattern: "\\d{12}")
+            try validate(authorizedAwsRegion, name:"authorizedAwsRegion", max: 64)
+            try validate(authorizedAwsRegion, name:"authorizedAwsRegion", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -318,6 +359,14 @@ extension ConfigService {
             self.version = version
         }
 
+        public func validate() throws {
+            try validate(accountId, name:"accountId", pattern: "\\d{12}")
+            try validate(awsRegion, name:"awsRegion", max: 64)
+            try validate(awsRegion, name:"awsRegion", min: 1)
+            try validate(resourceId, name:"resourceId", max: 768)
+            try validate(resourceId, name:"resourceId", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
             case arn = "arn"
@@ -349,6 +398,12 @@ extension ConfigService {
         public init(configurationAggregatorName: String, resourceIdentifiers: [AggregateResourceIdentifier]) {
             self.configurationAggregatorName = configurationAggregatorName
             self.resourceIdentifiers = resourceIdentifiers
+        }
+
+        public func validate() throws {
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", max: 256)
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", min: 1)
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", pattern: "[\\w\\-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -457,6 +512,11 @@ extension ConfigService {
             self.configRuleName = configRuleName
         }
 
+        public func validate() throws {
+            try validate(configRuleName, name:"configRuleName", max: 64)
+            try validate(configRuleName, name:"configRuleName", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case compliance = "Compliance"
             case configRuleName = "ConfigRuleName"
@@ -480,6 +540,13 @@ extension ConfigService {
             self.compliance = compliance
             self.resourceId = resourceId
             self.resourceType = resourceType
+        }
+
+        public func validate() throws {
+            try validate(resourceId, name:"resourceId", max: 768)
+            try validate(resourceId, name:"resourceId", min: 1)
+            try validate(resourceType, name:"resourceType", max: 256)
+            try validate(resourceType, name:"resourceType", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -549,6 +616,11 @@ extension ConfigService {
         public init(complianceSummary: ComplianceSummary? = nil, resourceType: String? = nil) {
             self.complianceSummary = complianceSummary
             self.resourceType = resourceType
+        }
+
+        public func validate() throws {
+            try validate(resourceType, name:"resourceType", max: 256)
+            try validate(resourceType, name:"resourceType", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -653,6 +725,19 @@ extension ConfigService {
             self.source = source
         }
 
+        public func validate() throws {
+            try validate(configRuleName, name:"configRuleName", max: 64)
+            try validate(configRuleName, name:"configRuleName", min: 1)
+            try validate(createdBy, name:"createdBy", max: 256)
+            try validate(createdBy, name:"createdBy", min: 1)
+            try validate(description, name:"description", max: 256)
+            try validate(description, name:"description", min: 0)
+            try validate(inputParameters, name:"inputParameters", max: 1024)
+            try validate(inputParameters, name:"inputParameters", min: 1)
+            try scope?.validate()
+            try source.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case configRuleArn = "ConfigRuleArn"
             case configRuleId = "ConfigRuleId"
@@ -690,6 +775,14 @@ extension ConfigService {
             self.configRuleName = configRuleName
         }
 
+        public func validate() throws {
+            try validate(accountId, name:"accountId", pattern: "\\d{12}")
+            try validate(awsRegion, name:"awsRegion", max: 64)
+            try validate(awsRegion, name:"awsRegion", min: 1)
+            try validate(configRuleName, name:"configRuleName", max: 64)
+            try validate(configRuleName, name:"configRuleName", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
             case awsRegion = "AwsRegion"
@@ -711,6 +804,12 @@ extension ConfigService {
         public init(accountId: String? = nil, awsRegion: String? = nil) {
             self.accountId = accountId
             self.awsRegion = awsRegion
+        }
+
+        public func validate() throws {
+            try validate(accountId, name:"accountId", pattern: "\\d{12}")
+            try validate(awsRegion, name:"awsRegion", max: 64)
+            try validate(awsRegion, name:"awsRegion", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -774,6 +873,11 @@ extension ConfigService {
             self.lastFailedInvocationTime = lastFailedInvocationTime
             self.lastSuccessfulEvaluationTime = lastSuccessfulEvaluationTime
             self.lastSuccessfulInvocationTime = lastSuccessfulInvocationTime
+        }
+
+        public func validate() throws {
+            try validate(configRuleName, name:"configRuleName", max: 64)
+            try validate(configRuleName, name:"configRuleName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -877,6 +981,13 @@ extension ConfigService {
             self.organizationAggregationSource = organizationAggregationSource
         }
 
+        public func validate() throws {
+            try validate(configurationAggregatorArn, name:"configurationAggregatorArn", pattern: "arn:aws[a-z\\-]*:config:[a-z\\-\\d]+:\\d+:config-aggregator/config-aggregator-[a-z\\d]+")
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", max: 256)
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", min: 1)
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", pattern: "[\\w\\-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountAggregationSources = "AccountAggregationSources"
             case configurationAggregatorArn = "ConfigurationAggregatorArn"
@@ -966,6 +1077,14 @@ extension ConfigService {
             self.version = version
         }
 
+        public func validate() throws {
+            try validate(accountId, name:"accountId", pattern: "\\d{12}")
+            try validate(awsRegion, name:"awsRegion", max: 64)
+            try validate(awsRegion, name:"awsRegion", min: 1)
+            try validate(resourceId, name:"resourceId", max: 768)
+            try validate(resourceId, name:"resourceId", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
             case arn = "arn"
@@ -1014,6 +1133,11 @@ extension ConfigService {
             self.name = name
             self.recordingGroup = recordingGroup
             self.roleARN = roleARN
+        }
+
+        public func validate() throws {
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1089,6 +1213,12 @@ extension ConfigService {
             self.authorizedAwsRegion = authorizedAwsRegion
         }
 
+        public func validate() throws {
+            try validate(authorizedAccountId, name:"authorizedAccountId", pattern: "\\d{12}")
+            try validate(authorizedAwsRegion, name:"authorizedAwsRegion", max: 64)
+            try validate(authorizedAwsRegion, name:"authorizedAwsRegion", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authorizedAccountId = "AuthorizedAccountId"
             case authorizedAwsRegion = "AuthorizedAwsRegion"
@@ -1104,6 +1234,11 @@ extension ConfigService {
         
         public init(configRuleName: String) {
             self.configRuleName = configRuleName
+        }
+
+        public func validate() throws {
+            try validate(configRuleName, name:"configRuleName", max: 64)
+            try validate(configRuleName, name:"configRuleName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1122,6 +1257,12 @@ extension ConfigService {
             self.configurationAggregatorName = configurationAggregatorName
         }
 
+        public func validate() throws {
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", max: 256)
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", min: 1)
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", pattern: "[\\w\\-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case configurationAggregatorName = "ConfigurationAggregatorName"
         }
@@ -1136,6 +1277,11 @@ extension ConfigService {
         
         public init(configurationRecorderName: String) {
             self.configurationRecorderName = configurationRecorderName
+        }
+
+        public func validate() throws {
+            try validate(configurationRecorderName, name:"configurationRecorderName", max: 256)
+            try validate(configurationRecorderName, name:"configurationRecorderName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1154,6 +1300,11 @@ extension ConfigService {
             self.deliveryChannelName = deliveryChannelName
         }
 
+        public func validate() throws {
+            try validate(deliveryChannelName, name:"deliveryChannelName", max: 256)
+            try validate(deliveryChannelName, name:"deliveryChannelName", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case deliveryChannelName = "DeliveryChannelName"
         }
@@ -1168,6 +1319,11 @@ extension ConfigService {
         
         public init(configRuleName: String) {
             self.configRuleName = configRuleName
+        }
+
+        public func validate() throws {
+            try validate(configRuleName, name:"configRuleName", max: 64)
+            try validate(configRuleName, name:"configRuleName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1193,6 +1349,11 @@ extension ConfigService {
             self.organizationConfigRuleName = organizationConfigRuleName
         }
 
+        public func validate() throws {
+            try validate(organizationConfigRuleName, name:"organizationConfigRuleName", max: 64)
+            try validate(organizationConfigRuleName, name:"organizationConfigRuleName", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case organizationConfigRuleName = "OrganizationConfigRuleName"
         }
@@ -1211,6 +1372,12 @@ extension ConfigService {
         public init(requesterAccountId: String, requesterAwsRegion: String) {
             self.requesterAccountId = requesterAccountId
             self.requesterAwsRegion = requesterAwsRegion
+        }
+
+        public func validate() throws {
+            try validate(requesterAccountId, name:"requesterAccountId", pattern: "\\d{12}")
+            try validate(requesterAwsRegion, name:"requesterAwsRegion", max: 64)
+            try validate(requesterAwsRegion, name:"requesterAwsRegion", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1232,6 +1399,11 @@ extension ConfigService {
         public init(configRuleName: String, resourceType: String? = nil) {
             self.configRuleName = configRuleName
             self.resourceType = resourceType
+        }
+
+        public func validate() throws {
+            try validate(configRuleName, name:"configRuleName", max: 64)
+            try validate(configRuleName, name:"configRuleName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1259,6 +1431,12 @@ extension ConfigService {
             self.retentionConfigurationName = retentionConfigurationName
         }
 
+        public func validate() throws {
+            try validate(retentionConfigurationName, name:"retentionConfigurationName", max: 256)
+            try validate(retentionConfigurationName, name:"retentionConfigurationName", min: 1)
+            try validate(retentionConfigurationName, name:"retentionConfigurationName", pattern: "[\\w\\-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case retentionConfigurationName = "RetentionConfigurationName"
         }
@@ -1273,6 +1451,11 @@ extension ConfigService {
         
         public init(deliveryChannelName: String) {
             self.deliveryChannelName = deliveryChannelName
+        }
+
+        public func validate() throws {
+            try validate(deliveryChannelName, name:"deliveryChannelName", max: 256)
+            try validate(deliveryChannelName, name:"deliveryChannelName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1321,6 +1504,11 @@ extension ConfigService {
             self.s3BucketName = s3BucketName
             self.s3KeyPrefix = s3KeyPrefix
             self.snsTopicARN = snsTopicARN
+        }
+
+        public func validate() throws {
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1393,6 +1581,15 @@ extension ConfigService {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", max: 256)
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", min: 1)
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", pattern: "[\\w\\-]+")
+            try filters?.validate()
+            try validate(limit, name:"limit", max: 1000)
+            try validate(limit, name:"limit", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case configurationAggregatorName = "ConfigurationAggregatorName"
             case filters = "Filters"
@@ -1435,6 +1632,11 @@ extension ConfigService {
         public init(limit: Int32? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(limit, name:"limit", max: 100)
+            try validate(limit, name:"limit", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1538,6 +1740,15 @@ extension ConfigService {
             self.resourceType = resourceType
         }
 
+        public func validate() throws {
+            try validate(limit, name:"limit", max: 100)
+            try validate(limit, name:"limit", min: 0)
+            try validate(resourceId, name:"resourceId", max: 768)
+            try validate(resourceId, name:"resourceId", min: 1)
+            try validate(resourceType, name:"resourceType", max: 256)
+            try validate(resourceType, name:"resourceType", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case complianceTypes = "ComplianceTypes"
             case limit = "Limit"
@@ -1585,6 +1796,11 @@ extension ConfigService {
             self.configRuleNames = configRuleNames
             self.limit = limit
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(limit, name:"limit", max: 50)
+            try validate(limit, name:"limit", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1680,6 +1896,14 @@ extension ConfigService {
             self.updateStatus = updateStatus
         }
 
+        public func validate() throws {
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", max: 256)
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", min: 1)
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", pattern: "[\\w\\-]+")
+            try validate(limit, name:"limit", max: 100)
+            try validate(limit, name:"limit", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case configurationAggregatorName = "ConfigurationAggregatorName"
             case limit = "Limit"
@@ -1726,6 +1950,11 @@ extension ConfigService {
             self.configurationAggregatorNames = configurationAggregatorNames
             self.limit = limit
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(limit, name:"limit", max: 100)
+            try validate(limit, name:"limit", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1900,6 +2129,11 @@ extension ConfigService {
             self.organizationConfigRuleNames = organizationConfigRuleNames
         }
 
+        public func validate() throws {
+            try validate(limit, name:"limit", max: 100)
+            try validate(limit, name:"limit", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case limit = "Limit"
             case nextToken = "NextToken"
@@ -1942,6 +2176,11 @@ extension ConfigService {
             self.organizationConfigRuleNames = organizationConfigRuleNames
         }
 
+        public func validate() throws {
+            try validate(limit, name:"limit", max: 100)
+            try validate(limit, name:"limit", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case limit = "Limit"
             case nextToken = "NextToken"
@@ -1981,6 +2220,11 @@ extension ConfigService {
         public init(limit: Int32? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(limit, name:"limit", max: 20)
+            try validate(limit, name:"limit", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2065,6 +2309,15 @@ extension ConfigService {
             self.resourceKeys = resourceKeys
         }
 
+        public func validate() throws {
+            try validate(configRuleName, name:"configRuleName", max: 64)
+            try validate(configRuleName, name:"configRuleName", min: 1)
+            try validate(limit, name:"limit", max: 100)
+            try validate(limit, name:"limit", min: 0)
+            try validate(nextToken, name:"nextToken", max: 256)
+            try validate(nextToken, name:"nextToken", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case configRuleName = "ConfigRuleName"
             case limit = "Limit"
@@ -2086,6 +2339,11 @@ extension ConfigService {
         public init(nextToken: String? = nil, remediationExecutionStatuses: [RemediationExecutionStatus]? = nil) {
             self.nextToken = nextToken
             self.remediationExecutionStatuses = remediationExecutionStatuses
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 256)
+            try validate(nextToken, name:"nextToken", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2163,6 +2421,15 @@ extension ConfigService {
             self.orderingTimestamp = orderingTimestamp
         }
 
+        public func validate() throws {
+            try validate(annotation, name:"annotation", max: 256)
+            try validate(annotation, name:"annotation", min: 1)
+            try validate(complianceResourceId, name:"complianceResourceId", max: 768)
+            try validate(complianceResourceId, name:"complianceResourceId", min: 1)
+            try validate(complianceResourceType, name:"complianceResourceType", max: 256)
+            try validate(complianceResourceType, name:"complianceResourceType", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case annotation = "Annotation"
             case complianceResourceId = "ComplianceResourceId"
@@ -2203,6 +2470,12 @@ extension ConfigService {
             self.resultToken = resultToken
         }
 
+        public func validate() throws {
+            try validate(annotation, name:"annotation", max: 256)
+            try validate(annotation, name:"annotation", min: 1)
+            try evaluationResultIdentifier?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case annotation = "Annotation"
             case complianceType = "ComplianceType"
@@ -2228,6 +2501,10 @@ extension ConfigService {
             self.orderingTimestamp = orderingTimestamp
         }
 
+        public func validate() throws {
+            try evaluationResultQualifier?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case evaluationResultQualifier = "EvaluationResultQualifier"
             case orderingTimestamp = "OrderingTimestamp"
@@ -2251,6 +2528,15 @@ extension ConfigService {
             self.configRuleName = configRuleName
             self.resourceId = resourceId
             self.resourceType = resourceType
+        }
+
+        public func validate() throws {
+            try validate(configRuleName, name:"configRuleName", max: 64)
+            try validate(configRuleName, name:"configRuleName", min: 1)
+            try validate(resourceId, name:"resourceId", max: 768)
+            try validate(resourceId, name:"resourceId", min: 1)
+            try validate(resourceType, name:"resourceType", max: 256)
+            try validate(resourceType, name:"resourceType", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2337,6 +2623,19 @@ extension ConfigService {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(accountId, name:"accountId", pattern: "\\d{12}")
+            try validate(awsRegion, name:"awsRegion", max: 64)
+            try validate(awsRegion, name:"awsRegion", min: 1)
+            try validate(configRuleName, name:"configRuleName", max: 64)
+            try validate(configRuleName, name:"configRuleName", min: 1)
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", max: 256)
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", min: 1)
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", pattern: "[\\w\\-]+")
+            try validate(limit, name:"limit", max: 100)
+            try validate(limit, name:"limit", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
             case awsRegion = "AwsRegion"
@@ -2396,6 +2695,15 @@ extension ConfigService {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", max: 256)
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", min: 1)
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", pattern: "[\\w\\-]+")
+            try filters?.validate()
+            try validate(limit, name:"limit", max: 1000)
+            try validate(limit, name:"limit", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case configurationAggregatorName = "ConfigurationAggregatorName"
             case filters = "Filters"
@@ -2422,6 +2730,11 @@ extension ConfigService {
             self.aggregateComplianceCounts = aggregateComplianceCounts
             self.groupByKey = groupByKey
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(groupByKey, name:"groupByKey", max: 256)
+            try validate(groupByKey, name:"groupByKey", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2458,6 +2771,15 @@ extension ConfigService {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", max: 256)
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", min: 1)
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", pattern: "[\\w\\-]+")
+            try filters?.validate()
+            try validate(limit, name:"limit", max: 1000)
+            try validate(limit, name:"limit", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case configurationAggregatorName = "ConfigurationAggregatorName"
             case filters = "Filters"
@@ -2490,6 +2812,11 @@ extension ConfigService {
             self.totalDiscoveredResources = totalDiscoveredResources
         }
 
+        public func validate() throws {
+            try validate(groupByKey, name:"groupByKey", max: 256)
+            try validate(groupByKey, name:"groupByKey", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case groupByKey = "GroupByKey"
             case groupedResourceCounts = "GroupedResourceCounts"
@@ -2513,6 +2840,13 @@ extension ConfigService {
             self.resourceIdentifier = resourceIdentifier
         }
 
+        public func validate() throws {
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", max: 256)
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", min: 1)
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", pattern: "[\\w\\-]+")
+            try resourceIdentifier.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case configurationAggregatorName = "ConfigurationAggregatorName"
             case resourceIdentifier = "ResourceIdentifier"
@@ -2528,6 +2862,10 @@ extension ConfigService {
         
         public init(configurationItem: ConfigurationItem? = nil) {
             self.configurationItem = configurationItem
+        }
+
+        public func validate() throws {
+            try configurationItem?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2556,6 +2894,13 @@ extension ConfigService {
             self.configRuleName = configRuleName
             self.limit = limit
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(configRuleName, name:"configRuleName", max: 64)
+            try validate(configRuleName, name:"configRuleName", min: 1)
+            try validate(limit, name:"limit", max: 100)
+            try validate(limit, name:"limit", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2608,6 +2953,13 @@ extension ConfigService {
             self.nextToken = nextToken
             self.resourceId = resourceId
             self.resourceType = resourceType
+        }
+
+        public func validate() throws {
+            try validate(resourceId, name:"resourceId", max: 768)
+            try validate(resourceId, name:"resourceId", min: 1)
+            try validate(resourceType, name:"resourceType", max: 256)
+            try validate(resourceType, name:"resourceType", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2706,6 +3058,11 @@ extension ConfigService {
             self.resourceTypes = resourceTypes
         }
 
+        public func validate() throws {
+            try validate(limit, name:"limit", max: 100)
+            try validate(limit, name:"limit", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case limit = "limit"
             case nextToken = "nextToken"
@@ -2756,6 +3113,14 @@ extension ConfigService {
             self.limit = limit
             self.nextToken = nextToken
             self.organizationConfigRuleName = organizationConfigRuleName
+        }
+
+        public func validate() throws {
+            try filters?.validate()
+            try validate(limit, name:"limit", max: 100)
+            try validate(limit, name:"limit", min: 0)
+            try validate(organizationConfigRuleName, name:"organizationConfigRuleName", max: 64)
+            try validate(organizationConfigRuleName, name:"organizationConfigRuleName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2820,6 +3185,13 @@ extension ConfigService {
             self.resourceType = resourceType
         }
 
+        public func validate() throws {
+            try validate(limit, name:"limit", max: 100)
+            try validate(limit, name:"limit", min: 0)
+            try validate(resourceId, name:"resourceId", max: 768)
+            try validate(resourceId, name:"resourceId", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case chronologicalOrder = "chronologicalOrder"
             case earlierTime = "earlierTime"
@@ -2867,6 +3239,11 @@ extension ConfigService {
             self.resourceCount = resourceCount
         }
 
+        public func validate() throws {
+            try validate(groupName, name:"groupName", max: 256)
+            try validate(groupName, name:"groupName", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case groupName = "GroupName"
             case resourceCount = "ResourceCount"
@@ -2898,6 +3275,15 @@ extension ConfigService {
             self.limit = limit
             self.nextToken = nextToken
             self.resourceType = resourceType
+        }
+
+        public func validate() throws {
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", max: 256)
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", min: 1)
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", pattern: "[\\w\\-]+")
+            try filters?.validate()
+            try validate(limit, name:"limit", max: 100)
+            try validate(limit, name:"limit", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2961,6 +3347,11 @@ extension ConfigService {
             self.resourceType = resourceType
         }
 
+        public func validate() throws {
+            try validate(limit, name:"limit", max: 100)
+            try validate(limit, name:"limit", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case includeDeletedResources = "includeDeletedResources"
             case limit = "limit"
@@ -3009,6 +3400,13 @@ extension ConfigService {
             self.limit = limit
             self.nextToken = nextToken
             self.resourceArn = resourceArn
+        }
+
+        public func validate() throws {
+            try validate(limit, name:"limit", max: 100)
+            try validate(limit, name:"limit", min: 0)
+            try validate(resourceArn, name:"resourceArn", max: 256)
+            try validate(resourceArn, name:"resourceArn", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3083,6 +3481,12 @@ extension ConfigService {
             self.memberAccountRuleStatus = memberAccountRuleStatus
         }
 
+        public func validate() throws {
+            try validate(accountId, name:"accountId", pattern: "\\d{12}")
+            try validate(configRuleName, name:"configRuleName", max: 64)
+            try validate(configRuleName, name:"configRuleName", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
             case configRuleName = "ConfigRuleName"
@@ -3152,6 +3556,15 @@ extension ConfigService {
             self.organizationManagedRuleMetadata = organizationManagedRuleMetadata
         }
 
+        public func validate() throws {
+            try validate(organizationConfigRuleArn, name:"organizationConfigRuleArn", max: 256)
+            try validate(organizationConfigRuleArn, name:"organizationConfigRuleArn", min: 1)
+            try validate(organizationConfigRuleName, name:"organizationConfigRuleName", max: 64)
+            try validate(organizationConfigRuleName, name:"organizationConfigRuleName", min: 1)
+            try organizationCustomRuleMetadata?.validate()
+            try organizationManagedRuleMetadata?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case excludedAccounts = "ExcludedAccounts"
             case lastUpdateTime = "LastUpdateTime"
@@ -3182,6 +3595,11 @@ extension ConfigService {
             self.lastUpdateTime = lastUpdateTime
             self.organizationConfigRuleName = organizationConfigRuleName
             self.organizationRuleStatus = organizationRuleStatus
+        }
+
+        public func validate() throws {
+            try validate(organizationConfigRuleName, name:"organizationConfigRuleName", max: 64)
+            try validate(organizationConfigRuleName, name:"organizationConfigRuleName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3234,6 +3652,21 @@ extension ConfigService {
             self.tagValueScope = tagValueScope
         }
 
+        public func validate() throws {
+            try validate(description, name:"description", max: 256)
+            try validate(description, name:"description", min: 0)
+            try validate(inputParameters, name:"inputParameters", max: 2048)
+            try validate(inputParameters, name:"inputParameters", min: 1)
+            try validate(lambdaFunctionArn, name:"lambdaFunctionArn", max: 256)
+            try validate(lambdaFunctionArn, name:"lambdaFunctionArn", min: 1)
+            try validate(resourceIdScope, name:"resourceIdScope", max: 768)
+            try validate(resourceIdScope, name:"resourceIdScope", min: 1)
+            try validate(tagKeyScope, name:"tagKeyScope", max: 128)
+            try validate(tagKeyScope, name:"tagKeyScope", min: 1)
+            try validate(tagValueScope, name:"tagValueScope", max: 256)
+            try validate(tagValueScope, name:"tagValueScope", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case inputParameters = "InputParameters"
@@ -3276,6 +3709,21 @@ extension ConfigService {
             self.ruleIdentifier = ruleIdentifier
             self.tagKeyScope = tagKeyScope
             self.tagValueScope = tagValueScope
+        }
+
+        public func validate() throws {
+            try validate(description, name:"description", max: 256)
+            try validate(description, name:"description", min: 0)
+            try validate(inputParameters, name:"inputParameters", max: 2048)
+            try validate(inputParameters, name:"inputParameters", min: 1)
+            try validate(resourceIdScope, name:"resourceIdScope", max: 768)
+            try validate(resourceIdScope, name:"resourceIdScope", min: 1)
+            try validate(ruleIdentifier, name:"ruleIdentifier", max: 256)
+            try validate(ruleIdentifier, name:"ruleIdentifier", min: 1)
+            try validate(tagKeyScope, name:"tagKeyScope", max: 128)
+            try validate(tagKeyScope, name:"tagKeyScope", min: 1)
+            try validate(tagValueScope, name:"tagValueScope", max: 256)
+            try validate(tagValueScope, name:"tagValueScope", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3321,6 +3769,12 @@ extension ConfigService {
             self.requesterAwsRegion = requesterAwsRegion
         }
 
+        public func validate() throws {
+            try validate(requesterAccountId, name:"requesterAccountId", pattern: "\\d{12}")
+            try validate(requesterAwsRegion, name:"requesterAwsRegion", max: 64)
+            try validate(requesterAwsRegion, name:"requesterAwsRegion", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case requesterAccountId = "RequesterAccountId"
             case requesterAwsRegion = "RequesterAwsRegion"
@@ -3345,6 +3799,12 @@ extension ConfigService {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(authorizedAccountId, name:"authorizedAccountId", pattern: "\\d{12}")
+            try validate(authorizedAwsRegion, name:"authorizedAwsRegion", max: 64)
+            try validate(authorizedAwsRegion, name:"authorizedAwsRegion", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case authorizedAccountId = "AuthorizedAccountId"
             case authorizedAwsRegion = "AuthorizedAwsRegion"
@@ -3361,6 +3821,10 @@ extension ConfigService {
         
         public init(aggregationAuthorization: AggregationAuthorization? = nil) {
             self.aggregationAuthorization = aggregationAuthorization
+        }
+
+        public func validate() throws {
+            try aggregationAuthorization?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3380,6 +3844,10 @@ extension ConfigService {
         public init(configRule: ConfigRule, tags: [Tag]? = nil) {
             self.configRule = configRule
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try configRule.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3410,6 +3878,12 @@ extension ConfigService {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", max: 256)
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", min: 1)
+            try validate(configurationAggregatorName, name:"configurationAggregatorName", pattern: "[\\w\\-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountAggregationSources = "AccountAggregationSources"
             case configurationAggregatorName = "ConfigurationAggregatorName"
@@ -3429,6 +3903,10 @@ extension ConfigService {
             self.configurationAggregator = configurationAggregator
         }
 
+        public func validate() throws {
+            try configurationAggregator?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case configurationAggregator = "ConfigurationAggregator"
         }
@@ -3445,6 +3923,10 @@ extension ConfigService {
             self.configurationRecorder = configurationRecorder
         }
 
+        public func validate() throws {
+            try configurationRecorder.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case configurationRecorder = "ConfigurationRecorder"
         }
@@ -3459,6 +3941,10 @@ extension ConfigService {
         
         public init(deliveryChannel: DeliveryChannel) {
             self.deliveryChannel = deliveryChannel
+        }
+
+        public func validate() throws {
+            try deliveryChannel.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3527,6 +4013,13 @@ extension ConfigService {
             self.organizationManagedRuleMetadata = organizationManagedRuleMetadata
         }
 
+        public func validate() throws {
+            try validate(organizationConfigRuleName, name:"organizationConfigRuleName", max: 64)
+            try validate(organizationConfigRuleName, name:"organizationConfigRuleName", min: 1)
+            try organizationCustomRuleMetadata?.validate()
+            try organizationManagedRuleMetadata?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case excludedAccounts = "ExcludedAccounts"
             case organizationConfigRuleName = "OrganizationConfigRuleName"
@@ -3543,6 +4036,11 @@ extension ConfigService {
         
         public init(organizationConfigRuleArn: String? = nil) {
             self.organizationConfigRuleArn = organizationConfigRuleArn
+        }
+
+        public func validate() throws {
+            try validate(organizationConfigRuleArn, name:"organizationConfigRuleArn", max: 256)
+            try validate(organizationConfigRuleArn, name:"organizationConfigRuleArn", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3593,6 +4091,11 @@ extension ConfigService {
             self.retentionPeriodInDays = retentionPeriodInDays
         }
 
+        public func validate() throws {
+            try validate(retentionPeriodInDays, name:"retentionPeriodInDays", max: 2557)
+            try validate(retentionPeriodInDays, name:"retentionPeriodInDays", min: 30)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case retentionPeriodInDays = "RetentionPeriodInDays"
         }
@@ -3607,6 +4110,10 @@ extension ConfigService {
         
         public init(retentionConfiguration: RetentionConfiguration? = nil) {
             self.retentionConfiguration = retentionConfiguration
+        }
+
+        public func validate() throws {
+            try retentionConfiguration?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3686,6 +4193,11 @@ extension ConfigService {
             self.resourceType = resourceType
         }
 
+        public func validate() throws {
+            try validate(resourceId, name:"resourceId", max: 768)
+            try validate(resourceId, name:"resourceId", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case relationshipName = "relationshipName"
             case resourceId = "resourceId"
@@ -3723,6 +4235,13 @@ extension ConfigService {
             self.targetId = targetId
             self.targetType = targetType
             self.targetVersion = targetVersion
+        }
+
+        public func validate() throws {
+            try validate(configRuleName, name:"configRuleName", max: 64)
+            try validate(configRuleName, name:"configRuleName", min: 1)
+            try validate(targetId, name:"targetId", max: 256)
+            try validate(targetId, name:"targetId", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3767,6 +4286,10 @@ extension ConfigService {
             self.resourceKey = resourceKey
             self.state = state
             self.stepDetails = stepDetails
+        }
+
+        public func validate() throws {
+            try resourceKey?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3887,6 +4410,12 @@ extension ConfigService {
             self.resourceType = resourceType
         }
 
+        public func validate() throws {
+            try validate(accountId, name:"accountId", pattern: "\\d{12}")
+            try validate(region, name:"region", max: 64)
+            try validate(region, name:"region", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
             case region = "Region"
@@ -3924,6 +4453,14 @@ extension ConfigService {
             self.resourceName = resourceName
         }
 
+        public func validate() throws {
+            try validate(accountId, name:"accountId", pattern: "\\d{12}")
+            try validate(region, name:"region", max: 64)
+            try validate(region, name:"region", min: 1)
+            try validate(resourceId, name:"resourceId", max: 768)
+            try validate(resourceId, name:"resourceId", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
             case region = "Region"
@@ -3955,6 +4492,11 @@ extension ConfigService {
             self.resourceType = resourceType
         }
 
+        public func validate() throws {
+            try validate(resourceId, name:"resourceId", max: 768)
+            try validate(resourceId, name:"resourceId", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceDeletionTime = "resourceDeletionTime"
             case resourceId = "resourceId"
@@ -3976,6 +4518,11 @@ extension ConfigService {
         public init(resourceId: String, resourceType: ResourceType) {
             self.resourceId = resourceId
             self.resourceType = resourceType
+        }
+
+        public func validate() throws {
+            try validate(resourceId, name:"resourceId", max: 768)
+            try validate(resourceId, name:"resourceId", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4088,6 +4635,14 @@ extension ConfigService {
             self.retentionPeriodInDays = retentionPeriodInDays
         }
 
+        public func validate() throws {
+            try validate(name, name:"name", max: 256)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "[\\w\\-]+")
+            try validate(retentionPeriodInDays, name:"retentionPeriodInDays", max: 2557)
+            try validate(retentionPeriodInDays, name:"retentionPeriodInDays", min: 30)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case retentionPeriodInDays = "RetentionPeriodInDays"
@@ -4117,6 +4672,15 @@ extension ConfigService {
             self.tagValue = tagValue
         }
 
+        public func validate() throws {
+            try validate(complianceResourceId, name:"complianceResourceId", max: 768)
+            try validate(complianceResourceId, name:"complianceResourceId", min: 1)
+            try validate(tagKey, name:"tagKey", max: 128)
+            try validate(tagKey, name:"tagKey", min: 1)
+            try validate(tagValue, name:"tagValue", max: 256)
+            try validate(tagValue, name:"tagValue", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case complianceResourceId = "ComplianceResourceId"
             case complianceResourceTypes = "ComplianceResourceTypes"
@@ -4142,6 +4706,13 @@ extension ConfigService {
             self.expression = expression
             self.limit = limit
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(expression, name:"expression", max: 4096)
+            try validate(expression, name:"expression", min: 1)
+            try validate(limit, name:"limit", max: 100)
+            try validate(limit, name:"limit", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4194,6 +4765,11 @@ extension ConfigService {
             self.owner = owner
             self.sourceDetails = sourceDetails
             self.sourceIdentifier = sourceIdentifier
+        }
+
+        public func validate() throws {
+            try validate(sourceIdentifier, name:"sourceIdentifier", max: 256)
+            try validate(sourceIdentifier, name:"sourceIdentifier", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4264,6 +4840,11 @@ extension ConfigService {
             self.configurationRecorderName = configurationRecorderName
         }
 
+        public func validate() throws {
+            try validate(configurationRecorderName, name:"configurationRecorderName", max: 256)
+            try validate(configurationRecorderName, name:"configurationRecorderName", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case configurationRecorderName = "ConfigurationRecorderName"
         }
@@ -4282,6 +4863,11 @@ extension ConfigService {
         public init(configRuleName: String, resourceKeys: [ResourceKey]) {
             self.configRuleName = configRuleName
             self.resourceKeys = resourceKeys
+        }
+
+        public func validate() throws {
+            try validate(configRuleName, name:"configRuleName", max: 64)
+            try validate(configRuleName, name:"configRuleName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4340,6 +4926,10 @@ extension ConfigService {
             self.memberAccountRuleStatus = memberAccountRuleStatus
         }
 
+        public func validate() throws {
+            try validate(accountId, name:"accountId", pattern: "\\d{12}")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
             case memberAccountRuleStatus = "MemberAccountRuleStatus"
@@ -4355,6 +4945,11 @@ extension ConfigService {
         
         public init(configurationRecorderName: String) {
             self.configurationRecorderName = configurationRecorderName
+        }
+
+        public func validate() throws {
+            try validate(configurationRecorderName, name:"configurationRecorderName", max: 256)
+            try validate(configurationRecorderName, name:"configurationRecorderName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4375,6 +4970,13 @@ extension ConfigService {
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
+        }
+
+        public func validate() throws {
+            try validate(key, name:"key", max: 128)
+            try validate(key, name:"key", min: 1)
+            try validate(value, name:"value", max: 256)
+            try validate(value, name:"value", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4398,6 +5000,11 @@ extension ConfigService {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(resourceArn, name:"resourceArn", max: 256)
+            try validate(resourceArn, name:"resourceArn", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "ResourceArn"
             case tags = "Tags"
@@ -4417,6 +5024,11 @@ extension ConfigService {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func validate() throws {
+            try validate(resourceArn, name:"resourceArn", max: 256)
+            try validate(resourceArn, name:"resourceArn", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

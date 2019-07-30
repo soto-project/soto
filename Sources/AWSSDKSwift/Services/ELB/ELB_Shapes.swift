@@ -117,6 +117,13 @@ extension ELB {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", max: 256)
+            try validate(key, name:"key", pattern: "^[a-zA-Z0-9.]+$")
+            try validate(value, name:"value", max: 256)
+            try validate(value, name:"value", pattern: "^[a-zA-Z0-9.]+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
@@ -233,6 +240,11 @@ extension ELB {
             self.policyNames = policyNames
         }
 
+        public func validate() throws {
+            try validate(instancePort, name:"instancePort", max: 65535)
+            try validate(instancePort, name:"instancePort", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case instancePort = "InstancePort"
             case policyNames = "PolicyNames"
@@ -254,6 +266,10 @@ extension ELB {
             self.loadBalancerName = loadBalancerName
         }
 
+        public func validate() throws {
+            try healthCheck.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case healthCheck = "HealthCheck"
             case loadBalancerName = "LoadBalancerName"
@@ -269,6 +285,10 @@ extension ELB {
         
         public init(healthCheck: HealthCheck? = nil) {
             self.healthCheck = healthCheck
+        }
+
+        public func validate() throws {
+            try healthCheck?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -306,6 +326,11 @@ extension ELB {
         
         public init(idleTimeout: Int32) {
             self.idleTimeout = idleTimeout
+        }
+
+        public func validate() throws {
+            try validate(idleTimeout, name:"idleTimeout", max: 3600)
+            try validate(idleTimeout, name:"idleTimeout", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -665,6 +690,11 @@ extension ELB {
             self.pageSize = pageSize
         }
 
+        public func validate() throws {
+            try validate(pageSize, name:"pageSize", max: 400)
+            try validate(pageSize, name:"pageSize", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case loadBalancerNames = "LoadBalancerNames"
             case marker = "Marker"
@@ -706,6 +736,11 @@ extension ELB {
         public init(marker: String? = nil, pageSize: Int32? = nil) {
             self.marker = marker
             self.pageSize = pageSize
+        }
+
+        public func validate() throws {
+            try validate(pageSize, name:"pageSize", max: 400)
+            try validate(pageSize, name:"pageSize", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -797,6 +832,10 @@ extension ELB {
         
         public init(loadBalancerAttributes: LoadBalancerAttributes? = nil) {
             self.loadBalancerAttributes = loadBalancerAttributes
+        }
+
+        public func validate() throws {
+            try loadBalancerAttributes?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -969,6 +1008,17 @@ extension ELB {
             self.unhealthyThreshold = unhealthyThreshold
         }
 
+        public func validate() throws {
+            try validate(healthyThreshold, name:"healthyThreshold", max: 10)
+            try validate(healthyThreshold, name:"healthyThreshold", min: 2)
+            try validate(interval, name:"interval", max: 300)
+            try validate(interval, name:"interval", min: 5)
+            try validate(timeout, name:"timeout", max: 60)
+            try validate(timeout, name:"timeout", min: 2)
+            try validate(unhealthyThreshold, name:"unhealthyThreshold", max: 10)
+            try validate(unhealthyThreshold, name:"unhealthyThreshold", min: 2)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case healthyThreshold = "HealthyThreshold"
             case interval = "Interval"
@@ -1094,6 +1144,11 @@ extension ELB {
             self.sSLCertificateId = sSLCertificateId
         }
 
+        public func validate() throws {
+            try validate(instancePort, name:"instancePort", max: 65535)
+            try validate(instancePort, name:"instancePort", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case instancePort = "InstancePort"
             case instanceProtocol = "InstanceProtocol"
@@ -1116,6 +1171,10 @@ extension ELB {
         public init(listener: Listener? = nil, policyNames: [String]? = nil) {
             self.listener = listener
             self.policyNames = policyNames
+        }
+
+        public func validate() throws {
+            try listener?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1149,6 +1208,10 @@ extension ELB {
             self.connectionDraining = connectionDraining
             self.connectionSettings = connectionSettings
             self.crossZoneLoadBalancing = crossZoneLoadBalancing
+        }
+
+        public func validate() throws {
+            try connectionSettings?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1231,6 +1294,10 @@ extension ELB {
             self.vPCId = vPCId
         }
 
+        public func validate() throws {
+            try healthCheck?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case availabilityZones = "AvailabilityZones"
             case backendServerDescriptions = "BackendServerDescriptions"
@@ -1266,6 +1333,10 @@ extension ELB {
             self.loadBalancerName = loadBalancerName
         }
 
+        public func validate() throws {
+            try loadBalancerAttributes.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case loadBalancerAttributes = "LoadBalancerAttributes"
             case loadBalancerName = "LoadBalancerName"
@@ -1285,6 +1356,10 @@ extension ELB {
         public init(loadBalancerAttributes: LoadBalancerAttributes? = nil, loadBalancerName: String? = nil) {
             self.loadBalancerAttributes = loadBalancerAttributes
             self.loadBalancerName = loadBalancerName
+        }
+
+        public func validate() throws {
+            try loadBalancerAttributes?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1690,6 +1765,15 @@ extension ELB {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", max: 128)
+            try validate(key, name:"key", min: 1)
+            try validate(key, name:"key", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(value, name:"value", max: 256)
+            try validate(value, name:"value", min: 0)
+            try validate(value, name:"value", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
@@ -1726,6 +1810,12 @@ extension ELB {
         
         public init(key: String? = nil) {
             self.key = key
+        }
+
+        public func validate() throws {
+            try validate(key, name:"key", max: 128)
+            try validate(key, name:"key", min: 1)
+            try validate(key, name:"key", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {

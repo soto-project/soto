@@ -70,6 +70,11 @@ extension Support {
             self.communicationBody = communicationBody
         }
 
+        public func validate() throws {
+            try validate(communicationBody, name:"communicationBody", max: 8000)
+            try validate(communicationBody, name:"communicationBody", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case attachmentSetId = "attachmentSetId"
             case caseId = "caseId"
@@ -255,6 +260,11 @@ extension Support {
             self.timeCreated = timeCreated
         }
 
+        public func validate() throws {
+            try validate(body, name:"body", max: 8000)
+            try validate(body, name:"body", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case attachmentSet = "attachmentSet"
             case body = "body"
@@ -305,6 +315,11 @@ extension Support {
             self.serviceCode = serviceCode
             self.severityCode = severityCode
             self.subject = subject
+        }
+
+        public func validate() throws {
+            try validate(communicationBody, name:"communicationBody", max: 8000)
+            try validate(communicationBody, name:"communicationBody", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -411,6 +426,11 @@ extension Support {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 10)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case afterTime = "afterTime"
             case beforeTime = "beforeTime"
@@ -470,6 +490,11 @@ extension Support {
             self.caseId = caseId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 10)
         }
 
         private enum CodingKeys: String, CodingKey {

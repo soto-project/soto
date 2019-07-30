@@ -36,6 +36,14 @@ extension MobileAnalytics {
             self.version = version
         }
 
+        public func validate() throws {
+            try validate(eventType, name:"eventType", max: 50)
+            try validate(eventType, name:"eventType", min: 1)
+            try session?.validate()
+            try validate(version, name:"version", max: 10)
+            try validate(version, name:"version", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case attributes = "attributes"
             case eventType = "eventType"
@@ -93,6 +101,11 @@ extension MobileAnalytics {
             self.id = id
             self.startTimestamp = startTimestamp
             self.stopTimestamp = stopTimestamp
+        }
+
+        public func validate() throws {
+            try validate(id, name:"id", max: 50)
+            try validate(id, name:"id", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

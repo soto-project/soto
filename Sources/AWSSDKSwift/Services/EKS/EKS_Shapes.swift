@@ -131,6 +131,12 @@ extension EKS {
             self.version = version
         }
 
+        public func validate() throws {
+            try validate(name, name:"name", max: 100)
+            try validate(name, name:"name", min: 1)
+            try validate(name, name:"name", pattern: "^[0-9A-Za-z][A-Za-z0-9\\-_]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "clientRequestToken"
             case logging = "logging"
@@ -311,6 +317,11 @@ extension EKS {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "maxResults"
             case nextToken = "nextToken"
@@ -355,6 +366,11 @@ extension EKS {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", max: 100)
+            try validate(maxResults, name:"maxResults", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

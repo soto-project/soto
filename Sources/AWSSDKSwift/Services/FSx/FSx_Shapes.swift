@@ -20,6 +20,12 @@ extension FSx {
             self.domainName = domainName
         }
 
+        public func validate() throws {
+            try validate(activeDirectoryId, name:"activeDirectoryId", max: 12)
+            try validate(activeDirectoryId, name:"activeDirectoryId", min: 12)
+            try validate(activeDirectoryId, name:"activeDirectoryId", pattern: "^d-[0-9a-f]{10}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case activeDirectoryId = "ActiveDirectoryId"
             case domainName = "DomainName"
@@ -84,6 +90,23 @@ extension FSx {
             self.`type` = `type`
         }
 
+        public func validate() throws {
+            try validate(backupId, name:"backupId", max: 128)
+            try validate(backupId, name:"backupId", min: 12)
+            try validate(backupId, name:"backupId", pattern: "^(backup-[0-9a-f]{8,})$")
+            try directoryInformation?.validate()
+            try failureDetails?.validate()
+            try fileSystem.validate()
+            try validate(kmsKeyId, name:"kmsKeyId", max: 2048)
+            try validate(kmsKeyId, name:"kmsKeyId", min: 1)
+            try validate(kmsKeyId, name:"kmsKeyId", pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-4[a-fA-F0-9]{3}-[89aAbB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}|arn:aws[a-z-]{0,7}:kms:[a-z]{2}-[a-z-]{4,}-\\d+:\\d{12}:(key|alias)\\/([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-4[a-fA-F0-9]{3}-[89aAbB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}|[a-zA-Z0-9:\\/_-]+)|alias\\/[a-zA-Z0-9:\\/_-]+$")
+            try validate(progressPercent, name:"progressPercent", max: 100)
+            try validate(progressPercent, name:"progressPercent", min: 0)
+            try validate(resourceARN, name:"resourceARN", max: 512)
+            try validate(resourceARN, name:"resourceARN", min: 8)
+            try validate(resourceARN, name:"resourceARN", pattern: "^arn:aws[a-z-]{0,7}:[A-Za-z0-9][A-za-z0-9_/.-]{0,62}:[A-za-z0-9_/.-]{0,63}:[A-za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-za-z0-9_/.-]{0,127}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case backupId = "BackupId"
             case creationTime = "CreationTime"
@@ -108,6 +131,11 @@ extension FSx {
         
         public init(message: String? = nil) {
             self.message = message
+        }
+
+        public func validate() throws {
+            try validate(message, name:"message", max: 256)
+            try validate(message, name:"message", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -148,6 +176,15 @@ extension FSx {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(clientRequestToken, name:"clientRequestToken", max: 255)
+            try validate(clientRequestToken, name:"clientRequestToken", min: 1)
+            try validate(clientRequestToken, name:"clientRequestToken", pattern: "[A-za-z0-9_.-]{0,255}$")
+            try validate(fileSystemId, name:"fileSystemId", max: 21)
+            try validate(fileSystemId, name:"fileSystemId", min: 11)
+            try validate(fileSystemId, name:"fileSystemId", pattern: "^(fs-[0-9a-f]{8,})$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
             case fileSystemId = "FileSystemId"
@@ -164,6 +201,10 @@ extension FSx {
         
         public init(backup: Backup? = nil) {
             self.backup = backup
+        }
+
+        public func validate() throws {
+            try backup?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -201,6 +242,16 @@ extension FSx {
             self.windowsConfiguration = windowsConfiguration
         }
 
+        public func validate() throws {
+            try validate(backupId, name:"backupId", max: 128)
+            try validate(backupId, name:"backupId", min: 12)
+            try validate(backupId, name:"backupId", pattern: "^(backup-[0-9a-f]{8,})$")
+            try validate(clientRequestToken, name:"clientRequestToken", max: 255)
+            try validate(clientRequestToken, name:"clientRequestToken", min: 1)
+            try validate(clientRequestToken, name:"clientRequestToken", pattern: "[A-za-z0-9_.-]{0,255}$")
+            try windowsConfiguration?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case backupId = "BackupId"
             case clientRequestToken = "ClientRequestToken"
@@ -220,6 +271,10 @@ extension FSx {
         
         public init(fileSystem: FileSystem? = nil) {
             self.fileSystem = fileSystem
+        }
+
+        public func validate() throws {
+            try fileSystem?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -248,6 +303,18 @@ extension FSx {
             self.importedFileChunkSize = importedFileChunkSize
             self.importPath = importPath
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
+        }
+
+        public func validate() throws {
+            try validate(exportPath, name:"exportPath", max: 900)
+            try validate(exportPath, name:"exportPath", min: 3)
+            try validate(importedFileChunkSize, name:"importedFileChunkSize", max: 512000)
+            try validate(importedFileChunkSize, name:"importedFileChunkSize", min: 1)
+            try validate(importPath, name:"importPath", max: 900)
+            try validate(importPath, name:"importPath", min: 3)
+            try validate(weeklyMaintenanceStartTime, name:"weeklyMaintenanceStartTime", max: 7)
+            try validate(weeklyMaintenanceStartTime, name:"weeklyMaintenanceStartTime", min: 7)
+            try validate(weeklyMaintenanceStartTime, name:"weeklyMaintenanceStartTime", pattern: "^[1-7]:([01]\\d|2[0-3]):?([0-5]\\d)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -299,6 +366,18 @@ extension FSx {
             self.windowsConfiguration = windowsConfiguration
         }
 
+        public func validate() throws {
+            try validate(clientRequestToken, name:"clientRequestToken", max: 255)
+            try validate(clientRequestToken, name:"clientRequestToken", min: 1)
+            try validate(clientRequestToken, name:"clientRequestToken", pattern: "[A-za-z0-9_.-]{0,255}$")
+            try validate(kmsKeyId, name:"kmsKeyId", max: 2048)
+            try validate(kmsKeyId, name:"kmsKeyId", min: 1)
+            try validate(kmsKeyId, name:"kmsKeyId", pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-4[a-fA-F0-9]{3}-[89aAbB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}|arn:aws[a-z-]{0,7}:kms:[a-z]{2}-[a-z-]{4,}-\\d+:\\d{12}:(key|alias)\\/([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-4[a-fA-F0-9]{3}-[89aAbB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}|[a-zA-Z0-9:\\/_-]+)|alias\\/[a-zA-Z0-9:\\/_-]+$")
+            try lustreConfiguration?.validate()
+            try validate(storageCapacity, name:"storageCapacity", min: 1)
+            try windowsConfiguration?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
             case fileSystemType = "FileSystemType"
@@ -321,6 +400,10 @@ extension FSx {
         
         public init(fileSystem: FileSystem? = nil) {
             self.fileSystem = fileSystem
+        }
+
+        public func validate() throws {
+            try fileSystem?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -362,6 +445,23 @@ extension FSx {
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
 
+        public func validate() throws {
+            try validate(activeDirectoryId, name:"activeDirectoryId", max: 12)
+            try validate(activeDirectoryId, name:"activeDirectoryId", min: 12)
+            try validate(activeDirectoryId, name:"activeDirectoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(automaticBackupRetentionDays, name:"automaticBackupRetentionDays", max: 35)
+            try validate(automaticBackupRetentionDays, name:"automaticBackupRetentionDays", min: 0)
+            try validate(dailyAutomaticBackupStartTime, name:"dailyAutomaticBackupStartTime", max: 5)
+            try validate(dailyAutomaticBackupStartTime, name:"dailyAutomaticBackupStartTime", min: 5)
+            try validate(dailyAutomaticBackupStartTime, name:"dailyAutomaticBackupStartTime", pattern: "^([01]\\d|2[0-3]):?([0-5]\\d)$")
+            try selfManagedActiveDirectoryConfiguration?.validate()
+            try validate(throughputCapacity, name:"throughputCapacity", max: 2048)
+            try validate(throughputCapacity, name:"throughputCapacity", min: 8)
+            try validate(weeklyMaintenanceStartTime, name:"weeklyMaintenanceStartTime", max: 7)
+            try validate(weeklyMaintenanceStartTime, name:"weeklyMaintenanceStartTime", min: 7)
+            try validate(weeklyMaintenanceStartTime, name:"weeklyMaintenanceStartTime", pattern: "^[1-7]:([01]\\d|2[0-3]):?([0-5]\\d)$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case activeDirectoryId = "ActiveDirectoryId"
             case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
@@ -392,6 +492,15 @@ extension FSx {
             self.importPath = importPath
         }
 
+        public func validate() throws {
+            try validate(exportPath, name:"exportPath", max: 900)
+            try validate(exportPath, name:"exportPath", min: 3)
+            try validate(importedFileChunkSize, name:"importedFileChunkSize", max: 512000)
+            try validate(importedFileChunkSize, name:"importedFileChunkSize", min: 1)
+            try validate(importPath, name:"importPath", max: 900)
+            try validate(importPath, name:"importPath", min: 3)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case exportPath = "ExportPath"
             case importedFileChunkSize = "ImportedFileChunkSize"
@@ -414,6 +523,15 @@ extension FSx {
             self.clientRequestToken = clientRequestToken
         }
 
+        public func validate() throws {
+            try validate(backupId, name:"backupId", max: 128)
+            try validate(backupId, name:"backupId", min: 12)
+            try validate(backupId, name:"backupId", pattern: "^(backup-[0-9a-f]{8,})$")
+            try validate(clientRequestToken, name:"clientRequestToken", max: 255)
+            try validate(clientRequestToken, name:"clientRequestToken", min: 1)
+            try validate(clientRequestToken, name:"clientRequestToken", pattern: "[A-za-z0-9_.-]{0,255}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case backupId = "BackupId"
             case clientRequestToken = "ClientRequestToken"
@@ -433,6 +551,12 @@ extension FSx {
         public init(backupId: String? = nil, lifecycle: BackupLifecycle? = nil) {
             self.backupId = backupId
             self.lifecycle = lifecycle
+        }
+
+        public func validate() throws {
+            try validate(backupId, name:"backupId", max: 128)
+            try validate(backupId, name:"backupId", min: 12)
+            try validate(backupId, name:"backupId", pattern: "^(backup-[0-9a-f]{8,})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -459,6 +583,15 @@ extension FSx {
             self.windowsConfiguration = windowsConfiguration
         }
 
+        public func validate() throws {
+            try validate(clientRequestToken, name:"clientRequestToken", max: 255)
+            try validate(clientRequestToken, name:"clientRequestToken", min: 1)
+            try validate(clientRequestToken, name:"clientRequestToken", pattern: "[A-za-z0-9_.-]{0,255}$")
+            try validate(fileSystemId, name:"fileSystemId", max: 21)
+            try validate(fileSystemId, name:"fileSystemId", min: 11)
+            try validate(fileSystemId, name:"fileSystemId", pattern: "^(fs-[0-9a-f]{8,})$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
             case fileSystemId = "FileSystemId"
@@ -482,6 +615,13 @@ extension FSx {
             self.fileSystemId = fileSystemId
             self.lifecycle = lifecycle
             self.windowsResponse = windowsResponse
+        }
+
+        public func validate() throws {
+            try validate(fileSystemId, name:"fileSystemId", max: 21)
+            try validate(fileSystemId, name:"fileSystemId", min: 11)
+            try validate(fileSystemId, name:"fileSystemId", pattern: "^(fs-[0-9a-f]{8,})$")
+            try windowsResponse?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -527,6 +667,12 @@ extension FSx {
             self.finalBackupTags = finalBackupTags
         }
 
+        public func validate() throws {
+            try validate(finalBackupId, name:"finalBackupId", max: 128)
+            try validate(finalBackupId, name:"finalBackupId", min: 12)
+            try validate(finalBackupId, name:"finalBackupId", pattern: "^(backup-[0-9a-f]{8,})$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case finalBackupId = "FinalBackupId"
             case finalBackupTags = "FinalBackupTags"
@@ -556,6 +702,13 @@ extension FSx {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(nextToken, name:"nextToken", max: 255)
+            try validate(nextToken, name:"nextToken", min: 1)
+            try validate(nextToken, name:"nextToken", pattern: "^(?:[A-Za-z0-9+\\/]{4})*(?:[A-Za-z0-9+\\/]{2}==|[A-Za-z0-9+\\/]{3}=)?$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case backupIds = "BackupIds"
             case filters = "Filters"
@@ -577,6 +730,12 @@ extension FSx {
         public init(backups: [Backup]? = nil, nextToken: String? = nil) {
             self.backups = backups
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 255)
+            try validate(nextToken, name:"nextToken", min: 1)
+            try validate(nextToken, name:"nextToken", pattern: "^(?:[A-Za-z0-9+\\/]{4})*(?:[A-Za-z0-9+\\/]{2}==|[A-Za-z0-9+\\/]{3}=)?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -604,6 +763,13 @@ extension FSx {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(nextToken, name:"nextToken", max: 255)
+            try validate(nextToken, name:"nextToken", min: 1)
+            try validate(nextToken, name:"nextToken", pattern: "^(?:[A-Za-z0-9+\\/]{4})*(?:[A-Za-z0-9+\\/]{2}==|[A-Za-z0-9+\\/]{3}=)?$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case fileSystemIds = "FileSystemIds"
             case maxResults = "MaxResults"
@@ -624,6 +790,12 @@ extension FSx {
         public init(fileSystems: [FileSystem]? = nil, nextToken: String? = nil) {
             self.fileSystems = fileSystems
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 255)
+            try validate(nextToken, name:"nextToken", min: 1)
+            try validate(nextToken, name:"nextToken", pattern: "^(?:[A-Za-z0-9+\\/]{4})*(?:[A-Za-z0-9+\\/]{2}==|[A-Za-z0-9+\\/]{3}=)?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -701,6 +873,31 @@ extension FSx {
             self.windowsConfiguration = windowsConfiguration
         }
 
+        public func validate() throws {
+            try validate(dNSName, name:"dNSName", max: 275)
+            try validate(dNSName, name:"dNSName", min: 16)
+            try validate(dNSName, name:"dNSName", pattern: "^(fsi?-[0-9a-f]{8,}\\..{4,253})$")
+            try failureDetails?.validate()
+            try validate(fileSystemId, name:"fileSystemId", max: 21)
+            try validate(fileSystemId, name:"fileSystemId", min: 11)
+            try validate(fileSystemId, name:"fileSystemId", pattern: "^(fs-[0-9a-f]{8,})$")
+            try validate(kmsKeyId, name:"kmsKeyId", max: 2048)
+            try validate(kmsKeyId, name:"kmsKeyId", min: 1)
+            try validate(kmsKeyId, name:"kmsKeyId", pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-4[a-fA-F0-9]{3}-[89aAbB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}|arn:aws[a-z-]{0,7}:kms:[a-z]{2}-[a-z-]{4,}-\\d+:\\d{12}:(key|alias)\\/([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-4[a-fA-F0-9]{3}-[89aAbB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}|[a-zA-Z0-9:\\/_-]+)|alias\\/[a-zA-Z0-9:\\/_-]+$")
+            try lustreConfiguration?.validate()
+            try validate(ownerId, name:"ownerId", max: 12)
+            try validate(ownerId, name:"ownerId", min: 12)
+            try validate(ownerId, name:"ownerId", pattern: "^\\d{12}$")
+            try validate(resourceARN, name:"resourceARN", max: 512)
+            try validate(resourceARN, name:"resourceARN", min: 8)
+            try validate(resourceARN, name:"resourceARN", pattern: "^arn:aws[a-z-]{0,7}:[A-Za-z0-9][A-za-z0-9_/.-]{0,62}:[A-za-z0-9_/.-]{0,63}:[A-za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-za-z0-9_/.-]{0,127}$")
+            try validate(storageCapacity, name:"storageCapacity", min: 1)
+            try validate(vpcId, name:"vpcId", max: 21)
+            try validate(vpcId, name:"vpcId", min: 12)
+            try validate(vpcId, name:"vpcId", pattern: "^(vpc-[0-9a-f]{8,})$")
+            try windowsConfiguration?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case creationTime = "CreationTime"
             case dNSName = "DNSName"
@@ -730,6 +927,11 @@ extension FSx {
         
         public init(message: String? = nil) {
             self.message = message
+        }
+
+        public func validate() throws {
+            try validate(message, name:"message", max: 256)
+            try validate(message, name:"message", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -805,6 +1007,16 @@ extension FSx {
             self.resourceARN = resourceARN
         }
 
+        public func validate() throws {
+            try validate(maxResults, name:"maxResults", min: 1)
+            try validate(nextToken, name:"nextToken", max: 255)
+            try validate(nextToken, name:"nextToken", min: 1)
+            try validate(nextToken, name:"nextToken", pattern: "^(?:[A-Za-z0-9+\\/]{4})*(?:[A-Za-z0-9+\\/]{2}==|[A-Za-z0-9+\\/]{3}=)?$")
+            try validate(resourceARN, name:"resourceARN", max: 512)
+            try validate(resourceARN, name:"resourceARN", min: 8)
+            try validate(resourceARN, name:"resourceARN", pattern: "^arn:aws[a-z-]{0,7}:[A-Za-z0-9][A-za-z0-9_/.-]{0,62}:[A-za-z0-9_/.-]{0,63}:[A-za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-za-z0-9_/.-]{0,127}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -827,6 +1039,12 @@ extension FSx {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(nextToken, name:"nextToken", max: 255)
+            try validate(nextToken, name:"nextToken", min: 1)
+            try validate(nextToken, name:"nextToken", pattern: "^(?:[A-Za-z0-9+\\/]{4})*(?:[A-Za-z0-9+\\/]{2}==|[A-Za-z0-9+\\/]{3}=)?$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case tags = "Tags"
@@ -845,6 +1063,13 @@ extension FSx {
         public init(dataRepositoryConfiguration: DataRepositoryConfiguration? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.dataRepositoryConfiguration = dataRepositoryConfiguration
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
+        }
+
+        public func validate() throws {
+            try dataRepositoryConfiguration?.validate()
+            try validate(weeklyMaintenanceStartTime, name:"weeklyMaintenanceStartTime", max: 7)
+            try validate(weeklyMaintenanceStartTime, name:"weeklyMaintenanceStartTime", min: 7)
+            try validate(weeklyMaintenanceStartTime, name:"weeklyMaintenanceStartTime", pattern: "^[1-7]:([01]\\d|2[0-3]):?([0-5]\\d)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -878,6 +1103,15 @@ extension FSx {
             self.fileSystemAdministratorsGroup = fileSystemAdministratorsGroup
             self.organizationalUnitDistinguishedName = organizationalUnitDistinguishedName
             self.userName = userName
+        }
+
+        public func validate() throws {
+            try validate(fileSystemAdministratorsGroup, name:"fileSystemAdministratorsGroup", max: 256)
+            try validate(fileSystemAdministratorsGroup, name:"fileSystemAdministratorsGroup", min: 1)
+            try validate(organizationalUnitDistinguishedName, name:"organizationalUnitDistinguishedName", max: 2000)
+            try validate(organizationalUnitDistinguishedName, name:"organizationalUnitDistinguishedName", min: 1)
+            try validate(userName, name:"userName", max: 256)
+            try validate(userName, name:"userName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -920,6 +1154,17 @@ extension FSx {
             self.userName = userName
         }
 
+        public func validate() throws {
+            try validate(fileSystemAdministratorsGroup, name:"fileSystemAdministratorsGroup", max: 256)
+            try validate(fileSystemAdministratorsGroup, name:"fileSystemAdministratorsGroup", min: 1)
+            try validate(organizationalUnitDistinguishedName, name:"organizationalUnitDistinguishedName", max: 2000)
+            try validate(organizationalUnitDistinguishedName, name:"organizationalUnitDistinguishedName", min: 1)
+            try validate(password, name:"password", max: 256)
+            try validate(password, name:"password", min: 1)
+            try validate(userName, name:"userName", max: 256)
+            try validate(userName, name:"userName", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dnsIps = "DnsIps"
             case domainName = "DomainName"
@@ -947,6 +1192,13 @@ extension FSx {
             self.dnsIps = dnsIps
             self.password = password
             self.userName = userName
+        }
+
+        public func validate() throws {
+            try validate(password, name:"password", max: 256)
+            try validate(password, name:"password", min: 1)
+            try validate(userName, name:"userName", max: 256)
+            try validate(userName, name:"userName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -979,6 +1231,13 @@ extension FSx {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", max: 128)
+            try validate(key, name:"key", min: 1)
+            try validate(value, name:"value", max: 256)
+            try validate(value, name:"value", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
@@ -998,6 +1257,12 @@ extension FSx {
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try validate(resourceARN, name:"resourceARN", max: 512)
+            try validate(resourceARN, name:"resourceARN", min: 8)
+            try validate(resourceARN, name:"resourceARN", pattern: "^arn:aws[a-z-]{0,7}:[A-Za-z0-9][A-za-z0-9_/.-]{0,62}:[A-za-z0-9_/.-]{0,63}:[A-za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-za-z0-9_/.-]{0,127}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1029,6 +1294,12 @@ extension FSx {
             self.tagKeys = tagKeys
         }
 
+        public func validate() throws {
+            try validate(resourceARN, name:"resourceARN", max: 512)
+            try validate(resourceARN, name:"resourceARN", min: 8)
+            try validate(resourceARN, name:"resourceARN", pattern: "^arn:aws[a-z-]{0,7}:[A-Za-z0-9][A-za-z0-9_/.-]{0,62}:[A-za-z0-9_/.-]{0,63}:[A-za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-za-z0-9_/.-]{0,127}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceARN = "ResourceARN"
             case tagKeys = "TagKeys"
@@ -1052,6 +1323,12 @@ extension FSx {
         
         public init(weeklyMaintenanceStartTime: String? = nil) {
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
+        }
+
+        public func validate() throws {
+            try validate(weeklyMaintenanceStartTime, name:"weeklyMaintenanceStartTime", max: 7)
+            try validate(weeklyMaintenanceStartTime, name:"weeklyMaintenanceStartTime", min: 7)
+            try validate(weeklyMaintenanceStartTime, name:"weeklyMaintenanceStartTime", pattern: "^[1-7]:([01]\\d|2[0-3]):?([0-5]\\d)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1080,6 +1357,17 @@ extension FSx {
             self.windowsConfiguration = windowsConfiguration
         }
 
+        public func validate() throws {
+            try validate(clientRequestToken, name:"clientRequestToken", max: 255)
+            try validate(clientRequestToken, name:"clientRequestToken", min: 1)
+            try validate(clientRequestToken, name:"clientRequestToken", pattern: "[A-za-z0-9_.-]{0,255}$")
+            try validate(fileSystemId, name:"fileSystemId", max: 21)
+            try validate(fileSystemId, name:"fileSystemId", min: 11)
+            try validate(fileSystemId, name:"fileSystemId", pattern: "^(fs-[0-9a-f]{8,})$")
+            try lustreConfiguration?.validate()
+            try windowsConfiguration?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
             case fileSystemId = "FileSystemId"
@@ -1097,6 +1385,10 @@ extension FSx {
         
         public init(fileSystem: FileSystem? = nil) {
             self.fileSystem = fileSystem
+        }
+
+        public func validate() throws {
+            try fileSystem?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1125,6 +1417,18 @@ extension FSx {
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.selfManagedActiveDirectoryConfiguration = selfManagedActiveDirectoryConfiguration
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
+        }
+
+        public func validate() throws {
+            try validate(automaticBackupRetentionDays, name:"automaticBackupRetentionDays", max: 35)
+            try validate(automaticBackupRetentionDays, name:"automaticBackupRetentionDays", min: 0)
+            try validate(dailyAutomaticBackupStartTime, name:"dailyAutomaticBackupStartTime", max: 5)
+            try validate(dailyAutomaticBackupStartTime, name:"dailyAutomaticBackupStartTime", min: 5)
+            try validate(dailyAutomaticBackupStartTime, name:"dailyAutomaticBackupStartTime", pattern: "^([01]\\d|2[0-3]):?([0-5]\\d)$")
+            try selfManagedActiveDirectoryConfiguration?.validate()
+            try validate(weeklyMaintenanceStartTime, name:"weeklyMaintenanceStartTime", max: 7)
+            try validate(weeklyMaintenanceStartTime, name:"weeklyMaintenanceStartTime", min: 7)
+            try validate(weeklyMaintenanceStartTime, name:"weeklyMaintenanceStartTime", pattern: "^[1-7]:([01]\\d|2[0-3]):?([0-5]\\d)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1171,6 +1475,23 @@ extension FSx {
             self.selfManagedActiveDirectoryConfiguration = selfManagedActiveDirectoryConfiguration
             self.throughputCapacity = throughputCapacity
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
+        }
+
+        public func validate() throws {
+            try validate(activeDirectoryId, name:"activeDirectoryId", max: 12)
+            try validate(activeDirectoryId, name:"activeDirectoryId", min: 12)
+            try validate(activeDirectoryId, name:"activeDirectoryId", pattern: "^d-[0-9a-f]{10}$")
+            try validate(automaticBackupRetentionDays, name:"automaticBackupRetentionDays", max: 35)
+            try validate(automaticBackupRetentionDays, name:"automaticBackupRetentionDays", min: 0)
+            try validate(dailyAutomaticBackupStartTime, name:"dailyAutomaticBackupStartTime", max: 5)
+            try validate(dailyAutomaticBackupStartTime, name:"dailyAutomaticBackupStartTime", min: 5)
+            try validate(dailyAutomaticBackupStartTime, name:"dailyAutomaticBackupStartTime", pattern: "^([01]\\d|2[0-3]):?([0-5]\\d)$")
+            try selfManagedActiveDirectoryConfiguration?.validate()
+            try validate(throughputCapacity, name:"throughputCapacity", max: 2048)
+            try validate(throughputCapacity, name:"throughputCapacity", min: 8)
+            try validate(weeklyMaintenanceStartTime, name:"weeklyMaintenanceStartTime", max: 7)
+            try validate(weeklyMaintenanceStartTime, name:"weeklyMaintenanceStartTime", min: 7)
+            try validate(weeklyMaintenanceStartTime, name:"weeklyMaintenanceStartTime", pattern: "^[1-7]:([01]\\d|2[0-3]):?([0-5]\\d)$")
         }
 
         private enum CodingKeys: String, CodingKey {

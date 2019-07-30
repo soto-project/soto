@@ -64,6 +64,11 @@ extension ResourceGroupsTaggingAPI {
             self.tagsPerPage = tagsPerPage
         }
 
+        public func validate() throws {
+            try validate(paginationToken, name:"paginationToken", max: 2048)
+            try validate(paginationToken, name:"paginationToken", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case paginationToken = "PaginationToken"
             case resourcesPerPage = "ResourcesPerPage"
@@ -88,6 +93,11 @@ extension ResourceGroupsTaggingAPI {
             self.resourceTagMappingList = resourceTagMappingList
         }
 
+        public func validate() throws {
+            try validate(paginationToken, name:"paginationToken", max: 2048)
+            try validate(paginationToken, name:"paginationToken", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case paginationToken = "PaginationToken"
             case resourceTagMappingList = "ResourceTagMappingList"
@@ -103,6 +113,11 @@ extension ResourceGroupsTaggingAPI {
         
         public init(paginationToken: String? = nil) {
             self.paginationToken = paginationToken
+        }
+
+        public func validate() throws {
+            try validate(paginationToken, name:"paginationToken", max: 2048)
+            try validate(paginationToken, name:"paginationToken", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -123,6 +138,11 @@ extension ResourceGroupsTaggingAPI {
         public init(paginationToken: String? = nil, tagKeys: [String]? = nil) {
             self.paginationToken = paginationToken
             self.tagKeys = tagKeys
+        }
+
+        public func validate() throws {
+            try validate(paginationToken, name:"paginationToken", max: 2048)
+            try validate(paginationToken, name:"paginationToken", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -146,6 +166,13 @@ extension ResourceGroupsTaggingAPI {
             self.paginationToken = paginationToken
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", max: 128)
+            try validate(key, name:"key", min: 1)
+            try validate(paginationToken, name:"paginationToken", max: 2048)
+            try validate(paginationToken, name:"paginationToken", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case paginationToken = "PaginationToken"
@@ -165,6 +192,11 @@ extension ResourceGroupsTaggingAPI {
         public init(paginationToken: String? = nil, tagValues: [String]? = nil) {
             self.paginationToken = paginationToken
             self.tagValues = tagValues
+        }
+
+        public func validate() throws {
+            try validate(paginationToken, name:"paginationToken", max: 2048)
+            try validate(paginationToken, name:"paginationToken", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -188,6 +220,11 @@ extension ResourceGroupsTaggingAPI {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(resourceARN, name:"resourceARN", max: 1600)
+            try validate(resourceARN, name:"resourceARN", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceARN = "ResourceARN"
             case tags = "Tags"
@@ -209,6 +246,13 @@ extension ResourceGroupsTaggingAPI {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", max: 128)
+            try validate(key, name:"key", min: 1)
+            try validate(value, name:"value", max: 256)
+            try validate(value, name:"value", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
@@ -228,6 +272,11 @@ extension ResourceGroupsTaggingAPI {
         public init(key: String? = nil, values: [String]? = nil) {
             self.key = key
             self.values = values
+        }
+
+        public func validate() throws {
+            try validate(key, name:"key", max: 128)
+            try validate(key, name:"key", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

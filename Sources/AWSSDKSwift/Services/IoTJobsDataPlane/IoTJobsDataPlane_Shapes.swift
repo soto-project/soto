@@ -28,6 +28,13 @@ extension IoTJobsDataPlane {
             self.thingName = thingName
         }
 
+        public func validate() throws {
+            try validate(jobId, name:"jobId", pattern: "[a-zA-Z0-9_-]+|^\\$next")
+            try validate(thingName, name:"thingName", max: 128)
+            try validate(thingName, name:"thingName", min: 1)
+            try validate(thingName, name:"thingName", pattern: "[a-zA-Z0-9:_-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case executionNumber = "executionNumber"
             case includeJobDocument = "includeJobDocument"
@@ -47,6 +54,10 @@ extension IoTJobsDataPlane {
             self.execution = execution
         }
 
+        public func validate() throws {
+            try execution?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case execution = "execution"
         }
@@ -61,6 +72,12 @@ extension IoTJobsDataPlane {
         
         public init(thingName: String) {
             self.thingName = thingName
+        }
+
+        public func validate() throws {
+            try validate(thingName, name:"thingName", max: 128)
+            try validate(thingName, name:"thingName", min: 1)
+            try validate(thingName, name:"thingName", pattern: "[a-zA-Z0-9:_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -138,6 +155,16 @@ extension IoTJobsDataPlane {
             self.statusDetails = statusDetails
             self.thingName = thingName
             self.versionNumber = versionNumber
+        }
+
+        public func validate() throws {
+            try validate(jobDocument, name:"jobDocument", max: 32768)
+            try validate(jobId, name:"jobId", max: 64)
+            try validate(jobId, name:"jobId", min: 1)
+            try validate(jobId, name:"jobId", pattern: "[a-zA-Z0-9_-]+")
+            try validate(thingName, name:"thingName", max: 128)
+            try validate(thingName, name:"thingName", min: 1)
+            try validate(thingName, name:"thingName", pattern: "[a-zA-Z0-9:_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -224,6 +251,12 @@ extension IoTJobsDataPlane {
             self.versionNumber = versionNumber
         }
 
+        public func validate() throws {
+            try validate(jobId, name:"jobId", max: 64)
+            try validate(jobId, name:"jobId", min: 1)
+            try validate(jobId, name:"jobId", pattern: "[a-zA-Z0-9_-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case executionNumber = "executionNumber"
             case jobId = "jobId"
@@ -253,6 +286,12 @@ extension IoTJobsDataPlane {
             self.thingName = thingName
         }
 
+        public func validate() throws {
+            try validate(thingName, name:"thingName", max: 128)
+            try validate(thingName, name:"thingName", min: 1)
+            try validate(thingName, name:"thingName", pattern: "[a-zA-Z0-9:_-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case statusDetails = "statusDetails"
             case stepTimeoutInMinutes = "stepTimeoutInMinutes"
@@ -269,6 +308,10 @@ extension IoTJobsDataPlane {
         
         public init(execution: JobExecution? = nil) {
             self.execution = execution
+        }
+
+        public func validate() throws {
+            try execution?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -319,6 +362,15 @@ extension IoTJobsDataPlane {
             self.thingName = thingName
         }
 
+        public func validate() throws {
+            try validate(jobId, name:"jobId", max: 64)
+            try validate(jobId, name:"jobId", min: 1)
+            try validate(jobId, name:"jobId", pattern: "[a-zA-Z0-9_-]+")
+            try validate(thingName, name:"thingName", max: 128)
+            try validate(thingName, name:"thingName", min: 1)
+            try validate(thingName, name:"thingName", pattern: "[a-zA-Z0-9:_-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case executionNumber = "executionNumber"
             case expectedVersion = "expectedVersion"
@@ -345,6 +397,10 @@ extension IoTJobsDataPlane {
         public init(executionState: JobExecutionState? = nil, jobDocument: String? = nil) {
             self.executionState = executionState
             self.jobDocument = jobDocument
+        }
+
+        public func validate() throws {
+            try validate(jobDocument, name:"jobDocument", max: 32768)
         }
 
         private enum CodingKeys: String, CodingKey {

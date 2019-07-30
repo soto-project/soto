@@ -20,6 +20,13 @@ extension Firehose {
             self.sizeInMBs = sizeInMBs
         }
 
+        public func validate() throws {
+            try validate(intervalInSeconds, name:"intervalInSeconds", max: 900)
+            try validate(intervalInSeconds, name:"intervalInSeconds", min: 60)
+            try validate(sizeInMBs, name:"sizeInMBs", max: 128)
+            try validate(sizeInMBs, name:"sizeInMBs", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case intervalInSeconds = "IntervalInSeconds"
             case sizeInMBs = "SizeInMBs"
@@ -79,6 +86,10 @@ extension Firehose {
             self.dataTableName = dataTableName
         }
 
+        public func validate() throws {
+            try validate(dataTableName, name:"dataTableName", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case copyOptions = "CopyOptions"
             case dataTableColumns = "DataTableColumns"
@@ -125,6 +136,17 @@ extension Firehose {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(deliveryStreamName, name:"deliveryStreamName", max: 64)
+            try validate(deliveryStreamName, name:"deliveryStreamName", min: 1)
+            try validate(deliveryStreamName, name:"deliveryStreamName", pattern: "[a-zA-Z0-9_.-]+")
+            try elasticsearchDestinationConfiguration?.validate()
+            try extendedS3DestinationConfiguration?.validate()
+            try kinesisStreamSourceConfiguration?.validate()
+            try redshiftDestinationConfiguration?.validate()
+            try splunkDestinationConfiguration?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case deliveryStreamName = "DeliveryStreamName"
             case deliveryStreamType = "DeliveryStreamType"
@@ -146,6 +168,12 @@ extension Firehose {
         
         public init(deliveryStreamARN: String? = nil) {
             self.deliveryStreamARN = deliveryStreamARN
+        }
+
+        public func validate() throws {
+            try validate(deliveryStreamARN, name:"deliveryStreamARN", max: 512)
+            try validate(deliveryStreamARN, name:"deliveryStreamARN", min: 1)
+            try validate(deliveryStreamARN, name:"deliveryStreamARN", pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -176,6 +204,11 @@ extension Firehose {
             self.schemaConfiguration = schemaConfiguration
         }
 
+        public func validate() throws {
+            try outputFormatConfiguration?.validate()
+            try schemaConfiguration?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case enabled = "Enabled"
             case inputFormatConfiguration = "InputFormatConfiguration"
@@ -193,6 +226,12 @@ extension Firehose {
         
         public init(deliveryStreamName: String) {
             self.deliveryStreamName = deliveryStreamName
+        }
+
+        public func validate() throws {
+            try validate(deliveryStreamName, name:"deliveryStreamName", max: 64)
+            try validate(deliveryStreamName, name:"deliveryStreamName", min: 1)
+            try validate(deliveryStreamName, name:"deliveryStreamName", pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -257,6 +296,19 @@ extension Firehose {
             self.lastUpdateTimestamp = lastUpdateTimestamp
             self.source = source
             self.versionId = versionId
+        }
+
+        public func validate() throws {
+            try validate(deliveryStreamARN, name:"deliveryStreamARN", max: 512)
+            try validate(deliveryStreamARN, name:"deliveryStreamARN", min: 1)
+            try validate(deliveryStreamARN, name:"deliveryStreamARN", pattern: "arn:.*")
+            try validate(deliveryStreamName, name:"deliveryStreamName", max: 64)
+            try validate(deliveryStreamName, name:"deliveryStreamName", min: 1)
+            try validate(deliveryStreamName, name:"deliveryStreamName", pattern: "[a-zA-Z0-9_.-]+")
+            try source?.validate()
+            try validate(versionId, name:"versionId", max: 50)
+            try validate(versionId, name:"versionId", min: 1)
+            try validate(versionId, name:"versionId", pattern: "[0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -330,6 +382,16 @@ extension Firehose {
             self.limit = limit
         }
 
+        public func validate() throws {
+            try validate(deliveryStreamName, name:"deliveryStreamName", max: 64)
+            try validate(deliveryStreamName, name:"deliveryStreamName", min: 1)
+            try validate(deliveryStreamName, name:"deliveryStreamName", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(exclusiveStartDestinationId, name:"exclusiveStartDestinationId", max: 100)
+            try validate(exclusiveStartDestinationId, name:"exclusiveStartDestinationId", min: 1)
+            try validate(limit, name:"limit", max: 10000)
+            try validate(limit, name:"limit", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case deliveryStreamName = "DeliveryStreamName"
             case exclusiveStartDestinationId = "ExclusiveStartDestinationId"
@@ -346,6 +408,10 @@ extension Firehose {
         
         public init(deliveryStreamDescription: DeliveryStreamDescription) {
             self.deliveryStreamDescription = deliveryStreamDescription
+        }
+
+        public func validate() throws {
+            try deliveryStreamDescription.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -405,6 +471,16 @@ extension Firehose {
             self.splunkDestinationDescription = splunkDestinationDescription
         }
 
+        public func validate() throws {
+            try validate(destinationId, name:"destinationId", max: 100)
+            try validate(destinationId, name:"destinationId", min: 1)
+            try elasticsearchDestinationDescription?.validate()
+            try extendedS3DestinationDescription?.validate()
+            try redshiftDestinationDescription?.validate()
+            try s3DestinationDescription?.validate()
+            try splunkDestinationDescription?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case destinationId = "DestinationId"
             case elasticsearchDestinationDescription = "ElasticsearchDestinationDescription"
@@ -428,6 +504,13 @@ extension Firehose {
         public init(intervalInSeconds: Int32? = nil, sizeInMBs: Int32? = nil) {
             self.intervalInSeconds = intervalInSeconds
             self.sizeInMBs = sizeInMBs
+        }
+
+        public func validate() throws {
+            try validate(intervalInSeconds, name:"intervalInSeconds", max: 900)
+            try validate(intervalInSeconds, name:"intervalInSeconds", min: 60)
+            try validate(sizeInMBs, name:"sizeInMBs", max: 100)
+            try validate(sizeInMBs, name:"sizeInMBs", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -485,6 +568,22 @@ extension Firehose {
             self.s3BackupMode = s3BackupMode
             self.s3Configuration = s3Configuration
             self.typeName = typeName
+        }
+
+        public func validate() throws {
+            try bufferingHints?.validate()
+            try validate(domainARN, name:"domainARN", max: 512)
+            try validate(domainARN, name:"domainARN", min: 1)
+            try validate(domainARN, name:"domainARN", pattern: "arn:.*")
+            try validate(indexName, name:"indexName", max: 80)
+            try validate(indexName, name:"indexName", min: 1)
+            try retryOptions?.validate()
+            try validate(roleARN, name:"roleARN", max: 512)
+            try validate(roleARN, name:"roleARN", min: 1)
+            try validate(roleARN, name:"roleARN", pattern: "arn:.*")
+            try s3Configuration.validate()
+            try validate(typeName, name:"typeName", max: 100)
+            try validate(typeName, name:"typeName", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -553,6 +652,22 @@ extension Firehose {
             self.typeName = typeName
         }
 
+        public func validate() throws {
+            try bufferingHints?.validate()
+            try validate(domainARN, name:"domainARN", max: 512)
+            try validate(domainARN, name:"domainARN", min: 1)
+            try validate(domainARN, name:"domainARN", pattern: "arn:.*")
+            try validate(indexName, name:"indexName", max: 80)
+            try validate(indexName, name:"indexName", min: 1)
+            try retryOptions?.validate()
+            try validate(roleARN, name:"roleARN", max: 512)
+            try validate(roleARN, name:"roleARN", min: 1)
+            try validate(roleARN, name:"roleARN", pattern: "arn:.*")
+            try s3DestinationDescription?.validate()
+            try validate(typeName, name:"typeName", max: 100)
+            try validate(typeName, name:"typeName", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bufferingHints = "BufferingHints"
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
@@ -615,6 +730,22 @@ extension Firehose {
             self.typeName = typeName
         }
 
+        public func validate() throws {
+            try bufferingHints?.validate()
+            try validate(domainARN, name:"domainARN", max: 512)
+            try validate(domainARN, name:"domainARN", min: 1)
+            try validate(domainARN, name:"domainARN", pattern: "arn:.*")
+            try validate(indexName, name:"indexName", max: 80)
+            try validate(indexName, name:"indexName", min: 1)
+            try retryOptions?.validate()
+            try validate(roleARN, name:"roleARN", max: 512)
+            try validate(roleARN, name:"roleARN", min: 1)
+            try validate(roleARN, name:"roleARN", pattern: "arn:.*")
+            try s3Update?.validate()
+            try validate(typeName, name:"typeName", max: 100)
+            try validate(typeName, name:"typeName", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bufferingHints = "BufferingHints"
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
@@ -649,6 +780,11 @@ extension Firehose {
             self.durationInSeconds = durationInSeconds
         }
 
+        public func validate() throws {
+            try validate(durationInSeconds, name:"durationInSeconds", max: 7200)
+            try validate(durationInSeconds, name:"durationInSeconds", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case durationInSeconds = "DurationInSeconds"
         }
@@ -673,6 +809,10 @@ extension Firehose {
         public init(kMSEncryptionConfig: KMSEncryptionConfig? = nil, noEncryptionConfig: NoEncryptionConfig? = nil) {
             self.kMSEncryptionConfig = kMSEncryptionConfig
             self.noEncryptionConfig = noEncryptionConfig
+        }
+
+        public func validate() throws {
+            try kMSEncryptionConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -734,6 +874,19 @@ extension Firehose {
             self.roleARN = roleARN
             self.s3BackupConfiguration = s3BackupConfiguration
             self.s3BackupMode = s3BackupMode
+        }
+
+        public func validate() throws {
+            try validate(bucketARN, name:"bucketARN", max: 2048)
+            try validate(bucketARN, name:"bucketARN", min: 1)
+            try validate(bucketARN, name:"bucketARN", pattern: "arn:.*")
+            try bufferingHints?.validate()
+            try dataFormatConversionConfiguration?.validate()
+            try encryptionConfiguration?.validate()
+            try validate(roleARN, name:"roleARN", max: 512)
+            try validate(roleARN, name:"roleARN", min: 1)
+            try validate(roleARN, name:"roleARN", pattern: "arn:.*")
+            try s3BackupConfiguration?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -807,6 +960,19 @@ extension Firehose {
             self.s3BackupMode = s3BackupMode
         }
 
+        public func validate() throws {
+            try validate(bucketARN, name:"bucketARN", max: 2048)
+            try validate(bucketARN, name:"bucketARN", min: 1)
+            try validate(bucketARN, name:"bucketARN", pattern: "arn:.*")
+            try bufferingHints.validate()
+            try dataFormatConversionConfiguration?.validate()
+            try encryptionConfiguration.validate()
+            try validate(roleARN, name:"roleARN", max: 512)
+            try validate(roleARN, name:"roleARN", min: 1)
+            try validate(roleARN, name:"roleARN", pattern: "arn:.*")
+            try s3BackupDescription?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bucketARN = "BucketARN"
             case bufferingHints = "BufferingHints"
@@ -878,6 +1044,19 @@ extension Firehose {
             self.s3BackupUpdate = s3BackupUpdate
         }
 
+        public func validate() throws {
+            try validate(bucketARN, name:"bucketARN", max: 2048)
+            try validate(bucketARN, name:"bucketARN", min: 1)
+            try validate(bucketARN, name:"bucketARN", pattern: "arn:.*")
+            try bufferingHints?.validate()
+            try dataFormatConversionConfiguration?.validate()
+            try encryptionConfiguration?.validate()
+            try validate(roleARN, name:"roleARN", max: 512)
+            try validate(roleARN, name:"roleARN", min: 1)
+            try validate(roleARN, name:"roleARN", pattern: "arn:.*")
+            try s3BackupUpdate?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bucketARN = "BucketARN"
             case bufferingHints = "BufferingHints"
@@ -943,6 +1122,12 @@ extension Firehose {
             self.aWSKMSKeyARN = aWSKMSKeyARN
         }
 
+        public func validate() throws {
+            try validate(aWSKMSKeyARN, name:"aWSKMSKeyARN", max: 512)
+            try validate(aWSKMSKeyARN, name:"aWSKMSKeyARN", min: 1)
+            try validate(aWSKMSKeyARN, name:"aWSKMSKeyARN", pattern: "arn:.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case aWSKMSKeyARN = "AWSKMSKeyARN"
         }
@@ -961,6 +1146,15 @@ extension Firehose {
         public init(kinesisStreamARN: String, roleARN: String) {
             self.kinesisStreamARN = kinesisStreamARN
             self.roleARN = roleARN
+        }
+
+        public func validate() throws {
+            try validate(kinesisStreamARN, name:"kinesisStreamARN", max: 512)
+            try validate(kinesisStreamARN, name:"kinesisStreamARN", min: 1)
+            try validate(kinesisStreamARN, name:"kinesisStreamARN", pattern: "arn:.*")
+            try validate(roleARN, name:"roleARN", max: 512)
+            try validate(roleARN, name:"roleARN", min: 1)
+            try validate(roleARN, name:"roleARN", pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -988,6 +1182,15 @@ extension Firehose {
             self.roleARN = roleARN
         }
 
+        public func validate() throws {
+            try validate(kinesisStreamARN, name:"kinesisStreamARN", max: 512)
+            try validate(kinesisStreamARN, name:"kinesisStreamARN", min: 1)
+            try validate(kinesisStreamARN, name:"kinesisStreamARN", pattern: "arn:.*")
+            try validate(roleARN, name:"roleARN", max: 512)
+            try validate(roleARN, name:"roleARN", min: 1)
+            try validate(roleARN, name:"roleARN", pattern: "arn:.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case deliveryStartTimestamp = "DeliveryStartTimestamp"
             case kinesisStreamARN = "KinesisStreamARN"
@@ -1012,6 +1215,14 @@ extension Firehose {
             self.deliveryStreamType = deliveryStreamType
             self.exclusiveStartDeliveryStreamName = exclusiveStartDeliveryStreamName
             self.limit = limit
+        }
+
+        public func validate() throws {
+            try validate(exclusiveStartDeliveryStreamName, name:"exclusiveStartDeliveryStreamName", max: 64)
+            try validate(exclusiveStartDeliveryStreamName, name:"exclusiveStartDeliveryStreamName", min: 1)
+            try validate(exclusiveStartDeliveryStreamName, name:"exclusiveStartDeliveryStreamName", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(limit, name:"limit", max: 10000)
+            try validate(limit, name:"limit", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1059,6 +1270,16 @@ extension Firehose {
             self.deliveryStreamName = deliveryStreamName
             self.exclusiveStartTagKey = exclusiveStartTagKey
             self.limit = limit
+        }
+
+        public func validate() throws {
+            try validate(deliveryStreamName, name:"deliveryStreamName", max: 64)
+            try validate(deliveryStreamName, name:"deliveryStreamName", min: 1)
+            try validate(deliveryStreamName, name:"deliveryStreamName", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(exclusiveStartTagKey, name:"exclusiveStartTagKey", max: 128)
+            try validate(exclusiveStartTagKey, name:"exclusiveStartTagKey", min: 1)
+            try validate(limit, name:"limit", max: 50)
+            try validate(limit, name:"limit", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1180,6 +1401,18 @@ extension Firehose {
             self.stripeSizeBytes = stripeSizeBytes
         }
 
+        public func validate() throws {
+            try validate(blockSizeBytes, name:"blockSizeBytes", min: 67108864)
+            try validate(bloomFilterFalsePositiveProbability, name:"bloomFilterFalsePositiveProbability", max: 1)
+            try validate(bloomFilterFalsePositiveProbability, name:"bloomFilterFalsePositiveProbability", min: 0)
+            try validate(dictionaryKeyThreshold, name:"dictionaryKeyThreshold", max: 1)
+            try validate(dictionaryKeyThreshold, name:"dictionaryKeyThreshold", min: 0)
+            try validate(paddingTolerance, name:"paddingTolerance", max: 1)
+            try validate(paddingTolerance, name:"paddingTolerance", min: 0)
+            try validate(rowIndexStride, name:"rowIndexStride", min: 1000)
+            try validate(stripeSizeBytes, name:"stripeSizeBytes", min: 8388608)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case blockSizeBytes = "BlockSizeBytes"
             case bloomFilterColumns = "BloomFilterColumns"
@@ -1203,6 +1436,10 @@ extension Firehose {
         
         public init(serializer: Serializer? = nil) {
             self.serializer = serializer
+        }
+
+        public func validate() throws {
+            try serializer?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1246,6 +1483,12 @@ extension Firehose {
             self.maxPaddingBytes = maxPaddingBytes
             self.pageSizeBytes = pageSizeBytes
             self.writerVersion = writerVersion
+        }
+
+        public func validate() throws {
+            try validate(blockSizeBytes, name:"blockSizeBytes", min: 67108864)
+            try validate(maxPaddingBytes, name:"maxPaddingBytes", min: 0)
+            try validate(pageSizeBytes, name:"pageSizeBytes", min: 65536)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1321,6 +1564,11 @@ extension Firehose {
             self.parameterValue = parameterValue
         }
 
+        public func validate() throws {
+            try validate(parameterValue, name:"parameterValue", max: 512)
+            try validate(parameterValue, name:"parameterValue", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case parameterName = "ParameterName"
             case parameterValue = "ParameterValue"
@@ -1356,6 +1604,12 @@ extension Firehose {
             self.records = records
         }
 
+        public func validate() throws {
+            try validate(deliveryStreamName, name:"deliveryStreamName", max: 64)
+            try validate(deliveryStreamName, name:"deliveryStreamName", min: 1)
+            try validate(deliveryStreamName, name:"deliveryStreamName", pattern: "[a-zA-Z0-9_.-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case deliveryStreamName = "DeliveryStreamName"
             case records = "Records"
@@ -1379,6 +1633,10 @@ extension Firehose {
             self.encrypted = encrypted
             self.failedPutCount = failedPutCount
             self.requestResponses = requestResponses
+        }
+
+        public func validate() throws {
+            try validate(failedPutCount, name:"failedPutCount", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1407,6 +1665,10 @@ extension Firehose {
             self.recordId = recordId
         }
 
+        public func validate() throws {
+            try validate(recordId, name:"recordId", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case errorCode = "ErrorCode"
             case errorMessage = "ErrorMessage"
@@ -1427,6 +1689,13 @@ extension Firehose {
         public init(deliveryStreamName: String, record: Record) {
             self.deliveryStreamName = deliveryStreamName
             self.record = record
+        }
+
+        public func validate() throws {
+            try validate(deliveryStreamName, name:"deliveryStreamName", max: 64)
+            try validate(deliveryStreamName, name:"deliveryStreamName", min: 1)
+            try validate(deliveryStreamName, name:"deliveryStreamName", pattern: "[a-zA-Z0-9_.-]+")
+            try record.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1450,6 +1719,10 @@ extension Firehose {
             self.recordId = recordId
         }
 
+        public func validate() throws {
+            try validate(recordId, name:"recordId", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case encrypted = "Encrypted"
             case recordId = "RecordId"
@@ -1465,6 +1738,11 @@ extension Firehose {
         
         public init(data: Data) {
             self.data = data
+        }
+
+        public func validate() throws {
+            try validate(data, name:"data", max: 1024000)
+            try validate(data, name:"data", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1521,6 +1799,20 @@ extension Firehose {
             self.s3BackupMode = s3BackupMode
             self.s3Configuration = s3Configuration
             self.username = username
+        }
+
+        public func validate() throws {
+            try validate(clusterJDBCURL, name:"clusterJDBCURL", min: 1)
+            try validate(clusterJDBCURL, name:"clusterJDBCURL", pattern: "jdbc:(redshift|postgresql)://((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+redshift\\.amazonaws\\.com:\\d{1,5}/[a-zA-Z0-9_$]+")
+            try copyCommand.validate()
+            try validate(password, name:"password", min: 6)
+            try retryOptions?.validate()
+            try validate(roleARN, name:"roleARN", max: 512)
+            try validate(roleARN, name:"roleARN", min: 1)
+            try validate(roleARN, name:"roleARN", pattern: "arn:.*")
+            try s3BackupConfiguration?.validate()
+            try s3Configuration.validate()
+            try validate(username, name:"username", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1583,6 +1875,19 @@ extension Firehose {
             self.s3BackupMode = s3BackupMode
             self.s3DestinationDescription = s3DestinationDescription
             self.username = username
+        }
+
+        public func validate() throws {
+            try validate(clusterJDBCURL, name:"clusterJDBCURL", min: 1)
+            try validate(clusterJDBCURL, name:"clusterJDBCURL", pattern: "jdbc:(redshift|postgresql)://((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+redshift\\.amazonaws\\.com:\\d{1,5}/[a-zA-Z0-9_$]+")
+            try copyCommand.validate()
+            try retryOptions?.validate()
+            try validate(roleARN, name:"roleARN", max: 512)
+            try validate(roleARN, name:"roleARN", min: 1)
+            try validate(roleARN, name:"roleARN", pattern: "arn:.*")
+            try s3BackupDescription?.validate()
+            try s3DestinationDescription.validate()
+            try validate(username, name:"username", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1650,6 +1955,20 @@ extension Firehose {
             self.username = username
         }
 
+        public func validate() throws {
+            try validate(clusterJDBCURL, name:"clusterJDBCURL", min: 1)
+            try validate(clusterJDBCURL, name:"clusterJDBCURL", pattern: "jdbc:(redshift|postgresql)://((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+redshift\\.amazonaws\\.com:\\d{1,5}/[a-zA-Z0-9_$]+")
+            try copyCommand?.validate()
+            try validate(password, name:"password", min: 6)
+            try retryOptions?.validate()
+            try validate(roleARN, name:"roleARN", max: 512)
+            try validate(roleARN, name:"roleARN", min: 1)
+            try validate(roleARN, name:"roleARN", pattern: "arn:.*")
+            try s3BackupUpdate?.validate()
+            try s3Update?.validate()
+            try validate(username, name:"username", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
             case clusterJDBCURL = "ClusterJDBCURL"
@@ -1674,6 +1993,11 @@ extension Firehose {
         
         public init(durationInSeconds: Int32? = nil) {
             self.durationInSeconds = durationInSeconds
+        }
+
+        public func validate() throws {
+            try validate(durationInSeconds, name:"durationInSeconds", max: 7200)
+            try validate(durationInSeconds, name:"durationInSeconds", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1732,6 +2056,17 @@ extension Firehose {
             self.roleARN = roleARN
         }
 
+        public func validate() throws {
+            try validate(bucketARN, name:"bucketARN", max: 2048)
+            try validate(bucketARN, name:"bucketARN", min: 1)
+            try validate(bucketARN, name:"bucketARN", pattern: "arn:.*")
+            try bufferingHints?.validate()
+            try encryptionConfiguration?.validate()
+            try validate(roleARN, name:"roleARN", max: 512)
+            try validate(roleARN, name:"roleARN", min: 1)
+            try validate(roleARN, name:"roleARN", pattern: "arn:.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bucketARN = "BucketARN"
             case bufferingHints = "BufferingHints"
@@ -1781,6 +2116,17 @@ extension Firehose {
             self.errorOutputPrefix = errorOutputPrefix
             self.prefix = prefix
             self.roleARN = roleARN
+        }
+
+        public func validate() throws {
+            try validate(bucketARN, name:"bucketARN", max: 2048)
+            try validate(bucketARN, name:"bucketARN", min: 1)
+            try validate(bucketARN, name:"bucketARN", pattern: "arn:.*")
+            try bufferingHints.validate()
+            try encryptionConfiguration.validate()
+            try validate(roleARN, name:"roleARN", max: 512)
+            try validate(roleARN, name:"roleARN", min: 1)
+            try validate(roleARN, name:"roleARN", pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1834,6 +2180,17 @@ extension Firehose {
             self.roleARN = roleARN
         }
 
+        public func validate() throws {
+            try validate(bucketARN, name:"bucketARN", max: 2048)
+            try validate(bucketARN, name:"bucketARN", min: 1)
+            try validate(bucketARN, name:"bucketARN", pattern: "arn:.*")
+            try bufferingHints?.validate()
+            try encryptionConfiguration?.validate()
+            try validate(roleARN, name:"roleARN", max: 512)
+            try validate(roleARN, name:"roleARN", min: 1)
+            try validate(roleARN, name:"roleARN", pattern: "arn:.*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bucketARN = "BucketARN"
             case bufferingHints = "BufferingHints"
@@ -1877,6 +2234,15 @@ extension Firehose {
             self.versionId = versionId
         }
 
+        public func validate() throws {
+            try validate(catalogId, name:"catalogId", pattern: "^\\S+$")
+            try validate(databaseName, name:"databaseName", pattern: "^\\S+$")
+            try validate(region, name:"region", pattern: "^\\S+$")
+            try validate(roleARN, name:"roleARN", pattern: "^\\S+$")
+            try validate(tableName, name:"tableName", pattern: "^\\S+$")
+            try validate(versionId, name:"versionId", pattern: "^\\S+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case catalogId = "CatalogId"
             case databaseName = "DatabaseName"
@@ -1902,6 +2268,11 @@ extension Firehose {
             self.parquetSerDe = parquetSerDe
         }
 
+        public func validate() throws {
+            try orcSerDe?.validate()
+            try parquetSerDe?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case orcSerDe = "OrcSerDe"
             case parquetSerDe = "ParquetSerDe"
@@ -1917,6 +2288,10 @@ extension Firehose {
         
         public init(kinesisStreamSourceDescription: KinesisStreamSourceDescription? = nil) {
             self.kinesisStreamSourceDescription = kinesisStreamSourceDescription
+        }
+
+        public func validate() throws {
+            try kinesisStreamSourceDescription?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1965,6 +2340,13 @@ extension Firehose {
             self.retryOptions = retryOptions
             self.s3BackupMode = s3BackupMode
             self.s3Configuration = s3Configuration
+        }
+
+        public func validate() throws {
+            try validate(hECAcknowledgmentTimeoutInSeconds, name:"hECAcknowledgmentTimeoutInSeconds", max: 600)
+            try validate(hECAcknowledgmentTimeoutInSeconds, name:"hECAcknowledgmentTimeoutInSeconds", min: 180)
+            try retryOptions?.validate()
+            try s3Configuration.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2023,6 +2405,13 @@ extension Firehose {
             self.s3DestinationDescription = s3DestinationDescription
         }
 
+        public func validate() throws {
+            try validate(hECAcknowledgmentTimeoutInSeconds, name:"hECAcknowledgmentTimeoutInSeconds", max: 600)
+            try validate(hECAcknowledgmentTimeoutInSeconds, name:"hECAcknowledgmentTimeoutInSeconds", min: 180)
+            try retryOptions?.validate()
+            try s3DestinationDescription?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
             case hECAcknowledgmentTimeoutInSeconds = "HECAcknowledgmentTimeoutInSeconds"
@@ -2079,6 +2468,13 @@ extension Firehose {
             self.s3Update = s3Update
         }
 
+        public func validate() throws {
+            try validate(hECAcknowledgmentTimeoutInSeconds, name:"hECAcknowledgmentTimeoutInSeconds", max: 600)
+            try validate(hECAcknowledgmentTimeoutInSeconds, name:"hECAcknowledgmentTimeoutInSeconds", min: 180)
+            try retryOptions?.validate()
+            try s3Update?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
             case hECAcknowledgmentTimeoutInSeconds = "HECAcknowledgmentTimeoutInSeconds"
@@ -2103,6 +2499,11 @@ extension Firehose {
             self.durationInSeconds = durationInSeconds
         }
 
+        public func validate() throws {
+            try validate(durationInSeconds, name:"durationInSeconds", max: 7200)
+            try validate(durationInSeconds, name:"durationInSeconds", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case durationInSeconds = "DurationInSeconds"
         }
@@ -2123,6 +2524,12 @@ extension Firehose {
         
         public init(deliveryStreamName: String) {
             self.deliveryStreamName = deliveryStreamName
+        }
+
+        public func validate() throws {
+            try validate(deliveryStreamName, name:"deliveryStreamName", max: 64)
+            try validate(deliveryStreamName, name:"deliveryStreamName", min: 1)
+            try validate(deliveryStreamName, name:"deliveryStreamName", pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2147,6 +2554,12 @@ extension Firehose {
         
         public init(deliveryStreamName: String) {
             self.deliveryStreamName = deliveryStreamName
+        }
+
+        public func validate() throws {
+            try validate(deliveryStreamName, name:"deliveryStreamName", max: 64)
+            try validate(deliveryStreamName, name:"deliveryStreamName", min: 1)
+            try validate(deliveryStreamName, name:"deliveryStreamName", pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2177,6 +2590,13 @@ extension Firehose {
             self.value = value
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", max: 128)
+            try validate(key, name:"key", min: 1)
+            try validate(value, name:"value", max: 256)
+            try validate(value, name:"value", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
@@ -2196,6 +2616,12 @@ extension Firehose {
         public init(deliveryStreamName: String, tags: [Tag]) {
             self.deliveryStreamName = deliveryStreamName
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try validate(deliveryStreamName, name:"deliveryStreamName", max: 64)
+            try validate(deliveryStreamName, name:"deliveryStreamName", min: 1)
+            try validate(deliveryStreamName, name:"deliveryStreamName", pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2225,6 +2651,12 @@ extension Firehose {
         public init(deliveryStreamName: String, tagKeys: [String]) {
             self.deliveryStreamName = deliveryStreamName
             self.tagKeys = tagKeys
+        }
+
+        public func validate() throws {
+            try validate(deliveryStreamName, name:"deliveryStreamName", max: 64)
+            try validate(deliveryStreamName, name:"deliveryStreamName", min: 1)
+            try validate(deliveryStreamName, name:"deliveryStreamName", pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2274,6 +2706,21 @@ extension Firehose {
             self.extendedS3DestinationUpdate = extendedS3DestinationUpdate
             self.redshiftDestinationUpdate = redshiftDestinationUpdate
             self.splunkDestinationUpdate = splunkDestinationUpdate
+        }
+
+        public func validate() throws {
+            try validate(currentDeliveryStreamVersionId, name:"currentDeliveryStreamVersionId", max: 50)
+            try validate(currentDeliveryStreamVersionId, name:"currentDeliveryStreamVersionId", min: 1)
+            try validate(currentDeliveryStreamVersionId, name:"currentDeliveryStreamVersionId", pattern: "[0-9]+")
+            try validate(deliveryStreamName, name:"deliveryStreamName", max: 64)
+            try validate(deliveryStreamName, name:"deliveryStreamName", min: 1)
+            try validate(deliveryStreamName, name:"deliveryStreamName", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(destinationId, name:"destinationId", max: 100)
+            try validate(destinationId, name:"destinationId", min: 1)
+            try elasticsearchDestinationUpdate?.validate()
+            try extendedS3DestinationUpdate?.validate()
+            try redshiftDestinationUpdate?.validate()
+            try splunkDestinationUpdate?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

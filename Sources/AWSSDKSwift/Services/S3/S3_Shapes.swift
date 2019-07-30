@@ -58,6 +58,10 @@ extension S3 {
             self.uploadId = uploadId
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case key = "Key"
@@ -159,6 +163,10 @@ extension S3 {
             self.storageClassAnalysis = storageClassAnalysis
         }
 
+        public func validate() throws {
+            try filter?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filter = "Filter"
             case id = "Id"
@@ -199,6 +207,10 @@ extension S3 {
             self.and = and
             self.prefix = prefix
             self.tag = tag
+        }
+
+        public func validate() throws {
+            try tag?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -553,6 +565,10 @@ extension S3 {
             self.versionId = versionId
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case eTag = "ETag"
@@ -589,6 +605,10 @@ extension S3 {
             self.multipartUpload = multipartUpload
             self.requestPayer = requestPayer
             self.uploadId = uploadId
+        }
+
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -884,6 +904,11 @@ extension S3 {
             self.websiteRedirectLocation = websiteRedirectLocation
         }
 
+        public func validate() throws {
+            try validate(copySource, name:"copySource", pattern: "\\/.+\\/.+")
+            try validate(key, name:"key", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acl = "x-amz-acl"
             case bucket = "Bucket"
@@ -1103,6 +1128,10 @@ extension S3 {
             self.uploadId = uploadId
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case abortDate = "x-amz-abort-date"
             case abortRuleId = "x-amz-abort-rule-id"
@@ -1228,6 +1257,10 @@ extension S3 {
             self.storageClass = storageClass
             self.tagging = tagging
             self.websiteRedirectLocation = websiteRedirectLocation
+        }
+
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1518,6 +1551,10 @@ extension S3 {
             self.versionId = versionId
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case isLatest = "IsLatest"
             case key = "Key"
@@ -1602,6 +1639,10 @@ extension S3 {
             self.versionId = versionId
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case bypassGovernanceRetention = "x-amz-bypass-governance-retention"
@@ -1643,6 +1684,10 @@ extension S3 {
             self.bucket = bucket
             self.key = key
             self.versionId = versionId
+        }
+
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1744,6 +1789,10 @@ extension S3 {
             self.deleteMarkerVersionId = deleteMarkerVersionId
             self.key = key
             self.versionId = versionId
+        }
+
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1864,6 +1913,10 @@ extension S3 {
             self.versionId = versionId
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case key = "Key"
@@ -1881,6 +1934,10 @@ extension S3 {
         
         public init(key: String) {
             self.key = key
+        }
+
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2026,6 +2083,10 @@ extension S3 {
         
         public init(analyticsConfiguration: AnalyticsConfiguration? = nil) {
             self.analyticsConfiguration = analyticsConfiguration
+        }
+
+        public func validate() throws {
+            try analyticsConfiguration?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2289,6 +2350,10 @@ extension S3 {
             self.metricsConfiguration = metricsConfiguration
         }
 
+        public func validate() throws {
+            try metricsConfiguration?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case metricsConfiguration = "MetricsConfiguration"
         }
@@ -2546,6 +2611,10 @@ extension S3 {
             self.routingRules = routingRules
         }
 
+        public func validate() throws {
+            try errorDocument?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case errorDocument = "ErrorDocument"
             case indexDocument = "IndexDocument"
@@ -2613,6 +2682,10 @@ extension S3 {
             self.versionId = versionId
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case key = "Key"
@@ -2659,6 +2732,10 @@ extension S3 {
             self.key = key
             self.requestPayer = requestPayer
             self.versionId = versionId
+        }
+
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2947,6 +3024,10 @@ extension S3 {
             self.versionId = versionId
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case ifMatch = "If-Match"
@@ -3010,6 +3091,10 @@ extension S3 {
             self.versionId = versionId
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case key = "Key"
@@ -3051,6 +3136,10 @@ extension S3 {
             self.bucket = bucket
             self.key = key
             self.versionId = versionId
+        }
+
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3095,6 +3184,10 @@ extension S3 {
             self.bucket = bucket
             self.key = key
             self.requestPayer = requestPayer
+        }
+
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3426,6 +3519,10 @@ extension S3 {
             self.sSECustomerKey = sSECustomerKey
             self.sSECustomerKeyMD5 = sSECustomerKeyMD5
             self.versionId = versionId
+        }
+
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3838,6 +3935,10 @@ extension S3 {
             self.transitions = transitions
         }
 
+        public func validate() throws {
+            try filter?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case abortIncompleteMultipartUpload = "AbortIncompleteMultipartUpload"
             case expiration = "Expiration"
@@ -3886,6 +3987,10 @@ extension S3 {
             self.and = and
             self.prefix = prefix
             self.tag = tag
+        }
+
+        public func validate() throws {
+            try tag?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4579,6 +4684,10 @@ extension S3 {
             self.uploadId = uploadId
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case abortDate = "x-amz-abort-date"
             case abortRuleId = "x-amz-abort-rule-id"
@@ -4623,6 +4732,10 @@ extension S3 {
             self.partNumberMarker = partNumberMarker
             self.requestPayer = requestPayer
             self.uploadId = uploadId
+        }
+
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4733,6 +4846,10 @@ extension S3 {
             self.id = id
         }
 
+        public func validate() throws {
+            try filter?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case filter = "Filter"
             case id = "Id"
@@ -4756,6 +4873,10 @@ extension S3 {
             self.and = and
             self.prefix = prefix
             self.tag = tag
+        }
+
+        public func validate() throws {
+            try tag?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4793,6 +4914,10 @@ extension S3 {
             self.owner = owner
             self.storageClass = storageClass
             self.uploadId = uploadId
+        }
+
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4932,6 +5057,10 @@ extension S3 {
             self.storageClass = storageClass
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case eTag = "ETag"
             case key = "Key"
@@ -4966,6 +5095,10 @@ extension S3 {
         public init(key: String, versionId: String? = nil) {
             self.key = key
             self.versionId = versionId
+        }
+
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5117,6 +5250,10 @@ extension S3 {
             self.size = size
             self.storageClass = storageClass
             self.versionId = versionId
+        }
+
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5449,6 +5586,10 @@ extension S3 {
             self.id = id
         }
 
+        public func validate() throws {
+            try analyticsConfiguration.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case analyticsConfiguration = "AnalyticsConfiguration"
             case bucket = "Bucket"
@@ -5633,6 +5774,10 @@ extension S3 {
             self.bucket = bucket
             self.id = id
             self.metricsConfiguration = metricsConfiguration
+        }
+
+        public func validate() throws {
+            try metricsConfiguration.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5855,6 +6000,10 @@ extension S3 {
             self.websiteConfiguration = websiteConfiguration
         }
 
+        public func validate() throws {
+            try websiteConfiguration.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case contentMD5 = "Content-MD5"
@@ -5931,6 +6080,10 @@ extension S3 {
             self.versionId = versionId
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accessControlPolicy = "AccessControlPolicy"
             case acl = "x-amz-acl"
@@ -5993,6 +6146,10 @@ extension S3 {
             self.legalHold = legalHold
             self.requestPayer = requestPayer
             self.versionId = versionId
+        }
+
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6241,6 +6398,10 @@ extension S3 {
             self.websiteRedirectLocation = websiteRedirectLocation
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acl = "x-amz-acl"
             case body = "Body"
@@ -6327,6 +6488,10 @@ extension S3 {
             self.versionId = versionId
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case bypassGovernanceRetention = "x-amz-bypass-governance-retention"
@@ -6376,6 +6541,10 @@ extension S3 {
             self.key = key
             self.tagging = tagging
             self.versionId = versionId
+        }
+
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6600,6 +6769,10 @@ extension S3 {
             self.status = status
         }
 
+        public func validate() throws {
+            try filter?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case deleteMarkerReplication = "DeleteMarkerReplication"
             case destination = "Destination"
@@ -6647,6 +6820,10 @@ extension S3 {
             self.and = and
             self.prefix = prefix
             self.tag = tag
+        }
+
+        public func validate() throws {
+            try tag?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6755,6 +6932,10 @@ extension S3 {
             self.requestPayer = requestPayer
             self.restoreRequest = restoreRequest
             self.versionId = versionId
+        }
+
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7020,6 +7201,10 @@ extension S3 {
             self.sSECustomerKeyMD5 = sSECustomerKeyMD5
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case expression = "Expression"
@@ -7270,6 +7455,10 @@ extension S3 {
         public init(key: String, value: String) {
             self.key = key
             self.value = value
+        }
+
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7539,6 +7728,11 @@ extension S3 {
             self.uploadId = uploadId
         }
 
+        public func validate() throws {
+            try validate(copySource, name:"copySource", pattern: "\\/.+\\/.+")
+            try validate(key, name:"key", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case copySource = "x-amz-copy-source"
@@ -7652,6 +7846,10 @@ extension S3 {
             self.uploadId = uploadId
         }
 
+        public func validate() throws {
+            try validate(key, name:"key", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case body = "Body"
             case bucket = "Bucket"
@@ -7709,6 +7907,10 @@ extension S3 {
             self.indexDocument = indexDocument
             self.redirectAllRequestsTo = redirectAllRequestsTo
             self.routingRules = routingRules
+        }
+
+        public func validate() throws {
+            try errorDocument?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
