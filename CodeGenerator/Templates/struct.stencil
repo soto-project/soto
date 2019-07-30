@@ -12,7 +12,12 @@
         {%for member in struct.members %}    self.{{member.variable}} = {{member.variable}}
         {%endfor %}}
 
-        {%if struct.members.count > 0%}private enum CodingKeys: String, CodingKey {
+        {%if struct.validation.count > 0 %}public func validate() throws {
+        {%for v in struct.validation %}{%if v.shape %}    try {{v.name}}.validate()
+        {%endif %}{%for key,value in v.reqs %}    try validate({{v.name}}, name:"{{v.name}}", {{key}}: {{value}})
+        {%endfor %}{%endfor %}}
+
+        {%endif %}{%if struct.members.count > 0%}private enum CodingKeys: String, CodingKey {
         {%for member in struct.members %}{%if member.duplicate %}    case {{member.variable}} = "_{{member.locationPath}}" // TODO this is temporary measure for avoiding CodingKey duplication.
         {%else %}    case {{member.variable}} = "{{member.locationPath}}"
         {%endif %}{%endfor %}}

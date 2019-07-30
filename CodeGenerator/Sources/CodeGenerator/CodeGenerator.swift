@@ -204,12 +204,19 @@ extension AWSService {
         var duplicate : Bool
     }
     
+    struct ValidationContext {
+        let name : String
+        let shape : Bool
+        let reqs : [String : Any]
+    }
+    
     struct StructureContext {
         let object : String
         let name : String
         let payload : String?
         let namespace : String?
         let members : [MemberContext]
+        let validation : [ValidationContext]
     }
     
     /// Generate the context information for outputting the error enums
@@ -323,6 +330,40 @@ extension AWSService {
         )
     }
     
+    /// Generate validation context
+    func generateValidationContext(_ member: Member) -> ValidationContext? {
+        var requirements : [String: Any] = [:]
+        switch member.shape.type {
+        case .integer(let max, let min),
+             .long(let max, let min),
+             .float(let max, let min),
+             .double(let max, let min):
+            requirements["max"] = max
+            requirements["min"] = min
+        case .blob(let max, let min):
+            requirements["max"] = max
+            requirements["min"] = min
+        case .string(let max, let min, let pattern):
+            requirements["max"] = max
+            requirements["min"] = min
+            if let pattern = pattern {
+                requirements["pattern"] = "\"\(pattern.addingBackslashEncoding())\""
+            }
+        case .structure(let shape):
+            for member2 in shape.members {
+                if generateValidationContext(member2) != nil {
+                    return ValidationContext(name:  member.name.toSwiftVariableCase() + (member.required ? "" : "?"), shape: true, reqs: [:])
+                }
+            }
+        default:
+            break
+        }
+        if requirements.count > 0 {
+            return ValidationContext(name: member.name.toSwiftVariableCase(), shape: false, reqs: requirements)
+        }
+        return nil
+    }
+    
     /// Generate the context for outputting a single AWSShape
     func generateStructureContext(_ shape: Shape, type: StructureShape) -> StructureContext {
         let hasRecursiveOwnReference = type.members.contains(where: {
@@ -331,6 +372,7 @@ extension AWSService {
         })
         
         var memberContexts : [MemberContext] = []
+        var validationContexts : [ValidationContext] = []
         var usedLocationPath : [String] = []
         for member in type.members {
             var memberContext = generateMemberContext(member, shape: shape)
@@ -344,6 +386,10 @@ extension AWSService {
             }
 
             memberContexts.append(memberContext)
+            
+            if let validationContext = generateValidationContext(member) {
+                validationContexts.append(validationContext)
+            }
         }
 
         return StructureContext(
@@ -351,7 +397,8 @@ extension AWSService {
             name: shape.swiftTypeName,
             payload: type.payload,
             namespace: type.xmlNamespace,
-            members: memberContexts)
+            members: memberContexts,
+            validation: validationContexts)
     }
     
     /// Generate the context for outputting all the AWSShape (enums and structures)

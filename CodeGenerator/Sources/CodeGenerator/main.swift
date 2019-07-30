@@ -55,10 +55,10 @@ for index in 0..<apis.count {
             print("Succesfully Generated \(service.serviceName)")
             group.leave()
         } catch {
-            DispatchQueue.main.sync {
+//            DispatchQueue.main.sync {
                 print(error)
                 exit(1)
-            }
+//            }
         }
     }
 }
