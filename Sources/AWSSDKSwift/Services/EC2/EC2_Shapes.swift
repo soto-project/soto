@@ -757,7 +757,7 @@ extension EC2 {
         /// The ID of the subnet to associate with the Client VPN endpoint.
         public let subnetId: String
         
-        public init(clientToken: String? = nil, clientVpnEndpointId: String, dryRun: Bool? = nil, subnetId: String) {
+        public init(clientToken: String? = AssociateClientVpnTargetNetworkRequest.idempotencyToken(), clientVpnEndpointId: String, dryRun: Bool? = nil, subnetId: String) {
             self.clientToken = clientToken
             self.clientVpnEndpointId = clientVpnEndpointId
             self.dryRun = dryRun
@@ -1389,7 +1389,7 @@ extension EC2 {
         /// The IPv4 address range, in CIDR notation, of the network for which access is being authorized.
         public let targetNetworkCidr: String
         
-        public init(accessGroupId: String? = nil, authorizeAllGroups: Bool? = nil, clientToken: String? = nil, clientVpnEndpointId: String, description: String? = nil, dryRun: Bool? = nil, targetNetworkCidr: String) {
+        public init(accessGroupId: String? = nil, authorizeAllGroups: Bool? = nil, clientToken: String? = AuthorizeClientVpnIngressRequest.idempotencyToken(), clientVpnEndpointId: String, description: String? = nil, dryRun: Bool? = nil, targetNetworkCidr: String) {
             self.accessGroupId = accessGroupId
             self.authorizeAllGroups = authorizeAllGroups
             self.clientToken = clientToken
@@ -3623,7 +3623,7 @@ extension EC2 {
         /// The transport protocol to be used by the VPN session. Default value: udp 
         public let transportProtocol: TransportProtocol?
         
-        public init(authenticationOptions: [ClientVpnAuthenticationRequest], clientCidrBlock: String, clientToken: String? = nil, connectionLogOptions: ConnectionLogOptions, description: String? = nil, dnsServers: [String]? = nil, dryRun: Bool? = nil, serverCertificateArn: String, tagSpecifications: [TagSpecification]? = nil, transportProtocol: TransportProtocol? = nil) {
+        public init(authenticationOptions: [ClientVpnAuthenticationRequest], clientCidrBlock: String, clientToken: String? = CreateClientVpnEndpointRequest.idempotencyToken(), connectionLogOptions: ConnectionLogOptions, description: String? = nil, dnsServers: [String]? = nil, dryRun: Bool? = nil, serverCertificateArn: String, tagSpecifications: [TagSpecification]? = nil, transportProtocol: TransportProtocol? = nil) {
             self.authenticationOptions = authenticationOptions
             self.clientCidrBlock = clientCidrBlock
             self.clientToken = clientToken
@@ -3698,7 +3698,7 @@ extension EC2 {
         /// The ID of the subnet through which you want to route traffic. The specified subnet must be an existing target network of the Client VPN endpoint.
         public let targetVpcSubnetId: String
         
-        public init(clientToken: String? = nil, clientVpnEndpointId: String, description: String? = nil, destinationCidrBlock: String, dryRun: Bool? = nil, targetVpcSubnetId: String) {
+        public init(clientToken: String? = CreateClientVpnRouteRequest.idempotencyToken(), clientVpnEndpointId: String, description: String? = nil, destinationCidrBlock: String, dryRun: Bool? = nil, targetVpcSubnetId: String) {
             self.clientToken = clientToken
             self.clientVpnEndpointId = clientVpnEndpointId
             self.description = description
@@ -5293,7 +5293,7 @@ extension EC2 {
         /// The tags to assign to a Traffic Mirror filter.
         public let tagSpecifications: [TagSpecification]?
         
-        public init(clientToken: String? = nil, description: String? = nil, dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil) {
+        public init(clientToken: String? = CreateTrafficMirrorFilterRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.dryRun = dryRun
@@ -5369,7 +5369,7 @@ extension EC2 {
         /// The ID of the filter that this rule is associated with.
         public let trafficMirrorFilterId: String
         
-        public init(clientToken: String? = nil, description: String? = nil, destinationCidrBlock: String, destinationPortRange: TrafficMirrorPortRangeRequest? = nil, dryRun: Bool? = nil, protocol: Int32? = nil, ruleAction: TrafficMirrorRuleAction, ruleNumber: Int32, sourceCidrBlock: String, sourcePortRange: TrafficMirrorPortRangeRequest? = nil, trafficDirection: TrafficDirection, trafficMirrorFilterId: String) {
+        public init(clientToken: String? = CreateTrafficMirrorFilterRuleRequest.idempotencyToken(), description: String? = nil, destinationCidrBlock: String, destinationPortRange: TrafficMirrorPortRangeRequest? = nil, dryRun: Bool? = nil, protocol: Int32? = nil, ruleAction: TrafficMirrorRuleAction, ruleNumber: Int32, sourceCidrBlock: String, sourcePortRange: TrafficMirrorPortRangeRequest? = nil, trafficDirection: TrafficDirection, trafficMirrorFilterId: String) {
             self.clientToken = clientToken
             self.description = description
             self.destinationCidrBlock = destinationCidrBlock
@@ -5455,7 +5455,7 @@ extension EC2 {
         /// The VXLAN ID for the Traffic Mirror session. For more information about the VXLAN protocol, see RFC 7348. If you do not specify a VirtualNetworkId, an account-wide unique id is chosen at random.
         public let virtualNetworkId: Int32?
         
-        public init(clientToken: String? = nil, description: String? = nil, dryRun: Bool? = nil, networkInterfaceId: String, packetLength: Int32? = nil, sessionNumber: Int32, tagSpecifications: [TagSpecification]? = nil, trafficMirrorFilterId: String, trafficMirrorTargetId: String, virtualNetworkId: Int32? = nil) {
+        public init(clientToken: String? = CreateTrafficMirrorSessionRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, networkInterfaceId: String, packetLength: Int32? = nil, sessionNumber: Int32, tagSpecifications: [TagSpecification]? = nil, trafficMirrorFilterId: String, trafficMirrorTargetId: String, virtualNetworkId: Int32? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.dryRun = dryRun
@@ -5525,7 +5525,7 @@ extension EC2 {
         /// The tags to assign to the Traffic Mirror target.
         public let tagSpecifications: [TagSpecification]?
         
-        public init(clientToken: String? = nil, description: String? = nil, dryRun: Bool? = nil, networkInterfaceId: String? = nil, networkLoadBalancerArn: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
+        public init(clientToken: String? = CreateTrafficMirrorTargetRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, networkInterfaceId: String? = nil, networkLoadBalancerArn: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.dryRun = dryRun
@@ -23920,7 +23920,7 @@ extension EC2 {
         /// The purchase requests.
         public let purchaseRequests: [PurchaseRequest]
         
-        public init(clientToken: String? = nil, dryRun: Bool? = nil, purchaseRequests: [PurchaseRequest]) {
+        public init(clientToken: String? = PurchaseScheduledInstancesRequest.idempotencyToken(), dryRun: Bool? = nil, purchaseRequests: [PurchaseRequest]) {
             self.clientToken = clientToken
             self.dryRun = dryRun
             self.purchaseRequests = purchaseRequests
@@ -26502,7 +26502,7 @@ extension EC2 {
         /// The Scheduled Instance ID.
         public let scheduledInstanceId: String
         
-        public init(clientToken: String? = nil, dryRun: Bool? = nil, instanceCount: Int32? = nil, launchSpecification: ScheduledInstancesLaunchSpecification, scheduledInstanceId: String) {
+        public init(clientToken: String? = RunScheduledInstancesRequest.idempotencyToken(), dryRun: Bool? = nil, instanceCount: Int32? = nil, launchSpecification: ScheduledInstancesLaunchSpecification, scheduledInstanceId: String) {
             self.clientToken = clientToken
             self.dryRun = dryRun
             self.instanceCount = instanceCount

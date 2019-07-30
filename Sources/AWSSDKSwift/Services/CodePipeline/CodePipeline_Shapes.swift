@@ -3401,7 +3401,7 @@ extension CodePipeline {
         /// The name of the pipeline to start.
         public let name: String
         
-        public init(clientRequestToken: String? = nil, name: String) {
+        public init(clientRequestToken: String? = StartPipelineExecutionInput.idempotencyToken(), name: String) {
             self.clientRequestToken = clientRequestToken
             self.name = name
         }

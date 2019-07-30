@@ -1518,7 +1518,7 @@ extension MediaLive {
         /// A collection of key-value pairs.
         public let tags: [String: String]?
         
-        public init(channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, requestId: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil) {
+        public init(channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, requestId: String? = CreateChannel.idempotencyToken(), roleArn: String? = nil, tags: [String: String]? = nil) {
             self.channelClass = channelClass
             self.destinations = destinations
             self.encoderSettings = encoderSettings
@@ -1573,7 +1573,7 @@ extension MediaLive {
         public let roleArn: String?
         public let tags: [String: String]?
         
-        public init(channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, requestId: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil) {
+        public init(channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, requestId: String? = CreateChannelRequest.idempotencyToken(), roleArn: String? = nil, tags: [String: String]? = nil) {
             self.channelClass = channelClass
             self.destinations = destinations
             self.encoderSettings = encoderSettings
@@ -1679,7 +1679,7 @@ extension MediaLive {
         public let `type`: InputType?
         public let vpc: InputVpcRequest?
         
-        public init(destinations: [InputDestinationRequest]? = nil, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, name: String? = nil, requestId: String? = nil, roleArn: String? = nil, sources: [InputSourceRequest]? = nil, tags: [String: String]? = nil, type: InputType? = nil, vpc: InputVpcRequest? = nil) {
+        public init(destinations: [InputDestinationRequest]? = nil, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, name: String? = nil, requestId: String? = CreateInput.idempotencyToken(), roleArn: String? = nil, sources: [InputSourceRequest]? = nil, tags: [String: String]? = nil, type: InputType? = nil, vpc: InputVpcRequest? = nil) {
             self.destinations = destinations
             self.inputSecurityGroups = inputSecurityGroups
             self.mediaConnectFlows = mediaConnectFlows
@@ -1730,7 +1730,7 @@ extension MediaLive {
         public let `type`: InputType?
         public let vpc: InputVpcRequest?
         
-        public init(destinations: [InputDestinationRequest]? = nil, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, name: String? = nil, requestId: String? = nil, roleArn: String? = nil, sources: [InputSourceRequest]? = nil, tags: [String: String]? = nil, type: InputType? = nil, vpc: InputVpcRequest? = nil) {
+        public init(destinations: [InputDestinationRequest]? = nil, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, name: String? = nil, requestId: String? = CreateInputRequest.idempotencyToken(), roleArn: String? = nil, sources: [InputSourceRequest]? = nil, tags: [String: String]? = nil, type: InputType? = nil, vpc: InputVpcRequest? = nil) {
             self.destinations = destinations
             self.inputSecurityGroups = inputSecurityGroups
             self.mediaConnectFlows = mediaConnectFlows
@@ -6770,7 +6770,7 @@ extension MediaLive {
         /// A collection of key-value pairs
         public let tags: [String: String]?
         
-        public init(count: Int32, name: String? = nil, requestId: String? = nil, start: String? = nil, tags: [String: String]? = nil) {
+        public init(count: Int32, name: String? = nil, requestId: String? = PurchaseOffering.idempotencyToken(), start: String? = nil, tags: [String: String]? = nil) {
             self.count = count
             self.name = name
             self.requestId = requestId
@@ -6807,7 +6807,7 @@ extension MediaLive {
         public let start: String?
         public let tags: [String: String]?
         
-        public init(count: Int32, name: String? = nil, offeringId: String, requestId: String? = nil, start: String? = nil, tags: [String: String]? = nil) {
+        public init(count: Int32, name: String? = nil, offeringId: String, requestId: String? = PurchaseOfferingRequest.idempotencyToken(), start: String? = nil, tags: [String: String]? = nil) {
             self.count = count
             self.name = name
             self.offeringId = offeringId

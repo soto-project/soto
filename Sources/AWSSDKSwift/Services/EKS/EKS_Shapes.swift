@@ -122,7 +122,7 @@ extension EKS {
         /// The desired Kubernetes version for your cluster. If you don't specify a value here, the latest version available in Amazon EKS is used.
         public let version: String?
         
-        public init(clientRequestToken: String? = nil, logging: Logging? = nil, name: String, resourcesVpcConfig: VpcConfigRequest, roleArn: String, version: String? = nil) {
+        public init(clientRequestToken: String? = CreateClusterRequest.idempotencyToken(), logging: Logging? = nil, name: String, resourcesVpcConfig: VpcConfigRequest, roleArn: String, version: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.logging = logging
             self.name = name
@@ -503,7 +503,7 @@ extension EKS {
         public let name: String
         public let resourcesVpcConfig: VpcConfigRequest?
         
-        public init(clientRequestToken: String? = nil, logging: Logging? = nil, name: String, resourcesVpcConfig: VpcConfigRequest? = nil) {
+        public init(clientRequestToken: String? = UpdateClusterConfigRequest.idempotencyToken(), logging: Logging? = nil, name: String, resourcesVpcConfig: VpcConfigRequest? = nil) {
             self.clientRequestToken = clientRequestToken
             self.logging = logging
             self.name = name
@@ -546,7 +546,7 @@ extension EKS {
         /// The desired Kubernetes version following a successful update.
         public let version: String
         
-        public init(clientRequestToken: String? = nil, name: String, version: String) {
+        public init(clientRequestToken: String? = UpdateClusterVersionRequest.idempotencyToken(), name: String, version: String) {
             self.clientRequestToken = clientRequestToken
             self.name = name
             self.version = version

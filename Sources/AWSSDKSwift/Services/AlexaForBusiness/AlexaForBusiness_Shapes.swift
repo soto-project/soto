@@ -820,7 +820,7 @@ extension AlexaForBusiness {
         /// The name of the address book.
         public let name: String
         
-        public init(clientRequestToken: String? = nil, description: String? = nil, name: String) {
+        public init(clientRequestToken: String? = CreateAddressBookRequest.idempotencyToken(), description: String? = nil, name: String) {
             self.clientRequestToken = clientRequestToken
             self.description = description
             self.name = name
@@ -890,7 +890,7 @@ extension AlexaForBusiness {
         /// The name identifier of the schedule.
         public let scheduleName: String?
         
-        public init(clientRequestToken: String? = nil, contentRange: BusinessReportContentRange, format: BusinessReportFormat, recurrence: BusinessReportRecurrence? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, scheduleName: String? = nil) {
+        public init(clientRequestToken: String? = CreateBusinessReportScheduleRequest.idempotencyToken(), contentRange: BusinessReportContentRange, format: BusinessReportFormat, recurrence: BusinessReportRecurrence? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, scheduleName: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.contentRange = contentRange
             self.format = format
@@ -967,7 +967,7 @@ extension AlexaForBusiness {
         /// The information for PSTN conferencing.
         public let pSTNDialIn: PSTNDialIn?
         
-        public init(clientRequestToken: String? = nil, conferenceProviderName: String, conferenceProviderType: ConferenceProviderType, iPDialIn: IPDialIn? = nil, meetingSetting: MeetingSetting, pSTNDialIn: PSTNDialIn? = nil) {
+        public init(clientRequestToken: String? = CreateConferenceProviderRequest.idempotencyToken(), conferenceProviderName: String, conferenceProviderType: ConferenceProviderType, iPDialIn: IPDialIn? = nil, meetingSetting: MeetingSetting, pSTNDialIn: PSTNDialIn? = nil) {
             self.clientRequestToken = clientRequestToken
             self.conferenceProviderName = conferenceProviderName
             self.conferenceProviderType = conferenceProviderType
@@ -1042,7 +1042,7 @@ extension AlexaForBusiness {
         /// The list of SIP addresses for the contact.
         public let sipAddresses: [SipAddress]?
         
-        public init(clientRequestToken: String? = nil, displayName: String? = nil, firstName: String, lastName: String? = nil, phoneNumber: String? = nil, phoneNumbers: [PhoneNumber]? = nil, sipAddresses: [SipAddress]? = nil) {
+        public init(clientRequestToken: String? = CreateContactRequest.idempotencyToken(), displayName: String? = nil, firstName: String, lastName: String? = nil, phoneNumber: String? = nil, phoneNumbers: [PhoneNumber]? = nil, sipAddresses: [SipAddress]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.displayName = displayName
             self.firstName = firstName
@@ -1118,7 +1118,7 @@ extension AlexaForBusiness {
         /// The name of the gateway group.
         public let name: String
         
-        public init(clientRequestToken: String, description: String? = nil, name: String) {
+        public init(clientRequestToken: String = CreateGatewayGroupRequest.idempotencyToken(), description: String? = nil, name: String) {
             self.clientRequestToken = clientRequestToken
             self.description = description
             self.name = name
@@ -1195,7 +1195,7 @@ extension AlexaForBusiness {
         /// The root certificates of your authentication server that is installed on your devices and used to trust your authentication server during EAP negotiation. 
         public let trustAnchors: [String]?
         
-        public init(certificateAuthorityArn: String? = nil, clientRequestToken: String, currentPassword: String? = nil, description: String? = nil, eapMethod: NetworkEapMethod? = nil, networkProfileName: String, nextPassword: String? = nil, securityType: NetworkSecurityType, ssid: String, trustAnchors: [String]? = nil) {
+        public init(certificateAuthorityArn: String? = nil, clientRequestToken: String = CreateNetworkProfileRequest.idempotencyToken(), currentPassword: String? = nil, description: String? = nil, eapMethod: NetworkEapMethod? = nil, networkProfileName: String, nextPassword: String? = nil, securityType: NetworkSecurityType, ssid: String, trustAnchors: [String]? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.clientRequestToken = clientRequestToken
             self.currentPassword = currentPassword
@@ -1300,7 +1300,7 @@ extension AlexaForBusiness {
         /// A wake word for Alexa, Echo, Amazon, or a computer.
         public let wakeWord: WakeWord
         
-        public init(address: String, clientRequestToken: String? = nil, distanceUnit: DistanceUnit, maxVolumeLimit: Int32? = nil, profileName: String, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit, timezone: String, wakeWord: WakeWord) {
+        public init(address: String, clientRequestToken: String? = CreateProfileRequest.idempotencyToken(), distanceUnit: DistanceUnit, maxVolumeLimit: Int32? = nil, profileName: String, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit, timezone: String, wakeWord: WakeWord) {
             self.address = address
             self.clientRequestToken = clientRequestToken
             self.distanceUnit = distanceUnit
@@ -1382,7 +1382,7 @@ extension AlexaForBusiness {
         /// The tags for the room.
         public let tags: [Tag]?
         
-        public init(clientRequestToken: String? = nil, description: String? = nil, profileArn: String? = nil, providerCalendarId: String? = nil, roomName: String, tags: [Tag]? = nil) {
+        public init(clientRequestToken: String? = CreateRoomRequest.idempotencyToken(), description: String? = nil, profileArn: String? = nil, providerCalendarId: String? = nil, roomName: String, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.description = description
             self.profileArn = profileArn
@@ -1449,7 +1449,7 @@ extension AlexaForBusiness {
         /// The name for the skill group.
         public let skillGroupName: String
         
-        public init(clientRequestToken: String? = nil, description: String? = nil, skillGroupName: String) {
+        public init(clientRequestToken: String? = CreateSkillGroupRequest.idempotencyToken(), description: String? = nil, skillGroupName: String) {
             self.clientRequestToken = clientRequestToken
             self.description = description
             self.skillGroupName = skillGroupName
@@ -1516,7 +1516,7 @@ extension AlexaForBusiness {
         /// The ARN for the user.
         public let userId: String
         
-        public init(clientRequestToken: String? = nil, email: String? = nil, firstName: String? = nil, lastName: String? = nil, tags: [Tag]? = nil, userId: String) {
+        public init(clientRequestToken: String? = CreateUserRequest.idempotencyToken(), email: String? = nil, firstName: String? = nil, lastName: String? = nil, tags: [Tag]? = nil, userId: String) {
             self.clientRequestToken = clientRequestToken
             self.email = email
             self.firstName = firstName
@@ -5354,7 +5354,7 @@ extension AlexaForBusiness {
         /// The time to live for an announcement. Default is 300. If delivery doesn't occur within this time, the announcement is not delivered.
         public let timeToLiveInSeconds: Int32?
         
-        public init(clientRequestToken: String, content: Content, roomFilters: [Filter], timeToLiveInSeconds: Int32? = nil) {
+        public init(clientRequestToken: String = SendAnnouncementRequest.idempotencyToken(), content: Content, roomFilters: [Filter], timeToLiveInSeconds: Int32? = nil) {
             self.clientRequestToken = clientRequestToken
             self.content = content
             self.roomFilters = roomFilters

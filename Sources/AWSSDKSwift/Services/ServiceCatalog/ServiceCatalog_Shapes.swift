@@ -540,7 +540,7 @@ extension ServiceCatalog {
         /// A name for the target product. The default is the name of the source product.
         public let targetProductName: String?
         
-        public init(acceptLanguage: String? = nil, copyOptions: [CopyOption]? = nil, idempotencyToken: String, sourceProductArn: String, sourceProvisioningArtifactIdentifiers: [[ProvisioningArtifactPropertyName: String]]? = nil, targetProductId: String? = nil, targetProductName: String? = nil) {
+        public init(acceptLanguage: String? = nil, copyOptions: [CopyOption]? = nil, idempotencyToken: String = CopyProductInput.idempotencyToken(), sourceProductArn: String, sourceProvisioningArtifactIdentifiers: [[ProvisioningArtifactPropertyName: String]]? = nil, targetProductId: String? = nil, targetProductName: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.copyOptions = copyOptions
             self.idempotencyToken = idempotencyToken
@@ -629,7 +629,7 @@ extension ServiceCatalog {
         /// The type of constraint.    LAUNCH     NOTIFICATION     RESOURCE_UPDATE     STACKSET     TEMPLATE   
         public let `type`: String
         
-        public init(acceptLanguage: String? = nil, description: String? = nil, idempotencyToken: String, parameters: String, portfolioId: String, productId: String, type: String) {
+        public init(acceptLanguage: String? = nil, description: String? = nil, idempotencyToken: String = CreateConstraintInput.idempotencyToken(), parameters: String, portfolioId: String, productId: String, type: String) {
             self.acceptLanguage = acceptLanguage
             self.description = description
             self.idempotencyToken = idempotencyToken
@@ -718,7 +718,7 @@ extension ServiceCatalog {
         /// One or more tags.
         public let tags: [Tag]?
         
-        public init(acceptLanguage: String? = nil, description: String? = nil, displayName: String, idempotencyToken: String, providerName: String, tags: [Tag]? = nil) {
+        public init(acceptLanguage: String? = nil, description: String? = nil, displayName: String, idempotencyToken: String = CreatePortfolioInput.idempotencyToken(), providerName: String, tags: [Tag]? = nil) {
             self.acceptLanguage = acceptLanguage
             self.description = description
             self.displayName = displayName
@@ -878,7 +878,7 @@ extension ServiceCatalog {
         /// One or more tags.
         public let tags: [Tag]?
         
-        public init(acceptLanguage: String? = nil, description: String? = nil, distributor: String? = nil, idempotencyToken: String, name: String, owner: String, productType: ProductType, provisioningArtifactParameters: ProvisioningArtifactProperties, supportDescription: String? = nil, supportEmail: String? = nil, supportUrl: String? = nil, tags: [Tag]? = nil) {
+        public init(acceptLanguage: String? = nil, description: String? = nil, distributor: String? = nil, idempotencyToken: String = CreateProductInput.idempotencyToken(), name: String, owner: String, productType: ProductType, provisioningArtifactParameters: ProvisioningArtifactProperties, supportDescription: String? = nil, supportEmail: String? = nil, supportUrl: String? = nil, tags: [Tag]? = nil) {
             self.acceptLanguage = acceptLanguage
             self.description = description
             self.distributor = distributor
@@ -993,7 +993,7 @@ extension ServiceCatalog {
         /// One or more tags. If the plan is for an existing provisioned product, the product must have a RESOURCE_UPDATE constraint with TagUpdatesOnProvisionedProduct set to ALLOWED to allow tag updates.
         public let tags: [Tag]?
         
-        public init(acceptLanguage: String? = nil, idempotencyToken: String, notificationArns: [String]? = nil, pathId: String? = nil, planName: String, planType: ProvisionedProductPlanType, productId: String, provisionedProductName: String, provisioningArtifactId: String, provisioningParameters: [UpdateProvisioningParameter]? = nil, tags: [Tag]? = nil) {
+        public init(acceptLanguage: String? = nil, idempotencyToken: String = CreateProvisionedProductPlanInput.idempotencyToken(), notificationArns: [String]? = nil, pathId: String? = nil, planName: String, planType: ProvisionedProductPlanType, productId: String, provisionedProductName: String, provisioningArtifactId: String, provisioningParameters: [UpdateProvisioningParameter]? = nil, tags: [Tag]? = nil) {
             self.acceptLanguage = acceptLanguage
             self.idempotencyToken = idempotencyToken
             self.notificationArns = notificationArns
@@ -1110,7 +1110,7 @@ extension ServiceCatalog {
         /// The product identifier.
         public let productId: String
         
-        public init(acceptLanguage: String? = nil, idempotencyToken: String, parameters: ProvisioningArtifactProperties, productId: String) {
+        public init(acceptLanguage: String? = nil, idempotencyToken: String = CreateProvisioningArtifactInput.idempotencyToken(), parameters: ProvisioningArtifactProperties, productId: String) {
             self.acceptLanguage = acceptLanguage
             self.idempotencyToken = idempotencyToken
             self.parameters = parameters
@@ -1187,7 +1187,7 @@ extension ServiceCatalog {
         /// The self-service action name.
         public let name: String
         
-        public init(acceptLanguage: String? = nil, definition: [ServiceActionDefinitionKey: String], definitionType: ServiceActionDefinitionType, description: String? = nil, idempotencyToken: String, name: String) {
+        public init(acceptLanguage: String? = nil, definition: [ServiceActionDefinitionKey: String], definitionType: ServiceActionDefinitionType, description: String? = nil, idempotencyToken: String = CreateServiceActionInput.idempotencyToken(), name: String) {
             self.acceptLanguage = acceptLanguage
             self.definition = definition
             self.definitionType = definitionType
@@ -2739,7 +2739,7 @@ extension ServiceCatalog {
         /// The plan identifier.
         public let planId: String
         
-        public init(acceptLanguage: String? = nil, idempotencyToken: String, planId: String) {
+        public init(acceptLanguage: String? = nil, idempotencyToken: String = ExecuteProvisionedProductPlanInput.idempotencyToken(), planId: String) {
             self.acceptLanguage = acceptLanguage
             self.idempotencyToken = idempotencyToken
             self.planId = planId
@@ -2798,7 +2798,7 @@ extension ServiceCatalog {
         /// The self-service action identifier. For example, act-fs7abcd89wxyz.
         public let serviceActionId: String
         
-        public init(acceptLanguage: String? = nil, executeToken: String, provisionedProductId: String, serviceActionId: String) {
+        public init(acceptLanguage: String? = nil, executeToken: String = ExecuteProvisionedProductServiceActionInput.idempotencyToken(), provisionedProductId: String, serviceActionId: String) {
             self.acceptLanguage = acceptLanguage
             self.executeToken = executeToken
             self.provisionedProductId = provisionedProductId
@@ -4553,7 +4553,7 @@ extension ServiceCatalog {
         /// One or more tags.
         public let tags: [Tag]?
         
-        public init(acceptLanguage: String? = nil, notificationArns: [String]? = nil, pathId: String? = nil, productId: String, provisionedProductName: String, provisioningArtifactId: String, provisioningParameters: [ProvisioningParameter]? = nil, provisioningPreferences: ProvisioningPreferences? = nil, provisionToken: String, tags: [Tag]? = nil) {
+        public init(acceptLanguage: String? = nil, notificationArns: [String]? = nil, pathId: String? = nil, productId: String, provisionedProductName: String, provisioningArtifactId: String, provisioningParameters: [ProvisioningParameter]? = nil, provisioningPreferences: ProvisioningPreferences? = nil, provisionToken: String = ProvisionProductInput.idempotencyToken(), tags: [Tag]? = nil) {
             self.acceptLanguage = acceptLanguage
             self.notificationArns = notificationArns
             self.pathId = pathId
@@ -6435,7 +6435,7 @@ extension ServiceCatalog {
         /// An idempotency token that uniquely identifies the termination request. This token is only valid during the termination process. After the provisioned product is terminated, subsequent requests to terminate the same provisioned product always return ResourceNotFound.
         public let terminateToken: String
         
-        public init(acceptLanguage: String? = nil, ignoreErrors: Bool? = nil, provisionedProductId: String? = nil, provisionedProductName: String? = nil, terminateToken: String) {
+        public init(acceptLanguage: String? = nil, ignoreErrors: Bool? = nil, provisionedProductId: String? = nil, provisionedProductName: String? = nil, terminateToken: String = TerminateProvisionedProductInput.idempotencyToken()) {
             self.acceptLanguage = acceptLanguage
             self.ignoreErrors = ignoreErrors
             self.provisionedProductId = provisionedProductId
@@ -6780,7 +6780,7 @@ extension ServiceCatalog {
         /// The idempotency token that uniquely identifies the provisioning update request.
         public let updateToken: String
         
-        public init(acceptLanguage: String? = nil, pathId: String? = nil, productId: String? = nil, provisionedProductId: String? = nil, provisionedProductName: String? = nil, provisioningArtifactId: String? = nil, provisioningParameters: [UpdateProvisioningParameter]? = nil, provisioningPreferences: UpdateProvisioningPreferences? = nil, tags: [Tag]? = nil, updateToken: String) {
+        public init(acceptLanguage: String? = nil, pathId: String? = nil, productId: String? = nil, provisionedProductId: String? = nil, provisionedProductName: String? = nil, provisioningArtifactId: String? = nil, provisioningParameters: [UpdateProvisioningParameter]? = nil, provisioningPreferences: UpdateProvisioningPreferences? = nil, tags: [Tag]? = nil, updateToken: String = UpdateProvisionedProductInput.idempotencyToken()) {
             self.acceptLanguage = acceptLanguage
             self.pathId = pathId
             self.productId = productId
@@ -6867,7 +6867,7 @@ extension ServiceCatalog {
         /// A map that contains the provisioned product properties to be updated. The OWNER key only accepts user ARNs. The owner is the user that is allowed to see, update, terminate, and execute service actions in the provisioned product. The administrator can change the owner of a provisioned product to another IAM user within the same account. Both end user owners and administrators can see ownership history of the provisioned product using the ListRecordHistory API. The new owner can describe all past records for the provisioned product using the DescribeRecord API. The previous owner can no longer use DescribeRecord, but can still see the product's history from when he was an owner using ListRecordHistory. If a provisioned product ownership is assigned to an end user, they can see and perform any action through the API or Service Catalog console such as update, terminate, and execute service actions. If an end user provisions a product and the owner is updated to someone else, they will no longer be able to see or perform any actions through API or the Service Catalog console on that provisioned product.
         public let provisionedProductProperties: [PropertyKey: String]
         
-        public init(acceptLanguage: String? = nil, idempotencyToken: String, provisionedProductId: String, provisionedProductProperties: [PropertyKey: String]) {
+        public init(acceptLanguage: String? = nil, idempotencyToken: String = UpdateProvisionedProductPropertiesInput.idempotencyToken(), provisionedProductId: String, provisionedProductProperties: [PropertyKey: String]) {
             self.acceptLanguage = acceptLanguage
             self.idempotencyToken = idempotencyToken
             self.provisionedProductId = provisionedProductId

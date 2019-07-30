@@ -4227,7 +4227,7 @@ extension DynamoDB {
         /// An ordered array of up to 25 TransactWriteItem objects, each of which contains a ConditionCheck, Put, Update, or Delete object. These can operate on items in different tables, but the tables must reside in the same AWS account and Region, and no two of them can operate on the same item. 
         public let transactItems: [TransactWriteItem]
         
-        public init(clientRequestToken: String? = nil, returnConsumedCapacity: ReturnConsumedCapacity? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, transactItems: [TransactWriteItem]) {
+        public init(clientRequestToken: String? = TransactWriteItemsInput.idempotencyToken(), returnConsumedCapacity: ReturnConsumedCapacity? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, transactItems: [TransactWriteItem]) {
             self.clientRequestToken = clientRequestToken
             self.returnConsumedCapacity = returnConsumedCapacity
             self.returnItemCollectionMetrics = returnItemCollectionMetrics

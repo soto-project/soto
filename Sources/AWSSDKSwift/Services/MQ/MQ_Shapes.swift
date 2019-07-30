@@ -401,7 +401,7 @@ extension MQ {
         /// Required. The list of ActiveMQ users (persons or applications) who can access queues and topics. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
         public let users: [User]?
         
-        public init(autoMinorVersionUpgrade: Bool? = nil, brokerName: String? = nil, configuration: ConfigurationId? = nil, creatorRequestId: String? = nil, deploymentMode: DeploymentMode? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [User]? = nil) {
+        public init(autoMinorVersionUpgrade: Bool? = nil, brokerName: String? = nil, configuration: ConfigurationId? = nil, creatorRequestId: String? = CreateBrokerInput.idempotencyToken(), deploymentMode: DeploymentMode? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [User]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerName = brokerName
             self.configuration = configuration
@@ -493,7 +493,7 @@ extension MQ {
         public let tags: [String: String]?
         public let users: [User]?
         
-        public init(autoMinorVersionUpgrade: Bool? = nil, brokerName: String? = nil, configuration: ConfigurationId? = nil, creatorRequestId: String? = nil, deploymentMode: DeploymentMode? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [User]? = nil) {
+        public init(autoMinorVersionUpgrade: Bool? = nil, brokerName: String? = nil, configuration: ConfigurationId? = nil, creatorRequestId: String? = CreateBrokerRequest.idempotencyToken(), deploymentMode: DeploymentMode? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [User]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerName = brokerName
             self.configuration = configuration

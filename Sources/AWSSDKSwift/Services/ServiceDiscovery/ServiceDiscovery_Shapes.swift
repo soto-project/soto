@@ -18,7 +18,7 @@ extension ServiceDiscovery {
         /// The name that you want to assign to this namespace.
         public let name: String
         
-        public init(creatorRequestId: String? = nil, description: String? = nil, name: String) {
+        public init(creatorRequestId: String? = CreateHttpNamespaceRequest.idempotencyToken(), description: String? = nil, name: String) {
             self.creatorRequestId = creatorRequestId
             self.description = description
             self.name = name
@@ -73,7 +73,7 @@ extension ServiceDiscovery {
         /// The ID of the Amazon VPC that you want to associate the namespace with.
         public let vpc: String
         
-        public init(creatorRequestId: String? = nil, description: String? = nil, name: String, vpc: String) {
+        public init(creatorRequestId: String? = CreatePrivateDnsNamespaceRequest.idempotencyToken(), description: String? = nil, name: String, vpc: String) {
             self.creatorRequestId = creatorRequestId
             self.description = description
             self.name = name
@@ -128,7 +128,7 @@ extension ServiceDiscovery {
         /// The name that you want to assign to this namespace.
         public let name: String
         
-        public init(creatorRequestId: String? = nil, description: String? = nil, name: String) {
+        public init(creatorRequestId: String? = CreatePublicDnsNamespaceRequest.idempotencyToken(), description: String? = nil, name: String) {
             self.creatorRequestId = creatorRequestId
             self.description = description
             self.name = name
@@ -192,7 +192,7 @@ extension ServiceDiscovery {
         /// The ID of the namespace that you want to use to create the service.
         public let namespaceId: String?
         
-        public init(creatorRequestId: String? = nil, description: String? = nil, dnsConfig: DnsConfig? = nil, healthCheckConfig: HealthCheckConfig? = nil, healthCheckCustomConfig: HealthCheckCustomConfig? = nil, name: String, namespaceId: String? = nil) {
+        public init(creatorRequestId: String? = CreateServiceRequest.idempotencyToken(), description: String? = nil, dnsConfig: DnsConfig? = nil, healthCheckConfig: HealthCheckConfig? = nil, healthCheckCustomConfig: HealthCheckCustomConfig? = nil, name: String, namespaceId: String? = nil) {
             self.creatorRequestId = creatorRequestId
             self.description = description
             self.dnsConfig = dnsConfig
@@ -1512,7 +1512,7 @@ extension ServiceDiscovery {
         /// The ID of the service that you want to use for settings for the instance.
         public let serviceId: String
         
-        public init(attributes: [String: String], creatorRequestId: String? = nil, instanceId: String, serviceId: String) {
+        public init(attributes: [String: String], creatorRequestId: String? = RegisterInstanceRequest.idempotencyToken(), instanceId: String, serviceId: String) {
             self.attributes = attributes
             self.creatorRequestId = creatorRequestId
             self.instanceId = instanceId

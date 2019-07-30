@@ -179,7 +179,7 @@ extension Athena {
         /// The name of the workgroup in which the named query is being created.
         public let workGroup: String?
         
-        public init(clientRequestToken: String? = nil, database: String, description: String? = nil, name: String, queryString: String, workGroup: String? = nil) {
+        public init(clientRequestToken: String? = CreateNamedQueryInput.idempotencyToken(), database: String, description: String? = nil, name: String, queryString: String, workGroup: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.database = database
             self.description = description
@@ -297,7 +297,7 @@ extension Athena {
         /// The unique ID of the query to delete.
         public let namedQueryId: String
         
-        public init(namedQueryId: String) {
+        public init(namedQueryId: String = DeleteNamedQueryInput.idempotencyToken()) {
             self.namedQueryId = namedQueryId
         }
 
@@ -1108,7 +1108,7 @@ extension Athena {
         /// The name of the workgroup in which the query is being started.
         public let workGroup: String?
         
-        public init(clientRequestToken: String? = nil, queryExecutionContext: QueryExecutionContext? = nil, queryString: String, resultConfiguration: ResultConfiguration? = nil, workGroup: String? = nil) {
+        public init(clientRequestToken: String? = StartQueryExecutionInput.idempotencyToken(), queryExecutionContext: QueryExecutionContext? = nil, queryString: String, resultConfiguration: ResultConfiguration? = nil, workGroup: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.queryExecutionContext = queryExecutionContext
             self.queryString = queryString
@@ -1164,7 +1164,7 @@ extension Athena {
         /// The unique ID of the query execution to stop.
         public let queryExecutionId: String
         
-        public init(queryExecutionId: String) {
+        public init(queryExecutionId: String = StopQueryExecutionInput.idempotencyToken()) {
             self.queryExecutionId = queryExecutionId
         }
 

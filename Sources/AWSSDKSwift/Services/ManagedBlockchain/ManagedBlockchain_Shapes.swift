@@ -54,7 +54,7 @@ extension ManagedBlockchain {
         /// The unique identifier of the network in which the member is created.
         public let networkId: String
         
-        public init(clientRequestToken: String, invitationId: String, memberConfiguration: MemberConfiguration, networkId: String) {
+        public init(clientRequestToken: String = CreateMemberInput.idempotencyToken(), invitationId: String, memberConfiguration: MemberConfiguration, networkId: String) {
             self.clientRequestToken = clientRequestToken
             self.invitationId = invitationId
             self.memberConfiguration = memberConfiguration
@@ -128,7 +128,7 @@ extension ManagedBlockchain {
         ///  The voting rules used by the network to determine if a proposal is approved. 
         public let votingPolicy: VotingPolicy
         
-        public init(clientRequestToken: String, description: String? = nil, framework: Framework, frameworkConfiguration: NetworkFrameworkConfiguration? = nil, frameworkVersion: String, memberConfiguration: MemberConfiguration, name: String, votingPolicy: VotingPolicy) {
+        public init(clientRequestToken: String = CreateNetworkInput.idempotencyToken(), description: String? = nil, framework: Framework, frameworkConfiguration: NetworkFrameworkConfiguration? = nil, frameworkVersion: String, memberConfiguration: MemberConfiguration, name: String, votingPolicy: VotingPolicy) {
             self.clientRequestToken = clientRequestToken
             self.description = description
             self.framework = framework
@@ -208,7 +208,7 @@ extension ManagedBlockchain {
         /// The properties of a node configuration.
         public let nodeConfiguration: NodeConfiguration
         
-        public init(clientRequestToken: String, memberId: String, networkId: String, nodeConfiguration: NodeConfiguration) {
+        public init(clientRequestToken: String = CreateNodeInput.idempotencyToken(), memberId: String, networkId: String, nodeConfiguration: NodeConfiguration) {
             self.clientRequestToken = clientRequestToken
             self.memberId = memberId
             self.networkId = networkId
@@ -272,7 +272,7 @@ extension ManagedBlockchain {
         ///  The unique identifier of the network for which the proposal is made.
         public let networkId: String
         
-        public init(actions: ProposalActions, clientRequestToken: String, description: String? = nil, memberId: String, networkId: String) {
+        public init(actions: ProposalActions, clientRequestToken: String = CreateProposalInput.idempotencyToken(), description: String? = nil, memberId: String, networkId: String) {
             self.actions = actions
             self.clientRequestToken = clientRequestToken
             self.description = description

@@ -2407,7 +2407,7 @@ extension SSM {
         /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a maintenance window to identify the type of tasks it will run, the types of targets, and the environment it will run in. In this case, you could specify the following key name/value pairs:    Key=TaskType,Value=AgentUpdate     Key=OS,Value=Windows     Key=Environment,Value=Production     To add tags to an existing maintenance window, use the AddTagsToResource action. 
         public let tags: [Tag]?
         
-        public init(allowUnassociatedTargets: Bool, clientToken: String? = nil, cutoff: Int32, description: String? = nil, duration: Int32, endDate: String? = nil, name: String, schedule: String, scheduleTimezone: String? = nil, startDate: String? = nil, tags: [Tag]? = nil) {
+        public init(allowUnassociatedTargets: Bool, clientToken: String? = CreateMaintenanceWindowRequest.idempotencyToken(), cutoff: Int32, description: String? = nil, duration: Int32, endDate: String? = nil, name: String, schedule: String, scheduleTimezone: String? = nil, startDate: String? = nil, tags: [Tag]? = nil) {
             self.allowUnassociatedTargets = allowUnassociatedTargets
             self.clientToken = clientToken
             self.cutoff = cutoff
@@ -2597,7 +2597,7 @@ extension SSM {
         /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a patch baseline to identify the severity level of patches it specifies and the operating system family it applies to. In this case, you could specify the following key name/value pairs:    Key=PatchSeverity,Value=Critical     Key=OS,Value=Windows     To add tags to an existing patch baseline, use the AddTagsToResource action. 
         public let tags: [Tag]?
         
-        public init(approvalRules: PatchRuleGroup? = nil, approvedPatches: [String]? = nil, approvedPatchesComplianceLevel: PatchComplianceLevel? = nil, approvedPatchesEnableNonSecurity: Bool? = nil, clientToken: String? = nil, description: String? = nil, globalFilters: PatchFilterGroup? = nil, name: String, operatingSystem: OperatingSystem? = nil, rejectedPatches: [String]? = nil, rejectedPatchesAction: PatchAction? = nil, sources: [PatchSource]? = nil, tags: [Tag]? = nil) {
+        public init(approvalRules: PatchRuleGroup? = nil, approvedPatches: [String]? = nil, approvedPatchesComplianceLevel: PatchComplianceLevel? = nil, approvedPatchesEnableNonSecurity: Bool? = nil, clientToken: String? = CreatePatchBaselineRequest.idempotencyToken(), description: String? = nil, globalFilters: PatchFilterGroup? = nil, name: String, operatingSystem: OperatingSystem? = nil, rejectedPatches: [String]? = nil, rejectedPatchesAction: PatchAction? = nil, sources: [PatchSource]? = nil, tags: [Tag]? = nil) {
             self.approvalRules = approvalRules
             self.approvedPatches = approvedPatches
             self.approvedPatchesComplianceLevel = approvedPatchesComplianceLevel
@@ -2830,7 +2830,7 @@ extension SSM {
         /// The name of the custom inventory type for which you want to delete either all previously collected data, or the inventory type itself. 
         public let typeName: String
         
-        public init(clientToken: String? = nil, dryRun: Bool? = nil, schemaDeleteOption: InventorySchemaDeleteOption? = nil, typeName: String) {
+        public init(clientToken: String? = DeleteInventoryRequest.idempotencyToken(), dryRun: Bool? = nil, schemaDeleteOption: InventorySchemaDeleteOption? = nil, typeName: String) {
             self.clientToken = clientToken
             self.dryRun = dryRun
             self.schemaDeleteOption = schemaDeleteOption
@@ -11606,7 +11606,7 @@ extension SSM {
         /// The ID of the maintenance window the target should be registered with.
         public let windowId: String
         
-        public init(clientToken: String? = nil, description: String? = nil, name: String? = nil, ownerInformation: String? = nil, resourceType: MaintenanceWindowResourceType, targets: [Target], windowId: String) {
+        public init(clientToken: String? = RegisterTargetWithMaintenanceWindowRequest.idempotencyToken(), description: String? = nil, name: String? = nil, ownerInformation: String? = nil, resourceType: MaintenanceWindowResourceType, targets: [Target], windowId: String) {
             self.clientToken = clientToken
             self.description = description
             self.name = name
@@ -11712,7 +11712,7 @@ extension SSM {
         /// The ID of the maintenance window the task should be added to.
         public let windowId: String
         
-        public init(clientToken: String? = nil, description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String, maxErrors: String, name: String? = nil, priority: Int32? = nil, serviceRoleArn: String? = nil, targets: [Target], taskArn: String, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, taskType: MaintenanceWindowTaskType, windowId: String) {
+        public init(clientToken: String? = RegisterTaskWithMaintenanceWindowRequest.idempotencyToken(), description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String, maxErrors: String, name: String? = nil, priority: Int32? = nil, serviceRoleArn: String? = nil, targets: [Target], taskArn: String, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, taskType: MaintenanceWindowTaskType, windowId: String) {
             self.clientToken = clientToken
             self.description = description
             self.loggingInfo = loggingInfo

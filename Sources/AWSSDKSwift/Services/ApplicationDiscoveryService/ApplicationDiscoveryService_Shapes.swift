@@ -1537,7 +1537,7 @@ extension ApplicationDiscoveryService {
         /// A descriptive name for this request. You can use this name to filter future requests related to this import task, such as identifying applications and servers that were included in this import task. We recommend that you use a meaningful name for each import task.
         public let name: String
         
-        public init(clientRequestToken: String? = nil, importUrl: String, name: String) {
+        public init(clientRequestToken: String? = StartImportTaskRequest.idempotencyToken(), importUrl: String, name: String) {
             self.clientRequestToken = clientRequestToken
             self.importUrl = importUrl
             self.name = name

@@ -176,6 +176,14 @@ struct AWSService {
                     location = Location(json: shapeJSON["member"])
                     locationName = memberLocationName
                 }
+                var options : Member.Options = []
+                if memberJSON["streaming"].bool == true {
+                    options.insert(.streaming)
+                }
+                if memberJSON["idempotencyToken"].bool == true {
+                    options.insert(.idempotencyToken)
+                }
+                
                 return Member(
                     name: name,
                     required: requireds.contains(name),
@@ -184,7 +192,7 @@ struct AWSService {
                     locationName: locationName,
                     shapeEncoding: encoding,
                     xmlNamespace: XMLNamespace(dictionary: memberDict),
-                    isStreaming: memberJSON["streaming"].bool ?? false
+                    options: options
                 )
             }.sorted{ $0.name.lowercased() < $1.name.lowercased() }
 

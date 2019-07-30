@@ -444,7 +444,7 @@ extension Comprehend {
         /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your custom classifier. For more information, see Amazon VPC. 
         public let vpcConfig: VpcConfig?
         
-        public init(clientRequestToken: String? = nil, dataAccessRoleArn: String, documentClassifierName: String, inputDataConfig: DocumentClassifierInputDataConfig, languageCode: LanguageCode, outputDataConfig: DocumentClassifierOutputDataConfig? = nil, tags: [Tag]? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(clientRequestToken: String? = CreateDocumentClassifierRequest.idempotencyToken(), dataAccessRoleArn: String, documentClassifierName: String, inputDataConfig: DocumentClassifierInputDataConfig, languageCode: LanguageCode, outputDataConfig: DocumentClassifierOutputDataConfig? = nil, tags: [Tag]? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.documentClassifierName = documentClassifierName
@@ -533,7 +533,7 @@ extension Comprehend {
         /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your custom entity recognizer. For more information, see Amazon VPC. 
         public let vpcConfig: VpcConfig?
         
-        public init(clientRequestToken: String? = nil, dataAccessRoleArn: String, inputDataConfig: EntityRecognizerInputDataConfig, languageCode: LanguageCode, recognizerName: String, tags: [Tag]? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(clientRequestToken: String? = CreateEntityRecognizerRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: EntityRecognizerInputDataConfig, languageCode: LanguageCode, recognizerName: String, tags: [Tag]? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.inputDataConfig = inputDataConfig
@@ -3108,7 +3108,7 @@ extension Comprehend {
         /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your document classification job. For more information, see Amazon VPC. 
         public let vpcConfig: VpcConfig?
         
-        public init(clientRequestToken: String? = nil, dataAccessRoleArn: String, documentClassifierArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, outputDataConfig: OutputDataConfig, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(clientRequestToken: String? = StartDocumentClassificationJobRequest.idempotencyToken(), dataAccessRoleArn: String, documentClassifierArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, outputDataConfig: OutputDataConfig, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.documentClassifierArn = documentClassifierArn
@@ -3201,7 +3201,7 @@ extension Comprehend {
         /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your dominant language detection job. For more information, see Amazon VPC. 
         public let vpcConfig: VpcConfig?
         
-        public init(clientRequestToken: String? = nil, dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, outputDataConfig: OutputDataConfig, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(clientRequestToken: String? = StartDominantLanguageDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, outputDataConfig: OutputDataConfig, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.inputDataConfig = inputDataConfig
@@ -3296,7 +3296,7 @@ extension Comprehend {
         /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your entity detection job. For more information, see Amazon VPC. 
         public let vpcConfig: VpcConfig?
         
-        public init(clientRequestToken: String? = nil, dataAccessRoleArn: String, entityRecognizerArn: String? = nil, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(clientRequestToken: String? = StartEntitiesDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, entityRecognizerArn: String? = nil, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.entityRecognizerArn = entityRecognizerArn
@@ -3394,7 +3394,7 @@ extension Comprehend {
         ///  Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your key phrases detection job. For more information, see Amazon VPC. 
         public let vpcConfig: VpcConfig?
         
-        public init(clientRequestToken: String? = nil, dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(clientRequestToken: String? = StartKeyPhrasesDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.inputDataConfig = inputDataConfig
@@ -3488,7 +3488,7 @@ extension Comprehend {
         /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your sentiment detection job. For more information, see Amazon VPC. 
         public let vpcConfig: VpcConfig?
         
-        public init(clientRequestToken: String? = nil, dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(clientRequestToken: String? = StartSentimentDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.inputDataConfig = inputDataConfig
@@ -3582,7 +3582,7 @@ extension Comprehend {
         /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your topic detection job. For more information, see Amazon VPC. 
         public let vpcConfig: VpcConfig?
         
-        public init(clientRequestToken: String? = nil, dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, numberOfTopics: Int32? = nil, outputDataConfig: OutputDataConfig, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(clientRequestToken: String? = StartTopicsDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, numberOfTopics: Int32? = nil, outputDataConfig: OutputDataConfig, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.inputDataConfig = inputDataConfig

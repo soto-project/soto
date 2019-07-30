@@ -35,7 +35,7 @@ extension S3Control {
         /// The Amazon Resource Name (ARN) for the Identity and Access Management (IAM) Role that batch operations will use to execute this job's operation on each object in the manifest.
         public let roleArn: String
         
-        public init(accountId: String, clientRequestToken: String, confirmationRequired: Bool? = nil, description: String? = nil, manifest: JobManifest, operation: JobOperation, priority: Int32, report: JobReport, roleArn: String) {
+        public init(accountId: String, clientRequestToken: String = CreateJobRequest.idempotencyToken(), confirmationRequired: Bool? = nil, description: String? = nil, manifest: JobManifest, operation: JobOperation, priority: Int32, report: JobReport, roleArn: String) {
             self.accountId = accountId
             self.clientRequestToken = clientRequestToken
             self.confirmationRequired = confirmationRequired

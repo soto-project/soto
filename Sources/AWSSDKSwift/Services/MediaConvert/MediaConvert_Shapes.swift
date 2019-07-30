@@ -1532,7 +1532,7 @@ extension MediaConvert {
         /// User-defined metadata that you want to associate with an MediaConvert job. You specify metadata in key/value pairs.
         public let userMetadata: [String: String]?
         
-        public init(accelerationSettings: AccelerationSettings? = nil, billingTagsSource: BillingTagsSource? = nil, clientRequestToken: String? = nil, jobTemplate: String? = nil, queue: String? = nil, role: String, settings: JobSettings, statusUpdateInterval: StatusUpdateInterval? = nil, userMetadata: [String: String]? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, billingTagsSource: BillingTagsSource? = nil, clientRequestToken: String? = CreateJobRequest.idempotencyToken(), jobTemplate: String? = nil, queue: String? = nil, role: String, settings: JobSettings, statusUpdateInterval: StatusUpdateInterval? = nil, userMetadata: [String: String]? = nil) {
             self.accelerationSettings = accelerationSettings
             self.billingTagsSource = billingTagsSource
             self.clientRequestToken = clientRequestToken

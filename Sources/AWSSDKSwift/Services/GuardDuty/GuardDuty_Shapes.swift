@@ -303,7 +303,7 @@ extension GuardDuty {
         /// The tags to be added to a new detector resource.
         public let tags: [String: String]?
         
-        public init(clientToken: String? = nil, enable: Bool, findingPublishingFrequency: FindingPublishingFrequency? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateDetectorRequest.idempotencyToken(), enable: Bool, findingPublishingFrequency: FindingPublishingFrequency? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.enable = enable
             self.findingPublishingFrequency = findingPublishingFrequency
@@ -372,7 +372,7 @@ extension GuardDuty {
         /// The tags to be added to a new filter resource.
         public let tags: [String: String]?
         
-        public init(action: FilterAction? = nil, clientToken: String? = nil, description: String? = nil, detectorId: String, findingCriteria: FindingCriteria, name: String, rank: Int32? = nil, tags: [String: String]? = nil) {
+        public init(action: FilterAction? = nil, clientToken: String? = CreateFilterRequest.idempotencyToken(), description: String? = nil, detectorId: String, findingCriteria: FindingCriteria, name: String, rank: Int32? = nil, tags: [String: String]? = nil) {
             self.action = action
             self.clientToken = clientToken
             self.description = description
@@ -454,7 +454,7 @@ extension GuardDuty {
         /// The tags to be added to a new IP set resource.
         public let tags: [String: String]?
         
-        public init(activate: Bool, clientToken: String? = nil, detectorId: String, format: IpSetFormat, location: String, name: String, tags: [String: String]? = nil) {
+        public init(activate: Bool, clientToken: String? = CreateIPSetRequest.idempotencyToken(), detectorId: String, format: IpSetFormat, location: String, name: String, tags: [String: String]? = nil) {
             self.activate = activate
             self.clientToken = clientToken
             self.detectorId = detectorId
@@ -612,7 +612,7 @@ extension GuardDuty {
         /// The tags to be added to a new Threat List resource.
         public let tags: [String: String]?
         
-        public init(activate: Bool, clientToken: String? = nil, detectorId: String, format: ThreatIntelSetFormat, location: String, name: String, tags: [String: String]? = nil) {
+        public init(activate: Bool, clientToken: String? = CreateThreatIntelSetRequest.idempotencyToken(), detectorId: String, format: ThreatIntelSetFormat, location: String, name: String, tags: [String: String]? = nil) {
             self.activate = activate
             self.clientToken = clientToken
             self.detectorId = detectorId

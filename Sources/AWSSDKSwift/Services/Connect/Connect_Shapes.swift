@@ -1243,7 +1243,7 @@ extension Connect {
         /// The phone number, in E.164 format, associated with your Amazon Connect instance to use for the outbound call.
         public let sourcePhoneNumber: String?
         
-        public init(attributes: [String: String]? = nil, clientToken: String? = nil, contactFlowId: String, destinationPhoneNumber: String, instanceId: String, queueId: String? = nil, sourcePhoneNumber: String? = nil) {
+        public init(attributes: [String: String]? = nil, clientToken: String? = StartOutboundVoiceContactRequest.idempotencyToken(), contactFlowId: String, destinationPhoneNumber: String, instanceId: String, queueId: String? = nil, sourcePhoneNumber: String? = nil) {
             self.attributes = attributes
             self.clientToken = clientToken
             self.contactFlowId = contactFlowId

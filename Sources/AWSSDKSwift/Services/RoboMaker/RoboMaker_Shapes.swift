@@ -138,7 +138,7 @@ extension RoboMaker {
         /// A map that contains tag keys and tag values that are attached to the deployment job.
         public let tags: [String: String]?
         
-        public init(clientRequestToken: String, deploymentApplicationConfigs: [DeploymentApplicationConfig], deploymentConfig: DeploymentConfig? = nil, fleet: String, tags: [String: String]? = nil) {
+        public init(clientRequestToken: String = CreateDeploymentJobRequest.idempotencyToken(), deploymentApplicationConfigs: [DeploymentApplicationConfig], deploymentConfig: DeploymentConfig? = nil, fleet: String, tags: [String: String]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.deploymentApplicationConfigs = deploymentApplicationConfigs
             self.deploymentConfig = deploymentConfig
@@ -848,7 +848,7 @@ extension RoboMaker {
         /// If your simulation job accesses resources in a VPC, you provide this parameter identifying the list of security group IDs and subnet IDs. These must belong to the same VPC. You must provide at least one security group and one subnet ID. 
         public let vpcConfig: VPCConfig?
         
-        public init(clientRequestToken: String? = nil, failureBehavior: FailureBehavior? = nil, iamRole: String, maxJobDurationInSeconds: Int64, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, tags: [String: String]? = nil, vpcConfig: VPCConfig? = nil) {
+        public init(clientRequestToken: String? = CreateSimulationJobRequest.idempotencyToken(), failureBehavior: FailureBehavior? = nil, iamRole: String, maxJobDurationInSeconds: Int64, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, tags: [String: String]? = nil, vpcConfig: VPCConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.failureBehavior = failureBehavior
             self.iamRole = iamRole
@@ -3430,7 +3430,7 @@ extension RoboMaker {
         /// The target fleet for the synchronization.
         public let fleet: String
         
-        public init(clientRequestToken: String, fleet: String) {
+        public init(clientRequestToken: String = SyncDeploymentJobRequest.idempotencyToken(), fleet: String) {
             self.clientRequestToken = clientRequestToken
             self.fleet = fleet
         }

@@ -197,6 +197,7 @@ extension AWSService {
         let location : String?
         let parameter : String
         let required : Bool
+        let `default` : String?
         let type : String
         let typeEnum : String
         let encoding : String?
@@ -315,6 +316,14 @@ extension AWSService {
     
     /// Generate the context information for outputting a member variable
     func generateMemberContext(_ member: Member, shape: Shape) -> MemberContext {
+        let defaultValue : String?
+        if member.options.contains(.idempotencyToken) {
+            defaultValue = "\(shape.swiftTypeName).idempotencyToken()"
+        } else if !member.required {
+            defaultValue = "nil"
+        } else {
+            defaultValue = nil
+        }
         return MemberContext(
             name: member.name,
             variable: member.name.toSwiftVariableCase(),
@@ -322,6 +331,7 @@ extension AWSService {
             location: member.location?.enumStyleDescription(),
             parameter: member.name.toSwiftLabelCase(),
             required: member.required,
+            default: defaultValue,
             type: member.shape.swiftTypeName + (member.required ? "" : "?"),
             typeEnum: "\(member.shape.type.description)",
             encoding: member.shapeEncoding?.enumStyleDescription(),

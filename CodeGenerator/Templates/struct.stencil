@@ -8,7 +8,7 @@
         {%for member in struct.members %}{%for comment in member.comment %}/// {{comment}}
         {%endfor %}public let {{member.variable}}: {{member.type}}
         {%endfor %}
-        public init({%for member in struct.members %}{{member.parameter}}: {{member.type}}{%if not member.required%} = nil{%endif %}{%if not forloop.last %}, {%endif %}{%endfor %}) {
+        public init({%for member in struct.members %}{{member.parameter}}: {{member.type}}{%if member.default %} = {{member.default}}{%endif %}{%if not forloop.last %}, {%endif %}{%endfor %}) {
         {%for member in struct.members %}    self.{{member.variable}} = {{member.variable}}
         {%endfor %}}
 

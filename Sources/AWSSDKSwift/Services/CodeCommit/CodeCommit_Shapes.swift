@@ -718,7 +718,7 @@ extension CodeCommit {
         /// The title of the pull request. This title will be used to identify the pull request to other users in the repository.
         public let title: String
         
-        public init(clientRequestToken: String? = nil, description: String? = nil, targets: [Target], title: String) {
+        public init(clientRequestToken: String? = CreatePullRequestInput.idempotencyToken(), description: String? = nil, targets: [Target], title: String) {
             self.clientRequestToken = clientRequestToken
             self.description = description
             self.targets = targets
@@ -3252,7 +3252,7 @@ extension CodeCommit {
         /// The name of the repository where you want to post a comment on the comparison between commits.
         public let repositoryName: String
         
-        public init(afterCommitId: String, beforeCommitId: String? = nil, clientRequestToken: String? = nil, content: String, location: Location? = nil, repositoryName: String) {
+        public init(afterCommitId: String, beforeCommitId: String? = nil, clientRequestToken: String? = PostCommentForComparedCommitInput.idempotencyToken(), content: String, location: Location? = nil, repositoryName: String) {
             self.afterCommitId = afterCommitId
             self.beforeCommitId = beforeCommitId
             self.clientRequestToken = clientRequestToken
@@ -3354,7 +3354,7 @@ extension CodeCommit {
         /// The name of the repository where you want to post a comment on a pull request.
         public let repositoryName: String
         
-        public init(afterCommitId: String, beforeCommitId: String, clientRequestToken: String? = nil, content: String, location: Location? = nil, pullRequestId: String, repositoryName: String) {
+        public init(afterCommitId: String, beforeCommitId: String, clientRequestToken: String? = PostCommentForPullRequestInput.idempotencyToken(), content: String, location: Location? = nil, pullRequestId: String, repositoryName: String) {
             self.afterCommitId = afterCommitId
             self.beforeCommitId = beforeCommitId
             self.clientRequestToken = clientRequestToken
@@ -3451,7 +3451,7 @@ extension CodeCommit {
         /// The system-generated ID of the comment to which you want to reply. To get this ID, use GetCommentsForComparedCommit or GetCommentsForPullRequest.
         public let inReplyTo: String
         
-        public init(clientRequestToken: String? = nil, content: String, inReplyTo: String) {
+        public init(clientRequestToken: String? = PostCommentReplyInput.idempotencyToken(), content: String, inReplyTo: String) {
             self.clientRequestToken = clientRequestToken
             self.content = content
             self.inReplyTo = inReplyTo

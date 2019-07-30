@@ -533,7 +533,7 @@ extension CloudFormation {
         /// The name or unique ID of the stack set that you want to create stack instances from.
         public let stackSetName: String
         
-        public init(accounts: [String], operationId: String? = nil, operationPreferences: StackSetOperationPreferences? = nil, parameterOverrides: [Parameter]? = nil, regions: [String], stackSetName: String) {
+        public init(accounts: [String], operationId: String? = CreateStackInstancesInput.idempotencyToken(), operationPreferences: StackSetOperationPreferences? = nil, parameterOverrides: [Parameter]? = nil, regions: [String], stackSetName: String) {
             self.accounts = accounts
             self.operationId = operationId
             self.operationPreferences = operationPreferences
@@ -631,7 +631,7 @@ extension CloudFormation {
         /// The location of the file that contains the template body. The URL must point to a template (maximum size: 460,800 bytes) that's located in an Amazon S3 bucket. For more information, see Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
         public let templateURL: String?
         
-        public init(administrationRoleARN: String? = nil, capabilities: [Capability]? = nil, clientRequestToken: String? = nil, description: String? = nil, executionRoleName: String? = nil, parameters: [Parameter]? = nil, stackSetName: String, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil) {
+        public init(administrationRoleARN: String? = nil, capabilities: [Capability]? = nil, clientRequestToken: String? = CreateStackSetInput.idempotencyToken(), description: String? = nil, executionRoleName: String? = nil, parameters: [Parameter]? = nil, stackSetName: String, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil) {
             self.administrationRoleARN = administrationRoleARN
             self.capabilities = capabilities
             self.clientRequestToken = clientRequestToken
@@ -789,7 +789,7 @@ extension CloudFormation {
         /// The name or unique ID of the stack set that you want to delete stack instances for.
         public let stackSetName: String
         
-        public init(accounts: [String], operationId: String? = nil, operationPreferences: StackSetOperationPreferences? = nil, regions: [String], retainStacks: Bool, stackSetName: String) {
+        public init(accounts: [String], operationId: String? = DeleteStackInstancesInput.idempotencyToken(), operationPreferences: StackSetOperationPreferences? = nil, regions: [String], retainStacks: Bool, stackSetName: String) {
             self.accounts = accounts
             self.operationId = operationId
             self.operationPreferences = operationPreferences
@@ -4256,7 +4256,7 @@ extension CloudFormation {
         /// The name or unique ID of the stack set associated with the stack instances.
         public let stackSetName: String
         
-        public init(accounts: [String], operationId: String? = nil, operationPreferences: StackSetOperationPreferences? = nil, parameterOverrides: [Parameter]? = nil, regions: [String], stackSetName: String) {
+        public init(accounts: [String], operationId: String? = UpdateStackInstancesInput.idempotencyToken(), operationPreferences: StackSetOperationPreferences? = nil, parameterOverrides: [Parameter]? = nil, regions: [String], stackSetName: String) {
             self.accounts = accounts
             self.operationId = operationId
             self.operationPreferences = operationPreferences
@@ -4367,7 +4367,7 @@ extension CloudFormation {
         /// Use the existing template that's associated with the stack set that you're updating. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true. 
         public let usePreviousTemplate: Bool?
         
-        public init(accounts: [String]? = nil, administrationRoleARN: String? = nil, capabilities: [Capability]? = nil, description: String? = nil, executionRoleName: String? = nil, operationId: String? = nil, operationPreferences: StackSetOperationPreferences? = nil, parameters: [Parameter]? = nil, regions: [String]? = nil, stackSetName: String, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil, usePreviousTemplate: Bool? = nil) {
+        public init(accounts: [String]? = nil, administrationRoleARN: String? = nil, capabilities: [Capability]? = nil, description: String? = nil, executionRoleName: String? = nil, operationId: String? = UpdateStackSetInput.idempotencyToken(), operationPreferences: StackSetOperationPreferences? = nil, parameters: [Parameter]? = nil, regions: [String]? = nil, stackSetName: String, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil, usePreviousTemplate: Bool? = nil) {
             self.accounts = accounts
             self.administrationRoleARN = administrationRoleARN
             self.capabilities = capabilities

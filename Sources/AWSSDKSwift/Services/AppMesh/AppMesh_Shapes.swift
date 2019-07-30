@@ -130,7 +130,7 @@ extension AppMesh {
         ///             a maximum length of 256 characters.
         public let tags: [TagRef]?
         
-        public init(clientToken: String? = nil, meshName: String, spec: MeshSpec? = nil, tags: [TagRef]? = nil) {
+        public init(clientToken: String? = CreateMeshInput.idempotencyToken(), meshName: String, spec: MeshSpec? = nil, tags: [TagRef]? = nil) {
             self.clientToken = clientToken
             self.meshName = meshName
             self.spec = spec
@@ -200,7 +200,7 @@ extension AppMesh {
         /// The name of the virtual router in which to create the route.
         public let virtualRouterName: String
         
-        public init(clientToken: String? = nil, meshName: String, routeName: String, spec: RouteSpec, tags: [TagRef]? = nil, virtualRouterName: String) {
+        public init(clientToken: String? = CreateRouteInput.idempotencyToken(), meshName: String, routeName: String, spec: RouteSpec, tags: [TagRef]? = nil, virtualRouterName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
             self.routeName = routeName
@@ -276,7 +276,7 @@ extension AppMesh {
         /// The name to use for the virtual node.
         public let virtualNodeName: String
         
-        public init(clientToken: String? = nil, meshName: String, spec: VirtualNodeSpec, tags: [TagRef]? = nil, virtualNodeName: String) {
+        public init(clientToken: String? = CreateVirtualNodeInput.idempotencyToken(), meshName: String, spec: VirtualNodeSpec, tags: [TagRef]? = nil, virtualNodeName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
             self.spec = spec
@@ -348,7 +348,7 @@ extension AppMesh {
         /// The name to use for the virtual router.
         public let virtualRouterName: String
         
-        public init(clientToken: String? = nil, meshName: String, spec: VirtualRouterSpec, tags: [TagRef]? = nil, virtualRouterName: String) {
+        public init(clientToken: String? = CreateVirtualRouterInput.idempotencyToken(), meshName: String, spec: VirtualRouterSpec, tags: [TagRef]? = nil, virtualRouterName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
             self.spec = spec
@@ -420,7 +420,7 @@ extension AppMesh {
         /// The name to use for the virtual service.
         public let virtualServiceName: String
         
-        public init(clientToken: String? = nil, meshName: String, spec: VirtualServiceSpec, tags: [TagRef]? = nil, virtualServiceName: String) {
+        public init(clientToken: String? = CreateVirtualServiceInput.idempotencyToken(), meshName: String, spec: VirtualServiceSpec, tags: [TagRef]? = nil, virtualServiceName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
             self.spec = spec
@@ -2112,7 +2112,7 @@ extension AppMesh {
         /// The service mesh specification to apply.
         public let spec: MeshSpec?
         
-        public init(clientToken: String? = nil, meshName: String, spec: MeshSpec? = nil) {
+        public init(clientToken: String? = UpdateMeshInput.idempotencyToken(), meshName: String, spec: MeshSpec? = nil) {
             self.clientToken = clientToken
             self.meshName = meshName
             self.spec = spec
@@ -2171,7 +2171,7 @@ extension AppMesh {
         /// The name of the virtual router that the route is associated with.
         public let virtualRouterName: String
         
-        public init(clientToken: String? = nil, meshName: String, routeName: String, spec: RouteSpec, virtualRouterName: String) {
+        public init(clientToken: String? = UpdateRouteInput.idempotencyToken(), meshName: String, routeName: String, spec: RouteSpec, virtualRouterName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
             self.routeName = routeName
@@ -2237,7 +2237,7 @@ extension AppMesh {
         /// The name of the virtual node to update.
         public let virtualNodeName: String
         
-        public init(clientToken: String? = nil, meshName: String, spec: VirtualNodeSpec, virtualNodeName: String) {
+        public init(clientToken: String? = UpdateVirtualNodeInput.idempotencyToken(), meshName: String, spec: VirtualNodeSpec, virtualNodeName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
             self.spec = spec
@@ -2299,7 +2299,7 @@ extension AppMesh {
         /// The name of the virtual router to update.
         public let virtualRouterName: String
         
-        public init(clientToken: String? = nil, meshName: String, spec: VirtualRouterSpec, virtualRouterName: String) {
+        public init(clientToken: String? = UpdateVirtualRouterInput.idempotencyToken(), meshName: String, spec: VirtualRouterSpec, virtualRouterName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
             self.spec = spec
@@ -2362,7 +2362,7 @@ extension AppMesh {
         /// The name of the virtual service to update.
         public let virtualServiceName: String
         
-        public init(clientToken: String? = nil, meshName: String, spec: VirtualServiceSpec, virtualServiceName: String) {
+        public init(clientToken: String? = UpdateVirtualServiceInput.idempotencyToken(), meshName: String, spec: VirtualServiceSpec, virtualServiceName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
             self.spec = spec

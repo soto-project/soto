@@ -172,7 +172,7 @@ extension FSx {
         /// The tags to apply to the backup at backup creation. The key value of the Name tag appears in the console as the backup name.
         public let tags: [Tag]?
         
-        public init(clientRequestToken: String? = nil, fileSystemId: String, tags: [Tag]? = nil) {
+        public init(clientRequestToken: String? = CreateBackupRequest.idempotencyToken(), fileSystemId: String, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.fileSystemId = fileSystemId
             self.tags = tags
@@ -237,7 +237,7 @@ extension FSx {
         /// The configuration for this Microsoft Windows file system.
         public let windowsConfiguration: CreateFileSystemWindowsConfiguration?
         
-        public init(backupId: String, clientRequestToken: String? = nil, securityGroupIds: [String]? = nil, subnetIds: [String], tags: [Tag]? = nil, windowsConfiguration: CreateFileSystemWindowsConfiguration? = nil) {
+        public init(backupId: String, clientRequestToken: String? = CreateFileSystemFromBackupRequest.idempotencyToken(), securityGroupIds: [String]? = nil, subnetIds: [String], tags: [Tag]? = nil, windowsConfiguration: CreateFileSystemWindowsConfiguration? = nil) {
             self.backupId = backupId
             self.clientRequestToken = clientRequestToken
             self.securityGroupIds = securityGroupIds
@@ -362,7 +362,7 @@ extension FSx {
         /// The Microsoft Windows configuration for the file system being created. This value is required if FileSystemType is set to WINDOWS.
         public let windowsConfiguration: CreateFileSystemWindowsConfiguration?
         
-        public init(clientRequestToken: String? = nil, fileSystemType: FileSystemType, kmsKeyId: String? = nil, lustreConfiguration: CreateFileSystemLustreConfiguration? = nil, securityGroupIds: [String]? = nil, storageCapacity: Int32, subnetIds: [String], tags: [Tag]? = nil, windowsConfiguration: CreateFileSystemWindowsConfiguration? = nil) {
+        public init(clientRequestToken: String? = CreateFileSystemRequest.idempotencyToken(), fileSystemType: FileSystemType, kmsKeyId: String? = nil, lustreConfiguration: CreateFileSystemLustreConfiguration? = nil, securityGroupIds: [String]? = nil, storageCapacity: Int32, subnetIds: [String], tags: [Tag]? = nil, windowsConfiguration: CreateFileSystemWindowsConfiguration? = nil) {
             self.clientRequestToken = clientRequestToken
             self.fileSystemType = fileSystemType
             self.kmsKeyId = kmsKeyId
@@ -530,7 +530,7 @@ extension FSx {
         /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent deletion. This is automatically filled on your behalf when using the AWS CLI or SDK.
         public let clientRequestToken: String?
         
-        public init(backupId: String, clientRequestToken: String? = nil) {
+        public init(backupId: String, clientRequestToken: String? = DeleteBackupRequest.idempotencyToken()) {
             self.backupId = backupId
             self.clientRequestToken = clientRequestToken
         }
@@ -589,7 +589,7 @@ extension FSx {
         public let fileSystemId: String
         public let windowsConfiguration: DeleteFileSystemWindowsConfiguration?
         
-        public init(clientRequestToken: String? = nil, fileSystemId: String, windowsConfiguration: DeleteFileSystemWindowsConfiguration? = nil) {
+        public init(clientRequestToken: String? = DeleteFileSystemRequest.idempotencyToken(), fileSystemId: String, windowsConfiguration: DeleteFileSystemWindowsConfiguration? = nil) {
             self.clientRequestToken = clientRequestToken
             self.fileSystemId = fileSystemId
             self.windowsConfiguration = windowsConfiguration
@@ -1395,7 +1395,7 @@ extension FSx {
         /// The configuration update for this Microsoft Windows file system. The only supported options are for backup and maintenance and for self-managed Active Directory configuration.
         public let windowsConfiguration: UpdateFileSystemWindowsConfiguration?
         
-        public init(clientRequestToken: String? = nil, fileSystemId: String, lustreConfiguration: UpdateFileSystemLustreConfiguration? = nil, windowsConfiguration: UpdateFileSystemWindowsConfiguration? = nil) {
+        public init(clientRequestToken: String? = UpdateFileSystemRequest.idempotencyToken(), fileSystemId: String, lustreConfiguration: UpdateFileSystemLustreConfiguration? = nil, windowsConfiguration: UpdateFileSystemWindowsConfiguration? = nil) {
             self.clientRequestToken = clientRequestToken
             self.fileSystemId = fileSystemId
             self.lustreConfiguration = lustreConfiguration

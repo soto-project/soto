@@ -932,7 +932,7 @@ extension Signer {
         /// The S3 bucket that contains the object to sign or a BLOB that contains your raw code.
         public let source: Source
         
-        public init(clientRequestToken: String, destination: Destination, profileName: String? = nil, source: Source) {
+        public init(clientRequestToken: String = StartSigningJobRequest.idempotencyToken(), destination: Destination, profileName: String? = nil, source: Source) {
             self.clientRequestToken = clientRequestToken
             self.destination = destination
             self.profileName = profileName
