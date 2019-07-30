@@ -119,6 +119,10 @@ extension ELBV2 {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(tags, name:"tags", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceArns = "ResourceArns"
             case tags = "Tags"
@@ -436,6 +440,10 @@ extension ELBV2 {
             self.subnets = subnets
             self.tags = tags
             self.`type` = `type`
+        }
+
+        public func validate() throws {
+            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -936,6 +944,10 @@ extension ELBV2 {
         
         public init(attributes: [LoadBalancerAttribute]? = nil) {
             self.attributes = attributes
+        }
+
+        public func validate() throws {
+            try validate(attributes, name:"attributes", max: 20)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1690,6 +1702,10 @@ extension ELBV2 {
             self.loadBalancerArn = loadBalancerArn
         }
 
+        public func validate() throws {
+            try validate(attributes, name:"attributes", max: 20)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case attributes = "Attributes"
             case loadBalancerArn = "LoadBalancerArn"
@@ -1705,6 +1721,10 @@ extension ELBV2 {
         
         public init(attributes: [LoadBalancerAttribute]? = nil) {
             self.attributes = attributes
+        }
+
+        public func validate() throws {
+            try validate(attributes, name:"attributes", max: 20)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2459,6 +2479,10 @@ extension ELBV2 {
         public init(resourceArn: String? = nil, tags: [Tag]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

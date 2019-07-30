@@ -157,6 +157,8 @@ extension GuardDuty {
         public func validate() throws {
             try validate(detectorId, name:"detectorId", max: 300)
             try validate(detectorId, name:"detectorId", min: 1)
+            try validate(findingIds, name:"findingIds", max: 50)
+            try validate(findingIds, name:"findingIds", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -516,6 +518,8 @@ extension GuardDuty {
         }
 
         public func validate() throws {
+            try validate(accountDetails, name:"accountDetails", max: 50)
+            try validate(accountDetails, name:"accountDetails", min: 1)
             try validate(detectorId, name:"detectorId", max: 300)
             try validate(detectorId, name:"detectorId", min: 1)
         }
@@ -535,6 +539,11 @@ extension GuardDuty {
         
         public init(unprocessedAccounts: [UnprocessedAccount]) {
             self.unprocessedAccounts = unprocessedAccounts
+        }
+
+        public func validate() throws {
+            try validate(unprocessedAccounts, name:"unprocessedAccounts", max: 50)
+            try validate(unprocessedAccounts, name:"unprocessedAccounts", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -560,6 +569,8 @@ extension GuardDuty {
         public func validate() throws {
             try validate(detectorId, name:"detectorId", max: 300)
             try validate(detectorId, name:"detectorId", min: 1)
+            try validate(findingTypes, name:"findingTypes", max: 50)
+            try validate(findingTypes, name:"findingTypes", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -660,6 +671,11 @@ extension GuardDuty {
             self.accountIds = accountIds
         }
 
+        public func validate() throws {
+            try validate(accountIds, name:"accountIds", max: 50)
+            try validate(accountIds, name:"accountIds", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountIds = "accountIds"
         }
@@ -674,6 +690,11 @@ extension GuardDuty {
         
         public init(unprocessedAccounts: [UnprocessedAccount]) {
             self.unprocessedAccounts = unprocessedAccounts
+        }
+
+        public func validate() throws {
+            try validate(unprocessedAccounts, name:"unprocessedAccounts", max: 50)
+            try validate(unprocessedAccounts, name:"unprocessedAccounts", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -789,6 +810,11 @@ extension GuardDuty {
             self.accountIds = accountIds
         }
 
+        public func validate() throws {
+            try validate(accountIds, name:"accountIds", max: 50)
+            try validate(accountIds, name:"accountIds", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountIds = "accountIds"
         }
@@ -803,6 +829,11 @@ extension GuardDuty {
         
         public init(unprocessedAccounts: [UnprocessedAccount]) {
             self.unprocessedAccounts = unprocessedAccounts
+        }
+
+        public func validate() throws {
+            try validate(unprocessedAccounts, name:"unprocessedAccounts", max: 50)
+            try validate(unprocessedAccounts, name:"unprocessedAccounts", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -826,6 +857,8 @@ extension GuardDuty {
         }
 
         public func validate() throws {
+            try validate(accountIds, name:"accountIds", max: 50)
+            try validate(accountIds, name:"accountIds", min: 1)
             try validate(detectorId, name:"detectorId", max: 300)
             try validate(detectorId, name:"detectorId", min: 1)
         }
@@ -845,6 +878,11 @@ extension GuardDuty {
         
         public init(unprocessedAccounts: [UnprocessedAccount]) {
             self.unprocessedAccounts = unprocessedAccounts
+        }
+
+        public func validate() throws {
+            try validate(unprocessedAccounts, name:"unprocessedAccounts", max: 50)
+            try validate(unprocessedAccounts, name:"unprocessedAccounts", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -937,6 +975,8 @@ extension GuardDuty {
         }
 
         public func validate() throws {
+            try validate(accountIds, name:"accountIds", max: 50)
+            try validate(accountIds, name:"accountIds", min: 1)
             try validate(detectorId, name:"detectorId", max: 300)
             try validate(detectorId, name:"detectorId", min: 1)
         }
@@ -956,6 +996,11 @@ extension GuardDuty {
         
         public init(unprocessedAccounts: [UnprocessedAccount]) {
             self.unprocessedAccounts = unprocessedAccounts
+        }
+
+        public func validate() throws {
+            try validate(unprocessedAccounts, name:"unprocessedAccounts", max: 50)
+            try validate(unprocessedAccounts, name:"unprocessedAccounts", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1324,6 +1369,8 @@ extension GuardDuty {
         public func validate() throws {
             try validate(detectorId, name:"detectorId", max: 300)
             try validate(detectorId, name:"detectorId", min: 1)
+            try validate(findingIds, name:"findingIds", max: 50)
+            try validate(findingIds, name:"findingIds", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1342,6 +1389,11 @@ extension GuardDuty {
         
         public init(findings: [Finding]) {
             self.findings = findings
+        }
+
+        public func validate() throws {
+            try validate(findings, name:"findings", max: 50)
+            try validate(findings, name:"findings", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1371,6 +1423,8 @@ extension GuardDuty {
         public func validate() throws {
             try validate(detectorId, name:"detectorId", max: 300)
             try validate(detectorId, name:"detectorId", min: 1)
+            try validate(findingStatisticTypes, name:"findingStatisticTypes", max: 10)
+            try validate(findingStatisticTypes, name:"findingStatisticTypes", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1546,6 +1600,8 @@ extension GuardDuty {
         }
 
         public func validate() throws {
+            try validate(accountIds, name:"accountIds", max: 50)
+            try validate(accountIds, name:"accountIds", min: 1)
             try validate(detectorId, name:"detectorId", max: 300)
             try validate(detectorId, name:"detectorId", min: 1)
         }
@@ -1569,6 +1625,13 @@ extension GuardDuty {
         public init(members: [Member], unprocessedAccounts: [UnprocessedAccount]) {
             self.members = members
             self.unprocessedAccounts = unprocessedAccounts
+        }
+
+        public func validate() throws {
+            try validate(members, name:"members", max: 50)
+            try validate(members, name:"members", min: 0)
+            try validate(unprocessedAccounts, name:"unprocessedAccounts", max: 50)
+            try validate(unprocessedAccounts, name:"unprocessedAccounts", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1798,6 +1861,8 @@ extension GuardDuty {
         }
 
         public func validate() throws {
+            try validate(accountIds, name:"accountIds", max: 50)
+            try validate(accountIds, name:"accountIds", min: 1)
             try validate(detectorId, name:"detectorId", max: 300)
             try validate(detectorId, name:"detectorId", min: 1)
         }
@@ -1819,6 +1884,11 @@ extension GuardDuty {
         
         public init(unprocessedAccounts: [UnprocessedAccount]) {
             self.unprocessedAccounts = unprocessedAccounts
+        }
+
+        public func validate() throws {
+            try validate(unprocessedAccounts, name:"unprocessedAccounts", max: 50)
+            try validate(unprocessedAccounts, name:"unprocessedAccounts", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1888,6 +1958,11 @@ extension GuardDuty {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(detectorIds, name:"detectorIds", max: 50)
+            try validate(detectorIds, name:"detectorIds", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case detectorIds = "detectorIds"
             case nextToken = "nextToken"
@@ -1940,6 +2015,11 @@ extension GuardDuty {
         public init(filterNames: [String], nextToken: String? = nil) {
             self.filterNames = filterNames
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(filterNames, name:"filterNames", max: 50)
+            try validate(filterNames, name:"filterNames", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2006,6 +2086,11 @@ extension GuardDuty {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(findingIds, name:"findingIds", max: 50)
+            try validate(findingIds, name:"findingIds", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case findingIds = "findingIds"
             case nextToken = "nextToken"
@@ -2060,6 +2145,11 @@ extension GuardDuty {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(ipSetIds, name:"ipSetIds", max: 50)
+            try validate(ipSetIds, name:"ipSetIds", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case ipSetIds = "ipSetIds"
             case nextToken = "nextToken"
@@ -2105,6 +2195,11 @@ extension GuardDuty {
         public init(invitations: [Invitation]? = nil, nextToken: String? = nil) {
             self.invitations = invitations
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(invitations, name:"invitations", max: 50)
+            try validate(invitations, name:"invitations", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2164,6 +2259,11 @@ extension GuardDuty {
         public init(members: [Member]? = nil, nextToken: String? = nil) {
             self.members = members
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(members, name:"members", max: 50)
+            try validate(members, name:"members", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2253,6 +2353,11 @@ extension GuardDuty {
         public init(nextToken: String? = nil, threatIntelSetIds: [String]) {
             self.nextToken = nextToken
             self.threatIntelSetIds = threatIntelSetIds
+        }
+
+        public func validate() throws {
+            try validate(threatIntelSetIds, name:"threatIntelSetIds", max: 50)
+            try validate(threatIntelSetIds, name:"threatIntelSetIds", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2798,6 +2903,8 @@ extension GuardDuty {
         }
 
         public func validate() throws {
+            try validate(accountIds, name:"accountIds", max: 50)
+            try validate(accountIds, name:"accountIds", min: 1)
             try validate(detectorId, name:"detectorId", max: 300)
             try validate(detectorId, name:"detectorId", min: 1)
         }
@@ -2817,6 +2924,11 @@ extension GuardDuty {
         
         public init(unprocessedAccounts: [UnprocessedAccount]) {
             self.unprocessedAccounts = unprocessedAccounts
+        }
+
+        public func validate() throws {
+            try validate(unprocessedAccounts, name:"unprocessedAccounts", max: 50)
+            try validate(unprocessedAccounts, name:"unprocessedAccounts", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2840,6 +2952,8 @@ extension GuardDuty {
         }
 
         public func validate() throws {
+            try validate(accountIds, name:"accountIds", max: 50)
+            try validate(accountIds, name:"accountIds", min: 1)
             try validate(detectorId, name:"detectorId", max: 300)
             try validate(detectorId, name:"detectorId", min: 1)
         }
@@ -2859,6 +2973,11 @@ extension GuardDuty {
         
         public init(unprocessedAccounts: [UnprocessedAccount]) {
             self.unprocessedAccounts = unprocessedAccounts
+        }
+
+        public func validate() throws {
+            try validate(unprocessedAccounts, name:"unprocessedAccounts", max: 50)
+            try validate(unprocessedAccounts, name:"unprocessedAccounts", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2959,6 +3078,8 @@ extension GuardDuty {
         public func validate() throws {
             try validate(detectorId, name:"detectorId", max: 300)
             try validate(detectorId, name:"detectorId", min: 1)
+            try validate(findingIds, name:"findingIds", max: 50)
+            try validate(findingIds, name:"findingIds", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3018,6 +3139,8 @@ extension GuardDuty {
 
         public func validate() throws {
             try validate(resourceArn, name:"resourceArn", pattern: "^arn:[A-Za-z_.-]{1,20}:guardduty:[A-Za-z0-9_/.-]{0,63}:\\d+:detector/[A-Za-z0-9_/.-]{32,264}$")
+            try validate(tagKeys, name:"tagKeys", max: 200)
+            try validate(tagKeys, name:"tagKeys", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3170,6 +3293,8 @@ extension GuardDuty {
         public func validate() throws {
             try validate(detectorId, name:"detectorId", max: 300)
             try validate(detectorId, name:"detectorId", min: 1)
+            try validate(findingIds, name:"findingIds", max: 50)
+            try validate(findingIds, name:"findingIds", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {

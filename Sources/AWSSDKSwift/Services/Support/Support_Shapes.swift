@@ -71,6 +71,8 @@ extension Support {
         }
 
         public func validate() throws {
+            try validate(ccEmailAddresses, name:"ccEmailAddresses", max: 10)
+            try validate(ccEmailAddresses, name:"ccEmailAddresses", min: 0)
             try validate(communicationBody, name:"communicationBody", max: 8000)
             try validate(communicationBody, name:"communicationBody", min: 1)
         }
@@ -196,6 +198,11 @@ extension Support {
             self.timeCreated = timeCreated
         }
 
+        public func validate() throws {
+            try validate(ccEmailAddresses, name:"ccEmailAddresses", max: 10)
+            try validate(ccEmailAddresses, name:"ccEmailAddresses", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case caseId = "caseId"
             case categoryCode = "categoryCode"
@@ -318,6 +325,8 @@ extension Support {
         }
 
         public func validate() throws {
+            try validate(ccEmailAddresses, name:"ccEmailAddresses", max: 10)
+            try validate(ccEmailAddresses, name:"ccEmailAddresses", min: 0)
             try validate(communicationBody, name:"communicationBody", max: 8000)
             try validate(communicationBody, name:"communicationBody", min: 1)
         }
@@ -427,6 +436,8 @@ extension Support {
         }
 
         public func validate() throws {
+            try validate(caseIdList, name:"caseIdList", max: 100)
+            try validate(caseIdList, name:"caseIdList", min: 0)
             try validate(maxResults, name:"maxResults", max: 100)
             try validate(maxResults, name:"maxResults", min: 10)
         }
@@ -540,6 +551,11 @@ extension Support {
         public init(language: String? = nil, serviceCodeList: [String]? = nil) {
             self.language = language
             self.serviceCodeList = serviceCodeList
+        }
+
+        public func validate() throws {
+            try validate(serviceCodeList, name:"serviceCodeList", max: 100)
+            try validate(serviceCodeList, name:"serviceCodeList", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {

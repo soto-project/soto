@@ -21,6 +21,10 @@ extension IoT {
             self.criteriaList = criteriaList
         }
 
+        public func validate() throws {
+            try validate(criteriaList, name:"criteriaList", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case criteriaList = "criteriaList"
         }
@@ -428,6 +432,7 @@ extension IoT {
             try validate(jobId, name:"jobId", max: 64)
             try validate(jobId, name:"jobId", min: 1)
             try validate(jobId, name:"jobId", pattern: "[a-zA-Z0-9_-]+")
+            try validate(targets, name:"targets", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2160,6 +2165,7 @@ extension IoT {
         }
 
         public func validate() throws {
+            try abortConfig?.validate()
             try validate(description, name:"description", max: 2028)
             try validate(description, name:"description", pattern: "[^\\p{C}]+")
             try validate(document, name:"document", max: 32768)
@@ -2170,6 +2176,7 @@ extension IoT {
             try validate(jobId, name:"jobId", min: 1)
             try validate(jobId, name:"jobId", pattern: "[a-zA-Z0-9_-]+")
             try presignedUrlConfig?.validate()
+            try validate(targets, name:"targets", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2324,11 +2331,14 @@ extension IoT {
             try awsJobExecutionsRolloutConfig?.validate()
             try validate(description, name:"description", max: 2028)
             try validate(description, name:"description", pattern: "[^\\p{C}]+")
+            try validate(files, name:"files", max: 50)
+            try validate(files, name:"files", min: 1)
             try validate(otaUpdateId, name:"otaUpdateId", max: 128)
             try validate(otaUpdateId, name:"otaUpdateId", min: 1)
             try validate(otaUpdateId, name:"otaUpdateId", pattern: "[a-zA-Z0-9_-]+")
             try validate(roleArn, name:"roleArn", max: 2048)
             try validate(roleArn, name:"roleArn", min: 20)
+            try validate(targets, name:"targets", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2677,6 +2687,7 @@ extension IoT {
         }
 
         public func validate() throws {
+            try validate(behaviors, name:"behaviors", max: 100)
             try validate(securityProfileDescription, name:"securityProfileDescription", max: 1000)
             try validate(securityProfileDescription, name:"securityProfileDescription", pattern: "[\\p{Graph}\\x20]*")
             try validate(securityProfileName, name:"securityProfileName", max: 128)
@@ -2751,6 +2762,8 @@ extension IoT {
         public func validate() throws {
             try validate(description, name:"description", max: 2028)
             try validate(description, name:"description", pattern: "[^\\p{C}]+")
+            try validate(files, name:"files", max: 50)
+            try validate(files, name:"files", min: 1)
             try validate(roleArn, name:"roleArn", max: 2048)
             try validate(roleArn, name:"roleArn", min: 20)
             try validate(streamId, name:"streamId", max: 128)
@@ -4522,6 +4535,7 @@ extension IoT {
         }
 
         public func validate() throws {
+            try validate(behaviors, name:"behaviors", max: 100)
             try validate(securityProfileDescription, name:"securityProfileDescription", max: 1000)
             try validate(securityProfileDescription, name:"securityProfileDescription", pattern: "[\\p{Graph}\\x20]*")
             try validate(securityProfileName, name:"securityProfileName", max: 128)
@@ -6136,6 +6150,7 @@ extension IoT {
         }
 
         public func validate() throws {
+            try abortConfig?.validate()
             try validate(comment, name:"comment", max: 2028)
             try validate(comment, name:"comment", pattern: "[^\\p{C}]+")
             try validate(description, name:"description", max: 2028)
@@ -6147,6 +6162,7 @@ extension IoT {
             try presignedUrlConfig?.validate()
             try validate(reasonCode, name:"reasonCode", max: 128)
             try validate(reasonCode, name:"reasonCode", pattern: "[\\p{Upper}\\p{Digit}_]+")
+            try validate(targets, name:"targets", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9133,9 +9149,12 @@ extension IoT {
             try awsJobExecutionsRolloutConfig?.validate()
             try validate(description, name:"description", max: 2028)
             try validate(description, name:"description", pattern: "[^\\p{C}]+")
+            try validate(otaUpdateFiles, name:"otaUpdateFiles", max: 50)
+            try validate(otaUpdateFiles, name:"otaUpdateFiles", min: 1)
             try validate(otaUpdateId, name:"otaUpdateId", max: 128)
             try validate(otaUpdateId, name:"otaUpdateId", min: 1)
             try validate(otaUpdateId, name:"otaUpdateId", pattern: "[a-zA-Z0-9_-]+")
+            try validate(targets, name:"targets", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10783,6 +10802,8 @@ extension IoT {
         public func validate() throws {
             try validate(description, name:"description", max: 2028)
             try validate(description, name:"description", pattern: "[^\\p{C}]+")
+            try validate(files, name:"files", max: 50)
+            try validate(files, name:"files", min: 1)
             try validate(roleArn, name:"roleArn", max: 2048)
             try validate(roleArn, name:"roleArn", min: 20)
             try validate(streamId, name:"streamId", max: 128)
@@ -10976,6 +10997,11 @@ extension IoT {
             self.policyNamesToAdd = policyNamesToAdd
             self.policyNamesToSkip = policyNamesToSkip
             self.principal = principal
+        }
+
+        public func validate() throws {
+            try validate(authInfos, name:"authInfos", max: 10)
+            try validate(authInfos, name:"authInfos", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11511,6 +11537,8 @@ extension IoT {
         }
 
         public func validate() throws {
+            try validate(actions, name:"actions", max: 10)
+            try validate(actions, name:"actions", min: 0)
             try errorAction?.validate()
             try validate(ruleName, name:"ruleName", max: 128)
             try validate(ruleName, name:"ruleName", min: 1)
@@ -11603,6 +11631,8 @@ extension IoT {
         }
 
         public func validate() throws {
+            try validate(actions, name:"actions", max: 10)
+            try validate(actions, name:"actions", min: 0)
             try errorAction?.validate()
         }
 
@@ -12121,6 +12151,7 @@ extension IoT {
         }
 
         public func validate() throws {
+            try abortConfig?.validate()
             try validate(description, name:"description", max: 2028)
             try validate(description, name:"description", pattern: "[^\\p{C}]+")
             try jobExecutionsRolloutConfig?.validate()
@@ -12306,6 +12337,7 @@ extension IoT {
         }
 
         public func validate() throws {
+            try validate(behaviors, name:"behaviors", max: 100)
             try validate(securityProfileDescription, name:"securityProfileDescription", max: 1000)
             try validate(securityProfileDescription, name:"securityProfileDescription", pattern: "[\\p{Graph}\\x20]*")
             try validate(securityProfileName, name:"securityProfileName", max: 128)
@@ -12370,6 +12402,7 @@ extension IoT {
         }
 
         public func validate() throws {
+            try validate(behaviors, name:"behaviors", max: 100)
             try validate(securityProfileDescription, name:"securityProfileDescription", max: 1000)
             try validate(securityProfileDescription, name:"securityProfileDescription", pattern: "[\\p{Graph}\\x20]*")
             try validate(securityProfileName, name:"securityProfileName", max: 128)
@@ -12416,6 +12449,8 @@ extension IoT {
         public func validate() throws {
             try validate(description, name:"description", max: 2028)
             try validate(description, name:"description", pattern: "[^\\p{C}]+")
+            try validate(files, name:"files", max: 50)
+            try validate(files, name:"files", min: 1)
             try validate(roleArn, name:"roleArn", max: 2048)
             try validate(roleArn, name:"roleArn", min: 20)
             try validate(streamId, name:"streamId", max: 128)
@@ -12628,6 +12663,10 @@ extension IoT {
         
         public init(behaviors: [Behavior]) {
             self.behaviors = behaviors
+        }
+
+        public func validate() throws {
+            try validate(behaviors, name:"behaviors", max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {

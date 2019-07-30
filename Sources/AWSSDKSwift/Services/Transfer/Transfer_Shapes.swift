@@ -45,6 +45,8 @@ extension Transfer {
             try validate(hostKey, name:"hostKey", max: 4096)
             try identityProviderDetails?.validate()
             try validate(loggingRole, name:"loggingRole", pattern: "arn:.*role/.*")
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -120,6 +122,8 @@ extension Transfer {
             try validate(serverId, name:"serverId", pattern: "^s-([0-9a-f]{17})$")
             try validate(sshPublicKeyBody, name:"sshPublicKeyBody", max: 2048)
             try validate(sshPublicKeyBody, name:"sshPublicKeyBody", pattern: "^ssh-rsa\\s+[A-Za-z0-9+/]+[=]{0,3}(\\s+.+)?\\s*$")
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 1)
             try validate(userName, name:"userName", pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$")
         }
 
@@ -388,6 +392,8 @@ extension Transfer {
             try identityProviderDetails?.validate()
             try validate(loggingRole, name:"loggingRole", pattern: "arn:.*role/.*")
             try validate(serverId, name:"serverId", pattern: "^s-([0-9a-f]{17})$")
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -446,6 +452,9 @@ extension Transfer {
             try validate(homeDirectory, name:"homeDirectory", max: 1024)
             try validate(homeDirectory, name:"homeDirectory", pattern: "^$|/.*")
             try validate(role, name:"role", pattern: "arn:.*role/.*")
+            try validate(sshPublicKeys, name:"sshPublicKeys", max: 5)
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 1)
             try validate(userName, name:"userName", pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$")
         }
 
@@ -695,6 +704,8 @@ extension Transfer {
             try validate(arn, name:"arn", min: 20)
             try validate(nextToken, name:"nextToken", max: 6144)
             try validate(nextToken, name:"nextToken", min: 1)
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -989,6 +1000,8 @@ extension Transfer {
         public func validate() throws {
             try validate(arn, name:"arn", max: 1600)
             try validate(arn, name:"arn", min: 20)
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1072,6 +1085,8 @@ extension Transfer {
         public func validate() throws {
             try validate(arn, name:"arn", max: 1600)
             try validate(arn, name:"arn", min: 20)
+            try validate(tagKeys, name:"tagKeys", max: 50)
+            try validate(tagKeys, name:"tagKeys", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

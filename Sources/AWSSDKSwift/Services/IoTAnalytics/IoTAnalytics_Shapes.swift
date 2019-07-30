@@ -387,6 +387,8 @@ extension IoTAnalytics {
             try validate(executionRoleArn, name:"executionRoleArn", min: 20)
             try validate(image, name:"image", max: 255)
             try resourceConfiguration.validate()
+            try validate(variables, name:"variables", max: 50)
+            try validate(variables, name:"variables", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -426,6 +428,8 @@ extension IoTAnalytics {
             try validate(channelName, name:"channelName", pattern: "^[a-zA-Z0-9_]+$")
             try channelStorage?.validate()
             try retentionPeriod?.validate()
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -548,10 +552,18 @@ extension IoTAnalytics {
         }
 
         public func validate() throws {
+            try validate(actions, name:"actions", max: 1)
+            try validate(actions, name:"actions", min: 1)
+            try validate(contentDeliveryRules, name:"contentDeliveryRules", max: 20)
+            try validate(contentDeliveryRules, name:"contentDeliveryRules", min: 0)
             try validate(datasetName, name:"datasetName", max: 128)
             try validate(datasetName, name:"datasetName", min: 1)
             try validate(datasetName, name:"datasetName", pattern: "^[a-zA-Z0-9_]+$")
             try retentionPeriod?.validate()
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 1)
+            try validate(triggers, name:"triggers", max: 5)
+            try validate(triggers, name:"triggers", min: 0)
             try versioningConfiguration?.validate()
         }
 
@@ -628,6 +640,8 @@ extension IoTAnalytics {
             try validate(datastoreName, name:"datastoreName", pattern: "^[a-zA-Z0-9_]+$")
             try datastoreStorage?.validate()
             try retentionPeriod?.validate()
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -691,9 +705,13 @@ extension IoTAnalytics {
         }
 
         public func validate() throws {
+            try validate(pipelineActivities, name:"pipelineActivities", max: 25)
+            try validate(pipelineActivities, name:"pipelineActivities", min: 1)
             try validate(pipelineName, name:"pipelineName", max: 128)
             try validate(pipelineName, name:"pipelineName", min: 1)
             try validate(pipelineName, name:"pipelineName", pattern: "^[a-zA-Z0-9_]+$")
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -926,10 +944,16 @@ extension IoTAnalytics {
         }
 
         public func validate() throws {
+            try validate(actions, name:"actions", max: 1)
+            try validate(actions, name:"actions", min: 1)
+            try validate(contentDeliveryRules, name:"contentDeliveryRules", max: 20)
+            try validate(contentDeliveryRules, name:"contentDeliveryRules", min: 0)
             try validate(name, name:"name", max: 128)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "^[a-zA-Z0-9_]+$")
             try retentionPeriod?.validate()
+            try validate(triggers, name:"triggers", max: 5)
+            try validate(triggers, name:"triggers", min: 0)
             try versioningConfiguration?.validate()
         }
 
@@ -971,6 +995,7 @@ extension IoTAnalytics {
             try validate(actionName, name:"actionName", min: 1)
             try validate(actionName, name:"actionName", pattern: "^[a-zA-Z0-9_]+$")
             try containerAction?.validate()
+            try queryAction?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1210,9 +1235,13 @@ extension IoTAnalytics {
         }
 
         public func validate() throws {
+            try validate(actions, name:"actions", max: 1)
+            try validate(actions, name:"actions", min: 1)
             try validate(datasetName, name:"datasetName", max: 128)
             try validate(datasetName, name:"datasetName", min: 1)
             try validate(datasetName, name:"datasetName", pattern: "^[a-zA-Z0-9_]+$")
+            try validate(triggers, name:"triggers", max: 5)
+            try validate(triggers, name:"triggers", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2399,6 +2428,11 @@ extension IoTAnalytics {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
         }
@@ -2560,6 +2594,8 @@ extension IoTAnalytics {
         }
 
         public func validate() throws {
+            try validate(activities, name:"activities", max: 25)
+            try validate(activities, name:"activities", min: 1)
             try validate(name, name:"name", max: 128)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "^[a-zA-Z0-9_]+$")
@@ -2742,6 +2778,8 @@ extension IoTAnalytics {
         }
 
         public func validate() throws {
+            try validate(attributes, name:"attributes", max: 50)
+            try validate(attributes, name:"attributes", min: 1)
             try validate(name, name:"name", max: 128)
             try validate(name, name:"name", min: 1)
             try validate(next, name:"next", max: 128)
@@ -2856,6 +2894,8 @@ extension IoTAnalytics {
         }
 
         public func validate() throws {
+            try validate(payloads, name:"payloads", max: 10)
+            try validate(payloads, name:"payloads", min: 1)
             try pipelineActivity.validate()
         }
 
@@ -2878,6 +2918,11 @@ extension IoTAnalytics {
         public init(logResult: String? = nil, payloads: [Data]? = nil) {
             self.logResult = logResult
             self.payloads = payloads
+        }
+
+        public func validate() throws {
+            try validate(payloads, name:"payloads", max: 10)
+            try validate(payloads, name:"payloads", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2979,6 +3024,11 @@ extension IoTAnalytics {
             self.payloads = payloads
         }
 
+        public func validate() throws {
+            try validate(payloads, name:"payloads", max: 10)
+            try validate(payloads, name:"payloads", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case payloads = "payloads"
         }
@@ -3020,6 +3070,8 @@ extension IoTAnalytics {
         }
 
         public func validate() throws {
+            try validate(attributes, name:"attributes", max: 50)
+            try validate(attributes, name:"attributes", min: 1)
             try validate(name, name:"name", max: 128)
             try validate(name, name:"name", min: 1)
             try validate(next, name:"next", max: 128)
@@ -3078,6 +3130,11 @@ extension IoTAnalytics {
         public init(filters: [QueryFilter]? = nil, sqlQuery: String) {
             self.filters = filters
             self.sqlQuery = sqlQuery
+        }
+
+        public func validate() throws {
+            try validate(filters, name:"filters", max: 1)
+            try validate(filters, name:"filters", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3180,6 +3237,8 @@ extension IoTAnalytics {
         public func validate() throws {
             try validate(resourceArn, name:"resourceArn", max: 2048)
             try validate(resourceArn, name:"resourceArn", min: 20)
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3236,6 +3295,8 @@ extension IoTAnalytics {
         public func validate() throws {
             try validate(resourceArn, name:"resourceArn", max: 2048)
             try validate(resourceArn, name:"resourceArn", min: 20)
+            try validate(tagKeys, name:"tagKeys", max: 50)
+            try validate(tagKeys, name:"tagKeys", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3318,10 +3379,16 @@ extension IoTAnalytics {
         }
 
         public func validate() throws {
+            try validate(actions, name:"actions", max: 1)
+            try validate(actions, name:"actions", min: 1)
+            try validate(contentDeliveryRules, name:"contentDeliveryRules", max: 20)
+            try validate(contentDeliveryRules, name:"contentDeliveryRules", min: 0)
             try validate(datasetName, name:"datasetName", max: 128)
             try validate(datasetName, name:"datasetName", min: 1)
             try validate(datasetName, name:"datasetName", pattern: "^[a-zA-Z0-9_]+$")
             try retentionPeriod?.validate()
+            try validate(triggers, name:"triggers", max: 5)
+            try validate(triggers, name:"triggers", min: 0)
             try versioningConfiguration?.validate()
         }
 
@@ -3385,6 +3452,8 @@ extension IoTAnalytics {
         }
 
         public func validate() throws {
+            try validate(pipelineActivities, name:"pipelineActivities", max: 25)
+            try validate(pipelineActivities, name:"pipelineActivities", min: 1)
             try validate(pipelineName, name:"pipelineName", max: 128)
             try validate(pipelineName, name:"pipelineName", min: 1)
             try validate(pipelineName, name:"pipelineName", pattern: "^[a-zA-Z0-9_]+$")

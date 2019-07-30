@@ -837,6 +837,10 @@ extension XRay {
             self.samplingStatisticsDocuments = samplingStatisticsDocuments
         }
 
+        public func validate() throws {
+            try validate(samplingStatisticsDocuments, name:"samplingStatisticsDocuments", max: 25)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case samplingStatisticsDocuments = "SamplingStatisticsDocuments"
         }

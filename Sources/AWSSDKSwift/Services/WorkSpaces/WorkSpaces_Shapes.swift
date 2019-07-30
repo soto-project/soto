@@ -355,6 +355,11 @@ extension WorkSpaces {
             self.workspaces = workspaces
         }
 
+        public func validate() throws {
+            try validate(workspaces, name:"workspaces", max: 25)
+            try validate(workspaces, name:"workspaces", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case workspaces = "Workspaces"
         }
@@ -619,6 +624,11 @@ extension WorkSpaces {
             self.resourceIds = resourceIds
         }
 
+        public func validate() throws {
+            try validate(resourceIds, name:"resourceIds", max: 25)
+            try validate(resourceIds, name:"resourceIds", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceIds = "ResourceIds"
         }
@@ -755,6 +765,8 @@ extension WorkSpaces {
         }
 
         public func validate() throws {
+            try validate(bundleIds, name:"bundleIds", max: 25)
+            try validate(bundleIds, name:"bundleIds", min: 1)
             try validate(nextToken, name:"nextToken", max: 63)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -808,6 +820,8 @@ extension WorkSpaces {
         }
 
         public func validate() throws {
+            try validate(directoryIds, name:"directoryIds", max: 25)
+            try validate(directoryIds, name:"directoryIds", min: 1)
             try validate(nextToken, name:"nextToken", max: 63)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -864,6 +878,8 @@ extension WorkSpaces {
         }
 
         public func validate() throws {
+            try validate(imageIds, name:"imageIds", max: 25)
+            try validate(imageIds, name:"imageIds", min: 1)
             try validate(maxResults, name:"maxResults", max: 25)
             try validate(maxResults, name:"maxResults", min: 1)
             try validate(nextToken, name:"nextToken", max: 63)
@@ -921,6 +937,8 @@ extension WorkSpaces {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 63)
             try validate(nextToken, name:"nextToken", min: 1)
+            try validate(workspaceIds, name:"workspaceIds", max: 25)
+            try validate(workspaceIds, name:"workspaceIds", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -995,6 +1013,8 @@ extension WorkSpaces {
             try validate(nextToken, name:"nextToken", min: 1)
             try validate(userName, name:"userName", max: 63)
             try validate(userName, name:"userName", min: 1)
+            try validate(workspaceIds, name:"workspaceIds", max: 25)
+            try validate(workspaceIds, name:"workspaceIds", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1492,6 +1512,11 @@ extension WorkSpaces {
             self.rebootWorkspaceRequests = rebootWorkspaceRequests
         }
 
+        public func validate() throws {
+            try validate(rebootWorkspaceRequests, name:"rebootWorkspaceRequests", max: 25)
+            try validate(rebootWorkspaceRequests, name:"rebootWorkspaceRequests", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case rebootWorkspaceRequests = "RebootWorkspaceRequests"
         }
@@ -1542,6 +1567,11 @@ extension WorkSpaces {
         
         public init(rebuildWorkspaceRequests: [RebuildRequest]) {
             self.rebuildWorkspaceRequests = rebuildWorkspaceRequests
+        }
+
+        public func validate() throws {
+            try validate(rebuildWorkspaceRequests, name:"rebuildWorkspaceRequests", max: 1)
+            try validate(rebuildWorkspaceRequests, name:"rebuildWorkspaceRequests", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1661,6 +1691,11 @@ extension WorkSpaces {
             self.startWorkspaceRequests = startWorkspaceRequests
         }
 
+        public func validate() throws {
+            try validate(startWorkspaceRequests, name:"startWorkspaceRequests", max: 25)
+            try validate(startWorkspaceRequests, name:"startWorkspaceRequests", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case startWorkspaceRequests = "StartWorkspaceRequests"
         }
@@ -1711,6 +1746,11 @@ extension WorkSpaces {
         
         public init(stopWorkspaceRequests: [StopRequest]) {
             self.stopWorkspaceRequests = stopWorkspaceRequests
+        }
+
+        public func validate() throws {
+            try validate(stopWorkspaceRequests, name:"stopWorkspaceRequests", max: 25)
+            try validate(stopWorkspaceRequests, name:"stopWorkspaceRequests", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1796,6 +1836,11 @@ extension WorkSpaces {
         
         public init(terminateWorkspaceRequests: [TerminateRequest]) {
             self.terminateWorkspaceRequests = terminateWorkspaceRequests
+        }
+
+        public func validate() throws {
+            try validate(terminateWorkspaceRequests, name:"terminateWorkspaceRequests", max: 25)
+            try validate(terminateWorkspaceRequests, name:"terminateWorkspaceRequests", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -56,6 +56,7 @@ extension Personalize {
             try validate(algorithmArn, name:"algorithmArn", max: 256)
             try validate(algorithmArn, name:"algorithmArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
             try algorithmImage?.validate()
+            try defaultHyperParameterRanges?.validate()
             try validate(name, name:"name", max: 63)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
@@ -123,6 +124,7 @@ extension Personalize {
 
         public func validate() throws {
             try validate(metricName, name:"metricName", max: 256)
+            try validate(recipeList, name:"recipeList", max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -335,6 +337,7 @@ extension Personalize {
 
         public func validate() throws {
             try validate(name, name:"name", max: 256)
+            try validate(values, name:"values", max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1311,6 +1314,7 @@ extension Personalize {
 
         public func validate() throws {
             try validate(name, name:"name", max: 256)
+            try validate(values, name:"values", max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1374,6 +1378,12 @@ extension Personalize {
             self.categoricalHyperParameterRanges = categoricalHyperParameterRanges
             self.continuousHyperParameterRanges = continuousHyperParameterRanges
             self.integerHyperParameterRanges = integerHyperParameterRanges
+        }
+
+        public func validate() throws {
+            try validate(categoricalHyperParameterRanges, name:"categoricalHyperParameterRanges", max: 100)
+            try validate(continuousHyperParameterRanges, name:"continuousHyperParameterRanges", max: 100)
+            try validate(integerHyperParameterRanges, name:"integerHyperParameterRanges", max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2223,6 +2233,7 @@ extension Personalize {
         }
 
         public func validate() throws {
+            try algorithmHyperParameterRanges?.validate()
             try hpoObjective?.validate()
             try hpoResourceConfig?.validate()
         }
@@ -2309,6 +2320,12 @@ extension Personalize {
             self.categoricalHyperParameterRanges = categoricalHyperParameterRanges
             self.continuousHyperParameterRanges = continuousHyperParameterRanges
             self.integerHyperParameterRanges = integerHyperParameterRanges
+        }
+
+        public func validate() throws {
+            try validate(categoricalHyperParameterRanges, name:"categoricalHyperParameterRanges", max: 100)
+            try validate(continuousHyperParameterRanges, name:"continuousHyperParameterRanges", max: 100)
+            try validate(integerHyperParameterRanges, name:"integerHyperParameterRanges", max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2400,6 +2417,7 @@ extension Personalize {
         }
 
         public func validate() throws {
+            try validate(campaigns, name:"campaigns", max: 100)
             try validate(nextToken, name:"nextToken", max: 1300)
         }
 
@@ -2452,6 +2470,7 @@ extension Personalize {
         }
 
         public func validate() throws {
+            try validate(datasetGroups, name:"datasetGroups", max: 100)
             try validate(nextToken, name:"nextToken", max: 1300)
         }
 
@@ -2511,6 +2530,7 @@ extension Personalize {
         }
 
         public func validate() throws {
+            try validate(datasetImportJobs, name:"datasetImportJobs", max: 100)
             try validate(nextToken, name:"nextToken", max: 1300)
         }
 
@@ -2570,6 +2590,7 @@ extension Personalize {
         }
 
         public func validate() throws {
+            try validate(datasets, name:"datasets", max: 100)
             try validate(nextToken, name:"nextToken", max: 1300)
         }
 
@@ -2629,6 +2650,7 @@ extension Personalize {
         }
 
         public func validate() throws {
+            try validate(eventTrackers, name:"eventTrackers", max: 100)
             try validate(nextToken, name:"nextToken", max: 1300)
         }
 
@@ -2687,6 +2709,7 @@ extension Personalize {
 
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 1300)
+            try validate(recipes, name:"recipes", max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2739,6 +2762,7 @@ extension Personalize {
 
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 1300)
+            try validate(schemas, name:"schemas", max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2798,6 +2822,7 @@ extension Personalize {
 
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 1300)
+            try validate(solutionVersions, name:"solutionVersions", max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2857,6 +2882,7 @@ extension Personalize {
 
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 1300)
+            try validate(solutions, name:"solutions", max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -122,7 +122,9 @@ struct AWSService {
             let shapeJSON = apiJSON["shapes"][json["member"]["shape"].stringValue]
             let _type = try shapeType(from: shapeJSON, level: level+1)
             let shape = Shape(name: json["member"]["shape"].stringValue, type: _type)
-            type = .list(shape)
+            let max = json["max"].int
+            let min = json["min"].int
+            type = .list(shape, max: max, min: min)
 
         case "structure":
             // Note that we need to do some extra preprocessing to clean up the formatting of the structure. Sometimes we have a "flattened" object which does not have extra fields (typically named `members`) wrapping the contents. Other times we do, and need to clear that out.

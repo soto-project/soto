@@ -269,6 +269,10 @@ extension ElasticTranscoder {
             self.captionFormats = captionFormats
         }
 
+        public func validate() throws {
+            try validate(captionFormats, name:"captionFormats", max: 4)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case captionFormats = "CaptionFormats"
         }
@@ -343,6 +347,7 @@ extension ElasticTranscoder {
 
         public func validate() throws {
             try albumArt?.validate()
+            try captions?.validate()
             try encryption?.validate()
             try validate(key, name:"key", max: 255)
             try validate(key, name:"key", min: 1)
@@ -399,6 +404,7 @@ extension ElasticTranscoder {
             try hlsContentProtection?.validate()
             try validate(name, name:"name", max: 255)
             try validate(name, name:"name", min: 1)
+            try validate(outputKeys, name:"outputKeys", max: 30)
             try playReadyDrm?.validate()
         }
 
@@ -452,10 +458,13 @@ extension ElasticTranscoder {
 
         public func validate() throws {
             try input?.validate()
+            try validate(inputs, name:"inputs", max: 200)
             try output?.validate()
             try validate(outputKeyPrefix, name:"outputKeyPrefix", max: 255)
             try validate(outputKeyPrefix, name:"outputKeyPrefix", min: 1)
+            try validate(outputs, name:"outputs", max: 30)
             try validate(pipelineId, name:"pipelineId", pattern: "^\\d{13}-\\w{6}$")
+            try validate(playlists, name:"playlists", max: 30)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -859,6 +868,7 @@ extension ElasticTranscoder {
         }
 
         public func validate() throws {
+            try validate(captionSources, name:"captionSources", max: 20)
             try validate(mergePolicy, name:"mergePolicy", pattern: "(^MergeOverride$)|(^MergeRetain$)|(^Override$)")
         }
 
@@ -926,6 +936,7 @@ extension ElasticTranscoder {
         public func validate() throws {
             try validate(id, name:"id", pattern: "^\\d{13}-\\w{6}$")
             try input?.validate()
+            try validate(inputs, name:"inputs", max: 200)
             try output?.validate()
             try validate(outputKeyPrefix, name:"outputKeyPrefix", max: 255)
             try validate(outputKeyPrefix, name:"outputKeyPrefix", min: 1)
@@ -1138,6 +1149,7 @@ extension ElasticTranscoder {
 
         public func validate() throws {
             try albumArt?.validate()
+            try captions?.validate()
             try encryption?.validate()
             try validate(frameRate, name:"frameRate", pattern: "^\\d{1,5}(\\.\\d{0,5})?$")
             try validate(key, name:"key", max: 255)
@@ -1485,6 +1497,7 @@ extension ElasticTranscoder {
         }
 
         public func validate() throws {
+            try validate(access, name:"access", max: 30)
             try validate(grantee, name:"grantee", max: 255)
             try validate(grantee, name:"grantee", min: 1)
             try validate(granteeType, name:"granteeType", pattern: "(^Canonical$)|(^Email$)|(^Group$)")
@@ -1599,6 +1612,7 @@ extension ElasticTranscoder {
 
         public func validate() throws {
             try validate(bucket, name:"bucket", pattern: "^(\\w|\\.|-){1,255}$")
+            try validate(permissions, name:"permissions", max: 30)
             try validate(storageClass, name:"storageClass", pattern: "(^ReducedRedundancy$)|(^Standard$)")
         }
 
@@ -1701,6 +1715,7 @@ extension ElasticTranscoder {
             try hlsContentProtection?.validate()
             try validate(name, name:"name", max: 255)
             try validate(name, name:"name", min: 1)
+            try validate(outputKeys, name:"outputKeys", max: 30)
             try playReadyDrm?.validate()
             try validate(status, name:"status", pattern: "(^Submitted$)|(^Progressing$)|(^Complete$)|(^Canceled$)|(^Error$)")
             try validate(statusDetail, name:"statusDetail", max: 255)
@@ -2014,6 +2029,7 @@ extension ElasticTranscoder {
             try validate(inputBucket, name:"inputBucket", pattern: "^(\\w|\\.|-){1,255}$")
             try validate(outputBucket, name:"outputBucket", pattern: "^(\\w|\\.|-){1,255}$")
             try validate(role, name:"role", pattern: "^arn:aws:iam::\\w{12}:role/.+$")
+            try validate(topics, name:"topics", max: 30)
         }
 
         private enum CodingKeys: String, CodingKey {

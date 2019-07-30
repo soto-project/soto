@@ -382,6 +382,7 @@ extension WAF {
             try validate(name, name:"name", min: 1)
             try validate(rateLimit, name:"rateLimit", max: 2000000000)
             try validate(rateLimit, name:"rateLimit", min: 2000)
+            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -552,6 +553,7 @@ extension WAF {
             try validate(changeToken, name:"changeToken", min: 1)
             try validate(name, name:"name", max: 128)
             try validate(name, name:"name", min: 1)
+            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -614,6 +616,7 @@ extension WAF {
             try validate(changeToken, name:"changeToken", min: 1)
             try validate(name, name:"name", max: 128)
             try validate(name, name:"name", min: 1)
+            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -786,6 +789,7 @@ extension WAF {
             try validate(changeToken, name:"changeToken", min: 1)
             try validate(name, name:"name", max: 128)
             try validate(name, name:"name", min: 1)
+            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3690,6 +3694,8 @@ extension WAF {
         }
 
         public func validate() throws {
+            try validate(logDestinationConfigs, name:"logDestinationConfigs", max: 1)
+            try validate(logDestinationConfigs, name:"logDestinationConfigs", min: 1)
             try validate(resourceArn, name:"resourceArn", max: 1224)
             try validate(resourceArn, name:"resourceArn", min: 1)
         }
@@ -4064,6 +4070,7 @@ extension WAF {
             try validate(name, name:"name", min: 1)
             try validate(regexPatternSetId, name:"regexPatternSetId", max: 128)
             try validate(regexPatternSetId, name:"regexPatternSetId", min: 1)
+            try validate(regexPatternStrings, name:"regexPatternStrings", max: 10)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4645,6 +4652,7 @@ extension WAF {
         public func validate() throws {
             try validate(resourceARN, name:"resourceARN", max: 1224)
             try validate(resourceARN, name:"resourceARN", min: 1)
+            try validate(tagList, name:"tagList", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4669,6 +4677,7 @@ extension WAF {
         public func validate() throws {
             try validate(resourceARN, name:"resourceARN", max: 1224)
             try validate(resourceARN, name:"resourceARN", min: 1)
+            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4732,6 +4741,7 @@ extension WAF {
         public func validate() throws {
             try validate(resourceARN, name:"resourceARN", max: 1224)
             try validate(resourceARN, name:"resourceARN", min: 1)
+            try validate(tagKeys, name:"tagKeys", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4771,6 +4781,7 @@ extension WAF {
             try validate(byteMatchSetId, name:"byteMatchSetId", max: 128)
             try validate(byteMatchSetId, name:"byteMatchSetId", min: 1)
             try validate(changeToken, name:"changeToken", min: 1)
+            try validate(updates, name:"updates", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4823,6 +4834,7 @@ extension WAF {
             try validate(changeToken, name:"changeToken", min: 1)
             try validate(geoMatchSetId, name:"geoMatchSetId", max: 128)
             try validate(geoMatchSetId, name:"geoMatchSetId", min: 1)
+            try validate(updates, name:"updates", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4875,6 +4887,7 @@ extension WAF {
             try validate(changeToken, name:"changeToken", min: 1)
             try validate(iPSetId, name:"iPSetId", max: 128)
             try validate(iPSetId, name:"iPSetId", min: 1)
+            try validate(updates, name:"updates", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4986,6 +4999,7 @@ extension WAF {
             try validate(changeToken, name:"changeToken", min: 1)
             try validate(regexMatchSetId, name:"regexMatchSetId", max: 128)
             try validate(regexMatchSetId, name:"regexMatchSetId", min: 1)
+            try validate(updates, name:"updates", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5038,6 +5052,7 @@ extension WAF {
             try validate(changeToken, name:"changeToken", min: 1)
             try validate(regexPatternSetId, name:"regexPatternSetId", max: 128)
             try validate(regexPatternSetId, name:"regexPatternSetId", min: 1)
+            try validate(updates, name:"updates", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5090,6 +5105,7 @@ extension WAF {
             try validate(changeToken, name:"changeToken", min: 1)
             try validate(ruleGroupId, name:"ruleGroupId", max: 128)
             try validate(ruleGroupId, name:"ruleGroupId", min: 1)
+            try validate(updates, name:"updates", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5194,6 +5210,7 @@ extension WAF {
             try validate(changeToken, name:"changeToken", min: 1)
             try validate(sizeConstraintSetId, name:"sizeConstraintSetId", max: 128)
             try validate(sizeConstraintSetId, name:"sizeConstraintSetId", min: 1)
+            try validate(updates, name:"updates", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5246,6 +5263,7 @@ extension WAF {
             try validate(changeToken, name:"changeToken", min: 1)
             try validate(sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", max: 128)
             try validate(sqlInjectionMatchSetId, name:"sqlInjectionMatchSetId", min: 1)
+            try validate(updates, name:"updates", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5353,6 +5371,7 @@ extension WAF {
 
         public func validate() throws {
             try validate(changeToken, name:"changeToken", min: 1)
+            try validate(updates, name:"updates", min: 1)
             try validate(xssMatchSetId, name:"xssMatchSetId", max: 128)
             try validate(xssMatchSetId, name:"xssMatchSetId", min: 1)
         }

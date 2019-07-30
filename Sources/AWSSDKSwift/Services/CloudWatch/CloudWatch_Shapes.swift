@@ -78,6 +78,7 @@ extension CloudWatch {
         }
 
         public func validate() throws {
+            try validate(dimensions, name:"dimensions", max: 10)
             try validate(metricName, name:"metricName", max: 255)
             try validate(metricName, name:"metricName", min: 1)
             try validate(namespace, name:"namespace", max: 255)
@@ -240,6 +241,10 @@ extension CloudWatch {
             self.alarmNames = alarmNames
         }
 
+        public func validate() throws {
+            try validate(alarmNames, name:"alarmNames", max: 100)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case alarmNames = "AlarmNames"
         }
@@ -269,6 +274,7 @@ extension CloudWatch {
         }
 
         public func validate() throws {
+            try validate(dimensions, name:"dimensions", max: 10)
             try validate(metricName, name:"metricName", max: 255)
             try validate(metricName, name:"metricName", min: 1)
             try validate(namespace, name:"namespace", max: 255)
@@ -421,6 +427,7 @@ extension CloudWatch {
         }
 
         public func validate() throws {
+            try validate(dimensions, name:"dimensions", max: 10)
             try validate(extendedStatistic, name:"extendedStatistic", pattern: "p(\\d{1,2}(\\.\\d{0,2})?|100)")
             try validate(metricName, name:"metricName", max: 255)
             try validate(metricName, name:"metricName", min: 1)
@@ -493,6 +500,7 @@ extension CloudWatch {
             try validate(actionPrefix, name:"actionPrefix", min: 1)
             try validate(alarmNamePrefix, name:"alarmNamePrefix", max: 255)
             try validate(alarmNamePrefix, name:"alarmNamePrefix", min: 1)
+            try validate(alarmNames, name:"alarmNames", max: 100)
             try validate(maxRecords, name:"maxRecords", max: 100)
             try validate(maxRecords, name:"maxRecords", min: 1)
         }
@@ -556,6 +564,7 @@ extension CloudWatch {
         }
 
         public func validate() throws {
+            try validate(dimensions, name:"dimensions", max: 10)
             try validate(maxResults, name:"maxResults", min: 1)
             try validate(metricName, name:"metricName", max: 255)
             try validate(metricName, name:"metricName", min: 1)
@@ -661,6 +670,10 @@ extension CloudWatch {
             self.alarmNames = alarmNames
         }
 
+        public func validate() throws {
+            try validate(alarmNames, name:"alarmNames", max: 100)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case alarmNames = "AlarmNames"
         }
@@ -675,6 +688,10 @@ extension CloudWatch {
         
         public init(alarmNames: [String]) {
             self.alarmNames = alarmNames
+        }
+
+        public func validate() throws {
+            try validate(alarmNames, name:"alarmNames", max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -835,12 +852,17 @@ extension CloudWatch {
         }
 
         public func validate() throws {
+            try validate(dimensions, name:"dimensions", max: 10)
+            try validate(extendedStatistics, name:"extendedStatistics", max: 10)
+            try validate(extendedStatistics, name:"extendedStatistics", min: 1)
             try validate(metricName, name:"metricName", max: 255)
             try validate(metricName, name:"metricName", min: 1)
             try validate(namespace, name:"namespace", max: 255)
             try validate(namespace, name:"namespace", min: 1)
             try validate(namespace, name:"namespace", pattern: "[^:].*")
             try validate(period, name:"period", min: 1)
+            try validate(statistics, name:"statistics", max: 5)
+            try validate(statistics, name:"statistics", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -987,6 +1009,7 @@ extension CloudWatch {
         }
 
         public func validate() throws {
+            try validate(dimensions, name:"dimensions", max: 10)
             try validate(metricName, name:"metricName", max: 255)
             try validate(metricName, name:"metricName", min: 1)
             try validate(namespace, name:"namespace", max: 255)
@@ -1101,6 +1124,7 @@ extension CloudWatch {
         }
 
         public func validate() throws {
+            try validate(dimensions, name:"dimensions", max: 10)
             try validate(metricName, name:"metricName", max: 255)
             try validate(metricName, name:"metricName", min: 1)
             try validate(namespace, name:"namespace", max: 255)
@@ -1231,6 +1255,7 @@ extension CloudWatch {
         }
 
         public func validate() throws {
+            try validate(alarmActions, name:"alarmActions", max: 5)
             try validate(alarmArn, name:"alarmArn", max: 1600)
             try validate(alarmArn, name:"alarmArn", min: 1)
             try validate(alarmDescription, name:"alarmDescription", max: 1024)
@@ -1238,15 +1263,18 @@ extension CloudWatch {
             try validate(alarmName, name:"alarmName", max: 255)
             try validate(alarmName, name:"alarmName", min: 1)
             try validate(datapointsToAlarm, name:"datapointsToAlarm", min: 1)
+            try validate(dimensions, name:"dimensions", max: 10)
             try validate(evaluateLowSampleCountPercentile, name:"evaluateLowSampleCountPercentile", max: 255)
             try validate(evaluateLowSampleCountPercentile, name:"evaluateLowSampleCountPercentile", min: 1)
             try validate(evaluationPeriods, name:"evaluationPeriods", min: 1)
             try validate(extendedStatistic, name:"extendedStatistic", pattern: "p(\\d{1,2}(\\.\\d{0,2})?|100)")
+            try validate(insufficientDataActions, name:"insufficientDataActions", max: 5)
             try validate(metricName, name:"metricName", max: 255)
             try validate(metricName, name:"metricName", min: 1)
             try validate(namespace, name:"namespace", max: 255)
             try validate(namespace, name:"namespace", min: 1)
             try validate(namespace, name:"namespace", pattern: "[^:].*")
+            try validate(oKActions, name:"oKActions", max: 5)
             try validate(period, name:"period", min: 1)
             try validate(stateReason, name:"stateReason", max: 1023)
             try validate(stateReason, name:"stateReason", min: 0)
@@ -1423,6 +1451,7 @@ extension CloudWatch {
         }
 
         public func validate() throws {
+            try validate(dimensions, name:"dimensions", max: 10)
             try validate(metricName, name:"metricName", max: 255)
             try validate(metricName, name:"metricName", min: 1)
             try validate(storageResolution, name:"storageResolution", min: 1)
@@ -1505,6 +1534,7 @@ extension CloudWatch {
         }
 
         public func validate() throws {
+            try validate(dimensions, name:"dimensions", max: 10)
             try validate(metricName, name:"metricName", max: 255)
             try validate(metricName, name:"metricName", min: 1)
             try validate(namespace, name:"namespace", max: 255)
@@ -1662,20 +1692,24 @@ extension CloudWatch {
         }
 
         public func validate() throws {
+            try validate(alarmActions, name:"alarmActions", max: 5)
             try validate(alarmDescription, name:"alarmDescription", max: 1024)
             try validate(alarmDescription, name:"alarmDescription", min: 0)
             try validate(alarmName, name:"alarmName", max: 255)
             try validate(alarmName, name:"alarmName", min: 1)
             try validate(datapointsToAlarm, name:"datapointsToAlarm", min: 1)
+            try validate(dimensions, name:"dimensions", max: 10)
             try validate(evaluateLowSampleCountPercentile, name:"evaluateLowSampleCountPercentile", max: 255)
             try validate(evaluateLowSampleCountPercentile, name:"evaluateLowSampleCountPercentile", min: 1)
             try validate(evaluationPeriods, name:"evaluationPeriods", min: 1)
             try validate(extendedStatistic, name:"extendedStatistic", pattern: "p(\\d{1,2}(\\.\\d{0,2})?|100)")
+            try validate(insufficientDataActions, name:"insufficientDataActions", max: 5)
             try validate(metricName, name:"metricName", max: 255)
             try validate(metricName, name:"metricName", min: 1)
             try validate(namespace, name:"namespace", max: 255)
             try validate(namespace, name:"namespace", min: 1)
             try validate(namespace, name:"namespace", pattern: "[^:].*")
+            try validate(oKActions, name:"oKActions", max: 5)
             try validate(period, name:"period", min: 1)
             try validate(thresholdMetricId, name:"thresholdMetricId", max: 255)
             try validate(thresholdMetricId, name:"thresholdMetricId", min: 1)

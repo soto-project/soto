@@ -814,6 +814,8 @@ extension StorageGateway {
         }
 
         public func validate() throws {
+            try validate(clientList, name:"clientList", max: 100)
+            try validate(clientList, name:"clientList", min: 1)
             try validate(clientToken, name:"clientToken", max: 100)
             try validate(clientToken, name:"clientToken", min: 5)
             try validate(defaultStorageClass, name:"defaultStorageClass", max: 20)
@@ -947,6 +949,8 @@ extension StorageGateway {
         }
 
         public func validate() throws {
+            try validate(adminUserList, name:"adminUserList", max: 100)
+            try validate(adminUserList, name:"adminUserList", min: 0)
             try validate(authentication, name:"authentication", max: 15)
             try validate(authentication, name:"authentication", min: 5)
             try validate(clientToken, name:"clientToken", max: 100)
@@ -955,12 +959,16 @@ extension StorageGateway {
             try validate(defaultStorageClass, name:"defaultStorageClass", min: 5)
             try validate(gatewayARN, name:"gatewayARN", max: 500)
             try validate(gatewayARN, name:"gatewayARN", min: 50)
+            try validate(invalidUserList, name:"invalidUserList", max: 100)
+            try validate(invalidUserList, name:"invalidUserList", min: 0)
             try validate(kMSKey, name:"kMSKey", max: 2048)
             try validate(kMSKey, name:"kMSKey", min: 7)
             try validate(locationARN, name:"locationARN", max: 310)
             try validate(locationARN, name:"locationARN", min: 16)
             try validate(role, name:"role", max: 2048)
             try validate(role, name:"role", min: 20)
+            try validate(validUserList, name:"validUserList", max: 100)
+            try validate(validUserList, name:"validUserList", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2155,6 +2163,11 @@ extension StorageGateway {
             self.fileShareARNList = fileShareARNList
         }
 
+        public func validate() throws {
+            try validate(fileShareARNList, name:"fileShareARNList", max: 10)
+            try validate(fileShareARNList, name:"fileShareARNList", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case fileShareARNList = "FileShareARNList"
         }
@@ -2185,6 +2198,11 @@ extension StorageGateway {
         
         public init(fileShareARNList: [String]) {
             self.fileShareARNList = fileShareARNList
+        }
+
+        public func validate() throws {
+            try validate(fileShareARNList, name:"fileShareARNList", max: 10)
+            try validate(fileShareARNList, name:"fileShareARNList", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2900,6 +2918,8 @@ extension StorageGateway {
         public func validate() throws {
             try validate(diskAllocationType, name:"diskAllocationType", max: 100)
             try validate(diskAllocationType, name:"diskAllocationType", min: 3)
+            try validate(diskAttributeList, name:"diskAttributeList", max: 10)
+            try validate(diskAttributeList, name:"diskAttributeList", min: 0)
             try validate(diskId, name:"diskId", max: 300)
             try validate(diskId, name:"diskId", min: 1)
         }
@@ -3711,6 +3731,8 @@ extension StorageGateway {
         }
 
         public func validate() throws {
+            try validate(clientList, name:"clientList", max: 100)
+            try validate(clientList, name:"clientList", min: 1)
             try validate(defaultStorageClass, name:"defaultStorageClass", max: 20)
             try validate(defaultStorageClass, name:"defaultStorageClass", min: 5)
             try validate(fileShareARN, name:"fileShareARN", max: 500)
@@ -3859,6 +3881,8 @@ extension StorageGateway {
         public func validate() throws {
             try validate(fileShareARN, name:"fileShareARN", max: 500)
             try validate(fileShareARN, name:"fileShareARN", min: 50)
+            try validate(folderList, name:"folderList", max: 50)
+            try validate(folderList, name:"folderList", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4161,6 +4185,8 @@ extension StorageGateway {
         }
 
         public func validate() throws {
+            try validate(adminUserList, name:"adminUserList", max: 100)
+            try validate(adminUserList, name:"adminUserList", min: 0)
             try validate(authentication, name:"authentication", max: 15)
             try validate(authentication, name:"authentication", min: 5)
             try validate(defaultStorageClass, name:"defaultStorageClass", max: 20)
@@ -4173,12 +4199,16 @@ extension StorageGateway {
             try validate(fileShareStatus, name:"fileShareStatus", min: 3)
             try validate(gatewayARN, name:"gatewayARN", max: 500)
             try validate(gatewayARN, name:"gatewayARN", min: 50)
+            try validate(invalidUserList, name:"invalidUserList", max: 100)
+            try validate(invalidUserList, name:"invalidUserList", min: 0)
             try validate(kMSKey, name:"kMSKey", max: 2048)
             try validate(kMSKey, name:"kMSKey", min: 7)
             try validate(locationARN, name:"locationARN", max: 310)
             try validate(locationARN, name:"locationARN", min: 16)
             try validate(role, name:"role", max: 2048)
             try validate(role, name:"role", min: 20)
+            try validate(validUserList, name:"validUserList", max: 100)
+            try validate(validUserList, name:"validUserList", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5129,6 +5159,8 @@ extension StorageGateway {
         }
 
         public func validate() throws {
+            try validate(clientList, name:"clientList", max: 100)
+            try validate(clientList, name:"clientList", min: 1)
             try validate(defaultStorageClass, name:"defaultStorageClass", max: 20)
             try validate(defaultStorageClass, name:"defaultStorageClass", min: 5)
             try validate(fileShareARN, name:"fileShareARN", max: 500)
@@ -5232,12 +5264,18 @@ extension StorageGateway {
         }
 
         public func validate() throws {
+            try validate(adminUserList, name:"adminUserList", max: 100)
+            try validate(adminUserList, name:"adminUserList", min: 0)
             try validate(defaultStorageClass, name:"defaultStorageClass", max: 20)
             try validate(defaultStorageClass, name:"defaultStorageClass", min: 5)
             try validate(fileShareARN, name:"fileShareARN", max: 500)
             try validate(fileShareARN, name:"fileShareARN", min: 50)
+            try validate(invalidUserList, name:"invalidUserList", max: 100)
+            try validate(invalidUserList, name:"invalidUserList", min: 0)
             try validate(kMSKey, name:"kMSKey", max: 2048)
             try validate(kMSKey, name:"kMSKey", min: 7)
+            try validate(validUserList, name:"validUserList", max: 100)
+            try validate(validUserList, name:"validUserList", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {

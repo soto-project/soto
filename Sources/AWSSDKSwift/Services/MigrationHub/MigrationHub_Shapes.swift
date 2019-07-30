@@ -731,6 +731,8 @@ extension MigrationHub {
             try validate(progressUpdateStream, name:"progressUpdateStream", max: 50)
             try validate(progressUpdateStream, name:"progressUpdateStream", min: 1)
             try validate(progressUpdateStream, name:"progressUpdateStream", pattern: "[^/:|\\000-\\037]+")
+            try validate(resourceAttributeList, name:"resourceAttributeList", max: 100)
+            try validate(resourceAttributeList, name:"resourceAttributeList", min: 0)
             try task?.validate()
         }
 
@@ -947,6 +949,8 @@ extension MigrationHub {
             try validate(progressUpdateStream, name:"progressUpdateStream", max: 50)
             try validate(progressUpdateStream, name:"progressUpdateStream", min: 1)
             try validate(progressUpdateStream, name:"progressUpdateStream", pattern: "[^/:|\\000-\\037]+")
+            try validate(resourceAttributeList, name:"resourceAttributeList", max: 100)
+            try validate(resourceAttributeList, name:"resourceAttributeList", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

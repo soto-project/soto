@@ -389,6 +389,7 @@ extension AutoScaling {
             try validate(autoScalingGroupName, name:"autoScalingGroupName", max: 255)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(availabilityZones, name:"availabilityZones", min: 1)
             try validate(healthCheckType, name:"healthCheckType", max: 32)
             try validate(healthCheckType, name:"healthCheckType", min: 1)
             try validate(healthCheckType, name:"healthCheckType", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -873,6 +874,7 @@ extension AutoScaling {
             try validate(autoScalingGroupName, name:"autoScalingGroupName", max: 255)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(availabilityZones, name:"availabilityZones", min: 1)
             try validate(healthCheckType, name:"healthCheckType", max: 32)
             try validate(healthCheckType, name:"healthCheckType", min: 1)
             try validate(healthCheckType, name:"healthCheckType", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -1425,6 +1427,7 @@ extension AutoScaling {
             try validate(autoScalingGroupName, name:"autoScalingGroupName", max: 1600)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(lifecycleHookNames, name:"lifecycleHookNames", max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4210,6 +4213,7 @@ extension AutoScaling {
             try validate(autoScalingGroupName, name:"autoScalingGroupName", max: 1600)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(availabilityZones, name:"availabilityZones", min: 1)
             try validate(healthCheckType, name:"healthCheckType", max: 32)
             try validate(healthCheckType, name:"healthCheckType", min: 1)
             try validate(healthCheckType, name:"healthCheckType", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")

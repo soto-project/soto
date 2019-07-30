@@ -23,6 +23,11 @@ extension RoboMaker {
             self.jobs = jobs
         }
 
+        public func validate() throws {
+            try validate(jobs, name:"jobs", max: 100)
+            try validate(jobs, name:"jobs", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case jobs = "jobs"
         }
@@ -41,6 +46,11 @@ extension RoboMaker {
         public init(jobs: [SimulationJob]? = nil, unprocessedJobs: [String]? = nil) {
             self.jobs = jobs
             self.unprocessedJobs = unprocessedJobs
+        }
+
+        public func validate() throws {
+            try validate(unprocessedJobs, name:"unprocessedJobs", max: 100)
+            try validate(unprocessedJobs, name:"unprocessedJobs", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -140,6 +150,8 @@ extension RoboMaker {
             try validate(clientRequestToken, name:"clientRequestToken", max: 64)
             try validate(clientRequestToken, name:"clientRequestToken", min: 1)
             try validate(clientRequestToken, name:"clientRequestToken", pattern: "[a-zA-Z0-9_\\-=]*")
+            try validate(deploymentApplicationConfigs, name:"deploymentApplicationConfigs", max: 1)
+            try validate(deploymentApplicationConfigs, name:"deploymentApplicationConfigs", min: 1)
             try deploymentConfig?.validate()
             try validate(fleet, name:"fleet", max: 1224)
             try validate(fleet, name:"fleet", min: 1)
@@ -202,6 +214,8 @@ extension RoboMaker {
             try validate(arn, name:"arn", max: 1224)
             try validate(arn, name:"arn", min: 1)
             try validate(arn, name:"arn", pattern: "arn:.*")
+            try validate(deploymentApplicationConfigs, name:"deploymentApplicationConfigs", max: 1)
+            try validate(deploymentApplicationConfigs, name:"deploymentApplicationConfigs", min: 1)
             try deploymentConfig?.validate()
             try validate(fleet, name:"fleet", max: 1224)
             try validate(fleet, name:"fleet", min: 1)
@@ -854,6 +868,11 @@ extension RoboMaker {
             try validate(iamRole, name:"iamRole", min: 1)
             try validate(iamRole, name:"iamRole", pattern: "arn:.*")
             try outputLocation?.validate()
+            try validate(robotApplications, name:"robotApplications", max: 1)
+            try validate(robotApplications, name:"robotApplications", min: 1)
+            try validate(simulationApplications, name:"simulationApplications", max: 1)
+            try validate(simulationApplications, name:"simulationApplications", min: 1)
+            try vpcConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -947,6 +966,11 @@ extension RoboMaker {
             try validate(iamRole, name:"iamRole", min: 1)
             try validate(iamRole, name:"iamRole", pattern: "arn:.*")
             try outputLocation?.validate()
+            try validate(robotApplications, name:"robotApplications", max: 1)
+            try validate(robotApplications, name:"robotApplications", min: 1)
+            try validate(simulationApplications, name:"simulationApplications", max: 1)
+            try validate(simulationApplications, name:"simulationApplications", min: 1)
+            try vpcConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1211,6 +1235,8 @@ extension RoboMaker {
             try validate(arn, name:"arn", max: 1224)
             try validate(arn, name:"arn", min: 1)
             try validate(arn, name:"arn", pattern: "arn:.*")
+            try validate(deploymentApplicationConfigs, name:"deploymentApplicationConfigs", max: 1)
+            try validate(deploymentApplicationConfigs, name:"deploymentApplicationConfigs", min: 1)
             try deploymentConfig?.validate()
             try validate(fleet, name:"fleet", max: 1224)
             try validate(fleet, name:"fleet", min: 1)
@@ -1442,6 +1468,8 @@ extension RoboMaker {
             try validate(arn, name:"arn", max: 1224)
             try validate(arn, name:"arn", min: 1)
             try validate(arn, name:"arn", pattern: "arn:.*")
+            try validate(deploymentApplicationConfigs, name:"deploymentApplicationConfigs", max: 1)
+            try validate(deploymentApplicationConfigs, name:"deploymentApplicationConfigs", min: 1)
             try deploymentConfig?.validate()
             try validate(fleet, name:"fleet", max: 1224)
             try validate(fleet, name:"fleet", min: 1)
@@ -1533,6 +1561,8 @@ extension RoboMaker {
             try validate(name, name:"name", max: 255)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "[a-zA-Z0-9_\\-]*")
+            try validate(robots, name:"robots", max: 1000)
+            try validate(robots, name:"robots", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1962,6 +1992,11 @@ extension RoboMaker {
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "[a-zA-Z0-9_\\-]*")
             try outputLocation?.validate()
+            try validate(robotApplications, name:"robotApplications", max: 1)
+            try validate(robotApplications, name:"robotApplications", min: 1)
+            try validate(simulationApplications, name:"simulationApplications", max: 1)
+            try validate(simulationApplications, name:"simulationApplications", min: 1)
+            try vpcConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2010,6 +2045,8 @@ extension RoboMaker {
             try validate(name, name:"name", max: 255)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "[a-zA-Z0-9_\\-]*")
+            try validate(values, name:"values", max: 1)
+            try validate(values, name:"values", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2126,6 +2163,8 @@ extension RoboMaker {
         }
 
         public func validate() throws {
+            try validate(filters, name:"filters", max: 1)
+            try validate(filters, name:"filters", min: 1)
             try validate(nextToken, name:"nextToken", max: 2048)
             try validate(nextToken, name:"nextToken", min: 1)
             try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
@@ -2154,6 +2193,8 @@ extension RoboMaker {
         }
 
         public func validate() throws {
+            try validate(deploymentJobs, name:"deploymentJobs", max: 200)
+            try validate(deploymentJobs, name:"deploymentJobs", min: 0)
             try validate(nextToken, name:"nextToken", max: 2048)
             try validate(nextToken, name:"nextToken", min: 1)
             try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
@@ -2185,6 +2226,8 @@ extension RoboMaker {
         }
 
         public func validate() throws {
+            try validate(filters, name:"filters", max: 1)
+            try validate(filters, name:"filters", min: 1)
             try validate(nextToken, name:"nextToken", max: 2048)
             try validate(nextToken, name:"nextToken", min: 1)
             try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
@@ -2213,6 +2256,8 @@ extension RoboMaker {
         }
 
         public func validate() throws {
+            try validate(fleetDetails, name:"fleetDetails", max: 200)
+            try validate(fleetDetails, name:"fleetDetails", min: 0)
             try validate(nextToken, name:"nextToken", max: 2048)
             try validate(nextToken, name:"nextToken", min: 1)
             try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
@@ -2248,6 +2293,8 @@ extension RoboMaker {
         }
 
         public func validate() throws {
+            try validate(filters, name:"filters", max: 1)
+            try validate(filters, name:"filters", min: 1)
             try validate(nextToken, name:"nextToken", max: 2048)
             try validate(nextToken, name:"nextToken", min: 1)
             try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
@@ -2281,6 +2328,8 @@ extension RoboMaker {
             try validate(nextToken, name:"nextToken", max: 2048)
             try validate(nextToken, name:"nextToken", min: 1)
             try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
+            try validate(robotApplicationSummaries, name:"robotApplicationSummaries", max: 100)
+            try validate(robotApplicationSummaries, name:"robotApplicationSummaries", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2309,6 +2358,8 @@ extension RoboMaker {
         }
 
         public func validate() throws {
+            try validate(filters, name:"filters", max: 1)
+            try validate(filters, name:"filters", min: 1)
             try validate(nextToken, name:"nextToken", max: 2048)
             try validate(nextToken, name:"nextToken", min: 1)
             try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
@@ -2340,6 +2391,8 @@ extension RoboMaker {
             try validate(nextToken, name:"nextToken", max: 2048)
             try validate(nextToken, name:"nextToken", min: 1)
             try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
+            try validate(robots, name:"robots", max: 1000)
+            try validate(robots, name:"robots", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2372,6 +2425,8 @@ extension RoboMaker {
         }
 
         public func validate() throws {
+            try validate(filters, name:"filters", max: 1)
+            try validate(filters, name:"filters", min: 1)
             try validate(nextToken, name:"nextToken", max: 2048)
             try validate(nextToken, name:"nextToken", min: 1)
             try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
@@ -2405,6 +2460,8 @@ extension RoboMaker {
             try validate(nextToken, name:"nextToken", max: 2048)
             try validate(nextToken, name:"nextToken", min: 1)
             try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
+            try validate(simulationApplicationSummaries, name:"simulationApplicationSummaries", max: 100)
+            try validate(simulationApplicationSummaries, name:"simulationApplicationSummaries", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2433,6 +2490,8 @@ extension RoboMaker {
         }
 
         public func validate() throws {
+            try validate(filters, name:"filters", max: 1)
+            try validate(filters, name:"filters", min: 1)
             try validate(nextToken, name:"nextToken", max: 2048)
             try validate(nextToken, name:"nextToken", min: 1)
             try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
@@ -2464,6 +2523,8 @@ extension RoboMaker {
             try validate(nextToken, name:"nextToken", max: 2048)
             try validate(nextToken, name:"nextToken", min: 1)
             try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
+            try validate(simulationJobSummaries, name:"simulationJobSummaries", max: 100)
+            try validate(simulationJobSummaries, name:"simulationJobSummaries", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3137,6 +3198,11 @@ extension RoboMaker {
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "[a-zA-Z0-9_\\-]*")
             try outputLocation?.validate()
+            try validate(robotApplications, name:"robotApplications", max: 1)
+            try validate(robotApplications, name:"robotApplications", min: 1)
+            try validate(simulationApplications, name:"simulationApplications", max: 1)
+            try validate(simulationApplications, name:"simulationApplications", min: 1)
+            try vpcConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3233,6 +3299,10 @@ extension RoboMaker {
             try validate(name, name:"name", max: 255)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "[a-zA-Z0-9_\\-]*")
+            try validate(robotApplicationNames, name:"robotApplicationNames", max: 1)
+            try validate(robotApplicationNames, name:"robotApplicationNames", min: 1)
+            try validate(simulationApplicationNames, name:"simulationApplicationNames", max: 1)
+            try validate(simulationApplicationNames, name:"simulationApplicationNames", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3423,6 +3493,8 @@ extension RoboMaker {
             try validate(arn, name:"arn", max: 1224)
             try validate(arn, name:"arn", min: 1)
             try validate(arn, name:"arn", pattern: "arn:.*")
+            try validate(deploymentApplicationConfigs, name:"deploymentApplicationConfigs", max: 1)
+            try validate(deploymentApplicationConfigs, name:"deploymentApplicationConfigs", min: 1)
             try deploymentConfig?.validate()
             try validate(fleet, name:"fleet", max: 1224)
             try validate(fleet, name:"fleet", min: 1)
@@ -3756,6 +3828,13 @@ extension RoboMaker {
             self.subnets = subnets
         }
 
+        public func validate() throws {
+            try validate(securityGroups, name:"securityGroups", max: 5)
+            try validate(securityGroups, name:"securityGroups", min: 1)
+            try validate(subnets, name:"subnets", max: 16)
+            try validate(subnets, name:"subnets", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case assignPublicIp = "assignPublicIp"
             case securityGroups = "securityGroups"
@@ -3784,6 +3863,13 @@ extension RoboMaker {
             self.securityGroups = securityGroups
             self.subnets = subnets
             self.vpcId = vpcId
+        }
+
+        public func validate() throws {
+            try validate(securityGroups, name:"securityGroups", max: 5)
+            try validate(securityGroups, name:"securityGroups", min: 1)
+            try validate(subnets, name:"subnets", max: 16)
+            try validate(subnets, name:"subnets", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

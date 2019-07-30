@@ -138,6 +138,7 @@ extension MarketplaceEntitlementService {
         }
 
         public func validate() throws {
+            try validate(entitlements, name:"entitlements", min: 0)
             try validate(nextToken, name:"nextToken", pattern: "\\S+")
         }
 

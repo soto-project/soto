@@ -581,6 +581,7 @@ extension ServiceDiscovery {
         }
 
         public func validate() throws {
+            try validate(instances, name:"instances", min: 1)
             try validate(maxResults, name:"maxResults", max: 100)
             try validate(maxResults, name:"maxResults", min: 1)
             try validate(nextToken, name:"nextToken", max: 4096)

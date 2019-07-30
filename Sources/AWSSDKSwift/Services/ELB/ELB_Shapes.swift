@@ -88,6 +88,10 @@ extension ELB {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(tags, name:"tags", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case loadBalancerNames = "LoadBalancerNames"
             case tags = "Tags"
@@ -371,6 +375,10 @@ extension ELB {
             self.securityGroups = securityGroups
             self.subnets = subnets
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -923,6 +931,11 @@ extension ELB {
             self.loadBalancerNames = loadBalancerNames
         }
 
+        public func validate() throws {
+            try validate(loadBalancerNames, name:"loadBalancerNames", max: 20)
+            try validate(loadBalancerNames, name:"loadBalancerNames", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case loadBalancerNames = "LoadBalancerNames"
         }
@@ -1211,6 +1224,7 @@ extension ELB {
         }
 
         public func validate() throws {
+            try validate(additionalAttributes, name:"additionalAttributes", max: 10)
             try connectionSettings?.validate()
         }
 
@@ -1613,6 +1627,10 @@ extension ELB {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(tags, name:"tags", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case loadBalancerNames = "LoadBalancerNames"
             case tags = "Tags"
@@ -1793,6 +1811,10 @@ extension ELB {
         public init(loadBalancerName: String? = nil, tags: [Tag]? = nil) {
             self.loadBalancerName = loadBalancerName
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

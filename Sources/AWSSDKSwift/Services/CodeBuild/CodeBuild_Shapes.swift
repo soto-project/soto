@@ -42,6 +42,11 @@ extension CodeBuild {
             self.ids = ids
         }
 
+        public func validate() throws {
+            try validate(ids, name:"ids", max: 100)
+            try validate(ids, name:"ids", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case ids = "ids"
         }
@@ -62,6 +67,11 @@ extension CodeBuild {
             self.buildsNotDeleted = buildsNotDeleted
         }
 
+        public func validate() throws {
+            try validate(buildsDeleted, name:"buildsDeleted", max: 100)
+            try validate(buildsDeleted, name:"buildsDeleted", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case buildsDeleted = "buildsDeleted"
             case buildsNotDeleted = "buildsNotDeleted"
@@ -77,6 +87,11 @@ extension CodeBuild {
         
         public init(ids: [String]) {
             self.ids = ids
+        }
+
+        public func validate() throws {
+            try validate(ids, name:"ids", max: 100)
+            try validate(ids, name:"ids", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -99,6 +114,11 @@ extension CodeBuild {
             self.buildsNotFound = buildsNotFound
         }
 
+        public func validate() throws {
+            try validate(buildsNotFound, name:"buildsNotFound", max: 100)
+            try validate(buildsNotFound, name:"buildsNotFound", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case builds = "builds"
             case buildsNotFound = "buildsNotFound"
@@ -114,6 +134,11 @@ extension CodeBuild {
         
         public init(names: [String]) {
             self.names = names
+        }
+
+        public func validate() throws {
+            try validate(names, name:"names", max: 100)
+            try validate(names, name:"names", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -134,6 +159,11 @@ extension CodeBuild {
         public init(projects: [Project]? = nil, projectsNotFound: [String]? = nil) {
             self.projects = projects
             self.projectsNotFound = projectsNotFound
+        }
+
+        public func validate() throws {
+            try validate(projectsNotFound, name:"projectsNotFound", max: 100)
+            try validate(projectsNotFound, name:"projectsNotFound", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -261,6 +291,12 @@ extension CodeBuild {
             try networkInterface?.validate()
             try validate(projectName, name:"projectName", min: 1)
             try validate(resolvedSourceVersion, name:"resolvedSourceVersion", min: 1)
+            try validate(secondaryArtifacts, name:"secondaryArtifacts", max: 12)
+            try validate(secondaryArtifacts, name:"secondaryArtifacts", min: 0)
+            try validate(secondarySources, name:"secondarySources", max: 12)
+            try validate(secondarySources, name:"secondarySources", min: 0)
+            try validate(secondarySourceVersions, name:"secondarySourceVersions", max: 12)
+            try validate(secondarySourceVersions, name:"secondarySourceVersions", min: 0)
             try validate(serviceRole, name:"serviceRole", min: 1)
             try source?.validate()
             try validate(sourceVersion, name:"sourceVersion", min: 1)
@@ -555,8 +591,16 @@ extension CodeBuild {
             try validate(name, name:"name", pattern: "[A-Za-z0-9][A-Za-z0-9\\-_]{1,254}")
             try validate(queuedTimeoutInMinutes, name:"queuedTimeoutInMinutes", max: 480)
             try validate(queuedTimeoutInMinutes, name:"queuedTimeoutInMinutes", min: 5)
+            try validate(secondaryArtifacts, name:"secondaryArtifacts", max: 12)
+            try validate(secondaryArtifacts, name:"secondaryArtifacts", min: 0)
+            try validate(secondarySources, name:"secondarySources", max: 12)
+            try validate(secondarySources, name:"secondarySources", min: 0)
+            try validate(secondarySourceVersions, name:"secondarySourceVersions", max: 12)
+            try validate(secondarySourceVersions, name:"secondarySourceVersions", min: 0)
             try validate(serviceRole, name:"serviceRole", min: 1)
             try source.validate()
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 0)
             try validate(timeoutInMinutes, name:"timeoutInMinutes", max: 480)
             try validate(timeoutInMinutes, name:"timeoutInMinutes", min: 5)
             try vpcConfig?.validate()
@@ -1034,6 +1078,11 @@ extension CodeBuild {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(ids, name:"ids", max: 100)
+            try validate(ids, name:"ids", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case ids = "ids"
             case nextToken = "nextToken"
@@ -1074,6 +1123,11 @@ extension CodeBuild {
         public init(ids: [String]? = nil, nextToken: String? = nil) {
             self.ids = ids
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(ids, name:"ids", max: 100)
+            try validate(ids, name:"ids", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1149,6 +1203,11 @@ extension CodeBuild {
         public init(nextToken: String? = nil, projects: [String]? = nil) {
             self.nextToken = nextToken
             self.projects = projects
+        }
+
+        public func validate() throws {
+            try validate(projects, name:"projects", max: 100)
+            try validate(projects, name:"projects", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1409,8 +1468,16 @@ extension CodeBuild {
             try validate(name, name:"name", pattern: "[A-Za-z0-9][A-Za-z0-9\\-_]{1,254}")
             try validate(queuedTimeoutInMinutes, name:"queuedTimeoutInMinutes", max: 480)
             try validate(queuedTimeoutInMinutes, name:"queuedTimeoutInMinutes", min: 5)
+            try validate(secondaryArtifacts, name:"secondaryArtifacts", max: 12)
+            try validate(secondaryArtifacts, name:"secondaryArtifacts", min: 0)
+            try validate(secondarySources, name:"secondarySources", max: 12)
+            try validate(secondarySources, name:"secondarySources", min: 0)
+            try validate(secondarySourceVersions, name:"secondarySourceVersions", max: 12)
+            try validate(secondarySourceVersions, name:"secondarySourceVersions", min: 0)
             try validate(serviceRole, name:"serviceRole", min: 1)
             try source?.validate()
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 0)
             try validate(timeoutInMinutes, name:"timeoutInMinutes", max: 480)
             try validate(timeoutInMinutes, name:"timeoutInMinutes", min: 5)
             try vpcConfig?.validate()
@@ -1947,6 +2014,12 @@ extension CodeBuild {
             try validate(queuedTimeoutInMinutesOverride, name:"queuedTimeoutInMinutesOverride", max: 480)
             try validate(queuedTimeoutInMinutesOverride, name:"queuedTimeoutInMinutesOverride", min: 5)
             try registryCredentialOverride?.validate()
+            try validate(secondaryArtifactsOverride, name:"secondaryArtifactsOverride", max: 12)
+            try validate(secondaryArtifactsOverride, name:"secondaryArtifactsOverride", min: 0)
+            try validate(secondarySourcesOverride, name:"secondarySourcesOverride", max: 12)
+            try validate(secondarySourcesOverride, name:"secondarySourcesOverride", min: 0)
+            try validate(secondarySourcesVersionOverride, name:"secondarySourcesVersionOverride", max: 12)
+            try validate(secondarySourcesVersionOverride, name:"secondarySourcesVersionOverride", min: 0)
             try validate(serviceRoleOverride, name:"serviceRoleOverride", min: 1)
             try validate(timeoutInMinutesOverride, name:"timeoutInMinutesOverride", max: 480)
             try validate(timeoutInMinutesOverride, name:"timeoutInMinutesOverride", min: 5)
@@ -2171,8 +2244,16 @@ extension CodeBuild {
             try validate(name, name:"name", min: 1)
             try validate(queuedTimeoutInMinutes, name:"queuedTimeoutInMinutes", max: 480)
             try validate(queuedTimeoutInMinutes, name:"queuedTimeoutInMinutes", min: 5)
+            try validate(secondaryArtifacts, name:"secondaryArtifacts", max: 12)
+            try validate(secondaryArtifacts, name:"secondaryArtifacts", min: 0)
+            try validate(secondarySources, name:"secondarySources", max: 12)
+            try validate(secondarySources, name:"secondarySources", min: 0)
+            try validate(secondarySourceVersions, name:"secondarySourceVersions", max: 12)
+            try validate(secondarySourceVersions, name:"secondarySourceVersions", min: 0)
             try validate(serviceRole, name:"serviceRole", min: 1)
             try source?.validate()
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 0)
             try validate(timeoutInMinutes, name:"timeoutInMinutes", max: 480)
             try validate(timeoutInMinutes, name:"timeoutInMinutes", min: 5)
             try vpcConfig?.validate()
@@ -2297,6 +2378,8 @@ extension CodeBuild {
         }
 
         public func validate() throws {
+            try validate(securityGroupIds, name:"securityGroupIds", max: 5)
+            try validate(subnets, name:"subnets", max: 16)
             try validate(vpcId, name:"vpcId", min: 1)
         }
 

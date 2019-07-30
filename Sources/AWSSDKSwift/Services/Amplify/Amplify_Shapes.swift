@@ -292,6 +292,7 @@ extension Amplify {
             try validate(branchName, name:"branchName", min: 1)
             try validate(buildSpec, name:"buildSpec", max: 25000)
             try validate(buildSpec, name:"buildSpec", min: 1)
+            try validate(customDomains, name:"customDomains", max: 255)
             try validate(description, name:"description", max: 1000)
             try validate(displayName, name:"displayName", max: 255)
             try validate(framework, name:"framework", max: 255)
@@ -661,6 +662,7 @@ extension Amplify {
             try validate(appId, name:"appId", max: 255)
             try validate(appId, name:"appId", min: 1)
             try validate(domainName, name:"domainName", max: 255)
+            try validate(subDomainSettings, name:"subDomainSettings", max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1054,6 +1056,7 @@ extension Amplify {
             try validate(domainAssociationArn, name:"domainAssociationArn", max: 1000)
             try validate(domainName, name:"domainName", max: 255)
             try validate(statusReason, name:"statusReason", max: 1000)
+            try validate(subDomains, name:"subDomains", max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1515,6 +1518,7 @@ extension Amplify {
         }
 
         public func validate() throws {
+            try validate(branches, name:"branches", max: 255)
             try validate(nextToken, name:"nextToken", max: 2000)
         }
 
@@ -1574,6 +1578,7 @@ extension Amplify {
         }
 
         public func validate() throws {
+            try validate(domainAssociations, name:"domainAssociations", max: 255)
             try validate(nextToken, name:"nextToken", max: 2000)
         }
 
@@ -2164,6 +2169,8 @@ extension Amplify {
 
         public func validate() throws {
             try validate(resourceArn, name:"resourceArn", pattern: "^arn:aws:amplify:.*")
+            try validate(tagKeys, name:"tagKeys", max: 50)
+            try validate(tagKeys, name:"tagKeys", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2431,6 +2438,7 @@ extension Amplify {
             try validate(appId, name:"appId", max: 255)
             try validate(appId, name:"appId", min: 1)
             try validate(domainName, name:"domainName", max: 255)
+            try validate(subDomainSettings, name:"subDomainSettings", max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {

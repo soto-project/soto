@@ -109,6 +109,7 @@ extension Health {
         }
 
         public func validate() throws {
+            try filter.validate()
             try validate(locale, name:"locale", max: 256)
             try validate(locale, name:"locale", min: 2)
             try validate(maxResults, name:"maxResults", max: 100)
@@ -160,6 +161,11 @@ extension Health {
             self.eventArns = eventArns
         }
 
+        public func validate() throws {
+            try validate(eventArns, name:"eventArns", max: 50)
+            try validate(eventArns, name:"eventArns", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case eventArns = "eventArns"
         }
@@ -205,6 +211,7 @@ extension Health {
         }
 
         public func validate() throws {
+            try filter?.validate()
             try validate(maxResults, name:"maxResults", max: 100)
             try validate(maxResults, name:"maxResults", min: 10)
             try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9=/+_.-]{4,512}")
@@ -259,6 +266,8 @@ extension Health {
         }
 
         public func validate() throws {
+            try validate(eventArns, name:"eventArns", max: 10)
+            try validate(eventArns, name:"eventArns", min: 1)
             try validate(locale, name:"locale", max: 256)
             try validate(locale, name:"locale", min: 2)
         }
@@ -314,6 +323,7 @@ extension Health {
         }
 
         public func validate() throws {
+            try filter?.validate()
             try validate(locale, name:"locale", max: 256)
             try validate(locale, name:"locale", min: 2)
             try validate(maxResults, name:"maxResults", max: 100)
@@ -378,6 +388,7 @@ extension Health {
         }
 
         public func validate() throws {
+            try filter?.validate()
             try validate(locale, name:"locale", max: 256)
             try validate(locale, name:"locale", min: 2)
             try validate(maxResults, name:"maxResults", max: 100)
@@ -473,6 +484,20 @@ extension Health {
             self.lastUpdatedTimes = lastUpdatedTimes
             self.statusCodes = statusCodes
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try validate(entityArns, name:"entityArns", max: 100)
+            try validate(entityArns, name:"entityArns", min: 1)
+            try validate(entityValues, name:"entityValues", max: 100)
+            try validate(entityValues, name:"entityValues", min: 1)
+            try validate(eventArns, name:"eventArns", max: 10)
+            try validate(eventArns, name:"eventArns", min: 1)
+            try validate(lastUpdatedTimes, name:"lastUpdatedTimes", max: 10)
+            try validate(lastUpdatedTimes, name:"lastUpdatedTimes", min: 1)
+            try validate(statusCodes, name:"statusCodes", max: 3)
+            try validate(statusCodes, name:"statusCodes", min: 1)
+            try validate(tags, name:"tags", max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -714,6 +739,32 @@ extension Health {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(endTimes, name:"endTimes", max: 10)
+            try validate(endTimes, name:"endTimes", min: 1)
+            try validate(entityArns, name:"entityArns", max: 100)
+            try validate(entityArns, name:"entityArns", min: 1)
+            try validate(entityValues, name:"entityValues", max: 100)
+            try validate(entityValues, name:"entityValues", min: 1)
+            try validate(eventArns, name:"eventArns", max: 10)
+            try validate(eventArns, name:"eventArns", min: 1)
+            try validate(eventStatusCodes, name:"eventStatusCodes", max: 6)
+            try validate(eventStatusCodes, name:"eventStatusCodes", min: 1)
+            try validate(eventTypeCategories, name:"eventTypeCategories", max: 10)
+            try validate(eventTypeCategories, name:"eventTypeCategories", min: 1)
+            try validate(eventTypeCodes, name:"eventTypeCodes", max: 10)
+            try validate(eventTypeCodes, name:"eventTypeCodes", min: 1)
+            try validate(lastUpdatedTimes, name:"lastUpdatedTimes", max: 10)
+            try validate(lastUpdatedTimes, name:"lastUpdatedTimes", min: 1)
+            try validate(regions, name:"regions", max: 10)
+            try validate(regions, name:"regions", min: 1)
+            try validate(services, name:"services", max: 10)
+            try validate(services, name:"services", min: 1)
+            try validate(startTimes, name:"startTimes", max: 10)
+            try validate(startTimes, name:"startTimes", min: 1)
+            try validate(tags, name:"tags", max: 50)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case availabilityZones = "availabilityZones"
             case endTimes = "endTimes"
@@ -781,6 +832,15 @@ extension Health {
             self.eventTypeCategories = eventTypeCategories
             self.eventTypeCodes = eventTypeCodes
             self.services = services
+        }
+
+        public func validate() throws {
+            try validate(eventTypeCategories, name:"eventTypeCategories", max: 10)
+            try validate(eventTypeCategories, name:"eventTypeCategories", min: 1)
+            try validate(eventTypeCodes, name:"eventTypeCodes", max: 10)
+            try validate(eventTypeCodes, name:"eventTypeCodes", min: 1)
+            try validate(services, name:"services", max: 10)
+            try validate(services, name:"services", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

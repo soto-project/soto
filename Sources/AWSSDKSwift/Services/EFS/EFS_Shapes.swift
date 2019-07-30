@@ -82,6 +82,10 @@ extension EFS {
             self.subnetId = subnetId
         }
 
+        public func validate() throws {
+            try validate(securityGroups, name:"securityGroups", max: 5)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case fileSystemId = "FileSystemId"
             case ipAddress = "IpAddress"
@@ -268,6 +272,10 @@ extension EFS {
         
         public init(securityGroups: [String]) {
             self.securityGroups = securityGroups
+        }
+
+        public func validate() throws {
+            try validate(securityGroups, name:"securityGroups", max: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -575,6 +583,10 @@ extension EFS {
         public init(mountTargetId: String, securityGroups: [String]? = nil) {
             self.mountTargetId = mountTargetId
             self.securityGroups = securityGroups
+        }
+
+        public func validate() throws {
+            try validate(securityGroups, name:"securityGroups", max: 5)
         }
 
         private enum CodingKeys: String, CodingKey {

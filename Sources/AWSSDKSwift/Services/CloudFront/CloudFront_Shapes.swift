@@ -507,6 +507,10 @@ extension CloudFront {
             self.distributionConfig = distributionConfig
         }
 
+        public func validate() throws {
+            try distributionConfig.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case distributionConfig = "DistributionConfig"
         }
@@ -533,6 +537,10 @@ extension CloudFront {
             self.location = location
         }
 
+        public func validate() throws {
+            try distribution?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case distribution = "Distribution"
             case eTag = "ETag"
@@ -552,6 +560,10 @@ extension CloudFront {
         
         public init(distributionConfigWithTags: DistributionConfigWithTags) {
             self.distributionConfigWithTags = distributionConfigWithTags
+        }
+
+        public func validate() throws {
+            try distributionConfigWithTags.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -578,6 +590,10 @@ extension CloudFront {
             self.distribution = distribution
             self.eTag = eTag
             self.location = location
+        }
+
+        public func validate() throws {
+            try distribution?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1222,6 +1238,10 @@ extension CloudFront {
             self.status = status
         }
 
+        public func validate() throws {
+            try distributionConfig.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case activeTrustedSigners = "ActiveTrustedSigners"
             case aliasICPRecordals = "AliasICPRecordals"
@@ -1310,6 +1330,10 @@ extension CloudFront {
             self.webACLId = webACLId
         }
 
+        public func validate() throws {
+            try origins.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case aliases = "Aliases"
             case cacheBehaviors = "CacheBehaviors"
@@ -1344,6 +1368,10 @@ extension CloudFront {
         public init(distributionConfig: DistributionConfig, tags: Tags) {
             self.distributionConfig = distributionConfig
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try distributionConfig.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1478,6 +1506,10 @@ extension CloudFront {
             self.status = status
             self.viewerCertificate = viewerCertificate
             self.webACLId = webACLId
+        }
+
+        public func validate() throws {
+            try origins.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2008,6 +2040,10 @@ extension CloudFront {
             self.eTag = eTag
         }
 
+        public func validate() throws {
+            try distributionConfig?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case distributionConfig = "DistributionConfig"
             case eTag = "ETag"
@@ -2045,6 +2081,10 @@ extension CloudFront {
         public init(distribution: Distribution? = nil, eTag: String? = nil) {
             self.distribution = distribution
             self.eTag = eTag
+        }
+
+        public func validate() throws {
+            try distribution?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3124,6 +3164,11 @@ extension CloudFront {
             self.members = members
         }
 
+        public func validate() throws {
+            try failoverCriteria.validate()
+            try members.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case failoverCriteria = "FailoverCriteria"
             case id = "Id"
@@ -3140,6 +3185,10 @@ extension CloudFront {
         
         public init(statusCodes: StatusCodes) {
             self.statusCodes = statusCodes
+        }
+
+        public func validate() throws {
+            try statusCodes.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3176,6 +3225,11 @@ extension CloudFront {
         public init(items: [OriginGroupMember], quantity: Int32) {
             self.items = items
             self.quantity = quantity
+        }
+
+        public func validate() throws {
+            try validate(items, name:"items", max: 2)
+            try validate(items, name:"items", min: 2)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3246,6 +3300,10 @@ extension CloudFront {
         public init(items: [Origin], quantity: Int32) {
             self.items = items
             self.quantity = quantity
+        }
+
+        public func validate() throws {
+            try validate(items, name:"items", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3591,6 +3649,10 @@ extension CloudFront {
         public init(items: [Int32], quantity: Int32) {
             self.items = items
             self.quantity = quantity
+        }
+
+        public func validate() throws {
+            try validate(items, name:"items", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4068,6 +4130,10 @@ extension CloudFront {
             self.ifMatch = ifMatch
         }
 
+        public func validate() throws {
+            try distributionConfig.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case distributionConfig = "DistributionConfig"
             case id = "Id"
@@ -4090,6 +4156,10 @@ extension CloudFront {
         public init(distribution: Distribution? = nil, eTag: String? = nil) {
             self.distribution = distribution
             self.eTag = eTag
+        }
+
+        public func validate() throws {
+            try distribution?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

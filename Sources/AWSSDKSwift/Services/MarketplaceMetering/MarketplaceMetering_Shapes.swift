@@ -23,6 +23,8 @@ extension MarketplaceMetering {
         public func validate() throws {
             try validate(productCode, name:"productCode", max: 255)
             try validate(productCode, name:"productCode", min: 1)
+            try validate(usageRecords, name:"usageRecords", max: 25)
+            try validate(usageRecords, name:"usageRecords", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -44,6 +46,11 @@ extension MarketplaceMetering {
         public init(results: [UsageRecordResult]? = nil, unprocessedRecords: [UsageRecord]? = nil) {
             self.results = results
             self.unprocessedRecords = unprocessedRecords
+        }
+
+        public func validate() throws {
+            try validate(unprocessedRecords, name:"unprocessedRecords", max: 25)
+            try validate(unprocessedRecords, name:"unprocessedRecords", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {

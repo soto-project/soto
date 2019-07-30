@@ -196,6 +196,11 @@ extension ApplicationDiscoveryService {
             self.importTaskIds = importTaskIds
         }
 
+        public func validate() throws {
+            try validate(importTaskIds, name:"importTaskIds", max: 10)
+            try validate(importTaskIds, name:"importTaskIds", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case importTaskIds = "importTaskIds"
         }
@@ -1200,6 +1205,11 @@ extension ApplicationDiscoveryService {
         public init(name: ImportTaskFilterName? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
+        }
+
+        public func validate() throws {
+            try validate(values, name:"values", max: 100)
+            try validate(values, name:"values", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

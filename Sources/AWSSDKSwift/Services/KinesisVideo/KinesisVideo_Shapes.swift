@@ -541,6 +541,8 @@ extension KinesisVideo {
             try validate(streamName, name:"streamName", max: 256)
             try validate(streamName, name:"streamName", min: 1)
             try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(tagKeyList, name:"tagKeyList", max: 50)
+            try validate(tagKeyList, name:"tagKeyList", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

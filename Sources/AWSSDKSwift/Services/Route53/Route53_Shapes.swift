@@ -195,6 +195,7 @@ extension Route53 {
         }
 
         public func validate() throws {
+            try validate(changes, name:"changes", min: 1)
             try validate(comment, name:"comment", max: 256)
         }
 
@@ -316,6 +317,10 @@ extension Route53 {
         }
 
         public func validate() throws {
+            try validate(addTags, name:"addTags", max: 10)
+            try validate(addTags, name:"addTags", min: 1)
+            try validate(removeTagKeys, name:"removeTagKeys", max: 10)
+            try validate(removeTagKeys, name:"removeTagKeys", min: 1)
             try validate(resourceId, name:"resourceId", max: 64)
         }
 
@@ -375,6 +380,7 @@ extension Route53 {
         }
 
         public func validate() throws {
+            try validate(dimensions, name:"dimensions", max: 10)
             try validate(evaluationPeriods, name:"evaluationPeriods", min: 1)
             try validate(metricName, name:"metricName", max: 255)
             try validate(metricName, name:"metricName", min: 1)
@@ -938,6 +944,7 @@ extension Route53 {
             try validate(callerReference, name:"callerReference", max: 128)
             try validate(callerReference, name:"callerReference", min: 1)
             try validate(id, name:"id", max: 32)
+            try validate(nameServers, name:"nameServers", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1755,6 +1762,7 @@ extension Route53 {
         public func validate() throws {
             try delegationSet?.validate()
             try hostedZone.validate()
+            try validate(vPCs, name:"vPCs", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2137,6 +2145,7 @@ extension Route53 {
 
         public func validate() throws {
             try alarmIdentifier?.validate()
+            try validate(childHealthChecks, name:"childHealthChecks", max: 256)
             try validate(failureThreshold, name:"failureThreshold", max: 10)
             try validate(failureThreshold, name:"failureThreshold", min: 1)
             try validate(fullyQualifiedDomainName, name:"fullyQualifiedDomainName", max: 255)
@@ -2146,6 +2155,8 @@ extension Route53 {
             try validate(iPAddress, name:"iPAddress", pattern: "(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)")
             try validate(port, name:"port", max: 65535)
             try validate(port, name:"port", min: 1)
+            try validate(regions, name:"regions", max: 64)
+            try validate(regions, name:"regions", min: 3)
             try validate(requestInterval, name:"requestInterval", max: 30)
             try validate(requestInterval, name:"requestInterval", min: 10)
             try validate(resourcePath, name:"resourcePath", max: 255)
@@ -2950,6 +2961,11 @@ extension Route53 {
             self.resourceType = resourceType
         }
 
+        public func validate() throws {
+            try validate(resourceIds, name:"resourceIds", max: 10)
+            try validate(resourceIds, name:"resourceIds", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceIds = "ResourceIds"
             case resourceType = "ResourceType"
@@ -3408,6 +3424,7 @@ extension Route53 {
         public func validate() throws {
             try validate(hostedZoneId, name:"hostedZoneId", max: 32)
             try validate(nextToken, name:"nextToken", max: 256)
+            try validate(vPCs, name:"vPCs", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3557,6 +3574,7 @@ extension Route53 {
             try geoLocation?.validate()
             try validate(healthCheckId, name:"healthCheckId", max: 64)
             try validate(name, name:"name", max: 1024)
+            try validate(resourceRecords, name:"resourceRecords", min: 1)
             try validate(setIdentifier, name:"setIdentifier", max: 128)
             try validate(setIdentifier, name:"setIdentifier", min: 1)
             try validate(trafficPolicyInstanceId, name:"trafficPolicyInstanceId", max: 36)
@@ -3635,6 +3653,8 @@ extension Route53 {
 
         public func validate() throws {
             try validate(resourceId, name:"resourceId", max: 64)
+            try validate(tags, name:"tags", max: 10)
+            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4079,6 +4099,7 @@ extension Route53 {
 
         public func validate() throws {
             try alarmIdentifier?.validate()
+            try validate(childHealthChecks, name:"childHealthChecks", max: 256)
             try validate(failureThreshold, name:"failureThreshold", max: 10)
             try validate(failureThreshold, name:"failureThreshold", min: 1)
             try validate(fullyQualifiedDomainName, name:"fullyQualifiedDomainName", max: 255)
@@ -4090,6 +4111,9 @@ extension Route53 {
             try validate(iPAddress, name:"iPAddress", pattern: "(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)")
             try validate(port, name:"port", max: 65535)
             try validate(port, name:"port", min: 1)
+            try validate(regions, name:"regions", max: 64)
+            try validate(regions, name:"regions", min: 3)
+            try validate(resetElements, name:"resetElements", max: 64)
             try validate(resourcePath, name:"resourcePath", max: 255)
             try validate(searchString, name:"searchString", max: 255)
         }

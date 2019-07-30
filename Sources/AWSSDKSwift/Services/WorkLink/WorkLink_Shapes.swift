@@ -331,6 +331,7 @@ extension WorkLink {
         }
 
         public func validate() throws {
+            try validate(securityGroupIds, name:"securityGroupIds", max: 5)
             try validate(vpcId, name:"vpcId", pattern: "^vpc-([0-9a-f]{8}|[0-9a-f]{17})$")
         }
 
@@ -1483,6 +1484,7 @@ extension WorkLink {
         public func validate() throws {
             try validate(fleetArn, name:"fleetArn", max: 2048)
             try validate(fleetArn, name:"fleetArn", min: 20)
+            try validate(securityGroupIds, name:"securityGroupIds", max: 5)
             try validate(vpcId, name:"vpcId", pattern: "^vpc-([0-9a-f]{8}|[0-9a-f]{17})$")
         }
 

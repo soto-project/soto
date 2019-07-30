@@ -3244,6 +3244,10 @@ extension DeviceFarm {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(tags, name:"tags", max: 150)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
         }
@@ -4897,6 +4901,7 @@ extension DeviceFarm {
         public func validate() throws {
             try validate(resourceARN, name:"resourceARN", max: 1011)
             try validate(resourceARN, name:"resourceARN", min: 32)
+            try validate(tags, name:"tags", max: 150)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5078,6 +5083,7 @@ extension DeviceFarm {
         public func validate() throws {
             try validate(resourceARN, name:"resourceARN", max: 1011)
             try validate(resourceARN, name:"resourceARN", min: 32)
+            try validate(tagKeys, name:"tagKeys", max: 150)
         }
 
         private enum CodingKeys: String, CodingKey {

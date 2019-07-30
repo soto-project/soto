@@ -130,6 +130,8 @@ extension IoTThingsGraph {
             try validate(flowActionsRoleArn, name:"flowActionsRoleArn", max: 2048)
             try validate(flowActionsRoleArn, name:"flowActionsRoleArn", min: 20)
             try metricsConfiguration?.validate()
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -891,6 +893,11 @@ extension IoTThingsGraph {
             self.namespaceVersion = namespaceVersion
         }
 
+        public func validate() throws {
+            try validate(ids, name:"ids", max: 25)
+            try validate(ids, name:"ids", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case ids = "ids"
             case namespaceVersion = "namespaceVersion"
@@ -1373,6 +1380,11 @@ extension IoTThingsGraph {
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2058,6 +2070,8 @@ extension IoTThingsGraph {
         public func validate() throws {
             try validate(resourceArn, name:"resourceArn", max: 2048)
             try validate(resourceArn, name:"resourceArn", min: 1)
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2160,6 +2174,8 @@ extension IoTThingsGraph {
         public func validate() throws {
             try validate(resourceArn, name:"resourceArn", max: 2048)
             try validate(resourceArn, name:"resourceArn", min: 1)
+            try validate(tagKeys, name:"tagKeys", max: 50)
+            try validate(tagKeys, name:"tagKeys", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

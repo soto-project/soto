@@ -303,6 +303,11 @@ extension ResourceGroups {
             self.values = values
         }
 
+        public func validate() throws {
+            try validate(values, name:"values", max: 5)
+            try validate(values, name:"values", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case values = "Values"
@@ -553,6 +558,11 @@ extension ResourceGroups {
         public init(name: ResourceFilterName, values: [String]) {
             self.name = name
             self.values = values
+        }
+
+        public func validate() throws {
+            try validate(values, name:"values", max: 5)
+            try validate(values, name:"values", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

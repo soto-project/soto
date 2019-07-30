@@ -16,6 +16,11 @@ extension Athena {
             self.namedQueryIds = namedQueryIds
         }
 
+        public func validate() throws {
+            try validate(namedQueryIds, name:"namedQueryIds", max: 50)
+            try validate(namedQueryIds, name:"namedQueryIds", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case namedQueryIds = "NamedQueryIds"
         }
@@ -51,6 +56,11 @@ extension Athena {
         
         public init(queryExecutionIds: [String]) {
             self.queryExecutionIds = queryExecutionIds
+        }
+
+        public func validate() throws {
+            try validate(queryExecutionIds, name:"queryExecutionIds", max: 50)
+            try validate(queryExecutionIds, name:"queryExecutionIds", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -591,6 +601,8 @@ extension Athena {
         }
 
         public func validate() throws {
+            try validate(namedQueryIds, name:"namedQueryIds", max: 50)
+            try validate(namedQueryIds, name:"namedQueryIds", min: 1)
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -653,6 +665,8 @@ extension Athena {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
+            try validate(queryExecutionIds, name:"queryExecutionIds", max: 50)
+            try validate(queryExecutionIds, name:"queryExecutionIds", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -767,6 +781,8 @@ extension Athena {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
+            try validate(workGroups, name:"workGroups", max: 50)
+            try validate(workGroups, name:"workGroups", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {

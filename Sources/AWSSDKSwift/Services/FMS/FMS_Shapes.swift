@@ -653,6 +653,8 @@ extension FMS {
             try validate(policyUpdateToken, name:"policyUpdateToken", max: 1024)
             try validate(policyUpdateToken, name:"policyUpdateToken", min: 1)
             try validate(policyUpdateToken, name:"policyUpdateToken", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(resourceTags, name:"resourceTags", max: 8)
+            try validate(resourceTags, name:"resourceTags", min: 0)
             try validate(resourceType, name:"resourceType", max: 128)
             try validate(resourceType, name:"resourceType", min: 1)
             try validate(resourceType, name:"resourceType", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")

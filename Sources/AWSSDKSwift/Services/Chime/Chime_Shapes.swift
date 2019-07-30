@@ -170,6 +170,10 @@ extension Chime {
             self.phoneNumberIds = phoneNumberIds
         }
 
+        public func validate() throws {
+            try validate(phoneNumberIds, name:"phoneNumberIds", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case phoneNumberIds = "PhoneNumberIds"
         }
@@ -208,6 +212,7 @@ extension Chime {
 
         public func validate() throws {
             try validate(accountId, name:"accountId", pattern: ".*\\S.*")
+            try validate(userIdList, name:"userIdList", max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -249,6 +254,7 @@ extension Chime {
 
         public func validate() throws {
             try validate(accountId, name:"accountId", pattern: ".*\\S.*")
+            try validate(userIdList, name:"userIdList", max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -322,6 +328,7 @@ extension Chime {
 
         public func validate() throws {
             try validate(accountId, name:"accountId", pattern: ".*\\S.*")
+            try validate(updateUserRequestItems, name:"updateUserRequestItems", max: 20)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1435,6 +1442,7 @@ extension Chime {
 
         public func validate() throws {
             try validate(accountId, name:"accountId", pattern: ".*\\S.*")
+            try validate(userEmailList, name:"userEmailList", max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {

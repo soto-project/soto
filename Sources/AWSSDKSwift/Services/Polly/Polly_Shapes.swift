@@ -512,9 +512,11 @@ extension Polly {
         }
 
         public func validate() throws {
+            try validate(lexiconNames, name:"lexiconNames", max: 5)
             try validate(outputS3BucketName, name:"outputS3BucketName", pattern: "^[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]$")
             try validate(outputS3KeyPrefix, name:"outputS3KeyPrefix", pattern: "^[0-9a-zA-Z\\/\\!\\-_\\.\\*\\'\\(\\)]{0,800}$")
             try validate(snsTopicArn, name:"snsTopicArn", pattern: "^arn:aws(-(cn|iso(-b)?|us-gov))?:sns:[a-z0-9_-]{1,50}:\\d{12}:[a-zA-Z0-9_-]{1,256}$")
+            try validate(speechMarkTypes, name:"speechMarkTypes", max: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -616,7 +618,9 @@ extension Polly {
         }
 
         public func validate() throws {
+            try validate(lexiconNames, name:"lexiconNames", max: 5)
             try validate(snsTopicArn, name:"snsTopicArn", pattern: "^arn:aws(-(cn|iso(-b)?|us-gov))?:sns:[a-z0-9_-]{1,50}:\\d{12}:[a-zA-Z0-9_-]{1,256}$")
+            try validate(speechMarkTypes, name:"speechMarkTypes", max: 4)
             try validate(taskId, name:"taskId", pattern: "^[a-zA-Z0-9_-]{1,100}$")
         }
 
@@ -675,6 +679,11 @@ extension Polly {
             self.text = text
             self.textType = textType
             self.voiceId = voiceId
+        }
+
+        public func validate() throws {
+            try validate(lexiconNames, name:"lexiconNames", max: 5)
+            try validate(speechMarkTypes, name:"speechMarkTypes", max: 4)
         }
 
         private enum CodingKeys: String, CodingKey {

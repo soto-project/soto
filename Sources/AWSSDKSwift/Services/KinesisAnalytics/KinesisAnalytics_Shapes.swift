@@ -575,6 +575,8 @@ extension KinesisAnalytics {
             try validate(applicationName, name:"applicationName", max: 128)
             try validate(applicationName, name:"applicationName", min: 1)
             try validate(applicationName, name:"applicationName", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(tags, name:"tags", max: 200)
+            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1322,6 +1324,8 @@ extension KinesisAnalytics {
         }
 
         public func validate() throws {
+            try validate(recordColumnUpdates, name:"recordColumnUpdates", max: 1000)
+            try validate(recordColumnUpdates, name:"recordColumnUpdates", min: 1)
             try validate(recordEncodingUpdate, name:"recordEncodingUpdate", pattern: "UTF-8")
             try recordFormatUpdate?.validate()
         }
@@ -1968,6 +1972,11 @@ extension KinesisAnalytics {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(tags, name:"tags", max: 200)
+            try validate(tags, name:"tags", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
         }
@@ -2491,6 +2500,8 @@ extension KinesisAnalytics {
         }
 
         public func validate() throws {
+            try validate(recordColumns, name:"recordColumns", max: 1000)
+            try validate(recordColumns, name:"recordColumns", min: 1)
             try validate(recordEncoding, name:"recordEncoding", pattern: "UTF-8")
             try recordFormat.validate()
         }
@@ -2614,6 +2625,8 @@ extension KinesisAnalytics {
             try validate(resourceARN, name:"resourceARN", max: 2048)
             try validate(resourceARN, name:"resourceARN", min: 1)
             try validate(resourceARN, name:"resourceARN", pattern: "arn:aws:kinesisanalytics:[a-z]{2}-[a-z]+-\\d{1}+:\\d{12}+:application/[a-zA-Z0-9_.-]{1,128}")
+            try validate(tags, name:"tags", max: 200)
+            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2649,6 +2662,8 @@ extension KinesisAnalytics {
             try validate(resourceARN, name:"resourceARN", max: 2048)
             try validate(resourceARN, name:"resourceARN", min: 1)
             try validate(resourceARN, name:"resourceARN", pattern: "arn:aws:kinesisanalytics:[a-z]{2}-[a-z]+-\\d{1}+:\\d{12}+:application/[a-zA-Z0-9_.-]{1,128}")
+            try validate(tagKeys, name:"tagKeys", max: 200)
+            try validate(tagKeys, name:"tagKeys", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

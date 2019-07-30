@@ -2594,6 +2594,11 @@ extension EC2 {
             self.classicLoadBalancers = classicLoadBalancers
         }
 
+        public func validate() throws {
+            try validate(classicLoadBalancers, name:"classicLoadBalancers", max: 5)
+            try validate(classicLoadBalancers, name:"classicLoadBalancers", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case classicLoadBalancers = "classicLoadBalancers"
         }
@@ -4060,6 +4065,10 @@ extension EC2 {
             self.`type` = `type`
             self.validFrom = validFrom
             self.validUntil = validUntil
+        }
+
+        public func validate() throws {
+            try validate(launchTemplateConfigs, name:"launchTemplateConfigs", max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15268,6 +15277,7 @@ extension EC2 {
 
         public func validate() throws {
             try launchTemplateSpecification?.validate()
+            try validate(overrides, name:"overrides", max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -20461,6 +20471,11 @@ extension EC2 {
             self.targetGroupsConfig = targetGroupsConfig
         }
 
+        public func validate() throws {
+            try classicLoadBalancersConfig?.validate()
+            try targetGroupsConfig?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case classicLoadBalancersConfig = "classicLoadBalancersConfig"
             case targetGroupsConfig = "targetGroupsConfig"
@@ -23911,6 +23926,10 @@ extension EC2 {
             self.purchaseRequests = purchaseRequests
         }
 
+        public func validate() throws {
+            try validate(purchaseRequests, name:"purchaseRequests", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
             case dryRun = "DryRun"
@@ -24795,6 +24814,10 @@ extension EC2 {
         public init(dryRun: Bool? = nil, spotFleetRequestConfig: SpotFleetRequestConfigData) {
             self.dryRun = dryRun
             self.spotFleetRequestConfig = spotFleetRequestConfig
+        }
+
+        public func validate() throws {
+            try spotFleetRequestConfig.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -27966,6 +27989,10 @@ extension EC2 {
             self.spotFleetRequestState = spotFleetRequestState
         }
 
+        public func validate() throws {
+            try spotFleetRequestConfig?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case activityStatus = "activityStatus"
             case createTime = "createTime"
@@ -28068,6 +28095,10 @@ extension EC2 {
             self.`type` = `type`
             self.validFrom = validFrom
             self.validUntil = validUntil
+        }
+
+        public func validate() throws {
+            try loadBalancersConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -29114,6 +29145,11 @@ extension EC2 {
         
         public init(targetGroups: [TargetGroup]? = nil) {
             self.targetGroups = targetGroups
+        }
+
+        public func validate() throws {
+            try validate(targetGroups, name:"targetGroups", max: 5)
+            try validate(targetGroups, name:"targetGroups", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

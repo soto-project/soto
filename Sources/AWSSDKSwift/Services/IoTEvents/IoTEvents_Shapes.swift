@@ -196,6 +196,7 @@ extension IoTEvents {
         }
 
         public func validate() throws {
+            try inputDefinition.validate()
             try validate(inputDescription, name:"inputDescription", max: 128)
             try validate(inputName, name:"inputName", max: 128)
             try validate(inputName, name:"inputName", min: 1)
@@ -553,6 +554,7 @@ extension IoTEvents {
         public func validate() throws {
             try validate(initialStateName, name:"initialStateName", max: 128)
             try validate(initialStateName, name:"initialStateName", min: 1)
+            try validate(states, name:"states", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -709,6 +711,7 @@ extension IoTEvents {
 
         public func validate() throws {
             try inputConfiguration?.validate()
+            try inputDefinition?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -774,6 +777,11 @@ extension IoTEvents {
         
         public init(attributes: [Attribute]) {
             self.attributes = attributes
+        }
+
+        public func validate() throws {
+            try validate(attributes, name:"attributes", max: 200)
+            try validate(attributes, name:"attributes", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1075,6 +1083,7 @@ extension IoTEvents {
         }
 
         public func validate() throws {
+            try validate(detectorDebugOptions, name:"detectorDebugOptions", min: 1)
             try validate(roleArn, name:"roleArn", max: 2048)
             try validate(roleArn, name:"roleArn", min: 1)
         }
@@ -1508,6 +1517,7 @@ extension IoTEvents {
         }
 
         public func validate() throws {
+            try inputDefinition.validate()
             try validate(inputDescription, name:"inputDescription", max: 128)
             try validate(inputName, name:"inputName", max: 128)
             try validate(inputName, name:"inputName", min: 1)

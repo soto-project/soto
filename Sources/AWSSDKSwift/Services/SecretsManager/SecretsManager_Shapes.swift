@@ -595,6 +595,8 @@ extension SecretsManager {
             try validate(secretString, name:"secretString", min: 0)
             try validate(versionId, name:"versionId", max: 64)
             try validate(versionId, name:"versionId", min: 32)
+            try validate(versionStages, name:"versionStages", max: 20)
+            try validate(versionStages, name:"versionStages", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -834,6 +836,8 @@ extension SecretsManager {
             try validate(secretId, name:"secretId", min: 1)
             try validate(secretString, name:"secretString", max: 7168)
             try validate(secretString, name:"secretString", min: 0)
+            try validate(versionStages, name:"versionStages", max: 20)
+            try validate(versionStages, name:"versionStages", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -875,6 +879,8 @@ extension SecretsManager {
             try validate(name, name:"name", min: 1)
             try validate(versionId, name:"versionId", max: 64)
             try validate(versionId, name:"versionId", min: 32)
+            try validate(versionStages, name:"versionStages", max: 20)
+            try validate(versionStages, name:"versionStages", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1146,6 +1152,8 @@ extension SecretsManager {
         public func validate() throws {
             try validate(versionId, name:"versionId", max: 64)
             try validate(versionId, name:"versionId", min: 32)
+            try validate(versionStages, name:"versionStages", max: 20)
+            try validate(versionStages, name:"versionStages", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

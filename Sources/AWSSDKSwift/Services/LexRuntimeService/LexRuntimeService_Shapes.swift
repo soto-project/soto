@@ -78,6 +78,8 @@ extension LexRuntimeService {
         public func validate() throws {
             try validate(attachmentLinkUrl, name:"attachmentLinkUrl", max: 2048)
             try validate(attachmentLinkUrl, name:"attachmentLinkUrl", min: 1)
+            try validate(buttons, name:"buttons", max: 5)
+            try validate(buttons, name:"buttons", min: 0)
             try validate(imageUrl, name:"imageUrl", max: 2048)
             try validate(imageUrl, name:"imageUrl", min: 1)
             try validate(subTitle, name:"subTitle", max: 80)
@@ -321,6 +323,7 @@ extension LexRuntimeService {
         public func validate() throws {
             try validate(message, name:"message", max: 1024)
             try validate(message, name:"message", min: 1)
+            try responseCard?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -352,6 +355,11 @@ extension LexRuntimeService {
             self.contentType = contentType
             self.genericAttachments = genericAttachments
             self.version = version
+        }
+
+        public func validate() throws {
+            try validate(genericAttachments, name:"genericAttachments", max: 10)
+            try validate(genericAttachments, name:"genericAttachments", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {

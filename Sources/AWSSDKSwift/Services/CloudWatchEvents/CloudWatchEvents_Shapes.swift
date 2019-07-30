@@ -631,6 +631,8 @@ extension CloudWatchEvents {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 2048)
             try validate(nextToken, name:"nextToken", min: 1)
+            try validate(targets, name:"targets", max: 100)
+            try validate(targets, name:"targets", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -664,6 +666,11 @@ extension CloudWatchEvents {
         
         public init(entries: [PutEventsRequestEntry]) {
             self.entries = entries
+        }
+
+        public func validate() throws {
+            try validate(entries, name:"entries", max: 10)
+            try validate(entries, name:"entries", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -893,6 +900,8 @@ extension CloudWatchEvents {
             try validate(rule, name:"rule", max: 64)
             try validate(rule, name:"rule", min: 1)
             try validate(rule, name:"rule", pattern: "[\\.\\-_A-Za-z0-9]+")
+            try validate(targets, name:"targets", max: 100)
+            try validate(targets, name:"targets", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -996,6 +1005,8 @@ extension CloudWatchEvents {
         }
 
         public func validate() throws {
+            try validate(ids, name:"ids", max: 100)
+            try validate(ids, name:"ids", min: 1)
             try validate(rule, name:"rule", max: 64)
             try validate(rule, name:"rule", min: 1)
             try validate(rule, name:"rule", pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -1143,6 +1154,11 @@ extension CloudWatchEvents {
             self.runCommandTargets = runCommandTargets
         }
 
+        public func validate() throws {
+            try validate(runCommandTargets, name:"runCommandTargets", max: 5)
+            try validate(runCommandTargets, name:"runCommandTargets", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case runCommandTargets = "RunCommandTargets"
         }
@@ -1167,6 +1183,8 @@ extension CloudWatchEvents {
             try validate(key, name:"key", max: 128)
             try validate(key, name:"key", min: 1)
             try validate(key, name:"key", pattern: "^[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
+            try validate(values, name:"values", max: 50)
+            try validate(values, name:"values", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1317,6 +1335,7 @@ extension CloudWatchEvents {
             try kinesisParameters?.validate()
             try validate(roleArn, name:"roleArn", max: 1600)
             try validate(roleArn, name:"roleArn", min: 1)
+            try runCommandParameters?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

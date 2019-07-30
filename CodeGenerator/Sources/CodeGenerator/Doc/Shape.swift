@@ -107,7 +107,7 @@ public indirect enum ShapeType {
     case integer(max: Int?, min: Int?)
     case structure(StructureShape)
     case blob(max: Int?, min: Int?)
-    case list(Shape)
+    case list(Shape, max: Int?, min: Int?)
     case map(key: Shape, value: Shape)
     case long(max: Int?, min: Int?)
     case double(max: Int?, min: Int?)

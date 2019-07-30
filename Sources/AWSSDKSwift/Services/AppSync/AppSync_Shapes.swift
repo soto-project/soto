@@ -2126,6 +2126,8 @@ extension AppSync {
             try validate(resourceArn, name:"resourceArn", max: 75)
             try validate(resourceArn, name:"resourceArn", min: 70)
             try validate(resourceArn, name:"resourceArn", pattern: "^arn:aws:appsync:[A-Za-z0-9_/.-]{0,63}:\\d{12}:apis/[0-9A-Za-z_-]{26}$")
+            try validate(tagKeys, name:"tagKeys", max: 50)
+            try validate(tagKeys, name:"tagKeys", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

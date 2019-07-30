@@ -140,6 +140,8 @@ extension AppMesh {
         public func validate() throws {
             try validate(meshName, name:"meshName", max: 255)
             try validate(meshName, name:"meshName", min: 1)
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -212,6 +214,9 @@ extension AppMesh {
             try validate(meshName, name:"meshName", min: 1)
             try validate(routeName, name:"routeName", max: 255)
             try validate(routeName, name:"routeName", min: 1)
+            try spec.validate()
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 0)
             try validate(virtualRouterName, name:"virtualRouterName", max: 255)
             try validate(virtualRouterName, name:"virtualRouterName", min: 1)
         }
@@ -283,6 +288,8 @@ extension AppMesh {
             try validate(meshName, name:"meshName", max: 255)
             try validate(meshName, name:"meshName", min: 1)
             try spec.validate()
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 0)
             try validate(virtualNodeName, name:"virtualNodeName", max: 255)
             try validate(virtualNodeName, name:"virtualNodeName", min: 1)
         }
@@ -352,6 +359,9 @@ extension AppMesh {
         public func validate() throws {
             try validate(meshName, name:"meshName", max: 255)
             try validate(meshName, name:"meshName", min: 1)
+            try spec.validate()
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 0)
             try validate(virtualRouterName, name:"virtualRouterName", max: 255)
             try validate(virtualRouterName, name:"virtualRouterName", min: 1)
         }
@@ -422,6 +432,8 @@ extension AppMesh {
             try validate(meshName, name:"meshName", max: 255)
             try validate(meshName, name:"meshName", min: 1)
             try spec.validate()
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1101,6 +1113,10 @@ extension AppMesh {
             self.match = match
         }
 
+        public func validate() throws {
+            try action.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case action = "action"
             case match = "match"
@@ -1117,6 +1133,11 @@ extension AppMesh {
         
         public init(weightedTargets: [WeightedTarget]) {
             self.weightedTargets = weightedTargets
+        }
+
+        public func validate() throws {
+            try validate(weightedTargets, name:"weightedTargets", max: 10)
+            try validate(weightedTargets, name:"weightedTargets", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1340,6 +1361,11 @@ extension AppMesh {
         public init(nextToken: String? = nil, tags: [TagRef]) {
             self.nextToken = nextToken
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1801,6 +1827,7 @@ extension AppMesh {
             try validate(meshName, name:"meshName", min: 1)
             try validate(routeName, name:"routeName", max: 255)
             try validate(routeName, name:"routeName", min: 1)
+            try spec.validate()
             try validate(virtualRouterName, name:"virtualRouterName", max: 255)
             try validate(virtualRouterName, name:"virtualRouterName", min: 1)
         }
@@ -1868,6 +1895,11 @@ extension AppMesh {
         public init(httpRoute: HttpRoute? = nil, tcpRoute: TcpRoute? = nil) {
             self.httpRoute = httpRoute
             self.tcpRoute = tcpRoute
+        }
+
+        public func validate() throws {
+            try httpRoute?.validate()
+            try tcpRoute?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1971,6 +2003,11 @@ extension AppMesh {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "resourceArn"
             case tags = "tags"
@@ -1996,6 +2033,10 @@ extension AppMesh {
             self.action = action
         }
 
+        public func validate() throws {
+            try action.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case action = "action"
         }
@@ -2011,6 +2052,11 @@ extension AppMesh {
         
         public init(weightedTargets: [WeightedTarget]) {
             self.weightedTargets = weightedTargets
+        }
+
+        public func validate() throws {
+            try validate(weightedTargets, name:"weightedTargets", max: 10)
+            try validate(weightedTargets, name:"weightedTargets", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2031,6 +2077,11 @@ extension AppMesh {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func validate() throws {
+            try validate(tagKeys, name:"tagKeys", max: 50)
+            try validate(tagKeys, name:"tagKeys", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2133,6 +2184,7 @@ extension AppMesh {
             try validate(meshName, name:"meshName", min: 1)
             try validate(routeName, name:"routeName", max: 255)
             try validate(routeName, name:"routeName", min: 1)
+            try spec.validate()
             try validate(virtualRouterName, name:"virtualRouterName", max: 255)
             try validate(virtualRouterName, name:"virtualRouterName", min: 1)
         }
@@ -2257,6 +2309,7 @@ extension AppMesh {
         public func validate() throws {
             try validate(meshName, name:"meshName", max: 255)
             try validate(meshName, name:"meshName", min: 1)
+            try spec.validate()
             try validate(virtualRouterName, name:"virtualRouterName", max: 255)
             try validate(virtualRouterName, name:"virtualRouterName", min: 1)
         }
@@ -2476,6 +2529,10 @@ extension AppMesh {
         }
 
         public func validate() throws {
+            try validate(backends, name:"backends", max: 25)
+            try validate(backends, name:"backends", min: 0)
+            try validate(listeners, name:"listeners", max: 1)
+            try validate(listeners, name:"listeners", min: 0)
             try logging?.validate()
             try serviceDiscovery?.validate()
         }
@@ -2541,6 +2598,7 @@ extension AppMesh {
         public func validate() throws {
             try validate(meshName, name:"meshName", max: 255)
             try validate(meshName, name:"meshName", min: 1)
+            try spec.validate()
             try validate(virtualRouterName, name:"virtualRouterName", max: 255)
             try validate(virtualRouterName, name:"virtualRouterName", min: 1)
         }
@@ -2637,6 +2695,11 @@ extension AppMesh {
         
         public init(listeners: [VirtualRouterListener]? = nil) {
             self.listeners = listeners
+        }
+
+        public func validate() throws {
+            try validate(listeners, name:"listeners", max: 1)
+            try validate(listeners, name:"listeners", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

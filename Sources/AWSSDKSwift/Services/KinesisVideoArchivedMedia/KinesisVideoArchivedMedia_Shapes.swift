@@ -326,6 +326,8 @@ extension KinesisVideoArchivedMedia {
         }
 
         public func validate() throws {
+            try validate(fragments, name:"fragments", max: 1000)
+            try validate(fragments, name:"fragments", min: 1)
             try validate(streamName, name:"streamName", max: 256)
             try validate(streamName, name:"streamName", min: 1)
             try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")

@@ -55,6 +55,8 @@ extension ECR {
         }
 
         public func validate() throws {
+            try validate(layerDigests, name:"layerDigests", max: 100)
+            try validate(layerDigests, name:"layerDigests", min: 1)
             try validate(registryId, name:"registryId", pattern: "[0-9]{12}")
             try validate(repositoryName, name:"repositoryName", max: 256)
             try validate(repositoryName, name:"repositoryName", min: 2)
@@ -109,6 +111,8 @@ extension ECR {
         }
 
         public func validate() throws {
+            try validate(imageIds, name:"imageIds", max: 100)
+            try validate(imageIds, name:"imageIds", min: 1)
             try validate(registryId, name:"registryId", pattern: "[0-9]{12}")
             try validate(repositoryName, name:"repositoryName", max: 256)
             try validate(repositoryName, name:"repositoryName", min: 2)
@@ -135,6 +139,11 @@ extension ECR {
         public init(failures: [ImageFailure]? = nil, imageIds: [ImageIdentifier]? = nil) {
             self.failures = failures
             self.imageIds = imageIds
+        }
+
+        public func validate() throws {
+            try validate(imageIds, name:"imageIds", max: 100)
+            try validate(imageIds, name:"imageIds", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -167,6 +176,10 @@ extension ECR {
         }
 
         public func validate() throws {
+            try validate(acceptedMediaTypes, name:"acceptedMediaTypes", max: 100)
+            try validate(acceptedMediaTypes, name:"acceptedMediaTypes", min: 1)
+            try validate(imageIds, name:"imageIds", max: 100)
+            try validate(imageIds, name:"imageIds", min: 1)
             try validate(registryId, name:"registryId", pattern: "[0-9]{12}")
             try validate(repositoryName, name:"repositoryName", max: 256)
             try validate(repositoryName, name:"repositoryName", min: 2)
@@ -226,6 +239,8 @@ extension ECR {
         }
 
         public func validate() throws {
+            try validate(layerDigests, name:"layerDigests", max: 100)
+            try validate(layerDigests, name:"layerDigests", min: 1)
             try validate(registryId, name:"registryId", pattern: "[0-9]{12}")
             try validate(repositoryName, name:"repositoryName", max: 256)
             try validate(repositoryName, name:"repositoryName", min: 2)
@@ -559,6 +574,8 @@ extension ECR {
         }
 
         public func validate() throws {
+            try validate(imageIds, name:"imageIds", max: 100)
+            try validate(imageIds, name:"imageIds", min: 1)
             try validate(maxResults, name:"maxResults", max: 1000)
             try validate(maxResults, name:"maxResults", min: 1)
             try validate(registryId, name:"registryId", pattern: "[0-9]{12}")
@@ -625,6 +642,8 @@ extension ECR {
             try validate(maxResults, name:"maxResults", max: 1000)
             try validate(maxResults, name:"maxResults", min: 1)
             try validate(registryId, name:"registryId", pattern: "[0-9]{12}")
+            try validate(repositoryNames, name:"repositoryNames", max: 100)
+            try validate(repositoryNames, name:"repositoryNames", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -665,6 +684,11 @@ extension ECR {
         
         public init(registryIds: [String]? = nil) {
             self.registryIds = registryIds
+        }
+
+        public func validate() throws {
+            try validate(registryIds, name:"registryIds", max: 10)
+            try validate(registryIds, name:"registryIds", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -779,6 +803,8 @@ extension ECR {
         }
 
         public func validate() throws {
+            try validate(imageIds, name:"imageIds", max: 100)
+            try validate(imageIds, name:"imageIds", min: 1)
             try validate(maxResults, name:"maxResults", max: 100)
             try validate(maxResults, name:"maxResults", min: 1)
             try validate(registryId, name:"registryId", pattern: "[0-9]{12}")
@@ -1437,6 +1463,11 @@ extension ECR {
         public init(imageIds: [ImageIdentifier]? = nil, nextToken: String? = nil) {
             self.imageIds = imageIds
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try validate(imageIds, name:"imageIds", max: 100)
+            try validate(imageIds, name:"imageIds", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

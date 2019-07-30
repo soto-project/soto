@@ -101,6 +101,8 @@ extension CognitoIdentityProvider {
         }
 
         public func validate() throws {
+            try validate(customAttributes, name:"customAttributes", max: 25)
+            try validate(customAttributes, name:"customAttributes", min: 1)
             try validate(userPoolId, name:"userPoolId", max: 55)
             try validate(userPoolId, name:"userPoolId", min: 1)
             try validate(userPoolId, name:"userPoolId", pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -2282,6 +2284,8 @@ extension CognitoIdentityProvider {
         }
 
         public func validate() throws {
+            try validate(idpIdentifiers, name:"idpIdentifiers", max: 50)
+            try validate(idpIdentifiers, name:"idpIdentifiers", min: 0)
             try validate(providerName, name:"providerName", max: 32)
             try validate(providerName, name:"providerName", min: 1)
             try validate(providerName, name:"providerName", pattern: "[^_][\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}][^_]+")
@@ -2350,6 +2354,7 @@ extension CognitoIdentityProvider {
             try validate(name, name:"name", max: 256)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "[\\w\\s+=,.@-]+")
+            try validate(scopes, name:"scopes", max: 25)
             try validate(userPoolId, name:"userPoolId", max: 55)
             try validate(userPoolId, name:"userPoolId", min: 1)
             try validate(userPoolId, name:"userPoolId", pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -2509,13 +2514,20 @@ extension CognitoIdentityProvider {
         }
 
         public func validate() throws {
+            try validate(allowedOAuthFlows, name:"allowedOAuthFlows", max: 3)
+            try validate(allowedOAuthFlows, name:"allowedOAuthFlows", min: 0)
+            try validate(allowedOAuthScopes, name:"allowedOAuthScopes", max: 25)
             try analyticsConfiguration?.validate()
+            try validate(callbackURLs, name:"callbackURLs", max: 100)
+            try validate(callbackURLs, name:"callbackURLs", min: 0)
             try validate(clientName, name:"clientName", max: 128)
             try validate(clientName, name:"clientName", min: 1)
             try validate(clientName, name:"clientName", pattern: "[\\w\\s+=,.@-]+")
             try validate(defaultRedirectURI, name:"defaultRedirectURI", max: 1024)
             try validate(defaultRedirectURI, name:"defaultRedirectURI", min: 1)
             try validate(defaultRedirectURI, name:"defaultRedirectURI", pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
+            try validate(logoutURLs, name:"logoutURLs", max: 100)
+            try validate(logoutURLs, name:"logoutURLs", min: 0)
             try validate(refreshTokenValidity, name:"refreshTokenValidity", max: 3650)
             try validate(refreshTokenValidity, name:"refreshTokenValidity", min: 0)
             try validate(userPoolId, name:"userPoolId", max: 55)
@@ -2717,6 +2729,8 @@ extension CognitoIdentityProvider {
             try validate(poolName, name:"poolName", max: 128)
             try validate(poolName, name:"poolName", min: 1)
             try validate(poolName, name:"poolName", pattern: "[\\w\\s+=,.@-]+")
+            try validate(schema, name:"schema", max: 50)
+            try validate(schema, name:"schema", min: 1)
             try validate(smsAuthenticationMessage, name:"smsAuthenticationMessage", max: 140)
             try validate(smsAuthenticationMessage, name:"smsAuthenticationMessage", min: 6)
             try validate(smsAuthenticationMessage, name:"smsAuthenticationMessage", pattern: ".*\\{####\\}.*")
@@ -4383,6 +4397,8 @@ extension CognitoIdentityProvider {
         }
 
         public func validate() throws {
+            try validate(idpIdentifiers, name:"idpIdentifiers", max: 50)
+            try validate(idpIdentifiers, name:"idpIdentifiers", min: 0)
             try validate(providerName, name:"providerName", max: 32)
             try validate(providerName, name:"providerName", min: 1)
             try validate(providerName, name:"providerName", pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
@@ -4766,6 +4782,8 @@ extension CognitoIdentityProvider {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", min: 1)
             try validate(nextToken, name:"nextToken", pattern: "[\\S]+")
+            try validate(providers, name:"providers", max: 50)
+            try validate(providers, name:"providers", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4928,6 +4946,8 @@ extension CognitoIdentityProvider {
         public func validate() throws {
             try validate(paginationToken, name:"paginationToken", min: 1)
             try validate(paginationToken, name:"paginationToken", pattern: "[\\S]+")
+            try validate(userImportJobs, name:"userImportJobs", max: 50)
+            try validate(userImportJobs, name:"userImportJobs", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5652,6 +5672,7 @@ extension CognitoIdentityProvider {
             try validate(name, name:"name", max: 256)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "[\\w\\s+=,.@-]+")
+            try validate(scopes, name:"scopes", max: 25)
             try validate(userPoolId, name:"userPoolId", max: 55)
             try validate(userPoolId, name:"userPoolId", min: 1)
             try validate(userPoolId, name:"userPoolId", pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -5787,6 +5808,7 @@ extension CognitoIdentityProvider {
             try validate(clientId, name:"clientId", max: 128)
             try validate(clientId, name:"clientId", min: 1)
             try validate(clientId, name:"clientId", pattern: "[\\w+]+")
+            try riskExceptionConfiguration?.validate()
             try validate(userPoolId, name:"userPoolId", max: 55)
             try validate(userPoolId, name:"userPoolId", min: 1)
             try validate(userPoolId, name:"userPoolId", pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -5822,6 +5844,11 @@ extension CognitoIdentityProvider {
         public init(blockedIPRangeList: [String]? = nil, skippedIPRangeList: [String]? = nil) {
             self.blockedIPRangeList = blockedIPRangeList
             self.skippedIPRangeList = skippedIPRangeList
+        }
+
+        public func validate() throws {
+            try validate(blockedIPRangeList, name:"blockedIPRangeList", max: 20)
+            try validate(skippedIPRangeList, name:"skippedIPRangeList", max: 20)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5942,6 +5969,7 @@ extension CognitoIdentityProvider {
             try validate(clientId, name:"clientId", max: 128)
             try validate(clientId, name:"clientId", min: 1)
             try validate(clientId, name:"clientId", pattern: "[\\w+]+")
+            try riskExceptionConfiguration?.validate()
             try validate(userPoolId, name:"userPoolId", max: 55)
             try validate(userPoolId, name:"userPoolId", min: 1)
             try validate(userPoolId, name:"userPoolId", pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -6811,6 +6839,8 @@ extension CognitoIdentityProvider {
         }
 
         public func validate() throws {
+            try validate(idpIdentifiers, name:"idpIdentifiers", max: 50)
+            try validate(idpIdentifiers, name:"idpIdentifiers", min: 0)
             try validate(providerName, name:"providerName", max: 32)
             try validate(providerName, name:"providerName", min: 1)
             try validate(providerName, name:"providerName", pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
@@ -6878,6 +6908,7 @@ extension CognitoIdentityProvider {
             try validate(name, name:"name", max: 256)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "[\\w\\s+=,.@-]+")
+            try validate(scopes, name:"scopes", max: 25)
             try validate(userPoolId, name:"userPoolId", max: 55)
             try validate(userPoolId, name:"userPoolId", min: 1)
             try validate(userPoolId, name:"userPoolId", pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -7020,7 +7051,12 @@ extension CognitoIdentityProvider {
         }
 
         public func validate() throws {
+            try validate(allowedOAuthFlows, name:"allowedOAuthFlows", max: 3)
+            try validate(allowedOAuthFlows, name:"allowedOAuthFlows", min: 0)
+            try validate(allowedOAuthScopes, name:"allowedOAuthScopes", max: 25)
             try analyticsConfiguration?.validate()
+            try validate(callbackURLs, name:"callbackURLs", max: 100)
+            try validate(callbackURLs, name:"callbackURLs", min: 0)
             try validate(clientId, name:"clientId", max: 128)
             try validate(clientId, name:"clientId", min: 1)
             try validate(clientId, name:"clientId", pattern: "[\\w+]+")
@@ -7030,6 +7066,8 @@ extension CognitoIdentityProvider {
             try validate(defaultRedirectURI, name:"defaultRedirectURI", max: 1024)
             try validate(defaultRedirectURI, name:"defaultRedirectURI", min: 1)
             try validate(defaultRedirectURI, name:"defaultRedirectURI", pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
+            try validate(logoutURLs, name:"logoutURLs", max: 100)
+            try validate(logoutURLs, name:"logoutURLs", min: 0)
             try validate(refreshTokenValidity, name:"refreshTokenValidity", max: 3650)
             try validate(refreshTokenValidity, name:"refreshTokenValidity", min: 0)
             try validate(userPoolId, name:"userPoolId", max: 55)
@@ -7515,7 +7553,12 @@ extension CognitoIdentityProvider {
         }
 
         public func validate() throws {
+            try validate(allowedOAuthFlows, name:"allowedOAuthFlows", max: 3)
+            try validate(allowedOAuthFlows, name:"allowedOAuthFlows", min: 0)
+            try validate(allowedOAuthScopes, name:"allowedOAuthScopes", max: 25)
             try analyticsConfiguration?.validate()
+            try validate(callbackURLs, name:"callbackURLs", max: 100)
+            try validate(callbackURLs, name:"callbackURLs", min: 0)
             try validate(clientId, name:"clientId", max: 128)
             try validate(clientId, name:"clientId", min: 1)
             try validate(clientId, name:"clientId", pattern: "[\\w+]+")
@@ -7528,6 +7571,8 @@ extension CognitoIdentityProvider {
             try validate(defaultRedirectURI, name:"defaultRedirectURI", max: 1024)
             try validate(defaultRedirectURI, name:"defaultRedirectURI", min: 1)
             try validate(defaultRedirectURI, name:"defaultRedirectURI", pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
+            try validate(logoutURLs, name:"logoutURLs", max: 100)
+            try validate(logoutURLs, name:"logoutURLs", min: 0)
             try validate(refreshTokenValidity, name:"refreshTokenValidity", max: 3650)
             try validate(refreshTokenValidity, name:"refreshTokenValidity", min: 0)
             try validate(userPoolId, name:"userPoolId", max: 55)
@@ -7784,6 +7829,8 @@ extension CognitoIdentityProvider {
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "[\\w\\s+=,.@-]+")
             try policies?.validate()
+            try validate(schemaAttributes, name:"schemaAttributes", max: 50)
+            try validate(schemaAttributes, name:"schemaAttributes", min: 1)
             try validate(smsAuthenticationMessage, name:"smsAuthenticationMessage", max: 140)
             try validate(smsAuthenticationMessage, name:"smsAuthenticationMessage", min: 6)
             try validate(smsAuthenticationMessage, name:"smsAuthenticationMessage", pattern: ".*\\{####\\}.*")

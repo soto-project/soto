@@ -155,6 +155,8 @@ extension PI {
         }
 
         public func validate() throws {
+            try validate(dimensions, name:"dimensions", max: 10)
+            try validate(dimensions, name:"dimensions", min: 1)
             try validate(limit, name:"limit", max: 10)
             try validate(limit, name:"limit", min: 1)
         }
@@ -234,6 +236,8 @@ extension PI {
         public func validate() throws {
             try validate(maxResults, name:"maxResults", max: 20)
             try validate(maxResults, name:"maxResults", min: 0)
+            try validate(metricQueries, name:"metricQueries", max: 15)
+            try validate(metricQueries, name:"metricQueries", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

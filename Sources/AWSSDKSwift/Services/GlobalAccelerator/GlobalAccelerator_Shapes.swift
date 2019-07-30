@@ -208,6 +208,8 @@ extension GlobalAccelerator {
         }
 
         public func validate() throws {
+            try validate(endpointConfigurations, name:"endpointConfigurations", max: 10)
+            try validate(endpointConfigurations, name:"endpointConfigurations", min: 0)
             try validate(endpointGroupRegion, name:"endpointGroupRegion", max: 255)
             try validate(healthCheckIntervalSeconds, name:"healthCheckIntervalSeconds", max: 30)
             try validate(healthCheckIntervalSeconds, name:"healthCheckIntervalSeconds", min: 10)
@@ -286,6 +288,8 @@ extension GlobalAccelerator {
         public func validate() throws {
             try validate(acceleratorArn, name:"acceleratorArn", max: 255)
             try validate(idempotencyToken, name:"idempotencyToken", max: 255)
+            try validate(portRanges, name:"portRanges", max: 10)
+            try validate(portRanges, name:"portRanges", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -707,6 +711,8 @@ extension GlobalAccelerator {
         }
 
         public func validate() throws {
+            try validate(ipAddresses, name:"ipAddresses", max: 2)
+            try validate(ipAddresses, name:"ipAddresses", min: 0)
             try validate(ipFamily, name:"ipFamily", max: 255)
         }
 
@@ -909,6 +915,8 @@ extension GlobalAccelerator {
 
         public func validate() throws {
             try validate(listenerArn, name:"listenerArn", max: 255)
+            try validate(portRanges, name:"portRanges", max: 10)
+            try validate(portRanges, name:"portRanges", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1106,6 +1114,8 @@ extension GlobalAccelerator {
         }
 
         public func validate() throws {
+            try validate(endpointConfigurations, name:"endpointConfigurations", max: 10)
+            try validate(endpointConfigurations, name:"endpointConfigurations", min: 0)
             try validate(endpointGroupArn, name:"endpointGroupArn", max: 255)
             try validate(healthCheckIntervalSeconds, name:"healthCheckIntervalSeconds", max: 30)
             try validate(healthCheckIntervalSeconds, name:"healthCheckIntervalSeconds", min: 10)
@@ -1175,6 +1185,8 @@ extension GlobalAccelerator {
 
         public func validate() throws {
             try validate(listenerArn, name:"listenerArn", max: 255)
+            try validate(portRanges, name:"portRanges", max: 10)
+            try validate(portRanges, name:"portRanges", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

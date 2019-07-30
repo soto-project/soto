@@ -64,6 +64,8 @@ extension DataPipeline {
             try validate(pipelineId, name:"pipelineId", max: 1024)
             try validate(pipelineId, name:"pipelineId", min: 1)
             try validate(pipelineId, name:"pipelineId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(tags, name:"tags", max: 10)
+            try validate(tags, name:"tags", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -110,6 +112,8 @@ extension DataPipeline {
             try validate(name, name:"name", max: 1024)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(tags, name:"tags", max: 10)
+            try validate(tags, name:"tags", min: 0)
             try validate(uniqueId, name:"uniqueId", max: 1024)
             try validate(uniqueId, name:"uniqueId", min: 1)
             try validate(uniqueId, name:"uniqueId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -698,6 +702,8 @@ extension DataPipeline {
             try validate(pipelineId, name:"pipelineId", max: 1024)
             try validate(pipelineId, name:"pipelineId", min: 1)
             try validate(pipelineId, name:"pipelineId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(tags, name:"tags", max: 10)
+            try validate(tags, name:"tags", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {

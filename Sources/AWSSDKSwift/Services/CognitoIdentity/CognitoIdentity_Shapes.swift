@@ -148,6 +148,11 @@ extension CognitoIdentity {
             self.identityIdsToDelete = identityIdsToDelete
         }
 
+        public func validate() throws {
+            try validate(identityIdsToDelete, name:"identityIdsToDelete", max: 60)
+            try validate(identityIdsToDelete, name:"identityIdsToDelete", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case identityIdsToDelete = "IdentityIdsToDelete"
         }
@@ -162,6 +167,10 @@ extension CognitoIdentity {
         
         public init(unprocessedIdentityIds: [UnprocessedIdentityId]? = nil) {
             self.unprocessedIdentityIds = unprocessedIdentityIds
+        }
+
+        public func validate() throws {
+            try validate(unprocessedIdentityIds, name:"unprocessedIdentityIds", max: 60)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1056,6 +1065,10 @@ extension CognitoIdentity {
             self.`type` = `type`
         }
 
+        public func validate() throws {
+            try rulesConfiguration?.validate()
+        }
+
         private enum CodingKeys: String, CodingKey {
             case ambiguousRoleResolution = "AmbiguousRoleResolution"
             case rulesConfiguration = "RulesConfiguration"
@@ -1078,6 +1091,11 @@ extension CognitoIdentity {
         
         public init(rules: [MappingRule]) {
             self.rules = rules
+        }
+
+        public func validate() throws {
+            try validate(rules, name:"rules", max: 25)
+            try validate(rules, name:"rules", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

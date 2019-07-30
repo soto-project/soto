@@ -314,6 +314,11 @@ extension Cloud9 {
             self.environmentIds = environmentIds
         }
 
+        public func validate() throws {
+            try validate(environmentIds, name:"environmentIds", max: 25)
+            try validate(environmentIds, name:"environmentIds", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case environmentIds = "environmentIds"
         }

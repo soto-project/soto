@@ -452,7 +452,9 @@ extension GameLift {
             try validate(buildId, name:"buildId", pattern: "^build-\\S+")
             try validate(description, name:"description", max: 1024)
             try validate(description, name:"description", min: 1)
+            try validate(eC2InboundPermissions, name:"eC2InboundPermissions", max: 50)
             try validate(instanceRoleArn, name:"instanceRoleArn", min: 1)
+            try validate(metricGroups, name:"metricGroups", max: 1)
             try validate(name, name:"name", max: 1024)
             try validate(name, name:"name", min: 1)
             try validate(peerVpcAwsAccountId, name:"peerVpcAwsAccountId", max: 1024)
@@ -557,6 +559,7 @@ extension GameLift {
             try validate(creatorId, name:"creatorId", max: 1024)
             try validate(creatorId, name:"creatorId", min: 1)
             try validate(fleetId, name:"fleetId", pattern: "^fleet-\\S+")
+            try validate(gameProperties, name:"gameProperties", max: 16)
             try validate(gameSessionData, name:"gameSessionData", max: 4096)
             try validate(gameSessionData, name:"gameSessionData", min: 1)
             try validate(gameSessionId, name:"gameSessionId", max: 48)
@@ -728,6 +731,7 @@ extension GameLift {
             try validate(customEventData, name:"customEventData", min: 0)
             try validate(description, name:"description", max: 1024)
             try validate(description, name:"description", min: 1)
+            try validate(gameProperties, name:"gameProperties", max: 16)
             try validate(gameSessionData, name:"gameSessionData", max: 4096)
             try validate(gameSessionData, name:"gameSessionData", min: 1)
             try validate(name, name:"name", max: 128)
@@ -905,6 +909,8 @@ extension GameLift {
             try validate(gameSessionId, name:"gameSessionId", max: 256)
             try validate(gameSessionId, name:"gameSessionId", min: 1)
             try validate(gameSessionId, name:"gameSessionId", pattern: "[a-zA-Z0-9:/-]+")
+            try validate(playerIds, name:"playerIds", max: 25)
+            try validate(playerIds, name:"playerIds", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1478,6 +1484,7 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try validate(fleetIds, name:"fleetIds", min: 1)
             try validate(limit, name:"limit", min: 1)
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
@@ -1536,6 +1543,7 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try validate(fleetIds, name:"fleetIds", min: 1)
             try validate(limit, name:"limit", min: 1)
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
@@ -1674,6 +1682,10 @@ extension GameLift {
             self.inboundPermissions = inboundPermissions
         }
 
+        public func validate() throws {
+            try validate(inboundPermissions, name:"inboundPermissions", max: 50)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case inboundPermissions = "InboundPermissions"
         }
@@ -1699,6 +1711,7 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try validate(fleetIds, name:"fleetIds", min: 1)
             try validate(limit, name:"limit", min: 1)
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
@@ -2181,6 +2194,8 @@ extension GameLift {
         public func validate() throws {
             try validate(limit, name:"limit", max: 10)
             try validate(limit, name:"limit", min: 1)
+            try validate(names, name:"names", max: 10)
+            try validate(names, name:"names", min: 1)
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -2845,6 +2860,7 @@ extension GameLift {
             try validate(fleetArn, name:"fleetArn", pattern: "[a-zA-Z0-9:/-]+")
             try validate(fleetId, name:"fleetId", pattern: "^fleet-\\S+")
             try validate(instanceRoleArn, name:"instanceRoleArn", min: 1)
+            try validate(metricGroups, name:"metricGroups", max: 1)
             try validate(name, name:"name", max: 1024)
             try validate(name, name:"name", min: 1)
             try resourceCreationLimitPolicy?.validate()
@@ -2853,6 +2869,8 @@ extension GameLift {
             try validate(serverLaunchParameters, name:"serverLaunchParameters", min: 1)
             try validate(serverLaunchPath, name:"serverLaunchPath", max: 1024)
             try validate(serverLaunchPath, name:"serverLaunchPath", min: 1)
+            try validate(stoppedActions, name:"stoppedActions", max: 1)
+            try validate(stoppedActions, name:"stoppedActions", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3075,6 +3093,7 @@ extension GameLift {
             try validate(creatorId, name:"creatorId", min: 1)
             try validate(currentPlayerSessionCount, name:"currentPlayerSessionCount", min: 0)
             try validate(fleetId, name:"fleetId", pattern: "^fleet-\\S+")
+            try validate(gameProperties, name:"gameProperties", max: 16)
             try validate(gameSessionData, name:"gameSessionData", max: 4096)
             try validate(gameSessionData, name:"gameSessionData", min: 1)
             try validate(gameSessionId, name:"gameSessionId", max: 1024)
@@ -3247,6 +3266,7 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try validate(gameProperties, name:"gameProperties", max: 16)
             try validate(gameSessionArn, name:"gameSessionArn", max: 1024)
             try validate(gameSessionArn, name:"gameSessionArn", min: 1)
             try validate(gameSessionData, name:"gameSessionData", max: 4096)
@@ -3814,6 +3834,7 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try validate(fleetIds, name:"fleetIds", min: 1)
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -3973,6 +3994,7 @@ extension GameLift {
             try validate(customEventData, name:"customEventData", min: 0)
             try validate(description, name:"description", max: 1024)
             try validate(description, name:"description", min: 1)
+            try validate(gameProperties, name:"gameProperties", max: 16)
             try validate(gameSessionData, name:"gameSessionData", max: 4096)
             try validate(gameSessionData, name:"gameSessionData", min: 1)
             try validate(name, name:"name", max: 128)
@@ -4625,6 +4647,8 @@ extension GameLift {
             try validate(gameSessionActivationTimeoutSeconds, name:"gameSessionActivationTimeoutSeconds", min: 1)
             try validate(maxConcurrentGameSessionActivations, name:"maxConcurrentGameSessionActivations", max: 2147483647)
             try validate(maxConcurrentGameSessionActivations, name:"maxConcurrentGameSessionActivations", min: 1)
+            try validate(serverProcesses, name:"serverProcesses", max: 50)
+            try validate(serverProcesses, name:"serverProcesses", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4942,6 +4966,8 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try validate(actions, name:"actions", max: 1)
+            try validate(actions, name:"actions", min: 1)
             try validate(fleetId, name:"fleetId", pattern: "^fleet-\\S+")
         }
 
@@ -4999,6 +5025,7 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try validate(gameProperties, name:"gameProperties", max: 16)
             try validate(gameSessionData, name:"gameSessionData", max: 4096)
             try validate(gameSessionData, name:"gameSessionData", min: 1)
             try validate(gameSessionName, name:"gameSessionName", max: 1024)
@@ -5174,6 +5201,8 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try validate(actions, name:"actions", max: 1)
+            try validate(actions, name:"actions", min: 1)
             try validate(fleetId, name:"fleetId", pattern: "^fleet-\\S+")
         }
 
@@ -5428,6 +5457,7 @@ extension GameLift {
             try validate(description, name:"description", max: 1024)
             try validate(description, name:"description", min: 1)
             try validate(fleetId, name:"fleetId", pattern: "^fleet-\\S+")
+            try validate(metricGroups, name:"metricGroups", max: 1)
             try validate(name, name:"name", max: 1024)
             try validate(name, name:"name", min: 1)
             try resourceCreationLimitPolicy?.validate()
@@ -5542,6 +5572,8 @@ extension GameLift {
 
         public func validate() throws {
             try validate(fleetId, name:"fleetId", pattern: "^fleet-\\S+")
+            try validate(inboundPermissionAuthorizations, name:"inboundPermissionAuthorizations", max: 50)
+            try validate(inboundPermissionRevocations, name:"inboundPermissionRevocations", max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5761,6 +5793,7 @@ extension GameLift {
             try validate(customEventData, name:"customEventData", min: 0)
             try validate(description, name:"description", max: 1024)
             try validate(description, name:"description", min: 1)
+            try validate(gameProperties, name:"gameProperties", max: 16)
             try validate(gameSessionData, name:"gameSessionData", max: 4096)
             try validate(gameSessionData, name:"gameSessionData", min: 1)
             try validate(name, name:"name", max: 128)

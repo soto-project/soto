@@ -468,6 +468,7 @@ extension Comprehend {
             try inputDataConfig.validate()
             try outputDataConfig?.validate()
             try validate(volumeKmsKeyId, name:"volumeKmsKeyId", max: 2048)
+            try vpcConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -554,6 +555,7 @@ extension Comprehend {
             try validate(recognizerName, name:"recognizerName", max: 63)
             try validate(recognizerName, name:"recognizerName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
             try validate(volumeKmsKeyId, name:"volumeKmsKeyId", max: 2048)
+            try vpcConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1293,6 +1295,7 @@ extension Comprehend {
             try validate(jobName, name:"jobName", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
             try outputDataConfig?.validate()
             try validate(volumeKmsKeyId, name:"volumeKmsKeyId", max: 2048)
+            try vpcConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1457,6 +1460,7 @@ extension Comprehend {
             try inputDataConfig?.validate()
             try outputDataConfig?.validate()
             try validate(volumeKmsKeyId, name:"volumeKmsKeyId", max: 2048)
+            try vpcConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1603,6 +1607,7 @@ extension Comprehend {
             try validate(jobName, name:"jobName", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
             try outputDataConfig?.validate()
             try validate(volumeKmsKeyId, name:"volumeKmsKeyId", max: 2048)
+            try vpcConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1731,6 +1736,7 @@ extension Comprehend {
             try validate(jobName, name:"jobName", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
             try outputDataConfig?.validate()
             try validate(volumeKmsKeyId, name:"volumeKmsKeyId", max: 2048)
+            try vpcConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2056,6 +2062,7 @@ extension Comprehend {
             try validate(entityRecognizerArn, name:"entityRecognizerArn", pattern: "arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer/[a-zA-Z0-9](-*[a-zA-Z0-9])*")
             try inputDataConfig?.validate()
             try validate(volumeKmsKeyId, name:"volumeKmsKeyId", max: 2048)
+            try vpcConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2291,6 +2298,7 @@ extension Comprehend {
             try validate(jobName, name:"jobName", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
             try outputDataConfig?.validate()
             try validate(volumeKmsKeyId, name:"volumeKmsKeyId", max: 2048)
+            try vpcConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3014,6 +3022,7 @@ extension Comprehend {
             try validate(jobName, name:"jobName", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
             try outputDataConfig?.validate()
             try validate(volumeKmsKeyId, name:"volumeKmsKeyId", max: 2048)
+            try vpcConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3125,6 +3134,7 @@ extension Comprehend {
             try validate(jobName, name:"jobName", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
             try outputDataConfig.validate()
             try validate(volumeKmsKeyId, name:"volumeKmsKeyId", max: 2048)
+            try vpcConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3214,6 +3224,7 @@ extension Comprehend {
             try validate(jobName, name:"jobName", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
             try outputDataConfig.validate()
             try validate(volumeKmsKeyId, name:"volumeKmsKeyId", max: 2048)
+            try vpcConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3312,6 +3323,7 @@ extension Comprehend {
             try validate(jobName, name:"jobName", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
             try outputDataConfig.validate()
             try validate(volumeKmsKeyId, name:"volumeKmsKeyId", max: 2048)
+            try vpcConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3406,6 +3418,7 @@ extension Comprehend {
             try validate(jobName, name:"jobName", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
             try outputDataConfig.validate()
             try validate(volumeKmsKeyId, name:"volumeKmsKeyId", max: 2048)
+            try vpcConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3499,6 +3512,7 @@ extension Comprehend {
             try validate(jobName, name:"jobName", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
             try outputDataConfig.validate()
             try validate(volumeKmsKeyId, name:"volumeKmsKeyId", max: 2048)
+            try vpcConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3594,6 +3608,7 @@ extension Comprehend {
             try validate(numberOfTopics, name:"numberOfTopics", min: 1)
             try outputDataConfig.validate()
             try validate(volumeKmsKeyId, name:"volumeKmsKeyId", max: 2048)
+            try vpcConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4105,6 +4120,7 @@ extension Comprehend {
             try validate(jobName, name:"jobName", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
             try outputDataConfig?.validate()
             try validate(volumeKmsKeyId, name:"volumeKmsKeyId", max: 2048)
+            try vpcConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4170,6 +4186,13 @@ extension Comprehend {
         public init(securityGroupIds: [String], subnets: [String]) {
             self.securityGroupIds = securityGroupIds
             self.subnets = subnets
+        }
+
+        public func validate() throws {
+            try validate(securityGroupIds, name:"securityGroupIds", max: 5)
+            try validate(securityGroupIds, name:"securityGroupIds", min: 1)
+            try validate(subnets, name:"subnets", max: 16)
+            try validate(subnets, name:"subnets", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

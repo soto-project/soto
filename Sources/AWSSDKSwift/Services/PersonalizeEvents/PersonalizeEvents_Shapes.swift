@@ -69,6 +69,8 @@ extension PersonalizeEvents {
         }
 
         public func validate() throws {
+            try validate(eventList, name:"eventList", max: 10)
+            try validate(eventList, name:"eventList", min: 1)
             try validate(sessionId, name:"sessionId", max: 256)
             try validate(sessionId, name:"sessionId", min: 1)
             try validate(trackingId, name:"trackingId", max: 256)

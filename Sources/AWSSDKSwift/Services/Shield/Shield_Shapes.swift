@@ -436,6 +436,8 @@ extension Shield {
         }
 
         public func validate() throws {
+            try validate(logBucketList, name:"logBucketList", max: 10)
+            try validate(logBucketList, name:"logBucketList", min: 0)
             try validate(roleArn, name:"roleArn", max: 2048)
             try validate(roleArn, name:"roleArn", min: 1)
             try validate(roleArn, name:"roleArn", pattern: "^arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
@@ -464,6 +466,11 @@ extension Shield {
         
         public init(emergencyContactList: [EmergencyContact]? = nil) {
             self.emergencyContactList = emergencyContactList
+        }
+
+        public func validate() throws {
+            try validate(emergencyContactList, name:"emergencyContactList", max: 10)
+            try validate(emergencyContactList, name:"emergencyContactList", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1026,6 +1033,11 @@ extension Shield {
         
         public init(emergencyContactList: [EmergencyContact]? = nil) {
             self.emergencyContactList = emergencyContactList
+        }
+
+        public func validate() throws {
+            try validate(emergencyContactList, name:"emergencyContactList", max: 10)
+            try validate(emergencyContactList, name:"emergencyContactList", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {

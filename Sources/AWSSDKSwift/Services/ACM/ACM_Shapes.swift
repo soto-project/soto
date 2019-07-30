@@ -24,6 +24,8 @@ extension ACM {
             try validate(certificateArn, name:"certificateArn", max: 2048)
             try validate(certificateArn, name:"certificateArn", min: 20)
             try validate(certificateArn, name:"certificateArn", pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -153,6 +155,11 @@ extension ACM {
             try validate(domainName, name:"domainName", max: 253)
             try validate(domainName, name:"domainName", min: 1)
             try validate(domainName, name:"domainName", pattern: "^(\\*\\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
+            try validate(domainValidationOptions, name:"domainValidationOptions", max: 1000)
+            try validate(domainValidationOptions, name:"domainValidationOptions", min: 1)
+            try renewalSummary?.validate()
+            try validate(subjectAlternativeNames, name:"subjectAlternativeNames", max: 100)
+            try validate(subjectAlternativeNames, name:"subjectAlternativeNames", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -812,6 +819,11 @@ extension ACM {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
         }
@@ -841,6 +853,8 @@ extension ACM {
             try validate(certificateArn, name:"certificateArn", max: 2048)
             try validate(certificateArn, name:"certificateArn", min: 20)
             try validate(certificateArn, name:"certificateArn", pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -908,6 +922,11 @@ extension ACM {
             self.updatedAt = updatedAt
         }
 
+        public func validate() throws {
+            try validate(domainValidationOptions, name:"domainValidationOptions", max: 1000)
+            try validate(domainValidationOptions, name:"domainValidationOptions", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case domainValidationOptions = "DomainValidationOptions"
             case renewalStatus = "RenewalStatus"
@@ -958,9 +977,13 @@ extension ACM {
             try validate(domainName, name:"domainName", max: 253)
             try validate(domainName, name:"domainName", min: 1)
             try validate(domainName, name:"domainName", pattern: "^(\\*\\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
+            try validate(domainValidationOptions, name:"domainValidationOptions", max: 100)
+            try validate(domainValidationOptions, name:"domainValidationOptions", min: 1)
             try validate(idempotencyToken, name:"idempotencyToken", max: 32)
             try validate(idempotencyToken, name:"idempotencyToken", min: 1)
             try validate(idempotencyToken, name:"idempotencyToken", pattern: "\\w+")
+            try validate(subjectAlternativeNames, name:"subjectAlternativeNames", max: 100)
+            try validate(subjectAlternativeNames, name:"subjectAlternativeNames", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

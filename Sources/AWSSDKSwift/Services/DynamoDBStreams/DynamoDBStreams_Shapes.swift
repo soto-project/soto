@@ -553,6 +553,8 @@ extension DynamoDBStreams {
         }
 
         public func validate() throws {
+            try validate(keySchema, name:"keySchema", max: 2)
+            try validate(keySchema, name:"keySchema", min: 1)
             try validate(lastEvaluatedShardId, name:"lastEvaluatedShardId", max: 65)
             try validate(lastEvaluatedShardId, name:"lastEvaluatedShardId", min: 28)
             try validate(streamArn, name:"streamArn", max: 1024)

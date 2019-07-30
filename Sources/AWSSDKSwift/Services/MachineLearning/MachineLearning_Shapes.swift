@@ -28,6 +28,7 @@ extension MachineLearning {
             try validate(resourceId, name:"resourceId", max: 64)
             try validate(resourceId, name:"resourceId", min: 1)
             try validate(resourceId, name:"resourceId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(tags, name:"tags", max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1030,6 +1031,7 @@ extension MachineLearning {
             try validate(resourceId, name:"resourceId", max: 64)
             try validate(resourceId, name:"resourceId", min: 1)
             try validate(resourceId, name:"resourceId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(tagKeys, name:"tagKeys", max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1540,6 +1542,7 @@ extension MachineLearning {
             try validate(resourceId, name:"resourceId", max: 64)
             try validate(resourceId, name:"resourceId", min: 1)
             try validate(resourceId, name:"resourceId", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(tags, name:"tags", max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {

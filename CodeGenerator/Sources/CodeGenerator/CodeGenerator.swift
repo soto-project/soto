@@ -108,7 +108,7 @@ extension Shape {
             return name.toSwiftClassCase()
         case .boolean:
             return "Bool"
-        case .list(let shape):
+        case .list(let shape,_,_):
             return "[\(shape.swiftTypeName)]"
         case .map(key: let keyShape, value: let valueShape):
             return "[\(keyShape.swiftTypeName): \(valueShape.swiftTypeName)]"
@@ -340,7 +340,8 @@ extension AWSService {
              .double(let max, let min):
             requirements["max"] = max
             requirements["min"] = min
-        case .blob(let max, let min):
+        case .blob(let max, let min),
+             .list(_, let max, let min):
             requirements["max"] = max
             requirements["min"] = min
         case .string(let max, let min, let pattern):

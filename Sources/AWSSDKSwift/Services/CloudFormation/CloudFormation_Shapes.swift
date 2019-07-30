@@ -339,11 +339,13 @@ extension CloudFormation {
             try validate(clientToken, name:"clientToken", min: 1)
             try validate(description, name:"description", max: 1024)
             try validate(description, name:"description", min: 1)
+            try validate(notificationARNs, name:"notificationARNs", max: 5)
             try validate(roleARN, name:"roleARN", max: 2048)
             try validate(roleARN, name:"roleARN", min: 20)
             try rollbackConfiguration?.validate()
             try validate(stackName, name:"stackName", min: 1)
             try validate(stackName, name:"stackName", pattern: "([a-zA-Z][-a-zA-Z0-9]*)|(arn:\\b(aws|aws-us-gov|aws-cn)\\b:[-a-zA-Z0-9:/._+]*)")
+            try validate(tags, name:"tags", max: 50)
             try validate(templateBody, name:"templateBody", min: 1)
             try validate(templateURL, name:"templateURL", max: 1024)
             try validate(templateURL, name:"templateURL", min: 1)
@@ -473,6 +475,7 @@ extension CloudFormation {
             try validate(clientRequestToken, name:"clientRequestToken", max: 128)
             try validate(clientRequestToken, name:"clientRequestToken", min: 1)
             try validate(clientRequestToken, name:"clientRequestToken", pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
+            try validate(notificationARNs, name:"notificationARNs", max: 5)
             try validate(roleARN, name:"roleARN", max: 2048)
             try validate(roleARN, name:"roleARN", min: 20)
             try rollbackConfiguration?.validate()
@@ -480,6 +483,7 @@ extension CloudFormation {
             try validate(stackPolicyBody, name:"stackPolicyBody", min: 1)
             try validate(stackPolicyURL, name:"stackPolicyURL", max: 1350)
             try validate(stackPolicyURL, name:"stackPolicyURL", min: 1)
+            try validate(tags, name:"tags", max: 50)
             try validate(templateBody, name:"templateBody", min: 1)
             try validate(templateURL, name:"templateURL", max: 1024)
             try validate(templateURL, name:"templateURL", min: 1)
@@ -651,6 +655,7 @@ extension CloudFormation {
             try validate(executionRoleName, name:"executionRoleName", max: 64)
             try validate(executionRoleName, name:"executionRoleName", min: 1)
             try validate(executionRoleName, name:"executionRoleName", pattern: "[a-zA-Z_0-9+=,.@-]+")
+            try validate(tags, name:"tags", max: 50)
             try validate(templateBody, name:"templateBody", min: 1)
             try validate(templateURL, name:"templateURL", max: 1024)
             try validate(templateURL, name:"templateURL", min: 1)
@@ -1020,7 +1025,9 @@ extension CloudFormation {
             try validate(description, name:"description", min: 1)
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
+            try validate(notificationARNs, name:"notificationARNs", max: 5)
             try rollbackConfiguration?.validate()
+            try validate(tags, name:"tags", max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1247,6 +1254,8 @@ extension CloudFormation {
             try validate(nextToken, name:"nextToken", min: 1)
             try validate(stackName, name:"stackName", min: 1)
             try validate(stackName, name:"stackName", pattern: "([a-zA-Z][-a-zA-Z0-9]*)|(arn:\\b(aws|aws-us-gov|aws-cn)\\b:[-a-zA-Z0-9:/._+]*)")
+            try validate(stackResourceDriftStatusFilters, name:"stackResourceDriftStatusFilters", max: 4)
+            try validate(stackResourceDriftStatusFilters, name:"stackResourceDriftStatusFilters", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1517,6 +1526,8 @@ extension CloudFormation {
         }
 
         public func validate() throws {
+            try validate(logicalResourceIds, name:"logicalResourceIds", max: 200)
+            try validate(logicalResourceIds, name:"logicalResourceIds", min: 1)
             try validate(stackName, name:"stackName", min: 1)
             try validate(stackName, name:"stackName", pattern: "([a-zA-Z][-a-zA-Z0-9]*)|(arn:\\b(aws|aws-us-gov|aws-cn)\\b:[-a-zA-Z0-9:/._+]*)")
         }
@@ -2796,6 +2807,7 @@ extension CloudFormation {
         public func validate() throws {
             try validate(monitoringTimeInMinutes, name:"monitoringTimeInMinutes", max: 180)
             try validate(monitoringTimeInMinutes, name:"monitoringTimeInMinutes", min: 0)
+            try validate(rollbackTriggers, name:"rollbackTriggers", max: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2996,9 +3008,11 @@ extension CloudFormation {
             try validate(changeSetId, name:"changeSetId", pattern: "arn:[-a-zA-Z0-9:/]*")
             try validate(description, name:"description", max: 1024)
             try validate(description, name:"description", min: 1)
+            try validate(notificationARNs, name:"notificationARNs", max: 5)
             try validate(roleARN, name:"roleARN", max: 2048)
             try validate(roleARN, name:"roleARN", min: 20)
             try rollbackConfiguration?.validate()
+            try validate(tags, name:"tags", max: 50)
             try validate(timeoutInMinutes, name:"timeoutInMinutes", min: 1)
         }
 
@@ -3450,6 +3464,7 @@ extension CloudFormation {
         }
 
         public func validate() throws {
+            try validate(physicalResourceIdContext, name:"physicalResourceIdContext", max: 5)
             try validate(resourceType, name:"resourceType", max: 256)
             try validate(resourceType, name:"resourceType", min: 1)
         }
@@ -3628,6 +3643,7 @@ extension CloudFormation {
             try validate(executionRoleName, name:"executionRoleName", max: 64)
             try validate(executionRoleName, name:"executionRoleName", min: 1)
             try validate(executionRoleName, name:"executionRoleName", pattern: "[a-zA-Z_0-9+=,.@-]+")
+            try validate(tags, name:"tags", max: 50)
             try validate(templateBody, name:"templateBody", min: 1)
         }
 
@@ -4180,6 +4196,7 @@ extension CloudFormation {
             try validate(clientRequestToken, name:"clientRequestToken", max: 128)
             try validate(clientRequestToken, name:"clientRequestToken", min: 1)
             try validate(clientRequestToken, name:"clientRequestToken", pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
+            try validate(notificationARNs, name:"notificationARNs", max: 5)
             try validate(roleARN, name:"roleARN", max: 2048)
             try validate(roleARN, name:"roleARN", min: 20)
             try rollbackConfiguration?.validate()
@@ -4191,6 +4208,7 @@ extension CloudFormation {
             try validate(stackPolicyDuringUpdateURL, name:"stackPolicyDuringUpdateURL", min: 1)
             try validate(stackPolicyURL, name:"stackPolicyURL", max: 1350)
             try validate(stackPolicyURL, name:"stackPolicyURL", min: 1)
+            try validate(tags, name:"tags", max: 50)
             try validate(templateBody, name:"templateBody", min: 1)
             try validate(templateURL, name:"templateURL", max: 1024)
             try validate(templateURL, name:"templateURL", min: 1)
@@ -4378,6 +4396,7 @@ extension CloudFormation {
             try validate(operationId, name:"operationId", min: 1)
             try validate(operationId, name:"operationId", pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
             try operationPreferences?.validate()
+            try validate(tags, name:"tags", max: 50)
             try validate(templateBody, name:"templateBody", min: 1)
             try validate(templateURL, name:"templateURL", max: 1024)
             try validate(templateURL, name:"templateURL", min: 1)

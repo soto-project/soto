@@ -594,6 +594,8 @@ extension Rekognition {
             try validate(collectionId, name:"collectionId", max: 255)
             try validate(collectionId, name:"collectionId", min: 1)
             try validate(collectionId, name:"collectionId", pattern: "[a-zA-Z0-9_.\\-]+")
+            try validate(faceIds, name:"faceIds", max: 4096)
+            try validate(faceIds, name:"faceIds", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -611,6 +613,11 @@ extension Rekognition {
         
         public init(deletedFaces: [String]? = nil) {
             self.deletedFaces = deletedFaces
+        }
+
+        public func validate() throws {
+            try validate(deletedFaces, name:"deletedFaces", max: 4096)
+            try validate(deletedFaces, name:"deletedFaces", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

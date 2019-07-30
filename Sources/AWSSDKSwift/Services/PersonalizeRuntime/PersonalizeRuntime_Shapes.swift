@@ -27,6 +27,7 @@ extension PersonalizeRuntime {
         public func validate() throws {
             try validate(campaignArn, name:"campaignArn", max: 256)
             try validate(campaignArn, name:"campaignArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try validate(inputList, name:"inputList", max: 100)
             try validate(userId, name:"userId", max: 256)
         }
 
@@ -46,6 +47,10 @@ extension PersonalizeRuntime {
         
         public init(personalizedRanking: [PredictedItem]? = nil) {
             self.personalizedRanking = personalizedRanking
+        }
+
+        public func validate() throws {
+            try validate(personalizedRanking, name:"personalizedRanking", max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -102,6 +107,10 @@ extension PersonalizeRuntime {
         
         public init(itemList: [PredictedItem]? = nil) {
             self.itemList = itemList
+        }
+
+        public func validate() throws {
+            try validate(itemList, name:"itemList", max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -355,6 +355,8 @@ extension ACMPCA {
             try validate(idempotencyToken, name:"idempotencyToken", min: 1)
             try validate(idempotencyToken, name:"idempotencyToken", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]*")
             try revocationConfiguration?.validate()
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -412,6 +414,8 @@ extension ACMPCA {
         }
 
         public func validate() throws {
+            try validate(actions, name:"actions", max: 3)
+            try validate(actions, name:"actions", min: 1)
             try validate(certificateAuthorityArn, name:"certificateAuthorityArn", max: 200)
             try validate(certificateAuthorityArn, name:"certificateAuthorityArn", min: 5)
             try validate(certificateAuthorityArn, name:"certificateAuthorityArn", pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]*:[\\w+=,.@-]+(/[\\w+=/,.@-]+)*")
@@ -1010,6 +1014,7 @@ extension ACMPCA {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 500)
             try validate(nextToken, name:"nextToken", min: 1)
+            try validate(permissions, name:"permissions", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1072,6 +1077,8 @@ extension ACMPCA {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 500)
             try validate(nextToken, name:"nextToken", min: 1)
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1112,6 +1119,8 @@ extension ACMPCA {
         }
 
         public func validate() throws {
+            try validate(actions, name:"actions", max: 3)
+            try validate(actions, name:"actions", min: 1)
             try validate(certificateAuthorityArn, name:"certificateAuthorityArn", max: 200)
             try validate(certificateAuthorityArn, name:"certificateAuthorityArn", min: 5)
             try validate(certificateAuthorityArn, name:"certificateAuthorityArn", pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]*:[\\w+=,.@-]+(/[\\w+=/,.@-]+)*")
@@ -1274,6 +1283,8 @@ extension ACMPCA {
             try validate(certificateAuthorityArn, name:"certificateAuthorityArn", max: 200)
             try validate(certificateAuthorityArn, name:"certificateAuthorityArn", min: 5)
             try validate(certificateAuthorityArn, name:"certificateAuthorityArn", pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]*:[\\w+=,.@-]+(/[\\w+=/,.@-]+)*")
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1301,6 +1312,8 @@ extension ACMPCA {
             try validate(certificateAuthorityArn, name:"certificateAuthorityArn", max: 200)
             try validate(certificateAuthorityArn, name:"certificateAuthorityArn", min: 5)
             try validate(certificateAuthorityArn, name:"certificateAuthorityArn", pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]*:[\\w+=,.@-]+(/[\\w+=/,.@-]+)*")
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

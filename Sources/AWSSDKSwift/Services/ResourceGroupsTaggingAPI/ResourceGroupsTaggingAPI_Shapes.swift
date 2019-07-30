@@ -67,6 +67,8 @@ extension ResourceGroupsTaggingAPI {
         public func validate() throws {
             try validate(paginationToken, name:"paginationToken", max: 2048)
             try validate(paginationToken, name:"paginationToken", min: 0)
+            try validate(tagFilters, name:"tagFilters", max: 50)
+            try validate(tagFilters, name:"tagFilters", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -277,6 +279,8 @@ extension ResourceGroupsTaggingAPI {
         public func validate() throws {
             try validate(key, name:"key", max: 128)
             try validate(key, name:"key", min: 1)
+            try validate(values, name:"values", max: 20)
+            try validate(values, name:"values", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -298,6 +302,11 @@ extension ResourceGroupsTaggingAPI {
         public init(resourceARNList: [String], tags: [String: String]) {
             self.resourceARNList = resourceARNList
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try validate(resourceARNList, name:"resourceARNList", max: 20)
+            try validate(resourceARNList, name:"resourceARNList", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -335,6 +344,13 @@ extension ResourceGroupsTaggingAPI {
         public init(resourceARNList: [String], tagKeys: [String]) {
             self.resourceARNList = resourceARNList
             self.tagKeys = tagKeys
+        }
+
+        public func validate() throws {
+            try validate(resourceARNList, name:"resourceARNList", max: 20)
+            try validate(resourceARNList, name:"resourceARNList", min: 1)
+            try validate(tagKeys, name:"tagKeys", max: 50)
+            try validate(tagKeys, name:"tagKeys", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

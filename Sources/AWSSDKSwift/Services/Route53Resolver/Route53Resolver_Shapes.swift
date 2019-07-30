@@ -141,6 +141,8 @@ extension Route53Resolver {
         public func validate() throws {
             try validate(creatorRequestId, name:"creatorRequestId", max: 255)
             try validate(creatorRequestId, name:"creatorRequestId", min: 1)
+            try validate(ipAddresses, name:"ipAddresses", max: 10)
+            try validate(ipAddresses, name:"ipAddresses", min: 1)
             try validate(name, name:"name", max: 64)
             try validate(name, name:"name", pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)")
         }
@@ -219,6 +221,7 @@ extension Route53Resolver {
             try validate(name, name:"name", pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)")
             try validate(resolverEndpointId, name:"resolverEndpointId", max: 64)
             try validate(resolverEndpointId, name:"resolverEndpointId", min: 1)
+            try validate(targetIps, name:"targetIps", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1279,6 +1282,7 @@ extension Route53Resolver {
             try validate(resolverEndpointId, name:"resolverEndpointId", max: 64)
             try validate(resolverEndpointId, name:"resolverEndpointId", min: 1)
             try validate(statusMessage, name:"statusMessage", max: 255)
+            try validate(targetIps, name:"targetIps", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1383,6 +1387,7 @@ extension Route53Resolver {
             try validate(name, name:"name", pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)")
             try validate(resolverEndpointId, name:"resolverEndpointId", max: 64)
             try validate(resolverEndpointId, name:"resolverEndpointId", min: 1)
+            try validate(targetIps, name:"targetIps", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

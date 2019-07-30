@@ -92,6 +92,14 @@ extension MediaStore {
         }
 
         public func validate() throws {
+            try validate(allowedHeaders, name:"allowedHeaders", max: 100)
+            try validate(allowedHeaders, name:"allowedHeaders", min: 0)
+            try validate(allowedMethods, name:"allowedMethods", max: 4)
+            try validate(allowedMethods, name:"allowedMethods", min: 1)
+            try validate(allowedOrigins, name:"allowedOrigins", max: 100)
+            try validate(allowedOrigins, name:"allowedOrigins", min: 1)
+            try validate(exposeHeaders, name:"exposeHeaders", max: 100)
+            try validate(exposeHeaders, name:"exposeHeaders", min: 0)
             try validate(maxAgeSeconds, name:"maxAgeSeconds", max: 2147483647)
             try validate(maxAgeSeconds, name:"maxAgeSeconds", min: 0)
         }
@@ -391,6 +399,11 @@ extension MediaStore {
             self.corsPolicy = corsPolicy
         }
 
+        public func validate() throws {
+            try validate(corsPolicy, name:"corsPolicy", max: 100)
+            try validate(corsPolicy, name:"corsPolicy", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case corsPolicy = "CorsPolicy"
         }
@@ -599,6 +612,8 @@ extension MediaStore {
             try validate(containerName, name:"containerName", max: 255)
             try validate(containerName, name:"containerName", min: 1)
             try validate(containerName, name:"containerName", pattern: "[\\w-]+")
+            try validate(corsPolicy, name:"corsPolicy", max: 100)
+            try validate(corsPolicy, name:"corsPolicy", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

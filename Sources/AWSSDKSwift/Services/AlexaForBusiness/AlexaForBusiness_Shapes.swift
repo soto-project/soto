@@ -692,6 +692,10 @@ extension AlexaForBusiness {
             try validate(phoneNumber, name:"phoneNumber", max: 50)
             try validate(phoneNumber, name:"phoneNumber", min: 0)
             try validate(phoneNumber, name:"phoneNumber", pattern: "^[\\+0-9\\#\\,\\(][\\+0-9\\-\\.\\/\\(\\)\\,\\#\\s]+$")
+            try validate(phoneNumbers, name:"phoneNumbers", max: 3)
+            try validate(phoneNumbers, name:"phoneNumbers", min: 0)
+            try validate(sipAddresses, name:"sipAddresses", max: 1)
+            try validate(sipAddresses, name:"sipAddresses", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -754,6 +758,10 @@ extension AlexaForBusiness {
             try validate(phoneNumber, name:"phoneNumber", max: 50)
             try validate(phoneNumber, name:"phoneNumber", min: 0)
             try validate(phoneNumber, name:"phoneNumber", pattern: "^[\\+0-9\\#\\,\\(][\\+0-9\\-\\.\\/\\(\\)\\,\\#\\s]+$")
+            try validate(phoneNumbers, name:"phoneNumbers", max: 3)
+            try validate(phoneNumbers, name:"phoneNumbers", min: 0)
+            try validate(sipAddresses, name:"sipAddresses", max: 1)
+            try validate(sipAddresses, name:"sipAddresses", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -784,6 +792,12 @@ extension AlexaForBusiness {
             self.audioList = audioList
             self.ssmlList = ssmlList
             self.textList = textList
+        }
+
+        public func validate() throws {
+            try validate(audioList, name:"audioList", max: 1)
+            try validate(ssmlList, name:"ssmlList", max: 1)
+            try validate(textList, name:"textList", max: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1054,6 +1068,10 @@ extension AlexaForBusiness {
             try validate(phoneNumber, name:"phoneNumber", max: 50)
             try validate(phoneNumber, name:"phoneNumber", min: 0)
             try validate(phoneNumber, name:"phoneNumber", pattern: "^[\\+0-9\\#\\,\\(][\\+0-9\\-\\.\\/\\(\\)\\,\\#\\s]+$")
+            try validate(phoneNumbers, name:"phoneNumbers", max: 3)
+            try validate(phoneNumbers, name:"phoneNumbers", min: 0)
+            try validate(sipAddresses, name:"sipAddresses", max: 1)
+            try validate(sipAddresses, name:"sipAddresses", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1210,6 +1228,8 @@ extension AlexaForBusiness {
             try validate(ssid, name:"ssid", max: 32)
             try validate(ssid, name:"ssid", min: 1)
             try validate(ssid, name:"ssid", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try validate(trustAnchors, name:"trustAnchors", max: 5)
+            try validate(trustAnchors, name:"trustAnchors", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2526,6 +2546,7 @@ extension AlexaForBusiness {
         public func validate() throws {
             try validate(key, name:"key", max: 500)
             try validate(key, name:"key", min: 1)
+            try validate(values, name:"values", max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3031,6 +3052,8 @@ extension AlexaForBusiness {
             try validate(organizationName, name:"organizationName", max: 100)
             try validate(organizationName, name:"organizationName", min: 1)
             try validate(organizationName, name:"organizationName", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try validate(privateSkillIds, name:"privateSkillIds", max: 3)
+            try validate(privateSkillIds, name:"privateSkillIds", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3961,6 +3984,8 @@ extension AlexaForBusiness {
             try validate(ssid, name:"ssid", max: 32)
             try validate(ssid, name:"ssid", min: 1)
             try validate(ssid, name:"ssid", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try validate(trustAnchors, name:"trustAnchors", max: 5)
+            try validate(trustAnchors, name:"trustAnchors", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4319,6 +4344,8 @@ extension AlexaForBusiness {
             try validate(organizationName, name:"organizationName", max: 100)
             try validate(organizationName, name:"organizationName", min: 1)
             try validate(organizationName, name:"organizationName", pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try validate(privateSkillIds, name:"privateSkillIds", max: 3)
+            try validate(privateSkillIds, name:"privateSkillIds", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4767,10 +4794,12 @@ extension AlexaForBusiness {
         }
 
         public func validate() throws {
+            try validate(filters, name:"filters", max: 25)
             try validate(maxResults, name:"maxResults", max: 50)
             try validate(maxResults, name:"maxResults", min: 1)
             try validate(nextToken, name:"nextToken", max: 1100)
             try validate(nextToken, name:"nextToken", min: 1)
+            try validate(sortCriteria, name:"sortCriteria", max: 25)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4836,10 +4865,12 @@ extension AlexaForBusiness {
         }
 
         public func validate() throws {
+            try validate(filters, name:"filters", max: 25)
             try validate(maxResults, name:"maxResults", max: 50)
             try validate(maxResults, name:"maxResults", min: 1)
             try validate(nextToken, name:"nextToken", max: 1100)
             try validate(nextToken, name:"nextToken", min: 1)
+            try validate(sortCriteria, name:"sortCriteria", max: 25)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4905,10 +4936,12 @@ extension AlexaForBusiness {
         }
 
         public func validate() throws {
+            try validate(filters, name:"filters", max: 25)
             try validate(maxResults, name:"maxResults", max: 50)
             try validate(maxResults, name:"maxResults", min: 1)
             try validate(nextToken, name:"nextToken", max: 1100)
             try validate(nextToken, name:"nextToken", min: 1)
+            try validate(sortCriteria, name:"sortCriteria", max: 25)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4974,10 +5007,12 @@ extension AlexaForBusiness {
         }
 
         public func validate() throws {
+            try validate(filters, name:"filters", max: 25)
             try validate(maxResults, name:"maxResults", max: 50)
             try validate(maxResults, name:"maxResults", min: 1)
             try validate(nextToken, name:"nextToken", max: 1100)
             try validate(nextToken, name:"nextToken", min: 1)
+            try validate(sortCriteria, name:"sortCriteria", max: 25)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5043,10 +5078,12 @@ extension AlexaForBusiness {
         }
 
         public func validate() throws {
+            try validate(filters, name:"filters", max: 25)
             try validate(maxResults, name:"maxResults", max: 50)
             try validate(maxResults, name:"maxResults", min: 1)
             try validate(nextToken, name:"nextToken", max: 1100)
             try validate(nextToken, name:"nextToken", min: 1)
+            try validate(sortCriteria, name:"sortCriteria", max: 25)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5112,10 +5149,12 @@ extension AlexaForBusiness {
         }
 
         public func validate() throws {
+            try validate(filters, name:"filters", max: 25)
             try validate(maxResults, name:"maxResults", max: 50)
             try validate(maxResults, name:"maxResults", min: 1)
             try validate(nextToken, name:"nextToken", max: 1100)
             try validate(nextToken, name:"nextToken", min: 1)
+            try validate(sortCriteria, name:"sortCriteria", max: 25)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5181,10 +5220,12 @@ extension AlexaForBusiness {
         }
 
         public func validate() throws {
+            try validate(filters, name:"filters", max: 25)
             try validate(maxResults, name:"maxResults", max: 50)
             try validate(maxResults, name:"maxResults", min: 1)
             try validate(nextToken, name:"nextToken", max: 1100)
             try validate(nextToken, name:"nextToken", min: 1)
+            try validate(sortCriteria, name:"sortCriteria", max: 25)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5250,10 +5291,12 @@ extension AlexaForBusiness {
         }
 
         public func validate() throws {
+            try validate(filters, name:"filters", max: 25)
             try validate(maxResults, name:"maxResults", max: 50)
             try validate(maxResults, name:"maxResults", min: 1)
             try validate(nextToken, name:"nextToken", max: 1100)
             try validate(nextToken, name:"nextToken", min: 1)
+            try validate(sortCriteria, name:"sortCriteria", max: 25)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5322,6 +5365,8 @@ extension AlexaForBusiness {
             try validate(clientRequestToken, name:"clientRequestToken", max: 150)
             try validate(clientRequestToken, name:"clientRequestToken", min: 10)
             try validate(clientRequestToken, name:"clientRequestToken", pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try content.validate()
+            try validate(roomFilters, name:"roomFilters", max: 25)
             try validate(timeToLiveInSeconds, name:"timeToLiveInSeconds", max: 3600)
             try validate(timeToLiveInSeconds, name:"timeToLiveInSeconds", min: 1)
         }
@@ -6146,6 +6191,10 @@ extension AlexaForBusiness {
             try validate(phoneNumber, name:"phoneNumber", max: 50)
             try validate(phoneNumber, name:"phoneNumber", min: 0)
             try validate(phoneNumber, name:"phoneNumber", pattern: "^[\\+0-9\\#\\,\\(][\\+0-9\\-\\.\\/\\(\\)\\,\\#\\s]+$")
+            try validate(phoneNumbers, name:"phoneNumbers", max: 3)
+            try validate(phoneNumbers, name:"phoneNumbers", min: 0)
+            try validate(sipAddresses, name:"sipAddresses", max: 1)
+            try validate(sipAddresses, name:"sipAddresses", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6347,6 +6396,8 @@ extension AlexaForBusiness {
             try validate(nextPassword, name:"nextPassword", max: 128)
             try validate(nextPassword, name:"nextPassword", min: 0)
             try validate(nextPassword, name:"nextPassword", pattern: "(^$)|([\\x00-\\x7F]{5,})")
+            try validate(trustAnchors, name:"trustAnchors", max: 5)
+            try validate(trustAnchors, name:"trustAnchors", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

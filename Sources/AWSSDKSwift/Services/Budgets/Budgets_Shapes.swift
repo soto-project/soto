@@ -280,6 +280,7 @@ extension Budgets {
             try validate(accountId, name:"accountId", min: 12)
             try validate(accountId, name:"accountId", pattern: "\\d{12}")
             try budget.validate()
+            try validate(notificationsWithSubscribers, name:"notificationsWithSubscribers", max: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -328,6 +329,8 @@ extension Budgets {
             try validate(budgetName, name:"budgetName", min: 1)
             try validate(budgetName, name:"budgetName", pattern: "[^:\\\\]+")
             try notification.validate()
+            try validate(subscribers, name:"subscribers", max: 11)
+            try validate(subscribers, name:"subscribers", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -857,6 +860,8 @@ extension Budgets {
             try validate(nextToken, name:"nextToken", max: 2147483647)
             try validate(nextToken, name:"nextToken", min: 0)
             try validate(nextToken, name:"nextToken", pattern: ".*")
+            try validate(subscribers, name:"subscribers", max: 11)
+            try validate(subscribers, name:"subscribers", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -935,6 +940,8 @@ extension Budgets {
 
         public func validate() throws {
             try notification.validate()
+            try validate(subscribers, name:"subscribers", max: 11)
+            try validate(subscribers, name:"subscribers", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

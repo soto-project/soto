@@ -608,6 +608,7 @@ extension WorkDocs {
         public func validate() throws {
             try validate(authenticationToken, name:"authenticationToken", max: 8199)
             try validate(authenticationToken, name:"authenticationToken", min: 1)
+            try validate(labels, name:"labels", max: 20)
             try validate(resourceId, name:"resourceId", max: 128)
             try validate(resourceId, name:"resourceId", min: 1)
             try validate(resourceId, name:"resourceId", pattern: "[\\w+-.@]+")
@@ -891,6 +892,7 @@ extension WorkDocs {
         public func validate() throws {
             try validate(authenticationToken, name:"authenticationToken", max: 8199)
             try validate(authenticationToken, name:"authenticationToken", min: 1)
+            try validate(keys, name:"keys", max: 8)
             try validate(resourceId, name:"resourceId", max: 128)
             try validate(resourceId, name:"resourceId", min: 1)
             try validate(resourceId, name:"resourceId", pattern: "[\\w+-.@]+")
@@ -1029,6 +1031,7 @@ extension WorkDocs {
         public func validate() throws {
             try validate(authenticationToken, name:"authenticationToken", max: 8199)
             try validate(authenticationToken, name:"authenticationToken", min: 1)
+            try validate(labels, name:"labels", max: 20)
             try validate(resourceId, name:"resourceId", max: 128)
             try validate(resourceId, name:"resourceId", min: 1)
             try validate(resourceId, name:"resourceId", pattern: "[\\w+-.@]+")
@@ -1612,6 +1615,7 @@ extension WorkDocs {
         public func validate() throws {
             try validate(marker, name:"marker", max: 2048)
             try validate(marker, name:"marker", min: 1)
+            try validate(subscriptions, name:"subscriptions", max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1912,6 +1916,7 @@ extension WorkDocs {
             try validate(id, name:"id", max: 128)
             try validate(id, name:"id", min: 1)
             try validate(id, name:"id", pattern: "[\\w+-.@]+")
+            try validate(labels, name:"labels", max: 20)
             try latestVersionMetadata?.validate()
             try validate(parentFolderId, name:"parentFolderId", max: 128)
             try validate(parentFolderId, name:"parentFolderId", min: 1)
@@ -2112,6 +2117,7 @@ extension WorkDocs {
             try validate(id, name:"id", max: 128)
             try validate(id, name:"id", min: 1)
             try validate(id, name:"id", pattern: "[\\w+-.@]+")
+            try validate(labels, name:"labels", max: 20)
             try validate(name, name:"name", max: 255)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "[\\u0020-\\u202D\\u202F-\\uFFFF]+")

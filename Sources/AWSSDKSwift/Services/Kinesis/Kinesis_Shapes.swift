@@ -457,6 +457,8 @@ extension Kinesis {
         }
 
         public func validate() throws {
+            try validate(shardLevelMetrics, name:"shardLevelMetrics", max: 7)
+            try validate(shardLevelMetrics, name:"shardLevelMetrics", min: 1)
             try validate(streamName, name:"streamName", max: 128)
             try validate(streamName, name:"streamName", min: 1)
             try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
@@ -484,6 +486,8 @@ extension Kinesis {
         }
 
         public func validate() throws {
+            try validate(shardLevelMetrics, name:"shardLevelMetrics", max: 7)
+            try validate(shardLevelMetrics, name:"shardLevelMetrics", min: 1)
             try validate(streamName, name:"streamName", max: 128)
             try validate(streamName, name:"streamName", min: 1)
             try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
@@ -512,6 +516,11 @@ extension Kinesis {
             self.shardLevelMetrics = shardLevelMetrics
         }
 
+        public func validate() throws {
+            try validate(shardLevelMetrics, name:"shardLevelMetrics", max: 7)
+            try validate(shardLevelMetrics, name:"shardLevelMetrics", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case shardLevelMetrics = "ShardLevelMetrics"
         }
@@ -537,6 +546,10 @@ extension Kinesis {
         }
 
         public func validate() throws {
+            try validate(currentShardLevelMetrics, name:"currentShardLevelMetrics", max: 7)
+            try validate(currentShardLevelMetrics, name:"currentShardLevelMetrics", min: 1)
+            try validate(desiredShardLevelMetrics, name:"desiredShardLevelMetrics", max: 7)
+            try validate(desiredShardLevelMetrics, name:"desiredShardLevelMetrics", min: 1)
             try validate(streamName, name:"streamName", max: 128)
             try validate(streamName, name:"streamName", min: 1)
             try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
@@ -989,6 +1002,10 @@ extension Kinesis {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(tags, name:"tags", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case hasMoreTags = "HasMoreTags"
             case tags = "Tags"
@@ -1142,6 +1159,8 @@ extension Kinesis {
         }
 
         public func validate() throws {
+            try validate(records, name:"records", max: 500)
+            try validate(records, name:"records", min: 1)
             try validate(streamName, name:"streamName", max: 128)
             try validate(streamName, name:"streamName", min: 1)
             try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
@@ -1175,6 +1194,8 @@ extension Kinesis {
         public func validate() throws {
             try validate(failedRecordCount, name:"failedRecordCount", max: 100000)
             try validate(failedRecordCount, name:"failedRecordCount", min: 1)
+            try validate(records, name:"records", max: 500)
+            try validate(records, name:"records", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1369,6 +1390,8 @@ extension Kinesis {
             try validate(streamName, name:"streamName", max: 128)
             try validate(streamName, name:"streamName", min: 1)
             try validate(streamName, name:"streamName", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(tagKeys, name:"tagKeys", max: 50)
+            try validate(tagKeys, name:"tagKeys", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

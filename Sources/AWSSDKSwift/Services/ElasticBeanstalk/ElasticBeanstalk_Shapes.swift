@@ -1719,6 +1719,11 @@ extension ElasticBeanstalk {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try validate(managedActionHistoryItems, name:"managedActionHistoryItems", max: 100)
+            try validate(managedActionHistoryItems, name:"managedActionHistoryItems", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case managedActionHistoryItems = "ManagedActionHistoryItems"
             case nextToken = "NextToken"
@@ -1760,6 +1765,11 @@ extension ElasticBeanstalk {
         
         public init(managedActions: [ManagedAction]? = nil) {
             self.managedActions = managedActions
+        }
+
+        public func validate() throws {
+            try validate(managedActions, name:"managedActions", max: 100)
+            try validate(managedActions, name:"managedActions", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

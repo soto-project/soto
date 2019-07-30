@@ -686,6 +686,7 @@ extension CodePipeline {
         }
 
         public func validate() throws {
+            try validate(actionConfigurationProperties, name:"actionConfigurationProperties", max: 10)
             try id.validate()
             try inputArtifactDetails.validate()
             try outputArtifactDetails.validate()
@@ -1095,6 +1096,7 @@ extension CodePipeline {
         }
 
         public func validate() throws {
+            try validate(configurationProperties, name:"configurationProperties", max: 10)
             try inputArtifactDetails.validate()
             try outputArtifactDetails.validate()
             try validate(provider, name:"provider", max: 25)
@@ -3797,6 +3799,7 @@ extension CodePipeline {
 
         public func validate() throws {
             try authenticationConfiguration.validate()
+            try validate(filters, name:"filters", max: 5)
             try validate(name, name:"name", max: 100)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "[A-Za-z0-9.@\\-_]+")

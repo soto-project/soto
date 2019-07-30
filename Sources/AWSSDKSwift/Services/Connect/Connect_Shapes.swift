@@ -64,6 +64,8 @@ extension Connect {
             try validate(instanceId, name:"instanceId", min: 1)
             try validate(password, name:"password", pattern: "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d\\S]{8,64}$/")
             try phoneConfig.validate()
+            try validate(securityProfileIds, name:"securityProfileIds", max: 10)
+            try validate(securityProfileIds, name:"securityProfileIds", min: 1)
             try validate(username, name:"username", max: 20)
             try validate(username, name:"username", min: 1)
             try validate(username, name:"username", pattern: "[a-zA-Z0-9\\_\\-\\.]+")
@@ -398,6 +400,12 @@ extension Connect {
             self.queues = queues
         }
 
+        public func validate() throws {
+            try validate(channels, name:"channels", max: 1)
+            try validate(queues, name:"queues", max: 100)
+            try validate(queues, name:"queues", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case channels = "Channels"
             case queues = "Queues"
@@ -480,6 +488,8 @@ extension Connect {
         }
 
         public func validate() throws {
+            try filters.validate()
+            try validate(groupings, name:"groupings", max: 2)
             try validate(instanceId, name:"instanceId", max: 100)
             try validate(instanceId, name:"instanceId", min: 1)
             try validate(maxResults, name:"maxResults", max: 100)
@@ -599,6 +609,8 @@ extension Connect {
         }
 
         public func validate() throws {
+            try filters.validate()
+            try validate(groupings, name:"groupings", max: 2)
             try validate(instanceId, name:"instanceId", max: 100)
             try validate(instanceId, name:"instanceId", min: 1)
             try validate(maxResults, name:"maxResults", max: 100)
@@ -1540,6 +1552,8 @@ extension Connect {
         public func validate() throws {
             try validate(instanceId, name:"instanceId", max: 100)
             try validate(instanceId, name:"instanceId", min: 1)
+            try validate(securityProfileIds, name:"securityProfileIds", max: 10)
+            try validate(securityProfileIds, name:"securityProfileIds", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1595,6 +1609,8 @@ extension Connect {
         public func validate() throws {
             try identityInfo?.validate()
             try phoneConfig?.validate()
+            try validate(securityProfileIds, name:"securityProfileIds", max: 10)
+            try validate(securityProfileIds, name:"securityProfileIds", min: 1)
             try validate(username, name:"username", max: 20)
             try validate(username, name:"username", min: 1)
             try validate(username, name:"username", pattern: "[a-zA-Z0-9\\_\\-\\.]+")

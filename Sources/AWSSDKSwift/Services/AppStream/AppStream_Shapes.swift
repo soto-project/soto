@@ -176,6 +176,11 @@ extension AppStream {
             self.userStackAssociations = userStackAssociations
         }
 
+        public func validate() throws {
+            try validate(userStackAssociations, name:"userStackAssociations", max: 25)
+            try validate(userStackAssociations, name:"userStackAssociations", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case userStackAssociations = "UserStackAssociations"
         }
@@ -206,6 +211,11 @@ extension AppStream {
         
         public init(userStackAssociations: [UserStackAssociation]) {
             self.userStackAssociations = userStackAssociations
+        }
+
+        public func validate() throws {
+            try validate(userStackAssociations, name:"userStackAssociations", max: 25)
+            try validate(userStackAssociations, name:"userStackAssociations", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -460,6 +470,7 @@ extension AppStream {
             try validate(imageName, name:"imageName", min: 1)
             try validate(instanceType, name:"instanceType", min: 1)
             try validate(name, name:"name", pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try vpcConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -562,6 +573,7 @@ extension AppStream {
             try validate(imageName, name:"imageName", min: 1)
             try validate(instanceType, name:"instanceType", min: 1)
             try validate(name, name:"name", pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try vpcConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -699,6 +711,7 @@ extension AppStream {
             try validate(feedbackURL, name:"feedbackURL", max: 1000)
             try validate(name, name:"name", pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
             try validate(redirectURL, name:"redirectURL", max: 1000)
+            try validate(userSettings, name:"userSettings", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1330,6 +1343,8 @@ extension AppStream {
             try validate(maxResults, name:"maxResults", min: 0)
             try validate(name, name:"name", pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
             try validate(nextToken, name:"nextToken", min: 1)
+            try validate(sharedAwsAccountIds, name:"sharedAwsAccountIds", max: 5)
+            try validate(sharedAwsAccountIds, name:"sharedAwsAccountIds", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1675,6 +1690,8 @@ extension AppStream {
 
         public func validate() throws {
             try validate(nextToken, name:"nextToken", min: 1)
+            try validate(userStackAssociations, name:"userStackAssociations", max: 25)
+            try validate(userStackAssociations, name:"userStackAssociations", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2018,6 +2035,7 @@ extension AppStream {
             try validate(imageName, name:"imageName", min: 1)
             try validate(instanceType, name:"instanceType", min: 1)
             try validate(name, name:"name", min: 1)
+            try vpcConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2303,6 +2321,7 @@ extension AppStream {
             try validate(name, name:"name", min: 1)
             try networkAccessConfiguration?.validate()
             try stateChangeReason?.validate()
+            try vpcConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2863,6 +2882,7 @@ extension AppStream {
             try validate(feedbackURL, name:"feedbackURL", max: 1000)
             try validate(name, name:"name", min: 1)
             try validate(redirectURL, name:"redirectURL", max: 1000)
+            try validate(userSettings, name:"userSettings", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3086,6 +3106,7 @@ extension AppStream {
         }
 
         public func validate() throws {
+            try validate(domains, name:"domains", max: 10)
             try validate(resourceIdentifier, name:"resourceIdentifier", min: 1)
         }
 
@@ -3153,6 +3174,8 @@ extension AppStream {
 
         public func validate() throws {
             try validate(resourceArn, name:"resourceArn", pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try validate(tagKeys, name:"tagKeys", max: 50)
+            try validate(tagKeys, name:"tagKeys", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3290,6 +3313,7 @@ extension AppStream {
             try validate(imageName, name:"imageName", min: 1)
             try validate(instanceType, name:"instanceType", min: 1)
             try validate(name, name:"name", min: 1)
+            try vpcConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3419,6 +3443,7 @@ extension AppStream {
             try validate(feedbackURL, name:"feedbackURL", max: 1000)
             try validate(name, name:"name", min: 1)
             try validate(redirectURL, name:"redirectURL", max: 1000)
+            try validate(userSettings, name:"userSettings", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3681,6 +3706,10 @@ extension AppStream {
         public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
+        }
+
+        public func validate() throws {
+            try validate(securityGroupIds, name:"securityGroupIds", max: 5)
         }
 
         private enum CodingKeys: String, CodingKey {

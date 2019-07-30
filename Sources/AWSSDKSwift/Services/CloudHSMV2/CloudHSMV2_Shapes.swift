@@ -297,6 +297,8 @@ extension CloudHSMV2 {
         public func validate() throws {
             try validate(hsmType, name:"hsmType", pattern: "(hsm1\\.medium)")
             try validate(sourceBackupId, name:"sourceBackupId", pattern: "backup-[2-7a-zA-Z]{11,16}")
+            try validate(subnetIds, name:"subnetIds", max: 10)
+            try validate(subnetIds, name:"subnetIds", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -852,6 +854,8 @@ extension CloudHSMV2 {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 256)
             try validate(nextToken, name:"nextToken", pattern: ".*")
+            try validate(tagList, name:"tagList", max: 50)
+            try validate(tagList, name:"tagList", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -947,6 +951,8 @@ extension CloudHSMV2 {
 
         public func validate() throws {
             try validate(resourceId, name:"resourceId", pattern: "cluster-[2-7a-zA-Z]{11,16}")
+            try validate(tagList, name:"tagList", max: 50)
+            try validate(tagList, name:"tagList", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -980,6 +986,8 @@ extension CloudHSMV2 {
 
         public func validate() throws {
             try validate(resourceId, name:"resourceId", pattern: "cluster-[2-7a-zA-Z]{11,16}")
+            try validate(tagKeyList, name:"tagKeyList", max: 50)
+            try validate(tagKeyList, name:"tagKeyList", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

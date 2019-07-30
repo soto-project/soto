@@ -511,6 +511,7 @@ extension Lambda {
             try validate(memorySize, name:"memorySize", min: 128)
             try validate(role, name:"role", pattern: "arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
             try validate(timeout, name:"timeout", min: 1)
+            try vpcConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -969,6 +970,7 @@ extension Lambda {
             try validate(version, name:"version", max: 1024)
             try validate(version, name:"version", min: 1)
             try validate(version, name:"version", pattern: "(\\$LATEST|[0-9]+)")
+            try vpcConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1312,6 +1314,7 @@ extension Lambda {
         }
 
         public func validate() throws {
+            try validate(compatibleRuntimes, name:"compatibleRuntimes", max: 5)
             try validate(description, name:"description", max: 256)
             try validate(description, name:"description", min: 0)
             try validate(layerArn, name:"layerArn", max: 140)
@@ -1660,6 +1663,7 @@ extension Lambda {
         }
 
         public func validate() throws {
+            try validate(compatibleRuntimes, name:"compatibleRuntimes", max: 5)
             try validate(description, name:"description", max: 256)
             try validate(description, name:"description", min: 0)
             try validate(layerVersionArn, name:"layerVersionArn", max: 140)
@@ -2133,6 +2137,7 @@ extension Lambda {
         }
 
         public func validate() throws {
+            try validate(compatibleRuntimes, name:"compatibleRuntimes", max: 5)
             try content.validate()
             try validate(description, name:"description", max: 256)
             try validate(description, name:"description", min: 0)
@@ -2191,6 +2196,7 @@ extension Lambda {
         }
 
         public func validate() throws {
+            try validate(compatibleRuntimes, name:"compatibleRuntimes", max: 5)
             try validate(description, name:"description", max: 256)
             try validate(description, name:"description", min: 0)
             try validate(layerArn, name:"layerArn", max: 140)
@@ -2716,6 +2722,7 @@ extension Lambda {
             try validate(memorySize, name:"memorySize", min: 128)
             try validate(role, name:"role", pattern: "arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
             try validate(timeout, name:"timeout", min: 1)
+            try vpcConfig?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2751,6 +2758,11 @@ extension Lambda {
             self.subnetIds = subnetIds
         }
 
+        public func validate() throws {
+            try validate(securityGroupIds, name:"securityGroupIds", max: 5)
+            try validate(subnetIds, name:"subnetIds", max: 16)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case securityGroupIds = "SecurityGroupIds"
             case subnetIds = "SubnetIds"
@@ -2774,6 +2786,11 @@ extension Lambda {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
             self.vpcId = vpcId
+        }
+
+        public func validate() throws {
+            try validate(securityGroupIds, name:"securityGroupIds", max: 5)
+            try validate(subnetIds, name:"subnetIds", max: 16)
         }
 
         private enum CodingKeys: String, CodingKey {

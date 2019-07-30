@@ -842,6 +842,11 @@ extension SecurityHub {
             self.standardsSubscriptionArns = standardsSubscriptionArns
         }
 
+        public func validate() throws {
+            try validate(standardsSubscriptionArns, name:"standardsSubscriptionArns", max: 25)
+            try validate(standardsSubscriptionArns, name:"standardsSubscriptionArns", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case standardsSubscriptionArns = "StandardsSubscriptionArns"
         }
@@ -872,6 +877,11 @@ extension SecurityHub {
         
         public init(standardsSubscriptionRequests: [StandardsSubscriptionRequest]) {
             self.standardsSubscriptionRequests = standardsSubscriptionRequests
+        }
+
+        public func validate() throws {
+            try validate(standardsSubscriptionRequests, name:"standardsSubscriptionRequests", max: 25)
+            try validate(standardsSubscriptionRequests, name:"standardsSubscriptionRequests", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1682,6 +1692,8 @@ extension SecurityHub {
         public func validate() throws {
             try validate(maxResults, name:"maxResults", max: 100)
             try validate(maxResults, name:"maxResults", min: 1)
+            try validate(standardsSubscriptionArns, name:"standardsSubscriptionArns", max: 25)
+            try validate(standardsSubscriptionArns, name:"standardsSubscriptionArns", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3271,6 +3283,8 @@ extension SecurityHub {
 
         public func validate() throws {
             try validate(resourceArn, name:"resourceArn", pattern: "^arn:aws:securityhub:.*")
+            try validate(tagKeys, name:"tagKeys", max: 50)
+            try validate(tagKeys, name:"tagKeys", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

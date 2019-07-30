@@ -530,6 +530,10 @@ extension LexModelBuildingService {
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
             try rejectionStatement?.validate()
+            try validate(sampleUtterances, name:"sampleUtterances", max: 1500)
+            try validate(sampleUtterances, name:"sampleUtterances", min: 0)
+            try validate(slots, name:"slots", max: 100)
+            try validate(slots, name:"slots", min: 0)
             try validate(version, name:"version", max: 64)
             try validate(version, name:"version", min: 1)
             try validate(version, name:"version", pattern: "\\$LATEST|[0-9]+")
@@ -623,6 +627,8 @@ extension LexModelBuildingService {
         public func validate() throws {
             try validate(description, name:"description", max: 200)
             try validate(description, name:"description", min: 0)
+            try validate(enumerationValues, name:"enumerationValues", max: 10000)
+            try validate(enumerationValues, name:"enumerationValues", min: 1)
             try validate(name, name:"name", max: 100)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
@@ -1990,6 +1996,10 @@ extension LexModelBuildingService {
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
             try rejectionStatement?.validate()
+            try validate(sampleUtterances, name:"sampleUtterances", max: 1500)
+            try validate(sampleUtterances, name:"sampleUtterances", min: 0)
+            try validate(slots, name:"slots", max: 100)
+            try validate(slots, name:"slots", min: 0)
             try validate(version, name:"version", max: 64)
             try validate(version, name:"version", min: 1)
             try validate(version, name:"version", pattern: "\\$LATEST|[0-9]+")
@@ -2196,6 +2206,8 @@ extension LexModelBuildingService {
         public func validate() throws {
             try validate(description, name:"description", max: 200)
             try validate(description, name:"description", min: 0)
+            try validate(enumerationValues, name:"enumerationValues", max: 10000)
+            try validate(enumerationValues, name:"enumerationValues", min: 1)
             try validate(name, name:"name", max: 100)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
@@ -2349,6 +2361,8 @@ extension LexModelBuildingService {
             try validate(botName, name:"botName", max: 50)
             try validate(botName, name:"botName", min: 2)
             try validate(botName, name:"botName", pattern: "^([A-Za-z]_?)+$")
+            try validate(botVersions, name:"botVersions", max: 5)
+            try validate(botVersions, name:"botVersions", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2543,6 +2557,8 @@ extension LexModelBuildingService {
         public func validate() throws {
             try validate(maxAttempts, name:"maxAttempts", max: 5)
             try validate(maxAttempts, name:"maxAttempts", min: 1)
+            try validate(messages, name:"messages", max: 15)
+            try validate(messages, name:"messages", min: 1)
             try validate(responseCard, name:"responseCard", max: 50000)
             try validate(responseCard, name:"responseCard", min: 1)
         }
@@ -2921,6 +2937,10 @@ extension LexModelBuildingService {
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
             try rejectionStatement?.validate()
+            try validate(sampleUtterances, name:"sampleUtterances", max: 1500)
+            try validate(sampleUtterances, name:"sampleUtterances", min: 0)
+            try validate(slots, name:"slots", max: 100)
+            try validate(slots, name:"slots", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3022,6 +3042,10 @@ extension LexModelBuildingService {
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
             try rejectionStatement?.validate()
+            try validate(sampleUtterances, name:"sampleUtterances", max: 1500)
+            try validate(sampleUtterances, name:"sampleUtterances", min: 0)
+            try validate(slots, name:"slots", max: 100)
+            try validate(slots, name:"slots", min: 0)
             try validate(version, name:"version", max: 64)
             try validate(version, name:"version", min: 1)
             try validate(version, name:"version", pattern: "\\$LATEST|[0-9]+")
@@ -3080,6 +3104,8 @@ extension LexModelBuildingService {
         public func validate() throws {
             try validate(description, name:"description", max: 200)
             try validate(description, name:"description", min: 0)
+            try validate(enumerationValues, name:"enumerationValues", max: 10000)
+            try validate(enumerationValues, name:"enumerationValues", min: 1)
             try validate(name, name:"name", max: 100)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
@@ -3140,6 +3166,8 @@ extension LexModelBuildingService {
         public func validate() throws {
             try validate(description, name:"description", max: 200)
             try validate(description, name:"description", min: 0)
+            try validate(enumerationValues, name:"enumerationValues", max: 10000)
+            try validate(enumerationValues, name:"enumerationValues", min: 1)
             try validate(name, name:"name", max: 100)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "^([A-Za-z]_?)+$")
@@ -3259,6 +3287,8 @@ extension LexModelBuildingService {
             try validate(priority, name:"priority", min: 0)
             try validate(responseCard, name:"responseCard", max: 50000)
             try validate(responseCard, name:"responseCard", min: 1)
+            try validate(sampleUtterances, name:"sampleUtterances", max: 10)
+            try validate(sampleUtterances, name:"sampleUtterances", min: 0)
             try validate(slotType, name:"slotType", max: 100)
             try validate(slotType, name:"slotType", min: 1)
             try validate(slotType, name:"slotType", pattern: "^((AMAZON\\.)_?|[A-Za-z]_?)+")
@@ -3429,6 +3459,8 @@ extension LexModelBuildingService {
         }
 
         public func validate() throws {
+            try validate(messages, name:"messages", max: 15)
+            try validate(messages, name:"messages", min: 1)
             try validate(responseCard, name:"responseCard", max: 50000)
             try validate(responseCard, name:"responseCard", min: 1)
         }

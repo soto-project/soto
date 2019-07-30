@@ -268,6 +268,8 @@ extension KMS {
             try validate(granteePrincipal, name:"granteePrincipal", max: 256)
             try validate(granteePrincipal, name:"granteePrincipal", min: 1)
             try validate(granteePrincipal, name:"granteePrincipal", pattern: "^[\\w+=,.@:/-]+$")
+            try validate(grantTokens, name:"grantTokens", max: 10)
+            try validate(grantTokens, name:"grantTokens", min: 0)
             try validate(keyId, name:"keyId", max: 2048)
             try validate(keyId, name:"keyId", min: 1)
             try validate(name, name:"name", max: 256)
@@ -478,6 +480,8 @@ extension KMS {
         public func validate() throws {
             try validate(ciphertextBlob, name:"ciphertextBlob", max: 6144)
             try validate(ciphertextBlob, name:"ciphertextBlob", min: 1)
+            try validate(grantTokens, name:"grantTokens", max: 10)
+            try validate(grantTokens, name:"grantTokens", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -678,6 +682,8 @@ extension KMS {
         }
 
         public func validate() throws {
+            try validate(grantTokens, name:"grantTokens", max: 10)
+            try validate(grantTokens, name:"grantTokens", min: 0)
             try validate(keyId, name:"keyId", max: 2048)
             try validate(keyId, name:"keyId", min: 1)
         }
@@ -845,6 +851,8 @@ extension KMS {
         }
 
         public func validate() throws {
+            try validate(grantTokens, name:"grantTokens", max: 10)
+            try validate(grantTokens, name:"grantTokens", min: 0)
             try validate(keyId, name:"keyId", max: 2048)
             try validate(keyId, name:"keyId", min: 1)
             try validate(plaintext, name:"plaintext", max: 4096)
@@ -921,6 +929,8 @@ extension KMS {
         }
 
         public func validate() throws {
+            try validate(grantTokens, name:"grantTokens", max: 10)
+            try validate(grantTokens, name:"grantTokens", min: 0)
             try validate(keyId, name:"keyId", max: 2048)
             try validate(keyId, name:"keyId", min: 1)
             try validate(numberOfBytes, name:"numberOfBytes", max: 1024)
@@ -999,6 +1009,8 @@ extension KMS {
         }
 
         public func validate() throws {
+            try validate(grantTokens, name:"grantTokens", max: 10)
+            try validate(grantTokens, name:"grantTokens", min: 0)
             try validate(keyId, name:"keyId", max: 2048)
             try validate(keyId, name:"keyId", min: 1)
             try validate(numberOfBytes, name:"numberOfBytes", max: 1024)
@@ -2010,6 +2022,8 @@ extension KMS {
             try validate(ciphertextBlob, name:"ciphertextBlob", min: 1)
             try validate(destinationKeyId, name:"destinationKeyId", max: 2048)
             try validate(destinationKeyId, name:"destinationKeyId", min: 1)
+            try validate(grantTokens, name:"grantTokens", max: 10)
+            try validate(grantTokens, name:"grantTokens", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {

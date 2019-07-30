@@ -32,6 +32,13 @@ extension Inspector {
             self.findingArns = findingArns
         }
 
+        public func validate() throws {
+            try validate(attributes, name:"attributes", max: 10)
+            try validate(attributes, name:"attributes", min: 0)
+            try validate(findingArns, name:"findingArns", max: 10)
+            try validate(findingArns, name:"findingArns", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case attributes = "attributes"
             case findingArns = "findingArns"
@@ -95,6 +102,13 @@ extension Inspector {
         public init(agentHealthCodes: [AgentHealthCode], agentHealths: [AgentHealth]) {
             self.agentHealthCodes = agentHealthCodes
             self.agentHealths = agentHealths
+        }
+
+        public func validate() throws {
+            try validate(agentHealthCodes, name:"agentHealthCodes", max: 10)
+            try validate(agentHealthCodes, name:"agentHealthCodes", min: 0)
+            try validate(agentHealths, name:"agentHealths", max: 10)
+            try validate(agentHealths, name:"agentHealths", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -264,6 +278,14 @@ extension Inspector {
             try validate(durationInSeconds, name:"durationInSeconds", min: 180)
             try validate(name, name:"name", max: 140)
             try validate(name, name:"name", min: 1)
+            try validate(notifications, name:"notifications", max: 50)
+            try validate(notifications, name:"notifications", min: 0)
+            try validate(rulesPackageArns, name:"rulesPackageArns", max: 50)
+            try validate(rulesPackageArns, name:"rulesPackageArns", min: 1)
+            try validate(stateChanges, name:"stateChanges", max: 50)
+            try validate(stateChanges, name:"stateChanges", min: 0)
+            try validate(userAttributesForFindings, name:"userAttributesForFindings", max: 10)
+            try validate(userAttributesForFindings, name:"userAttributesForFindings", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -329,6 +351,8 @@ extension Inspector {
             try validate(assessmentRunArn, name:"assessmentRunArn", min: 1)
             try validate(autoScalingGroup, name:"autoScalingGroup", max: 256)
             try validate(autoScalingGroup, name:"autoScalingGroup", min: 1)
+            try validate(telemetryMetadata, name:"telemetryMetadata", max: 5000)
+            try validate(telemetryMetadata, name:"telemetryMetadata", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -381,6 +405,10 @@ extension Inspector {
             try durationRange?.validate()
             try validate(namePattern, name:"namePattern", max: 140)
             try validate(namePattern, name:"namePattern", min: 1)
+            try validate(rulesPackageArns, name:"rulesPackageArns", max: 50)
+            try validate(rulesPackageArns, name:"rulesPackageArns", min: 0)
+            try validate(states, name:"states", max: 50)
+            try validate(states, name:"states", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -608,6 +636,10 @@ extension Inspector {
             try validate(lastAssessmentRunArn, name:"lastAssessmentRunArn", min: 1)
             try validate(name, name:"name", max: 140)
             try validate(name, name:"name", min: 1)
+            try validate(rulesPackageArns, name:"rulesPackageArns", max: 50)
+            try validate(rulesPackageArns, name:"rulesPackageArns", min: 0)
+            try validate(userAttributesForFindings, name:"userAttributesForFindings", max: 10)
+            try validate(userAttributesForFindings, name:"userAttributesForFindings", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -646,6 +678,8 @@ extension Inspector {
             try durationRange?.validate()
             try validate(namePattern, name:"namePattern", max: 140)
             try validate(namePattern, name:"namePattern", min: 1)
+            try validate(rulesPackageArns, name:"rulesPackageArns", max: 50)
+            try validate(rulesPackageArns, name:"rulesPackageArns", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -703,6 +737,8 @@ extension Inspector {
             try validate(autoScalingGroup, name:"autoScalingGroup", min: 1)
             try validate(hostname, name:"hostname", max: 256)
             try validate(hostname, name:"hostname", min: 0)
+            try validate(ipv4Addresses, name:"ipv4Addresses", max: 50)
+            try validate(ipv4Addresses, name:"ipv4Addresses", min: 0)
             try validate(schemaVersion, name:"schemaVersion", min: 0)
         }
 
@@ -834,6 +870,10 @@ extension Inspector {
             try validate(assessmentTemplateName, name:"assessmentTemplateName", min: 1)
             try validate(durationInSeconds, name:"durationInSeconds", max: 86400)
             try validate(durationInSeconds, name:"durationInSeconds", min: 180)
+            try validate(rulesPackageArns, name:"rulesPackageArns", max: 50)
+            try validate(rulesPackageArns, name:"rulesPackageArns", min: 0)
+            try validate(userAttributesForFindings, name:"userAttributesForFindings", max: 10)
+            try validate(userAttributesForFindings, name:"userAttributesForFindings", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -916,6 +956,11 @@ extension Inspector {
         
         public init(resourceGroupTags: [ResourceGroupTag]) {
             self.resourceGroupTags = resourceGroupTags
+        }
+
+        public func validate() throws {
+            try validate(resourceGroupTags, name:"resourceGroupTags", max: 10)
+            try validate(resourceGroupTags, name:"resourceGroupTags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1018,6 +1063,11 @@ extension Inspector {
             self.assessmentRunArns = assessmentRunArns
         }
 
+        public func validate() throws {
+            try validate(assessmentRunArns, name:"assessmentRunArns", max: 10)
+            try validate(assessmentRunArns, name:"assessmentRunArns", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case assessmentRunArns = "assessmentRunArns"
         }
@@ -1038,6 +1088,11 @@ extension Inspector {
             self.failedItems = failedItems
         }
 
+        public func validate() throws {
+            try validate(assessmentRuns, name:"assessmentRuns", max: 10)
+            try validate(assessmentRuns, name:"assessmentRuns", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case assessmentRuns = "assessmentRuns"
             case failedItems = "failedItems"
@@ -1053,6 +1108,11 @@ extension Inspector {
         
         public init(assessmentTargetArns: [String]) {
             self.assessmentTargetArns = assessmentTargetArns
+        }
+
+        public func validate() throws {
+            try validate(assessmentTargetArns, name:"assessmentTargetArns", max: 10)
+            try validate(assessmentTargetArns, name:"assessmentTargetArns", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1075,6 +1135,11 @@ extension Inspector {
             self.failedItems = failedItems
         }
 
+        public func validate() throws {
+            try validate(assessmentTargets, name:"assessmentTargets", max: 10)
+            try validate(assessmentTargets, name:"assessmentTargets", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case assessmentTargets = "assessmentTargets"
             case failedItems = "failedItems"
@@ -1089,6 +1154,11 @@ extension Inspector {
         
         public init(assessmentTemplateArns: [String]) {
             self.assessmentTemplateArns = assessmentTemplateArns
+        }
+
+        public func validate() throws {
+            try validate(assessmentTemplateArns, name:"assessmentTemplateArns", max: 10)
+            try validate(assessmentTemplateArns, name:"assessmentTemplateArns", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1109,6 +1179,11 @@ extension Inspector {
         public init(assessmentTemplates: [AssessmentTemplate], failedItems: [String: FailedItemDetails]) {
             self.assessmentTemplates = assessmentTemplates
             self.failedItems = failedItems
+        }
+
+        public func validate() throws {
+            try validate(assessmentTemplates, name:"assessmentTemplates", max: 10)
+            try validate(assessmentTemplates, name:"assessmentTemplates", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1163,6 +1238,11 @@ extension Inspector {
             self.locale = locale
         }
 
+        public func validate() throws {
+            try validate(exclusionArns, name:"exclusionArns", max: 100)
+            try validate(exclusionArns, name:"exclusionArns", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case exclusionArns = "exclusionArns"
             case locale = "locale"
@@ -1205,6 +1285,11 @@ extension Inspector {
             self.locale = locale
         }
 
+        public func validate() throws {
+            try validate(findingArns, name:"findingArns", max: 10)
+            try validate(findingArns, name:"findingArns", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case findingArns = "findingArns"
             case locale = "locale"
@@ -1226,6 +1311,11 @@ extension Inspector {
             self.findings = findings
         }
 
+        public func validate() throws {
+            try validate(findings, name:"findings", max: 100)
+            try validate(findings, name:"findings", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case failedItems = "failedItems"
             case findings = "findings"
@@ -1241,6 +1331,11 @@ extension Inspector {
         
         public init(resourceGroupArns: [String]) {
             self.resourceGroupArns = resourceGroupArns
+        }
+
+        public func validate() throws {
+            try validate(resourceGroupArns, name:"resourceGroupArns", max: 10)
+            try validate(resourceGroupArns, name:"resourceGroupArns", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1261,6 +1356,11 @@ extension Inspector {
         public init(failedItems: [String: FailedItemDetails], resourceGroups: [ResourceGroup]) {
             self.failedItems = failedItems
             self.resourceGroups = resourceGroups
+        }
+
+        public func validate() throws {
+            try validate(resourceGroups, name:"resourceGroups", max: 10)
+            try validate(resourceGroups, name:"resourceGroups", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1284,6 +1384,11 @@ extension Inspector {
             self.rulesPackageArns = rulesPackageArns
         }
 
+        public func validate() throws {
+            try validate(rulesPackageArns, name:"rulesPackageArns", max: 10)
+            try validate(rulesPackageArns, name:"rulesPackageArns", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case locale = "locale"
             case rulesPackageArns = "rulesPackageArns"
@@ -1303,6 +1408,11 @@ extension Inspector {
         public init(failedItems: [String: FailedItemDetails], rulesPackages: [RulesPackage]) {
             self.failedItems = failedItems
             self.rulesPackages = rulesPackages
+        }
+
+        public func validate() throws {
+            try validate(rulesPackages, name:"rulesPackages", max: 10)
+            try validate(rulesPackages, name:"rulesPackages", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1394,10 +1504,13 @@ extension Inspector {
         public func validate() throws {
             try validate(arn, name:"arn", max: 300)
             try validate(arn, name:"arn", min: 1)
+            try validate(attributes, name:"attributes", max: 50)
+            try validate(attributes, name:"attributes", min: 0)
             try validate(description, name:"description", max: 20000)
             try validate(description, name:"description", min: 0)
             try validate(recommendation, name:"recommendation", max: 20000)
             try validate(recommendation, name:"recommendation", min: 0)
+            try validate(scopes, name:"scopes", min: 1)
             try validate(title, name:"title", max: 20000)
             try validate(title, name:"title", min: 0)
         }
@@ -1440,10 +1553,13 @@ extension Inspector {
         }
 
         public func validate() throws {
+            try validate(attributes, name:"attributes", max: 50)
+            try validate(attributes, name:"attributes", min: 0)
             try validate(description, name:"description", max: 20000)
             try validate(description, name:"description", min: 0)
             try validate(recommendation, name:"recommendation", max: 20000)
             try validate(recommendation, name:"recommendation", min: 0)
+            try validate(scopes, name:"scopes", min: 1)
             try validate(title, name:"title", max: 20000)
             try validate(title, name:"title", min: 0)
         }
@@ -1571,6 +1687,8 @@ extension Inspector {
             try validate(arn, name:"arn", max: 300)
             try validate(arn, name:"arn", min: 1)
             try assetAttributes?.validate()
+            try validate(attributes, name:"attributes", max: 50)
+            try validate(attributes, name:"attributes", min: 0)
             try validate(confidence, name:"confidence", max: 10)
             try validate(confidence, name:"confidence", min: 0)
             try validate(description, name:"description", max: 20000)
@@ -1587,6 +1705,8 @@ extension Inspector {
             try serviceAttributes?.validate()
             try validate(title, name:"title", max: 20000)
             try validate(title, name:"title", min: 0)
+            try validate(userAttributes, name:"userAttributes", max: 10)
+            try validate(userAttributes, name:"userAttributes", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1648,6 +1768,23 @@ extension Inspector {
             self.rulesPackageArns = rulesPackageArns
             self.severities = severities
             self.userAttributes = userAttributes
+        }
+
+        public func validate() throws {
+            try validate(agentIds, name:"agentIds", max: 99)
+            try validate(agentIds, name:"agentIds", min: 0)
+            try validate(attributes, name:"attributes", max: 50)
+            try validate(attributes, name:"attributes", min: 0)
+            try validate(autoScalingGroups, name:"autoScalingGroups", max: 20)
+            try validate(autoScalingGroups, name:"autoScalingGroups", min: 0)
+            try validate(ruleNames, name:"ruleNames", max: 50)
+            try validate(ruleNames, name:"ruleNames", min: 0)
+            try validate(rulesPackageArns, name:"rulesPackageArns", max: 50)
+            try validate(rulesPackageArns, name:"rulesPackageArns", min: 0)
+            try validate(severities, name:"severities", max: 50)
+            try validate(severities, name:"severities", min: 0)
+            try validate(userAttributes, name:"userAttributes", max: 50)
+            try validate(userAttributes, name:"userAttributes", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1782,6 +1919,8 @@ extension Inspector {
         }
 
         public func validate() throws {
+            try validate(exclusionPreviews, name:"exclusionPreviews", max: 100)
+            try validate(exclusionPreviews, name:"exclusionPreviews", min: 0)
             try validate(nextToken, name:"nextToken", max: 300)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -1823,6 +1962,11 @@ extension Inspector {
         
         public init(telemetryMetadata: [TelemetryMetadata]) {
             self.telemetryMetadata = telemetryMetadata
+        }
+
+        public func validate() throws {
+            try validate(telemetryMetadata, name:"telemetryMetadata", max: 5000)
+            try validate(telemetryMetadata, name:"telemetryMetadata", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1972,6 +2116,7 @@ extension Inspector {
         public func validate() throws {
             try validate(assessmentRunArn, name:"assessmentRunArn", max: 300)
             try validate(assessmentRunArn, name:"assessmentRunArn", min: 1)
+            try filter?.validate()
             try validate(nextToken, name:"nextToken", max: 300)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -2000,6 +2145,8 @@ extension Inspector {
         }
 
         public func validate() throws {
+            try validate(assessmentRunAgents, name:"assessmentRunAgents", max: 500)
+            try validate(assessmentRunAgents, name:"assessmentRunAgents", min: 0)
             try validate(nextToken, name:"nextToken", max: 300)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -2034,6 +2181,8 @@ extension Inspector {
         }
 
         public func validate() throws {
+            try validate(assessmentTemplateArns, name:"assessmentTemplateArns", max: 50)
+            try validate(assessmentTemplateArns, name:"assessmentTemplateArns", min: 0)
             try filter?.validate()
             try validate(nextToken, name:"nextToken", max: 300)
             try validate(nextToken, name:"nextToken", min: 1)
@@ -2063,6 +2212,8 @@ extension Inspector {
         }
 
         public func validate() throws {
+            try validate(assessmentRunArns, name:"assessmentRunArns", max: 100)
+            try validate(assessmentRunArns, name:"assessmentRunArns", min: 0)
             try validate(nextToken, name:"nextToken", max: 300)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -2121,6 +2272,8 @@ extension Inspector {
         }
 
         public func validate() throws {
+            try validate(assessmentTargetArns, name:"assessmentTargetArns", max: 100)
+            try validate(assessmentTargetArns, name:"assessmentTargetArns", min: 0)
             try validate(nextToken, name:"nextToken", max: 300)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -2155,6 +2308,8 @@ extension Inspector {
         }
 
         public func validate() throws {
+            try validate(assessmentTargetArns, name:"assessmentTargetArns", max: 50)
+            try validate(assessmentTargetArns, name:"assessmentTargetArns", min: 0)
             try filter?.validate()
             try validate(nextToken, name:"nextToken", max: 300)
             try validate(nextToken, name:"nextToken", min: 1)
@@ -2184,6 +2339,8 @@ extension Inspector {
         }
 
         public func validate() throws {
+            try validate(assessmentTemplateArns, name:"assessmentTemplateArns", max: 100)
+            try validate(assessmentTemplateArns, name:"assessmentTemplateArns", min: 0)
             try validate(nextToken, name:"nextToken", max: 300)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -2245,6 +2402,8 @@ extension Inspector {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 300)
             try validate(nextToken, name:"nextToken", min: 1)
+            try validate(subscriptions, name:"subscriptions", max: 50)
+            try validate(subscriptions, name:"subscriptions", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2302,6 +2461,8 @@ extension Inspector {
         }
 
         public func validate() throws {
+            try validate(exclusionArns, name:"exclusionArns", max: 100)
+            try validate(exclusionArns, name:"exclusionArns", min: 0)
             try validate(nextToken, name:"nextToken", max: 300)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -2336,6 +2497,9 @@ extension Inspector {
         }
 
         public func validate() throws {
+            try validate(assessmentRunArns, name:"assessmentRunArns", max: 50)
+            try validate(assessmentRunArns, name:"assessmentRunArns", min: 0)
+            try filter?.validate()
             try validate(nextToken, name:"nextToken", max: 300)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -2364,6 +2528,8 @@ extension Inspector {
         }
 
         public func validate() throws {
+            try validate(findingArns, name:"findingArns", max: 100)
+            try validate(findingArns, name:"findingArns", min: 0)
             try validate(nextToken, name:"nextToken", max: 300)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -2418,6 +2584,8 @@ extension Inspector {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 300)
             try validate(nextToken, name:"nextToken", min: 1)
+            try validate(rulesPackageArns, name:"rulesPackageArns", max: 100)
+            try validate(rulesPackageArns, name:"rulesPackageArns", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2456,6 +2624,11 @@ extension Inspector {
         
         public init(tags: [Tag]) {
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try validate(tags, name:"tags", max: 10)
+            try validate(tags, name:"tags", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2607,6 +2780,8 @@ extension Inspector {
         }
 
         public func validate() throws {
+            try validate(agentPreviews, name:"agentPreviews", max: 100)
+            try validate(agentPreviews, name:"agentPreviews", min: 0)
             try validate(nextToken, name:"nextToken", max: 300)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -2687,6 +2862,13 @@ extension Inspector {
             self.findingArns = findingArns
         }
 
+        public func validate() throws {
+            try validate(attributeKeys, name:"attributeKeys", max: 10)
+            try validate(attributeKeys, name:"attributeKeys", min: 0)
+            try validate(findingArns, name:"findingArns", max: 10)
+            try validate(findingArns, name:"findingArns", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case attributeKeys = "attributeKeys"
             case findingArns = "findingArns"
@@ -2750,6 +2932,8 @@ extension Inspector {
         public func validate() throws {
             try validate(arn, name:"arn", max: 300)
             try validate(arn, name:"arn", min: 1)
+            try validate(tags, name:"tags", max: 10)
+            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2909,6 +3093,8 @@ extension Inspector {
         public func validate() throws {
             try validate(resourceArn, name:"resourceArn", max: 300)
             try validate(resourceArn, name:"resourceArn", min: 1)
+            try validate(tags, name:"tags", max: 10)
+            try validate(tags, name:"tags", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3060,6 +3246,8 @@ extension Inspector {
         }
 
         public func validate() throws {
+            try validate(eventSubscriptions, name:"eventSubscriptions", max: 50)
+            try validate(eventSubscriptions, name:"eventSubscriptions", min: 1)
             try validate(resourceArn, name:"resourceArn", max: 300)
             try validate(resourceArn, name:"resourceArn", min: 1)
             try validate(topicArn, name:"topicArn", max: 300)

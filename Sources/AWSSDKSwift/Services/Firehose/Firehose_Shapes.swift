@@ -145,6 +145,8 @@ extension Firehose {
             try kinesisStreamSourceConfiguration?.validate()
             try redshiftDestinationConfiguration?.validate()
             try splunkDestinationConfiguration?.validate()
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1304,6 +1306,11 @@ extension Firehose {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case hasMoreTags = "HasMoreTags"
             case tags = "Tags"
@@ -1608,6 +1615,8 @@ extension Firehose {
             try validate(deliveryStreamName, name:"deliveryStreamName", max: 64)
             try validate(deliveryStreamName, name:"deliveryStreamName", min: 1)
             try validate(deliveryStreamName, name:"deliveryStreamName", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(records, name:"records", max: 500)
+            try validate(records, name:"records", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1637,6 +1646,8 @@ extension Firehose {
 
         public func validate() throws {
             try validate(failedPutCount, name:"failedPutCount", min: 0)
+            try validate(requestResponses, name:"requestResponses", max: 500)
+            try validate(requestResponses, name:"requestResponses", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2622,6 +2633,8 @@ extension Firehose {
             try validate(deliveryStreamName, name:"deliveryStreamName", max: 64)
             try validate(deliveryStreamName, name:"deliveryStreamName", min: 1)
             try validate(deliveryStreamName, name:"deliveryStreamName", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(tags, name:"tags", max: 50)
+            try validate(tags, name:"tags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2657,6 +2670,8 @@ extension Firehose {
             try validate(deliveryStreamName, name:"deliveryStreamName", max: 64)
             try validate(deliveryStreamName, name:"deliveryStreamName", min: 1)
             try validate(deliveryStreamName, name:"deliveryStreamName", pattern: "[a-zA-Z0-9_.-]+")
+            try validate(tagKeys, name:"tagKeys", max: 50)
+            try validate(tagKeys, name:"tagKeys", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

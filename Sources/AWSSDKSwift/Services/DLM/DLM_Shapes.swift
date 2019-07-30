@@ -31,6 +31,7 @@ extension DLM {
         public func validate() throws {
             try validate(description, name:"description", max: 500)
             try validate(description, name:"description", min: 0)
+            try policyDetails.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -78,6 +79,7 @@ extension DLM {
 
         public func validate() throws {
             try validate(interval, name:"interval", min: 1)
+            try validate(times, name:"times", max: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -136,6 +138,15 @@ extension DLM {
             self.state = state
             self.tagsToAdd = tagsToAdd
             self.targetTags = targetTags
+        }
+
+        public func validate() throws {
+            try validate(resourceTypes, name:"resourceTypes", max: 1)
+            try validate(resourceTypes, name:"resourceTypes", min: 1)
+            try validate(tagsToAdd, name:"tagsToAdd", max: 50)
+            try validate(tagsToAdd, name:"tagsToAdd", min: 0)
+            try validate(targetTags, name:"targetTags", max: 50)
+            try validate(targetTags, name:"targetTags", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -249,6 +260,7 @@ extension DLM {
         public func validate() throws {
             try validate(description, name:"description", max: 500)
             try validate(description, name:"description", min: 0)
+            try policyDetails?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -336,6 +348,15 @@ extension DLM {
             self.targetTags = targetTags
         }
 
+        public func validate() throws {
+            try validate(resourceTypes, name:"resourceTypes", max: 1)
+            try validate(resourceTypes, name:"resourceTypes", min: 1)
+            try validate(schedules, name:"schedules", max: 1)
+            try validate(schedules, name:"schedules", min: 1)
+            try validate(targetTags, name:"targetTags", max: 50)
+            try validate(targetTags, name:"targetTags", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case parameters = "Parameters"
             case policyType = "PolicyType"
@@ -413,6 +434,10 @@ extension DLM {
             try validate(name, name:"name", max: 500)
             try validate(name, name:"name", min: 0)
             try retainRule?.validate()
+            try validate(tagsToAdd, name:"tagsToAdd", max: 50)
+            try validate(tagsToAdd, name:"tagsToAdd", min: 0)
+            try validate(variableTags, name:"variableTags", max: 50)
+            try validate(variableTags, name:"variableTags", min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -482,6 +507,7 @@ extension DLM {
         public func validate() throws {
             try validate(description, name:"description", max: 500)
             try validate(description, name:"description", min: 0)
+            try policyDetails?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {

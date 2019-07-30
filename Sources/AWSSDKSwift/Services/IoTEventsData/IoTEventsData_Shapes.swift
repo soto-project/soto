@@ -48,6 +48,10 @@ extension IoTEventsData {
             self.messages = messages
         }
 
+        public func validate() throws {
+            try validate(messages, name:"messages", min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case messages = "messages"
         }
@@ -110,6 +114,10 @@ extension IoTEventsData {
         
         public init(detectors: [UpdateDetectorRequest]) {
             self.detectors = detectors
+        }
+
+        public func validate() throws {
+            try validate(detectors, name:"detectors", min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

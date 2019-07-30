@@ -128,6 +128,10 @@ extension ElastiCache {
             self.serviceUpdateName = serviceUpdateName
         }
 
+        public func validate() throws {
+            try validate(replicationGroupIds, name:"replicationGroupIds", max: 20)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case replicationGroupIds = "ReplicationGroupIds"
             case serviceUpdateName = "ServiceUpdateName"
@@ -147,6 +151,10 @@ extension ElastiCache {
         public init(replicationGroupIds: [String], serviceUpdateName: String) {
             self.replicationGroupIds = replicationGroupIds
             self.serviceUpdateName = serviceUpdateName
+        }
+
+        public func validate() throws {
+            try validate(replicationGroupIds, name:"replicationGroupIds", max: 20)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1902,6 +1910,10 @@ extension ElastiCache {
             self.serviceUpdateStatus = serviceUpdateStatus
         }
 
+        public func validate() throws {
+            try validate(serviceUpdateStatus, name:"serviceUpdateStatus", max: 3)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case marker = "Marker"
             case maxRecords = "MaxRecords"
@@ -2014,6 +2026,12 @@ extension ElastiCache {
             self.serviceUpdateTimeRange = serviceUpdateTimeRange
             self.showNodeLevelUpdateStatus = showNodeLevelUpdateStatus
             self.updateActionStatus = updateActionStatus
+        }
+
+        public func validate() throws {
+            try validate(replicationGroupIds, name:"replicationGroupIds", max: 20)
+            try validate(serviceUpdateStatus, name:"serviceUpdateStatus", max: 3)
+            try validate(updateActionStatus, name:"updateActionStatus", max: 6)
         }
 
         private enum CodingKeys: String, CodingKey {
