@@ -95,5 +95,4 @@ public struct CloudTrail {
     public func updateTrail(_ input: UpdateTrailRequest) throws -> Future<UpdateTrailResponse> {
         return try client.send(operation: "UpdateTrail", path: "/", httpMethod: "POST", input: input)
     }
-
 }

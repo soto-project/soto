@@ -134,5 +134,4 @@ public struct Kafka {
     public func updateClusterConfiguration(_ input: UpdateClusterConfigurationRequest) throws -> Future<UpdateClusterConfigurationResponse> {
         return try client.send(operation: "UpdateClusterConfiguration", path: "/v1/clusters/{clusterArn}/configuration", httpMethod: "PUT", input: input)
     }
-
 }

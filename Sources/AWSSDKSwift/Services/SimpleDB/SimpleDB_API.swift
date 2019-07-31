@@ -75,5 +75,4 @@ public struct SimpleDB {
     public func select(_ input: SelectRequest) throws -> Future<SelectResult> {
         return try client.send(operation: "Select", path: "/", httpMethod: "POST", input: input)
     }
-
 }

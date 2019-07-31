@@ -205,5 +205,4 @@ public struct CodePipeline {
     public func updatePipeline(_ input: UpdatePipelineInput) throws -> Future<UpdatePipelineOutput> {
         return try client.send(operation: "UpdatePipeline", path: "/", httpMethod: "POST", input: input)
     }
-
 }

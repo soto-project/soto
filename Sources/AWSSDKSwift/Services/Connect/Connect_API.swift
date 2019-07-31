@@ -129,5 +129,4 @@ public struct Connect {
     @discardableResult public func updateUserSecurityProfiles(_ input: UpdateUserSecurityProfilesRequest) throws -> Future<Void> {
         return try client.send(operation: "UpdateUserSecurityProfiles", path: "/users/{InstanceId}/{UserId}/security-profiles", httpMethod: "POST", input: input)
     }
-
 }

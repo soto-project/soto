@@ -17,7 +17,7 @@ extension CodeCommit {
         public let filePath: String
         /// The message provided by the exception.
         public let message: String
-        
+
         public init(exceptionName: String, filePath: String, message: String) {
             self.exceptionName = exceptionName
             self.filePath = filePath
@@ -64,7 +64,7 @@ extension CodeCommit {
         public let repositoryName: String
         /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, a branch name or a full commit ID.
         public let sourceCommitSpecifier: String
-        
+
         public init(conflictDetailLevel: ConflictDetailLevelTypeEnum? = nil, conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum? = nil, destinationCommitSpecifier: String, filePaths: [String]? = nil, maxConflictFiles: Int32? = nil, maxMergeHunks: Int32? = nil, mergeOption: MergeOptionTypeEnum, nextToken: String? = nil, repositoryName: String, sourceCommitSpecifier: String) {
             self.conflictDetailLevel = conflictDetailLevel
             self.conflictResolutionStrategy = conflictResolutionStrategy
@@ -113,7 +113,7 @@ extension CodeCommit {
         public let nextToken: String?
         /// The commit ID of the source commit specifier that was used in the merge evaluation.
         public let sourceCommitId: String
-        
+
         public init(baseCommitId: String? = nil, conflicts: [Conflict], destinationCommitId: String, errors: [BatchDescribeMergeConflictsError]? = nil, nextToken: String? = nil, sourceCommitId: String) {
             self.baseCommitId = baseCommitId
             self.conflicts = conflicts
@@ -139,7 +139,7 @@ extension CodeCommit {
         ]
         /// The names of the repositories to get information about.
         public let repositoryNames: [String]
-        
+
         public init(repositoryNames: [String]) {
             self.repositoryNames = repositoryNames
         }
@@ -158,7 +158,7 @@ extension CodeCommit {
         public let repositories: [RepositoryMetadata]?
         /// Returns a list of repository names for which information could not be found.
         public let repositoriesNotFound: [String]?
-        
+
         public init(repositories: [RepositoryMetadata]? = nil, repositoriesNotFound: [String]? = nil) {
             self.repositories = repositories
             self.repositoriesNotFound = repositoriesNotFound
@@ -182,7 +182,7 @@ extension CodeCommit {
         public let mode: String?
         /// The path to the blob and any associated file name, if any.
         public let path: String?
-        
+
         public init(blobId: String? = nil, mode: String? = nil, path: String? = nil) {
             self.blobId = blobId
             self.mode = mode
@@ -205,7 +205,7 @@ extension CodeCommit {
         public let branchName: String?
         /// The ID of the last commit made to the branch.
         public let commitId: String?
-        
+
         public init(branchName: String? = nil, commitId: String? = nil) {
             self.branchName = branchName
             self.commitId = commitId
@@ -251,7 +251,7 @@ extension CodeCommit {
         public let inReplyTo: String?
         /// The date and time the comment was most recently modified, in timestamp format.
         public let lastModifiedDate: TimeStamp?
-        
+
         public init(authorArn: String? = nil, clientRequestToken: String? = nil, commentId: String? = nil, content: String? = nil, creationDate: TimeStamp? = nil, deleted: Bool? = nil, inReplyTo: String? = nil, lastModifiedDate: TimeStamp? = nil) {
             self.authorArn = authorArn
             self.clientRequestToken = clientRequestToken
@@ -299,7 +299,7 @@ extension CodeCommit {
         public let location: Location?
         /// The name of the repository that contains the compared commits.
         public let repositoryName: String?
-        
+
         public init(afterBlobId: String? = nil, afterCommitId: String? = nil, beforeBlobId: String? = nil, beforeCommitId: String? = nil, comments: [Comment]? = nil, location: Location? = nil, repositoryName: String? = nil) {
             self.afterBlobId = afterBlobId
             self.afterCommitId = afterCommitId
@@ -348,7 +348,7 @@ extension CodeCommit {
         public let pullRequestId: String?
         /// The name of the repository that contains the pull request.
         public let repositoryName: String?
-        
+
         public init(afterBlobId: String? = nil, afterCommitId: String? = nil, beforeBlobId: String? = nil, beforeCommitId: String? = nil, comments: [Comment]? = nil, location: Location? = nil, pullRequestId: String? = nil, repositoryName: String? = nil) {
             self.afterBlobId = afterBlobId
             self.afterCommitId = afterCommitId
@@ -396,7 +396,7 @@ extension CodeCommit {
         public let parents: [String]?
         /// Tree information for the specified commit.
         public let treeId: String?
-        
+
         public init(additionalData: String? = nil, author: UserInfo? = nil, commitId: String? = nil, committer: UserInfo? = nil, message: String? = nil, parents: [String]? = nil, treeId: String? = nil) {
             self.additionalData = additionalData
             self.author = author
@@ -427,7 +427,7 @@ extension CodeCommit {
         public let conflictMetadata: ConflictMetadata?
         /// A list of hunks that contain the differences between files or lines causing the conflict.
         public let mergeHunks: [MergeHunk]?
-        
+
         public init(conflictMetadata: ConflictMetadata? = nil, mergeHunks: [MergeHunk]? = nil) {
             self.conflictMetadata = conflictMetadata
             self.mergeHunks = mergeHunks
@@ -478,7 +478,7 @@ extension CodeCommit {
         public let objectTypeConflict: Bool?
         /// Information about any object type conflicts in a merge operation.
         public let objectTypes: ObjectTypes?
-        
+
         public init(contentConflict: Bool? = nil, fileModeConflict: Bool? = nil, fileModes: FileModes? = nil, filePath: String? = nil, fileSizes: FileSizes? = nil, isBinaryFile: IsBinaryFile? = nil, mergeOperations: MergeOperations? = nil, numberOfConflicts: Int32? = nil, objectTypeConflict: Bool? = nil, objectTypes: ObjectTypes? = nil) {
             self.contentConflict = contentConflict
             self.fileModeConflict = fileModeConflict
@@ -518,7 +518,7 @@ extension CodeCommit {
         public let replaceContents: [ReplaceContentEntry]?
         /// File modes that will be set as part of the merge conflict resolution.
         public let setFileModes: [SetFileModeEntry]?
-        
+
         public init(deleteFiles: [DeleteFileEntry]? = nil, replaceContents: [ReplaceContentEntry]? = nil, setFileModes: [SetFileModeEntry]? = nil) {
             self.deleteFiles = deleteFiles
             self.replaceContents = replaceContents
@@ -552,7 +552,7 @@ extension CodeCommit {
         public let commitId: String
         /// The name of the repository in which you want to create the new branch.
         public let repositoryName: String
-        
+
         public init(branchName: String, commitId: String, repositoryName: String) {
             self.branchName = branchName
             self.commitId = commitId
@@ -599,7 +599,7 @@ extension CodeCommit {
         public let repositoryName: String
         /// The file modes to update for files in this commit.
         public let setFileModes: [SetFileModeEntry]?
-        
+
         public init(authorName: String? = nil, branchName: String, commitMessage: String? = nil, deleteFiles: [DeleteFileEntry]? = nil, email: String? = nil, keepEmptyFolders: Bool? = nil, parentCommitId: String? = nil, putFiles: [PutFileEntry]? = nil, repositoryName: String, setFileModes: [SetFileModeEntry]? = nil) {
             self.authorName = authorName
             self.branchName = branchName
@@ -645,7 +645,7 @@ extension CodeCommit {
         public let filesUpdated: [FileMetadata]?
         /// The full SHA-1 pointer of the tree information for the commit that contains the commited file changes.
         public let treeId: String?
-        
+
         public init(commitId: String? = nil, filesAdded: [FileMetadata]? = nil, filesDeleted: [FileMetadata]? = nil, filesUpdated: [FileMetadata]? = nil, treeId: String? = nil) {
             self.commitId = commitId
             self.filesAdded = filesAdded
@@ -678,7 +678,7 @@ extension CodeCommit {
         public let targets: [Target]
         /// The title of the pull request. This title will be used to identify the pull request to other users in the repository.
         public let title: String
-        
+
         public init(clientRequestToken: String? = nil, description: String? = nil, targets: [Target], title: String) {
             self.clientRequestToken = clientRequestToken
             self.description = description
@@ -700,7 +700,7 @@ extension CodeCommit {
         ]
         /// Information about the newly created pull request.
         public let pullRequest: PullRequest
-        
+
         public init(pullRequest: PullRequest) {
             self.pullRequest = pullRequest
         }
@@ -722,7 +722,7 @@ extension CodeCommit {
         public let repositoryName: String
         /// One or more tag key-value pairs to use when tagging this repository.
         public let tags: [String: String]?
-        
+
         public init(repositoryDescription: String? = nil, repositoryName: String, tags: [String: String]? = nil) {
             self.repositoryDescription = repositoryDescription
             self.repositoryName = repositoryName
@@ -742,7 +742,7 @@ extension CodeCommit {
         ]
         /// Information about the newly created repository.
         public let repositoryMetadata: RepositoryMetadata?
-        
+
         public init(repositoryMetadata: RepositoryMetadata? = nil) {
             self.repositoryMetadata = repositoryMetadata
         }
@@ -788,7 +788,7 @@ extension CodeCommit {
         public let repositoryName: String
         /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, a branch name or a full commit ID.
         public let sourceCommitSpecifier: String
-        
+
         public init(authorName: String? = nil, commitMessage: String? = nil, conflictDetailLevel: ConflictDetailLevelTypeEnum? = nil, conflictResolution: ConflictResolution? = nil, conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum? = nil, destinationCommitSpecifier: String, email: String? = nil, keepEmptyFolders: Bool? = nil, mergeOption: MergeOptionTypeEnum, repositoryName: String, sourceCommitSpecifier: String) {
             self.authorName = authorName
             self.commitMessage = commitMessage
@@ -827,7 +827,7 @@ extension CodeCommit {
         public let commitId: String?
         /// The full SHA-1 pointer of the tree information for the commit that contains the merge results.
         public let treeId: String?
-        
+
         public init(commitId: String? = nil, treeId: String? = nil) {
             self.commitId = commitId
             self.treeId = treeId
@@ -848,7 +848,7 @@ extension CodeCommit {
         public let branchName: String
         /// The name of the repository that contains the branch to be deleted.
         public let repositoryName: String
-        
+
         public init(branchName: String, repositoryName: String) {
             self.branchName = branchName
             self.repositoryName = repositoryName
@@ -866,7 +866,7 @@ extension CodeCommit {
         ]
         /// Information about the branch deleted by the operation, including the branch name and the commit ID that was the tip of the branch.
         public let deletedBranch: BranchInfo?
-        
+
         public init(deletedBranch: BranchInfo? = nil) {
             self.deletedBranch = deletedBranch
         }
@@ -882,7 +882,7 @@ extension CodeCommit {
         ]
         /// The unique, system-generated ID of the comment. To get this ID, use GetCommentsForComparedCommit or GetCommentsForPullRequest.
         public let commentId: String
-        
+
         public init(commentId: String) {
             self.commentId = commentId
         }
@@ -898,7 +898,7 @@ extension CodeCommit {
         ]
         /// Information about the comment you just deleted.
         public let comment: Comment?
-        
+
         public init(comment: Comment? = nil) {
             self.comment = comment
         }
@@ -914,7 +914,7 @@ extension CodeCommit {
         ]
         /// The full path of the file that will be deleted, including the name of the file.
         public let filePath: String
-        
+
         public init(filePath: String) {
             self.filePath = filePath
         }
@@ -951,7 +951,7 @@ extension CodeCommit {
         public let parentCommitId: String
         /// The name of the repository that contains the file to delete.
         public let repositoryName: String
-        
+
         public init(branchName: String, commitMessage: String? = nil, email: String? = nil, filePath: String, keepEmptyFolders: Bool? = nil, name: String? = nil, parentCommitId: String, repositoryName: String) {
             self.branchName = branchName
             self.commitMessage = commitMessage
@@ -990,7 +990,7 @@ extension CodeCommit {
         public let filePath: String
         /// The full SHA-1 pointer of the tree information for the commit that contains the delete file change.
         public let treeId: String
-        
+
         public init(blobId: String, commitId: String, filePath: String, treeId: String) {
             self.blobId = blobId
             self.commitId = commitId
@@ -1012,7 +1012,7 @@ extension CodeCommit {
         ]
         /// The name of the repository to delete.
         public let repositoryName: String
-        
+
         public init(repositoryName: String) {
             self.repositoryName = repositoryName
         }
@@ -1028,7 +1028,7 @@ extension CodeCommit {
         ]
         /// The ID of the repository that was deleted.
         public let repositoryId: String?
-        
+
         public init(repositoryId: String? = nil) {
             self.repositoryId = repositoryId
         }
@@ -1068,7 +1068,7 @@ extension CodeCommit {
         public let repositoryName: String
         /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, a branch name or a full commit ID.
         public let sourceCommitSpecifier: String
-        
+
         public init(conflictDetailLevel: ConflictDetailLevelTypeEnum? = nil, conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum? = nil, destinationCommitSpecifier: String, filePath: String, maxMergeHunks: Int32? = nil, mergeOption: MergeOptionTypeEnum, nextToken: String? = nil, repositoryName: String, sourceCommitSpecifier: String) {
             self.conflictDetailLevel = conflictDetailLevel
             self.conflictResolutionStrategy = conflictResolutionStrategy
@@ -1115,7 +1115,7 @@ extension CodeCommit {
         public let nextToken: String?
         /// The commit ID of the source commit specifier that was used in the merge evaluation.
         public let sourceCommitId: String
-        
+
         public init(baseCommitId: String? = nil, conflictMetadata: ConflictMetadata, destinationCommitId: String, mergeHunks: [MergeHunk], nextToken: String? = nil, sourceCommitId: String) {
             self.baseCommitId = baseCommitId
             self.conflictMetadata = conflictMetadata
@@ -1153,7 +1153,7 @@ extension CodeCommit {
         public let pullRequestEventType: PullRequestEventType?
         /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
         public let pullRequestId: String
-        
+
         public init(actorArn: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, pullRequestEventType: PullRequestEventType? = nil, pullRequestId: String) {
             self.actorArn = actorArn
             self.maxResults = maxResults
@@ -1180,7 +1180,7 @@ extension CodeCommit {
         public let nextToken: String?
         /// Information about the pull request events.
         public let pullRequestEvents: [PullRequestEvent]
-        
+
         public init(nextToken: String? = nil, pullRequestEvents: [PullRequestEvent]) {
             self.nextToken = nextToken
             self.pullRequestEvents = pullRequestEvents
@@ -1204,7 +1204,7 @@ extension CodeCommit {
         public let beforeBlob: BlobMetadata?
         /// Whether the change type of the difference is an addition (A), deletion (D), or modification (M).
         public let changeType: ChangeTypeEnum?
-        
+
         public init(afterBlob: BlobMetadata? = nil, beforeBlob: BlobMetadata? = nil, changeType: ChangeTypeEnum? = nil) {
             self.afterBlob = afterBlob
             self.beforeBlob = beforeBlob
@@ -1233,7 +1233,7 @@ extension CodeCommit {
         public let fileMode: FileModeTypeEnum?
         /// The relative path of the file from the folder where the query originated.
         public let relativePath: String?
-        
+
         public init(absolutePath: String? = nil, blobId: String? = nil, fileMode: FileModeTypeEnum? = nil, relativePath: String? = nil) {
             self.absolutePath = absolutePath
             self.blobId = blobId
@@ -1261,7 +1261,7 @@ extension CodeCommit {
         public let blobId: String?
         /// The extrapolated file mode permissions for the file. Valid values include EXECUTABLE and NORMAL.
         public let fileMode: FileModeTypeEnum?
-        
+
         public init(absolutePath: String? = nil, blobId: String? = nil, fileMode: FileModeTypeEnum? = nil) {
             self.absolutePath = absolutePath
             self.blobId = blobId
@@ -1294,7 +1294,7 @@ extension CodeCommit {
         public let destination: FileModeTypeEnum?
         /// The file mode of a file in the source of a merge or pull request.
         public let source: FileModeTypeEnum?
-        
+
         public init(base: FileModeTypeEnum? = nil, destination: FileModeTypeEnum? = nil, source: FileModeTypeEnum? = nil) {
             self.base = base
             self.destination = destination
@@ -1320,7 +1320,7 @@ extension CodeCommit {
         public let destination: Int64?
         /// The size of a file in the source of a merge or pull request.
         public let source: Int64?
-        
+
         public init(base: Int64? = nil, destination: Int64? = nil, source: Int64? = nil) {
             self.base = base
             self.destination = destination
@@ -1346,7 +1346,7 @@ extension CodeCommit {
         public let relativePath: String?
         /// The full SHA-1 pointer of the tree information for the commit that contains the folder.
         public let treeId: String?
-        
+
         public init(absolutePath: String? = nil, relativePath: String? = nil, treeId: String? = nil) {
             self.absolutePath = absolutePath
             self.relativePath = relativePath
@@ -1369,7 +1369,7 @@ extension CodeCommit {
         public let blobId: String
         /// The name of the repository that contains the blob.
         public let repositoryName: String
-        
+
         public init(blobId: String, repositoryName: String) {
             self.blobId = blobId
             self.repositoryName = repositoryName
@@ -1387,7 +1387,7 @@ extension CodeCommit {
         ]
         /// The content of the blob, usually a file.
         public let content: Data
-        
+
         public init(content: Data) {
             self.content = content
         }
@@ -1406,7 +1406,7 @@ extension CodeCommit {
         public let branchName: String?
         /// The name of the repository that contains the branch for which you want to retrieve information.
         public let repositoryName: String?
-        
+
         public init(branchName: String? = nil, repositoryName: String? = nil) {
             self.branchName = branchName
             self.repositoryName = repositoryName
@@ -1424,7 +1424,7 @@ extension CodeCommit {
         ]
         /// The name of the branch.
         public let branch: BranchInfo?
-        
+
         public init(branch: BranchInfo? = nil) {
             self.branch = branch
         }
@@ -1440,7 +1440,7 @@ extension CodeCommit {
         ]
         /// The unique, system-generated ID of the comment. To get this ID, use GetCommentsForComparedCommit or GetCommentsForPullRequest.
         public let commentId: String
-        
+
         public init(commentId: String) {
             self.commentId = commentId
         }
@@ -1456,7 +1456,7 @@ extension CodeCommit {
         ]
         /// The contents of the comment.
         public let comment: Comment?
-        
+
         public init(comment: Comment? = nil) {
             self.comment = comment
         }
@@ -1484,7 +1484,7 @@ extension CodeCommit {
         public let nextToken: String?
         /// The name of the repository where you want to compare commits.
         public let repositoryName: String
-        
+
         public init(afterCommitId: String, beforeCommitId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, repositoryName: String) {
             self.afterCommitId = afterCommitId
             self.beforeCommitId = beforeCommitId
@@ -1511,7 +1511,7 @@ extension CodeCommit {
         public let commentsForComparedCommitData: [CommentsForComparedCommit]?
         /// An enumeration token that can be used in a request to return the next batch of the results.
         public let nextToken: String?
-        
+
         public init(commentsForComparedCommitData: [CommentsForComparedCommit]? = nil, nextToken: String? = nil) {
             self.commentsForComparedCommitData = commentsForComparedCommitData
             self.nextToken = nextToken
@@ -1544,7 +1544,7 @@ extension CodeCommit {
         public let pullRequestId: String
         /// The name of the repository that contains the pull request.
         public let repositoryName: String?
-        
+
         public init(afterCommitId: String? = nil, beforeCommitId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, pullRequestId: String, repositoryName: String? = nil) {
             self.afterCommitId = afterCommitId
             self.beforeCommitId = beforeCommitId
@@ -1573,7 +1573,7 @@ extension CodeCommit {
         public let commentsForPullRequestData: [CommentsForPullRequest]?
         /// An enumeration token that can be used in a request to return the next batch of the results.
         public let nextToken: String?
-        
+
         public init(commentsForPullRequestData: [CommentsForPullRequest]? = nil, nextToken: String? = nil) {
             self.commentsForPullRequestData = commentsForPullRequestData
             self.nextToken = nextToken
@@ -1594,7 +1594,7 @@ extension CodeCommit {
         public let commitId: String
         /// The name of the repository to which the commit was made.
         public let repositoryName: String
-        
+
         public init(commitId: String, repositoryName: String) {
             self.commitId = commitId
             self.repositoryName = repositoryName
@@ -1612,7 +1612,7 @@ extension CodeCommit {
         ]
         /// A commit data type object that contains information about the specified commit.
         public let commit: Commit
-        
+
         public init(commit: Commit) {
             self.commit = commit
         }
@@ -1646,7 +1646,7 @@ extension CodeCommit {
         public let nextToken: String?
         /// The name of the repository where you want to get differences.
         public let repositoryName: String
-        
+
         public init(afterCommitSpecifier: String, afterPath: String? = nil, beforeCommitSpecifier: String? = nil, beforePath: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, repositoryName: String) {
             self.afterCommitSpecifier = afterCommitSpecifier
             self.afterPath = afterPath
@@ -1677,7 +1677,7 @@ extension CodeCommit {
         public let differences: [Difference]?
         /// An enumeration token that can be used in a request to return the next batch of the results.
         public let nextToken: String?
-        
+
         public init(differences: [Difference]? = nil, nextToken: String? = nil) {
             self.differences = differences
             self.nextToken = nextToken
@@ -1701,7 +1701,7 @@ extension CodeCommit {
         public let filePath: String
         /// The name of the repository that contains the file.
         public let repositoryName: String
-        
+
         public init(commitSpecifier: String? = nil, filePath: String, repositoryName: String) {
             self.commitSpecifier = commitSpecifier
             self.filePath = filePath
@@ -1736,7 +1736,7 @@ extension CodeCommit {
         public let filePath: String
         /// The size of the contents of the file, in bytes.
         public let fileSize: Int64
-        
+
         public init(blobId: String, commitId: String, fileContent: Data, fileMode: FileModeTypeEnum, filePath: String, fileSize: Int64) {
             self.blobId = blobId
             self.commitId = commitId
@@ -1768,7 +1768,7 @@ extension CodeCommit {
         public let folderPath: String
         /// The name of the repository.
         public let repositoryName: String
-        
+
         public init(commitSpecifier: String? = nil, folderPath: String, repositoryName: String) {
             self.commitSpecifier = commitSpecifier
             self.folderPath = folderPath
@@ -1806,7 +1806,7 @@ extension CodeCommit {
         public let symbolicLinks: [SymbolicLink]?
         /// The full SHA-1 pointer of the tree information for the commit that contains the folder.
         public let treeId: String?
-        
+
         public init(commitId: String, files: [File]? = nil, folderPath: String, subFolders: [Folder]? = nil, subModules: [SubModule]? = nil, symbolicLinks: [SymbolicLink]? = nil, treeId: String? = nil) {
             self.commitId = commitId
             self.files = files
@@ -1846,7 +1846,7 @@ extension CodeCommit {
         public let repositoryName: String
         /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, a branch name or a full commit ID.
         public let sourceCommitSpecifier: String
-        
+
         public init(conflictDetailLevel: ConflictDetailLevelTypeEnum? = nil, conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum? = nil, destinationCommitSpecifier: String, repositoryName: String, sourceCommitSpecifier: String) {
             self.conflictDetailLevel = conflictDetailLevel
             self.conflictResolutionStrategy = conflictResolutionStrategy
@@ -1879,7 +1879,7 @@ extension CodeCommit {
         public let mergedCommitId: String?
         /// The commit ID of the source commit specifier that was used in the merge evaluation.
         public let sourceCommitId: String?
-        
+
         public init(baseCommitId: String? = nil, destinationCommitId: String? = nil, mergedCommitId: String? = nil, sourceCommitId: String? = nil) {
             self.baseCommitId = baseCommitId
             self.destinationCommitId = destinationCommitId
@@ -1922,7 +1922,7 @@ extension CodeCommit {
         public let repositoryName: String
         /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, a branch name or a full commit ID.
         public let sourceCommitSpecifier: String
-        
+
         public init(conflictDetailLevel: ConflictDetailLevelTypeEnum? = nil, conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum? = nil, destinationCommitSpecifier: String, maxConflictFiles: Int32? = nil, mergeOption: MergeOptionTypeEnum, nextToken: String? = nil, repositoryName: String, sourceCommitSpecifier: String) {
             self.conflictDetailLevel = conflictDetailLevel
             self.conflictResolutionStrategy = conflictResolutionStrategy
@@ -1967,7 +1967,7 @@ extension CodeCommit {
         public let nextToken: String?
         /// The commit ID of the source commit specifier that was used in the merge evaluation.
         public let sourceCommitId: String
-        
+
         public init(baseCommitId: String? = nil, conflictMetadataList: [ConflictMetadata], destinationCommitId: String, mergeable: Bool, nextToken: String? = nil, sourceCommitId: String) {
             self.baseCommitId = baseCommitId
             self.conflictMetadataList = conflictMetadataList
@@ -2005,7 +2005,7 @@ extension CodeCommit {
         public let repositoryName: String
         /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, a branch name or a full commit ID.
         public let sourceCommitSpecifier: String
-        
+
         public init(conflictDetailLevel: ConflictDetailLevelTypeEnum? = nil, conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum? = nil, destinationCommitSpecifier: String, repositoryName: String, sourceCommitSpecifier: String) {
             self.conflictDetailLevel = conflictDetailLevel
             self.conflictResolutionStrategy = conflictResolutionStrategy
@@ -2038,7 +2038,7 @@ extension CodeCommit {
         public let mergeOptions: [MergeOptionTypeEnum]
         /// The commit ID of the source commit specifier that was used in the merge evaluation.
         public let sourceCommitId: String
-        
+
         public init(baseCommitId: String, destinationCommitId: String, mergeOptions: [MergeOptionTypeEnum], sourceCommitId: String) {
             self.baseCommitId = baseCommitId
             self.destinationCommitId = destinationCommitId
@@ -2060,7 +2060,7 @@ extension CodeCommit {
         ]
         /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
         public let pullRequestId: String
-        
+
         public init(pullRequestId: String) {
             self.pullRequestId = pullRequestId
         }
@@ -2076,7 +2076,7 @@ extension CodeCommit {
         ]
         /// Information about the specified pull request.
         public let pullRequest: PullRequest
-        
+
         public init(pullRequest: PullRequest) {
             self.pullRequest = pullRequest
         }
@@ -2092,7 +2092,7 @@ extension CodeCommit {
         ]
         /// The name of the repository to get information about.
         public let repositoryName: String
-        
+
         public init(repositoryName: String) {
             self.repositoryName = repositoryName
         }
@@ -2108,7 +2108,7 @@ extension CodeCommit {
         ]
         /// Information about the repository.
         public let repositoryMetadata: RepositoryMetadata?
-        
+
         public init(repositoryMetadata: RepositoryMetadata? = nil) {
             self.repositoryMetadata = repositoryMetadata
         }
@@ -2124,7 +2124,7 @@ extension CodeCommit {
         ]
         /// The name of the repository for which the trigger is configured.
         public let repositoryName: String
-        
+
         public init(repositoryName: String) {
             self.repositoryName = repositoryName
         }
@@ -2143,7 +2143,7 @@ extension CodeCommit {
         public let configurationId: String?
         /// The JSON block of configuration information for each trigger.
         public let triggers: [RepositoryTrigger]?
-        
+
         public init(configurationId: String? = nil, triggers: [RepositoryTrigger]? = nil) {
             self.configurationId = configurationId
             self.triggers = triggers
@@ -2167,7 +2167,7 @@ extension CodeCommit {
         public let destination: Bool?
         /// The binary or non-binary status of file in the source of a merge or pull request.
         public let source: Bool?
-        
+
         public init(base: Bool? = nil, destination: Bool? = nil, source: Bool? = nil) {
             self.base = base
             self.destination = destination
@@ -2190,7 +2190,7 @@ extension CodeCommit {
         public let nextToken: String?
         /// The name of the repository that contains the branches.
         public let repositoryName: String
-        
+
         public init(nextToken: String? = nil, repositoryName: String) {
             self.nextToken = nextToken
             self.repositoryName = repositoryName
@@ -2211,7 +2211,7 @@ extension CodeCommit {
         public let branches: [String]?
         /// An enumeration token that returns the batch of the results.
         public let nextToken: String?
-        
+
         public init(branches: [String]? = nil, nextToken: String? = nil) {
             self.branches = branches
             self.nextToken = nextToken
@@ -2241,7 +2241,7 @@ extension CodeCommit {
         public let pullRequestStatus: PullRequestStatusEnum?
         /// The name of the repository for which you want to list pull requests.
         public let repositoryName: String
-        
+
         public init(authorArn: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, pullRequestStatus: PullRequestStatusEnum? = nil, repositoryName: String) {
             self.authorArn = authorArn
             self.maxResults = maxResults
@@ -2268,7 +2268,7 @@ extension CodeCommit {
         public let nextToken: String?
         /// The system-generated IDs of the pull requests.
         public let pullRequestIds: [String]
-        
+
         public init(nextToken: String? = nil, pullRequestIds: [String]) {
             self.nextToken = nextToken
             self.pullRequestIds = pullRequestIds
@@ -2292,7 +2292,7 @@ extension CodeCommit {
         public let order: OrderEnum?
         /// The criteria used to sort the results of a list repositories operation.
         public let sortBy: SortByEnum?
-        
+
         public init(nextToken: String? = nil, order: OrderEnum? = nil, sortBy: SortByEnum? = nil) {
             self.nextToken = nextToken
             self.order = order
@@ -2315,7 +2315,7 @@ extension CodeCommit {
         public let nextToken: String?
         /// Lists the repositories called by the list repositories operation.
         public let repositories: [RepositoryNameIdPair]?
-        
+
         public init(nextToken: String? = nil, repositories: [RepositoryNameIdPair]? = nil) {
             self.nextToken = nextToken
             self.repositories = repositories
@@ -2336,7 +2336,7 @@ extension CodeCommit {
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the resource for which you want to get information about tags, if any.
         public let resourceArn: String
-        
+
         public init(nextToken: String? = nil, resourceArn: String) {
             self.nextToken = nextToken
             self.resourceArn = resourceArn
@@ -2357,7 +2357,7 @@ extension CodeCommit {
         public let nextToken: String?
         /// A list of tag key and value pairs associated with the specified resource.
         public let tags: [String: String]?
-        
+
         public init(nextToken: String? = nil, tags: [String: String]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -2381,7 +2381,7 @@ extension CodeCommit {
         public let filePosition: Int64?
         /// In a comparison of commits or a pull request, whether the change is in the 'before' or 'after' of that comparison.
         public let relativeFileVersion: RelativeFileVersionEnum?
-        
+
         public init(filePath: String? = nil, filePosition: Int64? = nil, relativeFileVersion: RelativeFileVersionEnum? = nil) {
             self.filePath = filePath
             self.filePosition = filePosition
@@ -2410,7 +2410,7 @@ extension CodeCommit {
         public let sourceCommitSpecifier: String
         /// The branch where the merge will be applied.
         public let targetBranch: String?
-        
+
         public init(destinationCommitSpecifier: String, repositoryName: String, sourceCommitSpecifier: String, targetBranch: String? = nil) {
             self.destinationCommitSpecifier = destinationCommitSpecifier
             self.repositoryName = repositoryName
@@ -2435,7 +2435,7 @@ extension CodeCommit {
         public let commitId: String?
         /// The tree ID of the merge in the destination or target branch.
         public let treeId: String?
-        
+
         public init(commitId: String? = nil, treeId: String? = nil) {
             self.commitId = commitId
             self.treeId = treeId
@@ -2483,7 +2483,7 @@ extension CodeCommit {
         public let sourceCommitSpecifier: String
         /// The branch where the merge will be applied. 
         public let targetBranch: String?
-        
+
         public init(authorName: String? = nil, commitMessage: String? = nil, conflictDetailLevel: ConflictDetailLevelTypeEnum? = nil, conflictResolution: ConflictResolution? = nil, conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum? = nil, destinationCommitSpecifier: String, email: String? = nil, keepEmptyFolders: Bool? = nil, repositoryName: String, sourceCommitSpecifier: String, targetBranch: String? = nil) {
             self.authorName = authorName
             self.commitMessage = commitMessage
@@ -2522,7 +2522,7 @@ extension CodeCommit {
         public let commitId: String?
         /// The tree ID of the merge in the destination or target branch.
         public let treeId: String?
-        
+
         public init(commitId: String? = nil, treeId: String? = nil) {
             self.commitId = commitId
             self.treeId = treeId
@@ -2570,7 +2570,7 @@ extension CodeCommit {
         public let sourceCommitSpecifier: String
         /// The branch where the merge will be applied. 
         public let targetBranch: String?
-        
+
         public init(authorName: String? = nil, commitMessage: String? = nil, conflictDetailLevel: ConflictDetailLevelTypeEnum? = nil, conflictResolution: ConflictResolution? = nil, conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum? = nil, destinationCommitSpecifier: String, email: String? = nil, keepEmptyFolders: Bool? = nil, repositoryName: String, sourceCommitSpecifier: String, targetBranch: String? = nil) {
             self.authorName = authorName
             self.commitMessage = commitMessage
@@ -2609,7 +2609,7 @@ extension CodeCommit {
         public let commitId: String?
         /// The tree ID of the merge in the destination or target branch.
         public let treeId: String?
-        
+
         public init(commitId: String? = nil, treeId: String? = nil) {
             self.commitId = commitId
             self.treeId = treeId
@@ -2636,7 +2636,7 @@ extension CodeCommit {
         public let isConflict: Bool?
         /// Information about the merge hunk in the source of a merge or pull request.
         public let source: MergeHunkDetail?
-        
+
         public init(base: MergeHunkDetail? = nil, destination: MergeHunkDetail? = nil, isConflict: Bool? = nil, source: MergeHunkDetail? = nil) {
             self.base = base
             self.destination = destination
@@ -2664,7 +2664,7 @@ extension CodeCommit {
         public let hunkContent: String?
         /// The start position of the hunk in the merge result.
         public let startLine: Int32?
-        
+
         public init(endLine: Int32? = nil, hunkContent: String? = nil, startLine: Int32? = nil) {
             self.endLine = endLine
             self.hunkContent = hunkContent
@@ -2693,7 +2693,7 @@ extension CodeCommit {
         public let mergedBy: String?
         /// The merge strategy used in the merge.
         public let mergeOption: MergeOptionTypeEnum?
-        
+
         public init(isMerged: Bool? = nil, mergeCommitId: String? = nil, mergedBy: String? = nil, mergeOption: MergeOptionTypeEnum? = nil) {
             self.isMerged = isMerged
             self.mergeCommitId = mergeCommitId
@@ -2718,7 +2718,7 @@ extension CodeCommit {
         public let destination: ChangeTypeEnum?
         /// The operation on a file (add, modify, or delete) of a file in the source of a merge or pull request.
         public let source: ChangeTypeEnum?
-        
+
         public init(destination: ChangeTypeEnum? = nil, source: ChangeTypeEnum? = nil) {
             self.destination = destination
             self.source = source
@@ -2749,7 +2749,7 @@ extension CodeCommit {
         public let repositoryName: String
         /// The full commit ID of the original or updated commit in the pull request source branch. Pass this value if you want an exception thrown if the current commit ID of the tip of the source branch does not match this commit ID.
         public let sourceCommitId: String?
-        
+
         public init(pullRequestId: String, repositoryName: String, sourceCommitId: String? = nil) {
             self.pullRequestId = pullRequestId
             self.repositoryName = repositoryName
@@ -2769,7 +2769,7 @@ extension CodeCommit {
         ]
         /// Information about the specified pull request, including information about the merge.
         public let pullRequest: PullRequest?
-        
+
         public init(pullRequest: PullRequest? = nil) {
             self.pullRequest = pullRequest
         }
@@ -2812,7 +2812,7 @@ extension CodeCommit {
         public let repositoryName: String
         /// The full commit ID of the original or updated commit in the pull request source branch. Pass this value if you want an exception thrown if the current commit ID of the tip of the source branch does not match this commit ID.
         public let sourceCommitId: String?
-        
+
         public init(authorName: String? = nil, commitMessage: String? = nil, conflictDetailLevel: ConflictDetailLevelTypeEnum? = nil, conflictResolution: ConflictResolution? = nil, conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum? = nil, email: String? = nil, keepEmptyFolders: Bool? = nil, pullRequestId: String, repositoryName: String, sourceCommitId: String? = nil) {
             self.authorName = authorName
             self.commitMessage = commitMessage
@@ -2845,7 +2845,7 @@ extension CodeCommit {
             AWSShapeMember(label: "pullRequest", required: false, type: .structure)
         ]
         public let pullRequest: PullRequest?
-        
+
         public init(pullRequest: PullRequest? = nil) {
             self.pullRequest = pullRequest
         }
@@ -2888,7 +2888,7 @@ extension CodeCommit {
         public let repositoryName: String
         /// The full commit ID of the original or updated commit in the pull request source branch. Pass this value if you want an exception thrown if the current commit ID of the tip of the source branch does not match this commit ID.
         public let sourceCommitId: String?
-        
+
         public init(authorName: String? = nil, commitMessage: String? = nil, conflictDetailLevel: ConflictDetailLevelTypeEnum? = nil, conflictResolution: ConflictResolution? = nil, conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum? = nil, email: String? = nil, keepEmptyFolders: Bool? = nil, pullRequestId: String, repositoryName: String, sourceCommitId: String? = nil) {
             self.authorName = authorName
             self.commitMessage = commitMessage
@@ -2921,7 +2921,7 @@ extension CodeCommit {
             AWSShapeMember(label: "pullRequest", required: false, type: .structure)
         ]
         public let pullRequest: PullRequest?
-        
+
         public init(pullRequest: PullRequest? = nil) {
             self.pullRequest = pullRequest
         }
@@ -2951,7 +2951,7 @@ extension CodeCommit {
         public let destination: ObjectTypeEnum?
         /// The type of the object in the source branch.
         public let source: ObjectTypeEnum?
-        
+
         public init(base: ObjectTypeEnum? = nil, destination: ObjectTypeEnum? = nil, source: ObjectTypeEnum? = nil) {
             self.base = base
             self.destination = destination
@@ -2992,7 +2992,7 @@ extension CodeCommit {
         public let location: Location?
         /// The name of the repository where you want to post a comment on the comparison between commits.
         public let repositoryName: String
-        
+
         public init(afterCommitId: String, beforeCommitId: String? = nil, clientRequestToken: String? = nil, content: String, location: Location? = nil, repositoryName: String) {
             self.afterCommitId = afterCommitId
             self.beforeCommitId = beforeCommitId
@@ -3036,7 +3036,7 @@ extension CodeCommit {
         public let location: Location?
         /// The name of the repository where you posted a comment on the comparison between commits.
         public let repositoryName: String?
-        
+
         public init(afterBlobId: String? = nil, afterCommitId: String? = nil, beforeBlobId: String? = nil, beforeCommitId: String? = nil, comment: Comment? = nil, location: Location? = nil, repositoryName: String? = nil) {
             self.afterBlobId = afterBlobId
             self.afterCommitId = afterCommitId
@@ -3082,7 +3082,7 @@ extension CodeCommit {
         public let pullRequestId: String
         /// The name of the repository where you want to post a comment on a pull request.
         public let repositoryName: String
-        
+
         public init(afterCommitId: String, beforeCommitId: String, clientRequestToken: String? = nil, content: String, location: Location? = nil, pullRequestId: String, repositoryName: String) {
             self.afterCommitId = afterCommitId
             self.beforeCommitId = beforeCommitId
@@ -3131,7 +3131,7 @@ extension CodeCommit {
         public let pullRequestId: String?
         /// The name of the repository where you posted a comment on a pull request.
         public let repositoryName: String?
-        
+
         public init(afterBlobId: String? = nil, afterCommitId: String? = nil, beforeBlobId: String? = nil, beforeCommitId: String? = nil, comment: Comment? = nil, location: Location? = nil, pullRequestId: String? = nil, repositoryName: String? = nil) {
             self.afterBlobId = afterBlobId
             self.afterCommitId = afterCommitId
@@ -3167,7 +3167,7 @@ extension CodeCommit {
         public let content: String
         /// The system-generated ID of the comment to which you want to reply. To get this ID, use GetCommentsForComparedCommit or GetCommentsForPullRequest.
         public let inReplyTo: String
-        
+
         public init(clientRequestToken: String? = nil, content: String, inReplyTo: String) {
             self.clientRequestToken = clientRequestToken
             self.content = content
@@ -3187,7 +3187,7 @@ extension CodeCommit {
         ]
         /// Information about the reply to a comment.
         public let comment: Comment?
-        
+
         public init(comment: Comment? = nil) {
             self.comment = comment
         }
@@ -3227,7 +3227,7 @@ extension CodeCommit {
         public let pullRequestTargets: [PullRequestTarget]?
         /// The user-defined title of the pull request. This title is displayed in the list of pull requests to other users of the repository.
         public let title: String?
-        
+
         public init(authorArn: String? = nil, clientRequestToken: String? = nil, creationDate: TimeStamp? = nil, description: String? = nil, lastActivityDate: TimeStamp? = nil, pullRequestId: String? = nil, pullRequestStatus: PullRequestStatusEnum? = nil, pullRequestTargets: [PullRequestTarget]? = nil, title: String? = nil) {
             self.authorArn = authorArn
             self.clientRequestToken = clientRequestToken
@@ -3268,7 +3268,7 @@ extension CodeCommit {
         public let repositoryName: String?
         /// The commit ID on the source branch used when the pull request was created.
         public let sourceCommitId: String?
-        
+
         public init(destinationCommitId: String? = nil, mergeBase: String? = nil, repositoryName: String? = nil, sourceCommitId: String? = nil) {
             self.destinationCommitId = destinationCommitId
             self.mergeBase = mergeBase
@@ -3311,7 +3311,7 @@ extension CodeCommit {
         public let pullRequestSourceReferenceUpdatedEventMetadata: PullRequestSourceReferenceUpdatedEventMetadata?
         /// Information about the change in status for the pull request event.
         public let pullRequestStatusChangedEventMetadata: PullRequestStatusChangedEventMetadata?
-        
+
         public init(actorArn: String? = nil, eventDate: TimeStamp? = nil, pullRequestCreatedEventMetadata: PullRequestCreatedEventMetadata? = nil, pullRequestEventType: PullRequestEventType? = nil, pullRequestId: String? = nil, pullRequestMergedStateChangedEventMetadata: PullRequestMergedStateChangedEventMetadata? = nil, pullRequestSourceReferenceUpdatedEventMetadata: PullRequestSourceReferenceUpdatedEventMetadata? = nil, pullRequestStatusChangedEventMetadata: PullRequestStatusChangedEventMetadata? = nil) {
             self.actorArn = actorArn
             self.eventDate = eventDate
@@ -3355,7 +3355,7 @@ extension CodeCommit {
         public let mergeMetadata: MergeMetadata?
         /// The name of the repository where the pull request was created.
         public let repositoryName: String?
-        
+
         public init(destinationReference: String? = nil, mergeMetadata: MergeMetadata? = nil, repositoryName: String? = nil) {
             self.destinationReference = destinationReference
             self.mergeMetadata = mergeMetadata
@@ -3384,7 +3384,7 @@ extension CodeCommit {
         public let mergeBase: String?
         /// The name of the repository where the pull request was updated.
         public let repositoryName: String?
-        
+
         public init(afterCommitId: String? = nil, beforeCommitId: String? = nil, mergeBase: String? = nil, repositoryName: String? = nil) {
             self.afterCommitId = afterCommitId
             self.beforeCommitId = beforeCommitId
@@ -3406,7 +3406,7 @@ extension CodeCommit {
         ]
         /// The changed status of the pull request.
         public let pullRequestStatus: PullRequestStatusEnum?
-        
+
         public init(pullRequestStatus: PullRequestStatusEnum? = nil) {
             self.pullRequestStatus = pullRequestStatus
         }
@@ -3446,7 +3446,7 @@ extension CodeCommit {
         public let sourceCommit: String?
         /// The branch of the repository that contains the changes for the pull request. Also known as the source branch.
         public let sourceReference: String?
-        
+
         public init(destinationCommit: String? = nil, destinationReference: String? = nil, mergeBase: String? = nil, mergeMetadata: MergeMetadata? = nil, repositoryName: String? = nil, sourceCommit: String? = nil, sourceReference: String? = nil) {
             self.destinationCommit = destinationCommit
             self.destinationReference = destinationReference
@@ -3483,7 +3483,7 @@ extension CodeCommit {
         public let filePath: String
         /// The name and full path of the file that contains the changes you want to make as part of the commit, if you are not providing the file content directly.
         public let sourceFile: SourceFileSpecifier?
-        
+
         public init(fileContent: Data? = nil, fileMode: FileModeTypeEnum? = nil, filePath: String, sourceFile: SourceFileSpecifier? = nil) {
             self.fileContent = fileContent
             self.fileMode = fileMode
@@ -3529,7 +3529,7 @@ extension CodeCommit {
         public let parentCommitId: String?
         /// The name of the repository where you want to add or update the file.
         public let repositoryName: String
-        
+
         public init(branchName: String, commitMessage: String? = nil, email: String? = nil, fileContent: Data, fileMode: FileModeTypeEnum? = nil, filePath: String, name: String? = nil, parentCommitId: String? = nil, repositoryName: String) {
             self.branchName = branchName
             self.commitMessage = commitMessage
@@ -3567,7 +3567,7 @@ extension CodeCommit {
         public let commitId: String
         /// The full SHA-1 pointer of the tree information for the commit that contains this file change.
         public let treeId: String
-        
+
         public init(blobId: String, commitId: String, treeId: String) {
             self.blobId = blobId
             self.commitId = commitId
@@ -3590,7 +3590,7 @@ extension CodeCommit {
         public let repositoryName: String
         /// The JSON block of configuration information for each trigger.
         public let triggers: [RepositoryTrigger]
-        
+
         public init(repositoryName: String, triggers: [RepositoryTrigger]) {
             self.repositoryName = repositoryName
             self.triggers = triggers
@@ -3608,7 +3608,7 @@ extension CodeCommit {
         ]
         /// The system-generated unique ID for the create or update operation.
         public let configurationId: String?
-        
+
         public init(configurationId: String? = nil) {
             self.configurationId = configurationId
         }
@@ -3639,7 +3639,7 @@ extension CodeCommit {
         public let filePath: String
         /// The replacement type to use when determining how to resolve the conflict.
         public let replacementType: ReplacementTypeEnum
-        
+
         public init(content: Data? = nil, fileMode: FileModeTypeEnum? = nil, filePath: String, replacementType: ReplacementTypeEnum) {
             self.content = content
             self.fileMode = fileMode
@@ -3696,7 +3696,7 @@ extension CodeCommit {
         public let repositoryId: String?
         /// The repository's name.
         public let repositoryName: String?
-        
+
         public init(accountId: String? = nil, arn: String? = nil, cloneUrlHttp: String? = nil, cloneUrlSsh: String? = nil, creationDate: TimeStamp? = nil, defaultBranch: String? = nil, lastModifiedDate: TimeStamp? = nil, repositoryDescription: String? = nil, repositoryId: String? = nil, repositoryName: String? = nil) {
             self.accountId = accountId
             self.arn = arn
@@ -3733,7 +3733,7 @@ extension CodeCommit {
         public let repositoryId: String?
         /// The name associated with the repository.
         public let repositoryName: String?
-        
+
         public init(repositoryId: String? = nil, repositoryName: String? = nil) {
             self.repositoryId = repositoryId
             self.repositoryName = repositoryName
@@ -3763,7 +3763,7 @@ extension CodeCommit {
         public let events: [RepositoryTriggerEventEnum]
         /// The name of the trigger.
         public let name: String
-        
+
         public init(branches: [String]? = nil, customData: String? = nil, destinationArn: String, events: [RepositoryTriggerEventEnum], name: String) {
             self.branches = branches
             self.customData = customData
@@ -3798,7 +3798,7 @@ extension CodeCommit {
         public let failureMessage: String?
         /// The name of the trigger that did not run.
         public let trigger: String?
-        
+
         public init(failureMessage: String? = nil, trigger: String? = nil) {
             self.failureMessage = failureMessage
             self.trigger = trigger
@@ -3819,7 +3819,7 @@ extension CodeCommit {
         public let fileMode: FileModeTypeEnum
         /// The full path to the file, including the name of the file.
         public let filePath: String
-        
+
         public init(fileMode: FileModeTypeEnum, filePath: String) {
             self.fileMode = fileMode
             self.filePath = filePath
@@ -3846,7 +3846,7 @@ extension CodeCommit {
         public let filePath: String
         /// Whether to remove the source file from the parent commit.
         public let isMove: Bool?
-        
+
         public init(filePath: String, isMove: Bool? = nil) {
             self.filePath = filePath
             self.isMove = isMove
@@ -3870,7 +3870,7 @@ extension CodeCommit {
         public let commitId: String?
         /// The relative path of the submodule from the folder where the query originated.
         public let relativePath: String?
-        
+
         public init(absolutePath: String? = nil, commitId: String? = nil, relativePath: String? = nil) {
             self.absolutePath = absolutePath
             self.commitId = commitId
@@ -3899,7 +3899,7 @@ extension CodeCommit {
         public let fileMode: FileModeTypeEnum?
         /// The relative path of the symbolic link from the folder where the query originated.
         public let relativePath: String?
-        
+
         public init(absolutePath: String? = nil, blobId: String? = nil, fileMode: FileModeTypeEnum? = nil, relativePath: String? = nil) {
             self.absolutePath = absolutePath
             self.blobId = blobId
@@ -3924,7 +3924,7 @@ extension CodeCommit {
         public let resourceArn: String
         /// The key-value pair to use when tagging this repository.
         public let tags: [String: String]
-        
+
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -3948,7 +3948,7 @@ extension CodeCommit {
         public let repositoryName: String
         /// The branch of the repository that contains the changes for the pull request. Also known as the source branch.
         public let sourceReference: String
-        
+
         public init(destinationReference: String? = nil, repositoryName: String, sourceReference: String) {
             self.destinationReference = destinationReference
             self.repositoryName = repositoryName
@@ -3971,7 +3971,7 @@ extension CodeCommit {
         public let repositoryName: String
         /// The list of triggers to test.
         public let triggers: [RepositoryTrigger]
-        
+
         public init(repositoryName: String, triggers: [RepositoryTrigger]) {
             self.repositoryName = repositoryName
             self.triggers = triggers
@@ -3992,7 +3992,7 @@ extension CodeCommit {
         public let failedExecutions: [RepositoryTriggerExecutionFailure]?
         /// The list of triggers that were successfully tested. This list provides the names of the triggers that were successfully tested, separated by commas.
         public let successfulExecutions: [String]?
-        
+
         public init(failedExecutions: [RepositoryTriggerExecutionFailure]? = nil, successfulExecutions: [String]? = nil) {
             self.failedExecutions = failedExecutions
             self.successfulExecutions = successfulExecutions
@@ -4013,7 +4013,7 @@ extension CodeCommit {
         public let resourceArn: String
         /// The tag key for each tag that you want to remove from the resource.
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -4034,7 +4034,7 @@ extension CodeCommit {
         public let commentId: String
         /// The updated content with which you want to replace the existing content of the comment.
         public let content: String
-        
+
         public init(commentId: String, content: String) {
             self.commentId = commentId
             self.content = content
@@ -4052,7 +4052,7 @@ extension CodeCommit {
         ]
         /// Information about the updated comment.
         public let comment: Comment?
-        
+
         public init(comment: Comment? = nil) {
             self.comment = comment
         }
@@ -4071,7 +4071,7 @@ extension CodeCommit {
         public let defaultBranchName: String
         /// The name of the repository to set or change the default branch for.
         public let repositoryName: String
-        
+
         public init(defaultBranchName: String, repositoryName: String) {
             self.defaultBranchName = defaultBranchName
             self.repositoryName = repositoryName
@@ -4092,7 +4092,7 @@ extension CodeCommit {
         public let description: String
         /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
         public let pullRequestId: String
-        
+
         public init(description: String, pullRequestId: String) {
             self.description = description
             self.pullRequestId = pullRequestId
@@ -4110,7 +4110,7 @@ extension CodeCommit {
         ]
         /// Information about the updated pull request.
         public let pullRequest: PullRequest
-        
+
         public init(pullRequest: PullRequest) {
             self.pullRequest = pullRequest
         }
@@ -4129,7 +4129,7 @@ extension CodeCommit {
         public let pullRequestId: String
         /// The status of the pull request. The only valid operations are to update the status from OPEN to OPEN, OPEN to CLOSED or from from CLOSED to CLOSED.
         public let pullRequestStatus: PullRequestStatusEnum
-        
+
         public init(pullRequestId: String, pullRequestStatus: PullRequestStatusEnum) {
             self.pullRequestId = pullRequestId
             self.pullRequestStatus = pullRequestStatus
@@ -4147,7 +4147,7 @@ extension CodeCommit {
         ]
         /// Information about the pull request.
         public let pullRequest: PullRequest
-        
+
         public init(pullRequest: PullRequest) {
             self.pullRequest = pullRequest
         }
@@ -4166,7 +4166,7 @@ extension CodeCommit {
         public let pullRequestId: String
         /// The updated title of the pull request. This will replace the existing title.
         public let title: String
-        
+
         public init(pullRequestId: String, title: String) {
             self.pullRequestId = pullRequestId
             self.title = title
@@ -4184,7 +4184,7 @@ extension CodeCommit {
         ]
         /// Information about the updated pull request.
         public let pullRequest: PullRequest
-        
+
         public init(pullRequest: PullRequest) {
             self.pullRequest = pullRequest
         }
@@ -4203,7 +4203,7 @@ extension CodeCommit {
         public let repositoryDescription: String?
         /// The name of the repository to set or change the comment or description for.
         public let repositoryName: String
-        
+
         public init(repositoryDescription: String? = nil, repositoryName: String) {
             self.repositoryDescription = repositoryDescription
             self.repositoryName = repositoryName
@@ -4224,7 +4224,7 @@ extension CodeCommit {
         public let newName: String
         /// The existing name of the repository.
         public let oldName: String
-        
+
         public init(newName: String, oldName: String) {
             self.newName = newName
             self.oldName = oldName
@@ -4248,7 +4248,7 @@ extension CodeCommit {
         public let email: String?
         /// The name of the user who made the specified commit.
         public let name: String?
-        
+
         public init(date: String? = nil, email: String? = nil, name: String? = nil) {
             self.date = date
             self.email = email
@@ -4261,5 +4261,4 @@ extension CodeCommit {
             case name = "name"
         }
     }
-
 }

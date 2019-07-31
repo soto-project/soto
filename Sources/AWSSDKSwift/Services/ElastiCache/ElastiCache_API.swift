@@ -255,5 +255,4 @@ public struct ElastiCache {
     public func testFailover(_ input: TestFailoverMessage) throws -> Future<TestFailoverResult> {
         return try client.send(operation: "TestFailover", path: "/", httpMethod: "POST", input: input)
     }
-
 }

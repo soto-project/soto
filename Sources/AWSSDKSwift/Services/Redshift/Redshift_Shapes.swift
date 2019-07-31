@@ -14,7 +14,7 @@ extension Redshift {
         public let reservedNodeId: String
         /// The unique identifier of the DC2 Reserved Node offering to be used for the exchange. You can obtain the value for the parameter by calling GetReservedNodeExchangeOfferings 
         public let targetReservedNodeOfferingId: String
-        
+
         public init(reservedNodeId: String, targetReservedNodeOfferingId: String) {
             self.reservedNodeId = reservedNodeId
             self.targetReservedNodeOfferingId = targetReservedNodeOfferingId
@@ -31,7 +31,7 @@ extension Redshift {
             AWSShapeMember(label: "ExchangedReservedNode", required: false, type: .structure)
         ]
         public let exchangedReservedNode: ReservedNode?
-        
+
         public init(exchangedReservedNode: ReservedNode? = nil) {
             self.exchangedReservedNode = exchangedReservedNode
         }
@@ -50,7 +50,7 @@ extension Redshift {
         public let attributeName: String?
         /// A list of attribute values.
         public let attributeValues: [AttributeValueTarget]?
-        
+
         public init(attributeName: String? = nil, attributeValues: [AttributeValueTarget]? = nil) {
             self.attributeName = attributeName
             self.attributeValues = attributeValues
@@ -68,7 +68,7 @@ extension Redshift {
         ]
         /// A list of attributes assigned to an account.
         public let accountAttributes: [AccountAttribute]?
-        
+
         public init(accountAttributes: [AccountAttribute]? = nil) {
             self.accountAttributes = accountAttributes
         }
@@ -87,7 +87,7 @@ extension Redshift {
         public let accountAlias: String?
         /// The identifier of an AWS customer account authorized to restore a snapshot.
         public let accountId: String?
-        
+
         public init(accountAlias: String? = nil, accountId: String? = nil) {
             self.accountAlias = accountAlias
             self.accountId = accountId
@@ -105,7 +105,7 @@ extension Redshift {
         ]
         /// The value of the attribute.
         public let attributeValue: String?
-        
+
         public init(attributeValue: String? = nil) {
             self.attributeValue = attributeValue
         }
@@ -130,7 +130,7 @@ extension Redshift {
         public let eC2SecurityGroupName: String?
         /// The AWS account number of the owner of the security group specified by the EC2SecurityGroupName parameter. The AWS Access Key ID is not an acceptable value.  Example: 111122223333 
         public let eC2SecurityGroupOwnerId: String?
-        
+
         public init(cidrip: String? = nil, clusterSecurityGroupName: String, eC2SecurityGroupName: String? = nil, eC2SecurityGroupOwnerId: String? = nil) {
             self.cidrip = cidrip
             self.clusterSecurityGroupName = clusterSecurityGroupName
@@ -151,7 +151,7 @@ extension Redshift {
             AWSShapeMember(label: "ClusterSecurityGroup", required: false, type: .structure)
         ]
         public let clusterSecurityGroup: ClusterSecurityGroup?
-        
+
         public init(clusterSecurityGroup: ClusterSecurityGroup? = nil) {
             self.clusterSecurityGroup = clusterSecurityGroup
         }
@@ -173,7 +173,7 @@ extension Redshift {
         public let snapshotClusterIdentifier: String?
         /// The identifier of the snapshot the account is authorized to restore.
         public let snapshotIdentifier: String
-        
+
         public init(accountWithRestoreAccess: String, snapshotClusterIdentifier: String? = nil, snapshotIdentifier: String) {
             self.accountWithRestoreAccess = accountWithRestoreAccess
             self.snapshotClusterIdentifier = snapshotClusterIdentifier
@@ -192,7 +192,7 @@ extension Redshift {
             AWSShapeMember(label: "Snapshot", required: false, type: .structure)
         ]
         public let snapshot: Snapshot?
-        
+
         public init(snapshot: Snapshot? = nil) {
             self.snapshot = snapshot
         }
@@ -210,7 +210,7 @@ extension Redshift {
         /// The name of the availability zone.
         public let name: String?
         public let supportedPlatforms: [SupportedPlatform]?
-        
+
         public init(name: String? = nil, supportedPlatforms: [SupportedPlatform]? = nil) {
             self.name = name
             self.supportedPlatforms = supportedPlatforms
@@ -228,7 +228,7 @@ extension Redshift {
         ]
         /// A list of identifiers for the snapshots that you want to delete.
         public let identifiers: [DeleteClusterSnapshotMessage]
-        
+
         public init(identifiers: [DeleteClusterSnapshotMessage]) {
             self.identifiers = identifiers
         }
@@ -247,7 +247,7 @@ extension Redshift {
         public let errors: [SnapshotErrorMessage]?
         /// A list of the snapshot identifiers that were deleted. 
         public let resources: [String]?
-        
+
         public init(errors: [SnapshotErrorMessage]? = nil, resources: [String]? = nil) {
             self.errors = errors
             self.resources = resources
@@ -271,7 +271,7 @@ extension Redshift {
         public let manualSnapshotRetentionPeriod: Int32?
         /// A list of snapshot identifiers you want to modify.
         public let snapshotIdentifierList: [String]
-        
+
         public init(force: Bool? = nil, manualSnapshotRetentionPeriod: Int32? = nil, snapshotIdentifierList: [String]) {
             self.force = force
             self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
@@ -294,7 +294,7 @@ extension Redshift {
         public let errors: [SnapshotErrorMessage]?
         /// A list of the snapshots that were modified.
         public let resources: [String]?
-        
+
         public init(errors: [SnapshotErrorMessage]? = nil, resources: [String]? = nil) {
             self.errors = errors
             self.resources = resources
@@ -312,7 +312,7 @@ extension Redshift {
         ]
         /// The unique identifier for the cluster that you want to cancel a resize operation for.
         public let clusterIdentifier: String
-        
+
         public init(clusterIdentifier: String) {
             self.clusterIdentifier = clusterIdentifier
         }
@@ -453,7 +453,7 @@ extension Redshift {
         public let vpcId: String?
         /// A list of Amazon Virtual Private Cloud (Amazon VPC) security groups that are associated with the cluster. This parameter is returned only if the cluster is in a VPC.
         public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
-        
+
         public init(allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, availabilityZone: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: TimeStamp? = nil, clusterIdentifier: String? = nil, clusterNodes: [ClusterNode]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, dataTransferProgress: DataTransferProgress? = nil, dBName: String? = nil, deferredMaintenanceWindows: [DeferredMaintenanceWindow]? = nil, elasticIpStatus: ElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, hsmStatus: HsmStatus? = nil, iamRoles: [ClusterIamRole]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int32? = nil, masterUsername: String? = nil, modifyStatus: String? = nil, nodeType: String? = nil, numberOfNodes: Int32? = nil, pendingActions: [String]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, resizeInfo: ResizeInfo? = nil, restoreStatus: RestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: ScheduleState? = nil, tags: [Tag]? = nil, vpcId: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allowVersionUpgrade = allowVersionUpgrade
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
@@ -554,7 +554,7 @@ extension Redshift {
         ]
         public let clusterIdentifier: String?
         public let scheduleAssociationState: ScheduleState?
-        
+
         public init(clusterIdentifier: String? = nil, scheduleAssociationState: ScheduleState? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.scheduleAssociationState = scheduleAssociationState
@@ -578,7 +578,7 @@ extension Redshift {
         public let dbUser: String?
         /// The date and time the password in DbPassword expires.
         public let expiration: TimeStamp?
-        
+
         public init(dbPassword: String? = nil, dbUser: String? = nil, expiration: TimeStamp? = nil) {
             self.dbPassword = dbPassword
             self.dbUser = dbUser
@@ -607,7 +607,7 @@ extension Redshift {
         public let databaseRevisionReleaseDate: TimeStamp?
         /// A list of RevisionTarget objects, where each object describes the database revision that a cluster can be updated to.
         public let revisionTargets: [RevisionTarget]?
-        
+
         public init(clusterIdentifier: String? = nil, currentDatabaseRevision: String? = nil, databaseRevisionReleaseDate: TimeStamp? = nil, revisionTargets: [RevisionTarget]? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.currentDatabaseRevision = currentDatabaseRevision
@@ -632,7 +632,7 @@ extension Redshift {
         public let clusterDbRevisions: [ClusterDbRevision]?
         /// A string representing the starting point for the next set of revisions. If a value is returned in a response, you can retrieve the next set of revisions by providing the value in the marker parameter and retrying the command. If the marker field is empty, all revisions have already been returned.
         public let marker: String?
-        
+
         public init(clusterDbRevisions: [ClusterDbRevision]? = nil, marker: String? = nil) {
             self.clusterDbRevisions = clusterDbRevisions
             self.marker = marker
@@ -653,7 +653,7 @@ extension Redshift {
         public let applyStatus: String?
         /// The Amazon Resource Name (ARN) of the IAM role, for example, arn:aws:iam::123456789012:role/RedshiftCopyUnload. 
         public let iamRoleArn: String?
-        
+
         public init(applyStatus: String? = nil, iamRoleArn: String? = nil) {
             self.applyStatus = applyStatus
             self.iamRoleArn = iamRoleArn
@@ -677,7 +677,7 @@ extension Redshift {
         public let privateIPAddress: String?
         /// The public IP address of a node within a cluster.
         public let publicIPAddress: String?
-        
+
         public init(nodeRole: String? = nil, privateIPAddress: String? = nil, publicIPAddress: String? = nil) {
             self.nodeRole = nodeRole
             self.privateIPAddress = privateIPAddress
@@ -706,7 +706,7 @@ extension Redshift {
         public let parameterGroupName: String?
         /// The list of tags for the cluster parameter group.
         public let tags: [Tag]?
-        
+
         public init(description: String? = nil, parameterGroupFamily: String? = nil, parameterGroupName: String? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.parameterGroupFamily = parameterGroupFamily
@@ -731,7 +731,7 @@ extension Redshift {
         public let marker: String?
         /// A list of Parameter instances. Each instance lists the parameters of one cluster parameter group. 
         public let parameters: [Parameter]?
-        
+
         public init(marker: String? = nil, parameters: [Parameter]? = nil) {
             self.marker = marker
             self.parameters = parameters
@@ -752,7 +752,7 @@ extension Redshift {
         public let parameterGroupName: String?
         /// The status of the parameter group. For example, if you made a change to a parameter group name-value pair, then the change could be pending a reboot of an associated cluster.
         public let parameterGroupStatus: String?
-        
+
         public init(parameterGroupName: String? = nil, parameterGroupStatus: String? = nil) {
             self.parameterGroupName = parameterGroupName
             self.parameterGroupStatus = parameterGroupStatus
@@ -776,7 +776,7 @@ extension Redshift {
         public let parameterApplyStatus: String?
         /// The name of the cluster parameter group.
         public let parameterGroupName: String?
-        
+
         public init(clusterParameterStatusList: [ClusterParameterStatus]? = nil, parameterApplyStatus: String? = nil, parameterGroupName: String? = nil) {
             self.clusterParameterStatusList = clusterParameterStatusList
             self.parameterApplyStatus = parameterApplyStatus
@@ -799,7 +799,7 @@ extension Redshift {
         public let marker: String?
         /// A list of ClusterParameterGroup instances. Each instance describes one cluster parameter group. 
         public let parameterGroups: [ClusterParameterGroup]?
-        
+
         public init(marker: String? = nil, parameterGroups: [ClusterParameterGroup]? = nil) {
             self.marker = marker
             self.parameterGroups = parameterGroups
@@ -823,7 +823,7 @@ extension Redshift {
         public let parameterApplyStatus: String?
         /// The name of the parameter.
         public let parameterName: String?
-        
+
         public init(parameterApplyErrorDescription: String? = nil, parameterApplyStatus: String? = nil, parameterName: String? = nil) {
             self.parameterApplyErrorDescription = parameterApplyErrorDescription
             self.parameterApplyStatus = parameterApplyStatus
@@ -855,7 +855,7 @@ extension Redshift {
         public let iPRanges: [IPRange]?
         /// The list of tags for the cluster security group.
         public let tags: [Tag]?
-        
+
         public init(clusterSecurityGroupName: String? = nil, description: String? = nil, eC2SecurityGroups: [EC2SecurityGroup]? = nil, iPRanges: [IPRange]? = nil, tags: [Tag]? = nil) {
             self.clusterSecurityGroupName = clusterSecurityGroupName
             self.description = description
@@ -882,7 +882,7 @@ extension Redshift {
         public let clusterSecurityGroupName: String?
         /// The status of the cluster security group.
         public let status: String?
-        
+
         public init(clusterSecurityGroupName: String? = nil, status: String? = nil) {
             self.clusterSecurityGroupName = clusterSecurityGroupName
             self.status = status
@@ -903,7 +903,7 @@ extension Redshift {
         public let clusterSecurityGroups: [ClusterSecurityGroup]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
-        
+
         public init(clusterSecurityGroups: [ClusterSecurityGroup]? = nil, marker: String? = nil) {
             self.clusterSecurityGroups = clusterSecurityGroups
             self.marker = marker
@@ -930,7 +930,7 @@ extension Redshift {
         public let retentionPeriod: Int64?
         /// The name of the snapshot copy grant.
         public let snapshotCopyGrantName: String?
-        
+
         public init(destinationRegion: String? = nil, manualSnapshotRetentionPeriod: Int32? = nil, retentionPeriod: Int64? = nil, snapshotCopyGrantName: String? = nil) {
             self.destinationRegion = destinationRegion
             self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
@@ -967,7 +967,7 @@ extension Redshift {
         public let tags: [Tag]?
         /// The VPC ID of the cluster subnet group.
         public let vpcId: String?
-        
+
         public init(clusterSubnetGroupName: String? = nil, description: String? = nil, subnetGroupStatus: String? = nil, subnets: [Subnet]? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
             self.clusterSubnetGroupName = clusterSubnetGroupName
             self.description = description
@@ -996,7 +996,7 @@ extension Redshift {
         public let clusterSubnetGroups: [ClusterSubnetGroup]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
-        
+
         public init(clusterSubnetGroups: [ClusterSubnetGroup]? = nil, marker: String? = nil) {
             self.clusterSubnetGroups = clusterSubnetGroups
             self.marker = marker
@@ -1020,7 +1020,7 @@ extension Redshift {
         public let clusterVersion: String?
         /// The description of the cluster version.
         public let description: String?
-        
+
         public init(clusterParameterGroupFamily: String? = nil, clusterVersion: String? = nil, description: String? = nil) {
             self.clusterParameterGroupFamily = clusterParameterGroupFamily
             self.clusterVersion = clusterVersion
@@ -1043,7 +1043,7 @@ extension Redshift {
         public let clusterVersions: [ClusterVersion]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
-        
+
         public init(clusterVersions: [ClusterVersion]? = nil, marker: String? = nil) {
             self.clusterVersions = clusterVersions
             self.marker = marker
@@ -1064,7 +1064,7 @@ extension Redshift {
         public let clusters: [Cluster]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
-        
+
         public init(clusters: [Cluster]? = nil, marker: String? = nil) {
             self.clusters = clusters
             self.marker = marker
@@ -1091,7 +1091,7 @@ extension Redshift {
         public let sourceSnapshotIdentifier: String
         /// The identifier given to the new manual snapshot. Constraints:   Cannot be null, empty, or blank.   Must contain from 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for the AWS account that is making the request.  
         public let targetSnapshotIdentifier: String
-        
+
         public init(manualSnapshotRetentionPeriod: Int32? = nil, sourceSnapshotClusterIdentifier: String? = nil, sourceSnapshotIdentifier: String, targetSnapshotIdentifier: String) {
             self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
             self.sourceSnapshotClusterIdentifier = sourceSnapshotClusterIdentifier
@@ -1112,7 +1112,7 @@ extension Redshift {
             AWSShapeMember(label: "Snapshot", required: false, type: .structure)
         ]
         public let snapshot: Snapshot?
-        
+
         public init(snapshot: Snapshot? = nil) {
             self.snapshot = snapshot
         }
@@ -1215,7 +1215,7 @@ extension Redshift {
         public let tags: [Tag]?
         /// A list of Virtual Private Cloud (VPC) security groups to be associated with the cluster. Default: The default VPC security group is associated with the cluster.
         public let vpcSecurityGroupIds: [String]?
-        
+
         public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, availabilityZone: String? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, clusterType: String? = nil, clusterVersion: String? = nil, dBName: String? = nil, elasticIp: String? = nil, encrypted: Bool? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int32? = nil, masterUsername: String, masterUserPassword: String, nodeType: String, numberOfNodes: Int32? = nil, port: Int32? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, snapshotScheduleIdentifier: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.additionalInfo = additionalInfo
             self.allowVersionUpgrade = allowVersionUpgrade
@@ -1298,7 +1298,7 @@ extension Redshift {
         public let parameterGroupName: String
         /// A list of tag instances.
         public let tags: [Tag]?
-        
+
         public init(description: String, parameterGroupFamily: String, parameterGroupName: String, tags: [Tag]? = nil) {
             self.description = description
             self.parameterGroupFamily = parameterGroupFamily
@@ -1319,7 +1319,7 @@ extension Redshift {
             AWSShapeMember(label: "ClusterParameterGroup", required: false, type: .structure)
         ]
         public let clusterParameterGroup: ClusterParameterGroup?
-        
+
         public init(clusterParameterGroup: ClusterParameterGroup? = nil) {
             self.clusterParameterGroup = clusterParameterGroup
         }
@@ -1334,7 +1334,7 @@ extension Redshift {
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
-        
+
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -1356,7 +1356,7 @@ extension Redshift {
         public let description: String
         /// A list of tag instances.
         public let tags: [Tag]?
-        
+
         public init(clusterSecurityGroupName: String, description: String, tags: [Tag]? = nil) {
             self.clusterSecurityGroupName = clusterSecurityGroupName
             self.description = description
@@ -1375,7 +1375,7 @@ extension Redshift {
             AWSShapeMember(label: "ClusterSecurityGroup", required: false, type: .structure)
         ]
         public let clusterSecurityGroup: ClusterSecurityGroup?
-        
+
         public init(clusterSecurityGroup: ClusterSecurityGroup? = nil) {
             self.clusterSecurityGroup = clusterSecurityGroup
         }
@@ -1400,7 +1400,7 @@ extension Redshift {
         public let snapshotIdentifier: String
         /// A list of tag instances.
         public let tags: [Tag]?
-        
+
         public init(clusterIdentifier: String, manualSnapshotRetentionPeriod: Int32? = nil, snapshotIdentifier: String, tags: [Tag]? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
@@ -1421,7 +1421,7 @@ extension Redshift {
             AWSShapeMember(label: "Snapshot", required: false, type: .structure)
         ]
         public let snapshot: Snapshot?
-        
+
         public init(snapshot: Snapshot? = nil) {
             self.snapshot = snapshot
         }
@@ -1446,7 +1446,7 @@ extension Redshift {
         public let subnetIds: [String]
         /// A list of tag instances.
         public let tags: [Tag]?
-        
+
         public init(clusterSubnetGroupName: String, description: String, subnetIds: [String], tags: [Tag]? = nil) {
             self.clusterSubnetGroupName = clusterSubnetGroupName
             self.description = description
@@ -1467,7 +1467,7 @@ extension Redshift {
             AWSShapeMember(label: "ClusterSubnetGroup", required: false, type: .structure)
         ]
         public let clusterSubnetGroup: ClusterSubnetGroup?
-        
+
         public init(clusterSubnetGroup: ClusterSubnetGroup? = nil) {
             self.clusterSubnetGroup = clusterSubnetGroup
         }
@@ -1504,7 +1504,7 @@ extension Redshift {
         public let subscriptionName: String
         /// A list of tag instances.
         public let tags: [Tag]?
-        
+
         public init(enabled: Bool? = nil, eventCategories: [String]? = nil, severity: String? = nil, snsTopicArn: String, sourceIds: [String]? = nil, sourceType: String? = nil, subscriptionName: String, tags: [Tag]? = nil) {
             self.enabled = enabled
             self.eventCategories = eventCategories
@@ -1533,7 +1533,7 @@ extension Redshift {
             AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
         ]
         public let eventSubscription: EventSubscription?
-        
+
         public init(eventSubscription: EventSubscription? = nil) {
             self.eventSubscription = eventSubscription
         }
@@ -1552,7 +1552,7 @@ extension Redshift {
         public let hsmClientCertificateIdentifier: String
         /// A list of tag instances.
         public let tags: [Tag]?
-        
+
         public init(hsmClientCertificateIdentifier: String, tags: [Tag]? = nil) {
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
             self.tags = tags
@@ -1569,7 +1569,7 @@ extension Redshift {
             AWSShapeMember(label: "HsmClientCertificate", required: false, type: .structure)
         ]
         public let hsmClientCertificate: HsmClientCertificate?
-        
+
         public init(hsmClientCertificate: HsmClientCertificate? = nil) {
             self.hsmClientCertificate = hsmClientCertificate
         }
@@ -1603,7 +1603,7 @@ extension Redshift {
         public let hsmServerPublicCertificate: String
         /// A list of tag instances.
         public let tags: [Tag]?
-        
+
         public init(description: String, hsmConfigurationIdentifier: String, hsmIpAddress: String, hsmPartitionName: String, hsmPartitionPassword: String, hsmServerPublicCertificate: String, tags: [Tag]? = nil) {
             self.description = description
             self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
@@ -1630,7 +1630,7 @@ extension Redshift {
             AWSShapeMember(label: "HsmConfiguration", required: false, type: .structure)
         ]
         public let hsmConfiguration: HsmConfiguration?
-        
+
         public init(hsmConfiguration: HsmConfiguration? = nil) {
             self.hsmConfiguration = hsmConfiguration
         }
@@ -1652,7 +1652,7 @@ extension Redshift {
         public let snapshotCopyGrantName: String
         /// A list of tag instances.
         public let tags: [Tag]?
-        
+
         public init(kmsKeyId: String? = nil, snapshotCopyGrantName: String, tags: [Tag]? = nil) {
             self.kmsKeyId = kmsKeyId
             self.snapshotCopyGrantName = snapshotCopyGrantName
@@ -1671,7 +1671,7 @@ extension Redshift {
             AWSShapeMember(label: "SnapshotCopyGrant", required: false, type: .structure)
         ]
         public let snapshotCopyGrant: SnapshotCopyGrant?
-        
+
         public init(snapshotCopyGrant: SnapshotCopyGrant? = nil) {
             self.snapshotCopyGrant = snapshotCopyGrant
         }
@@ -1700,7 +1700,7 @@ extension Redshift {
         public let scheduleIdentifier: String?
         /// An optional set of tags you can use to search for the schedule.
         public let tags: [Tag]?
-        
+
         public init(dryRun: Bool? = nil, nextInvocations: Int32? = nil, scheduleDefinitions: [String]? = nil, scheduleDescription: String? = nil, scheduleIdentifier: String? = nil, tags: [Tag]? = nil) {
             self.dryRun = dryRun
             self.nextInvocations = nextInvocations
@@ -1729,7 +1729,7 @@ extension Redshift {
         public let resourceName: String
         /// One or more name/value pairs to add as tags to the specified resource. Each tag name is passed in with the parameter Key and the corresponding value is passed in with the parameter Value. The Key and Value parameters are separated by a comma (,). Separate multiple tags with a space. For example, --tags "Key"="owner","Value"="admin" "Key"="environment","Value"="test" "Key"="version","Value"="1.0". 
         public let tags: [Tag]
-        
+
         public init(resourceName: String, tags: [Tag]) {
             self.resourceName = resourceName
             self.tags = tags
@@ -1750,7 +1750,7 @@ extension Redshift {
         public let totalBackupSizeInMegaBytes: Double?
         /// The total amount of storage currently provisioned.
         public let totalProvisionedStorageInMegaBytes: Double?
-        
+
         public init(totalBackupSizeInMegaBytes: Double? = nil, totalProvisionedStorageInMegaBytes: Double? = nil) {
             self.totalBackupSizeInMegaBytes = totalBackupSizeInMegaBytes
             self.totalProvisionedStorageInMegaBytes = totalProvisionedStorageInMegaBytes
@@ -1783,7 +1783,7 @@ extension Redshift {
         public let status: String?
         /// Describes the total amount of data to be transfered in megabytes.
         public let totalDataInMegaBytes: Int64?
-        
+
         public init(currentRateInMegaBytesPerSecond: Double? = nil, dataTransferredInMegaBytes: Int64? = nil, elapsedTimeInSeconds: Int64? = nil, estimatedTimeToCompletionInSeconds: Int64? = nil, status: String? = nil, totalDataInMegaBytes: Int64? = nil) {
             self.currentRateInMegaBytesPerSecond = currentRateInMegaBytesPerSecond
             self.dataTransferredInMegaBytes = dataTransferredInMegaBytes
@@ -1815,7 +1815,7 @@ extension Redshift {
         public let parameterGroupFamily: String?
         /// The list of cluster default parameters.
         public let parameters: [Parameter]?
-        
+
         public init(marker: String? = nil, parameterGroupFamily: String? = nil, parameters: [Parameter]? = nil) {
             self.marker = marker
             self.parameterGroupFamily = parameterGroupFamily
@@ -1841,7 +1841,7 @@ extension Redshift {
         public let deferMaintenanceIdentifier: String?
         ///  A timestamp for the beginning of the time period when we defer maintenance.
         public let deferMaintenanceStartTime: TimeStamp?
-        
+
         public init(deferMaintenanceEndTime: TimeStamp? = nil, deferMaintenanceIdentifier: String? = nil, deferMaintenanceStartTime: TimeStamp? = nil) {
             self.deferMaintenanceEndTime = deferMaintenanceEndTime
             self.deferMaintenanceIdentifier = deferMaintenanceIdentifier
@@ -1870,7 +1870,7 @@ extension Redshift {
         public let finalClusterSnapshotRetentionPeriod: Int32?
         /// Determines whether a final snapshot of the cluster is created before Amazon Redshift deletes the cluster. If true, a final cluster snapshot is not created. If false, a final cluster snapshot is created before the cluster is deleted.   The FinalClusterSnapshotIdentifier parameter must be specified if SkipFinalClusterSnapshot is false.  Default: false 
         public let skipFinalClusterSnapshot: Bool?
-        
+
         public init(clusterIdentifier: String, finalClusterSnapshotIdentifier: String? = nil, finalClusterSnapshotRetentionPeriod: Int32? = nil, skipFinalClusterSnapshot: Bool? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.finalClusterSnapshotIdentifier = finalClusterSnapshotIdentifier
@@ -1892,7 +1892,7 @@ extension Redshift {
         ]
         /// The name of the parameter group to be deleted. Constraints:   Must be the name of an existing cluster parameter group.   Cannot delete a default cluster parameter group.  
         public let parameterGroupName: String
-        
+
         public init(parameterGroupName: String) {
             self.parameterGroupName = parameterGroupName
         }
@@ -1907,7 +1907,7 @@ extension Redshift {
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
-        
+
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -1923,7 +1923,7 @@ extension Redshift {
         ]
         /// The name of the cluster security group to be deleted.
         public let clusterSecurityGroupName: String
-        
+
         public init(clusterSecurityGroupName: String) {
             self.clusterSecurityGroupName = clusterSecurityGroupName
         }
@@ -1942,7 +1942,7 @@ extension Redshift {
         public let snapshotClusterIdentifier: String?
         /// The unique identifier of the manual snapshot to be deleted. Constraints: Must be the name of an existing snapshot that is in the available, failed, or cancelled state.
         public let snapshotIdentifier: String
-        
+
         public init(snapshotClusterIdentifier: String? = nil, snapshotIdentifier: String) {
             self.snapshotClusterIdentifier = snapshotClusterIdentifier
             self.snapshotIdentifier = snapshotIdentifier
@@ -1959,7 +1959,7 @@ extension Redshift {
             AWSShapeMember(label: "Snapshot", required: false, type: .structure)
         ]
         public let snapshot: Snapshot?
-        
+
         public init(snapshot: Snapshot? = nil) {
             self.snapshot = snapshot
         }
@@ -1975,7 +1975,7 @@ extension Redshift {
         ]
         /// The name of the cluster subnet group name to be deleted.
         public let clusterSubnetGroupName: String
-        
+
         public init(clusterSubnetGroupName: String) {
             self.clusterSubnetGroupName = clusterSubnetGroupName
         }
@@ -1991,7 +1991,7 @@ extension Redshift {
         ]
         /// The name of the Amazon Redshift event notification subscription to be deleted.
         public let subscriptionName: String
-        
+
         public init(subscriptionName: String) {
             self.subscriptionName = subscriptionName
         }
@@ -2007,7 +2007,7 @@ extension Redshift {
         ]
         /// The identifier of the HSM client certificate to be deleted.
         public let hsmClientCertificateIdentifier: String
-        
+
         public init(hsmClientCertificateIdentifier: String) {
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
         }
@@ -2023,7 +2023,7 @@ extension Redshift {
         ]
         /// The identifier of the Amazon Redshift HSM configuration to be deleted.
         public let hsmConfigurationIdentifier: String
-        
+
         public init(hsmConfigurationIdentifier: String) {
             self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
         }
@@ -2039,7 +2039,7 @@ extension Redshift {
         ]
         /// The name of the snapshot copy grant to delete.
         public let snapshotCopyGrantName: String
-        
+
         public init(snapshotCopyGrantName: String) {
             self.snapshotCopyGrantName = snapshotCopyGrantName
         }
@@ -2055,7 +2055,7 @@ extension Redshift {
         ]
         /// A unique identifier of the snapshot schedule to delete.
         public let scheduleIdentifier: String
-        
+
         public init(scheduleIdentifier: String) {
             self.scheduleIdentifier = scheduleIdentifier
         }
@@ -2074,7 +2074,7 @@ extension Redshift {
         public let resourceName: String
         /// The tag key that you want to delete.
         public let tagKeys: [String]
-        
+
         public init(resourceName: String, tagKeys: [String]) {
             self.resourceName = resourceName
             self.tagKeys = tagKeys
@@ -2092,7 +2092,7 @@ extension Redshift {
         ]
         /// A list of attribute names.
         public let attributeNames: [String]?
-        
+
         public init(attributeNames: [String]? = nil) {
             self.attributeNames = attributeNames
         }
@@ -2114,7 +2114,7 @@ extension Redshift {
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in the marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the marker parameter and retrying the request.  Default: 100 Constraints: minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(clusterIdentifier: String? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.marker = marker
@@ -2146,7 +2146,7 @@ extension Redshift {
         public let tagKeys: [String]?
         /// A tag value or values for which you want to return all matching cluster parameter groups that are associated with the specified tag value or values. For example, suppose that you have parameter groups that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the parameter groups that have either or both of these tag values associated with them.
         public let tagValues: [String]?
-        
+
         public init(marker: String? = nil, maxRecords: Int32? = nil, parameterGroupName: String? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
@@ -2179,7 +2179,7 @@ extension Redshift {
         public let parameterGroupName: String
         /// The parameter types to return. Specify user to show parameters that are different form the default. Similarly, specify engine-default to show parameters that are the same as the default parameter group.  Default: All parameter types returned. Valid Values: user | engine-default 
         public let source: String?
-        
+
         public init(marker: String? = nil, maxRecords: Int32? = nil, parameterGroupName: String, source: String? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
@@ -2213,7 +2213,7 @@ extension Redshift {
         public let tagKeys: [String]?
         /// A tag value or values for which you want to return all matching cluster security groups that are associated with the specified tag value or values. For example, suppose that you have security groups that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the security groups that have either or both of these tag values associated with them.
         public let tagValues: [String]?
-        
+
         public init(clusterSecurityGroupName: String? = nil, marker: String? = nil, maxRecords: Int32? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.clusterSecurityGroupName = clusterSecurityGroupName
             self.marker = marker
@@ -2269,7 +2269,7 @@ extension Redshift {
         public let tagKeys: [String]?
         /// A tag value or values for which you want to return all matching cluster snapshots that are associated with the specified tag value or values. For example, suppose that you have snapshots that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the snapshots that have either or both of these tag values associated with them.
         public let tagValues: [String]?
-        
+
         public init(clusterExists: Bool? = nil, clusterIdentifier: String? = nil, endTime: TimeStamp? = nil, marker: String? = nil, maxRecords: Int32? = nil, ownerAccount: String? = nil, snapshotIdentifier: String? = nil, snapshotType: String? = nil, sortingEntities: [SnapshotSortingEntity]? = nil, startTime: TimeStamp? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.clusterExists = clusterExists
             self.clusterIdentifier = clusterIdentifier
@@ -2319,7 +2319,7 @@ extension Redshift {
         public let tagKeys: [String]?
         /// A tag value or values for which you want to return all matching cluster subnet groups that are associated with the specified tag value or values. For example, suppose that you have subnet groups that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the subnet groups that have either or both of these tag values associated with them.
         public let tagValues: [String]?
-        
+
         public init(clusterSubnetGroupName: String? = nil, marker: String? = nil, maxRecords: Int32? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.clusterSubnetGroupName = clusterSubnetGroupName
             self.marker = marker
@@ -2349,7 +2349,7 @@ extension Redshift {
         public let marker: String?
         /// An integer value for the maximum number of maintenance tracks to return.
         public let maxRecords: Int32?
-        
+
         public init(maintenanceTrackName: String? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.maintenanceTrackName = maintenanceTrackName
             self.marker = marker
@@ -2378,7 +2378,7 @@ extension Redshift {
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(clusterParameterGroupFamily: String? = nil, clusterVersion: String? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.clusterParameterGroupFamily = clusterParameterGroupFamily
             self.clusterVersion = clusterVersion
@@ -2412,7 +2412,7 @@ extension Redshift {
         public let tagKeys: [String]?
         /// A tag value or values for which you want to return all matching clusters that are associated with the specified tag value or values. For example, suppose that you have clusters that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the clusters that have either or both of these tag values associated with them.
         public let tagValues: [String]?
-        
+
         public init(clusterIdentifier: String? = nil, marker: String? = nil, maxRecords: Int32? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.marker = marker
@@ -2442,7 +2442,7 @@ extension Redshift {
         public let maxRecords: Int32?
         /// The name of the cluster parameter group family.
         public let parameterGroupFamily: String
-        
+
         public init(marker: String? = nil, maxRecords: Int32? = nil, parameterGroupFamily: String) {
             self.marker = marker
             self.maxRecords = maxRecords
@@ -2461,7 +2461,7 @@ extension Redshift {
             AWSShapeMember(label: "DefaultClusterParameters", required: false, type: .structure)
         ]
         public let defaultClusterParameters: DefaultClusterParameters?
-        
+
         public init(defaultClusterParameters: DefaultClusterParameters? = nil) {
             self.defaultClusterParameters = defaultClusterParameters
         }
@@ -2477,7 +2477,7 @@ extension Redshift {
         ]
         /// The source type, such as cluster or parameter group, to which the described event categories apply. Valid values: cluster, cluster-snapshot, cluster-parameter-group, and cluster-security-group.
         public let sourceType: String?
-        
+
         public init(sourceType: String? = nil) {
             self.sourceType = sourceType
         }
@@ -2505,7 +2505,7 @@ extension Redshift {
         public let tagKeys: [String]?
         /// A tag value or values for which you want to return all matching event notification subscriptions that are associated with the specified tag value or values. For example, suppose that you have subscriptions that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the subscriptions that have either or both of these tag values associated with them.
         public let tagValues: [String]?
-        
+
         public init(marker: String? = nil, maxRecords: Int32? = nil, subscriptionName: String? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
@@ -2547,7 +2547,7 @@ extension Redshift {
         public let sourceType: SourceType?
         /// The beginning of the time interval to retrieve events for, specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2009-07-08T18:00Z 
         public let startTime: TimeStamp?
-        
+
         public init(duration: Int32? = nil, endTime: TimeStamp? = nil, marker: String? = nil, maxRecords: Int32? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil, startTime: TimeStamp? = nil) {
             self.duration = duration
             self.endTime = endTime
@@ -2587,7 +2587,7 @@ extension Redshift {
         public let tagKeys: [String]?
         /// A tag value or values for which you want to return all matching HSM client certificates that are associated with the specified tag value or values. For example, suppose that you have HSM client certificates that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the HSM client certificates that have either or both of these tag values associated with them.
         public let tagValues: [String]?
-        
+
         public init(hsmClientCertificateIdentifier: String? = nil, marker: String? = nil, maxRecords: Int32? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
             self.marker = marker
@@ -2623,7 +2623,7 @@ extension Redshift {
         public let tagKeys: [String]?
         /// A tag value or values for which you want to return all matching HSM configurations that are associated with the specified tag value or values. For example, suppose that you have HSM configurations that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the HSM configurations that have either or both of these tag values associated with them.
         public let tagValues: [String]?
-        
+
         public init(hsmConfigurationIdentifier: String? = nil, marker: String? = nil, maxRecords: Int32? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
             self.marker = marker
@@ -2647,7 +2647,7 @@ extension Redshift {
         ]
         /// The identifier of the cluster from which to get the logging status. Example: examplecluster 
         public let clusterIdentifier: String
-        
+
         public init(clusterIdentifier: String) {
             self.clusterIdentifier = clusterIdentifier
         }
@@ -2672,7 +2672,7 @@ extension Redshift {
         public let maxRecords: Int32?
         /// The node type filter value. Specify this parameter to show only the available offerings matching the specified node type.
         public let nodeType: String?
-        
+
         public init(clusterVersion: String? = nil, marker: String? = nil, maxRecords: Int32? = nil, nodeType: String? = nil) {
             self.clusterVersion = clusterVersion
             self.marker = marker
@@ -2700,7 +2700,7 @@ extension Redshift {
         public let maxRecords: Int32?
         /// The unique identifier for the offering.
         public let reservedNodeOfferingId: String?
-        
+
         public init(marker: String? = nil, maxRecords: Int32? = nil, reservedNodeOfferingId: String? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
@@ -2726,7 +2726,7 @@ extension Redshift {
         public let maxRecords: Int32?
         /// Identifier for the node reservation.
         public let reservedNodeId: String?
-        
+
         public init(marker: String? = nil, maxRecords: Int32? = nil, reservedNodeId: String? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
@@ -2746,7 +2746,7 @@ extension Redshift {
         ]
         /// The unique identifier of a cluster whose resize progress you are requesting. This parameter is case-sensitive. By default, resize operations for all clusters defined for an AWS account are returned.
         public let clusterIdentifier: String
-        
+
         public init(clusterIdentifier: String) {
             self.clusterIdentifier = clusterIdentifier
         }
@@ -2774,7 +2774,7 @@ extension Redshift {
         public let tagKeys: [String]?
         /// A tag value or values for which you want to return all matching resources that are associated with the specified value or values. For example, suppose that you have resources tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with all resources that have either or both of these tag values associated with them.
         public let tagValues: [String]?
-        
+
         public init(marker: String? = nil, maxRecords: Int32? = nil, snapshotCopyGrantName: String? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
@@ -2813,7 +2813,7 @@ extension Redshift {
         public let tagKeys: [String]?
         /// The value corresponding to the key of the snapshot schedule tag.
         public let tagValues: [String]?
-        
+
         public init(clusterIdentifier: String? = nil, marker: String? = nil, maxRecords: Int32? = nil, scheduleIdentifier: String? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.marker = marker
@@ -2842,7 +2842,7 @@ extension Redshift {
         public let marker: String?
         /// A list of SnapshotSchedules.
         public let snapshotSchedules: [SnapshotSchedule]?
-        
+
         public init(marker: String? = nil, snapshotSchedules: [SnapshotSchedule]? = nil) {
             self.marker = marker
             self.snapshotSchedules = snapshotSchedules
@@ -2869,7 +2869,7 @@ extension Redshift {
         public let maxRecords: Int32?
         /// The identifier of the table restore request to return status for. If you don't specify a TableRestoreRequestId value, then DescribeTableRestoreStatus returns the status of all in-progress table restore requests.
         public let tableRestoreRequestId: String?
-        
+
         public init(clusterIdentifier: String? = nil, marker: String? = nil, maxRecords: Int32? = nil, tableRestoreRequestId: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.marker = marker
@@ -2906,7 +2906,7 @@ extension Redshift {
         public let tagKeys: [String]?
         /// A tag value or values for which you want to return all matching resources that are associated with the specified value or values. For example, suppose that you have resources tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with all resources that have either or both of these tag values associated with them.
         public let tagValues: [String]?
-        
+
         public init(marker: String? = nil, maxRecords: Int32? = nil, resourceName: String? = nil, resourceType: String? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
@@ -2932,7 +2932,7 @@ extension Redshift {
         ]
         /// The identifier of the cluster on which logging is to be stopped. Example: examplecluster 
         public let clusterIdentifier: String
-        
+
         public init(clusterIdentifier: String) {
             self.clusterIdentifier = clusterIdentifier
         }
@@ -2948,7 +2948,7 @@ extension Redshift {
         ]
         /// The unique identifier of the source cluster that you want to disable copying of snapshots to a destination region. Constraints: Must be the valid name of an existing cluster that has cross-region snapshot copy enabled.
         public let clusterIdentifier: String
-        
+
         public init(clusterIdentifier: String) {
             self.clusterIdentifier = clusterIdentifier
         }
@@ -2963,7 +2963,7 @@ extension Redshift {
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
-        
+
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -2988,7 +2988,7 @@ extension Redshift {
         public let status: String?
         /// The list of tags for the EC2 security group.
         public let tags: [Tag]?
-        
+
         public init(eC2SecurityGroupName: String? = nil, eC2SecurityGroupOwnerId: String? = nil, status: String? = nil, tags: [Tag]? = nil) {
             self.eC2SecurityGroupName = eC2SecurityGroupName
             self.eC2SecurityGroupOwnerId = eC2SecurityGroupOwnerId
@@ -3013,7 +3013,7 @@ extension Redshift {
         public let elasticIp: String?
         /// The status of the elastic IP (EIP) address.
         public let status: String?
-        
+
         public init(elasticIp: String? = nil, status: String? = nil) {
             self.elasticIp = elasticIp
             self.status = status
@@ -3037,7 +3037,7 @@ extension Redshift {
         public let clusterIdentifier: String
         /// The prefix applied to the log file names. Constraints:   Cannot exceed 512 characters   Cannot contain spaces( ), double quotes ("), single quotes ('), a backslash (\), or control characters. The hexadecimal codes for invalid characters are:    x00 to x20   x22   x27   x5c   x7f or larger    
         public let s3KeyPrefix: String?
-        
+
         public init(bucketName: String, clusterIdentifier: String, s3KeyPrefix: String? = nil) {
             self.bucketName = bucketName
             self.clusterIdentifier = clusterIdentifier
@@ -3069,7 +3069,7 @@ extension Redshift {
         public let retentionPeriod: Int32?
         /// The name of the snapshot copy grant to use when snapshots of an AWS KMS-encrypted cluster are copied to the destination region.
         public let snapshotCopyGrantName: String?
-        
+
         public init(clusterIdentifier: String, destinationRegion: String, manualSnapshotRetentionPeriod: Int32? = nil, retentionPeriod: Int32? = nil, snapshotCopyGrantName: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.destinationRegion = destinationRegion
@@ -3092,7 +3092,7 @@ extension Redshift {
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
-        
+
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -3111,7 +3111,7 @@ extension Redshift {
         public let address: String?
         /// The port that the database engine is listening on.
         public let port: Int32?
-        
+
         public init(address: String? = nil, port: Int32? = nil) {
             self.address = address
             self.port = port
@@ -3147,7 +3147,7 @@ extension Redshift {
         public let sourceIdentifier: String?
         /// The source type for this event.
         public let sourceType: SourceType?
-        
+
         public init(date: TimeStamp? = nil, eventCategories: [String]? = nil, eventId: String? = nil, message: String? = nil, severity: String? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil) {
             self.date = date
             self.eventCategories = eventCategories
@@ -3178,7 +3178,7 @@ extension Redshift {
         public let events: [EventInfoMap]?
         /// The source type, such as cluster or cluster-snapshot, that the returned categories belong to.
         public let sourceType: String?
-        
+
         public init(events: [EventInfoMap]? = nil, sourceType: String? = nil) {
             self.events = events
             self.sourceType = sourceType
@@ -3196,7 +3196,7 @@ extension Redshift {
         ]
         /// A list of event categories descriptions.
         public let eventCategoriesMapList: [EventCategoriesMap]?
-        
+
         public init(eventCategoriesMapList: [EventCategoriesMap]? = nil) {
             self.eventCategoriesMapList = eventCategoriesMapList
         }
@@ -3221,7 +3221,7 @@ extension Redshift {
         public let eventId: String?
         /// The severity of the event. Values: ERROR, INFO
         public let severity: String?
-        
+
         public init(eventCategories: [String]? = nil, eventDescription: String? = nil, eventId: String? = nil, severity: String? = nil) {
             self.eventCategories = eventCategories
             self.eventDescription = eventDescription
@@ -3273,7 +3273,7 @@ extension Redshift {
         public let subscriptionCreationTime: TimeStamp?
         /// The list of tags for the event subscription.
         public let tags: [Tag]?
-        
+
         public init(customerAwsId: String? = nil, custSubscriptionId: String? = nil, enabled: Bool? = nil, eventCategoriesList: [String]? = nil, severity: String? = nil, snsTopicArn: String? = nil, sourceIdsList: [String]? = nil, sourceType: String? = nil, status: String? = nil, subscriptionCreationTime: TimeStamp? = nil, tags: [Tag]? = nil) {
             self.customerAwsId = customerAwsId
             self.custSubscriptionId = custSubscriptionId
@@ -3312,7 +3312,7 @@ extension Redshift {
         public let eventSubscriptionsList: [EventSubscription]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
-        
+
         public init(eventSubscriptionsList: [EventSubscription]? = nil, marker: String? = nil) {
             self.eventSubscriptionsList = eventSubscriptionsList
             self.marker = marker
@@ -3333,7 +3333,7 @@ extension Redshift {
         public let events: [Event]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
-        
+
         public init(events: [Event]? = nil, marker: String? = nil) {
             self.events = events
             self.marker = marker
@@ -3366,7 +3366,7 @@ extension Redshift {
         public let dbUser: String
         /// The number of seconds until the returned temporary password expires. Constraint: minimum 900, maximum 3600. Default: 900
         public let durationSeconds: Int32?
-        
+
         public init(autoCreate: Bool? = nil, clusterIdentifier: String, dbGroups: [String]? = nil, dbName: String? = nil, dbUser: String, durationSeconds: Int32? = nil) {
             self.autoCreate = autoCreate
             self.clusterIdentifier = clusterIdentifier
@@ -3398,7 +3398,7 @@ extension Redshift {
         public let maxRecords: Int32?
         /// A string representing the node identifier for the DC1 Reserved Node to be exchanged.
         public let reservedNodeId: String
-        
+
         public init(marker: String? = nil, maxRecords: Int32? = nil, reservedNodeId: String) {
             self.marker = marker
             self.maxRecords = maxRecords
@@ -3421,7 +3421,7 @@ extension Redshift {
         public let marker: String?
         /// Returns an array of ReservedNodeOffering objects.
         public let reservedNodeOfferings: [ReservedNodeOffering]?
-        
+
         public init(marker: String? = nil, reservedNodeOfferings: [ReservedNodeOffering]? = nil) {
             self.marker = marker
             self.reservedNodeOfferings = reservedNodeOfferings
@@ -3445,7 +3445,7 @@ extension Redshift {
         public let hsmClientCertificatePublicKey: String?
         /// The list of tags for the HSM client certificate.
         public let tags: [Tag]?
-        
+
         public init(hsmClientCertificateIdentifier: String? = nil, hsmClientCertificatePublicKey: String? = nil, tags: [Tag]? = nil) {
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
             self.hsmClientCertificatePublicKey = hsmClientCertificatePublicKey
@@ -3468,7 +3468,7 @@ extension Redshift {
         public let hsmClientCertificates: [HsmClientCertificate]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
-        
+
         public init(hsmClientCertificates: [HsmClientCertificate]? = nil, marker: String? = nil) {
             self.hsmClientCertificates = hsmClientCertificates
             self.marker = marker
@@ -3498,7 +3498,7 @@ extension Redshift {
         public let hsmPartitionName: String?
         /// The list of tags for the HSM configuration.
         public let tags: [Tag]?
-        
+
         public init(description: String? = nil, hsmConfigurationIdentifier: String? = nil, hsmIpAddress: String? = nil, hsmPartitionName: String? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
@@ -3525,7 +3525,7 @@ extension Redshift {
         public let hsmConfigurations: [HsmConfiguration]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
-        
+
         public init(hsmConfigurations: [HsmConfiguration]? = nil, marker: String? = nil) {
             self.hsmConfigurations = hsmConfigurations
             self.marker = marker
@@ -3549,7 +3549,7 @@ extension Redshift {
         public let hsmConfigurationIdentifier: String?
         /// Reports whether the Amazon Redshift cluster has finished applying any HSM settings changes specified in a modify cluster command. Values: active, applying
         public let status: String?
-        
+
         public init(hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, status: String? = nil) {
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
             self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
@@ -3575,7 +3575,7 @@ extension Redshift {
         public let status: String?
         /// The list of tags for the IP range.
         public let tags: [Tag]?
-        
+
         public init(cidrip: String? = nil, status: String? = nil, tags: [Tag]? = nil) {
             self.cidrip = cidrip
             self.status = status
@@ -3610,7 +3610,7 @@ extension Redshift {
         public let loggingEnabled: Bool?
         /// The prefix applied to the log file names.
         public let s3KeyPrefix: String?
-        
+
         public init(bucketName: String? = nil, lastFailureMessage: String? = nil, lastFailureTime: TimeStamp? = nil, lastSuccessfulDeliveryTime: TimeStamp? = nil, loggingEnabled: Bool? = nil, s3KeyPrefix: String? = nil) {
             self.bucketName = bucketName
             self.lastFailureMessage = lastFailureMessage
@@ -3642,7 +3642,7 @@ extension Redshift {
         public let maintenanceTrackName: String?
         /// An array of UpdateTarget objects to update with the maintenance track. 
         public let updateTargets: [UpdateTarget]?
-        
+
         public init(databaseVersion: String? = nil, maintenanceTrackName: String? = nil, updateTargets: [UpdateTarget]? = nil) {
             self.databaseVersion = databaseVersion
             self.maintenanceTrackName = maintenanceTrackName
@@ -3665,7 +3665,7 @@ extension Redshift {
         public let clusterIdentifier: String
         /// The identifier of the database revision. You can retrieve this value from the response to the DescribeClusterDbRevisions request.
         public let revisionTarget: String
-        
+
         public init(clusterIdentifier: String, revisionTarget: String) {
             self.clusterIdentifier = clusterIdentifier
             self.revisionTarget = revisionTarget
@@ -3682,7 +3682,7 @@ extension Redshift {
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
-        
+
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -3704,7 +3704,7 @@ extension Redshift {
         public let clusterIdentifier: String
         /// Zero or more IAM roles in ARN format to disassociate from the cluster. You can disassociate up to 10 IAM roles from a single cluster in a single request.
         public let removeIamRoles: [String]?
-        
+
         public init(addIamRoles: [String]? = nil, clusterIdentifier: String, removeIamRoles: [String]? = nil) {
             self.addIamRoles = addIamRoles
             self.clusterIdentifier = clusterIdentifier
@@ -3723,7 +3723,7 @@ extension Redshift {
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
-        
+
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -3754,7 +3754,7 @@ extension Redshift {
         public let deferMaintenanceIdentifier: String?
         /// A timestamp indicating the start time for the deferred maintenance window.
         public let deferMaintenanceStartTime: TimeStamp?
-        
+
         public init(clusterIdentifier: String, deferMaintenance: Bool? = nil, deferMaintenanceDuration: Int32? = nil, deferMaintenanceEndTime: TimeStamp? = nil, deferMaintenanceIdentifier: String? = nil, deferMaintenanceStartTime: TimeStamp? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.deferMaintenance = deferMaintenance
@@ -3779,7 +3779,7 @@ extension Redshift {
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
-        
+
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -3858,7 +3858,7 @@ extension Redshift {
         public let publiclyAccessible: Bool?
         /// A list of virtual private cloud (VPC) security groups to be associated with the cluster. This change is asynchronously applied as soon as possible.
         public let vpcSecurityGroupIds: [String]?
-        
+
         public init(allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterType: String? = nil, clusterVersion: String? = nil, elasticIp: String? = nil, encrypted: Bool? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int32? = nil, masterUserPassword: String? = nil, newClusterIdentifier: String? = nil, nodeType: String? = nil, numberOfNodes: Int32? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allowVersionUpgrade = allowVersionUpgrade
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
@@ -3919,7 +3919,7 @@ extension Redshift {
         public let parameterGroupName: String
         /// An array of parameters to be modified. A maximum of 20 parameters can be modified in a single request. For each parameter to be modified, you must supply at least the parameter name and parameter value; other name-value pairs of the parameter are optional. For the workload management (WLM) configuration, you must supply all the name-value pairs in the wlm_json_configuration parameter.
         public let parameters: [Parameter]
-        
+
         public init(parameterGroupName: String, parameters: [Parameter]) {
             self.parameterGroupName = parameterGroupName
             self.parameters = parameters
@@ -3936,7 +3936,7 @@ extension Redshift {
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
-        
+
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -3958,7 +3958,7 @@ extension Redshift {
         public let manualSnapshotRetentionPeriod: Int32?
         /// The identifier of the snapshot whose setting you want to modify.
         public let snapshotIdentifier: String
-        
+
         public init(force: Bool? = nil, manualSnapshotRetentionPeriod: Int32? = nil, snapshotIdentifier: String) {
             self.force = force
             self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
@@ -3977,7 +3977,7 @@ extension Redshift {
             AWSShapeMember(label: "Snapshot", required: false, type: .structure)
         ]
         public let snapshot: Snapshot?
-        
+
         public init(snapshot: Snapshot? = nil) {
             self.snapshot = snapshot
         }
@@ -3999,7 +3999,7 @@ extension Redshift {
         public let disassociateSchedule: Bool?
         /// A unique alphanumeric identifier for the schedule that you want to associate with the cluster.
         public let scheduleIdentifier: String?
-        
+
         public init(clusterIdentifier: String, disassociateSchedule: Bool? = nil, scheduleIdentifier: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.disassociateSchedule = disassociateSchedule
@@ -4025,7 +4025,7 @@ extension Redshift {
         public let description: String?
         /// An array of VPC subnet IDs. A maximum of 20 subnets can be modified in a single request.
         public let subnetIds: [String]
-        
+
         public init(clusterSubnetGroupName: String, description: String? = nil, subnetIds: [String]) {
             self.clusterSubnetGroupName = clusterSubnetGroupName
             self.description = description
@@ -4044,7 +4044,7 @@ extension Redshift {
             AWSShapeMember(label: "ClusterSubnetGroup", required: false, type: .structure)
         ]
         public let clusterSubnetGroup: ClusterSubnetGroup?
-        
+
         public init(clusterSubnetGroup: ClusterSubnetGroup? = nil) {
             self.clusterSubnetGroup = clusterSubnetGroup
         }
@@ -4078,7 +4078,7 @@ extension Redshift {
         public let sourceType: String?
         /// The name of the modified Amazon Redshift event notification subscription.
         public let subscriptionName: String
-        
+
         public init(enabled: Bool? = nil, eventCategories: [String]? = nil, severity: String? = nil, snsTopicArn: String? = nil, sourceIds: [String]? = nil, sourceType: String? = nil, subscriptionName: String) {
             self.enabled = enabled
             self.eventCategories = eventCategories
@@ -4105,7 +4105,7 @@ extension Redshift {
             AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
         ]
         public let eventSubscription: EventSubscription?
-        
+
         public init(eventSubscription: EventSubscription? = nil) {
             self.eventSubscription = eventSubscription
         }
@@ -4127,7 +4127,7 @@ extension Redshift {
         public let manual: Bool?
         /// The number of days to retain automated snapshots in the destination AWS Region after they are copied from the source AWS Region. By default, this only changes the retention period of copied automated snapshots.  If you decrease the retention period for automated snapshots that are copied to a destination AWS Region, Amazon Redshift deletes any existing automated snapshots that were copied to the destination AWS Region and that fall outside of the new retention period. Constraints: Must be at least 1 and no more than 35 for automated snapshots.  If you specify the manual option, only newly copied manual snapshots will have the new retention period.  If you specify the value of -1 newly copied manual snapshots are retained indefinitely. Constraints: The number of days must be either -1 or an integer between 1 and 3,653 for manual snapshots.
         public let retentionPeriod: Int32
-        
+
         public init(clusterIdentifier: String, manual: Bool? = nil, retentionPeriod: Int32) {
             self.clusterIdentifier = clusterIdentifier
             self.manual = manual
@@ -4146,7 +4146,7 @@ extension Redshift {
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
-        
+
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -4165,7 +4165,7 @@ extension Redshift {
         public let scheduleDefinitions: [String]
         /// A unique alphanumeric identifier of the schedule to modify.
         public let scheduleIdentifier: String
-        
+
         public init(scheduleDefinitions: [String], scheduleIdentifier: String) {
             self.scheduleDefinitions = scheduleDefinitions
             self.scheduleIdentifier = scheduleIdentifier
@@ -4192,7 +4192,7 @@ extension Redshift {
         public let clusterVersion: String?
         /// The node type for the orderable cluster.
         public let nodeType: String?
-        
+
         public init(availabilityZones: [AvailabilityZone]? = nil, clusterType: String? = nil, clusterVersion: String? = nil, nodeType: String? = nil) {
             self.availabilityZones = availabilityZones
             self.clusterType = clusterType
@@ -4217,7 +4217,7 @@ extension Redshift {
         public let marker: String?
         /// An OrderableClusterOption structure containing information about orderable options for the cluster.
         public let orderableClusterOptions: [OrderableClusterOption]?
-        
+
         public init(marker: String? = nil, orderableClusterOptions: [OrderableClusterOption]? = nil) {
             self.marker = marker
             self.orderableClusterOptions = orderableClusterOptions
@@ -4259,7 +4259,7 @@ extension Redshift {
         public let parameterValue: String?
         /// The source of the parameter value, such as "engine-default" or "user".
         public let source: String?
-        
+
         public init(allowedValues: String? = nil, applyType: ParameterApplyType? = nil, dataType: String? = nil, description: String? = nil, isModifiable: Bool? = nil, minimumEngineVersion: String? = nil, parameterName: String? = nil, parameterValue: String? = nil, source: String? = nil) {
             self.allowedValues = allowedValues
             self.applyType = applyType
@@ -4327,7 +4327,7 @@ extension Redshift {
         public let numberOfNodes: Int32?
         /// The pending or in-progress change of the ability to connect to the cluster from the public network.
         public let publiclyAccessible: Bool?
-        
+
         public init(automatedSnapshotRetentionPeriod: Int32? = nil, clusterIdentifier: String? = nil, clusterType: String? = nil, clusterVersion: String? = nil, encryptionType: String? = nil, enhancedVpcRouting: Bool? = nil, maintenanceTrackName: String? = nil, masterUserPassword: String? = nil, nodeType: String? = nil, numberOfNodes: Int32? = nil, publiclyAccessible: Bool? = nil) {
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
             self.clusterIdentifier = clusterIdentifier
@@ -4366,7 +4366,7 @@ extension Redshift {
         public let nodeCount: Int32?
         /// The unique identifier of the reserved node offering you want to purchase.
         public let reservedNodeOfferingId: String
-        
+
         public init(nodeCount: Int32? = nil, reservedNodeOfferingId: String) {
             self.nodeCount = nodeCount
             self.reservedNodeOfferingId = reservedNodeOfferingId
@@ -4383,7 +4383,7 @@ extension Redshift {
             AWSShapeMember(label: "ReservedNode", required: false, type: .structure)
         ]
         public let reservedNode: ReservedNode?
-        
+
         public init(reservedNode: ReservedNode? = nil) {
             self.reservedNode = reservedNode
         }
@@ -4399,7 +4399,7 @@ extension Redshift {
         ]
         /// The cluster identifier.
         public let clusterIdentifier: String
-        
+
         public init(clusterIdentifier: String) {
             self.clusterIdentifier = clusterIdentifier
         }
@@ -4414,7 +4414,7 @@ extension Redshift {
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
-        
+
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -4433,7 +4433,7 @@ extension Redshift {
         public let recurringChargeAmount: Double?
         /// The frequency at which the recurring charge amount is applied.
         public let recurringChargeFrequency: String?
-        
+
         public init(recurringChargeAmount: Double? = nil, recurringChargeFrequency: String? = nil) {
             self.recurringChargeAmount = recurringChargeAmount
             self.recurringChargeFrequency = recurringChargeFrequency
@@ -4486,7 +4486,7 @@ extension Redshift {
         public let state: String?
         /// The hourly rate Amazon Redshift charges you for this reserved node.
         public let usagePrice: Double?
-        
+
         public init(currencyCode: String? = nil, duration: Int32? = nil, fixedPrice: Double? = nil, nodeCount: Int32? = nil, nodeType: String? = nil, offeringType: String? = nil, recurringCharges: [RecurringCharge]? = nil, reservedNodeId: String? = nil, reservedNodeOfferingId: String? = nil, reservedNodeOfferingType: ReservedNodeOfferingType? = nil, startTime: TimeStamp? = nil, state: String? = nil, usagePrice: Double? = nil) {
             self.currencyCode = currencyCode
             self.duration = duration
@@ -4549,7 +4549,7 @@ extension Redshift {
         public let reservedNodeOfferingType: ReservedNodeOfferingType?
         /// The rate you are charged for each hour the cluster that is using the offering is running.
         public let usagePrice: Double?
-        
+
         public init(currencyCode: String? = nil, duration: Int32? = nil, fixedPrice: Double? = nil, nodeType: String? = nil, offeringType: String? = nil, recurringCharges: [RecurringCharge]? = nil, reservedNodeOfferingId: String? = nil, reservedNodeOfferingType: ReservedNodeOfferingType? = nil, usagePrice: Double? = nil) {
             self.currencyCode = currencyCode
             self.duration = duration
@@ -4590,7 +4590,7 @@ extension Redshift {
         public let marker: String?
         /// A list of ReservedNodeOffering objects.
         public let reservedNodeOfferings: [ReservedNodeOffering]?
-        
+
         public init(marker: String? = nil, reservedNodeOfferings: [ReservedNodeOffering]? = nil) {
             self.marker = marker
             self.reservedNodeOfferings = reservedNodeOfferings
@@ -4611,7 +4611,7 @@ extension Redshift {
         public let marker: String?
         /// The list of ReservedNode objects.
         public let reservedNodes: [ReservedNode]?
-        
+
         public init(marker: String? = nil, reservedNodes: [ReservedNode]? = nil) {
             self.marker = marker
             self.reservedNodes = reservedNodes
@@ -4635,7 +4635,7 @@ extension Redshift {
         public let parameters: [Parameter]?
         /// If true, all parameters in the specified parameter group will be reset to their default values.  Default: true 
         public let resetAllParameters: Bool?
-        
+
         public init(parameterGroupName: String, parameters: [Parameter]? = nil, resetAllParameters: Bool? = nil) {
             self.parameterGroupName = parameterGroupName
             self.parameters = parameters
@@ -4667,7 +4667,7 @@ extension Redshift {
         public let nodeType: String?
         /// The new number of nodes for the cluster.
         public let numberOfNodes: Int32
-        
+
         public init(classic: Bool? = nil, clusterIdentifier: String, clusterType: String? = nil, nodeType: String? = nil, numberOfNodes: Int32) {
             self.classic = classic
             self.clusterIdentifier = clusterIdentifier
@@ -4690,7 +4690,7 @@ extension Redshift {
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
-        
+
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -4709,7 +4709,7 @@ extension Redshift {
         public let allowCancelResize: Bool?
         /// Returns the value ClassicResize.
         public let resizeType: String?
-        
+
         public init(allowCancelResize: Bool? = nil, resizeType: String? = nil) {
             self.allowCancelResize = allowCancelResize
             self.resizeType = resizeType
@@ -4772,7 +4772,7 @@ extension Redshift {
         public let targetNumberOfNodes: Int32?
         /// The estimated total amount of data, in megabytes, on the cluster before the resize operation began.
         public let totalResizeDataInMegaBytes: Int64?
-        
+
         public init(avgResizeRateInMegaBytesPerSecond: Double? = nil, dataTransferProgressPercent: Double? = nil, elapsedTimeInSeconds: Int64? = nil, estimatedTimeToCompletionInSeconds: Int64? = nil, importTablesCompleted: [String]? = nil, importTablesInProgress: [String]? = nil, importTablesNotStarted: [String]? = nil, message: String? = nil, progressInMegaBytes: Int64? = nil, resizeType: String? = nil, status: String? = nil, targetClusterType: String? = nil, targetEncryptionType: String? = nil, targetNodeType: String? = nil, targetNumberOfNodes: Int32? = nil, totalResizeDataInMegaBytes: Int64? = nil) {
             self.avgResizeRateInMegaBytesPerSecond = avgResizeRateInMegaBytesPerSecond
             self.dataTransferProgressPercent = dataTransferProgressPercent
@@ -4890,7 +4890,7 @@ extension Redshift {
         public let snapshotScheduleIdentifier: String?
         /// A list of Virtual Private Cloud (VPC) security groups to be associated with the cluster. Default: The default VPC security group is associated with the cluster. VPC security groups only apply to clusters in VPCs.
         public let vpcSecurityGroupIds: [String]?
-        
+
         public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, availabilityZone: String? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, elasticIp: String? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int32? = nil, nodeType: String? = nil, ownerAccount: String? = nil, port: Int32? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, snapshotClusterIdentifier: String? = nil, snapshotIdentifier: String, snapshotScheduleIdentifier: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.additionalInfo = additionalInfo
             self.allowVersionUpgrade = allowVersionUpgrade
@@ -4953,7 +4953,7 @@ extension Redshift {
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
-        
+
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -4984,7 +4984,7 @@ extension Redshift {
         public let snapshotSizeInMegaBytes: Int64?
         /// The status of the restore action. Returns starting, restoring, completed, or failed.
         public let status: String?
-        
+
         public init(currentRestoreRateInMegaBytesPerSecond: Double? = nil, elapsedTimeInSeconds: Int64? = nil, estimatedTimeToCompletionInSeconds: Int64? = nil, progressInMegaBytes: Int64? = nil, snapshotSizeInMegaBytes: Int64? = nil, status: String? = nil) {
             self.currentRestoreRateInMegaBytesPerSecond = currentRestoreRateInMegaBytesPerSecond
             self.elapsedTimeInSeconds = elapsedTimeInSeconds
@@ -5031,7 +5031,7 @@ extension Redshift {
         public let targetDatabaseName: String?
         /// The name of the schema to restore the table to.
         public let targetSchemaName: String?
-        
+
         public init(clusterIdentifier: String, newTableName: String, snapshotIdentifier: String, sourceDatabaseName: String, sourceSchemaName: String? = nil, sourceTableName: String, targetDatabaseName: String? = nil, targetSchemaName: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.newTableName = newTableName
@@ -5060,7 +5060,7 @@ extension Redshift {
             AWSShapeMember(label: "TableRestoreStatus", required: false, type: .structure)
         ]
         public let tableRestoreStatus: TableRestoreStatus?
-        
+
         public init(tableRestoreStatus: TableRestoreStatus? = nil) {
             self.tableRestoreStatus = tableRestoreStatus
         }
@@ -5082,7 +5082,7 @@ extension Redshift {
         public let databaseRevisionReleaseDate: TimeStamp?
         /// A string that describes the changes and features that will be applied to the cluster when it is updated to the corresponding ClusterDbRevision.
         public let description: String?
-        
+
         public init(databaseRevision: String? = nil, databaseRevisionReleaseDate: TimeStamp? = nil, description: String? = nil) {
             self.databaseRevision = databaseRevision
             self.databaseRevisionReleaseDate = databaseRevisionReleaseDate
@@ -5111,7 +5111,7 @@ extension Redshift {
         public let eC2SecurityGroupName: String?
         /// The AWS account number of the owner of the security group specified in the EC2SecurityGroupName parameter. The AWS access key ID is not an acceptable value. If EC2SecurityGroupOwnerId is specified, EC2SecurityGroupName must also be provided. and CIDRIP cannot be provided.  Example: 111122223333 
         public let eC2SecurityGroupOwnerId: String?
-        
+
         public init(cidrip: String? = nil, clusterSecurityGroupName: String, eC2SecurityGroupName: String? = nil, eC2SecurityGroupOwnerId: String? = nil) {
             self.cidrip = cidrip
             self.clusterSecurityGroupName = clusterSecurityGroupName
@@ -5132,7 +5132,7 @@ extension Redshift {
             AWSShapeMember(label: "ClusterSecurityGroup", required: false, type: .structure)
         ]
         public let clusterSecurityGroup: ClusterSecurityGroup?
-        
+
         public init(clusterSecurityGroup: ClusterSecurityGroup? = nil) {
             self.clusterSecurityGroup = clusterSecurityGroup
         }
@@ -5154,7 +5154,7 @@ extension Redshift {
         public let snapshotClusterIdentifier: String?
         /// The identifier of the snapshot that the account can no longer access.
         public let snapshotIdentifier: String
-        
+
         public init(accountWithRestoreAccess: String, snapshotClusterIdentifier: String? = nil, snapshotIdentifier: String) {
             self.accountWithRestoreAccess = accountWithRestoreAccess
             self.snapshotClusterIdentifier = snapshotClusterIdentifier
@@ -5173,7 +5173,7 @@ extension Redshift {
             AWSShapeMember(label: "Snapshot", required: false, type: .structure)
         ]
         public let snapshot: Snapshot?
-        
+
         public init(snapshot: Snapshot? = nil) {
             self.snapshot = snapshot
         }
@@ -5189,7 +5189,7 @@ extension Redshift {
         ]
         /// The unique identifier of the cluster that you want to rotate the encryption keys for. Constraints: Must be the name of valid cluster that has encryption enabled.
         public let clusterIdentifier: String
-        
+
         public init(clusterIdentifier: String) {
             self.clusterIdentifier = clusterIdentifier
         }
@@ -5204,7 +5204,7 @@ extension Redshift {
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
-        
+
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -5323,7 +5323,7 @@ extension Redshift {
         public let totalBackupSizeInMegaBytes: Double?
         /// The VPC identifier of the cluster if the snapshot is from a cluster in a VPC. Otherwise, this field is not in the output.
         public let vpcId: String?
-        
+
         public init(accountsWithRestoreAccess: [AccountWithRestoreAccess]? = nil, actualIncrementalBackupSizeInMegaBytes: Double? = nil, availabilityZone: String? = nil, backupProgressInMegaBytes: Double? = nil, clusterCreateTime: TimeStamp? = nil, clusterIdentifier: String? = nil, clusterVersion: String? = nil, currentBackupRateInMegaBytesPerSecond: Double? = nil, dBName: String? = nil, elapsedTimeInSeconds: Int64? = nil, encrypted: Bool? = nil, encryptedWithHSM: Bool? = nil, enhancedVpcRouting: Bool? = nil, estimatedSecondsToCompletion: Int64? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRemainingDays: Int32? = nil, manualSnapshotRetentionPeriod: Int32? = nil, masterUsername: String? = nil, nodeType: String? = nil, numberOfNodes: Int32? = nil, ownerAccount: String? = nil, port: Int32? = nil, restorableNodeTypes: [String]? = nil, snapshotCreateTime: TimeStamp? = nil, snapshotIdentifier: String? = nil, snapshotRetentionStartTime: TimeStamp? = nil, snapshotType: String? = nil, sourceRegion: String? = nil, status: String? = nil, tags: [Tag]? = nil, totalBackupSizeInMegaBytes: Double? = nil, vpcId: String? = nil) {
             self.accountsWithRestoreAccess = accountsWithRestoreAccess
             self.actualIncrementalBackupSizeInMegaBytes = actualIncrementalBackupSizeInMegaBytes
@@ -5416,7 +5416,7 @@ extension Redshift {
         public let snapshotCopyGrantName: String?
         /// A list of tag instances.
         public let tags: [Tag]?
-        
+
         public init(kmsKeyId: String? = nil, snapshotCopyGrantName: String? = nil, tags: [Tag]? = nil) {
             self.kmsKeyId = kmsKeyId
             self.snapshotCopyGrantName = snapshotCopyGrantName
@@ -5439,7 +5439,7 @@ extension Redshift {
         public let marker: String?
         /// The list of SnapshotCopyGrant objects.
         public let snapshotCopyGrants: [SnapshotCopyGrant]?
-        
+
         public init(marker: String? = nil, snapshotCopyGrants: [SnapshotCopyGrant]? = nil) {
             self.marker = marker
             self.snapshotCopyGrants = snapshotCopyGrants
@@ -5466,7 +5466,7 @@ extension Redshift {
         public let snapshotClusterIdentifier: String?
         /// A unique identifier for the snapshot returning the error.
         public let snapshotIdentifier: String?
-        
+
         public init(failureCode: String? = nil, failureReason: String? = nil, snapshotClusterIdentifier: String? = nil, snapshotIdentifier: String? = nil) {
             self.failureCode = failureCode
             self.failureReason = failureReason
@@ -5491,7 +5491,7 @@ extension Redshift {
         public let marker: String?
         /// A list of Snapshot instances. 
         public let snapshots: [Snapshot]?
-        
+
         public init(marker: String? = nil, snapshots: [Snapshot]? = nil) {
             self.marker = marker
             self.snapshots = snapshots
@@ -5526,7 +5526,7 @@ extension Redshift {
         public let scheduleIdentifier: String?
         /// An optional set of tags describing the schedule.
         public let tags: [Tag]?
-        
+
         public init(associatedClusterCount: Int32? = nil, associatedClusters: [ClusterAssociatedToSchedule]? = nil, nextInvocations: [TimeStamp]? = nil, scheduleDefinitions: [String]? = nil, scheduleDescription: String? = nil, scheduleIdentifier: String? = nil, tags: [Tag]? = nil) {
             self.associatedClusterCount = associatedClusterCount
             self.associatedClusters = associatedClusters
@@ -5557,7 +5557,7 @@ extension Redshift {
         public let attribute: SnapshotAttributeToSortBy
         /// The order for listing the attributes.
         public let sortOrder: SortByOrder?
-        
+
         public init(attribute: SnapshotAttributeToSortBy, sortOrder: SortByOrder? = nil) {
             self.attribute = attribute
             self.sortOrder = sortOrder
@@ -5594,7 +5594,7 @@ extension Redshift {
         public let subnetIdentifier: String?
         /// The status of the subnet.
         public let subnetStatus: String?
-        
+
         public init(subnetAvailabilityZone: AvailabilityZone? = nil, subnetIdentifier: String? = nil, subnetStatus: String? = nil) {
             self.subnetAvailabilityZone = subnetAvailabilityZone
             self.subnetIdentifier = subnetIdentifier
@@ -5614,7 +5614,7 @@ extension Redshift {
         ]
         /// A list of the supported operations.
         public let operationName: String?
-        
+
         public init(operationName: String? = nil) {
             self.operationName = operationName
         }
@@ -5629,7 +5629,7 @@ extension Redshift {
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         public let name: String?
-        
+
         public init(name: String? = nil) {
             self.name = name
         }
@@ -5684,7 +5684,7 @@ extension Redshift {
         public let targetSchemaName: String?
         /// The total amount of data to restore to the new table, in megabytes (MB).
         public let totalDataInMegaBytes: Int64?
-        
+
         public init(clusterIdentifier: String? = nil, message: String? = nil, newTableName: String? = nil, progressInMegaBytes: Int64? = nil, requestTime: TimeStamp? = nil, snapshotIdentifier: String? = nil, sourceDatabaseName: String? = nil, sourceSchemaName: String? = nil, sourceTableName: String? = nil, status: TableRestoreStatusType? = nil, tableRestoreRequestId: String? = nil, targetDatabaseName: String? = nil, targetSchemaName: String? = nil, totalDataInMegaBytes: Int64? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.message = message
@@ -5729,7 +5729,7 @@ extension Redshift {
         public let marker: String?
         /// A list of status details for one or more table restore requests.
         public let tableRestoreStatusDetails: [TableRestoreStatus]?
-        
+
         public init(marker: String? = nil, tableRestoreStatusDetails: [TableRestoreStatus]? = nil) {
             self.marker = marker
             self.tableRestoreStatusDetails = tableRestoreStatusDetails
@@ -5759,7 +5759,7 @@ extension Redshift {
         public let key: String?
         /// The value for the resource tag.
         public let value: String?
-        
+
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -5783,7 +5783,7 @@ extension Redshift {
         public let resourceType: String?
         /// The tag for the resource.
         public let tag: Tag?
-        
+
         public init(resourceName: String? = nil, resourceType: String? = nil, tag: Tag? = nil) {
             self.resourceName = resourceName
             self.resourceType = resourceType
@@ -5806,7 +5806,7 @@ extension Redshift {
         public let marker: String?
         /// A list of tags with their associated resources.
         public let taggedResources: [TaggedResource]?
-        
+
         public init(marker: String? = nil, taggedResources: [TaggedResource]? = nil) {
             self.marker = marker
             self.taggedResources = taggedResources
@@ -5827,7 +5827,7 @@ extension Redshift {
         public let maintenanceTracks: [MaintenanceTrack]?
         /// The starting point to return a set of response tracklist records. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
         public let marker: String?
-        
+
         public init(maintenanceTracks: [MaintenanceTrack]? = nil, marker: String? = nil) {
             self.maintenanceTracks = maintenanceTracks
             self.marker = marker
@@ -5851,7 +5851,7 @@ extension Redshift {
         public let maintenanceTrackName: String?
         /// A list of operations supported by the maintenance track.
         public let supportedOperations: [SupportedOperation]?
-        
+
         public init(databaseVersion: String? = nil, maintenanceTrackName: String? = nil, supportedOperations: [SupportedOperation]? = nil) {
             self.databaseVersion = databaseVersion
             self.maintenanceTrackName = maintenanceTrackName
@@ -5874,7 +5874,7 @@ extension Redshift {
         public let status: String?
         /// The identifier of the VPC security group.
         public let vpcSecurityGroupId: String?
-        
+
         public init(status: String? = nil, vpcSecurityGroupId: String? = nil) {
             self.status = status
             self.vpcSecurityGroupId = vpcSecurityGroupId
@@ -5885,5 +5885,4 @@ extension Redshift {
             case vpcSecurityGroupId = "VpcSecurityGroupId"
         }
     }
-
 }

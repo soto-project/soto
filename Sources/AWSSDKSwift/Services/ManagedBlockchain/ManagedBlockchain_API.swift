@@ -114,5 +114,4 @@ public struct ManagedBlockchain {
     public func voteOnProposal(_ input: VoteOnProposalInput) throws -> Future<VoteOnProposalOutput> {
         return try client.send(operation: "VoteOnProposal", path: "/networks/{networkId}/proposals/{proposalId}/votes", httpMethod: "POST", input: input)
     }
-
 }

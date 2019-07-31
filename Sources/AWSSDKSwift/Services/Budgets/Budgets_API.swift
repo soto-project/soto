@@ -97,5 +97,4 @@ public struct Budgets {
     public func updateSubscriber(_ input: UpdateSubscriberRequest) throws -> Future<UpdateSubscriberResponse> {
         return try client.send(operation: "UpdateSubscriber", path: "/", httpMethod: "POST", input: input)
     }
-
 }

@@ -29,7 +29,7 @@ extension ELBV2 {
         public let targetGroupArn: String?
         /// The type of action. Each rule must include exactly one of the following types of actions: forward, fixed-response, or redirect.
         public let `type`: ActionTypeEnum
-        
+
         public init(authenticateCognitoConfig: AuthenticateCognitoActionConfig? = nil, authenticateOidcConfig: AuthenticateOidcActionConfig? = nil, fixedResponseConfig: FixedResponseActionConfig? = nil, order: Int32? = nil, redirectConfig: RedirectActionConfig? = nil, targetGroupArn: String? = nil, type: ActionTypeEnum) {
             self.authenticateCognitoConfig = authenticateCognitoConfig
             self.authenticateOidcConfig = authenticateOidcConfig
@@ -69,7 +69,7 @@ extension ELBV2 {
         public let certificates: [Certificate]
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
-        
+
         public init(certificates: [Certificate], listenerArn: String) {
             self.certificates = certificates
             self.listenerArn = listenerArn
@@ -87,7 +87,7 @@ extension ELBV2 {
         ]
         /// Information about the certificates in the certificate list.
         public let certificates: [Certificate]?
-        
+
         public init(certificates: [Certificate]? = nil) {
             self.certificates = certificates
         }
@@ -106,7 +106,7 @@ extension ELBV2 {
         public let resourceArns: [String]
         /// The tags. Each resource can have a maximum of 10 tags.
         public let tags: [Tag]
-        
+
         public init(resourceArns: [String], tags: [Tag]) {
             self.resourceArns = resourceArns
             self.tags = tags
@@ -119,12 +119,11 @@ extension ELBV2 {
     }
 
     public struct AddTagsOutput: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public enum AuthenticateCognitoActionConditionalBehaviorEnum: String, CustomStringConvertible, Codable {
         case deny = "deny"
@@ -160,7 +159,7 @@ extension ELBV2 {
         public let userPoolClientId: String
         /// The domain prefix or fully-qualified domain name of the Amazon Cognito user pool.
         public let userPoolDomain: String
-        
+
         public init(authenticationRequestExtraParams: [String: String]? = nil, onUnauthenticatedRequest: AuthenticateCognitoActionConditionalBehaviorEnum? = nil, scope: String? = nil, sessionCookieName: String? = nil, sessionTimeout: Int64? = nil, userPoolArn: String, userPoolClientId: String, userPoolDomain: String) {
             self.authenticationRequestExtraParams = authenticationRequestExtraParams
             self.onUnauthenticatedRequest = onUnauthenticatedRequest
@@ -230,7 +229,7 @@ extension ELBV2 {
         public let useExistingClientSecret: Bool?
         /// The user info endpoint of the IdP. This must be a full URL, including the HTTPS protocol, the domain, and the path.
         public let userInfoEndpoint: String
-        
+
         public init(authenticationRequestExtraParams: [String: String]? = nil, authorizationEndpoint: String, clientId: String, clientSecret: String? = nil, issuer: String, onUnauthenticatedRequest: AuthenticateOidcActionConditionalBehaviorEnum? = nil, scope: String? = nil, sessionCookieName: String? = nil, sessionTimeout: Int64? = nil, tokenEndpoint: String, useExistingClientSecret: Bool? = nil, userInfoEndpoint: String) {
             self.authenticationRequestExtraParams = authenticationRequestExtraParams
             self.authorizationEndpoint = authorizationEndpoint
@@ -274,7 +273,7 @@ extension ELBV2 {
         public let subnetId: String?
         /// The name of the Availability Zone.
         public let zoneName: String?
-        
+
         public init(loadBalancerAddresses: [LoadBalancerAddress]? = nil, subnetId: String? = nil, zoneName: String? = nil) {
             self.loadBalancerAddresses = loadBalancerAddresses
             self.subnetId = subnetId
@@ -297,7 +296,7 @@ extension ELBV2 {
         public let certificateArn: String?
         /// Indicates whether the certificate is the default certificate. Do not set this value when specifying a certificate as an input. This value is not included in the output when describing a listener, but is included when describing listener certificates.
         public let isDefault: Bool?
-        
+
         public init(certificateArn: String? = nil, isDefault: Bool? = nil) {
             self.certificateArn = certificateArn
             self.isDefault = isDefault
@@ -318,7 +317,7 @@ extension ELBV2 {
         public let name: String?
         /// The priority of the cipher.
         public let priority: Int32?
-        
+
         public init(name: String? = nil, priority: Int32? = nil) {
             self.name = name
             self.priority = priority
@@ -351,7 +350,7 @@ extension ELBV2 {
         public let `protocol`: ProtocolEnum
         /// [HTTPS and TLS listeners] The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
         public let sslPolicy: String?
-        
+
         public init(certificates: [Certificate]? = nil, defaultActions: [Action], loadBalancerArn: String, port: Int32, protocol: ProtocolEnum, sslPolicy: String? = nil) {
             self.certificates = certificates
             self.defaultActions = defaultActions
@@ -377,7 +376,7 @@ extension ELBV2 {
         ]
         /// Information about the listener.
         public let listeners: [Listener]?
-        
+
         public init(listeners: [Listener]? = nil) {
             self.listeners = listeners
         }
@@ -414,7 +413,7 @@ extension ELBV2 {
         public let tags: [Tag]?
         /// The type of load balancer. The default is application.
         public let `type`: LoadBalancerTypeEnum?
-        
+
         public init(ipAddressType: IpAddressType? = nil, name: String, scheme: LoadBalancerSchemeEnum? = nil, securityGroups: [String]? = nil, subnetMappings: [SubnetMapping]? = nil, subnets: [String]? = nil, tags: [Tag]? = nil, type: LoadBalancerTypeEnum? = nil) {
             self.ipAddressType = ipAddressType
             self.name = name
@@ -444,7 +443,7 @@ extension ELBV2 {
         ]
         /// Information about the load balancer.
         public let loadBalancers: [LoadBalancer]?
-        
+
         public init(loadBalancers: [LoadBalancer]? = nil) {
             self.loadBalancers = loadBalancers
         }
@@ -469,7 +468,7 @@ extension ELBV2 {
         public let listenerArn: String
         /// The rule priority. A listener can't have multiple rules with the same priority.
         public let priority: Int32
-        
+
         public init(actions: [Action], conditions: [RuleCondition], listenerArn: String, priority: Int32) {
             self.actions = actions
             self.conditions = conditions
@@ -491,7 +490,7 @@ extension ELBV2 {
         ]
         /// Information about the rule.
         public let rules: [Rule]?
-        
+
         public init(rules: [Rule]? = nil) {
             self.rules = rules
         }
@@ -546,7 +545,7 @@ extension ELBV2 {
         public let unhealthyThresholdCount: Int32?
         /// The identifier of the virtual private cloud (VPC). If the target is a Lambda function, this parameter does not apply.
         public let vpcId: String?
-        
+
         public init(healthCheckEnabled: Bool? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, healthCheckProtocol: ProtocolEnum? = nil, healthCheckTimeoutSeconds: Int32? = nil, healthyThresholdCount: Int32? = nil, matcher: Matcher? = nil, name: String, port: Int32? = nil, protocol: ProtocolEnum? = nil, targetType: TargetTypeEnum? = nil, unhealthyThresholdCount: Int32? = nil, vpcId: String? = nil) {
             self.healthCheckEnabled = healthCheckEnabled
             self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
@@ -588,7 +587,7 @@ extension ELBV2 {
         ]
         /// Information about the target group.
         public let targetGroups: [TargetGroup]?
-        
+
         public init(targetGroups: [TargetGroup]? = nil) {
             self.targetGroups = targetGroups
         }
@@ -604,7 +603,7 @@ extension ELBV2 {
         ]
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
-        
+
         public init(listenerArn: String) {
             self.listenerArn = listenerArn
         }
@@ -615,12 +614,11 @@ extension ELBV2 {
     }
 
     public struct DeleteListenerOutput: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteLoadBalancerInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -628,7 +626,7 @@ extension ELBV2 {
         ]
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
-        
+
         public init(loadBalancerArn: String) {
             self.loadBalancerArn = loadBalancerArn
         }
@@ -639,12 +637,11 @@ extension ELBV2 {
     }
 
     public struct DeleteLoadBalancerOutput: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteRuleInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -652,7 +649,7 @@ extension ELBV2 {
         ]
         /// The Amazon Resource Name (ARN) of the rule.
         public let ruleArn: String
-        
+
         public init(ruleArn: String) {
             self.ruleArn = ruleArn
         }
@@ -663,12 +660,11 @@ extension ELBV2 {
     }
 
     public struct DeleteRuleOutput: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteTargetGroupInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -676,7 +672,7 @@ extension ELBV2 {
         ]
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
-        
+
         public init(targetGroupArn: String) {
             self.targetGroupArn = targetGroupArn
         }
@@ -687,12 +683,11 @@ extension ELBV2 {
     }
 
     public struct DeleteTargetGroupOutput: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeregisterTargetsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -703,7 +698,7 @@ extension ELBV2 {
         public let targetGroupArn: String
         /// The targets. If you specified a port override when you registered a target, you must specify both the target ID and the port when you deregister it.
         public let targets: [TargetDescription]
-        
+
         public init(targetGroupArn: String, targets: [TargetDescription]) {
             self.targetGroupArn = targetGroupArn
             self.targets = targets
@@ -716,12 +711,11 @@ extension ELBV2 {
     }
 
     public struct DeregisterTargetsOutput: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DescribeAccountLimitsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -732,7 +726,7 @@ extension ELBV2 {
         public let marker: String?
         /// The maximum number of results to return with this call.
         public let pageSize: Int32?
-        
+
         public init(marker: String? = nil, pageSize: Int32? = nil) {
             self.marker = marker
             self.pageSize = pageSize
@@ -753,7 +747,7 @@ extension ELBV2 {
         public let limits: [Limit]?
         /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
-        
+
         public init(limits: [Limit]? = nil, nextMarker: String? = nil) {
             self.limits = limits
             self.nextMarker = nextMarker
@@ -777,7 +771,7 @@ extension ELBV2 {
         public let marker: String?
         /// The maximum number of results to return with this call.
         public let pageSize: Int32?
-        
+
         public init(listenerArn: String, marker: String? = nil, pageSize: Int32? = nil) {
             self.listenerArn = listenerArn
             self.marker = marker
@@ -800,7 +794,7 @@ extension ELBV2 {
         public let certificates: [Certificate]?
         /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
-        
+
         public init(certificates: [Certificate]? = nil, nextMarker: String? = nil) {
             self.certificates = certificates
             self.nextMarker = nextMarker
@@ -827,7 +821,7 @@ extension ELBV2 {
         public let marker: String?
         /// The maximum number of results to return with this call.
         public let pageSize: Int32?
-        
+
         public init(listenerArns: [String]? = nil, loadBalancerArn: String? = nil, marker: String? = nil, pageSize: Int32? = nil) {
             self.listenerArns = listenerArns
             self.loadBalancerArn = loadBalancerArn
@@ -852,7 +846,7 @@ extension ELBV2 {
         public let listeners: [Listener]?
         /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
-        
+
         public init(listeners: [Listener]? = nil, nextMarker: String? = nil) {
             self.listeners = listeners
             self.nextMarker = nextMarker
@@ -870,7 +864,7 @@ extension ELBV2 {
         ]
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
-        
+
         public init(loadBalancerArn: String) {
             self.loadBalancerArn = loadBalancerArn
         }
@@ -886,7 +880,7 @@ extension ELBV2 {
         ]
         /// Information about the load balancer attributes.
         public let attributes: [LoadBalancerAttribute]?
-        
+
         public init(attributes: [LoadBalancerAttribute]? = nil) {
             self.attributes = attributes
         }
@@ -911,7 +905,7 @@ extension ELBV2 {
         public let names: [String]?
         /// The maximum number of results to return with this call.
         public let pageSize: Int32?
-        
+
         public init(loadBalancerArns: [String]? = nil, marker: String? = nil, names: [String]? = nil, pageSize: Int32? = nil) {
             self.loadBalancerArns = loadBalancerArns
             self.marker = marker
@@ -936,7 +930,7 @@ extension ELBV2 {
         public let loadBalancers: [LoadBalancer]?
         /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
-        
+
         public init(loadBalancers: [LoadBalancer]? = nil, nextMarker: String? = nil) {
             self.loadBalancers = loadBalancers
             self.nextMarker = nextMarker
@@ -963,7 +957,7 @@ extension ELBV2 {
         public let pageSize: Int32?
         /// The Amazon Resource Names (ARN) of the rules.
         public let ruleArns: [String]?
-        
+
         public init(listenerArn: String? = nil, marker: String? = nil, pageSize: Int32? = nil, ruleArns: [String]? = nil) {
             self.listenerArn = listenerArn
             self.marker = marker
@@ -988,7 +982,7 @@ extension ELBV2 {
         public let nextMarker: String?
         /// Information about the rules.
         public let rules: [Rule]?
-        
+
         public init(nextMarker: String? = nil, rules: [Rule]? = nil) {
             self.nextMarker = nextMarker
             self.rules = rules
@@ -1012,7 +1006,7 @@ extension ELBV2 {
         public let names: [String]?
         /// The maximum number of results to return with this call.
         public let pageSize: Int32?
-        
+
         public init(marker: String? = nil, names: [String]? = nil, pageSize: Int32? = nil) {
             self.marker = marker
             self.names = names
@@ -1035,7 +1029,7 @@ extension ELBV2 {
         public let nextMarker: String?
         /// Information about the policies.
         public let sslPolicies: [SslPolicy]?
-        
+
         public init(nextMarker: String? = nil, sslPolicies: [SslPolicy]? = nil) {
             self.nextMarker = nextMarker
             self.sslPolicies = sslPolicies
@@ -1053,7 +1047,7 @@ extension ELBV2 {
         ]
         /// The Amazon Resource Names (ARN) of the resources.
         public let resourceArns: [String]
-        
+
         public init(resourceArns: [String]) {
             self.resourceArns = resourceArns
         }
@@ -1069,7 +1063,7 @@ extension ELBV2 {
         ]
         /// Information about the tags.
         public let tagDescriptions: [TagDescription]?
-        
+
         public init(tagDescriptions: [TagDescription]? = nil) {
             self.tagDescriptions = tagDescriptions
         }
@@ -1085,7 +1079,7 @@ extension ELBV2 {
         ]
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
-        
+
         public init(targetGroupArn: String) {
             self.targetGroupArn = targetGroupArn
         }
@@ -1101,7 +1095,7 @@ extension ELBV2 {
         ]
         /// Information about the target group attributes
         public let attributes: [TargetGroupAttribute]?
-        
+
         public init(attributes: [TargetGroupAttribute]? = nil) {
             self.attributes = attributes
         }
@@ -1129,7 +1123,7 @@ extension ELBV2 {
         public let pageSize: Int32?
         /// The Amazon Resource Names (ARN) of the target groups.
         public let targetGroupArns: [String]?
-        
+
         public init(loadBalancerArn: String? = nil, marker: String? = nil, names: [String]? = nil, pageSize: Int32? = nil, targetGroupArns: [String]? = nil) {
             self.loadBalancerArn = loadBalancerArn
             self.marker = marker
@@ -1156,7 +1150,7 @@ extension ELBV2 {
         public let nextMarker: String?
         /// Information about the target groups.
         public let targetGroups: [TargetGroup]?
-        
+
         public init(nextMarker: String? = nil, targetGroups: [TargetGroup]? = nil) {
             self.nextMarker = nextMarker
             self.targetGroups = targetGroups
@@ -1177,7 +1171,7 @@ extension ELBV2 {
         public let targetGroupArn: String
         /// The targets.
         public let targets: [TargetDescription]?
-        
+
         public init(targetGroupArn: String, targets: [TargetDescription]? = nil) {
             self.targetGroupArn = targetGroupArn
             self.targets = targets
@@ -1195,7 +1189,7 @@ extension ELBV2 {
         ]
         /// Information about the health of the targets.
         public let targetHealthDescriptions: [TargetHealthDescription]?
-        
+
         public init(targetHealthDescriptions: [TargetHealthDescription]? = nil) {
             self.targetHealthDescriptions = targetHealthDescriptions
         }
@@ -1217,7 +1211,7 @@ extension ELBV2 {
         public let messageBody: String?
         /// The HTTP response code (2XX, 4XX, or 5XX).
         public let statusCode: String
-        
+
         public init(contentType: String? = nil, messageBody: String? = nil, statusCode: String) {
             self.contentType = contentType
             self.messageBody = messageBody
@@ -1237,7 +1231,7 @@ extension ELBV2 {
         ]
         /// One or more host names. The maximum size of each name is 128 characters. The comparison is case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If you specify multiple strings, the condition is satisfied if one of the strings matches the host name.
         public let values: [String]?
-        
+
         public init(values: [String]? = nil) {
             self.values = values
         }
@@ -1256,7 +1250,7 @@ extension ELBV2 {
         public let httpHeaderName: String?
         /// One or more strings to compare against the value of the HTTP header. The maximum size of each string is 128 characters. The comparison strings are case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request, we search them in order until a match is found. If you specify multiple strings, the condition is satisfied if one of the strings matches the value of the HTTP header. To require that all of the strings are a match, create one condition per string.
         public let values: [String]?
-        
+
         public init(httpHeaderName: String? = nil, values: [String]? = nil) {
             self.httpHeaderName = httpHeaderName
             self.values = values
@@ -1274,7 +1268,7 @@ extension ELBV2 {
         ]
         /// The name of the request method. The maximum size is 40 characters. The allowed characters are A-Z, hyphen (-), and underscore (_). The comparison is case sensitive. Wildcards are not supported; therefore, the method name must be an exact match. If you specify multiple strings, the condition is satisfied if one of the strings matches the HTTP request method. We recommend that you route GET and HEAD requests in the same way, because the response to a HEAD request may be cached.
         public let values: [String]?
-        
+
         public init(values: [String]? = nil) {
             self.values = values
         }
@@ -1299,7 +1293,7 @@ extension ELBV2 {
         public let max: String?
         /// The name of the limit. The possible values are:   application-load-balancers   listeners-per-application-load-balancer   listeners-per-network-load-balancer   network-load-balancers   rules-per-application-load-balancer   target-groups   targets-per-application-load-balancer   targets-per-availability-zone-per-network-load-balancer   targets-per-network-load-balancer  
         public let name: String?
-        
+
         public init(max: String? = nil, name: String? = nil) {
             self.max = max
             self.name = name
@@ -1335,7 +1329,7 @@ extension ELBV2 {
         public let `protocol`: ProtocolEnum?
         /// [HTTPS or TLS listener] The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
         public let sslPolicy: String?
-        
+
         public init(certificates: [Certificate]? = nil, defaultActions: [Action]? = nil, listenerArn: String? = nil, loadBalancerArn: String? = nil, port: Int32? = nil, protocol: ProtocolEnum? = nil, sslPolicy: String? = nil) {
             self.certificates = certificates
             self.defaultActions = defaultActions
@@ -1396,7 +1390,7 @@ extension ELBV2 {
         public let `type`: LoadBalancerTypeEnum?
         /// The ID of the VPC for the load balancer.
         public let vpcId: String?
-        
+
         public init(availabilityZones: [AvailabilityZone]? = nil, canonicalHostedZoneId: String? = nil, createdTime: TimeStamp? = nil, dNSName: String? = nil, ipAddressType: IpAddressType? = nil, loadBalancerArn: String? = nil, loadBalancerName: String? = nil, scheme: LoadBalancerSchemeEnum? = nil, securityGroups: [String]? = nil, state: LoadBalancerState? = nil, type: LoadBalancerTypeEnum? = nil, vpcId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.canonicalHostedZoneId = canonicalHostedZoneId
@@ -1437,7 +1431,7 @@ extension ELBV2 {
         public let allocationId: String?
         /// The static IP address.
         public let ipAddress: String?
-        
+
         public init(allocationId: String? = nil, ipAddress: String? = nil) {
             self.allocationId = allocationId
             self.ipAddress = ipAddress
@@ -1458,7 +1452,7 @@ extension ELBV2 {
         public let key: String?
         /// The value of the attribute.
         public let value: String?
-        
+
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1485,7 +1479,7 @@ extension ELBV2 {
         public let code: LoadBalancerStateEnum?
         /// A description of the state.
         public let reason: String?
-        
+
         public init(code: LoadBalancerStateEnum? = nil, reason: String? = nil) {
             self.code = code
             self.reason = reason
@@ -1517,7 +1511,7 @@ extension ELBV2 {
         ]
         /// The HTTP codes. For Application Load Balancers, you can specify values between 200 and 499, and the default value is 200. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299"). For Network Load Balancers, this is 200–399.
         public let httpCode: String
-        
+
         public init(httpCode: String) {
             self.httpCode = httpCode
         }
@@ -1548,7 +1542,7 @@ extension ELBV2 {
         public let `protocol`: ProtocolEnum?
         /// [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. For more information, see Security Policies in the Application Load Balancers Guide.
         public let sslPolicy: String?
-        
+
         public init(certificates: [Certificate]? = nil, defaultActions: [Action]? = nil, listenerArn: String, port: Int32? = nil, protocol: ProtocolEnum? = nil, sslPolicy: String? = nil) {
             self.certificates = certificates
             self.defaultActions = defaultActions
@@ -1574,7 +1568,7 @@ extension ELBV2 {
         ]
         /// Information about the modified listener.
         public let listeners: [Listener]?
-        
+
         public init(listeners: [Listener]? = nil) {
             self.listeners = listeners
         }
@@ -1593,7 +1587,7 @@ extension ELBV2 {
         public let attributes: [LoadBalancerAttribute]
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
-        
+
         public init(attributes: [LoadBalancerAttribute], loadBalancerArn: String) {
             self.attributes = attributes
             self.loadBalancerArn = loadBalancerArn
@@ -1611,7 +1605,7 @@ extension ELBV2 {
         ]
         /// Information about the load balancer attributes.
         public let attributes: [LoadBalancerAttribute]?
-        
+
         public init(attributes: [LoadBalancerAttribute]? = nil) {
             self.attributes = attributes
         }
@@ -1633,7 +1627,7 @@ extension ELBV2 {
         public let conditions: [RuleCondition]?
         /// The Amazon Resource Name (ARN) of the rule.
         public let ruleArn: String
-        
+
         public init(actions: [Action]? = nil, conditions: [RuleCondition]? = nil, ruleArn: String) {
             self.actions = actions
             self.conditions = conditions
@@ -1653,7 +1647,7 @@ extension ELBV2 {
         ]
         /// Information about the modified rule.
         public let rules: [Rule]?
-        
+
         public init(rules: [Rule]? = nil) {
             self.rules = rules
         }
@@ -1672,7 +1666,7 @@ extension ELBV2 {
         public let attributes: [TargetGroupAttribute]
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
-        
+
         public init(attributes: [TargetGroupAttribute], targetGroupArn: String) {
             self.attributes = attributes
             self.targetGroupArn = targetGroupArn
@@ -1690,7 +1684,7 @@ extension ELBV2 {
         ]
         /// Information about the attributes.
         public let attributes: [TargetGroupAttribute]?
-        
+
         public init(attributes: [TargetGroupAttribute]? = nil) {
             self.attributes = attributes
         }
@@ -1733,7 +1727,7 @@ extension ELBV2 {
         public let targetGroupArn: String
         /// The number of consecutive health check failures required before considering the target unhealthy. For Network Load Balancers, this value must be the same as the healthy threshold count.
         public let unhealthyThresholdCount: Int32?
-        
+
         public init(healthCheckEnabled: Bool? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, healthCheckProtocol: ProtocolEnum? = nil, healthCheckTimeoutSeconds: Int32? = nil, healthyThresholdCount: Int32? = nil, matcher: Matcher? = nil, targetGroupArn: String, unhealthyThresholdCount: Int32? = nil) {
             self.healthCheckEnabled = healthCheckEnabled
             self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
@@ -1767,7 +1761,7 @@ extension ELBV2 {
         ]
         /// Information about the modified target group.
         public let targetGroups: [TargetGroup]?
-        
+
         public init(targetGroups: [TargetGroup]? = nil) {
             self.targetGroups = targetGroups
         }
@@ -1783,7 +1777,7 @@ extension ELBV2 {
         ]
         /// One or more path patterns to compare against the request URL. The maximum size of each string is 128 characters. The comparison is case sensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If you specify multiple strings, the condition is satisfied if one of them matches the request URL. The path pattern is compared only to the path of the URL, not to its query string. To compare against the query string, use QueryStringConditionConfig.
         public let values: [String]?
-        
+
         public init(values: [String]? = nil) {
             self.values = values
         }
@@ -1809,7 +1803,7 @@ extension ELBV2 {
         ]
         /// One or more key/value pairs or values to find in the query string. The maximum size of each string is 128 characters. The comparison is case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). To search for a literal '*' or '?' character in a query string, you must escape these characters in Values using a '\' character. If you specify multiple key/value pairs or values, the condition is satisfied if one of them is found in the query string.
         public let values: [QueryStringKeyValuePair]?
-        
+
         public init(values: [QueryStringKeyValuePair]? = nil) {
             self.values = values
         }
@@ -1828,7 +1822,7 @@ extension ELBV2 {
         public let key: String?
         /// The value.
         public let value: String?
-        
+
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1861,7 +1855,7 @@ extension ELBV2 {
         public let query: String?
         /// The HTTP redirect code. The redirect is either permanent (HTTP 301) or temporary (HTTP 302).
         public let statusCode: RedirectActionStatusCodeEnum
-        
+
         public init(host: String? = nil, path: String? = nil, port: String? = nil, protocol: String? = nil, query: String? = nil, statusCode: RedirectActionStatusCodeEnum) {
             self.host = host
             self.path = path
@@ -1896,7 +1890,7 @@ extension ELBV2 {
         public let targetGroupArn: String
         /// The targets. To register a target by instance ID, specify the instance ID. To register a target by IP address, specify the IP address. To register a Lambda function, specify the ARN of the Lambda function.
         public let targets: [TargetDescription]
-        
+
         public init(targetGroupArn: String, targets: [TargetDescription]) {
             self.targetGroupArn = targetGroupArn
             self.targets = targets
@@ -1909,12 +1903,11 @@ extension ELBV2 {
     }
 
     public struct RegisterTargetsOutput: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct RemoveListenerCertificatesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1925,7 +1918,7 @@ extension ELBV2 {
         public let certificates: [Certificate]
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
-        
+
         public init(certificates: [Certificate], listenerArn: String) {
             self.certificates = certificates
             self.listenerArn = listenerArn
@@ -1938,12 +1931,11 @@ extension ELBV2 {
     }
 
     public struct RemoveListenerCertificatesOutput: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct RemoveTagsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1954,7 +1946,7 @@ extension ELBV2 {
         public let resourceArns: [String]
         /// The tag keys for the tags to remove.
         public let tagKeys: [String]
-        
+
         public init(resourceArns: [String], tagKeys: [String]) {
             self.resourceArns = resourceArns
             self.tagKeys = tagKeys
@@ -1967,12 +1959,11 @@ extension ELBV2 {
     }
 
     public struct RemoveTagsOutput: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct Rule: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1992,7 +1983,7 @@ extension ELBV2 {
         public let priority: String?
         /// The Amazon Resource Name (ARN) of the rule.
         public let ruleArn: String?
-        
+
         public init(actions: [Action]? = nil, conditions: [RuleCondition]? = nil, isDefault: Bool? = nil, priority: String? = nil, ruleArn: String? = nil) {
             self.actions = actions
             self.conditions = conditions
@@ -2037,7 +2028,7 @@ extension ELBV2 {
         public let sourceIpConfig: SourceIpConditionConfig?
         /// The condition value. You can use Values if the rule contains only host-header and path-pattern conditions. Otherwise, you can use HostHeaderConfig for host-header conditions and PathPatternConfig for path-pattern conditions. If Field is host-header, you can specify a single host name (for example, my.example.com). A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters.   A-Z, a-z, 0-9   - .   * (matches 0 or more characters)   ? (matches exactly 1 character)   If Field is path-pattern, you can specify a single path pattern (for example, /img/*). A path pattern is case-sensitive, can be up to 128 characters in length, and can contain any of the following characters.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
         public let values: [String]?
-        
+
         public init(field: String? = nil, hostHeaderConfig: HostHeaderConditionConfig? = nil, httpHeaderConfig: HttpHeaderConditionConfig? = nil, httpRequestMethodConfig: HttpRequestMethodConditionConfig? = nil, pathPatternConfig: PathPatternConditionConfig? = nil, queryStringConfig: QueryStringConditionConfig? = nil, sourceIpConfig: SourceIpConditionConfig? = nil, values: [String]? = nil) {
             self.field = field
             self.hostHeaderConfig = hostHeaderConfig
@@ -2070,7 +2061,7 @@ extension ELBV2 {
         public let priority: Int32?
         /// The Amazon Resource Name (ARN) of the rule.
         public let ruleArn: String?
-        
+
         public init(priority: Int32? = nil, ruleArn: String? = nil) {
             self.priority = priority
             self.ruleArn = ruleArn
@@ -2091,7 +2082,7 @@ extension ELBV2 {
         public let ipAddressType: IpAddressType
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
-        
+
         public init(ipAddressType: IpAddressType, loadBalancerArn: String) {
             self.ipAddressType = ipAddressType
             self.loadBalancerArn = loadBalancerArn
@@ -2109,7 +2100,7 @@ extension ELBV2 {
         ]
         /// The IP address type.
         public let ipAddressType: IpAddressType?
-        
+
         public init(ipAddressType: IpAddressType? = nil) {
             self.ipAddressType = ipAddressType
         }
@@ -2125,7 +2116,7 @@ extension ELBV2 {
         ]
         /// The rule priorities.
         public let rulePriorities: [RulePriorityPair]
-        
+
         public init(rulePriorities: [RulePriorityPair]) {
             self.rulePriorities = rulePriorities
         }
@@ -2141,7 +2132,7 @@ extension ELBV2 {
         ]
         /// Information about the rules.
         public let rules: [Rule]?
-        
+
         public init(rules: [Rule]? = nil) {
             self.rules = rules
         }
@@ -2160,7 +2151,7 @@ extension ELBV2 {
         public let loadBalancerArn: String
         /// The IDs of the security groups.
         public let securityGroups: [String]
-        
+
         public init(loadBalancerArn: String, securityGroups: [String]) {
             self.loadBalancerArn = loadBalancerArn
             self.securityGroups = securityGroups
@@ -2178,7 +2169,7 @@ extension ELBV2 {
         ]
         /// The IDs of the security groups associated with the load balancer.
         public let securityGroupIds: [String]?
-        
+
         public init(securityGroupIds: [String]? = nil) {
             self.securityGroupIds = securityGroupIds
         }
@@ -2200,7 +2191,7 @@ extension ELBV2 {
         public let subnetMappings: [SubnetMapping]?
         /// The IDs of the public subnets. You must specify subnets from at least two Availability Zones. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings.
         public let subnets: [String]?
-        
+
         public init(loadBalancerArn: String, subnetMappings: [SubnetMapping]? = nil, subnets: [String]? = nil) {
             self.loadBalancerArn = loadBalancerArn
             self.subnetMappings = subnetMappings
@@ -2220,7 +2211,7 @@ extension ELBV2 {
         ]
         /// Information about the subnet and Availability Zone.
         public let availabilityZones: [AvailabilityZone]?
-        
+
         public init(availabilityZones: [AvailabilityZone]? = nil) {
             self.availabilityZones = availabilityZones
         }
@@ -2236,7 +2227,7 @@ extension ELBV2 {
         ]
         /// One or more source IP addresses, in CIDR format. You can use both IPv4 and IPv6 addresses. Wildcards are not supported. If you specify multiple addresses, the condition is satisfied if the source IP address of the request matches one of the CIDR blocks. This condition is not satisfied by the addresses in the X-Forwarded-For header. To search for addresses in the X-Forwarded-For header, use HttpHeaderConditionConfig.
         public let values: [String]?
-        
+
         public init(values: [String]? = nil) {
             self.values = values
         }
@@ -2258,7 +2249,7 @@ extension ELBV2 {
         public let name: String?
         /// The protocols.
         public let sslProtocols: [String]?
-        
+
         public init(ciphers: [Cipher]? = nil, name: String? = nil, sslProtocols: [String]? = nil) {
             self.ciphers = ciphers
             self.name = name
@@ -2281,7 +2272,7 @@ extension ELBV2 {
         public let allocationId: String?
         /// The ID of the subnet.
         public let subnetId: String?
-        
+
         public init(allocationId: String? = nil, subnetId: String? = nil) {
             self.allocationId = allocationId
             self.subnetId = subnetId
@@ -2302,7 +2293,7 @@ extension ELBV2 {
         public let key: String
         /// The value of the tag.
         public let value: String?
-        
+
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
@@ -2323,7 +2314,7 @@ extension ELBV2 {
         public let resourceArn: String?
         /// Information about the tags.
         public let tags: [Tag]?
-        
+
         public init(resourceArn: String? = nil, tags: [Tag]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2347,7 +2338,7 @@ extension ELBV2 {
         public let id: String
         /// The port on which the target is listening.
         public let port: Int32?
-        
+
         public init(availabilityZone: String? = nil, id: String, port: Int32? = nil) {
             self.availabilityZone = availabilityZone
             self.id = id
@@ -2412,7 +2403,7 @@ extension ELBV2 {
         public let unhealthyThresholdCount: Int32?
         /// The ID of the VPC for the targets.
         public let vpcId: String?
-        
+
         public init(healthCheckEnabled: Bool? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, healthCheckProtocol: ProtocolEnum? = nil, healthCheckTimeoutSeconds: Int32? = nil, healthyThresholdCount: Int32? = nil, loadBalancerArns: [String]? = nil, matcher: Matcher? = nil, port: Int32? = nil, protocol: ProtocolEnum? = nil, targetGroupArn: String? = nil, targetGroupName: String? = nil, targetType: TargetTypeEnum? = nil, unhealthyThresholdCount: Int32? = nil, vpcId: String? = nil) {
             self.healthCheckEnabled = healthCheckEnabled
             self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
@@ -2461,7 +2452,7 @@ extension ELBV2 {
         public let key: String?
         /// The value of the attribute.
         public let value: String?
-        
+
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -2485,7 +2476,7 @@ extension ELBV2 {
         public let reason: TargetHealthReasonEnum?
         /// The state of the target.
         public let state: TargetHealthStateEnum?
-        
+
         public init(description: String? = nil, reason: TargetHealthReasonEnum? = nil, state: TargetHealthStateEnum? = nil) {
             self.description = description
             self.reason = reason
@@ -2511,7 +2502,7 @@ extension ELBV2 {
         public let target: TargetDescription?
         /// The health information for the target.
         public let targetHealth: TargetHealth?
-        
+
         public init(healthCheckPort: String? = nil, target: TargetDescription? = nil, targetHealth: TargetHealth? = nil) {
             self.healthCheckPort = healthCheckPort
             self.target = target
@@ -2557,5 +2548,4 @@ extension ELBV2 {
         case lambda = "lambda"
         public var description: String { return self.rawValue }
     }
-
 }

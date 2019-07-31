@@ -100,5 +100,4 @@ public struct LicenseManager {
     public func updateServiceSettings(_ input: UpdateServiceSettingsRequest) throws -> Future<UpdateServiceSettingsResponse> {
         return try client.send(operation: "UpdateServiceSettings", path: "/", httpMethod: "POST", input: input)
     }
-
 }

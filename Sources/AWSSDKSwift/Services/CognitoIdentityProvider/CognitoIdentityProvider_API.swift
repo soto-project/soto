@@ -524,5 +524,4 @@ public struct CognitoIdentityProvider {
     public func verifyUserAttribute(_ input: VerifyUserAttributeRequest) throws -> Future<VerifyUserAttributeResponse> {
         return try client.send(operation: "VerifyUserAttribute", path: "/", httpMethod: "POST", input: input)
     }
-
 }

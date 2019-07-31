@@ -104,5 +104,4 @@ public struct Batch {
     public func updateJobQueue(_ input: UpdateJobQueueRequest) throws -> Future<UpdateJobQueueResponse> {
         return try client.send(operation: "UpdateJobQueue", path: "/v1/updatejobqueue", httpMethod: "POST", input: input)
     }
-
 }

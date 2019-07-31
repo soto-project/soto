@@ -20,7 +20,7 @@ extension CloudDirectory {
         public let objectReference: ObjectReference
         /// Identifiers for the facet that you are adding to the object. See SchemaFacet for details.
         public let schemaFacet: SchemaFacet
-        
+
         public init(directoryArn: String, objectAttributeList: [AttributeKeyAndValue]? = nil, objectReference: ObjectReference, schemaFacet: SchemaFacet) {
             self.directoryArn = directoryArn
             self.objectAttributeList = objectAttributeList
@@ -37,12 +37,11 @@ extension CloudDirectory {
     }
 
     public struct AddFacetToObjectResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct ApplySchemaRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -53,7 +52,7 @@ extension CloudDirectory {
         public let directoryArn: String
         /// Published schema Amazon Resource Name (ARN) that needs to be copied. For more information, see arns.
         public let publishedSchemaArn: String
-        
+
         public init(directoryArn: String, publishedSchemaArn: String) {
             self.directoryArn = directoryArn
             self.publishedSchemaArn = publishedSchemaArn
@@ -74,7 +73,7 @@ extension CloudDirectory {
         public let appliedSchemaArn: String?
         /// The ARN that is associated with the Directory. For more information, see arns.
         public let directoryArn: String?
-        
+
         public init(appliedSchemaArn: String? = nil, directoryArn: String? = nil) {
             self.appliedSchemaArn = appliedSchemaArn
             self.directoryArn = directoryArn
@@ -101,7 +100,7 @@ extension CloudDirectory {
         public let linkName: String
         /// The parent object reference.
         public let parentReference: ObjectReference
-        
+
         public init(childReference: ObjectReference, directoryArn: String, linkName: String, parentReference: ObjectReference) {
             self.childReference = childReference
             self.directoryArn = directoryArn
@@ -123,7 +122,7 @@ extension CloudDirectory {
         ]
         /// The attached ObjectIdentifier, which is the child ObjectIdentifier.
         public let attachedObjectIdentifier: String?
-        
+
         public init(attachedObjectIdentifier: String? = nil) {
             self.attachedObjectIdentifier = attachedObjectIdentifier
         }
@@ -145,7 +144,7 @@ extension CloudDirectory {
         public let objectReference: ObjectReference
         /// The reference that is associated with the policy object.
         public let policyReference: ObjectReference
-        
+
         public init(directoryArn: String, objectReference: ObjectReference, policyReference: ObjectReference) {
             self.directoryArn = directoryArn
             self.objectReference = objectReference
@@ -160,12 +159,11 @@ extension CloudDirectory {
     }
 
     public struct AttachPolicyResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct AttachToIndexRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -179,7 +177,7 @@ extension CloudDirectory {
         public let indexReference: ObjectReference
         /// A reference to the object that you are attaching to the index.
         public let targetReference: ObjectReference
-        
+
         public init(directoryArn: String, indexReference: ObjectReference, targetReference: ObjectReference) {
             self.directoryArn = directoryArn
             self.indexReference = indexReference
@@ -199,7 +197,7 @@ extension CloudDirectory {
         ]
         /// The ObjectIdentifier of the object that was attached to the index.
         public let attachedObjectIdentifier: String?
-        
+
         public init(attachedObjectIdentifier: String? = nil) {
             self.attachedObjectIdentifier = attachedObjectIdentifier
         }
@@ -227,7 +225,7 @@ extension CloudDirectory {
         public let targetObjectReference: ObjectReference
         /// Identifies the typed link facet that is associated with the typed link.
         public let typedLinkFacet: TypedLinkSchemaAndFacetName
-        
+
         public init(attributes: [AttributeNameAndValue], directoryArn: String, sourceObjectReference: ObjectReference, targetObjectReference: ObjectReference, typedLinkFacet: TypedLinkSchemaAndFacetName) {
             self.attributes = attributes
             self.directoryArn = directoryArn
@@ -251,7 +249,7 @@ extension CloudDirectory {
         ]
         /// Returns a typed link specifier as output.
         public let typedLinkSpecifier: TypedLinkSpecifier?
-        
+
         public init(typedLinkSpecifier: TypedLinkSpecifier? = nil) {
             self.typedLinkSpecifier = typedLinkSpecifier
         }
@@ -273,7 +271,7 @@ extension CloudDirectory {
         public let name: String
         /// The Amazon Resource Name (ARN) of the schema that contains the facet and attribute.
         public let schemaArn: String
-        
+
         public init(facetName: String, name: String, schemaArn: String) {
             self.facetName = facetName
             self.name = name
@@ -296,7 +294,7 @@ extension CloudDirectory {
         public let key: AttributeKey
         /// The value of the attribute.
         public let value: TypedAttributeValue
-        
+
         public init(key: AttributeKey, value: TypedAttributeValue) {
             self.key = key
             self.value = value
@@ -317,7 +315,7 @@ extension CloudDirectory {
         public let attributeName: String
         /// The value for the typed link.
         public let value: TypedAttributeValue
-        
+
         public init(attributeName: String, value: TypedAttributeValue) {
             self.attributeName = attributeName
             self.value = value
@@ -341,7 +339,7 @@ extension CloudDirectory {
         public let objectReference: ObjectReference
         /// Represents the facet being added to the object.
         public let schemaFacet: SchemaFacet
-        
+
         public init(objectAttributeList: [AttributeKeyAndValue], objectReference: ObjectReference, schemaFacet: SchemaFacet) {
             self.objectAttributeList = objectAttributeList
             self.objectReference = objectReference
@@ -356,12 +354,11 @@ extension CloudDirectory {
     }
 
     public struct BatchAddFacetToObjectResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct BatchAttachObject: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -375,7 +372,7 @@ extension CloudDirectory {
         public let linkName: String
         /// The parent object reference.
         public let parentReference: ObjectReference
-        
+
         public init(childReference: ObjectReference, linkName: String, parentReference: ObjectReference) {
             self.childReference = childReference
             self.linkName = linkName
@@ -395,7 +392,7 @@ extension CloudDirectory {
         ]
         /// The ObjectIdentifier of the object that has been attached.
         public let attachedObjectIdentifier: String?
-        
+
         public init(attachedObjectIdentifier: String? = nil) {
             self.attachedObjectIdentifier = attachedObjectIdentifier
         }
@@ -414,7 +411,7 @@ extension CloudDirectory {
         public let objectReference: ObjectReference
         /// The reference that is associated with the policy object.
         public let policyReference: ObjectReference
-        
+
         public init(objectReference: ObjectReference, policyReference: ObjectReference) {
             self.objectReference = objectReference
             self.policyReference = policyReference
@@ -427,12 +424,11 @@ extension CloudDirectory {
     }
 
     public struct BatchAttachPolicyResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct BatchAttachToIndex: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -443,7 +439,7 @@ extension CloudDirectory {
         public let indexReference: ObjectReference
         /// A reference to the object that you are attaching to the index.
         public let targetReference: ObjectReference
-        
+
         public init(indexReference: ObjectReference, targetReference: ObjectReference) {
             self.indexReference = indexReference
             self.targetReference = targetReference
@@ -461,7 +457,7 @@ extension CloudDirectory {
         ]
         /// The ObjectIdentifier of the object that was attached to the index.
         public let attachedObjectIdentifier: String?
-        
+
         public init(attachedObjectIdentifier: String? = nil) {
             self.attachedObjectIdentifier = attachedObjectIdentifier
         }
@@ -486,7 +482,7 @@ extension CloudDirectory {
         public let targetObjectReference: ObjectReference
         /// Identifies the typed link facet that is associated with the typed link.
         public let typedLinkFacet: TypedLinkSchemaAndFacetName
-        
+
         public init(attributes: [AttributeNameAndValue], sourceObjectReference: ObjectReference, targetObjectReference: ObjectReference, typedLinkFacet: TypedLinkSchemaAndFacetName) {
             self.attributes = attributes
             self.sourceObjectReference = sourceObjectReference
@@ -508,7 +504,7 @@ extension CloudDirectory {
         ]
         /// Returns a typed link specifier as output.
         public let typedLinkSpecifier: TypedLinkSpecifier?
-        
+
         public init(typedLinkSpecifier: TypedLinkSpecifier? = nil) {
             self.typedLinkSpecifier = typedLinkSpecifier
         }
@@ -536,7 +532,7 @@ extension CloudDirectory {
         public let orderedIndexedAttributeList: [AttributeKey]
         /// A reference to the parent object that contains the index object.
         public let parentReference: ObjectReference?
-        
+
         public init(batchReferenceName: String? = nil, isUnique: Bool, linkName: String? = nil, orderedIndexedAttributeList: [AttributeKey], parentReference: ObjectReference? = nil) {
             self.batchReferenceName = batchReferenceName
             self.isUnique = isUnique
@@ -560,7 +556,7 @@ extension CloudDirectory {
         ]
         /// The ObjectIdentifier of the index created by this operation.
         public let objectIdentifier: String?
-        
+
         public init(objectIdentifier: String? = nil) {
             self.objectIdentifier = objectIdentifier
         }
@@ -588,7 +584,7 @@ extension CloudDirectory {
         public let parentReference: ObjectReference?
         /// A list of FacetArns that will be associated with the object. For more information, see arns.
         public let schemaFacet: [SchemaFacet]
-        
+
         public init(batchReferenceName: String? = nil, linkName: String? = nil, objectAttributeList: [AttributeKeyAndValue], parentReference: ObjectReference? = nil, schemaFacet: [SchemaFacet]) {
             self.batchReferenceName = batchReferenceName
             self.linkName = linkName
@@ -612,7 +608,7 @@ extension CloudDirectory {
         ]
         /// The ID that is associated with the object.
         public let objectIdentifier: String?
-        
+
         public init(objectIdentifier: String? = nil) {
             self.objectIdentifier = objectIdentifier
         }
@@ -628,7 +624,7 @@ extension CloudDirectory {
         ]
         /// The reference that identifies the object.
         public let objectReference: ObjectReference
-        
+
         public init(objectReference: ObjectReference) {
             self.objectReference = objectReference
         }
@@ -639,12 +635,11 @@ extension CloudDirectory {
     }
 
     public struct BatchDeleteObjectResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct BatchDetachFromIndex: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -655,7 +650,7 @@ extension CloudDirectory {
         public let indexReference: ObjectReference
         /// A reference to the object being detached from the index.
         public let targetReference: ObjectReference
-        
+
         public init(indexReference: ObjectReference, targetReference: ObjectReference) {
             self.indexReference = indexReference
             self.targetReference = targetReference
@@ -673,7 +668,7 @@ extension CloudDirectory {
         ]
         /// The ObjectIdentifier of the object that was detached from the index.
         public let detachedObjectIdentifier: String?
-        
+
         public init(detachedObjectIdentifier: String? = nil) {
             self.detachedObjectIdentifier = detachedObjectIdentifier
         }
@@ -695,7 +690,7 @@ extension CloudDirectory {
         public let linkName: String
         /// Parent reference from which the object with the specified link name is detached.
         public let parentReference: ObjectReference
-        
+
         public init(batchReferenceName: String? = nil, linkName: String, parentReference: ObjectReference) {
             self.batchReferenceName = batchReferenceName
             self.linkName = linkName
@@ -715,7 +710,7 @@ extension CloudDirectory {
         ]
         /// The ObjectIdentifier of the detached object.
         public let detachedObjectIdentifier: String?
-        
+
         public init(detachedObjectIdentifier: String? = nil) {
             self.detachedObjectIdentifier = detachedObjectIdentifier
         }
@@ -734,7 +729,7 @@ extension CloudDirectory {
         public let objectReference: ObjectReference
         /// Reference that identifies the policy object.
         public let policyReference: ObjectReference
-        
+
         public init(objectReference: ObjectReference, policyReference: ObjectReference) {
             self.objectReference = objectReference
             self.policyReference = policyReference
@@ -747,12 +742,11 @@ extension CloudDirectory {
     }
 
     public struct BatchDetachPolicyResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct BatchDetachTypedLink: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -760,7 +754,7 @@ extension CloudDirectory {
         ]
         /// Used to accept a typed link specifier as input.
         public let typedLinkSpecifier: TypedLinkSpecifier
-        
+
         public init(typedLinkSpecifier: TypedLinkSpecifier) {
             self.typedLinkSpecifier = typedLinkSpecifier
         }
@@ -771,12 +765,11 @@ extension CloudDirectory {
     }
 
     public struct BatchDetachTypedLinkResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct BatchGetLinkAttributes: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -787,7 +780,7 @@ extension CloudDirectory {
         public let attributeNames: [String]
         /// Allows a typed link specifier to be accepted as input.
         public let typedLinkSpecifier: TypedLinkSpecifier
-        
+
         public init(attributeNames: [String], typedLinkSpecifier: TypedLinkSpecifier) {
             self.attributeNames = attributeNames
             self.typedLinkSpecifier = typedLinkSpecifier
@@ -805,7 +798,7 @@ extension CloudDirectory {
         ]
         /// The attributes that are associated with the typed link.
         public let attributes: [AttributeKeyAndValue]?
-        
+
         public init(attributes: [AttributeKeyAndValue]? = nil) {
             self.attributes = attributes
         }
@@ -827,7 +820,7 @@ extension CloudDirectory {
         public let objectReference: ObjectReference
         /// Identifier for the facet whose attributes will be retrieved. See SchemaFacet for details.
         public let schemaFacet: SchemaFacet
-        
+
         public init(attributeNames: [String], objectReference: ObjectReference, schemaFacet: SchemaFacet) {
             self.attributeNames = attributeNames
             self.objectReference = objectReference
@@ -847,7 +840,7 @@ extension CloudDirectory {
         ]
         /// The attribute values that are associated with an object.
         public let attributes: [AttributeKeyAndValue]?
-        
+
         public init(attributes: [AttributeKeyAndValue]? = nil) {
             self.attributes = attributes
         }
@@ -863,7 +856,7 @@ extension CloudDirectory {
         ]
         /// A reference to the object.
         public let objectReference: ObjectReference
-        
+
         public init(objectReference: ObjectReference) {
             self.objectReference = objectReference
         }
@@ -882,7 +875,7 @@ extension CloudDirectory {
         public let objectIdentifier: String?
         /// The facets attached to the specified object.
         public let schemaFacets: [SchemaFacet]?
-        
+
         public init(objectIdentifier: String? = nil, schemaFacets: [SchemaFacet]? = nil) {
             self.objectIdentifier = objectIdentifier
             self.schemaFacets = schemaFacets
@@ -906,7 +899,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// A reference to the object that has indices attached.
         public let targetReference: ObjectReference
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, targetReference: ObjectReference) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -929,7 +922,7 @@ extension CloudDirectory {
         public let indexAttachments: [IndexAttachment]?
         /// The pagination token.
         public let nextToken: String?
-        
+
         public init(indexAttachments: [IndexAttachment]? = nil, nextToken: String? = nil) {
             self.indexAttachments = indexAttachments
             self.nextToken = nextToken
@@ -959,7 +952,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// The reference that identifies the object whose attributes will be listed.
         public let objectReference: ObjectReference
-        
+
         public init(filterAttributeRanges: [TypedLinkAttributeRange]? = nil, filterTypedLink: TypedLinkSchemaAndFacetName? = nil, maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.filterAttributeRanges = filterAttributeRanges
             self.filterTypedLink = filterTypedLink
@@ -986,7 +979,7 @@ extension CloudDirectory {
         public let linkSpecifiers: [TypedLinkSpecifier]?
         /// The pagination token.
         public let nextToken: String?
-        
+
         public init(linkSpecifiers: [TypedLinkSpecifier]? = nil, nextToken: String? = nil) {
             self.linkSpecifiers = linkSpecifiers
             self.nextToken = nextToken
@@ -1013,7 +1006,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// Specifies the ranges of indexed values that you want to query.
         public let rangesOnIndexedValues: [ObjectAttributeRange]?
-        
+
         public init(indexReference: ObjectReference, maxResults: Int32? = nil, nextToken: String? = nil, rangesOnIndexedValues: [ObjectAttributeRange]? = nil) {
             self.indexReference = indexReference
             self.maxResults = maxResults
@@ -1038,7 +1031,7 @@ extension CloudDirectory {
         public let indexAttachments: [IndexAttachment]?
         /// The pagination token.
         public let nextToken: String?
-        
+
         public init(indexAttachments: [IndexAttachment]? = nil, nextToken: String? = nil) {
             self.indexAttachments = indexAttachments
             self.nextToken = nextToken
@@ -1065,7 +1058,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// Reference of the object whose attributes need to be listed.
         public let objectReference: ObjectReference
-        
+
         public init(facetFilter: SchemaFacet? = nil, maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.facetFilter = facetFilter
             self.maxResults = maxResults
@@ -1090,7 +1083,7 @@ extension CloudDirectory {
         public let attributes: [AttributeKeyAndValue]?
         /// The pagination token.
         public let nextToken: String?
-        
+
         public init(attributes: [AttributeKeyAndValue]? = nil, nextToken: String? = nil) {
             self.attributes = attributes
             self.nextToken = nextToken
@@ -1114,7 +1107,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// Reference of the object for which child objects are being listed.
         public let objectReference: ObjectReference
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1137,7 +1130,7 @@ extension CloudDirectory {
         public let children: [String: String]?
         /// The pagination token.
         public let nextToken: String?
-        
+
         public init(children: [String: String]? = nil, nextToken: String? = nil) {
             self.children = children
             self.nextToken = nextToken
@@ -1161,7 +1154,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// The reference that identifies the object whose attributes will be listed.
         public let objectReference: ObjectReference
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1184,7 +1177,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// Returns the path to the ObjectIdentifiers that are associated with the directory.
         public let pathToObjectIdentifiersList: [PathToObjectIdentifiers]?
-        
+
         public init(nextToken: String? = nil, pathToObjectIdentifiersList: [PathToObjectIdentifiers]? = nil) {
             self.nextToken = nextToken
             self.pathToObjectIdentifiersList = pathToObjectIdentifiersList
@@ -1205,7 +1198,7 @@ extension CloudDirectory {
         public let maxResults: Int32?
         public let nextToken: String?
         public let objectReference: ObjectReference
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1226,7 +1219,7 @@ extension CloudDirectory {
         ]
         public let nextToken: String?
         public let parentLinks: [ObjectIdentifierAndLinkNameTuple]?
-        
+
         public init(nextToken: String? = nil, parentLinks: [ObjectIdentifierAndLinkNameTuple]? = nil) {
             self.nextToken = nextToken
             self.parentLinks = parentLinks
@@ -1250,7 +1243,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// The reference that identifies the object whose attributes will be listed.
         public let objectReference: ObjectReference
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1273,7 +1266,7 @@ extension CloudDirectory {
         public let attachedPolicyIds: [String]?
         /// The pagination token.
         public let nextToken: String?
-        
+
         public init(attachedPolicyIds: [String]? = nil, nextToken: String? = nil) {
             self.attachedPolicyIds = attachedPolicyIds
             self.nextToken = nextToken
@@ -1303,7 +1296,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// The reference that identifies the object whose attributes will be listed.
         public let objectReference: ObjectReference
-        
+
         public init(filterAttributeRanges: [TypedLinkAttributeRange]? = nil, filterTypedLink: TypedLinkSchemaAndFacetName? = nil, maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.filterAttributeRanges = filterAttributeRanges
             self.filterTypedLink = filterTypedLink
@@ -1330,7 +1323,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// Returns a typed link specifier as output.
         public let typedLinkSpecifiers: [TypedLinkSpecifier]?
-        
+
         public init(nextToken: String? = nil, typedLinkSpecifiers: [TypedLinkSpecifier]? = nil) {
             self.nextToken = nextToken
             self.typedLinkSpecifiers = typedLinkSpecifiers
@@ -1354,7 +1347,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// The reference that identifies the policy object.
         public let policyReference: ObjectReference
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, policyReference: ObjectReference) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1377,7 +1370,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// A list of ObjectIdentifiers to which the policy is attached.
         public let objectIdentifiers: [String]?
-        
+
         public init(nextToken: String? = nil, objectIdentifiers: [String]? = nil) {
             self.nextToken = nextToken
             self.objectIdentifiers = objectIdentifiers
@@ -1401,7 +1394,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// Reference that identifies the object whose policies will be looked up.
         public let objectReference: ObjectReference
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1424,7 +1417,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// Provides list of path to policies. Policies contain PolicyId, ObjectIdentifier, and PolicyType. For more information, see Policies.
         public let policyToPathList: [PolicyToPath]?
-        
+
         public init(nextToken: String? = nil, policyToPathList: [PolicyToPath]? = nil) {
             self.nextToken = nextToken
             self.policyToPathList = policyToPathList
@@ -1445,7 +1438,7 @@ extension CloudDirectory {
         public let message: String?
         /// A type of exception, such as InvalidArnException.
         public let `type`: BatchReadExceptionType?
-        
+
         public init(message: String? = nil, type: BatchReadExceptionType? = nil) {
             self.message = message
             self.`type` = `type`
@@ -1518,7 +1511,7 @@ extension CloudDirectory {
         public let listPolicyAttachments: BatchListPolicyAttachments?
         /// Lists all policies from the root of the Directory to the object specified. If there are no policies present, an empty list is returned. If policies are present, and if some objects don't have the policies attached, it returns the ObjectIdentifier for such objects. If policies are present, it returns ObjectIdentifier, policyId, and policyType. Paths that don't lead to the root from the target object are ignored. For more information, see Policies.
         public let lookupPolicy: BatchLookupPolicy?
-        
+
         public init(getLinkAttributes: BatchGetLinkAttributes? = nil, getObjectAttributes: BatchGetObjectAttributes? = nil, getObjectInformation: BatchGetObjectInformation? = nil, listAttachedIndices: BatchListAttachedIndices? = nil, listIncomingTypedLinks: BatchListIncomingTypedLinks? = nil, listIndex: BatchListIndex? = nil, listObjectAttributes: BatchListObjectAttributes? = nil, listObjectChildren: BatchListObjectChildren? = nil, listObjectParentPaths: BatchListObjectParentPaths? = nil, listObjectParents: BatchListObjectParents? = nil, listObjectPolicies: BatchListObjectPolicies? = nil, listOutgoingTypedLinks: BatchListOutgoingTypedLinks? = nil, listPolicyAttachments: BatchListPolicyAttachments? = nil, lookupPolicy: BatchLookupPolicy? = nil) {
             self.getLinkAttributes = getLinkAttributes
             self.getObjectAttributes = getObjectAttributes
@@ -1563,7 +1556,7 @@ extension CloudDirectory {
         public let exceptionResponse: BatchReadException?
         /// Identifies which operation in a batch has succeeded.
         public let successfulResponse: BatchReadSuccessfulResponse?
-        
+
         public init(exceptionResponse: BatchReadException? = nil, successfulResponse: BatchReadSuccessfulResponse? = nil) {
             self.exceptionResponse = exceptionResponse
             self.successfulResponse = successfulResponse
@@ -1587,7 +1580,7 @@ extension CloudDirectory {
         public let directoryArn: String
         /// A list of operations that are part of the batch.
         public let operations: [BatchReadOperation]
-        
+
         public init(consistencyLevel: ConsistencyLevel? = nil, directoryArn: String, operations: [BatchReadOperation]) {
             self.consistencyLevel = consistencyLevel
             self.directoryArn = directoryArn
@@ -1607,7 +1600,7 @@ extension CloudDirectory {
         ]
         /// A list of all the responses for each batch read.
         public let responses: [BatchReadOperationResponse]?
-        
+
         public init(responses: [BatchReadOperationResponse]? = nil) {
             self.responses = responses
         }
@@ -1661,7 +1654,7 @@ extension CloudDirectory {
         public let listPolicyAttachments: BatchListPolicyAttachmentsResponse?
         /// Lists all policies from the root of the Directory to the object specified. If there are no policies present, an empty list is returned. If policies are present, and if some objects don't have the policies attached, it returns the ObjectIdentifier for such objects. If policies are present, it returns ObjectIdentifier, policyId, and policyType. Paths that don't lead to the root from the target object are ignored. For more information, see Policies.
         public let lookupPolicy: BatchLookupPolicyResponse?
-        
+
         public init(getLinkAttributes: BatchGetLinkAttributesResponse? = nil, getObjectAttributes: BatchGetObjectAttributesResponse? = nil, getObjectInformation: BatchGetObjectInformationResponse? = nil, listAttachedIndices: BatchListAttachedIndicesResponse? = nil, listIncomingTypedLinks: BatchListIncomingTypedLinksResponse? = nil, listIndex: BatchListIndexResponse? = nil, listObjectAttributes: BatchListObjectAttributesResponse? = nil, listObjectChildren: BatchListObjectChildrenResponse? = nil, listObjectParentPaths: BatchListObjectParentPathsResponse? = nil, listObjectParents: BatchListObjectParentsResponse? = nil, listObjectPolicies: BatchListObjectPoliciesResponse? = nil, listOutgoingTypedLinks: BatchListOutgoingTypedLinksResponse? = nil, listPolicyAttachments: BatchListPolicyAttachmentsResponse? = nil, lookupPolicy: BatchLookupPolicyResponse? = nil) {
             self.getLinkAttributes = getLinkAttributes
             self.getObjectAttributes = getObjectAttributes
@@ -1706,7 +1699,7 @@ extension CloudDirectory {
         public let objectReference: ObjectReference
         /// The facet to remove from the object.
         public let schemaFacet: SchemaFacet
-        
+
         public init(objectReference: ObjectReference, schemaFacet: SchemaFacet) {
             self.objectReference = objectReference
             self.schemaFacet = schemaFacet
@@ -1719,12 +1712,11 @@ extension CloudDirectory {
     }
 
     public struct BatchRemoveFacetFromObjectResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct BatchUpdateLinkAttributes: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1735,7 +1727,7 @@ extension CloudDirectory {
         public let attributeUpdates: [LinkAttributeUpdate]
         /// Allows a typed link specifier to be accepted as input.
         public let typedLinkSpecifier: TypedLinkSpecifier
-        
+
         public init(attributeUpdates: [LinkAttributeUpdate], typedLinkSpecifier: TypedLinkSpecifier) {
             self.attributeUpdates = attributeUpdates
             self.typedLinkSpecifier = typedLinkSpecifier
@@ -1748,12 +1740,11 @@ extension CloudDirectory {
     }
 
     public struct BatchUpdateLinkAttributesResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct BatchUpdateObjectAttributes: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1764,7 +1755,7 @@ extension CloudDirectory {
         public let attributeUpdates: [ObjectAttributeUpdate]
         /// Reference that identifies the object.
         public let objectReference: ObjectReference
-        
+
         public init(attributeUpdates: [ObjectAttributeUpdate], objectReference: ObjectReference) {
             self.attributeUpdates = attributeUpdates
             self.objectReference = objectReference
@@ -1782,7 +1773,7 @@ extension CloudDirectory {
         ]
         /// ID that is associated with the object.
         public let objectIdentifier: String?
-        
+
         public init(objectIdentifier: String? = nil) {
             self.objectIdentifier = objectIdentifier
         }
@@ -1862,7 +1853,7 @@ extension CloudDirectory {
         public let updateLinkAttributes: BatchUpdateLinkAttributes?
         /// Updates a given object's attributes.
         public let updateObjectAttributes: BatchUpdateObjectAttributes?
-        
+
         public init(addFacetToObject: BatchAddFacetToObject? = nil, attachObject: BatchAttachObject? = nil, attachPolicy: BatchAttachPolicy? = nil, attachToIndex: BatchAttachToIndex? = nil, attachTypedLink: BatchAttachTypedLink? = nil, createIndex: BatchCreateIndex? = nil, createObject: BatchCreateObject? = nil, deleteObject: BatchDeleteObject? = nil, detachFromIndex: BatchDetachFromIndex? = nil, detachObject: BatchDetachObject? = nil, detachPolicy: BatchDetachPolicy? = nil, detachTypedLink: BatchDetachTypedLink? = nil, removeFacetFromObject: BatchRemoveFacetFromObject? = nil, updateLinkAttributes: BatchUpdateLinkAttributes? = nil, updateObjectAttributes: BatchUpdateObjectAttributes? = nil) {
             self.addFacetToObject = addFacetToObject
             self.attachObject = attachObject
@@ -1948,7 +1939,7 @@ extension CloudDirectory {
         public let updateLinkAttributes: BatchUpdateLinkAttributesResponse?
         /// Updates a given object’s attributes.
         public let updateObjectAttributes: BatchUpdateObjectAttributesResponse?
-        
+
         public init(addFacetToObject: BatchAddFacetToObjectResponse? = nil, attachObject: BatchAttachObjectResponse? = nil, attachPolicy: BatchAttachPolicyResponse? = nil, attachToIndex: BatchAttachToIndexResponse? = nil, attachTypedLink: BatchAttachTypedLinkResponse? = nil, createIndex: BatchCreateIndexResponse? = nil, createObject: BatchCreateObjectResponse? = nil, deleteObject: BatchDeleteObjectResponse? = nil, detachFromIndex: BatchDetachFromIndexResponse? = nil, detachObject: BatchDetachObjectResponse? = nil, detachPolicy: BatchDetachPolicyResponse? = nil, detachTypedLink: BatchDetachTypedLinkResponse? = nil, removeFacetFromObject: BatchRemoveFacetFromObjectResponse? = nil, updateLinkAttributes: BatchUpdateLinkAttributesResponse? = nil, updateObjectAttributes: BatchUpdateObjectAttributesResponse? = nil) {
             self.addFacetToObject = addFacetToObject
             self.attachObject = attachObject
@@ -1995,7 +1986,7 @@ extension CloudDirectory {
         public let directoryArn: String
         /// A list of operations that are part of the batch.
         public let operations: [BatchWriteOperation]
-        
+
         public init(directoryArn: String, operations: [BatchWriteOperation]) {
             self.directoryArn = directoryArn
             self.operations = operations
@@ -2013,7 +2004,7 @@ extension CloudDirectory {
         ]
         /// A list of all the responses for each batch write.
         public let responses: [BatchWriteOperationResponse]?
-        
+
         public init(responses: [BatchWriteOperationResponse]? = nil) {
             self.responses = responses
         }
@@ -2038,7 +2029,7 @@ extension CloudDirectory {
         public let name: String
         /// The Amazon Resource Name (ARN) of the published schema that will be copied into the data Directory. For more information, see arns.
         public let schemaArn: String
-        
+
         public init(name: String, schemaArn: String) {
             self.name = name
             self.schemaArn = schemaArn
@@ -2065,7 +2056,7 @@ extension CloudDirectory {
         public let name: String
         /// The root object node of the created directory.
         public let objectIdentifier: String
-        
+
         public init(appliedSchemaArn: String, directoryArn: String, name: String, objectIdentifier: String) {
             self.appliedSchemaArn = appliedSchemaArn
             self.directoryArn = directoryArn
@@ -2099,7 +2090,7 @@ extension CloudDirectory {
         public let objectType: ObjectType?
         /// The schema ARN in which the new Facet will be created. For more information, see arns.
         public let schemaArn: String
-        
+
         public init(attributes: [FacetAttribute]? = nil, facetStyle: FacetStyle? = nil, name: String, objectType: ObjectType? = nil, schemaArn: String) {
             self.attributes = attributes
             self.facetStyle = facetStyle
@@ -2118,12 +2109,11 @@ extension CloudDirectory {
     }
 
     public struct CreateFacetResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct CreateIndexRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2143,7 +2133,7 @@ extension CloudDirectory {
         public let orderedIndexedAttributeList: [AttributeKey]
         /// A reference to the parent object that contains the index object.
         public let parentReference: ObjectReference?
-        
+
         public init(directoryArn: String, isUnique: Bool, linkName: String? = nil, orderedIndexedAttributeList: [AttributeKey], parentReference: ObjectReference? = nil) {
             self.directoryArn = directoryArn
             self.isUnique = isUnique
@@ -2167,7 +2157,7 @@ extension CloudDirectory {
         ]
         /// The ObjectIdentifier of the index created by this operation.
         public let objectIdentifier: String?
-        
+
         public init(objectIdentifier: String? = nil) {
             self.objectIdentifier = objectIdentifier
         }
@@ -2195,7 +2185,7 @@ extension CloudDirectory {
         public let parentReference: ObjectReference?
         /// A list of schema facets to be associated with the object. Do not provide minor version components. See SchemaFacet for details.
         public let schemaFacets: [SchemaFacet]
-        
+
         public init(directoryArn: String, linkName: String? = nil, objectAttributeList: [AttributeKeyAndValue]? = nil, parentReference: ObjectReference? = nil, schemaFacets: [SchemaFacet]) {
             self.directoryArn = directoryArn
             self.linkName = linkName
@@ -2219,7 +2209,7 @@ extension CloudDirectory {
         ]
         /// The identifier that is associated with the object.
         public let objectIdentifier: String?
-        
+
         public init(objectIdentifier: String? = nil) {
             self.objectIdentifier = objectIdentifier
         }
@@ -2235,7 +2225,7 @@ extension CloudDirectory {
         ]
         /// The name that is associated with the schema. This is unique to each account and in each region.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -2251,7 +2241,7 @@ extension CloudDirectory {
         ]
         /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
         public let schemaArn: String?
-        
+
         public init(schemaArn: String? = nil) {
             self.schemaArn = schemaArn
         }
@@ -2270,7 +2260,7 @@ extension CloudDirectory {
         public let facet: TypedLinkFacet
         /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
         public let schemaArn: String
-        
+
         public init(facet: TypedLinkFacet, schemaArn: String) {
             self.facet = facet
             self.schemaArn = schemaArn
@@ -2283,12 +2273,11 @@ extension CloudDirectory {
     }
 
     public struct CreateTypedLinkFacetResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteDirectoryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2296,7 +2285,7 @@ extension CloudDirectory {
         ]
         /// The ARN of the directory to delete.
         public let directoryArn: String
-        
+
         public init(directoryArn: String) {
             self.directoryArn = directoryArn
         }
@@ -2312,7 +2301,7 @@ extension CloudDirectory {
         ]
         /// The ARN of the deleted directory.
         public let directoryArn: String
-        
+
         public init(directoryArn: String) {
             self.directoryArn = directoryArn
         }
@@ -2331,7 +2320,7 @@ extension CloudDirectory {
         public let name: String
         /// The Amazon Resource Name (ARN) that is associated with the Facet. For more information, see arns.
         public let schemaArn: String
-        
+
         public init(name: String, schemaArn: String) {
             self.name = name
             self.schemaArn = schemaArn
@@ -2344,12 +2333,11 @@ extension CloudDirectory {
     }
 
     public struct DeleteFacetResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteObjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2360,7 +2348,7 @@ extension CloudDirectory {
         public let directoryArn: String
         /// A reference that identifies the object.
         public let objectReference: ObjectReference
-        
+
         public init(directoryArn: String, objectReference: ObjectReference) {
             self.directoryArn = directoryArn
             self.objectReference = objectReference
@@ -2373,12 +2361,11 @@ extension CloudDirectory {
     }
 
     public struct DeleteObjectResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteSchemaRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2386,7 +2373,7 @@ extension CloudDirectory {
         ]
         /// The Amazon Resource Name (ARN) of the development schema. For more information, see arns.
         public let schemaArn: String
-        
+
         public init(schemaArn: String) {
             self.schemaArn = schemaArn
         }
@@ -2402,7 +2389,7 @@ extension CloudDirectory {
         ]
         /// The input ARN that is returned as part of the response. For more information, see arns.
         public let schemaArn: String?
-        
+
         public init(schemaArn: String? = nil) {
             self.schemaArn = schemaArn
         }
@@ -2421,7 +2408,7 @@ extension CloudDirectory {
         public let name: String
         /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
         public let schemaArn: String
-        
+
         public init(name: String, schemaArn: String) {
             self.name = name
             self.schemaArn = schemaArn
@@ -2434,12 +2421,11 @@ extension CloudDirectory {
     }
 
     public struct DeleteTypedLinkFacetResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DetachFromIndexRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2453,7 +2439,7 @@ extension CloudDirectory {
         public let indexReference: ObjectReference
         /// A reference to the object being detached from the index.
         public let targetReference: ObjectReference
-        
+
         public init(directoryArn: String, indexReference: ObjectReference, targetReference: ObjectReference) {
             self.directoryArn = directoryArn
             self.indexReference = indexReference
@@ -2473,7 +2459,7 @@ extension CloudDirectory {
         ]
         /// The ObjectIdentifier of the object that was detached from the index.
         public let detachedObjectIdentifier: String?
-        
+
         public init(detachedObjectIdentifier: String? = nil) {
             self.detachedObjectIdentifier = detachedObjectIdentifier
         }
@@ -2495,7 +2481,7 @@ extension CloudDirectory {
         public let linkName: String
         /// The parent reference from which the object with the specified link name is detached.
         public let parentReference: ObjectReference
-        
+
         public init(directoryArn: String, linkName: String, parentReference: ObjectReference) {
             self.directoryArn = directoryArn
             self.linkName = linkName
@@ -2515,7 +2501,7 @@ extension CloudDirectory {
         ]
         /// The ObjectIdentifier that was detached from the object.
         public let detachedObjectIdentifier: String?
-        
+
         public init(detachedObjectIdentifier: String? = nil) {
             self.detachedObjectIdentifier = detachedObjectIdentifier
         }
@@ -2537,7 +2523,7 @@ extension CloudDirectory {
         public let objectReference: ObjectReference
         /// Reference that identifies the policy object.
         public let policyReference: ObjectReference
-        
+
         public init(directoryArn: String, objectReference: ObjectReference, policyReference: ObjectReference) {
             self.directoryArn = directoryArn
             self.objectReference = objectReference
@@ -2552,12 +2538,11 @@ extension CloudDirectory {
     }
 
     public struct DetachPolicyResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DetachTypedLinkRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2568,7 +2553,7 @@ extension CloudDirectory {
         public let directoryArn: String
         /// Used to accept a typed link specifier as input.
         public let typedLinkSpecifier: TypedLinkSpecifier
-        
+
         public init(directoryArn: String, typedLinkSpecifier: TypedLinkSpecifier) {
             self.directoryArn = directoryArn
             self.typedLinkSpecifier = typedLinkSpecifier
@@ -2595,7 +2580,7 @@ extension CloudDirectory {
         public let name: String?
         /// The state of the directory. Can be either Enabled, Disabled, or Deleted.
         public let state: DirectoryState?
-        
+
         public init(creationDateTime: TimeStamp? = nil, directoryArn: String? = nil, name: String? = nil, state: DirectoryState? = nil) {
             self.creationDateTime = creationDateTime
             self.directoryArn = directoryArn
@@ -2624,7 +2609,7 @@ extension CloudDirectory {
         ]
         /// The ARN of the directory to disable.
         public let directoryArn: String
-        
+
         public init(directoryArn: String) {
             self.directoryArn = directoryArn
         }
@@ -2640,7 +2625,7 @@ extension CloudDirectory {
         ]
         /// The ARN of the directory that has been disabled.
         public let directoryArn: String
-        
+
         public init(directoryArn: String) {
             self.directoryArn = directoryArn
         }
@@ -2656,7 +2641,7 @@ extension CloudDirectory {
         ]
         /// The ARN of the directory to enable.
         public let directoryArn: String
-        
+
         public init(directoryArn: String) {
             self.directoryArn = directoryArn
         }
@@ -2672,7 +2657,7 @@ extension CloudDirectory {
         ]
         /// The ARN of the enabled directory.
         public let directoryArn: String
-        
+
         public init(directoryArn: String) {
             self.directoryArn = directoryArn
         }
@@ -2694,7 +2679,7 @@ extension CloudDirectory {
         public let name: String?
         /// The object type that is associated with the facet. See CreateFacetRequest$ObjectType for more details.
         public let objectType: ObjectType?
-        
+
         public init(facetStyle: FacetStyle? = nil, name: String? = nil, objectType: ObjectType? = nil) {
             self.facetStyle = facetStyle
             self.name = name
@@ -2723,7 +2708,7 @@ extension CloudDirectory {
         public let name: String
         /// The required behavior of the FacetAttribute.
         public let requiredBehavior: RequiredAttributeBehavior?
-        
+
         public init(attributeDefinition: FacetAttributeDefinition? = nil, attributeReference: FacetAttributeReference? = nil, name: String, requiredBehavior: RequiredAttributeBehavior? = nil) {
             self.attributeDefinition = attributeDefinition
             self.attributeReference = attributeReference
@@ -2754,7 +2739,7 @@ extension CloudDirectory {
         public let rules: [String: Rule]?
         /// The type of the attribute.
         public let `type`: FacetAttributeType
-        
+
         public init(defaultValue: TypedAttributeValue? = nil, isImmutable: Bool? = nil, rules: [String: Rule]? = nil, type: FacetAttributeType) {
             self.defaultValue = defaultValue
             self.isImmutable = isImmutable
@@ -2779,7 +2764,7 @@ extension CloudDirectory {
         public let targetAttributeName: String
         /// The target facet name that is associated with the facet reference. See Attribute References for more information.
         public let targetFacetName: String
-        
+
         public init(targetAttributeName: String, targetFacetName: String) {
             self.targetAttributeName = targetAttributeName
             self.targetFacetName = targetFacetName
@@ -2810,7 +2795,7 @@ extension CloudDirectory {
         public let action: UpdateActionType?
         /// The attribute to update.
         public let attribute: FacetAttribute?
-        
+
         public init(action: UpdateActionType? = nil, attribute: FacetAttribute? = nil) {
             self.action = action
             self.attribute = attribute
@@ -2834,7 +2819,7 @@ extension CloudDirectory {
         ]
         /// The ARN of the applied schema.
         public let schemaArn: String
-        
+
         public init(schemaArn: String) {
             self.schemaArn = schemaArn
         }
@@ -2850,7 +2835,7 @@ extension CloudDirectory {
         ]
         /// Current applied schema ARN, including the minor version in use if one was provided.
         public let appliedSchemaArn: String?
-        
+
         public init(appliedSchemaArn: String? = nil) {
             self.appliedSchemaArn = appliedSchemaArn
         }
@@ -2866,7 +2851,7 @@ extension CloudDirectory {
         ]
         /// The ARN of the directory.
         public let directoryArn: String
-        
+
         public init(directoryArn: String) {
             self.directoryArn = directoryArn
         }
@@ -2882,7 +2867,7 @@ extension CloudDirectory {
         ]
         /// Metadata about the directory.
         public let directory: Directory
-        
+
         public init(directory: Directory) {
             self.directory = directory
         }
@@ -2901,7 +2886,7 @@ extension CloudDirectory {
         public let name: String
         /// The Amazon Resource Name (ARN) that is associated with the Facet. For more information, see arns.
         public let schemaArn: String
-        
+
         public init(name: String, schemaArn: String) {
             self.name = name
             self.schemaArn = schemaArn
@@ -2919,7 +2904,7 @@ extension CloudDirectory {
         ]
         /// The Facet structure that is associated with the facet.
         public let facet: Facet?
-        
+
         public init(facet: Facet? = nil) {
             self.facet = facet
         }
@@ -2944,7 +2929,7 @@ extension CloudDirectory {
         public let directoryArn: String
         /// Allows a typed link specifier to be accepted as input.
         public let typedLinkSpecifier: TypedLinkSpecifier
-        
+
         public init(attributeNames: [String], consistencyLevel: ConsistencyLevel? = nil, directoryArn: String, typedLinkSpecifier: TypedLinkSpecifier) {
             self.attributeNames = attributeNames
             self.consistencyLevel = consistencyLevel
@@ -2966,7 +2951,7 @@ extension CloudDirectory {
         ]
         /// The attributes that are associated with the typed link.
         public let attributes: [AttributeKeyAndValue]?
-        
+
         public init(attributes: [AttributeKeyAndValue]? = nil) {
             self.attributes = attributes
         }
@@ -2994,7 +2979,7 @@ extension CloudDirectory {
         public let objectReference: ObjectReference
         /// Identifier for the facet whose attributes will be retrieved. See SchemaFacet for details.
         public let schemaFacet: SchemaFacet
-        
+
         public init(attributeNames: [String], consistencyLevel: ConsistencyLevel? = nil, directoryArn: String, objectReference: ObjectReference, schemaFacet: SchemaFacet) {
             self.attributeNames = attributeNames
             self.consistencyLevel = consistencyLevel
@@ -3018,7 +3003,7 @@ extension CloudDirectory {
         ]
         /// The attributes that are associated with the object.
         public let attributes: [AttributeKeyAndValue]?
-        
+
         public init(attributes: [AttributeKeyAndValue]? = nil) {
             self.attributes = attributes
         }
@@ -3040,7 +3025,7 @@ extension CloudDirectory {
         public let directoryArn: String
         /// A reference to the object.
         public let objectReference: ObjectReference
-        
+
         public init(consistencyLevel: ConsistencyLevel? = nil, directoryArn: String, objectReference: ObjectReference) {
             self.consistencyLevel = consistencyLevel
             self.directoryArn = directoryArn
@@ -3063,7 +3048,7 @@ extension CloudDirectory {
         public let objectIdentifier: String?
         /// The facets attached to the specified object. Although the response does not include minor version information, the most recently applied minor version of each Facet is in effect. See GetAppliedSchemaVersion for details.
         public let schemaFacets: [SchemaFacet]?
-        
+
         public init(objectIdentifier: String? = nil, schemaFacets: [SchemaFacet]? = nil) {
             self.objectIdentifier = objectIdentifier
             self.schemaFacets = schemaFacets
@@ -3081,7 +3066,7 @@ extension CloudDirectory {
         ]
         /// The ARN of the schema to retrieve.
         public let schemaArn: String
-        
+
         public init(schemaArn: String) {
             self.schemaArn = schemaArn
         }
@@ -3100,7 +3085,7 @@ extension CloudDirectory {
         public let document: String?
         /// The name of the retrieved schema.
         public let name: String?
-        
+
         public init(document: String? = nil, name: String? = nil) {
             self.document = document
             self.name = name
@@ -3121,7 +3106,7 @@ extension CloudDirectory {
         public let name: String
         /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
         public let schemaArn: String
-        
+
         public init(name: String, schemaArn: String) {
             self.name = name
             self.schemaArn = schemaArn
@@ -3139,7 +3124,7 @@ extension CloudDirectory {
         ]
         /// The order of identity attributes for the facet, from most significant to least significant. The ability to filter typed links considers the order that the attributes are defined on the typed link facet. When providing ranges to typed link selection, any inexact ranges must be specified at the end. Any attributes that do not have a range specified are presumed to match the entire range. Filters are interpreted in the order of the attributes on the typed link facet, not the order in which they are supplied to any API calls. For more information about identity attributes, see Typed Links.
         public let identityAttributeOrder: [String]?
-        
+
         public init(identityAttributeOrder: [String]? = nil) {
             self.identityAttributeOrder = identityAttributeOrder
         }
@@ -3158,7 +3143,7 @@ extension CloudDirectory {
         public let indexedAttributes: [AttributeKeyAndValue]?
         /// In response to ListIndex, the ObjectIdentifier of the object attached to the index. In response to ListAttachedIndices, the ObjectIdentifier of the index attached to the object. This field will always contain the ObjectIdentifier of the object on the opposite side of the attachment specified in the query.
         public let objectIdentifier: String?
-        
+
         public init(indexedAttributes: [AttributeKeyAndValue]? = nil, objectIdentifier: String? = nil) {
             self.indexedAttributes = indexedAttributes
             self.objectIdentifier = objectIdentifier
@@ -3179,7 +3164,7 @@ extension CloudDirectory {
         public let attributeActionType: UpdateActionType?
         /// The value that you want to update to.
         public let attributeUpdateValue: TypedAttributeValue?
-        
+
         public init(attributeActionType: UpdateActionType? = nil, attributeUpdateValue: TypedAttributeValue? = nil) {
             self.attributeActionType = attributeActionType
             self.attributeUpdateValue = attributeUpdateValue
@@ -3200,7 +3185,7 @@ extension CloudDirectory {
         public let attributeAction: LinkAttributeAction?
         /// The key of the attribute being updated.
         public let attributeKey: AttributeKey?
-        
+
         public init(attributeAction: LinkAttributeAction? = nil, attributeKey: AttributeKey? = nil) {
             self.attributeAction = attributeAction
             self.attributeKey = attributeKey
@@ -3227,7 +3212,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// The response for ListAppliedSchemaArns when this parameter is used will list all minor version ARNs for a major version.
         public let schemaArn: String?
-        
+
         public init(directoryArn: String, maxResults: Int32? = nil, nextToken: String? = nil, schemaArn: String? = nil) {
             self.directoryArn = directoryArn
             self.maxResults = maxResults
@@ -3252,7 +3237,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// The ARNs of schemas that are applied to the directory.
         public let schemaArns: [String]?
-        
+
         public init(nextToken: String? = nil, schemaArns: [String]? = nil) {
             self.nextToken = nextToken
             self.schemaArns = schemaArns
@@ -3282,7 +3267,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// A reference to the object that has indices attached.
         public let targetReference: ObjectReference
-        
+
         public init(consistencyLevel: ConsistencyLevel? = nil, directoryArn: String, maxResults: Int32? = nil, nextToken: String? = nil, targetReference: ObjectReference) {
             self.consistencyLevel = consistencyLevel
             self.directoryArn = directoryArn
@@ -3309,7 +3294,7 @@ extension CloudDirectory {
         public let indexAttachments: [IndexAttachment]?
         /// The pagination token.
         public let nextToken: String?
-        
+
         public init(indexAttachments: [IndexAttachment]? = nil, nextToken: String? = nil) {
             self.indexAttachments = indexAttachments
             self.nextToken = nextToken
@@ -3330,7 +3315,7 @@ extension CloudDirectory {
         public let maxResults: Int32?
         /// The pagination token.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3351,7 +3336,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// The ARNs of retrieved development schemas.
         public let schemaArns: [String]?
-        
+
         public init(nextToken: String? = nil, schemaArns: [String]? = nil) {
             self.nextToken = nextToken
             self.schemaArns = schemaArns
@@ -3375,7 +3360,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// The state of the directories in the list. Can be either Enabled, Disabled, or Deleted.
         public let state: DirectoryState?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, state: DirectoryState? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3398,7 +3383,7 @@ extension CloudDirectory {
         public let directories: [Directory]
         /// The pagination token.
         public let nextToken: String?
-        
+
         public init(directories: [Directory], nextToken: String? = nil) {
             self.directories = directories
             self.nextToken = nextToken
@@ -3425,7 +3410,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// The ARN of the schema where the facet resides.
         public let schemaArn: String
-        
+
         public init(maxResults: Int32? = nil, name: String, nextToken: String? = nil, schemaArn: String) {
             self.maxResults = maxResults
             self.name = name
@@ -3450,7 +3435,7 @@ extension CloudDirectory {
         public let attributes: [FacetAttribute]?
         /// The pagination token.
         public let nextToken: String?
-        
+
         public init(attributes: [FacetAttribute]? = nil, nextToken: String? = nil) {
             self.attributes = attributes
             self.nextToken = nextToken
@@ -3474,7 +3459,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) to retrieve facet names from.
         public let schemaArn: String
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, schemaArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3497,7 +3482,7 @@ extension CloudDirectory {
         public let facetNames: [String]?
         /// The pagination token.
         public let nextToken: String?
-        
+
         public init(facetNames: [String]? = nil, nextToken: String? = nil) {
             self.facetNames = facetNames
             self.nextToken = nextToken
@@ -3533,7 +3518,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// Reference that identifies the object whose attributes will be listed.
         public let objectReference: ObjectReference
-        
+
         public init(consistencyLevel: ConsistencyLevel? = nil, directoryArn: String, filterAttributeRanges: [TypedLinkAttributeRange]? = nil, filterTypedLink: TypedLinkSchemaAndFacetName? = nil, maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.consistencyLevel = consistencyLevel
             self.directoryArn = directoryArn
@@ -3564,7 +3549,7 @@ extension CloudDirectory {
         public let linkSpecifiers: [TypedLinkSpecifier]?
         /// The pagination token.
         public let nextToken: String?
-        
+
         public init(linkSpecifiers: [TypedLinkSpecifier]? = nil, nextToken: String? = nil) {
             self.linkSpecifiers = linkSpecifiers
             self.nextToken = nextToken
@@ -3597,7 +3582,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// Specifies the ranges of indexed values that you want to query.
         public let rangesOnIndexedValues: [ObjectAttributeRange]?
-        
+
         public init(consistencyLevel: ConsistencyLevel? = nil, directoryArn: String, indexReference: ObjectReference, maxResults: Int32? = nil, nextToken: String? = nil, rangesOnIndexedValues: [ObjectAttributeRange]? = nil) {
             self.consistencyLevel = consistencyLevel
             self.directoryArn = directoryArn
@@ -3626,7 +3611,7 @@ extension CloudDirectory {
         public let indexAttachments: [IndexAttachment]?
         /// The pagination token.
         public let nextToken: String?
-        
+
         public init(indexAttachments: [IndexAttachment]? = nil, nextToken: String? = nil) {
             self.indexAttachments = indexAttachments
             self.nextToken = nextToken
@@ -3650,7 +3635,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// The response for ListManagedSchemaArns. When this parameter is used, all minor version ARNs for a major version are listed.
         public let schemaArn: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, schemaArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3673,7 +3658,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// The ARNs for all AWS managed schemas.
         public let schemaArns: [String]?
-        
+
         public init(nextToken: String? = nil, schemaArns: [String]? = nil) {
             self.nextToken = nextToken
             self.schemaArns = schemaArns
@@ -3706,7 +3691,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// The reference that identifies the object whose attributes will be listed.
         public let objectReference: ObjectReference
-        
+
         public init(consistencyLevel: ConsistencyLevel? = nil, directoryArn: String, facetFilter: SchemaFacet? = nil, maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.consistencyLevel = consistencyLevel
             self.directoryArn = directoryArn
@@ -3735,7 +3720,7 @@ extension CloudDirectory {
         public let attributes: [AttributeKeyAndValue]?
         /// The pagination token.
         public let nextToken: String?
-        
+
         public init(attributes: [AttributeKeyAndValue]? = nil, nextToken: String? = nil) {
             self.attributes = attributes
             self.nextToken = nextToken
@@ -3765,7 +3750,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// The reference that identifies the object for which child objects are being listed.
         public let objectReference: ObjectReference
-        
+
         public init(consistencyLevel: ConsistencyLevel? = nil, directoryArn: String, maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.consistencyLevel = consistencyLevel
             self.directoryArn = directoryArn
@@ -3792,7 +3777,7 @@ extension CloudDirectory {
         public let children: [String: String]?
         /// The pagination token.
         public let nextToken: String?
-        
+
         public init(children: [String: String]? = nil, nextToken: String? = nil) {
             self.children = children
             self.nextToken = nextToken
@@ -3819,7 +3804,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// The reference that identifies the object whose parent paths are listed.
         public let objectReference: ObjectReference
-        
+
         public init(directoryArn: String, maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.directoryArn = directoryArn
             self.maxResults = maxResults
@@ -3844,7 +3829,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// Returns the path to the ObjectIdentifiers that are associated with the directory.
         public let pathToObjectIdentifiersList: [PathToObjectIdentifiers]?
-        
+
         public init(nextToken: String? = nil, pathToObjectIdentifiersList: [PathToObjectIdentifiers]? = nil) {
             self.nextToken = nextToken
             self.pathToObjectIdentifiersList = pathToObjectIdentifiersList
@@ -3877,7 +3862,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// The reference that identifies the object for which parent objects are being listed.
         public let objectReference: ObjectReference
-        
+
         public init(consistencyLevel: ConsistencyLevel? = nil, directoryArn: String, includeAllLinksToEachParent: Bool? = nil, maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.consistencyLevel = consistencyLevel
             self.directoryArn = directoryArn
@@ -3909,7 +3894,7 @@ extension CloudDirectory {
         public let parentLinks: [ObjectIdentifierAndLinkNameTuple]?
         /// The parent structure, which is a map with key as the ObjectIdentifier and LinkName as the value.
         public let parents: [String: String]?
-        
+
         public init(nextToken: String? = nil, parentLinks: [ObjectIdentifierAndLinkNameTuple]? = nil, parents: [String: String]? = nil) {
             self.nextToken = nextToken
             self.parentLinks = parentLinks
@@ -3941,7 +3926,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// Reference that identifies the object for which policies will be listed.
         public let objectReference: ObjectReference
-        
+
         public init(consistencyLevel: ConsistencyLevel? = nil, directoryArn: String, maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.consistencyLevel = consistencyLevel
             self.directoryArn = directoryArn
@@ -3968,7 +3953,7 @@ extension CloudDirectory {
         public let attachedPolicyIds: [String]?
         /// The pagination token.
         public let nextToken: String?
-        
+
         public init(attachedPolicyIds: [String]? = nil, nextToken: String? = nil) {
             self.attachedPolicyIds = attachedPolicyIds
             self.nextToken = nextToken
@@ -4004,7 +3989,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// A reference that identifies the object whose attributes will be listed.
         public let objectReference: ObjectReference
-        
+
         public init(consistencyLevel: ConsistencyLevel? = nil, directoryArn: String, filterAttributeRanges: [TypedLinkAttributeRange]? = nil, filterTypedLink: TypedLinkSchemaAndFacetName? = nil, maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.consistencyLevel = consistencyLevel
             self.directoryArn = directoryArn
@@ -4035,7 +4020,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// Returns a typed link specifier as output.
         public let typedLinkSpecifiers: [TypedLinkSpecifier]?
-        
+
         public init(nextToken: String? = nil, typedLinkSpecifiers: [TypedLinkSpecifier]? = nil) {
             self.nextToken = nextToken
             self.typedLinkSpecifiers = typedLinkSpecifiers
@@ -4065,7 +4050,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// The reference that identifies the policy object.
         public let policyReference: ObjectReference
-        
+
         public init(consistencyLevel: ConsistencyLevel? = nil, directoryArn: String, maxResults: Int32? = nil, nextToken: String? = nil, policyReference: ObjectReference) {
             self.consistencyLevel = consistencyLevel
             self.directoryArn = directoryArn
@@ -4092,7 +4077,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// A list of ObjectIdentifiers to which the policy is attached.
         public let objectIdentifiers: [String]?
-        
+
         public init(nextToken: String? = nil, objectIdentifiers: [String]? = nil) {
             self.nextToken = nextToken
             self.objectIdentifiers = objectIdentifiers
@@ -4116,7 +4101,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// The response for ListPublishedSchemaArns when this parameter is used will list all minor version ARNs for a major version.
         public let schemaArn: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, schemaArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4139,7 +4124,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// The ARNs of published schemas.
         public let schemaArns: [String]?
-        
+
         public init(nextToken: String? = nil, schemaArns: [String]? = nil) {
             self.nextToken = nextToken
             self.schemaArns = schemaArns
@@ -4163,7 +4148,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the resource. Tagging is only supported for directories.
         public let resourceArn: String
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4186,7 +4171,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// A list of tag key value pairs that are associated with the response.
         public let tags: [Tag]?
-        
+
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -4213,7 +4198,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
         public let schemaArn: String
-        
+
         public init(maxResults: Int32? = nil, name: String, nextToken: String? = nil, schemaArn: String) {
             self.maxResults = maxResults
             self.name = name
@@ -4238,7 +4223,7 @@ extension CloudDirectory {
         public let attributes: [TypedLinkAttributeDefinition]?
         /// The pagination token.
         public let nextToken: String?
-        
+
         public init(attributes: [TypedLinkAttributeDefinition]? = nil, nextToken: String? = nil) {
             self.attributes = attributes
             self.nextToken = nextToken
@@ -4262,7 +4247,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
         public let schemaArn: String
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, schemaArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4285,7 +4270,7 @@ extension CloudDirectory {
         public let facetNames: [String]?
         /// The pagination token.
         public let nextToken: String?
-        
+
         public init(facetNames: [String]? = nil, nextToken: String? = nil) {
             self.facetNames = facetNames
             self.nextToken = nextToken
@@ -4312,7 +4297,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// Reference that identifies the object whose policies will be looked up.
         public let objectReference: ObjectReference
-        
+
         public init(directoryArn: String, maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.directoryArn = directoryArn
             self.maxResults = maxResults
@@ -4337,7 +4322,7 @@ extension CloudDirectory {
         public let nextToken: String?
         /// Provides list of path to policies. Policies contain PolicyId, ObjectIdentifier, and PolicyType. For more information, see Policies.
         public let policyToPathList: [PolicyToPath]?
-        
+
         public init(nextToken: String? = nil, policyToPathList: [PolicyToPath]? = nil) {
             self.nextToken = nextToken
             self.policyToPathList = policyToPathList
@@ -4358,7 +4343,7 @@ extension CloudDirectory {
         public let objectAttributeActionType: UpdateActionType?
         /// The value that you want to update to.
         public let objectAttributeUpdateValue: TypedAttributeValue?
-        
+
         public init(objectAttributeActionType: UpdateActionType? = nil, objectAttributeUpdateValue: TypedAttributeValue? = nil) {
             self.objectAttributeActionType = objectAttributeActionType
             self.objectAttributeUpdateValue = objectAttributeUpdateValue
@@ -4379,7 +4364,7 @@ extension CloudDirectory {
         public let attributeKey: AttributeKey?
         /// The range of attribute values being selected.
         public let range: TypedAttributeValueRange?
-        
+
         public init(attributeKey: AttributeKey? = nil, range: TypedAttributeValueRange? = nil) {
             self.attributeKey = attributeKey
             self.range = range
@@ -4400,7 +4385,7 @@ extension CloudDirectory {
         public let objectAttributeAction: ObjectAttributeAction?
         /// The key of the attribute being updated.
         public let objectAttributeKey: AttributeKey?
-        
+
         public init(objectAttributeAction: ObjectAttributeAction? = nil, objectAttributeKey: AttributeKey? = nil) {
             self.objectAttributeAction = objectAttributeAction
             self.objectAttributeKey = objectAttributeKey
@@ -4421,7 +4406,7 @@ extension CloudDirectory {
         public let linkName: String?
         /// The ID that is associated with the object.
         public let objectIdentifier: String?
-        
+
         public init(linkName: String? = nil, objectIdentifier: String? = nil) {
             self.linkName = linkName
             self.objectIdentifier = objectIdentifier
@@ -4439,7 +4424,7 @@ extension CloudDirectory {
         ]
         /// A path selector supports easy selection of an object by the parent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are separated by slashes. For more information about paths, see Access Objects. You can identify an object in one of the following ways:    $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created object. An object’s identifier is immutable and no two objects will ever share the same object identifier    /some/path - Identifies the object based on path    #SomeBatchReference - Identifies the object in a batch call  
         public let selector: String?
-        
+
         public init(selector: String? = nil) {
             self.selector = selector
         }
@@ -4466,7 +4451,7 @@ extension CloudDirectory {
         public let objectIdentifiers: [String]?
         /// The path that is used to identify the object starting from directory root.
         public let path: String?
-        
+
         public init(objectIdentifiers: [String]? = nil, path: String? = nil) {
             self.objectIdentifiers = objectIdentifiers
             self.path = path
@@ -4490,7 +4475,7 @@ extension CloudDirectory {
         public let policyId: String?
         /// The type of policy that can be associated with PolicyAttachment.
         public let policyType: String?
-        
+
         public init(objectIdentifier: String? = nil, policyId: String? = nil, policyType: String? = nil) {
             self.objectIdentifier = objectIdentifier
             self.policyId = policyId
@@ -4513,7 +4498,7 @@ extension CloudDirectory {
         public let path: String?
         /// List of policy objects.
         public let policies: [PolicyAttachment]?
-        
+
         public init(path: String? = nil, policies: [PolicyAttachment]? = nil) {
             self.path = path
             self.policies = policies
@@ -4540,7 +4525,7 @@ extension CloudDirectory {
         public let name: String?
         /// The major version under which the schema will be published. Schemas have both a major and minor version associated with them.
         public let version: String
-        
+
         public init(developmentSchemaArn: String, minorVersion: String? = nil, name: String? = nil, version: String) {
             self.developmentSchemaArn = developmentSchemaArn
             self.minorVersion = minorVersion
@@ -4562,7 +4547,7 @@ extension CloudDirectory {
         ]
         /// The ARN that is associated with the published schema. For more information, see arns.
         public let publishedSchemaArn: String?
-        
+
         public init(publishedSchemaArn: String? = nil) {
             self.publishedSchemaArn = publishedSchemaArn
         }
@@ -4581,7 +4566,7 @@ extension CloudDirectory {
         public let document: String
         /// The ARN of the schema to update.
         public let schemaArn: String
-        
+
         public init(document: String, schemaArn: String) {
             self.document = document
             self.schemaArn = schemaArn
@@ -4599,7 +4584,7 @@ extension CloudDirectory {
         ]
         /// The ARN of the schema to update.
         public let arn: String?
-        
+
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -4630,7 +4615,7 @@ extension CloudDirectory {
         public let objectReference: ObjectReference
         /// The facet to remove. See SchemaFacet for details.
         public let schemaFacet: SchemaFacet
-        
+
         public init(directoryArn: String, objectReference: ObjectReference, schemaFacet: SchemaFacet) {
             self.directoryArn = directoryArn
             self.objectReference = objectReference
@@ -4645,12 +4630,11 @@ extension CloudDirectory {
     }
 
     public struct RemoveFacetFromObjectResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public enum RequiredAttributeBehavior: String, CustomStringConvertible, Codable {
         case requiredAlways = "REQUIRED_ALWAYS"
@@ -4667,7 +4651,7 @@ extension CloudDirectory {
         public let parameters: [String: String]?
         /// The type of attribute validation rule.
         public let `type`: RuleType?
-        
+
         public init(parameters: [String: String]? = nil, type: RuleType? = nil) {
             self.parameters = parameters
             self.`type` = `type`
@@ -4696,7 +4680,7 @@ extension CloudDirectory {
         public let facetName: String?
         /// The ARN of the schema that contains the facet with no minor component. See arns and In-Place Schema Upgrade for a description of when to provide minor versions.
         public let schemaArn: String?
-        
+
         public init(facetName: String? = nil, schemaArn: String? = nil) {
             self.facetName = facetName
             self.schemaArn = schemaArn
@@ -4717,7 +4701,7 @@ extension CloudDirectory {
         public let key: String?
         /// The value that is associated with the tag.
         public let value: String?
-        
+
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -4738,7 +4722,7 @@ extension CloudDirectory {
         public let resourceArn: String
         /// A list of tag key-value pairs.
         public let tags: [Tag]
-        
+
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -4751,12 +4735,11 @@ extension CloudDirectory {
     }
 
     public struct TagResourceResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct TypedAttributeValue: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -4776,7 +4759,7 @@ extension CloudDirectory {
         public let numberValue: String?
         /// A string data value.
         public let stringValue: String?
-        
+
         public init(binaryValue: Data? = nil, booleanValue: Bool? = nil, datetimeValue: TimeStamp? = nil, numberValue: String? = nil, stringValue: String? = nil) {
             self.binaryValue = binaryValue
             self.booleanValue = booleanValue
@@ -4809,7 +4792,7 @@ extension CloudDirectory {
         public let startMode: RangeMode
         /// The value to start the range at.
         public let startValue: TypedAttributeValue?
-        
+
         public init(endMode: RangeMode, endValue: TypedAttributeValue? = nil, startMode: RangeMode, startValue: TypedAttributeValue? = nil) {
             self.endMode = endMode
             self.endValue = endValue
@@ -4846,7 +4829,7 @@ extension CloudDirectory {
         public let rules: [String: Rule]?
         /// The type of the attribute.
         public let `type`: FacetAttributeType
-        
+
         public init(defaultValue: TypedAttributeValue? = nil, isImmutable: Bool? = nil, name: String, requiredBehavior: RequiredAttributeBehavior, rules: [String: Rule]? = nil, type: FacetAttributeType) {
             self.defaultValue = defaultValue
             self.isImmutable = isImmutable
@@ -4875,7 +4858,7 @@ extension CloudDirectory {
         public let attributeName: String?
         /// The range of attribute values that are being selected.
         public let range: TypedAttributeValueRange
-        
+
         public init(attributeName: String? = nil, range: TypedAttributeValueRange) {
             self.attributeName = attributeName
             self.range = range
@@ -4899,7 +4882,7 @@ extension CloudDirectory {
         public let identityAttributeOrder: [String]
         /// The unique name of the typed link facet.
         public let name: String
-        
+
         public init(attributes: [TypedLinkAttributeDefinition], identityAttributeOrder: [String], name: String) {
             self.attributes = attributes
             self.identityAttributeOrder = identityAttributeOrder
@@ -4922,7 +4905,7 @@ extension CloudDirectory {
         public let action: UpdateActionType
         /// The attribute to update.
         public let attribute: TypedLinkAttributeDefinition
-        
+
         public init(action: UpdateActionType, attribute: TypedLinkAttributeDefinition) {
             self.action = action
             self.attribute = attribute
@@ -4943,7 +4926,7 @@ extension CloudDirectory {
         public let schemaArn: String
         /// The unique name of the typed link facet.
         public let typedLinkName: String
-        
+
         public init(schemaArn: String, typedLinkName: String) {
             self.schemaArn = schemaArn
             self.typedLinkName = typedLinkName
@@ -4970,7 +4953,7 @@ extension CloudDirectory {
         public let targetObjectReference: ObjectReference
         /// Identifies the typed link facet that is associated with the typed link.
         public let typedLinkFacet: TypedLinkSchemaAndFacetName
-        
+
         public init(identityAttributeValues: [AttributeNameAndValue], sourceObjectReference: ObjectReference, targetObjectReference: ObjectReference, typedLinkFacet: TypedLinkSchemaAndFacetName) {
             self.identityAttributeValues = identityAttributeValues
             self.sourceObjectReference = sourceObjectReference
@@ -4995,7 +4978,7 @@ extension CloudDirectory {
         public let resourceArn: String
         /// Keys of the tag that need to be removed from the resource.
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -5008,12 +4991,11 @@ extension CloudDirectory {
     }
 
     public struct UntagResourceResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public enum UpdateActionType: String, CustomStringConvertible, Codable {
         case createOrUpdate = "CREATE_OR_UPDATE"
@@ -5036,7 +5018,7 @@ extension CloudDirectory {
         public let objectType: ObjectType?
         /// The Amazon Resource Name (ARN) that is associated with the Facet. For more information, see arns.
         public let schemaArn: String
-        
+
         public init(attributeUpdates: [FacetAttributeUpdate]? = nil, name: String, objectType: ObjectType? = nil, schemaArn: String) {
             self.attributeUpdates = attributeUpdates
             self.name = name
@@ -5053,12 +5035,11 @@ extension CloudDirectory {
     }
 
     public struct UpdateFacetResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateLinkAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -5072,7 +5053,7 @@ extension CloudDirectory {
         public let directoryArn: String
         /// Allows a typed link specifier to be accepted as input.
         public let typedLinkSpecifier: TypedLinkSpecifier
-        
+
         public init(attributeUpdates: [LinkAttributeUpdate], directoryArn: String, typedLinkSpecifier: TypedLinkSpecifier) {
             self.attributeUpdates = attributeUpdates
             self.directoryArn = directoryArn
@@ -5087,12 +5068,11 @@ extension CloudDirectory {
     }
 
     public struct UpdateLinkAttributesResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateObjectAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -5106,7 +5086,7 @@ extension CloudDirectory {
         public let directoryArn: String
         /// The reference that identifies the object.
         public let objectReference: ObjectReference
-        
+
         public init(attributeUpdates: [ObjectAttributeUpdate], directoryArn: String, objectReference: ObjectReference) {
             self.attributeUpdates = attributeUpdates
             self.directoryArn = directoryArn
@@ -5126,7 +5106,7 @@ extension CloudDirectory {
         ]
         /// The ObjectIdentifier of the updated object.
         public let objectIdentifier: String?
-        
+
         public init(objectIdentifier: String? = nil) {
             self.objectIdentifier = objectIdentifier
         }
@@ -5145,7 +5125,7 @@ extension CloudDirectory {
         public let name: String
         /// The Amazon Resource Name (ARN) of the development schema. For more information, see arns.
         public let schemaArn: String
-        
+
         public init(name: String, schemaArn: String) {
             self.name = name
             self.schemaArn = schemaArn
@@ -5163,7 +5143,7 @@ extension CloudDirectory {
         ]
         /// The ARN that is associated with the updated schema. For more information, see arns.
         public let schemaArn: String?
-        
+
         public init(schemaArn: String? = nil) {
             self.schemaArn = schemaArn
         }
@@ -5188,7 +5168,7 @@ extension CloudDirectory {
         public let name: String
         /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
         public let schemaArn: String
-        
+
         public init(attributeUpdates: [TypedLinkFacetAttributeUpdate], identityAttributeOrder: [String], name: String, schemaArn: String) {
             self.attributeUpdates = attributeUpdates
             self.identityAttributeOrder = identityAttributeOrder
@@ -5205,12 +5185,11 @@ extension CloudDirectory {
     }
 
     public struct UpdateTypedLinkFacetResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpgradeAppliedSchemaRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -5224,7 +5203,7 @@ extension CloudDirectory {
         public let dryRun: Bool?
         /// The revision of the published schema to upgrade the directory to.
         public let publishedSchemaArn: String
-        
+
         public init(directoryArn: String, dryRun: Bool? = nil, publishedSchemaArn: String) {
             self.directoryArn = directoryArn
             self.dryRun = dryRun
@@ -5247,7 +5226,7 @@ extension CloudDirectory {
         public let directoryArn: String?
         /// The ARN of the upgraded schema that is returned as part of the response.
         public let upgradedSchemaArn: String?
-        
+
         public init(directoryArn: String? = nil, upgradedSchemaArn: String? = nil) {
             self.directoryArn = directoryArn
             self.upgradedSchemaArn = upgradedSchemaArn
@@ -5274,7 +5253,7 @@ extension CloudDirectory {
         public let minorVersion: String
         /// The ARN of the published schema to be upgraded.
         public let publishedSchemaArn: String
-        
+
         public init(developmentSchemaArn: String, dryRun: Bool? = nil, minorVersion: String, publishedSchemaArn: String) {
             self.developmentSchemaArn = developmentSchemaArn
             self.dryRun = dryRun
@@ -5296,7 +5275,7 @@ extension CloudDirectory {
         ]
         /// The ARN of the upgraded schema that is returned as part of the response.
         public let upgradedSchemaArn: String?
-        
+
         public init(upgradedSchemaArn: String? = nil) {
             self.upgradedSchemaArn = upgradedSchemaArn
         }
@@ -5305,5 +5284,4 @@ extension CloudDirectory {
             case upgradedSchemaArn = "UpgradedSchemaArn"
         }
     }
-
 }

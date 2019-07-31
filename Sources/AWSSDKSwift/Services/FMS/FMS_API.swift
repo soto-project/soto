@@ -95,5 +95,4 @@ public struct FMS {
     public func putPolicy(_ input: PutPolicyRequest) throws -> Future<PutPolicyResponse> {
         return try client.send(operation: "PutPolicy", path: "/", httpMethod: "POST", input: input)
     }
-
 }

@@ -625,5 +625,4 @@ public struct SSM {
     public func updateServiceSetting(_ input: UpdateServiceSettingRequest) throws -> Future<UpdateServiceSettingResult> {
         return try client.send(operation: "UpdateServiceSetting", path: "/", httpMethod: "POST", input: input)
     }
-
 }

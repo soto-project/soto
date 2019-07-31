@@ -474,5 +474,4 @@ public struct Greengrass {
     public func updateSubscriptionDefinition(_ input: UpdateSubscriptionDefinitionRequest) throws -> Future<UpdateSubscriptionDefinitionResponse> {
         return try client.send(operation: "UpdateSubscriptionDefinition", path: "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}", httpMethod: "PUT", input: input)
     }
-
 }

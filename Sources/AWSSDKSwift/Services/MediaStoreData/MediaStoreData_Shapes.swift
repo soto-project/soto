@@ -11,7 +11,7 @@ extension MediaStoreData {
         ]
         /// The path (including the file name) where the object is stored in the container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
         public let path: String
-        
+
         public init(path: String) {
             self.path = path
         }
@@ -22,12 +22,11 @@ extension MediaStoreData {
     }
 
     public struct DeleteObjectResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DescribeObjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -35,7 +34,7 @@ extension MediaStoreData {
         ]
         /// The path (including the file name) where the object is stored in the container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
         public let path: String
-        
+
         public init(path: String) {
             self.path = path
         }
@@ -63,7 +62,7 @@ extension MediaStoreData {
         public let eTag: String?
         /// The date and time that the object was last modified.
         public let lastModified: TimeStamp?
-        
+
         public init(cacheControl: String? = nil, contentLength: Int64? = nil, contentType: String? = nil, eTag: String? = nil, lastModified: TimeStamp? = nil) {
             self.cacheControl = cacheControl
             self.contentLength = contentLength
@@ -90,7 +89,7 @@ extension MediaStoreData {
         public let path: String
         /// The range bytes of an object to retrieve. For more information about the Range header, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35. AWS Elemental MediaStore ignores this header for partially uploaded objects that have streaming upload availability.
         public let range: String?
-        
+
         public init(path: String, range: String? = nil) {
             self.path = path
             self.range = range
@@ -131,7 +130,7 @@ extension MediaStoreData {
         public let lastModified: TimeStamp?
         /// The HTML status code of the request. Status codes ranging from 200 to 299 indicate success. All other status codes indicate the type of error that occurred.
         public let statusCode: Int32
-        
+
         public init(body: Data? = nil, cacheControl: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, eTag: String? = nil, lastModified: TimeStamp? = nil, statusCode: Int32) {
             self.body = body
             self.cacheControl = cacheControl
@@ -176,7 +175,7 @@ extension MediaStoreData {
         public let name: String?
         /// The item type (folder or object).
         public let `type`: ItemType?
-        
+
         public init(contentLength: Int64? = nil, contentType: String? = nil, eTag: String? = nil, lastModified: TimeStamp? = nil, name: String? = nil, type: ItemType? = nil) {
             self.contentLength = contentLength
             self.contentType = contentType
@@ -214,7 +213,7 @@ extension MediaStoreData {
         public let nextToken: String?
         /// The path in the container from which to retrieve items. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
         public let path: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, path: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -237,7 +236,7 @@ extension MediaStoreData {
         public let items: [Item]?
         /// The token that can be used in a request to view the next set of results. For example, you submit a ListItems request that matches 2,000 items with MaxResults set at 500. The service returns the first batch of results (up to 500) and a NextToken value that can be used to fetch the next batch of results.
         public let nextToken: String?
-        
+
         public init(items: [Item]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -272,7 +271,7 @@ extension MediaStoreData {
         public let storageClass: StorageClass?
         /// Indicates the availability of an object while it is still uploading. If the value is set to streaming, the object is available for downloading after some initial buffering but before the object is uploaded completely. If the value is set to standard, the object is available for downloading only when it is uploaded completely. The default value for this header is standard. To use this header, you must also set the HTTP Transfer-Encoding header to chunked.
         public let uploadAvailability: UploadAvailability?
-        
+
         public init(body: Data, cacheControl: String? = nil, contentType: String? = nil, path: String, storageClass: StorageClass? = nil, uploadAvailability: UploadAvailability? = nil) {
             self.body = body
             self.cacheControl = cacheControl
@@ -304,7 +303,7 @@ extension MediaStoreData {
         public let eTag: String?
         /// The storage class where the object was persisted. The class should be “Temporal”.
         public let storageClass: StorageClass?
-        
+
         public init(contentSHA256: String? = nil, eTag: String? = nil, storageClass: StorageClass? = nil) {
             self.contentSHA256 = contentSHA256
             self.eTag = eTag
@@ -328,5 +327,4 @@ extension MediaStoreData {
         case streaming = "STREAMING"
         public var description: String { return self.rawValue }
     }
-
 }

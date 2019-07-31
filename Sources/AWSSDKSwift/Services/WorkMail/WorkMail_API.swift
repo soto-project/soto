@@ -190,5 +190,4 @@ public struct WorkMail {
     public func updateResource(_ input: UpdateResourceRequest) throws -> Future<UpdateResourceResponse> {
         return try client.send(operation: "UpdateResource", path: "/", httpMethod: "POST", input: input)
     }
-
 }

@@ -17,7 +17,7 @@ extension AppSync {
         public let openIDConnectConfig: OpenIDConnectConfig?
         /// The Amazon Cognito user pool configuration.
         public let userPoolConfig: CognitoUserPoolConfig?
-        
+
         public init(authenticationType: AuthenticationType? = nil, openIDConnectConfig: OpenIDConnectConfig? = nil, userPoolConfig: CognitoUserPoolConfig? = nil) {
             self.authenticationType = authenticationType
             self.openIDConnectConfig = openIDConnectConfig
@@ -43,7 +43,7 @@ extension AppSync {
         public let expires: Int64?
         /// The API key ID.
         public let id: String?
-        
+
         public init(description: String? = nil, expires: Int64? = nil, id: String? = nil) {
             self.description = description
             self.expires = expires
@@ -74,7 +74,7 @@ extension AppSync {
         public let authorizationType: AuthorizationType
         /// The AWS IAM settings.
         public let awsIamConfig: AwsIamConfig?
-        
+
         public init(authorizationType: AuthorizationType, awsIamConfig: AwsIamConfig? = nil) {
             self.authorizationType = authorizationType
             self.awsIamConfig = awsIamConfig
@@ -100,7 +100,7 @@ extension AppSync {
         public let signingRegion: String?
         /// The signing service name for AWS IAM authorization.
         public let signingServiceName: String?
-        
+
         public init(signingRegion: String? = nil, signingServiceName: String? = nil) {
             self.signingRegion = signingRegion
             self.signingServiceName = signingServiceName
@@ -124,7 +124,7 @@ extension AppSync {
         public let awsRegion: String
         /// The user pool ID.
         public let userPoolId: String
-        
+
         public init(appIdClientRegex: String? = nil, awsRegion: String, userPoolId: String) {
             self.appIdClientRegex = appIdClientRegex
             self.awsRegion = awsRegion
@@ -150,7 +150,7 @@ extension AppSync {
         public let description: String?
         /// The time from creation time after which the API key expires. The date is represented as seconds since the epoch, rounded down to the nearest hour. The default value for this parameter is 7 days from creation time. For more information, see .
         public let expires: Int64?
-        
+
         public init(apiId: String, description: String? = nil, expires: Int64? = nil) {
             self.apiId = apiId
             self.description = description
@@ -170,7 +170,7 @@ extension AppSync {
         ]
         /// The API key.
         public let apiKey: ApiKey?
-        
+
         public init(apiKey: ApiKey? = nil) {
             self.apiKey = apiKey
         }
@@ -213,7 +213,7 @@ extension AppSync {
         public let serviceRoleArn: String?
         /// The type of the DataSource.
         public let `type`: DataSourceType
-        
+
         public init(apiId: String, description: String? = nil, dynamodbConfig: DynamodbDataSourceConfig? = nil, elasticsearchConfig: ElasticsearchDataSourceConfig? = nil, httpConfig: HttpDataSourceConfig? = nil, lambdaConfig: LambdaDataSourceConfig? = nil, name: String, relationalDatabaseConfig: RelationalDatabaseDataSourceConfig? = nil, serviceRoleArn: String? = nil, type: DataSourceType) {
             self.apiId = apiId
             self.description = description
@@ -247,7 +247,7 @@ extension AppSync {
         ]
         /// The DataSource object.
         public let dataSource: DataSource?
-        
+
         public init(dataSource: DataSource? = nil) {
             self.dataSource = dataSource
         }
@@ -281,7 +281,7 @@ extension AppSync {
         public let requestMappingTemplate: String
         /// The Function response mapping template. 
         public let responseMappingTemplate: String?
-        
+
         public init(apiId: String, dataSourceName: String, description: String? = nil, functionVersion: String, name: String, requestMappingTemplate: String, responseMappingTemplate: String? = nil) {
             self.apiId = apiId
             self.dataSourceName = dataSourceName
@@ -309,7 +309,7 @@ extension AppSync {
         ]
         /// The Function object.
         public let functionConfiguration: FunctionConfiguration?
-        
+
         public init(functionConfiguration: FunctionConfiguration? = nil) {
             self.functionConfiguration = functionConfiguration
         }
@@ -343,7 +343,7 @@ extension AppSync {
         public let tags: [String: String]?
         /// The Amazon Cognito user pool configuration.
         public let userPoolConfig: UserPoolConfig?
-        
+
         public init(additionalAuthenticationProviders: [AdditionalAuthenticationProvider]? = nil, authenticationType: AuthenticationType, logConfig: LogConfig? = nil, name: String, openIDConnectConfig: OpenIDConnectConfig? = nil, tags: [String: String]? = nil, userPoolConfig: UserPoolConfig? = nil) {
             self.additionalAuthenticationProviders = additionalAuthenticationProviders
             self.authenticationType = authenticationType
@@ -371,7 +371,7 @@ extension AppSync {
         ]
         /// The GraphqlApi.
         public let graphqlApi: GraphqlApi?
-        
+
         public init(graphqlApi: GraphqlApi? = nil) {
             self.graphqlApi = graphqlApi
         }
@@ -408,7 +408,7 @@ extension AppSync {
         public let responseMappingTemplate: String?
         /// The name of the Type.
         public let typeName: String
-        
+
         public init(apiId: String, dataSourceName: String? = nil, fieldName: String, kind: ResolverKind? = nil, pipelineConfig: PipelineConfig? = nil, requestMappingTemplate: String, responseMappingTemplate: String? = nil, typeName: String) {
             self.apiId = apiId
             self.dataSourceName = dataSourceName
@@ -438,7 +438,7 @@ extension AppSync {
         ]
         /// The Resolver object.
         public let resolver: Resolver?
-        
+
         public init(resolver: Resolver? = nil) {
             self.resolver = resolver
         }
@@ -460,7 +460,7 @@ extension AppSync {
         public let definition: String
         /// The type format: SDL or JSON.
         public let format: TypeDefinitionFormat
-        
+
         public init(apiId: String, definition: String, format: TypeDefinitionFormat) {
             self.apiId = apiId
             self.definition = definition
@@ -480,7 +480,7 @@ extension AppSync {
         ]
         /// The Type object.
         public let `type`: `Type`?
-        
+
         public init(type: `Type`? = nil) {
             self.`type` = `type`
         }
@@ -523,7 +523,7 @@ extension AppSync {
         public let serviceRoleArn: String?
         /// The type of the data source.    AMAZON_DYNAMODB: The data source is an Amazon DynamoDB table.    AMAZON_ELASTICSEARCH: The data source is an Amazon Elasticsearch Service domain.    AWS_LAMBDA: The data source is an AWS Lambda function.    NONE: There is no data source. This type is used when you wish to invoke a GraphQL operation without connecting to a data source, such as performing data transformation with resolvers or triggering a subscription to be invoked from a mutation.    HTTP: The data source is an HTTP endpoint.    RELATIONAL_DATABASE: The data source is a relational database.  
         public let `type`: DataSourceType?
-        
+
         public init(dataSourceArn: String? = nil, description: String? = nil, dynamodbConfig: DynamodbDataSourceConfig? = nil, elasticsearchConfig: ElasticsearchDataSourceConfig? = nil, httpConfig: HttpDataSourceConfig? = nil, lambdaConfig: LambdaDataSourceConfig? = nil, name: String? = nil, relationalDatabaseConfig: RelationalDatabaseDataSourceConfig? = nil, serviceRoleArn: String? = nil, type: DataSourceType? = nil) {
             self.dataSourceArn = dataSourceArn
             self.description = description
@@ -576,7 +576,7 @@ extension AppSync {
         public let apiId: String
         /// The ID for the API key.
         public let id: String
-        
+
         public init(apiId: String, id: String) {
             self.apiId = apiId
             self.id = id
@@ -589,12 +589,11 @@ extension AppSync {
     }
 
     public struct DeleteApiKeyResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteDataSourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -605,7 +604,7 @@ extension AppSync {
         public let apiId: String
         /// The name of the data source.
         public let name: String
-        
+
         public init(apiId: String, name: String) {
             self.apiId = apiId
             self.name = name
@@ -618,12 +617,11 @@ extension AppSync {
     }
 
     public struct DeleteDataSourceResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteFunctionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -634,7 +632,7 @@ extension AppSync {
         public let apiId: String
         /// The Function ID.
         public let functionId: String
-        
+
         public init(apiId: String, functionId: String) {
             self.apiId = apiId
             self.functionId = functionId
@@ -647,12 +645,11 @@ extension AppSync {
     }
 
     public struct DeleteFunctionResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteGraphqlApiRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -660,7 +657,7 @@ extension AppSync {
         ]
         /// The API ID.
         public let apiId: String
-        
+
         public init(apiId: String) {
             self.apiId = apiId
         }
@@ -671,12 +668,11 @@ extension AppSync {
     }
 
     public struct DeleteGraphqlApiResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteResolverRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -690,7 +686,7 @@ extension AppSync {
         public let fieldName: String
         /// The name of the resolver type.
         public let typeName: String
-        
+
         public init(apiId: String, fieldName: String, typeName: String) {
             self.apiId = apiId
             self.fieldName = fieldName
@@ -705,12 +701,11 @@ extension AppSync {
     }
 
     public struct DeleteResolverResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteTypeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -721,7 +716,7 @@ extension AppSync {
         public let apiId: String
         /// The type name.
         public let typeName: String
-        
+
         public init(apiId: String, typeName: String) {
             self.apiId = apiId
             self.typeName = typeName
@@ -734,12 +729,11 @@ extension AppSync {
     }
 
     public struct DeleteTypeResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DynamodbDataSourceConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -753,7 +747,7 @@ extension AppSync {
         public let tableName: String
         /// Set to TRUE to use Amazon Cognito credentials with this data source.
         public let useCallerCredentials: Bool?
-        
+
         public init(awsRegion: String, tableName: String, useCallerCredentials: Bool? = nil) {
             self.awsRegion = awsRegion
             self.tableName = tableName
@@ -776,7 +770,7 @@ extension AppSync {
         public let awsRegion: String
         /// The endpoint.
         public let endpoint: String
-        
+
         public init(awsRegion: String, endpoint: String) {
             self.awsRegion = awsRegion
             self.endpoint = endpoint
@@ -822,7 +816,7 @@ extension AppSync {
         public let requestMappingTemplate: String?
         /// The Function response mapping template.
         public let responseMappingTemplate: String?
-        
+
         public init(dataSourceName: String? = nil, description: String? = nil, functionArn: String? = nil, functionId: String? = nil, functionVersion: String? = nil, name: String? = nil, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil) {
             self.dataSourceName = dataSourceName
             self.description = description
@@ -855,7 +849,7 @@ extension AppSync {
         public let apiId: String
         /// The name of the data source.
         public let name: String
-        
+
         public init(apiId: String, name: String) {
             self.apiId = apiId
             self.name = name
@@ -873,7 +867,7 @@ extension AppSync {
         ]
         /// The DataSource object.
         public let dataSource: DataSource?
-        
+
         public init(dataSource: DataSource? = nil) {
             self.dataSource = dataSource
         }
@@ -892,7 +886,7 @@ extension AppSync {
         public let apiId: String
         /// The Function ID.
         public let functionId: String
-        
+
         public init(apiId: String, functionId: String) {
             self.apiId = apiId
             self.functionId = functionId
@@ -910,7 +904,7 @@ extension AppSync {
         ]
         /// The Function object.
         public let functionConfiguration: FunctionConfiguration?
-        
+
         public init(functionConfiguration: FunctionConfiguration? = nil) {
             self.functionConfiguration = functionConfiguration
         }
@@ -926,7 +920,7 @@ extension AppSync {
         ]
         /// The API ID for the GraphQL API.
         public let apiId: String
-        
+
         public init(apiId: String) {
             self.apiId = apiId
         }
@@ -942,7 +936,7 @@ extension AppSync {
         ]
         /// The GraphqlApi object.
         public let graphqlApi: GraphqlApi?
-        
+
         public init(graphqlApi: GraphqlApi? = nil) {
             self.graphqlApi = graphqlApi
         }
@@ -964,7 +958,7 @@ extension AppSync {
         public let format: OutputType
         /// A flag that specifies whether the schema introspection should contain directives.
         public let includeDirectives: Bool?
-        
+
         public init(apiId: String, format: OutputType, includeDirectives: Bool? = nil) {
             self.apiId = apiId
             self.format = format
@@ -986,7 +980,7 @@ extension AppSync {
         ]
         /// The schema, in GraphQL Schema Definition Language (SDL) format. For more information, see the GraphQL SDL documentation.
         public let schema: Data?
-        
+
         public init(schema: Data? = nil) {
             self.schema = schema
         }
@@ -1008,7 +1002,7 @@ extension AppSync {
         public let fieldName: String
         /// The resolver type name.
         public let typeName: String
-        
+
         public init(apiId: String, fieldName: String, typeName: String) {
             self.apiId = apiId
             self.fieldName = fieldName
@@ -1028,7 +1022,7 @@ extension AppSync {
         ]
         /// The Resolver object.
         public let resolver: Resolver?
-        
+
         public init(resolver: Resolver? = nil) {
             self.resolver = resolver
         }
@@ -1044,7 +1038,7 @@ extension AppSync {
         ]
         /// The API ID.
         public let apiId: String
-        
+
         public init(apiId: String) {
             self.apiId = apiId
         }
@@ -1063,7 +1057,7 @@ extension AppSync {
         public let details: String?
         /// The current state of the schema (PROCESSING, FAILED, SUCCESS, or NOT_APPLICABLE). When the schema is in the ACTIVE state, you can add data.
         public let status: SchemaStatus?
-        
+
         public init(details: String? = nil, status: SchemaStatus? = nil) {
             self.details = details
             self.status = status
@@ -1087,7 +1081,7 @@ extension AppSync {
         public let format: TypeDefinitionFormat
         /// The type name.
         public let typeName: String
-        
+
         public init(apiId: String, format: TypeDefinitionFormat, typeName: String) {
             self.apiId = apiId
             self.format = format
@@ -1107,7 +1101,7 @@ extension AppSync {
         ]
         /// The Type object.
         public let `type`: `Type`?
-        
+
         public init(type: `Type`? = nil) {
             self.`type` = `type`
         }
@@ -1150,7 +1144,7 @@ extension AppSync {
         public let uris: [String: String]?
         /// The Amazon Cognito user pool configuration.
         public let userPoolConfig: UserPoolConfig?
-        
+
         public init(additionalAuthenticationProviders: [AdditionalAuthenticationProvider]? = nil, apiId: String? = nil, arn: String? = nil, authenticationType: AuthenticationType? = nil, logConfig: LogConfig? = nil, name: String? = nil, openIDConnectConfig: OpenIDConnectConfig? = nil, tags: [String: String]? = nil, uris: [String: String]? = nil, userPoolConfig: UserPoolConfig? = nil) {
             self.additionalAuthenticationProviders = additionalAuthenticationProviders
             self.apiId = apiId
@@ -1187,7 +1181,7 @@ extension AppSync {
         public let authorizationConfig: AuthorizationConfig?
         /// The HTTP URL endpoint. You can either specify the domain name or IP, and port combination, and the URL scheme must be HTTP or HTTPS. If the port is not specified, AWS AppSync uses the default port 80 for the HTTP endpoint and port 443 for HTTPS endpoints.
         public let endpoint: String?
-        
+
         public init(authorizationConfig: AuthorizationConfig? = nil, endpoint: String? = nil) {
             self.authorizationConfig = authorizationConfig
             self.endpoint = endpoint
@@ -1205,7 +1199,7 @@ extension AppSync {
         ]
         /// The ARN for the Lambda function.
         public let lambdaFunctionArn: String
-        
+
         public init(lambdaFunctionArn: String) {
             self.lambdaFunctionArn = lambdaFunctionArn
         }
@@ -1227,7 +1221,7 @@ extension AppSync {
         public let maxResults: Int32?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
-        
+
         public init(apiId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.apiId = apiId
             self.maxResults = maxResults
@@ -1250,7 +1244,7 @@ extension AppSync {
         public let apiKeys: [ApiKey]?
         /// An identifier to be passed in the next request to this operation to return the next set of items in the list.
         public let nextToken: String?
-        
+
         public init(apiKeys: [ApiKey]? = nil, nextToken: String? = nil) {
             self.apiKeys = apiKeys
             self.nextToken = nextToken
@@ -1274,7 +1268,7 @@ extension AppSync {
         public let maxResults: Int32?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list. 
         public let nextToken: String?
-        
+
         public init(apiId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.apiId = apiId
             self.maxResults = maxResults
@@ -1297,7 +1291,7 @@ extension AppSync {
         public let dataSources: [DataSource]?
         /// An identifier to be passed in the next request to this operation to return the next set of items in the list.
         public let nextToken: String?
-        
+
         public init(dataSources: [DataSource]? = nil, nextToken: String? = nil) {
             self.dataSources = dataSources
             self.nextToken = nextToken
@@ -1321,7 +1315,7 @@ extension AppSync {
         public let maxResults: Int32?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
-        
+
         public init(apiId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.apiId = apiId
             self.maxResults = maxResults
@@ -1344,7 +1338,7 @@ extension AppSync {
         public let functions: [FunctionConfiguration]?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
-        
+
         public init(functions: [FunctionConfiguration]? = nil, nextToken: String? = nil) {
             self.functions = functions
             self.nextToken = nextToken
@@ -1365,7 +1359,7 @@ extension AppSync {
         public let maxResults: Int32?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list. 
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1386,7 +1380,7 @@ extension AppSync {
         public let graphqlApis: [GraphqlApi]?
         /// An identifier to be passed in the next request to this operation to return the next set of items in the list.
         public let nextToken: String?
-        
+
         public init(graphqlApis: [GraphqlApi]? = nil, nextToken: String? = nil) {
             self.graphqlApis = graphqlApis
             self.nextToken = nextToken
@@ -1413,7 +1407,7 @@ extension AppSync {
         public let maxResults: Int32?
         /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
         public let nextToken: String?
-        
+
         public init(apiId: String, functionId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.apiId = apiId
             self.functionId = functionId
@@ -1438,7 +1432,7 @@ extension AppSync {
         public let nextToken: String?
         /// The list of resolvers.
         public let resolvers: [Resolver]?
-        
+
         public init(nextToken: String? = nil, resolvers: [Resolver]? = nil) {
             self.nextToken = nextToken
             self.resolvers = resolvers
@@ -1465,7 +1459,7 @@ extension AppSync {
         public let nextToken: String?
         /// The type name.
         public let typeName: String
-        
+
         public init(apiId: String, maxResults: Int32? = nil, nextToken: String? = nil, typeName: String) {
             self.apiId = apiId
             self.maxResults = maxResults
@@ -1490,7 +1484,7 @@ extension AppSync {
         public let nextToken: String?
         /// The Resolver objects.
         public let resolvers: [Resolver]?
-        
+
         public init(nextToken: String? = nil, resolvers: [Resolver]? = nil) {
             self.nextToken = nextToken
             self.resolvers = resolvers
@@ -1508,7 +1502,7 @@ extension AppSync {
         ]
         /// The GraphqlApi ARN.
         public let resourceArn: String
-        
+
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1524,7 +1518,7 @@ extension AppSync {
         ]
         /// A TagMap object.
         public let tags: [String: String]?
-        
+
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1549,7 +1543,7 @@ extension AppSync {
         public let maxResults: Int32?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list. 
         public let nextToken: String?
-        
+
         public init(apiId: String, format: TypeDefinitionFormat, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.apiId = apiId
             self.format = format
@@ -1574,7 +1568,7 @@ extension AppSync {
         public let nextToken: String?
         /// The Type objects.
         public let types: [`Type`]?
-        
+
         public init(nextToken: String? = nil, types: [`Type`]? = nil) {
             self.nextToken = nextToken
             self.types = types
@@ -1595,7 +1589,7 @@ extension AppSync {
         public let cloudWatchLogsRoleArn: String
         /// The field logging level. Values can be NONE, ERROR, or ALL.     NONE: No field-level logs are captured.    ERROR: Logs the following information only for the fields that are in error:   The error section in the server response.   Field-level errors.   The generated request/response functions that got resolved for error fields.      ALL: The following information is logged for all fields in the query:   Field-level tracing information.   The generated request/response functions that got resolved for each field.    
         public let fieldLogLevel: FieldLogLevel
-        
+
         public init(cloudWatchLogsRoleArn: String, fieldLogLevel: FieldLogLevel) {
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
             self.fieldLogLevel = fieldLogLevel
@@ -1622,7 +1616,7 @@ extension AppSync {
         public let iatTTL: Int64?
         /// The issuer for the OpenID Connect configuration. The issuer returned by discovery must exactly match the value of iss in the ID token.
         public let issuer: String
-        
+
         public init(authTTL: Int64? = nil, clientId: String? = nil, iatTTL: Int64? = nil, issuer: String) {
             self.authTTL = authTTL
             self.clientId = clientId
@@ -1650,7 +1644,7 @@ extension AppSync {
         ]
         /// A list of Function objects.
         public let functions: [String]?
-        
+
         public init(functions: [String]? = nil) {
             self.functions = functions
         }
@@ -1678,7 +1672,7 @@ extension AppSync {
         public let dbClusterIdentifier: String?
         /// Logical schema name.
         public let schema: String?
-        
+
         public init(awsRegion: String? = nil, awsSecretStoreArn: String? = nil, databaseName: String? = nil, dbClusterIdentifier: String? = nil, schema: String? = nil) {
             self.awsRegion = awsRegion
             self.awsSecretStoreArn = awsSecretStoreArn
@@ -1705,7 +1699,7 @@ extension AppSync {
         public let rdsHttpEndpointConfig: RdsHttpEndpointConfig?
         /// Source type for the relational database.    RDS_HTTP_ENDPOINT: The relational database source type is an Amazon RDS HTTP endpoint.  
         public let relationalDatabaseSourceType: RelationalDatabaseSourceType?
-        
+
         public init(rdsHttpEndpointConfig: RdsHttpEndpointConfig? = nil, relationalDatabaseSourceType: RelationalDatabaseSourceType? = nil) {
             self.rdsHttpEndpointConfig = rdsHttpEndpointConfig
             self.relationalDatabaseSourceType = relationalDatabaseSourceType
@@ -1749,7 +1743,7 @@ extension AppSync {
         public let responseMappingTemplate: String?
         /// The resolver type name.
         public let typeName: String?
-        
+
         public init(dataSourceName: String? = nil, fieldName: String? = nil, kind: ResolverKind? = nil, pipelineConfig: PipelineConfig? = nil, requestMappingTemplate: String? = nil, resolverArn: String? = nil, responseMappingTemplate: String? = nil, typeName: String? = nil) {
             self.dataSourceName = dataSourceName
             self.fieldName = fieldName
@@ -1798,7 +1792,7 @@ extension AppSync {
         public let apiId: String
         /// The schema definition, in GraphQL schema language format.
         public let definition: Data
-        
+
         public init(apiId: String, definition: Data) {
             self.apiId = apiId
             self.definition = definition
@@ -1816,7 +1810,7 @@ extension AppSync {
         ]
         /// The current state of the schema (PROCESSING, FAILED, SUCCESS, or NOT_APPLICABLE). When the schema is in the ACTIVE state, you can add data.
         public let status: SchemaStatus?
-        
+
         public init(status: SchemaStatus? = nil) {
             self.status = status
         }
@@ -1835,7 +1829,7 @@ extension AppSync {
         public let resourceArn: String
         /// A TagMap object.
         public let tags: [String: String]
-        
+
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1848,12 +1842,11 @@ extension AppSync {
     }
 
     public struct TagResourceResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct `Type`: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1873,7 +1866,7 @@ extension AppSync {
         public let format: TypeDefinitionFormat?
         /// The type name.
         public let name: String?
-        
+
         public init(arn: String? = nil, definition: String? = nil, description: String? = nil, format: TypeDefinitionFormat? = nil, name: String? = nil) {
             self.arn = arn
             self.definition = definition
@@ -1906,7 +1899,7 @@ extension AppSync {
         public let resourceArn: String
         /// A list of TagKey objects.
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1919,12 +1912,11 @@ extension AppSync {
     }
 
     public struct UntagResourceResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateApiKeyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1941,7 +1933,7 @@ extension AppSync {
         public let expires: Int64?
         /// The API key ID.
         public let id: String
-        
+
         public init(apiId: String, description: String? = nil, expires: Int64? = nil, id: String) {
             self.apiId = apiId
             self.description = description
@@ -1963,7 +1955,7 @@ extension AppSync {
         ]
         /// The API key.
         public let apiKey: ApiKey?
-        
+
         public init(apiKey: ApiKey? = nil) {
             self.apiKey = apiKey
         }
@@ -2006,7 +1998,7 @@ extension AppSync {
         public let serviceRoleArn: String?
         /// The new data source type.
         public let `type`: DataSourceType
-        
+
         public init(apiId: String, description: String? = nil, dynamodbConfig: DynamodbDataSourceConfig? = nil, elasticsearchConfig: ElasticsearchDataSourceConfig? = nil, httpConfig: HttpDataSourceConfig? = nil, lambdaConfig: LambdaDataSourceConfig? = nil, name: String, relationalDatabaseConfig: RelationalDatabaseDataSourceConfig? = nil, serviceRoleArn: String? = nil, type: DataSourceType) {
             self.apiId = apiId
             self.description = description
@@ -2040,7 +2032,7 @@ extension AppSync {
         ]
         /// The updated DataSource object.
         public let dataSource: DataSource?
-        
+
         public init(dataSource: DataSource? = nil) {
             self.dataSource = dataSource
         }
@@ -2077,7 +2069,7 @@ extension AppSync {
         public let requestMappingTemplate: String
         /// The Function request mapping template. 
         public let responseMappingTemplate: String?
-        
+
         public init(apiId: String, dataSourceName: String, description: String? = nil, functionId: String, functionVersion: String, name: String, requestMappingTemplate: String, responseMappingTemplate: String? = nil) {
             self.apiId = apiId
             self.dataSourceName = dataSourceName
@@ -2107,7 +2099,7 @@ extension AppSync {
         ]
         /// The Function object.
         public let functionConfiguration: FunctionConfiguration?
-        
+
         public init(functionConfiguration: FunctionConfiguration? = nil) {
             self.functionConfiguration = functionConfiguration
         }
@@ -2141,7 +2133,7 @@ extension AppSync {
         public let openIDConnectConfig: OpenIDConnectConfig?
         /// The new Amazon Cognito user pool configuration for the GraphqlApi object.
         public let userPoolConfig: UserPoolConfig?
-        
+
         public init(additionalAuthenticationProviders: [AdditionalAuthenticationProvider]? = nil, apiId: String, authenticationType: AuthenticationType? = nil, logConfig: LogConfig? = nil, name: String, openIDConnectConfig: OpenIDConnectConfig? = nil, userPoolConfig: UserPoolConfig? = nil) {
             self.additionalAuthenticationProviders = additionalAuthenticationProviders
             self.apiId = apiId
@@ -2169,7 +2161,7 @@ extension AppSync {
         ]
         /// The updated GraphqlApi object.
         public let graphqlApi: GraphqlApi?
-        
+
         public init(graphqlApi: GraphqlApi? = nil) {
             self.graphqlApi = graphqlApi
         }
@@ -2206,7 +2198,7 @@ extension AppSync {
         public let responseMappingTemplate: String?
         /// The new type name.
         public let typeName: String
-        
+
         public init(apiId: String, dataSourceName: String? = nil, fieldName: String, kind: ResolverKind? = nil, pipelineConfig: PipelineConfig? = nil, requestMappingTemplate: String, responseMappingTemplate: String? = nil, typeName: String) {
             self.apiId = apiId
             self.dataSourceName = dataSourceName
@@ -2236,7 +2228,7 @@ extension AppSync {
         ]
         /// The updated Resolver object.
         public let resolver: Resolver?
-        
+
         public init(resolver: Resolver? = nil) {
             self.resolver = resolver
         }
@@ -2261,7 +2253,7 @@ extension AppSync {
         public let format: TypeDefinitionFormat
         /// The new type name.
         public let typeName: String
-        
+
         public init(apiId: String, definition: String? = nil, format: TypeDefinitionFormat, typeName: String) {
             self.apiId = apiId
             self.definition = definition
@@ -2283,7 +2275,7 @@ extension AppSync {
         ]
         /// The updated Type object.
         public let `type`: `Type`?
-        
+
         public init(type: `Type`? = nil) {
             self.`type` = `type`
         }
@@ -2308,7 +2300,7 @@ extension AppSync {
         public let defaultAction: DefaultAction
         /// The user pool ID.
         public let userPoolId: String
-        
+
         public init(appIdClientRegex: String? = nil, awsRegion: String, defaultAction: DefaultAction, userPoolId: String) {
             self.appIdClientRegex = appIdClientRegex
             self.awsRegion = awsRegion
@@ -2323,5 +2315,4 @@ extension AppSync {
             case userPoolId = "userPoolId"
         }
     }
-
 }

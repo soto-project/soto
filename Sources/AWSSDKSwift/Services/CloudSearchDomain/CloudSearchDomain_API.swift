@@ -39,5 +39,4 @@ public struct CloudSearchDomain {
     public func uploadDocuments(_ input: UploadDocumentsRequest) throws -> Future<UploadDocumentsResponse> {
         return try client.send(operation: "UploadDocuments", path: "/2013-01-01/documents/batch?format=sdk", httpMethod: "POST", input: input)
     }
-
 }

@@ -44,5 +44,4 @@ public struct IoTEventsData {
     public func listDetectors(_ input: ListDetectorsRequest) throws -> Future<ListDetectorsResponse> {
         return try client.send(operation: "ListDetectors", path: "/detectors/{detectorModelName}", httpMethod: "GET", input: input)
     }
-
 }

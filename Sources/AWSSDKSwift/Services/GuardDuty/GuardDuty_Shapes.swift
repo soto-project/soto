@@ -17,7 +17,7 @@ extension GuardDuty {
         public let invitationId: String
         /// The account ID of the master GuardDuty account whose invitation you're accepting.
         public let masterId: String
-        
+
         public init(detectorId: String, invitationId: String, masterId: String) {
             self.detectorId = detectorId
             self.invitationId = invitationId
@@ -32,12 +32,11 @@ extension GuardDuty {
     }
 
     public struct AcceptInvitationResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct AccessKeyDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -54,7 +53,7 @@ extension GuardDuty {
         public let userName: String?
         /// The type of the user.
         public let userType: String?
-        
+
         public init(accessKeyId: String? = nil, principalId: String? = nil, userName: String? = nil, userType: String? = nil) {
             self.accessKeyId = accessKeyId
             self.principalId = principalId
@@ -79,7 +78,7 @@ extension GuardDuty {
         public let accountId: String
         /// Member account's email address.
         public let email: String
-        
+
         public init(accountId: String, email: String) {
             self.accountId = accountId
             self.email = email
@@ -109,7 +108,7 @@ extension GuardDuty {
         public let networkConnectionAction: NetworkConnectionAction?
         /// Information about the PORT_PROBE action described in this finding.
         public let portProbeAction: PortProbeAction?
-        
+
         public init(actionType: String? = nil, awsApiCallAction: AwsApiCallAction? = nil, dnsRequestAction: DnsRequestAction? = nil, networkConnectionAction: NetworkConnectionAction? = nil, portProbeAction: PortProbeAction? = nil) {
             self.actionType = actionType
             self.awsApiCallAction = awsApiCallAction
@@ -136,7 +135,7 @@ extension GuardDuty {
         public let detectorId: String
         /// IDs of the findings that you want to archive.
         public let findingIds: [String]
-        
+
         public init(detectorId: String, findingIds: [String]) {
             self.detectorId = detectorId
             self.findingIds = findingIds
@@ -149,12 +148,11 @@ extension GuardDuty {
     }
 
     public struct ArchiveFindingsResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct AwsApiCallAction: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -174,7 +172,7 @@ extension GuardDuty {
         public let remoteIpDetails: RemoteIpDetails?
         /// AWS service name whose API was invoked.
         public let serviceName: String?
-        
+
         public init(api: String? = nil, callerType: String? = nil, domainDetails: DomainDetails? = nil, remoteIpDetails: RemoteIpDetails? = nil, serviceName: String? = nil) {
             self.api = api
             self.callerType = callerType
@@ -198,7 +196,7 @@ extension GuardDuty {
         ]
         /// City name of the remote IP address.
         public let cityName: String?
-        
+
         public init(cityName: String? = nil) {
             self.cityName = cityName
         }
@@ -227,7 +225,7 @@ extension GuardDuty {
         /// Represents a less than equal condition to be applied to a single field when querying for findings.
         public let lessThanOrEqual: Int64?
         public let notEquals: [String]?
-        
+
         public init(equals: [String]? = nil, greaterThan: Int64? = nil, greaterThanOrEqual: Int64? = nil, lessThan: Int64? = nil, lessThanOrEqual: Int64? = nil, notEquals: [String]? = nil) {
             self.equals = equals
             self.greaterThan = greaterThan
@@ -256,7 +254,7 @@ extension GuardDuty {
         public let countryCode: String?
         /// Country name of the remote IP address.
         public let countryName: String?
-        
+
         public init(countryCode: String? = nil, countryName: String? = nil) {
             self.countryCode = countryCode
             self.countryName = countryName
@@ -283,7 +281,7 @@ extension GuardDuty {
         public let findingPublishingFrequency: FindingPublishingFrequency?
         /// The tags to be added to a new detector resource.
         public let tags: [String: String]?
-        
+
         public init(clientToken: String? = nil, enable: Bool, findingPublishingFrequency: FindingPublishingFrequency? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.enable = enable
@@ -305,7 +303,7 @@ extension GuardDuty {
         ]
         /// The unique ID of the created detector.
         public let detectorId: String?
-        
+
         public init(detectorId: String? = nil) {
             self.detectorId = detectorId
         }
@@ -342,7 +340,7 @@ extension GuardDuty {
         public let rank: Int32?
         /// The tags to be added to a new filter resource.
         public let tags: [String: String]?
-        
+
         public init(action: FilterAction? = nil, clientToken: String? = nil, description: String? = nil, detectorId: String, findingCriteria: FindingCriteria, name: String, rank: Int32? = nil, tags: [String: String]? = nil) {
             self.action = action
             self.clientToken = clientToken
@@ -372,7 +370,7 @@ extension GuardDuty {
         ]
         /// The name of the successfully created filter.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -406,7 +404,7 @@ extension GuardDuty {
         public let name: String
         /// The tags to be added to a new IP set resource.
         public let tags: [String: String]?
-        
+
         public init(activate: Bool, clientToken: String? = nil, detectorId: String, format: IpSetFormat, location: String, name: String, tags: [String: String]? = nil) {
             self.activate = activate
             self.clientToken = clientToken
@@ -434,7 +432,7 @@ extension GuardDuty {
         ]
         /// The ID of the IPSet resource.
         public let ipSetId: String
-        
+
         public init(ipSetId: String) {
             self.ipSetId = ipSetId
         }
@@ -453,7 +451,7 @@ extension GuardDuty {
         public let accountDetails: [AccountDetail]
         /// The unique ID of the detector of the GuardDuty account with which you want to associate member accounts.
         public let detectorId: String
-        
+
         public init(accountDetails: [AccountDetail], detectorId: String) {
             self.accountDetails = accountDetails
             self.detectorId = detectorId
@@ -471,7 +469,7 @@ extension GuardDuty {
         ]
         /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]
-        
+
         public init(unprocessedAccounts: [UnprocessedAccount]) {
             self.unprocessedAccounts = unprocessedAccounts
         }
@@ -490,7 +488,7 @@ extension GuardDuty {
         public let detectorId: String
         /// Types of sample findings that you want to generate.
         public let findingTypes: [String]?
-        
+
         public init(detectorId: String, findingTypes: [String]? = nil) {
             self.detectorId = detectorId
             self.findingTypes = findingTypes
@@ -503,12 +501,11 @@ extension GuardDuty {
     }
 
     public struct CreateSampleFindingsResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct CreateThreatIntelSetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -534,7 +531,7 @@ extension GuardDuty {
         public let name: String
         /// The tags to be added to a new Threat List resource.
         public let tags: [String: String]?
-        
+
         public init(activate: Bool, clientToken: String? = nil, detectorId: String, format: ThreatIntelSetFormat, location: String, name: String, tags: [String: String]? = nil) {
             self.activate = activate
             self.clientToken = clientToken
@@ -562,7 +559,7 @@ extension GuardDuty {
         ]
         /// The ID of the ThreatIntelSet resource.
         public let threatIntelSetId: String
-        
+
         public init(threatIntelSetId: String) {
             self.threatIntelSetId = threatIntelSetId
         }
@@ -578,7 +575,7 @@ extension GuardDuty {
         ]
         /// A list of account IDs of the AWS accounts that sent invitations to the current member account that you want to decline invitations from.
         public let accountIds: [String]
-        
+
         public init(accountIds: [String]) {
             self.accountIds = accountIds
         }
@@ -594,7 +591,7 @@ extension GuardDuty {
         ]
         /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]
-        
+
         public init(unprocessedAccounts: [UnprocessedAccount]) {
             self.unprocessedAccounts = unprocessedAccounts
         }
@@ -610,7 +607,7 @@ extension GuardDuty {
         ]
         /// The unique ID of the detector that you want to delete.
         public let detectorId: String
-        
+
         public init(detectorId: String) {
             self.detectorId = detectorId
         }
@@ -621,12 +618,11 @@ extension GuardDuty {
     }
 
     public struct DeleteDetectorResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteFilterRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -637,7 +633,7 @@ extension GuardDuty {
         public let detectorId: String
         /// The name of the filter you want to delete.
         public let filterName: String
-        
+
         public init(detectorId: String, filterName: String) {
             self.detectorId = detectorId
             self.filterName = filterName
@@ -650,12 +646,11 @@ extension GuardDuty {
     }
 
     public struct DeleteFilterResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteIPSetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -666,7 +661,7 @@ extension GuardDuty {
         public let detectorId: String
         /// The unique ID of the ipSet you want to delete.
         public let ipSetId: String
-        
+
         public init(detectorId: String, ipSetId: String) {
             self.detectorId = detectorId
             self.ipSetId = ipSetId
@@ -679,12 +674,11 @@ extension GuardDuty {
     }
 
     public struct DeleteIPSetResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteInvitationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -692,7 +686,7 @@ extension GuardDuty {
         ]
         /// A list of account IDs of the AWS accounts that sent invitations to the current member account that you want to delete invitations from.
         public let accountIds: [String]
-        
+
         public init(accountIds: [String]) {
             self.accountIds = accountIds
         }
@@ -708,7 +702,7 @@ extension GuardDuty {
         ]
         /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]
-        
+
         public init(unprocessedAccounts: [UnprocessedAccount]) {
             self.unprocessedAccounts = unprocessedAccounts
         }
@@ -727,7 +721,7 @@ extension GuardDuty {
         public let accountIds: [String]
         /// The unique ID of the detector of the GuardDuty account whose members you want to delete.
         public let detectorId: String
-        
+
         public init(accountIds: [String], detectorId: String) {
             self.accountIds = accountIds
             self.detectorId = detectorId
@@ -745,7 +739,7 @@ extension GuardDuty {
         ]
         /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]
-        
+
         public init(unprocessedAccounts: [UnprocessedAccount]) {
             self.unprocessedAccounts = unprocessedAccounts
         }
@@ -764,7 +758,7 @@ extension GuardDuty {
         public let detectorId: String
         /// The unique ID of the threatIntelSet you want to delete.
         public let threatIntelSetId: String
-        
+
         public init(detectorId: String, threatIntelSetId: String) {
             self.detectorId = detectorId
             self.threatIntelSetId = threatIntelSetId
@@ -777,12 +771,11 @@ extension GuardDuty {
     }
 
     public struct DeleteThreatIntelSetResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public enum DetectorStatus: String, CustomStringConvertible, Codable {
         case enabled = "ENABLED"
@@ -796,7 +789,7 @@ extension GuardDuty {
         ]
         /// The unique ID of the detector of the GuardDuty member account.
         public let detectorId: String
-        
+
         public init(detectorId: String) {
             self.detectorId = detectorId
         }
@@ -807,12 +800,11 @@ extension GuardDuty {
     }
 
     public struct DisassociateFromMasterAccountResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DisassociateMembersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -823,7 +815,7 @@ extension GuardDuty {
         public let accountIds: [String]
         /// The unique ID of the detector of the GuardDuty account whose members you want to disassociate from master.
         public let detectorId: String
-        
+
         public init(accountIds: [String], detectorId: String) {
             self.accountIds = accountIds
             self.detectorId = detectorId
@@ -841,7 +833,7 @@ extension GuardDuty {
         ]
         /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]
-        
+
         public init(unprocessedAccounts: [UnprocessedAccount]) {
             self.unprocessedAccounts = unprocessedAccounts
         }
@@ -857,7 +849,7 @@ extension GuardDuty {
         ]
         /// Domain information for the DNS request.
         public let domain: String?
-        
+
         public init(domain: String? = nil) {
             self.domain = domain
         }
@@ -873,7 +865,7 @@ extension GuardDuty {
         ]
         /// Domain information for the AWS API call.
         public let domain: String?
-        
+
         public init(domain: String? = nil) {
             self.domain = domain
         }
@@ -943,7 +935,7 @@ extension GuardDuty {
         public let `type`: String
         /// The time stamp at which a finding was last updated.
         public let updatedAt: String
-        
+
         public init(accountId: String, arn: String, confidence: Double? = nil, createdAt: String, description: String? = nil, id: String, partition: String? = nil, region: String, resource: Resource, schemaVersion: String, service: Service? = nil, severity: Double, title: String? = nil, type: String, updatedAt: String) {
             self.accountId = accountId
             self.arn = arn
@@ -987,7 +979,7 @@ extension GuardDuty {
         ]
         /// Represents a map of finding properties that match specified conditions and values when querying findings.
         public let criterion: [String: Condition]?
-        
+
         public init(criterion: [String: Condition]? = nil) {
             self.criterion = criterion
         }
@@ -1015,7 +1007,7 @@ extension GuardDuty {
         ]
         /// Represents a map of severity to count statistic for a set of findings
         public let countBySeverity: [String: Int32]?
-        
+
         public init(countBySeverity: [String: Int32]? = nil) {
             self.countBySeverity = countBySeverity
         }
@@ -1034,7 +1026,7 @@ extension GuardDuty {
         public let lat: Double?
         /// Longitude information of remote IP address.
         public let lon: Double?
-        
+
         public init(lat: Double? = nil, lon: Double? = nil) {
             self.lat = lat
             self.lon = lon
@@ -1052,7 +1044,7 @@ extension GuardDuty {
         ]
         /// The unique ID of the detector that you want to get.
         public let detectorId: String
-        
+
         public init(detectorId: String) {
             self.detectorId = detectorId
         }
@@ -1083,7 +1075,7 @@ extension GuardDuty {
         public let tags: [String: String]?
         /// Detector last update timestamp.
         public let updatedAt: String?
-        
+
         public init(createdAt: String? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil, serviceRole: String, status: DetectorStatus, tags: [String: String]? = nil, updatedAt: String? = nil) {
             self.createdAt = createdAt
             self.findingPublishingFrequency = findingPublishingFrequency
@@ -1112,7 +1104,7 @@ extension GuardDuty {
         public let detectorId: String
         /// The name of the filter you want to get.
         public let filterName: String
-        
+
         public init(detectorId: String, filterName: String) {
             self.detectorId = detectorId
             self.filterName = filterName
@@ -1145,7 +1137,7 @@ extension GuardDuty {
         public let rank: Int32?
         /// The tags of the filter resource.
         public let tags: [String: String]?
-        
+
         public init(action: FilterAction, description: String? = nil, findingCriteria: FindingCriteria, name: String, rank: Int32? = nil, tags: [String: String]? = nil) {
             self.action = action
             self.description = description
@@ -1177,7 +1169,7 @@ extension GuardDuty {
         public let findingIds: [String]
         /// Represents the criteria used for sorting findings.
         public let sortCriteria: SortCriteria?
-        
+
         public init(detectorId: String, findingIds: [String], sortCriteria: SortCriteria? = nil) {
             self.detectorId = detectorId
             self.findingIds = findingIds
@@ -1197,7 +1189,7 @@ extension GuardDuty {
         ]
         /// A list of findings.
         public let findings: [Finding]
-        
+
         public init(findings: [Finding]) {
             self.findings = findings
         }
@@ -1219,7 +1211,7 @@ extension GuardDuty {
         public let findingCriteria: FindingCriteria?
         /// Types of finding statistics to retrieve.
         public let findingStatisticTypes: [FindingStatisticType]
-        
+
         public init(detectorId: String, findingCriteria: FindingCriteria? = nil, findingStatisticTypes: [FindingStatisticType]) {
             self.detectorId = detectorId
             self.findingCriteria = findingCriteria
@@ -1239,7 +1231,7 @@ extension GuardDuty {
         ]
         /// Finding statistics object.
         public let findingStatistics: FindingStatistics
-        
+
         public init(findingStatistics: FindingStatistics) {
             self.findingStatistics = findingStatistics
         }
@@ -1258,7 +1250,7 @@ extension GuardDuty {
         public let detectorId: String
         /// The unique ID of the ipSet you want to get.
         public let ipSetId: String
-        
+
         public init(detectorId: String, ipSetId: String) {
             self.detectorId = detectorId
             self.ipSetId = ipSetId
@@ -1288,7 +1280,7 @@ extension GuardDuty {
         public let status: IpSetStatus
         /// The tags of the IP set resource.
         public let tags: [String: String]?
-        
+
         public init(format: IpSetFormat, location: String, name: String, status: IpSetStatus, tags: [String: String]? = nil) {
             self.format = format
             self.location = location
@@ -1307,12 +1299,11 @@ extension GuardDuty {
     }
 
     public struct GetInvitationsCountRequest: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct GetInvitationsCountResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1320,7 +1311,7 @@ extension GuardDuty {
         ]
         /// The number of received invitations.
         public let invitationsCount: Int32?
-        
+
         public init(invitationsCount: Int32? = nil) {
             self.invitationsCount = invitationsCount
         }
@@ -1336,7 +1327,7 @@ extension GuardDuty {
         ]
         /// The unique ID of the detector of the GuardDuty member account.
         public let detectorId: String
-        
+
         public init(detectorId: String) {
             self.detectorId = detectorId
         }
@@ -1352,7 +1343,7 @@ extension GuardDuty {
         ]
         /// Master account details.
         public let master: Master
-        
+
         public init(master: Master) {
             self.master = master
         }
@@ -1371,7 +1362,7 @@ extension GuardDuty {
         public let accountIds: [String]
         /// The unique ID of the detector of the GuardDuty account whose members you want to retrieve.
         public let detectorId: String
-        
+
         public init(accountIds: [String], detectorId: String) {
             self.accountIds = accountIds
             self.detectorId = detectorId
@@ -1392,7 +1383,7 @@ extension GuardDuty {
         public let members: [Member]
         /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]
-        
+
         public init(members: [Member], unprocessedAccounts: [UnprocessedAccount]) {
             self.members = members
             self.unprocessedAccounts = unprocessedAccounts
@@ -1413,7 +1404,7 @@ extension GuardDuty {
         public let detectorId: String
         /// The unique ID of the threatIntelSet you want to get.
         public let threatIntelSetId: String
-        
+
         public init(detectorId: String, threatIntelSetId: String) {
             self.detectorId = detectorId
             self.threatIntelSetId = threatIntelSetId
@@ -1443,7 +1434,7 @@ extension GuardDuty {
         public let status: ThreatIntelSetStatus
         /// The tags of the Threat List resource.
         public let tags: [String: String]?
-        
+
         public init(format: ThreatIntelSetFormat, location: String, name: String, status: ThreatIntelSetStatus, tags: [String: String]? = nil) {
             self.format = format
             self.location = location
@@ -1470,7 +1461,7 @@ extension GuardDuty {
         public let arn: String?
         /// AWS EC2 instance profile ID.
         public let id: String?
-        
+
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -1521,7 +1512,7 @@ extension GuardDuty {
         public let productCodes: [ProductCode]?
         /// The tags of the EC2 instance.
         public let tags: [Tag]?
-        
+
         public init(availabilityZone: String? = nil, iamInstanceProfile: IamInstanceProfile? = nil, imageDescription: String? = nil, imageId: String? = nil, instanceId: String? = nil, instanceState: String? = nil, instanceType: String? = nil, launchTime: String? = nil, networkInterfaces: [NetworkInterface]? = nil, platform: String? = nil, productCodes: [ProductCode]? = nil, tags: [Tag]? = nil) {
             self.availabilityZone = availabilityZone
             self.iamInstanceProfile = iamInstanceProfile
@@ -1568,7 +1559,7 @@ extension GuardDuty {
         public let invitedAt: String?
         /// The status of the relationship between the inviter and invitee accounts.
         public let relationshipStatus: String?
-        
+
         public init(accountId: String? = nil, invitationId: String? = nil, invitedAt: String? = nil, relationshipStatus: String? = nil) {
             self.accountId = accountId
             self.invitationId = invitationId
@@ -1599,7 +1590,7 @@ extension GuardDuty {
         public let disableEmailNotification: Bool?
         /// The invitation message that you want to send to the accounts that you’re inviting to GuardDuty as members.
         public let message: String?
-        
+
         public init(accountIds: [String], detectorId: String, disableEmailNotification: Bool? = nil, message: String? = nil) {
             self.accountIds = accountIds
             self.detectorId = detectorId
@@ -1621,7 +1612,7 @@ extension GuardDuty {
         ]
         /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]
-        
+
         public init(unprocessedAccounts: [UnprocessedAccount]) {
             self.unprocessedAccounts = unprocessedAccounts
         }
@@ -1661,7 +1652,7 @@ extension GuardDuty {
         public let maxResults: Int32?
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1682,7 +1673,7 @@ extension GuardDuty {
         public let detectorIds: [String]
         /// Pagination parameter to be used on the next list operation to retrieve more items.
         public let nextToken: String?
-        
+
         public init(detectorIds: [String], nextToken: String? = nil) {
             self.detectorIds = detectorIds
             self.nextToken = nextToken
@@ -1706,7 +1697,7 @@ extension GuardDuty {
         public let maxResults: Int32?
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
-        
+
         public init(detectorId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.detectorId = detectorId
             self.maxResults = maxResults
@@ -1729,7 +1720,7 @@ extension GuardDuty {
         public let filterNames: [String]
         /// Pagination parameter to be used on the next list operation to retrieve more items.
         public let nextToken: String?
-        
+
         public init(filterNames: [String], nextToken: String? = nil) {
             self.filterNames = filterNames
             self.nextToken = nextToken
@@ -1759,7 +1750,7 @@ extension GuardDuty {
         public let nextToken: String?
         /// Represents the criteria used for sorting findings.
         public let sortCriteria: SortCriteria?
-        
+
         public init(detectorId: String, findingCriteria: FindingCriteria? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortCriteria: SortCriteria? = nil) {
             self.detectorId = detectorId
             self.findingCriteria = findingCriteria
@@ -1786,7 +1777,7 @@ extension GuardDuty {
         public let findingIds: [String]
         /// Pagination parameter to be used on the next list operation to retrieve more items.
         public let nextToken: String?
-        
+
         public init(findingIds: [String], nextToken: String? = nil) {
             self.findingIds = findingIds
             self.nextToken = nextToken
@@ -1810,7 +1801,7 @@ extension GuardDuty {
         public let maxResults: Int32?
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
-        
+
         public init(detectorId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.detectorId = detectorId
             self.maxResults = maxResults
@@ -1833,7 +1824,7 @@ extension GuardDuty {
         public let ipSetIds: [String]
         /// Pagination parameter to be used on the next list operation to retrieve more items.
         public let nextToken: String?
-        
+
         public init(ipSetIds: [String], nextToken: String? = nil) {
             self.ipSetIds = ipSetIds
             self.nextToken = nextToken
@@ -1854,7 +1845,7 @@ extension GuardDuty {
         public let maxResults: Int32?
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1875,7 +1866,7 @@ extension GuardDuty {
         public let invitations: [Invitation]?
         /// Pagination parameter to be used on the next list operation to retrieve more items.
         public let nextToken: String?
-        
+
         public init(invitations: [Invitation]? = nil, nextToken: String? = nil) {
             self.invitations = invitations
             self.nextToken = nextToken
@@ -1902,7 +1893,7 @@ extension GuardDuty {
         public let nextToken: String?
         /// Specifies whether to only return associated members or to return all members (including members which haven't been invited yet or have been disassociated).
         public let onlyAssociated: String?
-        
+
         public init(detectorId: String, maxResults: Int32? = nil, nextToken: String? = nil, onlyAssociated: String? = nil) {
             self.detectorId = detectorId
             self.maxResults = maxResults
@@ -1927,7 +1918,7 @@ extension GuardDuty {
         public let members: [Member]?
         /// Pagination parameter to be used on the next list operation to retrieve more items.
         public let nextToken: String?
-        
+
         public init(members: [Member]? = nil, nextToken: String? = nil) {
             self.members = members
             self.nextToken = nextToken
@@ -1945,7 +1936,7 @@ extension GuardDuty {
         ]
         /// The Amazon Resource Name (ARN) for the given GuardDuty resource 
         public let resourceArn: String
-        
+
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1960,7 +1951,7 @@ extension GuardDuty {
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         public let tags: [String: String]?
-        
+
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1982,7 +1973,7 @@ extension GuardDuty {
         public let maxResults: Int32?
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
-        
+
         public init(detectorId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.detectorId = detectorId
             self.maxResults = maxResults
@@ -2005,7 +1996,7 @@ extension GuardDuty {
         public let nextToken: String?
         /// The IDs of the ThreatIntelSet resources.
         public let threatIntelSetIds: [String]
-        
+
         public init(nextToken: String? = nil, threatIntelSetIds: [String]) {
             self.nextToken = nextToken
             self.threatIntelSetIds = threatIntelSetIds
@@ -2026,7 +2017,7 @@ extension GuardDuty {
         public let port: Int32?
         /// Port name of the local connection.
         public let portName: String?
-        
+
         public init(port: Int32? = nil, portName: String? = nil) {
             self.port = port
             self.portName = portName
@@ -2053,7 +2044,7 @@ extension GuardDuty {
         public let invitedAt: String?
         /// The status of the relationship between the master and member accounts.
         public let relationshipStatus: String?
-        
+
         public init(accountId: String? = nil, invitationId: String? = nil, invitedAt: String? = nil, relationshipStatus: String? = nil) {
             self.accountId = accountId
             self.invitationId = invitationId
@@ -2093,7 +2084,7 @@ extension GuardDuty {
         public let relationshipStatus: String
         /// Member last updated timestamp.
         public let updatedAt: String
-        
+
         public init(accountId: String, detectorId: String? = nil, email: String, invitedAt: String? = nil, masterId: String, relationshipStatus: String, updatedAt: String) {
             self.accountId = accountId
             self.detectorId = detectorId
@@ -2136,7 +2127,7 @@ extension GuardDuty {
         public let remoteIpDetails: RemoteIpDetails?
         /// Remote port information of the connection.
         public let remotePortDetails: RemotePortDetails?
-        
+
         public init(blocked: Bool? = nil, connectionDirection: String? = nil, localPortDetails: LocalPortDetails? = nil, protocol: String? = nil, remoteIpDetails: RemoteIpDetails? = nil, remotePortDetails: RemotePortDetails? = nil) {
             self.blocked = blocked
             self.connectionDirection = connectionDirection
@@ -2189,7 +2180,7 @@ extension GuardDuty {
         public let subnetId: String?
         /// The VPC ID of the EC2 instance.
         public let vpcId: String?
-        
+
         public init(ipv6Addresses: [String]? = nil, networkInterfaceId: String? = nil, privateDnsName: String? = nil, privateIpAddress: String? = nil, privateIpAddresses: [PrivateIpAddressDetails]? = nil, publicDnsName: String? = nil, publicIp: String? = nil, securityGroups: [SecurityGroup]? = nil, subnetId: String? = nil, vpcId: String? = nil) {
             self.ipv6Addresses = ipv6Addresses
             self.networkInterfaceId = networkInterfaceId
@@ -2238,7 +2229,7 @@ extension GuardDuty {
         public let isp: String?
         /// Name of the internet provider.
         public let org: String?
-        
+
         public init(asn: String? = nil, asnOrg: String? = nil, isp: String? = nil, org: String? = nil) {
             self.asn = asn
             self.asnOrg = asnOrg
@@ -2263,7 +2254,7 @@ extension GuardDuty {
         public let blocked: Bool?
         /// A list of port probe details objects.
         public let portProbeDetails: [PortProbeDetail]?
-        
+
         public init(blocked: Bool? = nil, portProbeDetails: [PortProbeDetail]? = nil) {
             self.blocked = blocked
             self.portProbeDetails = portProbeDetails
@@ -2284,7 +2275,7 @@ extension GuardDuty {
         public let localPortDetails: LocalPortDetails?
         /// Remote IP information of the connection.
         public let remoteIpDetails: RemoteIpDetails?
-        
+
         public init(localPortDetails: LocalPortDetails? = nil, remoteIpDetails: RemoteIpDetails? = nil) {
             self.localPortDetails = localPortDetails
             self.remoteIpDetails = remoteIpDetails
@@ -2305,7 +2296,7 @@ extension GuardDuty {
         public let privateDnsName: String?
         /// Private IP address of the EC2 instance.
         public let privateIpAddress: String?
-        
+
         public init(privateDnsName: String? = nil, privateIpAddress: String? = nil) {
             self.privateDnsName = privateDnsName
             self.privateIpAddress = privateIpAddress
@@ -2326,7 +2317,7 @@ extension GuardDuty {
         public let code: String?
         /// Product code type.
         public let productType: String?
-        
+
         public init(code: String? = nil, productType: String? = nil) {
             self.code = code
             self.productType = productType
@@ -2356,7 +2347,7 @@ extension GuardDuty {
         public let ipAddressV4: String?
         /// ISP Organization information of the remote IP address.
         public let organization: Organization?
-        
+
         public init(city: City? = nil, country: Country? = nil, geoLocation: GeoLocation? = nil, ipAddressV4: String? = nil, organization: Organization? = nil) {
             self.city = city
             self.country = country
@@ -2383,7 +2374,7 @@ extension GuardDuty {
         public let port: Int32?
         /// Port name of the remote connection.
         public let portName: String?
-        
+
         public init(port: Int32? = nil, portName: String? = nil) {
             self.port = port
             self.portName = portName
@@ -2407,7 +2398,7 @@ extension GuardDuty {
         public let instanceDetails: InstanceDetails?
         /// The type of the AWS resource.
         public let resourceType: String?
-        
+
         public init(accessKeyDetails: AccessKeyDetails? = nil, instanceDetails: InstanceDetails? = nil, resourceType: String? = nil) {
             self.accessKeyDetails = accessKeyDetails
             self.instanceDetails = instanceDetails
@@ -2430,7 +2421,7 @@ extension GuardDuty {
         public let groupId: String?
         /// EC2 instance's security group name.
         public let groupName: String?
-        
+
         public init(groupId: String? = nil, groupName: String? = nil) {
             self.groupId = groupId
             self.groupName = groupName
@@ -2472,7 +2463,7 @@ extension GuardDuty {
         public let serviceName: String?
         /// Feedback left about the finding.
         public let userFeedback: String?
-        
+
         public init(action: Action? = nil, archived: Bool? = nil, count: Int32? = nil, detectorId: String? = nil, eventFirstSeen: String? = nil, eventLastSeen: String? = nil, resourceRole: String? = nil, serviceName: String? = nil, userFeedback: String? = nil) {
             self.action = action
             self.archived = archived
@@ -2507,7 +2498,7 @@ extension GuardDuty {
         public let attributeName: String?
         /// Order by which the sorted findings are to be displayed.
         public let orderBy: OrderBy?
-        
+
         public init(attributeName: String? = nil, orderBy: OrderBy? = nil) {
             self.attributeName = attributeName
             self.orderBy = orderBy
@@ -2528,7 +2519,7 @@ extension GuardDuty {
         public let accountIds: [String]
         /// The unique ID of the detector of the GuardDuty account whom you want to re-enable to monitor members' findings.
         public let detectorId: String
-        
+
         public init(accountIds: [String], detectorId: String) {
             self.accountIds = accountIds
             self.detectorId = detectorId
@@ -2546,7 +2537,7 @@ extension GuardDuty {
         ]
         /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]
-        
+
         public init(unprocessedAccounts: [UnprocessedAccount]) {
             self.unprocessedAccounts = unprocessedAccounts
         }
@@ -2565,7 +2556,7 @@ extension GuardDuty {
         public let accountIds: [String]
         /// The unique ID of the detector of the GuardDuty account that you want to stop from monitor members' findings.
         public let detectorId: String
-        
+
         public init(accountIds: [String], detectorId: String) {
             self.accountIds = accountIds
             self.detectorId = detectorId
@@ -2583,7 +2574,7 @@ extension GuardDuty {
         ]
         /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]
-        
+
         public init(unprocessedAccounts: [UnprocessedAccount]) {
             self.unprocessedAccounts = unprocessedAccounts
         }
@@ -2602,7 +2593,7 @@ extension GuardDuty {
         public let key: String?
         /// EC2 instance tag value.
         public let value: String?
-        
+
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -2623,7 +2614,7 @@ extension GuardDuty {
         public let resourceArn: String
         /// The tags to be added to a resource.
         public let tags: [String: String]
-        
+
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2636,12 +2627,11 @@ extension GuardDuty {
     }
 
     public struct TagResourceResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public enum ThreatIntelSetFormat: String, CustomStringConvertible, Codable {
         case txt = "TXT"
@@ -2673,7 +2663,7 @@ extension GuardDuty {
         public let detectorId: String
         /// IDs of the findings that you want to unarchive.
         public let findingIds: [String]
-        
+
         public init(detectorId: String, findingIds: [String]) {
             self.detectorId = detectorId
             self.findingIds = findingIds
@@ -2686,12 +2676,11 @@ extension GuardDuty {
     }
 
     public struct UnarchiveFindingsResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UnprocessedAccount: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2702,7 +2691,7 @@ extension GuardDuty {
         public let accountId: String
         /// A reason why the account hasn't been processed.
         public let result: String
-        
+
         public init(accountId: String, result: String) {
             self.accountId = accountId
             self.result = result
@@ -2723,7 +2712,7 @@ extension GuardDuty {
         public let resourceArn: String
         /// The tag keys to remove from a resource.
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2736,12 +2725,11 @@ extension GuardDuty {
     }
 
     public struct UntagResourceResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateDetectorRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2755,7 +2743,7 @@ extension GuardDuty {
         public let enable: Bool?
         /// A enum value that specifies how frequently customer got Finding updates published.
         public let findingPublishingFrequency: FindingPublishingFrequency?
-        
+
         public init(detectorId: String, enable: Bool? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil) {
             self.detectorId = detectorId
             self.enable = enable
@@ -2770,12 +2758,11 @@ extension GuardDuty {
     }
 
     public struct UpdateDetectorResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateFilterRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2798,7 +2785,7 @@ extension GuardDuty {
         public let findingCriteria: FindingCriteria?
         /// Specifies the position of the filter in the list of current filters. Also specifies the order in which this filter is applied to the findings.
         public let rank: Int32?
-        
+
         public init(action: FilterAction? = nil, description: String? = nil, detectorId: String, filterName: String, findingCriteria: FindingCriteria? = nil, rank: Int32? = nil) {
             self.action = action
             self.description = description
@@ -2824,7 +2811,7 @@ extension GuardDuty {
         ]
         /// The name of the filter.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -2849,7 +2836,7 @@ extension GuardDuty {
         public let feedback: Feedback
         /// IDs of the findings that you want to mark as useful or not useful.
         public let findingIds: [String]
-        
+
         public init(comments: String? = nil, detectorId: String, feedback: Feedback, findingIds: [String]) {
             self.comments = comments
             self.detectorId = detectorId
@@ -2866,12 +2853,11 @@ extension GuardDuty {
     }
 
     public struct UpdateFindingsFeedbackResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateIPSetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2891,7 +2877,7 @@ extension GuardDuty {
         public let location: String?
         /// The unique ID that specifies the IPSet that you want to update.
         public let name: String?
-        
+
         public init(activate: Bool? = nil, detectorId: String, ipSetId: String, location: String? = nil, name: String? = nil) {
             self.activate = activate
             self.detectorId = detectorId
@@ -2910,12 +2896,11 @@ extension GuardDuty {
     }
 
     public struct UpdateIPSetResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateThreatIntelSetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2935,7 +2920,7 @@ extension GuardDuty {
         public let name: String?
         /// The unique ID that specifies the ThreatIntelSet that you want to update.
         public let threatIntelSetId: String
-        
+
         public init(activate: Bool? = nil, detectorId: String, location: String? = nil, name: String? = nil, threatIntelSetId: String) {
             self.activate = activate
             self.detectorId = detectorId
@@ -2954,11 +2939,9 @@ extension GuardDuty {
     }
 
     public struct UpdateThreatIntelSetResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
-
+    }
 }

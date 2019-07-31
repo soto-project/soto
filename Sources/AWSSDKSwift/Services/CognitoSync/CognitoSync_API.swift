@@ -109,5 +109,4 @@ public struct CognitoSync {
     public func updateRecords(_ input: UpdateRecordsRequest) throws -> Future<UpdateRecordsResponse> {
         return try client.send(operation: "UpdateRecords", path: "/identitypools/{IdentityPoolId}/identities/{IdentityId}/datasets/{DatasetName}", httpMethod: "POST", input: input)
     }
-
 }

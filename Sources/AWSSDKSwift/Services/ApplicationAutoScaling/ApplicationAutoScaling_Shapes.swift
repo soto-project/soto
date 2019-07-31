@@ -21,7 +21,7 @@ extension ApplicationAutoScaling {
         public let alarmARN: String
         /// The name of the alarm.
         public let alarmName: String
-        
+
         public init(alarmARN: String, alarmName: String) {
             self.alarmARN = alarmARN
             self.alarmName = alarmName
@@ -51,7 +51,7 @@ extension ApplicationAutoScaling {
         public let statistic: MetricStatistic
         /// The unit of the metric.
         public let unit: String?
-        
+
         public init(dimensions: [MetricDimension]? = nil, metricName: String, namespace: String, statistic: MetricStatistic, unit: String? = nil) {
             self.dimensions = dimensions
             self.metricName = metricName
@@ -84,7 +84,7 @@ extension ApplicationAutoScaling {
         public let scalableDimension: ScalableDimension
         /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
-        
+
         public init(policyName: String, resourceId: String, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace) {
             self.policyName = policyName
             self.resourceId = resourceId
@@ -101,12 +101,11 @@ extension ApplicationAutoScaling {
     }
 
     public struct DeleteScalingPolicyResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteScheduledActionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -123,7 +122,7 @@ extension ApplicationAutoScaling {
         public let scheduledActionName: String
         /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
-        
+
         public init(resourceId: String, scalableDimension: ScalableDimension, scheduledActionName: String, serviceNamespace: ServiceNamespace) {
             self.resourceId = resourceId
             self.scalableDimension = scalableDimension
@@ -140,12 +139,11 @@ extension ApplicationAutoScaling {
     }
 
     public struct DeleteScheduledActionResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeregisterScalableTargetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -159,7 +157,7 @@ extension ApplicationAutoScaling {
         public let scalableDimension: ScalableDimension
         /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
-        
+
         public init(resourceId: String, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace) {
             self.resourceId = resourceId
             self.scalableDimension = scalableDimension
@@ -174,12 +172,11 @@ extension ApplicationAutoScaling {
     }
 
     public struct DeregisterScalableTargetResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DescribeScalableTargetsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -199,7 +196,7 @@ extension ApplicationAutoScaling {
         public let scalableDimension: ScalableDimension?
         /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceIds: [String]? = nil, scalableDimension: ScalableDimension? = nil, serviceNamespace: ServiceNamespace) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -226,7 +223,7 @@ extension ApplicationAutoScaling {
         public let nextToken: String?
         /// The scalable targets that match the request parameters.
         public let scalableTargets: [ScalableTarget]?
-        
+
         public init(nextToken: String? = nil, scalableTargets: [ScalableTarget]? = nil) {
             self.nextToken = nextToken
             self.scalableTargets = scalableTargets
@@ -256,7 +253,7 @@ extension ApplicationAutoScaling {
         public let scalableDimension: ScalableDimension?
         /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceId: String? = nil, scalableDimension: ScalableDimension? = nil, serviceNamespace: ServiceNamespace) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -283,7 +280,7 @@ extension ApplicationAutoScaling {
         public let nextToken: String?
         /// A list of scaling activity objects.
         public let scalingActivities: [ScalingActivity]?
-        
+
         public init(nextToken: String? = nil, scalingActivities: [ScalingActivity]? = nil) {
             self.nextToken = nextToken
             self.scalingActivities = scalingActivities
@@ -316,7 +313,7 @@ extension ApplicationAutoScaling {
         public let scalableDimension: ScalableDimension?
         /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, policyNames: [String]? = nil, resourceId: String? = nil, scalableDimension: ScalableDimension? = nil, serviceNamespace: ServiceNamespace) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -345,7 +342,7 @@ extension ApplicationAutoScaling {
         public let nextToken: String?
         /// Information about the scaling policies.
         public let scalingPolicies: [ScalingPolicy]?
-        
+
         public init(nextToken: String? = nil, scalingPolicies: [ScalingPolicy]? = nil) {
             self.nextToken = nextToken
             self.scalingPolicies = scalingPolicies
@@ -378,7 +375,7 @@ extension ApplicationAutoScaling {
         public let scheduledActionNames: [String]?
         /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceId: String? = nil, scalableDimension: ScalableDimension? = nil, scheduledActionNames: [String]? = nil, serviceNamespace: ServiceNamespace) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -407,7 +404,7 @@ extension ApplicationAutoScaling {
         public let nextToken: String?
         /// Information about the scheduled actions.
         public let scheduledActions: [ScheduledAction]?
-        
+
         public init(nextToken: String? = nil, scheduledActions: [ScheduledAction]? = nil) {
             self.nextToken = nextToken
             self.scheduledActions = scheduledActions
@@ -435,7 +432,7 @@ extension ApplicationAutoScaling {
         public let name: String
         /// The value of the dimension.
         public let value: String
-        
+
         public init(name: String, value: String) {
             self.name = name
             self.value = value
@@ -486,7 +483,7 @@ extension ApplicationAutoScaling {
         public let predefinedMetricType: MetricType
         /// Identifies the resource associated with the metric type. You can't specify a resource label unless the metric type is ALBRequestCountPerTarget and there is a target group attached to the Spot fleet request or ECS service. The format is app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt;/targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt;, where:   app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion of the load balancer ARN   targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt; is the final portion of the target group ARN.  
         public let resourceLabel: String?
-        
+
         public init(predefinedMetricType: MetricType, resourceLabel: String? = nil) {
             self.predefinedMetricType = predefinedMetricType
             self.resourceLabel = resourceLabel
@@ -522,7 +519,7 @@ extension ApplicationAutoScaling {
         public let stepScalingPolicyConfiguration: StepScalingPolicyConfiguration?
         /// A target tracking scaling policy. Includes support for predefined or customized metrics. This parameter is required if you are creating a policy and the policy type is TargetTrackingScaling.
         public let targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration?
-        
+
         public init(policyName: String, policyType: PolicyType? = nil, resourceId: String, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace, stepScalingPolicyConfiguration: StepScalingPolicyConfiguration? = nil, targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration? = nil) {
             self.policyName = policyName
             self.policyType = policyType
@@ -553,7 +550,7 @@ extension ApplicationAutoScaling {
         public let alarms: [Alarm]?
         /// The Amazon Resource Name (ARN) of the resulting scaling policy.
         public let policyARN: String
-        
+
         public init(alarms: [Alarm]? = nil, policyARN: String) {
             self.alarms = alarms
             self.policyARN = policyARN
@@ -592,7 +589,7 @@ extension ApplicationAutoScaling {
         public let serviceNamespace: ServiceNamespace
         /// The date and time for the scheduled action to start.
         public let startTime: TimeStamp?
-        
+
         public init(endTime: TimeStamp? = nil, resourceId: String, scalableDimension: ScalableDimension, scalableTargetAction: ScalableTargetAction? = nil, schedule: String? = nil, scheduledActionName: String, serviceNamespace: ServiceNamespace, startTime: TimeStamp? = nil) {
             self.endTime = endTime
             self.resourceId = resourceId
@@ -617,12 +614,11 @@ extension ApplicationAutoScaling {
     }
 
     public struct PutScheduledActionResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct RegisterScalableTargetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -645,7 +641,7 @@ extension ApplicationAutoScaling {
         public let scalableDimension: ScalableDimension
         /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
-        
+
         public init(maxCapacity: Int32? = nil, minCapacity: Int32? = nil, resourceId: String, roleARN: String? = nil, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace) {
             self.maxCapacity = maxCapacity
             self.minCapacity = minCapacity
@@ -666,12 +662,11 @@ extension ApplicationAutoScaling {
     }
 
     public struct RegisterScalableTargetResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public enum ScalableDimension: String, CustomStringConvertible, Codable {
         case ecsServiceDesiredcount = "ecs:service:DesiredCount"
@@ -712,7 +707,7 @@ extension ApplicationAutoScaling {
         public let scalableDimension: ScalableDimension
         /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
-        
+
         public init(creationTime: TimeStamp, maxCapacity: Int32, minCapacity: Int32, resourceId: String, roleARN: String, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace) {
             self.creationTime = creationTime
             self.maxCapacity = maxCapacity
@@ -743,7 +738,7 @@ extension ApplicationAutoScaling {
         public let maxCapacity: Int32?
         /// The minimum capacity.
         public let minCapacity: Int32?
-        
+
         public init(maxCapacity: Int32? = nil, minCapacity: Int32? = nil) {
             self.maxCapacity = maxCapacity
             self.minCapacity = minCapacity
@@ -791,7 +786,7 @@ extension ApplicationAutoScaling {
         public let statusCode: ScalingActivityStatusCode
         /// A simple message about the current status of the scaling activity.
         public let statusMessage: String?
-        
+
         public init(activityId: String, cause: String, description: String, details: String? = nil, endTime: TimeStamp? = nil, resourceId: String, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace, startTime: TimeStamp, statusCode: ScalingActivityStatusCode, statusMessage: String? = nil) {
             self.activityId = activityId
             self.cause = cause
@@ -864,7 +859,7 @@ extension ApplicationAutoScaling {
         public let stepScalingPolicyConfiguration: StepScalingPolicyConfiguration?
         /// A target tracking scaling policy.
         public let targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration?
-        
+
         public init(alarms: [Alarm]? = nil, creationTime: TimeStamp, policyARN: String, policyName: String, policyType: PolicyType, resourceId: String, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace, stepScalingPolicyConfiguration: StepScalingPolicyConfiguration? = nil, targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration? = nil) {
             self.alarms = alarms
             self.creationTime = creationTime
@@ -925,7 +920,7 @@ extension ApplicationAutoScaling {
         public let serviceNamespace: ServiceNamespace
         /// The date and time that the action is scheduled to begin.
         public let startTime: TimeStamp?
-        
+
         public init(creationTime: TimeStamp, endTime: TimeStamp? = nil, resourceId: String, scalableDimension: ScalableDimension? = nil, scalableTargetAction: ScalableTargetAction? = nil, schedule: String, scheduledActionARN: String, scheduledActionName: String, serviceNamespace: ServiceNamespace, startTime: TimeStamp? = nil) {
             self.creationTime = creationTime
             self.endTime = endTime
@@ -977,7 +972,7 @@ extension ApplicationAutoScaling {
         public let metricIntervalUpperBound: Double?
         /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current scalable dimension while a negative number removes from the current scalable dimension.
         public let scalingAdjustment: Int32
-        
+
         public init(metricIntervalLowerBound: Double? = nil, metricIntervalUpperBound: Double? = nil, scalingAdjustment: Int32) {
             self.metricIntervalLowerBound = metricIntervalLowerBound
             self.metricIntervalUpperBound = metricIntervalUpperBound
@@ -1009,7 +1004,7 @@ extension ApplicationAutoScaling {
         public let minAdjustmentMagnitude: Int32?
         /// A set of adjustments that enable you to scale based on the size of the alarm breach.
         public let stepAdjustments: [StepAdjustment]?
-        
+
         public init(adjustmentType: AdjustmentType? = nil, cooldown: Int32? = nil, metricAggregationType: MetricAggregationType? = nil, minAdjustmentMagnitude: Int32? = nil, stepAdjustments: [StepAdjustment]? = nil) {
             self.adjustmentType = adjustmentType
             self.cooldown = cooldown
@@ -1048,7 +1043,7 @@ extension ApplicationAutoScaling {
         public let scaleOutCooldown: Int32?
         /// The target value for the metric. The range is 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2).
         public let targetValue: Double
-        
+
         public init(customizedMetricSpecification: CustomizedMetricSpecification? = nil, disableScaleIn: Bool? = nil, predefinedMetricSpecification: PredefinedMetricSpecification? = nil, scaleInCooldown: Int32? = nil, scaleOutCooldown: Int32? = nil, targetValue: Double) {
             self.customizedMetricSpecification = customizedMetricSpecification
             self.disableScaleIn = disableScaleIn
@@ -1067,5 +1062,4 @@ extension ApplicationAutoScaling {
             case targetValue = "TargetValue"
         }
     }
-
 }

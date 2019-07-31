@@ -125,5 +125,4 @@ public struct SQS {
     @discardableResult public func untagQueue(_ input: UntagQueueRequest) throws -> Future<Void> {
         return try client.send(operation: "UntagQueue", path: "/", httpMethod: "POST", input: input)
     }
-
 }

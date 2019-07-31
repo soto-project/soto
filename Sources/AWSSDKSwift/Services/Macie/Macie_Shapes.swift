@@ -11,7 +11,7 @@ extension Macie {
         ]
         /// The ID of the AWS account that you want to associate with Amazon Macie as a member account.
         public let memberAccountId: String
-        
+
         public init(memberAccountId: String) {
             self.memberAccountId = memberAccountId
         }
@@ -30,7 +30,7 @@ extension Macie {
         public let memberAccountId: String?
         /// The S3 resources that you want to associate with Amazon Macie for monitoring and data classification. 
         public let s3Resources: [S3ResourceClassification]
-        
+
         public init(memberAccountId: String? = nil, s3Resources: [S3ResourceClassification]) {
             self.memberAccountId = memberAccountId
             self.s3Resources = s3Resources
@@ -48,7 +48,7 @@ extension Macie {
         ]
         /// S3 resources that couldn't be associated with Amazon Macie. An error code and an error message are provided for each failed item. 
         public let failedS3Resources: [FailedS3Resource]?
-        
+
         public init(failedS3Resources: [FailedS3Resource]? = nil) {
             self.failedS3Resources = failedS3Resources
         }
@@ -67,7 +67,7 @@ extension Macie {
         public let continuous: S3ContinuousClassificationType
         /// A one-time classification of all of the existing objects in a specified S3 bucket. 
         public let oneTime: S3OneTimeClassificationType
-        
+
         public init(continuous: S3ContinuousClassificationType, oneTime: S3OneTimeClassificationType) {
             self.continuous = continuous
             self.oneTime = oneTime
@@ -88,7 +88,7 @@ extension Macie {
         public let continuous: S3ContinuousClassificationType?
         /// A one-time classification of all of the existing objects in a specified S3 bucket. 
         public let oneTime: S3OneTimeClassificationType?
-        
+
         public init(continuous: S3ContinuousClassificationType? = nil, oneTime: S3OneTimeClassificationType? = nil) {
             self.continuous = continuous
             self.oneTime = oneTime
@@ -106,7 +106,7 @@ extension Macie {
         ]
         /// The ID of the member account that you want to remove from Amazon Macie.
         public let memberAccountId: String
-        
+
         public init(memberAccountId: String) {
             self.memberAccountId = memberAccountId
         }
@@ -125,7 +125,7 @@ extension Macie {
         public let associatedS3Resources: [S3Resource]
         /// The ID of the Amazon Macie member account whose resources you want to remove from being monitored by Amazon Macie. 
         public let memberAccountId: String?
-        
+
         public init(associatedS3Resources: [S3Resource], memberAccountId: String? = nil) {
             self.associatedS3Resources = associatedS3Resources
             self.memberAccountId = memberAccountId
@@ -143,7 +143,7 @@ extension Macie {
         ]
         /// S3 resources that couldn't be removed from being monitored and classified by Amazon Macie. An error code and an error message are provided for each failed item. 
         public let failedS3Resources: [FailedS3Resource]?
-        
+
         public init(failedS3Resources: [FailedS3Resource]? = nil) {
             self.failedS3Resources = failedS3Resources
         }
@@ -165,7 +165,7 @@ extension Macie {
         public let errorMessage: String?
         /// The failed S3 resources.
         public let failedItem: S3Resource?
-        
+
         public init(errorCode: String? = nil, errorMessage: String? = nil, failedItem: S3Resource? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -188,7 +188,7 @@ extension Macie {
         public let maxResults: Int32?
         /// Use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListMemberAccounts action. Subsequent calls to the action fill nextToken in the request with the value of nextToken from the previous response to continue listing data. 
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -209,7 +209,7 @@ extension Macie {
         public let memberAccounts: [MemberAccount]?
         /// When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null. 
         public let nextToken: String?
-        
+
         public init(memberAccounts: [MemberAccount]? = nil, nextToken: String? = nil) {
             self.memberAccounts = memberAccounts
             self.nextToken = nextToken
@@ -233,7 +233,7 @@ extension Macie {
         public let memberAccountId: String?
         /// Use this parameter when paginating results. Set its value to null on your first call to the ListS3Resources action. Subsequent calls to the action fill nextToken in the request with the value of nextToken from the previous response to continue listing data. 
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, memberAccountId: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.memberAccountId = memberAccountId
@@ -256,7 +256,7 @@ extension Macie {
         public let nextToken: String?
         /// A list of the associated S3 resources returned by the action.
         public let s3Resources: [S3ResourceClassification]?
-        
+
         public init(nextToken: String? = nil, s3Resources: [S3ResourceClassification]? = nil) {
             self.nextToken = nextToken
             self.s3Resources = s3Resources
@@ -274,7 +274,7 @@ extension Macie {
         ]
         /// The AWS account ID of the Amazon Macie member account.
         public let accountId: String?
-        
+
         public init(accountId: String? = nil) {
             self.accountId = accountId
         }
@@ -304,7 +304,7 @@ extension Macie {
         public let bucketName: String
         /// The prefix of the S3 bucket. 
         public let prefix: String?
-        
+
         public init(bucketName: String, prefix: String? = nil) {
             self.bucketName = bucketName
             self.prefix = prefix
@@ -328,7 +328,7 @@ extension Macie {
         public let classificationType: ClassificationType
         /// The prefix of the S3 bucket that you want to associate with Amazon Macie.
         public let prefix: String?
-        
+
         public init(bucketName: String, classificationType: ClassificationType, prefix: String? = nil) {
             self.bucketName = bucketName
             self.classificationType = classificationType
@@ -354,7 +354,7 @@ extension Macie {
         public let classificationTypeUpdate: ClassificationTypeUpdate
         /// The prefix of the S3 bucket whose classification types you want to update.
         public let prefix: String?
-        
+
         public init(bucketName: String, classificationTypeUpdate: ClassificationTypeUpdate, prefix: String? = nil) {
             self.bucketName = bucketName
             self.classificationTypeUpdate = classificationTypeUpdate
@@ -377,7 +377,7 @@ extension Macie {
         public let memberAccountId: String?
         /// The S3 resources whose classification types you want to update.
         public let s3ResourcesUpdate: [S3ResourceClassificationUpdate]
-        
+
         public init(memberAccountId: String? = nil, s3ResourcesUpdate: [S3ResourceClassificationUpdate]) {
             self.memberAccountId = memberAccountId
             self.s3ResourcesUpdate = s3ResourcesUpdate
@@ -395,7 +395,7 @@ extension Macie {
         ]
         /// The S3 resources whose classification types can't be updated. An error code and an error message are provided for each failed item. 
         public let failedS3Resources: [FailedS3Resource]?
-        
+
         public init(failedS3Resources: [FailedS3Resource]? = nil) {
             self.failedS3Resources = failedS3Resources
         }
@@ -404,5 +404,4 @@ extension Macie {
             case failedS3Resources = "failedS3Resources"
         }
     }
-
 }

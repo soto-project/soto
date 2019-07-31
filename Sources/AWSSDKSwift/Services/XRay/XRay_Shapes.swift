@@ -17,7 +17,7 @@ extension XRay {
         public let names: [String]?
         /// The type of the alias.
         public let `type`: String?
-        
+
         public init(name: String? = nil, names: [String]? = nil, type: String? = nil) {
             self.name = name
             self.names = names
@@ -43,7 +43,7 @@ extension XRay {
         public let numberValue: Double?
         /// Value for a String annotation.
         public let stringValue: String?
-        
+
         public init(booleanValue: Bool? = nil, numberValue: Double? = nil, stringValue: String? = nil) {
             self.booleanValue = booleanValue
             self.numberValue = numberValue
@@ -63,7 +63,7 @@ extension XRay {
         ]
         /// The name of a corresponding availability zone.
         public let name: String?
-        
+
         public init(name: String? = nil) {
             self.name = name
         }
@@ -88,7 +88,7 @@ extension XRay {
         public let otherCount: Int32?
         public let timeoutCount: Int32?
         public let unknownHostCount: Int32?
-        
+
         public init(connectionRefusedCount: Int32? = nil, hTTPCode4XXCount: Int32? = nil, hTTPCode5XXCount: Int32? = nil, otherCount: Int32? = nil, timeoutCount: Int32? = nil, unknownHostCount: Int32? = nil) {
             self.connectionRefusedCount = connectionRefusedCount
             self.hTTPCode4XXCount = hTTPCode4XXCount
@@ -117,7 +117,7 @@ extension XRay {
         public let nextToken: String?
         /// Specify the trace IDs of requests for which to retrieve segments.
         public let traceIds: [String]
-        
+
         public init(nextToken: String? = nil, traceIds: [String]) {
             self.nextToken = nextToken
             self.traceIds = traceIds
@@ -141,7 +141,7 @@ extension XRay {
         public let traces: [Trace]?
         /// Trace IDs of requests that haven't been processed.
         public let unprocessedTraceIds: [String]?
-        
+
         public init(nextToken: String? = nil, traces: [Trace]? = nil, unprocessedTraceIds: [String]? = nil) {
             self.nextToken = nextToken
             self.traces = traces
@@ -164,7 +164,7 @@ extension XRay {
         public let filterExpression: String?
         /// The case-sensitive name of the new group. Default is a reserved name and names must be unique.
         public let groupName: String
-        
+
         public init(filterExpression: String? = nil, groupName: String) {
             self.filterExpression = filterExpression
             self.groupName = groupName
@@ -182,7 +182,7 @@ extension XRay {
         ]
         /// The group that was created. Contains the name of the group that was created, the ARN of the group that was generated based on the group name, and the filter expression that was assigned to the group.
         public let group: Group?
-        
+
         public init(group: Group? = nil) {
             self.group = group
         }
@@ -198,7 +198,7 @@ extension XRay {
         ]
         /// The rule definition.
         public let samplingRule: SamplingRule
-        
+
         public init(samplingRule: SamplingRule) {
             self.samplingRule = samplingRule
         }
@@ -214,7 +214,7 @@ extension XRay {
         ]
         /// The saved rule definition and metadata.
         public let samplingRuleRecord: SamplingRuleRecord?
-        
+
         public init(samplingRuleRecord: SamplingRuleRecord? = nil) {
             self.samplingRuleRecord = samplingRuleRecord
         }
@@ -233,7 +233,7 @@ extension XRay {
         public let groupARN: String?
         /// The case-sensitive name of the group.
         public let groupName: String?
-        
+
         public init(groupARN: String? = nil, groupName: String? = nil) {
             self.groupARN = groupARN
             self.groupName = groupName
@@ -246,12 +246,11 @@ extension XRay {
     }
 
     public struct DeleteGroupResult: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteSamplingRuleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -262,7 +261,7 @@ extension XRay {
         public let ruleARN: String?
         /// The name of the sampling rule. Specify a rule by either name or ARN, but not both.
         public let ruleName: String?
-        
+
         public init(ruleARN: String? = nil, ruleName: String? = nil) {
             self.ruleARN = ruleARN
             self.ruleName = ruleName
@@ -280,7 +279,7 @@ extension XRay {
         ]
         /// The deleted rule definition and metadata.
         public let samplingRuleRecord: SamplingRuleRecord?
-        
+
         public init(samplingRuleRecord: SamplingRuleRecord? = nil) {
             self.samplingRuleRecord = samplingRuleRecord
         }
@@ -311,7 +310,7 @@ extension XRay {
         public let startTime: TimeStamp?
         /// Response statistics for segments on the edge.
         public let summaryStatistics: EdgeStatistics?
-        
+
         public init(aliases: [Alias]? = nil, endTime: TimeStamp? = nil, referenceId: Int32? = nil, responseTimeHistogram: [HistogramEntry]? = nil, startTime: TimeStamp? = nil, summaryStatistics: EdgeStatistics? = nil) {
             self.aliases = aliases
             self.endTime = endTime
@@ -349,7 +348,7 @@ extension XRay {
         public let totalCount: Int64?
         /// The aggregate response time of completed requests.
         public let totalResponseTime: Double?
-        
+
         public init(errorStatistics: ErrorStatistics? = nil, faultStatistics: FaultStatistics? = nil, okCount: Int64? = nil, totalCount: Int64? = nil, totalResponseTime: Double? = nil) {
             self.errorStatistics = errorStatistics
             self.faultStatistics = faultStatistics
@@ -379,7 +378,7 @@ extension XRay {
         public let status: EncryptionStatus?
         /// The type of encryption. Set to KMS for encryption with CMKs. Set to NONE for default encryption.
         public let `type`: EncryptionType?
-        
+
         public init(keyId: String? = nil, status: EncryptionStatus? = nil, type: EncryptionType? = nil) {
             self.keyId = keyId
             self.status = status
@@ -411,7 +410,7 @@ extension XRay {
         ]
         /// A list of services corresponding to an error. A service identifies a segment and it contains a name, account ID, type, and inferred flag.
         public let services: [ErrorRootCauseService]?
-        
+
         public init(services: [ErrorRootCauseService]? = nil) {
             self.services = services
         }
@@ -433,7 +432,7 @@ extension XRay {
         public let name: String?
         /// A flag that denotes a remote subsegment.
         public let remote: Bool?
-        
+
         public init(exceptions: [RootCauseException]? = nil, name: String? = nil, remote: Bool? = nil) {
             self.exceptions = exceptions
             self.name = name
@@ -468,7 +467,7 @@ extension XRay {
         public let names: [String]?
         /// The type associated to the service.
         public let `type`: String?
-        
+
         public init(accountId: String? = nil, entityPath: [ErrorRootCauseEntity]? = nil, inferred: Bool? = nil, name: String? = nil, names: [String]? = nil, type: String? = nil) {
             self.accountId = accountId
             self.entityPath = entityPath
@@ -500,7 +499,7 @@ extension XRay {
         public let throttleCount: Int64?
         /// The total number of requests that failed with a 4xx Client Error status code.
         public let totalCount: Int64?
-        
+
         public init(otherCount: Int64? = nil, throttleCount: Int64? = nil, totalCount: Int64? = nil) {
             self.otherCount = otherCount
             self.throttleCount = throttleCount
@@ -520,7 +519,7 @@ extension XRay {
         ]
         /// A list of corresponding services. A service identifies a segment and it contains a name, account ID, type, and inferred flag.
         public let services: [FaultRootCauseService]?
-        
+
         public init(services: [FaultRootCauseService]? = nil) {
             self.services = services
         }
@@ -542,7 +541,7 @@ extension XRay {
         public let name: String?
         /// A flag that denotes a remote subsegment.
         public let remote: Bool?
-        
+
         public init(exceptions: [RootCauseException]? = nil, name: String? = nil, remote: Bool? = nil) {
             self.exceptions = exceptions
             self.name = name
@@ -577,7 +576,7 @@ extension XRay {
         public let names: [String]?
         /// The type associated to the service.
         public let `type`: String?
-        
+
         public init(accountId: String? = nil, entityPath: [FaultRootCauseEntity]? = nil, inferred: Bool? = nil, name: String? = nil, names: [String]? = nil, type: String? = nil) {
             self.accountId = accountId
             self.entityPath = entityPath
@@ -606,7 +605,7 @@ extension XRay {
         public let otherCount: Int64?
         /// The total number of requests that failed with a 5xx Server Error status code.
         public let totalCount: Int64?
-        
+
         public init(otherCount: Int64? = nil, totalCount: Int64? = nil) {
             self.otherCount = otherCount
             self.totalCount = totalCount
@@ -619,12 +618,11 @@ extension XRay {
     }
 
     public struct GetEncryptionConfigRequest: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct GetEncryptionConfigResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -632,7 +630,7 @@ extension XRay {
         ]
         /// The encryption configuration document.
         public let encryptionConfig: EncryptionConfig?
-        
+
         public init(encryptionConfig: EncryptionConfig? = nil) {
             self.encryptionConfig = encryptionConfig
         }
@@ -651,7 +649,7 @@ extension XRay {
         public let groupARN: String?
         /// The case-sensitive name of the group.
         public let groupName: String?
-        
+
         public init(groupARN: String? = nil, groupName: String? = nil) {
             self.groupARN = groupARN
             self.groupName = groupName
@@ -669,7 +667,7 @@ extension XRay {
         ]
         /// The group that was requested. Contains the name of the group, the ARN of the group, and the filter expression that assigned to the group.
         public let group: Group?
-        
+
         public init(group: Group? = nil) {
             self.group = group
         }
@@ -685,7 +683,7 @@ extension XRay {
         ]
         /// Pagination token. Not used.
         public let nextToken: String?
-        
+
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -704,7 +702,7 @@ extension XRay {
         public let groups: [GroupSummary]?
         /// Pagination token. Not used.
         public let nextToken: String?
-        
+
         public init(groups: [GroupSummary]? = nil, nextToken: String? = nil) {
             self.groups = groups
             self.nextToken = nextToken
@@ -722,7 +720,7 @@ extension XRay {
         ]
         /// Pagination token. Not used.
         public let nextToken: String?
-        
+
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -741,7 +739,7 @@ extension XRay {
         public let nextToken: String?
         /// Rule definitions and metadata.
         public let samplingRuleRecords: [SamplingRuleRecord]?
-        
+
         public init(nextToken: String? = nil, samplingRuleRecords: [SamplingRuleRecord]? = nil) {
             self.nextToken = nextToken
             self.samplingRuleRecords = samplingRuleRecords
@@ -759,7 +757,7 @@ extension XRay {
         ]
         /// Pagination token. Not used.
         public let nextToken: String?
-        
+
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -778,7 +776,7 @@ extension XRay {
         public let nextToken: String?
         /// Information about the number of requests instrumented for each sampling rule.
         public let samplingStatisticSummaries: [SamplingStatisticSummary]?
-        
+
         public init(nextToken: String? = nil, samplingStatisticSummaries: [SamplingStatisticSummary]? = nil) {
             self.nextToken = nextToken
             self.samplingStatisticSummaries = samplingStatisticSummaries
@@ -796,7 +794,7 @@ extension XRay {
         ]
         /// Information about rules that the service is using to sample requests.
         public let samplingStatisticsDocuments: [SamplingStatisticsDocument]
-        
+
         public init(samplingStatisticsDocuments: [SamplingStatisticsDocument]) {
             self.samplingStatisticsDocuments = samplingStatisticsDocuments
         }
@@ -818,7 +816,7 @@ extension XRay {
         public let samplingTargetDocuments: [SamplingTargetDocument]?
         /// Information about SamplingStatisticsDocument that X-Ray could not process.
         public let unprocessedStatistics: [UnprocessedStatistics]?
-        
+
         public init(lastRuleModification: TimeStamp? = nil, samplingTargetDocuments: [SamplingTargetDocument]? = nil, unprocessedStatistics: [UnprocessedStatistics]? = nil) {
             self.lastRuleModification = lastRuleModification
             self.samplingTargetDocuments = samplingTargetDocuments
@@ -850,7 +848,7 @@ extension XRay {
         public let nextToken: String?
         /// The start of the time frame for which to generate a graph.
         public let startTime: TimeStamp
-        
+
         public init(endTime: TimeStamp, groupARN: String? = nil, groupName: String? = nil, nextToken: String? = nil, startTime: TimeStamp) {
             self.endTime = endTime
             self.groupARN = groupARN
@@ -886,7 +884,7 @@ extension XRay {
         public let services: [Service]?
         /// The start of the time frame for which the graph was generated.
         public let startTime: TimeStamp?
-        
+
         public init(containsOldGroupVersions: Bool? = nil, endTime: TimeStamp? = nil, nextToken: String? = nil, services: [Service]? = nil, startTime: TimeStamp? = nil) {
             self.containsOldGroupVersions = containsOldGroupVersions
             self.endTime = endTime
@@ -928,7 +926,7 @@ extension XRay {
         public let period: Int32?
         /// The start of the time frame for which to aggregate statistics.
         public let startTime: TimeStamp
-        
+
         public init(endTime: TimeStamp, entitySelectorExpression: String? = nil, groupARN: String? = nil, groupName: String? = nil, nextToken: String? = nil, period: Int32? = nil, startTime: TimeStamp) {
             self.endTime = endTime
             self.entitySelectorExpression = entitySelectorExpression
@@ -962,7 +960,7 @@ extension XRay {
         public let nextToken: String?
         /// The collection of statistics.
         public let timeSeriesServiceStatistics: [TimeSeriesServiceStatistics]?
-        
+
         public init(containsOldGroupVersions: Bool? = nil, nextToken: String? = nil, timeSeriesServiceStatistics: [TimeSeriesServiceStatistics]? = nil) {
             self.containsOldGroupVersions = containsOldGroupVersions
             self.nextToken = nextToken
@@ -985,7 +983,7 @@ extension XRay {
         public let nextToken: String?
         /// Trace IDs of requests for which to generate a service graph.
         public let traceIds: [String]
-        
+
         public init(nextToken: String? = nil, traceIds: [String]) {
             self.nextToken = nextToken
             self.traceIds = traceIds
@@ -1006,7 +1004,7 @@ extension XRay {
         public let nextToken: String?
         /// The services that have processed one of the specified requests.
         public let services: [Service]?
-        
+
         public init(nextToken: String? = nil, services: [Service]? = nil) {
             self.nextToken = nextToken
             self.services = services
@@ -1042,7 +1040,7 @@ extension XRay {
         public let startTime: TimeStamp
         /// A parameter to indicate whether to query trace summaries by TraceId or Event time.
         public let timeRangeType: TimeRangeType?
-        
+
         public init(endTime: TimeStamp, filterExpression: String? = nil, nextToken: String? = nil, sampling: Bool? = nil, samplingStrategy: SamplingStrategy? = nil, startTime: TimeStamp, timeRangeType: TimeRangeType? = nil) {
             self.endTime = endTime
             self.filterExpression = filterExpression
@@ -1079,7 +1077,7 @@ extension XRay {
         public let tracesProcessedCount: Int64?
         /// Trace IDs and metadata for traces that were found in the specified time frame.
         public let traceSummaries: [TraceSummary]?
-        
+
         public init(approximateTime: TimeStamp? = nil, nextToken: String? = nil, tracesProcessedCount: Int64? = nil, traceSummaries: [TraceSummary]? = nil) {
             self.approximateTime = approximateTime
             self.nextToken = nextToken
@@ -1107,7 +1105,7 @@ extension XRay {
         public let groupARN: String?
         /// The unique case-sensitive name of the group.
         public let groupName: String?
-        
+
         public init(filterExpression: String? = nil, groupARN: String? = nil, groupName: String? = nil) {
             self.filterExpression = filterExpression
             self.groupARN = groupARN
@@ -1133,7 +1131,7 @@ extension XRay {
         public let groupARN: String?
         /// The unique case-sensitive name of the group.
         public let groupName: String?
-        
+
         public init(filterExpression: String? = nil, groupARN: String? = nil, groupName: String? = nil) {
             self.filterExpression = filterExpression
             self.groupARN = groupARN
@@ -1156,7 +1154,7 @@ extension XRay {
         public let count: Int32?
         /// The value of the entry.
         public let value: Double?
-        
+
         public init(count: Int32? = nil, value: Double? = nil) {
             self.count = count
             self.value = value
@@ -1186,7 +1184,7 @@ extension XRay {
         public let httpURL: String?
         /// The request's user agent string.
         public let userAgent: String?
-        
+
         public init(clientIp: String? = nil, httpMethod: String? = nil, httpStatus: Int32? = nil, httpURL: String? = nil, userAgent: String? = nil) {
             self.clientIp = clientIp
             self.httpMethod = httpMethod
@@ -1210,7 +1208,7 @@ extension XRay {
         ]
         /// The ID of a corresponding EC2 instance.
         public let id: String?
-        
+
         public init(id: String? = nil) {
             self.id = id
         }
@@ -1229,7 +1227,7 @@ extension XRay {
         public let keyId: String?
         /// The type of encryption. Set to KMS to use your own key for encryption. Set to NONE for default encryption.
         public let `type`: EncryptionType
-        
+
         public init(keyId: String? = nil, type: EncryptionType) {
             self.keyId = keyId
             self.`type` = `type`
@@ -1247,7 +1245,7 @@ extension XRay {
         ]
         /// The new encryption configuration.
         public let encryptionConfig: EncryptionConfig?
-        
+
         public init(encryptionConfig: EncryptionConfig? = nil) {
             self.encryptionConfig = encryptionConfig
         }
@@ -1268,7 +1266,7 @@ extension XRay {
         public let hostname: String?
         public let resourceARN: String?
         public let telemetryRecords: [TelemetryRecord]
-        
+
         public init(eC2InstanceId: String? = nil, hostname: String? = nil, resourceARN: String? = nil, telemetryRecords: [TelemetryRecord]) {
             self.eC2InstanceId = eC2InstanceId
             self.hostname = hostname
@@ -1285,12 +1283,11 @@ extension XRay {
     }
 
     public struct PutTelemetryRecordsResult: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct PutTraceSegmentsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1298,7 +1295,7 @@ extension XRay {
         ]
         /// A string containing a JSON document defining one or more segments or subsegments.
         public let traceSegmentDocuments: [String]
-        
+
         public init(traceSegmentDocuments: [String]) {
             self.traceSegmentDocuments = traceSegmentDocuments
         }
@@ -1314,7 +1311,7 @@ extension XRay {
         ]
         /// Segments that failed processing.
         public let unprocessedTraceSegments: [UnprocessedTraceSegment]?
-        
+
         public init(unprocessedTraceSegments: [UnprocessedTraceSegment]? = nil) {
             self.unprocessedTraceSegments = unprocessedTraceSegments
         }
@@ -1330,7 +1327,7 @@ extension XRay {
         ]
         /// The ARN of a corresponding resource.
         public let arn: String?
-        
+
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -1346,7 +1343,7 @@ extension XRay {
         ]
         /// A list of corresponding services. A service identifies a segment and contains a name, account ID, type, and inferred flag.
         public let services: [ResponseTimeRootCauseService]?
-        
+
         public init(services: [ResponseTimeRootCauseService]? = nil) {
             self.services = services
         }
@@ -1368,7 +1365,7 @@ extension XRay {
         public let name: String?
         /// A flag that denotes a remote subsegment.
         public let remote: Bool?
-        
+
         public init(coverage: Double? = nil, name: String? = nil, remote: Bool? = nil) {
             self.coverage = coverage
             self.name = name
@@ -1403,7 +1400,7 @@ extension XRay {
         public let names: [String]?
         /// The type associated to the service.
         public let `type`: String?
-        
+
         public init(accountId: String? = nil, entityPath: [ResponseTimeRootCauseEntity]? = nil, inferred: Bool? = nil, name: String? = nil, names: [String]? = nil, type: String? = nil) {
             self.accountId = accountId
             self.entityPath = entityPath
@@ -1432,7 +1429,7 @@ extension XRay {
         public let message: String?
         /// The name of the exception.
         public let name: String?
-        
+
         public init(message: String? = nil, name: String? = nil) {
             self.message = message
             self.name = name
@@ -1486,7 +1483,7 @@ extension XRay {
         public let uRLPath: String
         /// The version of the sampling rule format (1).
         public let version: Int32
-        
+
         public init(attributes: [String: String]? = nil, fixedRate: Double, host: String, hTTPMethod: String, priority: Int32, reservoirSize: Int32, resourceARN: String, ruleARN: String? = nil, ruleName: String? = nil, serviceName: String, serviceType: String, uRLPath: String, version: Int32) {
             self.attributes = attributes
             self.fixedRate = fixedRate
@@ -1532,7 +1529,7 @@ extension XRay {
         public let modifiedAt: TimeStamp?
         /// The sampling rule.
         public let samplingRule: SamplingRule?
-        
+
         public init(createdAt: TimeStamp? = nil, modifiedAt: TimeStamp? = nil, samplingRule: SamplingRule? = nil) {
             self.createdAt = createdAt
             self.modifiedAt = modifiedAt
@@ -1585,7 +1582,7 @@ extension XRay {
         public let serviceType: String?
         /// Matches the path from a request URL.
         public let uRLPath: String?
-        
+
         public init(attributes: [String: String]? = nil, fixedRate: Double? = nil, host: String? = nil, hTTPMethod: String? = nil, priority: Int32? = nil, reservoirSize: Int32? = nil, resourceARN: String? = nil, ruleARN: String? = nil, ruleName: String? = nil, serviceName: String? = nil, serviceType: String? = nil, uRLPath: String? = nil) {
             self.attributes = attributes
             self.fixedRate = fixedRate
@@ -1635,7 +1632,7 @@ extension XRay {
         public let sampledCount: Int32?
         /// The start time of the reporting window.
         public let timestamp: TimeStamp?
-        
+
         public init(borrowCount: Int32? = nil, requestCount: Int32? = nil, ruleName: String? = nil, sampledCount: Int32? = nil, timestamp: TimeStamp? = nil) {
             self.borrowCount = borrowCount
             self.requestCount = requestCount
@@ -1674,7 +1671,7 @@ extension XRay {
         public let sampledCount: Int32
         /// The current time.
         public let timestamp: TimeStamp
-        
+
         public init(borrowCount: Int32? = nil, clientID: String, requestCount: Int32, ruleName: String, sampledCount: Int32, timestamp: TimeStamp) {
             self.borrowCount = borrowCount
             self.clientID = clientID
@@ -1703,7 +1700,7 @@ extension XRay {
         public let name: SamplingStrategyName?
         /// The value of a sampling rule.
         public let value: Double?
-        
+
         public init(name: SamplingStrategyName? = nil, value: Double? = nil) {
             self.name = name
             self.value = value
@@ -1739,7 +1736,7 @@ extension XRay {
         public let reservoirQuotaTTL: TimeStamp?
         /// The name of the sampling rule.
         public let ruleName: String?
-        
+
         public init(fixedRate: Double? = nil, interval: Int32? = nil, reservoirQuota: Int32? = nil, reservoirQuotaTTL: TimeStamp? = nil, ruleName: String? = nil) {
             self.fixedRate = fixedRate
             self.interval = interval
@@ -1766,7 +1763,7 @@ extension XRay {
         public let document: String?
         /// The segment's ID.
         public let id: String?
-        
+
         public init(document: String? = nil, id: String? = nil) {
             self.document = document
             self.id = id
@@ -1820,7 +1817,7 @@ extension XRay {
         public let summaryStatistics: ServiceStatistics?
         /// The type of service.   AWS Resource - The type of an AWS resource. For example, AWS::EC2::Instance for a application running on Amazon EC2 or AWS::DynamoDB::Table for an Amazon DynamoDB table that the application used.   AWS Service - The type of an AWS service. For example, AWS::DynamoDB for downstream calls to Amazon DynamoDB that didn't target a specific table.    client - Represents the clients that sent requests to a root service.    remote - A downstream service of indeterminate type.  
         public let `type`: String?
-        
+
         public init(accountId: String? = nil, durationHistogram: [HistogramEntry]? = nil, edges: [Edge]? = nil, endTime: TimeStamp? = nil, name: String? = nil, names: [String]? = nil, referenceId: Int32? = nil, responseTimeHistogram: [HistogramEntry]? = nil, root: Bool? = nil, startTime: TimeStamp? = nil, state: String? = nil, summaryStatistics: ServiceStatistics? = nil, type: String? = nil) {
             self.accountId = accountId
             self.durationHistogram = durationHistogram
@@ -1865,7 +1862,7 @@ extension XRay {
         public let name: String?
         public let names: [String]?
         public let `type`: String?
-        
+
         public init(accountId: String? = nil, name: String? = nil, names: [String]? = nil, type: String? = nil) {
             self.accountId = accountId
             self.name = name
@@ -1899,7 +1896,7 @@ extension XRay {
         public let totalCount: Int64?
         /// The aggregate response time of completed requests.
         public let totalResponseTime: Double?
-        
+
         public init(errorStatistics: ErrorStatistics? = nil, faultStatistics: FaultStatistics? = nil, okCount: Int64? = nil, totalCount: Int64? = nil, totalResponseTime: Double? = nil) {
             self.errorStatistics = errorStatistics
             self.faultStatistics = faultStatistics
@@ -1932,7 +1929,7 @@ extension XRay {
         public let segmentsSentCount: Int32?
         public let segmentsSpilloverCount: Int32?
         public let timestamp: TimeStamp
-        
+
         public init(backendConnectionErrors: BackendConnectionErrors? = nil, segmentsReceivedCount: Int32? = nil, segmentsRejectedCount: Int32? = nil, segmentsSentCount: Int32? = nil, segmentsSpilloverCount: Int32? = nil, timestamp: TimeStamp) {
             self.backendConnectionErrors = backendConnectionErrors
             self.segmentsReceivedCount = segmentsReceivedCount
@@ -1971,7 +1968,7 @@ extension XRay {
         public let serviceSummaryStatistics: ServiceStatistics?
         /// Timestamp of the window for which statistics are aggregated.
         public let timestamp: TimeStamp?
-        
+
         public init(edgeSummaryStatistics: EdgeStatistics? = nil, responseTimeHistogram: [HistogramEntry]? = nil, serviceSummaryStatistics: ServiceStatistics? = nil, timestamp: TimeStamp? = nil) {
             self.edgeSummaryStatistics = edgeSummaryStatistics
             self.responseTimeHistogram = responseTimeHistogram
@@ -1999,7 +1996,7 @@ extension XRay {
         public let id: String?
         /// Segment documents for the segments and subsegments that comprise the trace.
         public let segments: [Segment]?
-        
+
         public init(duration: Double? = nil, id: String? = nil, segments: [Segment]? = nil) {
             self.duration = duration
             self.id = id
@@ -2076,7 +2073,7 @@ extension XRay {
         public let serviceIds: [ServiceId]?
         /// Users from the trace's segment documents.
         public let users: [TraceUser]?
-        
+
         public init(annotations: [String: [ValueWithServiceIds]]? = nil, availabilityZones: [AvailabilityZoneDetail]? = nil, duration: Double? = nil, entryPoint: ServiceId? = nil, errorRootCauses: [ErrorRootCause]? = nil, faultRootCauses: [FaultRootCause]? = nil, hasError: Bool? = nil, hasFault: Bool? = nil, hasThrottle: Bool? = nil, http: Http? = nil, id: String? = nil, instanceIds: [InstanceIdDetail]? = nil, isPartial: Bool? = nil, matchedEventTime: TimeStamp? = nil, resourceARNs: [ResourceARNDetail]? = nil, responseTime: Double? = nil, responseTimeRootCauses: [ResponseTimeRootCause]? = nil, revision: Int32? = nil, serviceIds: [ServiceId]? = nil, users: [TraceUser]? = nil) {
             self.annotations = annotations
             self.availabilityZones = availabilityZones
@@ -2133,7 +2130,7 @@ extension XRay {
         public let serviceIds: [ServiceId]?
         /// The user's name.
         public let userName: String?
-        
+
         public init(serviceIds: [ServiceId]? = nil, userName: String? = nil) {
             self.serviceIds = serviceIds
             self.userName = userName
@@ -2157,7 +2154,7 @@ extension XRay {
         public let message: String?
         /// The name of the sampling rule.
         public let ruleName: String?
-        
+
         public init(errorCode: String? = nil, message: String? = nil, ruleName: String? = nil) {
             self.errorCode = errorCode
             self.message = message
@@ -2183,7 +2180,7 @@ extension XRay {
         public let id: String?
         /// The error message.
         public let message: String?
-        
+
         public init(errorCode: String? = nil, id: String? = nil, message: String? = nil) {
             self.errorCode = errorCode
             self.id = id
@@ -2209,7 +2206,7 @@ extension XRay {
         public let groupARN: String?
         /// The case-sensitive name of the group.
         public let groupName: String?
-        
+
         public init(filterExpression: String? = nil, groupARN: String? = nil, groupName: String? = nil) {
             self.filterExpression = filterExpression
             self.groupARN = groupARN
@@ -2229,7 +2226,7 @@ extension XRay {
         ]
         /// The group that was updated. Contains the name of the group that was updated, the ARN of the group that was updated, and the updated filter expression assigned to the group.
         public let group: Group?
-        
+
         public init(group: Group? = nil) {
             self.group = group
         }
@@ -2245,7 +2242,7 @@ extension XRay {
         ]
         /// The rule and fields to change.
         public let samplingRuleUpdate: SamplingRuleUpdate
-        
+
         public init(samplingRuleUpdate: SamplingRuleUpdate) {
             self.samplingRuleUpdate = samplingRuleUpdate
         }
@@ -2261,7 +2258,7 @@ extension XRay {
         ]
         /// The updated rule definition and metadata.
         public let samplingRuleRecord: SamplingRuleRecord?
-        
+
         public init(samplingRuleRecord: SamplingRuleRecord? = nil) {
             self.samplingRuleRecord = samplingRuleRecord
         }
@@ -2280,7 +2277,7 @@ extension XRay {
         public let annotationValue: AnnotationValue?
         /// Services to which the annotation applies.
         public let serviceIds: [ServiceId]?
-        
+
         public init(annotationValue: AnnotationValue? = nil, serviceIds: [ServiceId]? = nil) {
             self.annotationValue = annotationValue
             self.serviceIds = serviceIds
@@ -2291,5 +2288,4 @@ extension XRay {
             case serviceIds = "ServiceIds"
         }
     }
-
 }

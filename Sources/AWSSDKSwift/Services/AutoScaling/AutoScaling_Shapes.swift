@@ -14,7 +14,7 @@ extension AutoScaling {
         public let activities: [Activity]
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
-        
+
         public init(activities: [Activity], nextToken: String? = nil) {
             self.activities = activities
             self.nextToken = nextToken
@@ -59,7 +59,7 @@ extension AutoScaling {
         public let statusCode: ScalingActivityStatusCode
         /// A friendly, more verbose description of the activity status.
         public let statusMessage: String?
-        
+
         public init(activityId: String, autoScalingGroupName: String, cause: String, description: String? = nil, details: String? = nil, endTime: TimeStamp? = nil, progress: Int32? = nil, startTime: TimeStamp, statusCode: ScalingActivityStatusCode, statusMessage: String? = nil) {
             self.activityId = activityId
             self.autoScalingGroupName = autoScalingGroupName
@@ -93,7 +93,7 @@ extension AutoScaling {
         ]
         /// A scaling activity.
         public let activity: Activity?
-        
+
         public init(activity: Activity? = nil) {
             self.activity = activity
         }
@@ -109,7 +109,7 @@ extension AutoScaling {
         ]
         /// The policy adjustment type. The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity.
         public let adjustmentType: String?
-        
+
         public init(adjustmentType: String? = nil) {
             self.adjustmentType = adjustmentType
         }
@@ -128,7 +128,7 @@ extension AutoScaling {
         public let alarmARN: String?
         /// The name of the alarm.
         public let alarmName: String?
-        
+
         public init(alarmARN: String? = nil, alarmName: String? = nil) {
             self.alarmARN = alarmARN
             self.alarmName = alarmName
@@ -149,7 +149,7 @@ extension AutoScaling {
         public let autoScalingGroupName: String
         /// The IDs of the instances. You can specify up to 20 instances.
         public let instanceIds: [String]?
-        
+
         public init(autoScalingGroupName: String, instanceIds: [String]? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.instanceIds = instanceIds
@@ -162,12 +162,11 @@ extension AutoScaling {
     }
 
     public struct AttachLoadBalancerTargetGroupsResultType: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct AttachLoadBalancerTargetGroupsType: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -178,7 +177,7 @@ extension AutoScaling {
         public let autoScalingGroupName: String
         /// The Amazon Resource Names (ARN) of the target groups. You can specify up to 10 target groups.
         public let targetGroupARNs: [String]
-        
+
         public init(autoScalingGroupName: String, targetGroupARNs: [String]) {
             self.autoScalingGroupName = autoScalingGroupName
             self.targetGroupARNs = targetGroupARNs
@@ -191,12 +190,11 @@ extension AutoScaling {
     }
 
     public struct AttachLoadBalancersResultType: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct AttachLoadBalancersType: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -207,7 +205,7 @@ extension AutoScaling {
         public let autoScalingGroupName: String
         /// The names of the load balancers. You can specify up to 10 load balancers.
         public let loadBalancerNames: [String]
-        
+
         public init(autoScalingGroupName: String, loadBalancerNames: [String]) {
             self.autoScalingGroupName = autoScalingGroupName
             self.loadBalancerNames = loadBalancerNames
@@ -297,7 +295,7 @@ extension AutoScaling {
         public let terminationPolicies: [String]?
         /// One or more subnet IDs, if applicable, separated by commas.
         public let vPCZoneIdentifier: String?
-        
+
         public init(autoScalingGroupARN: String? = nil, autoScalingGroupName: String, availabilityZones: [String], createdTime: TimeStamp, defaultCooldown: Int32, desiredCapacity: Int32, enabledMetrics: [EnabledMetric]? = nil, healthCheckGracePeriod: Int32? = nil, healthCheckType: String, instances: [Instance]? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, loadBalancerNames: [String]? = nil, maxSize: Int32, minSize: Int32, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, status: String? = nil, suspendedProcesses: [SuspendedProcess]? = nil, tags: [TagDescription]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, vPCZoneIdentifier: String? = nil) {
             self.autoScalingGroupARN = autoScalingGroupARN
             self.autoScalingGroupName = autoScalingGroupName
@@ -367,7 +365,7 @@ extension AutoScaling {
         public let maxRecords: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        
+
         public init(autoScalingGroupNames: [String]? = nil, maxRecords: Int32? = nil, nextToken: String? = nil) {
             self.autoScalingGroupNames = autoScalingGroupNames
             self.maxRecords = maxRecords
@@ -390,7 +388,7 @@ extension AutoScaling {
         public let autoScalingGroups: [AutoScalingGroup]
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
-        
+
         public init(autoScalingGroups: [AutoScalingGroup], nextToken: String? = nil) {
             self.autoScalingGroups = autoScalingGroups
             self.nextToken = nextToken
@@ -429,7 +427,7 @@ extension AutoScaling {
         public let lifecycleState: String
         /// Indicates whether the instance is protected from termination by Amazon EC2 Auto Scaling when scaling in.
         public let protectedFromScaleIn: Bool
-        
+
         public init(autoScalingGroupName: String, availabilityZone: String, healthStatus: String, instanceId: String, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, lifecycleState: String, protectedFromScaleIn: Bool) {
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZone = availabilityZone
@@ -462,7 +460,7 @@ extension AutoScaling {
         public let autoScalingInstances: [AutoScalingInstanceDetails]?
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
-        
+
         public init(autoScalingInstances: [AutoScalingInstanceDetails]? = nil, nextToken: String? = nil) {
             self.autoScalingInstances = autoScalingInstances
             self.nextToken = nextToken
@@ -480,7 +478,7 @@ extension AutoScaling {
         ]
         /// The names of the scheduled actions that could not be deleted, including an error message. 
         public let failedScheduledActions: [FailedScheduledUpdateGroupActionRequest]?
-        
+
         public init(failedScheduledActions: [FailedScheduledUpdateGroupActionRequest]? = nil) {
             self.failedScheduledActions = failedScheduledActions
         }
@@ -499,7 +497,7 @@ extension AutoScaling {
         public let autoScalingGroupName: String
         /// The names of the scheduled actions to delete. The maximum number allowed is 50. 
         public let scheduledActionNames: [String]
-        
+
         public init(autoScalingGroupName: String, scheduledActionNames: [String]) {
             self.autoScalingGroupName = autoScalingGroupName
             self.scheduledActionNames = scheduledActionNames
@@ -517,7 +515,7 @@ extension AutoScaling {
         ]
         /// The names of the scheduled actions that could not be created or updated, including an error message.
         public let failedScheduledUpdateGroupActions: [FailedScheduledUpdateGroupActionRequest]?
-        
+
         public init(failedScheduledUpdateGroupActions: [FailedScheduledUpdateGroupActionRequest]? = nil) {
             self.failedScheduledUpdateGroupActions = failedScheduledUpdateGroupActions
         }
@@ -536,7 +534,7 @@ extension AutoScaling {
         public let autoScalingGroupName: String
         /// One or more scheduled actions. The maximum number allowed is 50. 
         public let scheduledUpdateGroupActions: [ScheduledUpdateGroupActionRequest]
-        
+
         public init(autoScalingGroupName: String, scheduledUpdateGroupActions: [ScheduledUpdateGroupActionRequest]) {
             self.autoScalingGroupName = autoScalingGroupName
             self.scheduledUpdateGroupActions = scheduledUpdateGroupActions
@@ -563,7 +561,7 @@ extension AutoScaling {
         public let noDevice: Bool?
         /// The name of the virtual device (for example, ephemeral0).
         public let virtualName: String?
-        
+
         public init(deviceName: String, ebs: Ebs? = nil, noDevice: Bool? = nil, virtualName: String? = nil) {
             self.deviceName = deviceName
             self.ebs = ebs
@@ -580,12 +578,11 @@ extension AutoScaling {
     }
 
     public struct CompleteLifecycleActionAnswer: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct CompleteLifecycleActionType: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -605,7 +602,7 @@ extension AutoScaling {
         public let lifecycleActionToken: String?
         /// The name of the lifecycle hook.
         public let lifecycleHookName: String
-        
+
         public init(autoScalingGroupName: String, instanceId: String? = nil, lifecycleActionResult: String, lifecycleActionToken: String? = nil, lifecycleHookName: String) {
             self.autoScalingGroupName = autoScalingGroupName
             self.instanceId = instanceId
@@ -689,7 +686,7 @@ extension AutoScaling {
         public let terminationPolicies: [String]?
         /// A comma-separated list of subnet IDs for your virtual private cloud (VPC). If you specify VPCZoneIdentifier with AvailabilityZones, the subnets that you specify for this parameter must reside in those Availability Zones. Conditional: If your account supports EC2-Classic and VPC, this parameter is required to launch instances into a VPC.
         public let vPCZoneIdentifier: String?
-        
+
         public init(autoScalingGroupName: String, availabilityZones: [String]? = nil, defaultCooldown: Int32? = nil, desiredCapacity: Int32? = nil, healthCheckGracePeriod: Int32? = nil, healthCheckType: String? = nil, instanceId: String? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, lifecycleHookSpecificationList: [LifecycleHookSpecification]? = nil, loadBalancerNames: [String]? = nil, maxSize: Int32, minSize: Int32, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, tags: [Tag]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, vPCZoneIdentifier: String? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZones = availabilityZones
@@ -796,7 +793,7 @@ extension AutoScaling {
         public let spotPrice: String?
         /// The user data to make available to the launched EC2 instances. For more information, see Instance Metadata and User Data in the Amazon EC2 User Guide for Linux Instances.
         public let userData: String?
-        
+
         public init(associatePublicIpAddress: Bool? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, classicLinkVPCId: String? = nil, classicLinkVPCSecurityGroups: [String]? = nil, ebsOptimized: Bool? = nil, iamInstanceProfile: String? = nil, imageId: String? = nil, instanceId: String? = nil, instanceMonitoring: InstanceMonitoring? = nil, instanceType: String? = nil, kernelId: String? = nil, keyName: String? = nil, launchConfigurationName: String, placementTenancy: String? = nil, ramdiskId: String? = nil, securityGroups: [String]? = nil, spotPrice: String? = nil, userData: String? = nil) {
             self.associatePublicIpAddress = associatePublicIpAddress
             self.blockDeviceMappings = blockDeviceMappings
@@ -846,7 +843,7 @@ extension AutoScaling {
         ]
         /// One or more tags.
         public let tags: [Tag]
-        
+
         public init(tags: [Tag]) {
             self.tags = tags
         }
@@ -874,7 +871,7 @@ extension AutoScaling {
         public let statistic: MetricStatistic
         /// The unit of the metric.
         public let unit: String?
-        
+
         public init(dimensions: [MetricDimension]? = nil, metricName: String, namespace: String, statistic: MetricStatistic, unit: String? = nil) {
             self.dimensions = dimensions
             self.metricName = metricName
@@ -901,7 +898,7 @@ extension AutoScaling {
         public let autoScalingGroupName: String
         /// Specifies that the group is to be deleted along with all instances associated with the group, without waiting for all instances to be terminated. This parameter also deletes any lifecycle actions associated with the group.
         public let forceDelete: Bool?
-        
+
         public init(autoScalingGroupName: String, forceDelete: Bool? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.forceDelete = forceDelete
@@ -914,12 +911,11 @@ extension AutoScaling {
     }
 
     public struct DeleteLifecycleHookAnswer: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteLifecycleHookType: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -930,7 +926,7 @@ extension AutoScaling {
         public let autoScalingGroupName: String
         /// The name of the lifecycle hook.
         public let lifecycleHookName: String
-        
+
         public init(autoScalingGroupName: String, lifecycleHookName: String) {
             self.autoScalingGroupName = autoScalingGroupName
             self.lifecycleHookName = lifecycleHookName
@@ -951,7 +947,7 @@ extension AutoScaling {
         public let autoScalingGroupName: String
         /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (Amazon SNS) topic.
         public let topicARN: String
-        
+
         public init(autoScalingGroupName: String, topicARN: String) {
             self.autoScalingGroupName = autoScalingGroupName
             self.topicARN = topicARN
@@ -972,7 +968,7 @@ extension AutoScaling {
         public let autoScalingGroupName: String?
         /// The name or Amazon Resource Name (ARN) of the policy.
         public let policyName: String
-        
+
         public init(autoScalingGroupName: String? = nil, policyName: String) {
             self.autoScalingGroupName = autoScalingGroupName
             self.policyName = policyName
@@ -993,7 +989,7 @@ extension AutoScaling {
         public let autoScalingGroupName: String
         /// The name of the action to delete.
         public let scheduledActionName: String
-        
+
         public init(autoScalingGroupName: String, scheduledActionName: String) {
             self.autoScalingGroupName = autoScalingGroupName
             self.scheduledActionName = scheduledActionName
@@ -1011,7 +1007,7 @@ extension AutoScaling {
         ]
         /// One or more tags.
         public let tags: [Tag]
-        
+
         public init(tags: [Tag]) {
             self.tags = tags
         }
@@ -1036,7 +1032,7 @@ extension AutoScaling {
         public let numberOfAutoScalingGroups: Int32?
         /// The current number of launch configurations for your AWS account.
         public let numberOfLaunchConfigurations: Int32?
-        
+
         public init(maxNumberOfAutoScalingGroups: Int32? = nil, maxNumberOfLaunchConfigurations: Int32? = nil, numberOfAutoScalingGroups: Int32? = nil, numberOfLaunchConfigurations: Int32? = nil) {
             self.maxNumberOfAutoScalingGroups = maxNumberOfAutoScalingGroups
             self.maxNumberOfLaunchConfigurations = maxNumberOfLaunchConfigurations
@@ -1058,7 +1054,7 @@ extension AutoScaling {
         ]
         /// The policy adjustment types.
         public let adjustmentTypes: [AdjustmentType]?
-        
+
         public init(adjustmentTypes: [AdjustmentType]? = nil) {
             self.adjustmentTypes = adjustmentTypes
         }
@@ -1080,7 +1076,7 @@ extension AutoScaling {
         public let maxRecords: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        
+
         public init(instanceIds: [String]? = nil, maxRecords: Int32? = nil, nextToken: String? = nil) {
             self.instanceIds = instanceIds
             self.maxRecords = maxRecords
@@ -1100,7 +1096,7 @@ extension AutoScaling {
         ]
         /// The notification types.
         public let autoScalingNotificationTypes: [String]?
-        
+
         public init(autoScalingNotificationTypes: [String]? = nil) {
             self.autoScalingNotificationTypes = autoScalingNotificationTypes
         }
@@ -1116,7 +1112,7 @@ extension AutoScaling {
         ]
         /// The lifecycle hook types.
         public let lifecycleHookTypes: [String]?
-        
+
         public init(lifecycleHookTypes: [String]? = nil) {
             self.lifecycleHookTypes = lifecycleHookTypes
         }
@@ -1132,7 +1128,7 @@ extension AutoScaling {
         ]
         /// The lifecycle hooks for the specified group.
         public let lifecycleHooks: [LifecycleHook]?
-        
+
         public init(lifecycleHooks: [LifecycleHook]? = nil) {
             self.lifecycleHooks = lifecycleHooks
         }
@@ -1151,7 +1147,7 @@ extension AutoScaling {
         public let autoScalingGroupName: String
         /// The names of one or more lifecycle hooks. If you omit this parameter, all lifecycle hooks are described.
         public let lifecycleHookNames: [String]?
-        
+
         public init(autoScalingGroupName: String, lifecycleHookNames: [String]? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.lifecycleHookNames = lifecycleHookNames
@@ -1175,7 +1171,7 @@ extension AutoScaling {
         public let maxRecords: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        
+
         public init(autoScalingGroupName: String, maxRecords: Int32? = nil, nextToken: String? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.maxRecords = maxRecords
@@ -1198,7 +1194,7 @@ extension AutoScaling {
         public let loadBalancerTargetGroups: [LoadBalancerTargetGroupState]?
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
-        
+
         public init(loadBalancerTargetGroups: [LoadBalancerTargetGroupState]? = nil, nextToken: String? = nil) {
             self.loadBalancerTargetGroups = loadBalancerTargetGroups
             self.nextToken = nextToken
@@ -1222,7 +1218,7 @@ extension AutoScaling {
         public let maxRecords: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        
+
         public init(autoScalingGroupName: String, maxRecords: Int32? = nil, nextToken: String? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.maxRecords = maxRecords
@@ -1245,7 +1241,7 @@ extension AutoScaling {
         public let loadBalancers: [LoadBalancerState]?
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
-        
+
         public init(loadBalancers: [LoadBalancerState]? = nil, nextToken: String? = nil) {
             self.loadBalancers = loadBalancers
             self.nextToken = nextToken
@@ -1266,7 +1262,7 @@ extension AutoScaling {
         public let granularities: [MetricGranularityType]?
         /// One or more metrics.
         public let metrics: [MetricCollectionType]?
-        
+
         public init(granularities: [MetricGranularityType]? = nil, metrics: [MetricCollectionType]? = nil) {
             self.granularities = granularities
             self.metrics = metrics
@@ -1287,7 +1283,7 @@ extension AutoScaling {
         public let nextToken: String?
         /// The notification configurations.
         public let notificationConfigurations: [NotificationConfiguration]
-        
+
         public init(nextToken: String? = nil, notificationConfigurations: [NotificationConfiguration]) {
             self.nextToken = nextToken
             self.notificationConfigurations = notificationConfigurations
@@ -1311,7 +1307,7 @@ extension AutoScaling {
         public let maxRecords: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        
+
         public init(autoScalingGroupNames: [String]? = nil, maxRecords: Int32? = nil, nextToken: String? = nil) {
             self.autoScalingGroupNames = autoScalingGroupNames
             self.maxRecords = maxRecords
@@ -1343,7 +1339,7 @@ extension AutoScaling {
         public let policyNames: [String]?
         /// One or more policy types. The valid values are SimpleScaling, StepScaling, and TargetTrackingScaling.
         public let policyTypes: [String]?
-        
+
         public init(autoScalingGroupName: String? = nil, maxRecords: Int32? = nil, nextToken: String? = nil, policyNames: [String]? = nil, policyTypes: [String]? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.maxRecords = maxRecords
@@ -1376,7 +1372,7 @@ extension AutoScaling {
         public let maxRecords: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        
+
         public init(activityIds: [String]? = nil, autoScalingGroupName: String? = nil, maxRecords: Int32? = nil, nextToken: String? = nil) {
             self.activityIds = activityIds
             self.autoScalingGroupName = autoScalingGroupName
@@ -1413,7 +1409,7 @@ extension AutoScaling {
         public let scheduledActionNames: [String]?
         /// The earliest scheduled start time to return. If scheduled action names are provided, this parameter is ignored.
         public let startTime: TimeStamp?
-        
+
         public init(autoScalingGroupName: String? = nil, endTime: TimeStamp? = nil, maxRecords: Int32? = nil, nextToken: String? = nil, scheduledActionNames: [String]? = nil, startTime: TimeStamp? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.endTime = endTime
@@ -1445,7 +1441,7 @@ extension AutoScaling {
         public let maxRecords: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        
+
         public init(filters: [Filter]? = nil, maxRecords: Int32? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxRecords = maxRecords
@@ -1465,7 +1461,7 @@ extension AutoScaling {
         ]
         /// The termination policies supported by Amazon EC2 Auto Scaling: OldestInstance, OldestLaunchConfiguration, NewestInstance, ClosestToNextInstanceHour, Default, OldestLaunchTemplate, and AllocationStrategy.
         public let terminationPolicyTypes: [String]?
-        
+
         public init(terminationPolicyTypes: [String]? = nil) {
             self.terminationPolicyTypes = terminationPolicyTypes
         }
@@ -1481,7 +1477,7 @@ extension AutoScaling {
         ]
         /// The activities related to detaching the instances from the Auto Scaling group.
         public let activities: [Activity]?
-        
+
         public init(activities: [Activity]? = nil) {
             self.activities = activities
         }
@@ -1503,7 +1499,7 @@ extension AutoScaling {
         public let instanceIds: [String]?
         /// Indicates whether the Auto Scaling group decrements the desired capacity value by the number of instances detached.
         public let shouldDecrementDesiredCapacity: Bool
-        
+
         public init(autoScalingGroupName: String, instanceIds: [String]? = nil, shouldDecrementDesiredCapacity: Bool) {
             self.autoScalingGroupName = autoScalingGroupName
             self.instanceIds = instanceIds
@@ -1518,12 +1514,11 @@ extension AutoScaling {
     }
 
     public struct DetachLoadBalancerTargetGroupsResultType: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DetachLoadBalancerTargetGroupsType: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1534,7 +1529,7 @@ extension AutoScaling {
         public let autoScalingGroupName: String
         /// The Amazon Resource Names (ARN) of the target groups. You can specify up to 10 target groups.
         public let targetGroupARNs: [String]
-        
+
         public init(autoScalingGroupName: String, targetGroupARNs: [String]) {
             self.autoScalingGroupName = autoScalingGroupName
             self.targetGroupARNs = targetGroupARNs
@@ -1547,12 +1542,11 @@ extension AutoScaling {
     }
 
     public struct DetachLoadBalancersResultType: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DetachLoadBalancersType: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1563,7 +1557,7 @@ extension AutoScaling {
         public let autoScalingGroupName: String
         /// The names of the load balancers. You can specify up to 10 load balancers.
         public let loadBalancerNames: [String]
-        
+
         public init(autoScalingGroupName: String, loadBalancerNames: [String]) {
             self.autoScalingGroupName = autoScalingGroupName
             self.loadBalancerNames = loadBalancerNames
@@ -1584,7 +1578,7 @@ extension AutoScaling {
         public let autoScalingGroupName: String
         /// One or more of the following metrics. If you omit this parameter, all metrics are disabled.    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances   
         public let metrics: [String]?
-        
+
         public init(autoScalingGroupName: String, metrics: [String]? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.metrics = metrics
@@ -1617,7 +1611,7 @@ extension AutoScaling {
         public let volumeSize: Int32?
         /// The volume type, which can be standard for Magnetic, io1 for Provisioned IOPS SSD, gp2 for General Purpose SSD, st1 for Throughput Optimized HDD, or sc1 for Cold HDD. For more information, see Amazon EBS Volume Types in the Amazon EC2 User Guide for Linux Instances. Valid values: standard | io1 | gp2 | st1 | sc1 
         public let volumeType: String?
-        
+
         public init(deleteOnTermination: Bool? = nil, encrypted: Bool? = nil, iops: Int32? = nil, snapshotId: String? = nil, volumeSize: Int32? = nil, volumeType: String? = nil) {
             self.deleteOnTermination = deleteOnTermination
             self.encrypted = encrypted
@@ -1649,7 +1643,7 @@ extension AutoScaling {
         public let granularity: String
         /// One or more of the following metrics. If you omit this parameter, all metrics are enabled.    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances   
         public let metrics: [String]?
-        
+
         public init(autoScalingGroupName: String, granularity: String, metrics: [String]? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.granularity = granularity
@@ -1672,7 +1666,7 @@ extension AutoScaling {
         public let granularity: String?
         /// One of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances   
         public let metric: String?
-        
+
         public init(granularity: String? = nil, metric: String? = nil) {
             self.granularity = granularity
             self.metric = metric
@@ -1690,7 +1684,7 @@ extension AutoScaling {
         ]
         /// The activities related to moving instances into Standby mode.
         public let activities: [Activity]?
-        
+
         public init(activities: [Activity]? = nil) {
             self.activities = activities
         }
@@ -1712,7 +1706,7 @@ extension AutoScaling {
         public let instanceIds: [String]?
         /// Indicates whether to decrement the desired capacity of the Auto Scaling group by the number of instances moved to Standby mode.
         public let shouldDecrementDesiredCapacity: Bool
-        
+
         public init(autoScalingGroupName: String, instanceIds: [String]? = nil, shouldDecrementDesiredCapacity: Bool) {
             self.autoScalingGroupName = autoScalingGroupName
             self.instanceIds = instanceIds
@@ -1744,7 +1738,7 @@ extension AutoScaling {
         public let metricValue: Double?
         /// The name or ARN of the policy.
         public let policyName: String
-        
+
         public init(autoScalingGroupName: String? = nil, breachThreshold: Double? = nil, honorCooldown: Bool? = nil, metricValue: Double? = nil, policyName: String) {
             self.autoScalingGroupName = autoScalingGroupName
             self.breachThreshold = breachThreshold
@@ -1768,7 +1762,7 @@ extension AutoScaling {
         ]
         /// The activities related to moving instances out of Standby mode.
         public let activities: [Activity]?
-        
+
         public init(activities: [Activity]? = nil) {
             self.activities = activities
         }
@@ -1787,7 +1781,7 @@ extension AutoScaling {
         public let autoScalingGroupName: String
         /// The IDs of the instances. You can specify up to 20 instances.
         public let instanceIds: [String]?
-        
+
         public init(autoScalingGroupName: String, instanceIds: [String]? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.instanceIds = instanceIds
@@ -1811,7 +1805,7 @@ extension AutoScaling {
         public let errorMessage: String?
         /// The name of the scheduled action.
         public let scheduledActionName: String
-        
+
         public init(errorCode: String? = nil, errorMessage: String? = nil, scheduledActionName: String) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -1834,7 +1828,7 @@ extension AutoScaling {
         public let name: String?
         /// The value of the filter.
         public let values: [String]?
-        
+
         public init(name: String? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -1870,7 +1864,7 @@ extension AutoScaling {
         public let lifecycleState: LifecycleState
         /// Indicates whether the instance is protected from termination by Amazon EC2 Auto Scaling when scaling in.
         public let protectedFromScaleIn: Bool
-        
+
         public init(availabilityZone: String, healthStatus: String, instanceId: String, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, lifecycleState: LifecycleState, protectedFromScaleIn: Bool) {
             self.availabilityZone = availabilityZone
             self.healthStatus = healthStatus
@@ -1898,7 +1892,7 @@ extension AutoScaling {
         ]
         /// If true, detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
         public let enabled: Bool?
-        
+
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -1929,7 +1923,7 @@ extension AutoScaling {
         public let spotInstancePools: Int32?
         /// The maximum price per unit hour that you are willing to pay for a Spot Instance. If you leave the value of this parameter blank (which is the default), the maximum Spot price is set at the On-Demand price. To remove a value that you previously set, include the parameter but leave the value blank.
         public let spotMaxPrice: String?
-        
+
         public init(onDemandAllocationStrategy: String? = nil, onDemandBaseCapacity: Int32? = nil, onDemandPercentageAboveBaseCapacity: Int32? = nil, spotAllocationStrategy: String? = nil, spotInstancePools: Int32? = nil, spotMaxPrice: String? = nil) {
             self.onDemandAllocationStrategy = onDemandAllocationStrategy
             self.onDemandBaseCapacity = onDemandBaseCapacity
@@ -2009,7 +2003,7 @@ extension AutoScaling {
         public let spotPrice: String?
         /// The user data available to the instances.
         public let userData: String?
-        
+
         public init(associatePublicIpAddress: Bool? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, classicLinkVPCId: String? = nil, classicLinkVPCSecurityGroups: [String]? = nil, createdTime: TimeStamp, ebsOptimized: Bool? = nil, iamInstanceProfile: String? = nil, imageId: String, instanceMonitoring: InstanceMonitoring? = nil, instanceType: String, kernelId: String? = nil, keyName: String? = nil, launchConfigurationARN: String? = nil, launchConfigurationName: String, placementTenancy: String? = nil, ramdiskId: String? = nil, securityGroups: [String]? = nil, spotPrice: String? = nil, userData: String? = nil) {
             self.associatePublicIpAddress = associatePublicIpAddress
             self.blockDeviceMappings = blockDeviceMappings
@@ -2061,7 +2055,7 @@ extension AutoScaling {
         ]
         /// The name of the launch configuration.
         public let launchConfigurationName: String
-        
+
         public init(launchConfigurationName: String) {
             self.launchConfigurationName = launchConfigurationName
         }
@@ -2083,7 +2077,7 @@ extension AutoScaling {
         public let maxRecords: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        
+
         public init(launchConfigurationNames: [String]? = nil, maxRecords: Int32? = nil, nextToken: String? = nil) {
             self.launchConfigurationNames = launchConfigurationNames
             self.maxRecords = maxRecords
@@ -2106,7 +2100,7 @@ extension AutoScaling {
         public let launchConfigurations: [LaunchConfiguration]
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
-        
+
         public init(launchConfigurations: [LaunchConfiguration], nextToken: String? = nil) {
             self.launchConfigurations = launchConfigurations
             self.nextToken = nextToken
@@ -2127,7 +2121,7 @@ extension AutoScaling {
         public let launchTemplateSpecification: LaunchTemplateSpecification?
         /// Any parameters that you specify override the same parameters in the launch template. Currently, the only supported override is instance type.  You must specify between 2 and 20 overrides.
         public let overrides: [LaunchTemplateOverrides]?
-        
+
         public init(launchTemplateSpecification: LaunchTemplateSpecification? = nil, overrides: [LaunchTemplateOverrides]? = nil) {
             self.launchTemplateSpecification = launchTemplateSpecification
             self.overrides = overrides
@@ -2145,7 +2139,7 @@ extension AutoScaling {
         ]
         /// The instance type.  For information about available instance types, see Available Instance Types in the Amazon Elastic Compute Cloud User Guide. 
         public let instanceType: String?
-        
+
         public init(instanceType: String? = nil) {
             self.instanceType = instanceType
         }
@@ -2167,7 +2161,7 @@ extension AutoScaling {
         public let launchTemplateName: String?
         /// The version number, $Latest, or $Default. If the value is $Latest, Amazon EC2 Auto Scaling selects the latest version of the launch template when launching instances. If the value is $Default, Amazon EC2 Auto Scaling selects the default version of the launch template when launching instances. The default value is $Default.
         public let version: String?
-        
+
         public init(launchTemplateId: String? = nil, launchTemplateName: String? = nil, version: String? = nil) {
             self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
@@ -2211,7 +2205,7 @@ extension AutoScaling {
         public let notificationTargetARN: String?
         /// The ARN of the IAM role that allows the Auto Scaling group to publish to the specified notification target.
         public let roleARN: String?
-        
+
         public init(autoScalingGroupName: String? = nil, defaultResult: String? = nil, globalTimeout: Int32? = nil, heartbeatTimeout: Int32? = nil, lifecycleHookName: String? = nil, lifecycleTransition: String? = nil, notificationMetadata: String? = nil, notificationTargetARN: String? = nil, roleARN: String? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.defaultResult = defaultResult
@@ -2261,7 +2255,7 @@ extension AutoScaling {
         public let notificationTargetARN: String?
         /// The ARN of the IAM role that allows the Auto Scaling group to publish to the specified notification target, for example, an Amazon SNS topic or an Amazon SQS queue.
         public let roleARN: String?
-        
+
         public init(defaultResult: String? = nil, heartbeatTimeout: Int32? = nil, lifecycleHookName: String, lifecycleTransition: String, notificationMetadata: String? = nil, notificationTargetARN: String? = nil, roleARN: String? = nil) {
             self.defaultResult = defaultResult
             self.heartbeatTimeout = heartbeatTimeout
@@ -2309,7 +2303,7 @@ extension AutoScaling {
         public let loadBalancerName: String?
         /// One of the following load balancer states:    Adding - The instances in the group are being registered with the load balancer.    Added - All instances in the group are registered with the load balancer.    InService - At least one instance in the group passed an ELB health check.    Removing - The instances in the group are being deregistered from the load balancer. If connection draining is enabled, Elastic Load Balancing waits for in-flight requests to complete before deregistering the instances.    Removed - All instances in the group are deregistered from the load balancer.  
         public let state: String?
-        
+
         public init(loadBalancerName: String? = nil, state: String? = nil) {
             self.loadBalancerName = loadBalancerName
             self.state = state
@@ -2330,7 +2324,7 @@ extension AutoScaling {
         public let loadBalancerTargetGroupARN: String?
         /// The state of the target group.    Adding - The Auto Scaling instances are being registered with the target group.    Added - All Auto Scaling instances are registered with the target group.    InService - At least one Auto Scaling instance passed an ELB health check.    Removing - The Auto Scaling instances are being deregistered from the target group. If connection draining is enabled, Elastic Load Balancing waits for in-flight requests to complete before deregistering the instances.    Removed - All Auto Scaling instances are deregistered from the target group.  
         public let state: String?
-        
+
         public init(loadBalancerTargetGroupARN: String? = nil, state: String? = nil) {
             self.loadBalancerTargetGroupARN = loadBalancerTargetGroupARN
             self.state = state
@@ -2348,7 +2342,7 @@ extension AutoScaling {
         ]
         /// One of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances   
         public let metric: String?
-        
+
         public init(metric: String? = nil) {
             self.metric = metric
         }
@@ -2367,7 +2361,7 @@ extension AutoScaling {
         public let name: String
         /// The value of the dimension.
         public let value: String
-        
+
         public init(name: String, value: String) {
             self.name = name
             self.value = value
@@ -2385,7 +2379,7 @@ extension AutoScaling {
         ]
         /// The granularity. The only valid value is 1Minute.
         public let granularity: String?
-        
+
         public init(granularity: String? = nil) {
             self.granularity = granularity
         }
@@ -2421,7 +2415,7 @@ extension AutoScaling {
         public let instancesDistribution: InstancesDistribution?
         /// The launch template and overrides. This parameter is required when creating an Auto Scaling group with a mixed instances policy, but is not required when updating the group.
         public let launchTemplate: LaunchTemplate?
-        
+
         public init(instancesDistribution: InstancesDistribution? = nil, launchTemplate: LaunchTemplate? = nil) {
             self.instancesDistribution = instancesDistribution
             self.launchTemplate = launchTemplate
@@ -2445,7 +2439,7 @@ extension AutoScaling {
         public let notificationType: String?
         /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (Amazon SNS) topic.
         public let topicARN: String?
-        
+
         public init(autoScalingGroupName: String? = nil, notificationType: String? = nil, topicARN: String? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.notificationType = notificationType
@@ -2468,7 +2462,7 @@ extension AutoScaling {
         public let nextToken: String?
         /// The scaling policies.
         public let scalingPolicies: [ScalingPolicy]?
-        
+
         public init(nextToken: String? = nil, scalingPolicies: [ScalingPolicy]? = nil) {
             self.nextToken = nextToken
             self.scalingPolicies = scalingPolicies
@@ -2489,7 +2483,7 @@ extension AutoScaling {
         public let alarms: [Alarm]?
         /// The Amazon Resource Name (ARN) of the policy.
         public let policyARN: String?
-        
+
         public init(alarms: [Alarm]? = nil, policyARN: String? = nil) {
             self.alarms = alarms
             self.policyARN = policyARN
@@ -2510,7 +2504,7 @@ extension AutoScaling {
         public let predefinedMetricType: MetricType
         /// Identifies the resource associated with the metric type. The following predefined metrics are available:    ASGAverageCPUUtilization - Average CPU utilization of the Auto Scaling group.    ASGAverageNetworkIn - Average number of bytes received on all network interfaces by the Auto Scaling group.    ASGAverageNetworkOut - Average number of bytes sent out on all network interfaces by the Auto Scaling group.    ALBRequestCountPerTarget - Number of requests completed per target in an Application Load Balancer or a Network Load Balancer target group.   For predefined metric types ASGAverageCPUUtilization, ASGAverageNetworkIn, and ASGAverageNetworkOut, the parameter must not be specified as the resource associated with the metric type is the Auto Scaling group. For predefined metric type ALBRequestCountPerTarget, the parameter must be specified in the format: app/load-balancer-name/load-balancer-id/targetgroup/target-group-name/target-group-id , where app/load-balancer-name/load-balancer-id  is the final portion of the load balancer ARN, and targetgroup/target-group-name/target-group-id  is the final portion of the target group ARN. The target group must be attached to the Auto Scaling group.
         public let resourceLabel: String?
-        
+
         public init(predefinedMetricType: MetricType, resourceLabel: String? = nil) {
             self.predefinedMetricType = predefinedMetricType
             self.resourceLabel = resourceLabel
@@ -2528,7 +2522,7 @@ extension AutoScaling {
         ]
         /// One of the following processes:    Launch     Terminate     AddToLoadBalancer     AlarmNotification     AZRebalance     HealthCheck     ReplaceUnhealthy     ScheduledActions   
         public let processName: String
-        
+
         public init(processName: String) {
             self.processName = processName
         }
@@ -2544,7 +2538,7 @@ extension AutoScaling {
         ]
         /// The names of the process types.
         public let processes: [ProcessType]?
-        
+
         public init(processes: [ProcessType]? = nil) {
             self.processes = processes
         }
@@ -2555,12 +2549,11 @@ extension AutoScaling {
     }
 
     public struct PutLifecycleHookAnswer: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct PutLifecycleHookType: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2589,7 +2582,7 @@ extension AutoScaling {
         public let notificationTargetARN: String?
         /// The ARN of the IAM role that allows the Auto Scaling group to publish to the specified notification target, for example, an Amazon SNS topic or an Amazon SQS queue. Conditional: This parameter is required for new lifecycle hooks, but optional when updating existing hooks.
         public let roleARN: String?
-        
+
         public init(autoScalingGroupName: String, defaultResult: String? = nil, heartbeatTimeout: Int32? = nil, lifecycleHookName: String, lifecycleTransition: String? = nil, notificationMetadata: String? = nil, notificationTargetARN: String? = nil, roleARN: String? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.defaultResult = defaultResult
@@ -2625,7 +2618,7 @@ extension AutoScaling {
         public let notificationTypes: [String]
         /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (Amazon SNS) topic.
         public let topicARN: String
-        
+
         public init(autoScalingGroupName: String, notificationTypes: [String], topicARN: String) {
             self.autoScalingGroupName = autoScalingGroupName
             self.notificationTypes = notificationTypes
@@ -2678,7 +2671,7 @@ extension AutoScaling {
         public let stepAdjustments: [StepAdjustment]?
         /// A target tracking scaling policy. Includes support for predefined or customized metrics. Conditional: This parameter is required if the policy type is TargetTrackingScaling and not supported otherwise.
         public let targetTrackingConfiguration: TargetTrackingConfiguration?
-        
+
         public init(adjustmentType: String? = nil, autoScalingGroupName: String, cooldown: Int32? = nil, estimatedInstanceWarmup: Int32? = nil, metricAggregationType: String? = nil, minAdjustmentMagnitude: Int32? = nil, minAdjustmentStep: Int32? = nil, policyName: String, policyType: String? = nil, scalingAdjustment: Int32? = nil, stepAdjustments: [StepAdjustment]? = nil, targetTrackingConfiguration: TargetTrackingConfiguration? = nil) {
             self.adjustmentType = adjustmentType
             self.autoScalingGroupName = autoScalingGroupName
@@ -2740,7 +2733,7 @@ extension AutoScaling {
         public let startTime: TimeStamp?
         /// This parameter is deprecated.
         public let time: TimeStamp?
-        
+
         public init(autoScalingGroupName: String, desiredCapacity: Int32? = nil, endTime: TimeStamp? = nil, maxSize: Int32? = nil, minSize: Int32? = nil, recurrence: String? = nil, scheduledActionName: String, startTime: TimeStamp? = nil, time: TimeStamp? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.desiredCapacity = desiredCapacity
@@ -2767,12 +2760,11 @@ extension AutoScaling {
     }
 
     public struct RecordLifecycleActionHeartbeatAnswer: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct RecordLifecycleActionHeartbeatType: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2789,7 +2781,7 @@ extension AutoScaling {
         public let lifecycleActionToken: String?
         /// The name of the lifecycle hook.
         public let lifecycleHookName: String
-        
+
         public init(autoScalingGroupName: String, instanceId: String? = nil, lifecycleActionToken: String? = nil, lifecycleHookName: String) {
             self.autoScalingGroupName = autoScalingGroupName
             self.instanceId = instanceId
@@ -2866,7 +2858,7 @@ extension AutoScaling {
         public let stepAdjustments: [StepAdjustment]?
         /// A target tracking scaling policy.
         public let targetTrackingConfiguration: TargetTrackingConfiguration?
-        
+
         public init(adjustmentType: String? = nil, alarms: [Alarm]? = nil, autoScalingGroupName: String? = nil, cooldown: Int32? = nil, estimatedInstanceWarmup: Int32? = nil, metricAggregationType: String? = nil, minAdjustmentMagnitude: Int32? = nil, minAdjustmentStep: Int32? = nil, policyARN: String? = nil, policyName: String? = nil, policyType: String? = nil, scalingAdjustment: Int32? = nil, stepAdjustments: [StepAdjustment]? = nil, targetTrackingConfiguration: TargetTrackingConfiguration? = nil) {
             self.adjustmentType = adjustmentType
             self.alarms = alarms
@@ -2911,7 +2903,7 @@ extension AutoScaling {
         public let autoScalingGroupName: String
         /// One or more of the following processes. If you omit this parameter, all processes are specified.    Launch     Terminate     HealthCheck     ReplaceUnhealthy     AZRebalance     AlarmNotification     ScheduledActions     AddToLoadBalancer   
         public let scalingProcesses: [String]?
-        
+
         public init(autoScalingGroupName: String, scalingProcesses: [String]? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.scalingProcesses = scalingProcesses
@@ -2932,7 +2924,7 @@ extension AutoScaling {
         public let nextToken: String?
         /// The scheduled actions.
         public let scheduledUpdateGroupActions: [ScheduledUpdateGroupAction]?
-        
+
         public init(nextToken: String? = nil, scheduledUpdateGroupActions: [ScheduledUpdateGroupAction]? = nil) {
             self.nextToken = nextToken
             self.scheduledUpdateGroupActions = scheduledUpdateGroupActions
@@ -2977,7 +2969,7 @@ extension AutoScaling {
         public let startTime: TimeStamp?
         /// This parameter is deprecated.
         public let time: TimeStamp?
-        
+
         public init(autoScalingGroupName: String? = nil, desiredCapacity: Int32? = nil, endTime: TimeStamp? = nil, maxSize: Int32? = nil, minSize: Int32? = nil, recurrence: String? = nil, scheduledActionARN: String? = nil, scheduledActionName: String? = nil, startTime: TimeStamp? = nil, time: TimeStamp? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.desiredCapacity = desiredCapacity
@@ -3029,7 +3021,7 @@ extension AutoScaling {
         public let scheduledActionName: String
         /// The time for the action to start, in YYYY-MM-DDThh:mm:ssZ format in UTC/GMT only and in quotes (for example, "2019-06-01T00:00:00Z"). If you specify Recurrence and StartTime, Amazon EC2 Auto Scaling performs the action at this time, and then performs the action based on the specified recurrence. If you try to schedule the action in the past, Amazon EC2 Auto Scaling returns an error message.
         public let startTime: TimeStamp?
-        
+
         public init(desiredCapacity: Int32? = nil, endTime: TimeStamp? = nil, maxSize: Int32? = nil, minSize: Int32? = nil, recurrence: String? = nil, scheduledActionName: String, startTime: TimeStamp? = nil) {
             self.desiredCapacity = desiredCapacity
             self.endTime = endTime
@@ -3063,7 +3055,7 @@ extension AutoScaling {
         public let desiredCapacity: Int32
         /// Indicates whether Amazon EC2 Auto Scaling waits for the cooldown period to complete before initiating a scaling activity to set your Auto Scaling group to its new capacity. By default, Amazon EC2 Auto Scaling does not honor the cooldown period during manual scaling activities.
         public let honorCooldown: Bool?
-        
+
         public init(autoScalingGroupName: String, desiredCapacity: Int32, honorCooldown: Bool? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.desiredCapacity = desiredCapacity
@@ -3089,7 +3081,7 @@ extension AutoScaling {
         public let instanceId: String
         /// If the Auto Scaling group of the specified instance has a HealthCheckGracePeriod specified for the group, by default, this call respects the grace period. Set this to False, to have the call not respect the grace period associated with the group. For more information about the health check grace period, see CreateAutoScalingGroup.
         public let shouldRespectGracePeriod: Bool?
-        
+
         public init(healthStatus: String, instanceId: String, shouldRespectGracePeriod: Bool? = nil) {
             self.healthStatus = healthStatus
             self.instanceId = instanceId
@@ -3104,12 +3096,11 @@ extension AutoScaling {
     }
 
     public struct SetInstanceProtectionAnswer: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct SetInstanceProtectionQuery: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -3123,7 +3114,7 @@ extension AutoScaling {
         public let instanceIds: [String]
         /// Indicates whether the instance is protected from termination by Amazon EC2 Auto Scaling when scaling in.
         public let protectedFromScaleIn: Bool
-        
+
         public init(autoScalingGroupName: String, instanceIds: [String], protectedFromScaleIn: Bool) {
             self.autoScalingGroupName = autoScalingGroupName
             self.instanceIds = instanceIds
@@ -3149,7 +3140,7 @@ extension AutoScaling {
         public let metricIntervalUpperBound: Double?
         /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current capacity while a negative number removes from the current capacity.
         public let scalingAdjustment: Int32
-        
+
         public init(metricIntervalLowerBound: Double? = nil, metricIntervalUpperBound: Double? = nil, scalingAdjustment: Int32) {
             self.metricIntervalLowerBound = metricIntervalLowerBound
             self.metricIntervalUpperBound = metricIntervalUpperBound
@@ -3172,7 +3163,7 @@ extension AutoScaling {
         public let processName: String?
         /// The reason that the process was suspended.
         public let suspensionReason: String?
-        
+
         public init(processName: String? = nil, suspensionReason: String? = nil) {
             self.processName = processName
             self.suspensionReason = suspensionReason
@@ -3202,7 +3193,7 @@ extension AutoScaling {
         public let resourceType: String?
         /// The tag value.
         public let value: String?
-        
+
         public init(key: String, propagateAtLaunch: Bool? = nil, resourceId: String? = nil, resourceType: String? = nil, value: String? = nil) {
             self.key = key
             self.propagateAtLaunch = propagateAtLaunch
@@ -3238,7 +3229,7 @@ extension AutoScaling {
         public let resourceType: String?
         /// The tag value.
         public let value: String?
-        
+
         public init(key: String? = nil, propagateAtLaunch: Bool? = nil, resourceId: String? = nil, resourceType: String? = nil, value: String? = nil) {
             self.key = key
             self.propagateAtLaunch = propagateAtLaunch
@@ -3265,7 +3256,7 @@ extension AutoScaling {
         public let nextToken: String?
         /// One or more tags.
         public let tags: [TagDescription]?
-        
+
         public init(nextToken: String? = nil, tags: [TagDescription]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -3292,7 +3283,7 @@ extension AutoScaling {
         public let predefinedMetricSpecification: PredefinedMetricSpecification?
         /// The target value for the metric.
         public let targetValue: Double
-        
+
         public init(customizedMetricSpecification: CustomizedMetricSpecification? = nil, disableScaleIn: Bool? = nil, predefinedMetricSpecification: PredefinedMetricSpecification? = nil, targetValue: Double) {
             self.customizedMetricSpecification = customizedMetricSpecification
             self.disableScaleIn = disableScaleIn
@@ -3317,7 +3308,7 @@ extension AutoScaling {
         public let instanceId: String
         /// Indicates whether terminating the instance also decrements the size of the Auto Scaling group.
         public let shouldDecrementDesiredCapacity: Bool
-        
+
         public init(instanceId: String, shouldDecrementDesiredCapacity: Bool) {
             self.instanceId = instanceId
             self.shouldDecrementDesiredCapacity = shouldDecrementDesiredCapacity
@@ -3380,7 +3371,7 @@ extension AutoScaling {
         public let terminationPolicies: [String]?
         /// A comma-separated list of subnet IDs, if you are launching into a VPC. If you specify VPCZoneIdentifier with AvailabilityZones, the subnets that you specify for this parameter must reside in those Availability Zones.
         public let vPCZoneIdentifier: String?
-        
+
         public init(autoScalingGroupName: String, availabilityZones: [String]? = nil, defaultCooldown: Int32? = nil, desiredCapacity: Int32? = nil, healthCheckGracePeriod: Int32? = nil, healthCheckType: String? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxSize: Int32? = nil, minSize: Int32? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, terminationPolicies: [String]? = nil, vPCZoneIdentifier: String? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZones = availabilityZones
@@ -3419,5 +3410,4 @@ extension AutoScaling {
             case vPCZoneIdentifier = "VPCZoneIdentifier"
         }
     }
-
 }

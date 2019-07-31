@@ -360,5 +360,4 @@ public struct DeviceFarm {
     public func updateVPCEConfiguration(_ input: UpdateVPCEConfigurationRequest) throws -> Future<UpdateVPCEConfigurationResult> {
         return try client.send(operation: "UpdateVPCEConfiguration", path: "/", httpMethod: "POST", input: input)
     }
-
 }

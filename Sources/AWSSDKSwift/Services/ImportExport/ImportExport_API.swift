@@ -56,5 +56,4 @@ public struct ImportExport {
     public func updateJob(_ input: UpdateJobInput) throws -> Future<UpdateJobOutput> {
         return try client.send(operation: "UpdateJob", path: "/?Operation=UpdateJob", httpMethod: "POST", input: input)
     }
-
 }

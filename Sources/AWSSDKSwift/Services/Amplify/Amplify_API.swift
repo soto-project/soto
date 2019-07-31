@@ -174,5 +174,4 @@ public struct Amplify {
     public func updateWebhook(_ input: UpdateWebhookRequest) throws -> Future<UpdateWebhookResult> {
         return try client.send(operation: "UpdateWebhook", path: "/webhooks/{webhookId}", httpMethod: "POST", input: input)
     }
-
 }

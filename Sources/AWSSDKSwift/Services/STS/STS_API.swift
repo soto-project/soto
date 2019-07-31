@@ -61,5 +61,4 @@ public struct STS {
     public func getSessionToken(_ input: GetSessionTokenRequest) throws -> Future<GetSessionTokenResponse> {
         return try client.send(operation: "GetSessionToken", path: "/", httpMethod: "POST", input: input)
     }
-
 }

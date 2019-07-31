@@ -579,5 +579,4 @@ public struct RDS {
     public func stopDBInstance(_ input: StopDBInstanceMessage) throws -> Future<StopDBInstanceResult> {
         return try client.send(operation: "StopDBInstance", path: "/", httpMethod: "POST", input: input)
     }
-
 }

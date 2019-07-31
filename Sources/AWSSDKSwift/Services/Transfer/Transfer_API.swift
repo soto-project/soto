@@ -115,5 +115,4 @@ public struct Transfer {
     public func updateUser(_ input: UpdateUserRequest) throws -> Future<UpdateUserResponse> {
         return try client.send(operation: "UpdateUser", path: "/", httpMethod: "POST", input: input)
     }
-
 }

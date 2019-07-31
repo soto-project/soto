@@ -14,7 +14,7 @@ extension DocDB {
         public let resourceName: String
         /// The tags to be assigned to the Amazon DocumentDB resource. 
         public let tags: [Tag]
-        
+
         public init(resourceName: String, tags: [Tag]) {
             self.resourceName = resourceName
             self.tags = tags
@@ -44,7 +44,7 @@ extension DocDB {
         public let optInType: String
         /// The Amazon Resource Name (ARN) of the resource that the pending maintenance action applies to.
         public let resourceIdentifier: String
-        
+
         public init(applyAction: String, optInType: String, resourceIdentifier: String) {
             self.applyAction = applyAction
             self.optInType = optInType
@@ -63,7 +63,7 @@ extension DocDB {
             AWSShapeMember(label: "ResourcePendingMaintenanceActions", required: false, type: .structure)
         ]
         public let resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions?
-        
+
         public init(resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions? = nil) {
             self.resourcePendingMaintenanceActions = resourcePendingMaintenanceActions
         }
@@ -79,7 +79,7 @@ extension DocDB {
         ]
         /// The name of the Availability Zone.
         public let name: String?
-        
+
         public init(name: String? = nil) {
             self.name = name
         }
@@ -98,7 +98,7 @@ extension DocDB {
         public let disableLogTypes: [String]?
         /// The list of log types to enable.
         public let enableLogTypes: [String]?
-        
+
         public init(disableLogTypes: [String]? = nil, enableLogTypes: [String]? = nil) {
             self.disableLogTypes = disableLogTypes
             self.enableLogTypes = enableLogTypes
@@ -125,7 +125,7 @@ extension DocDB {
         public let targetDBClusterParameterGroupDescription: String
         /// The identifier for the copied DB cluster parameter group. Constraints:   Cannot be null, empty, or blank.   Must contain from 1 to 255 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster-param-group1 
         public let targetDBClusterParameterGroupIdentifier: String
-        
+
         public init(sourceDBClusterParameterGroupIdentifier: String, tags: [Tag]? = nil, targetDBClusterParameterGroupDescription: String, targetDBClusterParameterGroupIdentifier: String) {
             self.sourceDBClusterParameterGroupIdentifier = sourceDBClusterParameterGroupIdentifier
             self.tags = tags
@@ -146,7 +146,7 @@ extension DocDB {
             AWSShapeMember(label: "DBClusterParameterGroup", required: false, type: .structure)
         ]
         public let dBClusterParameterGroup: DBClusterParameterGroup?
-        
+
         public init(dBClusterParameterGroup: DBClusterParameterGroup? = nil) {
             self.dBClusterParameterGroup = dBClusterParameterGroup
         }
@@ -177,7 +177,7 @@ extension DocDB {
         public let tags: [Tag]?
         /// The identifier of the new DB cluster snapshot to create from the source DB cluster snapshot. This parameter is not case sensitive. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster-snapshot2 
         public let targetDBClusterSnapshotIdentifier: String
-        
+
         public init(copyTags: Bool? = nil, kmsKeyId: String? = nil, preSignedUrl: String? = nil, sourceDBClusterSnapshotIdentifier: String, tags: [Tag]? = nil, targetDBClusterSnapshotIdentifier: String) {
             self.copyTags = copyTags
             self.kmsKeyId = kmsKeyId
@@ -202,7 +202,7 @@ extension DocDB {
             AWSShapeMember(label: "DBClusterSnapshot", required: false, type: .structure)
         ]
         public let dBClusterSnapshot: DBClusterSnapshot?
-        
+
         public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
             self.dBClusterSnapshot = dBClusterSnapshot
         }
@@ -269,7 +269,7 @@ extension DocDB {
         public let tags: [Tag]?
         /// A list of EC2 VPC security groups to associate with this DB cluster.
         public let vpcSecurityGroupIds: [String]?
-        
+
         public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int32? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, masterUsername: String, masterUserPassword: String, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, storageEncrypted: Bool? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -328,7 +328,7 @@ extension DocDB {
         public let description: String
         /// The tags to be assigned to the DB cluster parameter group.
         public let tags: [Tag]?
-        
+
         public init(dBClusterParameterGroupName: String, dBParameterGroupFamily: String, description: String, tags: [Tag]? = nil) {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
             self.dBParameterGroupFamily = dBParameterGroupFamily
@@ -349,7 +349,7 @@ extension DocDB {
             AWSShapeMember(label: "DBClusterParameterGroup", required: false, type: .structure)
         ]
         public let dBClusterParameterGroup: DBClusterParameterGroup?
-        
+
         public init(dBClusterParameterGroup: DBClusterParameterGroup? = nil) {
             self.dBClusterParameterGroup = dBClusterParameterGroup
         }
@@ -364,7 +364,7 @@ extension DocDB {
             AWSShapeMember(label: "DBCluster", required: false, type: .structure)
         ]
         public let dBCluster: DBCluster?
-        
+
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
@@ -386,7 +386,7 @@ extension DocDB {
         public let dBClusterSnapshotIdentifier: String
         /// The tags to be assigned to the DB cluster snapshot.
         public let tags: [Tag]?
-        
+
         public init(dBClusterIdentifier: String, dBClusterSnapshotIdentifier: String, tags: [Tag]? = nil) {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
@@ -405,7 +405,7 @@ extension DocDB {
             AWSShapeMember(label: "DBClusterSnapshot", required: false, type: .structure)
         ]
         public let dBClusterSnapshot: DBClusterSnapshot?
-        
+
         public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
             self.dBClusterSnapshot = dBClusterSnapshot
         }
@@ -445,7 +445,7 @@ extension DocDB {
         public let promotionTier: Int32?
         /// The tags to be assigned to the DB instance.
         public let tags: [Tag]?
-        
+
         public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dBClusterIdentifier: String, dBInstanceClass: String, dBInstanceIdentifier: String, engine: String, preferredMaintenanceWindow: String? = nil, promotionTier: Int32? = nil, tags: [Tag]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -476,7 +476,7 @@ extension DocDB {
             AWSShapeMember(label: "DBInstance", required: false, type: .structure)
         ]
         public let dBInstance: DBInstance?
-        
+
         public init(dBInstance: DBInstance? = nil) {
             self.dBInstance = dBInstance
         }
@@ -501,7 +501,7 @@ extension DocDB {
         public let subnetIds: [String]
         /// The tags to be assigned to the DB subnet group.
         public let tags: [Tag]?
-        
+
         public init(dBSubnetGroupDescription: String, dBSubnetGroupName: String, subnetIds: [String], tags: [Tag]? = nil) {
             self.dBSubnetGroupDescription = dBSubnetGroupDescription
             self.dBSubnetGroupName = dBSubnetGroupName
@@ -522,7 +522,7 @@ extension DocDB {
             AWSShapeMember(label: "DBSubnetGroup", required: false, type: .structure)
         ]
         public let dBSubnetGroup: DBSubnetGroup?
-        
+
         public init(dBSubnetGroup: DBSubnetGroup? = nil) {
             self.dBSubnetGroup = dBSubnetGroup
         }
@@ -622,7 +622,7 @@ extension DocDB {
         public let storageEncrypted: Bool?
         /// Provides a list of virtual private cloud (VPC) security groups that the DB cluster belongs to.
         public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
-        
+
         public init(associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int32? = nil, clusterCreateTime: TimeStamp? = nil, dBClusterArn: String? = nil, dBClusterIdentifier: String? = nil, dBClusterMembers: [DBClusterMember]? = nil, dBClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dBSubnetGroup: String? = nil, deletionProtection: Bool? = nil, earliestRestorableTime: TimeStamp? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.associatedRoles = associatedRoles
             self.availabilityZones = availabilityZones
@@ -703,7 +703,7 @@ extension DocDB {
         public let isClusterWriter: Bool?
         /// A value that specifies the order in which an Amazon DocumentDB replica is promoted to the primary instance after a failure of the existing primary instance. 
         public let promotionTier: Int32?
-        
+
         public init(dBClusterParameterGroupStatus: String? = nil, dBInstanceIdentifier: String? = nil, isClusterWriter: Bool? = nil, promotionTier: Int32? = nil) {
             self.dBClusterParameterGroupStatus = dBClusterParameterGroupStatus
             self.dBInstanceIdentifier = dBInstanceIdentifier
@@ -728,7 +728,7 @@ extension DocDB {
         public let dBClusters: [DBCluster]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
-        
+
         public init(dBClusters: [DBCluster]? = nil, marker: String? = nil) {
             self.dBClusters = dBClusters
             self.marker = marker
@@ -755,7 +755,7 @@ extension DocDB {
         public let dBParameterGroupFamily: String?
         /// Provides the customer-specified description for this DB cluster parameter group.
         public let description: String?
-        
+
         public init(dBClusterParameterGroupArn: String? = nil, dBClusterParameterGroupName: String? = nil, dBParameterGroupFamily: String? = nil, description: String? = nil) {
             self.dBClusterParameterGroupArn = dBClusterParameterGroupArn
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
@@ -780,7 +780,7 @@ extension DocDB {
         public let marker: String?
         /// Provides a list of parameters for the DB cluster parameter group.
         public let parameters: [Parameter]?
-        
+
         public init(marker: String? = nil, parameters: [Parameter]? = nil) {
             self.marker = marker
             self.parameters = parameters
@@ -798,7 +798,7 @@ extension DocDB {
         ]
         /// The name of a DB cluster parameter group. Constraints:   Must be from 1 to 255 letters or numbers.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.    This value is stored as a lowercase string. 
         public let dBClusterParameterGroupName: String?
-        
+
         public init(dBClusterParameterGroupName: String? = nil) {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
         }
@@ -817,7 +817,7 @@ extension DocDB {
         public let dBClusterParameterGroups: [DBClusterParameterGroup]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
-        
+
         public init(dBClusterParameterGroups: [DBClusterParameterGroup]? = nil, marker: String? = nil) {
             self.dBClusterParameterGroups = dBClusterParameterGroups
             self.marker = marker
@@ -838,7 +838,7 @@ extension DocDB {
         public let roleArn: String?
         /// Describes the state of association between the IAM role and the DB cluster. The Status property returns one of the following values:    ACTIVE - The IAM role ARN is associated with the DB cluster and can be used to access other AWS services on your behalf.    PENDING - The IAM role ARN is being associated with the DB cluster.    INVALID - The IAM role ARN is associated with the DB cluster, but the DB cluster cannot assume the IAM role to access other AWS services on your behalf.  
         public let status: String?
-        
+
         public init(roleArn: String? = nil, status: String? = nil) {
             self.roleArn = roleArn
             self.status = status
@@ -904,7 +904,7 @@ extension DocDB {
         public let storageEncrypted: Bool?
         /// Provides the virtual private cloud (VPC) ID that is associated with the DB cluster snapshot.
         public let vpcId: String?
-        
+
         public init(availabilityZones: [String]? = nil, clusterCreateTime: TimeStamp? = nil, dBClusterIdentifier: String? = nil, dBClusterSnapshotArn: String? = nil, dBClusterSnapshotIdentifier: String? = nil, engine: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, percentProgress: Int32? = nil, port: Int32? = nil, snapshotCreateTime: TimeStamp? = nil, snapshotType: String? = nil, sourceDBClusterSnapshotArn: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.clusterCreateTime = clusterCreateTime
@@ -955,7 +955,7 @@ extension DocDB {
         public let attributeName: String?
         /// The values for the manual DB cluster snapshot attribute. If the AttributeName field is set to restore, then this element returns a list of IDs of the AWS accounts that are authorized to copy or restore the manual DB cluster snapshot. If a value of all is in the list, then the manual DB cluster snapshot is public and available for any AWS account to copy or restore.
         public let attributeValues: [String]?
-        
+
         public init(attributeName: String? = nil, attributeValues: [String]? = nil) {
             self.attributeName = attributeName
             self.attributeValues = attributeValues
@@ -976,7 +976,7 @@ extension DocDB {
         public let dBClusterSnapshotAttributes: [DBClusterSnapshotAttribute]?
         /// The identifier of the DB cluster snapshot that the attributes apply to.
         public let dBClusterSnapshotIdentifier: String?
-        
+
         public init(dBClusterSnapshotAttributes: [DBClusterSnapshotAttribute]? = nil, dBClusterSnapshotIdentifier: String? = nil) {
             self.dBClusterSnapshotAttributes = dBClusterSnapshotAttributes
             self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
@@ -997,7 +997,7 @@ extension DocDB {
         public let dBClusterSnapshots: [DBClusterSnapshot]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
-        
+
         public init(dBClusterSnapshots: [DBClusterSnapshot]? = nil, marker: String? = nil) {
             self.dBClusterSnapshots = dBClusterSnapshots
             self.marker = marker
@@ -1036,7 +1036,7 @@ extension DocDB {
         public let supportsLogExportsToCloudwatchLogs: Bool?
         /// A list of engine versions that this database engine version can be upgraded to.
         public let validUpgradeTarget: [UpgradeTarget]?
-        
+
         public init(dBEngineDescription: String? = nil, dBEngineVersionDescription: String? = nil, dBParameterGroupFamily: String? = nil, engine: String? = nil, engineVersion: String? = nil, exportableLogTypes: [String]? = nil, supportsLogExportsToCloudwatchLogs: Bool? = nil, validUpgradeTarget: [UpgradeTarget]? = nil) {
             self.dBEngineDescription = dBEngineDescription
             self.dBEngineVersionDescription = dBEngineVersionDescription
@@ -1069,7 +1069,7 @@ extension DocDB {
         public let dBEngineVersions: [DBEngineVersion]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
-        
+
         public init(dBEngineVersions: [DBEngineVersion]? = nil, marker: String? = nil) {
             self.dBEngineVersions = dBEngineVersions
             self.marker = marker
@@ -1159,7 +1159,7 @@ extension DocDB {
         public let storageEncrypted: Bool?
         /// Provides a list of VPC security group elements that the DB instance belongs to.
         public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
-        
+
         public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int32? = nil, dBClusterIdentifier: String? = nil, dBInstanceArn: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dBInstanceStatus: String? = nil, dbiResourceId: String? = nil, dBSubnetGroup: DBSubnetGroup? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, instanceCreateTime: TimeStamp? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int32? = nil, publiclyAccessible: Bool? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -1226,7 +1226,7 @@ extension DocDB {
         public let dBInstances: [DBInstance]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
-        
+
         public init(dBInstances: [DBInstance]? = nil, marker: String? = nil) {
             self.dBInstances = dBInstances
             self.marker = marker
@@ -1253,7 +1253,7 @@ extension DocDB {
         public let status: String?
         /// This value is currently "read replication."
         public let statusType: String?
-        
+
         public init(message: String? = nil, normal: Bool? = nil, status: String? = nil, statusType: String? = nil) {
             self.message = message
             self.normal = normal
@@ -1290,7 +1290,7 @@ extension DocDB {
         public let subnets: [Subnet]?
         /// Provides the virtual private cloud (VPC) ID of the DB subnet group.
         public let vpcId: String?
-        
+
         public init(dBSubnetGroupArn: String? = nil, dBSubnetGroupDescription: String? = nil, dBSubnetGroupName: String? = nil, subnetGroupStatus: String? = nil, subnets: [Subnet]? = nil, vpcId: String? = nil) {
             self.dBSubnetGroupArn = dBSubnetGroupArn
             self.dBSubnetGroupDescription = dBSubnetGroupDescription
@@ -1319,7 +1319,7 @@ extension DocDB {
         public let dBSubnetGroups: [DBSubnetGroup]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
-        
+
         public init(dBSubnetGroups: [DBSubnetGroup]? = nil, marker: String? = nil) {
             self.dBSubnetGroups = dBSubnetGroups
             self.marker = marker
@@ -1343,7 +1343,7 @@ extension DocDB {
         public let finalDBSnapshotIdentifier: String?
         ///  Determines whether a final DB cluster snapshot is created before the DB cluster is deleted. If true is specified, no DB cluster snapshot is created. If false is specified, a DB cluster snapshot is created before the DB cluster is deleted.   If SkipFinalSnapshot is false, you must specify a FinalDBSnapshotIdentifier parameter.  Default: false 
         public let skipFinalSnapshot: Bool?
-        
+
         public init(dBClusterIdentifier: String, finalDBSnapshotIdentifier: String? = nil, skipFinalSnapshot: Bool? = nil) {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.finalDBSnapshotIdentifier = finalDBSnapshotIdentifier
@@ -1363,7 +1363,7 @@ extension DocDB {
         ]
         /// The name of the DB cluster parameter group. Constraints:   Must be the name of an existing DB cluster parameter group.   You can't delete a default DB cluster parameter group.   Cannot be associated with any DB clusters.  
         public let dBClusterParameterGroupName: String
-        
+
         public init(dBClusterParameterGroupName: String) {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
         }
@@ -1378,7 +1378,7 @@ extension DocDB {
             AWSShapeMember(label: "DBCluster", required: false, type: .structure)
         ]
         public let dBCluster: DBCluster?
-        
+
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
@@ -1394,7 +1394,7 @@ extension DocDB {
         ]
         /// The identifier of the DB cluster snapshot to delete. Constraints: Must be the name of an existing DB cluster snapshot in the available state.
         public let dBClusterSnapshotIdentifier: String
-        
+
         public init(dBClusterSnapshotIdentifier: String) {
             self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
         }
@@ -1409,7 +1409,7 @@ extension DocDB {
             AWSShapeMember(label: "DBClusterSnapshot", required: false, type: .structure)
         ]
         public let dBClusterSnapshot: DBClusterSnapshot?
-        
+
         public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
             self.dBClusterSnapshot = dBClusterSnapshot
         }
@@ -1425,7 +1425,7 @@ extension DocDB {
         ]
         /// The DB instance identifier for the DB instance to be deleted. This parameter isn't case sensitive. Constraints:   Must match the name of an existing DB instance.  
         public let dBInstanceIdentifier: String
-        
+
         public init(dBInstanceIdentifier: String) {
             self.dBInstanceIdentifier = dBInstanceIdentifier
         }
@@ -1440,7 +1440,7 @@ extension DocDB {
             AWSShapeMember(label: "DBInstance", required: false, type: .structure)
         ]
         public let dBInstance: DBInstance?
-        
+
         public init(dBInstance: DBInstance? = nil) {
             self.dBInstance = dBInstance
         }
@@ -1456,7 +1456,7 @@ extension DocDB {
         ]
         /// The name of the database subnet group to delete.  You can't delete the default subnet group.  Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup 
         public let dBSubnetGroupName: String
-        
+
         public init(dBSubnetGroupName: String) {
             self.dBSubnetGroupName = dBSubnetGroupName
         }
@@ -1481,7 +1481,7 @@ extension DocDB {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(dBClusterParameterGroupName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
             self.filters = filters
@@ -1515,7 +1515,7 @@ extension DocDB {
         public let maxRecords: Int32?
         ///  A value that indicates to return only parameters for a specific source. Parameter sources can be engine, service, or customer. 
         public let source: String?
-        
+
         public init(dBClusterParameterGroupName: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, source: String? = nil) {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
             self.filters = filters
@@ -1539,7 +1539,7 @@ extension DocDB {
         ]
         /// The identifier for the DB cluster snapshot to describe the attributes for.
         public let dBClusterSnapshotIdentifier: String
-        
+
         public init(dBClusterSnapshotIdentifier: String) {
             self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
         }
@@ -1554,7 +1554,7 @@ extension DocDB {
             AWSShapeMember(label: "DBClusterSnapshotAttributesResult", required: false, type: .structure)
         ]
         public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
-        
+
         public init(dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil) {
             self.dBClusterSnapshotAttributesResult = dBClusterSnapshotAttributesResult
         }
@@ -1591,7 +1591,7 @@ extension DocDB {
         public let maxRecords: Int32?
         /// The type of DB cluster snapshots to be returned. You can specify one of the following values:    automated - Return all DB cluster snapshots that Amazon DocumentDB has automatically created for your AWS account.    manual - Return all DB cluster snapshots that you have manually created for your AWS account.    shared - Return all manual DB cluster snapshots that have been shared to your AWS account.    public - Return all DB cluster snapshots that have been marked as public.   If you don't specify a SnapshotType value, then both automated and manual DB cluster snapshots are returned. You can include shared DB cluster snapshots with these results by setting the IncludeShared parameter to true. You can include public DB cluster snapshots with these results by setting the IncludePublic parameter to true. The IncludeShared and IncludePublic parameters don't apply for SnapshotType values of manual or automated. The IncludePublic parameter doesn't apply when SnapshotType is set to shared. The IncludeShared parameter doesn't apply when SnapshotType is set to public.
         public let snapshotType: String?
-        
+
         public init(dBClusterIdentifier: String? = nil, dBClusterSnapshotIdentifier: String? = nil, filters: [Filter]? = nil, includePublic: Bool? = nil, includeShared: Bool? = nil, marker: String? = nil, maxRecords: Int32? = nil, snapshotType: String? = nil) {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
@@ -1630,7 +1630,7 @@ extension DocDB {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(dBClusterIdentifier: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.filters = filters
@@ -1676,7 +1676,7 @@ extension DocDB {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(dBParameterGroupFamily: String? = nil, defaultOnly: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, filters: [Filter]? = nil, listSupportedCharacterSets: Bool? = nil, listSupportedTimezones: Bool? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.dBParameterGroupFamily = dBParameterGroupFamily
             self.defaultOnly = defaultOnly
@@ -1717,7 +1717,7 @@ extension DocDB {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(dBInstanceIdentifier: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.dBInstanceIdentifier = dBInstanceIdentifier
             self.filters = filters
@@ -1748,7 +1748,7 @@ extension DocDB {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(dBSubnetGroupName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.dBSubnetGroupName = dBSubnetGroupName
             self.filters = filters
@@ -1779,7 +1779,7 @@ extension DocDB {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(dBParameterGroupFamily: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.dBParameterGroupFamily = dBParameterGroupFamily
             self.filters = filters
@@ -1800,7 +1800,7 @@ extension DocDB {
             AWSShapeMember(label: "EngineDefaults", required: false, type: .structure)
         ]
         public let engineDefaults: EngineDefaults?
-        
+
         public init(engineDefaults: EngineDefaults? = nil) {
             self.engineDefaults = engineDefaults
         }
@@ -1819,7 +1819,7 @@ extension DocDB {
         public let filters: [Filter]?
         /// The type of source that is generating the events. Valid values: db-instance, db-parameter-group, db-security-group, db-snapshot 
         public let sourceType: String?
-        
+
         public init(filters: [Filter]? = nil, sourceType: String? = nil) {
             self.filters = filters
             self.sourceType = sourceType
@@ -1861,7 +1861,7 @@ extension DocDB {
         public let sourceType: SourceType?
         ///  The beginning of the time interval to retrieve events for, specified in ISO 8601 format.  Example: 2009-07-08T18:00Z
         public let startTime: TimeStamp?
-        
+
         public init(duration: Int32? = nil, endTime: TimeStamp? = nil, eventCategories: [String]? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil, startTime: TimeStamp? = nil) {
             self.duration = duration
             self.endTime = endTime
@@ -1914,7 +1914,7 @@ extension DocDB {
         public let maxRecords: Int32?
         /// The virtual private cloud (VPC) filter value. Specify this parameter to show only the available VPC or non-VPC offerings.
         public let vpc: Bool?
-        
+
         public init(dBInstanceClass: String? = nil, engine: String, engineVersion: String? = nil, filters: [Filter]? = nil, licenseModel: String? = nil, marker: String? = nil, maxRecords: Int32? = nil, vpc: Bool? = nil) {
             self.dBInstanceClass = dBInstanceClass
             self.engine = engine
@@ -1953,7 +1953,7 @@ extension DocDB {
         public let maxRecords: Int32?
         /// The ARN of a resource to return pending maintenance actions for.
         public let resourceIdentifier: String?
-        
+
         public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, resourceIdentifier: String? = nil) {
             self.filters = filters
             self.marker = marker
@@ -1981,7 +1981,7 @@ extension DocDB {
         public let hostedZoneId: String?
         /// Specifies the port that the database engine is listening on.
         public let port: Int32?
-        
+
         public init(address: String? = nil, hostedZoneId: String? = nil, port: Int32? = nil) {
             self.address = address
             self.hostedZoneId = hostedZoneId
@@ -2007,7 +2007,7 @@ extension DocDB {
         public let marker: String?
         /// The parameters of a particular DB cluster parameter group family.
         public let parameters: [Parameter]?
-        
+
         public init(dBParameterGroupFamily: String? = nil, marker: String? = nil, parameters: [Parameter]? = nil) {
             self.dBParameterGroupFamily = dBParameterGroupFamily
             self.marker = marker
@@ -2042,7 +2042,7 @@ extension DocDB {
         public let sourceIdentifier: String?
         /// Specifies the source type for this event.
         public let sourceType: SourceType?
-        
+
         public init(date: TimeStamp? = nil, eventCategories: [String]? = nil, message: String? = nil, sourceArn: String? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil) {
             self.date = date
             self.eventCategories = eventCategories
@@ -2071,7 +2071,7 @@ extension DocDB {
         public let eventCategories: [String]?
         /// The source type that the returned categories belong to.
         public let sourceType: String?
-        
+
         public init(eventCategories: [String]? = nil, sourceType: String? = nil) {
             self.eventCategories = eventCategories
             self.sourceType = sourceType
@@ -2089,7 +2089,7 @@ extension DocDB {
         ]
         /// A list of event category maps.
         public let eventCategoriesMapList: [EventCategoriesMap]?
-        
+
         public init(eventCategoriesMapList: [EventCategoriesMap]? = nil) {
             self.eventCategoriesMapList = eventCategoriesMapList
         }
@@ -2108,7 +2108,7 @@ extension DocDB {
         public let events: [Event]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
-        
+
         public init(events: [Event]? = nil, marker: String? = nil) {
             self.events = events
             self.marker = marker
@@ -2129,7 +2129,7 @@ extension DocDB {
         public let dBClusterIdentifier: String?
         /// The name of the instance to promote to the primary instance. You must specify the instance identifier for an Amazon DocumentDB replica in the DB cluster. For example, mydbcluster-replica1.
         public let targetDBInstanceIdentifier: String?
-        
+
         public init(dBClusterIdentifier: String? = nil, targetDBInstanceIdentifier: String? = nil) {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.targetDBInstanceIdentifier = targetDBInstanceIdentifier
@@ -2146,7 +2146,7 @@ extension DocDB {
             AWSShapeMember(label: "DBCluster", required: false, type: .structure)
         ]
         public let dBCluster: DBCluster?
-        
+
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
@@ -2165,7 +2165,7 @@ extension DocDB {
         public let name: String
         /// One or more filter values. Filter values are case sensitive.
         public let values: [String]
-        
+
         public init(name: String, values: [String]) {
             self.name = name
             self.values = values
@@ -2186,7 +2186,7 @@ extension DocDB {
         public let filters: [Filter]?
         /// The Amazon DocumentDB resource with tags to be listed. This value is an Amazon Resource Name (ARN).
         public let resourceName: String
-        
+
         public init(filters: [Filter]? = nil, resourceName: String) {
             self.filters = filters
             self.resourceName = resourceName
@@ -2240,7 +2240,7 @@ extension DocDB {
         public let preferredMaintenanceWindow: String?
         /// A list of virtual private cloud (VPC) security groups that the DB cluster will belong to.
         public let vpcSecurityGroupIds: [String]?
-        
+
         public init(applyImmediately: Bool? = nil, backupRetentionPeriod: Int32? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, deletionProtection: Bool? = nil, engineVersion: String? = nil, masterUserPassword: String? = nil, newDBClusterIdentifier: String? = nil, port: Int32? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.applyImmediately = applyImmediately
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -2283,7 +2283,7 @@ extension DocDB {
         public let dBClusterParameterGroupName: String
         /// A list of parameters in the DB cluster parameter group to modify.
         public let parameters: [Parameter]
-        
+
         public init(dBClusterParameterGroupName: String, parameters: [Parameter]) {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
             self.parameters = parameters
@@ -2300,7 +2300,7 @@ extension DocDB {
             AWSShapeMember(label: "DBCluster", required: false, type: .structure)
         ]
         public let dBCluster: DBCluster?
-        
+
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
@@ -2325,7 +2325,7 @@ extension DocDB {
         public let valuesToAdd: [String]?
         /// A list of DB cluster snapshot attributes to remove from the attribute specified by AttributeName. To remove authorization for other AWS accounts to copy or restore a manual DB cluster snapshot, set this list to include one or more AWS account identifiers. To remove authorization for any AWS account to copy or restore the DB cluster snapshot, set it to all . If you specify all, an AWS account whose account ID is explicitly added to the restore attribute can still copy or restore a manual DB cluster snapshot.
         public let valuesToRemove: [String]?
-        
+
         public init(attributeName: String, dBClusterSnapshotIdentifier: String, valuesToAdd: [String]? = nil, valuesToRemove: [String]? = nil) {
             self.attributeName = attributeName
             self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
@@ -2346,7 +2346,7 @@ extension DocDB {
             AWSShapeMember(label: "DBClusterSnapshotAttributesResult", required: false, type: .structure)
         ]
         public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
-        
+
         public init(dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil) {
             self.dBClusterSnapshotAttributesResult = dBClusterSnapshotAttributesResult
         }
@@ -2380,7 +2380,7 @@ extension DocDB {
         public let preferredMaintenanceWindow: String?
         /// A value that specifies the order in which an Amazon DocumentDB replica is promoted to the primary instance after a failure of the existing primary instance. Default: 1 Valid values: 0-15
         public let promotionTier: Int32?
-        
+
         public init(applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String, newDBInstanceIdentifier: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int32? = nil) {
             self.applyImmediately = applyImmediately
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -2407,7 +2407,7 @@ extension DocDB {
             AWSShapeMember(label: "DBInstance", required: false, type: .structure)
         ]
         public let dBInstance: DBInstance?
-        
+
         public init(dBInstance: DBInstance? = nil) {
             self.dBInstance = dBInstance
         }
@@ -2429,7 +2429,7 @@ extension DocDB {
         public let dBSubnetGroupName: String
         /// The Amazon EC2 subnet IDs for the DB subnet group.
         public let subnetIds: [String]
-        
+
         public init(dBSubnetGroupDescription: String? = nil, dBSubnetGroupName: String, subnetIds: [String]) {
             self.dBSubnetGroupDescription = dBSubnetGroupDescription
             self.dBSubnetGroupName = dBSubnetGroupName
@@ -2448,7 +2448,7 @@ extension DocDB {
             AWSShapeMember(label: "DBSubnetGroup", required: false, type: .structure)
         ]
         public let dBSubnetGroup: DBSubnetGroup?
-        
+
         public init(dBSubnetGroup: DBSubnetGroup? = nil) {
             self.dBSubnetGroup = dBSubnetGroup
         }
@@ -2479,7 +2479,7 @@ extension DocDB {
         public let licenseModel: String?
         /// Indicates whether a DB instance is in a virtual private cloud (VPC).
         public let vpc: Bool?
-        
+
         public init(availabilityZones: [AvailabilityZone]? = nil, dBInstanceClass: String? = nil, engine: String? = nil, engineVersion: String? = nil, licenseModel: String? = nil, vpc: Bool? = nil) {
             self.availabilityZones = availabilityZones
             self.dBInstanceClass = dBInstanceClass
@@ -2508,7 +2508,7 @@ extension DocDB {
         public let marker: String?
         /// The options that are available for a particular orderable DB instance.
         public let orderableDBInstanceOptions: [OrderableDBInstanceOption]?
-        
+
         public init(marker: String? = nil, orderableDBInstanceOptions: [OrderableDBInstanceOption]? = nil) {
             self.marker = marker
             self.orderableDBInstanceOptions = orderableDBInstanceOptions
@@ -2553,7 +2553,7 @@ extension DocDB {
         public let parameterValue: String?
         /// Indicates the source of the parameter value.
         public let source: String?
-        
+
         public init(allowedValues: String? = nil, applyMethod: ApplyMethod? = nil, applyType: String? = nil, dataType: String? = nil, description: String? = nil, isModifiable: Bool? = nil, minimumEngineVersion: String? = nil, parameterName: String? = nil, parameterValue: String? = nil, source: String? = nil) {
             self.allowedValues = allowedValues
             self.applyMethod = applyMethod
@@ -2590,7 +2590,7 @@ extension DocDB {
         public let logTypesToDisable: [String]?
         /// Log types that are in the process of being deactivated. After they are deactivated, these log types aren't exported to CloudWatch Logs.
         public let logTypesToEnable: [String]?
-        
+
         public init(logTypesToDisable: [String]? = nil, logTypesToEnable: [String]? = nil) {
             self.logTypesToDisable = logTypesToDisable
             self.logTypesToEnable = logTypesToEnable
@@ -2623,7 +2623,7 @@ extension DocDB {
         public let forcedApplyDate: TimeStamp?
         /// Indicates the type of opt-in request that has been received for the resource.
         public let optInStatus: String?
-        
+
         public init(action: String? = nil, autoAppliedAfterDate: TimeStamp? = nil, currentApplyDate: TimeStamp? = nil, description: String? = nil, forcedApplyDate: TimeStamp? = nil, optInStatus: String? = nil) {
             self.action = action
             self.autoAppliedAfterDate = autoAppliedAfterDate
@@ -2652,7 +2652,7 @@ extension DocDB {
         public let marker: String?
         /// The maintenance actions to be applied.
         public let pendingMaintenanceActions: [ResourcePendingMaintenanceActions]?
-        
+
         public init(marker: String? = nil, pendingMaintenanceActions: [ResourcePendingMaintenanceActions]? = nil) {
             self.marker = marker
             self.pendingMaintenanceActions = pendingMaintenanceActions
@@ -2709,7 +2709,7 @@ extension DocDB {
         public let port: Int32?
         /// Specifies the storage type to be associated with the DB instance.
         public let storageType: String?
-        
+
         public init(allocatedStorage: Int32? = nil, backupRetentionPeriod: Int32? = nil, cACertificateIdentifier: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dBSubnetGroupName: String? = nil, engineVersion: String? = nil, iops: Int32? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, multiAZ: Bool? = nil, pendingCloudwatchLogsExports: PendingCloudwatchLogsExports? = nil, port: Int32? = nil, storageType: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -2754,7 +2754,7 @@ extension DocDB {
         public let dBInstanceIdentifier: String
         ///  When true, the reboot is conducted through a Multi-AZ failover.  Constraint: You can't specify true if the instance is not configured for Multi-AZ.
         public let forceFailover: Bool?
-        
+
         public init(dBInstanceIdentifier: String, forceFailover: Bool? = nil) {
             self.dBInstanceIdentifier = dBInstanceIdentifier
             self.forceFailover = forceFailover
@@ -2771,7 +2771,7 @@ extension DocDB {
             AWSShapeMember(label: "DBInstance", required: false, type: .structure)
         ]
         public let dBInstance: DBInstance?
-        
+
         public init(dBInstance: DBInstance? = nil) {
             self.dBInstance = dBInstance
         }
@@ -2790,7 +2790,7 @@ extension DocDB {
         public let resourceName: String
         /// The tag key (name) of the tag to be removed.
         public let tagKeys: [String]
-        
+
         public init(resourceName: String, tagKeys: [String]) {
             self.resourceName = resourceName
             self.tagKeys = tagKeys
@@ -2814,7 +2814,7 @@ extension DocDB {
         public let parameters: [Parameter]?
         /// A value that is set to true to reset all parameters in the DB cluster parameter group to their default values, and false otherwise. You can't use this parameter if there is a list of parameter names specified for the Parameters parameter.
         public let resetAllParameters: Bool?
-        
+
         public init(dBClusterParameterGroupName: String, parameters: [Parameter]? = nil, resetAllParameters: Bool? = nil) {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
             self.parameters = parameters
@@ -2837,7 +2837,7 @@ extension DocDB {
         public let pendingMaintenanceActionDetails: [PendingMaintenanceAction]?
         /// The Amazon Resource Name (ARN) of the resource that has pending maintenance actions.
         public let resourceIdentifier: String?
-        
+
         public init(pendingMaintenanceActionDetails: [PendingMaintenanceAction]? = nil, resourceIdentifier: String? = nil) {
             self.pendingMaintenanceActionDetails = pendingMaintenanceActionDetails
             self.resourceIdentifier = resourceIdentifier
@@ -2888,7 +2888,7 @@ extension DocDB {
         public let tags: [Tag]?
         /// A list of virtual private cloud (VPC) security groups that the new DB cluster will belong to.
         public let vpcSecurityGroupIds: [String]?
-        
+
         public init(availabilityZones: [String]? = nil, dBClusterIdentifier: String, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, port: Int32? = nil, snapshotIdentifier: String, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.dBClusterIdentifier = dBClusterIdentifier
@@ -2925,7 +2925,7 @@ extension DocDB {
             AWSShapeMember(label: "DBCluster", required: false, type: .structure)
         ]
         public let dBCluster: DBCluster?
-        
+
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
@@ -2971,7 +2971,7 @@ extension DocDB {
         public let useLatestRestorableTime: Bool?
         /// A list of VPC security groups that the new DB cluster belongs to.
         public let vpcSecurityGroupIds: [String]?
-        
+
         public init(dBClusterIdentifier: String, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, kmsKeyId: String? = nil, port: Int32? = nil, restoreToTime: TimeStamp? = nil, sourceDBClusterIdentifier: String, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.dBSubnetGroupName = dBSubnetGroupName
@@ -3006,7 +3006,7 @@ extension DocDB {
             AWSShapeMember(label: "DBCluster", required: false, type: .structure)
         ]
         public let dBCluster: DBCluster?
-        
+
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
@@ -3032,7 +3032,7 @@ extension DocDB {
         ]
         /// The identifier of the cluster to restart. Example: docdb-2019-05-28-15-24-52 
         public let dBClusterIdentifier: String
-        
+
         public init(dBClusterIdentifier: String) {
             self.dBClusterIdentifier = dBClusterIdentifier
         }
@@ -3047,7 +3047,7 @@ extension DocDB {
             AWSShapeMember(label: "DBCluster", required: false, type: .structure)
         ]
         public let dBCluster: DBCluster?
-        
+
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
@@ -3063,7 +3063,7 @@ extension DocDB {
         ]
         /// The identifier of the cluster to stop. Example: docdb-2019-05-28-15-24-52 
         public let dBClusterIdentifier: String
-        
+
         public init(dBClusterIdentifier: String) {
             self.dBClusterIdentifier = dBClusterIdentifier
         }
@@ -3078,7 +3078,7 @@ extension DocDB {
             AWSShapeMember(label: "DBCluster", required: false, type: .structure)
         ]
         public let dBCluster: DBCluster?
-        
+
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
@@ -3100,7 +3100,7 @@ extension DocDB {
         public let subnetIdentifier: String?
         /// Specifies the status of the subnet.
         public let subnetStatus: String?
-        
+
         public init(subnetAvailabilityZone: AvailabilityZone? = nil, subnetIdentifier: String? = nil, subnetStatus: String? = nil) {
             self.subnetAvailabilityZone = subnetAvailabilityZone
             self.subnetIdentifier = subnetIdentifier
@@ -3123,7 +3123,7 @@ extension DocDB {
         public let key: String?
         /// The optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with "aws:" or "rds:". The string can contain only the set of Unicode letters, digits, white space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public let value: String?
-        
+
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -3141,7 +3141,7 @@ extension DocDB {
         ]
         /// A list of one or more tags.
         public let tagList: [Tag]?
-        
+
         public init(tagList: [Tag]? = nil) {
             self.tagList = tagList
         }
@@ -3169,7 +3169,7 @@ extension DocDB {
         public let engineVersion: String?
         /// A value that indicates whether a database engine is upgraded to a major version.
         public let isMajorVersionUpgrade: Bool?
-        
+
         public init(autoUpgrade: Bool? = nil, description: String? = nil, engine: String? = nil, engineVersion: String? = nil, isMajorVersionUpgrade: Bool? = nil) {
             self.autoUpgrade = autoUpgrade
             self.description = description
@@ -3196,7 +3196,7 @@ extension DocDB {
         public let status: String?
         /// The name of the VPC security group.
         public let vpcSecurityGroupId: String?
-        
+
         public init(status: String? = nil, vpcSecurityGroupId: String? = nil) {
             self.status = status
             self.vpcSecurityGroupId = vpcSecurityGroupId
@@ -3207,5 +3207,4 @@ extension DocDB {
             case vpcSecurityGroupId = "VpcSecurityGroupId"
         }
     }
-
 }

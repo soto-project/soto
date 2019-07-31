@@ -11,7 +11,7 @@ extension S3 {
         ]
         /// Specifies the number of days after which Amazon S3 aborts an incomplete multipart upload.
         public let daysAfterInitiation: Int32?
-        
+
         public init(daysAfterInitiation: Int32? = nil) {
             self.daysAfterInitiation = daysAfterInitiation
         }
@@ -26,7 +26,7 @@ extension S3 {
             AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum)
         ]
         public let requestCharged: RequestCharged?
-        
+
         public init(requestCharged: RequestCharged? = nil) {
             self.requestCharged = requestCharged
         }
@@ -50,7 +50,7 @@ extension S3 {
         public let requestPayer: RequestPayer?
         /// Upload ID that identifies the multipart upload.
         public let uploadId: String
-        
+
         public init(bucket: String, key: String, requestPayer: RequestPayer? = nil, uploadId: String) {
             self.bucket = bucket
             self.key = key
@@ -72,7 +72,7 @@ extension S3 {
         ]
         /// Specifies the transfer acceleration status of the bucket.
         public let status: BucketAccelerateStatus?
-        
+
         public init(status: BucketAccelerateStatus? = nil) {
             self.status = status
         }
@@ -91,7 +91,7 @@ extension S3 {
         public let grants: [Grant]?
         /// Container for the bucket owner's display name and ID.
         public let owner: Owner?
-        
+
         public init(grants: [Grant]? = nil, owner: Owner? = nil) {
             self.grants = grants
             self.owner = owner
@@ -109,7 +109,7 @@ extension S3 {
         ]
         /// Specifies the replica ownership. For default and valid values, see PUT bucket replication in the Amazon Simple Storage Service API Reference.
         public let owner: OwnerOverride
-        
+
         public init(owner: OwnerOverride) {
             self.owner = owner
         }
@@ -128,7 +128,7 @@ extension S3 {
         public let prefix: String?
         /// The list of tags to use when evaluating an AND predicate.
         public let tags: [Tag]?
-        
+
         public init(prefix: String? = nil, tags: [Tag]? = nil) {
             self.prefix = prefix
             self.tags = tags
@@ -152,7 +152,7 @@ extension S3 {
         public let id: String
         ///  Contains data related to access patterns to be collected and made available to analyze the tradeoffs between different storage classes. 
         public let storageClassAnalysis: StorageClassAnalysis
-        
+
         public init(filter: AnalyticsFilter? = nil, id: String, storageClassAnalysis: StorageClassAnalysis) {
             self.filter = filter
             self.id = id
@@ -172,7 +172,7 @@ extension S3 {
         ]
         /// A destination signifying output to an S3 bucket.
         public let s3BucketDestination: AnalyticsS3BucketDestination
-        
+
         public init(s3BucketDestination: AnalyticsS3BucketDestination) {
             self.s3BucketDestination = s3BucketDestination
         }
@@ -194,7 +194,7 @@ extension S3 {
         public let prefix: String?
         /// The tag to use when evaluating an analytics filter.
         public let tag: Tag?
-        
+
         public init(and: AnalyticsAndOperator? = nil, prefix: String? = nil, tag: Tag? = nil) {
             self.and = and
             self.prefix = prefix
@@ -223,7 +223,7 @@ extension S3 {
         public let format: AnalyticsS3ExportFileFormat
         /// The prefix to use when exporting data. The prefix is prepended to all results.
         public let prefix: String?
-        
+
         public init(bucket: String, bucketAccountId: String? = nil, format: AnalyticsS3ExportFileFormat, prefix: String? = nil) {
             self.bucket = bucket
             self.bucketAccountId = bucketAccountId
@@ -253,7 +253,7 @@ extension S3 {
         public let creationDate: TimeStamp?
         /// The name of the bucket.
         public let name: String?
-        
+
         public init(creationDate: TimeStamp? = nil, name: String? = nil) {
             self.creationDate = creationDate
             self.name = name
@@ -285,7 +285,7 @@ extension S3 {
         ]
         /// A lifecycle rule for individual objects in an Amazon S3 bucket.
         public let rules: [LifecycleRule]
-        
+
         public init(rules: [LifecycleRule]) {
             self.rules = rules
         }
@@ -315,7 +315,7 @@ extension S3 {
             AWSShapeMember(label: "LoggingEnabled", required: false, type: .structure)
         ]
         public let loggingEnabled: LoggingEnabled?
-        
+
         public init(loggingEnabled: LoggingEnabled? = nil) {
             self.loggingEnabled = loggingEnabled
         }
@@ -344,7 +344,7 @@ extension S3 {
         ]
         /// A set of allowed origins and methods.
         public let cORSRules: [CORSRule]
-        
+
         public init(cORSRules: [CORSRule]) {
             self.cORSRules = cORSRules
         }
@@ -372,7 +372,7 @@ extension S3 {
         public let exposeHeaders: [String]?
         /// The time in seconds that your browser is to cache the preflight response for the specified resource.
         public let maxAgeSeconds: Int32?
-        
+
         public init(allowedHeaders: [String]? = nil, allowedMethods: [String], allowedOrigins: [String], exposeHeaders: [String]? = nil, maxAgeSeconds: Int32? = nil) {
             self.allowedHeaders = allowedHeaders
             self.allowedMethods = allowedMethods
@@ -414,7 +414,7 @@ extension S3 {
         public let quoteEscapeCharacter: String?
         /// The value used to separate individual records.
         public let recordDelimiter: String?
-        
+
         public init(allowQuotedRecordDelimiter: Bool? = nil, comments: String? = nil, fieldDelimiter: String? = nil, fileHeaderInfo: FileHeaderInfo? = nil, quoteCharacter: String? = nil, quoteEscapeCharacter: String? = nil, recordDelimiter: String? = nil) {
             self.allowQuotedRecordDelimiter = allowQuotedRecordDelimiter
             self.comments = comments
@@ -454,7 +454,7 @@ extension S3 {
         public let quoteFields: QuoteFields?
         /// The value used to separate individual records.
         public let recordDelimiter: String?
-        
+
         public init(fieldDelimiter: String? = nil, quoteCharacter: String? = nil, quoteEscapeCharacter: String? = nil, quoteFields: QuoteFields? = nil, recordDelimiter: String? = nil) {
             self.fieldDelimiter = fieldDelimiter
             self.quoteCharacter = quoteCharacter
@@ -483,7 +483,7 @@ extension S3 {
         public let events: [Event]?
         public let id: String?
         public let invocationRole: String?
-        
+
         public init(cloudFunction: String? = nil, events: [Event]? = nil, id: String? = nil, invocationRole: String? = nil) {
             self.cloudFunction = cloudFunction
             self.events = events
@@ -504,7 +504,7 @@ extension S3 {
             AWSShapeMember(label: "Prefix", required: false, type: .string)
         ]
         public let prefix: String?
-        
+
         public init(prefix: String? = nil) {
             self.prefix = prefix
         }
@@ -540,7 +540,7 @@ extension S3 {
         public let sSEKMSKeyId: String?
         /// Version of the object.
         public let versionId: String?
-        
+
         public init(bucket: String? = nil, eTag: String? = nil, expiration: String? = nil, key: String? = nil, location: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSEKMSKeyId: String? = nil, versionId: String? = nil) {
             self.bucket = bucket
             self.eTag = eTag
@@ -582,7 +582,7 @@ extension S3 {
         public let multipartUpload: CompletedMultipartUpload?
         public let requestPayer: RequestPayer?
         public let uploadId: String
-        
+
         public init(bucket: String, key: String, multipartUpload: CompletedMultipartUpload? = nil, requestPayer: RequestPayer? = nil, uploadId: String) {
             self.bucket = bucket
             self.key = key
@@ -605,7 +605,7 @@ extension S3 {
             AWSShapeMember(label: "Parts", location: .body(locationName: "Part"), required: false, type: .list, encoding: .flatList)
         ]
         public let parts: [CompletedPart]?
-        
+
         public init(parts: [CompletedPart]? = nil) {
             self.parts = parts
         }
@@ -624,7 +624,7 @@ extension S3 {
         public let eTag: String?
         /// Part number that identifies the part. This is a positive integer between 1 and 10,000.
         public let partNumber: Int32?
-        
+
         public init(eTag: String? = nil, partNumber: Int32? = nil) {
             self.eTag = eTag
             self.partNumber = partNumber
@@ -652,7 +652,7 @@ extension S3 {
         public let httpErrorCodeReturnedEquals: String?
         /// The object key name prefix when the redirect is applied. For example, to redirect requests for ExamplePage.html, the key prefix will be ExamplePage.html. To redirect request for all pages with the prefix docs/, the key prefix will be /docs, which identifies all objects in the docs/ folder. Required when the parent element Condition is specified and sibling HttpErrorCodeReturnedEquals is not specified. If both conditions are specified, both must be true for the redirect to be applied.
         public let keyPrefixEquals: String?
-        
+
         public init(httpErrorCodeReturnedEquals: String? = nil, keyPrefixEquals: String? = nil) {
             self.httpErrorCodeReturnedEquals = httpErrorCodeReturnedEquals
             self.keyPrefixEquals = keyPrefixEquals
@@ -665,12 +665,11 @@ extension S3 {
     }
 
     public struct ContinuationEvent: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct CopyObjectOutput: AWSShape {
         /// The key for the payload
@@ -704,7 +703,7 @@ extension S3 {
         public let sSEKMSKeyId: String?
         /// Version ID of the newly created copy.
         public let versionId: String?
-        
+
         public init(copyObjectResult: CopyObjectResult? = nil, copySourceVersionId: String? = nil, expiration: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, versionId: String? = nil) {
             self.copyObjectResult = copyObjectResult
             self.copySourceVersionId = copySourceVersionId
@@ -843,7 +842,7 @@ extension S3 {
         public let taggingDirective: TaggingDirective?
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
         public let websiteRedirectLocation: String?
-        
+
         public init(acl: ObjectCannedACL? = nil, bucket: String, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, copySource: String, copySourceIfMatch: String? = nil, copySourceIfModifiedSince: TimeStamp? = nil, copySourceIfNoneMatch: String? = nil, copySourceIfUnmodifiedSince: TimeStamp? = nil, copySourceSSECustomerAlgorithm: String? = nil, copySourceSSECustomerKey: String? = nil, copySourceSSECustomerKeyMD5: String? = nil, expires: TimeStamp? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, metadataDirective: MetadataDirective? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, taggingDirective: TaggingDirective? = nil, websiteRedirectLocation: String? = nil) {
             self.acl = acl
             self.bucket = bucket
@@ -932,7 +931,7 @@ extension S3 {
         ]
         public let eTag: String?
         public let lastModified: TimeStamp?
-        
+
         public init(eTag: String? = nil, lastModified: TimeStamp? = nil) {
             self.eTag = eTag
             self.lastModified = lastModified
@@ -953,7 +952,7 @@ extension S3 {
         public let eTag: String?
         /// Date and time at which the object was uploaded.
         public let lastModified: TimeStamp?
-        
+
         public init(eTag: String? = nil, lastModified: TimeStamp? = nil) {
             self.eTag = eTag
             self.lastModified = lastModified
@@ -971,7 +970,7 @@ extension S3 {
         ]
         /// Specifies the region where the bucket will be created. If you don't specify a region, the bucket is created in US East (N. Virginia) Region (us-east-1).
         public let locationConstraint: BucketLocationConstraint?
-        
+
         public init(locationConstraint: BucketLocationConstraint? = nil) {
             self.locationConstraint = locationConstraint
         }
@@ -986,7 +985,7 @@ extension S3 {
             AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string)
         ]
         public let location: String?
-        
+
         public init(location: String? = nil) {
             self.location = location
         }
@@ -1027,7 +1026,7 @@ extension S3 {
         public let grantWriteACP: String?
         /// Specifies whether you want Amazon S3 object lock to be enabled for the new bucket.
         public let objectLockEnabledForBucket: Bool?
-        
+
         public init(acl: BucketCannedACL? = nil, bucket: String, createBucketConfiguration: CreateBucketConfiguration? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWrite: String? = nil, grantWriteACP: String? = nil, objectLockEnabledForBucket: Bool? = nil) {
             self.acl = acl
             self.bucket = bucket
@@ -1088,7 +1087,7 @@ extension S3 {
         public let sSEKMSKeyId: String?
         /// ID for the initiated multipart upload.
         public let uploadId: String?
-        
+
         public init(abortDate: TimeStamp? = nil, abortRuleId: String? = nil, bucket: String? = nil, key: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, uploadId: String? = nil) {
             self.abortDate = abortDate
             self.abortRuleId = abortRuleId
@@ -1199,7 +1198,7 @@ extension S3 {
         public let tagging: String?
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
         public let websiteRedirectLocation: String?
-        
+
         public init(acl: ObjectCannedACL? = nil, bucket: String, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, expires: TimeStamp? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acl = acl
             self.bucket = bucket
@@ -1273,7 +1272,7 @@ extension S3 {
         public let mode: ObjectLockRetentionMode?
         /// The number of years that you want to specify for the default retention period.
         public let years: Int32?
-        
+
         public init(days: Int32? = nil, mode: ObjectLockRetentionMode? = nil, years: Int32? = nil) {
             self.days = days
             self.mode = mode
@@ -1295,7 +1294,7 @@ extension S3 {
         public let objects: [ObjectIdentifier]
         /// Element to enable quiet mode for the request. When you add this element, you must set its value to true.
         public let quiet: Bool?
-        
+
         public init(objects: [ObjectIdentifier], quiet: Bool? = nil) {
             self.objects = objects
             self.quiet = quiet
@@ -1316,7 +1315,7 @@ extension S3 {
         public let bucket: String
         /// The ID that identifies the analytics configuration.
         public let id: String
-        
+
         public init(bucket: String, id: String) {
             self.bucket = bucket
             self.id = id
@@ -1333,7 +1332,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
-        
+
         public init(bucket: String) {
             self.bucket = bucket
         }
@@ -1349,7 +1348,7 @@ extension S3 {
         ]
         /// The name of the bucket containing the server-side encryption configuration to delete.
         public let bucket: String
-        
+
         public init(bucket: String) {
             self.bucket = bucket
         }
@@ -1368,7 +1367,7 @@ extension S3 {
         public let bucket: String
         /// The ID used to identify the inventory configuration.
         public let id: String
-        
+
         public init(bucket: String, id: String) {
             self.bucket = bucket
             self.id = id
@@ -1385,7 +1384,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
-        
+
         public init(bucket: String) {
             self.bucket = bucket
         }
@@ -1404,7 +1403,7 @@ extension S3 {
         public let bucket: String
         /// The ID used to identify the metrics configuration.
         public let id: String
-        
+
         public init(bucket: String, id: String) {
             self.bucket = bucket
             self.id = id
@@ -1421,7 +1420,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
-        
+
         public init(bucket: String) {
             self.bucket = bucket
         }
@@ -1437,7 +1436,7 @@ extension S3 {
         ]
         ///  The bucket name.   It can take a while to propagate the deletion of a replication configuration to all Amazon S3 systems. 
         public let bucket: String
-        
+
         public init(bucket: String) {
             self.bucket = bucket
         }
@@ -1452,7 +1451,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
-        
+
         public init(bucket: String) {
             self.bucket = bucket
         }
@@ -1467,7 +1466,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
-        
+
         public init(bucket: String) {
             self.bucket = bucket
         }
@@ -1482,7 +1481,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
-        
+
         public init(bucket: String) {
             self.bucket = bucket
         }
@@ -1509,7 +1508,7 @@ extension S3 {
         public let owner: Owner?
         /// Version ID of an object.
         public let versionId: String?
-        
+
         public init(isLatest: Bool? = nil, key: String? = nil, lastModified: TimeStamp? = nil, owner: Owner? = nil, versionId: String? = nil) {
             self.isLatest = isLatest
             self.key = key
@@ -1533,7 +1532,7 @@ extension S3 {
         ]
         /// The status of the delete marker replication.   In the current implementation, Amazon S3 doesn't replicate the delete markers. The status must be Disabled.  
         public let status: DeleteMarkerReplicationStatus?
-        
+
         public init(status: DeleteMarkerReplicationStatus? = nil) {
             self.status = status
         }
@@ -1560,7 +1559,7 @@ extension S3 {
         public let requestCharged: RequestCharged?
         /// Returns the version ID of the delete marker created as a result of the DELETE operation.
         public let versionId: String?
-        
+
         public init(deleteMarker: Bool? = nil, requestCharged: RequestCharged? = nil, versionId: String? = nil) {
             self.deleteMarker = deleteMarker
             self.requestCharged = requestCharged
@@ -1592,7 +1591,7 @@ extension S3 {
         public let requestPayer: RequestPayer?
         /// VersionId used to reference a specific version of the object.
         public let versionId: String?
-        
+
         public init(bucket: String, bypassGovernanceRetention: Bool? = nil, key: String, mfa: String? = nil, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
             self.bucket = bucket
             self.bypassGovernanceRetention = bypassGovernanceRetention
@@ -1618,7 +1617,7 @@ extension S3 {
         ]
         /// The versionId of the object the tag-set was removed from.
         public let versionId: String?
-        
+
         public init(versionId: String? = nil) {
             self.versionId = versionId
         }
@@ -1638,7 +1637,7 @@ extension S3 {
         public let key: String
         /// The versionId of the object that the tag-set will be removed from.
         public let versionId: String?
-        
+
         public init(bucket: String, key: String, versionId: String? = nil) {
             self.bucket = bucket
             self.key = key
@@ -1661,7 +1660,7 @@ extension S3 {
         public let deleted: [DeletedObject]?
         public let errors: [Error]?
         public let requestCharged: RequestCharged?
-        
+
         public init(deleted: [DeletedObject]? = nil, errors: [Error]? = nil, requestCharged: RequestCharged? = nil) {
             self.deleted = deleted
             self.errors = errors
@@ -1693,7 +1692,7 @@ extension S3 {
         /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
         public let mfa: String?
         public let requestPayer: RequestPayer?
-        
+
         public init(bucket: String, bypassGovernanceRetention: Bool? = nil, delete: Delete, mfa: String? = nil, requestPayer: RequestPayer? = nil) {
             self.bucket = bucket
             self.bypassGovernanceRetention = bypassGovernanceRetention
@@ -1717,7 +1716,7 @@ extension S3 {
         ]
         /// The Amazon S3 bucket whose PublicAccessBlock configuration you want to delete. 
         public let bucket: String
-        
+
         public init(bucket: String) {
             self.bucket = bucket
         }
@@ -1738,7 +1737,7 @@ extension S3 {
         public let deleteMarkerVersionId: String?
         public let key: String?
         public let versionId: String?
-        
+
         public init(deleteMarker: Bool? = nil, deleteMarkerVersionId: String? = nil, key: String? = nil, versionId: String? = nil) {
             self.deleteMarker = deleteMarker
             self.deleteMarkerVersionId = deleteMarkerVersionId
@@ -1772,7 +1771,7 @@ extension S3 {
         public let encryptionConfiguration: EncryptionConfiguration?
         ///  The storage class to use when replicating objects, such as standard or reduced redundancy. By default, Amazon S3 uses the storage class of the source object to create the object replica.  For valid values, see the StorageClass element of the PUT Bucket replication action in the Amazon Simple Storage Service API Reference.
         public let storageClass: StorageClass?
-        
+
         public init(accessControlTranslation: AccessControlTranslation? = nil, account: String? = nil, bucket: String, encryptionConfiguration: EncryptionConfiguration? = nil, storageClass: StorageClass? = nil) {
             self.accessControlTranslation = accessControlTranslation
             self.account = account
@@ -1807,7 +1806,7 @@ extension S3 {
         public let kMSContext: String?
         /// If the encryption type is aws:kms, this optional value specifies the AWS KMS key ID to use for encryption of job results.
         public let kMSKeyId: String?
-        
+
         public init(encryptionType: ServerSideEncryption, kMSContext: String? = nil, kMSKeyId: String? = nil) {
             self.encryptionType = encryptionType
             self.kMSContext = kMSContext
@@ -1827,7 +1826,7 @@ extension S3 {
         ]
         /// Specifies the AWS KMS Key ID (Key ARN or Alias ARN) for the destination bucket. Amazon S3 uses this key to encrypt replica objects.
         public let replicaKmsKeyID: String?
-        
+
         public init(replicaKmsKeyID: String? = nil) {
             self.replicaKmsKeyID = replicaKmsKeyID
         }
@@ -1838,12 +1837,11 @@ extension S3 {
     }
 
     public struct EndEvent: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct Error: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1856,7 +1854,7 @@ extension S3 {
         public let key: String?
         public let message: String?
         public let versionId: String?
-        
+
         public init(code: String? = nil, key: String? = nil, message: String? = nil, versionId: String? = nil) {
             self.code = code
             self.key = key
@@ -1878,7 +1876,7 @@ extension S3 {
         ]
         /// The object key name to use when a 4XX class error occurs.
         public let key: String
-        
+
         public init(key: String) {
             self.key = key
         }
@@ -1930,7 +1928,7 @@ extension S3 {
         public let name: FilterRuleName?
         /// The value that the filter searches for in object key names.
         public let value: String?
-        
+
         public init(name: FilterRuleName? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -1954,7 +1952,7 @@ extension S3 {
         ]
         /// The accelerate configuration of the bucket.
         public let status: BucketAccelerateStatus?
-        
+
         public init(status: BucketAccelerateStatus? = nil) {
             self.status = status
         }
@@ -1970,7 +1968,7 @@ extension S3 {
         ]
         /// Name of the bucket for which the accelerate configuration is retrieved.
         public let bucket: String
-        
+
         public init(bucket: String) {
             self.bucket = bucket
         }
@@ -1988,7 +1986,7 @@ extension S3 {
         /// A list of grants.
         public let grants: [Grant]?
         public let owner: Owner?
-        
+
         public init(grants: [Grant]? = nil, owner: Owner? = nil) {
             self.grants = grants
             self.owner = owner
@@ -2005,7 +2003,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
-        
+
         public init(bucket: String) {
             self.bucket = bucket
         }
@@ -2023,7 +2021,7 @@ extension S3 {
         ]
         /// The configuration and any analyses for the analytics filter.
         public let analyticsConfiguration: AnalyticsConfiguration?
-        
+
         public init(analyticsConfiguration: AnalyticsConfiguration? = nil) {
             self.analyticsConfiguration = analyticsConfiguration
         }
@@ -2042,7 +2040,7 @@ extension S3 {
         public let bucket: String
         /// The ID that identifies the analytics configuration.
         public let id: String
-        
+
         public init(bucket: String, id: String) {
             self.bucket = bucket
             self.id = id
@@ -2059,7 +2057,7 @@ extension S3 {
             AWSShapeMember(label: "CORSRules", location: .body(locationName: "CORSRule"), required: false, type: .list, encoding: .flatList)
         ]
         public let cORSRules: [CORSRule]?
-        
+
         public init(cORSRules: [CORSRule]? = nil) {
             self.cORSRules = cORSRules
         }
@@ -2074,7 +2072,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
-        
+
         public init(bucket: String) {
             self.bucket = bucket
         }
@@ -2091,7 +2089,7 @@ extension S3 {
             AWSShapeMember(label: "ServerSideEncryptionConfiguration", required: false, type: .structure)
         ]
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration?
-        
+
         public init(serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil) {
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
         }
@@ -2107,7 +2105,7 @@ extension S3 {
         ]
         /// The name of the bucket from which the server-side encryption configuration is retrieved.
         public let bucket: String
-        
+
         public init(bucket: String) {
             self.bucket = bucket
         }
@@ -2125,7 +2123,7 @@ extension S3 {
         ]
         /// Specifies the inventory configuration.
         public let inventoryConfiguration: InventoryConfiguration?
-        
+
         public init(inventoryConfiguration: InventoryConfiguration? = nil) {
             self.inventoryConfiguration = inventoryConfiguration
         }
@@ -2144,7 +2142,7 @@ extension S3 {
         public let bucket: String
         /// The ID used to identify the inventory configuration.
         public let id: String
-        
+
         public init(bucket: String, id: String) {
             self.bucket = bucket
             self.id = id
@@ -2161,7 +2159,7 @@ extension S3 {
             AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: false, type: .list, encoding: .flatList)
         ]
         public let rules: [LifecycleRule]?
-        
+
         public init(rules: [LifecycleRule]? = nil) {
             self.rules = rules
         }
@@ -2176,7 +2174,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
-        
+
         public init(bucket: String) {
             self.bucket = bucket
         }
@@ -2191,7 +2189,7 @@ extension S3 {
             AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: false, type: .list, encoding: .flatList)
         ]
         public let rules: [Rule]?
-        
+
         public init(rules: [Rule]? = nil) {
             self.rules = rules
         }
@@ -2206,7 +2204,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
-        
+
         public init(bucket: String) {
             self.bucket = bucket
         }
@@ -2221,7 +2219,7 @@ extension S3 {
             AWSShapeMember(label: "LocationConstraint", required: false, type: .enum)
         ]
         public let locationConstraint: BucketLocationConstraint?
-        
+
         public init(locationConstraint: BucketLocationConstraint? = nil) {
             self.locationConstraint = locationConstraint
         }
@@ -2236,7 +2234,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
-        
+
         public init(bucket: String) {
             self.bucket = bucket
         }
@@ -2251,7 +2249,7 @@ extension S3 {
             AWSShapeMember(label: "LoggingEnabled", required: false, type: .structure)
         ]
         public let loggingEnabled: LoggingEnabled?
-        
+
         public init(loggingEnabled: LoggingEnabled? = nil) {
             self.loggingEnabled = loggingEnabled
         }
@@ -2266,7 +2264,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
-        
+
         public init(bucket: String) {
             self.bucket = bucket
         }
@@ -2284,7 +2282,7 @@ extension S3 {
         ]
         /// Specifies the metrics configuration.
         public let metricsConfiguration: MetricsConfiguration?
-        
+
         public init(metricsConfiguration: MetricsConfiguration? = nil) {
             self.metricsConfiguration = metricsConfiguration
         }
@@ -2303,7 +2301,7 @@ extension S3 {
         public let bucket: String
         /// The ID used to identify the metrics configuration.
         public let id: String
-        
+
         public init(bucket: String, id: String) {
             self.bucket = bucket
             self.id = id
@@ -2321,7 +2319,7 @@ extension S3 {
         ]
         /// Name of the bucket to get the notification configuration for.
         public let bucket: String
-        
+
         public init(bucket: String) {
             self.bucket = bucket
         }
@@ -2339,7 +2337,7 @@ extension S3 {
         ]
         /// The bucket policy as a JSON document.
         public let policy: String?
-        
+
         public init(policy: String? = nil) {
             self.policy = policy
         }
@@ -2354,7 +2352,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
-        
+
         public init(bucket: String) {
             self.bucket = bucket
         }
@@ -2372,7 +2370,7 @@ extension S3 {
         ]
         /// The policy status for the specified bucket.
         public let policyStatus: PolicyStatus?
-        
+
         public init(policyStatus: PolicyStatus? = nil) {
             self.policyStatus = policyStatus
         }
@@ -2388,7 +2386,7 @@ extension S3 {
         ]
         /// The name of the Amazon S3 bucket whose policy status you want to retrieve.
         public let bucket: String
-        
+
         public init(bucket: String) {
             self.bucket = bucket
         }
@@ -2405,7 +2403,7 @@ extension S3 {
             AWSShapeMember(label: "ReplicationConfiguration", required: false, type: .structure)
         ]
         public let replicationConfiguration: ReplicationConfiguration?
-        
+
         public init(replicationConfiguration: ReplicationConfiguration? = nil) {
             self.replicationConfiguration = replicationConfiguration
         }
@@ -2420,7 +2418,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
-        
+
         public init(bucket: String) {
             self.bucket = bucket
         }
@@ -2436,7 +2434,7 @@ extension S3 {
         ]
         /// Specifies who pays for the download and request fees.
         public let payer: Payer?
-        
+
         public init(payer: Payer? = nil) {
             self.payer = payer
         }
@@ -2451,7 +2449,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
-        
+
         public init(bucket: String) {
             self.bucket = bucket
         }
@@ -2466,7 +2464,7 @@ extension S3 {
             AWSShapeMember(label: "TagSet", required: true, type: .list, encoding: .list(member:"Tag"))
         ]
         public let tagSet: [Tag]
-        
+
         public init(tagSet: [Tag]) {
             self.tagSet = tagSet
         }
@@ -2481,7 +2479,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
-        
+
         public init(bucket: String) {
             self.bucket = bucket
         }
@@ -2500,7 +2498,7 @@ extension S3 {
         public let mFADelete: MFADeleteStatus?
         /// The versioning state of the bucket.
         public let status: BucketVersioningStatus?
-        
+
         public init(mFADelete: MFADeleteStatus? = nil, status: BucketVersioningStatus? = nil) {
             self.mFADelete = mFADelete
             self.status = status
@@ -2517,7 +2515,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
-        
+
         public init(bucket: String) {
             self.bucket = bucket
         }
@@ -2538,7 +2536,7 @@ extension S3 {
         public let indexDocument: IndexDocument?
         public let redirectAllRequestsTo: RedirectAllRequestsTo?
         public let routingRules: [RoutingRule]?
-        
+
         public init(errorDocument: ErrorDocument? = nil, indexDocument: IndexDocument? = nil, redirectAllRequestsTo: RedirectAllRequestsTo? = nil, routingRules: [RoutingRule]? = nil) {
             self.errorDocument = errorDocument
             self.indexDocument = indexDocument
@@ -2559,7 +2557,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
-        
+
         public init(bucket: String) {
             self.bucket = bucket
         }
@@ -2579,7 +2577,7 @@ extension S3 {
         public let grants: [Grant]?
         public let owner: Owner?
         public let requestCharged: RequestCharged?
-        
+
         public init(grants: [Grant]? = nil, owner: Owner? = nil, requestCharged: RequestCharged? = nil) {
             self.grants = grants
             self.owner = owner
@@ -2605,7 +2603,7 @@ extension S3 {
         public let requestPayer: RequestPayer?
         /// VersionId used to reference a specific version of the object.
         public let versionId: String?
-        
+
         public init(bucket: String, key: String, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
             self.bucket = bucket
             self.key = key
@@ -2629,7 +2627,7 @@ extension S3 {
         ]
         /// The current Legal Hold status for the specified object.
         public let legalHold: ObjectLockLegalHold?
-        
+
         public init(legalHold: ObjectLockLegalHold? = nil) {
             self.legalHold = legalHold
         }
@@ -2653,7 +2651,7 @@ extension S3 {
         public let requestPayer: RequestPayer?
         /// The version ID of the object whose Legal Hold status you want to retrieve.
         public let versionId: String?
-        
+
         public init(bucket: String, key: String, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
             self.bucket = bucket
             self.key = key
@@ -2677,7 +2675,7 @@ extension S3 {
         ]
         /// The specified bucket's object lock configuration.
         public let objectLockConfiguration: ObjectLockConfiguration?
-        
+
         public init(objectLockConfiguration: ObjectLockConfiguration? = nil) {
             self.objectLockConfiguration = objectLockConfiguration
         }
@@ -2693,7 +2691,7 @@ extension S3 {
         ]
         /// The bucket whose object lock configuration you want to retrieve.
         public let bucket: String
-        
+
         public init(bucket: String) {
             self.bucket = bucket
         }
@@ -2797,7 +2795,7 @@ extension S3 {
         public let versionId: String?
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
         public let websiteRedirectLocation: String?
-        
+
         public init(acceptRanges: String? = nil, body: Data? = nil, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: TimeStamp? = nil, lastModified: TimeStamp? = nil, metadata: [String: String]? = nil, missingMeta: Int32? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, partsCount: Int32? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagCount: Int32? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acceptRanges = acceptRanges
             self.body = body
@@ -2924,7 +2922,7 @@ extension S3 {
         public let sSECustomerKeyMD5: String?
         /// VersionId used to reference a specific version of the object.
         public let versionId: String?
-        
+
         public init(bucket: String, ifMatch: String? = nil, ifModifiedSince: TimeStamp? = nil, ifNoneMatch: String? = nil, ifUnmodifiedSince: TimeStamp? = nil, key: String, partNumber: Int32? = nil, range: String? = nil, requestPayer: RequestPayer? = nil, responseCacheControl: String? = nil, responseContentDisposition: String? = nil, responseContentEncoding: String? = nil, responseContentLanguage: String? = nil, responseContentType: String? = nil, responseExpires: TimeStamp? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, versionId: String? = nil) {
             self.bucket = bucket
             self.ifMatch = ifMatch
@@ -2978,7 +2976,7 @@ extension S3 {
         ]
         /// The container element for an object's retention settings.
         public let retention: ObjectLockRetention?
-        
+
         public init(retention: ObjectLockRetention? = nil) {
             self.retention = retention
         }
@@ -3002,7 +3000,7 @@ extension S3 {
         public let requestPayer: RequestPayer?
         /// The version ID for the object whose retention settings you want to retrieve.
         public let versionId: String?
-        
+
         public init(bucket: String, key: String, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
             self.bucket = bucket
             self.key = key
@@ -3025,7 +3023,7 @@ extension S3 {
         ]
         public let tagSet: [Tag]
         public let versionId: String?
-        
+
         public init(tagSet: [Tag], versionId: String? = nil) {
             self.tagSet = tagSet
             self.versionId = versionId
@@ -3046,7 +3044,7 @@ extension S3 {
         public let bucket: String
         public let key: String
         public let versionId: String?
-        
+
         public init(bucket: String, key: String, versionId: String? = nil) {
             self.bucket = bucket
             self.key = key
@@ -3069,7 +3067,7 @@ extension S3 {
         ]
         public let body: Data?
         public let requestCharged: RequestCharged?
-        
+
         public init(body: Data? = nil, requestCharged: RequestCharged? = nil) {
             self.body = body
             self.requestCharged = requestCharged
@@ -3090,7 +3088,7 @@ extension S3 {
         public let bucket: String
         public let key: String
         public let requestPayer: RequestPayer?
-        
+
         public init(bucket: String, key: String, requestPayer: RequestPayer? = nil) {
             self.bucket = bucket
             self.key = key
@@ -3112,7 +3110,7 @@ extension S3 {
         ]
         /// The PublicAccessBlock configuration currently in effect for this Amazon S3 bucket.
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration?
-        
+
         public init(publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil) {
             self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
         }
@@ -3128,7 +3126,7 @@ extension S3 {
         ]
         /// The name of the Amazon S3 bucket whose PublicAccessBlock configuration you want to retrieve. 
         public let bucket: String
-        
+
         public init(bucket: String) {
             self.bucket = bucket
         }
@@ -3144,7 +3142,7 @@ extension S3 {
         ]
         /// Glacier retrieval tier at which the restore will be processed.
         public let tier: Tier
-        
+
         public init(tier: Tier) {
             self.tier = tier
         }
@@ -3162,7 +3160,7 @@ extension S3 {
         public let grantee: Grantee?
         /// Specifies the permission given to the grantee.
         public let permission: Permission?
-        
+
         public init(grantee: Grantee? = nil, permission: Permission? = nil) {
             self.grantee = grantee
             self.permission = permission
@@ -3192,7 +3190,7 @@ extension S3 {
         public let `type`: `Type`
         /// URI of the grantee group.
         public let uri: String?
-        
+
         public init(displayName: String? = nil, emailAddress: String? = nil, id: String? = nil, type: `Type`, uri: String? = nil) {
             self.displayName = displayName
             self.emailAddress = emailAddress
@@ -3215,7 +3213,7 @@ extension S3 {
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
-        
+
         public init(bucket: String) {
             self.bucket = bucket
         }
@@ -3308,7 +3306,7 @@ extension S3 {
         public let versionId: String?
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
         public let websiteRedirectLocation: String?
-        
+
         public init(acceptRanges: String? = nil, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: TimeStamp? = nil, lastModified: TimeStamp? = nil, metadata: [String: String]? = nil, missingMeta: Int32? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, partsCount: Int32? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acceptRanges = acceptRanges
             self.cacheControl = cacheControl
@@ -3411,7 +3409,7 @@ extension S3 {
         public let sSECustomerKeyMD5: String?
         /// VersionId used to reference a specific version of the object.
         public let versionId: String?
-        
+
         public init(bucket: String, ifMatch: String? = nil, ifModifiedSince: TimeStamp? = nil, ifNoneMatch: String? = nil, ifUnmodifiedSince: TimeStamp? = nil, key: String, partNumber: Int32? = nil, range: String? = nil, requestPayer: RequestPayer? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, versionId: String? = nil) {
             self.bucket = bucket
             self.ifMatch = ifMatch
@@ -3451,7 +3449,7 @@ extension S3 {
         ]
         /// A suffix that is appended to a request that is for a directory on the website endpoint (e.g. if the suffix is index.html and you make a request to samplebucket/images/ the data that is returned will be for the object with the key name images/index.html) The suffix must not be empty and must not include a slash character.
         public let suffix: String
-        
+
         public init(suffix: String) {
             self.suffix = suffix
         }
@@ -3470,7 +3468,7 @@ extension S3 {
         public let displayName: String?
         /// If the principal is an AWS account, it provides the Canonical User ID. If the principal is an IAM User, it provides a user ARN value.
         public let id: String?
-        
+
         public init(displayName: String? = nil, id: String? = nil) {
             self.displayName = displayName
             self.id = id
@@ -3497,7 +3495,7 @@ extension S3 {
         public let json: JSONInput?
         /// Specifies Parquet as object's input serialization format.
         public let parquet: ParquetInput?
-        
+
         public init(compressionType: CompressionType? = nil, csv: CSVInput? = nil, json: JSONInput? = nil, parquet: ParquetInput? = nil) {
             self.compressionType = compressionType
             self.csv = csv
@@ -3537,7 +3535,7 @@ extension S3 {
         public let optionalFields: [InventoryOptionalField]?
         /// Specifies the schedule for generating inventory results.
         public let schedule: InventorySchedule
-        
+
         public init(destination: InventoryDestination, filter: InventoryFilter? = nil, id: String, includedObjectVersions: InventoryIncludedObjectVersions, isEnabled: Bool, optionalFields: [InventoryOptionalField]? = nil, schedule: InventorySchedule) {
             self.destination = destination
             self.filter = filter
@@ -3565,7 +3563,7 @@ extension S3 {
         ]
         /// Contains the bucket name, file format, bucket owner (optional), and prefix (optional) where inventory results are published.
         public let s3BucketDestination: InventoryS3BucketDestination
-        
+
         public init(s3BucketDestination: InventoryS3BucketDestination) {
             self.s3BucketDestination = s3BucketDestination
         }
@@ -3584,7 +3582,7 @@ extension S3 {
         public let ssekms: SSEKMS?
         /// Specifies the use of SSE-S3 to encrypt delivered Inventory reports.
         public let sses3: SSES3?
-        
+
         public init(ssekms: SSEKMS? = nil, sses3: SSES3? = nil) {
             self.ssekms = ssekms
             self.sses3 = sses3
@@ -3602,7 +3600,7 @@ extension S3 {
         ]
         /// The prefix that an object must have to be included in the inventory results.
         public let prefix: String
-        
+
         public init(prefix: String) {
             self.prefix = prefix
         }
@@ -3663,7 +3661,7 @@ extension S3 {
         public let format: InventoryFormat
         /// The prefix that is prepended to all inventory results.
         public let prefix: String?
-        
+
         public init(accountId: String? = nil, bucket: String, encryption: InventoryEncryption? = nil, format: InventoryFormat, prefix: String? = nil) {
             self.accountId = accountId
             self.bucket = bucket
@@ -3687,7 +3685,7 @@ extension S3 {
         ]
         /// Specifies how frequently inventory results are produced.
         public let frequency: InventoryFrequency
-        
+
         public init(frequency: InventoryFrequency) {
             self.frequency = frequency
         }
@@ -3703,7 +3701,7 @@ extension S3 {
         ]
         /// The type of JSON. Valid values: Document, Lines.
         public let `type`: JSONType?
-        
+
         public init(type: JSONType? = nil) {
             self.`type` = `type`
         }
@@ -3719,7 +3717,7 @@ extension S3 {
         ]
         /// The value used to separate individual records in the output.
         public let recordDelimiter: String?
-        
+
         public init(recordDelimiter: String? = nil) {
             self.recordDelimiter = recordDelimiter
         }
@@ -3748,7 +3746,7 @@ extension S3 {
         public let id: String?
         /// The Amazon Resource Name (ARN) of the AWS Lambda function that Amazon S3 invokes when the specified event type occurs.
         public let lambdaFunctionArn: String
-        
+
         public init(events: [Event], filter: NotificationConfigurationFilter? = nil, id: String? = nil, lambdaFunctionArn: String) {
             self.events = events
             self.filter = filter
@@ -3769,7 +3767,7 @@ extension S3 {
             AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: true, type: .list, encoding: .flatList)
         ]
         public let rules: [Rule]
-        
+
         public init(rules: [Rule]) {
             self.rules = rules
         }
@@ -3791,7 +3789,7 @@ extension S3 {
         public let days: Int32?
         /// Indicates whether Amazon S3 will remove a delete marker with no noncurrent versions. If set to true, the delete marker will be expired; if set to false the policy takes no action. This cannot be specified with Days or Date in a Lifecycle Expiration Policy.
         public let expiredObjectDeleteMarker: Bool?
-        
+
         public init(date: TimeStamp? = nil, days: Int32? = nil, expiredObjectDeleteMarker: Bool? = nil) {
             self.date = date
             self.days = days
@@ -3826,7 +3824,7 @@ extension S3 {
         /// If 'Enabled', the rule is currently being applied. If 'Disabled', the rule is not currently being applied.
         public let status: ExpirationStatus
         public let transitions: [Transition]?
-        
+
         public init(abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil, expiration: LifecycleExpiration? = nil, filter: LifecycleRuleFilter? = nil, id: String? = nil, noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil, noncurrentVersionTransitions: [NoncurrentVersionTransition]? = nil, status: ExpirationStatus, transitions: [Transition]? = nil) {
             self.abortIncompleteMultipartUpload = abortIncompleteMultipartUpload
             self.expiration = expiration
@@ -3858,7 +3856,7 @@ extension S3 {
         public let prefix: String?
         /// All of these tags must exist in the object's tag set in order for the rule to apply.
         public let tags: [Tag]?
-        
+
         public init(prefix: String? = nil, tags: [Tag]? = nil) {
             self.prefix = prefix
             self.tags = tags
@@ -3881,7 +3879,7 @@ extension S3 {
         public let prefix: String?
         /// This tag must exist in the object's tag set in order for the rule to apply.
         public let tag: Tag?
-        
+
         public init(and: LifecycleRuleAndOperator? = nil, prefix: String? = nil, tag: Tag? = nil) {
             self.and = and
             self.prefix = prefix
@@ -3910,7 +3908,7 @@ extension S3 {
         public let isTruncated: Bool?
         /// NextContinuationToken is sent when isTruncated is true, which indicates that there are more analytics configurations to list. The next request must include this NextContinuationToken. The token is obfuscated and is not a usable value.
         public let nextContinuationToken: String?
-        
+
         public init(analyticsConfigurationList: [AnalyticsConfiguration]? = nil, continuationToken: String? = nil, isTruncated: Bool? = nil, nextContinuationToken: String? = nil) {
             self.analyticsConfigurationList = analyticsConfigurationList
             self.continuationToken = continuationToken
@@ -3935,7 +3933,7 @@ extension S3 {
         public let bucket: String
         /// The ContinuationToken that represents a placeholder from where this request should begin.
         public let continuationToken: String?
-        
+
         public init(bucket: String, continuationToken: String? = nil) {
             self.bucket = bucket
             self.continuationToken = continuationToken
@@ -3962,7 +3960,7 @@ extension S3 {
         public let isTruncated: Bool?
         /// The marker used to continue this inventory configuration listing. Use the NextContinuationToken from this response to continue the listing in a subsequent request. The continuation token is an opaque value that Amazon S3 understands.
         public let nextContinuationToken: String?
-        
+
         public init(continuationToken: String? = nil, inventoryConfigurationList: [InventoryConfiguration]? = nil, isTruncated: Bool? = nil, nextContinuationToken: String? = nil) {
             self.continuationToken = continuationToken
             self.inventoryConfigurationList = inventoryConfigurationList
@@ -3987,7 +3985,7 @@ extension S3 {
         public let bucket: String
         /// The marker used to continue an inventory configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
         public let continuationToken: String?
-        
+
         public init(bucket: String, continuationToken: String? = nil) {
             self.bucket = bucket
             self.continuationToken = continuationToken
@@ -4014,7 +4012,7 @@ extension S3 {
         public let metricsConfigurationList: [MetricsConfiguration]?
         /// The marker used to continue a metrics configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
         public let nextContinuationToken: String?
-        
+
         public init(continuationToken: String? = nil, isTruncated: Bool? = nil, metricsConfigurationList: [MetricsConfiguration]? = nil, nextContinuationToken: String? = nil) {
             self.continuationToken = continuationToken
             self.isTruncated = isTruncated
@@ -4039,7 +4037,7 @@ extension S3 {
         public let bucket: String
         /// The marker that is used to continue a metrics configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
         public let continuationToken: String?
-        
+
         public init(bucket: String, continuationToken: String? = nil) {
             self.bucket = bucket
             self.continuationToken = continuationToken
@@ -4058,7 +4056,7 @@ extension S3 {
         ]
         public let buckets: [Bucket]?
         public let owner: Owner?
-        
+
         public init(buckets: [Bucket]? = nil, owner: Owner? = nil) {
             self.buckets = buckets
             self.owner = owner
@@ -4106,7 +4104,7 @@ extension S3 {
         /// Upload ID after which listing began.
         public let uploadIdMarker: String?
         public let uploads: [MultipartUpload]?
-        
+
         public init(bucket: String? = nil, commonPrefixes: [CommonPrefix]? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, isTruncated: Bool? = nil, keyMarker: String? = nil, maxUploads: Int32? = nil, nextKeyMarker: String? = nil, nextUploadIdMarker: String? = nil, prefix: String? = nil, uploadIdMarker: String? = nil, uploads: [MultipartUpload]? = nil) {
             self.bucket = bucket
             self.commonPrefixes = commonPrefixes
@@ -4160,7 +4158,7 @@ extension S3 {
         public let prefix: String?
         /// Together with key-marker, specifies the multipart upload after which listing should begin. If key-marker is not specified, the upload-id-marker parameter is ignored.
         public let uploadIdMarker: String?
-        
+
         public init(bucket: String, delimiter: String? = nil, encodingType: EncodingType? = nil, keyMarker: String? = nil, maxUploads: Int32? = nil, prefix: String? = nil, uploadIdMarker: String? = nil) {
             self.bucket = bucket
             self.delimiter = delimiter
@@ -4216,7 +4214,7 @@ extension S3 {
         public let prefix: String?
         public let versionIdMarker: String?
         public let versions: [ObjectVersion]?
-        
+
         public init(commonPrefixes: [CommonPrefix]? = nil, deleteMarkers: [DeleteMarkerEntry]? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, isTruncated: Bool? = nil, keyMarker: String? = nil, maxKeys: Int32? = nil, name: String? = nil, nextKeyMarker: String? = nil, nextVersionIdMarker: String? = nil, prefix: String? = nil, versionIdMarker: String? = nil, versions: [ObjectVersion]? = nil) {
             self.commonPrefixes = commonPrefixes
             self.deleteMarkers = deleteMarkers
@@ -4272,7 +4270,7 @@ extension S3 {
         public let prefix: String?
         /// Specifies the object version you want to start listing from.
         public let versionIdMarker: String?
-        
+
         public init(bucket: String, delimiter: String? = nil, encodingType: EncodingType? = nil, keyMarker: String? = nil, maxKeys: Int32? = nil, prefix: String? = nil, versionIdMarker: String? = nil) {
             self.bucket = bucket
             self.delimiter = delimiter
@@ -4320,7 +4318,7 @@ extension S3 {
         /// When response is truncated (the IsTruncated element value in the response is true), you can use the key name in this field as marker in the subsequent request to get next set of objects. Amazon S3 lists objects in alphabetical order Note: This element is returned only if you have delimiter request parameter specified. If response does not include the NextMaker and it is truncated, you can use the value of the last Key in the response as the marker in the subsequent request to get the next set of object keys.
         public let nextMarker: String?
         public let prefix: String?
-        
+
         public init(commonPrefixes: [CommonPrefix]? = nil, contents: [Object]? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, isTruncated: Bool? = nil, marker: String? = nil, maxKeys: Int32? = nil, name: String? = nil, nextMarker: String? = nil, prefix: String? = nil) {
             self.commonPrefixes = commonPrefixes
             self.contents = contents
@@ -4370,7 +4368,7 @@ extension S3 {
         public let prefix: String?
         /// Confirms that the requester knows that she or he will be charged for the list objects request. Bucket owners need not specify this parameter in their requests.
         public let requestPayer: RequestPayer?
-        
+
         public init(bucket: String, delimiter: String? = nil, encodingType: EncodingType? = nil, marker: String? = nil, maxKeys: Int32? = nil, prefix: String? = nil, requestPayer: RequestPayer? = nil) {
             self.bucket = bucket
             self.delimiter = delimiter
@@ -4431,7 +4429,7 @@ extension S3 {
         public let prefix: String?
         /// StartAfter is where you want Amazon S3 to start listing from. Amazon S3 starts listing after this specified key. StartAfter can be any key in the bucket
         public let startAfter: String?
-        
+
         public init(commonPrefixes: [CommonPrefix]? = nil, contents: [Object]? = nil, continuationToken: String? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, isTruncated: Bool? = nil, keyCount: Int32? = nil, maxKeys: Int32? = nil, name: String? = nil, nextContinuationToken: String? = nil, prefix: String? = nil, startAfter: String? = nil) {
             self.commonPrefixes = commonPrefixes
             self.contents = contents
@@ -4493,7 +4491,7 @@ extension S3 {
         public let requestPayer: RequestPayer?
         /// StartAfter is where you want Amazon S3 to start listing from. Amazon S3 starts listing after this specified key. StartAfter can be any key in the bucket
         public let startAfter: String?
-        
+
         public init(bucket: String, continuationToken: String? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, fetchOwner: Bool? = nil, maxKeys: Int32? = nil, prefix: String? = nil, requestPayer: RequestPayer? = nil, startAfter: String? = nil) {
             self.bucket = bucket
             self.continuationToken = continuationToken
@@ -4561,7 +4559,7 @@ extension S3 {
         public let storageClass: StorageClass?
         /// Upload ID identifying the multipart upload whose parts are being listed.
         public let uploadId: String?
-        
+
         public init(abortDate: TimeStamp? = nil, abortRuleId: String? = nil, bucket: String? = nil, initiator: Initiator? = nil, isTruncated: Bool? = nil, key: String? = nil, maxParts: Int32? = nil, nextPartNumberMarker: Int32? = nil, owner: Owner? = nil, partNumberMarker: Int32? = nil, parts: [Part]? = nil, requestCharged: RequestCharged? = nil, storageClass: StorageClass? = nil, uploadId: String? = nil) {
             self.abortDate = abortDate
             self.abortRuleId = abortRuleId
@@ -4615,7 +4613,7 @@ extension S3 {
         public let requestPayer: RequestPayer?
         /// Upload ID identifying the multipart upload whose parts are being listed.
         public let uploadId: String
-        
+
         public init(bucket: String, key: String, maxParts: Int32? = nil, partNumberMarker: Int32? = nil, requestPayer: RequestPayer? = nil, uploadId: String) {
             self.bucket = bucket
             self.key = key
@@ -4646,7 +4644,7 @@ extension S3 {
         public let targetGrants: [TargetGrant]?
         /// A prefix for all log object keys. If you store log files from multiple Amazon S3 buckets in a single bucket, you can use a prefix to distinguish which log files came from which bucket.
         public let targetPrefix: String
-        
+
         public init(targetBucket: String, targetGrants: [TargetGrant]? = nil, targetPrefix: String) {
             self.targetBucket = targetBucket
             self.targetGrants = targetGrants
@@ -4685,7 +4683,7 @@ extension S3 {
         ]
         public let name: String?
         public let value: String?
-        
+
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -4706,7 +4704,7 @@ extension S3 {
         public let prefix: String?
         /// The list of tags used when evaluating an AND predicate.
         public let tags: [Tag]?
-        
+
         public init(prefix: String? = nil, tags: [Tag]? = nil) {
             self.prefix = prefix
             self.tags = tags
@@ -4727,7 +4725,7 @@ extension S3 {
         public let filter: MetricsFilter?
         /// The ID used to identify the metrics configuration.
         public let id: String
-        
+
         public init(filter: MetricsFilter? = nil, id: String) {
             self.filter = filter
             self.id = id
@@ -4751,7 +4749,7 @@ extension S3 {
         public let prefix: String?
         /// The tag used when evaluating a metrics filter.
         public let tag: Tag?
-        
+
         public init(and: MetricsAndOperator? = nil, prefix: String? = nil, tag: Tag? = nil) {
             self.and = and
             self.prefix = prefix
@@ -4785,7 +4783,7 @@ extension S3 {
         public let storageClass: StorageClass?
         /// Upload ID that identifies the multipart upload.
         public let uploadId: String?
-        
+
         public init(initiated: TimeStamp? = nil, initiator: Initiator? = nil, key: String? = nil, owner: Owner? = nil, storageClass: StorageClass? = nil, uploadId: String? = nil) {
             self.initiated = initiated
             self.initiator = initiator
@@ -4811,7 +4809,7 @@ extension S3 {
         ]
         /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see How Amazon S3 Calculates When an Object Became Noncurrent in the Amazon Simple Storage Service Developer Guide.
         public let noncurrentDays: Int32?
-        
+
         public init(noncurrentDays: Int32? = nil) {
             self.noncurrentDays = noncurrentDays
         }
@@ -4830,7 +4828,7 @@ extension S3 {
         public let noncurrentDays: Int32?
         /// The class of storage used to store the object.
         public let storageClass: TransitionStorageClass?
-        
+
         public init(noncurrentDays: Int32? = nil, storageClass: TransitionStorageClass? = nil) {
             self.noncurrentDays = noncurrentDays
             self.storageClass = storageClass
@@ -4854,7 +4852,7 @@ extension S3 {
         public let queueConfigurations: [QueueConfiguration]?
         /// The topic to which notifications are sent and the events for which notifications are generated.
         public let topicConfigurations: [TopicConfiguration]?
-        
+
         public init(lambdaFunctionConfigurations: [LambdaFunctionConfiguration]? = nil, queueConfigurations: [QueueConfiguration]? = nil, topicConfigurations: [TopicConfiguration]? = nil) {
             self.lambdaFunctionConfigurations = lambdaFunctionConfigurations
             self.queueConfigurations = queueConfigurations
@@ -4877,7 +4875,7 @@ extension S3 {
         public let cloudFunctionConfiguration: CloudFunctionConfiguration?
         public let queueConfiguration: QueueConfigurationDeprecated?
         public let topicConfiguration: TopicConfigurationDeprecated?
-        
+
         public init(cloudFunctionConfiguration: CloudFunctionConfiguration? = nil, queueConfiguration: QueueConfigurationDeprecated? = nil, topicConfiguration: TopicConfigurationDeprecated? = nil) {
             self.cloudFunctionConfiguration = cloudFunctionConfiguration
             self.queueConfiguration = queueConfiguration
@@ -4896,7 +4894,7 @@ extension S3 {
             AWSShapeMember(label: "Key", location: .body(locationName: "S3Key"), required: false, type: .structure)
         ]
         public let key: S3KeyFilter?
-        
+
         public init(key: S3KeyFilter? = nil) {
             self.key = key
         }
@@ -4922,7 +4920,7 @@ extension S3 {
         public let size: Int64?
         /// The class of storage used to store the object.
         public let storageClass: ObjectStorageClass?
-        
+
         public init(eTag: String? = nil, key: String? = nil, lastModified: TimeStamp? = nil, owner: Owner? = nil, size: Int64? = nil, storageClass: ObjectStorageClass? = nil) {
             self.eTag = eTag
             self.key = key
@@ -4962,7 +4960,7 @@ extension S3 {
         public let key: String
         /// VersionId for the specific version of the object to delete.
         public let versionId: String?
-        
+
         public init(key: String, versionId: String? = nil) {
             self.key = key
             self.versionId = versionId
@@ -4983,7 +4981,7 @@ extension S3 {
         public let objectLockEnabled: ObjectLockEnabled?
         /// The object lock rule in place for the specified object.
         public let rule: ObjectLockRule?
-        
+
         public init(objectLockEnabled: ObjectLockEnabled? = nil, rule: ObjectLockRule? = nil) {
             self.objectLockEnabled = objectLockEnabled
             self.rule = rule
@@ -5006,7 +5004,7 @@ extension S3 {
         ]
         /// Indicates whether the specified object has a Legal Hold in place.
         public let status: ObjectLockLegalHoldStatus?
-        
+
         public init(status: ObjectLockLegalHoldStatus? = nil) {
             self.status = status
         }
@@ -5037,7 +5035,7 @@ extension S3 {
         public let mode: ObjectLockRetentionMode?
         /// The date on which this object lock retention expires.
         public let retainUntilDate: TimeStamp?
-        
+
         public init(mode: ObjectLockRetentionMode? = nil, retainUntilDate: TimeStamp? = nil) {
             self.mode = mode
             self.retainUntilDate = retainUntilDate
@@ -5061,7 +5059,7 @@ extension S3 {
         ]
         /// The default retention period that you want to apply to new objects placed in the specified bucket.
         public let defaultRetention: DefaultRetention?
-        
+
         public init(defaultRetention: DefaultRetention? = nil) {
             self.defaultRetention = defaultRetention
         }
@@ -5107,7 +5105,7 @@ extension S3 {
         public let storageClass: ObjectVersionStorageClass?
         /// Version ID of an object.
         public let versionId: String?
-        
+
         public init(eTag: String? = nil, isLatest: Bool? = nil, key: String? = nil, lastModified: TimeStamp? = nil, owner: Owner? = nil, size: Int64? = nil, storageClass: ObjectVersionStorageClass? = nil, versionId: String? = nil) {
             self.eTag = eTag
             self.isLatest = isLatest
@@ -5142,7 +5140,7 @@ extension S3 {
         ]
         /// Describes an S3 location that will receive the results of the restore request.
         public let s3: S3Location?
-        
+
         public init(s3: S3Location? = nil) {
             self.s3 = s3
         }
@@ -5161,7 +5159,7 @@ extension S3 {
         public let csv: CSVOutput?
         /// Specifies JSON as request's output serialization format.
         public let json: JSONOutput?
-        
+
         public init(csv: CSVOutput? = nil, json: JSONOutput? = nil) {
             self.csv = csv
             self.json = json
@@ -5180,7 +5178,7 @@ extension S3 {
         ]
         public let displayName: String?
         public let id: String?
-        
+
         public init(displayName: String? = nil, id: String? = nil) {
             self.displayName = displayName
             self.id = id
@@ -5198,12 +5196,11 @@ extension S3 {
     }
 
     public struct ParquetInput: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct Part: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -5220,7 +5217,7 @@ extension S3 {
         public let partNumber: Int32?
         /// Size in bytes of the uploaded part data.
         public let size: Int64?
-        
+
         public init(eTag: String? = nil, lastModified: TimeStamp? = nil, partNumber: Int32? = nil, size: Int64? = nil) {
             self.eTag = eTag
             self.lastModified = lastModified
@@ -5257,7 +5254,7 @@ extension S3 {
         ]
         /// The policy status for this bucket. TRUE indicates that this bucket is public. FALSE indicates that the bucket is not public.
         public let isPublic: Bool?
-        
+
         public init(isPublic: Bool? = nil) {
             self.isPublic = isPublic
         }
@@ -5279,7 +5276,7 @@ extension S3 {
         public let bytesReturned: Int64?
         /// The current number of object bytes scanned.
         public let bytesScanned: Int64?
-        
+
         public init(bytesProcessed: Int64? = nil, bytesReturned: Int64? = nil, bytesScanned: Int64? = nil) {
             self.bytesProcessed = bytesProcessed
             self.bytesReturned = bytesReturned
@@ -5299,7 +5296,7 @@ extension S3 {
         ]
         /// The Progress event details.
         public let details: Progress?
-        
+
         public init(details: Progress? = nil) {
             self.details = details
         }
@@ -5330,7 +5327,7 @@ extension S3 {
         public let ignorePublicAcls: Bool?
         /// Specifies whether Amazon S3 should restrict public bucket policies for this bucket. Setting this element to TRUE restricts access to this bucket to only AWS services and authorized users within this account if the bucket has a public policy. Enabling this setting doesn't affect previously stored bucket policies, except that public and cross-account access within any public bucket policy, including non-public delegation to specific accounts, is blocked.
         public let restrictPublicBuckets: Bool?
-        
+
         public init(blockPublicAcls: Bool? = nil, blockPublicPolicy: Bool? = nil, ignorePublicAcls: Bool? = nil, restrictPublicBuckets: Bool? = nil) {
             self.blockPublicAcls = blockPublicAcls
             self.blockPublicPolicy = blockPublicPolicy
@@ -5358,7 +5355,7 @@ extension S3 {
         public let accelerateConfiguration: AccelerateConfiguration
         /// Name of the bucket for which the accelerate configuration is set.
         public let bucket: String
-        
+
         public init(accelerateConfiguration: AccelerateConfiguration, bucket: String) {
             self.accelerateConfiguration = accelerateConfiguration
             self.bucket = bucket
@@ -5401,7 +5398,7 @@ extension S3 {
         public let grantWrite: String?
         /// Allows grantee to write the ACL for the applicable bucket.
         public let grantWriteACP: String?
-        
+
         public init(accessControlPolicy: AccessControlPolicy? = nil, acl: BucketCannedACL? = nil, bucket: String, contentMD5: String? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWrite: String? = nil, grantWriteACP: String? = nil) {
             self.accessControlPolicy = accessControlPolicy
             self.acl = acl
@@ -5442,7 +5439,7 @@ extension S3 {
         public let bucket: String
         /// The ID that identifies the analytics configuration.
         public let id: String
-        
+
         public init(analyticsConfiguration: AnalyticsConfiguration, bucket: String, id: String) {
             self.analyticsConfiguration = analyticsConfiguration
             self.bucket = bucket
@@ -5468,7 +5465,7 @@ extension S3 {
         public let bucket: String
         public let contentMD5: String?
         public let cORSConfiguration: CORSConfiguration
-        
+
         public init(bucket: String, contentMD5: String? = nil, cORSConfiguration: CORSConfiguration) {
             self.bucket = bucket
             self.contentMD5 = contentMD5
@@ -5496,7 +5493,7 @@ extension S3 {
         /// The base64-encoded 128-bit MD5 digest of the server-side encryption configuration. This parameter is auto-populated when using the command from the CLI.
         public let contentMD5: String?
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration
-        
+
         public init(bucket: String, contentMD5: String? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration) {
             self.bucket = bucket
             self.contentMD5 = contentMD5
@@ -5525,7 +5522,7 @@ extension S3 {
         public let id: String
         /// Specifies the inventory configuration.
         public let inventoryConfiguration: InventoryConfiguration
-        
+
         public init(bucket: String, id: String, inventoryConfiguration: InventoryConfiguration) {
             self.bucket = bucket
             self.id = id
@@ -5549,7 +5546,7 @@ extension S3 {
         ]
         public let bucket: String
         public let lifecycleConfiguration: BucketLifecycleConfiguration?
-        
+
         public init(bucket: String, lifecycleConfiguration: BucketLifecycleConfiguration? = nil) {
             self.bucket = bucket
             self.lifecycleConfiguration = lifecycleConfiguration
@@ -5573,7 +5570,7 @@ extension S3 {
         public let bucket: String
         public let contentMD5: String?
         public let lifecycleConfiguration: LifecycleConfiguration?
-        
+
         public init(bucket: String, contentMD5: String? = nil, lifecycleConfiguration: LifecycleConfiguration? = nil) {
             self.bucket = bucket
             self.contentMD5 = contentMD5
@@ -5599,7 +5596,7 @@ extension S3 {
         public let bucket: String
         public let bucketLoggingStatus: BucketLoggingStatus
         public let contentMD5: String?
-        
+
         public init(bucket: String, bucketLoggingStatus: BucketLoggingStatus, contentMD5: String? = nil) {
             self.bucket = bucket
             self.bucketLoggingStatus = bucketLoggingStatus
@@ -5628,7 +5625,7 @@ extension S3 {
         public let id: String
         /// Specifies the metrics configuration.
         public let metricsConfiguration: MetricsConfiguration
-        
+
         public init(bucket: String, id: String, metricsConfiguration: MetricsConfiguration) {
             self.bucket = bucket
             self.id = id
@@ -5652,7 +5649,7 @@ extension S3 {
         ]
         public let bucket: String
         public let notificationConfiguration: NotificationConfiguration
-        
+
         public init(bucket: String, notificationConfiguration: NotificationConfiguration) {
             self.bucket = bucket
             self.notificationConfiguration = notificationConfiguration
@@ -5676,7 +5673,7 @@ extension S3 {
         public let bucket: String
         public let contentMD5: String?
         public let notificationConfiguration: NotificationConfigurationDeprecated
-        
+
         public init(bucket: String, contentMD5: String? = nil, notificationConfiguration: NotificationConfigurationDeprecated) {
             self.bucket = bucket
             self.contentMD5 = contentMD5
@@ -5705,7 +5702,7 @@ extension S3 {
         public let contentMD5: String?
         /// The bucket policy as a JSON document.
         public let policy: String
-        
+
         public init(bucket: String, confirmRemoveSelfBucketAccess: Bool? = nil, contentMD5: String? = nil, policy: String) {
             self.bucket = bucket
             self.confirmRemoveSelfBucketAccess = confirmRemoveSelfBucketAccess
@@ -5737,7 +5734,7 @@ extension S3 {
         public let replicationConfiguration: ReplicationConfiguration
         /// A token that allows Amazon S3 object lock to be enabled for an existing bucket.
         public let token: String?
-        
+
         public init(bucket: String, contentMD5: String? = nil, replicationConfiguration: ReplicationConfiguration, token: String? = nil) {
             self.bucket = bucket
             self.contentMD5 = contentMD5
@@ -5765,7 +5762,7 @@ extension S3 {
         public let bucket: String
         public let contentMD5: String?
         public let requestPaymentConfiguration: RequestPaymentConfiguration
-        
+
         public init(bucket: String, contentMD5: String? = nil, requestPaymentConfiguration: RequestPaymentConfiguration) {
             self.bucket = bucket
             self.contentMD5 = contentMD5
@@ -5791,7 +5788,7 @@ extension S3 {
         public let bucket: String
         public let contentMD5: String?
         public let tagging: Tagging
-        
+
         public init(bucket: String, contentMD5: String? = nil, tagging: Tagging) {
             self.bucket = bucket
             self.contentMD5 = contentMD5
@@ -5820,7 +5817,7 @@ extension S3 {
         /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
         public let mfa: String?
         public let versioningConfiguration: VersioningConfiguration
-        
+
         public init(bucket: String, contentMD5: String? = nil, mfa: String? = nil, versioningConfiguration: VersioningConfiguration) {
             self.bucket = bucket
             self.contentMD5 = contentMD5
@@ -5848,7 +5845,7 @@ extension S3 {
         public let bucket: String
         public let contentMD5: String?
         public let websiteConfiguration: WebsiteConfiguration
-        
+
         public init(bucket: String, contentMD5: String? = nil, websiteConfiguration: WebsiteConfiguration) {
             self.bucket = bucket
             self.contentMD5 = contentMD5
@@ -5867,7 +5864,7 @@ extension S3 {
             AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum)
         ]
         public let requestCharged: RequestCharged?
-        
+
         public init(requestCharged: RequestCharged? = nil) {
             self.requestCharged = requestCharged
         }
@@ -5915,7 +5912,7 @@ extension S3 {
         public let requestPayer: RequestPayer?
         /// VersionId used to reference a specific version of the object.
         public let versionId: String?
-        
+
         public init(accessControlPolicy: AccessControlPolicy? = nil, acl: ObjectCannedACL? = nil, bucket: String, contentMD5: String? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWrite: String? = nil, grantWriteACP: String? = nil, key: String, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
             self.accessControlPolicy = accessControlPolicy
             self.acl = acl
@@ -5952,7 +5949,7 @@ extension S3 {
             AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum)
         ]
         public let requestCharged: RequestCharged?
-        
+
         public init(requestCharged: RequestCharged? = nil) {
             self.requestCharged = requestCharged
         }
@@ -5985,7 +5982,7 @@ extension S3 {
         public let requestPayer: RequestPayer?
         /// The version ID of the object that you want to place a Legal Hold on.
         public let versionId: String?
-        
+
         public init(bucket: String, contentMD5: String? = nil, key: String, legalHold: ObjectLockLegalHold? = nil, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
             self.bucket = bucket
             self.contentMD5 = contentMD5
@@ -6010,7 +6007,7 @@ extension S3 {
             AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum)
         ]
         public let requestCharged: RequestCharged?
-        
+
         public init(requestCharged: RequestCharged? = nil) {
             self.requestCharged = requestCharged
         }
@@ -6040,7 +6037,7 @@ extension S3 {
         public let requestPayer: RequestPayer?
         /// A token to allow Amazon S3 object lock to be enabled for an existing bucket.
         public let token: String?
-        
+
         public init(bucket: String, contentMD5: String? = nil, objectLockConfiguration: ObjectLockConfiguration? = nil, requestPayer: RequestPayer? = nil, token: String? = nil) {
             self.bucket = bucket
             self.contentMD5 = contentMD5
@@ -6087,7 +6084,7 @@ extension S3 {
         public let sSEKMSKeyId: String?
         /// Version of the object.
         public let versionId: String?
-        
+
         public init(eTag: String? = nil, expiration: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, versionId: String? = nil) {
             self.eTag = eTag
             self.expiration = expiration
@@ -6207,7 +6204,7 @@ extension S3 {
         public let tagging: String?
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
         public let websiteRedirectLocation: String?
-        
+
         public init(acl: ObjectCannedACL? = nil, body: Data? = nil, bucket: String, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, expires: TimeStamp? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acl = acl
             self.body = body
@@ -6280,7 +6277,7 @@ extension S3 {
             AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum)
         ]
         public let requestCharged: RequestCharged?
-        
+
         public init(requestCharged: RequestCharged? = nil) {
             self.requestCharged = requestCharged
         }
@@ -6316,7 +6313,7 @@ extension S3 {
         public let retention: ObjectLockRetention?
         /// The version ID for the object that you want to apply this Object Retention configuration to.
         public let versionId: String?
-        
+
         public init(bucket: String, bypassGovernanceRetention: Bool? = nil, contentMD5: String? = nil, key: String, requestPayer: RequestPayer? = nil, retention: ObjectLockRetention? = nil, versionId: String? = nil) {
             self.bucket = bucket
             self.bypassGovernanceRetention = bypassGovernanceRetention
@@ -6343,7 +6340,7 @@ extension S3 {
             AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string)
         ]
         public let versionId: String?
-        
+
         public init(versionId: String? = nil) {
             self.versionId = versionId
         }
@@ -6369,7 +6366,7 @@ extension S3 {
         public let key: String
         public let tagging: Tagging
         public let versionId: String?
-        
+
         public init(bucket: String, contentMD5: String? = nil, key: String, tagging: Tagging, versionId: String? = nil) {
             self.bucket = bucket
             self.contentMD5 = contentMD5
@@ -6402,7 +6399,7 @@ extension S3 {
         public let contentMD5: String?
         /// The PublicAccessBlock configuration that you want to apply to this Amazon S3 bucket. You can enable the configuration options in any combination. For more information about when Amazon S3 considers a bucket or object public, see The Meaning of "Public" in the Amazon Simple Storage Service Developer Guide.
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration
-        
+
         public init(bucket: String, contentMD5: String? = nil, publicAccessBlockConfiguration: PublicAccessBlockConfiguration) {
             self.bucket = bucket
             self.contentMD5 = contentMD5
@@ -6428,7 +6425,7 @@ extension S3 {
         public let id: String?
         /// The Amazon Resource Name (ARN) of the Amazon SQS queue to which Amazon S3 publishes a message when it detects events of the specified type.
         public let queueArn: String
-        
+
         public init(events: [Event], filter: NotificationConfigurationFilter? = nil, id: String? = nil, queueArn: String) {
             self.events = events
             self.filter = filter
@@ -6453,7 +6450,7 @@ extension S3 {
         public let events: [Event]?
         public let id: String?
         public let queue: String?
-        
+
         public init(events: [Event]? = nil, id: String? = nil, queue: String? = nil) {
             self.events = events
             self.id = id
@@ -6479,7 +6476,7 @@ extension S3 {
         ]
         /// The byte array of partial, one or more result records.
         public let payload: Data?
-        
+
         public init(payload: Data? = nil) {
             self.payload = payload
         }
@@ -6507,7 +6504,7 @@ extension S3 {
         public let replaceKeyPrefixWith: String?
         /// The specific object key to use in the redirect request. For example, redirect request to error.html. Not required if one of the siblings is present. Can be present only if ReplaceKeyPrefixWith is not provided.
         public let replaceKeyWith: String?
-        
+
         public init(hostName: String? = nil, httpRedirectCode: String? = nil, protocol: Protocol? = nil, replaceKeyPrefixWith: String? = nil, replaceKeyWith: String? = nil) {
             self.hostName = hostName
             self.httpRedirectCode = httpRedirectCode
@@ -6534,7 +6531,7 @@ extension S3 {
         public let hostName: String
         /// Protocol to use when redirecting requests. The default is the protocol that is used in the original request.
         public let `protocol`: Protocol?
-        
+
         public init(hostName: String, protocol: Protocol? = nil) {
             self.hostName = hostName
             self.`protocol` = `protocol`
@@ -6555,7 +6552,7 @@ extension S3 {
         public let role: String
         /// A container for one or more replication rules. A replication configuration must have at least one rule and can contain a maximum of 1,000 rules. 
         public let rules: [ReplicationRule]
-        
+
         public init(role: String, rules: [ReplicationRule]) {
             self.role = role
             self.rules = rules
@@ -6589,7 +6586,7 @@ extension S3 {
         public let sourceSelectionCriteria: SourceSelectionCriteria?
         /// Specifies whether the rule is enabled.
         public let status: ReplicationRuleStatus
-        
+
         public init(deleteMarkerReplication: DeleteMarkerReplication? = nil, destination: Destination, filter: ReplicationRuleFilter? = nil, id: String? = nil, priority: Int32? = nil, sourceSelectionCriteria: SourceSelectionCriteria? = nil, status: ReplicationRuleStatus) {
             self.deleteMarkerReplication = deleteMarkerReplication
             self.destination = destination
@@ -6618,7 +6615,7 @@ extension S3 {
         ]
         public let prefix: String?
         public let tags: [Tag]?
-        
+
         public init(prefix: String? = nil, tags: [Tag]? = nil) {
             self.prefix = prefix
             self.tags = tags
@@ -6642,7 +6639,7 @@ extension S3 {
         public let prefix: String?
         /// A container for specifying a tag key and value.  The rule applies only to objects that have the tag in their tag set.
         public let tag: Tag?
-        
+
         public init(and: ReplicationRuleAndOperator? = nil, prefix: String? = nil, tag: Tag? = nil) {
             self.and = and
             self.prefix = prefix
@@ -6686,7 +6683,7 @@ extension S3 {
         ]
         /// Specifies who pays for the download and request fees.
         public let payer: Payer
-        
+
         public init(payer: Payer) {
             self.payer = payer
         }
@@ -6702,7 +6699,7 @@ extension S3 {
         ]
         /// Specifies whether periodic QueryProgress frames should be sent. Valid values: TRUE, FALSE. Default value: FALSE.
         public let enabled: Bool?
-        
+
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -6720,7 +6717,7 @@ extension S3 {
         public let requestCharged: RequestCharged?
         /// Indicates the path in the provided S3 output location where Select results will be restored to.
         public let restoreOutputPath: String?
-        
+
         public init(requestCharged: RequestCharged? = nil, restoreOutputPath: String? = nil) {
             self.requestCharged = requestCharged
             self.restoreOutputPath = restoreOutputPath
@@ -6748,7 +6745,7 @@ extension S3 {
         public let requestPayer: RequestPayer?
         public let restoreRequest: RestoreRequest?
         public let versionId: String?
-        
+
         public init(bucket: String, key: String, requestPayer: RequestPayer? = nil, restoreRequest: RestoreRequest? = nil, versionId: String? = nil) {
             self.bucket = bucket
             self.key = key
@@ -6790,7 +6787,7 @@ extension S3 {
         public let tier: Tier?
         /// Type of restore request.
         public let `type`: RestoreRequestType?
-        
+
         public init(days: Int32? = nil, description: String? = nil, glacierJobParameters: GlacierJobParameters? = nil, outputLocation: OutputLocation? = nil, selectParameters: SelectParameters? = nil, tier: Tier? = nil, type: RestoreRequestType? = nil) {
             self.days = days
             self.description = description
@@ -6826,7 +6823,7 @@ extension S3 {
         public let condition: Condition?
         /// Container for redirect information. You can redirect requests to another host, to another page, or with another protocol. In the event of an error, you can specify a different error code to return.
         public let redirect: Redirect
-        
+
         public init(condition: Condition? = nil, redirect: Redirect) {
             self.condition = condition
             self.redirect = redirect
@@ -6860,7 +6857,7 @@ extension S3 {
         /// If Enabled, the rule is currently being applied. If Disabled, the rule is not currently being applied.
         public let status: ExpirationStatus
         public let transition: Transition?
-        
+
         public init(abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil, expiration: LifecycleExpiration? = nil, id: String? = nil, noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil, noncurrentVersionTransition: NoncurrentVersionTransition? = nil, prefix: String, status: ExpirationStatus, transition: Transition? = nil) {
             self.abortIncompleteMultipartUpload = abortIncompleteMultipartUpload
             self.expiration = expiration
@@ -6889,7 +6886,7 @@ extension S3 {
             AWSShapeMember(label: "FilterRules", location: .body(locationName: "FilterRule"), required: false, type: .list, encoding: .flatList)
         ]
         public let filterRules: [FilterRule]?
-        
+
         public init(filterRules: [FilterRule]? = nil) {
             self.filterRules = filterRules
         }
@@ -6925,7 +6922,7 @@ extension S3 {
         public let tagging: Tagging?
         /// A list of metadata to store with the restore results in S3.
         public let userMetadata: [MetadataEntry]?
-        
+
         public init(accessControlList: [Grant]? = nil, bucketName: String, cannedACL: ObjectCannedACL? = nil, encryption: Encryption? = nil, prefix: String, storageClass: StorageClass? = nil, tagging: Tagging? = nil, userMetadata: [MetadataEntry]? = nil) {
             self.accessControlList = accessControlList
             self.bucketName = bucketName
@@ -6955,7 +6952,7 @@ extension S3 {
         ]
         /// Specifies the ID of the AWS Key Management Service (KMS) master encryption key to use for encrypting Inventory reports.
         public let keyId: String
-        
+
         public init(keyId: String) {
             self.keyId = keyId
         }
@@ -6966,12 +6963,11 @@ extension S3 {
     }
 
     public struct SSES3: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct SelectObjectContentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -7006,7 +7002,7 @@ extension S3 {
         public let sSECustomerKey: String?
         /// The SSE Customer Key MD5. For more information, see  Server-Side Encryption (Using Customer-Provided Encryption Keys. 
         public let sSECustomerKeyMD5: String?
-        
+
         public init(bucket: String, expression: String, expressionType: ExpressionType, inputSerialization: InputSerialization, key: String, outputSerialization: OutputSerialization, requestProgress: RequestProgress? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil) {
             self.bucket = bucket
             self.expression = expression
@@ -7049,7 +7045,7 @@ extension S3 {
         public let inputSerialization: InputSerialization
         /// Describes how the results of the Select job are serialized.
         public let outputSerialization: OutputSerialization
-        
+
         public init(expression: String, expressionType: ExpressionType, inputSerialization: InputSerialization, outputSerialization: OutputSerialization) {
             self.expression = expression
             self.expressionType = expressionType
@@ -7080,7 +7076,7 @@ extension S3 {
         public let kMSMasterKeyID: String?
         /// Server-side encryption algorithm to use for the default encryption.
         public let sSEAlgorithm: ServerSideEncryption
-        
+
         public init(kMSMasterKeyID: String? = nil, sSEAlgorithm: ServerSideEncryption) {
             self.kMSMasterKeyID = kMSMasterKeyID
             self.sSEAlgorithm = sSEAlgorithm
@@ -7098,7 +7094,7 @@ extension S3 {
         ]
         /// Container for information about a particular server-side encryption configuration rule.
         public let rules: [ServerSideEncryptionRule]
-        
+
         public init(rules: [ServerSideEncryptionRule]) {
             self.rules = rules
         }
@@ -7114,7 +7110,7 @@ extension S3 {
         ]
         /// Specifies the default server-side encryption to apply to new objects in the bucket. If a PUT Object request doesn't specify any server-side encryption, this default encryption will be applied.
         public let applyServerSideEncryptionByDefault: ServerSideEncryptionByDefault?
-        
+
         public init(applyServerSideEncryptionByDefault: ServerSideEncryptionByDefault? = nil) {
             self.applyServerSideEncryptionByDefault = applyServerSideEncryptionByDefault
         }
@@ -7130,7 +7126,7 @@ extension S3 {
         ]
         ///  A container for filter information for the selection of Amazon S3 objects encrypted with AWS KMS. If you include SourceSelectionCriteria in the replication configuration, this element is required. 
         public let sseKmsEncryptedObjects: SseKmsEncryptedObjects?
-        
+
         public init(sseKmsEncryptedObjects: SseKmsEncryptedObjects? = nil) {
             self.sseKmsEncryptedObjects = sseKmsEncryptedObjects
         }
@@ -7146,7 +7142,7 @@ extension S3 {
         ]
         /// Specifies whether Amazon S3 replicates objects created with server-side encryption using an AWS KMS-managed key.
         public let status: SseKmsEncryptedObjectsStatus
-        
+
         public init(status: SseKmsEncryptedObjectsStatus) {
             self.status = status
         }
@@ -7174,7 +7170,7 @@ extension S3 {
         public let bytesReturned: Int64?
         /// The total number of object bytes scanned.
         public let bytesScanned: Int64?
-        
+
         public init(bytesProcessed: Int64? = nil, bytesReturned: Int64? = nil, bytesScanned: Int64? = nil) {
             self.bytesProcessed = bytesProcessed
             self.bytesReturned = bytesReturned
@@ -7194,7 +7190,7 @@ extension S3 {
         ]
         /// The Stats event details.
         public let details: Stats?
-        
+
         public init(details: Stats? = nil) {
             self.details = details
         }
@@ -7221,7 +7217,7 @@ extension S3 {
         ]
         /// Specifies how data related to the storage class analysis for an Amazon S3 bucket should be exported.
         public let dataExport: StorageClassAnalysisDataExport?
-        
+
         public init(dataExport: StorageClassAnalysisDataExport? = nil) {
             self.dataExport = dataExport
         }
@@ -7240,7 +7236,7 @@ extension S3 {
         public let destination: AnalyticsExportDestination
         /// The version of the output schema to use when exporting data. Must be V_1.
         public let outputSchemaVersion: StorageClassAnalysisSchemaVersion
-        
+
         public init(destination: AnalyticsExportDestination, outputSchemaVersion: StorageClassAnalysisSchemaVersion) {
             self.destination = destination
             self.outputSchemaVersion = outputSchemaVersion
@@ -7266,7 +7262,7 @@ extension S3 {
         public let key: String
         /// Value of the tag.
         public let value: String
-        
+
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -7283,7 +7279,7 @@ extension S3 {
             AWSShapeMember(label: "TagSet", required: true, type: .list, encoding: .list(member:"Tag"))
         ]
         public let tagSet: [Tag]
-        
+
         public init(tagSet: [Tag]) {
             self.tagSet = tagSet
         }
@@ -7307,7 +7303,7 @@ extension S3 {
         public let grantee: Grantee?
         /// Logging permissions assigned to the Grantee for the bucket.
         public let permission: BucketLogsPermission?
-        
+
         public init(grantee: Grantee? = nil, permission: BucketLogsPermission? = nil) {
             self.grantee = grantee
             self.permission = permission
@@ -7339,7 +7335,7 @@ extension S3 {
         public let id: String?
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which Amazon S3 publishes a message when it detects events of the specified type.
         public let topicArn: String
-        
+
         public init(events: [Event], filter: NotificationConfigurationFilter? = nil, id: String? = nil, topicArn: String) {
             self.events = events
             self.filter = filter
@@ -7365,7 +7361,7 @@ extension S3 {
         public let id: String?
         /// Amazon SNS topic to which Amazon S3 will publish a message to report the specified events for the bucket.
         public let topic: String?
-        
+
         public init(events: [Event]? = nil, id: String? = nil, topic: String? = nil) {
             self.events = events
             self.id = id
@@ -7391,7 +7387,7 @@ extension S3 {
         public let days: Int32?
         /// The storage class to which you want the object to transition.
         public let storageClass: TransitionStorageClass?
-        
+
         public init(date: TimeStamp? = nil, days: Int32? = nil, storageClass: TransitionStorageClass? = nil) {
             self.date = date
             self.days = days
@@ -7445,7 +7441,7 @@ extension S3 {
         public let sSECustomerKeyMD5: String?
         /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
         public let sSEKMSKeyId: String?
-        
+
         public init(copyPartResult: CopyPartResult? = nil, copySourceVersionId: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil) {
             self.copyPartResult = copyPartResult
             self.copySourceVersionId = copySourceVersionId
@@ -7518,7 +7514,7 @@ extension S3 {
         public let sSECustomerKeyMD5: String?
         /// Upload ID identifying the multipart upload whose part is being copied.
         public let uploadId: String
-        
+
         public init(bucket: String, copySource: String, copySourceIfMatch: String? = nil, copySourceIfModifiedSince: TimeStamp? = nil, copySourceIfNoneMatch: String? = nil, copySourceIfUnmodifiedSince: TimeStamp? = nil, copySourceRange: String? = nil, copySourceSSECustomerAlgorithm: String? = nil, copySourceSSECustomerKey: String? = nil, copySourceSSECustomerKeyMD5: String? = nil, key: String, partNumber: Int32, requestPayer: RequestPayer? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, uploadId: String) {
             self.bucket = bucket
             self.copySource = copySource
@@ -7580,7 +7576,7 @@ extension S3 {
         public let sSECustomerKeyMD5: String?
         /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
         public let sSEKMSKeyId: String?
-        
+
         public init(eTag: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil) {
             self.eTag = eTag
             self.requestCharged = requestCharged
@@ -7637,7 +7633,7 @@ extension S3 {
         public let sSECustomerKeyMD5: String?
         /// Upload ID identifying the multipart upload whose part is being uploaded.
         public let uploadId: String
-        
+
         public init(body: Data? = nil, bucket: String, contentLength: Int64? = nil, contentMD5: String? = nil, key: String, partNumber: Int32, requestPayer: RequestPayer? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, uploadId: String) {
             self.body = body
             self.bucket = bucket
@@ -7676,7 +7672,7 @@ extension S3 {
         public let mFADelete: MFADelete?
         /// The versioning state of the bucket.
         public let status: BucketVersioningStatus?
-        
+
         public init(mFADelete: MFADelete? = nil, status: BucketVersioningStatus? = nil) {
             self.mFADelete = mFADelete
             self.status = status
@@ -7703,7 +7699,7 @@ extension S3 {
         public let redirectAllRequestsTo: RedirectAllRequestsTo?
         /// Rules that define when a redirect is applied and the redirect behavior.
         public let routingRules: [RoutingRule]?
-        
+
         public init(errorDocument: ErrorDocument? = nil, indexDocument: IndexDocument? = nil, redirectAllRequestsTo: RedirectAllRequestsTo? = nil, routingRules: [RoutingRule]? = nil) {
             self.errorDocument = errorDocument
             self.indexDocument = indexDocument
@@ -7718,5 +7714,4 @@ extension S3 {
             case routingRules = "RoutingRules"
         }
     }
-
 }

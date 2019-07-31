@@ -4,7 +4,6 @@ import Foundation
 import AWSSDKSwiftCore
 import NIO
 
-
 public struct PersonalizeRuntime {
 
     let client: AWSClient
@@ -32,5 +31,4 @@ public struct PersonalizeRuntime {
     public func getRecommendations(_ input: GetRecommendationsRequest) throws -> Future<GetRecommendationsResponse> {
         return try client.send(operation: "GetRecommendations", path: "/recommendations", httpMethod: "POST", input: input)
     }
-
 }

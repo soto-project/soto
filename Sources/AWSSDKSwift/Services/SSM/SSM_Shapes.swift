@@ -38,7 +38,7 @@ extension SSM {
         public let registrationsCount: Int32?
         /// Tags assigned to the activation.
         public let tags: [Tag]?
-        
+
         public init(activationId: String? = nil, createdDate: TimeStamp? = nil, defaultInstanceName: String? = nil, description: String? = nil, expirationDate: TimeStamp? = nil, expired: Bool? = nil, iamRole: String? = nil, registrationLimit: Int32? = nil, registrationsCount: Int32? = nil, tags: [Tag]? = nil) {
             self.activationId = activationId
             self.createdDate = createdDate
@@ -78,7 +78,7 @@ extension SSM {
         public let resourceType: ResourceTypeForTagging
         ///  One or more tags. The value parameter is required, but if you don't want the tag to have a value, specify the parameter with no value, and we set the value to an empty string.   Do not enter personally identifiable information in this field. 
         public let tags: [Tag]
-        
+
         public init(resourceId: String, resourceType: ResourceTypeForTagging, tags: [Tag]) {
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -93,12 +93,11 @@ extension SSM {
     }
 
     public struct AddTagsToResourceResult: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct Association: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -133,7 +132,7 @@ extension SSM {
         public let scheduleExpression: String?
         /// The instances targeted by the request to create an association. 
         public let targets: [Target]?
-        
+
         public init(associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, documentVersion: String? = nil, instanceId: String? = nil, lastExecutionDate: TimeStamp? = nil, name: String? = nil, overview: AssociationOverview? = nil, scheduleExpression: String? = nil, targets: [Target]? = nil) {
             self.associationId = associationId
             self.associationName = associationName
@@ -233,7 +232,7 @@ extension SSM {
         public let status: AssociationStatus?
         /// The instances targeted by the request. 
         public let targets: [Target]?
-        
+
         public init(associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, date: TimeStamp? = nil, documentVersion: String? = nil, instanceId: String? = nil, lastExecutionDate: TimeStamp? = nil, lastSuccessfulExecutionDate: TimeStamp? = nil, lastUpdateAssociationDate: TimeStamp? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, overview: AssociationOverview? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, status: AssociationStatus? = nil, targets: [Target]? = nil) {
             self.associationId = associationId
             self.associationName = associationName
@@ -308,7 +307,7 @@ extension SSM {
         public let resourceCountByStatus: String?
         /// The status of the association execution.
         public let status: String?
-        
+
         public init(associationId: String? = nil, associationVersion: String? = nil, createdTime: TimeStamp? = nil, detailedStatus: String? = nil, executionId: String? = nil, lastExecutionDate: TimeStamp? = nil, resourceCountByStatus: String? = nil, status: String? = nil) {
             self.associationId = associationId
             self.associationVersion = associationVersion
@@ -344,7 +343,7 @@ extension SSM {
         public let `type`: AssociationFilterOperatorType
         /// The value specified for the key.
         public let value: String
-        
+
         public init(key: AssociationExecutionFilterKey, type: AssociationFilterOperatorType, value: String) {
             self.key = key
             self.`type` = `type`
@@ -395,7 +394,7 @@ extension SSM {
         public let resourceType: String?
         /// The association execution status.
         public let status: String?
-        
+
         public init(associationId: String? = nil, associationVersion: String? = nil, detailedStatus: String? = nil, executionId: String? = nil, lastExecutionDate: TimeStamp? = nil, outputSource: OutputSource? = nil, resourceId: String? = nil, resourceType: String? = nil, status: String? = nil) {
             self.associationId = associationId
             self.associationVersion = associationVersion
@@ -430,7 +429,7 @@ extension SSM {
         public let key: AssociationExecutionTargetsFilterKey
         /// The value specified for the key.
         public let value: String
-        
+
         public init(key: AssociationExecutionTargetsFilterKey, value: String) {
             self.key = key
             self.value = value
@@ -458,7 +457,7 @@ extension SSM {
         public let key: AssociationFilterKey
         /// The filter value.
         public let value: String
-        
+
         public init(key: AssociationFilterKey, value: String) {
             self.key = key
             self.value = value
@@ -500,7 +499,7 @@ extension SSM {
         public let detailedStatus: String?
         /// The status of the association. Status can be: Pending, Success, or Failed.
         public let status: String?
-        
+
         public init(associationStatusAggregatedCount: [String: Int32]? = nil, detailedStatus: String? = nil, status: String? = nil) {
             self.associationStatusAggregatedCount = associationStatusAggregatedCount
             self.detailedStatus = detailedStatus
@@ -529,7 +528,7 @@ extension SSM {
         public let message: String
         /// The status.
         public let name: AssociationStatusName
-        
+
         public init(additionalInfo: String? = nil, date: TimeStamp, message: String, name: AssociationStatusName) {
             self.additionalInfo = additionalInfo
             self.date = date
@@ -594,7 +593,7 @@ extension SSM {
         public let scheduleExpression: String?
         /// The targets specified for the association when the association version was created. 
         public let targets: [Target]?
-        
+
         public init(associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, createdDate: TimeStamp? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, targets: [Target]? = nil) {
             self.associationId = associationId
             self.associationName = associationName
@@ -646,7 +645,7 @@ extension SSM {
         public let size: Int64?
         /// The URL location of the attachment content.
         public let url: String?
-        
+
         public init(hash: String? = nil, hashType: AttachmentHashType? = nil, name: String? = nil, size: Int64? = nil, url: String? = nil) {
             self.hash = hash
             self.hashType = hashType
@@ -675,7 +674,7 @@ extension SSM {
         ]
         /// The name of the attachment.
         public let name: String?
-        
+
         public init(name: String? = nil) {
             self.name = name
         }
@@ -694,7 +693,7 @@ extension SSM {
         public let key: AttachmentsSourceKey?
         /// The URL of the location of a document attachment, such as the URL of an Amazon S3 bucket.
         public let values: [String]?
-        
+
         public init(key: AttachmentsSourceKey? = nil, values: [String]? = nil) {
             self.key = key
             self.values = values
@@ -789,7 +788,7 @@ extension SSM {
         public let targetParameterName: String?
         /// The specified targets.
         public let targets: [Target]?
-        
+
         public init(automationExecutionId: String? = nil, automationExecutionStatus: AutomationExecutionStatus? = nil, currentAction: String? = nil, currentStepName: String? = nil, documentName: String? = nil, documentVersion: String? = nil, executedBy: String? = nil, executionEndTime: TimeStamp? = nil, executionStartTime: TimeStamp? = nil, failureMessage: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, mode: ExecutionMode? = nil, outputs: [String: [String]]? = nil, parameters: [String: [String]]? = nil, parentAutomationExecutionId: String? = nil, progressCounters: ProgressCounters? = nil, resolvedTargets: ResolvedTargets? = nil, stepExecutions: [StepExecution]? = nil, stepExecutionsTruncated: Bool? = nil, target: String? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targetParameterName: String? = nil, targets: [Target]? = nil) {
             self.automationExecutionId = automationExecutionId
             self.automationExecutionStatus = automationExecutionStatus
@@ -856,7 +855,7 @@ extension SSM {
         public let key: AutomationExecutionFilterKey
         /// The values used to limit the execution information associated with the filter's key.
         public let values: [String]
-        
+
         public init(key: AutomationExecutionFilterKey, values: [String]) {
             self.key = key
             self.values = values
@@ -949,7 +948,7 @@ extension SSM {
         public let targetParameterName: String?
         /// The targets defined by the user when starting the Automation.
         public let targets: [Target]?
-        
+
         public init(automationExecutionId: String? = nil, automationExecutionStatus: AutomationExecutionStatus? = nil, automationType: AutomationType? = nil, currentAction: String? = nil, currentStepName: String? = nil, documentName: String? = nil, documentVersion: String? = nil, executedBy: String? = nil, executionEndTime: TimeStamp? = nil, executionStartTime: TimeStamp? = nil, failureMessage: String? = nil, logFile: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, mode: ExecutionMode? = nil, outputs: [String: [String]]? = nil, parentAutomationExecutionId: String? = nil, resolvedTargets: ResolvedTargets? = nil, target: String? = nil, targetMaps: [[String: [String]]]? = nil, targetParameterName: String? = nil, targets: [Target]? = nil) {
             self.automationExecutionId = automationExecutionId
             self.automationExecutionStatus = automationExecutionStatus
@@ -1028,7 +1027,7 @@ extension SSM {
         public let commandId: String
         /// (Optional) A list of instance IDs on which you want to cancel the command. If not provided, the command is canceled on every instance on which it was requested.
         public let instanceIds: [String]?
-        
+
         public init(commandId: String, instanceIds: [String]? = nil) {
             self.commandId = commandId
             self.instanceIds = instanceIds
@@ -1041,12 +1040,11 @@ extension SSM {
     }
 
     public struct CancelCommandResult: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct CancelMaintenanceWindowExecutionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1054,7 +1052,7 @@ extension SSM {
         ]
         /// The ID of the maintenance window execution to stop.
         public let windowExecutionId: String
-        
+
         public init(windowExecutionId: String) {
             self.windowExecutionId = windowExecutionId
         }
@@ -1070,7 +1068,7 @@ extension SSM {
         ]
         /// The ID of the maintenance window execution that has been stopped.
         public let windowExecutionId: String?
-        
+
         public init(windowExecutionId: String? = nil) {
             self.windowExecutionId = windowExecutionId
         }
@@ -1089,7 +1087,7 @@ extension SSM {
         public let cloudWatchLogGroupName: String?
         /// Enables Systems Manager to send command output to CloudWatch Logs.
         public let cloudWatchOutputEnabled: Bool?
-        
+
         public init(cloudWatchLogGroupName: String? = nil, cloudWatchOutputEnabled: Bool? = nil) {
             self.cloudWatchLogGroupName = cloudWatchLogGroupName
             self.cloudWatchOutputEnabled = cloudWatchOutputEnabled
@@ -1173,7 +1171,7 @@ extension SSM {
         public let targetCount: Int32?
         /// An array of search criteria that targets instances using a Key,Value combination that you specify. Targets is required if you don't provide one or more instance IDs in the call.
         public let targets: [Target]?
-        
+
         public init(cloudWatchOutputConfig: CloudWatchOutputConfig? = nil, commandId: String? = nil, comment: String? = nil, completedCount: Int32? = nil, deliveryTimedOutCount: Int32? = nil, documentName: String? = nil, documentVersion: String? = nil, errorCount: Int32? = nil, expiresAfter: TimeStamp? = nil, instanceIds: [String]? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, notificationConfig: NotificationConfig? = nil, outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, outputS3Region: String? = nil, parameters: [String: [String]]? = nil, requestedDateTime: TimeStamp? = nil, serviceRole: String? = nil, status: CommandStatus? = nil, statusDetails: String? = nil, targetCount: Int32? = nil, targets: [Target]? = nil) {
             self.cloudWatchOutputConfig = cloudWatchOutputConfig
             self.commandId = commandId
@@ -1236,7 +1234,7 @@ extension SSM {
         public let key: CommandFilterKey
         /// The filter value. Valid values for each filter key are as follows:    InvokedAfter: Specify a timestamp to limit your results. For example, specify 2018-07-07T00:00:00Z to see a list of command executions occurring July 7, 2018, and later.    InvokedBefore: Specify a timestamp to limit your results. For example, specify 2018-07-07T00:00:00Z to see a list of command executions from before July 7, 2018.    Status: Specify a valid command status to see a list of all command executions with that status. Status values you can specify include:    Pending     InProgress     Success     Cancelled     Failed     TimedOut     Cancelling       DocumentName: Specify name of the SSM document for which you want to see command execution results. For example, specify AWS-RunPatchBaseline to see command executions that used this SSM document to perform security patching operations on instances.     ExecutionStage: Specify one of the following values:    Executing: Returns a list of command executions that are currently still running.    Complete: Returns a list of command executions that have already completed.     
         public let value: String
-        
+
         public init(key: CommandFilterKey, value: String) {
             self.key = key
             self.value = value
@@ -1307,7 +1305,7 @@ extension SSM {
         public let statusDetails: String?
         ///  Gets the trace output sent by the agent. 
         public let traceOutput: String?
-        
+
         public init(cloudWatchOutputConfig: CloudWatchOutputConfig? = nil, commandId: String? = nil, commandPlugins: [CommandPlugin]? = nil, comment: String? = nil, documentName: String? = nil, documentVersion: String? = nil, instanceId: String? = nil, instanceName: String? = nil, notificationConfig: NotificationConfig? = nil, requestedDateTime: TimeStamp? = nil, serviceRole: String? = nil, standardErrorUrl: String? = nil, standardOutputUrl: String? = nil, status: CommandInvocationStatus? = nil, statusDetails: String? = nil, traceOutput: String? = nil) {
             self.cloudWatchOutputConfig = cloudWatchOutputConfig
             self.commandId = commandId
@@ -1398,7 +1396,7 @@ extension SSM {
         public let status: CommandPluginStatus?
         /// A detailed status of the plugin execution. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding Command Statuses in the AWS Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command has not been sent to the instance.   In Progress: The command has been sent to the instance but has not reached a terminal state.   Success: The execution of the command or plugin was successfully completed. This is a terminal state.   Delivery Timed Out: The command was not delivered to the instance before the delivery timeout expired. Delivery timeouts do not count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: Command execution started on the instance, but the execution was not complete before the execution timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command was not successful on the instance. For a plugin, this indicates that the result code was not zero. For a command invocation, this indicates that the result code for one or more plugins was not zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the instance. The instance might not exist, or it might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit, and they don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.  
         public let statusDetails: String?
-        
+
         public init(name: String? = nil, output: String? = nil, outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, outputS3Region: String? = nil, responseCode: Int32? = nil, responseFinishDateTime: TimeStamp? = nil, responseStartDateTime: TimeStamp? = nil, standardErrorUrl: String? = nil, standardOutputUrl: String? = nil, status: CommandPluginStatus? = nil, statusDetails: String? = nil) {
             self.name = name
             self.output = output
@@ -1463,7 +1461,7 @@ extension SSM {
         public let executionTime: TimeStamp
         /// The type of execution. For example, Command is a valid execution type.
         public let executionType: String?
-        
+
         public init(executionId: String? = nil, executionTime: TimeStamp, executionType: String? = nil) {
             self.executionId = executionId
             self.executionTime = executionTime
@@ -1507,7 +1505,7 @@ extension SSM {
         public let status: ComplianceStatus?
         /// A title for the compliance item. For example, if the compliance item is a Windows patch, the title could be the title of the KB article for the patch; for example: Security Update for Active Directory Federation Services.
         public let title: String?
-        
+
         public init(complianceType: String? = nil, details: [String: String]? = nil, executionSummary: ComplianceExecutionSummary? = nil, id: String? = nil, resourceId: String? = nil, resourceType: String? = nil, severity: ComplianceSeverity? = nil, status: ComplianceStatus? = nil, title: String? = nil) {
             self.complianceType = complianceType
             self.details = details
@@ -1551,7 +1549,7 @@ extension SSM {
         public let status: ComplianceStatus
         /// The title of the compliance item. For example, if the compliance item is a Windows patch, the title could be the title of the KB article for the patch; for example: Security Update for Active Directory Federation Services. 
         public let title: String?
-        
+
         public init(details: [String: String]? = nil, id: String? = nil, severity: ComplianceSeverity, status: ComplianceStatus, title: String? = nil) {
             self.details = details
             self.id = id
@@ -1606,7 +1604,7 @@ extension SSM {
         public let `type`: ComplianceQueryOperatorType?
         /// The value for which to search.
         public let values: [String]?
-        
+
         public init(key: String? = nil, type: ComplianceQueryOperatorType? = nil, values: [String]? = nil) {
             self.key = key
             self.`type` = `type`
@@ -1632,7 +1630,7 @@ extension SSM {
         public let compliantSummary: CompliantSummary?
         /// A list of NON_COMPLIANT items for the specified compliance type.
         public let nonCompliantSummary: NonCompliantSummary?
-        
+
         public init(complianceType: String? = nil, compliantSummary: CompliantSummary? = nil, nonCompliantSummary: NonCompliantSummary? = nil) {
             self.complianceType = complianceType
             self.compliantSummary = compliantSummary
@@ -1655,7 +1653,7 @@ extension SSM {
         public let compliantCount: Int32?
         /// A summary of the compliance severity by compliance type.
         public let severitySummary: SeveritySummary?
-        
+
         public init(compliantCount: Int32? = nil, severitySummary: SeveritySummary? = nil) {
             self.compliantCount = compliantCount
             self.severitySummary = severitySummary
@@ -1694,7 +1692,7 @@ extension SSM {
         public let registrationLimit: Int32?
         /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag an activation to identify which servers or virtual machines (VMs) in your on-premises environment you intend to activate. In this case, you could specify the following key name/value pairs:    Key=OS,Value=Windows     Key=Environment,Value=Production     When you install SSM Agent on your on-premises servers and VMs, you specify an activation ID and code. When you specify the activation ID and code, tags assigned to the activation are automatically applied to the on-premises servers or VMs.  You can't add tags to or delete tags from an existing activation. You can tag your on-premises servers and VMs after they connect to Systems Manager for the first time and are assigned a managed instance ID. This means they are listed in the AWS Systems Manager console with an ID that is prefixed with "mi-". For information about how to add tags to your managed instances, see AddTagsToResource. For information about how to remove tags from your managed instances, see RemoveTagsFromResource.
         public let tags: [Tag]?
-        
+
         public init(defaultInstanceName: String? = nil, description: String? = nil, expirationDate: TimeStamp? = nil, iamRole: String, registrationLimit: Int32? = nil, tags: [Tag]? = nil) {
             self.defaultInstanceName = defaultInstanceName
             self.description = description
@@ -1723,7 +1721,7 @@ extension SSM {
         public let activationCode: String?
         /// The ID number generated by the system when it processed the activation. The activation ID functions like a user name.
         public let activationId: String?
-        
+
         public init(activationCode: String? = nil, activationId: String? = nil) {
             self.activationCode = activationCode
             self.activationId = activationId
@@ -1741,7 +1739,7 @@ extension SSM {
         ]
         /// One or more associations.
         public let entries: [CreateAssociationBatchRequestEntry]
-        
+
         public init(entries: [CreateAssociationBatchRequestEntry]) {
             self.entries = entries
         }
@@ -1790,7 +1788,7 @@ extension SSM {
         public let scheduleExpression: String?
         /// The instances targeted by the request.
         public let targets: [Target]?
-        
+
         public init(associationName: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, targets: [Target]? = nil) {
             self.associationName = associationName
             self.automationTargetParameterName = automationTargetParameterName
@@ -1831,7 +1829,7 @@ extension SSM {
         public let failed: [FailedCreateAssociation]?
         /// Information about the associations that succeeded.
         public let successful: [AssociationDescription]?
-        
+
         public init(failed: [FailedCreateAssociation]? = nil, successful: [AssociationDescription]? = nil) {
             self.failed = failed
             self.successful = successful
@@ -1882,7 +1880,7 @@ extension SSM {
         public let scheduleExpression: String?
         /// The targets (either instances or tags) for the association.
         public let targets: [Target]?
-        
+
         public init(associationName: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, targets: [Target]? = nil) {
             self.associationName = associationName
             self.automationTargetParameterName = automationTargetParameterName
@@ -1920,7 +1918,7 @@ extension SSM {
         ]
         /// Information about the association.
         public let associationDescription: AssociationDescription?
-        
+
         public init(associationDescription: AssociationDescription? = nil) {
             self.associationDescription = associationDescription
         }
@@ -1957,7 +1955,7 @@ extension SSM {
         public let targetType: String?
         /// An optional field specifying the version of the artifact you are creating with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document, and cannot be changed.
         public let versionName: String?
-        
+
         public init(attachments: [AttachmentsSource]? = nil, content: String, documentFormat: DocumentFormat? = nil, documentType: DocumentType? = nil, name: String, tags: [Tag]? = nil, targetType: String? = nil, versionName: String? = nil) {
             self.attachments = attachments
             self.content = content
@@ -1987,7 +1985,7 @@ extension SSM {
         ]
         /// Information about the Systems Manager document.
         public let documentDescription: DocumentDescription?
-        
+
         public init(documentDescription: DocumentDescription? = nil) {
             self.documentDescription = documentDescription
         }
@@ -2033,7 +2031,7 @@ extension SSM {
         public let startDate: String?
         /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a maintenance window to identify the type of tasks it will run, the types of targets, and the environment it will run in. In this case, you could specify the following key name/value pairs:    Key=TaskType,Value=AgentUpdate     Key=OS,Value=Windows     Key=Environment,Value=Production     To add tags to an existing maintenance window, use the AddTagsToResource action. 
         public let tags: [Tag]?
-        
+
         public init(allowUnassociatedTargets: Bool, clientToken: String? = nil, cutoff: Int32, description: String? = nil, duration: Int32, endDate: String? = nil, name: String, schedule: String, scheduleTimezone: String? = nil, startDate: String? = nil, tags: [Tag]? = nil) {
             self.allowUnassociatedTargets = allowUnassociatedTargets
             self.clientToken = clientToken
@@ -2069,7 +2067,7 @@ extension SSM {
         ]
         /// The ID of the created maintenance window.
         public let windowId: String?
-        
+
         public init(windowId: String? = nil) {
             self.windowId = windowId
         }
@@ -2106,7 +2104,7 @@ extension SSM {
         public let tags: [Tag]?
         /// A short heading that describes the nature of the OpsItem and the impacted resource.
         public let title: String
-        
+
         public init(description: String, notifications: [OpsItemNotification]? = nil, operationalData: [String: OpsItemDataValue]? = nil, priority: Int32? = nil, relatedOpsItems: [RelatedOpsItem]? = nil, source: String, tags: [Tag]? = nil, title: String) {
             self.description = description
             self.notifications = notifications
@@ -2136,7 +2134,7 @@ extension SSM {
         ]
         /// The ID of the OpsItem.
         public let opsItemId: String?
-        
+
         public init(opsItemId: String? = nil) {
             self.opsItemId = opsItemId
         }
@@ -2188,7 +2186,7 @@ extension SSM {
         public let sources: [PatchSource]?
         /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a patch baseline to identify the severity level of patches it specifies and the operating system family it applies to. In this case, you could specify the following key name/value pairs:    Key=PatchSeverity,Value=Critical     Key=OS,Value=Windows     To add tags to an existing patch baseline, use the AddTagsToResource action. 
         public let tags: [Tag]?
-        
+
         public init(approvalRules: PatchRuleGroup? = nil, approvedPatches: [String]? = nil, approvedPatchesComplianceLevel: PatchComplianceLevel? = nil, approvedPatchesEnableNonSecurity: Bool? = nil, clientToken: String? = nil, description: String? = nil, globalFilters: PatchFilterGroup? = nil, name: String, operatingSystem: OperatingSystem? = nil, rejectedPatches: [String]? = nil, rejectedPatchesAction: PatchAction? = nil, sources: [PatchSource]? = nil, tags: [Tag]? = nil) {
             self.approvalRules = approvalRules
             self.approvedPatches = approvedPatches
@@ -2228,7 +2226,7 @@ extension SSM {
         ]
         /// The ID of the created patch baseline.
         public let baselineId: String?
-        
+
         public init(baselineId: String? = nil) {
             self.baselineId = baselineId
         }
@@ -2247,7 +2245,7 @@ extension SSM {
         public let s3Destination: ResourceDataSyncS3Destination
         /// A name for the configuration.
         public let syncName: String
-        
+
         public init(s3Destination: ResourceDataSyncS3Destination, syncName: String) {
             self.s3Destination = s3Destination
             self.syncName = syncName
@@ -2260,12 +2258,11 @@ extension SSM {
     }
 
     public struct CreateResourceDataSyncResult: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteActivationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2273,7 +2270,7 @@ extension SSM {
         ]
         /// The ID of the activation that you want to delete.
         public let activationId: String
-        
+
         public init(activationId: String) {
             self.activationId = activationId
         }
@@ -2284,12 +2281,11 @@ extension SSM {
     }
 
     public struct DeleteActivationResult: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteAssociationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2303,7 +2299,7 @@ extension SSM {
         public let instanceId: String?
         /// The name of the Systems Manager document.
         public let name: String?
-        
+
         public init(associationId: String? = nil, instanceId: String? = nil, name: String? = nil) {
             self.associationId = associationId
             self.instanceId = instanceId
@@ -2318,12 +2314,11 @@ extension SSM {
     }
 
     public struct DeleteAssociationResult: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteDocumentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2337,7 +2332,7 @@ extension SSM {
         public let name: String
         /// (Optional) The version name of the document that you want to delete. If not provided, all versions of the document are deleted.
         public let versionName: String?
-        
+
         public init(documentVersion: String? = nil, name: String, versionName: String? = nil) {
             self.documentVersion = documentVersion
             self.name = name
@@ -2352,12 +2347,11 @@ extension SSM {
     }
 
     public struct DeleteDocumentResult: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteInventoryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2374,7 +2368,7 @@ extension SSM {
         public let schemaDeleteOption: InventorySchemaDeleteOption?
         /// The name of the custom inventory type for which you want to delete either all previously collected data, or the inventory type itself. 
         public let typeName: String
-        
+
         public init(clientToken: String? = nil, dryRun: Bool? = nil, schemaDeleteOption: InventorySchemaDeleteOption? = nil, typeName: String) {
             self.clientToken = clientToken
             self.dryRun = dryRun
@@ -2402,7 +2396,7 @@ extension SSM {
         public let deletionSummary: InventoryDeletionSummary?
         /// The name of the inventory data type specified in the request.
         public let typeName: String?
-        
+
         public init(deletionId: String? = nil, deletionSummary: InventoryDeletionSummary? = nil, typeName: String? = nil) {
             self.deletionId = deletionId
             self.deletionSummary = deletionSummary
@@ -2422,7 +2416,7 @@ extension SSM {
         ]
         /// The ID of the maintenance window to delete.
         public let windowId: String
-        
+
         public init(windowId: String) {
             self.windowId = windowId
         }
@@ -2438,7 +2432,7 @@ extension SSM {
         ]
         /// The ID of the deleted maintenance window.
         public let windowId: String?
-        
+
         public init(windowId: String? = nil) {
             self.windowId = windowId
         }
@@ -2454,7 +2448,7 @@ extension SSM {
         ]
         /// The name of the parameter to delete.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -2465,12 +2459,11 @@ extension SSM {
     }
 
     public struct DeleteParameterResult: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteParametersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2478,7 +2471,7 @@ extension SSM {
         ]
         /// The names of the parameters to delete.
         public let names: [String]
-        
+
         public init(names: [String]) {
             self.names = names
         }
@@ -2497,7 +2490,7 @@ extension SSM {
         public let deletedParameters: [String]?
         /// The names of parameters that weren't deleted because the parameters are not valid.
         public let invalidParameters: [String]?
-        
+
         public init(deletedParameters: [String]? = nil, invalidParameters: [String]? = nil) {
             self.deletedParameters = deletedParameters
             self.invalidParameters = invalidParameters
@@ -2515,7 +2508,7 @@ extension SSM {
         ]
         /// The ID of the patch baseline to delete.
         public let baselineId: String
-        
+
         public init(baselineId: String) {
             self.baselineId = baselineId
         }
@@ -2531,7 +2524,7 @@ extension SSM {
         ]
         /// The ID of the deleted patch baseline.
         public let baselineId: String?
-        
+
         public init(baselineId: String? = nil) {
             self.baselineId = baselineId
         }
@@ -2547,7 +2540,7 @@ extension SSM {
         ]
         /// The name of the configuration to delete.
         public let syncName: String
-        
+
         public init(syncName: String) {
             self.syncName = syncName
         }
@@ -2558,12 +2551,11 @@ extension SSM {
     }
 
     public struct DeleteResourceDataSyncResult: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeregisterManagedInstanceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2571,7 +2563,7 @@ extension SSM {
         ]
         /// The ID assigned to the managed instance when you registered it using the activation process. 
         public let instanceId: String
-        
+
         public init(instanceId: String) {
             self.instanceId = instanceId
         }
@@ -2582,12 +2574,11 @@ extension SSM {
     }
 
     public struct DeregisterManagedInstanceResult: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeregisterPatchBaselineForPatchGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2598,7 +2589,7 @@ extension SSM {
         public let baselineId: String
         /// The name of the patch group that should be deregistered from the patch baseline.
         public let patchGroup: String
-        
+
         public init(baselineId: String, patchGroup: String) {
             self.baselineId = baselineId
             self.patchGroup = patchGroup
@@ -2619,7 +2610,7 @@ extension SSM {
         public let baselineId: String?
         /// The name of the patch group deregistered from the patch baseline.
         public let patchGroup: String?
-        
+
         public init(baselineId: String? = nil, patchGroup: String? = nil) {
             self.baselineId = baselineId
             self.patchGroup = patchGroup
@@ -2643,7 +2634,7 @@ extension SSM {
         public let windowId: String
         /// The ID of the target definition to remove.
         public let windowTargetId: String
-        
+
         public init(safe: Bool? = nil, windowId: String, windowTargetId: String) {
             self.safe = safe
             self.windowId = windowId
@@ -2666,7 +2657,7 @@ extension SSM {
         public let windowId: String?
         /// The ID of the removed target definition.
         public let windowTargetId: String?
-        
+
         public init(windowId: String? = nil, windowTargetId: String? = nil) {
             self.windowId = windowId
             self.windowTargetId = windowTargetId
@@ -2687,7 +2678,7 @@ extension SSM {
         public let windowId: String
         /// The ID of the task to remove from the maintenance window.
         public let windowTaskId: String
-        
+
         public init(windowId: String, windowTaskId: String) {
             self.windowId = windowId
             self.windowTaskId = windowTaskId
@@ -2708,7 +2699,7 @@ extension SSM {
         public let windowId: String?
         /// The ID of the task removed from the maintenance window.
         public let windowTaskId: String?
-        
+
         public init(windowId: String? = nil, windowTaskId: String? = nil) {
             self.windowId = windowId
             self.windowTaskId = windowTaskId
@@ -2729,7 +2720,7 @@ extension SSM {
         public let filterKey: DescribeActivationsFilterKeys?
         /// The filter values.
         public let filterValues: [String]?
-        
+
         public init(filterKey: DescribeActivationsFilterKeys? = nil, filterValues: [String]? = nil) {
             self.filterKey = filterKey
             self.filterValues = filterValues
@@ -2760,7 +2751,7 @@ extension SSM {
         public let maxResults: Int32?
         /// A token to start the list. Use this token to get the next set of results. 
         public let nextToken: String?
-        
+
         public init(filters: [DescribeActivationsFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -2783,7 +2774,7 @@ extension SSM {
         public let activationList: [Activation]?
         /// The token for the next set of items to return. Use this token to get the next set of results. 
         public let nextToken: String?
-        
+
         public init(activationList: [Activation]? = nil, nextToken: String? = nil) {
             self.activationList = activationList
             self.nextToken = nextToken
@@ -2813,7 +2804,7 @@ extension SSM {
         public let maxResults: Int32?
         /// A token to start the list. Use this token to get the next set of results. 
         public let nextToken: String?
-        
+
         public init(associationId: String, executionId: String, filters: [AssociationExecutionTargetsFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.associationId = associationId
             self.executionId = executionId
@@ -2840,7 +2831,7 @@ extension SSM {
         public let associationExecutionTargets: [AssociationExecutionTarget]?
         /// The token for the next set of items to return. Use this token to get the next set of results.
         public let nextToken: String?
-        
+
         public init(associationExecutionTargets: [AssociationExecutionTarget]? = nil, nextToken: String? = nil) {
             self.associationExecutionTargets = associationExecutionTargets
             self.nextToken = nextToken
@@ -2867,7 +2858,7 @@ extension SSM {
         public let maxResults: Int32?
         /// A token to start the list. Use this token to get the next set of results. 
         public let nextToken: String?
-        
+
         public init(associationId: String, filters: [AssociationExecutionFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.associationId = associationId
             self.filters = filters
@@ -2892,7 +2883,7 @@ extension SSM {
         public let associationExecutions: [AssociationExecution]?
         /// The token for the next set of items to return. Use this token to get the next set of results.
         public let nextToken: String?
-        
+
         public init(associationExecutions: [AssociationExecution]? = nil, nextToken: String? = nil) {
             self.associationExecutions = associationExecutions
             self.nextToken = nextToken
@@ -2919,7 +2910,7 @@ extension SSM {
         public let instanceId: String?
         /// The name of the Systems Manager document.
         public let name: String?
-        
+
         public init(associationId: String? = nil, associationVersion: String? = nil, instanceId: String? = nil, name: String? = nil) {
             self.associationId = associationId
             self.associationVersion = associationVersion
@@ -2941,7 +2932,7 @@ extension SSM {
         ]
         /// Information about the association.
         public let associationDescription: AssociationDescription?
-        
+
         public init(associationDescription: AssociationDescription? = nil) {
             self.associationDescription = associationDescription
         }
@@ -2963,7 +2954,7 @@ extension SSM {
         public let maxResults: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        
+
         public init(filters: [AutomationExecutionFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -2986,7 +2977,7 @@ extension SSM {
         public let automationExecutionMetadataList: [AutomationExecutionMetadata]?
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
-        
+
         public init(automationExecutionMetadataList: [AutomationExecutionMetadata]? = nil, nextToken: String? = nil) {
             self.automationExecutionMetadataList = automationExecutionMetadataList
             self.nextToken = nextToken
@@ -3016,7 +3007,7 @@ extension SSM {
         public let nextToken: String?
         /// A boolean that indicates whether to list step executions in reverse order by start time. The default value is false.
         public let reverseOrder: Bool?
-        
+
         public init(automationExecutionId: String, filters: [StepExecutionFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, reverseOrder: Bool? = nil) {
             self.automationExecutionId = automationExecutionId
             self.filters = filters
@@ -3043,7 +3034,7 @@ extension SSM {
         public let nextToken: String?
         /// A list of details about the current state of all steps that make up an execution.
         public let stepExecutions: [StepExecution]?
-        
+
         public init(nextToken: String? = nil, stepExecutions: [StepExecution]? = nil) {
             self.nextToken = nextToken
             self.stepExecutions = stepExecutions
@@ -3067,7 +3058,7 @@ extension SSM {
         public let maxResults: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        
+
         public init(filters: [PatchOrchestratorFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3090,7 +3081,7 @@ extension SSM {
         public let nextToken: String?
         /// An array of patches. Each entry in the array is a patch structure.
         public let patches: [Patch]?
-        
+
         public init(nextToken: String? = nil, patches: [Patch]? = nil) {
             self.nextToken = nextToken
             self.patches = patches
@@ -3111,7 +3102,7 @@ extension SSM {
         public let name: String
         /// The permission type for the document. The permission type can be Share.
         public let permissionType: DocumentPermissionType
-        
+
         public init(name: String, permissionType: DocumentPermissionType) {
             self.name = name
             self.permissionType = permissionType
@@ -3129,7 +3120,7 @@ extension SSM {
         ]
         /// The account IDs that have permission to use this document. The ID can be either an AWS account or All.
         public let accountIds: [String]?
-        
+
         public init(accountIds: [String]? = nil) {
             self.accountIds = accountIds
         }
@@ -3151,7 +3142,7 @@ extension SSM {
         public let name: String
         /// An optional field specifying the version of the artifact associated with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document, and cannot be changed.
         public let versionName: String?
-        
+
         public init(documentVersion: String? = nil, name: String, versionName: String? = nil) {
             self.documentVersion = documentVersion
             self.name = name
@@ -3171,7 +3162,7 @@ extension SSM {
         ]
         /// Information about the Systems Manager document.
         public let document: DocumentDescription?
-        
+
         public init(document: DocumentDescription? = nil) {
             self.document = document
         }
@@ -3193,7 +3184,7 @@ extension SSM {
         public let maxResults: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        
+
         public init(instanceId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -3216,7 +3207,7 @@ extension SSM {
         public let associations: [InstanceAssociation]?
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
-        
+
         public init(associations: [InstanceAssociation]? = nil, nextToken: String? = nil) {
             self.associations = associations
             self.nextToken = nextToken
@@ -3240,7 +3231,7 @@ extension SSM {
         public let maxResults: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        
+
         public init(baselineId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.baselineId = baselineId
             self.maxResults = maxResults
@@ -3263,7 +3254,7 @@ extension SSM {
         public let effectivePatches: [EffectivePatch]?
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
-        
+
         public init(effectivePatches: [EffectivePatch]? = nil, nextToken: String? = nil) {
             self.effectivePatches = effectivePatches
             self.nextToken = nextToken
@@ -3287,7 +3278,7 @@ extension SSM {
         public let maxResults: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        
+
         public init(instanceId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -3310,7 +3301,7 @@ extension SSM {
         public let instanceAssociationStatusInfos: [InstanceAssociationStatusInfo]?
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
-        
+
         public init(instanceAssociationStatusInfos: [InstanceAssociationStatusInfo]? = nil, nextToken: String? = nil) {
             self.instanceAssociationStatusInfos = instanceAssociationStatusInfos
             self.nextToken = nextToken
@@ -3337,7 +3328,7 @@ extension SSM {
         public let maxResults: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        
+
         public init(filters: [InstanceInformationStringFilter]? = nil, instanceInformationFilterList: [InstanceInformationFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.instanceInformationFilterList = instanceInformationFilterList
@@ -3362,7 +3353,7 @@ extension SSM {
         public let instanceInformationList: [InstanceInformation]?
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty. 
         public let nextToken: String?
-        
+
         public init(instanceInformationList: [InstanceInformation]? = nil, nextToken: String? = nil) {
             self.instanceInformationList = instanceInformationList
             self.nextToken = nextToken
@@ -3389,7 +3380,7 @@ extension SSM {
         public let nextToken: String?
         /// The name of the patch group for which the patch state information should be retrieved.
         public let patchGroup: String
-        
+
         public init(filters: [InstancePatchStateFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, patchGroup: String) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3414,7 +3405,7 @@ extension SSM {
         public let instancePatchStates: [InstancePatchState]?
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
-        
+
         public init(instancePatchStates: [InstancePatchState]? = nil, nextToken: String? = nil) {
             self.instancePatchStates = instancePatchStates
             self.nextToken = nextToken
@@ -3438,7 +3429,7 @@ extension SSM {
         public let maxResults: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        
+
         public init(instanceIds: [String], maxResults: Int32? = nil, nextToken: String? = nil) {
             self.instanceIds = instanceIds
             self.maxResults = maxResults
@@ -3461,7 +3452,7 @@ extension SSM {
         public let instancePatchStates: [InstancePatchState]?
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
-        
+
         public init(instancePatchStates: [InstancePatchState]? = nil, nextToken: String? = nil) {
             self.instancePatchStates = instancePatchStates
             self.nextToken = nextToken
@@ -3488,7 +3479,7 @@ extension SSM {
         public let maxResults: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        
+
         public init(filters: [PatchOrchestratorFilter]? = nil, instanceId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.instanceId = instanceId
@@ -3513,7 +3504,7 @@ extension SSM {
         public let nextToken: String?
         /// Each entry in the array is a structure containing: Title (string) KBId (string) Classification (string) Severity (string) State (string, such as "INSTALLED" or "FAILED") InstalledTime (DateTime) InstalledBy (string)
         public let patches: [PatchComplianceData]?
-        
+
         public init(nextToken: String? = nil, patches: [PatchComplianceData]? = nil) {
             self.nextToken = nextToken
             self.patches = patches
@@ -3537,7 +3528,7 @@ extension SSM {
         public let maxResults: Int32?
         /// A token to start the list. Use this token to get the next set of results. 
         public let nextToken: String?
-        
+
         public init(deletionId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.deletionId = deletionId
             self.maxResults = maxResults
@@ -3560,7 +3551,7 @@ extension SSM {
         public let inventoryDeletions: [InventoryDeletionStatusItem]?
         /// The token for the next set of items to return. Use this token to get the next set of results.
         public let nextToken: String?
-        
+
         public init(inventoryDeletions: [InventoryDeletionStatusItem]? = nil, nextToken: String? = nil) {
             self.inventoryDeletions = inventoryDeletions
             self.nextToken = nextToken
@@ -3590,7 +3581,7 @@ extension SSM {
         public let taskId: String
         /// The ID of the maintenance window execution the task is part of.
         public let windowExecutionId: String
-        
+
         public init(filters: [MaintenanceWindowFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, taskId: String, windowExecutionId: String) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3617,7 +3608,7 @@ extension SSM {
         public let nextToken: String?
         /// Information about the task invocation results per invocation.
         public let windowExecutionTaskInvocationIdentities: [MaintenanceWindowExecutionTaskInvocationIdentity]?
-        
+
         public init(nextToken: String? = nil, windowExecutionTaskInvocationIdentities: [MaintenanceWindowExecutionTaskInvocationIdentity]? = nil) {
             self.nextToken = nextToken
             self.windowExecutionTaskInvocationIdentities = windowExecutionTaskInvocationIdentities
@@ -3644,7 +3635,7 @@ extension SSM {
         public let nextToken: String?
         /// The ID of the maintenance window execution whose task executions should be retrieved.
         public let windowExecutionId: String
-        
+
         public init(filters: [MaintenanceWindowFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, windowExecutionId: String) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3669,7 +3660,7 @@ extension SSM {
         public let nextToken: String?
         /// Information about the task executions.
         public let windowExecutionTaskIdentities: [MaintenanceWindowExecutionTaskIdentity]?
-        
+
         public init(nextToken: String? = nil, windowExecutionTaskIdentities: [MaintenanceWindowExecutionTaskIdentity]? = nil) {
             self.nextToken = nextToken
             self.windowExecutionTaskIdentities = windowExecutionTaskIdentities
@@ -3696,7 +3687,7 @@ extension SSM {
         public let nextToken: String?
         /// The ID of the maintenance window whose executions should be retrieved.
         public let windowId: String
-        
+
         public init(filters: [MaintenanceWindowFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, windowId: String) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3721,7 +3712,7 @@ extension SSM {
         public let nextToken: String?
         /// Information about the maintenance window executions.
         public let windowExecutions: [MaintenanceWindowExecution]?
-        
+
         public init(nextToken: String? = nil, windowExecutions: [MaintenanceWindowExecution]? = nil) {
             self.nextToken = nextToken
             self.windowExecutions = windowExecutions
@@ -3754,7 +3745,7 @@ extension SSM {
         public let targets: [Target]?
         /// The ID of the maintenance window to retrieve information about.
         public let windowId: String?
-        
+
         public init(filters: [PatchOrchestratorFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, resourceType: MaintenanceWindowResourceType? = nil, targets: [Target]? = nil, windowId: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3783,7 +3774,7 @@ extension SSM {
         public let nextToken: String?
         /// Information about maintenance window executions scheduled for the specified time range.
         public let scheduledWindowExecutions: [ScheduledWindowExecution]?
-        
+
         public init(nextToken: String? = nil, scheduledWindowExecutions: [ScheduledWindowExecution]? = nil) {
             self.nextToken = nextToken
             self.scheduledWindowExecutions = scheduledWindowExecutions
@@ -3810,7 +3801,7 @@ extension SSM {
         public let nextToken: String?
         /// The ID of the maintenance window whose targets should be retrieved.
         public let windowId: String
-        
+
         public init(filters: [MaintenanceWindowFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, windowId: String) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3835,7 +3826,7 @@ extension SSM {
         public let nextToken: String?
         /// Information about the targets in the maintenance window.
         public let targets: [MaintenanceWindowTarget]?
-        
+
         public init(nextToken: String? = nil, targets: [MaintenanceWindowTarget]? = nil) {
             self.nextToken = nextToken
             self.targets = targets
@@ -3862,7 +3853,7 @@ extension SSM {
         public let nextToken: String?
         /// The ID of the maintenance window whose tasks should be retrieved.
         public let windowId: String
-        
+
         public init(filters: [MaintenanceWindowFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, windowId: String) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3887,7 +3878,7 @@ extension SSM {
         public let nextToken: String?
         /// Information about the tasks in the maintenance window.
         public let tasks: [MaintenanceWindowTask]?
-        
+
         public init(nextToken: String? = nil, tasks: [MaintenanceWindowTask]? = nil) {
             self.nextToken = nextToken
             self.tasks = tasks
@@ -3914,7 +3905,7 @@ extension SSM {
         public let resourceType: MaintenanceWindowResourceType
         /// The instance ID or key/value pair to retrieve information about.
         public let targets: [Target]
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceType: MaintenanceWindowResourceType, targets: [Target]) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3939,7 +3930,7 @@ extension SSM {
         public let nextToken: String?
         /// Information about the maintenance window targets and tasks an instance is associated with.
         public let windowIdentities: [MaintenanceWindowIdentityForTarget]?
-        
+
         public init(nextToken: String? = nil, windowIdentities: [MaintenanceWindowIdentityForTarget]? = nil) {
             self.nextToken = nextToken
             self.windowIdentities = windowIdentities
@@ -3963,7 +3954,7 @@ extension SSM {
         public let maxResults: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        
+
         public init(filters: [MaintenanceWindowFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3986,7 +3977,7 @@ extension SSM {
         public let nextToken: String?
         /// Information about the maintenance windows.
         public let windowIdentities: [MaintenanceWindowIdentity]?
-        
+
         public init(nextToken: String? = nil, windowIdentities: [MaintenanceWindowIdentity]? = nil) {
             self.nextToken = nextToken
             self.windowIdentities = windowIdentities
@@ -4010,7 +4001,7 @@ extension SSM {
         public let nextToken: String?
         /// One or more filters to limit the reponse.   Key: CreatedTime Operations: GreaterThan, LessThan   Key: LastModifiedBy Operations: Contains, Equals   Key: LastModifiedTime Operations: GreaterThan, LessThan   Key: Priority Operations: Equals   Key: Source Operations: Contains, Equals   Key: Status Operations: Equals   Key: Title Operations: Contains   Key: OperationalData* Operations: Equals   Key: OperationalDataKey Operations: Equals   Key: OperationalDataValue Operations: Equals, Contains   Key: OpsItemId Operations: Equals   Key: ResourceId Operations: Contains   Key: AutomationId Operations: Equals   *If you filter the response by using the OperationalData operator, specify a key-value pair by using the following JSON format: {"key":"key_name","value":"a_value"}
         public let opsItemFilters: [OpsItemFilter]?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, opsItemFilters: [OpsItemFilter]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4033,7 +4024,7 @@ extension SSM {
         public let nextToken: String?
         /// A list of OpsItems.
         public let opsItemSummaries: [OpsItemSummary]?
-        
+
         public init(nextToken: String? = nil, opsItemSummaries: [OpsItemSummary]? = nil) {
             self.nextToken = nextToken
             self.opsItemSummaries = opsItemSummaries
@@ -4060,7 +4051,7 @@ extension SSM {
         public let nextToken: String?
         /// Filters to limit the request results.
         public let parameterFilters: [ParameterStringFilter]?
-        
+
         public init(filters: [ParametersFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, parameterFilters: [ParameterStringFilter]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -4085,7 +4076,7 @@ extension SSM {
         public let nextToken: String?
         /// Parameters returned by the request.
         public let parameters: [ParameterMetadata]?
-        
+
         public init(nextToken: String? = nil, parameters: [ParameterMetadata]? = nil) {
             self.nextToken = nextToken
             self.parameters = parameters
@@ -4109,7 +4100,7 @@ extension SSM {
         public let maxResults: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        
+
         public init(filters: [PatchOrchestratorFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -4132,7 +4123,7 @@ extension SSM {
         public let baselineIdentities: [PatchBaselineIdentity]?
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
-        
+
         public init(baselineIdentities: [PatchBaselineIdentity]? = nil, nextToken: String? = nil) {
             self.baselineIdentities = baselineIdentities
             self.nextToken = nextToken
@@ -4150,7 +4141,7 @@ extension SSM {
         ]
         /// The name of the patch group whose patch snapshot should be retrieved.
         public let patchGroup: String
-        
+
         public init(patchGroup: String) {
             self.patchGroup = patchGroup
         }
@@ -4187,7 +4178,7 @@ extension SSM {
         public let instancesWithNotApplicablePatches: Int32?
         /// The number of instances with NotApplicable patches beyond the supported limit, which are not reported by name to Systems Manager Inventory.
         public let instancesWithUnreportedNotApplicablePatches: Int32?
-        
+
         public init(instances: Int32? = nil, instancesWithFailedPatches: Int32? = nil, instancesWithInstalledOtherPatches: Int32? = nil, instancesWithInstalledPatches: Int32? = nil, instancesWithInstalledRejectedPatches: Int32? = nil, instancesWithMissingPatches: Int32? = nil, instancesWithNotApplicablePatches: Int32? = nil, instancesWithUnreportedNotApplicablePatches: Int32? = nil) {
             self.instances = instances
             self.instancesWithFailedPatches = instancesWithFailedPatches
@@ -4223,7 +4214,7 @@ extension SSM {
         public let maxResults: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        
+
         public init(filters: [PatchOrchestratorFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -4246,7 +4237,7 @@ extension SSM {
         public let mappings: [PatchGroupPatchBaselineMapping]?
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
-        
+
         public init(mappings: [PatchGroupPatchBaselineMapping]? = nil, nextToken: String? = nil) {
             self.mappings = mappings
             self.nextToken = nextToken
@@ -4276,7 +4267,7 @@ extension SSM {
         public let patchSet: PatchSet?
         /// The patch property for which you want to view patch details. 
         public let property: PatchProperty
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, operatingSystem: OperatingSystem, patchSet: PatchSet? = nil, property: PatchProperty) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4303,7 +4294,7 @@ extension SSM {
         public let nextToken: String?
         /// A list of the properties for patches matching the filter request parameters.
         public let properties: [[String: String]]?
-        
+
         public init(nextToken: String? = nil, properties: [[String: String]]? = nil) {
             self.nextToken = nextToken
             self.properties = properties
@@ -4330,7 +4321,7 @@ extension SSM {
         public let nextToken: String?
         /// The session status to retrieve a list of sessions for. For example, "Active".
         public let state: SessionState
-        
+
         public init(filters: [SessionFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, state: SessionState) {
             self.filters = filters
             self.maxResults = maxResults
@@ -4355,7 +4346,7 @@ extension SSM {
         public let nextToken: String?
         /// A list of sessions meeting the request parameters.
         public let sessions: [Session]?
-        
+
         public init(nextToken: String? = nil, sessions: [Session]? = nil) {
             self.nextToken = nextToken
             self.sessions = sessions
@@ -4379,7 +4370,7 @@ extension SSM {
         public let defaultVersionName: String?
         /// The name of the document.
         public let name: String?
-        
+
         public init(defaultVersion: String? = nil, defaultVersionName: String? = nil, name: String? = nil) {
             self.defaultVersion = defaultVersion
             self.defaultVersionName = defaultVersionName
@@ -4459,7 +4450,7 @@ extension SSM {
         public let targetType: String?
         /// The version of the artifact associated with the document.
         public let versionName: String?
-        
+
         public init(attachmentsInformation: [AttachmentInformation]? = nil, createdDate: TimeStamp? = nil, defaultVersion: String? = nil, description: String? = nil, documentFormat: DocumentFormat? = nil, documentType: DocumentType? = nil, documentVersion: String? = nil, hash: String? = nil, hashType: DocumentHashType? = nil, latestVersion: String? = nil, name: String? = nil, owner: String? = nil, parameters: [DocumentParameter]? = nil, platformTypes: [PlatformType]? = nil, schemaVersion: String? = nil, sha1: String? = nil, status: DocumentStatus? = nil, statusInformation: String? = nil, tags: [Tag]? = nil, targetType: String? = nil, versionName: String? = nil) {
             self.attachmentsInformation = attachmentsInformation
             self.createdDate = createdDate
@@ -4518,7 +4509,7 @@ extension SSM {
         public let key: DocumentFilterKey
         /// The value of the filter.
         public let value: String
-        
+
         public init(key: DocumentFilterKey, value: String) {
             self.key = key
             self.value = value
@@ -4583,7 +4574,7 @@ extension SSM {
         public let targetType: String?
         /// An optional field specifying the version of the artifact associated with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document, and cannot be changed.
         public let versionName: String?
-        
+
         public init(documentFormat: DocumentFormat? = nil, documentType: DocumentType? = nil, documentVersion: String? = nil, name: String? = nil, owner: String? = nil, platformTypes: [PlatformType]? = nil, schemaVersion: String? = nil, tags: [Tag]? = nil, targetType: String? = nil, versionName: String? = nil) {
             self.documentFormat = documentFormat
             self.documentType = documentType
@@ -4620,7 +4611,7 @@ extension SSM {
         public let key: String?
         /// The value for the filter key.
         public let values: [String]?
-        
+
         public init(key: String? = nil, values: [String]? = nil) {
             self.key = key
             self.values = values
@@ -4647,7 +4638,7 @@ extension SSM {
         public let name: String?
         /// The type of parameter. The type can be either String or StringList.
         public let `type`: DocumentParameterType?
-        
+
         public init(defaultValue: String? = nil, description: String? = nil, name: String? = nil, type: DocumentParameterType? = nil) {
             self.defaultValue = defaultValue
             self.description = description
@@ -4719,7 +4710,7 @@ extension SSM {
         public let statusInformation: String?
         /// The version of the artifact associated with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document, and cannot be changed.
         public let versionName: String?
-        
+
         public init(createdDate: TimeStamp? = nil, documentFormat: DocumentFormat? = nil, documentVersion: String? = nil, isDefaultVersion: Bool? = nil, name: String? = nil, status: DocumentStatus? = nil, statusInformation: String? = nil, versionName: String? = nil) {
             self.createdDate = createdDate
             self.documentFormat = documentFormat
@@ -4752,7 +4743,7 @@ extension SSM {
         public let patch: Patch?
         /// The status of the patch in a patch baseline. This includes information about whether the patch is currently approved, due to be approved by a rule, explicitly approved, or explicitly rejected and the date the patch was or will be approved.
         public let patchStatus: PatchStatus?
-        
+
         public init(patch: Patch? = nil, patchStatus: PatchStatus? = nil) {
             self.patch = patch
             self.patchStatus = patchStatus
@@ -4782,7 +4773,7 @@ extension SSM {
         public let fault: Fault?
         /// A description of the failure.
         public let message: String?
-        
+
         public init(entry: CreateAssociationBatchRequestEntry? = nil, fault: Fault? = nil, message: String? = nil) {
             self.entry = entry
             self.fault = fault
@@ -4808,7 +4799,7 @@ extension SSM {
         public let failureStage: String?
         /// The type of Automation failure. Failure types include the following: Action, Permission, Throttling, Verification, Internal.
         public let failureType: String?
-        
+
         public init(details: [String: [String]]? = nil, failureStage: String? = nil, failureType: String? = nil) {
             self.details = details
             self.failureStage = failureStage
@@ -4835,7 +4826,7 @@ extension SSM {
         ]
         /// The unique identifier for an existing automation execution to examine. The execution ID is returned by StartAutomationExecution when the execution of an Automation document is initiated.
         public let automationExecutionId: String
-        
+
         public init(automationExecutionId: String) {
             self.automationExecutionId = automationExecutionId
         }
@@ -4851,7 +4842,7 @@ extension SSM {
         ]
         /// Detailed information about the current state of an automation execution.
         public let automationExecution: AutomationExecution?
-        
+
         public init(automationExecution: AutomationExecution? = nil) {
             self.automationExecution = automationExecution
         }
@@ -4873,7 +4864,7 @@ extension SSM {
         public let instanceId: String
         /// (Optional) The name of the plugin for which you want detailed results. If the document contains only one plugin, the name can be omitted and the details will be returned.
         public let pluginName: String?
-        
+
         public init(commandId: String, instanceId: String, pluginName: String? = nil) {
             self.commandId = commandId
             self.instanceId = instanceId
@@ -4941,7 +4932,7 @@ extension SSM {
         public let status: CommandInvocationStatus?
         /// A detailed status of the command execution for an invocation. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding Command Statuses in the AWS Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command has not been sent to the instance.   In Progress: The command has been sent to the instance but has not reached a terminal state.   Delayed: The system attempted to send the command to the target, but the target was not available. The instance might not be available because of network issues, the instance was stopped, etc. The system will try to deliver the command again.   Success: The command or plugin was run successfully. This is a terminal state.   Delivery Timed Out: The command was not delivered to the instance before the delivery timeout expired. Delivery timeouts do not count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: The command started to run on the instance, but the execution was not complete before the timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command wasn't run successfully on the instance. For a plugin, this indicates that the result code was not zero. For a command invocation, this indicates that the result code for one or more plugins was not zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the instance. The instance might not exist or might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit and don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.  
         public let statusDetails: String?
-        
+
         public init(cloudWatchOutputConfig: CloudWatchOutputConfig? = nil, commandId: String? = nil, comment: String? = nil, documentName: String? = nil, documentVersion: String? = nil, executionElapsedTime: String? = nil, executionEndDateTime: String? = nil, executionStartDateTime: String? = nil, instanceId: String? = nil, pluginName: String? = nil, responseCode: Int32? = nil, standardErrorContent: String? = nil, standardErrorUrl: String? = nil, standardOutputContent: String? = nil, standardOutputUrl: String? = nil, status: CommandInvocationStatus? = nil, statusDetails: String? = nil) {
             self.cloudWatchOutputConfig = cloudWatchOutputConfig
             self.commandId = commandId
@@ -4989,7 +4980,7 @@ extension SSM {
         ]
         /// The ID of the instance.
         public let target: String
-        
+
         public init(target: String) {
             self.target = target
         }
@@ -5008,7 +4999,7 @@ extension SSM {
         public let status: ConnectionStatus?
         /// The ID of the instance to check connection status. 
         public let target: String?
-        
+
         public init(status: ConnectionStatus? = nil, target: String? = nil) {
             self.status = status
             self.target = target
@@ -5026,7 +5017,7 @@ extension SSM {
         ]
         /// Returns the default patch baseline for the specified operating system.
         public let operatingSystem: OperatingSystem?
-        
+
         public init(operatingSystem: OperatingSystem? = nil) {
             self.operatingSystem = operatingSystem
         }
@@ -5045,7 +5036,7 @@ extension SSM {
         public let baselineId: String?
         /// The operating system for the returned patch baseline. 
         public let operatingSystem: OperatingSystem?
-        
+
         public init(baselineId: String? = nil, operatingSystem: OperatingSystem? = nil) {
             self.baselineId = baselineId
             self.operatingSystem = operatingSystem
@@ -5066,7 +5057,7 @@ extension SSM {
         public let instanceId: String
         /// The user-defined snapshot ID.
         public let snapshotId: String
-        
+
         public init(instanceId: String, snapshotId: String) {
             self.instanceId = instanceId
             self.snapshotId = snapshotId
@@ -5093,7 +5084,7 @@ extension SSM {
         public let snapshotDownloadUrl: String?
         /// The user-defined snapshot ID.
         public let snapshotId: String?
-        
+
         public init(instanceId: String? = nil, product: String? = nil, snapshotDownloadUrl: String? = nil, snapshotId: String? = nil) {
             self.instanceId = instanceId
             self.product = product
@@ -5124,7 +5115,7 @@ extension SSM {
         public let name: String
         /// An optional field specifying the version of the artifact associated with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document, and cannot be changed.
         public let versionName: String?
-        
+
         public init(documentFormat: DocumentFormat? = nil, documentVersion: String? = nil, name: String, versionName: String? = nil) {
             self.documentFormat = documentFormat
             self.documentVersion = documentVersion
@@ -5170,7 +5161,7 @@ extension SSM {
         public let statusInformation: String?
         /// The version of the artifact associated with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document, and cannot be changed.
         public let versionName: String?
-        
+
         public init(attachmentsContent: [AttachmentContent]? = nil, content: String? = nil, documentFormat: DocumentFormat? = nil, documentType: DocumentType? = nil, documentVersion: String? = nil, name: String? = nil, status: DocumentStatus? = nil, statusInformation: String? = nil, versionName: String? = nil) {
             self.attachmentsContent = attachmentsContent
             self.content = content
@@ -5214,7 +5205,7 @@ extension SSM {
         public let nextToken: String?
         /// The list of inventory item types to return.
         public let resultAttributes: [ResultAttribute]?
-        
+
         public init(aggregators: [InventoryAggregator]? = nil, filters: [InventoryFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, resultAttributes: [ResultAttribute]? = nil) {
             self.aggregators = aggregators
             self.filters = filters
@@ -5241,7 +5232,7 @@ extension SSM {
         public let entities: [InventoryResultEntity]?
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
-        
+
         public init(entities: [InventoryResultEntity]? = nil, nextToken: String? = nil) {
             self.entities = entities
             self.nextToken = nextToken
@@ -5271,7 +5262,7 @@ extension SSM {
         public let subType: Bool?
         /// The type of inventory item to return.
         public let typeName: String?
-        
+
         public init(aggregator: Bool? = nil, maxResults: Int32? = nil, nextToken: String? = nil, subType: Bool? = nil, typeName: String? = nil) {
             self.aggregator = aggregator
             self.maxResults = maxResults
@@ -5298,7 +5289,7 @@ extension SSM {
         public let nextToken: String?
         /// Inventory schemas returned by the request.
         public let schemas: [InventoryItemSchema]?
-        
+
         public init(nextToken: String? = nil, schemas: [InventoryItemSchema]? = nil) {
             self.nextToken = nextToken
             self.schemas = schemas
@@ -5316,7 +5307,7 @@ extension SSM {
         ]
         /// The ID of the maintenance window execution that includes the task.
         public let windowExecutionId: String
-        
+
         public init(windowExecutionId: String) {
             self.windowExecutionId = windowExecutionId
         }
@@ -5347,7 +5338,7 @@ extension SSM {
         public let taskIds: [String]?
         /// The ID of the maintenance window execution.
         public let windowExecutionId: String?
-        
+
         public init(endTime: TimeStamp? = nil, startTime: TimeStamp? = nil, status: MaintenanceWindowExecutionStatus? = nil, statusDetails: String? = nil, taskIds: [String]? = nil, windowExecutionId: String? = nil) {
             self.endTime = endTime
             self.startTime = startTime
@@ -5379,7 +5370,7 @@ extension SSM {
         public let taskId: String
         /// The ID of the maintenance window execution for which the task is a part.
         public let windowExecutionId: String
-        
+
         public init(invocationId: String, taskId: String, windowExecutionId: String) {
             self.invocationId = invocationId
             self.taskId = taskId
@@ -5432,7 +5423,7 @@ extension SSM {
         public let windowExecutionId: String?
         /// The maintenance window target ID.
         public let windowTargetId: String?
-        
+
         public init(endTime: TimeStamp? = nil, executionId: String? = nil, invocationId: String? = nil, ownerInformation: String? = nil, parameters: String? = nil, startTime: TimeStamp? = nil, status: MaintenanceWindowExecutionStatus? = nil, statusDetails: String? = nil, taskExecutionId: String? = nil, taskType: MaintenanceWindowTaskType? = nil, windowExecutionId: String? = nil, windowTargetId: String? = nil) {
             self.endTime = endTime
             self.executionId = executionId
@@ -5473,7 +5464,7 @@ extension SSM {
         public let taskId: String
         /// The ID of the maintenance window execution that includes the task.
         public let windowExecutionId: String
-        
+
         public init(taskId: String, windowExecutionId: String) {
             self.taskId = taskId
             self.windowExecutionId = windowExecutionId
@@ -5527,7 +5518,7 @@ extension SSM {
         public let `type`: MaintenanceWindowTaskType?
         /// The ID of the maintenance window execution that includes the task.
         public let windowExecutionId: String?
-        
+
         public init(endTime: TimeStamp? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, priority: Int32? = nil, serviceRole: String? = nil, startTime: TimeStamp? = nil, status: MaintenanceWindowExecutionStatus? = nil, statusDetails: String? = nil, taskArn: String? = nil, taskExecutionId: String? = nil, taskParameters: [[String: MaintenanceWindowTaskParameterValueExpression]]? = nil, type: MaintenanceWindowTaskType? = nil, windowExecutionId: String? = nil) {
             self.endTime = endTime
             self.maxConcurrency = maxConcurrency
@@ -5567,7 +5558,7 @@ extension SSM {
         ]
         /// The ID of the maintenance window for which you want to retrieve information.
         public let windowId: String
-        
+
         public init(windowId: String) {
             self.windowId = windowId
         }
@@ -5622,7 +5613,7 @@ extension SSM {
         public let startDate: String?
         /// The ID of the created maintenance window.
         public let windowId: String?
-        
+
         public init(allowUnassociatedTargets: Bool? = nil, createdDate: TimeStamp? = nil, cutoff: Int32? = nil, description: String? = nil, duration: Int32? = nil, enabled: Bool? = nil, endDate: String? = nil, modifiedDate: TimeStamp? = nil, name: String? = nil, nextExecutionTime: String? = nil, schedule: String? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String? = nil) {
             self.allowUnassociatedTargets = allowUnassociatedTargets
             self.createdDate = createdDate
@@ -5667,7 +5658,7 @@ extension SSM {
         public let windowId: String
         /// The maintenance window task ID to retrieve.
         public let windowTaskId: String
-        
+
         public init(windowId: String, windowTaskId: String) {
             self.windowId = windowId
             self.windowTaskId = windowTaskId
@@ -5724,7 +5715,7 @@ extension SSM {
         public let windowId: String?
         /// The retrieved maintenance window task ID.
         public let windowTaskId: String?
-        
+
         public init(description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int32? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String? = nil, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, taskType: MaintenanceWindowTaskType? = nil, windowId: String? = nil, windowTaskId: String? = nil) {
             self.description = description
             self.loggingInfo = loggingInfo
@@ -5766,7 +5757,7 @@ extension SSM {
         ]
         /// The ID of the OpsItem that you want to get.
         public let opsItemId: String
-        
+
         public init(opsItemId: String) {
             self.opsItemId = opsItemId
         }
@@ -5782,7 +5773,7 @@ extension SSM {
         ]
         /// The OpsItem.
         public let opsItem: OpsItem?
-        
+
         public init(opsItem: OpsItem? = nil) {
             self.opsItem = opsItem
         }
@@ -5807,7 +5798,7 @@ extension SSM {
         public let maxResults: Int32?
         /// A token to start the list. Use this token to get the next set of results. 
         public let nextToken: String?
-        
+
         public init(aggregators: [OpsAggregator], filters: [OpsFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.aggregators = aggregators
             self.filters = filters
@@ -5832,7 +5823,7 @@ extension SSM {
         public let entities: [OpsEntity]?
         /// The token for the next set of items to return. Use this token to get the next set of results.
         public let nextToken: String?
-        
+
         public init(entities: [OpsEntity]? = nil, nextToken: String? = nil) {
             self.entities = entities
             self.nextToken = nextToken
@@ -5859,7 +5850,7 @@ extension SSM {
         public let nextToken: String?
         /// Return decrypted values for secure string parameters. This flag is ignored for String and StringList parameter types.
         public let withDecryption: Bool?
-        
+
         public init(maxResults: Int32? = nil, name: String, nextToken: String? = nil, withDecryption: Bool? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -5884,7 +5875,7 @@ extension SSM {
         public let nextToken: String?
         /// A list of parameters returned by the request.
         public let parameters: [ParameterHistory]?
-        
+
         public init(nextToken: String? = nil, parameters: [ParameterHistory]? = nil) {
             self.nextToken = nextToken
             self.parameters = parameters
@@ -5905,7 +5896,7 @@ extension SSM {
         public let name: String
         /// Return decrypted values for secure string parameters. This flag is ignored for String and StringList parameter types.
         public let withDecryption: Bool?
-        
+
         public init(name: String, withDecryption: Bool? = nil) {
             self.name = name
             self.withDecryption = withDecryption
@@ -5923,7 +5914,7 @@ extension SSM {
         ]
         /// Information about a parameter.
         public let parameter: Parameter?
-        
+
         public init(parameter: Parameter? = nil) {
             self.parameter = parameter
         }
@@ -5954,7 +5945,7 @@ extension SSM {
         public let recursive: Bool?
         /// Retrieve all parameters in a hierarchy with their value decrypted.
         public let withDecryption: Bool?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, parameterFilters: [ParameterStringFilter]? = nil, path: String, recursive: Bool? = nil, withDecryption: Bool? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -5983,7 +5974,7 @@ extension SSM {
         public let nextToken: String?
         /// A list of parameters found in the specified hierarchy.
         public let parameters: [Parameter]?
-        
+
         public init(nextToken: String? = nil, parameters: [Parameter]? = nil) {
             self.nextToken = nextToken
             self.parameters = parameters
@@ -6004,7 +5995,7 @@ extension SSM {
         public let names: [String]
         /// Return decrypted secure string value. Return decrypted values for secure string parameters. This flag is ignored for String and StringList parameter types.
         public let withDecryption: Bool?
-        
+
         public init(names: [String], withDecryption: Bool? = nil) {
             self.names = names
             self.withDecryption = withDecryption
@@ -6025,7 +6016,7 @@ extension SSM {
         public let invalidParameters: [String]?
         /// A list of details for a parameter.
         public let parameters: [Parameter]?
-        
+
         public init(invalidParameters: [String]? = nil, parameters: [Parameter]? = nil) {
             self.invalidParameters = invalidParameters
             self.parameters = parameters
@@ -6046,7 +6037,7 @@ extension SSM {
         public let operatingSystem: OperatingSystem?
         /// The name of the patch group whose patch baseline should be retrieved.
         public let patchGroup: String
-        
+
         public init(operatingSystem: OperatingSystem? = nil, patchGroup: String) {
             self.operatingSystem = operatingSystem
             self.patchGroup = patchGroup
@@ -6070,7 +6061,7 @@ extension SSM {
         public let operatingSystem: OperatingSystem?
         /// The name of the patch group.
         public let patchGroup: String?
-        
+
         public init(baselineId: String? = nil, operatingSystem: OperatingSystem? = nil, patchGroup: String? = nil) {
             self.baselineId = baselineId
             self.operatingSystem = operatingSystem
@@ -6090,7 +6081,7 @@ extension SSM {
         ]
         /// The ID of the patch baseline to retrieve.
         public let baselineId: String
-        
+
         public init(baselineId: String) {
             self.baselineId = baselineId
         }
@@ -6148,7 +6139,7 @@ extension SSM {
         public let rejectedPatchesAction: PatchAction?
         /// Information about the patches to use to update the instances, including target operating systems and source repositories. Applies to Linux instances only.
         public let sources: [PatchSource]?
-        
+
         public init(approvalRules: PatchRuleGroup? = nil, approvedPatches: [String]? = nil, approvedPatchesComplianceLevel: PatchComplianceLevel? = nil, approvedPatchesEnableNonSecurity: Bool? = nil, baselineId: String? = nil, createdDate: TimeStamp? = nil, description: String? = nil, globalFilters: PatchFilterGroup? = nil, modifiedDate: TimeStamp? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, patchGroups: [String]? = nil, rejectedPatches: [String]? = nil, rejectedPatchesAction: PatchAction? = nil, sources: [PatchSource]? = nil) {
             self.approvalRules = approvalRules
             self.approvedPatches = approvedPatches
@@ -6192,7 +6183,7 @@ extension SSM {
         ]
         /// The ID of the service setting to get.
         public let settingId: String
-        
+
         public init(settingId: String) {
             self.settingId = settingId
         }
@@ -6208,7 +6199,7 @@ extension SSM {
         ]
         /// The query result of the current service setting.
         public let serviceSetting: ServiceSetting?
-        
+
         public init(serviceSetting: ServiceSetting? = nil) {
             self.serviceSetting = serviceSetting
         }
@@ -6227,7 +6218,7 @@ extension SSM {
         public let detailedStatus: String?
         /// The number of associations for the instance(s).
         public let instanceAssociationStatusAggregatedCount: [String: Int32]?
-        
+
         public init(detailedStatus: String? = nil, instanceAssociationStatusAggregatedCount: [String: Int32]? = nil) {
             self.detailedStatus = detailedStatus
             self.instanceAssociationStatusAggregatedCount = instanceAssociationStatusAggregatedCount
@@ -6254,7 +6245,7 @@ extension SSM {
         public let content: String?
         /// The instance ID.
         public let instanceId: String?
-        
+
         public init(associationId: String? = nil, associationVersion: String? = nil, content: String? = nil, instanceId: String? = nil) {
             self.associationId = associationId
             self.associationVersion = associationVersion
@@ -6276,7 +6267,7 @@ extension SSM {
         ]
         /// An Amazon S3 bucket where you want to store the results of this request.
         public let s3Location: S3OutputLocation?
-        
+
         public init(s3Location: S3OutputLocation? = nil) {
             self.s3Location = s3Location
         }
@@ -6292,7 +6283,7 @@ extension SSM {
         ]
         /// The URL of Amazon S3 bucket where you want to store the results of this request.
         public let s3OutputUrl: S3OutputUrl?
-        
+
         public init(s3OutputUrl: S3OutputUrl? = nil) {
             self.s3OutputUrl = s3OutputUrl
         }
@@ -6341,7 +6332,7 @@ extension SSM {
         public let outputUrl: InstanceAssociationOutputUrl?
         /// Status information about the instance association.
         public let status: String?
-        
+
         public init(associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, detailedStatus: String? = nil, documentVersion: String? = nil, errorCode: String? = nil, executionDate: TimeStamp? = nil, executionSummary: String? = nil, instanceId: String? = nil, name: String? = nil, outputUrl: InstanceAssociationOutputUrl? = nil, status: String? = nil) {
             self.associationId = associationId
             self.associationName = associationName
@@ -6433,7 +6424,7 @@ extension SSM {
         public let registrationDate: TimeStamp?
         /// The type of instance. Instances are either EC2 instances or managed instances. 
         public let resourceType: ResourceType?
-        
+
         public init(activationId: String? = nil, agentVersion: String? = nil, associationOverview: InstanceAggregatedAssociationOverview? = nil, associationStatus: String? = nil, computerName: String? = nil, iamRole: String? = nil, instanceId: String? = nil, iPAddress: String? = nil, isLatestVersion: Bool? = nil, lastAssociationExecutionDate: TimeStamp? = nil, lastPingDateTime: TimeStamp? = nil, lastSuccessfulAssociationExecutionDate: TimeStamp? = nil, name: String? = nil, pingStatus: PingStatus? = nil, platformName: String? = nil, platformType: PlatformType? = nil, platformVersion: String? = nil, registrationDate: TimeStamp? = nil, resourceType: ResourceType? = nil) {
             self.activationId = activationId
             self.agentVersion = agentVersion
@@ -6488,7 +6479,7 @@ extension SSM {
         public let key: InstanceInformationFilterKey
         /// The filter values.
         public let valueSet: [String]
-        
+
         public init(key: InstanceInformationFilterKey, valueSet: [String]) {
             self.key = key
             self.valueSet = valueSet
@@ -6521,7 +6512,7 @@ extension SSM {
         public let key: String
         /// The filter values.
         public let values: [String]
-        
+
         public init(key: String, values: [String]) {
             self.key = key
             self.values = values
@@ -6584,7 +6575,7 @@ extension SSM {
         public let snapshotId: String?
         /// The number of patches beyond the supported limit of NotApplicableCount that are not reported by name to Systems Manager Inventory.
         public let unreportedNotApplicableCount: Int32?
-        
+
         public init(baselineId: String, failedCount: Int32? = nil, installedCount: Int32? = nil, installedOtherCount: Int32? = nil, installedRejectedCount: Int32? = nil, installOverrideList: String? = nil, instanceId: String, missingCount: Int32? = nil, notApplicableCount: Int32? = nil, operation: PatchOperationType, operationEndTime: TimeStamp, operationStartTime: TimeStamp, ownerInformation: String? = nil, patchGroup: String, snapshotId: String? = nil, unreportedNotApplicableCount: Int32? = nil) {
             self.baselineId = baselineId
             self.failedCount = failedCount
@@ -6636,7 +6627,7 @@ extension SSM {
         public let `type`: InstancePatchStateOperatorType
         /// The value for the filter, must be an integer greater than or equal to 0.
         public let values: [String]
-        
+
         public init(key: String, type: InstancePatchStateOperatorType, values: [String]) {
             self.key = key
             self.`type` = `type`
@@ -6670,7 +6661,7 @@ extension SSM {
         public let expression: String?
         /// A user-defined set of one or more filters on which to aggregate inventory data. Groups return a count of resources that match and don't match the specified criteria.
         public let groups: [InventoryGroup]?
-        
+
         public init(aggregators: [InventoryAggregator]? = nil, expression: String? = nil, groups: [InventoryGroup]? = nil) {
             self.aggregators = aggregators
             self.expression = expression
@@ -6720,7 +6711,7 @@ extension SSM {
         public let lastStatusUpdateTime: TimeStamp?
         /// The name of the inventory data type.
         public let typeName: String?
-        
+
         public init(deletionId: String? = nil, deletionStartTime: TimeStamp? = nil, deletionSummary: InventoryDeletionSummary? = nil, lastStatus: InventoryDeletionStatus? = nil, lastStatusMessage: String? = nil, lastStatusUpdateTime: TimeStamp? = nil, typeName: String? = nil) {
             self.deletionId = deletionId
             self.deletionStartTime = deletionStartTime
@@ -6754,7 +6745,7 @@ extension SSM {
         public let summaryItems: [InventoryDeletionSummaryItem]?
         /// The total number of items to delete. This count does not change during the delete operation.
         public let totalCount: Int32?
-        
+
         public init(remainingCount: Int32? = nil, summaryItems: [InventoryDeletionSummaryItem]? = nil, totalCount: Int32? = nil) {
             self.remainingCount = remainingCount
             self.summaryItems = summaryItems
@@ -6780,7 +6771,7 @@ extension SSM {
         public let remainingCount: Int32?
         /// The inventory type version.
         public let version: String?
-        
+
         public init(count: Int32? = nil, remainingCount: Int32? = nil, version: String? = nil) {
             self.count = count
             self.remainingCount = remainingCount
@@ -6806,7 +6797,7 @@ extension SSM {
         public let `type`: InventoryQueryOperatorType?
         /// Inventory filter values. Example: inventory filter where instance IDs are specified as values Key=AWS:InstanceInformation.InstanceId,Values= i-a12b3c4d5e6g, i-1a2b3c4d5e6,Type=Equal 
         public let values: [String]
-        
+
         public init(key: String, type: InventoryQueryOperatorType? = nil, values: [String]) {
             self.key = key
             self.`type` = `type`
@@ -6829,7 +6820,7 @@ extension SSM {
         public let filters: [InventoryFilter]
         /// The name of the group.
         public let name: String
-        
+
         public init(filters: [InventoryFilter], name: String) {
             self.filters = filters
             self.name = name
@@ -6862,7 +6853,7 @@ extension SSM {
         public let schemaVersion: String
         /// The name of the inventory type. Default inventory item type names start with AWS. Custom inventory type names will start with Custom. Default inventory item types include the following: AWS:AWSComponent, AWS:Application, AWS:InstanceInformation, AWS:Network, and AWS:WindowsUpdate.
         public let typeName: String
-        
+
         public init(captureTime: String, content: [[String: String]]? = nil, contentHash: String? = nil, context: [String: String]? = nil, schemaVersion: String, typeName: String) {
             self.captureTime = captureTime
             self.content = content
@@ -6891,7 +6882,7 @@ extension SSM {
         public let dataType: InventoryAttributeDataType
         /// Name of the inventory item attribute.
         public let name: String
-        
+
         public init(dataType: InventoryAttributeDataType, name: String) {
             self.dataType = dataType
             self.name = name
@@ -6918,7 +6909,7 @@ extension SSM {
         public let typeName: String
         /// The schema version for the inventory item.
         public let version: String?
-        
+
         public init(attributes: [InventoryItemAttribute], displayName: String? = nil, typeName: String, version: String? = nil) {
             self.attributes = attributes
             self.displayName = displayName
@@ -6953,7 +6944,7 @@ extension SSM {
         public let data: [String: InventoryResultItem]?
         /// ID of the inventory result entity. For example, for managed instance inventory the result will be the managed instance ID. For EC2 instance inventory, the result will be the instance ID. 
         public let id: String?
-        
+
         public init(data: [String: InventoryResultItem]? = nil, id: String? = nil) {
             self.data = data
             self.id = id
@@ -6983,7 +6974,7 @@ extension SSM {
         public let schemaVersion: String
         /// The name of the inventory result item type.
         public let typeName: String
-        
+
         public init(captureTime: String? = nil, content: [[String: String]], contentHash: String? = nil, schemaVersion: String, typeName: String) {
             self.captureTime = captureTime
             self.content = content
@@ -7019,7 +7010,7 @@ extension SSM {
         public let name: String
         /// The specific version of the parameter on which you want to attach one or more labels. If no version is specified, the system attaches the label to the latest version.)
         public let parameterVersion: Int64?
-        
+
         public init(labels: [String], name: String, parameterVersion: Int64? = nil) {
             self.labels = labels
             self.name = name
@@ -7039,7 +7030,7 @@ extension SSM {
         ]
         /// The label does not meet the requirements. For information about parameter label requirements, see Labeling Parameters in the AWS Systems Manager User Guide.
         public let invalidLabels: [String]?
-        
+
         public init(invalidLabels: [String]? = nil) {
             self.invalidLabels = invalidLabels
         }
@@ -7068,7 +7059,7 @@ extension SSM {
         public let maxResults: Int32?
         /// A token to start the list. Use this token to get the next set of results. 
         public let nextToken: String?
-        
+
         public init(associationId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.associationId = associationId
             self.maxResults = maxResults
@@ -7091,7 +7082,7 @@ extension SSM {
         public let associationVersions: [AssociationVersionInfo]?
         /// The token for the next set of items to return. Use this token to get the next set of results.
         public let nextToken: String?
-        
+
         public init(associationVersions: [AssociationVersionInfo]? = nil, nextToken: String? = nil) {
             self.associationVersions = associationVersions
             self.nextToken = nextToken
@@ -7115,7 +7106,7 @@ extension SSM {
         public let maxResults: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        
+
         public init(associationFilterList: [AssociationFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.associationFilterList = associationFilterList
             self.maxResults = maxResults
@@ -7138,7 +7129,7 @@ extension SSM {
         public let associations: [Association]?
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
-        
+
         public init(associations: [Association]? = nil, nextToken: String? = nil) {
             self.associations = associations
             self.nextToken = nextToken
@@ -7171,7 +7162,7 @@ extension SSM {
         public let maxResults: Int32?
         /// (Optional) The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        
+
         public init(commandId: String? = nil, details: Bool? = nil, filters: [CommandFilter]? = nil, instanceId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.commandId = commandId
             self.details = details
@@ -7200,7 +7191,7 @@ extension SSM {
         public let commandInvocations: [CommandInvocation]?
         /// (Optional) The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        
+
         public init(commandInvocations: [CommandInvocation]? = nil, nextToken: String? = nil) {
             self.commandInvocations = commandInvocations
             self.nextToken = nextToken
@@ -7230,7 +7221,7 @@ extension SSM {
         public let maxResults: Int32?
         /// (Optional) The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        
+
         public init(commandId: String? = nil, filters: [CommandFilter]? = nil, instanceId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.commandId = commandId
             self.filters = filters
@@ -7257,7 +7248,7 @@ extension SSM {
         public let commands: [Command]?
         /// (Optional) The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        
+
         public init(commands: [Command]? = nil, nextToken: String? = nil) {
             self.commands = commands
             self.nextToken = nextToken
@@ -7287,7 +7278,7 @@ extension SSM {
         public let resourceIds: [String]?
         /// The type of resource from which to get compliance information. Currently, the only supported resource type is ManagedInstance.
         public let resourceTypes: [String]?
-        
+
         public init(filters: [ComplianceStringFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, resourceIds: [String]? = nil, resourceTypes: [String]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -7314,7 +7305,7 @@ extension SSM {
         public let complianceItems: [ComplianceItem]?
         /// The token for the next set of items to return. Use this token to get the next set of results.
         public let nextToken: String?
-        
+
         public init(complianceItems: [ComplianceItem]? = nil, nextToken: String? = nil) {
             self.complianceItems = complianceItems
             self.nextToken = nextToken
@@ -7338,7 +7329,7 @@ extension SSM {
         public let maxResults: Int32?
         /// A token to start the list. Use this token to get the next set of results. 
         public let nextToken: String?
-        
+
         public init(filters: [ComplianceStringFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -7361,7 +7352,7 @@ extension SSM {
         public let complianceSummaryItems: [ComplianceSummaryItem]?
         /// The token for the next set of items to return. Use this token to get the next set of results.
         public let nextToken: String?
-        
+
         public init(complianceSummaryItems: [ComplianceSummaryItem]? = nil, nextToken: String? = nil) {
             self.complianceSummaryItems = complianceSummaryItems
             self.nextToken = nextToken
@@ -7385,7 +7376,7 @@ extension SSM {
         public let name: String
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, name: String, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -7408,7 +7399,7 @@ extension SSM {
         public let documentVersions: [DocumentVersionInfo]?
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
-        
+
         public init(documentVersions: [DocumentVersionInfo]? = nil, nextToken: String? = nil) {
             self.documentVersions = documentVersions
             self.nextToken = nextToken
@@ -7435,7 +7426,7 @@ extension SSM {
         public let maxResults: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        
+
         public init(documentFilterList: [DocumentFilter]? = nil, filters: [DocumentKeyValuesFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.documentFilterList = documentFilterList
             self.filters = filters
@@ -7460,7 +7451,7 @@ extension SSM {
         public let documentIdentifiers: [DocumentIdentifier]?
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
-        
+
         public init(documentIdentifiers: [DocumentIdentifier]? = nil, nextToken: String? = nil) {
             self.documentIdentifiers = documentIdentifiers
             self.nextToken = nextToken
@@ -7490,7 +7481,7 @@ extension SSM {
         public let nextToken: String?
         /// The type of inventory item for which you want information.
         public let typeName: String
-        
+
         public init(filters: [InventoryFilter]? = nil, instanceId: String, maxResults: Int32? = nil, nextToken: String? = nil, typeName: String) {
             self.filters = filters
             self.instanceId = instanceId
@@ -7529,7 +7520,7 @@ extension SSM {
         public let schemaVersion: String?
         /// The type of inventory item returned by the request.
         public let typeName: String?
-        
+
         public init(captureTime: String? = nil, entries: [[String: String]]? = nil, instanceId: String? = nil, nextToken: String? = nil, schemaVersion: String? = nil, typeName: String? = nil) {
             self.captureTime = captureTime
             self.entries = entries
@@ -7561,7 +7552,7 @@ extension SSM {
         public let maxResults: Int32?
         /// A token to start the list. Use this token to get the next set of results. 
         public let nextToken: String?
-        
+
         public init(filters: [ComplianceStringFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -7584,7 +7575,7 @@ extension SSM {
         public let nextToken: String?
         /// A summary count for specified or targeted managed instances. Summary count includes information about compliant and non-compliant State Manager associations, patch status, or custom items according to the filter criteria that you specify. 
         public let resourceComplianceSummaryItems: [ResourceComplianceSummaryItem]?
-        
+
         public init(nextToken: String? = nil, resourceComplianceSummaryItems: [ResourceComplianceSummaryItem]? = nil) {
             self.nextToken = nextToken
             self.resourceComplianceSummaryItems = resourceComplianceSummaryItems
@@ -7605,7 +7596,7 @@ extension SSM {
         public let maxResults: Int32?
         /// A token to start the list. Use this token to get the next set of results. 
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -7626,7 +7617,7 @@ extension SSM {
         public let nextToken: String?
         /// A list of your current Resource Data Sync configurations and their statuses.
         public let resourceDataSyncItems: [ResourceDataSyncItem]?
-        
+
         public init(nextToken: String? = nil, resourceDataSyncItems: [ResourceDataSyncItem]? = nil) {
             self.nextToken = nextToken
             self.resourceDataSyncItems = resourceDataSyncItems
@@ -7647,7 +7638,7 @@ extension SSM {
         public let resourceId: String
         /// Returns a list of tags for a specific resource type.
         public let resourceType: ResourceTypeForTagging
-        
+
         public init(resourceId: String, resourceType: ResourceTypeForTagging) {
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -7665,7 +7656,7 @@ extension SSM {
         ]
         /// A list of tags.
         public let tagList: [Tag]?
-        
+
         public init(tagList: [Tag]? = nil) {
             self.tagList = tagList
         }
@@ -7687,7 +7678,7 @@ extension SSM {
         public let s3KeyPrefix: String?
         /// The region where the Amazon S3 bucket is located.
         public let s3Region: String
-        
+
         public init(s3BucketName: String, s3KeyPrefix: String? = nil, s3Region: String) {
             self.s3BucketName = s3BucketName
             self.s3KeyPrefix = s3KeyPrefix
@@ -7710,7 +7701,7 @@ extension SSM {
         public let documentVersion: String?
         /// The parameters for the AUTOMATION task. For information about specifying and updating task parameters, see RegisterTaskWithMaintenanceWindow and UpdateMaintenanceWindowTask.   LoggingInfo has been deprecated. To specify an S3 bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters.  TaskParameters has been deprecated. To specify parameters to pass to a task when it runs, instead use the Parameters option in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters. For AUTOMATION task types, Systems Manager ignores any values specified for these parameters. 
         public let parameters: [String: [String]]?
-        
+
         public init(documentVersion: String? = nil, parameters: [String: [String]]? = nil) {
             self.documentVersion = documentVersion
             self.parameters = parameters
@@ -7743,7 +7734,7 @@ extension SSM {
         public let windowExecutionId: String?
         /// The ID of the maintenance window.
         public let windowId: String?
-        
+
         public init(endTime: TimeStamp? = nil, startTime: TimeStamp? = nil, status: MaintenanceWindowExecutionStatus? = nil, statusDetails: String? = nil, windowExecutionId: String? = nil, windowId: String? = nil) {
             self.endTime = endTime
             self.startTime = startTime
@@ -7802,7 +7793,7 @@ extension SSM {
         public let taskType: MaintenanceWindowTaskType?
         /// The ID of the maintenance window execution that ran the task.
         public let windowExecutionId: String?
-        
+
         public init(endTime: TimeStamp? = nil, startTime: TimeStamp? = nil, status: MaintenanceWindowExecutionStatus? = nil, statusDetails: String? = nil, taskArn: String? = nil, taskExecutionId: String? = nil, taskType: MaintenanceWindowTaskType? = nil, windowExecutionId: String? = nil) {
             self.endTime = endTime
             self.startTime = startTime
@@ -7865,7 +7856,7 @@ extension SSM {
         public let windowExecutionId: String?
         /// The ID of the target definition in this maintenance window the invocation was performed for.
         public let windowTargetId: String?
-        
+
         public init(endTime: TimeStamp? = nil, executionId: String? = nil, invocationId: String? = nil, ownerInformation: String? = nil, parameters: String? = nil, startTime: TimeStamp? = nil, status: MaintenanceWindowExecutionStatus? = nil, statusDetails: String? = nil, taskExecutionId: String? = nil, taskType: MaintenanceWindowTaskType? = nil, windowExecutionId: String? = nil, windowTargetId: String? = nil) {
             self.endTime = endTime
             self.executionId = executionId
@@ -7906,7 +7897,7 @@ extension SSM {
         public let key: String?
         /// The filter values.
         public let values: [String]?
-        
+
         public init(key: String? = nil, values: [String]? = nil) {
             self.key = key
             self.values = values
@@ -7954,7 +7945,7 @@ extension SSM {
         public let startDate: String?
         /// The ID of the maintenance window.
         public let windowId: String?
-        
+
         public init(cutoff: Int32? = nil, description: String? = nil, duration: Int32? = nil, enabled: Bool? = nil, endDate: String? = nil, name: String? = nil, nextExecutionTime: String? = nil, schedule: String? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String? = nil) {
             self.cutoff = cutoff
             self.description = description
@@ -7993,7 +7984,7 @@ extension SSM {
         public let name: String?
         /// The ID of the maintenance window.
         public let windowId: String?
-        
+
         public init(name: String? = nil, windowId: String? = nil) {
             self.name = name
             self.windowId = windowId
@@ -8017,7 +8008,7 @@ extension SSM {
         public let payload: Data?
         /// (Optional) Specify a Lambda function version or alias name. If you specify a function version, the action uses the qualified function ARN to invoke a specific Lambda function. If you specify an alias name, the action uses the alias ARN to invoke the Lambda function version to which the alias points.
         public let qualifier: String?
-        
+
         public init(clientContext: String? = nil, payload: Data? = nil, qualifier: String? = nil) {
             self.clientContext = clientContext
             self.payload = payload
@@ -8066,7 +8057,7 @@ extension SSM {
         public let serviceRoleArn: String?
         /// If this time is reached and the command has not already started running, it doesn't run.
         public let timeoutSeconds: Int32?
-        
+
         public init(comment: String? = nil, documentHash: String? = nil, documentHashType: DocumentHashType? = nil, notificationConfig: NotificationConfig? = nil, outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, parameters: [String: [String]]? = nil, serviceRoleArn: String? = nil, timeoutSeconds: Int32? = nil) {
             self.comment = comment
             self.documentHash = documentHash
@@ -8101,7 +8092,7 @@ extension SSM {
         public let input: String?
         /// The name of the STEP_FUNCTION task.
         public let name: String?
-        
+
         public init(input: String? = nil, name: String? = nil) {
             self.input = input
             self.name = name
@@ -8137,7 +8128,7 @@ extension SSM {
         public let windowId: String?
         /// The ID of the target.
         public let windowTargetId: String?
-        
+
         public init(description: String? = nil, name: String? = nil, ownerInformation: String? = nil, resourceType: MaintenanceWindowResourceType? = nil, targets: [Target]? = nil, windowId: String? = nil, windowTargetId: String? = nil) {
             self.description = description
             self.name = name
@@ -8201,7 +8192,7 @@ extension SSM {
         public let windowId: String?
         /// The task ID.
         public let windowTaskId: String?
-        
+
         public init(description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int32? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, type: MaintenanceWindowTaskType? = nil, windowId: String? = nil, windowTaskId: String? = nil) {
             self.description = description
             self.loggingInfo = loggingInfo
@@ -8250,7 +8241,7 @@ extension SSM {
         public let runCommand: MaintenanceWindowRunCommandParameters?
         /// The parameters for a STEP_FUNCTION task type.
         public let stepFunctions: MaintenanceWindowStepFunctionsParameters?
-        
+
         public init(automation: MaintenanceWindowAutomationParameters? = nil, lambda: MaintenanceWindowLambdaParameters? = nil, runCommand: MaintenanceWindowRunCommandParameters? = nil, stepFunctions: MaintenanceWindowStepFunctionsParameters? = nil) {
             self.automation = automation
             self.lambda = lambda
@@ -8272,7 +8263,7 @@ extension SSM {
         ]
         /// This field contains an array of 0 or more strings, each 1 to 255 characters in length.
         public let values: [String]?
-        
+
         public init(values: [String]? = nil) {
             self.values = values
         }
@@ -8305,7 +8296,7 @@ extension SSM {
         public let name: String
         /// The permission type for the document. The permission type can be Share.
         public let permissionType: DocumentPermissionType
-        
+
         public init(accountIdsToAdd: [String]? = nil, accountIdsToRemove: [String]? = nil, name: String, permissionType: DocumentPermissionType) {
             self.accountIdsToAdd = accountIdsToAdd
             self.accountIdsToRemove = accountIdsToRemove
@@ -8322,12 +8313,11 @@ extension SSM {
     }
 
     public struct ModifyDocumentPermissionResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct NonCompliantSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -8338,7 +8328,7 @@ extension SSM {
         public let nonCompliantCount: Int32?
         /// A summary of the non-compliance severity by compliance type
         public let severitySummary: SeveritySummary?
-        
+
         public init(nonCompliantCount: Int32? = nil, severitySummary: SeveritySummary? = nil) {
             self.nonCompliantCount = nonCompliantCount
             self.severitySummary = severitySummary
@@ -8362,7 +8352,7 @@ extension SSM {
         public let notificationEvents: [NotificationEvent]?
         /// Command: Receive notification when the status of a command changes. Invocation: For commands sent to multiple instances, receive notification on a per-instance basis when the status of a command changes. 
         public let notificationType: NotificationType?
-        
+
         public init(notificationArn: String? = nil, notificationEvents: [NotificationEvent]? = nil, notificationType: NotificationType? = nil) {
             self.notificationArn = notificationArn
             self.notificationEvents = notificationEvents
@@ -8424,7 +8414,7 @@ extension SSM {
         public let typeName: String?
         /// The aggregator value.
         public let values: [String: String]?
-        
+
         public init(aggregators: [OpsAggregator]? = nil, aggregatorType: String? = nil, attributeName: String? = nil, filters: [OpsFilter]? = nil, typeName: String? = nil, values: [String: String]? = nil) {
             self.aggregators = aggregators
             self.aggregatorType = aggregatorType
@@ -8453,7 +8443,7 @@ extension SSM {
         public let data: [String: OpsEntityItem]?
         /// The query ID.
         public let id: String?
-        
+
         public init(data: [String: OpsEntityItem]? = nil, id: String? = nil) {
             self.data = data
             self.id = id
@@ -8471,7 +8461,7 @@ extension SSM {
         ]
         /// The detailed data content for an OpsItem summaries result item.
         public let content: [[String: String]]?
-        
+
         public init(content: [[String: String]]? = nil) {
             self.content = content
         }
@@ -8493,7 +8483,7 @@ extension SSM {
         public let `type`: OpsFilterOperatorType?
         /// The filter value.
         public let values: [String]
-        
+
         public init(key: String, type: OpsFilterOperatorType? = nil, values: [String]) {
             self.key = key
             self.`type` = `type`
@@ -8562,7 +8552,7 @@ extension SSM {
         public let title: String?
         /// The version of this OpsItem. Each time the OpsItem is edited the version number increments by one.
         public let version: String?
-        
+
         public init(createdBy: String? = nil, createdTime: TimeStamp? = nil, description: String? = nil, lastModifiedBy: String? = nil, lastModifiedTime: TimeStamp? = nil, notifications: [OpsItemNotification]? = nil, operationalData: [String: OpsItemDataValue]? = nil, opsItemId: String? = nil, priority: Int32? = nil, relatedOpsItems: [RelatedOpsItem]? = nil, source: String? = nil, status: OpsItemStatus? = nil, title: String? = nil, version: String? = nil) {
             self.createdBy = createdBy
             self.createdTime = createdTime
@@ -8613,7 +8603,7 @@ extension SSM {
         public let `type`: OpsItemDataType?
         /// The value of the OperationalData key.
         public let value: String?
-        
+
         public init(type: OpsItemDataType? = nil, value: String? = nil) {
             self.`type` = `type`
             self.value = value
@@ -8637,7 +8627,7 @@ extension SSM {
         public let `operator`: OpsItemFilterOperator
         /// The filter value.
         public let values: [String]
-        
+
         public init(key: OpsItemFilterKey, operator: OpsItemFilterOperator, values: [String]) {
             self.key = key
             self.`operator` = `operator`
@@ -8682,7 +8672,7 @@ extension SSM {
         ]
         /// The Amazon Resource Name (ARN) of an SNS topic where notifications are sent when this OpsItem is edited or changed.
         public let arn: String?
-        
+
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -8732,7 +8722,7 @@ extension SSM {
         public let status: OpsItemStatus?
         /// A short heading that describes the nature of the OpsItem and the impacted resource.
         public let title: String?
-        
+
         public init(createdBy: String? = nil, createdTime: TimeStamp? = nil, lastModifiedBy: String? = nil, lastModifiedTime: TimeStamp? = nil, operationalData: [String: OpsItemDataValue]? = nil, opsItemId: String? = nil, priority: Int32? = nil, source: String? = nil, status: OpsItemStatus? = nil, title: String? = nil) {
             self.createdBy = createdBy
             self.createdTime = createdTime
@@ -8769,7 +8759,7 @@ extension SSM {
         public let outputSourceId: String?
         /// The type of source where the association execution details are stored, for example, Amazon S3.
         public let outputSourceType: String?
-        
+
         public init(outputSourceId: String? = nil, outputSourceType: String? = nil) {
             self.outputSourceId = outputSourceId
             self.outputSourceType = outputSourceType
@@ -8808,7 +8798,7 @@ extension SSM {
         public let value: String?
         /// The parameter version.
         public let version: Int64?
-        
+
         public init(arn: String? = nil, lastModifiedDate: TimeStamp? = nil, name: String? = nil, selector: String? = nil, sourceResult: String? = nil, type: ParameterType? = nil, value: String? = nil, version: Int64? = nil) {
             self.arn = arn
             self.lastModifiedDate = lastModifiedDate
@@ -8871,7 +8861,7 @@ extension SSM {
         public let value: String?
         /// The parameter version.
         public let version: Int64?
-        
+
         public init(allowedPattern: String? = nil, description: String? = nil, keyId: String? = nil, labels: [String]? = nil, lastModifiedDate: TimeStamp? = nil, lastModifiedUser: String? = nil, name: String? = nil, policies: [ParameterInlinePolicy]? = nil, tier: ParameterTier? = nil, type: ParameterType? = nil, value: String? = nil, version: Int64? = nil) {
             self.allowedPattern = allowedPattern
             self.description = description
@@ -8915,7 +8905,7 @@ extension SSM {
         public let policyText: String?
         /// The type of policy. Parameter Store supports the following policy types: Expiration, ExpirationNotification, and NoChangeNotification. 
         public let policyType: String?
-        
+
         public init(policyStatus: String? = nil, policyText: String? = nil, policyType: String? = nil) {
             self.policyStatus = policyStatus
             self.policyText = policyText
@@ -8962,7 +8952,7 @@ extension SSM {
         public let `type`: ParameterType?
         /// The parameter version.
         public let version: Int64?
-        
+
         public init(allowedPattern: String? = nil, description: String? = nil, keyId: String? = nil, lastModifiedDate: TimeStamp? = nil, lastModifiedUser: String? = nil, name: String? = nil, policies: [ParameterInlinePolicy]? = nil, tier: ParameterTier? = nil, type: ParameterType? = nil, version: Int64? = nil) {
             self.allowedPattern = allowedPattern
             self.description = description
@@ -9002,7 +8992,7 @@ extension SSM {
         public let option: String?
         /// The value you want to search for.
         public let values: [String]?
-        
+
         public init(key: String, option: String? = nil, values: [String]? = nil) {
             self.key = key
             self.option = option
@@ -9038,7 +9028,7 @@ extension SSM {
         public let key: ParametersFilterKey
         /// The filter values.
         public let values: [String]
-        
+
         public init(key: ParametersFilterKey, values: [String]) {
             self.key = key
             self.values = values
@@ -9099,7 +9089,7 @@ extension SSM {
         public let title: String?
         /// The name of the vendor providing the patch.
         public let vendor: String?
-        
+
         public init(classification: String? = nil, contentUrl: String? = nil, description: String? = nil, id: String? = nil, kbNumber: String? = nil, language: String? = nil, msrcNumber: String? = nil, msrcSeverity: String? = nil, product: String? = nil, productFamily: String? = nil, releaseDate: TimeStamp? = nil, title: String? = nil, vendor: String? = nil) {
             self.classification = classification
             self.contentUrl = contentUrl
@@ -9157,7 +9147,7 @@ extension SSM {
         public let defaultBaseline: Bool?
         /// Defines the operating system the patch baseline applies to. The Default value is WINDOWS. 
         public let operatingSystem: OperatingSystem?
-        
+
         public init(baselineDescription: String? = nil, baselineId: String? = nil, baselineName: String? = nil, defaultBaseline: Bool? = nil, operatingSystem: OperatingSystem? = nil) {
             self.baselineDescription = baselineDescription
             self.baselineId = baselineId
@@ -9196,7 +9186,7 @@ extension SSM {
         public let state: PatchComplianceDataState
         /// The title of the patch.
         public let title: String
-        
+
         public init(classification: String, installedTime: TimeStamp, kBId: String, severity: String, state: PatchComplianceDataState, title: String) {
             self.classification = classification
             self.installedTime = installedTime
@@ -9253,7 +9243,7 @@ extension SSM {
         public let key: PatchFilterKey
         /// The value for the filter key. Run the DescribePatchProperties command to view lists of valid values for each key based on operating system type.
         public let values: [String]
-        
+
         public init(key: PatchFilterKey, values: [String]) {
             self.key = key
             self.values = values
@@ -9271,7 +9261,7 @@ extension SSM {
         ]
         /// The set of patch filters that make up the group.
         public let patchFilters: [PatchFilter]
-        
+
         public init(patchFilters: [PatchFilter]) {
             self.patchFilters = patchFilters
         }
@@ -9303,7 +9293,7 @@ extension SSM {
         public let baselineIdentity: PatchBaselineIdentity?
         /// The name of the patch group registered with the patch baseline.
         public let patchGroup: String?
-        
+
         public init(baselineIdentity: PatchBaselineIdentity? = nil, patchGroup: String? = nil) {
             self.baselineIdentity = baselineIdentity
             self.patchGroup = patchGroup
@@ -9330,7 +9320,7 @@ extension SSM {
         public let key: String?
         /// The value for the filter.
         public let values: [String]?
-        
+
         public init(key: String? = nil, values: [String]? = nil) {
             self.key = key
             self.values = values
@@ -9367,7 +9357,7 @@ extension SSM {
         public let enableNonSecurity: Bool?
         /// The patch filter group that defines the criteria for the rule.
         public let patchFilterGroup: PatchFilterGroup
-        
+
         public init(approveAfterDays: Int32, complianceLevel: PatchComplianceLevel? = nil, enableNonSecurity: Bool? = nil, patchFilterGroup: PatchFilterGroup) {
             self.approveAfterDays = approveAfterDays
             self.complianceLevel = complianceLevel
@@ -9389,7 +9379,7 @@ extension SSM {
         ]
         /// The rules that make up the rule group.
         public let patchRules: [PatchRule]
-        
+
         public init(patchRules: [PatchRule]) {
             self.patchRules = patchRules
         }
@@ -9417,7 +9407,7 @@ extension SSM {
         public let name: String
         /// The specific operating system versions a patch repository applies to, such as "Ubuntu16.04", "AmazonLinux2016.09", "RedhatEnterpriseLinux7.2" or "Suse12.7". For lists of supported product values, see PatchFilter.
         public let products: [String]
-        
+
         public init(configuration: String, name: String, products: [String]) {
             self.configuration = configuration
             self.name = name
@@ -9443,7 +9433,7 @@ extension SSM {
         public let complianceLevel: PatchComplianceLevel?
         /// The approval status of a patch (APPROVED, PENDING_APPROVAL, EXPLICIT_APPROVED, EXPLICIT_REJECTED).
         public let deploymentStatus: PatchDeploymentStatus?
-        
+
         public init(approvalDate: TimeStamp? = nil, complianceLevel: PatchComplianceLevel? = nil, deploymentStatus: PatchDeploymentStatus? = nil) {
             self.approvalDate = approvalDate
             self.complianceLevel = complianceLevel
@@ -9488,7 +9478,7 @@ extension SSM {
         public let timedOutSteps: Int32?
         /// The total number of steps run in all specified AWS Regions and accounts for the current Automation execution.
         public let totalSteps: Int32?
-        
+
         public init(cancelledSteps: Int32? = nil, failedSteps: Int32? = nil, successSteps: Int32? = nil, timedOutSteps: Int32? = nil, totalSteps: Int32? = nil) {
             self.cancelledSteps = cancelledSteps
             self.failedSteps = failedSteps
@@ -9527,7 +9517,7 @@ extension SSM {
         public let resourceId: String
         /// Specify the type of resource. ManagedInstance is currently the only supported resource type.
         public let resourceType: String
-        
+
         public init(complianceType: String, executionSummary: ComplianceExecutionSummary, itemContentHash: String? = nil, items: [ComplianceItemEntry], resourceId: String, resourceType: String) {
             self.complianceType = complianceType
             self.executionSummary = executionSummary
@@ -9548,12 +9538,11 @@ extension SSM {
     }
 
     public struct PutComplianceItemsResult: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct PutInventoryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -9564,7 +9553,7 @@ extension SSM {
         public let instanceId: String
         /// The inventory items that you want to add or update on instances.
         public let items: [InventoryItem]
-        
+
         public init(instanceId: String, items: [InventoryItem]) {
             self.instanceId = instanceId
             self.items = items
@@ -9582,7 +9571,7 @@ extension SSM {
         ]
         /// Information about the request.
         public let message: String?
-        
+
         public init(message: String? = nil) {
             self.message = message
         }
@@ -9625,7 +9614,7 @@ extension SSM {
         public let `type`: ParameterType
         /// The parameter value that you want to add to the system. Standard parameters have a value limit of 4 KB. Advanced parameters have a value limit of 8 KB.
         public let value: String
-        
+
         public init(allowedPattern: String? = nil, description: String? = nil, keyId: String? = nil, name: String, overwrite: Bool? = nil, policies: String? = nil, tags: [Tag]? = nil, tier: ParameterTier? = nil, type: ParameterType, value: String) {
             self.allowedPattern = allowedPattern
             self.description = description
@@ -9659,7 +9648,7 @@ extension SSM {
         ]
         /// The new version number of a parameter. If you edit a parameter value, Parameter Store automatically creates a new version and assigns this new version a unique ID. You can reference a parameter version ID in API actions or in Systems Manager documents (SSM documents). By default, if you don't specify a specific version, the system returns the latest parameter value when a parameter is called.
         public let version: Int64?
-        
+
         public init(version: Int64? = nil) {
             self.version = version
         }
@@ -9675,7 +9664,7 @@ extension SSM {
         ]
         /// The ID of the patch baseline that should be the default patch baseline.
         public let baselineId: String
-        
+
         public init(baselineId: String) {
             self.baselineId = baselineId
         }
@@ -9691,7 +9680,7 @@ extension SSM {
         ]
         /// The ID of the default patch baseline.
         public let baselineId: String?
-        
+
         public init(baselineId: String? = nil) {
             self.baselineId = baselineId
         }
@@ -9710,7 +9699,7 @@ extension SSM {
         public let baselineId: String
         /// The name of the patch group that should be registered with the patch baseline.
         public let patchGroup: String
-        
+
         public init(baselineId: String, patchGroup: String) {
             self.baselineId = baselineId
             self.patchGroup = patchGroup
@@ -9731,7 +9720,7 @@ extension SSM {
         public let baselineId: String?
         /// The name of the patch group registered with the patch baseline.
         public let patchGroup: String?
-        
+
         public init(baselineId: String? = nil, patchGroup: String? = nil) {
             self.baselineId = baselineId
             self.patchGroup = patchGroup
@@ -9767,7 +9756,7 @@ extension SSM {
         public let targets: [Target]
         /// The ID of the maintenance window the target should be registered with.
         public let windowId: String
-        
+
         public init(clientToken: String? = nil, description: String? = nil, name: String? = nil, ownerInformation: String? = nil, resourceType: MaintenanceWindowResourceType, targets: [Target], windowId: String) {
             self.clientToken = clientToken
             self.description = description
@@ -9795,7 +9784,7 @@ extension SSM {
         ]
         /// The ID of the target definition in this maintenance window.
         public let windowTargetId: String?
-        
+
         public init(windowTargetId: String? = nil) {
             self.windowTargetId = windowTargetId
         }
@@ -9850,7 +9839,7 @@ extension SSM {
         public let taskType: MaintenanceWindowTaskType
         /// The ID of the maintenance window the task should be added to.
         public let windowId: String
-        
+
         public init(clientToken: String? = nil, description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String, maxErrors: String, name: String? = nil, priority: Int32? = nil, serviceRoleArn: String? = nil, targets: [Target], taskArn: String, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, taskType: MaintenanceWindowTaskType, windowId: String) {
             self.clientToken = clientToken
             self.description = description
@@ -9892,7 +9881,7 @@ extension SSM {
         ]
         /// The ID of the task in the maintenance window.
         public let windowTaskId: String?
-        
+
         public init(windowTaskId: String? = nil) {
             self.windowTaskId = windowTaskId
         }
@@ -9908,7 +9897,7 @@ extension SSM {
         ]
         /// The ID of an OpsItem related to the current OpsItem.
         public let opsItemId: String
-        
+
         public init(opsItemId: String) {
             self.opsItemId = opsItemId
         }
@@ -9930,7 +9919,7 @@ extension SSM {
         public let resourceType: ResourceTypeForTagging
         /// Tag keys that you want to remove from the specified resource.
         public let tagKeys: [String]
-        
+
         public init(resourceId: String, resourceType: ResourceTypeForTagging, tagKeys: [String]) {
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -9945,12 +9934,11 @@ extension SSM {
     }
 
     public struct RemoveTagsFromResourceResult: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct ResetServiceSettingRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -9958,7 +9946,7 @@ extension SSM {
         ]
         /// The ID of the service setting to reset.
         public let settingId: String
-        
+
         public init(settingId: String) {
             self.settingId = settingId
         }
@@ -9974,7 +9962,7 @@ extension SSM {
         ]
         /// The current, effective service setting after calling the ResetServiceSetting API action.
         public let serviceSetting: ServiceSetting?
-        
+
         public init(serviceSetting: ServiceSetting? = nil) {
             self.serviceSetting = serviceSetting
         }
@@ -9993,7 +9981,7 @@ extension SSM {
         public let parameterValues: [String]?
         /// A boolean value indicating whether the resolved target list is truncated.
         public let truncated: Bool?
-        
+
         public init(parameterValues: [String]? = nil, truncated: Bool? = nil) {
             self.parameterValues = parameterValues
             self.truncated = truncated
@@ -10032,7 +10020,7 @@ extension SSM {
         public let resourceType: String?
         /// The compliance status for the resource.
         public let status: ComplianceStatus?
-        
+
         public init(complianceType: String? = nil, compliantSummary: CompliantSummary? = nil, executionSummary: ComplianceExecutionSummary? = nil, nonCompliantSummary: NonCompliantSummary? = nil, overallSeverity: ComplianceSeverity? = nil, resourceId: String? = nil, resourceType: String? = nil, status: ComplianceStatus? = nil) {
             self.complianceType = complianceType
             self.compliantSummary = compliantSummary
@@ -10080,7 +10068,7 @@ extension SSM {
         public let syncCreatedTime: TimeStamp?
         /// The name of the Resource Data Sync.
         public let syncName: String?
-        
+
         public init(lastStatus: LastResourceDataSyncStatus? = nil, lastSuccessfulSyncTime: TimeStamp? = nil, lastSyncStatusMessage: String? = nil, lastSyncTime: TimeStamp? = nil, s3Destination: ResourceDataSyncS3Destination? = nil, syncCreatedTime: TimeStamp? = nil, syncName: String? = nil) {
             self.lastStatus = lastStatus
             self.lastSuccessfulSyncTime = lastSuccessfulSyncTime
@@ -10120,7 +10108,7 @@ extension SSM {
         public let region: String
         /// A supported sync format. The following format is currently supported: JsonSerDe
         public let syncFormat: ResourceDataSyncS3Format
-        
+
         public init(aWSKMSKeyARN: String? = nil, bucketName: String, prefix: String? = nil, region: String, syncFormat: ResourceDataSyncS3Format) {
             self.aWSKMSKeyARN = aWSKMSKeyARN
             self.bucketName = bucketName
@@ -10166,7 +10154,7 @@ extension SSM {
         ]
         /// Name of the inventory item type. Valid value: AWS:InstanceInformation. Default Value: AWS:InstanceInformation.
         public let typeName: String
-        
+
         public init(typeName: String) {
             self.typeName = typeName
         }
@@ -10182,7 +10170,7 @@ extension SSM {
         ]
         /// The ID of the disconnected session to resume.
         public let sessionId: String
-        
+
         public init(sessionId: String) {
             self.sessionId = sessionId
         }
@@ -10204,7 +10192,7 @@ extension SSM {
         public let streamUrl: String?
         /// An encrypted token value containing session and caller information. Used to authenticate the connection to the instance.
         public let tokenValue: String?
-        
+
         public init(sessionId: String? = nil, streamUrl: String? = nil, tokenValue: String? = nil) {
             self.sessionId = sessionId
             self.streamUrl = streamUrl
@@ -10230,7 +10218,7 @@ extension SSM {
         public let outputS3KeyPrefix: String?
         /// (Deprecated) You can no longer specify this parameter. The system ignores it. Instead, Systems Manager automatically determines the Amazon S3 bucket region.
         public let outputS3Region: String?
-        
+
         public init(outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, outputS3Region: String? = nil) {
             self.outputS3BucketName = outputS3BucketName
             self.outputS3KeyPrefix = outputS3KeyPrefix
@@ -10250,7 +10238,7 @@ extension SSM {
         ]
         /// A URL for an Amazon S3 bucket where you want to store the results of this request.
         public let outputUrl: String?
-        
+
         public init(outputUrl: String? = nil) {
             self.outputUrl = outputUrl
         }
@@ -10272,7 +10260,7 @@ extension SSM {
         public let name: String?
         /// The ID of the maintenance window to be run.
         public let windowId: String?
-        
+
         public init(executionTime: String? = nil, name: String? = nil, windowId: String? = nil) {
             self.executionTime = executionTime
             self.name = name
@@ -10298,7 +10286,7 @@ extension SSM {
         public let payload: [String: [String]]?
         /// The type of signal to send to an Automation execution. 
         public let signalType: SignalType
-        
+
         public init(automationExecutionId: String, payload: [String: [String]]? = nil, signalType: SignalType) {
             self.automationExecutionId = automationExecutionId
             self.payload = payload
@@ -10313,12 +10301,11 @@ extension SSM {
     }
 
     public struct SendAutomationSignalResult: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct SendCommandRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -10374,7 +10361,7 @@ extension SSM {
         public let targets: [Target]?
         /// If this time is reached and the command has not already started running, it will not run.
         public let timeoutSeconds: Int32?
-        
+
         public init(cloudWatchOutputConfig: CloudWatchOutputConfig? = nil, comment: String? = nil, documentHash: String? = nil, documentHashType: DocumentHashType? = nil, documentName: String, documentVersion: String? = nil, instanceIds: [String]? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, notificationConfig: NotificationConfig? = nil, outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, outputS3Region: String? = nil, parameters: [String: [String]]? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, timeoutSeconds: Int32? = nil) {
             self.cloudWatchOutputConfig = cloudWatchOutputConfig
             self.comment = comment
@@ -10422,7 +10409,7 @@ extension SSM {
         ]
         /// The request as it was received by Systems Manager. Also provides the command ID which can be used future references to this request.
         public let command: Command?
-        
+
         public init(command: Command? = nil) {
             self.command = command
         }
@@ -10453,7 +10440,7 @@ extension SSM {
         public let settingValue: String?
         /// The status of the service setting. The value can be Default, Customized or PendingUpdate.   Default: The current setting uses a default value provisioned by the AWS service team.   Customized: The current setting use a custom value specified by the customer.   PendingUpdate: The current setting uses a default or custom value, but a setting change request is pending approval.  
         public let status: String?
-        
+
         public init(arn: String? = nil, lastModifiedDate: TimeStamp? = nil, lastModifiedUser: String? = nil, settingId: String? = nil, settingValue: String? = nil, status: String? = nil) {
             self.arn = arn
             self.lastModifiedDate = lastModifiedDate
@@ -10503,7 +10490,7 @@ extension SSM {
         public let status: SessionStatus?
         /// The instance that the Session Manager session connected to.
         public let target: String?
-        
+
         public init(details: String? = nil, documentName: String? = nil, endDate: TimeStamp? = nil, outputUrl: SessionManagerOutputUrl? = nil, owner: String? = nil, sessionId: String? = nil, startDate: TimeStamp? = nil, status: SessionStatus? = nil, target: String? = nil) {
             self.details = details
             self.documentName = documentName
@@ -10538,7 +10525,7 @@ extension SSM {
         public let key: SessionFilterKey
         /// The filter value. Valid values for each filter key are as follows:   InvokedAfter: Specify a timestamp to limit your results. For example, specify 2018-08-29T00:00:00Z to see sessions that started August 29, 2018, and later.   InvokedBefore: Specify a timestamp to limit your results. For example, specify 2018-08-29T00:00:00Z to see sessions that started before August 29, 2018.   Target: Specify an instance to which session connections have been made.   Owner: Specify an AWS user account to see a list of sessions started by that user.   Status: Specify a valid session status to see a list of all sessions with that status. Status values you can specify include:   Connected   Connecting   Disconnected   Terminated   Terminating   Failed    
         public let value: String
-        
+
         public init(key: SessionFilterKey, value: String) {
             self.key = key
             self.value = value
@@ -10568,7 +10555,7 @@ extension SSM {
         public let cloudWatchOutputUrl: String?
         /// Reserved for future use.
         public let s3OutputUrl: String?
-        
+
         public init(cloudWatchOutputUrl: String? = nil, s3OutputUrl: String? = nil) {
             self.cloudWatchOutputUrl = cloudWatchOutputUrl
             self.s3OutputUrl = s3OutputUrl
@@ -10617,7 +10604,7 @@ extension SSM {
         public let mediumCount: Int32?
         /// The total number of resources or compliance items that have a severity level of unspecified. Unspecified severity is determined by the organization that published the compliance items.
         public let unspecifiedCount: Int32?
-        
+
         public init(criticalCount: Int32? = nil, highCount: Int32? = nil, informationalCount: Int32? = nil, lowCount: Int32? = nil, mediumCount: Int32? = nil, unspecifiedCount: Int32? = nil) {
             self.criticalCount = criticalCount
             self.highCount = highCount
@@ -10652,7 +10639,7 @@ extension SSM {
         ]
         /// The association IDs that you want to run immediately and only one time.
         public let associationIds: [String]
-        
+
         public init(associationIds: [String]) {
             self.associationIds = associationIds
         }
@@ -10663,12 +10650,11 @@ extension SSM {
     }
 
     public struct StartAssociationsOnceResult: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct StartAutomationExecutionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -10706,7 +10692,7 @@ extension SSM {
         public let targetParameterName: String?
         /// A key-value mapping to target resources. Required if you specify TargetParameterName.
         public let targets: [Target]?
-        
+
         public init(clientToken: String? = nil, documentName: String, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, mode: ExecutionMode? = nil, parameters: [String: [String]]? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targetParameterName: String? = nil, targets: [Target]? = nil) {
             self.clientToken = clientToken
             self.documentName = documentName
@@ -10742,7 +10728,7 @@ extension SSM {
         ]
         /// The unique ID of a newly scheduled automation execution.
         public let automationExecutionId: String?
-        
+
         public init(automationExecutionId: String? = nil) {
             self.automationExecutionId = automationExecutionId
         }
@@ -10764,7 +10750,7 @@ extension SSM {
         public let parameters: [String: [String]]?
         /// The instance to connect to for the session.
         public let target: String
-        
+
         public init(documentName: String? = nil, parameters: [String: [String]]? = nil, target: String) {
             self.documentName = documentName
             self.parameters = parameters
@@ -10790,7 +10776,7 @@ extension SSM {
         public let streamUrl: String?
         /// An encrypted token value containing session and caller information. Used to authenticate the connection to the instance.
         public let tokenValue: String?
-        
+
         public init(sessionId: String? = nil, streamUrl: String? = nil, tokenValue: String? = nil) {
             self.sessionId = sessionId
             self.streamUrl = streamUrl
@@ -10873,7 +10859,7 @@ extension SSM {
         public let timeoutSeconds: Int64?
         /// Strategies used when step fails, we support Continue and Abort. Abort will fail the automation when the step fails. Continue will ignore the failure of current step and allow automation to run the next step. With conditional branching, we add step:stepName to support the automation to go to another specific step.
         public let validNextSteps: [String]?
-        
+
         public init(action: String? = nil, executionEndTime: TimeStamp? = nil, executionStartTime: TimeStamp? = nil, failureDetails: FailureDetails? = nil, failureMessage: String? = nil, inputs: [String: String]? = nil, isCritical: Bool? = nil, isEnd: Bool? = nil, maxAttempts: Int32? = nil, nextStep: String? = nil, onFailure: String? = nil, outputs: [String: [String]]? = nil, overriddenParameters: [String: [String]]? = nil, response: String? = nil, responseCode: String? = nil, stepExecutionId: String? = nil, stepName: String? = nil, stepStatus: AutomationExecutionStatus? = nil, targetLocation: TargetLocation? = nil, targets: [Target]? = nil, timeoutSeconds: Int64? = nil, validNextSteps: [String]? = nil) {
             self.action = action
             self.executionEndTime = executionEndTime
@@ -10934,7 +10920,7 @@ extension SSM {
         public let key: StepExecutionFilterKey
         /// The values of the filter key.
         public let values: [String]
-        
+
         public init(key: StepExecutionFilterKey, values: [String]) {
             self.key = key
             self.values = values
@@ -10965,7 +10951,7 @@ extension SSM {
         public let automationExecutionId: String
         /// The stop request type. Valid types include the following: Cancel and Complete. The default type is Cancel.
         public let `type`: StopType?
-        
+
         public init(automationExecutionId: String, type: StopType? = nil) {
             self.automationExecutionId = automationExecutionId
             self.`type` = `type`
@@ -10978,12 +10964,11 @@ extension SSM {
     }
 
     public struct StopAutomationExecutionResult: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public enum StopType: String, CustomStringConvertible, Codable {
         case complete = "Complete"
@@ -11000,7 +10985,7 @@ extension SSM {
         public let key: String
         /// The value of the tag.
         public let value: String
-        
+
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -11021,7 +11006,7 @@ extension SSM {
         public let key: String?
         /// User-defined criteria that maps to Key. For example, if you specified tag:ServerRole, you could specify value:WebServer to run a command on instances that include Amazon EC2 tags of ServerRole,WebServer. For more information about how to send commands that target instances using Key,Value parameters, see Using Targets and Rate Controls to Send Commands to a Fleet in the AWS Systems Manager User Guide.
         public let values: [String]?
-        
+
         public init(key: String? = nil, values: [String]? = nil) {
             self.key = key
             self.values = values
@@ -11051,7 +11036,7 @@ extension SSM {
         public let targetLocationMaxConcurrency: String?
         /// The maximum number of errors allowed before the system stops queueing additional Automation executions for the currently running Automation. 
         public let targetLocationMaxErrors: String?
-        
+
         public init(accounts: [String]? = nil, executionRoleName: String? = nil, regions: [String]? = nil, targetLocationMaxConcurrency: String? = nil, targetLocationMaxErrors: String? = nil) {
             self.accounts = accounts
             self.executionRoleName = executionRoleName
@@ -11075,7 +11060,7 @@ extension SSM {
         ]
         /// The ID of the session to terminate.
         public let sessionId: String
-        
+
         public init(sessionId: String) {
             self.sessionId = sessionId
         }
@@ -11091,7 +11076,7 @@ extension SSM {
         ]
         /// The ID of the session that has been terminated.
         public let sessionId: String?
-        
+
         public init(sessionId: String? = nil) {
             self.sessionId = sessionId
         }
@@ -11143,7 +11128,7 @@ extension SSM {
         public let scheduleExpression: String?
         /// The targets of the association.
         public let targets: [Target]?
-        
+
         public init(associationId: String, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, targets: [Target]? = nil) {
             self.associationId = associationId
             self.associationName = associationName
@@ -11183,7 +11168,7 @@ extension SSM {
         ]
         /// The description of the association that was updated.
         public let associationDescription: AssociationDescription?
-        
+
         public init(associationDescription: AssociationDescription? = nil) {
             self.associationDescription = associationDescription
         }
@@ -11205,7 +11190,7 @@ extension SSM {
         public let instanceId: String
         /// The name of the Systems Manager document.
         public let name: String
-        
+
         public init(associationStatus: AssociationStatus, instanceId: String, name: String) {
             self.associationStatus = associationStatus
             self.instanceId = instanceId
@@ -11225,7 +11210,7 @@ extension SSM {
         ]
         /// Information about the association.
         public let associationDescription: AssociationDescription?
-        
+
         public init(associationDescription: AssociationDescription? = nil) {
             self.associationDescription = associationDescription
         }
@@ -11244,7 +11229,7 @@ extension SSM {
         public let documentVersion: String
         /// The name of a custom document that you want to set as the default version.
         public let name: String
-        
+
         public init(documentVersion: String, name: String) {
             self.documentVersion = documentVersion
             self.name = name
@@ -11262,7 +11247,7 @@ extension SSM {
         ]
         /// The description of a custom document that you want to set as the default version.
         public let description: DocumentDefaultVersionDescription?
-        
+
         public init(description: DocumentDefaultVersionDescription? = nil) {
             self.description = description
         }
@@ -11296,7 +11281,7 @@ extension SSM {
         public let targetType: String?
         /// An optional field specifying the version of the artifact you are updating with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document, and cannot be changed.
         public let versionName: String?
-        
+
         public init(attachments: [AttachmentsSource]? = nil, content: String, documentFormat: DocumentFormat? = nil, documentVersion: String? = nil, name: String, targetType: String? = nil, versionName: String? = nil) {
             self.attachments = attachments
             self.content = content
@@ -11324,7 +11309,7 @@ extension SSM {
         ]
         /// A description of the document that was updated.
         public let documentDescription: DocumentDescription?
-        
+
         public init(documentDescription: DocumentDescription? = nil) {
             self.documentDescription = documentDescription
         }
@@ -11373,7 +11358,7 @@ extension SSM {
         public let startDate: String?
         /// The ID of the maintenance window to update.
         public let windowId: String
-        
+
         public init(allowUnassociatedTargets: Bool? = nil, cutoff: Int32? = nil, description: String? = nil, duration: Int32? = nil, enabled: Bool? = nil, endDate: String? = nil, name: String? = nil, replace: Bool? = nil, schedule: String? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String) {
             self.allowUnassociatedTargets = allowUnassociatedTargets
             self.cutoff = cutoff
@@ -11441,7 +11426,7 @@ extension SSM {
         public let startDate: String?
         /// The ID of the created maintenance window.
         public let windowId: String?
-        
+
         public init(allowUnassociatedTargets: Bool? = nil, cutoff: Int32? = nil, description: String? = nil, duration: Int32? = nil, enabled: Bool? = nil, endDate: String? = nil, name: String? = nil, schedule: String? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String? = nil) {
             self.allowUnassociatedTargets = allowUnassociatedTargets
             self.cutoff = cutoff
@@ -11495,7 +11480,7 @@ extension SSM {
         public let windowId: String
         /// The target ID to modify.
         public let windowTargetId: String
-        
+
         public init(description: String? = nil, name: String? = nil, ownerInformation: String? = nil, replace: Bool? = nil, targets: [Target]? = nil, windowId: String, windowTargetId: String) {
             self.description = description
             self.name = name
@@ -11538,7 +11523,7 @@ extension SSM {
         public let windowId: String?
         /// The target ID specified in the update request.
         public let windowTargetId: String?
-        
+
         public init(description: String? = nil, name: String? = nil, ownerInformation: String? = nil, targets: [Target]? = nil, windowId: String? = nil, windowTargetId: String? = nil) {
             self.description = description
             self.name = name
@@ -11603,7 +11588,7 @@ extension SSM {
         public let windowId: String
         /// The task ID to modify.
         public let windowTaskId: String
-        
+
         public init(description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int32? = nil, replace: Bool? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String? = nil, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, windowId: String, windowTaskId: String) {
             self.description = description
             self.loggingInfo = loggingInfo
@@ -11681,7 +11666,7 @@ extension SSM {
         public let windowId: String?
         /// The task ID of the maintenance window that was updated.
         public let windowTaskId: String?
-        
+
         public init(description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int32? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String? = nil, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, windowId: String? = nil, windowTaskId: String? = nil) {
             self.description = description
             self.loggingInfo = loggingInfo
@@ -11724,7 +11709,7 @@ extension SSM {
         public let iamRole: String
         /// The ID of the managed instance where you want to update the role.
         public let instanceId: String
-        
+
         public init(iamRole: String, instanceId: String) {
             self.iamRole = iamRole
             self.instanceId = instanceId
@@ -11737,12 +11722,11 @@ extension SSM {
     }
 
     public struct UpdateManagedInstanceRoleResult: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateOpsItemRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -11774,7 +11758,7 @@ extension SSM {
         public let status: OpsItemStatus?
         /// A short heading that describes the nature of the OpsItem and the impacted resource.
         public let title: String?
-        
+
         public init(description: String? = nil, notifications: [OpsItemNotification]? = nil, operationalData: [String: OpsItemDataValue]? = nil, operationalDataToDelete: [String]? = nil, opsItemId: String, priority: Int32? = nil, relatedOpsItems: [RelatedOpsItem]? = nil, status: OpsItemStatus? = nil, title: String? = nil) {
             self.description = description
             self.notifications = notifications
@@ -11801,12 +11785,11 @@ extension SSM {
     }
 
     public struct UpdateOpsItemResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdatePatchBaselineRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -11847,7 +11830,7 @@ extension SSM {
         public let replace: Bool?
         /// Information about the patches to use to update the instances, including target operating systems and source repositories. Applies to Linux instances only.
         public let sources: [PatchSource]?
-        
+
         public init(approvalRules: PatchRuleGroup? = nil, approvedPatches: [String]? = nil, approvedPatchesComplianceLevel: PatchComplianceLevel? = nil, approvedPatchesEnableNonSecurity: Bool? = nil, baselineId: String, description: String? = nil, globalFilters: PatchFilterGroup? = nil, name: String? = nil, rejectedPatches: [String]? = nil, rejectedPatchesAction: PatchAction? = nil, replace: Bool? = nil, sources: [PatchSource]? = nil) {
             self.approvalRules = approvalRules
             self.approvedPatches = approvedPatches
@@ -11924,7 +11907,7 @@ extension SSM {
         public let rejectedPatchesAction: PatchAction?
         /// Information about the patches to use to update the instances, including target operating systems and source repositories. Applies to Linux instances only.
         public let sources: [PatchSource]?
-        
+
         public init(approvalRules: PatchRuleGroup? = nil, approvedPatches: [String]? = nil, approvedPatchesComplianceLevel: PatchComplianceLevel? = nil, approvedPatchesEnableNonSecurity: Bool? = nil, baselineId: String? = nil, createdDate: TimeStamp? = nil, description: String? = nil, globalFilters: PatchFilterGroup? = nil, modifiedDate: TimeStamp? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, rejectedPatches: [String]? = nil, rejectedPatchesAction: PatchAction? = nil, sources: [PatchSource]? = nil) {
             self.approvalRules = approvalRules
             self.approvedPatches = approvedPatches
@@ -11969,7 +11952,7 @@ extension SSM {
         public let settingId: String
         /// The new value to specify for the service setting.
         public let settingValue: String
-        
+
         public init(settingId: String, settingValue: String) {
             self.settingId = settingId
             self.settingValue = settingValue
@@ -11982,11 +11965,9 @@ extension SSM {
     }
 
     public struct UpdateServiceSettingResult: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
-
+    }
 }

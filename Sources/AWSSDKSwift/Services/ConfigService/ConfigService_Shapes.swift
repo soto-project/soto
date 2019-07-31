@@ -17,7 +17,7 @@ extension ConfigService {
         public let allAwsRegions: Bool?
         /// The source regions being aggregated.
         public let awsRegions: [String]?
-        
+
         public init(accountIds: [String], allAwsRegions: Bool? = nil, awsRegions: [String]? = nil) {
             self.accountIds = accountIds
             self.allAwsRegions = allAwsRegions
@@ -46,7 +46,7 @@ extension ConfigService {
         public let compliance: Compliance?
         /// The name of the AWS Config rule.
         public let configRuleName: String?
-        
+
         public init(accountId: String? = nil, awsRegion: String? = nil, compliance: Compliance? = nil, configRuleName: String? = nil) {
             self.accountId = accountId
             self.awsRegion = awsRegion
@@ -71,7 +71,7 @@ extension ConfigService {
         public let complianceSummary: ComplianceSummary?
         /// The 12-digit account ID or region based on the GroupByKey value.
         public let groupName: String?
-        
+
         public init(complianceSummary: ComplianceSummary? = nil, groupName: String? = nil) {
             self.complianceSummary = complianceSummary
             self.groupName = groupName
@@ -107,7 +107,7 @@ extension ConfigService {
         public let evaluationResultIdentifier: EvaluationResultIdentifier?
         /// The time when AWS Config recorded the aggregate evaluation result.
         public let resultRecordedTime: TimeStamp?
-        
+
         public init(accountId: String? = nil, annotation: String? = nil, awsRegion: String? = nil, complianceType: ComplianceType? = nil, configRuleInvokedTime: TimeStamp? = nil, evaluationResultIdentifier: EvaluationResultIdentifier? = nil, resultRecordedTime: TimeStamp? = nil) {
             self.accountId = accountId
             self.annotation = annotation
@@ -147,7 +147,7 @@ extension ConfigService {
         public let sourceAccountId: String
         /// The source region where data is aggregated.
         public let sourceRegion: String
-        
+
         public init(resourceId: String, resourceName: String? = nil, resourceType: ResourceType, sourceAccountId: String, sourceRegion: String) {
             self.resourceId = resourceId
             self.resourceName = resourceName
@@ -189,7 +189,7 @@ extension ConfigService {
         public let sourceId: String?
         /// The source account or an organization.
         public let sourceType: AggregatedSourceType?
-        
+
         public init(awsRegion: String? = nil, lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastUpdateStatus: AggregatedSourceStatusType? = nil, lastUpdateTime: TimeStamp? = nil, sourceId: String? = nil, sourceType: AggregatedSourceType? = nil) {
             self.awsRegion = awsRegion
             self.lastErrorCode = lastErrorCode
@@ -239,7 +239,7 @@ extension ConfigService {
         public let authorizedAwsRegion: String?
         /// The time stamp when the aggregation authorization was created.
         public let creationTime: TimeStamp?
-        
+
         public init(aggregationAuthorizationArn: String? = nil, authorizedAccountId: String? = nil, authorizedAwsRegion: String? = nil, creationTime: TimeStamp? = nil) {
             self.aggregationAuthorizationArn = aggregationAuthorizationArn
             self.authorizedAccountId = authorizedAccountId
@@ -300,7 +300,7 @@ extension ConfigService {
         public let supplementaryConfiguration: [String: String]?
         /// The version number of the resource configuration.
         public let version: String?
-        
+
         public init(accountId: String? = nil, arn: String? = nil, availabilityZone: String? = nil, awsRegion: String? = nil, configuration: String? = nil, configurationItemCaptureTime: TimeStamp? = nil, configurationItemStatus: ConfigurationItemStatus? = nil, configurationStateId: String? = nil, resourceCreationTime: TimeStamp? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceType: ResourceType? = nil, supplementaryConfiguration: [String: String]? = nil, version: String? = nil) {
             self.accountId = accountId
             self.arn = arn
@@ -345,7 +345,7 @@ extension ConfigService {
         public let configurationAggregatorName: String
         /// A list of aggregate ResourceIdentifiers objects. 
         public let resourceIdentifiers: [AggregateResourceIdentifier]
-        
+
         public init(configurationAggregatorName: String, resourceIdentifiers: [AggregateResourceIdentifier]) {
             self.configurationAggregatorName = configurationAggregatorName
             self.resourceIdentifiers = resourceIdentifiers
@@ -366,7 +366,7 @@ extension ConfigService {
         public let baseConfigurationItems: [BaseConfigurationItem]?
         /// A list of resource identifiers that were not processed with current scope. The list is empty if all the resources are processed.
         public let unprocessedResourceIdentifiers: [AggregateResourceIdentifier]?
-        
+
         public init(baseConfigurationItems: [BaseConfigurationItem]? = nil, unprocessedResourceIdentifiers: [AggregateResourceIdentifier]? = nil) {
             self.baseConfigurationItems = baseConfigurationItems
             self.unprocessedResourceIdentifiers = unprocessedResourceIdentifiers
@@ -384,7 +384,7 @@ extension ConfigService {
         ]
         /// A list of resource keys to be processed with the current request. Each element in the list consists of the resource type and resource ID.
         public let resourceKeys: [ResourceKey]
-        
+
         public init(resourceKeys: [ResourceKey]) {
             self.resourceKeys = resourceKeys
         }
@@ -403,7 +403,7 @@ extension ConfigService {
         public let baseConfigurationItems: [BaseConfigurationItem]?
         /// A list of resource keys that were not processed with the current response. The unprocessesResourceKeys value is in the same form as ResourceKeys, so the value can be directly provided to a subsequent BatchGetResourceConfig operation. If there are no unprocessed resource keys, the response contains an empty unprocessedResourceKeys list. 
         public let unprocessedResourceKeys: [ResourceKey]?
-        
+
         public init(baseConfigurationItems: [BaseConfigurationItem]? = nil, unprocessedResourceKeys: [ResourceKey]? = nil) {
             self.baseConfigurationItems = baseConfigurationItems
             self.unprocessedResourceKeys = unprocessedResourceKeys
@@ -430,7 +430,7 @@ extension ConfigService {
         public let complianceContributorCount: ComplianceContributorCount?
         /// Indicates whether an AWS resource or AWS Config rule is compliant. A resource is compliant if it complies with all of the AWS Config rules that evaluate it. A resource is noncompliant if it does not comply with one or more of these rules. A rule is compliant if all of the resources that the rule evaluates comply with it. A rule is noncompliant if any of these resources do not comply. AWS Config returns the INSUFFICIENT_DATA value when no evaluation results are available for the AWS resource or AWS Config rule. For the Compliance data type, AWS Config supports only COMPLIANT, NON_COMPLIANT, and INSUFFICIENT_DATA values. AWS Config does not support the NOT_APPLICABLE value for the Compliance data type.
         public let complianceType: ComplianceType?
-        
+
         public init(complianceContributorCount: ComplianceContributorCount? = nil, complianceType: ComplianceType? = nil) {
             self.complianceContributorCount = complianceContributorCount
             self.complianceType = complianceType
@@ -451,7 +451,7 @@ extension ConfigService {
         public let compliance: Compliance?
         /// The name of the AWS Config rule.
         public let configRuleName: String?
-        
+
         public init(compliance: Compliance? = nil, configRuleName: String? = nil) {
             self.compliance = compliance
             self.configRuleName = configRuleName
@@ -475,7 +475,7 @@ extension ConfigService {
         public let resourceId: String?
         /// The type of the AWS resource that was evaluated.
         public let resourceType: String?
-        
+
         public init(compliance: Compliance? = nil, resourceId: String? = nil, resourceType: String? = nil) {
             self.compliance = compliance
             self.resourceId = resourceId
@@ -498,7 +498,7 @@ extension ConfigService {
         public let capExceeded: Bool?
         /// The number of AWS resources or AWS Config rules responsible for the current compliance of the item.
         public let cappedCount: Int32?
-        
+
         public init(capExceeded: Bool? = nil, cappedCount: Int32? = nil) {
             self.capExceeded = capExceeded
             self.cappedCount = cappedCount
@@ -522,7 +522,7 @@ extension ConfigService {
         public let compliantResourceCount: ComplianceContributorCount?
         /// The number of AWS Config rules or AWS resources that are noncompliant, up to a maximum of 25 for rules and 100 for resources.
         public let nonCompliantResourceCount: ComplianceContributorCount?
-        
+
         public init(complianceSummaryTimestamp: TimeStamp? = nil, compliantResourceCount: ComplianceContributorCount? = nil, nonCompliantResourceCount: ComplianceContributorCount? = nil) {
             self.complianceSummaryTimestamp = complianceSummaryTimestamp
             self.compliantResourceCount = compliantResourceCount
@@ -545,7 +545,7 @@ extension ConfigService {
         public let complianceSummary: ComplianceSummary?
         /// The type of AWS resource.
         public let resourceType: String?
-        
+
         public init(complianceSummary: ComplianceSummary? = nil, resourceType: String? = nil) {
             self.complianceSummary = complianceSummary
             self.resourceType = resourceType
@@ -586,7 +586,7 @@ extension ConfigService {
         public let lastSuccessfulTime: TimeStamp?
         /// The time that the next delivery occurs.
         public let nextDeliveryTime: TimeStamp?
-        
+
         public init(lastAttemptTime: TimeStamp? = nil, lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastStatus: DeliveryStatus? = nil, lastSuccessfulTime: TimeStamp? = nil, nextDeliveryTime: TimeStamp? = nil) {
             self.lastAttemptTime = lastAttemptTime
             self.lastErrorCode = lastErrorCode
@@ -639,7 +639,7 @@ extension ConfigService {
         public let scope: Scope?
         /// Provides the rule owner (AWS or customer), the rule identifier, and the notifications that cause the function to evaluate your AWS resources.
         public let source: Source
-        
+
         public init(configRuleArn: String? = nil, configRuleId: String? = nil, configRuleName: String? = nil, configRuleState: ConfigRuleState? = nil, createdBy: String? = nil, description: String? = nil, inputParameters: String? = nil, maximumExecutionFrequency: MaximumExecutionFrequency? = nil, scope: Scope? = nil, source: Source) {
             self.configRuleArn = configRuleArn
             self.configRuleId = configRuleId
@@ -682,7 +682,7 @@ extension ConfigService {
         public let complianceType: ComplianceType?
         /// The name of the AWS Config rule.
         public let configRuleName: String?
-        
+
         public init(accountId: String? = nil, awsRegion: String? = nil, complianceType: ComplianceType? = nil, configRuleName: String? = nil) {
             self.accountId = accountId
             self.awsRegion = awsRegion
@@ -707,7 +707,7 @@ extension ConfigService {
         public let accountId: String?
         /// The source region where the data is aggregated.
         public let awsRegion: String?
-        
+
         public init(accountId: String? = nil, awsRegion: String? = nil) {
             self.accountId = accountId
             self.awsRegion = awsRegion
@@ -761,7 +761,7 @@ extension ConfigService {
         public let lastSuccessfulEvaluationTime: TimeStamp?
         /// The time that AWS Config last successfully invoked the AWS Config rule to evaluate your AWS resources.
         public let lastSuccessfulInvocationTime: TimeStamp?
-        
+
         public init(configRuleArn: String? = nil, configRuleId: String? = nil, configRuleName: String? = nil, firstActivatedTime: TimeStamp? = nil, firstEvaluationStarted: Bool? = nil, lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastFailedEvaluationTime: TimeStamp? = nil, lastFailedInvocationTime: TimeStamp? = nil, lastSuccessfulEvaluationTime: TimeStamp? = nil, lastSuccessfulInvocationTime: TimeStamp? = nil) {
             self.configRuleArn = configRuleArn
             self.configRuleId = configRuleId
@@ -805,7 +805,7 @@ extension ConfigService {
         ]
         /// The frequency with which AWS Config delivers configuration snapshots.
         public let deliveryFrequency: MaximumExecutionFrequency?
-        
+
         public init(deliveryFrequency: MaximumExecutionFrequency? = nil) {
             self.deliveryFrequency = deliveryFrequency
         }
@@ -830,7 +830,7 @@ extension ConfigService {
         public let lastStatus: DeliveryStatus?
         /// The time from the last status change.
         public let lastStatusChangeTime: TimeStamp?
-        
+
         public init(lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastStatus: DeliveryStatus? = nil, lastStatusChangeTime: TimeStamp? = nil) {
             self.lastErrorCode = lastErrorCode
             self.lastErrorMessage = lastErrorMessage
@@ -867,7 +867,7 @@ extension ConfigService {
         public let lastUpdatedTime: TimeStamp?
         /// Provides an organization and list of regions to be aggregated.
         public let organizationAggregationSource: OrganizationAggregationSource?
-        
+
         public init(accountAggregationSources: [AccountAggregationSource]? = nil, configurationAggregatorArn: String? = nil, configurationAggregatorName: String? = nil, creationTime: TimeStamp? = nil, lastUpdatedTime: TimeStamp? = nil, organizationAggregationSource: OrganizationAggregationSource? = nil) {
             self.accountAggregationSources = accountAggregationSources
             self.configurationAggregatorArn = configurationAggregatorArn
@@ -944,7 +944,7 @@ extension ConfigService {
         public let tags: [String: String]?
         /// The version number of the resource configuration.
         public let version: String?
-        
+
         public init(accountId: String? = nil, arn: String? = nil, availabilityZone: String? = nil, awsRegion: String? = nil, configuration: String? = nil, configurationItemCaptureTime: TimeStamp? = nil, configurationItemMD5Hash: String? = nil, configurationItemStatus: ConfigurationItemStatus? = nil, configurationStateId: String? = nil, relatedEvents: [String]? = nil, relationships: [Relationship]? = nil, resourceCreationTime: TimeStamp? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceType: ResourceType? = nil, supplementaryConfiguration: [String: String]? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.accountId = accountId
             self.arn = arn
@@ -1009,7 +1009,7 @@ extension ConfigService {
         public let recordingGroup: RecordingGroup?
         /// Amazon Resource Name (ARN) of the IAM role used to describe the AWS resources associated with the account.
         public let roleARN: String?
-        
+
         public init(name: String? = nil, recordingGroup: RecordingGroup? = nil, roleARN: String? = nil) {
             self.name = name
             self.recordingGroup = recordingGroup
@@ -1050,7 +1050,7 @@ extension ConfigService {
         public let name: String?
         /// Specifies whether or not the recorder is currently recording.
         public let recording: Bool?
-        
+
         public init(lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastStartTime: TimeStamp? = nil, lastStatus: RecorderStatus? = nil, lastStatusChangeTime: TimeStamp? = nil, lastStopTime: TimeStamp? = nil, name: String? = nil, recording: Bool? = nil) {
             self.lastErrorCode = lastErrorCode
             self.lastErrorMessage = lastErrorMessage
@@ -1083,7 +1083,7 @@ extension ConfigService {
         public let authorizedAccountId: String
         /// The region authorized to collect aggregated data.
         public let authorizedAwsRegion: String
-        
+
         public init(authorizedAccountId: String, authorizedAwsRegion: String) {
             self.authorizedAccountId = authorizedAccountId
             self.authorizedAwsRegion = authorizedAwsRegion
@@ -1101,7 +1101,7 @@ extension ConfigService {
         ]
         /// The name of the AWS Config rule that you want to delete.
         public let configRuleName: String
-        
+
         public init(configRuleName: String) {
             self.configRuleName = configRuleName
         }
@@ -1117,7 +1117,7 @@ extension ConfigService {
         ]
         /// The name of the configuration aggregator.
         public let configurationAggregatorName: String
-        
+
         public init(configurationAggregatorName: String) {
             self.configurationAggregatorName = configurationAggregatorName
         }
@@ -1133,7 +1133,7 @@ extension ConfigService {
         ]
         /// The name of the configuration recorder to be deleted. You can retrieve the name of your configuration recorder by using the DescribeConfigurationRecorders action.
         public let configurationRecorderName: String
-        
+
         public init(configurationRecorderName: String) {
             self.configurationRecorderName = configurationRecorderName
         }
@@ -1149,7 +1149,7 @@ extension ConfigService {
         ]
         /// The name of the delivery channel to delete.
         public let deliveryChannelName: String
-        
+
         public init(deliveryChannelName: String) {
             self.deliveryChannelName = deliveryChannelName
         }
@@ -1165,7 +1165,7 @@ extension ConfigService {
         ]
         /// The name of the AWS Config rule for which you want to delete the evaluation results.
         public let configRuleName: String
-        
+
         public init(configRuleName: String) {
             self.configRuleName = configRuleName
         }
@@ -1176,19 +1176,18 @@ extension ConfigService {
     }
 
     public struct DeleteEvaluationResultsResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteOrganizationConfigRuleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OrganizationConfigRuleName", required: true, type: .string)
         ]
         public let organizationConfigRuleName: String
-        
+
         public init(organizationConfigRuleName: String) {
             self.organizationConfigRuleName = organizationConfigRuleName
         }
@@ -1207,7 +1206,7 @@ extension ConfigService {
         public let requesterAccountId: String
         /// The region requesting to aggregate data.
         public let requesterAwsRegion: String
-        
+
         public init(requesterAccountId: String, requesterAwsRegion: String) {
             self.requesterAccountId = requesterAccountId
             self.requesterAwsRegion = requesterAwsRegion
@@ -1228,7 +1227,7 @@ extension ConfigService {
         public let configRuleName: String
         /// The type of a resource.
         public let resourceType: String?
-        
+
         public init(configRuleName: String, resourceType: String? = nil) {
             self.configRuleName = configRuleName
             self.resourceType = resourceType
@@ -1241,12 +1240,11 @@ extension ConfigService {
     }
 
     public struct DeleteRemediationConfigurationResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteRetentionConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1254,7 +1252,7 @@ extension ConfigService {
         ]
         /// The name of the retention configuration to delete.
         public let retentionConfigurationName: String
-        
+
         public init(retentionConfigurationName: String) {
             self.retentionConfigurationName = retentionConfigurationName
         }
@@ -1270,7 +1268,7 @@ extension ConfigService {
         ]
         /// The name of the delivery channel through which the snapshot is delivered.
         public let deliveryChannelName: String
-        
+
         public init(deliveryChannelName: String) {
             self.deliveryChannelName = deliveryChannelName
         }
@@ -1286,7 +1284,7 @@ extension ConfigService {
         ]
         /// The ID of the snapshot that is being created.
         public let configSnapshotId: String?
-        
+
         public init(configSnapshotId: String? = nil) {
             self.configSnapshotId = configSnapshotId
         }
@@ -1314,7 +1312,7 @@ extension ConfigService {
         public let s3KeyPrefix: String?
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which AWS Config sends notifications about configuration changes. If you choose a topic from another account, the topic must have policies that grant access permissions to AWS Config. For more information, see Permissions for the Amazon SNS Topic in the AWS Config Developer Guide.
         public let snsTopicARN: String?
-        
+
         public init(configSnapshotDeliveryProperties: ConfigSnapshotDeliveryProperties? = nil, name: String? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, snsTopicARN: String? = nil) {
             self.configSnapshotDeliveryProperties = configSnapshotDeliveryProperties
             self.name = name
@@ -1347,7 +1345,7 @@ extension ConfigService {
         public let configStreamDeliveryInfo: ConfigStreamDeliveryInfo?
         /// The name of the delivery channel.
         public let name: String?
-        
+
         public init(configHistoryDeliveryInfo: ConfigExportDeliveryInfo? = nil, configSnapshotDeliveryInfo: ConfigExportDeliveryInfo? = nil, configStreamDeliveryInfo: ConfigStreamDeliveryInfo? = nil, name: String? = nil) {
             self.configHistoryDeliveryInfo = configHistoryDeliveryInfo
             self.configSnapshotDeliveryInfo = configSnapshotDeliveryInfo
@@ -1385,7 +1383,7 @@ extension ConfigService {
         public let limit: Int32?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
-        
+
         public init(configurationAggregatorName: String, filters: ConfigRuleComplianceFilters? = nil, limit: Int32? = nil, nextToken: String? = nil) {
             self.configurationAggregatorName = configurationAggregatorName
             self.filters = filters
@@ -1410,7 +1408,7 @@ extension ConfigService {
         public let aggregateComplianceByConfigRules: [AggregateComplianceByConfigRule]?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
-        
+
         public init(aggregateComplianceByConfigRules: [AggregateComplianceByConfigRule]? = nil, nextToken: String? = nil) {
             self.aggregateComplianceByConfigRules = aggregateComplianceByConfigRules
             self.nextToken = nextToken
@@ -1431,7 +1429,7 @@ extension ConfigService {
         public let limit: Int32?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
-        
+
         public init(limit: Int32? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.nextToken = nextToken
@@ -1452,7 +1450,7 @@ extension ConfigService {
         public let aggregationAuthorizations: [AggregationAuthorization]?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
-        
+
         public init(aggregationAuthorizations: [AggregationAuthorization]? = nil, nextToken: String? = nil) {
             self.aggregationAuthorizations = aggregationAuthorizations
             self.nextToken = nextToken
@@ -1476,7 +1474,7 @@ extension ConfigService {
         public let configRuleNames: [String]?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
-        
+
         public init(complianceTypes: [ComplianceType]? = nil, configRuleNames: [String]? = nil, nextToken: String? = nil) {
             self.complianceTypes = complianceTypes
             self.configRuleNames = configRuleNames
@@ -1499,7 +1497,7 @@ extension ConfigService {
         public let complianceByConfigRules: [ComplianceByConfigRule]?
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
         public let nextToken: String?
-        
+
         public init(complianceByConfigRules: [ComplianceByConfigRule]? = nil, nextToken: String? = nil) {
             self.complianceByConfigRules = complianceByConfigRules
             self.nextToken = nextToken
@@ -1529,7 +1527,7 @@ extension ConfigService {
         public let resourceId: String?
         /// The types of AWS resources for which you want compliance information (for example, AWS::EC2::Instance). For this action, you can specify that the resource type is an AWS account by specifying AWS::::Account.
         public let resourceType: String?
-        
+
         public init(complianceTypes: [ComplianceType]? = nil, limit: Int32? = nil, nextToken: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
             self.complianceTypes = complianceTypes
             self.limit = limit
@@ -1556,7 +1554,7 @@ extension ConfigService {
         public let complianceByResources: [ComplianceByResource]?
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
         public let nextToken: String?
-        
+
         public init(complianceByResources: [ComplianceByResource]? = nil, nextToken: String? = nil) {
             self.complianceByResources = complianceByResources
             self.nextToken = nextToken
@@ -1580,7 +1578,7 @@ extension ConfigService {
         public let limit: Int32?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
-        
+
         public init(configRuleNames: [String]? = nil, limit: Int32? = nil, nextToken: String? = nil) {
             self.configRuleNames = configRuleNames
             self.limit = limit
@@ -1603,7 +1601,7 @@ extension ConfigService {
         public let configRulesEvaluationStatus: [ConfigRuleEvaluationStatus]?
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
         public let nextToken: String?
-        
+
         public init(configRulesEvaluationStatus: [ConfigRuleEvaluationStatus]? = nil, nextToken: String? = nil) {
             self.configRulesEvaluationStatus = configRulesEvaluationStatus
             self.nextToken = nextToken
@@ -1624,7 +1622,7 @@ extension ConfigService {
         public let configRuleNames: [String]?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
-        
+
         public init(configRuleNames: [String]? = nil, nextToken: String? = nil) {
             self.configRuleNames = configRuleNames
             self.nextToken = nextToken
@@ -1645,7 +1643,7 @@ extension ConfigService {
         public let configRules: [ConfigRule]?
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
         public let nextToken: String?
-        
+
         public init(configRules: [ConfigRule]? = nil, nextToken: String? = nil) {
             self.configRules = configRules
             self.nextToken = nextToken
@@ -1672,7 +1670,7 @@ extension ConfigService {
         public let nextToken: String?
         /// Filters the status type.   Valid value FAILED indicates errors while moving data.   Valid value SUCCEEDED indicates the data was successfully moved.   Valid value OUTDATED indicates the data is not the most recent.  
         public let updateStatus: [AggregatedSourceStatusType]?
-        
+
         public init(configurationAggregatorName: String, limit: Int32? = nil, nextToken: String? = nil, updateStatus: [AggregatedSourceStatusType]? = nil) {
             self.configurationAggregatorName = configurationAggregatorName
             self.limit = limit
@@ -1697,7 +1695,7 @@ extension ConfigService {
         public let aggregatedSourceStatusList: [AggregatedSourceStatus]?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
-        
+
         public init(aggregatedSourceStatusList: [AggregatedSourceStatus]? = nil, nextToken: String? = nil) {
             self.aggregatedSourceStatusList = aggregatedSourceStatusList
             self.nextToken = nextToken
@@ -1721,7 +1719,7 @@ extension ConfigService {
         public let limit: Int32?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
-        
+
         public init(configurationAggregatorNames: [String]? = nil, limit: Int32? = nil, nextToken: String? = nil) {
             self.configurationAggregatorNames = configurationAggregatorNames
             self.limit = limit
@@ -1744,7 +1742,7 @@ extension ConfigService {
         public let configurationAggregators: [ConfigurationAggregator]?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
-        
+
         public init(configurationAggregators: [ConfigurationAggregator]? = nil, nextToken: String? = nil) {
             self.configurationAggregators = configurationAggregators
             self.nextToken = nextToken
@@ -1762,7 +1760,7 @@ extension ConfigService {
         ]
         /// The name(s) of the configuration recorder. If the name is not specified, the action returns the current status of all the configuration recorders associated with the account.
         public let configurationRecorderNames: [String]?
-        
+
         public init(configurationRecorderNames: [String]? = nil) {
             self.configurationRecorderNames = configurationRecorderNames
         }
@@ -1778,7 +1776,7 @@ extension ConfigService {
         ]
         /// A list that contains status of the specified recorders.
         public let configurationRecordersStatus: [ConfigurationRecorderStatus]?
-        
+
         public init(configurationRecordersStatus: [ConfigurationRecorderStatus]? = nil) {
             self.configurationRecordersStatus = configurationRecordersStatus
         }
@@ -1794,7 +1792,7 @@ extension ConfigService {
         ]
         /// A list of configuration recorder names.
         public let configurationRecorderNames: [String]?
-        
+
         public init(configurationRecorderNames: [String]? = nil) {
             self.configurationRecorderNames = configurationRecorderNames
         }
@@ -1810,7 +1808,7 @@ extension ConfigService {
         ]
         /// A list that contains the descriptions of the specified configuration recorders.
         public let configurationRecorders: [ConfigurationRecorder]?
-        
+
         public init(configurationRecorders: [ConfigurationRecorder]? = nil) {
             self.configurationRecorders = configurationRecorders
         }
@@ -1826,7 +1824,7 @@ extension ConfigService {
         ]
         /// A list of delivery channel names.
         public let deliveryChannelNames: [String]?
-        
+
         public init(deliveryChannelNames: [String]? = nil) {
             self.deliveryChannelNames = deliveryChannelNames
         }
@@ -1842,7 +1840,7 @@ extension ConfigService {
         ]
         /// A list that contains the status of a specified delivery channel.
         public let deliveryChannelsStatus: [DeliveryChannelStatus]?
-        
+
         public init(deliveryChannelsStatus: [DeliveryChannelStatus]? = nil) {
             self.deliveryChannelsStatus = deliveryChannelsStatus
         }
@@ -1858,7 +1856,7 @@ extension ConfigService {
         ]
         /// A list of delivery channel names.
         public let deliveryChannelNames: [String]?
-        
+
         public init(deliveryChannelNames: [String]? = nil) {
             self.deliveryChannelNames = deliveryChannelNames
         }
@@ -1874,7 +1872,7 @@ extension ConfigService {
         ]
         /// A list that contains the descriptions of the specified delivery channel.
         public let deliveryChannels: [DeliveryChannel]?
-        
+
         public init(deliveryChannels: [DeliveryChannel]? = nil) {
             self.deliveryChannels = deliveryChannels
         }
@@ -1893,7 +1891,7 @@ extension ConfigService {
         public let limit: Int32?
         public let nextToken: String?
         public let organizationConfigRuleNames: [String]?
-        
+
         public init(limit: Int32? = nil, nextToken: String? = nil, organizationConfigRuleNames: [String]? = nil) {
             self.limit = limit
             self.nextToken = nextToken
@@ -1914,7 +1912,7 @@ extension ConfigService {
         ]
         public let nextToken: String?
         public let organizationConfigRuleStatuses: [OrganizationConfigRuleStatus]?
-        
+
         public init(nextToken: String? = nil, organizationConfigRuleStatuses: [OrganizationConfigRuleStatus]? = nil) {
             self.nextToken = nextToken
             self.organizationConfigRuleStatuses = organizationConfigRuleStatuses
@@ -1935,7 +1933,7 @@ extension ConfigService {
         public let limit: Int32?
         public let nextToken: String?
         public let organizationConfigRuleNames: [String]?
-        
+
         public init(limit: Int32? = nil, nextToken: String? = nil, organizationConfigRuleNames: [String]? = nil) {
             self.limit = limit
             self.nextToken = nextToken
@@ -1956,7 +1954,7 @@ extension ConfigService {
         ]
         public let nextToken: String?
         public let organizationConfigRules: [OrganizationConfigRule]?
-        
+
         public init(nextToken: String? = nil, organizationConfigRules: [OrganizationConfigRule]? = nil) {
             self.nextToken = nextToken
             self.organizationConfigRules = organizationConfigRules
@@ -1977,7 +1975,7 @@ extension ConfigService {
         public let limit: Int32?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
-        
+
         public init(limit: Int32? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.nextToken = nextToken
@@ -1998,7 +1996,7 @@ extension ConfigService {
         public let nextToken: String?
         /// Returns a PendingAggregationRequests object.
         public let pendingAggregationRequests: [PendingAggregationRequest]?
-        
+
         public init(nextToken: String? = nil, pendingAggregationRequests: [PendingAggregationRequest]? = nil) {
             self.nextToken = nextToken
             self.pendingAggregationRequests = pendingAggregationRequests
@@ -2016,7 +2014,7 @@ extension ConfigService {
         ]
         /// A list of AWS Config rule names of remediation configurations for which you want details. 
         public let configRuleNames: [String]
-        
+
         public init(configRuleNames: [String]) {
             self.configRuleNames = configRuleNames
         }
@@ -2032,7 +2030,7 @@ extension ConfigService {
         ]
         /// Returns a remediation configuration object.
         public let remediationConfigurations: [RemediationConfiguration]?
-        
+
         public init(remediationConfigurations: [RemediationConfiguration]? = nil) {
             self.remediationConfigurations = remediationConfigurations
         }
@@ -2057,7 +2055,7 @@ extension ConfigService {
         public let nextToken: String?
         /// A list of resource keys to be processed with the current request. Each element in the list consists of the resource type and resource ID. 
         public let resourceKeys: [ResourceKey]?
-        
+
         public init(configRuleName: String, limit: Int32? = nil, nextToken: String? = nil, resourceKeys: [ResourceKey]? = nil) {
             self.configRuleName = configRuleName
             self.limit = limit
@@ -2082,7 +2080,7 @@ extension ConfigService {
         public let nextToken: String?
         /// Returns a list of remediation execution statuses objects.
         public let remediationExecutionStatuses: [RemediationExecutionStatus]?
-        
+
         public init(nextToken: String? = nil, remediationExecutionStatuses: [RemediationExecutionStatus]? = nil) {
             self.nextToken = nextToken
             self.remediationExecutionStatuses = remediationExecutionStatuses
@@ -2103,7 +2101,7 @@ extension ConfigService {
         public let nextToken: String?
         /// A list of names of retention configurations for which you want details. If you do not specify a name, AWS Config returns details for all the retention configurations for that account.  Currently, AWS Config supports only one retention configuration per region in your account. 
         public let retentionConfigurationNames: [String]?
-        
+
         public init(nextToken: String? = nil, retentionConfigurationNames: [String]? = nil) {
             self.nextToken = nextToken
             self.retentionConfigurationNames = retentionConfigurationNames
@@ -2124,7 +2122,7 @@ extension ConfigService {
         public let nextToken: String?
         /// Returns a retention configuration object.
         public let retentionConfigurations: [RetentionConfiguration]?
-        
+
         public init(nextToken: String? = nil, retentionConfigurations: [RetentionConfiguration]? = nil) {
             self.nextToken = nextToken
             self.retentionConfigurations = retentionConfigurations
@@ -2154,7 +2152,7 @@ extension ConfigService {
         public let complianceType: ComplianceType
         /// The time of the event in AWS Config that triggered the evaluation. For event-based evaluations, the time indicates when AWS Config created the configuration item that triggered the evaluation. For periodic evaluations, the time indicates when AWS Config triggered the evaluation at the frequency that you specified (for example, every 24 hours).
         public let orderingTimestamp: TimeStamp
-        
+
         public init(annotation: String? = nil, complianceResourceId: String, complianceResourceType: String, complianceType: ComplianceType, orderingTimestamp: TimeStamp) {
             self.annotation = annotation
             self.complianceResourceId = complianceResourceId
@@ -2193,7 +2191,7 @@ extension ConfigService {
         public let resultRecordedTime: TimeStamp?
         /// An encrypted token that associates an evaluation with an AWS Config rule. The token identifies the rule, the AWS resource being evaluated, and the event that triggered the evaluation.
         public let resultToken: String?
-        
+
         public init(annotation: String? = nil, complianceType: ComplianceType? = nil, configRuleInvokedTime: TimeStamp? = nil, evaluationResultIdentifier: EvaluationResultIdentifier? = nil, resultRecordedTime: TimeStamp? = nil, resultToken: String? = nil) {
             self.annotation = annotation
             self.complianceType = complianceType
@@ -2222,7 +2220,7 @@ extension ConfigService {
         public let evaluationResultQualifier: EvaluationResultQualifier?
         /// The time of the event that triggered the evaluation of your AWS resources. The time can indicate when AWS Config delivered a configuration item change notification, or it can indicate when AWS Config delivered the configuration snapshot, depending on which event triggered the evaluation.
         public let orderingTimestamp: TimeStamp?
-        
+
         public init(evaluationResultQualifier: EvaluationResultQualifier? = nil, orderingTimestamp: TimeStamp? = nil) {
             self.evaluationResultQualifier = evaluationResultQualifier
             self.orderingTimestamp = orderingTimestamp
@@ -2246,7 +2244,7 @@ extension ConfigService {
         public let resourceId: String?
         /// The type of AWS resource that was evaluated.
         public let resourceType: String?
-        
+
         public init(configRuleName: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
             self.configRuleName = configRuleName
             self.resourceId = resourceId
@@ -2274,7 +2272,7 @@ extension ConfigService {
         public let failedItems: [RemediationConfiguration]?
         /// Returns a failure message. For example, the resource is already compliant.
         public let failureMessage: String?
-        
+
         public init(failedItems: [RemediationConfiguration]? = nil, failureMessage: String? = nil) {
             self.failedItems = failedItems
             self.failureMessage = failureMessage
@@ -2292,7 +2290,7 @@ extension ConfigService {
         ]
         /// Name of the field.
         public let name: String?
-        
+
         public init(name: String? = nil) {
             self.name = name
         }
@@ -2326,7 +2324,7 @@ extension ConfigService {
         public let limit: Int32?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
-        
+
         public init(accountId: String, awsRegion: String, complianceType: ComplianceType? = nil, configRuleName: String, configurationAggregatorName: String, limit: Int32? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.awsRegion = awsRegion
@@ -2357,7 +2355,7 @@ extension ConfigService {
         public let aggregateEvaluationResults: [AggregateEvaluationResult]?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
-        
+
         public init(aggregateEvaluationResults: [AggregateEvaluationResult]? = nil, nextToken: String? = nil) {
             self.aggregateEvaluationResults = aggregateEvaluationResults
             self.nextToken = nextToken
@@ -2387,7 +2385,7 @@ extension ConfigService {
         public let limit: Int32?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
-        
+
         public init(configurationAggregatorName: String, filters: ConfigRuleComplianceSummaryFilters? = nil, groupByKey: ConfigRuleComplianceSummaryGroupKey? = nil, limit: Int32? = nil, nextToken: String? = nil) {
             self.configurationAggregatorName = configurationAggregatorName
             self.filters = filters
@@ -2417,7 +2415,7 @@ extension ConfigService {
         public let groupByKey: String?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
-        
+
         public init(aggregateComplianceCounts: [AggregateComplianceCount]? = nil, groupByKey: String? = nil, nextToken: String? = nil) {
             self.aggregateComplianceCounts = aggregateComplianceCounts
             self.groupByKey = groupByKey
@@ -2449,7 +2447,7 @@ extension ConfigService {
         public let limit: Int32?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response. 
         public let nextToken: String?
-        
+
         public init(configurationAggregatorName: String, filters: ResourceCountFilters? = nil, groupByKey: ResourceCountGroupKey? = nil, limit: Int32? = nil, nextToken: String? = nil) {
             self.configurationAggregatorName = configurationAggregatorName
             self.filters = filters
@@ -2482,7 +2480,7 @@ extension ConfigService {
         public let nextToken: String?
         /// The total number of resources that are present in an aggregator with the filters that you provide.
         public let totalDiscoveredResources: Int64
-        
+
         public init(groupByKey: String? = nil, groupedResourceCounts: [GroupedResourceCount]? = nil, nextToken: String? = nil, totalDiscoveredResources: Int64) {
             self.groupByKey = groupByKey
             self.groupedResourceCounts = groupedResourceCounts
@@ -2507,7 +2505,7 @@ extension ConfigService {
         public let configurationAggregatorName: String
         /// An object that identifies aggregate resource.
         public let resourceIdentifier: AggregateResourceIdentifier
-        
+
         public init(configurationAggregatorName: String, resourceIdentifier: AggregateResourceIdentifier) {
             self.configurationAggregatorName = configurationAggregatorName
             self.resourceIdentifier = resourceIdentifier
@@ -2525,7 +2523,7 @@ extension ConfigService {
         ]
         /// Returns a ConfigurationItem object.
         public let configurationItem: ConfigurationItem?
-        
+
         public init(configurationItem: ConfigurationItem? = nil) {
             self.configurationItem = configurationItem
         }
@@ -2550,7 +2548,7 @@ extension ConfigService {
         public let limit: Int32?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
-        
+
         public init(complianceTypes: [ComplianceType]? = nil, configRuleName: String, limit: Int32? = nil, nextToken: String? = nil) {
             self.complianceTypes = complianceTypes
             self.configRuleName = configRuleName
@@ -2575,7 +2573,7 @@ extension ConfigService {
         public let evaluationResults: [EvaluationResult]?
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
         public let nextToken: String?
-        
+
         public init(evaluationResults: [EvaluationResult]? = nil, nextToken: String? = nil) {
             self.evaluationResults = evaluationResults
             self.nextToken = nextToken
@@ -2602,7 +2600,7 @@ extension ConfigService {
         public let resourceId: String
         /// The type of the AWS resource for which you want compliance information.
         public let resourceType: String
-        
+
         public init(complianceTypes: [ComplianceType]? = nil, nextToken: String? = nil, resourceId: String, resourceType: String) {
             self.complianceTypes = complianceTypes
             self.nextToken = nextToken
@@ -2627,7 +2625,7 @@ extension ConfigService {
         public let evaluationResults: [EvaluationResult]?
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
         public let nextToken: String?
-        
+
         public init(evaluationResults: [EvaluationResult]? = nil, nextToken: String? = nil) {
             self.evaluationResults = evaluationResults
             self.nextToken = nextToken
@@ -2645,7 +2643,7 @@ extension ConfigService {
         ]
         /// The number of AWS Config rules that are compliant and the number that are noncompliant, up to a maximum of 25 for each.
         public let complianceSummary: ComplianceSummary?
-        
+
         public init(complianceSummary: ComplianceSummary? = nil) {
             self.complianceSummary = complianceSummary
         }
@@ -2661,7 +2659,7 @@ extension ConfigService {
         ]
         /// Specify one or more resource types to get the number of resources that are compliant and the number that are noncompliant for each resource type. For this request, you can specify an AWS resource type such as AWS::EC2::Instance. You can specify that the resource type is an AWS account by specifying AWS::::Account.
         public let resourceTypes: [String]?
-        
+
         public init(resourceTypes: [String]? = nil) {
             self.resourceTypes = resourceTypes
         }
@@ -2677,7 +2675,7 @@ extension ConfigService {
         ]
         /// The number of resources that are compliant and the number that are noncompliant. If one or more resource types were provided with the request, the numbers are returned for each resource type. The maximum number returned is 100.
         public let complianceSummariesByResourceType: [ComplianceSummaryByResourceType]?
-        
+
         public init(complianceSummariesByResourceType: [ComplianceSummaryByResourceType]? = nil) {
             self.complianceSummariesByResourceType = complianceSummariesByResourceType
         }
@@ -2699,7 +2697,7 @@ extension ConfigService {
         public let nextToken: String?
         /// The comma-separated list that specifies the resource types that you want AWS Config to return (for example, "AWS::EC2::Instance", "AWS::IAM::User"). If a value for resourceTypes is not specified, AWS Config returns all resource types that AWS Config is recording in the region for your account.  If the configuration recorder is turned off, AWS Config returns an empty list of ResourceCount objects. If the configuration recorder is not recording a specific resource type (for example, S3 buckets), that resource type is not returned in the list of ResourceCount objects. 
         public let resourceTypes: [String]?
-        
+
         public init(limit: Int32? = nil, nextToken: String? = nil, resourceTypes: [String]? = nil) {
             self.limit = limit
             self.nextToken = nextToken
@@ -2725,7 +2723,7 @@ extension ConfigService {
         public let resourceCounts: [ResourceCount]?
         /// The total number of resources that AWS Config is recording in the region for your account. If you specify resource types in the request, AWS Config returns only the total number of resources for those resource types.  Example    AWS Config is recording three resource types in the US East (Ohio) Region for your account: 25 EC2 instances, 20 IAM users, and 15 S3 buckets, for a total of 60 resources.   You make a call to the GetDiscoveredResourceCounts action and specify the resource type, "AWS::EC2::Instances", in the request.   AWS Config returns 25 for totalDiscoveredResources.  
         public let totalDiscoveredResources: Int64?
-        
+
         public init(nextToken: String? = nil, resourceCounts: [ResourceCount]? = nil, totalDiscoveredResources: Int64? = nil) {
             self.nextToken = nextToken
             self.resourceCounts = resourceCounts
@@ -2750,7 +2748,7 @@ extension ConfigService {
         public let limit: Int32?
         public let nextToken: String?
         public let organizationConfigRuleName: String
-        
+
         public init(filters: StatusDetailFilters? = nil, limit: Int32? = nil, nextToken: String? = nil, organizationConfigRuleName: String) {
             self.filters = filters
             self.limit = limit
@@ -2773,7 +2771,7 @@ extension ConfigService {
         ]
         public let nextToken: String?
         public let organizationConfigRuleDetailedStatus: [MemberAccountStatus]?
-        
+
         public init(nextToken: String? = nil, organizationConfigRuleDetailedStatus: [MemberAccountStatus]? = nil) {
             self.nextToken = nextToken
             self.organizationConfigRuleDetailedStatus = organizationConfigRuleDetailedStatus
@@ -2809,7 +2807,7 @@ extension ConfigService {
         public let resourceId: String
         /// The resource type.
         public let resourceType: ResourceType
-        
+
         public init(chronologicalOrder: ChronologicalOrder? = nil, earlierTime: TimeStamp? = nil, laterTime: TimeStamp? = nil, limit: Int32? = nil, nextToken: String? = nil, resourceId: String, resourceType: ResourceType) {
             self.chronologicalOrder = chronologicalOrder
             self.earlierTime = earlierTime
@@ -2840,7 +2838,7 @@ extension ConfigService {
         public let configurationItems: [ConfigurationItem]?
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
         public let nextToken: String?
-        
+
         public init(configurationItems: [ConfigurationItem]? = nil, nextToken: String? = nil) {
             self.configurationItems = configurationItems
             self.nextToken = nextToken
@@ -2861,7 +2859,7 @@ extension ConfigService {
         public let groupName: String
         /// The number of resources in the group.
         public let resourceCount: Int64
-        
+
         public init(groupName: String, resourceCount: Int64) {
             self.groupName = groupName
             self.resourceCount = resourceCount
@@ -2891,7 +2889,7 @@ extension ConfigService {
         public let nextToken: String?
         /// The type of resources that you want AWS Config to list in the response.
         public let resourceType: ResourceType
-        
+
         public init(configurationAggregatorName: String, filters: ResourceFilters? = nil, limit: Int32? = nil, nextToken: String? = nil, resourceType: ResourceType) {
             self.configurationAggregatorName = configurationAggregatorName
             self.filters = filters
@@ -2918,7 +2916,7 @@ extension ConfigService {
         public let nextToken: String?
         /// Returns a list of ResourceIdentifiers objects.
         public let resourceIdentifiers: [AggregateResourceIdentifier]?
-        
+
         public init(nextToken: String? = nil, resourceIdentifiers: [AggregateResourceIdentifier]? = nil) {
             self.nextToken = nextToken
             self.resourceIdentifiers = resourceIdentifiers
@@ -2951,7 +2949,7 @@ extension ConfigService {
         public let resourceName: String?
         /// The type of resources that you want AWS Config to list in the response.
         public let resourceType: ResourceType
-        
+
         public init(includeDeletedResources: Bool? = nil, limit: Int32? = nil, nextToken: String? = nil, resourceIds: [String]? = nil, resourceName: String? = nil, resourceType: ResourceType) {
             self.includeDeletedResources = includeDeletedResources
             self.limit = limit
@@ -2980,7 +2978,7 @@ extension ConfigService {
         public let nextToken: String?
         /// The details that identify a resource that is discovered by AWS Config, including the resource type, ID, and (if available) the custom resource name.
         public let resourceIdentifiers: [ResourceIdentifier]?
-        
+
         public init(nextToken: String? = nil, resourceIdentifiers: [ResourceIdentifier]? = nil) {
             self.nextToken = nextToken
             self.resourceIdentifiers = resourceIdentifiers
@@ -3004,7 +3002,7 @@ extension ConfigService {
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are ConfigRule, ConfigurationAggregator and AggregatorAuthorization.
         public let resourceArn: String
-        
+
         public init(limit: Int32? = nil, nextToken: String? = nil, resourceArn: String) {
             self.limit = limit
             self.nextToken = nextToken
@@ -3027,7 +3025,7 @@ extension ConfigService {
         public let nextToken: String?
         /// The tags for the resource.
         public let tags: [Tag]?
-        
+
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -3073,7 +3071,7 @@ extension ConfigService {
         public let errorMessage: String?
         public let lastUpdateTime: TimeStamp?
         public let memberAccountRuleStatus: MemberAccountRuleStatus
-        
+
         public init(accountId: String, configRuleName: String, errorCode: String? = nil, errorMessage: String? = nil, lastUpdateTime: TimeStamp? = nil, memberAccountRuleStatus: MemberAccountRuleStatus) {
             self.accountId = accountId
             self.configRuleName = configRuleName
@@ -3113,7 +3111,7 @@ extension ConfigService {
         public let awsRegions: [String]?
         /// ARN of the IAM role used to retrieve AWS Organization details associated with the aggregator account.
         public let roleArn: String
-        
+
         public init(allAwsRegions: Bool? = nil, awsRegions: [String]? = nil, roleArn: String) {
             self.allAwsRegions = allAwsRegions
             self.awsRegions = awsRegions
@@ -3142,7 +3140,7 @@ extension ConfigService {
         public let organizationConfigRuleName: String
         public let organizationCustomRuleMetadata: OrganizationCustomRuleMetadata?
         public let organizationManagedRuleMetadata: OrganizationManagedRuleMetadata?
-        
+
         public init(excludedAccounts: [String]? = nil, lastUpdateTime: TimeStamp? = nil, organizationConfigRuleArn: String, organizationConfigRuleName: String, organizationCustomRuleMetadata: OrganizationCustomRuleMetadata? = nil, organizationManagedRuleMetadata: OrganizationManagedRuleMetadata? = nil) {
             self.excludedAccounts = excludedAccounts
             self.lastUpdateTime = lastUpdateTime
@@ -3175,7 +3173,7 @@ extension ConfigService {
         public let lastUpdateTime: TimeStamp?
         public let organizationConfigRuleName: String
         public let organizationRuleStatus: OrganizationRuleStatus
-        
+
         public init(errorCode: String? = nil, errorMessage: String? = nil, lastUpdateTime: TimeStamp? = nil, organizationConfigRuleName: String, organizationRuleStatus: OrganizationRuleStatus) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -3221,7 +3219,7 @@ extension ConfigService {
         public let resourceTypesScope: [String]?
         public let tagKeyScope: String?
         public let tagValueScope: String?
-        
+
         public init(description: String? = nil, inputParameters: String? = nil, lambdaFunctionArn: String, maximumExecutionFrequency: MaximumExecutionFrequency? = nil, organizationConfigRuleTriggerTypes: [OrganizationConfigRuleTriggerType], resourceIdScope: String? = nil, resourceTypesScope: [String]? = nil, tagKeyScope: String? = nil, tagValueScope: String? = nil) {
             self.description = description
             self.inputParameters = inputParameters
@@ -3266,7 +3264,7 @@ extension ConfigService {
         public let ruleIdentifier: String
         public let tagKeyScope: String?
         public let tagValueScope: String?
-        
+
         public init(description: String? = nil, inputParameters: String? = nil, maximumExecutionFrequency: MaximumExecutionFrequency? = nil, resourceIdScope: String? = nil, resourceTypesScope: [String]? = nil, ruleIdentifier: String, tagKeyScope: String? = nil, tagValueScope: String? = nil) {
             self.description = description
             self.inputParameters = inputParameters
@@ -3315,7 +3313,7 @@ extension ConfigService {
         public let requesterAccountId: String?
         /// The region requesting to aggregate data. 
         public let requesterAwsRegion: String?
-        
+
         public init(requesterAccountId: String? = nil, requesterAwsRegion: String? = nil) {
             self.requesterAccountId = requesterAccountId
             self.requesterAwsRegion = requesterAwsRegion
@@ -3338,7 +3336,7 @@ extension ConfigService {
         /// The region authorized to collect aggregated data.
         public let authorizedAwsRegion: String
         public let tags: [Tag]?
-        
+
         public init(authorizedAccountId: String, authorizedAwsRegion: String, tags: [Tag]? = nil) {
             self.authorizedAccountId = authorizedAccountId
             self.authorizedAwsRegion = authorizedAwsRegion
@@ -3358,7 +3356,7 @@ extension ConfigService {
         ]
         /// Returns an AggregationAuthorization object. 
         public let aggregationAuthorization: AggregationAuthorization?
-        
+
         public init(aggregationAuthorization: AggregationAuthorization? = nil) {
             self.aggregationAuthorization = aggregationAuthorization
         }
@@ -3376,7 +3374,7 @@ extension ConfigService {
         /// The rule that you want to add to your account.
         public let configRule: ConfigRule
         public let tags: [Tag]?
-        
+
         public init(configRule: ConfigRule, tags: [Tag]? = nil) {
             self.configRule = configRule
             self.tags = tags
@@ -3402,7 +3400,7 @@ extension ConfigService {
         /// An OrganizationAggregationSource object.
         public let organizationAggregationSource: OrganizationAggregationSource?
         public let tags: [Tag]?
-        
+
         public init(accountAggregationSources: [AccountAggregationSource]? = nil, configurationAggregatorName: String, organizationAggregationSource: OrganizationAggregationSource? = nil, tags: [Tag]? = nil) {
             self.accountAggregationSources = accountAggregationSources
             self.configurationAggregatorName = configurationAggregatorName
@@ -3424,7 +3422,7 @@ extension ConfigService {
         ]
         /// Returns a ConfigurationAggregator object.
         public let configurationAggregator: ConfigurationAggregator?
-        
+
         public init(configurationAggregator: ConfigurationAggregator? = nil) {
             self.configurationAggregator = configurationAggregator
         }
@@ -3440,7 +3438,7 @@ extension ConfigService {
         ]
         /// The configuration recorder object that records each configuration change made to the resources.
         public let configurationRecorder: ConfigurationRecorder
-        
+
         public init(configurationRecorder: ConfigurationRecorder) {
             self.configurationRecorder = configurationRecorder
         }
@@ -3456,7 +3454,7 @@ extension ConfigService {
         ]
         /// The configuration delivery channel object that delivers the configuration information to an Amazon S3 bucket and to an Amazon SNS topic.
         public let deliveryChannel: DeliveryChannel
-        
+
         public init(deliveryChannel: DeliveryChannel) {
             self.deliveryChannel = deliveryChannel
         }
@@ -3478,7 +3476,7 @@ extension ConfigService {
         public let resultToken: String
         /// Use this parameter to specify a test run for PutEvaluations. You can verify whether your AWS Lambda function will deliver evaluation results to AWS Config. No updates occur to your existing evaluations, and evaluation results are not sent to AWS Config.  When TestMode is true, PutEvaluations doesn't require a valid value for the ResultToken parameter, but the value cannot be null. 
         public let testMode: Bool?
-        
+
         public init(evaluations: [Evaluation]? = nil, resultToken: String, testMode: Bool? = nil) {
             self.evaluations = evaluations
             self.resultToken = resultToken
@@ -3498,7 +3496,7 @@ extension ConfigService {
         ]
         /// Requests that failed because of a client or server error.
         public let failedEvaluations: [Evaluation]?
-        
+
         public init(failedEvaluations: [Evaluation]? = nil) {
             self.failedEvaluations = failedEvaluations
         }
@@ -3519,7 +3517,7 @@ extension ConfigService {
         public let organizationConfigRuleName: String
         public let organizationCustomRuleMetadata: OrganizationCustomRuleMetadata?
         public let organizationManagedRuleMetadata: OrganizationManagedRuleMetadata?
-        
+
         public init(excludedAccounts: [String]? = nil, organizationConfigRuleName: String, organizationCustomRuleMetadata: OrganizationCustomRuleMetadata? = nil, organizationManagedRuleMetadata: OrganizationManagedRuleMetadata? = nil) {
             self.excludedAccounts = excludedAccounts
             self.organizationConfigRuleName = organizationConfigRuleName
@@ -3540,7 +3538,7 @@ extension ConfigService {
             AWSShapeMember(label: "OrganizationConfigRuleArn", required: false, type: .string)
         ]
         public let organizationConfigRuleArn: String?
-        
+
         public init(organizationConfigRuleArn: String? = nil) {
             self.organizationConfigRuleArn = organizationConfigRuleArn
         }
@@ -3556,7 +3554,7 @@ extension ConfigService {
         ]
         /// A list of remediation configuration objects.
         public let remediationConfigurations: [RemediationConfiguration]
-        
+
         public init(remediationConfigurations: [RemediationConfiguration]) {
             self.remediationConfigurations = remediationConfigurations
         }
@@ -3572,7 +3570,7 @@ extension ConfigService {
         ]
         /// Returns a list of failed remediation batch objects.
         public let failedBatches: [FailedRemediationBatch]?
-        
+
         public init(failedBatches: [FailedRemediationBatch]? = nil) {
             self.failedBatches = failedBatches
         }
@@ -3588,7 +3586,7 @@ extension ConfigService {
         ]
         /// Number of days AWS Config stores your historical information.  Currently, only applicable to the configuration item history. 
         public let retentionPeriodInDays: Int32
-        
+
         public init(retentionPeriodInDays: Int32) {
             self.retentionPeriodInDays = retentionPeriodInDays
         }
@@ -3604,7 +3602,7 @@ extension ConfigService {
         ]
         /// Returns a retention configuration object.
         public let retentionConfiguration: RetentionConfiguration?
-        
+
         public init(retentionConfiguration: RetentionConfiguration? = nil) {
             self.retentionConfiguration = retentionConfiguration
         }
@@ -3620,7 +3618,7 @@ extension ConfigService {
         ]
         /// Returns a FieldInfo object.
         public let selectFields: [FieldInfo]?
-        
+
         public init(selectFields: [FieldInfo]? = nil) {
             self.selectFields = selectFields
         }
@@ -3649,7 +3647,7 @@ extension ConfigService {
         public let includeGlobalResourceTypes: Bool?
         /// A comma-separated list that specifies the types of AWS resources for which AWS Config records configuration changes (for example, AWS::EC2::Instance or AWS::CloudTrail::Trail). Before you can set this option to true, you must set the allSupported option to false. If you set this option to true, when AWS Config adds support for a new type of resource, it will not record resources of that type unless you manually add that type to your recording group. For a list of valid resourceTypes values, see the resourceType Value column in Supported AWS Resource Types.
         public let resourceTypes: [ResourceType]?
-        
+
         public init(allSupported: Bool? = nil, includeGlobalResourceTypes: Bool? = nil, resourceTypes: [ResourceType]? = nil) {
             self.allSupported = allSupported
             self.includeGlobalResourceTypes = includeGlobalResourceTypes
@@ -3678,7 +3676,7 @@ extension ConfigService {
         public let resourceName: String?
         /// The resource type of the related resource.
         public let resourceType: ResourceType?
-        
+
         public init(relationshipName: String? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceType: ResourceType? = nil) {
             self.relationshipName = relationshipName
             self.resourceId = resourceId
@@ -3715,7 +3713,7 @@ extension ConfigService {
         public let targetType: RemediationTargetType
         /// Version of the target. For example, version of the SSM document.
         public let targetVersion: String?
-        
+
         public init(configRuleName: String, parameters: [String: RemediationParameterValue]? = nil, resourceType: String? = nil, targetId: String, targetType: RemediationTargetType, targetVersion: String? = nil) {
             self.configRuleName = configRuleName
             self.parameters = parameters
@@ -3760,7 +3758,7 @@ extension ConfigService {
         public let state: RemediationExecutionState?
         /// Details of every step.
         public let stepDetails: [RemediationExecutionStep]?
-        
+
         public init(invocationTime: TimeStamp? = nil, lastUpdatedTime: TimeStamp? = nil, resourceKey: ResourceKey? = nil, state: RemediationExecutionState? = nil, stepDetails: [RemediationExecutionStep]? = nil) {
             self.invocationTime = invocationTime
             self.lastUpdatedTime = lastUpdatedTime
@@ -3796,7 +3794,7 @@ extension ConfigService {
         public let state: RemediationExecutionStepState?
         /// The time when the step stopped.
         public let stopTime: TimeStamp?
-        
+
         public init(errorMessage: String? = nil, name: String? = nil, startTime: TimeStamp? = nil, state: RemediationExecutionStepState? = nil, stopTime: TimeStamp? = nil) {
             self.errorMessage = errorMessage
             self.name = name
@@ -3830,7 +3828,7 @@ extension ConfigService {
         public let resourceValue: ResourceValue?
         /// The value is static and does not change at run-time.
         public let staticValue: StaticValue?
-        
+
         public init(resourceValue: ResourceValue? = nil, staticValue: StaticValue? = nil) {
             self.resourceValue = resourceValue
             self.staticValue = staticValue
@@ -3856,7 +3854,7 @@ extension ConfigService {
         public let count: Int64?
         /// The resource type (for example, "AWS::EC2::Instance").
         public let resourceType: ResourceType?
-        
+
         public init(count: Int64? = nil, resourceType: ResourceType? = nil) {
             self.count = count
             self.resourceType = resourceType
@@ -3880,7 +3878,7 @@ extension ConfigService {
         public let region: String?
         /// The type of the AWS resource.
         public let resourceType: ResourceType?
-        
+
         public init(accountId: String? = nil, region: String? = nil, resourceType: ResourceType? = nil) {
             self.accountId = accountId
             self.region = region
@@ -3916,7 +3914,7 @@ extension ConfigService {
         public let resourceId: String?
         /// The name of the resource.
         public let resourceName: String?
-        
+
         public init(accountId: String? = nil, region: String? = nil, resourceId: String? = nil, resourceName: String? = nil) {
             self.accountId = accountId
             self.region = region
@@ -3947,7 +3945,7 @@ extension ConfigService {
         public let resourceName: String?
         /// The type of resource.
         public let resourceType: ResourceType?
-        
+
         public init(resourceDeletionTime: TimeStamp? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceType: ResourceType? = nil) {
             self.resourceDeletionTime = resourceDeletionTime
             self.resourceId = resourceId
@@ -3972,7 +3970,7 @@ extension ConfigService {
         public let resourceId: String
         /// The resource type.
         public let resourceType: ResourceType
-        
+
         public init(resourceId: String, resourceType: ResourceType) {
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -4058,7 +4056,7 @@ extension ConfigService {
         ]
         /// The value is a resource ID.
         public let value: ResourceValueType?
-        
+
         public init(value: ResourceValueType? = nil) {
             self.value = value
         }
@@ -4082,7 +4080,7 @@ extension ConfigService {
         public let name: String
         /// Number of days AWS Config stores your historical information.  Currently, only applicable to the configuration item history. 
         public let retentionPeriodInDays: Int32
-        
+
         public init(name: String, retentionPeriodInDays: Int32) {
             self.name = name
             self.retentionPeriodInDays = retentionPeriodInDays
@@ -4109,7 +4107,7 @@ extension ConfigService {
         public let tagKey: String?
         /// The tag value applied to only those AWS resources that you want to trigger an evaluation for the rule. If you specify a value for TagValue, you must also specify a value for TagKey.
         public let tagValue: String?
-        
+
         public init(complianceResourceId: String? = nil, complianceResourceTypes: [String]? = nil, tagKey: String? = nil, tagValue: String? = nil) {
             self.complianceResourceId = complianceResourceId
             self.complianceResourceTypes = complianceResourceTypes
@@ -4137,7 +4135,7 @@ extension ConfigService {
         public let limit: Int32?
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response. 
         public let nextToken: String?
-        
+
         public init(expression: String, limit: Int32? = nil, nextToken: String? = nil) {
             self.expression = expression
             self.limit = limit
@@ -4163,7 +4161,7 @@ extension ConfigService {
         public let queryInfo: QueryInfo?
         /// Returns the results for the SQL query.
         public let results: [String]?
-        
+
         public init(nextToken: String? = nil, queryInfo: QueryInfo? = nil, results: [String]? = nil) {
             self.nextToken = nextToken
             self.queryInfo = queryInfo
@@ -4189,7 +4187,7 @@ extension ConfigService {
         public let sourceDetails: [SourceDetail]?
         /// For AWS Config managed rules, a predefined identifier from a list. For example, IAM_PASSWORD_POLICY is a managed rule. To reference a managed rule, see Using AWS Managed Config Rules. For custom rules, the identifier is the Amazon Resource Name (ARN) of the rule's AWS Lambda function, such as arn:aws:lambda:us-east-2:123456789012:function:custom_rule_name.
         public let sourceIdentifier: String
-        
+
         public init(owner: Owner, sourceDetails: [SourceDetail]? = nil, sourceIdentifier: String) {
             self.owner = owner
             self.sourceDetails = sourceDetails
@@ -4215,7 +4213,7 @@ extension ConfigService {
         public let maximumExecutionFrequency: MaximumExecutionFrequency?
         /// The type of notification that triggers AWS Config to run an evaluation for a rule. You can specify the following notification types:    ConfigurationItemChangeNotification - Triggers an evaluation when AWS Config delivers a configuration item as a result of a resource change.    OversizedConfigurationItemChangeNotification - Triggers an evaluation when AWS Config delivers an oversized configuration item. AWS Config may generate this notification type when a resource changes and the notification exceeds the maximum size allowed by Amazon SNS.    ScheduledNotification - Triggers a periodic evaluation at the frequency specified for MaximumExecutionFrequency.    ConfigurationSnapshotDeliveryCompleted - Triggers a periodic evaluation when AWS Config delivers a configuration snapshot.   If you want your custom rule to be triggered by configuration changes, specify two SourceDetail objects, one for ConfigurationItemChangeNotification and one for OversizedConfigurationItemChangeNotification.
         public let messageType: MessageType?
-        
+
         public init(eventSource: EventSource? = nil, maximumExecutionFrequency: MaximumExecutionFrequency? = nil, messageType: MessageType? = nil) {
             self.eventSource = eventSource
             self.maximumExecutionFrequency = maximumExecutionFrequency
@@ -4235,7 +4233,7 @@ extension ConfigService {
         ]
         /// The list of names of AWS Config rules that you want to run evaluations for.
         public let configRuleNames: [String]?
-        
+
         public init(configRuleNames: [String]? = nil) {
             self.configRuleNames = configRuleNames
         }
@@ -4246,12 +4244,11 @@ extension ConfigService {
     }
 
     public struct StartConfigRulesEvaluationResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct StartConfigurationRecorderRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -4259,7 +4256,7 @@ extension ConfigService {
         ]
         /// The name of the recorder object that records each configuration change made to the resources.
         public let configurationRecorderName: String
-        
+
         public init(configurationRecorderName: String) {
             self.configurationRecorderName = configurationRecorderName
         }
@@ -4278,7 +4275,7 @@ extension ConfigService {
         public let configRuleName: String
         /// A list of resource keys to be processed with the current request. Each element in the list consists of the resource type and resource ID. 
         public let resourceKeys: [ResourceKey]
-        
+
         public init(configRuleName: String, resourceKeys: [ResourceKey]) {
             self.configRuleName = configRuleName
             self.resourceKeys = resourceKeys
@@ -4299,7 +4296,7 @@ extension ConfigService {
         public let failedItems: [ResourceKey]?
         /// Returns a failure message. For example, the resource is already compliant.
         public let failureMessage: String?
-        
+
         public init(failedItems: [ResourceKey]? = nil, failureMessage: String? = nil) {
             self.failedItems = failedItems
             self.failureMessage = failureMessage
@@ -4317,7 +4314,7 @@ extension ConfigService {
         ]
         /// A list of values. For example, the ARN of the assumed role. 
         public let values: [String]?
-        
+
         public init(values: [String]? = nil) {
             self.values = values
         }
@@ -4334,7 +4331,7 @@ extension ConfigService {
         ]
         public let accountId: String?
         public let memberAccountRuleStatus: MemberAccountRuleStatus?
-        
+
         public init(accountId: String? = nil, memberAccountRuleStatus: MemberAccountRuleStatus? = nil) {
             self.accountId = accountId
             self.memberAccountRuleStatus = memberAccountRuleStatus
@@ -4352,7 +4349,7 @@ extension ConfigService {
         ]
         /// The name of the recorder object that records each configuration change made to the resources.
         public let configurationRecorderName: String
-        
+
         public init(configurationRecorderName: String) {
             self.configurationRecorderName = configurationRecorderName
         }
@@ -4371,7 +4368,7 @@ extension ConfigService {
         public let key: String?
         /// The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key).
         public let value: String?
-        
+
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -4392,7 +4389,7 @@ extension ConfigService {
         public let resourceArn: String
         /// An array of tag object.
         public let tags: [Tag]
-        
+
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -4413,7 +4410,7 @@ extension ConfigService {
         public let resourceArn: String
         /// The keys of the tags to be removed.
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -4424,5 +4421,4 @@ extension ConfigService {
             case tagKeys = "TagKeys"
         }
     }
-
 }

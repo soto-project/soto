@@ -244,5 +244,4 @@ public struct ElasticBeanstalk {
     public func validateConfigurationSettings(_ input: ValidateConfigurationSettingsMessage) throws -> Future<ConfigurationSettingsValidationMessages> {
         return try client.send(operation: "ValidateConfigurationSettings", path: "/", httpMethod: "POST", input: input)
     }
-
 }

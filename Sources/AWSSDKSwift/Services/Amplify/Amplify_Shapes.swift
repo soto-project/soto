@@ -71,7 +71,7 @@ extension Amplify {
         public let tags: [String: String]?
         ///  Update date / time for the Amplify App. 
         public let updateTime: TimeStamp
-        
+
         public init(appArn: String, appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, createTime: TimeStamp, customRules: [CustomRule]? = nil, defaultDomain: String, description: String, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool, enableBranchAutoBuild: Bool, environmentVariables: [String: String], iamServiceRoleArn: String? = nil, name: String, platform: Platform, productionBranch: ProductionBranch? = nil, repository: String, tags: [String: String]? = nil, updateTime: TimeStamp) {
             self.appArn = appArn
             self.appId = appId
@@ -145,7 +145,7 @@ extension Amplify {
         public let framework: String?
         ///  Stage for the auto created branch. 
         public let stage: Stage?
-        
+
         public init(basicAuthCredentials: String? = nil, buildSpec: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, stage: Stage? = nil) {
             self.basicAuthCredentials = basicAuthCredentials
             self.buildSpec = buildSpec
@@ -233,7 +233,7 @@ extension Amplify {
         public let ttl: String
         ///  Last updated date and time for a branch, part of an Amplify App. 
         public let updateTime: TimeStamp
-        
+
         public init(activeJobId: String, associatedResources: [String]? = nil, basicAuthCredentials: String? = nil, branchArn: String, branchName: String, buildSpec: String? = nil, createTime: TimeStamp, customDomains: [String], description: String, displayName: String, enableAutoBuild: Bool, enableBasicAuth: Bool, enableNotification: Bool, environmentVariables: [String: String], framework: String, stage: Stage, tags: [String: String]? = nil, thumbnailUrl: String? = nil, totalNumberOfJobs: String, ttl: String, updateTime: TimeStamp) {
             self.activeJobId = activeJobId
             self.associatedResources = associatedResources
@@ -337,7 +337,7 @@ extension Amplify {
         public let repository: String?
         ///  Tag for an Amplify App 
         public let tags: [String: String]?
-        
+
         public init(accessToken: String? = nil, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, customRules: [CustomRule]? = nil, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool? = nil, enableBranchAutoBuild: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String, oauthToken: String? = nil, platform: Platform? = nil, repository: String? = nil, tags: [String: String]? = nil) {
             self.accessToken = accessToken
             self.autoBranchCreationConfig = autoBranchCreationConfig
@@ -384,7 +384,7 @@ extension Amplify {
             AWSShapeMember(label: "app", required: true, type: .structure)
         ]
         public let app: App
-        
+
         public init(app: App) {
             self.app = app
         }
@@ -439,7 +439,7 @@ extension Amplify {
         public let tags: [String: String]?
         ///  The content TTL for the website in seconds. 
         public let ttl: String?
-        
+
         public init(appId: String, basicAuthCredentials: String? = nil, branchName: String, buildSpec: String? = nil, description: String? = nil, displayName: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enableNotification: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, stage: Stage? = nil, tags: [String: String]? = nil, ttl: String? = nil) {
             self.appId = appId
             self.basicAuthCredentials = basicAuthCredentials
@@ -481,7 +481,7 @@ extension Amplify {
         ]
         ///  Branch structure for an Amplify App. 
         public let branch: Branch
-        
+
         public init(branch: Branch) {
             self.branch = branch
         }
@@ -503,7 +503,7 @@ extension Amplify {
         public let branchName: String
         ///  Optional file map that contains file name as the key and file content md5 hash as the value. If this argument is provided, the service will generate different upload url per file. Otherwise, the service will only generate a single upload url for the zipped files. 
         public let fileMap: [String: String]?
-        
+
         public init(appId: String, branchName: String, fileMap: [String: String]? = nil) {
             self.appId = appId
             self.branchName = branchName
@@ -529,7 +529,7 @@ extension Amplify {
         public let jobId: String?
         ///  When the fileMap argument is NOT provided. This zipUploadUrl will be returned. 
         public let zipUploadUrl: String
-        
+
         public init(fileUploadUrls: [String: String], jobId: String? = nil, zipUploadUrl: String) {
             self.fileUploadUrls = fileUploadUrls
             self.jobId = jobId
@@ -558,7 +558,7 @@ extension Amplify {
         public let enableAutoSubDomain: Bool?
         ///  Setting structure for the Subdomain. 
         public let subDomainSettings: [SubDomainSetting]
-        
+
         public init(appId: String, domainName: String, enableAutoSubDomain: Bool? = nil, subDomainSettings: [SubDomainSetting]) {
             self.appId = appId
             self.domainName = domainName
@@ -580,7 +580,7 @@ extension Amplify {
         ]
         ///  Domain Association structure. 
         public let domainAssociation: DomainAssociation
-        
+
         public init(domainAssociation: DomainAssociation) {
             self.domainAssociation = domainAssociation
         }
@@ -602,7 +602,7 @@ extension Amplify {
         public let branchName: String
         ///  Description for a webhook. 
         public let description: String?
-        
+
         public init(appId: String, branchName: String, description: String? = nil) {
             self.appId = appId
             self.branchName = branchName
@@ -622,7 +622,7 @@ extension Amplify {
         ]
         ///  Webhook structure. 
         public let webhook: Webhook
-        
+
         public init(webhook: Webhook) {
             self.webhook = webhook
         }
@@ -647,7 +647,7 @@ extension Amplify {
         public let status: String?
         ///  The target pattern for a URL rewrite or redirect rule. 
         public let target: String
-        
+
         public init(condition: String? = nil, source: String, status: String? = nil, target: String) {
             self.condition = condition
             self.source = source
@@ -669,7 +669,7 @@ extension Amplify {
         ]
         ///  Unique Id for an Amplify App. 
         public let appId: String
-        
+
         public init(appId: String) {
             self.appId = appId
         }
@@ -684,7 +684,7 @@ extension Amplify {
             AWSShapeMember(label: "app", required: true, type: .structure)
         ]
         public let app: App
-        
+
         public init(app: App) {
             self.app = app
         }
@@ -703,7 +703,7 @@ extension Amplify {
         public let appId: String
         ///  Name for the branch. 
         public let branchName: String
-        
+
         public init(appId: String, branchName: String) {
             self.appId = appId
             self.branchName = branchName
@@ -721,7 +721,7 @@ extension Amplify {
         ]
         ///  Branch structure for an Amplify App. 
         public let branch: Branch
-        
+
         public init(branch: Branch) {
             self.branch = branch
         }
@@ -740,7 +740,7 @@ extension Amplify {
         public let appId: String
         ///  Name of the domain. 
         public let domainName: String
-        
+
         public init(appId: String, domainName: String) {
             self.appId = appId
             self.domainName = domainName
@@ -757,7 +757,7 @@ extension Amplify {
             AWSShapeMember(label: "domainAssociation", required: true, type: .structure)
         ]
         public let domainAssociation: DomainAssociation
-        
+
         public init(domainAssociation: DomainAssociation) {
             self.domainAssociation = domainAssociation
         }
@@ -779,7 +779,7 @@ extension Amplify {
         public let branchName: String
         ///  Unique Id for the Job. 
         public let jobId: String
-        
+
         public init(appId: String, branchName: String, jobId: String) {
             self.appId = appId
             self.branchName = branchName
@@ -798,7 +798,7 @@ extension Amplify {
             AWSShapeMember(label: "jobSummary", required: true, type: .structure)
         ]
         public let jobSummary: JobSummary
-        
+
         public init(jobSummary: JobSummary) {
             self.jobSummary = jobSummary
         }
@@ -814,7 +814,7 @@ extension Amplify {
         ]
         ///  Unique Id for a webhook. 
         public let webhookId: String
-        
+
         public init(webhookId: String) {
             self.webhookId = webhookId
         }
@@ -830,7 +830,7 @@ extension Amplify {
         ]
         ///  Webhook structure. 
         public let webhook: Webhook
-        
+
         public init(webhook: Webhook) {
             self.webhook = webhook
         }
@@ -864,7 +864,7 @@ extension Amplify {
         public let statusReason: String
         ///  Subdomains for the Domain Association. 
         public let subDomains: [SubDomain]
-        
+
         public init(certificateVerificationDNSRecord: String? = nil, domainAssociationArn: String, domainName: String, domainStatus: DomainStatus, enableAutoSubDomain: Bool, statusReason: String, subDomains: [SubDomain]) {
             self.certificateVerificationDNSRecord = certificateVerificationDNSRecord
             self.domainAssociationArn = domainAssociationArn
@@ -904,7 +904,7 @@ extension Amplify {
         ]
         ///  Unique Id for an Amplify App. 
         public let appId: String
-        
+
         public init(appId: String) {
             self.appId = appId
         }
@@ -919,7 +919,7 @@ extension Amplify {
             AWSShapeMember(label: "app", required: true, type: .structure)
         ]
         public let app: App
-        
+
         public init(app: App) {
             self.app = app
         }
@@ -938,7 +938,7 @@ extension Amplify {
         public let appId: String
         ///  Name for the branch. 
         public let branchName: String
-        
+
         public init(appId: String, branchName: String) {
             self.appId = appId
             self.branchName = branchName
@@ -955,7 +955,7 @@ extension Amplify {
             AWSShapeMember(label: "branch", required: true, type: .structure)
         ]
         public let branch: Branch
-        
+
         public init(branch: Branch) {
             self.branch = branch
         }
@@ -974,7 +974,7 @@ extension Amplify {
         public let appId: String
         ///  Name of the domain. 
         public let domainName: String
-        
+
         public init(appId: String, domainName: String) {
             self.appId = appId
             self.domainName = domainName
@@ -992,7 +992,7 @@ extension Amplify {
         ]
         ///  Domain Association structure. 
         public let domainAssociation: DomainAssociation
-        
+
         public init(domainAssociation: DomainAssociation) {
             self.domainAssociation = domainAssociation
         }
@@ -1014,7 +1014,7 @@ extension Amplify {
         public let branchName: String
         ///  Unique Id for the Job. 
         public let jobId: String
-        
+
         public init(appId: String, branchName: String, jobId: String) {
             self.appId = appId
             self.branchName = branchName
@@ -1033,7 +1033,7 @@ extension Amplify {
             AWSShapeMember(label: "job", required: true, type: .structure)
         ]
         public let job: Job
-        
+
         public init(job: Job) {
             self.job = job
         }
@@ -1049,7 +1049,7 @@ extension Amplify {
         ]
         ///  Unique Id for a webhook. 
         public let webhookId: String
-        
+
         public init(webhookId: String) {
             self.webhookId = webhookId
         }
@@ -1065,7 +1065,7 @@ extension Amplify {
         ]
         ///  Webhook structure. 
         public let webhook: Webhook
-        
+
         public init(webhook: Webhook) {
             self.webhook = webhook
         }
@@ -1084,7 +1084,7 @@ extension Amplify {
         public let steps: [Step]
         ///  Summary for an execution job for an Amplify App. 
         public let summary: JobSummary
-        
+
         public init(steps: [Step], summary: JobSummary) {
             self.steps = steps
             self.summary = summary
@@ -1137,7 +1137,7 @@ extension Amplify {
         public let startTime: TimeStamp
         ///  Status for the Job. 
         public let status: JobStatus
-        
+
         public init(commitId: String, commitMessage: String, commitTime: TimeStamp, endTime: TimeStamp? = nil, jobArn: String, jobId: String, jobType: JobType, startTime: TimeStamp, status: JobStatus) {
             self.commitId = commitId
             self.commitMessage = commitMessage
@@ -1180,7 +1180,7 @@ extension Amplify {
         public let maxResults: Int32?
         ///  Pagination token. If non-null pagination token is returned in a result, then pass its value in another request to fetch more entries. 
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1201,7 +1201,7 @@ extension Amplify {
         public let apps: [App]
         ///  Pagination token. Set to null to start listing Apps from start. If non-null pagination token is returned in a result, then pass its value in here to list more projects. 
         public let nextToken: String?
-        
+
         public init(apps: [App], nextToken: String? = nil) {
             self.apps = apps
             self.nextToken = nextToken
@@ -1225,7 +1225,7 @@ extension Amplify {
         public let maxResults: Int32?
         ///  Pagination token. Set to null to start listing branches from start. If a non-null pagination token is returned in a result, then pass its value in here to list more branches. 
         public let nextToken: String?
-        
+
         public init(appId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.appId = appId
             self.maxResults = maxResults
@@ -1248,7 +1248,7 @@ extension Amplify {
         public let branches: [Branch]
         ///  Pagination token. If non-null pagination token is returned in a result, then pass its value in another request to fetch more entries. 
         public let nextToken: String?
-        
+
         public init(branches: [Branch], nextToken: String? = nil) {
             self.branches = branches
             self.nextToken = nextToken
@@ -1272,7 +1272,7 @@ extension Amplify {
         public let maxResults: Int32?
         ///  Pagination token. Set to null to start listing Apps from start. If non-null pagination token is returned in a result, then pass its value in here to list more projects. 
         public let nextToken: String?
-        
+
         public init(appId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.appId = appId
             self.maxResults = maxResults
@@ -1295,7 +1295,7 @@ extension Amplify {
         public let domainAssociations: [DomainAssociation]
         ///  Pagination token. If non-null pagination token is returned in a result, then pass its value in another request to fetch more entries. 
         public let nextToken: String?
-        
+
         public init(domainAssociations: [DomainAssociation], nextToken: String? = nil) {
             self.domainAssociations = domainAssociations
             self.nextToken = nextToken
@@ -1322,7 +1322,7 @@ extension Amplify {
         public let maxResults: Int32?
         ///  Pagination token. Set to null to start listing steps from start. If a non-null pagination token is returned in a result, then pass its value in here to list more steps. 
         public let nextToken: String?
-        
+
         public init(appId: String, branchName: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.appId = appId
             self.branchName = branchName
@@ -1347,7 +1347,7 @@ extension Amplify {
         public let jobSummaries: [JobSummary]
         ///  Pagination token. If non-null pagination token is returned in a result, then pass its value in another request to fetch more entries. 
         public let nextToken: String?
-        
+
         public init(jobSummaries: [JobSummary], nextToken: String? = nil) {
             self.jobSummaries = jobSummaries
             self.nextToken = nextToken
@@ -1365,7 +1365,7 @@ extension Amplify {
         ]
         ///  Resource arn used to list tags. 
         public let resourceArn: String
-        
+
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1381,7 +1381,7 @@ extension Amplify {
         ]
         ///  Tags result for response. 
         public let tags: [String: String]?
-        
+
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1403,7 +1403,7 @@ extension Amplify {
         public let maxResults: Int32?
         ///  Pagination token. Set to null to start listing webhooks from start. If non-null pagination token is returned in a result, then pass its value in here to list more webhooks. 
         public let nextToken: String?
-        
+
         public init(appId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.appId = appId
             self.maxResults = maxResults
@@ -1426,7 +1426,7 @@ extension Amplify {
         public let nextToken: String?
         ///  List of webhooks. 
         public let webhooks: [Webhook]
-        
+
         public init(nextToken: String? = nil, webhooks: [Webhook]) {
             self.nextToken = nextToken
             self.webhooks = webhooks
@@ -1458,7 +1458,7 @@ extension Amplify {
         public let status: String?
         ///  Thumbnail URL for Production Branch. 
         public let thumbnailUrl: String?
-        
+
         public init(branchName: String? = nil, lastDeployTime: TimeStamp? = nil, status: String? = nil, thumbnailUrl: String? = nil) {
             self.branchName = branchName
             self.lastDeployTime = lastDeployTime
@@ -1497,7 +1497,7 @@ extension Amplify {
         public let jobId: String?
         ///  The sourceUrl for this deployment, used when calling start deployment without create deployment. SourceUrl can be any HTTP GET url that is public accessible and downloads a single zip. 
         public let sourceUrl: String?
-        
+
         public init(appId: String, branchName: String, jobId: String? = nil, sourceUrl: String? = nil) {
             self.appId = appId
             self.branchName = branchName
@@ -1519,7 +1519,7 @@ extension Amplify {
         ]
         ///  Summary for the Job. 
         public let jobSummary: JobSummary
-        
+
         public init(jobSummary: JobSummary) {
             self.jobSummary = jobSummary
         }
@@ -1556,7 +1556,7 @@ extension Amplify {
         public let jobReason: String?
         ///  Type for the Job. Available JobTypes are: \n "RELEASE": Start a new job with the latest change from the specified branch. Only available for apps that have connected to a repository. "RETRY": Retry an existing job. JobId is required for this type of job. 
         public let jobType: JobType
-        
+
         public init(appId: String, branchName: String, commitId: String? = nil, commitMessage: String? = nil, commitTime: TimeStamp? = nil, jobId: String? = nil, jobReason: String? = nil, jobType: JobType) {
             self.appId = appId
             self.branchName = branchName
@@ -1586,7 +1586,7 @@ extension Amplify {
         ]
         ///  Summary for the Job. 
         public let jobSummary: JobSummary
-        
+
         public init(jobSummary: JobSummary) {
             self.jobSummary = jobSummary
         }
@@ -1626,7 +1626,7 @@ extension Amplify {
         public let statusReason: String?
         ///  Name of the execution step. 
         public let stepName: String
-        
+
         public init(artifactsUrl: String? = nil, context: String? = nil, endTime: TimeStamp, logUrl: String? = nil, screenshots: [String: String]? = nil, startTime: TimeStamp, status: JobStatus, statusReason: String? = nil, stepName: String) {
             self.artifactsUrl = artifactsUrl
             self.context = context
@@ -1664,7 +1664,7 @@ extension Amplify {
         public let branchName: String
         ///  Unique Id for the Job. 
         public let jobId: String
-        
+
         public init(appId: String, branchName: String, jobId: String) {
             self.appId = appId
             self.branchName = branchName
@@ -1684,7 +1684,7 @@ extension Amplify {
         ]
         ///  Summary for the Job. 
         public let jobSummary: JobSummary
-        
+
         public init(jobSummary: JobSummary) {
             self.jobSummary = jobSummary
         }
@@ -1706,7 +1706,7 @@ extension Amplify {
         public let subDomainSetting: SubDomainSetting
         ///  Verified status of the Subdomain 
         public let verified: Bool
-        
+
         public init(dnsRecord: String, subDomainSetting: SubDomainSetting, verified: Bool) {
             self.dnsRecord = dnsRecord
             self.subDomainSetting = subDomainSetting
@@ -1729,7 +1729,7 @@ extension Amplify {
         public let branchName: String
         ///  Prefix setting for the Subdomain. 
         public let prefix: String
-        
+
         public init(branchName: String, prefix: String) {
             self.branchName = branchName
             self.prefix = prefix
@@ -1750,7 +1750,7 @@ extension Amplify {
         public let resourceArn: String
         ///  Tags used to tag resource. 
         public let tags: [String: String]
-        
+
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1763,12 +1763,11 @@ extension Amplify {
     }
 
     public struct TagResourceResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1779,7 +1778,7 @@ extension Amplify {
         public let resourceArn: String
         ///  Tag keys used to untag resource. 
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1792,12 +1791,11 @@ extension Amplify {
     }
 
     public struct UntagResourceResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateAppRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1844,7 +1842,7 @@ extension Amplify {
         public let name: String?
         ///  Platform for an Amplify App. 
         public let platform: Platform?
-        
+
         public init(appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, customRules: [CustomRule]? = nil, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool? = nil, enableBranchAutoBuild: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String? = nil, platform: Platform? = nil) {
             self.appId = appId
             self.autoBranchCreationConfig = autoBranchCreationConfig
@@ -1886,7 +1884,7 @@ extension Amplify {
         ]
         ///  App structure for the updated App. 
         public let app: App
-        
+
         public init(app: App) {
             self.app = app
         }
@@ -1938,7 +1936,7 @@ extension Amplify {
         public let stage: Stage?
         ///  The content TTL for the website in seconds. 
         public let ttl: String?
-        
+
         public init(appId: String, basicAuthCredentials: String? = nil, branchName: String, buildSpec: String? = nil, description: String? = nil, displayName: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enableNotification: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, stage: Stage? = nil, ttl: String? = nil) {
             self.appId = appId
             self.basicAuthCredentials = basicAuthCredentials
@@ -1978,7 +1976,7 @@ extension Amplify {
         ]
         ///  Branch structure for an Amplify App. 
         public let branch: Branch
-        
+
         public init(branch: Branch) {
             self.branch = branch
         }
@@ -2003,7 +2001,7 @@ extension Amplify {
         public let enableAutoSubDomain: Bool?
         ///  Setting structure for the Subdomain. 
         public let subDomainSettings: [SubDomainSetting]
-        
+
         public init(appId: String, domainName: String, enableAutoSubDomain: Bool? = nil, subDomainSettings: [SubDomainSetting]) {
             self.appId = appId
             self.domainName = domainName
@@ -2025,7 +2023,7 @@ extension Amplify {
         ]
         ///  Domain Association structure. 
         public let domainAssociation: DomainAssociation
-        
+
         public init(domainAssociation: DomainAssociation) {
             self.domainAssociation = domainAssociation
         }
@@ -2047,7 +2045,7 @@ extension Amplify {
         public let description: String?
         ///  Unique Id for a webhook. 
         public let webhookId: String
-        
+
         public init(branchName: String? = nil, description: String? = nil, webhookId: String) {
             self.branchName = branchName
             self.description = description
@@ -2067,7 +2065,7 @@ extension Amplify {
         ]
         ///  Webhook structure. 
         public let webhook: Webhook
-        
+
         public init(webhook: Webhook) {
             self.webhook = webhook
         }
@@ -2101,7 +2099,7 @@ extension Amplify {
         public let webhookId: String
         ///  Url of the webhook. 
         public let webhookUrl: String
-        
+
         public init(branchName: String, createTime: TimeStamp, description: String, updateTime: TimeStamp, webhookArn: String, webhookId: String, webhookUrl: String) {
             self.branchName = branchName
             self.createTime = createTime
@@ -2122,5 +2120,4 @@ extension Amplify {
             case webhookUrl = "webhookUrl"
         }
     }
-
 }

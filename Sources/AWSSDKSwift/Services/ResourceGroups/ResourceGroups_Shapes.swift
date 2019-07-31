@@ -20,7 +20,7 @@ extension ResourceGroups {
         public let resourceQuery: ResourceQuery
         /// The tags to add to the group. A tag is a string-to-string map of key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [String: String]?
-        
+
         public init(description: String? = nil, name: String, resourceQuery: ResourceQuery, tags: [String: String]? = nil) {
             self.description = description
             self.name = name
@@ -48,7 +48,7 @@ extension ResourceGroups {
         public let resourceQuery: ResourceQuery?
         /// The tags associated with the group.
         public let tags: [String: String]?
-        
+
         public init(group: Group? = nil, resourceQuery: ResourceQuery? = nil, tags: [String: String]? = nil) {
             self.group = group
             self.resourceQuery = resourceQuery
@@ -68,7 +68,7 @@ extension ResourceGroups {
         ]
         /// The name of the resource group to delete.
         public let groupName: String
-        
+
         public init(groupName: String) {
             self.groupName = groupName
         }
@@ -84,7 +84,7 @@ extension ResourceGroups {
         ]
         /// A full description of the deleted resource group.
         public let group: Group?
-        
+
         public init(group: Group? = nil) {
             self.group = group
         }
@@ -100,7 +100,7 @@ extension ResourceGroups {
         ]
         /// The name of the resource group.
         public let groupName: String
-        
+
         public init(groupName: String) {
             self.groupName = groupName
         }
@@ -116,7 +116,7 @@ extension ResourceGroups {
         ]
         /// A full description of the resource group.
         public let group: Group?
-        
+
         public init(group: Group? = nil) {
             self.group = group
         }
@@ -132,7 +132,7 @@ extension ResourceGroups {
         ]
         /// The name of the resource group.
         public let groupName: String
-        
+
         public init(groupName: String) {
             self.groupName = groupName
         }
@@ -148,7 +148,7 @@ extension ResourceGroups {
         ]
         /// The resource query associated with the specified group.
         public let groupQuery: GroupQuery?
-        
+
         public init(groupQuery: GroupQuery? = nil) {
             self.groupQuery = groupQuery
         }
@@ -164,7 +164,7 @@ extension ResourceGroups {
         ]
         /// The ARN of the resource group for which you want a list of tags. The resource must exist within the account you are using.
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -183,7 +183,7 @@ extension ResourceGroups {
         public let arn: String?
         /// The tags associated with the specified resource group.
         public let tags: [String: String]?
-        
+
         public init(arn: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.tags = tags
@@ -207,7 +207,7 @@ extension ResourceGroups {
         public let groupArn: String
         /// The name of a resource group.
         public let name: String
-        
+
         public init(description: String? = nil, groupArn: String, name: String) {
             self.description = description
             self.groupArn = groupArn
@@ -230,7 +230,7 @@ extension ResourceGroups {
         public let name: GroupFilterName
         /// One or more filter values. Allowed filter values vary by group filter name, and are case-sensitive.
         public let values: [String]
-        
+
         public init(name: GroupFilterName, values: [String]) {
             self.name = name
             self.values = values
@@ -256,7 +256,7 @@ extension ResourceGroups {
         public let groupArn: String?
         /// The name of a resource group.
         public let groupName: String?
-        
+
         public init(groupArn: String? = nil, groupName: String? = nil) {
             self.groupArn = groupArn
             self.groupName = groupName
@@ -277,7 +277,7 @@ extension ResourceGroups {
         public let groupName: String
         /// The resource query which determines which AWS resources are members of the associated resource group.
         public let resourceQuery: ResourceQuery
-        
+
         public init(groupName: String, resourceQuery: ResourceQuery) {
             self.groupName = groupName
             self.resourceQuery = resourceQuery
@@ -304,7 +304,7 @@ extension ResourceGroups {
         public let maxResults: Int32?
         /// The NextToken value that is returned in a paginated ListGroupResources request. To get the next page of results, run the call again, add the NextToken parameter, and specify the NextToken value.
         public let nextToken: String?
-        
+
         public init(filters: [ResourceFilter]? = nil, groupName: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.groupName = groupName
@@ -332,7 +332,7 @@ extension ResourceGroups {
         public let queryErrors: [QueryError]?
         /// The ARNs and resource types of resources that are members of the group that you specified.
         public let resourceIdentifiers: [ResourceIdentifier]?
-        
+
         public init(nextToken: String? = nil, queryErrors: [QueryError]? = nil, resourceIdentifiers: [ResourceIdentifier]? = nil) {
             self.nextToken = nextToken
             self.queryErrors = queryErrors
@@ -358,7 +358,7 @@ extension ResourceGroups {
         public let maxResults: Int32?
         /// The NextToken value that is returned in a paginated ListGroups request. To get the next page of results, run the call again, add the NextToken parameter, and specify the NextToken value.
         public let nextToken: String?
-        
+
         public init(filters: [GroupFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -381,7 +381,7 @@ extension ResourceGroups {
         public let groupIdentifiers: [GroupIdentifier]?
         /// The NextToken value to include in a subsequent ListGroups request, to get more results.
         public let nextToken: String?
-        
+
         public init(groupIdentifiers: [GroupIdentifier]? = nil, nextToken: String? = nil) {
             self.groupIdentifiers = groupIdentifiers
             self.nextToken = nextToken
@@ -402,7 +402,7 @@ extension ResourceGroups {
         public let errorCode: QueryErrorCode?
         /// A message that explains the ErrorCode value. Messages might state that the specified CloudFormation stack does not exist (or no longer exists). For CLOUDFORMATION_STACK_INACTIVE, the message typically states that the CloudFormation stack has a status that is not (or no longer) active, such as CREATE_FAILED.
         public let message: String?
-        
+
         public init(errorCode: QueryErrorCode? = nil, message: String? = nil) {
             self.errorCode = errorCode
             self.message = message
@@ -435,7 +435,7 @@ extension ResourceGroups {
         public let name: ResourceFilterName
         /// One or more filter values. Allowed filter values vary by resource filter name, and are case-sensitive.
         public let values: [String]
-        
+
         public init(name: ResourceFilterName, values: [String]) {
             self.name = name
             self.values = values
@@ -461,7 +461,7 @@ extension ResourceGroups {
         public let resourceArn: String?
         /// The resource type of a resource, such as AWS::EC2::Instance.
         public let resourceType: String?
-        
+
         public init(resourceArn: String? = nil, resourceType: String? = nil) {
             self.resourceArn = resourceArn
             self.resourceType = resourceType
@@ -482,7 +482,7 @@ extension ResourceGroups {
         public let query: String
         /// The type of the query. The valid values in this release are TAG_FILTERS_1_0 and CLOUDFORMATION_STACK_1_0.   TAG_FILTERS_1_0:  A JSON syntax that lets you specify a collection of simple tag filters for resource types and tags, as supported by the AWS Tagging API GetResources operation. If you specify more than one tag key, only resources that match all tag keys, and at least one value of each specified tag key, are returned in your query. If you specify more than one value for a tag key, a resource matches the filter if it has a tag key value that matches any of the specified values. For example, consider the following sample query for resources that have two tags, Stage and Version, with two values each. ([{"Key":"Stage","Values":["Test","Deploy"]},{"Key":"Version","Values":["1","2"]}]) The results of this query might include the following.   An EC2 instance that has the following two tags: {"Key":"Stage","Value":"Deploy"}, and {"Key":"Version","Value":"2"}    An S3 bucket that has the following two tags: {"Key":"Stage","Value":"Test"}, and {"Key":"Version","Value":"1"}   The query would not return the following results, however. The following EC2 instance does not have all tag keys specified in the filter, so it is rejected. The RDS database has all of the tag keys, but no values that match at least one of the specified tag key values in the filter.   An EC2 instance that has only the following tag: {"Key":"Stage","Value":"Deploy"}.   An RDS database that has the following two tags: {"Key":"Stage","Value":"Archived"}, and {"Key":"Version","Value":"4"}      CLOUDFORMATION_STACK_1_0:  A JSON syntax that lets you specify a CloudFormation stack ARN.
         public let `type`: QueryType
-        
+
         public init(query: String, type: QueryType) {
             self.query = query
             self.`type` = `type`
@@ -506,7 +506,7 @@ extension ResourceGroups {
         public let nextToken: String?
         /// The search query, using the same formats that are supported for resource group definition.
         public let resourceQuery: ResourceQuery
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceQuery: ResourceQuery) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -532,7 +532,7 @@ extension ResourceGroups {
         public let queryErrors: [QueryError]?
         /// The ARNs and resource types of resources that are members of the group that you specified.
         public let resourceIdentifiers: [ResourceIdentifier]?
-        
+
         public init(nextToken: String? = nil, queryErrors: [QueryError]? = nil, resourceIdentifiers: [ResourceIdentifier]? = nil) {
             self.nextToken = nextToken
             self.queryErrors = queryErrors
@@ -555,7 +555,7 @@ extension ResourceGroups {
         public let arn: String
         /// The tags to add to the specified resource. A tag is a string-to-string map of key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [String: String]
-        
+
         public init(arn: String, tags: [String: String]) {
             self.arn = arn
             self.tags = tags
@@ -576,7 +576,7 @@ extension ResourceGroups {
         public let arn: String?
         /// The tags that have been added to the specified resource.
         public let tags: [String: String]?
-        
+
         public init(arn: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.tags = tags
@@ -597,7 +597,7 @@ extension ResourceGroups {
         public let arn: String
         /// The keys of the tags to be removed.
         public let keys: [String]
-        
+
         public init(arn: String, keys: [String]) {
             self.arn = arn
             self.keys = keys
@@ -618,7 +618,7 @@ extension ResourceGroups {
         public let arn: String?
         /// The keys of tags that have been removed.
         public let keys: [String]?
-        
+
         public init(arn: String? = nil, keys: [String]? = nil) {
             self.arn = arn
             self.keys = keys
@@ -639,7 +639,7 @@ extension ResourceGroups {
         public let description: String?
         /// The name of the resource group for which you want to update its description.
         public let groupName: String
-        
+
         public init(description: String? = nil, groupName: String) {
             self.description = description
             self.groupName = groupName
@@ -657,7 +657,7 @@ extension ResourceGroups {
         ]
         /// The full description of the resource group after it has been updated.
         public let group: Group?
-        
+
         public init(group: Group? = nil) {
             self.group = group
         }
@@ -676,7 +676,7 @@ extension ResourceGroups {
         public let groupName: String
         /// The resource query that determines which AWS resources are members of the resource group.
         public let resourceQuery: ResourceQuery
-        
+
         public init(groupName: String, resourceQuery: ResourceQuery) {
             self.groupName = groupName
             self.resourceQuery = resourceQuery
@@ -694,7 +694,7 @@ extension ResourceGroups {
         ]
         /// The resource query associated with the resource group after the update.
         public let groupQuery: GroupQuery?
-        
+
         public init(groupQuery: GroupQuery? = nil) {
             self.groupQuery = groupQuery
         }
@@ -703,5 +703,4 @@ extension ResourceGroups {
             case groupQuery = "GroupQuery"
         }
     }
-
 }

@@ -204,5 +204,4 @@ public struct AppSync {
     public func updateType(_ input: UpdateTypeRequest) throws -> Future<UpdateTypeResponse> {
         return try client.send(operation: "UpdateType", path: "/v1/apis/{apiId}/types/{typeName}", httpMethod: "POST", input: input)
     }
-
 }

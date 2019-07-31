@@ -14,7 +14,7 @@ extension MTurk {
         public let integerValue: Int32?
         /// The ID of the Qualification request, as returned by the GetQualificationRequests operation.
         public let qualificationRequestId: String
-        
+
         public init(integerValue: Int32? = nil, qualificationRequestId: String) {
             self.integerValue = integerValue
             self.qualificationRequestId = qualificationRequestId
@@ -27,12 +27,11 @@ extension MTurk {
     }
 
     public struct AcceptQualificationRequestResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct ApproveAssignmentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -46,7 +45,7 @@ extension MTurk {
         public let overrideRejection: Bool?
         ///  A message for the Worker, which the Worker can see in the Status section of the web site. 
         public let requesterFeedback: String?
-        
+
         public init(assignmentId: String, overrideRejection: Bool? = nil, requesterFeedback: String? = nil) {
             self.assignmentId = assignmentId
             self.overrideRejection = overrideRejection
@@ -61,12 +60,11 @@ extension MTurk {
     }
 
     public struct ApproveAssignmentResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct Assignment: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -107,7 +105,7 @@ extension MTurk {
         public let submitTime: TimeStamp?
         ///  The ID of the Worker who accepted the HIT.
         public let workerId: String?
-        
+
         public init(acceptTime: TimeStamp? = nil, answer: String? = nil, approvalTime: TimeStamp? = nil, assignmentId: String? = nil, assignmentStatus: AssignmentStatus? = nil, autoApprovalTime: TimeStamp? = nil, deadline: TimeStamp? = nil, hITId: String? = nil, rejectionTime: TimeStamp? = nil, requesterFeedback: String? = nil, submitTime: TimeStamp? = nil, workerId: String? = nil) {
             self.acceptTime = acceptTime
             self.answer = answer
@@ -161,7 +159,7 @@ extension MTurk {
         public let sendNotification: Bool?
         ///  The ID of the Worker to whom the Qualification is being assigned. Worker IDs are included with submitted HIT assignments and Qualification requests. 
         public let workerId: String
-        
+
         public init(integerValue: Int32? = nil, qualificationTypeId: String, sendNotification: Bool? = nil, workerId: String) {
             self.integerValue = integerValue
             self.qualificationTypeId = qualificationTypeId
@@ -178,12 +176,11 @@ extension MTurk {
     }
 
     public struct AssociateQualificationWithWorkerResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct BonusPayment: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -202,7 +199,7 @@ extension MTurk {
         public let reason: String?
         /// The ID of the Worker to whom the bonus was paid.
         public let workerId: String?
-        
+
         public init(assignmentId: String? = nil, bonusAmount: String? = nil, grantTime: TimeStamp? = nil, reason: String? = nil, workerId: String? = nil) {
             self.assignmentId = assignmentId
             self.bonusAmount = bonusAmount
@@ -246,7 +243,7 @@ extension MTurk {
         public let numberOfAdditionalAssignments: Int32
         ///  A unique identifier for this request, which allows you to retry the call on error without extending the HIT multiple times. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the extend HIT already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return an error with a message containing the request ID. 
         public let uniqueRequestToken: String?
-        
+
         public init(hITId: String, numberOfAdditionalAssignments: Int32, uniqueRequestToken: String? = nil) {
             self.hITId = hITId
             self.numberOfAdditionalAssignments = numberOfAdditionalAssignments
@@ -261,12 +258,11 @@ extension MTurk {
     }
 
     public struct CreateAdditionalAssignmentsForHITResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct CreateHITRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -319,7 +315,7 @@ extension MTurk {
         public let title: String
         ///  A unique identifier for this request which allows you to retry the call on error without creating duplicate HITs. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the HIT already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return a AWS.MechanicalTurk.HitAlreadyExists error with a message containing the HITId.    Note: It is your responsibility to ensure uniqueness of the token. The unique token expires after 24 hours. Subsequent calls using the same UniqueRequestToken made after the 24 hour limit could create duplicate HITs.  
         public let uniqueRequestToken: String?
-        
+
         public init(assignmentDurationInSeconds: Int64, assignmentReviewPolicy: ReviewPolicy? = nil, autoApprovalDelayInSeconds: Int64? = nil, description: String, hITLayoutId: String? = nil, hITLayoutParameters: [HITLayoutParameter]? = nil, hITReviewPolicy: ReviewPolicy? = nil, keywords: String? = nil, lifetimeInSeconds: Int64, maxAssignments: Int32? = nil, qualificationRequirements: [QualificationRequirement]? = nil, question: String? = nil, requesterAnnotation: String? = nil, reward: String, title: String, uniqueRequestToken: String? = nil) {
             self.assignmentDurationInSeconds = assignmentDurationInSeconds
             self.assignmentReviewPolicy = assignmentReviewPolicy
@@ -365,7 +361,7 @@ extension MTurk {
         ]
         ///  Contains the newly created HIT data. For a description of the HIT data structure as it appears in responses, see the HIT Data Structure documentation. 
         public let hit: HIT?
-        
+
         public init(hit: HIT? = nil) {
             self.hit = hit
         }
@@ -399,7 +395,7 @@ extension MTurk {
         public let reward: String
         ///  The title of the HIT. A title should be short and descriptive about the kind of task the HIT contains. On the Amazon Mechanical Turk web site, the HIT title appears in search results, and everywhere the HIT is mentioned. 
         public let title: String
-        
+
         public init(assignmentDurationInSeconds: Int64, autoApprovalDelayInSeconds: Int64? = nil, description: String, keywords: String? = nil, qualificationRequirements: [QualificationRequirement]? = nil, reward: String, title: String) {
             self.assignmentDurationInSeconds = assignmentDurationInSeconds
             self.autoApprovalDelayInSeconds = autoApprovalDelayInSeconds
@@ -427,7 +423,7 @@ extension MTurk {
         ]
         ///  The ID of the newly registered HIT type.
         public let hITTypeId: String?
-        
+
         public init(hITTypeId: String? = nil) {
             self.hITTypeId = hITTypeId
         }
@@ -470,7 +466,7 @@ extension MTurk {
         public let requesterAnnotation: String?
         ///  A unique identifier for this request which allows you to retry the call on error without creating duplicate HITs. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the HIT already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return a AWS.MechanicalTurk.HitAlreadyExists error with a message containing the HITId.    Note: It is your responsibility to ensure uniqueness of the token. The unique token expires after 24 hours. Subsequent calls using the same UniqueRequestToken made after the 24 hour limit could create duplicate HITs.  
         public let uniqueRequestToken: String?
-        
+
         public init(assignmentReviewPolicy: ReviewPolicy? = nil, hITLayoutId: String? = nil, hITLayoutParameters: [HITLayoutParameter]? = nil, hITReviewPolicy: ReviewPolicy? = nil, hITTypeId: String, lifetimeInSeconds: Int64, maxAssignments: Int32? = nil, question: String? = nil, requesterAnnotation: String? = nil, uniqueRequestToken: String? = nil) {
             self.assignmentReviewPolicy = assignmentReviewPolicy
             self.hITLayoutId = hITLayoutId
@@ -504,7 +500,7 @@ extension MTurk {
         ]
         ///  Contains the newly created HIT data. For a description of the HIT data structure as it appears in responses, see the HIT Data Structure documentation. 
         public let hit: HIT?
-        
+
         public init(hit: HIT? = nil) {
             self.hit = hit
         }
@@ -547,7 +543,7 @@ extension MTurk {
         public let test: String?
         /// The number of seconds the Worker has to complete the Qualification test, starting from the time the Worker requests the Qualification.
         public let testDurationInSeconds: Int64?
-        
+
         public init(answerKey: String? = nil, autoGranted: Bool? = nil, autoGrantedValue: Int32? = nil, description: String, keywords: String? = nil, name: String, qualificationTypeStatus: QualificationTypeStatus, retryDelayInSeconds: Int64? = nil, test: String? = nil, testDurationInSeconds: Int64? = nil) {
             self.answerKey = answerKey
             self.autoGranted = autoGranted
@@ -581,7 +577,7 @@ extension MTurk {
         ]
         /// The created Qualification type, returned as a QualificationType data structure.
         public let qualificationType: QualificationType?
-        
+
         public init(qualificationType: QualificationType? = nil) {
             self.qualificationType = qualificationType
         }
@@ -600,7 +596,7 @@ extension MTurk {
         public let reason: String
         /// The ID of the Worker to block.
         public let workerId: String
-        
+
         public init(reason: String, workerId: String) {
             self.reason = reason
             self.workerId = workerId
@@ -613,12 +609,11 @@ extension MTurk {
     }
 
     public struct CreateWorkerBlockResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteHITRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -626,7 +621,7 @@ extension MTurk {
         ]
         /// The ID of the HIT to be deleted.
         public let hITId: String
-        
+
         public init(hITId: String) {
             self.hITId = hITId
         }
@@ -637,12 +632,11 @@ extension MTurk {
     }
 
     public struct DeleteHITResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteQualificationTypeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -650,7 +644,7 @@ extension MTurk {
         ]
         /// The ID of the QualificationType to dispose.
         public let qualificationTypeId: String
-        
+
         public init(qualificationTypeId: String) {
             self.qualificationTypeId = qualificationTypeId
         }
@@ -661,12 +655,11 @@ extension MTurk {
     }
 
     public struct DeleteQualificationTypeResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteWorkerBlockRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -677,7 +670,7 @@ extension MTurk {
         public let reason: String?
         /// The ID of the Worker to unblock.
         public let workerId: String
-        
+
         public init(reason: String? = nil, workerId: String) {
             self.reason = reason
             self.workerId = workerId
@@ -690,12 +683,11 @@ extension MTurk {
     }
 
     public struct DeleteWorkerBlockResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DisassociateQualificationFromWorkerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -709,7 +701,7 @@ extension MTurk {
         public let reason: String?
         /// The ID of the Worker who possesses the Qualification to be revoked.
         public let workerId: String
-        
+
         public init(qualificationTypeId: String, reason: String? = nil, workerId: String) {
             self.qualificationTypeId = qualificationTypeId
             self.reason = reason
@@ -724,12 +716,11 @@ extension MTurk {
     }
 
     public struct DisassociateQualificationFromWorkerResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public enum EventType: String, CustomStringConvertible, Codable {
         case assignmentaccepted = "AssignmentAccepted"
@@ -748,12 +739,11 @@ extension MTurk {
     }
 
     public struct GetAccountBalanceRequest: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct GetAccountBalanceResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -762,7 +752,7 @@ extension MTurk {
         ]
         public let availableBalance: String?
         public let onHoldBalance: String?
-        
+
         public init(availableBalance: String? = nil, onHoldBalance: String? = nil) {
             self.availableBalance = availableBalance
             self.onHoldBalance = onHoldBalance
@@ -780,7 +770,7 @@ extension MTurk {
         ]
         /// The ID of the Assignment to be retrieved.
         public let assignmentId: String
-        
+
         public init(assignmentId: String) {
             self.assignmentId = assignmentId
         }
@@ -799,7 +789,7 @@ extension MTurk {
         public let assignment: Assignment?
         ///  The HIT associated with this assignment. The response includes one HIT element.
         public let hit: HIT?
-        
+
         public init(assignment: Assignment? = nil, hit: HIT? = nil) {
             self.assignment = assignment
             self.hit = hit
@@ -820,7 +810,7 @@ extension MTurk {
         public let assignmentId: String
         /// The identifier of the question with a FileUploadAnswer, as specified in the QuestionForm of the HIT.
         public let questionIdentifier: String
-        
+
         public init(assignmentId: String, questionIdentifier: String) {
             self.assignmentId = assignmentId
             self.questionIdentifier = questionIdentifier
@@ -838,7 +828,7 @@ extension MTurk {
         ]
         ///  A temporary URL for the file that the Worker uploaded for the answer. 
         public let fileUploadURL: String?
-        
+
         public init(fileUploadURL: String? = nil) {
             self.fileUploadURL = fileUploadURL
         }
@@ -854,7 +844,7 @@ extension MTurk {
         ]
         /// The ID of the HIT to be retrieved.
         public let hITId: String
-        
+
         public init(hITId: String) {
             self.hITId = hITId
         }
@@ -870,7 +860,7 @@ extension MTurk {
         ]
         ///  Contains the requested HIT data.
         public let hit: HIT?
-        
+
         public init(hit: HIT? = nil) {
             self.hit = hit
         }
@@ -889,7 +879,7 @@ extension MTurk {
         public let qualificationTypeId: String
         /// The ID of the Worker whose Qualification is being updated.
         public let workerId: String
-        
+
         public init(qualificationTypeId: String, workerId: String) {
             self.qualificationTypeId = qualificationTypeId
             self.workerId = workerId
@@ -907,7 +897,7 @@ extension MTurk {
         ]
         ///  The Qualification data structure of the Qualification assigned to a user, including the Qualification type and the value (score). 
         public let qualification: Qualification?
-        
+
         public init(qualification: Qualification? = nil) {
             self.qualification = qualification
         }
@@ -923,7 +913,7 @@ extension MTurk {
         ]
         /// The ID of the QualificationType.
         public let qualificationTypeId: String
-        
+
         public init(qualificationTypeId: String) {
             self.qualificationTypeId = qualificationTypeId
         }
@@ -939,7 +929,7 @@ extension MTurk {
         ]
         ///  The returned Qualification Type
         public let qualificationType: QualificationType?
-        
+
         public init(qualificationType: QualificationType? = nil) {
             self.qualificationType = qualificationType
         }
@@ -1014,7 +1004,7 @@ extension MTurk {
         public let reward: String?
         ///  The title of the HIT.
         public let title: String?
-        
+
         public init(assignmentDurationInSeconds: Int64? = nil, autoApprovalDelayInSeconds: Int64? = nil, creationTime: TimeStamp? = nil, description: String? = nil, expiration: TimeStamp? = nil, hITGroupId: String? = nil, hITId: String? = nil, hITLayoutId: String? = nil, hITReviewStatus: HITReviewStatus? = nil, hITStatus: HITStatus? = nil, hITTypeId: String? = nil, keywords: String? = nil, maxAssignments: Int32? = nil, numberOfAssignmentsAvailable: Int32? = nil, numberOfAssignmentsCompleted: Int32? = nil, numberOfAssignmentsPending: Int32? = nil, qualificationRequirements: [QualificationRequirement]? = nil, question: String? = nil, requesterAnnotation: String? = nil, reward: String? = nil, title: String? = nil) {
             self.assignmentDurationInSeconds = assignmentDurationInSeconds
             self.autoApprovalDelayInSeconds = autoApprovalDelayInSeconds
@@ -1080,7 +1070,7 @@ extension MTurk {
         public let name: String
         /// The value substituted for the parameter referenced in the HITLayout. 
         public let value: String
-        
+
         public init(name: String, value: String) {
             self.name = name
             self.value = value
@@ -1123,7 +1113,7 @@ extension MTurk {
         public let maxResults: Int32?
         /// Pagination token
         public let nextToken: String?
-        
+
         public init(assignmentStatuses: [AssignmentStatus]? = nil, hITId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.assignmentStatuses = assignmentStatuses
             self.hITId = hITId
@@ -1150,7 +1140,7 @@ extension MTurk {
         public let nextToken: String?
         ///  The number of assignments on the page in the filtered results list, equivalent to the number of assignments returned by this call.
         public let numResults: Int32?
-        
+
         public init(assignments: [Assignment]? = nil, nextToken: String? = nil, numResults: Int32? = nil) {
             self.assignments = assignments
             self.nextToken = nextToken
@@ -1178,7 +1168,7 @@ extension MTurk {
         public let maxResults: Int32?
         /// Pagination token
         public let nextToken: String?
-        
+
         public init(assignmentId: String? = nil, hITId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.assignmentId = assignmentId
             self.hITId = hITId
@@ -1205,7 +1195,7 @@ extension MTurk {
         public let nextToken: String?
         /// The number of bonus payments on this page in the filtered results list, equivalent to the number of bonus payments being returned by this call. 
         public let numResults: Int32?
-        
+
         public init(bonusPayments: [BonusPayment]? = nil, nextToken: String? = nil, numResults: Int32? = nil) {
             self.bonusPayments = bonusPayments
             self.nextToken = nextToken
@@ -1231,7 +1221,7 @@ extension MTurk {
         public let nextToken: String?
         ///  The ID of the Qualification type to use when querying HITs. 
         public let qualificationTypeId: String
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, qualificationTypeId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1256,7 +1246,7 @@ extension MTurk {
         public let nextToken: String?
         ///  The number of HITs on this page in the filtered results list, equivalent to the number of HITs being returned by this call. 
         public let numResults: Int32?
-        
+
         public init(hITs: [HIT]? = nil, nextToken: String? = nil, numResults: Int32? = nil) {
             self.hITs = hITs
             self.nextToken = nextToken
@@ -1278,7 +1268,7 @@ extension MTurk {
         public let maxResults: Int32?
         /// Pagination token
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1301,7 +1291,7 @@ extension MTurk {
         public let nextToken: String?
         /// The number of HITs on this page in the filtered results list, equivalent to the number of HITs being returned by this call.
         public let numResults: Int32?
-        
+
         public init(hITs: [HIT]? = nil, nextToken: String? = nil, numResults: Int32? = nil) {
             self.hITs = hITs
             self.nextToken = nextToken
@@ -1326,7 +1316,7 @@ extension MTurk {
         public let nextToken: String?
         /// The ID of the QualificationType.
         public let qualificationTypeId: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, qualificationTypeId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1351,7 +1341,7 @@ extension MTurk {
         public let numResults: Int32?
         /// The Qualification request. The response includes one QualificationRequest element for each Qualification request returned by the query.
         public let qualificationRequests: [QualificationRequest]?
-        
+
         public init(nextToken: String? = nil, numResults: Int32? = nil, qualificationRequests: [QualificationRequest]? = nil) {
             self.nextToken = nextToken
             self.numResults = numResults
@@ -1382,7 +1372,7 @@ extension MTurk {
         public let nextToken: String?
         ///  A text query against all of the searchable attributes of Qualification types. 
         public let query: String?
-        
+
         public init(maxResults: Int32? = nil, mustBeOwnedByCaller: Bool? = nil, mustBeRequestable: Bool, nextToken: String? = nil, query: String? = nil) {
             self.maxResults = maxResults
             self.mustBeOwnedByCaller = mustBeOwnedByCaller
@@ -1411,7 +1401,7 @@ extension MTurk {
         public let numResults: Int32?
         ///  The list of QualificationType elements returned by the query. 
         public let qualificationTypes: [QualificationType]?
-        
+
         public init(nextToken: String? = nil, numResults: Int32? = nil, qualificationTypes: [QualificationType]? = nil) {
             self.nextToken = nextToken
             self.numResults = numResults
@@ -1446,7 +1436,7 @@ extension MTurk {
         public let retrieveActions: Bool?
         ///  Specify if the operation should retrieve a list of the results computed by the Review Policies. 
         public let retrieveResults: Bool?
-        
+
         public init(hITId: String, maxResults: Int32? = nil, nextToken: String? = nil, policyLevels: [ReviewPolicyLevel]? = nil, retrieveActions: Bool? = nil, retrieveResults: Bool? = nil) {
             self.hITId = hITId
             self.maxResults = maxResults
@@ -1486,7 +1476,7 @@ extension MTurk {
         /// Contains both ReviewResult and ReviewAction elements for a particular HIT. 
         public let hITReviewReport: ReviewReport?
         public let nextToken: String?
-        
+
         public init(assignmentReviewPolicy: ReviewPolicy? = nil, assignmentReviewReport: ReviewReport? = nil, hITId: String? = nil, hITReviewPolicy: ReviewPolicy? = nil, hITReviewReport: ReviewReport? = nil, nextToken: String? = nil) {
             self.assignmentReviewPolicy = assignmentReviewPolicy
             self.assignmentReviewReport = assignmentReviewReport
@@ -1521,7 +1511,7 @@ extension MTurk {
         public let nextToken: String?
         ///  Can be either Reviewable or Reviewing. Reviewable is the default value. 
         public let status: ReviewableHITStatus?
-        
+
         public init(hITTypeId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, status: ReviewableHITStatus? = nil) {
             self.hITTypeId = hITTypeId
             self.maxResults = maxResults
@@ -1548,7 +1538,7 @@ extension MTurk {
         public let nextToken: String?
         ///  The number of HITs on this page in the filtered results list, equivalent to the number of HITs being returned by this call. 
         public let numResults: Int32?
-        
+
         public init(hITs: [HIT]? = nil, nextToken: String? = nil, numResults: Int32? = nil) {
             self.hITs = hITs
             self.nextToken = nextToken
@@ -1570,7 +1560,7 @@ extension MTurk {
         public let maxResults: Int32?
         /// Pagination token
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1593,7 +1583,7 @@ extension MTurk {
         public let numResults: Int32?
         ///  The list of WorkerBlocks, containing the collection of Worker IDs and reasons for blocking.
         public let workerBlocks: [WorkerBlock]?
-        
+
         public init(nextToken: String? = nil, numResults: Int32? = nil, workerBlocks: [WorkerBlock]? = nil) {
             self.nextToken = nextToken
             self.numResults = numResults
@@ -1622,7 +1612,7 @@ extension MTurk {
         public let qualificationTypeId: String
         ///  The status of the Qualifications to return. Can be Granted | Revoked. 
         public let status: QualificationStatus?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, qualificationTypeId: String, status: QualificationStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1649,7 +1639,7 @@ extension MTurk {
         public let numResults: Int32?
         ///  The list of Qualification elements returned by this call. 
         public let qualifications: [Qualification]?
-        
+
         public init(nextToken: String? = nil, numResults: Int32? = nil, qualifications: [Qualification]? = nil) {
             self.nextToken = nextToken
             self.numResults = numResults
@@ -1672,7 +1662,7 @@ extension MTurk {
         public let country: String
         /// The state or subdivision of the locale. A valid ISO 3166-2 subdivision code. For example, the code WA refers to the state of Washington.
         public let subdivision: String?
-        
+
         public init(country: String, subdivision: String? = nil) {
             self.country = country
             self.subdivision = subdivision
@@ -1699,7 +1689,7 @@ extension MTurk {
         public let transport: NotificationTransport
         /// The version of the Notification API to use. Valid value is 2006-05-05.
         public let version: String
-        
+
         public init(destination: String, eventTypes: [EventType], transport: NotificationTransport, version: String) {
             self.destination = destination
             self.eventTypes = eventTypes
@@ -1740,7 +1730,7 @@ extension MTurk {
         public let notifyWorkersFailureMessage: String?
         ///  The ID of the Worker.
         public let workerId: String?
-        
+
         public init(notifyWorkersFailureCode: NotifyWorkersFailureCode? = nil, notifyWorkersFailureMessage: String? = nil, workerId: String? = nil) {
             self.notifyWorkersFailureCode = notifyWorkersFailureCode
             self.notifyWorkersFailureMessage = notifyWorkersFailureMessage
@@ -1766,7 +1756,7 @@ extension MTurk {
         public let subject: String
         /// A list of Worker IDs you wish to notify. You can notify upto 100 Workers at a time.
         public let workerIds: [String]
-        
+
         public init(messageText: String, subject: String, workerIds: [String]) {
             self.messageText = messageText
             self.subject = subject
@@ -1786,7 +1776,7 @@ extension MTurk {
         ]
         ///  When MTurk sends notifications to the list of Workers, it returns back any failures it encounters in this list of NotifyWorkersFailureStatus objects. 
         public let notifyWorkersFailureStatuses: [NotifyWorkersFailureStatus]?
-        
+
         public init(notifyWorkersFailureStatuses: [NotifyWorkersFailureStatus]? = nil) {
             self.notifyWorkersFailureStatuses = notifyWorkersFailureStatuses
         }
@@ -1805,7 +1795,7 @@ extension MTurk {
         public let key: String?
         ///  The list of answers to the question specified in the MapEntry Key element. The Worker must match all values in order for the answer to be scored correctly. 
         public let values: [String]?
-        
+
         public init(key: String? = nil, values: [String]? = nil) {
             self.key = key
             self.values = values
@@ -1829,7 +1819,7 @@ extension MTurk {
         public let mapEntries: [ParameterMapEntry]?
         ///  The list of values of the Parameter
         public let values: [String]?
-        
+
         public init(key: String? = nil, mapEntries: [ParameterMapEntry]? = nil, values: [String]? = nil) {
             self.key = key
             self.mapEntries = mapEntries
@@ -1863,7 +1853,7 @@ extension MTurk {
         public let status: QualificationStatus?
         ///  The ID of the Worker who possesses the Qualification. 
         public let workerId: String?
-        
+
         public init(grantTime: TimeStamp? = nil, integerValue: Int32? = nil, localeValue: Locale? = nil, qualificationTypeId: String? = nil, status: QualificationStatus? = nil, workerId: String? = nil) {
             self.grantTime = grantTime
             self.integerValue = integerValue
@@ -1904,7 +1894,7 @@ extension MTurk {
         public let test: String?
         ///  The ID of the Worker requesting the Qualification.
         public let workerId: String?
-        
+
         public init(answer: String? = nil, qualificationRequestId: String? = nil, qualificationTypeId: String? = nil, submitTime: TimeStamp? = nil, test: String? = nil, workerId: String? = nil) {
             self.answer = answer
             self.qualificationRequestId = qualificationRequestId
@@ -1942,7 +1932,7 @@ extension MTurk {
         public let localeValues: [Locale]?
         ///  The ID of the Qualification type for the requirement.
         public let qualificationTypeId: String
-        
+
         public init(actionsGuarded: HITAccessActions? = nil, comparator: Comparator, integerValues: [Int32]? = nil, localeValues: [Locale]? = nil, qualificationTypeId: String) {
             self.actionsGuarded = actionsGuarded
             self.comparator = comparator
@@ -2008,7 +1998,7 @@ extension MTurk {
         public let test: String?
         ///  The amount of time, in seconds, given to a Worker to complete the Qualification test, beginning from the time the Worker requests the Qualification. 
         public let testDurationInSeconds: Int64?
-        
+
         public init(answerKey: String? = nil, autoGranted: Bool? = nil, autoGrantedValue: Int32? = nil, creationTime: TimeStamp? = nil, description: String? = nil, isRequestable: Bool? = nil, keywords: String? = nil, name: String? = nil, qualificationTypeId: String? = nil, qualificationTypeStatus: QualificationTypeStatus? = nil, retryDelayInSeconds: Int64? = nil, test: String? = nil, testDurationInSeconds: Int64? = nil) {
             self.answerKey = answerKey
             self.autoGranted = autoGranted
@@ -2057,7 +2047,7 @@ extension MTurk {
         public let assignmentId: String
         ///  A message for the Worker, which the Worker can see in the Status section of the web site. 
         public let requesterFeedback: String
-        
+
         public init(assignmentId: String, requesterFeedback: String) {
             self.assignmentId = assignmentId
             self.requesterFeedback = requesterFeedback
@@ -2070,12 +2060,11 @@ extension MTurk {
     }
 
     public struct RejectAssignmentResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct RejectQualificationRequestRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2086,7 +2075,7 @@ extension MTurk {
         public let qualificationRequestId: String
         /// A text message explaining why the request was rejected, to be shown to the Worker who made the request.
         public let reason: String?
-        
+
         public init(qualificationRequestId: String, reason: String? = nil) {
             self.qualificationRequestId = qualificationRequestId
             self.reason = reason
@@ -2099,12 +2088,11 @@ extension MTurk {
     }
 
     public struct RejectQualificationRequestResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct ReviewActionDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2133,7 +2121,7 @@ extension MTurk {
         public let targetId: String?
         ///  The type of object in TargetId.
         public let targetType: String?
-        
+
         public init(actionId: String? = nil, actionName: String? = nil, completeTime: TimeStamp? = nil, errorCode: String? = nil, result: String? = nil, status: ReviewActionStatus? = nil, targetId: String? = nil, targetType: String? = nil) {
             self.actionId = actionId
             self.actionName = actionName
@@ -2174,7 +2162,7 @@ extension MTurk {
         public let parameters: [PolicyParameter]?
         ///  Name of a Review Policy: SimplePlurality/2011-09-01 or ScoreMyKnownAnswers/2011-09-01 
         public let policyName: String
-        
+
         public init(parameters: [PolicyParameter]? = nil, policyName: String) {
             self.parameters = parameters
             self.policyName = policyName
@@ -2201,7 +2189,7 @@ extension MTurk {
         public let reviewActions: [ReviewActionDetail]?
         ///  A list of ReviewResults objects for each action specified in the Review Policy. 
         public let reviewResults: [ReviewResultDetail]?
-        
+
         public init(reviewActions: [ReviewActionDetail]? = nil, reviewResults: [ReviewResultDetail]? = nil) {
             self.reviewActions = reviewActions
             self.reviewResults = reviewResults
@@ -2234,7 +2222,7 @@ extension MTurk {
         public let subjectType: String?
         ///  The values of Key provided by the review policies you have selected. 
         public let value: String?
-        
+
         public init(actionId: String? = nil, key: String? = nil, questionId: String? = nil, subjectId: String? = nil, subjectType: String? = nil, value: String? = nil) {
             self.actionId = actionId
             self.key = key
@@ -2278,7 +2266,7 @@ extension MTurk {
         public let uniqueRequestToken: String?
         /// The ID of the Worker being paid the bonus.
         public let workerId: String
-        
+
         public init(assignmentId: String, bonusAmount: String, reason: String, uniqueRequestToken: String? = nil, workerId: String) {
             self.assignmentId = assignmentId
             self.bonusAmount = bonusAmount
@@ -2297,12 +2285,11 @@ extension MTurk {
     }
 
     public struct SendBonusResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct SendTestEventNotificationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2313,7 +2300,7 @@ extension MTurk {
         public let notification: NotificationSpecification
         ///  The event to simulate to test the notification specification. This event is included in the test message even if the notification specification does not include the event type. The notification specification does not filter out the test event. 
         public let testEventType: EventType
-        
+
         public init(notification: NotificationSpecification, testEventType: EventType) {
             self.notification = notification
             self.testEventType = testEventType
@@ -2326,12 +2313,11 @@ extension MTurk {
     }
 
     public struct SendTestEventNotificationResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateExpirationForHITRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2342,7 +2328,7 @@ extension MTurk {
         public let expireAt: TimeStamp
         ///  The HIT to update. 
         public let hITId: String
-        
+
         public init(expireAt: TimeStamp, hITId: String) {
             self.expireAt = expireAt
             self.hITId = hITId
@@ -2355,12 +2341,11 @@ extension MTurk {
     }
 
     public struct UpdateExpirationForHITResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateHITReviewStatusRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2371,7 +2356,7 @@ extension MTurk {
         public let hITId: String
         ///  Specifies how to update the HIT status. Default is False.     Setting this to false will only transition a HIT from Reviewable to Reviewing     Setting this to true will only transition a HIT from Reviewing to Reviewable   
         public let revert: Bool?
-        
+
         public init(hITId: String, revert: Bool? = nil) {
             self.hITId = hITId
             self.revert = revert
@@ -2384,12 +2369,11 @@ extension MTurk {
     }
 
     public struct UpdateHITReviewStatusResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateHITTypeOfHITRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2400,7 +2384,7 @@ extension MTurk {
         public let hITId: String
         /// The ID of the new HIT type.
         public let hITTypeId: String
-        
+
         public init(hITId: String, hITTypeId: String) {
             self.hITId = hITId
             self.hITTypeId = hITTypeId
@@ -2413,12 +2397,11 @@ extension MTurk {
     }
 
     public struct UpdateHITTypeOfHITResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateNotificationSettingsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2432,7 +2415,7 @@ extension MTurk {
         public let hITTypeId: String
         ///  The notification specification for the HIT type. 
         public let notification: NotificationSpecification?
-        
+
         public init(active: Bool? = nil, hITTypeId: String, notification: NotificationSpecification? = nil) {
             self.active = active
             self.hITTypeId = hITTypeId
@@ -2447,12 +2430,11 @@ extension MTurk {
     }
 
     public struct UpdateNotificationSettingsResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateQualificationTypeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2484,7 +2466,7 @@ extension MTurk {
         public let test: String?
         /// The number of seconds the Worker has to complete the Qualification test, starting from the time the Worker requests the Qualification.
         public let testDurationInSeconds: Int64?
-        
+
         public init(answerKey: String? = nil, autoGranted: Bool? = nil, autoGrantedValue: Int32? = nil, description: String? = nil, qualificationTypeId: String, qualificationTypeStatus: QualificationTypeStatus? = nil, retryDelayInSeconds: Int64? = nil, test: String? = nil, testDurationInSeconds: Int64? = nil) {
             self.answerKey = answerKey
             self.autoGranted = autoGranted
@@ -2516,7 +2498,7 @@ extension MTurk {
         ]
         ///  Contains a QualificationType data structure.
         public let qualificationType: QualificationType?
-        
+
         public init(qualificationType: QualificationType? = nil) {
             self.qualificationType = qualificationType
         }
@@ -2535,7 +2517,7 @@ extension MTurk {
         public let reason: String?
         ///  The ID of the Worker who accepted the HIT.
         public let workerId: String?
-        
+
         public init(reason: String? = nil, workerId: String? = nil) {
             self.reason = reason
             self.workerId = workerId
@@ -2546,5 +2528,4 @@ extension MTurk {
             case workerId = "WorkerId"
         }
     }
-
 }

@@ -130,5 +130,4 @@ public struct DAX {
     public func updateSubnetGroup(_ input: UpdateSubnetGroupRequest) throws -> Future<UpdateSubnetGroupResponse> {
         return try client.send(operation: "UpdateSubnetGroup", path: "/", httpMethod: "POST", input: input)
     }
-
 }

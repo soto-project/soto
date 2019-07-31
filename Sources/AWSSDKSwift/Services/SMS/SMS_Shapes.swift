@@ -103,7 +103,7 @@ extension SMS {
         public let totalServerGroups: Int32?
         /// Number of servers present in the application.
         public let totalServers: Int32?
-        
+
         public init(appId: String? = nil, creationTime: TimeStamp? = nil, description: String? = nil, lastModified: TimeStamp? = nil, latestReplicationTime: TimeStamp? = nil, launchDetails: LaunchDetails? = nil, launchStatus: AppLaunchStatus? = nil, launchStatusMessage: String? = nil, name: String? = nil, replicationStatus: AppReplicationStatus? = nil, replicationStatusMessage: String? = nil, roleName: String? = nil, status: AppStatus? = nil, statusMessage: String? = nil, totalServerGroups: Int32? = nil, totalServers: Int32? = nil) {
             self.appId = appId
             self.creationTime = creationTime
@@ -176,7 +176,7 @@ extension SMS {
         public let vmManagerName: String?
         /// The VM management product.
         public let vmManagerType: VmManagerType?
-        
+
         public init(associatedOn: TimeStamp? = nil, capabilityList: [ConnectorCapability]? = nil, connectorId: String? = nil, ipAddress: String? = nil, macAddress: String? = nil, status: ConnectorStatus? = nil, version: String? = nil, vmManagerId: String? = nil, vmManagerName: String? = nil, vmManagerType: VmManagerType? = nil) {
             self.associatedOn = associatedOn
             self.capabilityList = capabilityList
@@ -239,7 +239,7 @@ extension SMS {
         public let serverGroups: [ServerGroup]?
         /// List of tags to be associated with the application.
         public let tags: [Tag]?
-        
+
         public init(clientToken: String? = nil, description: String? = nil, name: String? = nil, roleName: String? = nil, serverGroups: [ServerGroup]? = nil, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -271,7 +271,7 @@ extension SMS {
         public let serverGroups: [ServerGroup]?
         /// List of taags associated with the application.
         public let tags: [Tag]?
-        
+
         public init(appSummary: AppSummary? = nil, serverGroups: [ServerGroup]? = nil, tags: [Tag]? = nil) {
             self.appSummary = appSummary
             self.serverGroups = serverGroups
@@ -317,7 +317,7 @@ extension SMS {
         public let seedReplicationTime: TimeStamp
         /// The identifier of the server.
         public let serverId: String
-        
+
         public init(description: String? = nil, encrypted: Bool? = nil, frequency: Int32? = nil, kmsKeyId: String? = nil, licenseType: LicenseType? = nil, numberOfRecentAmisToKeep: Int32? = nil, roleName: String? = nil, runOnce: Bool? = nil, seedReplicationTime: TimeStamp, serverId: String) {
             self.description = description
             self.encrypted = encrypted
@@ -351,7 +351,7 @@ extension SMS {
         ]
         /// The unique identifier of the replication job.
         public let replicationJobId: String?
-        
+
         public init(replicationJobId: String? = nil) {
             self.replicationJobId = replicationJobId
         }
@@ -367,7 +367,7 @@ extension SMS {
         ]
         /// ID of the application associated with the launch configuration.
         public let appId: String?
-        
+
         public init(appId: String? = nil) {
             self.appId = appId
         }
@@ -378,12 +378,11 @@ extension SMS {
     }
 
     public struct DeleteAppLaunchConfigurationResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteAppReplicationConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -391,7 +390,7 @@ extension SMS {
         ]
         /// ID of the application associated with the replication configuration.
         public let appId: String?
-        
+
         public init(appId: String? = nil) {
             self.appId = appId
         }
@@ -402,12 +401,11 @@ extension SMS {
     }
 
     public struct DeleteAppReplicationConfigurationResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteAppRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -421,7 +419,7 @@ extension SMS {
         public let forceStopAppReplication: Bool?
         /// While deleting the application, terminate the stack corresponding to the application.
         public let forceTerminateApp: Bool?
-        
+
         public init(appId: String? = nil, forceStopAppReplication: Bool? = nil, forceTerminateApp: Bool? = nil) {
             self.appId = appId
             self.forceStopAppReplication = forceStopAppReplication
@@ -436,12 +434,11 @@ extension SMS {
     }
 
     public struct DeleteAppResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteReplicationJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -449,7 +446,7 @@ extension SMS {
         ]
         /// The identifier of the replication job.
         public let replicationJobId: String
-        
+
         public init(replicationJobId: String) {
             self.replicationJobId = replicationJobId
         }
@@ -460,28 +457,25 @@ extension SMS {
     }
 
     public struct DeleteReplicationJobResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteServerCatalogRequest: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteServerCatalogResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DisassociateConnectorRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -489,7 +483,7 @@ extension SMS {
         ]
         /// The identifier of the connector.
         public let connectorId: String
-        
+
         public init(connectorId: String) {
             self.connectorId = connectorId
         }
@@ -500,12 +494,11 @@ extension SMS {
     }
 
     public struct DisassociateConnectorResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct GenerateChangeSetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -516,7 +509,7 @@ extension SMS {
         public let appId: String?
         /// Format for the change set.
         public let changesetFormat: OutputFormat?
-        
+
         public init(appId: String? = nil, changesetFormat: OutputFormat? = nil) {
             self.appId = appId
             self.changesetFormat = changesetFormat
@@ -534,7 +527,7 @@ extension SMS {
         ]
         /// Location of the Amazon S3 object.
         public let s3Location: S3Location?
-        
+
         public init(s3Location: S3Location? = nil) {
             self.s3Location = s3Location
         }
@@ -553,7 +546,7 @@ extension SMS {
         public let appId: String?
         /// Format for generating the Amazon CloudFormation template.
         public let templateFormat: OutputFormat?
-        
+
         public init(appId: String? = nil, templateFormat: OutputFormat? = nil) {
             self.appId = appId
             self.templateFormat = templateFormat
@@ -571,7 +564,7 @@ extension SMS {
         ]
         /// Location of the Amazon S3 object.
         public let s3Location: S3Location?
-        
+
         public init(s3Location: S3Location? = nil) {
             self.s3Location = s3Location
         }
@@ -587,7 +580,7 @@ extension SMS {
         ]
         /// ID of the application launch configuration.
         public let appId: String?
-        
+
         public init(appId: String? = nil) {
             self.appId = appId
         }
@@ -609,7 +602,7 @@ extension SMS {
         public let roleName: String?
         /// List of launch configurations for server groups in this application.
         public let serverGroupLaunchConfigurations: [ServerGroupLaunchConfiguration]?
-        
+
         public init(appId: String? = nil, roleName: String? = nil, serverGroupLaunchConfigurations: [ServerGroupLaunchConfiguration]? = nil) {
             self.appId = appId
             self.roleName = roleName
@@ -629,7 +622,7 @@ extension SMS {
         ]
         /// ID of the application associated with the replication configuration.
         public let appId: String?
-        
+
         public init(appId: String? = nil) {
             self.appId = appId
         }
@@ -645,7 +638,7 @@ extension SMS {
         ]
         /// Replication configurations associated with server groups in this application.
         public let serverGroupReplicationConfigurations: [ServerGroupReplicationConfiguration]?
-        
+
         public init(serverGroupReplicationConfigurations: [ServerGroupReplicationConfiguration]? = nil) {
             self.serverGroupReplicationConfigurations = serverGroupReplicationConfigurations
         }
@@ -661,7 +654,7 @@ extension SMS {
         ]
         /// ID of the application whose information is being retrieved.
         public let appId: String?
-        
+
         public init(appId: String? = nil) {
             self.appId = appId
         }
@@ -683,7 +676,7 @@ extension SMS {
         public let serverGroups: [ServerGroup]?
         /// List of tags associated with the application.
         public let tags: [Tag]?
-        
+
         public init(appSummary: AppSummary? = nil, serverGroups: [ServerGroup]? = nil, tags: [Tag]? = nil) {
             self.appSummary = appSummary
             self.serverGroups = serverGroups
@@ -706,7 +699,7 @@ extension SMS {
         public let maxResults: Int32?
         /// The token for the next set of results.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -727,7 +720,7 @@ extension SMS {
         public let connectorList: [Connector]?
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
         public let nextToken: String?
-        
+
         public init(connectorList: [Connector]? = nil, nextToken: String? = nil) {
             self.connectorList = connectorList
             self.nextToken = nextToken
@@ -751,7 +744,7 @@ extension SMS {
         public let nextToken: String?
         /// The identifier of the replication job.
         public let replicationJobId: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, replicationJobId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -774,7 +767,7 @@ extension SMS {
         public let nextToken: String?
         /// Information about the replication jobs.
         public let replicationJobList: [ReplicationJob]?
-        
+
         public init(nextToken: String? = nil, replicationJobList: [ReplicationJob]? = nil) {
             self.nextToken = nextToken
             self.replicationJobList = replicationJobList
@@ -798,7 +791,7 @@ extension SMS {
         public let nextToken: String?
         /// The identifier of the replication job.
         public let replicationJobId: String
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, replicationJobId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -824,7 +817,7 @@ extension SMS {
         public let replicationJob: ReplicationJob?
         /// Information about the replication runs.
         public let replicationRunList: [ReplicationRun]?
-        
+
         public init(nextToken: String? = nil, replicationJob: ReplicationJob? = nil, replicationRunList: [ReplicationRun]? = nil) {
             self.nextToken = nextToken
             self.replicationJob = replicationJob
@@ -850,7 +843,7 @@ extension SMS {
         public let nextToken: String?
         /// List of VmServerAddress objects
         public let vmServerAddressList: [VmServerAddress]?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, vmServerAddressList: [VmServerAddress]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -879,7 +872,7 @@ extension SMS {
         public let serverCatalogStatus: ServerCatalogStatus?
         /// Information about the servers.
         public let serverList: [Server]?
-        
+
         public init(lastModifiedOn: TimeStamp? = nil, nextToken: String? = nil, serverCatalogStatus: ServerCatalogStatus? = nil, serverList: [Server]? = nil) {
             self.lastModifiedOn = lastModifiedOn
             self.nextToken = nextToken
@@ -896,20 +889,18 @@ extension SMS {
     }
 
     public struct ImportServerCatalogRequest: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct ImportServerCatalogResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct LaunchAppRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -917,7 +908,7 @@ extension SMS {
         ]
         /// ID of the application to launch.
         public let appId: String?
-        
+
         public init(appId: String? = nil) {
             self.appId = appId
         }
@@ -928,12 +919,11 @@ extension SMS {
     }
 
     public struct LaunchAppResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct LaunchDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -947,7 +937,7 @@ extension SMS {
         public let stackId: String?
         /// Name of the latest stack launched for this application.
         public let stackName: String?
-        
+
         public init(latestLaunchTime: TimeStamp? = nil, stackId: String? = nil, stackName: String? = nil) {
             self.latestLaunchTime = latestLaunchTime
             self.stackId = stackId
@@ -978,7 +968,7 @@ extension SMS {
         public let maxResults: Int32?
         /// The token for the next set of results.
         public let nextToken: String?
-        
+
         public init(appIds: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.appIds = appIds
             self.maxResults = maxResults
@@ -1001,7 +991,7 @@ extension SMS {
         public let apps: [AppSummary]?
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
         public let nextToken: String?
-        
+
         public init(apps: [AppSummary]? = nil, nextToken: String? = nil) {
             self.apps = apps
             self.nextToken = nextToken
@@ -1031,7 +1021,7 @@ extension SMS {
         public let roleName: String?
         /// Launch configurations for server groups in the application.
         public let serverGroupLaunchConfigurations: [ServerGroupLaunchConfiguration]?
-        
+
         public init(appId: String? = nil, roleName: String? = nil, serverGroupLaunchConfigurations: [ServerGroupLaunchConfiguration]? = nil) {
             self.appId = appId
             self.roleName = roleName
@@ -1046,12 +1036,11 @@ extension SMS {
     }
 
     public struct PutAppLaunchConfigurationResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct PutAppReplicationConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1062,7 +1051,7 @@ extension SMS {
         public let appId: String?
         /// Replication configurations for server groups in the application.
         public let serverGroupReplicationConfigurations: [ServerGroupReplicationConfiguration]?
-        
+
         public init(appId: String? = nil, serverGroupReplicationConfigurations: [ServerGroupReplicationConfiguration]? = nil) {
             self.appId = appId
             self.serverGroupReplicationConfigurations = serverGroupReplicationConfigurations
@@ -1075,12 +1064,11 @@ extension SMS {
     }
 
     public struct PutAppReplicationConfigurationResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct ReplicationJob: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1138,7 +1126,7 @@ extension SMS {
         public let statusMessage: String?
         /// Information about the VM server.
         public let vmServer: VmServer?
-        
+
         public init(description: String? = nil, encrypted: Bool? = nil, frequency: Int32? = nil, kmsKeyId: String? = nil, latestAmiId: String? = nil, licenseType: LicenseType? = nil, nextReplicationRunStartTime: TimeStamp? = nil, numberOfRecentAmisToKeep: Int32? = nil, replicationJobId: String? = nil, replicationRunList: [ReplicationRun]? = nil, roleName: String? = nil, runOnce: Bool? = nil, seedReplicationTime: TimeStamp? = nil, serverId: String? = nil, serverType: ServerType? = nil, state: ReplicationJobState? = nil, statusMessage: String? = nil, vmServer: VmServer? = nil) {
             self.description = description
             self.encrypted = encrypted
@@ -1230,7 +1218,7 @@ extension SMS {
         public let statusMessage: String?
         /// The type of replication run.
         public let `type`: ReplicationRunType?
-        
+
         public init(amiId: String? = nil, completedTime: TimeStamp? = nil, description: String? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, replicationRunId: String? = nil, scheduledStartTime: TimeStamp? = nil, stageDetails: ReplicationRunStageDetails? = nil, state: ReplicationRunState? = nil, statusMessage: String? = nil, type: ReplicationRunType? = nil) {
             self.amiId = amiId
             self.completedTime = completedTime
@@ -1269,7 +1257,7 @@ extension SMS {
         public let stage: String?
         /// String describing the progress of the current stage of a replication run.
         public let stageProgress: String?
-        
+
         public init(stage: String? = nil, stageProgress: String? = nil) {
             self.stage = stage
             self.stageProgress = stageProgress
@@ -1307,7 +1295,7 @@ extension SMS {
         public let bucket: String?
         /// Amazon S3 bucket key.
         public let key: String?
-        
+
         public init(bucket: String? = nil, key: String? = nil) {
             self.bucket = bucket
             self.key = key
@@ -1337,7 +1325,7 @@ extension SMS {
         public let serverType: ServerType?
         /// Information about the VM server.
         public let vmServer: VmServer?
-        
+
         public init(replicationJobId: String? = nil, replicationJobTerminated: Bool? = nil, serverId: String? = nil, serverType: ServerType? = nil, vmServer: VmServer? = nil) {
             self.replicationJobId = replicationJobId
             self.replicationJobTerminated = replicationJobTerminated
@@ -1376,7 +1364,7 @@ extension SMS {
         public let serverGroupId: String?
         /// List of servers belonging to a server group.
         public let serverList: [Server]?
-        
+
         public init(name: String? = nil, serverGroupId: String? = nil, serverList: [Server]? = nil) {
             self.name = name
             self.serverGroupId = serverGroupId
@@ -1402,7 +1390,7 @@ extension SMS {
         public let serverGroupId: String?
         /// Launch configuration for servers in the server group.
         public let serverLaunchConfigurations: [ServerLaunchConfiguration]?
-        
+
         public init(launchOrder: Int32? = nil, serverGroupId: String? = nil, serverLaunchConfigurations: [ServerLaunchConfiguration]? = nil) {
             self.launchOrder = launchOrder
             self.serverGroupId = serverGroupId
@@ -1425,7 +1413,7 @@ extension SMS {
         public let serverGroupId: String?
         /// Replication configuration for servers in the server group.
         public let serverReplicationConfigurations: [ServerReplicationConfiguration]?
-        
+
         public init(serverGroupId: String? = nil, serverReplicationConfigurations: [ServerReplicationConfiguration]? = nil) {
             self.serverGroupId = serverGroupId
             self.serverReplicationConfigurations = serverReplicationConfigurations
@@ -1467,7 +1455,7 @@ extension SMS {
         public let userData: UserData?
         /// Identifier of the VPC the server should be launched into.
         public let vpc: String?
-        
+
         public init(associatePublicIpAddress: Bool? = nil, ec2KeyName: String? = nil, instanceType: String? = nil, logicalId: String? = nil, securityGroup: String? = nil, server: Server? = nil, subnet: String? = nil, userData: UserData? = nil, vpc: String? = nil) {
             self.associatePublicIpAddress = associatePublicIpAddress
             self.ec2KeyName = ec2KeyName
@@ -1502,7 +1490,7 @@ extension SMS {
         public let server: Server?
         /// Parameters for replicating the server.
         public let serverReplicationParameters: ServerReplicationParameters?
-        
+
         public init(server: Server? = nil, serverReplicationParameters: ServerReplicationParameters? = nil) {
             self.server = server
             self.serverReplicationParameters = serverReplicationParameters
@@ -1537,7 +1525,7 @@ extension SMS {
         public let runOnce: Bool?
         /// Seed time for creating a replication job for the server.
         public let seedTime: TimeStamp?
-        
+
         public init(encrypted: Bool? = nil, frequency: Int32? = nil, kmsKeyId: String? = nil, licenseType: LicenseType? = nil, numberOfRecentAmisToKeep: Int32? = nil, runOnce: Bool? = nil, seedTime: TimeStamp? = nil) {
             self.encrypted = encrypted
             self.frequency = frequency
@@ -1570,7 +1558,7 @@ extension SMS {
         ]
         /// ID of the application to replicate.
         public let appId: String?
-        
+
         public init(appId: String? = nil) {
             self.appId = appId
         }
@@ -1581,12 +1569,11 @@ extension SMS {
     }
 
     public struct StartAppReplicationResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct StartOnDemandReplicationRunRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1597,7 +1584,7 @@ extension SMS {
         public let description: String?
         /// The identifier of the replication job.
         public let replicationJobId: String
-        
+
         public init(description: String? = nil, replicationJobId: String) {
             self.description = description
             self.replicationJobId = replicationJobId
@@ -1615,7 +1602,7 @@ extension SMS {
         ]
         /// The identifier of the replication run.
         public let replicationRunId: String?
-        
+
         public init(replicationRunId: String? = nil) {
             self.replicationRunId = replicationRunId
         }
@@ -1631,7 +1618,7 @@ extension SMS {
         ]
         /// ID of the application to stop replicating.
         public let appId: String?
-        
+
         public init(appId: String? = nil) {
             self.appId = appId
         }
@@ -1642,12 +1629,11 @@ extension SMS {
     }
 
     public struct StopAppReplicationResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1658,7 +1644,7 @@ extension SMS {
         public let key: String?
         /// Tag value.
         public let value: String?
-        
+
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1676,7 +1662,7 @@ extension SMS {
         ]
         /// ID of the application to terminate.
         public let appId: String?
-        
+
         public init(appId: String? = nil) {
             self.appId = appId
         }
@@ -1687,12 +1673,11 @@ extension SMS {
     }
 
     public struct TerminateAppResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateAppRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1715,7 +1700,7 @@ extension SMS {
         public let serverGroups: [ServerGroup]?
         /// List of tags to associate with the application.
         public let tags: [Tag]?
-        
+
         public init(appId: String? = nil, description: String? = nil, name: String? = nil, roleName: String? = nil, serverGroups: [ServerGroup]? = nil, tags: [Tag]? = nil) {
             self.appId = appId
             self.description = description
@@ -1747,7 +1732,7 @@ extension SMS {
         public let serverGroups: [ServerGroup]?
         /// List of tags associated with the application.
         public let tags: [Tag]?
-        
+
         public init(appSummary: AppSummary? = nil, serverGroups: [ServerGroup]? = nil, tags: [Tag]? = nil) {
             self.appSummary = appSummary
             self.serverGroups = serverGroups
@@ -1791,7 +1776,7 @@ extension SMS {
         public let replicationJobId: String
         /// The name of the IAM role to be used by AWS SMS.
         public let roleName: String?
-        
+
         public init(description: String? = nil, encrypted: Bool? = nil, frequency: Int32? = nil, kmsKeyId: String? = nil, licenseType: LicenseType? = nil, nextReplicationRunStartTime: TimeStamp? = nil, numberOfRecentAmisToKeep: Int32? = nil, replicationJobId: String, roleName: String? = nil) {
             self.description = description
             self.encrypted = encrypted
@@ -1818,12 +1803,11 @@ extension SMS {
     }
 
     public struct UpdateReplicationJobResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UserData: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1831,7 +1815,7 @@ extension SMS {
         ]
         /// Amazon S3 location of the user-data script.
         public let s3Location: S3Location?
-        
+
         public init(s3Location: S3Location? = nil) {
             self.s3Location = s3Location
         }
@@ -1866,7 +1850,7 @@ extension SMS {
         public let vmPath: String?
         /// Information about the VM server location.
         public let vmServerAddress: VmServerAddress?
-        
+
         public init(vmManagerName: String? = nil, vmManagerType: VmManagerType? = nil, vmName: String? = nil, vmPath: String? = nil, vmServerAddress: VmServerAddress? = nil) {
             self.vmManagerName = vmManagerName
             self.vmManagerType = vmManagerType
@@ -1893,7 +1877,7 @@ extension SMS {
         public let vmId: String?
         /// The identifier of the VM manager.
         public let vmManagerId: String?
-        
+
         public init(vmId: String? = nil, vmManagerId: String? = nil) {
             self.vmId = vmId
             self.vmManagerId = vmManagerId
@@ -1904,5 +1888,4 @@ extension SMS {
             case vmManagerId = "vmManagerId"
         }
     }
-
 }

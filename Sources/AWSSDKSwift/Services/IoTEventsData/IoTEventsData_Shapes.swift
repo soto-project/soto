@@ -17,7 +17,7 @@ extension IoTEventsData {
         public let errorMessage: String?
         /// The ID of the message that caused the error. (See the value corresponding to the "messageId" key in the "message" object.)
         public let messageId: String?
-        
+
         public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, messageId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -37,7 +37,7 @@ extension IoTEventsData {
         ]
         /// The list of messages to send. Each message has the following format: '{ "messageId": "string", "inputName": "string", "payload": "string"}' 
         public let messages: [Message]
-        
+
         public init(messages: [Message]) {
             self.messages = messages
         }
@@ -53,7 +53,7 @@ extension IoTEventsData {
         ]
         /// A list of any errors encountered when sending the messages.
         public let batchPutMessageErrorEntries: [BatchPutMessageErrorEntry]?
-        
+
         public init(batchPutMessageErrorEntries: [BatchPutMessageErrorEntry]? = nil) {
             self.batchPutMessageErrorEntries = batchPutMessageErrorEntries
         }
@@ -75,7 +75,7 @@ extension IoTEventsData {
         public let errorMessage: String?
         /// The "messageId" of the update request that caused the error. (The value of the "messageId" in the update request "Detector" object.)
         public let messageId: String?
-        
+
         public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, messageId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -95,7 +95,7 @@ extension IoTEventsData {
         ]
         /// The list of detectors (instances) to update, along with the values to update.
         public let detectors: [UpdateDetectorRequest]
-        
+
         public init(detectors: [UpdateDetectorRequest]) {
             self.detectors = detectors
         }
@@ -111,7 +111,7 @@ extension IoTEventsData {
         ]
         /// A list of those detector updates that resulted in errors. (If an error is listed here, the specific update did not occur.)
         public let batchUpdateDetectorErrorEntries: [BatchUpdateDetectorErrorEntry]?
-        
+
         public init(batchUpdateDetectorErrorEntries: [BatchUpdateDetectorErrorEntry]? = nil) {
             self.batchUpdateDetectorErrorEntries = batchUpdateDetectorErrorEntries
         }
@@ -130,7 +130,7 @@ extension IoTEventsData {
         public let detectorModelName: String
         /// A filter used to limit results to detectors (instances) created because of the given key ID.
         public let keyValue: String?
-        
+
         public init(detectorModelName: String, keyValue: String? = nil) {
             self.detectorModelName = detectorModelName
             self.keyValue = keyValue
@@ -148,7 +148,7 @@ extension IoTEventsData {
         ]
         /// Information about the detector (instance).
         public let detector: Detector?
-        
+
         public init(detector: Detector? = nil) {
             self.detector = detector
         }
@@ -179,7 +179,7 @@ extension IoTEventsData {
         public let lastUpdateTime: TimeStamp?
         /// The current state of the detector (instance).
         public let state: DetectorState?
-        
+
         public init(creationTime: TimeStamp? = nil, detectorModelName: String? = nil, detectorModelVersion: String? = nil, keyValue: String? = nil, lastUpdateTime: TimeStamp? = nil, state: DetectorState? = nil) {
             self.creationTime = creationTime
             self.detectorModelName = detectorModelName
@@ -211,7 +211,7 @@ extension IoTEventsData {
         public let timers: [Timer]
         /// The current values of the detector's variables.
         public let variables: [Variable]
-        
+
         public init(stateName: String, timers: [Timer], variables: [Variable]) {
             self.stateName = stateName
             self.timers = timers
@@ -237,7 +237,7 @@ extension IoTEventsData {
         public let timers: [TimerDefinition]
         /// The new values of the detector's variables. Any variable whose value isn't specified is cleared.
         public let variables: [VariableDefinition]
-        
+
         public init(stateName: String, timers: [TimerDefinition], variables: [VariableDefinition]) {
             self.stateName = stateName
             self.timers = timers
@@ -257,7 +257,7 @@ extension IoTEventsData {
         ]
         /// The name of the state.
         public let stateName: String?
-        
+
         public init(stateName: String? = nil) {
             self.stateName = stateName
         }
@@ -288,7 +288,7 @@ extension IoTEventsData {
         public let lastUpdateTime: TimeStamp?
         /// The current state of the detector (instance).
         public let state: DetectorStateSummary?
-        
+
         public init(creationTime: TimeStamp? = nil, detectorModelName: String? = nil, detectorModelVersion: String? = nil, keyValue: String? = nil, lastUpdateTime: TimeStamp? = nil, state: DetectorStateSummary? = nil) {
             self.creationTime = creationTime
             self.detectorModelName = detectorModelName
@@ -332,7 +332,7 @@ extension IoTEventsData {
         public let nextToken: String?
         /// A filter that limits results to those detectors (instances) in the given state.
         public let stateName: String?
-        
+
         public init(detectorModelName: String, maxResults: Int32? = nil, nextToken: String? = nil, stateName: String? = nil) {
             self.detectorModelName = detectorModelName
             self.maxResults = maxResults
@@ -357,7 +357,7 @@ extension IoTEventsData {
         public let detectorSummaries: [DetectorSummary]?
         /// A token to retrieve the next set of results, or null if there are no additional results.
         public let nextToken: String?
-        
+
         public init(detectorSummaries: [DetectorSummary]? = nil, nextToken: String? = nil) {
             self.detectorSummaries = detectorSummaries
             self.nextToken = nextToken
@@ -381,7 +381,7 @@ extension IoTEventsData {
         public let messageId: String
         /// The payload of the message. This can be a JSON string or a Base-64-encoded string representing binary data (in which case you must decode it).
         public let payload: Data
-        
+
         public init(inputName: String, messageId: String, payload: Data) {
             self.inputName = inputName
             self.messageId = messageId
@@ -404,7 +404,7 @@ extension IoTEventsData {
         public let name: String
         /// The number of seconds which have elapsed on the timer.
         public let timestamp: TimeStamp
-        
+
         public init(name: String, timestamp: TimeStamp) {
             self.name = name
             self.timestamp = timestamp
@@ -425,7 +425,7 @@ extension IoTEventsData {
         public let name: String
         /// The new setting of the timer (the number of seconds before the timer elapses).
         public let seconds: Int32
-        
+
         public init(name: String, seconds: Int32) {
             self.name = name
             self.seconds = seconds
@@ -452,7 +452,7 @@ extension IoTEventsData {
         public let messageId: String
         /// The new state, variable values, and timer settings of the detector (instance).
         public let state: DetectorStateDefinition
-        
+
         public init(detectorModelName: String, keyValue: String? = nil, messageId: String, state: DetectorStateDefinition) {
             self.detectorModelName = detectorModelName
             self.keyValue = keyValue
@@ -477,7 +477,7 @@ extension IoTEventsData {
         public let name: String
         /// The current value of the variable.
         public let value: String
-        
+
         public init(name: String, value: String) {
             self.name = name
             self.value = value
@@ -498,7 +498,7 @@ extension IoTEventsData {
         public let name: String
         /// The new value of the variable.
         public let value: String
-        
+
         public init(name: String, value: String) {
             self.name = name
             self.value = value
@@ -509,5 +509,4 @@ extension IoTEventsData {
             case value = "value"
         }
     }
-
 }

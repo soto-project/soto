@@ -55,5 +55,4 @@ public struct AutoScalingPlans {
     public func updateScalingPlan(_ input: UpdateScalingPlanRequest) throws -> Future<UpdateScalingPlanResponse> {
         return try client.send(operation: "UpdateScalingPlan", path: "/", httpMethod: "POST", input: input)
     }
-
 }

@@ -316,5 +316,4 @@ public struct Chime {
     public func updateVoiceConnector(_ input: UpdateVoiceConnectorRequest) throws -> Future<UpdateVoiceConnectorResponse> {
         return try client.send(operation: "UpdateVoiceConnector", path: "/voice-connectors/{voiceConnectorId}", httpMethod: "PUT", input: input)
     }
-
 }

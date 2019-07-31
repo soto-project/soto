@@ -390,5 +390,4 @@ public struct StorageGateway {
     public func updateVTLDeviceType(_ input: UpdateVTLDeviceTypeInput) throws -> Future<UpdateVTLDeviceTypeOutput> {
         return try client.send(operation: "UpdateVTLDeviceType", path: "/", httpMethod: "POST", input: input)
     }
-
 }

@@ -55,5 +55,4 @@ public struct Health {
     public func describeEvents(_ input: DescribeEventsRequest) throws -> Future<DescribeEventsResponse> {
         return try client.send(operation: "DescribeEvents", path: "/", httpMethod: "POST", input: input)
     }
-
 }

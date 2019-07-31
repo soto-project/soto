@@ -115,5 +115,4 @@ public struct CloudWatchEvents {
     public func untagResource(_ input: UntagResourceRequest) throws -> Future<UntagResourceResponse> {
         return try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
-
 }

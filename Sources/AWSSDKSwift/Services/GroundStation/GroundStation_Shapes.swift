@@ -17,7 +17,7 @@ extension GroundStation {
         ]
         /// Object that describes a spectral Config.
         public let spectrumConfig: SpectrumConfig
-        
+
         public init(spectrumConfig: SpectrumConfig) {
             self.spectrumConfig = spectrumConfig
         }
@@ -39,7 +39,7 @@ extension GroundStation {
         public let demodulationConfig: DemodulationConfig
         /// Information about the spectral Config.
         public let spectrumConfig: SpectrumConfig
-        
+
         public init(decodeConfig: DecodeConfig, demodulationConfig: DemodulationConfig, spectrumConfig: SpectrumConfig) {
             self.decodeConfig = decodeConfig
             self.demodulationConfig = demodulationConfig
@@ -62,7 +62,7 @@ extension GroundStation {
         public let spectrumConfig: UplinkSpectrumConfig
         /// EIRP of the target.
         public let targetEirp: Eirp
-        
+
         public init(spectrumConfig: UplinkSpectrumConfig, targetEirp: Eirp) {
             self.spectrumConfig = spectrumConfig
             self.targetEirp = targetEirp
@@ -87,7 +87,7 @@ extension GroundStation {
         ]
         /// UUID of a contact.
         public let contactId: String
-        
+
         public init(contactId: String) {
             self.contactId = contactId
         }
@@ -119,7 +119,7 @@ extension GroundStation {
         public let configId: String?
         /// Type of a Config.
         public let configType: ConfigCapabilityType?
-        
+
         public init(configArn: String? = nil, configId: String? = nil, configType: ConfigCapabilityType? = nil) {
             self.configArn = configArn
             self.configId = configId
@@ -148,7 +148,7 @@ extension GroundStation {
         public let configType: ConfigCapabilityType?
         /// Name of a Config.
         public let name: String?
-        
+
         public init(configArn: String? = nil, configId: String? = nil, configType: ConfigCapabilityType? = nil, name: String? = nil) {
             self.configArn = configArn
             self.configId = configId
@@ -186,7 +186,7 @@ extension GroundStation {
         /// Information about an uplink echo Config.
         ///          Parameters from the AntennaUplinkConfig, corresponding to the specified AntennaUplinkConfigArn, are used when this UplinkEchoConfig is used in a contact.
         public let uplinkEchoConfig: UplinkEchoConfig?
-        
+
         public init(antennaDownlinkConfig: AntennaDownlinkConfig? = nil, antennaDownlinkDemodDecodeConfig: AntennaDownlinkDemodDecodeConfig? = nil, antennaUplinkConfig: AntennaUplinkConfig? = nil, dataflowEndpointConfig: DataflowEndpointConfig? = nil, trackingConfig: TrackingConfig? = nil, uplinkEchoConfig: UplinkEchoConfig? = nil) {
             self.antennaDownlinkConfig = antennaDownlinkConfig
             self.antennaDownlinkDemodDecodeConfig = antennaDownlinkDemodDecodeConfig
@@ -245,7 +245,7 @@ extension GroundStation {
         public let startTime: TimeStamp?
         /// Tags assigned to a contact.
         public let tags: [String: String]?
-        
+
         public init(contactId: String? = nil, contactStatus: ContactStatus? = nil, endTime: TimeStamp? = nil, errorMessage: String? = nil, groundStation: String? = nil, maximumElevation: Elevation? = nil, missionProfileArn: String? = nil, postPassEndTime: TimeStamp? = nil, prePassStartTime: TimeStamp? = nil, satelliteArn: String? = nil, startTime: TimeStamp? = nil, tags: [String: String]? = nil) {
             self.contactId = contactId
             self.contactStatus = contactStatus
@@ -283,7 +283,7 @@ extension GroundStation {
         ]
         /// UUID of a contact.
         public let contactId: String?
-        
+
         public init(contactId: String? = nil) {
             self.contactId = contactId
         }
@@ -320,7 +320,7 @@ extension GroundStation {
         public let name: String
         /// Tags assigned to a Config.
         public let tags: [String: String]?
-        
+
         public init(configData: ConfigTypeData, name: String, tags: [String: String]? = nil) {
             self.configData = configData
             self.name = name
@@ -343,7 +343,7 @@ extension GroundStation {
         public let endpointDetails: [EndpointDetails]
         /// Tags of a dataflow endpoint group.
         public let tags: [String: String]?
-        
+
         public init(endpointDetails: [EndpointDetails], tags: [String: String]? = nil) {
             self.endpointDetails = endpointDetails
             self.tags = tags
@@ -380,7 +380,7 @@ extension GroundStation {
         public let tags: [String: String]?
         /// ARN of a tracking Config.
         public let trackingConfigArn: String
-        
+
         public init(contactPostPassDurationSeconds: Int32? = nil, contactPrePassDurationSeconds: Int32? = nil, dataflowEdges: [[String]], minimumViableContactDurationSeconds: Int32, name: String, tags: [String: String]? = nil, trackingConfigArn: String) {
             self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
             self.contactPrePassDurationSeconds = contactPrePassDurationSeconds
@@ -421,7 +421,7 @@ extension GroundStation {
         public let name: String?
         /// Status of a dataflow endpoint.
         public let status: EndpointStatus?
-        
+
         public init(address: SocketAddress? = nil, name: String? = nil, status: EndpointStatus? = nil) {
             self.address = address
             self.name = name
@@ -441,7 +441,7 @@ extension GroundStation {
         ]
         /// Name of a dataflow endpoint.
         public let dataflowEndpointName: String
-        
+
         public init(dataflowEndpointName: String) {
             self.dataflowEndpointName = dataflowEndpointName
         }
@@ -457,7 +457,7 @@ extension GroundStation {
         ]
         /// ID of a dataflow endpoint group.
         public let dataflowEndpointGroupId: String?
-        
+
         public init(dataflowEndpointGroupId: String? = nil) {
             self.dataflowEndpointGroupId = dataflowEndpointGroupId
         }
@@ -476,7 +476,7 @@ extension GroundStation {
         public let dataflowEndpointGroupArn: String?
         /// UUID of a dataflow endpoint group.
         public let dataflowEndpointGroupId: String?
-        
+
         public init(dataflowEndpointGroupArn: String? = nil, dataflowEndpointGroupId: String? = nil) {
             self.dataflowEndpointGroupArn = dataflowEndpointGroupArn
             self.dataflowEndpointGroupId = dataflowEndpointGroupId
@@ -494,7 +494,7 @@ extension GroundStation {
         ]
         /// Unvalidated JSON of a decode Config.
         public let unvalidatedJSON: String
-        
+
         public init(unvalidatedJSON: String) {
             self.unvalidatedJSON = unvalidatedJSON
         }
@@ -513,7 +513,7 @@ extension GroundStation {
         public let configId: String
         /// Type of a Config.
         public let configType: ConfigCapabilityType
-        
+
         public init(configId: String, configType: ConfigCapabilityType) {
             self.configId = configId
             self.configType = configType
@@ -531,7 +531,7 @@ extension GroundStation {
         ]
         /// ID of a dataflow endpoint group.
         public let dataflowEndpointGroupId: String
-        
+
         public init(dataflowEndpointGroupId: String) {
             self.dataflowEndpointGroupId = dataflowEndpointGroupId
         }
@@ -547,7 +547,7 @@ extension GroundStation {
         ]
         /// UUID of a mission profile.
         public let missionProfileId: String
-        
+
         public init(missionProfileId: String) {
             self.missionProfileId = missionProfileId
         }
@@ -563,7 +563,7 @@ extension GroundStation {
         ]
         /// Unvalidated JSON of a demodulation Config.
         public let unvalidatedJSON: String
-        
+
         public init(unvalidatedJSON: String) {
             self.unvalidatedJSON = unvalidatedJSON
         }
@@ -579,7 +579,7 @@ extension GroundStation {
         ]
         /// UUID of a contact.
         public let contactId: String
-        
+
         public init(contactId: String) {
             self.contactId = contactId
         }
@@ -628,7 +628,7 @@ extension GroundStation {
         public let startTime: TimeStamp?
         /// Tags assigned to a contact.
         public let tags: [String: String]?
-        
+
         public init(contactId: String? = nil, contactStatus: ContactStatus? = nil, endTime: TimeStamp? = nil, errorMessage: String? = nil, groundStation: String? = nil, maximumElevation: Elevation? = nil, missionProfileArn: String? = nil, postPassEndTime: TimeStamp? = nil, prePassStartTime: TimeStamp? = nil, satelliteArn: String? = nil, startTime: TimeStamp? = nil, tags: [String: String]? = nil) {
             self.contactId = contactId
             self.contactStatus = contactStatus
@@ -669,7 +669,7 @@ extension GroundStation {
         public let units: EirpUnits
         /// Value of an EIRP.
         public let value: Double
-        
+
         public init(units: EirpUnits, value: Double) {
             self.units = units
             self.value = value
@@ -695,7 +695,7 @@ extension GroundStation {
         public let unit: AngleUnits
         /// Elevation angle value.
         public let value: Double
-        
+
         public init(unit: AngleUnits, value: Double) {
             self.unit = unit
             self.value = value
@@ -716,7 +716,7 @@ extension GroundStation {
         public let endpoint: DataflowEndpoint?
         /// Endpoint security details.
         public let securityDetails: SecurityDetails?
-        
+
         public init(endpoint: DataflowEndpoint? = nil, securityDetails: SecurityDetails? = nil) {
             self.endpoint = endpoint
             self.securityDetails = securityDetails
@@ -746,7 +746,7 @@ extension GroundStation {
         public let units: FrequencyUnits
         /// Frequency value.
         public let value: Double
-        
+
         public init(units: FrequencyUnits, value: Double) {
             self.units = units
             self.value = value
@@ -767,7 +767,7 @@ extension GroundStation {
         public let units: BandwidthUnits
         /// Frequency bandwidth value.
         public let value: Double
-        
+
         public init(units: BandwidthUnits, value: Double) {
             self.units = units
             self.value = value
@@ -795,7 +795,7 @@ extension GroundStation {
         public let configId: String
         /// Type of a Config.
         public let configType: ConfigCapabilityType
-        
+
         public init(configId: String, configType: ConfigCapabilityType) {
             self.configId = configId
             self.configType = configType
@@ -829,7 +829,7 @@ extension GroundStation {
         public let name: String
         /// Tags assigned to a Config.
         public let tags: [String: String]?
-        
+
         public init(configArn: String, configData: ConfigTypeData, configId: String, configType: ConfigCapabilityType? = nil, name: String, tags: [String: String]? = nil) {
             self.configArn = configArn
             self.configData = configData
@@ -855,7 +855,7 @@ extension GroundStation {
         ]
         /// UUID of a dataflow endpoint group.
         public let dataflowEndpointGroupId: String
-        
+
         public init(dataflowEndpointGroupId: String) {
             self.dataflowEndpointGroupId = dataflowEndpointGroupId
         }
@@ -880,7 +880,7 @@ extension GroundStation {
         public let endpointsDetails: [EndpointDetails]?
         /// Tags assigned to a dataflow endpoint group.
         public let tags: [String: String]?
-        
+
         public init(dataflowEndpointGroupArn: String? = nil, dataflowEndpointGroupId: String? = nil, endpointsDetails: [EndpointDetails]? = nil, tags: [String: String]? = nil) {
             self.dataflowEndpointGroupArn = dataflowEndpointGroupArn
             self.dataflowEndpointGroupId = dataflowEndpointGroupId
@@ -905,7 +905,7 @@ extension GroundStation {
         public let month: Int32
         /// The year being requested, in the format of YYYY.
         public let year: Int32
-        
+
         public init(month: Int32, year: Int32) {
             self.month = month
             self.year = year
@@ -935,7 +935,7 @@ extension GroundStation {
         public let totalScheduledMinutes: Int32?
         /// Upcoming minutes scheduled for an account, specific to the month being requested.
         public let upcomingMinutesScheduled: Int32?
-        
+
         public init(estimatedMinutesRemaining: Int32? = nil, isReservedMinutesCustomer: Bool? = nil, totalReservedMinuteAllocation: Int32? = nil, totalScheduledMinutes: Int32? = nil, upcomingMinutesScheduled: Int32? = nil) {
             self.estimatedMinutesRemaining = estimatedMinutesRemaining
             self.isReservedMinutesCustomer = isReservedMinutesCustomer
@@ -959,7 +959,7 @@ extension GroundStation {
         ]
         /// UUID of a mission profile.
         public let missionProfileId: String
-        
+
         public init(missionProfileId: String) {
             self.missionProfileId = missionProfileId
         }
@@ -1003,7 +1003,7 @@ extension GroundStation {
         public let tags: [String: String]?
         /// ARN of a tracking Config.
         public let trackingConfigArn: String?
-        
+
         public init(contactPostPassDurationSeconds: Int32? = nil, contactPrePassDurationSeconds: Int32? = nil, dataflowEdges: [[String]]? = nil, minimumViableContactDurationSeconds: Int32? = nil, missionProfileArn: String? = nil, missionProfileId: String? = nil, name: String? = nil, region: String? = nil, tags: [String: String]? = nil, trackingConfigArn: String? = nil) {
             self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
             self.contactPrePassDurationSeconds = contactPrePassDurationSeconds
@@ -1037,7 +1037,7 @@ extension GroundStation {
         ]
         /// UUID of a satellite.
         public let satelliteId: String
-        
+
         public init(satelliteId: String) {
             self.satelliteId = satelliteId
         }
@@ -1068,7 +1068,7 @@ extension GroundStation {
         public let satelliteId: String?
         /// Tags assigned to a satellite.
         public let tags: [String: String]?
-        
+
         public init(dateCreated: TimeStamp? = nil, lastUpdated: TimeStamp? = nil, noradSatelliteID: Int32? = nil, satelliteArn: String? = nil, satelliteId: String? = nil, tags: [String: String]? = nil) {
             self.dateCreated = dateCreated
             self.lastUpdated = lastUpdated
@@ -1100,7 +1100,7 @@ extension GroundStation {
         public let groundStationName: String?
         /// Ground station Region.
         public let region: String?
-        
+
         public init(groundStationId: String? = nil, groundStationName: String? = nil, region: String? = nil) {
             self.groundStationId = groundStationId
             self.groundStationName = groundStationName
@@ -1123,7 +1123,7 @@ extension GroundStation {
         public let maxResults: Int32?
         /// Next token returned in the request of a previous ListConfigs call. Used to get the next page of results.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1144,7 +1144,7 @@ extension GroundStation {
         public let configList: [ConfigListItem]?
         /// Next token returned in the response of a previous ListConfigs call. Used to get the next page of results.
         public let nextToken: String?
-        
+
         public init(configList: [ConfigListItem]? = nil, nextToken: String? = nil) {
             self.configList = configList
             self.nextToken = nextToken
@@ -1183,7 +1183,7 @@ extension GroundStation {
         public let startTime: TimeStamp
         /// Status of a contact reservation.
         public let statusList: [ContactStatus]
-        
+
         public init(endTime: TimeStamp, groundStation: String? = nil, maxResults: Int32? = nil, missionProfileArn: String? = nil, nextToken: String? = nil, satelliteArn: String? = nil, startTime: TimeStamp, statusList: [ContactStatus]) {
             self.endTime = endTime
             self.groundStation = groundStation
@@ -1216,7 +1216,7 @@ extension GroundStation {
         public let contactList: [ContactData]?
         /// Next token returned in the response of a previous ListContacts call. Used to get the next page of results.
         public let nextToken: String?
-        
+
         public init(contactList: [ContactData]? = nil, nextToken: String? = nil) {
             self.contactList = contactList
             self.nextToken = nextToken
@@ -1237,7 +1237,7 @@ extension GroundStation {
         public let maxResults: Int32?
         /// Next token returned in the request of a previous ListDataflowEndpointGroups call. Used to get the next page of results.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1258,7 +1258,7 @@ extension GroundStation {
         public let dataflowEndpointGroupList: [DataflowEndpointListItem]?
         /// Next token returned in the response of a previous ListDataflowEndpointGroups call. Used to get the next page of results.
         public let nextToken: String?
-        
+
         public init(dataflowEndpointGroupList: [DataflowEndpointListItem]? = nil, nextToken: String? = nil) {
             self.dataflowEndpointGroupList = dataflowEndpointGroupList
             self.nextToken = nextToken
@@ -1279,7 +1279,7 @@ extension GroundStation {
         public let maxResults: Int32?
         /// Next token that can be supplied in the next call to get the next page of ground stations.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1300,7 +1300,7 @@ extension GroundStation {
         public let groundStationList: [GroundStationData]?
         /// Next token that can be supplied in the next call to get the next page of ground stations.
         public let nextToken: String?
-        
+
         public init(groundStationList: [GroundStationData]? = nil, nextToken: String? = nil) {
             self.groundStationList = groundStationList
             self.nextToken = nextToken
@@ -1321,7 +1321,7 @@ extension GroundStation {
         public let maxResults: Int32?
         /// Next token returned in the request of a previous ListMissionProfiles call. Used to get the next page of results.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1342,7 +1342,7 @@ extension GroundStation {
         public let missionProfileList: [MissionProfileListItem]?
         /// Next token returned in the response of a previous ListMissionProfiles call. Used to get the next page of results.
         public let nextToken: String?
-        
+
         public init(missionProfileList: [MissionProfileListItem]? = nil, nextToken: String? = nil) {
             self.missionProfileList = missionProfileList
             self.nextToken = nextToken
@@ -1363,7 +1363,7 @@ extension GroundStation {
         public let maxResults: Int32?
         /// Next token that can be supplied in the next call to get the next page of satellites.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1384,7 +1384,7 @@ extension GroundStation {
         public let nextToken: String?
         /// List of satellites.
         public let satellites: [SatelliteListItem]?
-        
+
         public init(nextToken: String? = nil, satellites: [SatelliteListItem]? = nil) {
             self.nextToken = nextToken
             self.satellites = satellites
@@ -1402,7 +1402,7 @@ extension GroundStation {
         ]
         /// ARN of a resource.
         public let resourceArn: String
-        
+
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1418,7 +1418,7 @@ extension GroundStation {
         ]
         /// Tags assigned to a resource.
         public let tags: [String: String]?
-        
+
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1434,7 +1434,7 @@ extension GroundStation {
         ]
         /// ID of a mission profile.
         public let missionProfileId: String?
-        
+
         public init(missionProfileId: String? = nil) {
             self.missionProfileId = missionProfileId
         }
@@ -1459,7 +1459,7 @@ extension GroundStation {
         public let name: String?
         /// Region of a mission profile.
         public let region: String?
-        
+
         public init(missionProfileArn: String? = nil, missionProfileId: String? = nil, name: String? = nil, region: String? = nil) {
             self.missionProfileArn = missionProfileArn
             self.missionProfileId = missionProfileId
@@ -1503,7 +1503,7 @@ extension GroundStation {
         public let startTime: TimeStamp
         /// Tags assigned to a contact.
         public let tags: [String: String]?
-        
+
         public init(endTime: TimeStamp, groundStation: String, missionProfileArn: String, satelliteArn: String, startTime: TimeStamp, tags: [String: String]? = nil) {
             self.endTime = endTime
             self.groundStation = groundStation
@@ -1535,7 +1535,7 @@ extension GroundStation {
         public let satelliteArn: String?
         /// ID of a satellite.
         public let satelliteId: String?
-        
+
         public init(noradSatelliteID: Int32? = nil, satelliteArn: String? = nil, satelliteId: String? = nil) {
             self.noradSatelliteID = noradSatelliteID
             self.satelliteArn = satelliteArn
@@ -1561,7 +1561,7 @@ extension GroundStation {
         public let securityGroupIds: [String]
         /// A list of subnets where AWS Ground Station places elastic network interfaces to send streams to your instances.
         public let subnetIds: [String]
-        
+
         public init(roleArn: String, securityGroupIds: [String], subnetIds: [String]) {
             self.roleArn = roleArn
             self.securityGroupIds = securityGroupIds
@@ -1584,7 +1584,7 @@ extension GroundStation {
         public let name: String
         /// Port of a socket address.
         public let port: Int32
-        
+
         public init(name: String, port: Int32) {
             self.name = name
             self.port = port
@@ -1608,7 +1608,7 @@ extension GroundStation {
         public let centerFrequency: Frequency
         /// Polarization of a spectral Config.
         public let polarization: Polarization?
-        
+
         public init(bandwidth: FrequencyBandwidth, centerFrequency: Frequency, polarization: Polarization? = nil) {
             self.bandwidth = bandwidth
             self.centerFrequency = centerFrequency
@@ -1631,7 +1631,7 @@ extension GroundStation {
         public let resourceArn: String
         /// Tags assigned to a resource.
         public let tags: [String: String]?
-        
+
         public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1644,12 +1644,11 @@ extension GroundStation {
     }
 
     public struct TagResourceResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct TrackingConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1657,7 +1656,7 @@ extension GroundStation {
         ]
         /// Current setting for autotrack.
         public let autotrack: Criticality
-        
+
         public init(autotrack: Criticality) {
             self.autotrack = autotrack
         }
@@ -1676,7 +1675,7 @@ extension GroundStation {
         public let resourceArn: String
         /// Keys of a resource tag.
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1689,12 +1688,11 @@ extension GroundStation {
     }
 
     public struct UntagResourceResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateConfigRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1711,7 +1709,7 @@ extension GroundStation {
         public let configType: ConfigCapabilityType
         /// Name of a Config.
         public let name: String
-        
+
         public init(configData: ConfigTypeData, configId: String, configType: ConfigCapabilityType, name: String) {
             self.configData = configData
             self.configId = configId
@@ -1752,7 +1750,7 @@ extension GroundStation {
         public let name: String?
         /// ARN of a tracking Config.
         public let trackingConfigArn: String?
-        
+
         public init(contactPostPassDurationSeconds: Int32? = nil, contactPrePassDurationSeconds: Int32? = nil, dataflowEdges: [[String]]? = nil, minimumViableContactDurationSeconds: Int32? = nil, missionProfileId: String, name: String? = nil, trackingConfigArn: String? = nil) {
             self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
             self.contactPrePassDurationSeconds = contactPrePassDurationSeconds
@@ -1783,7 +1781,7 @@ extension GroundStation {
         public let antennaUplinkConfigArn: String
         /// Whether or not an uplink Config is enabled.
         public let enabled: Bool
-        
+
         public init(antennaUplinkConfigArn: String, enabled: Bool) {
             self.antennaUplinkConfigArn = antennaUplinkConfigArn
             self.enabled = enabled
@@ -1804,7 +1802,7 @@ extension GroundStation {
         public let centerFrequency: Frequency
         /// Polarization of an uplink spectral Config.
         public let polarization: Polarization?
-        
+
         public init(centerFrequency: Frequency, polarization: Polarization? = nil) {
             self.centerFrequency = centerFrequency
             self.polarization = polarization
@@ -1815,5 +1813,4 @@ extension GroundStation {
             case polarization = "polarization"
         }
     }
-
 }

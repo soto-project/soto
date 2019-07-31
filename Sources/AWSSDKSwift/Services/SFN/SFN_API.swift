@@ -135,5 +135,4 @@ public struct SFN {
     public func updateStateMachine(_ input: UpdateStateMachineInput) throws -> Future<UpdateStateMachineOutput> {
         return try client.send(operation: "UpdateStateMachine", path: "/", httpMethod: "POST", input: input)
     }
-
 }

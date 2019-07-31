@@ -306,5 +306,4 @@ public struct Route53 {
     public func updateTrafficPolicyInstance(_ input: UpdateTrafficPolicyInstanceRequest) throws -> Future<UpdateTrafficPolicyInstanceResponse> {
         return try client.send(operation: "UpdateTrafficPolicyInstance", path: "/2013-04-01/trafficpolicyinstance/{Id}", httpMethod: "POST", input: input)
     }
-
 }

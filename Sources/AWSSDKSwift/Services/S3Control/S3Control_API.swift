@@ -63,5 +63,4 @@ public struct S3Control {
     public func updateJobStatus(_ input: UpdateJobStatusRequest) throws -> Future<UpdateJobStatusResult> {
         return try client.send(operation: "UpdateJobStatus", path: "/v20180820/jobs/{id}/status", httpMethod: "POST", input: input)
     }
-
 }

@@ -169,5 +169,4 @@ public struct ELB {
     public func setLoadBalancerPoliciesOfListener(_ input: SetLoadBalancerPoliciesOfListenerInput) throws -> Future<SetLoadBalancerPoliciesOfListenerOutput> {
         return try client.send(operation: "SetLoadBalancerPoliciesOfListener", path: "/", httpMethod: "POST", input: input)
     }
-
 }

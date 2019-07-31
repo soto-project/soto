@@ -105,5 +105,4 @@ public struct ServiceQuotas {
     public func requestServiceQuotaIncrease(_ input: RequestServiceQuotaIncreaseRequest) throws -> Future<RequestServiceQuotaIncreaseResponse> {
         return try client.send(operation: "RequestServiceQuotaIncrease", path: "/", httpMethod: "POST", input: input)
     }
-
 }

@@ -379,5 +379,4 @@ public struct SES {
     public func verifyEmailIdentity(_ input: VerifyEmailIdentityRequest) throws -> Future<VerifyEmailIdentityResponse> {
         return try client.send(operation: "VerifyEmailIdentity", path: "/", httpMethod: "POST", input: input)
     }
-
 }

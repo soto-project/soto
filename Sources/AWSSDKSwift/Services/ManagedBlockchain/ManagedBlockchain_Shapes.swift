@@ -17,7 +17,7 @@ extension ManagedBlockchain {
         public let thresholdComparator: ThresholdComparator?
         /// The percentage of votes among all members that must be YES for a proposal to be approved. For example, a ThresholdPercentage value of 50 indicates 50%. The ThresholdComparator determines the precise comparison. If a ThresholdPercentage value of 50 is specified on a network with 10 members, along with a ThresholdComparator value of GREATER_THAN, this indicates that 6 YES votes are required for the proposal to be approved.
         public let thresholdPercentage: Int32?
-        
+
         public init(proposalDurationInHours: Int32? = nil, thresholdComparator: ThresholdComparator? = nil, thresholdPercentage: Int32? = nil) {
             self.proposalDurationInHours = proposalDurationInHours
             self.thresholdComparator = thresholdComparator
@@ -46,7 +46,7 @@ extension ManagedBlockchain {
         public let memberConfiguration: MemberConfiguration
         /// The unique identifier of the network in which the member is created.
         public let networkId: String
-        
+
         public init(clientRequestToken: String, invitationId: String, memberConfiguration: MemberConfiguration, networkId: String) {
             self.clientRequestToken = clientRequestToken
             self.invitationId = invitationId
@@ -68,7 +68,7 @@ extension ManagedBlockchain {
         ]
         /// The unique identifier of the member.
         public let memberId: String?
-        
+
         public init(memberId: String? = nil) {
             self.memberId = memberId
         }
@@ -105,7 +105,7 @@ extension ManagedBlockchain {
         public let name: String
         ///  The voting rules used by the network to determine if a proposal is approved. 
         public let votingPolicy: VotingPolicy
-        
+
         public init(clientRequestToken: String, description: String? = nil, framework: Framework, frameworkConfiguration: NetworkFrameworkConfiguration? = nil, frameworkVersion: String, memberConfiguration: MemberConfiguration, name: String, votingPolicy: VotingPolicy) {
             self.clientRequestToken = clientRequestToken
             self.description = description
@@ -138,7 +138,7 @@ extension ManagedBlockchain {
         public let memberId: String?
         /// The unique identifier for the network.
         public let networkId: String?
-        
+
         public init(memberId: String? = nil, networkId: String? = nil) {
             self.memberId = memberId
             self.networkId = networkId
@@ -165,7 +165,7 @@ extension ManagedBlockchain {
         public let networkId: String
         /// The properties of a node configuration.
         public let nodeConfiguration: NodeConfiguration
-        
+
         public init(clientRequestToken: String, memberId: String, networkId: String, nodeConfiguration: NodeConfiguration) {
             self.clientRequestToken = clientRequestToken
             self.memberId = memberId
@@ -187,7 +187,7 @@ extension ManagedBlockchain {
         ]
         /// The unique identifier of the node.
         public let nodeId: String?
-        
+
         public init(nodeId: String? = nil) {
             self.nodeId = nodeId
         }
@@ -215,7 +215,7 @@ extension ManagedBlockchain {
         public let memberId: String
         ///  The unique identifier of the network for which the proposal is made.
         public let networkId: String
-        
+
         public init(actions: ProposalActions, clientRequestToken: String, description: String? = nil, memberId: String, networkId: String) {
             self.actions = actions
             self.clientRequestToken = clientRequestToken
@@ -239,7 +239,7 @@ extension ManagedBlockchain {
         ]
         /// The unique identifier of the proposal.
         public let proposalId: String?
-        
+
         public init(proposalId: String? = nil) {
             self.proposalId = proposalId
         }
@@ -258,7 +258,7 @@ extension ManagedBlockchain {
         public let memberId: String
         /// The unique identifier of the network from which the member is removed.
         public let networkId: String
-        
+
         public init(memberId: String, networkId: String) {
             self.memberId = memberId
             self.networkId = networkId
@@ -271,12 +271,11 @@ extension ManagedBlockchain {
     }
 
     public struct DeleteMemberOutput: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteNodeInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -290,7 +289,7 @@ extension ManagedBlockchain {
         public let networkId: String
         /// The unique identifier of the node.
         public let nodeId: String
-        
+
         public init(memberId: String, networkId: String, nodeId: String) {
             self.memberId = memberId
             self.networkId = networkId
@@ -305,12 +304,11 @@ extension ManagedBlockchain {
     }
 
     public struct DeleteNodeOutput: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public enum Edition: String, CustomStringConvertible, Codable {
         case starter = "STARTER"
@@ -332,7 +330,7 @@ extension ManagedBlockchain {
         public let memberId: String
         /// The unique identifier of the network to which the member belongs.
         public let networkId: String
-        
+
         public init(memberId: String, networkId: String) {
             self.memberId = memberId
             self.networkId = networkId
@@ -350,7 +348,7 @@ extension ManagedBlockchain {
         ]
         /// The properties of a member.
         public let member: Member?
-        
+
         public init(member: Member? = nil) {
             self.member = member
         }
@@ -366,7 +364,7 @@ extension ManagedBlockchain {
         ]
         /// The unique identifier of the network to get information about.
         public let networkId: String
-        
+
         public init(networkId: String) {
             self.networkId = networkId
         }
@@ -382,7 +380,7 @@ extension ManagedBlockchain {
         ]
         /// An object containing network configuration parameters.
         public let network: Network?
-        
+
         public init(network: Network? = nil) {
             self.network = network
         }
@@ -404,7 +402,7 @@ extension ManagedBlockchain {
         public let networkId: String
         /// The unique identifier of the node.
         public let nodeId: String
-        
+
         public init(memberId: String, networkId: String, nodeId: String) {
             self.memberId = memberId
             self.networkId = networkId
@@ -424,7 +422,7 @@ extension ManagedBlockchain {
         ]
         /// Properties of the node configuration.
         public let node: Node?
-        
+
         public init(node: Node? = nil) {
             self.node = node
         }
@@ -443,7 +441,7 @@ extension ManagedBlockchain {
         public let networkId: String
         /// The unique identifier of the proposal.
         public let proposalId: String
-        
+
         public init(networkId: String, proposalId: String) {
             self.networkId = networkId
             self.proposalId = proposalId
@@ -461,7 +459,7 @@ extension ManagedBlockchain {
         ]
         /// Information about a proposal.
         public let proposal: Proposal?
-        
+
         public init(proposal: Proposal? = nil) {
             self.proposal = proposal
         }
@@ -488,7 +486,7 @@ extension ManagedBlockchain {
         public let networkSummary: NetworkSummary?
         /// The status of the invitation:    PENDING - The invitee has not created a member to join the network, and the invitation has not yet expired.    ACCEPTING - The invitee has begun creating a member, and creation has not yet completed.    ACCEPTED - The invitee created a member and joined the network using the InvitationID.    REJECTED - The invitee rejected the invitation.    EXPIRED - The invitee neither created a member nor rejected the invitation before the ExpirationDate.  
         public let status: InvitationStatus?
-        
+
         public init(creationDate: TimeStamp? = nil, expirationDate: TimeStamp? = nil, invitationId: String? = nil, networkSummary: NetworkSummary? = nil, status: InvitationStatus? = nil) {
             self.creationDate = creationDate
             self.expirationDate = expirationDate
@@ -521,7 +519,7 @@ extension ManagedBlockchain {
         ]
         /// The AWS account ID to invite.
         public let principal: String
-        
+
         public init(principal: String) {
             self.principal = principal
         }
@@ -540,7 +538,7 @@ extension ManagedBlockchain {
         public let maxResults: Int32?
         /// The pagination token that indicates the next set of results to retrieve.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -561,7 +559,7 @@ extension ManagedBlockchain {
         public let invitations: [Invitation]?
         /// The pagination token that indicates the next set of results to retrieve.
         public let nextToken: String?
-        
+
         public init(invitations: [Invitation]? = nil, nextToken: String? = nil) {
             self.invitations = invitations
             self.nextToken = nextToken
@@ -594,7 +592,7 @@ extension ManagedBlockchain {
         public let nextToken: String?
         /// An optional status specifier. If provided, only members currently in this status are listed.
         public let status: MemberStatus?
-        
+
         public init(isOwned: Bool? = nil, maxResults: Int32? = nil, name: String? = nil, networkId: String, nextToken: String? = nil, status: MemberStatus? = nil) {
             self.isOwned = isOwned
             self.maxResults = maxResults
@@ -623,7 +621,7 @@ extension ManagedBlockchain {
         public let members: [MemberSummary]?
         /// The pagination token that indicates the next set of results to retrieve.
         public let nextToken: String?
-        
+
         public init(members: [MemberSummary]? = nil, nextToken: String? = nil) {
             self.members = members
             self.nextToken = nextToken
@@ -653,7 +651,7 @@ extension ManagedBlockchain {
         public let nextToken: String?
         /// An optional status specifier. If provided, only networks currently in this status are listed.
         public let status: NetworkStatus?
-        
+
         public init(framework: Framework? = nil, maxResults: Int32? = nil, name: String? = nil, nextToken: String? = nil, status: NetworkStatus? = nil) {
             self.framework = framework
             self.maxResults = maxResults
@@ -680,7 +678,7 @@ extension ManagedBlockchain {
         public let networks: [NetworkSummary]?
         /// The pagination token that indicates the next set of results to retrieve.
         public let nextToken: String?
-        
+
         public init(networks: [NetworkSummary]? = nil, nextToken: String? = nil) {
             self.networks = networks
             self.nextToken = nextToken
@@ -710,7 +708,7 @@ extension ManagedBlockchain {
         public let nextToken: String?
         /// An optional status specifier. If provided, only nodes currently in this status are listed.
         public let status: NodeStatus?
-        
+
         public init(maxResults: Int32? = nil, memberId: String, networkId: String, nextToken: String? = nil, status: NodeStatus? = nil) {
             self.maxResults = maxResults
             self.memberId = memberId
@@ -737,7 +735,7 @@ extension ManagedBlockchain {
         public let nextToken: String?
         /// An array of NodeSummary objects that contain configuration properties for each node.
         public let nodes: [NodeSummary]?
-        
+
         public init(nextToken: String? = nil, nodes: [NodeSummary]? = nil) {
             self.nextToken = nextToken
             self.nodes = nodes
@@ -764,7 +762,7 @@ extension ManagedBlockchain {
         public let nextToken: String?
         ///  The unique identifier of the proposal. 
         public let proposalId: String
-        
+
         public init(maxResults: Int32? = nil, networkId: String, nextToken: String? = nil, proposalId: String) {
             self.maxResults = maxResults
             self.networkId = networkId
@@ -789,7 +787,7 @@ extension ManagedBlockchain {
         public let nextToken: String?
         ///  The listing of votes. 
         public let proposalVotes: [VoteSummary]?
-        
+
         public init(nextToken: String? = nil, proposalVotes: [VoteSummary]? = nil) {
             self.nextToken = nextToken
             self.proposalVotes = proposalVotes
@@ -813,7 +811,7 @@ extension ManagedBlockchain {
         public let networkId: String
         ///  The pagination token that indicates the next set of results to retrieve. 
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, networkId: String, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.networkId = networkId
@@ -836,7 +834,7 @@ extension ManagedBlockchain {
         public let nextToken: String?
         /// The summary of each proposal made on the network.
         public let proposals: [ProposalSummary]?
-        
+
         public init(nextToken: String? = nil, proposals: [ProposalSummary]? = nil) {
             self.nextToken = nextToken
             self.proposals = proposals
@@ -872,7 +870,7 @@ extension ManagedBlockchain {
         public let networkId: String?
         /// The status of a member.    CREATING - The AWS account is in the process of creating a member.    AVAILABLE - The member has been created and can participate in the network.    CREATE_FAILED - The AWS account attempted to create a member and creation failed.    DELETING - The member and all associated resources are in the process of being deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an APPROVED PROPOSAL to remove the member.    DELETED - The member can no longer participate on the network and all associated resources are deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an APPROVED PROPOSAL to remove the member.  
         public let status: MemberStatus?
-        
+
         public init(creationDate: TimeStamp? = nil, description: String? = nil, frameworkAttributes: MemberFrameworkAttributes? = nil, id: String? = nil, name: String? = nil, networkId: String? = nil, status: MemberStatus? = nil) {
             self.creationDate = creationDate
             self.description = description
@@ -906,7 +904,7 @@ extension ManagedBlockchain {
         public let frameworkConfiguration: MemberFrameworkConfiguration
         /// The name of the member.
         public let name: String
-        
+
         public init(description: String? = nil, frameworkConfiguration: MemberFrameworkConfiguration, name: String) {
             self.description = description
             self.frameworkConfiguration = frameworkConfiguration
@@ -929,7 +927,7 @@ extension ManagedBlockchain {
         public let adminUsername: String?
         /// The endpoint used to access the member's certificate authority.
         public let caEndpoint: String?
-        
+
         public init(adminUsername: String? = nil, caEndpoint: String? = nil) {
             self.adminUsername = adminUsername
             self.caEndpoint = caEndpoint
@@ -950,7 +948,7 @@ extension ManagedBlockchain {
         public let adminPassword: String
         /// The user name for the member's initial administrative user.
         public let adminUsername: String
-        
+
         public init(adminPassword: String, adminUsername: String) {
             self.adminPassword = adminPassword
             self.adminUsername = adminUsername
@@ -968,7 +966,7 @@ extension ManagedBlockchain {
         ]
         /// Attributes of Hyperledger Fabric relevant to a member on a Managed Blockchain network that uses Hyperledger Fabric.
         public let fabric: MemberFabricAttributes?
-        
+
         public init(fabric: MemberFabricAttributes? = nil) {
             self.fabric = fabric
         }
@@ -984,7 +982,7 @@ extension ManagedBlockchain {
         ]
         /// Attributes of Hyperledger Fabric for a member on a Managed Blockchain network that uses Hyperledger Fabric.
         public let fabric: MemberFabricConfiguration?
-        
+
         public init(fabric: MemberFabricConfiguration? = nil) {
             self.fabric = fabric
         }
@@ -1024,7 +1022,7 @@ extension ManagedBlockchain {
         public let name: String?
         /// The status of the member.    CREATING - The AWS account is in the process of creating a member.    AVAILABLE - The member has been created and can participate in the network.    CREATE_FAILED - The AWS account attempted to create a member and creation failed.    DELETING - The member and all associated resources are in the process of being deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an APPROVED PROPOSAL to remove the member.    DELETED - The member can no longer participate on the network and all associated resources are deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an APPROVED PROPOSAL to remove the member.  
         public let status: MemberStatus?
-        
+
         public init(creationDate: TimeStamp? = nil, description: String? = nil, id: String? = nil, isOwned: Bool? = nil, name: String? = nil, status: MemberStatus? = nil) {
             self.creationDate = creationDate
             self.description = description
@@ -1077,7 +1075,7 @@ extension ManagedBlockchain {
         public let votingPolicy: VotingPolicy?
         /// The VPC endpoint service name of the VPC endpoint service of the network. Members use the VPC endpoint service name to create a VPC endpoint to access network resources.
         public let vpcEndpointServiceName: String?
-        
+
         public init(creationDate: TimeStamp? = nil, description: String? = nil, framework: Framework? = nil, frameworkAttributes: NetworkFrameworkAttributes? = nil, frameworkVersion: String? = nil, id: String? = nil, name: String? = nil, status: NetworkStatus? = nil, votingPolicy: VotingPolicy? = nil, vpcEndpointServiceName: String? = nil) {
             self.creationDate = creationDate
             self.description = description
@@ -1114,7 +1112,7 @@ extension ManagedBlockchain {
         public let edition: Edition?
         /// The endpoint of the ordering service for the network.
         public let orderingServiceEndpoint: String?
-        
+
         public init(edition: Edition? = nil, orderingServiceEndpoint: String? = nil) {
             self.edition = edition
             self.orderingServiceEndpoint = orderingServiceEndpoint
@@ -1132,7 +1130,7 @@ extension ManagedBlockchain {
         ]
         /// The edition of Amazon Managed Blockchain that the network uses. For more information, see Amazon Managed Blockchain Pricing.
         public let edition: Edition
-        
+
         public init(edition: Edition) {
             self.edition = edition
         }
@@ -1148,7 +1146,7 @@ extension ManagedBlockchain {
         ]
         /// Attributes of Hyperledger Fabric for a Managed Blockchain network that uses Hyperledger Fabric.
         public let fabric: NetworkFabricAttributes?
-        
+
         public init(fabric: NetworkFabricAttributes? = nil) {
             self.fabric = fabric
         }
@@ -1164,7 +1162,7 @@ extension ManagedBlockchain {
         ]
         ///  Hyperledger Fabric configuration properties for a Managed Blockchain network that uses Hyperledger Fabric. 
         public let fabric: NetworkFabricConfiguration?
-        
+
         public init(fabric: NetworkFabricConfiguration? = nil) {
             self.fabric = fabric
         }
@@ -1207,7 +1205,7 @@ extension ManagedBlockchain {
         public let name: String?
         /// The current status of the network.
         public let status: NetworkStatus?
-        
+
         public init(creationDate: TimeStamp? = nil, description: String? = nil, framework: Framework? = nil, frameworkVersion: String? = nil, id: String? = nil, name: String? = nil, status: NetworkStatus? = nil) {
             self.creationDate = creationDate
             self.description = description
@@ -1256,7 +1254,7 @@ extension ManagedBlockchain {
         public let networkId: String?
         /// The status of the node.
         public let status: NodeStatus?
-        
+
         public init(availabilityZone: String? = nil, creationDate: TimeStamp? = nil, frameworkAttributes: NodeFrameworkAttributes? = nil, id: String? = nil, instanceType: String? = nil, memberId: String? = nil, networkId: String? = nil, status: NodeStatus? = nil) {
             self.availabilityZone = availabilityZone
             self.creationDate = creationDate
@@ -1289,7 +1287,7 @@ extension ManagedBlockchain {
         public let availabilityZone: String
         /// The Amazon Managed Blockchain instance type for the node.
         public let instanceType: String
-        
+
         public init(availabilityZone: String, instanceType: String) {
             self.availabilityZone = availabilityZone
             self.instanceType = instanceType
@@ -1310,7 +1308,7 @@ extension ManagedBlockchain {
         public let peerEndpoint: String?
         /// The endpoint that identifies the peer node for peer channel-based event services.
         public let peerEventEndpoint: String?
-        
+
         public init(peerEndpoint: String? = nil, peerEventEndpoint: String? = nil) {
             self.peerEndpoint = peerEndpoint
             self.peerEventEndpoint = peerEventEndpoint
@@ -1328,7 +1326,7 @@ extension ManagedBlockchain {
         ]
         /// Attributes of Hyperledger Fabric for a peer node on a Managed Blockchain network that uses Hyperledger Fabric.
         public let fabric: NodeFabricAttributes?
-        
+
         public init(fabric: NodeFabricAttributes? = nil) {
             self.fabric = fabric
         }
@@ -1366,7 +1364,7 @@ extension ManagedBlockchain {
         public let instanceType: String?
         /// The status of the node.
         public let status: NodeStatus?
-        
+
         public init(availabilityZone: String? = nil, creationDate: TimeStamp? = nil, id: String? = nil, instanceType: String? = nil, status: NodeStatus? = nil) {
             self.availabilityZone = availabilityZone
             self.creationDate = creationDate
@@ -1423,7 +1421,7 @@ extension ManagedBlockchain {
         public let status: ProposalStatus?
         ///  The current total of YES votes cast on the proposal by members. 
         public let yesVoteCount: Int32?
-        
+
         public init(actions: ProposalActions? = nil, creationDate: TimeStamp? = nil, description: String? = nil, expirationDate: TimeStamp? = nil, networkId: String? = nil, noVoteCount: Int32? = nil, outstandingVoteCount: Int32? = nil, proposalId: String? = nil, proposedByMemberId: String? = nil, proposedByMemberName: String? = nil, status: ProposalStatus? = nil, yesVoteCount: Int32? = nil) {
             self.actions = actions
             self.creationDate = creationDate
@@ -1464,7 +1462,7 @@ extension ManagedBlockchain {
         public let invitations: [InviteAction]?
         ///  The actions to perform for an APPROVED proposal to remove a member from the network, which deletes the member and all associated member resources from the network. 
         public let removals: [RemoveAction]?
-        
+
         public init(invitations: [InviteAction]? = nil, removals: [RemoveAction]? = nil) {
             self.invitations = invitations
             self.removals = removals
@@ -1509,7 +1507,7 @@ extension ManagedBlockchain {
         public let proposedByMemberName: String?
         /// The status of the proposal. Values are as follows:    IN_PROGRESS - The proposal is active and open for member voting.    APPROVED - The proposal was approved with sufficient YES votes among members according to the VotingPolicy specified for the Network. The specified proposal actions are carried out.    REJECTED - The proposal was rejected with insufficient YES votes among members according to the VotingPolicy specified for the Network. The specified ProposalActions are not carried out.    EXPIRED - Members did not cast the number of votes required to determine the proposal outcome before the proposal expired. The specified ProposalActions are not carried out.    ACTION_FAILED - One or more of the specified ProposalActions in a proposal that was approved could not be completed because of an error.  
         public let status: ProposalStatus?
-        
+
         public init(creationDate: TimeStamp? = nil, description: String? = nil, expirationDate: TimeStamp? = nil, proposalId: String? = nil, proposedByMemberId: String? = nil, proposedByMemberName: String? = nil, status: ProposalStatus? = nil) {
             self.creationDate = creationDate
             self.description = description
@@ -1537,7 +1535,7 @@ extension ManagedBlockchain {
         ]
         /// The unique identifier of the invitation to reject.
         public let invitationId: String
-        
+
         public init(invitationId: String) {
             self.invitationId = invitationId
         }
@@ -1548,12 +1546,11 @@ extension ManagedBlockchain {
     }
 
     public struct RejectInvitationOutput: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct RemoveAction: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1561,7 +1558,7 @@ extension ManagedBlockchain {
         ]
         /// The unique identifier of the member to remove.
         public let memberId: String
-        
+
         public init(memberId: String) {
             self.memberId = memberId
         }
@@ -1592,7 +1589,7 @@ extension ManagedBlockchain {
         public let vote: VoteValue
         /// The unique identifier of the member casting the vote. 
         public let voterMemberId: String
-        
+
         public init(networkId: String, proposalId: String, vote: VoteValue, voterMemberId: String) {
             self.networkId = networkId
             self.proposalId = proposalId
@@ -1609,12 +1606,11 @@ extension ManagedBlockchain {
     }
 
     public struct VoteOnProposalOutput: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct VoteSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1628,7 +1624,7 @@ extension ManagedBlockchain {
         public let memberName: String?
         ///  The vote value, either YES or NO. 
         public let vote: VoteValue?
-        
+
         public init(memberId: String? = nil, memberName: String? = nil, vote: VoteValue? = nil) {
             self.memberId = memberId
             self.memberName = memberName
@@ -1654,7 +1650,7 @@ extension ManagedBlockchain {
         ]
         /// Defines the rules for the network for voting on proposals, such as the percentage of YES votes required for the proposal to be approved and the duration of the proposal. The policy applies to all proposals and is specified when the network is created.
         public let approvalThresholdPolicy: ApprovalThresholdPolicy?
-        
+
         public init(approvalThresholdPolicy: ApprovalThresholdPolicy? = nil) {
             self.approvalThresholdPolicy = approvalThresholdPolicy
         }
@@ -1663,5 +1659,4 @@ extension ManagedBlockchain {
             case approvalThresholdPolicy = "ApprovalThresholdPolicy"
         }
     }
-
 }

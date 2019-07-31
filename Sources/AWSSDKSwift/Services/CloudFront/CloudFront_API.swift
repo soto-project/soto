@@ -206,5 +206,4 @@ public struct CloudFront {
     public func updateStreamingDistribution20190326(_ input: UpdateStreamingDistributionRequest) throws -> Future<UpdateStreamingDistributionResult> {
         return try client.send(operation: "UpdateStreamingDistribution2019_03_26", path: "/2019-03-26/streaming-distribution/{Id}/config", httpMethod: "PUT", input: input)
     }
-
 }

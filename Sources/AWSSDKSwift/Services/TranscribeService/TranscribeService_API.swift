@@ -70,5 +70,4 @@ public struct TranscribeService {
     public func updateVocabulary(_ input: UpdateVocabularyRequest) throws -> Future<UpdateVocabularyResponse> {
         return try client.send(operation: "UpdateVocabulary", path: "/", httpMethod: "POST", input: input)
     }
-
 }

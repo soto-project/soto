@@ -125,5 +125,4 @@ public struct ACMPCA {
     @discardableResult public func updateCertificateAuthority(_ input: UpdateCertificateAuthorityRequest) throws -> Future<Void> {
         return try client.send(operation: "UpdateCertificateAuthority", path: "/", httpMethod: "POST", input: input)
     }
-
 }

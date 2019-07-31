@@ -161,5 +161,4 @@ public struct EMR {
     @discardableResult public func terminateJobFlows(_ input: TerminateJobFlowsInput) throws -> Future<Void> {
         return try client.send(operation: "TerminateJobFlows", path: "/", httpMethod: "POST", input: input)
     }
-
 }

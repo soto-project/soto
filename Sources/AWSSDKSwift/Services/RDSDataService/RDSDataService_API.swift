@@ -90,5 +90,4 @@ public struct RDSDataService {
     public func rollbackTransaction(_ input: RollbackTransactionRequest) throws -> Future<RollbackTransactionResponse> {
         return try client.send(operation: "RollbackTransaction", path: "/RollbackTransaction", httpMethod: "POST", input: input)
     }
-
 }

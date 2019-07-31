@@ -200,5 +200,4 @@ public struct IoTThingsGraph {
     public func uploadEntityDefinitions(_ input: UploadEntityDefinitionsRequest) throws -> Future<UploadEntityDefinitionsResponse> {
         return try client.send(operation: "UploadEntityDefinitions", path: "/", httpMethod: "POST", input: input)
     }
-
 }

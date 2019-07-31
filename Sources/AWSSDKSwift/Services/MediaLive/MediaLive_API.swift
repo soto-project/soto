@@ -179,5 +179,4 @@ public struct MediaLive {
     public func updateReservation(_ input: UpdateReservationRequest) throws -> Future<UpdateReservationResponse> {
         return try client.send(operation: "UpdateReservation", path: "/prod/reservations/{reservationId}", httpMethod: "PUT", input: input)
     }
-
 }

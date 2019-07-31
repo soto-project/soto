@@ -291,5 +291,4 @@ public struct CodeCommit {
     @discardableResult public func updateRepositoryName(_ input: UpdateRepositoryNameInput) throws -> Future<Void> {
         return try client.send(operation: "UpdateRepositoryName", path: "/", httpMethod: "POST", input: input)
     }
-
 }

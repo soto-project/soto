@@ -45,5 +45,4 @@ public struct MarketplaceMetering {
     public func resolveCustomer(_ input: ResolveCustomerRequest) throws -> Future<ResolveCustomerResult> {
         return try client.send(operation: "ResolveCustomer", path: "/", httpMethod: "POST", input: input)
     }
-
 }

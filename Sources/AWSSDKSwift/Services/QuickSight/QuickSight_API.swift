@@ -104,5 +104,4 @@ public struct QuickSight {
     public func updateUser(_ input: UpdateUserRequest) throws -> Future<UpdateUserResponse> {
         return try client.send(operation: "UpdateUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}", httpMethod: "PUT", input: input)
     }
-
 }

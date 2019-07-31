@@ -14,7 +14,7 @@ extension Kinesis {
         public let streamName: String
         /// A set of up to 10 key-value pairs to use to create the tags.
         public let tags: [String: String]
-        
+
         public init(streamName: String, tags: [String: String]) {
             self.streamName = streamName
             self.tags = tags
@@ -40,7 +40,7 @@ extension Kinesis {
         public let consumerName: String
         /// A consumer can't read data while in the CREATING or DELETING states.
         public let consumerStatus: ConsumerStatus
-        
+
         public init(consumerARN: String, consumerCreationTimestamp: TimeStamp, consumerName: String, consumerStatus: ConsumerStatus) {
             self.consumerARN = consumerARN
             self.consumerCreationTimestamp = consumerCreationTimestamp
@@ -73,7 +73,7 @@ extension Kinesis {
         public let consumerStatus: ConsumerStatus
         /// The ARN of the stream with which you registered the consumer.
         public let streamARN: String
-        
+
         public init(consumerARN: String, consumerCreationTimestamp: TimeStamp, consumerName: String, consumerStatus: ConsumerStatus, streamARN: String) {
             self.consumerARN = consumerARN
             self.consumerCreationTimestamp = consumerCreationTimestamp
@@ -107,7 +107,7 @@ extension Kinesis {
         public let shardCount: Int32
         /// A name to identify the stream. The stream name is scoped to the AWS account used by the application that creates the stream. It is also scoped by AWS Region. That is, two streams in two different AWS accounts can have the same name. Two streams in the same AWS account but in two different Regions can also have the same name.
         public let streamName: String
-        
+
         public init(shardCount: Int32, streamName: String) {
             self.shardCount = shardCount
             self.streamName = streamName
@@ -128,7 +128,7 @@ extension Kinesis {
         public let retentionPeriodHours: Int32
         /// The name of the stream to modify.
         public let streamName: String
-        
+
         public init(retentionPeriodHours: Int32, streamName: String) {
             self.retentionPeriodHours = retentionPeriodHours
             self.streamName = streamName
@@ -149,7 +149,7 @@ extension Kinesis {
         public let enforceConsumerDeletion: Bool?
         /// The name of the stream to delete.
         public let streamName: String
-        
+
         public init(enforceConsumerDeletion: Bool? = nil, streamName: String) {
             self.enforceConsumerDeletion = enforceConsumerDeletion
             self.streamName = streamName
@@ -173,7 +173,7 @@ extension Kinesis {
         public let consumerName: String?
         /// The ARN of the Kinesis data stream that the consumer is registered with. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let streamARN: String?
-        
+
         public init(consumerARN: String? = nil, consumerName: String? = nil, streamARN: String? = nil) {
             self.consumerARN = consumerARN
             self.consumerName = consumerName
@@ -188,12 +188,11 @@ extension Kinesis {
     }
 
     public struct DescribeLimitsInput: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DescribeLimitsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -204,7 +203,7 @@ extension Kinesis {
         public let openShardCount: Int32
         /// The maximum number of shards.
         public let shardLimit: Int32
-        
+
         public init(openShardCount: Int32, shardLimit: Int32) {
             self.openShardCount = openShardCount
             self.shardLimit = shardLimit
@@ -228,7 +227,7 @@ extension Kinesis {
         public let consumerName: String?
         /// The ARN of the Kinesis data stream that the consumer is registered with. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let streamARN: String?
-        
+
         public init(consumerARN: String? = nil, consumerName: String? = nil, streamARN: String? = nil) {
             self.consumerARN = consumerARN
             self.consumerName = consumerName
@@ -248,7 +247,7 @@ extension Kinesis {
         ]
         /// An object that represents the details of the consumer.
         public let consumerDescription: ConsumerDescription
-        
+
         public init(consumerDescription: ConsumerDescription) {
             self.consumerDescription = consumerDescription
         }
@@ -270,7 +269,7 @@ extension Kinesis {
         public let limit: Int32?
         /// The name of the stream to describe.
         public let streamName: String
-        
+
         public init(exclusiveStartShardId: String? = nil, limit: Int32? = nil, streamName: String) {
             self.exclusiveStartShardId = exclusiveStartShardId
             self.limit = limit
@@ -290,7 +289,7 @@ extension Kinesis {
         ]
         /// The current status of the stream, the stream Amazon Resource Name (ARN), an array of shard objects that comprise the stream, and whether there are more shards available.
         public let streamDescription: StreamDescription
-        
+
         public init(streamDescription: StreamDescription) {
             self.streamDescription = streamDescription
         }
@@ -306,7 +305,7 @@ extension Kinesis {
         ]
         /// The name of the stream to describe.
         public let streamName: String
-        
+
         public init(streamName: String) {
             self.streamName = streamName
         }
@@ -322,7 +321,7 @@ extension Kinesis {
         ]
         /// A StreamDescriptionSummary containing information about the stream.
         public let streamDescriptionSummary: StreamDescriptionSummary
-        
+
         public init(streamDescriptionSummary: StreamDescriptionSummary) {
             self.streamDescriptionSummary = streamDescriptionSummary
         }
@@ -341,7 +340,7 @@ extension Kinesis {
         public let shardLevelMetrics: [MetricsName]
         /// The name of the Kinesis data stream for which to disable enhanced monitoring.
         public let streamName: String
-        
+
         public init(shardLevelMetrics: [MetricsName], streamName: String) {
             self.shardLevelMetrics = shardLevelMetrics
             self.streamName = streamName
@@ -362,7 +361,7 @@ extension Kinesis {
         public let shardLevelMetrics: [MetricsName]
         /// The name of the stream for which to enable enhanced monitoring.
         public let streamName: String
-        
+
         public init(shardLevelMetrics: [MetricsName], streamName: String) {
             self.shardLevelMetrics = shardLevelMetrics
             self.streamName = streamName
@@ -386,7 +385,7 @@ extension Kinesis {
         ]
         /// List of shard-level metrics. The following are the valid shard-level metrics. The value "ALL" enhances every metric.    IncomingBytes     IncomingRecords     OutgoingBytes     OutgoingRecords     WriteProvisionedThroughputExceeded     ReadProvisionedThroughputExceeded     IteratorAgeMilliseconds     ALL    For more information, see Monitoring the Amazon Kinesis Data Streams Service with Amazon CloudWatch in the Amazon Kinesis Data Streams Developer Guide.
         public let shardLevelMetrics: [MetricsName]?
-        
+
         public init(shardLevelMetrics: [MetricsName]? = nil) {
             self.shardLevelMetrics = shardLevelMetrics
         }
@@ -408,7 +407,7 @@ extension Kinesis {
         public let desiredShardLevelMetrics: [MetricsName]?
         /// The name of the Kinesis data stream.
         public let streamName: String?
-        
+
         public init(currentShardLevelMetrics: [MetricsName]? = nil, desiredShardLevelMetrics: [MetricsName]? = nil, streamName: String? = nil) {
             self.currentShardLevelMetrics = currentShardLevelMetrics
             self.desiredShardLevelMetrics = desiredShardLevelMetrics
@@ -431,7 +430,7 @@ extension Kinesis {
         public let limit: Int32?
         /// The position in the shard from which you want to start sequentially reading data records. A shard iterator specifies this position using the sequence number of a data record in the shard.
         public let shardIterator: String
-        
+
         public init(limit: Int32? = nil, shardIterator: String) {
             self.limit = limit
             self.shardIterator = shardIterator
@@ -455,7 +454,7 @@ extension Kinesis {
         public let nextShardIterator: String?
         /// The data records retrieved from the shard.
         public let records: [Record]
-        
+
         public init(millisBehindLatest: Int64? = nil, nextShardIterator: String? = nil, records: [Record]) {
             self.millisBehindLatest = millisBehindLatest
             self.nextShardIterator = nextShardIterator
@@ -487,7 +486,7 @@ extension Kinesis {
         public let streamName: String
         /// The time stamp of the data record from which to start reading. Used with shard iterator type AT_TIMESTAMP. A time stamp is the Unix epoch date with precision in milliseconds. For example, 2016-04-04T19:58:46.480-00:00 or 1459799926.480. If a record with this exact time stamp does not exist, the iterator returned is for the next (later) record. If the time stamp is older than the current trim horizon, the iterator returned is for the oldest untrimmed data record (TRIM_HORIZON).
         public let timestamp: TimeStamp?
-        
+
         public init(shardId: String, shardIteratorType: ShardIteratorType, startingSequenceNumber: String? = nil, streamName: String, timestamp: TimeStamp? = nil) {
             self.shardId = shardId
             self.shardIteratorType = shardIteratorType
@@ -511,7 +510,7 @@ extension Kinesis {
         ]
         /// The position in the shard from which to start reading data records sequentially. A shard iterator specifies this position using the sequence number of a data record in a shard.
         public let shardIterator: String?
-        
+
         public init(shardIterator: String? = nil) {
             self.shardIterator = shardIterator
         }
@@ -530,7 +529,7 @@ extension Kinesis {
         public let endingHashKey: String
         /// The starting hash key of the hash key range.
         public let startingHashKey: String
-        
+
         public init(endingHashKey: String, startingHashKey: String) {
             self.endingHashKey = endingHashKey
             self.startingHashKey = startingHashKey
@@ -551,7 +550,7 @@ extension Kinesis {
         public let retentionPeriodHours: Int32
         /// The name of the stream to modify.
         public let streamName: String
-        
+
         public init(retentionPeriodHours: Int32, streamName: String) {
             self.retentionPeriodHours = retentionPeriodHours
             self.streamName = streamName
@@ -568,7 +567,7 @@ extension Kinesis {
             AWSShapeMember(label: "message", required: false, type: .string)
         ]
         public let message: String?
-        
+
         public init(message: String? = nil) {
             self.message = message
         }
@@ -596,7 +595,7 @@ extension Kinesis {
         public let streamCreationTimestamp: TimeStamp?
         /// The name of the data stream whose shards you want to list.  You cannot specify this parameter if you specify the NextToken parameter.
         public let streamName: String?
-        
+
         public init(exclusiveStartShardId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, streamCreationTimestamp: TimeStamp? = nil, streamName: String? = nil) {
             self.exclusiveStartShardId = exclusiveStartShardId
             self.maxResults = maxResults
@@ -623,7 +622,7 @@ extension Kinesis {
         public let nextToken: String?
         /// An array of JSON objects. Each object represents one shard and specifies the IDs of the shard, the shard's parent, and the shard that's adjacent to the shard's parent. Each object also contains the starting and ending hash keys and the starting and ending sequence numbers for the shard.
         public let shards: [Shard]?
-        
+
         public init(nextToken: String? = nil, shards: [Shard]? = nil) {
             self.nextToken = nextToken
             self.shards = shards
@@ -650,7 +649,7 @@ extension Kinesis {
         public let streamARN: String
         /// Specify this input parameter to distinguish data streams that have the same name. For example, if you create a data stream and then delete it, and you later create another data stream with the same name, you can use this input parameter to specify which of the two streams you want to list the consumers for.  You can't specify this parameter if you specify the NextToken parameter. 
         public let streamCreationTimestamp: TimeStamp?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, streamARN: String, streamCreationTimestamp: TimeStamp? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -675,7 +674,7 @@ extension Kinesis {
         public let consumers: [Consumer]?
         /// When the number of consumers that are registered with the data stream is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of registered consumers, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListStreamConsumers to list the next set of registered consumers. For more information about the use of this pagination token when calling the ListStreamConsumers operation, see ListStreamConsumersInput$NextToken.  Tokens expire after 300 seconds. When you obtain a value for NextToken in the response to a call to ListStreamConsumers, you have 300 seconds to use that value. If you specify an expired token in a call to ListStreamConsumers, you get ExpiredNextTokenException. 
         public let nextToken: String?
-        
+
         public init(consumers: [Consumer]? = nil, nextToken: String? = nil) {
             self.consumers = consumers
             self.nextToken = nextToken
@@ -696,7 +695,7 @@ extension Kinesis {
         public let exclusiveStartStreamName: String?
         /// The maximum number of streams to list.
         public let limit: Int32?
-        
+
         public init(exclusiveStartStreamName: String? = nil, limit: Int32? = nil) {
             self.exclusiveStartStreamName = exclusiveStartStreamName
             self.limit = limit
@@ -717,7 +716,7 @@ extension Kinesis {
         public let hasMoreStreams: Bool
         /// The names of the streams that are associated with the AWS account making the ListStreams request.
         public let streamNames: [String]
-        
+
         public init(hasMoreStreams: Bool, streamNames: [String]) {
             self.hasMoreStreams = hasMoreStreams
             self.streamNames = streamNames
@@ -741,7 +740,7 @@ extension Kinesis {
         public let limit: Int32?
         /// The name of the stream.
         public let streamName: String
-        
+
         public init(exclusiveStartTagKey: String? = nil, limit: Int32? = nil, streamName: String) {
             self.exclusiveStartTagKey = exclusiveStartTagKey
             self.limit = limit
@@ -764,7 +763,7 @@ extension Kinesis {
         public let hasMoreTags: Bool
         /// A list of tags associated with StreamName, starting with the first tag after ExclusiveStartTagKey and up to the specified Limit. 
         public let tags: [Tag]
-        
+
         public init(hasMoreTags: Bool, tags: [Tag]) {
             self.hasMoreTags = hasMoreTags
             self.tags = tags
@@ -788,7 +787,7 @@ extension Kinesis {
         public let shardToMerge: String
         /// The name of the stream for the merge.
         public let streamName: String
-        
+
         public init(adjacentShardToMerge: String, shardToMerge: String, streamName: String) {
             self.adjacentShardToMerge = adjacentShardToMerge
             self.shardToMerge = shardToMerge
@@ -832,7 +831,7 @@ extension Kinesis {
         public let sequenceNumberForOrdering: String?
         /// The name of the stream to put the data record into.
         public let streamName: String
-        
+
         public init(data: Data, explicitHashKey: String? = nil, partitionKey: String, sequenceNumberForOrdering: String? = nil, streamName: String) {
             self.data = data
             self.explicitHashKey = explicitHashKey
@@ -862,7 +861,7 @@ extension Kinesis {
         public let sequenceNumber: String
         /// The shard ID of the shard where the data record was placed.
         public let shardId: String
-        
+
         public init(encryptionType: EncryptionType? = nil, sequenceNumber: String, shardId: String) {
             self.encryptionType = encryptionType
             self.sequenceNumber = sequenceNumber
@@ -885,7 +884,7 @@ extension Kinesis {
         public let records: [PutRecordsRequestEntry]
         /// The stream name associated with the request.
         public let streamName: String
-        
+
         public init(records: [PutRecordsRequestEntry], streamName: String) {
             self.records = records
             self.streamName = streamName
@@ -909,7 +908,7 @@ extension Kinesis {
         public let failedRecordCount: Int32?
         /// An array of successfully and unsuccessfully processed record results, correlated with the request by natural ordering. A record that is successfully added to a stream includes SequenceNumber and ShardId in the result. A record that fails to be added to a stream includes ErrorCode and ErrorMessage in the result.
         public let records: [PutRecordsResultEntry]
-        
+
         public init(encryptionType: EncryptionType? = nil, failedRecordCount: Int32? = nil, records: [PutRecordsResultEntry]) {
             self.encryptionType = encryptionType
             self.failedRecordCount = failedRecordCount
@@ -935,7 +934,7 @@ extension Kinesis {
         public let explicitHashKey: String?
         /// Determines which shard in the stream the data record is assigned to. Partition keys are Unicode strings with a maximum length limit of 256 characters for each key. Amazon Kinesis Data Streams uses the partition key as input to a hash function that maps the partition key and associated data to a specific shard. Specifically, an MD5 hash function is used to map partition keys to 128-bit integer values and to map associated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream.
         public let partitionKey: String
-        
+
         public init(data: Data, explicitHashKey: String? = nil, partitionKey: String) {
             self.data = data
             self.explicitHashKey = explicitHashKey
@@ -964,7 +963,7 @@ extension Kinesis {
         public let sequenceNumber: String?
         /// The shard ID for an individual record result.
         public let shardId: String?
-        
+
         public init(errorCode: String? = nil, errorMessage: String? = nil, sequenceNumber: String? = nil, shardId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -998,7 +997,7 @@ extension Kinesis {
         public let partitionKey: String
         /// The unique identifier of the record within its shard.
         public let sequenceNumber: String
-        
+
         public init(approximateArrivalTimestamp: TimeStamp? = nil, data: Data, encryptionType: EncryptionType? = nil, partitionKey: String, sequenceNumber: String) {
             self.approximateArrivalTimestamp = approximateArrivalTimestamp
             self.data = data
@@ -1025,7 +1024,7 @@ extension Kinesis {
         public let consumerName: String
         /// The ARN of the Kinesis data stream that you want to register the consumer with. For more info, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let streamARN: String
-        
+
         public init(consumerName: String, streamARN: String) {
             self.consumerName = consumerName
             self.streamARN = streamARN
@@ -1043,7 +1042,7 @@ extension Kinesis {
         ]
         /// An object that represents the details of the consumer you registered. When you register a consumer, it gets an ARN that is generated by Kinesis Data Streams.
         public let consumer: Consumer
-        
+
         public init(consumer: Consumer) {
             self.consumer = consumer
         }
@@ -1062,7 +1061,7 @@ extension Kinesis {
         public let streamName: String
         /// A list of tag keys. Each corresponding tag is removed from the stream.
         public let tagKeys: [String]
-        
+
         public init(streamName: String, tagKeys: [String]) {
             self.streamName = streamName
             self.tagKeys = tagKeys
@@ -1088,7 +1087,7 @@ extension Kinesis {
         public let endingSequenceNumber: String?
         /// The starting sequence number for the range.
         public let startingSequenceNumber: String
-        
+
         public init(endingSequenceNumber: String? = nil, startingSequenceNumber: String) {
             self.endingSequenceNumber = endingSequenceNumber
             self.startingSequenceNumber = startingSequenceNumber
@@ -1118,7 +1117,7 @@ extension Kinesis {
         public let sequenceNumberRange: SequenceNumberRange
         /// The unique identifier of the shard within the stream.
         public let shardId: String
-        
+
         public init(adjacentParentShardId: String? = nil, hashKeyRange: HashKeyRange, parentShardId: String? = nil, sequenceNumberRange: SequenceNumberRange, shardId: String) {
             self.adjacentParentShardId = adjacentParentShardId
             self.hashKeyRange = hashKeyRange
@@ -1157,7 +1156,7 @@ extension Kinesis {
         public let shardToSplit: String
         /// The name of the stream for the shard split.
         public let streamName: String
-        
+
         public init(newStartingHashKey: String, shardToSplit: String, streamName: String) {
             self.newStartingHashKey = newStartingHashKey
             self.shardToSplit = shardToSplit
@@ -1183,7 +1182,7 @@ extension Kinesis {
         public let keyId: String
         /// The name of the stream for which to start encrypting records.
         public let streamName: String
-        
+
         public init(encryptionType: EncryptionType, keyId: String, streamName: String) {
             self.encryptionType = encryptionType
             self.keyId = keyId
@@ -1206,7 +1205,7 @@ extension Kinesis {
         public let sequenceNumber: String?
         public let timestamp: TimeStamp?
         public let `type`: ShardIteratorType
-        
+
         public init(sequenceNumber: String? = nil, timestamp: TimeStamp? = nil, type: ShardIteratorType) {
             self.sequenceNumber = sequenceNumber
             self.timestamp = timestamp
@@ -1232,7 +1231,7 @@ extension Kinesis {
         public let keyId: String
         /// The name of the stream on which to stop encrypting records.
         public let streamName: String
-        
+
         public init(encryptionType: EncryptionType, keyId: String, streamName: String) {
             self.encryptionType = encryptionType
             self.keyId = keyId
@@ -1279,7 +1278,7 @@ extension Kinesis {
         public let streamName: String
         /// The current status of the stream being described. The stream status is one of the following states:    CREATING - The stream is being created. Kinesis Data Streams immediately returns and sets StreamStatus to CREATING.    DELETING - The stream is being deleted. The specified stream is in the DELETING state until Kinesis Data Streams completes the deletion.    ACTIVE - The stream exists and is ready for read and write operations or deletion. You should perform read and write operations only on an ACTIVE stream.    UPDATING - Shards in the stream are being merged or split. Read and write operations continue to work while the stream is in the UPDATING state.  
         public let streamStatus: StreamStatus
-        
+
         public init(encryptionType: EncryptionType? = nil, enhancedMonitoring: [EnhancedMetrics], hasMoreShards: Bool, keyId: String? = nil, retentionPeriodHours: Int32, shards: [Shard], streamARN: String, streamCreationTimestamp: TimeStamp, streamName: String, streamStatus: StreamStatus) {
             self.encryptionType = encryptionType
             self.enhancedMonitoring = enhancedMonitoring
@@ -1340,7 +1339,7 @@ extension Kinesis {
         public let streamName: String
         /// The current status of the stream being described. The stream status is one of the following states:    CREATING - The stream is being created. Kinesis Data Streams immediately returns and sets StreamStatus to CREATING.    DELETING - The stream is being deleted. The specified stream is in the DELETING state until Kinesis Data Streams completes the deletion.    ACTIVE - The stream exists and is ready for read and write operations or deletion. You should perform read and write operations only on an ACTIVE stream.    UPDATING - Shards in the stream are being merged or split. Read and write operations continue to work while the stream is in the UPDATING state.  
         public let streamStatus: StreamStatus
-        
+
         public init(consumerCount: Int32? = nil, encryptionType: EncryptionType? = nil, enhancedMonitoring: [EnhancedMetrics], keyId: String? = nil, openShardCount: Int32, retentionPeriodHours: Int32, streamARN: String, streamCreationTimestamp: TimeStamp, streamName: String, streamStatus: StreamStatus) {
             self.consumerCount = consumerCount
             self.encryptionType = encryptionType
@@ -1387,7 +1386,7 @@ extension Kinesis {
         /// The number of milliseconds the read records are from the tip of the stream, indicating how far behind current time the consumer is. A value of zero indicates that record processing is caught up, and there are no new records to process at this moment.
         public let millisBehindLatest: Int64
         public let records: [Record]
-        
+
         public init(continuationSequenceNumber: String, millisBehindLatest: Int64, records: [Record]) {
             self.continuationSequenceNumber = continuationSequenceNumber
             self.millisBehindLatest = millisBehindLatest
@@ -1412,7 +1411,7 @@ extension Kinesis {
         /// The ID of the shard you want to subscribe to. To see a list of all the shards for a given stream, use ListShards.
         public let shardId: String
         public let startingPosition: StartingPosition
-        
+
         public init(consumerARN: String, shardId: String, startingPosition: StartingPosition) {
             self.consumerARN = consumerARN
             self.shardId = shardId
@@ -1435,7 +1434,7 @@ extension Kinesis {
         public let key: String
         /// An optional string, typically used to describe or define the tag. Maximum length: 256 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @
         public let value: String?
-        
+
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1459,7 +1458,7 @@ extension Kinesis {
         public let streamName: String
         /// The new number of shards.
         public let targetShardCount: Int32
-        
+
         public init(scalingType: ScalingType, streamName: String, targetShardCount: Int32) {
             self.scalingType = scalingType
             self.streamName = streamName
@@ -1485,7 +1484,7 @@ extension Kinesis {
         public let streamName: String?
         /// The updated number of shards.
         public let targetShardCount: Int32?
-        
+
         public init(currentShardCount: Int32? = nil, streamName: String? = nil, targetShardCount: Int32? = nil) {
             self.currentShardCount = currentShardCount
             self.streamName = streamName
@@ -1498,5 +1497,4 @@ extension Kinesis {
             case targetShardCount = "TargetShardCount"
         }
     }
-
 }

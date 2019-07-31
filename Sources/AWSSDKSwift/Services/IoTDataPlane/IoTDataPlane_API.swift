@@ -44,5 +44,4 @@ public struct IoTDataPlane {
     public func updateThingShadow(_ input: UpdateThingShadowRequest) throws -> Future<UpdateThingShadowResponse> {
         return try client.send(operation: "UpdateThingShadow", path: "/things/{thingName}/shadow", httpMethod: "POST", input: input)
     }
-
 }

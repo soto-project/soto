@@ -130,5 +130,4 @@ public struct CognitoIdentity {
     public func updateIdentityPool(_ input: IdentityPool) throws -> Future<IdentityPool> {
         return try client.send(operation: "UpdateIdentityPool", path: "/", httpMethod: "POST", input: input)
     }
-
 }

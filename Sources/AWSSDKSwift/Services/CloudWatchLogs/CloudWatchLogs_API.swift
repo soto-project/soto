@@ -220,5 +220,4 @@ public struct CloudWatchLogs {
     @discardableResult public func untagLogGroup(_ input: UntagLogGroupRequest) throws -> Future<Void> {
         return try client.send(operation: "UntagLogGroup", path: "/", httpMethod: "POST", input: input)
     }
-
 }

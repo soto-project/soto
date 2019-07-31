@@ -229,5 +229,4 @@ public struct DocDB {
     public func stopDBCluster(_ input: StopDBClusterMessage) throws -> Future<StopDBClusterResult> {
         return try client.send(operation: "StopDBCluster", path: "/", httpMethod: "POST", input: input)
     }
-
 }

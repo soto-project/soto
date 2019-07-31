@@ -174,5 +174,4 @@ public struct WorkLink {
     public func updateIdentityProviderConfiguration(_ input: UpdateIdentityProviderConfigurationRequest) throws -> Future<UpdateIdentityProviderConfigurationResponse> {
         return try client.send(operation: "UpdateIdentityProviderConfiguration", path: "/updateIdentityProviderConfiguration", httpMethod: "POST", input: input)
     }
-
 }

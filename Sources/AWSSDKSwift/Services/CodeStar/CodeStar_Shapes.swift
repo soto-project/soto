@@ -23,7 +23,7 @@ extension CodeStar {
         public let remoteAccessAllowed: Bool?
         /// The Amazon Resource Name (ARN) for the IAM user you want to add to the AWS CodeStar project.
         public let userArn: String
-        
+
         public init(clientRequestToken: String? = nil, projectId: String, projectRole: String, remoteAccessAllowed: Bool? = nil, userArn: String) {
             self.clientRequestToken = clientRequestToken
             self.projectId = projectId
@@ -47,7 +47,7 @@ extension CodeStar {
         ]
         /// The user- or system-generated token from the initial request that can be used to repeat the request.
         public let clientRequestToken: String?
-        
+
         public init(clientRequestToken: String? = nil) {
             self.clientRequestToken = clientRequestToken
         }
@@ -66,7 +66,7 @@ extension CodeStar {
         public let destination: CodeDestination
         /// The location where the source code files provided with the project request are stored. AWS CodeStar retrieves the files during project creation.
         public let source: CodeSource
-        
+
         public init(destination: CodeDestination, source: CodeSource) {
             self.destination = destination
             self.source = source
@@ -84,7 +84,7 @@ extension CodeStar {
         ]
         /// The name of the AWS CodeCommit repository to be created in AWS CodeStar.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -103,7 +103,7 @@ extension CodeStar {
         public let codeCommit: CodeCommitCodeDestination?
         /// Information about the GitHub repository to be created in AWS CodeStar. This is where the source code files provided with the project request will be uploaded after project creation.
         public let gitHub: GitHubCodeDestination?
-        
+
         public init(codeCommit: CodeCommitCodeDestination? = nil, gitHub: GitHubCodeDestination? = nil) {
             self.codeCommit = codeCommit
             self.gitHub = gitHub
@@ -121,7 +121,7 @@ extension CodeStar {
         ]
         /// Information about the Amazon S3 location where the source code files provided with the project request are stored. 
         public let s3: S3Location
-        
+
         public init(s3: S3Location) {
             self.s3 = s3
         }
@@ -155,7 +155,7 @@ extension CodeStar {
         public let tags: [String: String]?
         /// The name of the toolchain template file submitted with the project request. If this parameter is specified, the request must also include the sourceCode parameter.
         public let toolchain: Toolchain?
-        
+
         public init(clientRequestToken: String? = nil, description: String? = nil, id: String, name: String, sourceCode: [Code]? = nil, tags: [String: String]? = nil, toolchain: Toolchain? = nil) {
             self.clientRequestToken = clientRequestToken
             self.description = description
@@ -192,7 +192,7 @@ extension CodeStar {
         public let id: String
         /// Reserved for future use.
         public let projectTemplateId: String?
-        
+
         public init(arn: String, clientRequestToken: String? = nil, id: String, projectTemplateId: String? = nil) {
             self.arn = arn
             self.clientRequestToken = clientRequestToken
@@ -223,7 +223,7 @@ extension CodeStar {
         public let sshPublicKey: String?
         /// The Amazon Resource Name (ARN) of the user in IAM.
         public let userArn: String
-        
+
         public init(displayName: String, emailAddress: String, sshPublicKey: String? = nil, userArn: String) {
             self.displayName = displayName
             self.emailAddress = emailAddress
@@ -260,7 +260,7 @@ extension CodeStar {
         public let sshPublicKey: String?
         /// The Amazon Resource Name (ARN) of the user in IAM.
         public let userArn: String
-        
+
         public init(createdTimestamp: TimeStamp? = nil, displayName: String? = nil, emailAddress: String? = nil, lastModifiedTimestamp: TimeStamp? = nil, sshPublicKey: String? = nil, userArn: String) {
             self.createdTimestamp = createdTimestamp
             self.displayName = displayName
@@ -292,7 +292,7 @@ extension CodeStar {
         public let deleteStack: Bool?
         /// The ID of the project to be deleted in AWS CodeStar.
         public let id: String
-        
+
         public init(clientRequestToken: String? = nil, deleteStack: Bool? = nil, id: String) {
             self.clientRequestToken = clientRequestToken
             self.deleteStack = deleteStack
@@ -315,7 +315,7 @@ extension CodeStar {
         public let projectArn: String?
         /// The ID of the primary stack in AWS CloudFormation that will be deleted as part of deleting the project and its resources.
         public let stackId: String?
-        
+
         public init(projectArn: String? = nil, stackId: String? = nil) {
             self.projectArn = projectArn
             self.stackId = stackId
@@ -333,7 +333,7 @@ extension CodeStar {
         ]
         /// The Amazon Resource Name (ARN) of the user to delete from AWS CodeStar.
         public let userArn: String
-        
+
         public init(userArn: String) {
             self.userArn = userArn
         }
@@ -349,7 +349,7 @@ extension CodeStar {
         ]
         /// The Amazon Resource Name (ARN) of the user deleted from AWS CodeStar.
         public let userArn: String
-        
+
         public init(userArn: String) {
             self.userArn = userArn
         }
@@ -365,7 +365,7 @@ extension CodeStar {
         ]
         /// The ID of the project.
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -405,7 +405,7 @@ extension CodeStar {
         public let stackId: String?
         /// The project creation or deletion status.
         public let status: ProjectStatus?
-        
+
         public init(arn: String? = nil, clientRequestToken: String? = nil, createdTimeStamp: TimeStamp? = nil, description: String? = nil, id: String? = nil, name: String? = nil, projectTemplateId: String? = nil, stackId: String? = nil, status: ProjectStatus? = nil) {
             self.arn = arn
             self.clientRequestToken = clientRequestToken
@@ -437,7 +437,7 @@ extension CodeStar {
         ]
         /// The Amazon Resource Name (ARN) of the user.
         public let userArn: String
-        
+
         public init(userArn: String) {
             self.userArn = userArn
         }
@@ -468,7 +468,7 @@ extension CodeStar {
         public let sshPublicKey: String?
         /// The Amazon Resource Name (ARN) of the user.
         public let userArn: String
-        
+
         public init(createdTimestamp: TimeStamp, displayName: String? = nil, emailAddress: String? = nil, lastModifiedTimestamp: TimeStamp, sshPublicKey: String? = nil, userArn: String) {
             self.createdTimestamp = createdTimestamp
             self.displayName = displayName
@@ -497,7 +497,7 @@ extension CodeStar {
         public let projectId: String
         /// The Amazon Resource Name (ARN) of the IAM user or group whom you want to remove from the project.
         public let userArn: String
-        
+
         public init(projectId: String, userArn: String) {
             self.projectId = projectId
             self.userArn = userArn
@@ -510,12 +510,11 @@ extension CodeStar {
     }
 
     public struct DisassociateTeamMemberResult: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct GitHubCodeDestination: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -541,7 +540,7 @@ extension CodeStar {
         public let token: String
         /// The type of GitHub repository to be created in AWS CodeStar. Valid values are User or Organization.
         public let `type`: String
-        
+
         public init(description: String? = nil, issuesEnabled: Bool, name: String, owner: String, privateRepository: Bool, token: String, type: String) {
             self.description = description
             self.issuesEnabled = issuesEnabled
@@ -572,7 +571,7 @@ extension CodeStar {
         public let maxResults: Int32?
         /// The continuation token to be used to return the next set of results, if the results cannot be returned in one response.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -593,7 +592,7 @@ extension CodeStar {
         public let nextToken: String?
         /// A list of projects.
         public let projects: [ProjectSummary]
-        
+
         public init(nextToken: String? = nil, projects: [ProjectSummary]) {
             self.nextToken = nextToken
             self.projects = projects
@@ -617,7 +616,7 @@ extension CodeStar {
         public let nextToken: String?
         /// The ID of the project.
         public let projectId: String
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, projectId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -640,7 +639,7 @@ extension CodeStar {
         public let nextToken: String?
         /// An array of resources associated with the project. 
         public let resources: [Resource]?
-        
+
         public init(nextToken: String? = nil, resources: [Resource]? = nil) {
             self.nextToken = nextToken
             self.resources = resources
@@ -664,7 +663,7 @@ extension CodeStar {
         public let maxResults: Int32?
         /// Reserved for future use.
         public let nextToken: String?
-        
+
         public init(id: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.id = id
             self.maxResults = maxResults
@@ -687,7 +686,7 @@ extension CodeStar {
         public let nextToken: String?
         /// The tags for the project.
         public let tags: [String: String]?
-        
+
         public init(nextToken: String? = nil, tags: [String: String]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -711,7 +710,7 @@ extension CodeStar {
         public let nextToken: String?
         /// The ID of the project for which you want to list team members.
         public let projectId: String
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, projectId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -734,7 +733,7 @@ extension CodeStar {
         public let nextToken: String?
         /// A list of team member objects for the project.
         public let teamMembers: [TeamMember]
-        
+
         public init(nextToken: String? = nil, teamMembers: [TeamMember]) {
             self.nextToken = nextToken
             self.teamMembers = teamMembers
@@ -755,7 +754,7 @@ extension CodeStar {
         public let maxResults: Int32?
         /// The continuation token for the next set of results, if the results cannot be returned in one response.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -776,7 +775,7 @@ extension CodeStar {
         public let nextToken: String?
         /// All the user profiles configured in AWS CodeStar for an AWS account.
         public let userProfiles: [UserProfileSummary]
-        
+
         public init(nextToken: String? = nil, userProfiles: [UserProfileSummary]) {
             self.nextToken = nextToken
             self.userProfiles = userProfiles
@@ -797,7 +796,7 @@ extension CodeStar {
         public let reason: String?
         /// The phase of completion for a project creation or deletion.
         public let state: String
-        
+
         public init(reason: String? = nil, state: String) {
             self.reason = reason
             self.state = state
@@ -818,7 +817,7 @@ extension CodeStar {
         public let projectArn: String?
         /// The ID of the project.
         public let projectId: String?
-        
+
         public init(projectArn: String? = nil, projectId: String? = nil) {
             self.projectArn = projectArn
             self.projectId = projectId
@@ -836,7 +835,7 @@ extension CodeStar {
         ]
         /// The Amazon Resource Name (ARN) of the resource.
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -855,7 +854,7 @@ extension CodeStar {
         public let bucketKey: String?
         /// The Amazon S3 bucket name where the source code files provided with the project request are stored.
         public let bucketName: String?
-        
+
         public init(bucketKey: String? = nil, bucketName: String? = nil) {
             self.bucketKey = bucketKey
             self.bucketName = bucketName
@@ -876,7 +875,7 @@ extension CodeStar {
         public let id: String
         /// The tags you want to add to the project.
         public let tags: [String: String]
-        
+
         public init(id: String, tags: [String: String]) {
             self.id = id
             self.tags = tags
@@ -894,7 +893,7 @@ extension CodeStar {
         ]
         /// The tags for the project.
         public let tags: [String: String]?
-        
+
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -916,7 +915,7 @@ extension CodeStar {
         public let remoteAccessAllowed: Bool?
         /// The Amazon Resource Name (ARN) of the user in IAM.
         public let userArn: String
-        
+
         public init(projectRole: String, remoteAccessAllowed: Bool? = nil, userArn: String) {
             self.projectRole = projectRole
             self.remoteAccessAllowed = remoteAccessAllowed
@@ -942,7 +941,7 @@ extension CodeStar {
         public let source: ToolchainSource
         /// The list of parameter overrides to be passed into the toolchain template during stack provisioning, if any.
         public let stackParameters: [String: String]?
-        
+
         public init(roleArn: String? = nil, source: ToolchainSource, stackParameters: [String: String]? = nil) {
             self.roleArn = roleArn
             self.source = source
@@ -962,7 +961,7 @@ extension CodeStar {
         ]
         /// The Amazon S3 bucket where the toolchain template file provided with the project request is stored.
         public let s3: S3Location
-        
+
         public init(s3: S3Location) {
             self.s3 = s3
         }
@@ -981,7 +980,7 @@ extension CodeStar {
         public let id: String
         /// The tags to remove from the project.
         public let tags: [String]
-        
+
         public init(id: String, tags: [String]) {
             self.id = id
             self.tags = tags
@@ -994,12 +993,11 @@ extension CodeStar {
     }
 
     public struct UntagProjectResult: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateProjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1013,7 +1011,7 @@ extension CodeStar {
         public let id: String
         /// The name of the project you want to update.
         public let name: String?
-        
+
         public init(description: String? = nil, id: String, name: String? = nil) {
             self.description = description
             self.id = id
@@ -1028,12 +1026,11 @@ extension CodeStar {
     }
 
     public struct UpdateProjectResult: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateTeamMemberRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1050,7 +1047,7 @@ extension CodeStar {
         public let remoteAccessAllowed: Bool?
         /// The Amazon Resource Name (ARN) of the user for whom you want to change team membership attributes.
         public let userArn: String
-        
+
         public init(projectId: String, projectRole: String? = nil, remoteAccessAllowed: Bool? = nil, userArn: String) {
             self.projectId = projectId
             self.projectRole = projectRole
@@ -1078,7 +1075,7 @@ extension CodeStar {
         public let remoteAccessAllowed: Bool?
         /// The Amazon Resource Name (ARN) of the user whose team membership attributes were updated.
         public let userArn: String?
-        
+
         public init(projectRole: String? = nil, remoteAccessAllowed: Bool? = nil, userArn: String? = nil) {
             self.projectRole = projectRole
             self.remoteAccessAllowed = remoteAccessAllowed
@@ -1107,7 +1104,7 @@ extension CodeStar {
         public let sshPublicKey: String?
         /// The name that will be displayed as the friendly name for the user in AWS CodeStar.
         public let userArn: String
-        
+
         public init(displayName: String? = nil, emailAddress: String? = nil, sshPublicKey: String? = nil, userArn: String) {
             self.displayName = displayName
             self.emailAddress = emailAddress
@@ -1144,7 +1141,7 @@ extension CodeStar {
         public let sshPublicKey: String?
         /// The Amazon Resource Name (ARN) of the user in IAM.
         public let userArn: String
-        
+
         public init(createdTimestamp: TimeStamp? = nil, displayName: String? = nil, emailAddress: String? = nil, lastModifiedTimestamp: TimeStamp? = nil, sshPublicKey: String? = nil, userArn: String) {
             self.createdTimestamp = createdTimestamp
             self.displayName = displayName
@@ -1179,7 +1176,7 @@ extension CodeStar {
         public let sshPublicKey: String?
         /// The Amazon Resource Name (ARN) of the user in IAM.
         public let userArn: String?
-        
+
         public init(displayName: String? = nil, emailAddress: String? = nil, sshPublicKey: String? = nil, userArn: String? = nil) {
             self.displayName = displayName
             self.emailAddress = emailAddress
@@ -1194,5 +1191,4 @@ extension CodeStar {
             case userArn = "userArn"
         }
     }
-
 }

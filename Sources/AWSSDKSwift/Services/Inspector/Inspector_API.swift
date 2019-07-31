@@ -210,5 +210,4 @@ public struct Inspector {
     @discardableResult public func updateAssessmentTarget(_ input: UpdateAssessmentTargetRequest) throws -> Future<Void> {
         return try client.send(operation: "UpdateAssessmentTarget", path: "/", httpMethod: "POST", input: input)
     }
-
 }

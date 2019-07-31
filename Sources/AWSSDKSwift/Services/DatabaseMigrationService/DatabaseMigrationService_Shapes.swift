@@ -17,7 +17,7 @@ extension DatabaseMigrationService {
         public let max: Int64?
         /// The amount currently used toward the quota maximum.
         public let used: Int64?
-        
+
         public init(accountQuotaName: String? = nil, max: Int64? = nil, used: Int64? = nil) {
             self.accountQuotaName = accountQuotaName
             self.max = max
@@ -40,7 +40,7 @@ extension DatabaseMigrationService {
         public let resourceArn: String
         /// The tag to be assigned to the DMS resource.
         public let tags: [Tag]
-        
+
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -53,12 +53,11 @@ extension DatabaseMigrationService {
     }
 
     public struct AddTagsToResourceResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct ApplyPendingMaintenanceActionMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -72,7 +71,7 @@ extension DatabaseMigrationService {
         public let optInType: String
         /// The Amazon Resource Name (ARN) of the AWS DMS resource that the pending maintenance action applies to.
         public let replicationInstanceArn: String
-        
+
         public init(applyAction: String, optInType: String, replicationInstanceArn: String) {
             self.applyAction = applyAction
             self.optInType = optInType
@@ -92,7 +91,7 @@ extension DatabaseMigrationService {
         ]
         /// The AWS DMS resource that the pending maintenance action will be applied to.
         public let resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions?
-        
+
         public init(resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions? = nil) {
             self.resourcePendingMaintenanceActions = resourcePendingMaintenanceActions
         }
@@ -121,7 +120,7 @@ extension DatabaseMigrationService {
         ]
         /// The name of the availability zone.
         public let name: String?
-        
+
         public init(name: String? = nil) {
             self.name = name
         }
@@ -164,7 +163,7 @@ extension DatabaseMigrationService {
         public let validFromDate: TimeStamp?
         /// The final date that the certificate is valid.
         public let validToDate: TimeStamp?
-        
+
         public init(certificateArn: String? = nil, certificateCreationDate: TimeStamp? = nil, certificateIdentifier: String? = nil, certificateOwner: String? = nil, certificatePem: String? = nil, certificateWallet: Data? = nil, keyLength: Int32? = nil, signingAlgorithm: String? = nil, validFromDate: TimeStamp? = nil, validToDate: TimeStamp? = nil) {
             self.certificateArn = certificateArn
             self.certificateCreationDate = certificateCreationDate
@@ -219,7 +218,7 @@ extension DatabaseMigrationService {
         public let replicationInstanceIdentifier: String?
         /// The connection status.
         public let status: String?
-        
+
         public init(endpointArn: String? = nil, endpointIdentifier: String? = nil, lastFailureMessage: String? = nil, replicationInstanceArn: String? = nil, replicationInstanceIdentifier: String? = nil, status: String? = nil) {
             self.endpointArn = endpointArn
             self.endpointIdentifier = endpointIdentifier
@@ -307,7 +306,7 @@ extension DatabaseMigrationService {
         public let tags: [Tag]?
         /// The user name to be used to log in to the endpoint database.
         public let username: String?
-        
+
         public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointIdentifier: String, endpointType: ReplicationEndpointTypeValue, engineName: String, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, mongoDbSettings: MongoDbSettings? = nil, password: String? = nil, port: Int32? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, tags: [Tag]? = nil, username: String? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
@@ -365,7 +364,7 @@ extension DatabaseMigrationService {
         ]
         /// The endpoint that was created.
         public let endpoint: Endpoint?
-        
+
         public init(endpoint: Endpoint? = nil) {
             self.endpoint = endpoint
         }
@@ -399,7 +398,7 @@ extension DatabaseMigrationService {
         public let subscriptionName: String
         /// A tag to be attached to the event subscription.
         public let tags: [Tag]?
-        
+
         public init(enabled: Bool? = nil, eventCategories: [String]? = nil, snsTopicArn: String, sourceIds: [String]? = nil, sourceType: String? = nil, subscriptionName: String, tags: [Tag]? = nil) {
             self.enabled = enabled
             self.eventCategories = eventCategories
@@ -427,7 +426,7 @@ extension DatabaseMigrationService {
         ]
         /// The event subscription that was created.
         public let eventSubscription: EventSubscription?
-        
+
         public init(eventSubscription: EventSubscription? = nil) {
             self.eventSubscription = eventSubscription
         }
@@ -482,7 +481,7 @@ extension DatabaseMigrationService {
         public let tags: [Tag]?
         ///  Specifies the VPC security group to be used with the replication instance. The VPC security group must work with the VPC containing the replication instance. 
         public let vpcSecurityGroupIds: [String]?
-        
+
         public init(allocatedStorage: Int32? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dnsNameServers: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, replicationInstanceClass: String, replicationInstanceIdentifier: String, replicationSubnetGroupIdentifier: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -524,7 +523,7 @@ extension DatabaseMigrationService {
         ]
         /// The replication instance that was created.
         public let replicationInstance: ReplicationInstance?
-        
+
         public init(replicationInstance: ReplicationInstance? = nil) {
             self.replicationInstance = replicationInstance
         }
@@ -549,7 +548,7 @@ extension DatabaseMigrationService {
         public let subnetIds: [String]
         /// The tag to be assigned to the subnet group.
         public let tags: [Tag]?
-        
+
         public init(replicationSubnetGroupDescription: String, replicationSubnetGroupIdentifier: String, subnetIds: [String], tags: [Tag]? = nil) {
             self.replicationSubnetGroupDescription = replicationSubnetGroupDescription
             self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
@@ -571,7 +570,7 @@ extension DatabaseMigrationService {
         ]
         /// The replication subnet group that was created.
         public let replicationSubnetGroup: ReplicationSubnetGroup?
-        
+
         public init(replicationSubnetGroup: ReplicationSubnetGroup? = nil) {
             self.replicationSubnetGroup = replicationSubnetGroup
         }
@@ -617,7 +616,7 @@ extension DatabaseMigrationService {
         public let tags: [Tag]?
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let targetEndpointArn: String
-        
+
         public init(cdcStartPosition: String? = nil, cdcStartTime: TimeStamp? = nil, cdcStopPosition: String? = nil, migrationType: MigrationTypeValue, replicationInstanceArn: String, replicationTaskIdentifier: String, replicationTaskSettings: String? = nil, sourceEndpointArn: String, tableMappings: String, tags: [Tag]? = nil, targetEndpointArn: String) {
             self.cdcStartPosition = cdcStartPosition
             self.cdcStartTime = cdcStartTime
@@ -653,7 +652,7 @@ extension DatabaseMigrationService {
         ]
         /// The replication task that was created.
         public let replicationTask: ReplicationTask?
-        
+
         public init(replicationTask: ReplicationTask? = nil) {
             self.replicationTask = replicationTask
         }
@@ -675,7 +674,7 @@ extension DatabaseMigrationService {
         ]
         /// The Amazon Resource Name (ARN) of the deleted certificate.
         public let certificateArn: String
-        
+
         public init(certificateArn: String) {
             self.certificateArn = certificateArn
         }
@@ -691,7 +690,7 @@ extension DatabaseMigrationService {
         ]
         /// The Secure Sockets Layer (SSL) certificate.
         public let certificate: Certificate?
-        
+
         public init(certificate: Certificate? = nil) {
             self.certificate = certificate
         }
@@ -707,7 +706,7 @@ extension DatabaseMigrationService {
         ]
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String
-        
+
         public init(endpointArn: String) {
             self.endpointArn = endpointArn
         }
@@ -723,7 +722,7 @@ extension DatabaseMigrationService {
         ]
         /// The endpoint that was deleted.
         public let endpoint: Endpoint?
-        
+
         public init(endpoint: Endpoint? = nil) {
             self.endpoint = endpoint
         }
@@ -739,7 +738,7 @@ extension DatabaseMigrationService {
         ]
         /// The name of the DMS event notification subscription to be deleted.
         public let subscriptionName: String
-        
+
         public init(subscriptionName: String) {
             self.subscriptionName = subscriptionName
         }
@@ -755,7 +754,7 @@ extension DatabaseMigrationService {
         ]
         /// The event subscription that was deleted.
         public let eventSubscription: EventSubscription?
-        
+
         public init(eventSubscription: EventSubscription? = nil) {
             self.eventSubscription = eventSubscription
         }
@@ -771,7 +770,7 @@ extension DatabaseMigrationService {
         ]
         /// The Amazon Resource Name (ARN) of the replication instance to be deleted.
         public let replicationInstanceArn: String
-        
+
         public init(replicationInstanceArn: String) {
             self.replicationInstanceArn = replicationInstanceArn
         }
@@ -787,7 +786,7 @@ extension DatabaseMigrationService {
         ]
         /// The replication instance that was deleted.
         public let replicationInstance: ReplicationInstance?
-        
+
         public init(replicationInstance: ReplicationInstance? = nil) {
             self.replicationInstance = replicationInstance
         }
@@ -803,7 +802,7 @@ extension DatabaseMigrationService {
         ]
         /// The subnet group name of the replication instance.
         public let replicationSubnetGroupIdentifier: String
-        
+
         public init(replicationSubnetGroupIdentifier: String) {
             self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
         }
@@ -814,12 +813,11 @@ extension DatabaseMigrationService {
     }
 
     public struct DeleteReplicationSubnetGroupResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteReplicationTaskMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -827,7 +825,7 @@ extension DatabaseMigrationService {
         ]
         /// The Amazon Resource Name (ARN) of the replication task to be deleted.
         public let replicationTaskArn: String
-        
+
         public init(replicationTaskArn: String) {
             self.replicationTaskArn = replicationTaskArn
         }
@@ -843,7 +841,7 @@ extension DatabaseMigrationService {
         ]
         /// The deleted replication task.
         public let replicationTask: ReplicationTask?
-        
+
         public init(replicationTask: ReplicationTask? = nil) {
             self.replicationTask = replicationTask
         }
@@ -854,12 +852,11 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeAccountAttributesMessage: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DescribeAccountAttributesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -867,7 +864,7 @@ extension DatabaseMigrationService {
         ]
         /// Account quota information.
         public let accountQuotas: [AccountQuota]?
-        
+
         public init(accountQuotas: [AccountQuota]? = nil) {
             self.accountQuotas = accountQuotas
         }
@@ -889,7 +886,7 @@ extension DatabaseMigrationService {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 10
         public let maxRecords: Int32?
-        
+
         public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.filters = filters
             self.marker = marker
@@ -912,7 +909,7 @@ extension DatabaseMigrationService {
         public let certificates: [Certificate]?
         /// The pagination token.
         public let marker: String?
-        
+
         public init(certificates: [Certificate]? = nil, marker: String? = nil) {
             self.certificates = certificates
             self.marker = marker
@@ -936,7 +933,7 @@ extension DatabaseMigrationService {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.filters = filters
             self.marker = marker
@@ -959,7 +956,7 @@ extension DatabaseMigrationService {
         public let connections: [Connection]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
-        
+
         public init(connections: [Connection]? = nil, marker: String? = nil) {
             self.connections = connections
             self.marker = marker
@@ -983,7 +980,7 @@ extension DatabaseMigrationService {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.filters = filters
             self.marker = marker
@@ -1006,7 +1003,7 @@ extension DatabaseMigrationService {
         public let marker: String?
         /// The type of endpoints that are supported.
         public let supportedEndpointTypes: [SupportedEndpointType]?
-        
+
         public init(marker: String? = nil, supportedEndpointTypes: [SupportedEndpointType]? = nil) {
             self.marker = marker
             self.supportedEndpointTypes = supportedEndpointTypes
@@ -1030,7 +1027,7 @@ extension DatabaseMigrationService {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.filters = filters
             self.marker = marker
@@ -1053,7 +1050,7 @@ extension DatabaseMigrationService {
         public let endpoints: [Endpoint]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
-        
+
         public init(endpoints: [Endpoint]? = nil, marker: String? = nil) {
             self.endpoints = endpoints
             self.marker = marker
@@ -1074,7 +1071,7 @@ extension DatabaseMigrationService {
         public let filters: [Filter]?
         ///  The type of AWS DMS resource that generates events.  Valid values: replication-instance | migration-task
         public let sourceType: String?
-        
+
         public init(filters: [Filter]? = nil, sourceType: String? = nil) {
             self.filters = filters
             self.sourceType = sourceType
@@ -1092,7 +1089,7 @@ extension DatabaseMigrationService {
         ]
         /// A list of event categories.
         public let eventCategoryGroupList: [EventCategoryGroup]?
-        
+
         public init(eventCategoryGroupList: [EventCategoryGroup]? = nil) {
             self.eventCategoryGroupList = eventCategoryGroupList
         }
@@ -1117,7 +1114,7 @@ extension DatabaseMigrationService {
         public let maxRecords: Int32?
         /// The name of the AWS DMS event subscription to be described.
         public let subscriptionName: String?
-        
+
         public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, subscriptionName: String? = nil) {
             self.filters = filters
             self.marker = marker
@@ -1142,7 +1139,7 @@ extension DatabaseMigrationService {
         public let eventSubscriptionsList: [EventSubscription]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
-        
+
         public init(eventSubscriptionsList: [EventSubscription]? = nil, marker: String? = nil) {
             self.eventSubscriptionsList = eventSubscriptionsList
             self.marker = marker
@@ -1184,7 +1181,7 @@ extension DatabaseMigrationService {
         public let sourceType: SourceType?
         /// The start time for the events to be listed.
         public let startTime: TimeStamp?
-        
+
         public init(duration: Int32? = nil, endTime: TimeStamp? = nil, eventCategories: [String]? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil, startTime: TimeStamp? = nil) {
             self.duration = duration
             self.endTime = endTime
@@ -1219,7 +1216,7 @@ extension DatabaseMigrationService {
         public let events: [Event]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
-        
+
         public init(events: [Event]? = nil, marker: String? = nil) {
             self.events = events
             self.marker = marker
@@ -1240,7 +1237,7 @@ extension DatabaseMigrationService {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(marker: String? = nil, maxRecords: Int32? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
@@ -1261,7 +1258,7 @@ extension DatabaseMigrationService {
         public let marker: String?
         /// The order-able replication instances available.
         public let orderableReplicationInstances: [OrderableReplicationInstance]?
-        
+
         public init(marker: String? = nil, orderableReplicationInstances: [OrderableReplicationInstance]? = nil) {
             self.marker = marker
             self.orderableReplicationInstances = orderableReplicationInstances
@@ -1287,7 +1284,7 @@ extension DatabaseMigrationService {
         public let maxRecords: Int32?
         /// The ARN of the replication instance.
         public let replicationInstanceArn: String?
-        
+
         public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, replicationInstanceArn: String? = nil) {
             self.filters = filters
             self.marker = marker
@@ -1312,7 +1309,7 @@ extension DatabaseMigrationService {
         public let marker: String?
         /// The pending maintenance action.
         public let pendingMaintenanceActions: [ResourcePendingMaintenanceActions]?
-        
+
         public init(marker: String? = nil, pendingMaintenanceActions: [ResourcePendingMaintenanceActions]? = nil) {
             self.marker = marker
             self.pendingMaintenanceActions = pendingMaintenanceActions
@@ -1330,7 +1327,7 @@ extension DatabaseMigrationService {
         ]
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String
-        
+
         public init(endpointArn: String) {
             self.endpointArn = endpointArn
         }
@@ -1346,7 +1343,7 @@ extension DatabaseMigrationService {
         ]
         /// The status of the schema.
         public let refreshSchemasStatus: RefreshSchemasStatus?
-        
+
         public init(refreshSchemasStatus: RefreshSchemasStatus? = nil) {
             self.refreshSchemasStatus = refreshSchemasStatus
         }
@@ -1368,7 +1365,7 @@ extension DatabaseMigrationService {
         public let maxRecords: Int32?
         /// The Amazon Resource Name (ARN) of the replication instance.
         public let replicationInstanceArn: String
-        
+
         public init(marker: String? = nil, maxRecords: Int32? = nil, replicationInstanceArn: String) {
             self.marker = marker
             self.maxRecords = maxRecords
@@ -1394,7 +1391,7 @@ extension DatabaseMigrationService {
         public let replicationInstanceArn: String?
         /// An array of replication task log metadata. Each member of the array contains the replication task name, ARN, and task log size (in bytes). 
         public let replicationInstanceTaskLogs: [ReplicationInstanceTaskLog]?
-        
+
         public init(marker: String? = nil, replicationInstanceArn: String? = nil, replicationInstanceTaskLogs: [ReplicationInstanceTaskLog]? = nil) {
             self.marker = marker
             self.replicationInstanceArn = replicationInstanceArn
@@ -1420,7 +1417,7 @@ extension DatabaseMigrationService {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.filters = filters
             self.marker = marker
@@ -1443,7 +1440,7 @@ extension DatabaseMigrationService {
         public let marker: String?
         /// The replication instances described.
         public let replicationInstances: [ReplicationInstance]?
-        
+
         public init(marker: String? = nil, replicationInstances: [ReplicationInstance]? = nil) {
             self.marker = marker
             self.replicationInstances = replicationInstances
@@ -1467,7 +1464,7 @@ extension DatabaseMigrationService {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
             self.filters = filters
             self.marker = marker
@@ -1490,7 +1487,7 @@ extension DatabaseMigrationService {
         public let marker: String?
         /// A description of the replication subnet groups.
         public let replicationSubnetGroups: [ReplicationSubnetGroup]?
-        
+
         public init(marker: String? = nil, replicationSubnetGroups: [ReplicationSubnetGroup]? = nil) {
             self.marker = marker
             self.replicationSubnetGroups = replicationSubnetGroups
@@ -1514,7 +1511,7 @@ extension DatabaseMigrationService {
         public let maxRecords: Int32?
         /// - The Amazon Resource Name (ARN) string that uniquely identifies the task. When this input parameter is specified the API will return only one result and ignore the values of the max-records and marker parameters. 
         public let replicationTaskArn: String?
-        
+
         public init(marker: String? = nil, maxRecords: Int32? = nil, replicationTaskArn: String? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
@@ -1540,7 +1537,7 @@ extension DatabaseMigrationService {
         public let marker: String?
         ///  The task assessment report. 
         public let replicationTaskAssessmentResults: [ReplicationTaskAssessmentResult]?
-        
+
         public init(bucketName: String? = nil, marker: String? = nil, replicationTaskAssessmentResults: [ReplicationTaskAssessmentResult]? = nil) {
             self.bucketName = bucketName
             self.marker = marker
@@ -1569,7 +1566,7 @@ extension DatabaseMigrationService {
         public let maxRecords: Int32?
         /// Set this flag to avoid returning setting information. Use this to reduce overhead when settings are too large. Choose TRUE to use this flag, otherwise choose FALSE (default).
         public let withoutSettings: Bool?
-        
+
         public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, withoutSettings: Bool? = nil) {
             self.filters = filters
             self.marker = marker
@@ -1594,7 +1591,7 @@ extension DatabaseMigrationService {
         public let marker: String?
         /// A description of the replication tasks.
         public let replicationTasks: [ReplicationTask]?
-        
+
         public init(marker: String? = nil, replicationTasks: [ReplicationTask]? = nil) {
             self.marker = marker
             self.replicationTasks = replicationTasks
@@ -1618,7 +1615,7 @@ extension DatabaseMigrationService {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        
+
         public init(endpointArn: String, marker: String? = nil, maxRecords: Int32? = nil) {
             self.endpointArn = endpointArn
             self.marker = marker
@@ -1641,7 +1638,7 @@ extension DatabaseMigrationService {
         public let marker: String?
         /// The described schema.
         public let schemas: [String]?
-        
+
         public init(marker: String? = nil, schemas: [String]? = nil) {
             self.marker = marker
             self.schemas = schemas
@@ -1668,7 +1665,7 @@ extension DatabaseMigrationService {
         public let maxRecords: Int32?
         /// The Amazon Resource Name (ARN) of the replication task.
         public let replicationTaskArn: String
-        
+
         public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, replicationTaskArn: String) {
             self.filters = filters
             self.marker = marker
@@ -1696,7 +1693,7 @@ extension DatabaseMigrationService {
         public let replicationTaskArn: String?
         /// The table statistics.
         public let tableStatistics: [TableStatistics]?
-        
+
         public init(marker: String? = nil, replicationTaskArn: String? = nil, tableStatistics: [TableStatistics]? = nil) {
             self.marker = marker
             self.replicationTaskArn = replicationTaskArn
@@ -1727,7 +1724,7 @@ extension DatabaseMigrationService {
         public let bucketName: String?
         ///  The IAM role that has permission to access the Amazon S3 bucket. 
         public let serviceAccessRoleArn: String?
-        
+
         public init(bucketName: String? = nil, serviceAccessRoleArn: String? = nil) {
             self.bucketName = bucketName
             self.serviceAccessRoleArn = serviceAccessRoleArn
@@ -1745,7 +1742,7 @@ extension DatabaseMigrationService {
         ]
         ///  The Amazon Resource Name (ARN) used by the service access IAM role. 
         public let serviceAccessRoleArn: String
-        
+
         public init(serviceAccessRoleArn: String) {
             self.serviceAccessRoleArn = serviceAccessRoleArn
         }
@@ -1770,7 +1767,7 @@ extension DatabaseMigrationService {
         public let fullLoadErrorPercentage: Int32?
         /// The Amazon Resource Name (ARN) used by service to access the IAM role.
         public let serviceAccessRoleArn: String
-        
+
         public init(endpointUri: String, errorRetryDuration: Int32? = nil, fullLoadErrorPercentage: Int32? = nil, serviceAccessRoleArn: String) {
             self.endpointUri = endpointUri
             self.errorRetryDuration = errorRetryDuration
@@ -1874,7 +1871,7 @@ extension DatabaseMigrationService {
         public let status: String?
         /// The user name used to connect to the endpoint.
         public let username: String?
-        
+
         public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String? = nil, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineDisplayName: String? = nil, engineName: String? = nil, externalId: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, mongoDbSettings: MongoDbSettings? = nil, port: Int32? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, status: String? = nil, username: String? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
@@ -1948,7 +1945,7 @@ extension DatabaseMigrationService {
         public let sourceIdentifier: String?
         ///  The type of AWS DMS resource that generates events.  Valid values: replication-instance | endpoint | migration-task
         public let sourceType: SourceType?
-        
+
         public init(date: TimeStamp? = nil, eventCategories: [String]? = nil, message: String? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil) {
             self.date = date
             self.eventCategories = eventCategories
@@ -1975,7 +1972,7 @@ extension DatabaseMigrationService {
         public let eventCategories: [String]?
         ///  The type of AWS DMS resource that generates events.  Valid values: replication-instance | replication-server | security-group | migration-task
         public let sourceType: String?
-        
+
         public init(eventCategories: [String]? = nil, sourceType: String? = nil) {
             self.eventCategories = eventCategories
             self.sourceType = sourceType
@@ -2017,7 +2014,7 @@ extension DatabaseMigrationService {
         public let status: String?
         /// The time the RDS event notification subscription was created.
         public let subscriptionCreationTime: String?
-        
+
         public init(customerAwsId: String? = nil, custSubscriptionId: String? = nil, enabled: Bool? = nil, eventCategoriesList: [String]? = nil, snsTopicArn: String? = nil, sourceIdsList: [String]? = nil, sourceType: String? = nil, status: String? = nil, subscriptionCreationTime: String? = nil) {
             self.customerAwsId = customerAwsId
             self.custSubscriptionId = custSubscriptionId
@@ -2052,7 +2049,7 @@ extension DatabaseMigrationService {
         public let name: String
         /// The filter value.
         public let values: [String]
-        
+
         public init(name: String, values: [String]) {
             self.name = name
             self.values = values
@@ -2079,7 +2076,7 @@ extension DatabaseMigrationService {
         public let certificateWallet: Data?
         /// The tags associated with the certificate.
         public let tags: [Tag]?
-        
+
         public init(certificateIdentifier: String, certificatePem: String? = nil, certificateWallet: Data? = nil, tags: [Tag]? = nil) {
             self.certificateIdentifier = certificateIdentifier
             self.certificatePem = certificatePem
@@ -2101,7 +2098,7 @@ extension DatabaseMigrationService {
         ]
         /// The certificate to be uploaded.
         public let certificate: Certificate?
-        
+
         public init(certificate: Certificate? = nil) {
             self.certificate = certificate
         }
@@ -2123,7 +2120,7 @@ extension DatabaseMigrationService {
         public let serviceAccessRoleArn: String?
         /// The Amazon Resource Name (ARN) for the Amazon Kinesis Data Streams endpoint.
         public let streamArn: String?
-        
+
         public init(messageFormat: MessageFormatValue? = nil, serviceAccessRoleArn: String? = nil, streamArn: String? = nil) {
             self.messageFormat = messageFormat
             self.serviceAccessRoleArn = serviceAccessRoleArn
@@ -2143,7 +2140,7 @@ extension DatabaseMigrationService {
         ]
         /// The Amazon Resource Name (ARN) string that uniquely identifies the AWS DMS resource.
         public let resourceArn: String
-        
+
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2159,7 +2156,7 @@ extension DatabaseMigrationService {
         ]
         /// A list of tags for the resource.
         public let tagList: [Tag]?
-        
+
         public init(tagList: [Tag]? = nil) {
             self.tagList = tagList
         }
@@ -2246,7 +2243,7 @@ extension DatabaseMigrationService {
         public let sslMode: DmsSslModeValue?
         /// The user name to be used to login to the endpoint database.
         public let username: String?
-        
+
         public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineName: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, kinesisSettings: KinesisSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, password: String? = nil, port: Int32? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, username: String? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
@@ -2302,7 +2299,7 @@ extension DatabaseMigrationService {
         ]
         /// The modified endpoint.
         public let endpoint: Endpoint?
-        
+
         public init(endpoint: Endpoint? = nil) {
             self.endpoint = endpoint
         }
@@ -2330,7 +2327,7 @@ extension DatabaseMigrationService {
         public let sourceType: String?
         /// The name of the AWS DMS event notification subscription to be modified.
         public let subscriptionName: String
-        
+
         public init(enabled: Bool? = nil, eventCategories: [String]? = nil, snsTopicArn: String? = nil, sourceType: String? = nil, subscriptionName: String) {
             self.enabled = enabled
             self.eventCategories = eventCategories
@@ -2354,7 +2351,7 @@ extension DatabaseMigrationService {
         ]
         /// The modified event subscription.
         public let eventSubscription: EventSubscription?
-        
+
         public init(eventSubscription: EventSubscription? = nil) {
             self.eventSubscription = eventSubscription
         }
@@ -2400,7 +2397,7 @@ extension DatabaseMigrationService {
         public let replicationInstanceIdentifier: String?
         ///  Specifies the VPC security group to be used with the replication instance. The VPC security group must work with the VPC containing the replication instance. 
         public let vpcSecurityGroupIds: [String]?
-        
+
         public init(allocatedStorage: Int32? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, engineVersion: String? = nil, multiAZ: Bool? = nil, preferredMaintenanceWindow: String? = nil, replicationInstanceArn: String, replicationInstanceClass: String? = nil, replicationInstanceIdentifier: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
@@ -2436,7 +2433,7 @@ extension DatabaseMigrationService {
         ]
         /// The modified replication instance.
         public let replicationInstance: ReplicationInstance?
-        
+
         public init(replicationInstance: ReplicationInstance? = nil) {
             self.replicationInstance = replicationInstance
         }
@@ -2458,7 +2455,7 @@ extension DatabaseMigrationService {
         public let replicationSubnetGroupIdentifier: String
         /// A list of subnet IDs.
         public let subnetIds: [String]
-        
+
         public init(replicationSubnetGroupDescription: String? = nil, replicationSubnetGroupIdentifier: String, subnetIds: [String]) {
             self.replicationSubnetGroupDescription = replicationSubnetGroupDescription
             self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
@@ -2478,7 +2475,7 @@ extension DatabaseMigrationService {
         ]
         /// The modified replication subnet group.
         public let replicationSubnetGroup: ReplicationSubnetGroup?
-        
+
         public init(replicationSubnetGroup: ReplicationSubnetGroup? = nil) {
             self.replicationSubnetGroup = replicationSubnetGroup
         }
@@ -2515,7 +2512,7 @@ extension DatabaseMigrationService {
         public let replicationTaskSettings: String?
         /// When using the AWS CLI or boto3, provide the path of the JSON file that contains the table mappings. Precede the path with "file://". When working with the DMS API, provide the JSON as the parameter value. For example, --table-mappings file://mappingfile.json
         public let tableMappings: String?
-        
+
         public init(cdcStartPosition: String? = nil, cdcStartTime: TimeStamp? = nil, cdcStopPosition: String? = nil, migrationType: MigrationTypeValue? = nil, replicationTaskArn: String, replicationTaskIdentifier: String? = nil, replicationTaskSettings: String? = nil, tableMappings: String? = nil) {
             self.cdcStartPosition = cdcStartPosition
             self.cdcStartTime = cdcStartTime
@@ -2545,7 +2542,7 @@ extension DatabaseMigrationService {
         ]
         /// The replication task that was modified.
         public let replicationTask: ReplicationTask?
-        
+
         public init(replicationTask: ReplicationTask? = nil) {
             self.replicationTask = replicationTask
         }
@@ -2594,7 +2591,7 @@ extension DatabaseMigrationService {
         public let serverName: String?
         /// The user name you use to access the MongoDB source endpoint. 
         public let username: String?
-        
+
         public init(authMechanism: AuthMechanismValue? = nil, authSource: String? = nil, authType: AuthTypeValue? = nil, databaseName: String? = nil, docsToInvestigate: String? = nil, extractDocId: String? = nil, kmsKeyId: String? = nil, nestingLevel: NestingLevelValue? = nil, password: String? = nil, port: Int32? = nil, serverName: String? = nil, username: String? = nil) {
             self.authMechanism = authMechanism
             self.authSource = authSource
@@ -2659,7 +2656,7 @@ extension DatabaseMigrationService {
         public let replicationInstanceClass: String?
         /// The type of storage used by the replication instance.
         public let storageType: String?
-        
+
         public init(availabilityZones: [String]? = nil, defaultAllocatedStorage: Int32? = nil, engineVersion: String? = nil, includedAllocatedStorage: Int32? = nil, maxAllocatedStorage: Int32? = nil, minAllocatedStorage: Int32? = nil, replicationInstanceClass: String? = nil, storageType: String? = nil) {
             self.availabilityZones = availabilityZones
             self.defaultAllocatedStorage = defaultAllocatedStorage
@@ -2710,7 +2707,7 @@ extension DatabaseMigrationService {
         public let forcedApplyDate: TimeStamp?
         /// Indicates the type of opt-in request that has been received for the resource.
         public let optInStatus: String?
-        
+
         public init(action: String? = nil, autoAppliedAfterDate: TimeStamp? = nil, currentApplyDate: TimeStamp? = nil, description: String? = nil, forcedApplyDate: TimeStamp? = nil, optInStatus: String? = nil) {
             self.action = action
             self.autoAppliedAfterDate = autoAppliedAfterDate
@@ -2739,7 +2736,7 @@ extension DatabaseMigrationService {
         public let forceFailover: Bool?
         /// The Amazon Resource Name (ARN) of the replication instance.
         public let replicationInstanceArn: String
-        
+
         public init(forceFailover: Bool? = nil, replicationInstanceArn: String) {
             self.forceFailover = forceFailover
             self.replicationInstanceArn = replicationInstanceArn
@@ -2757,7 +2754,7 @@ extension DatabaseMigrationService {
         ]
         /// The replication instance that is being rebooted. 
         public let replicationInstance: ReplicationInstance?
-        
+
         public init(replicationInstance: ReplicationInstance? = nil) {
             self.replicationInstance = replicationInstance
         }
@@ -2845,7 +2842,7 @@ extension DatabaseMigrationService {
         public let username: String?
         /// The size of the write buffer to use in rows. Valid values range from 1 to 2048. Defaults to 1024. Use this setting to tune performance. 
         public let writeBufferSize: Int32?
-        
+
         public init(acceptAnyDate: Bool? = nil, afterConnectScript: String? = nil, bucketFolder: String? = nil, bucketName: String? = nil, connectionTimeout: Int32? = nil, databaseName: String? = nil, dateFormat: String? = nil, emptyAsNull: Bool? = nil, encryptionMode: EncryptionModeValue? = nil, fileTransferUploadStreams: Int32? = nil, loadTimeout: Int32? = nil, maxFileSize: Int32? = nil, password: String? = nil, port: Int32? = nil, removeQuotes: Bool? = nil, replaceChars: String? = nil, replaceInvalidChars: String? = nil, serverName: String? = nil, serverSideEncryptionKmsKeyId: String? = nil, serviceAccessRoleArn: String? = nil, timeFormat: String? = nil, trimBlanks: Bool? = nil, truncateColumns: Bool? = nil, username: String? = nil, writeBufferSize: Int32? = nil) {
             self.acceptAnyDate = acceptAnyDate
             self.afterConnectScript = afterConnectScript
@@ -2912,7 +2909,7 @@ extension DatabaseMigrationService {
         public let endpointArn: String
         /// The Amazon Resource Name (ARN) of the replication instance.
         public let replicationInstanceArn: String
-        
+
         public init(endpointArn: String, replicationInstanceArn: String) {
             self.endpointArn = endpointArn
             self.replicationInstanceArn = replicationInstanceArn
@@ -2930,7 +2927,7 @@ extension DatabaseMigrationService {
         ]
         /// The status of the refreshed schema.
         public let refreshSchemasStatus: RefreshSchemasStatus?
-        
+
         public init(refreshSchemasStatus: RefreshSchemasStatus? = nil) {
             self.refreshSchemasStatus = refreshSchemasStatus
         }
@@ -2958,7 +2955,7 @@ extension DatabaseMigrationService {
         public let replicationInstanceArn: String?
         /// The status of the schema.
         public let status: RefreshSchemasStatusTypeValue?
-        
+
         public init(endpointArn: String? = nil, lastFailureMessage: String? = nil, lastRefreshDate: TimeStamp? = nil, replicationInstanceArn: String? = nil, status: RefreshSchemasStatusTypeValue? = nil) {
             self.endpointArn = endpointArn
             self.lastFailureMessage = lastFailureMessage
@@ -3001,7 +2998,7 @@ extension DatabaseMigrationService {
         public let replicationTaskArn: String
         /// The name and schema of the table to be reloaded. 
         public let tablesToReload: [TableToReload]
-        
+
         public init(reloadOption: ReloadOptionValue? = nil, replicationTaskArn: String, tablesToReload: [TableToReload]) {
             self.reloadOption = reloadOption
             self.replicationTaskArn = replicationTaskArn
@@ -3021,7 +3018,7 @@ extension DatabaseMigrationService {
         ]
         /// The Amazon Resource Name (ARN) of the replication task. 
         public let replicationTaskArn: String?
-        
+
         public init(replicationTaskArn: String? = nil) {
             self.replicationTaskArn = replicationTaskArn
         }
@@ -3040,7 +3037,7 @@ extension DatabaseMigrationService {
         public let resourceArn: String
         /// The tag key (name) of the tag to be removed.
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -3053,12 +3050,11 @@ extension DatabaseMigrationService {
     }
 
     public struct RemoveTagsFromResourceResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public enum ReplicationEndpointTypeValue: String, CustomStringConvertible, Codable {
         case source = "source"
@@ -3132,7 +3128,7 @@ extension DatabaseMigrationService {
         public let secondaryAvailabilityZone: String?
         /// The VPC security group for the instance.
         public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
-        
+
         public init(allocatedStorage: Int32? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dnsNameServers: String? = nil, engineVersion: String? = nil, freeUntil: TimeStamp? = nil, instanceCreateTime: TimeStamp? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, replicationInstanceArn: String? = nil, replicationInstanceClass: String? = nil, replicationInstanceIdentifier: String? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, replicationInstancePublicIpAddresses: [String]? = nil, replicationInstanceStatus: String? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, secondaryAvailabilityZone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -3194,7 +3190,7 @@ extension DatabaseMigrationService {
         public let replicationTaskArn: String?
         /// The name of the replication task.
         public let replicationTaskName: String?
-        
+
         public init(replicationInstanceTaskLogSize: Int64? = nil, replicationTaskArn: String? = nil, replicationTaskName: String? = nil) {
             self.replicationInstanceTaskLogSize = replicationInstanceTaskLogSize
             self.replicationTaskArn = replicationTaskArn
@@ -3223,7 +3219,7 @@ extension DatabaseMigrationService {
         public let multiAZ: Bool?
         /// The compute and memory capacity of the replication instance.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
         public let replicationInstanceClass: String?
-        
+
         public init(allocatedStorage: Int32? = nil, engineVersion: String? = nil, multiAZ: Bool? = nil, replicationInstanceClass: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.engineVersion = engineVersion
@@ -3257,7 +3253,7 @@ extension DatabaseMigrationService {
         public let subnets: [Subnet]?
         /// The ID of the VPC.
         public let vpcId: String?
-        
+
         public init(replicationSubnetGroupDescription: String? = nil, replicationSubnetGroupIdentifier: String? = nil, subnetGroupStatus: String? = nil, subnets: [Subnet]? = nil, vpcId: String? = nil) {
             self.replicationSubnetGroupDescription = replicationSubnetGroupDescription
             self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
@@ -3329,7 +3325,7 @@ extension DatabaseMigrationService {
         public let tableMappings: String?
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let targetEndpointArn: String?
-        
+
         public init(cdcStartPosition: String? = nil, cdcStopPosition: String? = nil, lastFailureMessage: String? = nil, migrationType: MigrationTypeValue? = nil, recoveryCheckpoint: String? = nil, replicationInstanceArn: String? = nil, replicationTaskArn: String? = nil, replicationTaskCreationDate: TimeStamp? = nil, replicationTaskIdentifier: String? = nil, replicationTaskSettings: String? = nil, replicationTaskStartDate: TimeStamp? = nil, replicationTaskStats: ReplicationTaskStats? = nil, sourceEndpointArn: String? = nil, status: String? = nil, stopReason: String? = nil, tableMappings: String? = nil, targetEndpointArn: String? = nil) {
             self.cdcStartPosition = cdcStartPosition
             self.cdcStopPosition = cdcStopPosition
@@ -3395,7 +3391,7 @@ extension DatabaseMigrationService {
         public let replicationTaskLastAssessmentDate: TimeStamp?
         ///  The URL of the S3 object containing the task assessment results. 
         public let s3ObjectUrl: String?
-        
+
         public init(assessmentResults: String? = nil, assessmentResultsFile: String? = nil, assessmentStatus: String? = nil, replicationTaskArn: String? = nil, replicationTaskIdentifier: String? = nil, replicationTaskLastAssessmentDate: TimeStamp? = nil, s3ObjectUrl: String? = nil) {
             self.assessmentResults = assessmentResults
             self.assessmentResultsFile = assessmentResultsFile
@@ -3438,7 +3434,7 @@ extension DatabaseMigrationService {
         public let tablesLoading: Int32?
         /// The number of tables queued for this task.
         public let tablesQueued: Int32?
-        
+
         public init(elapsedTimeMillis: Int64? = nil, fullLoadProgressPercent: Int32? = nil, tablesErrored: Int32? = nil, tablesLoaded: Int32? = nil, tablesLoading: Int32? = nil, tablesQueued: Int32? = nil) {
             self.elapsedTimeMillis = elapsedTimeMillis
             self.fullLoadProgressPercent = fullLoadProgressPercent
@@ -3467,7 +3463,7 @@ extension DatabaseMigrationService {
         public let pendingMaintenanceActionDetails: [PendingMaintenanceAction]?
         /// The Amazon Resource Name (ARN) of the DMS resource that the pending maintenance action applies to. For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN) in the DMS documentation.
         public let resourceIdentifier: String?
-        
+
         public init(pendingMaintenanceActionDetails: [PendingMaintenanceAction]? = nil, resourceIdentifier: String? = nil) {
             self.pendingMaintenanceActionDetails = pendingMaintenanceActionDetails
             self.resourceIdentifier = resourceIdentifier
@@ -3533,7 +3529,7 @@ extension DatabaseMigrationService {
         public let serverSideEncryptionKmsKeyId: String?
         ///  The Amazon Resource Name (ARN) used by the service access IAM role. 
         public let serviceAccessRoleArn: String?
-        
+
         public init(bucketFolder: String? = nil, bucketName: String? = nil, cdcInsertsOnly: Bool? = nil, compressionType: CompressionTypeValue? = nil, csvDelimiter: String? = nil, csvRowDelimiter: String? = nil, dataFormat: DataFormatValue? = nil, dataPageSize: Int32? = nil, dictPageSizeLimit: Int32? = nil, enableStatistics: Bool? = nil, encodingType: EncodingTypeValue? = nil, encryptionMode: EncryptionModeValue? = nil, externalTableDefinition: String? = nil, parquetVersion: ParquetVersionValue? = nil, rowGroupLength: Int32? = nil, serverSideEncryptionKmsKeyId: String? = nil, serviceAccessRoleArn: String? = nil) {
             self.bucketFolder = bucketFolder
             self.bucketName = bucketName
@@ -3586,7 +3582,7 @@ extension DatabaseMigrationService {
         ]
         ///  The Amazon Resource Name (ARN) of the replication task. 
         public let replicationTaskArn: String
-        
+
         public init(replicationTaskArn: String) {
             self.replicationTaskArn = replicationTaskArn
         }
@@ -3602,7 +3598,7 @@ extension DatabaseMigrationService {
         ]
         ///  The assessed replication task. 
         public let replicationTask: ReplicationTask?
-        
+
         public init(replicationTask: ReplicationTask? = nil) {
             self.replicationTask = replicationTask
         }
@@ -3630,7 +3626,7 @@ extension DatabaseMigrationService {
         public let replicationTaskArn: String
         /// The type of replication task.
         public let startReplicationTaskType: StartReplicationTaskTypeValue
-        
+
         public init(cdcStartPosition: String? = nil, cdcStartTime: TimeStamp? = nil, cdcStopPosition: String? = nil, replicationTaskArn: String, startReplicationTaskType: StartReplicationTaskTypeValue) {
             self.cdcStartPosition = cdcStartPosition
             self.cdcStartTime = cdcStartTime
@@ -3654,7 +3650,7 @@ extension DatabaseMigrationService {
         ]
         /// The replication task started.
         public let replicationTask: ReplicationTask?
-        
+
         public init(replicationTask: ReplicationTask? = nil) {
             self.replicationTask = replicationTask
         }
@@ -3677,7 +3673,7 @@ extension DatabaseMigrationService {
         ]
         /// The Amazon Resource Name(ARN) of the replication task to be stopped.
         public let replicationTaskArn: String
-        
+
         public init(replicationTaskArn: String) {
             self.replicationTaskArn = replicationTaskArn
         }
@@ -3693,7 +3689,7 @@ extension DatabaseMigrationService {
         ]
         /// The replication task stopped.
         public let replicationTask: ReplicationTask?
-        
+
         public init(replicationTask: ReplicationTask? = nil) {
             self.replicationTask = replicationTask
         }
@@ -3715,7 +3711,7 @@ extension DatabaseMigrationService {
         public let subnetIdentifier: String?
         /// The status of the subnet.
         public let subnetStatus: String?
-        
+
         public init(subnetAvailabilityZone: AvailabilityZone? = nil, subnetIdentifier: String? = nil, subnetStatus: String? = nil) {
             self.subnetAvailabilityZone = subnetAvailabilityZone
             self.subnetIdentifier = subnetIdentifier
@@ -3744,7 +3740,7 @@ extension DatabaseMigrationService {
         public let engineName: String?
         /// Indicates if Change Data Capture (CDC) is supported.
         public let supportsCDC: Bool?
-        
+
         public init(endpointType: ReplicationEndpointTypeValue? = nil, engineDisplayName: String? = nil, engineName: String? = nil, supportsCDC: Bool? = nil) {
             self.endpointType = endpointType
             self.engineDisplayName = engineDisplayName
@@ -3811,7 +3807,7 @@ extension DatabaseMigrationService {
         public let validationStateDetails: String?
         /// The number of records that could not be validated.
         public let validationSuspendedRecords: Int64?
-        
+
         public init(ddls: Int64? = nil, deletes: Int64? = nil, fullLoadCondtnlChkFailedRows: Int64? = nil, fullLoadErrorRows: Int64? = nil, fullLoadRows: Int64? = nil, inserts: Int64? = nil, lastUpdateTime: TimeStamp? = nil, schemaName: String? = nil, tableName: String? = nil, tableState: String? = nil, updates: Int64? = nil, validationFailedRecords: Int64? = nil, validationPendingRecords: Int64? = nil, validationState: String? = nil, validationStateDetails: String? = nil, validationSuspendedRecords: Int64? = nil) {
             self.ddls = ddls
             self.deletes = deletes
@@ -3860,7 +3856,7 @@ extension DatabaseMigrationService {
         public let schemaName: String?
         /// The table name of the table to be reloaded.
         public let tableName: String?
-        
+
         public init(schemaName: String? = nil, tableName: String? = nil) {
             self.schemaName = schemaName
             self.tableName = tableName
@@ -3881,7 +3877,7 @@ extension DatabaseMigrationService {
         public let key: String?
         /// A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and cannot be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public let value: String?
-        
+
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -3902,7 +3898,7 @@ extension DatabaseMigrationService {
         public let endpointArn: String
         /// The Amazon Resource Name (ARN) of the replication instance.
         public let replicationInstanceArn: String
-        
+
         public init(endpointArn: String, replicationInstanceArn: String) {
             self.endpointArn = endpointArn
             self.replicationInstanceArn = replicationInstanceArn
@@ -3920,7 +3916,7 @@ extension DatabaseMigrationService {
         ]
         /// The connection tested.
         public let connection: Connection?
-        
+
         public init(connection: Connection? = nil) {
             self.connection = connection
         }
@@ -3939,7 +3935,7 @@ extension DatabaseMigrationService {
         public let status: String?
         /// The VPC security group Id.
         public let vpcSecurityGroupId: String?
-        
+
         public init(status: String? = nil, vpcSecurityGroupId: String? = nil) {
             self.status = status
             self.vpcSecurityGroupId = vpcSecurityGroupId
@@ -3950,5 +3946,4 @@ extension DatabaseMigrationService {
             case vpcSecurityGroupId = "VpcSecurityGroupId"
         }
     }
-
 }

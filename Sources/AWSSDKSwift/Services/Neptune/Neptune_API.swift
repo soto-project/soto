@@ -309,5 +309,4 @@ public struct Neptune {
     public func restoreDBClusterToPointInTime(_ input: RestoreDBClusterToPointInTimeMessage) throws -> Future<RestoreDBClusterToPointInTimeResult> {
         return try client.send(operation: "RestoreDBClusterToPointInTime", path: "/", httpMethod: "POST", input: input)
     }
-
 }

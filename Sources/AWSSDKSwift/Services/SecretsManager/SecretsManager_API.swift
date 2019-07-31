@@ -116,5 +116,4 @@ public struct SecretsManager {
     public func updateSecretVersionStage(_ input: UpdateSecretVersionStageRequest) throws -> Future<UpdateSecretVersionStageResponse> {
         return try client.send(operation: "UpdateSecretVersionStage", path: "/", httpMethod: "POST", input: input)
     }
-
 }

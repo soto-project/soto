@@ -11,7 +11,7 @@ extension PinpointSMSVoice {
         ]
         /// The language to use when delivering the message. For a complete list of supported languages, see the Amazon Polly Developer Guide.
         public let text: String?
-        
+
         public init(text: String? = nil) {
             self.text = text
         }
@@ -30,7 +30,7 @@ extension PinpointSMSVoice {
         public let iamRoleArn: String?
         /// The name of the Amazon CloudWatch Log Group that you want to record events in.
         public let logGroupArn: String?
-        
+
         public init(iamRoleArn: String? = nil, logGroupArn: String? = nil) {
             self.iamRoleArn = iamRoleArn
             self.logGroupArn = logGroupArn
@@ -52,7 +52,7 @@ extension PinpointSMSVoice {
         public let eventDestination: EventDestinationDefinition?
         /// A name that identifies the event destination.
         public let eventDestinationName: String?
-        
+
         public init(configurationSetName: String, eventDestination: EventDestinationDefinition? = nil, eventDestinationName: String? = nil) {
             self.configurationSetName = configurationSetName
             self.eventDestination = eventDestination
@@ -67,12 +67,11 @@ extension PinpointSMSVoice {
     }
 
     public struct CreateConfigurationSetEventDestinationResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct CreateConfigurationSetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -80,7 +79,7 @@ extension PinpointSMSVoice {
         ]
         /// The name that you want to give the configuration set.
         public let configurationSetName: String?
-        
+
         public init(configurationSetName: String? = nil) {
             self.configurationSetName = configurationSetName
         }
@@ -91,12 +90,11 @@ extension PinpointSMSVoice {
     }
 
     public struct CreateConfigurationSetResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteConfigurationSetEventDestinationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -105,7 +103,7 @@ extension PinpointSMSVoice {
         ]
         public let configurationSetName: String
         public let eventDestinationName: String
-        
+
         public init(configurationSetName: String, eventDestinationName: String) {
             self.configurationSetName = configurationSetName
             self.eventDestinationName = eventDestinationName
@@ -118,19 +116,18 @@ extension PinpointSMSVoice {
     }
 
     public struct DeleteConfigurationSetEventDestinationResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteConfigurationSetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string)
         ]
         public let configurationSetName: String
-        
+
         public init(configurationSetName: String) {
             self.configurationSetName = configurationSetName
         }
@@ -141,12 +138,11 @@ extension PinpointSMSVoice {
     }
 
     public struct DeleteConfigurationSetResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct EventDestination: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -165,7 +161,7 @@ extension PinpointSMSVoice {
         /// A name that identifies the event destination configuration.
         public let name: String?
         public let snsDestination: SnsDestination?
-        
+
         public init(cloudWatchLogsDestination: CloudWatchLogsDestination? = nil, enabled: Bool? = nil, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, matchingEventTypes: [EventType]? = nil, name: String? = nil, snsDestination: SnsDestination? = nil) {
             self.cloudWatchLogsDestination = cloudWatchLogsDestination
             self.enabled = enabled
@@ -199,7 +195,7 @@ extension PinpointSMSVoice {
         public let kinesisFirehoseDestination: KinesisFirehoseDestination?
         public let matchingEventTypes: [EventType]?
         public let snsDestination: SnsDestination?
-        
+
         public init(cloudWatchLogsDestination: CloudWatchLogsDestination? = nil, enabled: Bool? = nil, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, matchingEventTypes: [EventType]? = nil, snsDestination: SnsDestination? = nil) {
             self.cloudWatchLogsDestination = cloudWatchLogsDestination
             self.enabled = enabled
@@ -233,7 +229,7 @@ extension PinpointSMSVoice {
             AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string)
         ]
         public let configurationSetName: String
-        
+
         public init(configurationSetName: String) {
             self.configurationSetName = configurationSetName
         }
@@ -248,7 +244,7 @@ extension PinpointSMSVoice {
             AWSShapeMember(label: "EventDestinations", required: false, type: .list)
         ]
         public let eventDestinations: [EventDestination]?
-        
+
         public init(eventDestinations: [EventDestination]? = nil) {
             self.eventDestinations = eventDestinations
         }
@@ -267,7 +263,7 @@ extension PinpointSMSVoice {
         public let deliveryStreamArn: String?
         /// The Amazon Resource Name (ARN) of the Amazon Kinesis Data Firehose destination that you want to use in the event destination.
         public let iamRoleArn: String?
-        
+
         public init(deliveryStreamArn: String? = nil, iamRoleArn: String? = nil) {
             self.deliveryStreamArn = deliveryStreamArn
             self.iamRoleArn = iamRoleArn
@@ -286,7 +282,7 @@ extension PinpointSMSVoice {
         ]
         public let nextToken: String?
         public let pageSize: String?
-        
+
         public init(nextToken: String? = nil, pageSize: String? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
@@ -307,7 +303,7 @@ extension PinpointSMSVoice {
         public let configurationSets: [String]?
         /// A token returned from a previous call to ListConfigurationSets to indicate the position in the list of configuration sets.
         public let nextToken: String?
-        
+
         public init(configurationSets: [String]? = nil, nextToken: String? = nil) {
             self.configurationSets = configurationSets
             self.nextToken = nextToken
@@ -331,7 +327,7 @@ extension PinpointSMSVoice {
         public let text: String?
         /// The name of the voice that you want to use to deliver the message. For a complete list of supported voices, see the Amazon Polly Developer Guide.
         public let voiceId: String?
-        
+
         public init(languageCode: String? = nil, text: String? = nil, voiceId: String? = nil) {
             self.languageCode = languageCode
             self.text = text
@@ -357,7 +353,7 @@ extension PinpointSMSVoice {
         public let text: String?
         /// The name of the voice that you want to use to deliver the message. For a complete list of supported voices, see the Amazon Polly Developer Guide.
         public let voiceId: String?
-        
+
         public init(languageCode: String? = nil, text: String? = nil, voiceId: String? = nil) {
             self.languageCode = languageCode
             self.text = text
@@ -388,7 +384,7 @@ extension PinpointSMSVoice {
         public let destinationPhoneNumber: String?
         /// The phone number that Amazon Pinpoint should use to send the voice message. This isn't necessarily the phone number that appears on recipients' devices when they receive the message, because you can specify a CallerId parameter in the request.
         public let originationPhoneNumber: String?
-        
+
         public init(callerId: String? = nil, configurationSetName: String? = nil, content: VoiceMessageContent? = nil, destinationPhoneNumber: String? = nil, originationPhoneNumber: String? = nil) {
             self.callerId = callerId
             self.configurationSetName = configurationSetName
@@ -412,7 +408,7 @@ extension PinpointSMSVoice {
         ]
         /// A unique identifier for the voice message.
         public let messageId: String?
-        
+
         public init(messageId: String? = nil) {
             self.messageId = messageId
         }
@@ -428,7 +424,7 @@ extension PinpointSMSVoice {
         ]
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic that you want to publish events to.
         public let topicArn: String?
-        
+
         public init(topicArn: String? = nil) {
             self.topicArn = topicArn
         }
@@ -447,7 +443,7 @@ extension PinpointSMSVoice {
         public let configurationSetName: String
         public let eventDestination: EventDestinationDefinition?
         public let eventDestinationName: String
-        
+
         public init(configurationSetName: String, eventDestination: EventDestinationDefinition? = nil, eventDestinationName: String) {
             self.configurationSetName = configurationSetName
             self.eventDestination = eventDestination
@@ -462,12 +458,11 @@ extension PinpointSMSVoice {
     }
 
     public struct UpdateConfigurationSetEventDestinationResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct VoiceMessageContent: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -478,7 +473,7 @@ extension PinpointSMSVoice {
         public let callInstructionsMessage: CallInstructionsMessageType?
         public let plainTextMessage: PlainTextMessageType?
         public let sSMLMessage: SSMLMessageType?
-        
+
         public init(callInstructionsMessage: CallInstructionsMessageType? = nil, plainTextMessage: PlainTextMessageType? = nil, sSMLMessage: SSMLMessageType? = nil) {
             self.callInstructionsMessage = callInstructionsMessage
             self.plainTextMessage = plainTextMessage
@@ -491,5 +486,4 @@ extension PinpointSMSVoice {
             case sSMLMessage = "SSMLMessage"
         }
     }
-
 }

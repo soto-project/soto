@@ -4,7 +4,6 @@ import Foundation
 import AWSSDKSwiftCore
 import NIO
 
-
 public struct KinesisVideo {
 
     let client: AWSClient
@@ -72,5 +71,4 @@ public struct KinesisVideo {
     public func updateStream(_ input: UpdateStreamInput) throws -> Future<UpdateStreamOutput> {
         return try client.send(operation: "UpdateStream", path: "/updateStream", httpMethod: "POST", input: input)
     }
-
 }

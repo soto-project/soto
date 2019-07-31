@@ -115,5 +115,4 @@ public struct Snowball {
     public func updateJob(_ input: UpdateJobRequest) throws -> Future<UpdateJobResult> {
         return try client.send(operation: "UpdateJob", path: "/", httpMethod: "POST", input: input)
     }
-
 }

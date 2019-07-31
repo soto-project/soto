@@ -12,7 +12,7 @@ extension CloudSearch {
         ]
         public let options: String
         public let status: OptionStatus
-        
+
         public init(options: String, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -50,7 +50,7 @@ extension CloudSearch {
         public let stopwords: String?
         /// A JSON object that defines synonym groups and aliases. A synonym group is an array of arrays, where each sub-array is a group of terms where each term in the group is considered a synonym of every other term in the group. The aliases value is an object that contains a collection of string:value pairs where the string specifies a term and the array of values specifies each of the aliases for that term. An alias is considered a synonym of the specified term, but the term is not considered a synonym of the alias. For more information about specifying synonyms, see Synonyms in the Amazon CloudSearch Developer Guide.
         public let synonyms: String?
-        
+
         public init(algorithmicStemming: AlgorithmicStemming? = nil, japaneseTokenizationDictionary: String? = nil, stemmingDictionary: String? = nil, stopwords: String? = nil, synonyms: String? = nil) {
             self.algorithmicStemming = algorithmicStemming
             self.japaneseTokenizationDictionary = japaneseTokenizationDictionary
@@ -77,7 +77,7 @@ extension CloudSearch {
         public let analysisOptions: AnalysisOptions?
         public let analysisSchemeLanguage: AnalysisSchemeLanguage
         public let analysisSchemeName: String
-        
+
         public init(analysisOptions: AnalysisOptions? = nil, analysisSchemeLanguage: AnalysisSchemeLanguage, analysisSchemeName: String) {
             self.analysisOptions = analysisOptions
             self.analysisSchemeLanguage = analysisSchemeLanguage
@@ -137,7 +137,7 @@ extension CloudSearch {
         ]
         public let options: AnalysisScheme
         public let status: OptionStatus
-        
+
         public init(options: AnalysisScheme, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -157,7 +157,7 @@ extension CloudSearch {
         /// The availability options configured for the domain.
         public let options: Bool
         public let status: OptionStatus
-        
+
         public init(options: Bool, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -174,7 +174,7 @@ extension CloudSearch {
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         public let domainName: String
-        
+
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -189,7 +189,7 @@ extension CloudSearch {
             AWSShapeMember(label: "FieldNames", required: false, type: .list, encoding: .list(member:"member"))
         ]
         public let fieldNames: [String]?
-        
+
         public init(fieldNames: [String]? = nil) {
             self.fieldNames = fieldNames
         }
@@ -205,7 +205,7 @@ extension CloudSearch {
         ]
         /// A name for the domain you are creating. Allowed characters are a-z (lower-case letters), 0-9, and hyphen (-). Domain names must start with a letter or number and be at least 3 and no more than 28 characters long.
         public let domainName: String
-        
+
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -220,7 +220,7 @@ extension CloudSearch {
             AWSShapeMember(label: "DomainStatus", required: false, type: .structure)
         ]
         public let domainStatus: DomainStatus?
-        
+
         public init(domainStatus: DomainStatus? = nil) {
             self.domainStatus = domainStatus
         }
@@ -248,7 +248,7 @@ extension CloudSearch {
         public let searchEnabled: Bool?
         /// A list of source fields to map to the field. 
         public let sourceFields: String?
-        
+
         public init(defaultValue: String? = nil, facetEnabled: Bool? = nil, returnEnabled: Bool? = nil, searchEnabled: Bool? = nil, sourceFields: String? = nil) {
             self.defaultValue = defaultValue
             self.facetEnabled = facetEnabled
@@ -286,7 +286,7 @@ extension CloudSearch {
         /// Whether the field can be used to sort the search results.
         public let sortEnabled: Bool?
         public let sourceField: String?
-        
+
         public init(defaultValue: String? = nil, facetEnabled: Bool? = nil, returnEnabled: Bool? = nil, searchEnabled: Bool? = nil, sortEnabled: Bool? = nil, sourceField: String? = nil) {
             self.defaultValue = defaultValue
             self.facetEnabled = facetEnabled
@@ -313,7 +313,7 @@ extension CloudSearch {
         ]
         public let analysisScheme: AnalysisScheme
         public let domainName: String
-        
+
         public init(analysisScheme: AnalysisScheme, domainName: String) {
             self.analysisScheme = analysisScheme
             self.domainName = domainName
@@ -330,7 +330,7 @@ extension CloudSearch {
             AWSShapeMember(label: "AnalysisScheme", required: true, type: .structure)
         ]
         public let analysisScheme: AnalysisSchemeStatus
-        
+
         public init(analysisScheme: AnalysisSchemeStatus) {
             self.analysisScheme = analysisScheme
         }
@@ -347,7 +347,7 @@ extension CloudSearch {
         ]
         public let domainName: String
         public let expression: Expression
-        
+
         public init(domainName: String, expression: Expression) {
             self.domainName = domainName
             self.expression = expression
@@ -364,7 +364,7 @@ extension CloudSearch {
             AWSShapeMember(label: "Expression", required: true, type: .structure)
         ]
         public let expression: ExpressionStatus
-        
+
         public init(expression: ExpressionStatus) {
             self.expression = expression
         }
@@ -382,7 +382,7 @@ extension CloudSearch {
         public let domainName: String
         /// The index field and field options you want to configure. 
         public let indexField: IndexField
-        
+
         public init(domainName: String, indexField: IndexField) {
             self.domainName = domainName
             self.indexField = indexField
@@ -399,7 +399,7 @@ extension CloudSearch {
             AWSShapeMember(label: "IndexField", required: true, type: .structure)
         ]
         public let indexField: IndexFieldStatus
-        
+
         public init(indexField: IndexFieldStatus) {
             self.indexField = indexField
         }
@@ -416,7 +416,7 @@ extension CloudSearch {
         ]
         public let domainName: String
         public let suggester: Suggester
-        
+
         public init(domainName: String, suggester: Suggester) {
             self.domainName = domainName
             self.suggester = suggester
@@ -433,7 +433,7 @@ extension CloudSearch {
             AWSShapeMember(label: "Suggester", required: true, type: .structure)
         ]
         public let suggester: SuggesterStatus
-        
+
         public init(suggester: SuggesterStatus) {
             self.suggester = suggester
         }
@@ -451,7 +451,7 @@ extension CloudSearch {
         /// The name of the analysis scheme you want to delete.
         public let analysisSchemeName: String
         public let domainName: String
-        
+
         public init(analysisSchemeName: String, domainName: String) {
             self.analysisSchemeName = analysisSchemeName
             self.domainName = domainName
@@ -469,7 +469,7 @@ extension CloudSearch {
         ]
         /// The status of the analysis scheme being deleted.
         public let analysisScheme: AnalysisSchemeStatus
-        
+
         public init(analysisScheme: AnalysisSchemeStatus) {
             self.analysisScheme = analysisScheme
         }
@@ -485,7 +485,7 @@ extension CloudSearch {
         ]
         /// The name of the domain you want to permanently delete.
         public let domainName: String
-        
+
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -500,7 +500,7 @@ extension CloudSearch {
             AWSShapeMember(label: "DomainStatus", required: false, type: .structure)
         ]
         public let domainStatus: DomainStatus?
-        
+
         public init(domainStatus: DomainStatus? = nil) {
             self.domainStatus = domainStatus
         }
@@ -518,7 +518,7 @@ extension CloudSearch {
         public let domainName: String
         /// The name of the Expression to delete.
         public let expressionName: String
-        
+
         public init(domainName: String, expressionName: String) {
             self.domainName = domainName
             self.expressionName = expressionName
@@ -536,7 +536,7 @@ extension CloudSearch {
         ]
         /// The status of the expression being deleted.
         public let expression: ExpressionStatus
-        
+
         public init(expression: ExpressionStatus) {
             self.expression = expression
         }
@@ -554,7 +554,7 @@ extension CloudSearch {
         public let domainName: String
         /// The name of the index field your want to remove from the domain's indexing options.
         public let indexFieldName: String
-        
+
         public init(domainName: String, indexFieldName: String) {
             self.domainName = domainName
             self.indexFieldName = indexFieldName
@@ -572,7 +572,7 @@ extension CloudSearch {
         ]
         /// The status of the index field being deleted.
         public let indexField: IndexFieldStatus
-        
+
         public init(indexField: IndexFieldStatus) {
             self.indexField = indexField
         }
@@ -590,7 +590,7 @@ extension CloudSearch {
         public let domainName: String
         /// Specifies the name of the suggester you want to delete.
         public let suggesterName: String
-        
+
         public init(domainName: String, suggesterName: String) {
             self.domainName = domainName
             self.suggesterName = suggesterName
@@ -608,7 +608,7 @@ extension CloudSearch {
         ]
         /// The status of the suggester being deleted.
         public let suggester: SuggesterStatus
-        
+
         public init(suggester: SuggesterStatus) {
             self.suggester = suggester
         }
@@ -630,7 +630,7 @@ extension CloudSearch {
         public let deployed: Bool?
         /// The name of the domain you want to describe.
         public let domainName: String
-        
+
         public init(analysisSchemeNames: [String]? = nil, deployed: Bool? = nil, domainName: String) {
             self.analysisSchemeNames = analysisSchemeNames
             self.deployed = deployed
@@ -650,7 +650,7 @@ extension CloudSearch {
         ]
         /// The analysis scheme descriptions.
         public let analysisSchemes: [AnalysisSchemeStatus]
-        
+
         public init(analysisSchemes: [AnalysisSchemeStatus]) {
             self.analysisSchemes = analysisSchemes
         }
@@ -669,7 +669,7 @@ extension CloudSearch {
         public let deployed: Bool?
         /// The name of the domain you want to describe.
         public let domainName: String
-        
+
         public init(deployed: Bool? = nil, domainName: String) {
             self.deployed = deployed
             self.domainName = domainName
@@ -687,7 +687,7 @@ extension CloudSearch {
         ]
         /// The availability options configured for the domain. Indicates whether Multi-AZ is enabled for the domain. 
         public let availabilityOptions: AvailabilityOptionsStatus?
-        
+
         public init(availabilityOptions: AvailabilityOptionsStatus? = nil) {
             self.availabilityOptions = availabilityOptions
         }
@@ -703,7 +703,7 @@ extension CloudSearch {
         ]
         /// The names of the domains you want to include in the response.
         public let domainNames: [String]?
-        
+
         public init(domainNames: [String]? = nil) {
             self.domainNames = domainNames
         }
@@ -718,7 +718,7 @@ extension CloudSearch {
             AWSShapeMember(label: "DomainStatusList", required: true, type: .list, encoding: .list(member:"member"))
         ]
         public let domainStatusList: [DomainStatus]
-        
+
         public init(domainStatusList: [DomainStatus]) {
             self.domainStatusList = domainStatusList
         }
@@ -740,7 +740,7 @@ extension CloudSearch {
         public let domainName: String
         /// Limits the DescribeExpressions response to the specified expressions. If not specified, all expressions are shown.
         public let expressionNames: [String]?
-        
+
         public init(deployed: Bool? = nil, domainName: String, expressionNames: [String]? = nil) {
             self.deployed = deployed
             self.domainName = domainName
@@ -760,7 +760,7 @@ extension CloudSearch {
         ]
         /// The expressions configured for the domain.
         public let expressions: [ExpressionStatus]
-        
+
         public init(expressions: [ExpressionStatus]) {
             self.expressions = expressions
         }
@@ -782,7 +782,7 @@ extension CloudSearch {
         public let domainName: String
         /// A list of the index fields you want to describe. If not specified, information is returned for all configured index fields.
         public let fieldNames: [String]?
-        
+
         public init(deployed: Bool? = nil, domainName: String, fieldNames: [String]? = nil) {
             self.deployed = deployed
             self.domainName = domainName
@@ -802,7 +802,7 @@ extension CloudSearch {
         ]
         /// The index fields configured for the domain.
         public let indexFields: [IndexFieldStatus]
-        
+
         public init(indexFields: [IndexFieldStatus]) {
             self.indexFields = indexFields
         }
@@ -817,7 +817,7 @@ extension CloudSearch {
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         public let domainName: String
-        
+
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -832,7 +832,7 @@ extension CloudSearch {
             AWSShapeMember(label: "ScalingParameters", required: true, type: .structure)
         ]
         public let scalingParameters: ScalingParametersStatus
-        
+
         public init(scalingParameters: ScalingParametersStatus) {
             self.scalingParameters = scalingParameters
         }
@@ -851,7 +851,7 @@ extension CloudSearch {
         public let deployed: Bool?
         /// The name of the domain you want to describe.
         public let domainName: String
-        
+
         public init(deployed: Bool? = nil, domainName: String) {
             self.deployed = deployed
             self.domainName = domainName
@@ -869,7 +869,7 @@ extension CloudSearch {
         ]
         /// The access rules configured for the domain specified in the request.
         public let accessPolicies: AccessPoliciesStatus
-        
+
         public init(accessPolicies: AccessPoliciesStatus) {
             self.accessPolicies = accessPolicies
         }
@@ -891,7 +891,7 @@ extension CloudSearch {
         public let domainName: String
         /// The suggesters you want to describe.
         public let suggesterNames: [String]?
-        
+
         public init(deployed: Bool? = nil, domainName: String, suggesterNames: [String]? = nil) {
             self.deployed = deployed
             self.domainName = domainName
@@ -911,7 +911,7 @@ extension CloudSearch {
         ]
         /// The suggesters configured for the domain specified in the request.
         public let suggesters: [SuggesterStatus]
-        
+
         public init(suggesters: [SuggesterStatus]) {
             self.suggesters = suggesters
         }
@@ -933,7 +933,7 @@ extension CloudSearch {
         public let sortExpression: String?
         /// The name of the index field you want to use for suggestions. 
         public let sourceField: String
-        
+
         public init(fuzzyMatching: SuggesterFuzzyMatching? = nil, sortExpression: String? = nil, sourceField: String) {
             self.fuzzyMatching = fuzzyMatching
             self.sortExpression = sortExpression
@@ -985,7 +985,7 @@ extension CloudSearch {
         public let searchPartitionCount: Int32?
         /// The service endpoint for requesting search results from a search domain.
         public let searchService: ServiceEndpoint?
-        
+
         public init(arn: String? = nil, created: Bool? = nil, deleted: Bool? = nil, docService: ServiceEndpoint? = nil, domainId: String, domainName: String, limits: Limits? = nil, processing: Bool? = nil, requiresIndexDocuments: Bool, searchInstanceCount: Int32? = nil, searchInstanceType: String? = nil, searchPartitionCount: Int32? = nil, searchService: ServiceEndpoint? = nil) {
             self.arn = arn
             self.created = created
@@ -1037,7 +1037,7 @@ extension CloudSearch {
         public let searchEnabled: Bool?
         /// A list of source fields to map to the field. 
         public let sourceFields: String?
-        
+
         public init(defaultValue: Double? = nil, facetEnabled: Bool? = nil, returnEnabled: Bool? = nil, searchEnabled: Bool? = nil, sourceFields: String? = nil) {
             self.defaultValue = defaultValue
             self.facetEnabled = facetEnabled
@@ -1076,7 +1076,7 @@ extension CloudSearch {
         public let sortEnabled: Bool?
         /// The name of the source field to map to the field. 
         public let sourceField: String?
-        
+
         public init(defaultValue: Double? = nil, facetEnabled: Bool? = nil, returnEnabled: Bool? = nil, searchEnabled: Bool? = nil, sortEnabled: Bool? = nil, sourceField: String? = nil) {
             self.defaultValue = defaultValue
             self.facetEnabled = facetEnabled
@@ -1103,7 +1103,7 @@ extension CloudSearch {
         ]
         public let expressionName: String
         public let expressionValue: String
-        
+
         public init(expressionName: String, expressionValue: String) {
             self.expressionName = expressionName
             self.expressionValue = expressionValue
@@ -1123,7 +1123,7 @@ extension CloudSearch {
         /// The expression that is evaluated for sorting while processing a search request.
         public let options: Expression
         public let status: OptionStatus
-        
+
         public init(options: Expression, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -1140,7 +1140,7 @@ extension CloudSearch {
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         public let domainName: String
-        
+
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -1156,7 +1156,7 @@ extension CloudSearch {
         ]
         /// The names of the fields that are currently being indexed.
         public let fieldNames: [String]?
-        
+
         public init(fieldNames: [String]? = nil) {
             self.fieldNames = fieldNames
         }
@@ -1196,7 +1196,7 @@ extension CloudSearch {
         public let literalOptions: LiteralOptions?
         public let textArrayOptions: TextArrayOptions?
         public let textOptions: TextOptions?
-        
+
         public init(dateArrayOptions: DateArrayOptions? = nil, dateOptions: DateOptions? = nil, doubleArrayOptions: DoubleArrayOptions? = nil, doubleOptions: DoubleOptions? = nil, indexFieldName: String, indexFieldType: IndexFieldType, intArrayOptions: IntArrayOptions? = nil, intOptions: IntOptions? = nil, latLonOptions: LatLonOptions? = nil, literalArrayOptions: LiteralArrayOptions? = nil, literalOptions: LiteralOptions? = nil, textArrayOptions: TextArrayOptions? = nil, textOptions: TextOptions? = nil) {
             self.dateArrayOptions = dateArrayOptions
             self.dateOptions = dateOptions
@@ -1237,7 +1237,7 @@ extension CloudSearch {
         ]
         public let options: IndexField
         public let status: OptionStatus
-        
+
         public init(options: IndexField, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -1282,7 +1282,7 @@ extension CloudSearch {
         public let searchEnabled: Bool?
         /// A list of source fields to map to the field. 
         public let sourceFields: String?
-        
+
         public init(defaultValue: Int64? = nil, facetEnabled: Bool? = nil, returnEnabled: Bool? = nil, searchEnabled: Bool? = nil, sourceFields: String? = nil) {
             self.defaultValue = defaultValue
             self.facetEnabled = facetEnabled
@@ -1321,7 +1321,7 @@ extension CloudSearch {
         public let sortEnabled: Bool?
         /// The name of the source field to map to the field. 
         public let sourceField: String?
-        
+
         public init(defaultValue: Int64? = nil, facetEnabled: Bool? = nil, returnEnabled: Bool? = nil, searchEnabled: Bool? = nil, sortEnabled: Bool? = nil, sourceField: String? = nil) {
             self.defaultValue = defaultValue
             self.facetEnabled = facetEnabled
@@ -1361,7 +1361,7 @@ extension CloudSearch {
         /// Whether the field can be used to sort the search results.
         public let sortEnabled: Bool?
         public let sourceField: String?
-        
+
         public init(defaultValue: String? = nil, facetEnabled: Bool? = nil, returnEnabled: Bool? = nil, searchEnabled: Bool? = nil, sortEnabled: Bool? = nil, sourceField: String? = nil) {
             self.defaultValue = defaultValue
             self.facetEnabled = facetEnabled
@@ -1388,7 +1388,7 @@ extension CloudSearch {
         ]
         public let maximumPartitionCount: Int32
         public let maximumReplicationCount: Int32
-        
+
         public init(maximumPartitionCount: Int32, maximumReplicationCount: Int32) {
             self.maximumPartitionCount = maximumPartitionCount
             self.maximumReplicationCount = maximumReplicationCount
@@ -1406,7 +1406,7 @@ extension CloudSearch {
         ]
         /// The names of the search domains owned by an account.
         public let domainNames: [String: String]?
-        
+
         public init(domainNames: [String: String]? = nil) {
             self.domainNames = domainNames
         }
@@ -1434,7 +1434,7 @@ extension CloudSearch {
         public let searchEnabled: Bool?
         /// A list of source fields to map to the field. 
         public let sourceFields: String?
-        
+
         public init(defaultValue: String? = nil, facetEnabled: Bool? = nil, returnEnabled: Bool? = nil, searchEnabled: Bool? = nil, sourceFields: String? = nil) {
             self.defaultValue = defaultValue
             self.facetEnabled = facetEnabled
@@ -1472,7 +1472,7 @@ extension CloudSearch {
         /// Whether the field can be used to sort the search results.
         public let sortEnabled: Bool?
         public let sourceField: String?
-        
+
         public init(defaultValue: String? = nil, facetEnabled: Bool? = nil, returnEnabled: Bool? = nil, searchEnabled: Bool? = nil, sortEnabled: Bool? = nil, sourceField: String? = nil) {
             self.defaultValue = defaultValue
             self.facetEnabled = facetEnabled
@@ -1518,7 +1518,7 @@ extension CloudSearch {
         public let updateDate: TimeStamp
         /// A unique integer that indicates when this option was last updated.
         public let updateVersion: Int32?
-        
+
         public init(creationDate: TimeStamp, pendingDeletion: Bool? = nil, state: OptionState, updateDate: TimeStamp, updateVersion: Int32? = nil) {
             self.creationDate = creationDate
             self.pendingDeletion = pendingDeletion
@@ -1560,7 +1560,7 @@ extension CloudSearch {
         public let desiredPartitionCount: Int32?
         /// The number of replicas you want to preconfigure for each index partition.
         public let desiredReplicationCount: Int32?
-        
+
         public init(desiredInstanceType: PartitionInstanceType? = nil, desiredPartitionCount: Int32? = nil, desiredReplicationCount: Int32? = nil) {
             self.desiredInstanceType = desiredInstanceType
             self.desiredPartitionCount = desiredPartitionCount
@@ -1581,7 +1581,7 @@ extension CloudSearch {
         ]
         public let options: ScalingParameters
         public let status: OptionStatus
-        
+
         public init(options: ScalingParameters, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -1598,7 +1598,7 @@ extension CloudSearch {
             AWSShapeMember(label: "Endpoint", required: false, type: .string)
         ]
         public let endpoint: String?
-        
+
         public init(endpoint: String? = nil) {
             self.endpoint = endpoint
         }
@@ -1615,7 +1615,7 @@ extension CloudSearch {
         ]
         public let documentSuggesterOptions: DocumentSuggesterOptions
         public let suggesterName: String
-        
+
         public init(documentSuggesterOptions: DocumentSuggesterOptions, suggesterName: String) {
             self.documentSuggesterOptions = documentSuggesterOptions
             self.suggesterName = suggesterName
@@ -1641,7 +1641,7 @@ extension CloudSearch {
         ]
         public let options: Suggester
         public let status: OptionStatus
-        
+
         public init(options: Suggester, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -1671,7 +1671,7 @@ extension CloudSearch {
         public let returnEnabled: Bool?
         /// A list of source fields to map to the field. 
         public let sourceFields: String?
-        
+
         public init(analysisScheme: String? = nil, defaultValue: String? = nil, highlightEnabled: Bool? = nil, returnEnabled: Bool? = nil, sourceFields: String? = nil) {
             self.analysisScheme = analysisScheme
             self.defaultValue = defaultValue
@@ -1709,7 +1709,7 @@ extension CloudSearch {
         /// Whether the field can be used to sort the search results.
         public let sortEnabled: Bool?
         public let sourceField: String?
-        
+
         public init(analysisScheme: String? = nil, defaultValue: String? = nil, highlightEnabled: Bool? = nil, returnEnabled: Bool? = nil, sortEnabled: Bool? = nil, sourceField: String? = nil) {
             self.analysisScheme = analysisScheme
             self.defaultValue = defaultValue
@@ -1737,7 +1737,7 @@ extension CloudSearch {
         public let domainName: String
         /// You expand an existing search domain to a second Availability Zone by setting the Multi-AZ option to true. Similarly, you can turn off the Multi-AZ option to downgrade the domain to a single Availability Zone by setting the Multi-AZ option to false. 
         public let multiAZ: Bool
-        
+
         public init(domainName: String, multiAZ: Bool) {
             self.domainName = domainName
             self.multiAZ = multiAZ
@@ -1755,7 +1755,7 @@ extension CloudSearch {
         ]
         /// The newly-configured availability options. Indicates whether Multi-AZ is enabled for the domain. 
         public let availabilityOptions: AvailabilityOptionsStatus?
-        
+
         public init(availabilityOptions: AvailabilityOptionsStatus? = nil) {
             self.availabilityOptions = availabilityOptions
         }
@@ -1772,7 +1772,7 @@ extension CloudSearch {
         ]
         public let domainName: String
         public let scalingParameters: ScalingParameters
-        
+
         public init(domainName: String, scalingParameters: ScalingParameters) {
             self.domainName = domainName
             self.scalingParameters = scalingParameters
@@ -1789,7 +1789,7 @@ extension CloudSearch {
             AWSShapeMember(label: "ScalingParameters", required: true, type: .structure)
         ]
         public let scalingParameters: ScalingParametersStatus
-        
+
         public init(scalingParameters: ScalingParametersStatus) {
             self.scalingParameters = scalingParameters
         }
@@ -1807,7 +1807,7 @@ extension CloudSearch {
         /// The access rules you want to configure. These rules replace any existing rules. 
         public let accessPolicies: String
         public let domainName: String
-        
+
         public init(accessPolicies: String, domainName: String) {
             self.accessPolicies = accessPolicies
             self.domainName = domainName
@@ -1825,7 +1825,7 @@ extension CloudSearch {
         ]
         /// The access rules configured for the domain.
         public let accessPolicies: AccessPoliciesStatus
-        
+
         public init(accessPolicies: AccessPoliciesStatus) {
             self.accessPolicies = accessPolicies
         }
@@ -1834,5 +1834,4 @@ extension CloudSearch {
             case accessPolicies = "AccessPolicies"
         }
     }
-
 }

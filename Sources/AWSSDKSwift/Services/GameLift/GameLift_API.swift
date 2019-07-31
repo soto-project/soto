@@ -390,5 +390,4 @@ public struct GameLift {
     public func validateMatchmakingRuleSet(_ input: ValidateMatchmakingRuleSetInput) throws -> Future<ValidateMatchmakingRuleSetOutput> {
         return try client.send(operation: "ValidateMatchmakingRuleSet", path: "/", httpMethod: "POST", input: input)
     }
-
 }

@@ -14,7 +14,7 @@ extension LexRuntimeService {
         public let text: String
         /// The value sent to Amazon Lex when a user chooses the button. For example, consider button text "NYC." When the user chooses the button, the value sent can be "New York City."
         public let value: String
-        
+
         public init(text: String, value: String) {
             self.text = text
             self.value = value
@@ -59,7 +59,7 @@ extension LexRuntimeService {
         public let subTitle: String?
         /// The title of the option.
         public let title: String?
-        
+
         public init(attachmentLinkUrl: String? = nil, buttons: [Button]? = nil, imageUrl: String? = nil, subTitle: String? = nil, title: String? = nil) {
             self.attachmentLinkUrl = attachmentLinkUrl
             self.buttons = buttons
@@ -114,7 +114,7 @@ extension LexRuntimeService {
         public let sessionAttributes: String?
         /// The ID of the client application user. Amazon Lex uses this to identify a user's conversation with your bot. At runtime, each request must contain the userID field. To decide the user ID to use for your application, consider the following factors.   The userID field must not contain any personally identifiable information of the user, for example, name, personal identification numbers, or other end user personal information.   If you want a user to start a conversation on one device and continue on another device, use a user-specific identifier.   If you want the same user to be able to have two independent conversations on two different devices, choose a device-specific identifier.   A user can't have two independent conversations with two different versions of the same bot. For example, a user can't have a conversation with the PROD and BETA versions of the same bot. If you anticipate that a user will need to have conversation with two different versions, for example, while testing, include the bot alias in the user ID to separate the two conversations.  
         public let userId: String
-        
+
         public init(accept: String? = nil, botAlias: String, botName: String, contentType: String, inputStream: Data, requestAttributes: String? = nil, sessionAttributes: String? = nil, userId: String) {
             self.accept = accept
             self.botAlias = botAlias
@@ -173,7 +173,7 @@ extension LexRuntimeService {
         public let slots: String?
         ///  If the dialogState value is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value. 
         public let slotToElicit: String?
-        
+
         public init(audioStream: Data? = nil, contentType: String? = nil, dialogState: DialogState? = nil, inputTranscript: String? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, sessionAttributes: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
             self.audioStream = audioStream
             self.contentType = contentType
@@ -222,7 +222,7 @@ extension LexRuntimeService {
         public let sessionAttributes: [String: String]?
         /// The ID of the client application user. Amazon Lex uses this to identify a user's conversation with your bot. At runtime, each request must contain the userID field. To decide the user ID to use for your application, consider the following factors.   The userID field must not contain any personally identifiable information of the user, for example, name, personal identification numbers, or other end user personal information.   If you want a user to start a conversation on one device and continue on another device, use a user-specific identifier.   If you want the same user to be able to have two independent conversations on two different devices, choose a device-specific identifier.   A user can't have two independent conversations with two different versions of the same bot. For example, a user can't have a conversation with the PROD and BETA versions of the same bot. If you anticipate that a user will need to have conversation with two different versions, for example, while testing, include the bot alias in the user ID to separate the two conversations.  
         public let userId: String
-        
+
         public init(botAlias: String, botName: String, inputText: String, requestAttributes: [String: String]? = nil, sessionAttributes: [String: String]? = nil, userId: String) {
             self.botAlias = botAlias
             self.botName = botName
@@ -269,7 +269,7 @@ extension LexRuntimeService {
         public let slots: [String: String]?
         /// If the dialogState value is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value. 
         public let slotToElicit: String?
-        
+
         public init(dialogState: DialogState? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, responseCard: ResponseCard? = nil, sessionAttributes: [String: String]? = nil, slots: [String: String]? = nil, slotToElicit: String? = nil) {
             self.dialogState = dialogState
             self.intentName = intentName
@@ -305,7 +305,7 @@ extension LexRuntimeService {
         public let genericAttachments: [GenericAttachment]?
         /// The version of the response card format.
         public let version: String?
-        
+
         public init(contentType: ContentType? = nil, genericAttachments: [GenericAttachment]? = nil, version: String? = nil) {
             self.contentType = contentType
             self.genericAttachments = genericAttachments
@@ -318,5 +318,4 @@ extension LexRuntimeService {
             case version = "version"
         }
     }
-
 }

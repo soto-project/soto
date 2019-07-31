@@ -105,5 +105,4 @@ public struct ApplicationInsights {
     public func updateComponentConfiguration(_ input: UpdateComponentConfigurationRequest) throws -> Future<UpdateComponentConfigurationResponse> {
         return try client.send(operation: "UpdateComponentConfiguration", path: "/", httpMethod: "POST", input: input)
     }
-
 }

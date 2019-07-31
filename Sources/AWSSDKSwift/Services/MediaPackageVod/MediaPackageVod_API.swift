@@ -84,5 +84,4 @@ public struct MediaPackageVod {
     public func listPackagingGroups(_ input: ListPackagingGroupsRequest) throws -> Future<ListPackagingGroupsResponse> {
         return try client.send(operation: "ListPackagingGroups", path: "/packaging_groups", httpMethod: "GET", input: input)
     }
-
 }

@@ -14,7 +14,7 @@ extension RAM {
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the invitation.
         public let resourceShareInvitationArn: String
-        
+
         public init(clientToken: String? = nil, resourceShareInvitationArn: String) {
             self.clientToken = clientToken
             self.resourceShareInvitationArn = resourceShareInvitationArn
@@ -35,7 +35,7 @@ extension RAM {
         public let clientToken: String?
         /// Information about the invitation.
         public let resourceShareInvitation: ResourceShareInvitation?
-        
+
         public init(clientToken: String? = nil, resourceShareInvitation: ResourceShareInvitation? = nil) {
             self.clientToken = clientToken
             self.resourceShareInvitation = resourceShareInvitation
@@ -62,7 +62,7 @@ extension RAM {
         public let resourceArns: [String]?
         /// The Amazon Resource Name (ARN) of the resource share.
         public let resourceShareArn: String
-        
+
         public init(clientToken: String? = nil, principals: [String]? = nil, resourceArns: [String]? = nil, resourceShareArn: String) {
             self.clientToken = clientToken
             self.principals = principals
@@ -87,7 +87,7 @@ extension RAM {
         public let clientToken: String?
         /// Information about the associations.
         public let resourceShareAssociations: [ResourceShareAssociation]?
-        
+
         public init(clientToken: String? = nil, resourceShareAssociations: [ResourceShareAssociation]? = nil) {
             self.clientToken = clientToken
             self.resourceShareAssociations = resourceShareAssociations
@@ -120,7 +120,7 @@ extension RAM {
         public let resourceArns: [String]?
         /// One or more tags.
         public let tags: [Tag]?
-        
+
         public init(allowExternalPrincipals: Bool? = nil, clientToken: String? = nil, name: String, principals: [String]? = nil, resourceArns: [String]? = nil, tags: [Tag]? = nil) {
             self.allowExternalPrincipals = allowExternalPrincipals
             self.clientToken = clientToken
@@ -149,7 +149,7 @@ extension RAM {
         public let clientToken: String?
         /// Information about the resource share.
         public let resourceShare: ResourceShare?
-        
+
         public init(clientToken: String? = nil, resourceShare: ResourceShare? = nil) {
             self.clientToken = clientToken
             self.resourceShare = resourceShare
@@ -170,7 +170,7 @@ extension RAM {
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the resource share.
         public let resourceShareArn: String
-        
+
         public init(clientToken: String? = nil, resourceShareArn: String) {
             self.clientToken = clientToken
             self.resourceShareArn = resourceShareArn
@@ -191,7 +191,7 @@ extension RAM {
         public let clientToken: String?
         /// Indicates whether the request succeeded.
         public let returnValue: Bool?
-        
+
         public init(clientToken: String? = nil, returnValue: Bool? = nil) {
             self.clientToken = clientToken
             self.returnValue = returnValue
@@ -218,7 +218,7 @@ extension RAM {
         public let resourceArns: [String]?
         /// The Amazon Resource Name (ARN) of the resource share.
         public let resourceShareArn: String
-        
+
         public init(clientToken: String? = nil, principals: [String]? = nil, resourceArns: [String]? = nil, resourceShareArn: String) {
             self.clientToken = clientToken
             self.principals = principals
@@ -243,7 +243,7 @@ extension RAM {
         public let clientToken: String?
         /// Information about the associations.
         public let resourceShareAssociations: [ResourceShareAssociation]?
-        
+
         public init(clientToken: String? = nil, resourceShareAssociations: [ResourceShareAssociation]? = nil) {
             self.clientToken = clientToken
             self.resourceShareAssociations = resourceShareAssociations
@@ -256,12 +256,11 @@ extension RAM {
     }
 
     public struct EnableSharingWithAwsOrganizationRequest: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct EnableSharingWithAwsOrganizationResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -269,7 +268,7 @@ extension RAM {
         ]
         /// Indicates whether the request succeeded.
         public let returnValue: Bool?
-        
+
         public init(returnValue: Bool? = nil) {
             self.returnValue = returnValue
         }
@@ -294,7 +293,7 @@ extension RAM {
         public let principal: String?
         /// The Amazon Resource Names (ARN) of the resources.
         public let resourceArns: [String]
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, principal: String? = nil, resourceArns: [String]) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -319,7 +318,7 @@ extension RAM {
         public let nextToken: String?
         /// A key policy document, in JSON format.
         public let policies: [String]?
-        
+
         public init(nextToken: String? = nil, policies: [String]? = nil) {
             self.nextToken = nextToken
             self.policies = policies
@@ -355,7 +354,7 @@ extension RAM {
         public let resourceArn: String?
         /// The Amazon Resource Names (ARN) of the resource shares.
         public let resourceShareArns: [String]?
-        
+
         public init(associationStatus: ResourceShareAssociationStatus? = nil, associationType: ResourceShareAssociationType, maxResults: Int32? = nil, nextToken: String? = nil, principal: String? = nil, resourceArn: String? = nil, resourceShareArns: [String]? = nil) {
             self.associationStatus = associationStatus
             self.associationType = associationType
@@ -386,7 +385,7 @@ extension RAM {
         public let nextToken: String?
         /// Information about the association.
         public let resourceShareAssociations: [ResourceShareAssociation]?
-        
+
         public init(nextToken: String? = nil, resourceShareAssociations: [ResourceShareAssociation]? = nil) {
             self.nextToken = nextToken
             self.resourceShareAssociations = resourceShareAssociations
@@ -413,7 +412,7 @@ extension RAM {
         public let resourceShareArns: [String]?
         /// The Amazon Resource Names (ARN) of the invitations.
         public let resourceShareInvitationArns: [String]?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceShareArns: [String]? = nil, resourceShareInvitationArns: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -438,7 +437,7 @@ extension RAM {
         public let nextToken: String?
         /// Information about the invitations.
         public let resourceShareInvitations: [ResourceShareInvitation]?
-        
+
         public init(nextToken: String? = nil, resourceShareInvitations: [ResourceShareInvitation]? = nil) {
             self.nextToken = nextToken
             self.resourceShareInvitations = resourceShareInvitations
@@ -474,7 +473,7 @@ extension RAM {
         public let resourceShareStatus: ResourceShareStatus?
         /// One or more tag filters.
         public let tagFilters: [TagFilter]?
-        
+
         public init(maxResults: Int32? = nil, name: String? = nil, nextToken: String? = nil, resourceOwner: ResourceOwner, resourceShareArns: [String]? = nil, resourceShareStatus: ResourceShareStatus? = nil, tagFilters: [TagFilter]? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -505,7 +504,7 @@ extension RAM {
         public let nextToken: String?
         /// Information about the resource shares.
         public let resourceShares: [ResourceShare]?
-        
+
         public init(nextToken: String? = nil, resourceShares: [ResourceShare]? = nil) {
             self.nextToken = nextToken
             self.resourceShares = resourceShares
@@ -541,7 +540,7 @@ extension RAM {
         public let resourceShareArns: [String]?
         /// The resource type.
         public let resourceType: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, principals: [String]? = nil, resourceArn: String? = nil, resourceOwner: ResourceOwner, resourceShareArns: [String]? = nil, resourceType: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -572,7 +571,7 @@ extension RAM {
         public let nextToken: String?
         /// The principals.
         public let principals: [Principal]?
-        
+
         public init(nextToken: String? = nil, principals: [Principal]? = nil) {
             self.nextToken = nextToken
             self.principals = principals
@@ -608,7 +607,7 @@ extension RAM {
         public let resourceShareArns: [String]?
         /// The resource type.
         public let resourceType: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, principal: String? = nil, resourceArns: [String]? = nil, resourceOwner: ResourceOwner, resourceShareArns: [String]? = nil, resourceType: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -639,7 +638,7 @@ extension RAM {
         public let nextToken: String?
         /// Information about the resources.
         public let resources: [Resource]?
-        
+
         public init(nextToken: String? = nil, resources: [Resource]? = nil) {
             self.nextToken = nextToken
             self.resources = resources
@@ -669,7 +668,7 @@ extension RAM {
         public let lastUpdatedTime: TimeStamp?
         /// The Amazon Resource Name (ARN) of the resource share.
         public let resourceShareArn: String?
-        
+
         public init(creationTime: TimeStamp? = nil, external: Bool? = nil, id: String? = nil, lastUpdatedTime: TimeStamp? = nil, resourceShareArn: String? = nil) {
             self.creationTime = creationTime
             self.external = external
@@ -696,7 +695,7 @@ extension RAM {
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the invitation.
         public let resourceShareInvitationArn: String
-        
+
         public init(clientToken: String? = nil, resourceShareInvitationArn: String) {
             self.clientToken = clientToken
             self.resourceShareInvitationArn = resourceShareInvitationArn
@@ -717,7 +716,7 @@ extension RAM {
         public let clientToken: String?
         /// Information about the invitation.
         public let resourceShareInvitation: ResourceShareInvitation?
-        
+
         public init(clientToken: String? = nil, resourceShareInvitation: ResourceShareInvitation? = nil) {
             self.clientToken = clientToken
             self.resourceShareInvitation = resourceShareInvitation
@@ -753,7 +752,7 @@ extension RAM {
         public let statusMessage: String?
         /// The resource type.
         public let `type`: String?
-        
+
         public init(arn: String? = nil, creationTime: TimeStamp? = nil, lastUpdatedTime: TimeStamp? = nil, resourceShareArn: String? = nil, status: ResourceStatus? = nil, statusMessage: String? = nil, type: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -811,7 +810,7 @@ extension RAM {
         public let statusMessage: String?
         /// The tags for the resource share.
         public let tags: [Tag]?
-        
+
         public init(allowExternalPrincipals: Bool? = nil, creationTime: TimeStamp? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, owningAccountId: String? = nil, resourceShareArn: String? = nil, status: ResourceShareStatus? = nil, statusMessage: String? = nil, tags: [Tag]? = nil) {
             self.allowExternalPrincipals = allowExternalPrincipals
             self.creationTime = creationTime
@@ -864,7 +863,7 @@ extension RAM {
         public let status: ResourceShareAssociationStatus?
         /// A message about the status of the association.
         public let statusMessage: String?
-        
+
         public init(associatedEntity: String? = nil, associationType: ResourceShareAssociationType? = nil, creationTime: TimeStamp? = nil, external: Bool? = nil, lastUpdatedTime: TimeStamp? = nil, resourceShareArn: String? = nil, status: ResourceShareAssociationStatus? = nil, statusMessage: String? = nil) {
             self.associatedEntity = associatedEntity
             self.associationType = associationType
@@ -930,7 +929,7 @@ extension RAM {
         public let senderAccountId: String?
         /// The status of the invitation.
         public let status: ResourceShareInvitationStatus?
-        
+
         public init(invitationTimestamp: TimeStamp? = nil, receiverAccountId: String? = nil, resourceShareArn: String? = nil, resourceShareAssociations: [ResourceShareAssociation]? = nil, resourceShareInvitationArn: String? = nil, resourceShareName: String? = nil, senderAccountId: String? = nil, status: ResourceShareInvitationStatus? = nil) {
             self.invitationTimestamp = invitationTimestamp
             self.receiverAccountId = receiverAccountId
@@ -988,7 +987,7 @@ extension RAM {
         public let key: String?
         /// The value of the tag.
         public let value: String?
-        
+
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1009,7 +1008,7 @@ extension RAM {
         public let tagKey: String?
         /// The tag values.
         public let tagValues: [String]?
-        
+
         public init(tagKey: String? = nil, tagValues: [String]? = nil) {
             self.tagKey = tagKey
             self.tagValues = tagValues
@@ -1030,7 +1029,7 @@ extension RAM {
         public let resourceShareArn: String
         /// One or more tags.
         public let tags: [Tag]
-        
+
         public init(resourceShareArn: String, tags: [Tag]) {
             self.resourceShareArn = resourceShareArn
             self.tags = tags
@@ -1043,12 +1042,11 @@ extension RAM {
     }
 
     public struct TagResourceResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1059,7 +1057,7 @@ extension RAM {
         public let resourceShareArn: String
         /// The tag keys of the tags to remove.
         public let tagKeys: [String]
-        
+
         public init(resourceShareArn: String, tagKeys: [String]) {
             self.resourceShareArn = resourceShareArn
             self.tagKeys = tagKeys
@@ -1072,12 +1070,11 @@ extension RAM {
     }
 
     public struct UntagResourceResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateResourceShareRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1094,7 +1091,7 @@ extension RAM {
         public let name: String?
         /// The Amazon Resource Name (ARN) of the resource share.
         public let resourceShareArn: String
-        
+
         public init(allowExternalPrincipals: Bool? = nil, clientToken: String? = nil, name: String? = nil, resourceShareArn: String) {
             self.allowExternalPrincipals = allowExternalPrincipals
             self.clientToken = clientToken
@@ -1119,7 +1116,7 @@ extension RAM {
         public let clientToken: String?
         /// Information about the resource share.
         public let resourceShare: ResourceShare?
-        
+
         public init(clientToken: String? = nil, resourceShare: ResourceShare? = nil) {
             self.clientToken = clientToken
             self.resourceShare = resourceShare
@@ -1130,5 +1127,4 @@ extension RAM {
             case resourceShare = "resourceShare"
         }
     }
-
 }

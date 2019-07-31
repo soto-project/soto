@@ -395,5 +395,4 @@ public struct OpsWorks {
     @discardableResult public func updateVolume(_ input: UpdateVolumeRequest) throws -> Future<Void> {
         return try client.send(operation: "UpdateVolume", path: "/", httpMethod: "POST", input: input)
     }
-
 }

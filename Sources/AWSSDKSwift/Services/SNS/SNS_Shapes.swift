@@ -20,7 +20,7 @@ extension SNS {
         public let label: String
         /// The ARN of the topic whose access control policy you wish to modify.
         public let topicArn: String
-        
+
         public init(actionName: [String], aWSAccountId: [String], label: String, topicArn: String) {
             self.actionName = actionName
             self.aWSAccountId = aWSAccountId
@@ -42,7 +42,7 @@ extension SNS {
         ]
         /// The phone number for which you want to check the opt out status.
         public let phoneNumber: String
-        
+
         public init(phoneNumber: String) {
             self.phoneNumber = phoneNumber
         }
@@ -58,7 +58,7 @@ extension SNS {
         ]
         /// Indicates whether the phone number is opted out:    true – The phone number is opted out, meaning you cannot publish SMS messages to it.    false – The phone number is opted in, meaning you can publish SMS messages to it.  
         public let isOptedOut: Bool?
-        
+
         public init(isOptedOut: Bool? = nil) {
             self.isOptedOut = isOptedOut
         }
@@ -80,7 +80,7 @@ extension SNS {
         public let token: String
         /// The ARN of the topic for which you wish to confirm a subscription.
         public let topicArn: String
-        
+
         public init(authenticateOnUnsubscribe: String? = nil, token: String, topicArn: String) {
             self.authenticateOnUnsubscribe = authenticateOnUnsubscribe
             self.token = token
@@ -100,7 +100,7 @@ extension SNS {
         ]
         /// The ARN of the created subscription.
         public let subscriptionArn: String?
-        
+
         public init(subscriptionArn: String? = nil) {
             self.subscriptionArn = subscriptionArn
         }
@@ -116,7 +116,7 @@ extension SNS {
         ]
         /// EndpointArn returned from CreateEndpoint action.
         public let endpointArn: String?
-        
+
         public init(endpointArn: String? = nil) {
             self.endpointArn = endpointArn
         }
@@ -138,7 +138,7 @@ extension SNS {
         public let name: String
         /// The following platforms are supported: ADM (Amazon Device Messaging), APNS (Apple Push Notification Service), APNS_SANDBOX, and GCM (Google Cloud Messaging).
         public let platform: String
-        
+
         public init(attributes: [String: String], name: String, platform: String) {
             self.attributes = attributes
             self.name = name
@@ -158,7 +158,7 @@ extension SNS {
         ]
         /// PlatformApplicationArn is returned.
         public let platformApplicationArn: String?
-        
+
         public init(platformApplicationArn: String? = nil) {
             self.platformApplicationArn = platformApplicationArn
         }
@@ -183,7 +183,7 @@ extension SNS {
         public let platformApplicationArn: String
         /// Unique identifier created by the notification service for an app on a device. The specific name for Token will vary, depending on which notification service is being used. For example, when using APNS as the notification service, you need the device token. Alternatively, when using GCM or ADM, the device token equivalent is called the registration ID.
         public let token: String
-        
+
         public init(attributes: [String: String]? = nil, customUserData: String? = nil, platformApplicationArn: String, token: String) {
             self.attributes = attributes
             self.customUserData = customUserData
@@ -211,7 +211,7 @@ extension SNS {
         public let name: String
         /// The list of tags to add to a new topic.
         public let tags: [Tag]?
-        
+
         public init(attributes: [String: String]? = nil, name: String, tags: [Tag]? = nil) {
             self.attributes = attributes
             self.name = name
@@ -231,7 +231,7 @@ extension SNS {
         ]
         /// The Amazon Resource Name (ARN) assigned to the created topic.
         public let topicArn: String?
-        
+
         public init(topicArn: String? = nil) {
             self.topicArn = topicArn
         }
@@ -247,7 +247,7 @@ extension SNS {
         ]
         /// EndpointArn of endpoint to delete.
         public let endpointArn: String
-        
+
         public init(endpointArn: String) {
             self.endpointArn = endpointArn
         }
@@ -263,7 +263,7 @@ extension SNS {
         ]
         /// PlatformApplicationArn of platform application object to delete.
         public let platformApplicationArn: String
-        
+
         public init(platformApplicationArn: String) {
             self.platformApplicationArn = platformApplicationArn
         }
@@ -279,7 +279,7 @@ extension SNS {
         ]
         /// The ARN of the topic you want to delete.
         public let topicArn: String
-        
+
         public init(topicArn: String) {
             self.topicArn = topicArn
         }
@@ -298,7 +298,7 @@ extension SNS {
         public let attributes: [String: String]?
         /// EndpointArn for mobile app and device.
         public let endpointArn: String?
-        
+
         public init(attributes: [String: String]? = nil, endpointArn: String? = nil) {
             self.attributes = attributes
             self.endpointArn = endpointArn
@@ -316,7 +316,7 @@ extension SNS {
         ]
         /// EndpointArn for GetEndpointAttributes input.
         public let endpointArn: String
-        
+
         public init(endpointArn: String) {
             self.endpointArn = endpointArn
         }
@@ -332,7 +332,7 @@ extension SNS {
         ]
         /// Attributes include the following:    CustomUserData – arbitrary user data to associate with the endpoint. Amazon SNS does not use this data. The data must be in UTF-8 format and less than 2KB.    Enabled – flag that enables/disables delivery to the endpoint. Amazon SNS will set this to false when a notification service indicates to Amazon SNS that the endpoint is invalid. Users can set it back to true, typically after updating Token.    Token – device token, also referred to as a registration id, for an app and mobile device. This is returned from the notification service when an app and mobile device are registered with the notification service.  
         public let attributes: [String: String]?
-        
+
         public init(attributes: [String: String]? = nil) {
             self.attributes = attributes
         }
@@ -348,7 +348,7 @@ extension SNS {
         ]
         /// PlatformApplicationArn for GetPlatformApplicationAttributesInput.
         public let platformApplicationArn: String
-        
+
         public init(platformApplicationArn: String) {
             self.platformApplicationArn = platformApplicationArn
         }
@@ -364,7 +364,7 @@ extension SNS {
         ]
         /// Attributes include the following:    EventEndpointCreated – Topic ARN to which EndpointCreated event notifications should be sent.    EventEndpointDeleted – Topic ARN to which EndpointDeleted event notifications should be sent.    EventEndpointUpdated – Topic ARN to which EndpointUpdate event notifications should be sent.    EventDeliveryFailure – Topic ARN to which DeliveryFailure event notifications should be sent upon Direct Publish delivery failure (permanent) to one of the application's endpoints.  
         public let attributes: [String: String]?
-        
+
         public init(attributes: [String: String]? = nil) {
             self.attributes = attributes
         }
@@ -380,7 +380,7 @@ extension SNS {
         ]
         /// A list of the individual attribute names, such as MonthlySpendLimit, for which you want values. For all attribute names, see SetSMSAttributes. If you don't use this parameter, Amazon SNS returns all SMS attributes.
         public let attributes: [String]?
-        
+
         public init(attributes: [String]? = nil) {
             self.attributes = attributes
         }
@@ -396,7 +396,7 @@ extension SNS {
         ]
         /// The SMS attribute names and their values.
         public let attributes: [String: String]?
-        
+
         public init(attributes: [String: String]? = nil) {
             self.attributes = attributes
         }
@@ -412,7 +412,7 @@ extension SNS {
         ]
         /// The ARN of the subscription whose properties you want to get.
         public let subscriptionArn: String
-        
+
         public init(subscriptionArn: String) {
             self.subscriptionArn = subscriptionArn
         }
@@ -428,7 +428,7 @@ extension SNS {
         ]
         /// A map of the subscription's attributes. Attributes in this map include the following:    ConfirmationWasAuthenticated – true if the subscription confirmation request was authenticated.    DeliveryPolicy – The JSON serialization of the subscription's delivery policy.    EffectiveDeliveryPolicy – The JSON serialization of the effective delivery policy that takes into account the topic delivery policy and account system defaults.    FilterPolicy – The filter policy JSON that is assigned to the subscription.    Owner – The AWS account ID of the subscription's owner.    PendingConfirmation – true if the subscription hasn't been confirmed. To confirm a pending subscription, call the ConfirmSubscription action with a confirmation token.    RawMessageDelivery – true if raw message delivery is enabled for the subscription. Raw messages are free of JSON formatting and can be sent to HTTP/S and Amazon SQS endpoints.    SubscriptionArn – The subscription's ARN.    TopicArn – The topic ARN that the subscription is associated with.  
         public let attributes: [String: String]?
-        
+
         public init(attributes: [String: String]? = nil) {
             self.attributes = attributes
         }
@@ -444,7 +444,7 @@ extension SNS {
         ]
         /// The ARN of the topic whose properties you want to get.
         public let topicArn: String
-        
+
         public init(topicArn: String) {
             self.topicArn = topicArn
         }
@@ -460,7 +460,7 @@ extension SNS {
         ]
         /// A map of the topic's attributes. Attributes in this map include the following:    TopicArn – the topic's ARN    Owner – the AWS account ID of the topic's owner    Policy – the JSON serialization of the topic's access control policy    DisplayName – the human-readable name used in the "From" field for notifications to email and email-json endpoints    SubscriptionsPending – the number of subscriptions pending confirmation on this topic    SubscriptionsConfirmed – the number of confirmed subscriptions on this topic    SubscriptionsDeleted – the number of deleted subscriptions on this topic    DeliveryPolicy – the JSON serialization of the topic's delivery policy    EffectiveDeliveryPolicy – the JSON serialization of the effective delivery policy that takes into account system defaults  
         public let attributes: [String: String]?
-        
+
         public init(attributes: [String: String]? = nil) {
             self.attributes = attributes
         }
@@ -479,7 +479,7 @@ extension SNS {
         public let nextToken: String?
         /// PlatformApplicationArn for ListEndpointsByPlatformApplicationInput action.
         public let platformApplicationArn: String
-        
+
         public init(nextToken: String? = nil, platformApplicationArn: String) {
             self.nextToken = nextToken
             self.platformApplicationArn = platformApplicationArn
@@ -500,7 +500,7 @@ extension SNS {
         public let endpoints: [Endpoint]?
         /// NextToken string is returned when calling ListEndpointsByPlatformApplication action if additional records are available after the first page results.
         public let nextToken: String?
-        
+
         public init(endpoints: [Endpoint]? = nil, nextToken: String? = nil) {
             self.endpoints = endpoints
             self.nextToken = nextToken
@@ -518,7 +518,7 @@ extension SNS {
         ]
         /// A NextToken string is used when you call the ListPhoneNumbersOptedOut action to retrieve additional records that are available after the first page of results.
         public let nextToken: String?
-        
+
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -537,7 +537,7 @@ extension SNS {
         public let nextToken: String?
         /// A list of phone numbers that are opted out of receiving SMS messages. The list is paginated, and each page can contain up to 100 phone numbers.
         public let phoneNumbers: [String]?
-        
+
         public init(nextToken: String? = nil, phoneNumbers: [String]? = nil) {
             self.nextToken = nextToken
             self.phoneNumbers = phoneNumbers
@@ -555,7 +555,7 @@ extension SNS {
         ]
         /// NextToken string is used when calling ListPlatformApplications action to retrieve additional records that are available after the first page results.
         public let nextToken: String?
-        
+
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -574,7 +574,7 @@ extension SNS {
         public let nextToken: String?
         /// Platform applications returned when calling ListPlatformApplications action.
         public let platformApplications: [PlatformApplication]?
-        
+
         public init(nextToken: String? = nil, platformApplications: [PlatformApplication]? = nil) {
             self.nextToken = nextToken
             self.platformApplications = platformApplications
@@ -595,7 +595,7 @@ extension SNS {
         public let nextToken: String?
         /// The ARN of the topic for which you wish to find subscriptions.
         public let topicArn: String
-        
+
         public init(nextToken: String? = nil, topicArn: String) {
             self.nextToken = nextToken
             self.topicArn = topicArn
@@ -616,7 +616,7 @@ extension SNS {
         public let nextToken: String?
         /// A list of subscriptions.
         public let subscriptions: [Subscription]?
-        
+
         public init(nextToken: String? = nil, subscriptions: [Subscription]? = nil) {
             self.nextToken = nextToken
             self.subscriptions = subscriptions
@@ -634,7 +634,7 @@ extension SNS {
         ]
         /// Token returned by the previous ListSubscriptions request.
         public let nextToken: String?
-        
+
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -653,7 +653,7 @@ extension SNS {
         public let nextToken: String?
         /// A list of subscriptions.
         public let subscriptions: [Subscription]?
-        
+
         public init(nextToken: String? = nil, subscriptions: [Subscription]? = nil) {
             self.nextToken = nextToken
             self.subscriptions = subscriptions
@@ -671,7 +671,7 @@ extension SNS {
         ]
         /// The ARN of the topic for which to list tags.
         public let resourceArn: String
-        
+
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -687,7 +687,7 @@ extension SNS {
         ]
         /// The tags associated with the specified topic.
         public let tags: [Tag]?
-        
+
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -703,7 +703,7 @@ extension SNS {
         ]
         /// Token returned by the previous ListTopics request.
         public let nextToken: String?
-        
+
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -722,7 +722,7 @@ extension SNS {
         public let nextToken: String?
         /// A list of topic ARNs.
         public let topics: [Topic]?
-        
+
         public init(nextToken: String? = nil, topics: [Topic]? = nil) {
             self.nextToken = nextToken
             self.topics = topics
@@ -746,7 +746,7 @@ extension SNS {
         public let dataType: String
         /// Strings are Unicode with UTF8 binary encoding. For a list of code values, see ASCII Printable Characters.
         public let stringValue: String?
-        
+
         public init(binaryValue: Data? = nil, dataType: String, stringValue: String? = nil) {
             self.binaryValue = binaryValue
             self.dataType = dataType
@@ -766,7 +766,7 @@ extension SNS {
         ]
         /// The phone number to opt in.
         public let phoneNumber: String
-        
+
         public init(phoneNumber: String) {
             self.phoneNumber = phoneNumber
         }
@@ -777,12 +777,11 @@ extension SNS {
     }
 
     public struct OptInPhoneNumberResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct PlatformApplication: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -793,7 +792,7 @@ extension SNS {
         public let attributes: [String: String]?
         /// PlatformApplicationArn for platform application object.
         public let platformApplicationArn: String?
-        
+
         public init(attributes: [String: String]? = nil, platformApplicationArn: String? = nil) {
             self.attributes = attributes
             self.platformApplicationArn = platformApplicationArn
@@ -829,7 +828,7 @@ extension SNS {
         public let targetArn: String?
         /// The topic you want to publish to. If you don't specify a value for the TopicArn parameter, you must specify a value for the PhoneNumber or TargetArn parameters.
         public let topicArn: String?
-        
+
         public init(message: String, messageAttributes: [String: MessageAttributeValue]? = nil, messageStructure: String? = nil, phoneNumber: String? = nil, subject: String? = nil, targetArn: String? = nil, topicArn: String? = nil) {
             self.message = message
             self.messageAttributes = messageAttributes
@@ -857,7 +856,7 @@ extension SNS {
         ]
         /// Unique identifier assigned to the published message. Length Constraint: Maximum 100 characters
         public let messageId: String?
-        
+
         public init(messageId: String? = nil) {
             self.messageId = messageId
         }
@@ -876,7 +875,7 @@ extension SNS {
         public let label: String
         /// The ARN of the topic whose access control policy you wish to modify.
         public let topicArn: String
-        
+
         public init(label: String, topicArn: String) {
             self.label = label
             self.topicArn = topicArn
@@ -897,7 +896,7 @@ extension SNS {
         public let attributes: [String: String]
         /// EndpointArn used for SetEndpointAttributes action.
         public let endpointArn: String
-        
+
         public init(attributes: [String: String], endpointArn: String) {
             self.attributes = attributes
             self.endpointArn = endpointArn
@@ -918,7 +917,7 @@ extension SNS {
         public let attributes: [String: String]
         /// PlatformApplicationArn for SetPlatformApplicationAttributes action.
         public let platformApplicationArn: String
-        
+
         public init(attributes: [String: String], platformApplicationArn: String) {
             self.attributes = attributes
             self.platformApplicationArn = platformApplicationArn
@@ -936,7 +935,7 @@ extension SNS {
         ]
         /// The default settings for sending SMS messages from your account. You can set values for the following attribute names:  MonthlySpendLimit – The maximum amount in USD that you are willing to spend each month to send SMS messages. When Amazon SNS determines that sending an SMS message would incur a cost that exceeds this limit, it stops sending SMS messages within minutes.  Amazon SNS stops sending SMS messages within minutes of the limit being crossed. During that interval, if you continue to send SMS messages, you will incur costs that exceed your limit.  By default, the spend limit is set to the maximum allowed by Amazon SNS. If you want to raise the limit, submit an SNS Limit Increase case. For New limit value, enter your desired monthly spend limit. In the Use Case Description field, explain that you are requesting an SMS monthly spend limit increase.  DeliveryStatusIAMRole – The ARN of the IAM role that allows Amazon SNS to write logs about SMS deliveries in CloudWatch Logs. For each SMS message that you send, Amazon SNS writes a log that includes the message price, the success or failure status, the reason for failure (if the message failed), the message dwell time, and other information.  DeliveryStatusSuccessSamplingRate – The percentage of successful SMS deliveries for which Amazon SNS will write logs in CloudWatch Logs. The value can be an integer from 0 - 100. For example, to write logs only for failed deliveries, set this value to 0. To write logs for 10% of your successful deliveries, set it to 10.  DefaultSenderID – A string, such as your business brand, that is displayed as the sender on the receiving device. Support for sender IDs varies by country. The sender ID can be 1 - 11 alphanumeric characters, and it must contain at least one letter.  DefaultSMSType – The type of SMS message that you will send by default. You can assign the following values:    Promotional – (Default) Noncritical messages, such as marketing messages. Amazon SNS optimizes the message delivery to incur the lowest cost.    Transactional – Critical messages that support customer transactions, such as one-time passcodes for multi-factor authentication. Amazon SNS optimizes the message delivery to achieve the highest reliability.    UsageReportS3Bucket – The name of the Amazon S3 bucket to receive daily SMS usage reports from Amazon SNS. Each day, Amazon SNS will deliver a usage report as a CSV file to the bucket. The report includes the following information for each SMS message that was successfully delivered by your account:   Time that the message was published (in UTC)   Message ID   Destination phone number   Message type   Delivery status   Message price (in USD)   Part number (a message is split into multiple parts if it is too long for a single message)   Total number of parts   To receive the report, the bucket must have a policy that allows the Amazon SNS service principle to perform the s3:PutObject and s3:GetBucketLocation actions. For an example bucket policy and usage report, see Monitoring SMS Activity in the Amazon SNS Developer Guide.
         public let attributes: [String: String]
-        
+
         public init(attributes: [String: String]) {
             self.attributes = attributes
         }
@@ -947,12 +946,11 @@ extension SNS {
     }
 
     public struct SetSMSAttributesResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct SetSubscriptionAttributesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -966,7 +964,7 @@ extension SNS {
         public let attributeValue: String?
         /// The ARN of the subscription to modify.
         public let subscriptionArn: String
-        
+
         public init(attributeName: String, attributeValue: String? = nil, subscriptionArn: String) {
             self.attributeName = attributeName
             self.attributeValue = attributeValue
@@ -992,7 +990,7 @@ extension SNS {
         public let attributeValue: String?
         /// The ARN of the topic to modify.
         public let topicArn: String
-        
+
         public init(attributeName: String, attributeValue: String? = nil, topicArn: String) {
             self.attributeName = attributeName
             self.attributeValue = attributeValue
@@ -1024,7 +1022,7 @@ extension SNS {
         public let returnSubscriptionArn: Bool?
         /// The ARN of the topic you want to subscribe to.
         public let topicArn: String
-        
+
         public init(attributes: [String: String]? = nil, endpoint: String? = nil, protocol: String, returnSubscriptionArn: Bool? = nil, topicArn: String) {
             self.attributes = attributes
             self.endpoint = endpoint
@@ -1048,7 +1046,7 @@ extension SNS {
         ]
         /// The ARN of the subscription if it is confirmed, or the string "pending confirmation" if the subscription requires confirmation. However, if the API request parameter ReturnSubscriptionArn is true, then the value is always the subscription ARN, even if the subscription requires confirmation.
         public let subscriptionArn: String?
-        
+
         public init(subscriptionArn: String? = nil) {
             self.subscriptionArn = subscriptionArn
         }
@@ -1076,7 +1074,7 @@ extension SNS {
         public let subscriptionArn: String?
         /// The ARN of the subscription's topic.
         public let topicArn: String?
-        
+
         public init(endpoint: String? = nil, owner: String? = nil, protocol: String? = nil, subscriptionArn: String? = nil, topicArn: String? = nil) {
             self.endpoint = endpoint
             self.owner = owner
@@ -1103,7 +1101,7 @@ extension SNS {
         public let key: String
         /// The optional value portion of the tag.
         public let value: String
-        
+
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1124,7 +1122,7 @@ extension SNS {
         public let resourceArn: String
         /// The tags to be added to the specified topic. A tag consists of a required key and an optional value.
         public let tags: [Tag]
-        
+
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1137,12 +1135,11 @@ extension SNS {
     }
 
     public struct TagResourceResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct Topic: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1150,7 +1147,7 @@ extension SNS {
         ]
         /// The topic's ARN.
         public let topicArn: String?
-        
+
         public init(topicArn: String? = nil) {
             self.topicArn = topicArn
         }
@@ -1166,7 +1163,7 @@ extension SNS {
         ]
         /// The ARN of the subscription to be deleted.
         public let subscriptionArn: String
-        
+
         public init(subscriptionArn: String) {
             self.subscriptionArn = subscriptionArn
         }
@@ -1185,7 +1182,7 @@ extension SNS {
         public let resourceArn: String
         /// The list of tag keys to remove from the specified topic.
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1198,11 +1195,9 @@ extension SNS {
     }
 
     public struct UntagResourceResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
-
+    }
 }

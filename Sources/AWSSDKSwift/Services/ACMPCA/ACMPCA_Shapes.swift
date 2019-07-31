@@ -50,7 +50,7 @@ extension ACMPCA {
         public let surname: String?
         /// A title such as Mr. or Ms., which is pre-pended to the name to refer formally to the certificate subject.
         public let title: String?
-        
+
         public init(commonName: String? = nil, country: String? = nil, distinguishedNameQualifier: String? = nil, generationQualifier: String? = nil, givenName: String? = nil, initials: String? = nil, locality: String? = nil, organization: String? = nil, organizationalUnit: String? = nil, pseudonym: String? = nil, serialNumber: String? = nil, state: String? = nil, surname: String? = nil, title: String? = nil) {
             self.commonName = commonName
             self.country = country
@@ -145,7 +145,7 @@ extension ACMPCA {
         public let status: CertificateAuthorityStatus?
         /// Type of your private CA.
         public let `type`: CertificateAuthorityType?
-        
+
         public init(arn: String? = nil, certificateAuthorityConfiguration: CertificateAuthorityConfiguration? = nil, createdAt: TimeStamp? = nil, failureReason: FailureReason? = nil, lastStateChangeAt: TimeStamp? = nil, notAfter: TimeStamp? = nil, notBefore: TimeStamp? = nil, restorableUntil: TimeStamp? = nil, revocationConfiguration: RevocationConfiguration? = nil, serial: String? = nil, status: CertificateAuthorityStatus? = nil, type: CertificateAuthorityType? = nil) {
             self.arn = arn
             self.certificateAuthorityConfiguration = certificateAuthorityConfiguration
@@ -189,7 +189,7 @@ extension ACMPCA {
         public let signingAlgorithm: SigningAlgorithm
         /// Structure that contains X.500 distinguished name information for your private CA.
         public let subject: ASN1Subject
-        
+
         public init(keyAlgorithm: KeyAlgorithm, signingAlgorithm: SigningAlgorithm, subject: ASN1Subject) {
             self.keyAlgorithm = keyAlgorithm
             self.signingAlgorithm = signingAlgorithm
@@ -232,7 +232,7 @@ extension ACMPCA {
         public let certificateAuthorityArn: String
         /// The name of the S3 bucket that will contain the audit report.
         public let s3BucketName: String
-        
+
         public init(auditReportResponseFormat: AuditReportResponseFormat, certificateAuthorityArn: String, s3BucketName: String) {
             self.auditReportResponseFormat = auditReportResponseFormat
             self.certificateAuthorityArn = certificateAuthorityArn
@@ -255,7 +255,7 @@ extension ACMPCA {
         public let auditReportId: String?
         /// The key that uniquely identifies the report file in your S3 bucket.
         public let s3Key: String?
-        
+
         public init(auditReportId: String? = nil, s3Key: String? = nil) {
             self.auditReportId = auditReportId
             self.s3Key = s3Key
@@ -285,7 +285,7 @@ extension ACMPCA {
         public let revocationConfiguration: RevocationConfiguration?
         /// Key-value pairs that will be attached to the new private CA. You can associate up to 50 tags with a private CA. For information using tags with  IAM to manage permissions, see Controlling Access Using IAM Tags.
         public let tags: [Tag]?
-        
+
         public init(certificateAuthorityConfiguration: CertificateAuthorityConfiguration, certificateAuthorityType: CertificateAuthorityType, idempotencyToken: String? = nil, revocationConfiguration: RevocationConfiguration? = nil, tags: [Tag]? = nil) {
             self.certificateAuthorityConfiguration = certificateAuthorityConfiguration
             self.certificateAuthorityType = certificateAuthorityType
@@ -309,7 +309,7 @@ extension ACMPCA {
         ]
         /// If successful, the Amazon Resource Name (ARN) of the certificate authority (CA). This is of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
         public let certificateAuthorityArn: String?
-        
+
         public init(certificateAuthorityArn: String? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
         }
@@ -334,7 +334,7 @@ extension ACMPCA {
         public let principal: String
         /// The ID of the calling account.
         public let sourceAccount: String?
-        
+
         public init(actions: [ActionType], certificateAuthorityArn: String, principal: String, sourceAccount: String? = nil) {
             self.actions = actions
             self.certificateAuthorityArn = certificateAuthorityArn
@@ -365,7 +365,7 @@ extension ACMPCA {
         public let expirationInDays: Int32?
         /// Name of the S3 bucket that contains the CRL. If you do not provide a value for the CustomCname argument, the name of your S3 bucket is placed into the CRL Distribution Points extension of the issued certificate. You can change the name of your bucket by calling the UpdateCertificateAuthority action. You must specify a bucket policy that allows ACM Private CA to write the CRL to your bucket.
         public let s3BucketName: String?
-        
+
         public init(customCname: String? = nil, enabled: Bool, expirationInDays: Int32? = nil, s3BucketName: String? = nil) {
             self.customCname = customCname
             self.enabled = enabled
@@ -390,7 +390,7 @@ extension ACMPCA {
         public let certificateAuthorityArn: String
         /// The number of days to make a CA restorable after it has been deleted. This can be anywhere from 7 to 30 days, with 30 being the default.
         public let permanentDeletionTimeInDays: Int32?
-        
+
         public init(certificateAuthorityArn: String, permanentDeletionTimeInDays: Int32? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.permanentDeletionTimeInDays = permanentDeletionTimeInDays
@@ -414,7 +414,7 @@ extension ACMPCA {
         public let principal: String
         /// The AWS account that calls this action.
         public let sourceAccount: String?
-        
+
         public init(certificateAuthorityArn: String, principal: String, sourceAccount: String? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.principal = principal
@@ -437,7 +437,7 @@ extension ACMPCA {
         public let auditReportId: String
         /// The Amazon Resource Name (ARN) of the private CA. This must be of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
         public let certificateAuthorityArn: String
-        
+
         public init(auditReportId: String, certificateAuthorityArn: String) {
             self.auditReportId = auditReportId
             self.certificateAuthorityArn = certificateAuthorityArn
@@ -464,7 +464,7 @@ extension ACMPCA {
         public let s3BucketName: String?
         /// S3 key that uniquely identifies the report file in your S3 bucket.
         public let s3Key: String?
-        
+
         public init(auditReportStatus: AuditReportStatus? = nil, createdAt: TimeStamp? = nil, s3BucketName: String? = nil, s3Key: String? = nil) {
             self.auditReportStatus = auditReportStatus
             self.createdAt = createdAt
@@ -486,7 +486,7 @@ extension ACMPCA {
         ]
         /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
         public let certificateAuthorityArn: String
-        
+
         public init(certificateAuthorityArn: String) {
             self.certificateAuthorityArn = certificateAuthorityArn
         }
@@ -502,7 +502,7 @@ extension ACMPCA {
         ]
         /// A CertificateAuthority structure that contains information about your private CA.
         public let certificateAuthority: CertificateAuthority?
-        
+
         public init(certificateAuthority: CertificateAuthority? = nil) {
             self.certificateAuthority = certificateAuthority
         }
@@ -525,7 +525,7 @@ extension ACMPCA {
         ]
         /// The Amazon Resource Name (ARN) of your private CA. This is of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
         public let certificateAuthorityArn: String
-        
+
         public init(certificateAuthorityArn: String) {
             self.certificateAuthorityArn = certificateAuthorityArn
         }
@@ -544,7 +544,7 @@ extension ACMPCA {
         public let certificate: String?
         /// Base64-encoded certificate chain that includes any intermediate certificates and chains up to root on-premises certificate that you used to sign your private CA certificate. The chain does not include your private CA certificate. If this is a root CA, the value will be null.
         public let certificateChain: String?
-        
+
         public init(certificate: String? = nil, certificateChain: String? = nil) {
             self.certificate = certificate
             self.certificateChain = certificateChain
@@ -562,7 +562,7 @@ extension ACMPCA {
         ]
         /// The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority action. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
         public let certificateAuthorityArn: String
-        
+
         public init(certificateAuthorityArn: String) {
             self.certificateAuthorityArn = certificateAuthorityArn
         }
@@ -578,7 +578,7 @@ extension ACMPCA {
         ]
         /// The base64 PEM-encoded certificate signing request (CSR) for your private CA certificate.
         public let csr: String?
-        
+
         public init(csr: String? = nil) {
             self.csr = csr
         }
@@ -597,7 +597,7 @@ extension ACMPCA {
         public let certificateArn: String
         /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
         public let certificateAuthorityArn: String
-        
+
         public init(certificateArn: String, certificateAuthorityArn: String) {
             self.certificateArn = certificateArn
             self.certificateAuthorityArn = certificateAuthorityArn
@@ -618,7 +618,7 @@ extension ACMPCA {
         public let certificate: String?
         /// The base64 PEM-encoded certificate chain that chains up to the on-premises root CA certificate that you used to sign your private CA certificate. 
         public let certificateChain: String?
-        
+
         public init(certificate: String? = nil, certificateChain: String? = nil) {
             self.certificate = certificate
             self.certificateChain = certificateChain
@@ -642,7 +642,7 @@ extension ACMPCA {
         public let certificateAuthorityArn: String
         /// A PEM-encoded file that contains all of your certificates, other than the certificate you're importing, chaining up to your root CA. Your ACM Private CA-hosted or on-premises root certificate is the last in the chain, and each certificate in the chain signs the one preceding.  This parameter must be supplied when you import a subordinate CA. When you import a root CA, there is no chain.
         public let certificateChain: Data?
-        
+
         public init(certificate: Data, certificateAuthorityArn: String, certificateChain: Data? = nil) {
             self.certificate = certificate
             self.certificateAuthorityArn = certificateAuthorityArn
@@ -677,7 +677,7 @@ extension ACMPCA {
         public let templateArn: String?
         /// The type of the validity period.
         public let validity: Validity
-        
+
         public init(certificateAuthorityArn: String, csr: Data, idempotencyToken: String? = nil, signingAlgorithm: SigningAlgorithm, templateArn: String? = nil, validity: Validity) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.csr = csr
@@ -703,7 +703,7 @@ extension ACMPCA {
         ]
         /// The Amazon Resource Name (ARN) of the issued certificate and the certificate serial number. This is of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012/certificate/286535153982981100925020015808220737245  
         public let certificateArn: String?
-        
+
         public init(certificateArn: String? = nil) {
             self.certificateArn = certificateArn
         }
@@ -730,7 +730,7 @@ extension ACMPCA {
         public let maxResults: Int32?
         /// Use this parameter when paginating results in a subsequent request after you receive a response with truncated results. Set it to the value of the NextToken parameter from the response you just received.
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -751,7 +751,7 @@ extension ACMPCA {
         public let certificateAuthorities: [CertificateAuthority]?
         /// When the list is truncated, this value is present and should be used for the NextToken parameter in a subsequent pagination request.
         public let nextToken: String?
-        
+
         public init(certificateAuthorities: [CertificateAuthority]? = nil, nextToken: String? = nil) {
             self.certificateAuthorities = certificateAuthorities
             self.nextToken = nextToken
@@ -775,7 +775,7 @@ extension ACMPCA {
         public let maxResults: Int32?
         /// When paginating results, use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextToken from the response you just received.
         public let nextToken: String?
-        
+
         public init(certificateAuthorityArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.maxResults = maxResults
@@ -798,7 +798,7 @@ extension ACMPCA {
         public let nextToken: String?
         /// Summary information about each permission assigned by the specified private CA, including the action enabled, the policy provided, and the time of creation.
         public let permissions: [Permission]?
-        
+
         public init(nextToken: String? = nil, permissions: [Permission]? = nil) {
             self.nextToken = nextToken
             self.permissions = permissions
@@ -822,7 +822,7 @@ extension ACMPCA {
         public let maxResults: Int32?
         /// Use this parameter when paginating results in a subsequent request after you receive a response with truncated results. Set it to the value of NextToken from the response you just received.
         public let nextToken: String?
-        
+
         public init(certificateAuthorityArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.maxResults = maxResults
@@ -845,7 +845,7 @@ extension ACMPCA {
         public let nextToken: String?
         /// The tags associated with your private CA.
         public let tags: [Tag]?
-        
+
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -878,7 +878,7 @@ extension ACMPCA {
         public let principal: String?
         /// The ID of the account that assigned the permission.
         public let sourceAccount: String?
-        
+
         public init(actions: [ActionType]? = nil, certificateAuthorityArn: String? = nil, createdAt: TimeStamp? = nil, policy: String? = nil, principal: String? = nil, sourceAccount: String? = nil) {
             self.actions = actions
             self.certificateAuthorityArn = certificateAuthorityArn
@@ -904,7 +904,7 @@ extension ACMPCA {
         ]
         /// The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority action. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
         public let certificateAuthorityArn: String
-        
+
         public init(certificateAuthorityArn: String) {
             self.certificateAuthorityArn = certificateAuthorityArn
         }
@@ -920,7 +920,7 @@ extension ACMPCA {
         ]
         /// Configuration of the certificate revocation list (CRL), if any, maintained by your private CA.
         public let crlConfiguration: CrlConfiguration?
-        
+
         public init(crlConfiguration: CrlConfiguration? = nil) {
             self.crlConfiguration = crlConfiguration
         }
@@ -954,7 +954,7 @@ extension ACMPCA {
         public let certificateSerial: String
         /// Specifies why you revoked the certificate.
         public let revocationReason: RevocationReason
-        
+
         public init(certificateAuthorityArn: String, certificateSerial: String, revocationReason: RevocationReason) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.certificateSerial = certificateSerial
@@ -987,7 +987,7 @@ extension ACMPCA {
         public let key: String
         /// Value of the tag.
         public let value: String?
-        
+
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1008,7 +1008,7 @@ extension ACMPCA {
         public let certificateAuthorityArn: String
         /// List of tags to be associated with the CA.
         public let tags: [Tag]
-        
+
         public init(certificateAuthorityArn: String, tags: [Tag]) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.tags = tags
@@ -1029,7 +1029,7 @@ extension ACMPCA {
         public let certificateAuthorityArn: String
         /// List of tags to be removed from the CA.
         public let tags: [Tag]
-        
+
         public init(certificateAuthorityArn: String, tags: [Tag]) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.tags = tags
@@ -1053,7 +1053,7 @@ extension ACMPCA {
         public let revocationConfiguration: RevocationConfiguration?
         /// Status of your private CA.
         public let status: CertificateAuthorityStatus?
-        
+
         public init(certificateAuthorityArn: String, revocationConfiguration: RevocationConfiguration? = nil, status: CertificateAuthorityStatus? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.revocationConfiguration = revocationConfiguration
@@ -1076,7 +1076,7 @@ extension ACMPCA {
         public let `type`: ValidityPeriodType
         /// Time period.
         public let value: Int64
-        
+
         public init(type: ValidityPeriodType, value: Int64) {
             self.`type` = `type`
             self.value = value
@@ -1096,5 +1096,4 @@ extension ACMPCA {
         case years = "YEARS"
         public var description: String { return self.rawValue }
     }
-
 }

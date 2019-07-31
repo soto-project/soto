@@ -14,7 +14,7 @@ extension Route53Resolver {
         public let ipAddress: IpAddressUpdate
         /// The ID of the resolver endpoint that you want to associate IP addresses with.
         public let resolverEndpointId: String
-        
+
         public init(ipAddress: IpAddressUpdate, resolverEndpointId: String) {
             self.ipAddress = ipAddress
             self.resolverEndpointId = resolverEndpointId
@@ -32,7 +32,7 @@ extension Route53Resolver {
         ]
         /// The response to an AssociateResolverEndpointIpAddress request.
         public let resolverEndpoint: ResolverEndpoint?
-        
+
         public init(resolverEndpoint: ResolverEndpoint? = nil) {
             self.resolverEndpoint = resolverEndpoint
         }
@@ -54,7 +54,7 @@ extension Route53Resolver {
         public let resolverRuleId: String
         /// The ID of the VPC that you want to associate the resolver rule with.
         public let vPCId: String
-        
+
         public init(name: String? = nil, resolverRuleId: String, vPCId: String) {
             self.name = name
             self.resolverRuleId = resolverRuleId
@@ -74,7 +74,7 @@ extension Route53Resolver {
         ]
         /// Information about the AssociateResolverRule request, including the status of the request.
         public let resolverRuleAssociation: ResolverRuleAssociation?
-        
+
         public init(resolverRuleAssociation: ResolverRuleAssociation? = nil) {
             self.resolverRuleAssociation = resolverRuleAssociation
         }
@@ -105,7 +105,7 @@ extension Route53Resolver {
         public let securityGroupIds: [String]
         /// A list of the tag keys and values that you want to associate with the endpoint.
         public let tags: [Tag]?
-        
+
         public init(creatorRequestId: String, direction: ResolverEndpointDirection, ipAddresses: [IpAddressRequest], name: String? = nil, securityGroupIds: [String], tags: [Tag]? = nil) {
             self.creatorRequestId = creatorRequestId
             self.direction = direction
@@ -131,7 +131,7 @@ extension Route53Resolver {
         ]
         /// Information about the CreateResolverEndpoint request, including the status of the request.
         public let resolverEndpoint: ResolverEndpoint?
-        
+
         public init(resolverEndpoint: ResolverEndpoint? = nil) {
             self.resolverEndpoint = resolverEndpoint
         }
@@ -165,7 +165,7 @@ extension Route53Resolver {
         public let tags: [Tag]?
         /// The IPs that you want Resolver to forward DNS queries to. You can specify only IPv4 addresses. Separate IP addresses with a comma.
         public let targetIps: [TargetAddress]?
-        
+
         public init(creatorRequestId: String, domainName: String, name: String? = nil, resolverEndpointId: String? = nil, ruleType: RuleTypeOption, tags: [Tag]? = nil, targetIps: [TargetAddress]? = nil) {
             self.creatorRequestId = creatorRequestId
             self.domainName = domainName
@@ -193,7 +193,7 @@ extension Route53Resolver {
         ]
         /// Information about the CreateResolverRule request, including the status of the request.
         public let resolverRule: ResolverRule?
-        
+
         public init(resolverRule: ResolverRule? = nil) {
             self.resolverRule = resolverRule
         }
@@ -209,7 +209,7 @@ extension Route53Resolver {
         ]
         /// The ID of the resolver endpoint that you want to delete.
         public let resolverEndpointId: String
-        
+
         public init(resolverEndpointId: String) {
             self.resolverEndpointId = resolverEndpointId
         }
@@ -225,7 +225,7 @@ extension Route53Resolver {
         ]
         /// Information about the DeleteResolverEndpoint request, including the status of the request.
         public let resolverEndpoint: ResolverEndpoint?
-        
+
         public init(resolverEndpoint: ResolverEndpoint? = nil) {
             self.resolverEndpoint = resolverEndpoint
         }
@@ -241,7 +241,7 @@ extension Route53Resolver {
         ]
         /// The ID of the resolver rule that you want to delete.
         public let resolverRuleId: String
-        
+
         public init(resolverRuleId: String) {
             self.resolverRuleId = resolverRuleId
         }
@@ -257,7 +257,7 @@ extension Route53Resolver {
         ]
         /// Information about the DeleteResolverRule request, including the status of the request.
         public let resolverRule: ResolverRule?
-        
+
         public init(resolverRule: ResolverRule? = nil) {
             self.resolverRule = resolverRule
         }
@@ -276,7 +276,7 @@ extension Route53Resolver {
         public let ipAddress: IpAddressUpdate
         /// The ID of the resolver endpoint that you want to disassociate an IP address from.
         public let resolverEndpointId: String
-        
+
         public init(ipAddress: IpAddressUpdate, resolverEndpointId: String) {
             self.ipAddress = ipAddress
             self.resolverEndpointId = resolverEndpointId
@@ -294,7 +294,7 @@ extension Route53Resolver {
         ]
         /// The response to an DisassociateResolverEndpointIpAddress request.
         public let resolverEndpoint: ResolverEndpoint?
-        
+
         public init(resolverEndpoint: ResolverEndpoint? = nil) {
             self.resolverEndpoint = resolverEndpoint
         }
@@ -313,7 +313,7 @@ extension Route53Resolver {
         public let resolverRuleId: String
         /// The ID of the VPC that you want to disassociate the resolver rule from.
         public let vPCId: String
-        
+
         public init(resolverRuleId: String, vPCId: String) {
             self.resolverRuleId = resolverRuleId
             self.vPCId = vPCId
@@ -331,7 +331,7 @@ extension Route53Resolver {
         ]
         /// Information about the DisassociateResolverRule request, including the status of the request.
         public let resolverRuleAssociation: ResolverRuleAssociation?
-        
+
         public init(resolverRuleAssociation: ResolverRuleAssociation? = nil) {
             self.resolverRuleAssociation = resolverRuleAssociation
         }
@@ -350,7 +350,7 @@ extension Route53Resolver {
         public let name: String?
         /// When you're using a List operation and you want the operation to return a subset of objects, such as resolver endpoints or resolver rules, the value of the parameter that you want to use to filter objects. For example, to list only inbound resolver endpoints, specify INBOUND for the value of Values.
         public let values: [String]?
-        
+
         public init(name: String? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -368,7 +368,7 @@ extension Route53Resolver {
         ]
         /// The ID of the resolver endpoint that you want to get information about.
         public let resolverEndpointId: String
-        
+
         public init(resolverEndpointId: String) {
             self.resolverEndpointId = resolverEndpointId
         }
@@ -384,7 +384,7 @@ extension Route53Resolver {
         ]
         /// Information about the resolver endpoint that you specified in a GetResolverEndpoint request.
         public let resolverEndpoint: ResolverEndpoint?
-        
+
         public init(resolverEndpoint: ResolverEndpoint? = nil) {
             self.resolverEndpoint = resolverEndpoint
         }
@@ -400,7 +400,7 @@ extension Route53Resolver {
         ]
         /// The ID of the resolver rule association that you want to get information about.
         public let resolverRuleAssociationId: String
-        
+
         public init(resolverRuleAssociationId: String) {
             self.resolverRuleAssociationId = resolverRuleAssociationId
         }
@@ -416,7 +416,7 @@ extension Route53Resolver {
         ]
         /// Information about the resolver rule association that you specified in a GetResolverRuleAssociation request.
         public let resolverRuleAssociation: ResolverRuleAssociation?
-        
+
         public init(resolverRuleAssociation: ResolverRuleAssociation? = nil) {
             self.resolverRuleAssociation = resolverRuleAssociation
         }
@@ -432,7 +432,7 @@ extension Route53Resolver {
         ]
         /// The ID of the resolver rule policy that you want to get information about.
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -448,7 +448,7 @@ extension Route53Resolver {
         ]
         /// Information about the resolver rule policy that you specified in a GetResolverRulePolicy request.
         public let resolverRulePolicy: String?
-        
+
         public init(resolverRulePolicy: String? = nil) {
             self.resolverRulePolicy = resolverRulePolicy
         }
@@ -464,7 +464,7 @@ extension Route53Resolver {
         ]
         /// The ID of the resolver rule that you want to get information about.
         public let resolverRuleId: String
-        
+
         public init(resolverRuleId: String) {
             self.resolverRuleId = resolverRuleId
         }
@@ -480,7 +480,7 @@ extension Route53Resolver {
         ]
         /// Information about the resolver rule that you specified in a GetResolverRule request.
         public let resolverRule: ResolverRule?
-        
+
         public init(resolverRule: ResolverRule? = nil) {
             self.resolverRule = resolverRule
         }
@@ -499,7 +499,7 @@ extension Route53Resolver {
         public let ip: String?
         /// The subnet that contains the IP address.
         public let subnetId: String
-        
+
         public init(ip: String? = nil, subnetId: String) {
             self.ip = ip
             self.subnetId = subnetId
@@ -535,7 +535,7 @@ extension Route53Resolver {
         public let statusMessage: String?
         /// The ID of one subnet.
         public let subnetId: String?
-        
+
         public init(creationTime: String? = nil, ip: String? = nil, ipId: String? = nil, modificationTime: String? = nil, status: IpAddressStatus? = nil, statusMessage: String? = nil, subnetId: String? = nil) {
             self.creationTime = creationTime
             self.ip = ip
@@ -583,7 +583,7 @@ extension Route53Resolver {
         public let ipId: String?
         /// The ID of the subnet that includes the IP address that you want to update. To get this ID, use GetResolverEndpoint.
         public let subnetId: String?
-        
+
         public init(ip: String? = nil, ipId: String? = nil, subnetId: String? = nil) {
             self.ip = ip
             self.ipId = ipId
@@ -609,7 +609,7 @@ extension Route53Resolver {
         public let nextToken: String?
         /// The ID of the resolver endpoint that you want to get IP addresses for.
         public let resolverEndpointId: String
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, resolverEndpointId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -635,7 +635,7 @@ extension Route53Resolver {
         public let maxResults: Int32?
         /// If the specified endpoint has more than MaxResults IP addresses, you can submit another ListResolverEndpointIpAddresses request to get the next group of IP addresses. In the next request, specify the value of NextToken from the previous response. 
         public let nextToken: String?
-        
+
         public init(ipAddresses: [IpAddressResponse]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.ipAddresses = ipAddresses
             self.maxResults = maxResults
@@ -661,7 +661,7 @@ extension Route53Resolver {
         public let maxResults: Int32?
         /// For the first ListResolverEndpoints request, omit this value. If you have more than MaxResults resolver endpoints, you can submit another ListResolverEndpoints request to get the next group of resolver endpoints. In the next request, specify the value of NextToken from the previous response. 
         public let nextToken: String?
-        
+
         public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -687,7 +687,7 @@ extension Route53Resolver {
         public let nextToken: String?
         /// The resolver endpoints that were created by using the current AWS account, and that match the specified filters, if any.
         public let resolverEndpoints: [ResolverEndpoint]?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, resolverEndpoints: [ResolverEndpoint]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -713,7 +713,7 @@ extension Route53Resolver {
         public let maxResults: Int32?
         /// For the first ListResolverRuleAssociation request, omit this value. If you have more than MaxResults rule associations, you can submit another ListResolverRuleAssociation request to get the next group of rule associations. In the next request, specify the value of NextToken from the previous response. 
         public let nextToken: String?
-        
+
         public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -739,7 +739,7 @@ extension Route53Resolver {
         public let nextToken: String?
         /// The associations that were created between resolver rules and VPCs using the current AWS account, and that match the specified filters, if any.
         public let resolverRuleAssociations: [ResolverRuleAssociation]?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, resolverRuleAssociations: [ResolverRuleAssociation]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -765,7 +765,7 @@ extension Route53Resolver {
         public let maxResults: Int32?
         /// For the first ListResolverRules request, omit this value. If you have more than MaxResults resolver rules, you can submit another ListResolverRules request to get the next group of resolver rules. In the next request, specify the value of NextToken from the previous response. 
         public let nextToken: String?
-        
+
         public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -791,7 +791,7 @@ extension Route53Resolver {
         public let nextToken: String?
         /// The resolver rules that were created using the current AWS account and that match the specified filters, if any.
         public let resolverRules: [ResolverRule]?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, resolverRules: [ResolverRule]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -817,7 +817,7 @@ extension Route53Resolver {
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) for the resource that you want to list tags for.
         public let resourceArn: String
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -840,7 +840,7 @@ extension Route53Resolver {
         public let nextToken: String?
         /// The tags that are associated with the resource that you specified in the ListTagsForResource request.
         public let tags: [Tag]?
-        
+
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -861,7 +861,7 @@ extension Route53Resolver {
         public let arn: String
         /// An AWS Identity and Access Management policy statement that lists the permissions that you want to grant to another AWS account.
         public let resolverRulePolicy: String
-        
+
         public init(arn: String, resolverRulePolicy: String) {
             self.arn = arn
             self.resolverRulePolicy = resolverRulePolicy
@@ -879,7 +879,7 @@ extension Route53Resolver {
         ]
         /// Whether the PutResolverRulePolicy request was successful.
         public let returnValue: Bool?
-        
+
         public init(returnValue: Bool? = nil) {
             self.returnValue = returnValue
         }
@@ -928,7 +928,7 @@ extension Route53Resolver {
         public let status: ResolverEndpointStatus?
         /// A detailed description of the status of the resolver endpoint.
         public let statusMessage: String?
-        
+
         public init(arn: String? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, direction: ResolverEndpointDirection? = nil, hostVPCId: String? = nil, id: String? = nil, ipAddressCount: Int32? = nil, modificationTime: String? = nil, name: String? = nil, securityGroupIds: [String]? = nil, status: ResolverEndpointStatus? = nil, statusMessage: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -1015,7 +1015,7 @@ extension Route53Resolver {
         public let statusMessage: String?
         /// An array that contains the IP addresses and ports that you want to forward 
         public let targetIps: [TargetAddress]?
-        
+
         public init(arn: String? = nil, creatorRequestId: String? = nil, domainName: String? = nil, id: String? = nil, name: String? = nil, ownerId: String? = nil, resolverEndpointId: String? = nil, ruleType: RuleTypeOption? = nil, shareStatus: ShareStatus? = nil, status: ResolverRuleStatus? = nil, statusMessage: String? = nil, targetIps: [TargetAddress]? = nil) {
             self.arn = arn
             self.creatorRequestId = creatorRequestId
@@ -1068,7 +1068,7 @@ extension Route53Resolver {
         public let statusMessage: String?
         /// The ID of the VPC that you associated the resolver rule with.
         public let vPCId: String?
-        
+
         public init(id: String? = nil, name: String? = nil, resolverRuleId: String? = nil, status: ResolverRuleAssociationStatus? = nil, statusMessage: String? = nil, vPCId: String? = nil) {
             self.id = id
             self.name = name
@@ -1109,7 +1109,7 @@ extension Route53Resolver {
         public let resolverEndpointId: String?
         /// For DNS queries that originate in your VPC, the new IP addresses that you want to route outbound DNS queries to.
         public let targetIps: [TargetAddress]?
-        
+
         public init(name: String? = nil, resolverEndpointId: String? = nil, targetIps: [TargetAddress]? = nil) {
             self.name = name
             self.resolverEndpointId = resolverEndpointId
@@ -1154,7 +1154,7 @@ extension Route53Resolver {
         public let key: String?
         /// The value for the tag. For example, if Key is account-id, then Value might be the ID of the customer account that you're creating the resource for.
         public let value: String?
-        
+
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1175,7 +1175,7 @@ extension Route53Resolver {
         public let resourceArn: String
         /// The tags that you want to add to the specified resource.
         public let tags: [Tag]
-        
+
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1188,12 +1188,11 @@ extension Route53Resolver {
     }
 
     public struct TagResourceResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct TargetAddress: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1204,7 +1203,7 @@ extension Route53Resolver {
         public let ip: String
         /// The port at Ip that you want to forward DNS queries to.
         public let port: Int32?
-        
+
         public init(ip: String, port: Int32? = nil) {
             self.ip = ip
             self.port = port
@@ -1225,7 +1224,7 @@ extension Route53Resolver {
         public let resourceArn: String
         /// The tags that you want to remove to the specified resource.
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1238,12 +1237,11 @@ extension Route53Resolver {
     }
 
     public struct UntagResourceResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateResolverEndpointRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1254,7 +1252,7 @@ extension Route53Resolver {
         public let name: String?
         /// The ID of the resolver endpoint that you want to update.
         public let resolverEndpointId: String
-        
+
         public init(name: String? = nil, resolverEndpointId: String) {
             self.name = name
             self.resolverEndpointId = resolverEndpointId
@@ -1272,7 +1270,7 @@ extension Route53Resolver {
         ]
         /// The response to an UpdateResolverEndpoint request.
         public let resolverEndpoint: ResolverEndpoint?
-        
+
         public init(resolverEndpoint: ResolverEndpoint? = nil) {
             self.resolverEndpoint = resolverEndpoint
         }
@@ -1291,7 +1289,7 @@ extension Route53Resolver {
         public let config: ResolverRuleConfig
         /// The ID of the resolver rule that you want to update.
         public let resolverRuleId: String
-        
+
         public init(config: ResolverRuleConfig, resolverRuleId: String) {
             self.config = config
             self.resolverRuleId = resolverRuleId
@@ -1309,7 +1307,7 @@ extension Route53Resolver {
         ]
         /// The response to an UpdateResolverRule request.
         public let resolverRule: ResolverRule?
-        
+
         public init(resolverRule: ResolverRule? = nil) {
             self.resolverRule = resolverRule
         }
@@ -1318,5 +1316,4 @@ extension Route53Resolver {
             case resolverRule = "ResolverRule"
         }
     }
-
 }

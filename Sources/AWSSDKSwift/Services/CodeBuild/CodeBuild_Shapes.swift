@@ -37,7 +37,7 @@ extension CodeBuild {
         ]
         /// The IDs of the builds to delete.
         public let ids: [String]
-        
+
         public init(ids: [String]) {
             self.ids = ids
         }
@@ -56,7 +56,7 @@ extension CodeBuild {
         public let buildsDeleted: [String]?
         /// Information about any builds that could not be successfully deleted.
         public let buildsNotDeleted: [BuildNotDeleted]?
-        
+
         public init(buildsDeleted: [String]? = nil, buildsNotDeleted: [BuildNotDeleted]? = nil) {
             self.buildsDeleted = buildsDeleted
             self.buildsNotDeleted = buildsNotDeleted
@@ -74,7 +74,7 @@ extension CodeBuild {
         ]
         /// The IDs of the builds.
         public let ids: [String]
-        
+
         public init(ids: [String]) {
             self.ids = ids
         }
@@ -93,7 +93,7 @@ extension CodeBuild {
         public let builds: [Build]?
         /// The IDs of builds for which information could not be found.
         public let buildsNotFound: [String]?
-        
+
         public init(builds: [Build]? = nil, buildsNotFound: [String]? = nil) {
             self.builds = builds
             self.buildsNotFound = buildsNotFound
@@ -111,7 +111,7 @@ extension CodeBuild {
         ]
         /// The names of the build projects.
         public let names: [String]
-        
+
         public init(names: [String]) {
             self.names = names
         }
@@ -130,7 +130,7 @@ extension CodeBuild {
         public let projects: [Project]?
         /// The names of build projects for which information could not be found.
         public let projectsNotFound: [String]?
-        
+
         public init(projects: [Project]? = nil, projectsNotFound: [String]? = nil) {
             self.projects = projects
             self.projectsNotFound = projectsNotFound
@@ -223,7 +223,7 @@ extension CodeBuild {
         public let timeoutInMinutes: Int32?
         /// If your AWS CodeBuild project accesses resources in an Amazon VPC, you provide this parameter that identifies the VPC ID and the list of security group IDs and subnet IDs. The security groups and subnets must belong to the same VPC. You must provide at least one security group and one subnet ID.
         public let vpcConfig: VpcConfig?
-        
+
         public init(arn: String? = nil, artifacts: BuildArtifacts? = nil, buildComplete: Bool? = nil, buildStatus: StatusType? = nil, cache: ProjectCache? = nil, currentPhase: String? = nil, encryptionKey: String? = nil, endTime: TimeStamp? = nil, environment: ProjectEnvironment? = nil, id: String? = nil, initiator: String? = nil, logs: LogsLocation? = nil, networkInterface: NetworkInterface? = nil, phases: [BuildPhase]? = nil, projectName: String? = nil, queuedTimeoutInMinutes: Int32? = nil, resolvedSourceVersion: String? = nil, secondaryArtifacts: [BuildArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, startTime: TimeStamp? = nil, timeoutInMinutes: Int32? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.artifacts = artifacts
@@ -304,7 +304,7 @@ extension CodeBuild {
         public let overrideArtifactName: Bool?
         /// The SHA-256 hash of the build artifact. You can use this hash along with a checksum tool to confirm file integrity and authenticity.  This value is available only if the build project's packaging value is set to ZIP. 
         public let sha256sum: String?
-        
+
         public init(artifactIdentifier: String? = nil, encryptionDisabled: Bool? = nil, location: String? = nil, md5sum: String? = nil, overrideArtifactName: Bool? = nil, sha256sum: String? = nil) {
             self.artifactIdentifier = artifactIdentifier
             self.encryptionDisabled = encryptionDisabled
@@ -333,7 +333,7 @@ extension CodeBuild {
         public let id: String?
         /// Additional information about the build that could not be successfully deleted.
         public let statusCode: String?
-        
+
         public init(id: String? = nil, statusCode: String? = nil) {
             self.id = id
             self.statusCode = statusCode
@@ -366,7 +366,7 @@ extension CodeBuild {
         public let phaseType: BuildPhaseType?
         /// When the build phase started, expressed in Unix time format.
         public let startTime: TimeStamp?
-        
+
         public init(contexts: [PhaseContext]? = nil, durationInSeconds: Int64? = nil, endTime: TimeStamp? = nil, phaseStatus: StatusType? = nil, phaseType: BuildPhaseType? = nil, startTime: TimeStamp? = nil) {
             self.contexts = contexts
             self.durationInSeconds = durationInSeconds
@@ -427,7 +427,7 @@ extension CodeBuild {
         public let status: LogsConfigStatusType
         ///  The prefix of the stream name of the Amazon CloudWatch Logs. For more information, see Working with Log Groups and Log Streams. 
         public let streamName: String?
-        
+
         public init(groupName: String? = nil, status: LogsConfigStatusType, streamName: String? = nil) {
             self.groupName = groupName
             self.status = status
@@ -505,7 +505,7 @@ extension CodeBuild {
         public let timeoutInMinutes: Int32?
         /// VpcConfig enables AWS CodeBuild to access resources in an Amazon VPC.
         public let vpcConfig: VpcConfig?
-        
+
         public init(artifacts: ProjectArtifacts, badgeEnabled: Bool? = nil, cache: ProjectCache? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment, logsConfig: LogsConfig? = nil, name: String, queuedTimeoutInMinutes: Int32? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String, source: ProjectSource, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int32? = nil, vpcConfig: VpcConfig? = nil) {
             self.artifacts = artifacts
             self.badgeEnabled = badgeEnabled
@@ -555,7 +555,7 @@ extension CodeBuild {
         ]
         /// Information about the build project that was created.
         public let project: Project?
-        
+
         public init(project: Project? = nil) {
             self.project = project
         }
@@ -577,7 +577,7 @@ extension CodeBuild {
         public let filterGroups: [[WebhookFilter]]?
         /// The name of the AWS CodeBuild project.
         public let projectName: String
-        
+
         public init(branchFilter: String? = nil, filterGroups: [[WebhookFilter]]? = nil, projectName: String) {
             self.branchFilter = branchFilter
             self.filterGroups = filterGroups
@@ -597,7 +597,7 @@ extension CodeBuild {
         ]
         /// Information about a webhook that connects repository events to a build project in AWS CodeBuild.
         public let webhook: Webhook?
-        
+
         public init(webhook: Webhook? = nil) {
             self.webhook = webhook
         }
@@ -618,7 +618,7 @@ extension CodeBuild {
         ]
         /// The name of the build project.
         public let name: String
-        
+
         public init(name: String) {
             self.name = name
         }
@@ -629,12 +629,11 @@ extension CodeBuild {
     }
 
     public struct DeleteProjectOutput: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteSourceCredentialsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -642,7 +641,7 @@ extension CodeBuild {
         ]
         ///  The Amazon Resource Name (ARN) of the token.
         public let arn: String
-        
+
         public init(arn: String) {
             self.arn = arn
         }
@@ -658,7 +657,7 @@ extension CodeBuild {
         ]
         ///  The Amazon Resource Name (ARN) of the token. 
         public let arn: String?
-        
+
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -674,7 +673,7 @@ extension CodeBuild {
         ]
         /// The name of the AWS CodeBuild project.
         public let projectName: String
-        
+
         public init(projectName: String) {
             self.projectName = projectName
         }
@@ -685,12 +684,11 @@ extension CodeBuild {
     }
 
     public struct DeleteWebhookOutput: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct EnvironmentImage: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -704,7 +702,7 @@ extension CodeBuild {
         public let name: String?
         /// A list of environment image versions.
         public let versions: [String]?
-        
+
         public init(description: String? = nil, name: String? = nil, versions: [String]? = nil) {
             self.description = description
             self.name = name
@@ -727,7 +725,7 @@ extension CodeBuild {
         public let images: [EnvironmentImage]?
         /// The programming language for the Docker images.
         public let language: LanguageType?
-        
+
         public init(images: [EnvironmentImage]? = nil, language: LanguageType? = nil) {
             self.images = images
             self.language = language
@@ -748,7 +746,7 @@ extension CodeBuild {
         public let languages: [EnvironmentLanguage]?
         /// The platform's name.
         public let platform: PlatformType?
-        
+
         public init(languages: [EnvironmentLanguage]? = nil, platform: PlatformType? = nil) {
             self.languages = languages
             self.platform = platform
@@ -778,7 +776,7 @@ extension CodeBuild {
         public let `type`: EnvironmentVariableType?
         /// The value of the environment variable.  We strongly discourage the use of environment variables to store sensitive values, especially AWS secret key IDs and secret access keys. Environment variables can be displayed in plain text using the AWS CodeBuild console and the AWS Command Line Interface (AWS CLI). 
         public let value: String
-        
+
         public init(name: String, type: EnvironmentVariableType? = nil, value: String) {
             self.name = name
             self.`type` = `type`
@@ -804,7 +802,7 @@ extension CodeBuild {
         ]
         ///  Set to true to fetch Git submodules for your AWS CodeBuild build project. 
         public let fetchSubmodules: Bool
-        
+
         public init(fetchSubmodules: Bool) {
             self.fetchSubmodules = fetchSubmodules
         }
@@ -835,7 +833,7 @@ extension CodeBuild {
         public let token: String
         ///  The Bitbucket username when the authType is BASIC_AUTH. This parameter is not valid for other types of source providers or connections. 
         public let username: String?
-        
+
         public init(authType: AuthType, serverType: ServerType, token: String, username: String? = nil) {
             self.authType = authType
             self.serverType = serverType
@@ -857,7 +855,7 @@ extension CodeBuild {
         ]
         ///  The Amazon Resource Name (ARN) of the token. 
         public let arn: String?
-        
+
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -873,7 +871,7 @@ extension CodeBuild {
         ]
         /// The name of the AWS CodeBuild build project that the cache is reset for.
         public let projectName: String
-        
+
         public init(projectName: String) {
             self.projectName = projectName
         }
@@ -884,12 +882,11 @@ extension CodeBuild {
     }
 
     public struct InvalidateProjectCacheOutput: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public enum LanguageType: String, CustomStringConvertible, Codable {
         case java = "JAVA"
@@ -917,7 +914,7 @@ extension CodeBuild {
         public let projectName: String
         /// The order to list build IDs. Valid values include:    ASCENDING: List the build IDs in ascending order by build ID.    DESCENDING: List the build IDs in descending order by build ID.  
         public let sortOrder: SortOrderType?
-        
+
         public init(nextToken: String? = nil, projectName: String, sortOrder: SortOrderType? = nil) {
             self.nextToken = nextToken
             self.projectName = projectName
@@ -940,7 +937,7 @@ extension CodeBuild {
         public let ids: [String]?
         /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call.
         public let nextToken: String?
-        
+
         public init(ids: [String]? = nil, nextToken: String? = nil) {
             self.ids = ids
             self.nextToken = nextToken
@@ -961,7 +958,7 @@ extension CodeBuild {
         public let nextToken: String?
         /// The order to list build IDs. Valid values include:    ASCENDING: List the build IDs in ascending order by build ID.    DESCENDING: List the build IDs in descending order by build ID.  
         public let sortOrder: SortOrderType?
-        
+
         public init(nextToken: String? = nil, sortOrder: SortOrderType? = nil) {
             self.nextToken = nextToken
             self.sortOrder = sortOrder
@@ -982,7 +979,7 @@ extension CodeBuild {
         public let ids: [String]?
         /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call.
         public let nextToken: String?
-        
+
         public init(ids: [String]? = nil, nextToken: String? = nil) {
             self.ids = ids
             self.nextToken = nextToken
@@ -995,12 +992,11 @@ extension CodeBuild {
     }
 
     public struct ListCuratedEnvironmentImagesInput: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct ListCuratedEnvironmentImagesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1008,7 +1004,7 @@ extension CodeBuild {
         ]
         /// Information about supported platforms for Docker images that are managed by AWS CodeBuild.
         public let platforms: [EnvironmentPlatform]?
-        
+
         public init(platforms: [EnvironmentPlatform]? = nil) {
             self.platforms = platforms
         }
@@ -1030,7 +1026,7 @@ extension CodeBuild {
         public let sortBy: ProjectSortByType?
         /// The order in which to list build projects. Valid values include:    ASCENDING: List in ascending order.    DESCENDING: List in descending order.   Use sortBy to specify the criterion to be used to list build project names.
         public let sortOrder: SortOrderType?
-        
+
         public init(nextToken: String? = nil, sortBy: ProjectSortByType? = nil, sortOrder: SortOrderType? = nil) {
             self.nextToken = nextToken
             self.sortBy = sortBy
@@ -1053,7 +1049,7 @@ extension CodeBuild {
         public let nextToken: String?
         /// The list of build project names, with each build project name representing a single build project.
         public let projects: [String]?
-        
+
         public init(nextToken: String? = nil, projects: [String]? = nil) {
             self.nextToken = nextToken
             self.projects = projects
@@ -1066,12 +1062,11 @@ extension CodeBuild {
     }
 
     public struct ListSourceCredentialsInput: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct ListSourceCredentialsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1079,7 +1074,7 @@ extension CodeBuild {
         ]
         ///  A list of SourceCredentialsInfo objects. Each SourceCredentialsInfo object includes the authentication type, token ARN, and type of source provider for one set of credentials. 
         public let sourceCredentialsInfos: [SourceCredentialsInfo]?
-        
+
         public init(sourceCredentialsInfos: [SourceCredentialsInfo]? = nil) {
             self.sourceCredentialsInfos = sourceCredentialsInfos
         }
@@ -1098,7 +1093,7 @@ extension CodeBuild {
         public let cloudWatchLogs: CloudWatchLogsConfig?
         ///  Information about logs built to an S3 bucket for a build project. S3 logs are not enabled by default. 
         public let s3Logs: S3LogsConfig?
-        
+
         public init(cloudWatchLogs: CloudWatchLogsConfig? = nil, s3Logs: S3LogsConfig? = nil) {
             self.cloudWatchLogs = cloudWatchLogs
             self.s3Logs = s3Logs
@@ -1137,7 +1132,7 @@ extension CodeBuild {
         public let s3Logs: S3LogsConfig?
         /// The name of the Amazon CloudWatch Logs stream for the build logs.
         public let streamName: String?
-        
+
         public init(cloudWatchLogs: CloudWatchLogsConfig? = nil, deepLink: String? = nil, groupName: String? = nil, s3DeepLink: String? = nil, s3Logs: S3LogsConfig? = nil, streamName: String? = nil) {
             self.cloudWatchLogs = cloudWatchLogs
             self.deepLink = deepLink
@@ -1166,7 +1161,7 @@ extension CodeBuild {
         public let networkInterfaceId: String?
         /// The ID of the subnet.
         public let subnetId: String?
-        
+
         public init(networkInterfaceId: String? = nil, subnetId: String? = nil) {
             self.networkInterfaceId = networkInterfaceId
             self.subnetId = subnetId
@@ -1187,7 +1182,7 @@ extension CodeBuild {
         public let message: String?
         /// The status code for the context of the build phase.
         public let statusCode: String?
-        
+
         public init(message: String? = nil, statusCode: String? = nil) {
             self.message = message
             self.statusCode = statusCode
@@ -1276,7 +1271,7 @@ extension CodeBuild {
         public let vpcConfig: VpcConfig?
         /// Information about a webhook that connects repository events to a build project in AWS CodeBuild.
         public let webhook: Webhook?
-        
+
         public init(arn: String? = nil, artifacts: ProjectArtifacts? = nil, badge: ProjectBadge? = nil, cache: ProjectCache? = nil, created: TimeStamp? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment? = nil, lastModified: TimeStamp? = nil, logsConfig: LogsConfig? = nil, name: String? = nil, queuedTimeoutInMinutes: Int32? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int32? = nil, vpcConfig: VpcConfig? = nil, webhook: Webhook? = nil) {
             self.arn = arn
             self.artifacts = artifacts
@@ -1358,7 +1353,7 @@ extension CodeBuild {
         public let path: String?
         /// The type of build output artifact. Valid values include:    CODEPIPELINE: The build project has build output generated through AWS CodePipeline.    NO_ARTIFACTS: The build project does not produce any build output.    S3: The build project stores build output in Amazon Simple Storage Service (Amazon S3).  
         public let `type`: ArtifactsType
-        
+
         public init(artifactIdentifier: String? = nil, encryptionDisabled: Bool? = nil, location: String? = nil, name: String? = nil, namespaceType: ArtifactNamespace? = nil, overrideArtifactName: Bool? = nil, packaging: ArtifactPackaging? = nil, path: String? = nil, type: ArtifactsType) {
             self.artifactIdentifier = artifactIdentifier
             self.encryptionDisabled = encryptionDisabled
@@ -1393,7 +1388,7 @@ extension CodeBuild {
         public let badgeEnabled: Bool?
         /// The publicly-accessible URL through which you can access the build badge for your project.  The publicly accessible URL through which you can access the build badge for your project. 
         public let badgeRequestUrl: String?
-        
+
         public init(badgeEnabled: Bool? = nil, badgeRequestUrl: String? = nil) {
             self.badgeEnabled = badgeEnabled
             self.badgeRequestUrl = badgeRequestUrl
@@ -1417,7 +1412,7 @@ extension CodeBuild {
         public let modes: [CacheMode]?
         /// The type of cache used by the build project. Valid values include:    NO_CACHE: The build project does not use any cache.    S3: The build project reads and writes from and to S3.    LOCAL: The build project stores a cache locally on a build host that is only available to that build host.  
         public let `type`: CacheType
-        
+
         public init(location: String? = nil, modes: [CacheMode]? = nil, type: CacheType) {
             self.location = location
             self.modes = modes
@@ -1458,7 +1453,7 @@ extension CodeBuild {
         public let registryCredential: RegistryCredential?
         /// The type of build environment to use for related builds.
         public let `type`: EnvironmentType
-        
+
         public init(certificate: String? = nil, computeType: ComputeType, environmentVariables: [EnvironmentVariable]? = nil, image: String, imagePullCredentialsType: ImagePullCredentialsType? = nil, privilegedMode: Bool? = nil, registryCredential: RegistryCredential? = nil, type: EnvironmentType) {
             self.certificate = certificate
             self.computeType = computeType
@@ -1519,7 +1514,7 @@ extension CodeBuild {
         public let sourceIdentifier: String?
         /// The type of repository that contains the source code to be built. Valid values include:    BITBUCKET: The source code is in a Bitbucket repository.    CODECOMMIT: The source code is in an AWS CodeCommit repository.    CODEPIPELINE: The source code settings are specified in the source action of a pipeline in AWS CodePipeline.    GITHUB: The source code is in a GitHub repository.    NO_SOURCE: The project does not have input source code.    S3: The source code is in an Amazon Simple Storage Service (Amazon S3) input bucket.  
         public let `type`: SourceType
-        
+
         public init(auth: SourceAuth? = nil, buildspec: String? = nil, gitCloneDepth: Int32? = nil, gitSubmodulesConfig: GitSubmodulesConfig? = nil, insecureSsl: Bool? = nil, location: String? = nil, reportBuildStatus: Bool? = nil, sourceIdentifier: String? = nil, type: SourceType) {
             self.auth = auth
             self.buildspec = buildspec
@@ -1554,7 +1549,7 @@ extension CodeBuild {
         public let sourceIdentifier: String
         /// The source version for the corresponding source identifier. If specified, must be one of:   For AWS CodeCommit: the commit ID to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example, pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.    For more information, see Source Version Sample with CodeBuild in the AWS CodeBuild User Guide. 
         public let sourceVersion: String
-        
+
         public init(sourceIdentifier: String, sourceVersion: String) {
             self.sourceIdentifier = sourceIdentifier
             self.sourceVersion = sourceVersion
@@ -1575,7 +1570,7 @@ extension CodeBuild {
         public let credential: String
         ///  The service that created the credentials to access a private Docker registry. The valid value, SECRETS_MANAGER, is for AWS Secrets Manager. 
         public let credentialProvider: CredentialProviderType
-        
+
         public init(credential: String, credentialProvider: CredentialProviderType) {
             self.credential = credential
             self.credentialProvider = credentialProvider
@@ -1599,7 +1594,7 @@ extension CodeBuild {
         public let location: String?
         /// The current status of the S3 build logs. Valid values are:    ENABLED: S3 build logs are enabled for this build project.    DISABLED: S3 build logs are not enabled for this build project.  
         public let status: LogsConfigStatusType
-        
+
         public init(encryptionDisabled: Bool? = nil, location: String? = nil, status: LogsConfigStatusType) {
             self.encryptionDisabled = encryptionDisabled
             self.location = location
@@ -1635,7 +1630,7 @@ extension CodeBuild {
         public let resource: String?
         ///   This data type is deprecated and is no longer accurate or used.   The authorization type to use. The only valid value is OAUTH, which represents the OAuth authorization type.
         public let `type`: SourceAuthType
-        
+
         public init(resource: String? = nil, type: SourceAuthType) {
             self.resource = resource
             self.`type` = `type`
@@ -1664,7 +1659,7 @@ extension CodeBuild {
         public let authType: AuthType?
         ///  The type of source provider. The valid options are GITHUB, GITHUB_ENTERPRISE, or BITBUCKET. 
         public let serverType: ServerType?
-        
+
         public init(arn: String? = nil, authType: AuthType? = nil, serverType: ServerType? = nil) {
             self.arn = arn
             self.authType = authType
@@ -1776,7 +1771,7 @@ extension CodeBuild {
         public let sourceVersion: String?
         /// The number of build timeout minutes, from 5 to 480 (8 hours), that overrides, for this build only, the latest setting already defined in the build project.
         public let timeoutInMinutesOverride: Int32?
-        
+
         public init(artifactsOverride: ProjectArtifacts? = nil, buildspecOverride: String? = nil, cacheOverride: ProjectCache? = nil, certificateOverride: String? = nil, computeTypeOverride: ComputeType? = nil, environmentTypeOverride: EnvironmentType? = nil, environmentVariablesOverride: [EnvironmentVariable]? = nil, gitCloneDepthOverride: Int32? = nil, gitSubmodulesConfigOverride: GitSubmodulesConfig? = nil, idempotencyToken: String? = nil, imageOverride: String? = nil, imagePullCredentialsTypeOverride: ImagePullCredentialsType? = nil, insecureSslOverride: Bool? = nil, logsConfigOverride: LogsConfig? = nil, privilegedModeOverride: Bool? = nil, projectName: String, queuedTimeoutInMinutesOverride: Int32? = nil, registryCredentialOverride: RegistryCredential? = nil, reportBuildStatusOverride: Bool? = nil, secondaryArtifactsOverride: [ProjectArtifacts]? = nil, secondarySourcesOverride: [ProjectSource]? = nil, secondarySourcesVersionOverride: [ProjectSourceVersion]? = nil, serviceRoleOverride: String? = nil, sourceAuthOverride: SourceAuth? = nil, sourceLocationOverride: String? = nil, sourceTypeOverride: SourceType? = nil, sourceVersion: String? = nil, timeoutInMinutesOverride: Int32? = nil) {
             self.artifactsOverride = artifactsOverride
             self.buildspecOverride = buildspecOverride
@@ -1846,7 +1841,7 @@ extension CodeBuild {
         ]
         /// Information about the build to be run.
         public let build: Build?
-        
+
         public init(build: Build? = nil) {
             self.build = build
         }
@@ -1872,7 +1867,7 @@ extension CodeBuild {
         ]
         /// The ID of the build.
         public let id: String
-        
+
         public init(id: String) {
             self.id = id
         }
@@ -1888,7 +1883,7 @@ extension CodeBuild {
         ]
         /// Information about the build.
         public let build: Build?
-        
+
         public init(build: Build? = nil) {
             self.build = build
         }
@@ -1907,7 +1902,7 @@ extension CodeBuild {
         public let key: String?
         /// The tag's value.
         public let value: String?
-        
+
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1976,7 +1971,7 @@ extension CodeBuild {
         public let timeoutInMinutes: Int32?
         /// VpcConfig enables AWS CodeBuild to access resources in an Amazon VPC.
         public let vpcConfig: VpcConfig?
-        
+
         public init(artifacts: ProjectArtifacts? = nil, badgeEnabled: Bool? = nil, cache: ProjectCache? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment? = nil, logsConfig: LogsConfig? = nil, name: String, queuedTimeoutInMinutes: Int32? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int32? = nil, vpcConfig: VpcConfig? = nil) {
             self.artifacts = artifacts
             self.badgeEnabled = badgeEnabled
@@ -2026,7 +2021,7 @@ extension CodeBuild {
         ]
         /// Information about the build project that was changed.
         public let project: Project?
-        
+
         public init(project: Project? = nil) {
             self.project = project
         }
@@ -2051,7 +2046,7 @@ extension CodeBuild {
         public let projectName: String
         ///  A boolean value that specifies whether the associated GitHub repository's secret token should be updated. If you use Bitbucket for your repository, rotateSecret is ignored. 
         public let rotateSecret: Bool?
-        
+
         public init(branchFilter: String? = nil, filterGroups: [[WebhookFilter]]? = nil, projectName: String, rotateSecret: Bool? = nil) {
             self.branchFilter = branchFilter
             self.filterGroups = filterGroups
@@ -2073,7 +2068,7 @@ extension CodeBuild {
         ]
         ///  Information about a repository's webhook that is associated with a project in AWS CodeBuild. 
         public let webhook: Webhook?
-        
+
         public init(webhook: Webhook? = nil) {
             self.webhook = webhook
         }
@@ -2095,7 +2090,7 @@ extension CodeBuild {
         public let subnets: [String]?
         /// The ID of the Amazon VPC.
         public let vpcId: String?
-        
+
         public init(securityGroupIds: [String]? = nil, subnets: [String]? = nil, vpcId: String? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnets = subnets
@@ -2130,7 +2125,7 @@ extension CodeBuild {
         public let secret: String?
         /// The URL to the webhook.
         public let url: String?
-        
+
         public init(branchFilter: String? = nil, filterGroups: [[WebhookFilter]]? = nil, lastModifiedSecret: TimeStamp? = nil, payloadUrl: String? = nil, secret: String? = nil, url: String? = nil) {
             self.branchFilter = branchFilter
             self.filterGroups = filterGroups
@@ -2162,7 +2157,7 @@ extension CodeBuild {
         public let pattern: String
         ///  The type of webhook filter. There are five webhook filter types: EVENT, ACTOR_ACCOUNT_ID, HEAD_REF, BASE_REF, and FILE_PATH.    EVENT    A webhook event triggers a build when the provided pattern matches one of four event types: PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED, and PULL_REQUEST_REOPENED. The EVENT patterns are specified as a comma-separated string. For example, PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED filters all push, pull request created, and pull request updated events.    The PULL_REQUEST_REOPENED works with GitHub and GitHub Enterprise only.     ACTOR_ACCOUNT_ID    A webhook event triggers a build when a GitHub, GitHub Enterprise, or Bitbucket account ID matches the regular expression pattern.    HEAD_REF    A webhook event triggers a build when the head reference matches the regular expression pattern. For example, refs/heads/branch-name and refs/tags/tag-name.   Works with GitHub and GitHub Enterprise push, GitHub and GitHub Enterprise pull request, Bitbucket push, and Bitbucket pull request events.    BASE_REF    A webhook event triggers a build when the base reference matches the regular expression pattern. For example, refs/heads/branch-name.    Works with pull request events only.     FILE_PATH    A webhook triggers a build when the path of a changed file matches the regular expression pattern.    Works with GitHub and GitHub Enterprise push events only.    
         public let `type`: WebhookFilterType
-        
+
         public init(excludeMatchedPattern: Bool? = nil, pattern: String, type: WebhookFilterType) {
             self.excludeMatchedPattern = excludeMatchedPattern
             self.pattern = pattern
@@ -2184,5 +2179,4 @@ extension CodeBuild {
         case filePath = "FILE_PATH"
         public var description: String { return self.rawValue }
     }
-
 }

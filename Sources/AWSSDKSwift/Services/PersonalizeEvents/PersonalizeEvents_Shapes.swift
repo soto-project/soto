@@ -20,7 +20,7 @@ extension PersonalizeEvents {
         public let properties: String
         /// The timestamp on the client side when the event occurred.
         public let sentAt: TimeStamp
-        
+
         public init(eventId: String? = nil, eventType: String, properties: String, sentAt: TimeStamp) {
             self.eventId = eventId
             self.eventType = eventType
@@ -51,7 +51,7 @@ extension PersonalizeEvents {
         public let trackingId: String
         /// The user associated with the event.
         public let userId: String?
-        
+
         public init(eventList: [Event], sessionId: String, trackingId: String, userId: String? = nil) {
             self.eventList = eventList
             self.sessionId = sessionId
@@ -66,5 +66,4 @@ extension PersonalizeEvents {
             case userId = "userId"
         }
     }
-
 }

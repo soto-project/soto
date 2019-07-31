@@ -14,7 +14,7 @@ extension FSx {
         public let activeDirectoryId: String?
         /// The fully qualified domain name of the self-managed AD directory.
         public let domainName: String?
-        
+
         public init(activeDirectoryId: String? = nil, domainName: String? = nil) {
             self.activeDirectoryId = activeDirectoryId
             self.domainName = domainName
@@ -69,7 +69,7 @@ extension FSx {
         public let tags: [Tag]?
         /// The type of the backup.
         public let `type`: BackupType
-        
+
         public init(backupId: String, creationTime: TimeStamp, directoryInformation: ActiveDirectoryBackupAttributes? = nil, failureDetails: BackupFailureDetails? = nil, fileSystem: FileSystem, kmsKeyId: String? = nil, lifecycle: BackupLifecycle, progressPercent: Int32? = nil, resourceARN: String? = nil, tags: [Tag]? = nil, type: BackupType) {
             self.backupId = backupId
             self.creationTime = creationTime
@@ -105,7 +105,7 @@ extension FSx {
         ]
         /// A message describing the backup creation failure.
         public let message: String?
-        
+
         public init(message: String? = nil) {
             self.message = message
         }
@@ -141,7 +141,7 @@ extension FSx {
         public let fileSystemId: String
         /// The tags to apply to the backup at backup creation. The key value of the Name tag appears in the console as the backup name.
         public let tags: [Tag]?
-        
+
         public init(clientRequestToken: String? = nil, fileSystemId: String, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.fileSystemId = fileSystemId
@@ -161,7 +161,7 @@ extension FSx {
         ]
         /// A description of the backup.
         public let backup: Backup?
-        
+
         public init(backup: Backup? = nil) {
             self.backup = backup
         }
@@ -191,7 +191,7 @@ extension FSx {
         public let tags: [Tag]?
         /// The configuration for this Microsoft Windows file system.
         public let windowsConfiguration: CreateFileSystemWindowsConfiguration?
-        
+
         public init(backupId: String, clientRequestToken: String? = nil, securityGroupIds: [String]? = nil, subnetIds: [String], tags: [Tag]? = nil, windowsConfiguration: CreateFileSystemWindowsConfiguration? = nil) {
             self.backupId = backupId
             self.clientRequestToken = clientRequestToken
@@ -217,7 +217,7 @@ extension FSx {
         ]
         /// A description of the file system.
         public let fileSystem: FileSystem?
-        
+
         public init(fileSystem: FileSystem? = nil) {
             self.fileSystem = fileSystem
         }
@@ -242,7 +242,7 @@ extension FSx {
         public let importPath: String?
         /// The preferred time to perform weekly maintenance, in the UTC time zone.
         public let weeklyMaintenanceStartTime: String?
-        
+
         public init(exportPath: String? = nil, importedFileChunkSize: Int32? = nil, importPath: String? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.exportPath = exportPath
             self.importedFileChunkSize = importedFileChunkSize
@@ -286,7 +286,7 @@ extension FSx {
         public let tags: [Tag]?
         /// The Microsoft Windows configuration for the file system being created. This value is required if FileSystemType is set to WINDOWS.
         public let windowsConfiguration: CreateFileSystemWindowsConfiguration?
-        
+
         public init(clientRequestToken: String? = nil, fileSystemType: FileSystemType, kmsKeyId: String? = nil, lustreConfiguration: CreateFileSystemLustreConfiguration? = nil, securityGroupIds: [String]? = nil, storageCapacity: Int32, subnetIds: [String], tags: [Tag]? = nil, windowsConfiguration: CreateFileSystemWindowsConfiguration? = nil) {
             self.clientRequestToken = clientRequestToken
             self.fileSystemType = fileSystemType
@@ -318,7 +318,7 @@ extension FSx {
         ]
         /// The configuration of the file system that was created.
         public let fileSystem: FileSystem?
-        
+
         public init(fileSystem: FileSystem? = nil) {
             self.fileSystem = fileSystem
         }
@@ -351,7 +351,7 @@ extension FSx {
         public let throughputCapacity: Int32
         /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone.
         public let weeklyMaintenanceStartTime: String?
-        
+
         public init(activeDirectoryId: String? = nil, automaticBackupRetentionDays: Int32? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfiguration? = nil, throughputCapacity: Int32, weeklyMaintenanceStartTime: String? = nil) {
             self.activeDirectoryId = activeDirectoryId
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
@@ -385,7 +385,7 @@ extension FSx {
         public let importedFileChunkSize: Int32?
         /// The import path to the Amazon S3 bucket (and optional prefix) that you're using as the data repository for your FSx for Lustre file system, for example s3://import-bucket/optional-prefix. If a prefix is specified after the Amazon S3 bucket name, only object keys with that prefix are loaded into the file system.
         public let importPath: String?
-        
+
         public init(exportPath: String? = nil, importedFileChunkSize: Int32? = nil, importPath: String? = nil) {
             self.exportPath = exportPath
             self.importedFileChunkSize = importedFileChunkSize
@@ -408,7 +408,7 @@ extension FSx {
         public let backupId: String
         /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent deletion. This is automatically filled on your behalf when using the AWS CLI or SDK.
         public let clientRequestToken: String?
-        
+
         public init(backupId: String, clientRequestToken: String? = nil) {
             self.backupId = backupId
             self.clientRequestToken = clientRequestToken
@@ -429,7 +429,7 @@ extension FSx {
         public let backupId: String?
         /// The lifecycle of the backup. Should be DELETED.
         public let lifecycle: BackupLifecycle?
-        
+
         public init(backupId: String? = nil, lifecycle: BackupLifecycle? = nil) {
             self.backupId = backupId
             self.lifecycle = lifecycle
@@ -452,7 +452,7 @@ extension FSx {
         /// The ID of the file system you want to delete.
         public let fileSystemId: String
         public let windowsConfiguration: DeleteFileSystemWindowsConfiguration?
-        
+
         public init(clientRequestToken: String? = nil, fileSystemId: String, windowsConfiguration: DeleteFileSystemWindowsConfiguration? = nil) {
             self.clientRequestToken = clientRequestToken
             self.fileSystemId = fileSystemId
@@ -477,7 +477,7 @@ extension FSx {
         /// The file system lifecycle for the deletion request. Should be DELETING.
         public let lifecycle: FileSystemLifecycle?
         public let windowsResponse: DeleteFileSystemWindowsResponse?
-        
+
         public init(fileSystemId: String? = nil, lifecycle: FileSystemLifecycle? = nil, windowsResponse: DeleteFileSystemWindowsResponse? = nil) {
             self.fileSystemId = fileSystemId
             self.lifecycle = lifecycle
@@ -500,7 +500,7 @@ extension FSx {
         public let finalBackupTags: [Tag]?
         /// By default, Amazon FSx for Windows takes a final backup on your behalf when the DeleteFileSystem operation is invoked. Doing this helps protect you from data loss, and we highly recommend taking the final backup. If you want to skip this backup, use this flag to do so.
         public let skipFinalBackup: Bool?
-        
+
         public init(finalBackupTags: [Tag]? = nil, skipFinalBackup: Bool? = nil) {
             self.finalBackupTags = finalBackupTags
             self.skipFinalBackup = skipFinalBackup
@@ -521,7 +521,7 @@ extension FSx {
         public let finalBackupId: String?
         /// The set of tags applied to the final backup.
         public let finalBackupTags: [Tag]?
-        
+
         public init(finalBackupId: String? = nil, finalBackupTags: [Tag]? = nil) {
             self.finalBackupId = finalBackupId
             self.finalBackupTags = finalBackupTags
@@ -548,7 +548,7 @@ extension FSx {
         public let maxResults: Int32?
         /// (Optional) Opaque pagination token returned from a previous DescribeBackups operation (String). If a token present, the action continues the list from where the returning call left off.
         public let nextToken: String?
-        
+
         public init(backupIds: [String]? = nil, filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.backupIds = backupIds
             self.filters = filters
@@ -573,7 +573,7 @@ extension FSx {
         public let backups: [Backup]?
         /// This is present if there are more backups than returned in the response (String). You can use the NextToken value in the later request to fetch the backups. 
         public let nextToken: String?
-        
+
         public init(backups: [Backup]? = nil, nextToken: String? = nil) {
             self.backups = backups
             self.nextToken = nextToken
@@ -597,7 +597,7 @@ extension FSx {
         public let maxResults: Int32?
         /// (Optional) Opaque pagination token returned from a previous DescribeFileSystems operation (String). If a token present, the action continues the list from where the returning call left off.
         public let nextToken: String?
-        
+
         public init(fileSystemIds: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.fileSystemIds = fileSystemIds
             self.maxResults = maxResults
@@ -620,7 +620,7 @@ extension FSx {
         public let fileSystems: [FileSystem]?
         /// Present if there are more file systems than returned in the response (String). You can use the NextToken value in the later request to fetch the descriptions. 
         public let nextToken: String?
-        
+
         public init(fileSystems: [FileSystem]? = nil, nextToken: String? = nil) {
             self.fileSystems = fileSystems
             self.nextToken = nextToken
@@ -681,7 +681,7 @@ extension FSx {
         public let vpcId: String?
         /// The configuration for this Microsoft Windows file system.
         public let windowsConfiguration: WindowsFileSystemConfiguration?
-        
+
         public init(creationTime: TimeStamp? = nil, dNSName: String? = nil, failureDetails: FileSystemFailureDetails? = nil, fileSystemId: String? = nil, fileSystemType: FileSystemType? = nil, kmsKeyId: String? = nil, lifecycle: FileSystemLifecycle? = nil, lustreConfiguration: LustreFileSystemConfiguration? = nil, networkInterfaceIds: [String]? = nil, ownerId: String? = nil, resourceARN: String? = nil, storageCapacity: Int32? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, vpcId: String? = nil, windowsConfiguration: WindowsFileSystemConfiguration? = nil) {
             self.creationTime = creationTime
             self.dNSName = dNSName
@@ -727,7 +727,7 @@ extension FSx {
         ]
         /// A message describing any failures that occurred during file system creation.
         public let message: String?
-        
+
         public init(message: String? = nil) {
             self.message = message
         }
@@ -768,7 +768,7 @@ extension FSx {
         public let name: FilterName?
         /// The values of the filter. These are all the values for any of the applied filters.
         public let values: [String]?
-        
+
         public init(name: FilterName? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -798,7 +798,7 @@ extension FSx {
         public let nextToken: String?
         /// The ARN of the Amazon FSx resource that will have its tags listed.
         public let resourceARN: String
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceARN: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -821,7 +821,7 @@ extension FSx {
         public let nextToken: String?
         /// A list of tags on the resource.
         public let tags: [Tag]?
-        
+
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -841,7 +841,7 @@ extension FSx {
         public let dataRepositoryConfiguration: DataRepositoryConfiguration?
         /// The UTC time that you want to begin your weekly maintenance window.
         public let weeklyMaintenanceStartTime: String?
-        
+
         public init(dataRepositoryConfiguration: DataRepositoryConfiguration? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.dataRepositoryConfiguration = dataRepositoryConfiguration
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
@@ -871,7 +871,7 @@ extension FSx {
         public let organizationalUnitDistinguishedName: String?
         /// The user name for the service account on your self-managed AD domain that FSx uses to join to your AD domain.
         public let userName: String?
-        
+
         public init(dnsIps: [String]? = nil, domainName: String? = nil, fileSystemAdministratorsGroup: String? = nil, organizationalUnitDistinguishedName: String? = nil, userName: String? = nil) {
             self.dnsIps = dnsIps
             self.domainName = domainName
@@ -910,7 +910,7 @@ extension FSx {
         public let password: String
         /// The user name for the service account on your self-managed AD domain that Amazon FSx will use to join to your AD domain. This account must have the permission to join computers to the domain in the organizational unit provided in OrganizationalUnitDistinguishedName, or in the default location of your AD domain.
         public let userName: String
-        
+
         public init(dnsIps: [String], domainName: String, fileSystemAdministratorsGroup: String? = nil, organizationalUnitDistinguishedName: String? = nil, password: String, userName: String) {
             self.dnsIps = dnsIps
             self.domainName = domainName
@@ -942,7 +942,7 @@ extension FSx {
         public let password: String?
         /// The user name for the service account on your self-managed AD domain that Amazon FSx will use to join to your AD domain. This account must have the permission to join computers to the domain in the organizational unit provided in OrganizationalUnitDistinguishedName.
         public let userName: String?
-        
+
         public init(dnsIps: [String]? = nil, password: String? = nil, userName: String? = nil) {
             self.dnsIps = dnsIps
             self.password = password
@@ -973,7 +973,7 @@ extension FSx {
         public let key: String?
         /// A value that specifies the TagValue, the value assigned to the corresponding tag key. Tag values can be null and don't have to be unique in a tag set. For example, you can have a key-value pair in a tag set of finances : April and also of payroll : April.
         public let value: String?
-        
+
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -994,7 +994,7 @@ extension FSx {
         public let resourceARN: String
         /// A list of tags for the resource. If a tag with a given key already exists, the value is replaced by the one specified in this parameter.
         public let tags: [Tag]
-        
+
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -1007,12 +1007,11 @@ extension FSx {
     }
 
     public struct TagResourceResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1023,7 +1022,7 @@ extension FSx {
         public let resourceARN: String
         /// A list of keys of tags on the resource to untag. In case the tag key doesn't exist, the call will still succeed to be idempotent.
         public let tagKeys: [String]
-        
+
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -1036,12 +1035,11 @@ extension FSx {
     }
 
     public struct UntagResourceResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateFileSystemLustreConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1049,7 +1047,7 @@ extension FSx {
         ]
         /// The preferred time to perform weekly maintenance, in the UTC time zone.
         public let weeklyMaintenanceStartTime: String?
-        
+
         public init(weeklyMaintenanceStartTime: String? = nil) {
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
@@ -1072,7 +1070,7 @@ extension FSx {
         public let lustreConfiguration: UpdateFileSystemLustreConfiguration?
         /// The configuration update for this Microsoft Windows file system. The only supported options are for backup and maintenance and for self-managed Active Directory configuration.
         public let windowsConfiguration: UpdateFileSystemWindowsConfiguration?
-        
+
         public init(clientRequestToken: String? = nil, fileSystemId: String, lustreConfiguration: UpdateFileSystemLustreConfiguration? = nil, windowsConfiguration: UpdateFileSystemWindowsConfiguration? = nil) {
             self.clientRequestToken = clientRequestToken
             self.fileSystemId = fileSystemId
@@ -1094,7 +1092,7 @@ extension FSx {
         ]
         /// A description of the file system that was updated.
         public let fileSystem: FileSystem?
-        
+
         public init(fileSystem: FileSystem? = nil) {
             self.fileSystem = fileSystem
         }
@@ -1119,7 +1117,7 @@ extension FSx {
         public let selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfigurationUpdates?
         /// The preferred time to perform weekly maintenance, in the UTC time zone.
         public let weeklyMaintenanceStartTime: String?
-        
+
         public init(automaticBackupRetentionDays: Int32? = nil, dailyAutomaticBackupStartTime: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfigurationUpdates? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
@@ -1161,7 +1159,7 @@ extension FSx {
         public let throughputCapacity: Int32?
         /// The preferred time to perform weekly maintenance, in the UTC time zone.
         public let weeklyMaintenanceStartTime: String?
-        
+
         public init(activeDirectoryId: String? = nil, automaticBackupRetentionDays: Int32? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, maintenanceOperationsInProgress: [FileSystemMaintenanceOperation]? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryAttributes? = nil, throughputCapacity: Int32? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.activeDirectoryId = activeDirectoryId
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
@@ -1184,5 +1182,4 @@ extension FSx {
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
         }
     }
-
 }

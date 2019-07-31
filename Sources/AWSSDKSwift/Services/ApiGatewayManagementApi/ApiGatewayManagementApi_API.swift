@@ -29,5 +29,4 @@ public struct ApiGatewayManagementApi {
     @discardableResult public func postToConnection(_ input: PostToConnectionRequest) throws -> Future<Void> {
         return try client.send(operation: "PostToConnection", path: "/@connections/{connectionId}", httpMethod: "POST", input: input)
     }
-
 }

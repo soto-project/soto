@@ -85,5 +85,4 @@ public struct Firehose {
     public func updateDestination(_ input: UpdateDestinationInput) throws -> Future<UpdateDestinationOutput> {
         return try client.send(operation: "UpdateDestination", path: "/", httpMethod: "POST", input: input)
     }
-
 }

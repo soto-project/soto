@@ -224,5 +224,4 @@ public struct AppMesh {
     public func updateVirtualService(_ input: UpdateVirtualServiceInput) throws -> Future<UpdateVirtualServiceOutput> {
         return try client.send(operation: "UpdateVirtualService", path: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}", httpMethod: "PUT", input: input)
     }
-
 }

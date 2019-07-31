@@ -220,5 +220,4 @@ public struct Lambda {
     public func updateFunctionConfiguration(_ input: UpdateFunctionConfigurationRequest) throws -> Future<FunctionConfiguration> {
         return try client.send(operation: "UpdateFunctionConfiguration", path: "/2015-03-31/functions/{FunctionName}/configuration", httpMethod: "PUT", input: input)
     }
-
 }

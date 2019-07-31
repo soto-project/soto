@@ -194,5 +194,4 @@ public struct IoTAnalytics {
     @discardableResult public func updatePipeline(_ input: UpdatePipelineRequest) throws -> Future<Void> {
         return try client.send(operation: "UpdatePipeline", path: "/pipelines/{pipelineName}", httpMethod: "PUT", input: input)
     }
-
 }

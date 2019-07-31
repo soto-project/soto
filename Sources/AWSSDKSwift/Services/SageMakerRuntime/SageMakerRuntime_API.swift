@@ -30,5 +30,4 @@ public struct SageMakerRuntime {
     public func invokeEndpoint(_ input: InvokeEndpointInput) throws -> Future<InvokeEndpointOutput> {
         return try client.send(operation: "InvokeEndpoint", path: "/endpoints/{EndpointName}/invocations", httpMethod: "POST", input: input)
     }
-
 }

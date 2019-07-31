@@ -125,5 +125,4 @@ public struct ServiceDiscovery {
     public func updateService(_ input: UpdateServiceRequest) throws -> Future<UpdateServiceResponse> {
         return try client.send(operation: "UpdateService", path: "/", httpMethod: "POST", input: input)
     }
-
 }

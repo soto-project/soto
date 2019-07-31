@@ -115,5 +115,4 @@ public struct MediaStore {
     public func untagResource(_ input: UntagResourceInput) throws -> Future<UntagResourceOutput> {
         return try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
-
 }

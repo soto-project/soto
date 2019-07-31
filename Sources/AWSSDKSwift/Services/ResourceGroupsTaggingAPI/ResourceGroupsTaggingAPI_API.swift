@@ -50,5 +50,4 @@ public struct ResourceGroupsTaggingAPI {
     public func untagResources(_ input: UntagResourcesInput) throws -> Future<UntagResourcesOutput> {
         return try client.send(operation: "UntagResources", path: "/", httpMethod: "POST", input: input)
     }
-
 }

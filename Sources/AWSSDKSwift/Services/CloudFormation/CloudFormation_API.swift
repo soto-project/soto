@@ -249,5 +249,4 @@ public struct CloudFormation {
     public func validateTemplate(_ input: ValidateTemplateInput) throws -> Future<ValidateTemplateOutput> {
         return try client.send(operation: "ValidateTemplate", path: "/", httpMethod: "POST", input: input)
     }
-
 }

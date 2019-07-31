@@ -30,5 +30,4 @@ public struct MarketplaceEntitlementService {
     public func getEntitlements(_ input: GetEntitlementsRequest) throws -> Future<GetEntitlementsResult> {
         return try client.send(operation: "GetEntitlements", path: "/", httpMethod: "POST", input: input)
     }
-
 }

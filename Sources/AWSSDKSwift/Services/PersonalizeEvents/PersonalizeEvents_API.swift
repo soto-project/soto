@@ -4,7 +4,6 @@ import Foundation
 import AWSSDKSwiftCore
 import NIO
 
-
 public struct PersonalizeEvents {
 
     let client: AWSClient
@@ -27,5 +26,4 @@ public struct PersonalizeEvents {
     @discardableResult public func putEvents(_ input: PutEventsRequest) throws -> Future<Void> {
         return try client.send(operation: "PutEvents", path: "/events", httpMethod: "POST", input: input)
     }
-
 }

@@ -35,5 +35,4 @@ public struct PI {
     public func getResourceMetrics(_ input: GetResourceMetricsRequest) throws -> Future<GetResourceMetricsResponse> {
         return try client.send(operation: "GetResourceMetrics", path: "/", httpMethod: "POST", input: input)
     }
-
 }

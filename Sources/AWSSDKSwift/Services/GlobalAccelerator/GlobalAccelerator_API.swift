@@ -110,5 +110,4 @@ public struct GlobalAccelerator {
     public func updateListener(_ input: UpdateListenerRequest) throws -> Future<UpdateListenerResponse> {
         return try client.send(operation: "UpdateListener", path: "/", httpMethod: "POST", input: input)
     }
-
 }

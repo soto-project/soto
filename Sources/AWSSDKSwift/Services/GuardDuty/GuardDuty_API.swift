@@ -249,5 +249,4 @@ public struct GuardDuty {
     public func updateThreatIntelSet(_ input: UpdateThreatIntelSetRequest) throws -> Future<UpdateThreatIntelSetResponse> {
         return try client.send(operation: "UpdateThreatIntelSet", path: "/detector/{detectorId}/threatintelset/{threatIntelSetId}", httpMethod: "POST", input: input)
     }
-
 }

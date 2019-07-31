@@ -41,7 +41,7 @@ extension KinesisVideo {
         public let streamName: String
         /// A list of tags to associate with the specified stream. Each tag is a key-value pair (the value is optional).
         public let tags: [String: String]?
-        
+
         public init(dataRetentionInHours: Int32? = nil, deviceName: String? = nil, kmsKeyId: String? = nil, mediaType: String? = nil, streamName: String, tags: [String: String]? = nil) {
             self.dataRetentionInHours = dataRetentionInHours
             self.deviceName = deviceName
@@ -67,7 +67,7 @@ extension KinesisVideo {
         ]
         /// The Amazon Resource Name (ARN) of the stream.
         public let streamARN: String?
-        
+
         public init(streamARN: String? = nil) {
             self.streamARN = streamARN
         }
@@ -86,7 +86,7 @@ extension KinesisVideo {
         public let currentVersion: String?
         /// The Amazon Resource Name (ARN) of the stream that you want to delete. 
         public let streamARN: String
-        
+
         public init(currentVersion: String? = nil, streamARN: String) {
             self.currentVersion = currentVersion
             self.streamARN = streamARN
@@ -99,12 +99,11 @@ extension KinesisVideo {
     }
 
     public struct DeleteStreamOutput: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DescribeStreamInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -115,7 +114,7 @@ extension KinesisVideo {
         public let streamARN: String?
         /// The name of the stream.
         public let streamName: String?
-        
+
         public init(streamARN: String? = nil, streamName: String? = nil) {
             self.streamARN = streamARN
             self.streamName = streamName
@@ -133,7 +132,7 @@ extension KinesisVideo {
         ]
         /// An object that describes the stream.
         public let streamInfo: StreamInfo?
-        
+
         public init(streamInfo: StreamInfo? = nil) {
             self.streamInfo = streamInfo
         }
@@ -155,7 +154,7 @@ extension KinesisVideo {
         public let streamARN: String?
         /// The name of the stream that you want to get the endpoint for. You must specify either this parameter or a StreamARN in the request.
         public let streamName: String?
-        
+
         public init(aPIName: APIName, streamARN: String? = nil, streamName: String? = nil) {
             self.aPIName = aPIName
             self.streamARN = streamARN
@@ -175,7 +174,7 @@ extension KinesisVideo {
         ]
         /// The endpoint value. To read data from the stream or to write data to it, specify this endpoint in your application.
         public let dataEndpoint: String?
-        
+
         public init(dataEndpoint: String? = nil) {
             self.dataEndpoint = dataEndpoint
         }
@@ -197,7 +196,7 @@ extension KinesisVideo {
         public let nextToken: String?
         /// Optional: Returns only streams that satisfy a specific condition. Currently, you can specify only the prefix of a stream name as a condition. 
         public let streamNameCondition: StreamNameCondition?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, streamNameCondition: StreamNameCondition? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -220,7 +219,7 @@ extension KinesisVideo {
         public let nextToken: String?
         /// An array of StreamInfo objects.
         public let streamInfoList: [StreamInfo]?
-        
+
         public init(nextToken: String? = nil, streamInfoList: [StreamInfo]? = nil) {
             self.nextToken = nextToken
             self.streamInfoList = streamInfoList
@@ -244,7 +243,7 @@ extension KinesisVideo {
         public let streamARN: String?
         /// The name of the stream that you want to list tags for.
         public let streamName: String?
-        
+
         public init(nextToken: String? = nil, streamARN: String? = nil, streamName: String? = nil) {
             self.nextToken = nextToken
             self.streamARN = streamARN
@@ -267,7 +266,7 @@ extension KinesisVideo {
         public let nextToken: String?
         /// A map of tag keys and values associated with the specified stream.
         public let tags: [String: String]?
-        
+
         public init(nextToken: String? = nil, tags: [String: String]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -317,7 +316,7 @@ extension KinesisVideo {
         public let streamName: String?
         /// The version of the stream.
         public let version: String?
-        
+
         public init(creationTime: TimeStamp? = nil, dataRetentionInHours: Int32? = nil, deviceName: String? = nil, kmsKeyId: String? = nil, mediaType: String? = nil, status: Status? = nil, streamARN: String? = nil, streamName: String? = nil, version: String? = nil) {
             self.creationTime = creationTime
             self.dataRetentionInHours = dataRetentionInHours
@@ -352,7 +351,7 @@ extension KinesisVideo {
         public let comparisonOperator: ComparisonOperator?
         /// A value to compare.
         public let comparisonValue: String?
-        
+
         public init(comparisonOperator: ComparisonOperator? = nil, comparisonValue: String? = nil) {
             self.comparisonOperator = comparisonOperator
             self.comparisonValue = comparisonValue
@@ -376,7 +375,7 @@ extension KinesisVideo {
         public let streamName: String?
         /// A list of tags to associate with the specified stream. Each tag is a key-value pair (the value is optional).
         public let tags: [String: String]
-        
+
         public init(streamARN: String? = nil, streamName: String? = nil, tags: [String: String]) {
             self.streamARN = streamARN
             self.streamName = streamName
@@ -391,12 +390,11 @@ extension KinesisVideo {
     }
 
     public struct TagStreamOutput: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UntagStreamInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -410,7 +408,7 @@ extension KinesisVideo {
         public let streamName: String?
         /// A list of the keys of the tags that you want to remove.
         public let tagKeyList: [String]
-        
+
         public init(streamARN: String? = nil, streamName: String? = nil, tagKeyList: [String]) {
             self.streamARN = streamARN
             self.streamName = streamName
@@ -425,12 +423,11 @@ extension KinesisVideo {
     }
 
     public struct UntagStreamOutput: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateDataRetentionInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -450,7 +447,7 @@ extension KinesisVideo {
         public let streamARN: String?
         /// The name of the stream whose retention period you want to change.
         public let streamName: String?
-        
+
         public init(currentVersion: String, dataRetentionChangeInHours: Int32, operation: UpdateDataRetentionOperation, streamARN: String? = nil, streamName: String? = nil) {
             self.currentVersion = currentVersion
             self.dataRetentionChangeInHours = dataRetentionChangeInHours
@@ -475,12 +472,11 @@ extension KinesisVideo {
     }
 
     public struct UpdateDataRetentionOutput: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateStreamInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -500,7 +496,7 @@ extension KinesisVideo {
         public let streamARN: String?
         /// The name of the stream whose metadata you want to update. The stream name is an identifier for the stream, and must be unique for each account and region.
         public let streamName: String?
-        
+
         public init(currentVersion: String, deviceName: String? = nil, mediaType: String? = nil, streamARN: String? = nil, streamName: String? = nil) {
             self.currentVersion = currentVersion
             self.deviceName = deviceName
@@ -519,11 +515,9 @@ extension KinesisVideo {
     }
 
     public struct UpdateStreamOutput: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
-
+    }
 }

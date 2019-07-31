@@ -70,7 +70,7 @@ extension MediaLive {
         public let spec: AacSpec?
         /// VBR Quality Level - Only used if rateControlMode is VBR.
         public let vbrQuality: AacVbrQuality?
-        
+
         public init(bitrate: Double? = nil, codingMode: AacCodingMode? = nil, inputType: AacInputType? = nil, profile: AacProfile? = nil, rateControlMode: AacRateControlMode? = nil, rawFormat: AacRawFormat? = nil, sampleRate: Double? = nil, spec: AacSpec? = nil, vbrQuality: AacVbrQuality? = nil) {
             self.bitrate = bitrate
             self.codingMode = codingMode
@@ -172,7 +172,7 @@ extension MediaLive {
         public let lfeFilter: Ac3LfeFilter?
         /// When set to "followInput", encoder metadata will be sourced from the DD, DD+, or DolbyE decoder that supplied this audio data. If audio was not supplied from one of these streams, then the static metadata settings will be used.
         public let metadataControl: Ac3MetadataControl?
-        
+
         public init(bitrate: Double? = nil, bitstreamMode: Ac3BitstreamMode? = nil, codingMode: Ac3CodingMode? = nil, dialnorm: Int32? = nil, drcProfile: Ac3DrcProfile? = nil, lfeFilter: Ac3LfeFilter? = nil, metadataControl: Ac3MetadataControl? = nil) {
             self.bitrate = bitrate
             self.bitstreamMode = bitstreamMode
@@ -199,7 +199,7 @@ extension MediaLive {
             AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
         ]
         public let message: String?
-        
+
         public init(message: String? = nil) {
             self.message = message
         }
@@ -221,7 +221,7 @@ extension MediaLive {
             AWSShapeMember(label: "M2tsSettings", location: .body(locationName: "m2tsSettings"), required: false, type: .structure)
         ]
         public let m2tsSettings: M2tsSettings?
-        
+
         public init(m2tsSettings: M2tsSettings? = nil) {
             self.m2tsSettings = m2tsSettings
         }
@@ -240,7 +240,7 @@ extension MediaLive {
         public let destination: OutputLocationRef
         /// Number of seconds to write to archive file before closing and starting a new one.
         public let rolloverInterval: Int32?
-        
+
         public init(destination: OutputLocationRef, rolloverInterval: Int32? = nil) {
             self.destination = destination
             self.rolloverInterval = rolloverInterval
@@ -264,7 +264,7 @@ extension MediaLive {
         public let `extension`: String?
         /// String concatenated to the end of the destination filename.  Required for multiple outputs of the same type.
         public let nameModifier: String?
-        
+
         public init(containerSettings: ArchiveContainerSettings, extension: String? = nil, nameModifier: String? = nil) {
             self.containerSettings = containerSettings
             self.`extension` = `extension`
@@ -279,20 +279,18 @@ extension MediaLive {
     }
 
     public struct AribDestinationSettings: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct AribSourceSettings: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct AudioChannelMapping: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -303,7 +301,7 @@ extension MediaLive {
         public let inputChannelLevels: [InputChannelLevel]
         /// The index of the output channel being produced.
         public let outputChannel: Int32
-        
+
         public init(inputChannelLevels: [InputChannelLevel], outputChannel: Int32) {
             self.inputChannelLevels = inputChannelLevels
             self.outputChannel = outputChannel
@@ -328,7 +326,7 @@ extension MediaLive {
         public let eac3Settings: Eac3Settings?
         public let mp2Settings: Mp2Settings?
         public let passThroughSettings: PassThroughSettings?
-        
+
         public init(aacSettings: AacSettings? = nil, ac3Settings: Ac3Settings? = nil, eac3Settings: Eac3Settings? = nil, mp2Settings: Mp2Settings? = nil, passThroughSettings: PassThroughSettings? = nil) {
             self.aacSettings = aacSettings
             self.ac3Settings = ac3Settings
@@ -382,7 +380,7 @@ extension MediaLive {
         public let remixSettings: RemixSettings?
         /// Used for MS Smooth and Apple HLS outputs. Indicates the name displayed by the player (eg. English, or Director Commentary).
         public let streamName: String?
-        
+
         public init(audioNormalizationSettings: AudioNormalizationSettings? = nil, audioSelectorName: String, audioType: AudioType? = nil, audioTypeControl: AudioDescriptionAudioTypeControl? = nil, codecSettings: AudioCodecSettings? = nil, languageCode: String? = nil, languageCodeControl: AudioDescriptionLanguageCodeControl? = nil, name: String, remixSettings: RemixSettings? = nil, streamName: String? = nil) {
             self.audioNormalizationSettings = audioNormalizationSettings
             self.audioSelectorName = audioSelectorName
@@ -431,7 +429,7 @@ extension MediaLive {
         public let languageCode: String
         /// When set to "strict", the transport stream demux strictly identifies audio streams by their language descriptor. If a PMT update occurs such that an audio stream matching the initially selected language is no longer present then mute will be encoded until the language returns. If "loose", then on a PMT update the demux will choose another audio stream in the program with the same stream type if it can't find one with the same language.
         public let languageSelectionPolicy: AudioLanguageSelectionPolicy?
-        
+
         public init(languageCode: String, languageSelectionPolicy: AudioLanguageSelectionPolicy? = nil) {
             self.languageCode = languageCode
             self.languageSelectionPolicy = languageSelectionPolicy
@@ -472,7 +470,7 @@ extension MediaLive {
         public let algorithmControl: AudioNormalizationAlgorithmControl?
         /// Target LKFS(loudness) to adjust volume to. If no value is entered, a default value will be used according to the chosen algorithm.  The CALM Act (1770-1) recommends a target of -24 LKFS. The EBU R-128 specification (1770-2) recommends a target of -23 LKFS.
         public let targetLkfs: Double?
-        
+
         public init(algorithm: AudioNormalizationAlgorithm? = nil, algorithmControl: AudioNormalizationAlgorithmControl? = nil, targetLkfs: Double? = nil) {
             self.algorithm = algorithm
             self.algorithmControl = algorithmControl
@@ -506,7 +504,7 @@ extension MediaLive {
         /// Alternate Audio, not Auto Select
         /// Alternate rendition that the client will not try to play back by default. Represented as an EXT-X-MEDIA in the HLS manifest with DEFAULT=NO, AUTOSELECT=NO
         public let audioTrackType: AudioOnlyHlsTrackType?
-        
+
         public init(audioGroupId: String? = nil, audioOnlyImage: InputLocation? = nil, audioTrackType: AudioOnlyHlsTrackType? = nil) {
             self.audioGroupId = audioGroupId
             self.audioOnlyImage = audioOnlyImage
@@ -534,7 +532,7 @@ extension MediaLive {
         ]
         /// Selects a specific PID from within a source.
         public let pid: Int32
-        
+
         public init(pid: Int32) {
             self.pid = pid
         }
@@ -553,7 +551,7 @@ extension MediaLive {
         public let name: String
         /// The audio selector settings.
         public let selectorSettings: AudioSelectorSettings?
-        
+
         public init(name: String, selectorSettings: AudioSelectorSettings? = nil) {
             self.name = name
             self.selectorSettings = selectorSettings
@@ -572,7 +570,7 @@ extension MediaLive {
         ]
         public let audioLanguageSelection: AudioLanguageSelection?
         public let audioPidSelection: AudioPidSelection?
-        
+
         public init(audioLanguageSelection: AudioLanguageSelection? = nil, audioPidSelection: AudioPidSelection? = nil) {
             self.audioLanguageSelection = audioLanguageSelection
             self.audioPidSelection = audioPidSelection
@@ -607,7 +605,7 @@ extension MediaLive {
         public let availBlankingImage: InputLocation?
         /// When set to enabled, causes video, audio and captions to be blanked when insertion metadata is added.
         public let state: AvailBlankingState?
-        
+
         public init(availBlankingImage: InputLocation? = nil, state: AvailBlankingState? = nil) {
             self.availBlankingImage = availBlankingImage
             self.state = state
@@ -631,7 +629,7 @@ extension MediaLive {
         ]
         /// Ad avail settings.
         public let availSettings: AvailSettings?
-        
+
         public init(availSettings: AvailSettings? = nil) {
             self.availSettings = availSettings
         }
@@ -648,7 +646,7 @@ extension MediaLive {
         ]
         public let scte35SpliceInsert: Scte35SpliceInsert?
         public let scte35TimeSignalApos: Scte35TimeSignalApos?
-        
+
         public init(scte35SpliceInsert: Scte35SpliceInsert? = nil, scte35TimeSignalApos: Scte35TimeSignalApos? = nil) {
             self.scte35SpliceInsert = scte35SpliceInsert
             self.scte35TimeSignalApos = scte35TimeSignalApos
@@ -666,7 +664,7 @@ extension MediaLive {
         ]
         /// A list of schedule actions to create.
         public let scheduleActions: [ScheduleAction]
-        
+
         public init(scheduleActions: [ScheduleAction]) {
             self.scheduleActions = scheduleActions
         }
@@ -682,7 +680,7 @@ extension MediaLive {
         ]
         /// List of actions that have been created in the schedule.
         public let scheduleActions: [ScheduleAction]
-        
+
         public init(scheduleActions: [ScheduleAction]) {
             self.scheduleActions = scheduleActions
         }
@@ -698,7 +696,7 @@ extension MediaLive {
         ]
         /// A list of schedule actions to delete.
         public let actionNames: [String]
-        
+
         public init(actionNames: [String]) {
             self.actionNames = actionNames
         }
@@ -714,7 +712,7 @@ extension MediaLive {
         ]
         /// List of actions that have been deleted from the schedule.
         public let scheduleActions: [ScheduleAction]
-        
+
         public init(scheduleActions: [ScheduleAction]) {
             self.scheduleActions = scheduleActions
         }
@@ -735,7 +733,7 @@ extension MediaLive {
         public let creates: BatchScheduleActionCreateRequest?
         /// Schedule actions to delete from the schedule.
         public let deletes: BatchScheduleActionDeleteRequest?
-        
+
         public init(channelId: String, creates: BatchScheduleActionCreateRequest? = nil, deletes: BatchScheduleActionDeleteRequest? = nil) {
             self.channelId = channelId
             self.creates = creates
@@ -756,7 +754,7 @@ extension MediaLive {
         ]
         public let creates: BatchScheduleActionCreateResult?
         public let deletes: BatchScheduleActionDeleteResult?
-        
+
         public init(creates: BatchScheduleActionCreateResult? = nil, deletes: BatchScheduleActionDeleteResult? = nil) {
             self.creates = creates
             self.deletes = deletes
@@ -777,7 +775,7 @@ extension MediaLive {
         public let creates: BatchScheduleActionCreateResult?
         /// Schedule actions deleted from the schedule.
         public let deletes: BatchScheduleActionDeleteResult?
-        
+
         public init(creates: BatchScheduleActionCreateResult? = nil, deletes: BatchScheduleActionDeleteResult? = nil) {
             self.creates = creates
             self.deletes = deletes
@@ -807,7 +805,7 @@ extension MediaLive {
         public let networkId: String?
         /// When set to enabled, causes video, audio and captions to be blanked when indicated by program metadata.
         public let state: BlackoutSlateState?
-        
+
         public init(blackoutSlateImage: InputLocation? = nil, networkEndBlackout: BlackoutSlateNetworkEndBlackout? = nil, networkEndBlackoutImage: InputLocation? = nil, networkId: String? = nil, state: BlackoutSlateState? = nil) {
             self.blackoutSlateImage = blackoutSlateImage
             self.networkEndBlackout = networkEndBlackout
@@ -905,7 +903,7 @@ extension MediaLive {
         public let xPosition: Int32?
         /// Specifies the vertical position of the caption relative to the top of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the top of the output. If no explicit yPosition is provided, the caption will be positioned towards the bottom of the output.  All burn-in and DVB-Sub font settings must match.
         public let yPosition: Int32?
-        
+
         public init(alignment: BurnInAlignment? = nil, backgroundColor: BurnInBackgroundColor? = nil, backgroundOpacity: Int32? = nil, font: InputLocation? = nil, fontColor: BurnInFontColor? = nil, fontOpacity: Int32? = nil, fontResolution: Int32? = nil, fontSize: String? = nil, outlineColor: BurnInOutlineColor? = nil, outlineSize: Int32? = nil, shadowColor: BurnInShadowColor? = nil, shadowOpacity: Int32? = nil, shadowXOffset: Int32? = nil, shadowYOffset: Int32? = nil, teletextGridControl: BurnInTeletextGridControl? = nil, xPosition: Int32? = nil, yPosition: Int32? = nil) {
             self.alignment = alignment
             self.backgroundColor = backgroundColor
@@ -998,7 +996,7 @@ extension MediaLive {
         public let languageDescription: String?
         /// Name of the caption description.  Used to associate a caption description with an output.  Names must be unique within an event.
         public let name: String
-        
+
         public init(captionSelectorName: String, destinationSettings: CaptionDestinationSettings? = nil, languageCode: String? = nil, languageDescription: String? = nil, name: String) {
             self.captionSelectorName = captionSelectorName
             self.destinationSettings = destinationSettings
@@ -1043,7 +1041,7 @@ extension MediaLive {
         public let teletextDestinationSettings: TeletextDestinationSettings?
         public let ttmlDestinationSettings: TtmlDestinationSettings?
         public let webvttDestinationSettings: WebvttDestinationSettings?
-        
+
         public init(aribDestinationSettings: AribDestinationSettings? = nil, burnInDestinationSettings: BurnInDestinationSettings? = nil, dvbSubDestinationSettings: DvbSubDestinationSettings? = nil, embeddedDestinationSettings: EmbeddedDestinationSettings? = nil, embeddedPlusScte20DestinationSettings: EmbeddedPlusScte20DestinationSettings? = nil, rtmpCaptionInfoDestinationSettings: RtmpCaptionInfoDestinationSettings? = nil, scte20PlusEmbeddedDestinationSettings: Scte20PlusEmbeddedDestinationSettings? = nil, scte27DestinationSettings: Scte27DestinationSettings? = nil, smpteTtDestinationSettings: SmpteTtDestinationSettings? = nil, teletextDestinationSettings: TeletextDestinationSettings? = nil, ttmlDestinationSettings: TtmlDestinationSettings? = nil, webvttDestinationSettings: WebvttDestinationSettings? = nil) {
             self.aribDestinationSettings = aribDestinationSettings
             self.burnInDestinationSettings = burnInDestinationSettings
@@ -1087,7 +1085,7 @@ extension MediaLive {
         public let languageCode: String
         /// Textual description of language
         public let languageDescription: String
-        
+
         public init(captionChannel: Int32, languageCode: String, languageDescription: String) {
             self.captionChannel = captionChannel
             self.languageCode = languageCode
@@ -1113,7 +1111,7 @@ extension MediaLive {
         public let name: String
         /// Caption selector settings.
         public let selectorSettings: CaptionSelectorSettings?
-        
+
         public init(languageCode: String? = nil, name: String, selectorSettings: CaptionSelectorSettings? = nil) {
             self.languageCode = languageCode
             self.name = name
@@ -1142,7 +1140,7 @@ extension MediaLive {
         public let scte20SourceSettings: Scte20SourceSettings?
         public let scte27SourceSettings: Scte27SourceSettings?
         public let teletextSourceSettings: TeletextSourceSettings?
-        
+
         public init(aribSourceSettings: AribSourceSettings? = nil, dvbSubSourceSettings: DvbSubSourceSettings? = nil, embeddedSourceSettings: EmbeddedSourceSettings? = nil, scte20SourceSettings: Scte20SourceSettings? = nil, scte27SourceSettings: Scte27SourceSettings? = nil, teletextSourceSettings: TeletextSourceSettings? = nil) {
             self.aribSourceSettings = aribSourceSettings
             self.dvbSubSourceSettings = dvbSubSourceSettings
@@ -1206,7 +1204,7 @@ extension MediaLive {
         public let state: ChannelState?
         /// A collection of key-value pairs.
         public let tags: [String: String]?
-        
+
         public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int32? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelClass = channelClass
@@ -1256,7 +1254,7 @@ extension MediaLive {
         public let message: String?
         /// A collection of validation error responses.
         public let validationErrors: [ValidationError]?
-        
+
         public init(message: String? = nil, validationErrors: [ValidationError]? = nil) {
             self.message = message
             self.validationErrors = validationErrors
@@ -1274,7 +1272,7 @@ extension MediaLive {
         ]
         /// Public IP of where a channel's output comes from
         public let sourceIp: String?
-        
+
         public init(sourceIp: String? = nil) {
             self.sourceIp = sourceIp
         }
@@ -1341,7 +1339,7 @@ extension MediaLive {
         public let state: ChannelState?
         /// A collection of key-value pairs.
         public let tags: [String: String]?
-        
+
         public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int32? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelClass = channelClass
@@ -1407,7 +1405,7 @@ extension MediaLive {
         public let roleArn: String?
         /// A collection of key-value pairs.
         public let tags: [String: String]?
-        
+
         public init(channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, requestId: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil) {
             self.channelClass = channelClass
             self.destinations = destinations
@@ -1458,7 +1456,7 @@ extension MediaLive {
         public let requestId: String?
         public let roleArn: String?
         public let tags: [String: String]?
-        
+
         public init(channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, requestId: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil) {
             self.channelClass = channelClass
             self.destinations = destinations
@@ -1491,7 +1489,7 @@ extension MediaLive {
             AWSShapeMember(label: "Channel", location: .body(locationName: "channel"), required: false, type: .structure)
         ]
         public let channel: Channel?
-        
+
         public init(channel: Channel? = nil) {
             self.channel = channel
         }
@@ -1506,7 +1504,7 @@ extension MediaLive {
             AWSShapeMember(label: "Channel", location: .body(locationName: "channel"), required: false, type: .structure)
         ]
         public let channel: Channel?
-        
+
         public init(channel: Channel? = nil) {
             self.channel = channel
         }
@@ -1552,7 +1550,7 @@ extension MediaLive {
         public let tags: [String: String]?
         public let `type`: InputType?
         public let vpc: InputVpcRequest?
-        
+
         public init(destinations: [InputDestinationRequest]? = nil, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, name: String? = nil, requestId: String? = nil, roleArn: String? = nil, sources: [InputSourceRequest]? = nil, tags: [String: String]? = nil, type: InputType? = nil, vpc: InputVpcRequest? = nil) {
             self.destinations = destinations
             self.inputSecurityGroups = inputSecurityGroups
@@ -1603,7 +1601,7 @@ extension MediaLive {
         public let tags: [String: String]?
         public let `type`: InputType?
         public let vpc: InputVpcRequest?
-        
+
         public init(destinations: [InputDestinationRequest]? = nil, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, name: String? = nil, requestId: String? = nil, roleArn: String? = nil, sources: [InputSourceRequest]? = nil, tags: [String: String]? = nil, type: InputType? = nil, vpc: InputVpcRequest? = nil) {
             self.destinations = destinations
             self.inputSecurityGroups = inputSecurityGroups
@@ -1636,7 +1634,7 @@ extension MediaLive {
             AWSShapeMember(label: "Input", location: .body(locationName: "input"), required: false, type: .structure)
         ]
         public let input: Input?
-        
+
         public init(input: Input? = nil) {
             self.input = input
         }
@@ -1651,7 +1649,7 @@ extension MediaLive {
             AWSShapeMember(label: "Input", location: .body(locationName: "input"), required: false, type: .structure)
         ]
         public let input: Input?
-        
+
         public init(input: Input? = nil) {
             self.input = input
         }
@@ -1668,7 +1666,7 @@ extension MediaLive {
         ]
         public let tags: [String: String]?
         public let whitelistRules: [InputWhitelistRuleCidr]?
-        
+
         public init(tags: [String: String]? = nil, whitelistRules: [InputWhitelistRuleCidr]? = nil) {
             self.tags = tags
             self.whitelistRules = whitelistRules
@@ -1685,7 +1683,7 @@ extension MediaLive {
             AWSShapeMember(label: "SecurityGroup", location: .body(locationName: "securityGroup"), required: false, type: .structure)
         ]
         public let securityGroup: InputSecurityGroup?
-        
+
         public init(securityGroup: InputSecurityGroup? = nil) {
             self.securityGroup = securityGroup
         }
@@ -1700,7 +1698,7 @@ extension MediaLive {
             AWSShapeMember(label: "SecurityGroup", location: .body(locationName: "securityGroup"), required: false, type: .structure)
         ]
         public let securityGroup: InputSecurityGroup?
-        
+
         public init(securityGroup: InputSecurityGroup? = nil) {
             self.securityGroup = securityGroup
         }
@@ -1717,7 +1715,7 @@ extension MediaLive {
         ]
         public let resourceArn: String
         public let tags: [String: String]?
-        
+
         public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1734,7 +1732,7 @@ extension MediaLive {
             AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId"), required: true, type: .string)
         ]
         public let channelId: String
-        
+
         public init(channelId: String) {
             self.channelId = channelId
         }
@@ -1775,7 +1773,7 @@ extension MediaLive {
         public let roleArn: String?
         public let state: ChannelState?
         public let tags: [String: String]?
-        
+
         public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int32? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelClass = channelClass
@@ -1816,7 +1814,7 @@ extension MediaLive {
             AWSShapeMember(label: "InputId", location: .uri(locationName: "inputId"), required: true, type: .string)
         ]
         public let inputId: String
-        
+
         public init(inputId: String) {
             self.inputId = inputId
         }
@@ -1827,19 +1825,18 @@ extension MediaLive {
     }
 
     public struct DeleteInputResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteInputSecurityGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InputSecurityGroupId", location: .uri(locationName: "inputSecurityGroupId"), required: true, type: .string)
         ]
         public let inputSecurityGroupId: String
-        
+
         public init(inputSecurityGroupId: String) {
             self.inputSecurityGroupId = inputSecurityGroupId
         }
@@ -1850,19 +1847,18 @@ extension MediaLive {
     }
 
     public struct DeleteInputSecurityGroupResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteReservationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReservationId", location: .uri(locationName: "reservationId"), required: true, type: .string)
         ]
         public let reservationId: String
-        
+
         public init(reservationId: String) {
             self.reservationId = reservationId
         }
@@ -1911,7 +1907,7 @@ extension MediaLive {
         public let state: ReservationState?
         public let tags: [String: String]?
         public let usagePrice: Double?
-        
+
         public init(arn: String? = nil, count: Int32? = nil, currencyCode: String? = nil, duration: Int32? = nil, durationUnits: OfferingDurationUnits? = nil, end: String? = nil, fixedPrice: Double? = nil, name: String? = nil, offeringDescription: String? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, region: String? = nil, reservationId: String? = nil, resourceSpecification: ReservationResourceSpecification? = nil, start: String? = nil, state: ReservationState? = nil, tags: [String: String]? = nil, usagePrice: Double? = nil) {
             self.arn = arn
             self.count = count
@@ -1960,7 +1956,7 @@ extension MediaLive {
             AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId"), required: true, type: .string)
         ]
         public let channelId: String
-        
+
         public init(channelId: String) {
             self.channelId = channelId
         }
@@ -1971,12 +1967,11 @@ extension MediaLive {
     }
 
     public struct DeleteScheduleResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteTagsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1985,7 +1980,7 @@ extension MediaLive {
         ]
         public let resourceArn: String
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2002,7 +1997,7 @@ extension MediaLive {
             AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId"), required: true, type: .string)
         ]
         public let channelId: String
-        
+
         public init(channelId: String) {
             self.channelId = channelId
         }
@@ -2043,7 +2038,7 @@ extension MediaLive {
         public let roleArn: String?
         public let state: ChannelState?
         public let tags: [String: String]?
-        
+
         public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int32? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelClass = channelClass
@@ -2084,7 +2079,7 @@ extension MediaLive {
             AWSShapeMember(label: "InputId", location: .uri(locationName: "inputId"), required: true, type: .string)
         ]
         public let inputId: String
-        
+
         public init(inputId: String) {
             self.inputId = inputId
         }
@@ -2123,7 +2118,7 @@ extension MediaLive {
         public let state: InputState?
         public let tags: [String: String]?
         public let `type`: InputType?
-        
+
         public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, name: String? = nil, roleArn: String? = nil, securityGroups: [String]? = nil, sources: [InputSource]? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
             self.arn = arn
             self.attachedChannels = attachedChannels
@@ -2162,7 +2157,7 @@ extension MediaLive {
             AWSShapeMember(label: "InputSecurityGroupId", location: .uri(locationName: "inputSecurityGroupId"), required: true, type: .string)
         ]
         public let inputSecurityGroupId: String
-        
+
         public init(inputSecurityGroupId: String) {
             self.inputSecurityGroupId = inputSecurityGroupId
         }
@@ -2187,7 +2182,7 @@ extension MediaLive {
         public let state: InputSecurityGroupState?
         public let tags: [String: String]?
         public let whitelistRules: [InputWhitelistRule]?
-        
+
         public init(arn: String? = nil, id: String? = nil, inputs: [String]? = nil, state: InputSecurityGroupState? = nil, tags: [String: String]? = nil, whitelistRules: [InputWhitelistRule]? = nil) {
             self.arn = arn
             self.id = id
@@ -2212,7 +2207,7 @@ extension MediaLive {
             AWSShapeMember(label: "OfferingId", location: .uri(locationName: "offeringId"), required: true, type: .string)
         ]
         public let offeringId: String
-        
+
         public init(offeringId: String) {
             self.offeringId = offeringId
         }
@@ -2247,7 +2242,7 @@ extension MediaLive {
         public let region: String?
         public let resourceSpecification: ReservationResourceSpecification?
         public let usagePrice: Double?
-        
+
         public init(arn: String? = nil, currencyCode: String? = nil, duration: Int32? = nil, durationUnits: OfferingDurationUnits? = nil, fixedPrice: Double? = nil, offeringDescription: String? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, region: String? = nil, resourceSpecification: ReservationResourceSpecification? = nil, usagePrice: Double? = nil) {
             self.arn = arn
             self.currencyCode = currencyCode
@@ -2282,7 +2277,7 @@ extension MediaLive {
             AWSShapeMember(label: "ReservationId", location: .uri(locationName: "reservationId"), required: true, type: .string)
         ]
         public let reservationId: String
-        
+
         public init(reservationId: String) {
             self.reservationId = reservationId
         }
@@ -2331,7 +2326,7 @@ extension MediaLive {
         public let state: ReservationState?
         public let tags: [String: String]?
         public let usagePrice: Double?
-        
+
         public init(arn: String? = nil, count: Int32? = nil, currencyCode: String? = nil, duration: Int32? = nil, durationUnits: OfferingDurationUnits? = nil, end: String? = nil, fixedPrice: Double? = nil, name: String? = nil, offeringDescription: String? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, region: String? = nil, reservationId: String? = nil, resourceSpecification: ReservationResourceSpecification? = nil, start: String? = nil, state: ReservationState? = nil, tags: [String: String]? = nil, usagePrice: Double? = nil) {
             self.arn = arn
             self.count = count
@@ -2384,7 +2379,7 @@ extension MediaLive {
         public let channelId: String
         public let maxResults: Int32?
         public let nextToken: String?
-        
+
         public init(channelId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.channelId = channelId
             self.maxResults = maxResults
@@ -2405,7 +2400,7 @@ extension MediaLive {
         ]
         public let nextToken: String?
         public let scheduleActions: [ScheduleAction]?
-        
+
         public init(nextToken: String? = nil, scheduleActions: [ScheduleAction]? = nil) {
             self.nextToken = nextToken
             self.scheduleActions = scheduleActions
@@ -2429,7 +2424,7 @@ extension MediaLive {
         public let networkName: String
         /// The number of milliseconds between instances of this table in the output transport stream.
         public let repInterval: Int32?
-        
+
         public init(networkId: Int32, networkName: String, repInterval: Int32? = nil) {
             self.networkId = networkId
             self.networkName = networkName
@@ -2466,7 +2461,7 @@ extension MediaLive {
         public let serviceName: String?
         /// The service provider name placed in the serviceDescriptor in the Service Description Table. Maximum length is 256 characters.
         public let serviceProviderName: String?
-        
+
         public init(outputSdt: DvbSdtOutputSdt? = nil, repInterval: Int32? = nil, serviceName: String? = nil, serviceProviderName: String? = nil) {
             self.outputSdt = outputSdt
             self.repInterval = repInterval
@@ -2570,7 +2565,7 @@ extension MediaLive {
         public let xPosition: Int32?
         /// Specifies the vertical position of the caption relative to the top of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the top of the output. If no explicit yPosition is provided, the caption will be positioned towards the bottom of the output.  This option is not valid for source captions that are STL, 608/embedded or teletext.  These source settings are already pre-defined by the caption stream.  All burn-in and DVB-Sub font settings must match.
         public let yPosition: Int32?
-        
+
         public init(alignment: DvbSubDestinationAlignment? = nil, backgroundColor: DvbSubDestinationBackgroundColor? = nil, backgroundOpacity: Int32? = nil, font: InputLocation? = nil, fontColor: DvbSubDestinationFontColor? = nil, fontOpacity: Int32? = nil, fontResolution: Int32? = nil, fontSize: String? = nil, outlineColor: DvbSubDestinationOutlineColor? = nil, outlineSize: Int32? = nil, shadowColor: DvbSubDestinationShadowColor? = nil, shadowOpacity: Int32? = nil, shadowXOffset: Int32? = nil, shadowYOffset: Int32? = nil, teletextGridControl: DvbSubDestinationTeletextGridControl? = nil, xPosition: Int32? = nil, yPosition: Int32? = nil) {
             self.alignment = alignment
             self.backgroundColor = backgroundColor
@@ -2631,7 +2626,7 @@ extension MediaLive {
         ]
         /// When using DVB-Sub with Burn-In or SMPTE-TT, use this PID for the source content. Unused for DVB-Sub passthrough. All DVB-Sub content is passed through, regardless of selectors.
         public let pid: Int32?
-        
+
         public init(pid: Int32? = nil) {
             self.pid = pid
         }
@@ -2647,7 +2642,7 @@ extension MediaLive {
         ]
         /// The number of milliseconds between instances of this table in the output transport stream.
         public let repInterval: Int32?
-        
+
         public init(repInterval: Int32? = nil) {
             self.repInterval = repInterval
         }
@@ -2798,7 +2793,7 @@ extension MediaLive {
         public let surroundExMode: Eac3SurroundExMode?
         /// When encoding 2/0 audio, sets whether Dolby Surround is matrix encoded into the two channels.
         public let surroundMode: Eac3SurroundMode?
-        
+
         public init(attenuationControl: Eac3AttenuationControl? = nil, bitrate: Double? = nil, bitstreamMode: Eac3BitstreamMode? = nil, codingMode: Eac3CodingMode? = nil, dcFilter: Eac3DcFilter? = nil, dialnorm: Int32? = nil, drcLine: Eac3DrcLine? = nil, drcRf: Eac3DrcRf? = nil, lfeControl: Eac3LfeControl? = nil, lfeFilter: Eac3LfeFilter? = nil, loRoCenterMixLevel: Double? = nil, loRoSurroundMixLevel: Double? = nil, ltRtCenterMixLevel: Double? = nil, ltRtSurroundMixLevel: Double? = nil, metadataControl: Eac3MetadataControl? = nil, passthroughControl: Eac3PassthroughControl? = nil, phaseControl: Eac3PhaseControl? = nil, stereoDownmix: Eac3StereoDownmix? = nil, surroundExMode: Eac3SurroundExMode? = nil, surroundMode: Eac3SurroundMode? = nil) {
             self.attenuationControl = attenuationControl
             self.bitrate = bitrate
@@ -2875,20 +2870,18 @@ extension MediaLive {
     }
 
     public struct EmbeddedDestinationSettings: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct EmbeddedPlusScte20DestinationSettings: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public enum EmbeddedScte20Detection: String, CustomStringConvertible, Codable {
         case auto = "AUTO"
@@ -2911,7 +2904,7 @@ extension MediaLive {
         public let source608ChannelNumber: Int32?
         /// This field is unused and deprecated.
         public let source608TrackNumber: Int32?
-        
+
         public init(convert608To708: EmbeddedConvert608To708? = nil, scte20Detection: EmbeddedScte20Detection? = nil, source608ChannelNumber: Int32? = nil, source608TrackNumber: Int32? = nil) {
             self.convert608To708 = convert608To708
             self.scte20Detection = scte20Detection
@@ -2928,12 +2921,11 @@ extension MediaLive {
     }
 
     public struct Empty: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct EncoderSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2962,7 +2954,7 @@ extension MediaLive {
         /// Contains settings used to acquire and adjust timecode information from inputs.
         public let timecodeConfig: TimecodeConfig
         public let videoDescriptions: [VideoDescription]
-        
+
         public init(audioDescriptions: [AudioDescription], availBlanking: AvailBlanking? = nil, availConfiguration: AvailConfiguration? = nil, blackoutSlate: BlackoutSlate? = nil, captionDescriptions: [CaptionDescription]? = nil, globalConfiguration: GlobalConfiguration? = nil, outputGroups: [OutputGroup], timecodeConfig: TimecodeConfig, videoDescriptions: [VideoDescription]) {
             self.audioDescriptions = audioDescriptions
             self.availBlanking = availBlanking
@@ -3006,7 +2998,7 @@ extension MediaLive {
         public let includeFec: FecOutputIncludeFec?
         /// Parameter L from SMPTE 2022-1. The width of the FEC protection matrix.  Must be between 1 and 20, inclusive. If only Column FEC is used, then larger values increase robustness.  If Row FEC is used, then this is the number of transport stream packets per row error correction packet, and the value must be between 4 and 20, inclusive, if includeFec is columnAndRow. If includeFec is column, this value must be 1 to 20, inclusive.
         public let rowLength: Int32?
-        
+
         public init(columnDepth: Int32? = nil, includeFec: FecOutputIncludeFec? = nil, rowLength: Int32? = nil) {
             self.columnDepth = columnDepth
             self.includeFec = includeFec
@@ -3041,7 +3033,7 @@ extension MediaLive {
         ]
         /// Start time for the action to start in the channel. (Not the time for the action to be added to the schedule: actions are always added to the schedule immediately.) UTC format: yyyy-mm-ddThh:mm:ss.nnnZ. All the letters are digits (for example, mm might be 01) except for the two constants "T" for time and "Z" for "UTC format".
         public let time: String
-        
+
         public init(time: String) {
             self.time = time
         }
@@ -3060,7 +3052,7 @@ extension MediaLive {
         public let followPoint: FollowPoint
         /// The action name of another action that this one refers to.
         public let referenceActionName: String
-        
+
         public init(followPoint: FollowPoint, referenceActionName: String) {
             self.followPoint = followPoint
             self.referenceActionName = referenceActionName
@@ -3084,7 +3076,7 @@ extension MediaLive {
         ]
         /// The destination for the frame capture files. Either the URI for an Amazon S3 bucket and object, plus a file name prefix (for example, s3ssl://sportsDelivery/highlights/20180820/curling_) or the URI for a MediaStore container, plus a file name prefix (for example, mediastoressl://sportsDelivery/20180820/curling_). The final file names consist of the prefix from the destination field (for example, "curling_") + name modifier + the counter (5 digits, starting from 00001) + extension (which is always .jpg).  For example, curlingLow.00001.jpg
         public let destination: OutputLocationRef
-        
+
         public init(destination: OutputLocationRef) {
             self.destination = destination
         }
@@ -3100,7 +3092,7 @@ extension MediaLive {
         ]
         /// Required if the output group contains more than one output. This modifier forms part of the output file name.
         public let nameModifier: String?
-        
+
         public init(nameModifier: String? = nil) {
             self.nameModifier = nameModifier
         }
@@ -3116,7 +3108,7 @@ extension MediaLive {
         ]
         /// The frequency, in seconds, for capturing frames for inclusion in the output.  For example, "10" means capture a frame every 10 seconds.
         public let captureInterval: Int32
-        
+
         public init(captureInterval: Int32) {
             self.captureInterval = captureInterval
         }
@@ -3149,7 +3141,7 @@ extension MediaLive {
         public let outputTimingSource: GlobalConfigurationOutputTimingSource?
         /// Adjusts video input buffer for streams with very low video framerates. This is commonly set to enabled for music channels with less than one video frame per second.
         public let supportLowFramerateInputs: GlobalConfigurationLowFramerateInputs?
-        
+
         public init(initialAudioGain: Int32? = nil, inputEndAction: GlobalConfigurationInputEndAction? = nil, inputLossBehavior: InputLossBehavior? = nil, outputLockingMode: GlobalConfigurationOutputLockingMode? = nil, outputTimingSource: GlobalConfigurationOutputTimingSource? = nil, supportLowFramerateInputs: GlobalConfigurationLowFramerateInputs? = nil) {
             self.initialAudioGain = initialAudioGain
             self.inputEndAction = inputEndAction
@@ -3431,7 +3423,7 @@ extension MediaLive {
         /// - 'disabled': Do not include timecodes
         /// - 'picTimingSei': Pass through picture timing SEI messages from the source specified in Timecode Config
         public let timecodeInsertion: H264TimecodeInsertionBehavior?
-        
+
         public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, afdSignaling: AfdSignaling? = nil, bitrate: Int32? = nil, bufFillPct: Int32? = nil, bufSize: Int32? = nil, colorMetadata: H264ColorMetadata? = nil, entropyEncoding: H264EntropyEncoding? = nil, fixedAfd: FixedAfd? = nil, flickerAq: H264FlickerAq? = nil, framerateControl: H264FramerateControl? = nil, framerateDenominator: Int32? = nil, framerateNumerator: Int32? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int32? = nil, gopNumBFrames: Int32? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, level: H264Level? = nil, lookAheadRateControl: H264LookAheadRateControl? = nil, maxBitrate: Int32? = nil, minIInterval: Int32? = nil, numRefFrames: Int32? = nil, parControl: H264ParControl? = nil, parDenominator: Int32? = nil, parNumerator: Int32? = nil, profile: H264Profile? = nil, qvbrQualityLevel: Int32? = nil, rateControlMode: H264RateControlMode? = nil, scanType: H264ScanType? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int32? = nil, softness: Int32? = nil, spatialAq: H264SpatialAq? = nil, subgopLength: H264SubGopLength? = nil, syntax: H264Syntax? = nil, temporalAq: H264TemporalAq? = nil, timecodeInsertion: H264TimecodeInsertionBehavior? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.afdSignaling = afdSignaling
@@ -3580,7 +3572,7 @@ extension MediaLive {
         public let salt: String?
         /// Token parameter for authenticated akamai. If not specified, _gda_ is used.
         public let token: String?
-        
+
         public init(connectionRetryInterval: Int32? = nil, filecacheDuration: Int32? = nil, httpTransferMode: HlsAkamaiHttpTransferMode? = nil, numRetries: Int32? = nil, restartDelay: Int32? = nil, salt: String? = nil, token: String? = nil) {
             self.connectionRetryInterval = connectionRetryInterval
             self.filecacheDuration = filecacheDuration
@@ -3617,7 +3609,7 @@ extension MediaLive {
         public let numRetries: Int32?
         /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
         public let restartDelay: Int32?
-        
+
         public init(connectionRetryInterval: Int32? = nil, filecacheDuration: Int32? = nil, numRetries: Int32? = nil, restartDelay: Int32? = nil) {
             self.connectionRetryInterval = connectionRetryInterval
             self.filecacheDuration = filecacheDuration
@@ -3651,7 +3643,7 @@ extension MediaLive {
         public let hlsBasicPutSettings: HlsBasicPutSettings?
         public let hlsMediaStoreSettings: HlsMediaStoreSettings?
         public let hlsWebdavSettings: HlsWebdavSettings?
-        
+
         public init(hlsAkamaiSettings: HlsAkamaiSettings? = nil, hlsBasicPutSettings: HlsBasicPutSettings? = nil, hlsMediaStoreSettings: HlsMediaStoreSettings? = nil, hlsWebdavSettings: HlsWebdavSettings? = nil) {
             self.hlsAkamaiSettings = hlsAkamaiSettings
             self.hlsBasicPutSettings = hlsBasicPutSettings
@@ -3814,7 +3806,7 @@ extension MediaLive {
         /// SEGMENTEDFILES: Emit the program as segments - multiple .ts media files.
         /// SINGLEFILE: Applies only if Mode field is VOD. Emit the program as a single .ts media file. The media manifest includes #EXT-X-BYTERANGE tags to index segments for playback. A typical use for this value is when sending the output to AWS Elemental MediaConvert, which can accept only a single media file. Playback while the channel is running is not guaranteed due to HTTP server caching.
         public let tsFileMode: HlsTsFileMode?
-        
+
         public init(adMarkers: [HlsAdMarkers]? = nil, baseUrlContent: String? = nil, baseUrlManifest: String? = nil, captionLanguageMappings: [CaptionLanguageMapping]? = nil, captionLanguageSetting: HlsCaptionLanguageSetting? = nil, clientCache: HlsClientCache? = nil, codecSpecification: HlsCodecSpecification? = nil, constantIv: String? = nil, destination: OutputLocationRef, directoryStructure: HlsDirectoryStructure? = nil, encryptionType: HlsEncryptionType? = nil, hlsCdnSettings: HlsCdnSettings? = nil, iFrameOnlyPlaylists: IFrameOnlyPlaylistType? = nil, indexNSegments: Int32? = nil, inputLossAction: InputLossActionForHlsOut? = nil, ivInManifest: HlsIvInManifest? = nil, ivSource: HlsIvSource? = nil, keepSegments: Int32? = nil, keyFormat: String? = nil, keyFormatVersions: String? = nil, keyProviderSettings: KeyProviderSettings? = nil, manifestCompression: HlsManifestCompression? = nil, manifestDurationFormat: HlsManifestDurationFormat? = nil, minSegmentLength: Int32? = nil, mode: HlsMode? = nil, outputSelection: HlsOutputSelection? = nil, programDateTime: HlsProgramDateTime? = nil, programDateTimePeriod: Int32? = nil, redundantManifest: HlsRedundantManifest? = nil, segmentationMode: HlsSegmentationMode? = nil, segmentLength: Int32? = nil, segmentsPerSubdirectory: Int32? = nil, streamInfResolution: HlsStreamInfResolution? = nil, timedMetadataId3Frame: HlsTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int32? = nil, timestampDeltaMilliseconds: Int32? = nil, tsFileMode: HlsTsFileMode? = nil) {
             self.adMarkers = adMarkers
             self.baseUrlContent = baseUrlContent
@@ -3911,7 +3903,7 @@ extension MediaLive {
         public let retries: Int32?
         /// The number of seconds between retries when an attempt to read a manifest or segment fails.
         public let retryInterval: Int32?
-        
+
         public init(bandwidth: Int32? = nil, bufferSegments: Int32? = nil, retries: Int32? = nil, retryInterval: Int32? = nil) {
             self.bandwidth = bandwidth
             self.bufferSegments = bufferSegments
@@ -3969,7 +3961,7 @@ extension MediaLive {
         public let numRetries: Int32?
         /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
         public let restartDelay: Int32?
-        
+
         public init(connectionRetryInterval: Int32? = nil, filecacheDuration: Int32? = nil, mediaStoreStorageClass: HlsMediaStoreStorageClass? = nil, numRetries: Int32? = nil, restartDelay: Int32? = nil) {
             self.connectionRetryInterval = connectionRetryInterval
             self.filecacheDuration = filecacheDuration
@@ -4016,7 +4008,7 @@ extension MediaLive {
         public let nameModifier: String?
         /// String concatenated to end of segment filenames.
         public let segmentModifier: String?
-        
+
         public init(hlsSettings: HlsSettings, nameModifier: String? = nil, segmentModifier: String? = nil) {
             self.hlsSettings = hlsSettings
             self.nameModifier = nameModifier
@@ -4055,7 +4047,7 @@ extension MediaLive {
         ]
         public let audioOnlyHlsSettings: AudioOnlyHlsSettings?
         public let standardHlsSettings: StandardHlsSettings?
-        
+
         public init(audioOnlyHlsSettings: AudioOnlyHlsSettings? = nil, standardHlsSettings: StandardHlsSettings? = nil) {
             self.audioOnlyHlsSettings = audioOnlyHlsSettings
             self.standardHlsSettings = standardHlsSettings
@@ -4086,7 +4078,7 @@ extension MediaLive {
         ]
         /// Base64 string formatted according to the ID3 specification: http://id3.org/id3v2.4.0-structure
         public let id3: String
-        
+
         public init(id3: String) {
             self.id3 = id3
         }
@@ -4126,7 +4118,7 @@ extension MediaLive {
         public let numRetries: Int32?
         /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
         public let restartDelay: Int32?
-        
+
         public init(connectionRetryInterval: Int32? = nil, filecacheDuration: Int32? = nil, httpTransferMode: HlsWebdavHttpTransferMode? = nil, numRetries: Int32? = nil, restartDelay: Int32? = nil) {
             self.connectionRetryInterval = connectionRetryInterval
             self.filecacheDuration = filecacheDuration
@@ -4191,7 +4183,7 @@ extension MediaLive {
         /// A collection of key-value pairs.
         public let tags: [String: String]?
         public let `type`: InputType?
-        
+
         public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, name: String? = nil, roleArn: String? = nil, securityGroups: [String]? = nil, sources: [InputSource]? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
             self.arn = arn
             self.attachedChannels = attachedChannels
@@ -4237,7 +4229,7 @@ extension MediaLive {
         public let inputId: String?
         /// Settings of an input (caption selector, etc.)
         public let inputSettings: InputSettings?
-        
+
         public init(inputAttachmentName: String? = nil, inputId: String? = nil, inputSettings: InputSettings? = nil) {
             self.inputAttachmentName = inputAttachmentName
             self.inputId = inputId
@@ -4260,7 +4252,7 @@ extension MediaLive {
         public let gain: Int32
         /// The index of the input channel used as a source.
         public let inputChannel: Int32
-        
+
         public init(gain: Int32, inputChannel: Int32) {
             self.gain = gain
             self.inputChannel = inputChannel
@@ -4313,7 +4305,7 @@ extension MediaLive {
         /// pushed to.
         public let url: String?
         public let vpc: InputDestinationVpc?
-        
+
         public init(ip: String? = nil, port: String? = nil, url: String? = nil, vpc: InputDestinationVpc? = nil) {
             self.ip = ip
             self.port = port
@@ -4336,7 +4328,7 @@ extension MediaLive {
         /// A unique name for the location the RTMP stream is being pushed
         /// to.
         public let streamName: String?
-        
+
         public init(streamName: String? = nil) {
             self.streamName = streamName
         }
@@ -4355,7 +4347,7 @@ extension MediaLive {
         public let availabilityZone: String?
         /// The network interface ID of the Input destination in the VPC.
         public let networkInterfaceId: String?
-        
+
         public init(availabilityZone: String? = nil, networkInterfaceId: String? = nil) {
             self.availabilityZone = availabilityZone
             self.networkInterfaceId = networkInterfaceId
@@ -4386,7 +4378,7 @@ extension MediaLive {
         public let uri: String
         /// Username if credentials are required to access a file or publishing point.  This can be either a plaintext username, or a reference to an AWS parameter store name from which the username can be retrieved.  AWS Parameter store format: "ssm://"
         public let username: String?
-        
+
         public init(passwordParam: String? = nil, uri: String, username: String? = nil) {
             self.passwordParam = passwordParam
             self.uri = uri
@@ -4443,7 +4435,7 @@ extension MediaLive {
         public let inputLossImageType: InputLossImageType?
         /// On input loss, the number of milliseconds to repeat the previous picture before substituting black into the output.  A value x, where 0 <= x <= 1,000,000 and a value of 1,000,000 will be interpreted as infinite.
         public let repeatFrameMsec: Int32?
-        
+
         public init(blackFrameMsec: Int32? = nil, inputLossImageColor: String? = nil, inputLossImageSlate: InputLocation? = nil, inputLossImageType: InputLossImageType? = nil, repeatFrameMsec: Int32? = nil) {
             self.blackFrameMsec = blackFrameMsec
             self.inputLossImageColor = inputLossImageColor
@@ -4502,7 +4494,7 @@ extension MediaLive {
         public let tags: [String: String]?
         /// Whitelist rules and their sync status
         public let whitelistRules: [InputWhitelistRule]?
-        
+
         public init(arn: String? = nil, id: String? = nil, inputs: [String]? = nil, state: InputSecurityGroupState? = nil, tags: [String: String]? = nil, whitelistRules: [InputWhitelistRule]? = nil) {
             self.arn = arn
             self.id = id
@@ -4539,7 +4531,7 @@ extension MediaLive {
         public let tags: [String: String]?
         /// List of IPv4 CIDR addresses to whitelist
         public let whitelistRules: [InputWhitelistRuleCidr]?
-        
+
         public init(tags: [String: String]? = nil, whitelistRules: [InputWhitelistRuleCidr]? = nil) {
             self.tags = tags
             self.whitelistRules = whitelistRules
@@ -4584,7 +4576,7 @@ extension MediaLive {
         public let sourceEndBehavior: InputSourceEndBehavior?
         /// Informs which video elementary stream to decode for input types that have multiple available.
         public let videoSelector: VideoSelector?
-        
+
         public init(audioSelectors: [AudioSelector]? = nil, captionSelectors: [CaptionSelector]? = nil, deblockFilter: InputDeblockFilter? = nil, denoiseFilter: InputDenoiseFilter? = nil, filterStrength: Int32? = nil, inputFilter: InputFilter? = nil, networkInputSettings: NetworkInputSettings? = nil, sourceEndBehavior: InputSourceEndBehavior? = nil, videoSelector: VideoSelector? = nil) {
             self.audioSelectors = audioSelectors
             self.captionSelectors = captionSelectors
@@ -4623,7 +4615,7 @@ extension MediaLive {
         public let url: String?
         /// The username for the input source.
         public let username: String?
-        
+
         public init(passwordParam: String? = nil, url: String? = nil, username: String? = nil) {
             self.passwordParam = passwordParam
             self.url = url
@@ -4656,7 +4648,7 @@ extension MediaLive {
         public let url: String?
         /// The username for the input source.
         public let username: String?
-        
+
         public init(passwordParam: String? = nil, url: String? = nil, username: String? = nil) {
             self.passwordParam = passwordParam
             self.url = url
@@ -4682,7 +4674,7 @@ extension MediaLive {
         public let maximumBitrate: InputMaximumBitrate?
         /// Input resolution, categorized coarsely
         public let resolution: InputResolution?
-        
+
         public init(codec: InputCodec? = nil, maximumBitrate: InputMaximumBitrate? = nil, resolution: InputResolution? = nil) {
             self.codec = codec
             self.maximumBitrate = maximumBitrate
@@ -4711,7 +4703,7 @@ extension MediaLive {
         ]
         /// The name of the input attachment that should be switched to by this action.
         public let inputAttachmentNameReference: String
-        
+
         public init(inputAttachmentNameReference: String) {
             self.inputAttachmentNameReference = inputAttachmentNameReference
         }
@@ -4743,7 +4735,7 @@ extension MediaLive {
         /// A list of 2 VPC subnet IDs from the same VPC.
         /// Subnet IDs must be mapped to two unique availability zones (AZ).
         public let subnetIds: [String]
-        
+
         public init(securityGroupIds: [String]? = nil, subnetIds: [String]) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -4761,7 +4753,7 @@ extension MediaLive {
         ]
         /// The IPv4 CIDR that's whitelisted.
         public let cidr: String?
-        
+
         public init(cidr: String? = nil) {
             self.cidr = cidr
         }
@@ -4777,7 +4769,7 @@ extension MediaLive {
         ]
         /// The IPv4 CIDR to whitelist.
         public let cidr: String?
-        
+
         public init(cidr: String? = nil) {
             self.cidr = cidr
         }
@@ -4792,7 +4784,7 @@ extension MediaLive {
             AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
         ]
         public let message: String?
-        
+
         public init(message: String? = nil) {
             self.message = message
         }
@@ -4807,7 +4799,7 @@ extension MediaLive {
             AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
         ]
         public let message: String?
-        
+
         public init(message: String? = nil) {
             self.message = message
         }
@@ -4822,7 +4814,7 @@ extension MediaLive {
             AWSShapeMember(label: "StaticKeySettings", location: .body(locationName: "staticKeySettings"), required: false, type: .structure)
         ]
         public let staticKeySettings: StaticKeySettings?
-        
+
         public init(staticKeySettings: StaticKeySettings? = nil) {
             self.staticKeySettings = staticKeySettings
         }
@@ -4837,7 +4829,7 @@ extension MediaLive {
             AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
         ]
         public let message: String?
-        
+
         public init(message: String? = nil) {
             self.message = message
         }
@@ -4854,7 +4846,7 @@ extension MediaLive {
         ]
         public let maxResults: Int32?
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4873,7 +4865,7 @@ extension MediaLive {
         ]
         public let channels: [ChannelSummary]?
         public let nextToken: String?
-        
+
         public init(channels: [ChannelSummary]? = nil, nextToken: String? = nil) {
             self.channels = channels
             self.nextToken = nextToken
@@ -4892,7 +4884,7 @@ extension MediaLive {
         ]
         public let channels: [ChannelSummary]?
         public let nextToken: String?
-        
+
         public init(channels: [ChannelSummary]? = nil, nextToken: String? = nil) {
             self.channels = channels
             self.nextToken = nextToken
@@ -4911,7 +4903,7 @@ extension MediaLive {
         ]
         public let maxResults: Int32?
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4930,7 +4922,7 @@ extension MediaLive {
         ]
         public let inputSecurityGroups: [InputSecurityGroup]?
         public let nextToken: String?
-        
+
         public init(inputSecurityGroups: [InputSecurityGroup]? = nil, nextToken: String? = nil) {
             self.inputSecurityGroups = inputSecurityGroups
             self.nextToken = nextToken
@@ -4950,7 +4942,7 @@ extension MediaLive {
         /// List of input security groups
         public let inputSecurityGroups: [InputSecurityGroup]?
         public let nextToken: String?
-        
+
         public init(inputSecurityGroups: [InputSecurityGroup]? = nil, nextToken: String? = nil) {
             self.inputSecurityGroups = inputSecurityGroups
             self.nextToken = nextToken
@@ -4969,7 +4961,7 @@ extension MediaLive {
         ]
         public let maxResults: Int32?
         public let nextToken: String?
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4988,7 +4980,7 @@ extension MediaLive {
         ]
         public let inputs: [Input]?
         public let nextToken: String?
-        
+
         public init(inputs: [Input]? = nil, nextToken: String? = nil) {
             self.inputs = inputs
             self.nextToken = nextToken
@@ -5007,7 +4999,7 @@ extension MediaLive {
         ]
         public let inputs: [Input]?
         public let nextToken: String?
-        
+
         public init(inputs: [Input]? = nil, nextToken: String? = nil) {
             self.inputs = inputs
             self.nextToken = nextToken
@@ -5044,7 +5036,7 @@ extension MediaLive {
         public let resourceType: String?
         public let specialFeature: String?
         public let videoQuality: String?
-        
+
         public init(channelClass: String? = nil, channelConfiguration: String? = nil, codec: String? = nil, maximumBitrate: String? = nil, maximumFramerate: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, resolution: String? = nil, resourceType: String? = nil, specialFeature: String? = nil, videoQuality: String? = nil) {
             self.channelClass = channelClass
             self.channelConfiguration = channelConfiguration
@@ -5081,7 +5073,7 @@ extension MediaLive {
         ]
         public let nextToken: String?
         public let offerings: [Offering]?
-        
+
         public init(nextToken: String? = nil, offerings: [Offering]? = nil) {
             self.nextToken = nextToken
             self.offerings = offerings
@@ -5102,7 +5094,7 @@ extension MediaLive {
         public let nextToken: String?
         /// List of offerings
         public let offerings: [Offering]?
-        
+
         public init(nextToken: String? = nil, offerings: [Offering]? = nil) {
             self.nextToken = nextToken
             self.offerings = offerings
@@ -5137,7 +5129,7 @@ extension MediaLive {
         public let resourceType: String?
         public let specialFeature: String?
         public let videoQuality: String?
-        
+
         public init(channelClass: String? = nil, codec: String? = nil, maximumBitrate: String? = nil, maximumFramerate: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, resolution: String? = nil, resourceType: String? = nil, specialFeature: String? = nil, videoQuality: String? = nil) {
             self.channelClass = channelClass
             self.codec = codec
@@ -5172,7 +5164,7 @@ extension MediaLive {
         ]
         public let nextToken: String?
         public let reservations: [Reservation]?
-        
+
         public init(nextToken: String? = nil, reservations: [Reservation]? = nil) {
             self.nextToken = nextToken
             self.reservations = reservations
@@ -5193,7 +5185,7 @@ extension MediaLive {
         public let nextToken: String?
         /// List of reservations
         public let reservations: [Reservation]?
-        
+
         public init(nextToken: String? = nil, reservations: [Reservation]? = nil) {
             self.nextToken = nextToken
             self.reservations = reservations
@@ -5210,7 +5202,7 @@ extension MediaLive {
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string)
         ]
         public let resourceArn: String
-        
+
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -5225,7 +5217,7 @@ extension MediaLive {
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         public let tags: [String: String]?
-        
+
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -5493,7 +5485,7 @@ extension MediaLive {
         public let transportStreamId: Int32?
         /// Packet Identifier (PID) of the elementary video stream in the transport stream. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
         public let videoPid: String?
-        
+
         public init(absentInputAudioBehavior: M2tsAbsentInputAudioBehavior? = nil, arib: M2tsArib? = nil, aribCaptionsPid: String? = nil, aribCaptionsPidControl: M2tsAribCaptionsPidControl? = nil, audioBufferModel: M2tsAudioBufferModel? = nil, audioFramesPerPes: Int32? = nil, audioPids: String? = nil, audioStreamType: M2tsAudioStreamType? = nil, bitrate: Int32? = nil, bufferModel: M2tsBufferModel? = nil, ccDescriptor: M2tsCcDescriptor? = nil, dvbNitSettings: DvbNitSettings? = nil, dvbSdtSettings: DvbSdtSettings? = nil, dvbSubPids: String? = nil, dvbTdtSettings: DvbTdtSettings? = nil, dvbTeletextPid: String? = nil, ebif: M2tsEbifControl? = nil, ebpAudioInterval: M2tsAudioInterval? = nil, ebpLookaheadMs: Int32? = nil, ebpPlacement: M2tsEbpPlacement? = nil, ecmPid: String? = nil, esRateInPes: M2tsEsRateInPes? = nil, etvPlatformPid: String? = nil, etvSignalPid: String? = nil, fragmentTime: Double? = nil, klv: M2tsKlv? = nil, klvDataPids: String? = nil, nullPacketBitrate: Double? = nil, patInterval: Int32? = nil, pcrControl: M2tsPcrControl? = nil, pcrPeriod: Int32? = nil, pcrPid: String? = nil, pmtInterval: Int32? = nil, pmtPid: String? = nil, programNum: Int32? = nil, rateMode: M2tsRateMode? = nil, scte27Pids: String? = nil, scte35Control: M2tsScte35Control? = nil, scte35Pid: String? = nil, segmentationMarkers: M2tsSegmentationMarkers? = nil, segmentationStyle: M2tsSegmentationStyle? = nil, segmentationTime: Double? = nil, timedMetadataBehavior: M2tsTimedMetadataBehavior? = nil, timedMetadataPid: String? = nil, transportStreamId: Int32? = nil, videoPid: String? = nil) {
             self.absentInputAudioBehavior = absentInputAudioBehavior
             self.arib = arib
@@ -5662,7 +5654,7 @@ extension MediaLive {
         public let transportStreamId: Int32?
         /// Packet Identifier (PID) of the elementary video stream in the transport stream. Can be entered as a decimal or hexadecimal value.
         public let videoPid: String?
-        
+
         public init(audioFramesPerPes: Int32? = nil, audioPids: String? = nil, ecmPid: String? = nil, patInterval: Int32? = nil, pcrControl: M3u8PcrControl? = nil, pcrPeriod: Int32? = nil, pcrPid: String? = nil, pmtInterval: Int32? = nil, pmtPid: String? = nil, programNum: Int32? = nil, scte35Behavior: M3u8Scte35Behavior? = nil, scte35Pid: String? = nil, timedMetadataBehavior: M3u8TimedMetadataBehavior? = nil, timedMetadataPid: String? = nil, transportStreamId: Int32? = nil, videoPid: String? = nil) {
             self.audioFramesPerPes = audioFramesPerPes
             self.audioPids = audioPids
@@ -5714,7 +5706,7 @@ extension MediaLive {
         ]
         /// The unique ARN of the MediaConnect Flow being used as a source.
         public let flowArn: String?
-        
+
         public init(flowArn: String? = nil) {
             self.flowArn = flowArn
         }
@@ -5730,7 +5722,7 @@ extension MediaLive {
         ]
         /// The ARN of the MediaConnect Flow that you want to use as a source.
         public let flowArn: String?
-        
+
         public init(flowArn: String? = nil) {
             self.flowArn = flowArn
         }
@@ -5746,7 +5738,7 @@ extension MediaLive {
         ]
         /// MediaPackage channel destination.
         public let destination: OutputLocationRef
-        
+
         public init(destination: OutputLocationRef) {
             self.destination = destination
         }
@@ -5762,7 +5754,7 @@ extension MediaLive {
         ]
         /// ID of the channel in MediaPackage that is the destination for this output group. You do not need to specify the individual inputs in MediaPackage; MediaLive will handle the connection of the two MediaLive pipelines to the two MediaPackage inputs. The MediaPackage channel and MediaLive channel must be in the same region.
         public let channelId: String?
-        
+
         public init(channelId: String? = nil) {
             self.channelId = channelId
         }
@@ -5773,12 +5765,11 @@ extension MediaLive {
     }
 
     public struct MediaPackageOutputSettings: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public enum Mp2CodingMode: String, CustomStringConvertible, Codable {
         case codingMode10 = "CODING_MODE_1_0"
@@ -5798,7 +5789,7 @@ extension MediaLive {
         public let codingMode: Mp2CodingMode?
         /// Sample rate in Hz.
         public let sampleRate: Double?
-        
+
         public init(bitrate: Double? = nil, codingMode: Mp2CodingMode? = nil, sampleRate: Double? = nil) {
             self.bitrate = bitrate
             self.codingMode = codingMode
@@ -5879,7 +5870,7 @@ extension MediaLive {
         /// - useEventStartDate: Use the date the event was started as the offset
         /// - useConfiguredOffset: Use an explicitly configured date as the offset
         public let timestampOffsetMode: SmoothGroupTimestampOffsetMode?
-        
+
         public init(acquisitionPointId: String? = nil, audioOnlyTimecodeControl: SmoothGroupAudioOnlyTimecodeControl? = nil, certificateMode: SmoothGroupCertificateMode? = nil, connectionRetryInterval: Int32? = nil, destination: OutputLocationRef, eventId: String? = nil, eventIdMode: SmoothGroupEventIdMode? = nil, eventStopBehavior: SmoothGroupEventStopBehavior? = nil, filecacheDuration: Int32? = nil, fragmentLength: Int32? = nil, inputLossAction: InputLossActionForMsSmoothOut? = nil, numRetries: Int32? = nil, restartDelay: Int32? = nil, segmentationMode: SmoothGroupSegmentationMode? = nil, sendDelayMs: Int32? = nil, sparseTrackType: SmoothGroupSparseTrackType? = nil, streamManifestBehavior: SmoothGroupStreamManifestBehavior? = nil, timestampOffset: String? = nil, timestampOffsetMode: SmoothGroupTimestampOffsetMode? = nil) {
             self.acquisitionPointId = acquisitionPointId
             self.audioOnlyTimecodeControl = audioOnlyTimecodeControl
@@ -5931,7 +5922,7 @@ extension MediaLive {
         ]
         /// String concatenated to the end of the destination filename.  Required for multiple outputs of the same type.
         public let nameModifier: String?
-        
+
         public init(nameModifier: String? = nil) {
             self.nameModifier = nameModifier
         }
@@ -5956,7 +5947,7 @@ extension MediaLive {
         public let hlsInputSettings: HlsInputSettings?
         /// Check HTTPS server certificates. When set to checkCryptographyOnly, cryptography in the certificate will be checked, but not the server's name. Certain subdomains (notably S3 buckets that use dots in the bucket name) do not strictly match the corresponding certificate's wildcard pattern and would otherwise cause the event to error. This setting is ignored for protocols that do not use https.
         public let serverValidation: NetworkInputServerValidation?
-        
+
         public init(hlsInputSettings: HlsInputSettings? = nil, serverValidation: NetworkInputServerValidation? = nil) {
             self.hlsInputSettings = hlsInputSettings
             self.serverValidation = serverValidation
@@ -6004,7 +5995,7 @@ extension MediaLive {
         public let resourceSpecification: ReservationResourceSpecification?
         /// Recurring usage charge for each reserved resource, e.g. '157.0'
         public let usagePrice: Double?
-        
+
         public init(arn: String? = nil, currencyCode: String? = nil, duration: Int32? = nil, durationUnits: OfferingDurationUnits? = nil, fixedPrice: Double? = nil, offeringDescription: String? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, region: String? = nil, resourceSpecification: ReservationResourceSpecification? = nil, usagePrice: Double? = nil) {
             self.arn = arn
             self.currencyCode = currencyCode
@@ -6062,7 +6053,7 @@ extension MediaLive {
         public let outputSettings: OutputSettings
         /// The name of the VideoDescription used as the source for this output.
         public let videoDescriptionName: String?
-        
+
         public init(audioDescriptionNames: [String]? = nil, captionDescriptionNames: [String]? = nil, outputName: String? = nil, outputSettings: OutputSettings, videoDescriptionName: String? = nil) {
             self.audioDescriptionNames = audioDescriptionNames
             self.captionDescriptionNames = captionDescriptionNames
@@ -6092,7 +6083,7 @@ extension MediaLive {
         public let mediaPackageSettings: [MediaPackageOutputDestinationSettings]?
         /// Destination settings for a standard output; one destination for each redundant encoder.
         public let settings: [OutputDestinationSettings]?
-        
+
         public init(id: String? = nil, mediaPackageSettings: [MediaPackageOutputDestinationSettings]? = nil, settings: [OutputDestinationSettings]? = nil) {
             self.id = id
             self.mediaPackageSettings = mediaPackageSettings
@@ -6121,7 +6112,7 @@ extension MediaLive {
         public let url: String?
         /// username for destination
         public let username: String?
-        
+
         public init(passwordParam: String? = nil, streamName: String? = nil, url: String? = nil, username: String? = nil) {
             self.passwordParam = passwordParam
             self.streamName = streamName
@@ -6148,7 +6139,7 @@ extension MediaLive {
         /// Settings associated with the output group.
         public let outputGroupSettings: OutputGroupSettings
         public let outputs: [Output]
-        
+
         public init(name: String? = nil, outputGroupSettings: OutputGroupSettings, outputs: [Output]) {
             self.name = name
             self.outputGroupSettings = outputGroupSettings
@@ -6179,7 +6170,7 @@ extension MediaLive {
         public let msSmoothGroupSettings: MsSmoothGroupSettings?
         public let rtmpGroupSettings: RtmpGroupSettings?
         public let udpGroupSettings: UdpGroupSettings?
-        
+
         public init(archiveGroupSettings: ArchiveGroupSettings? = nil, frameCaptureGroupSettings: FrameCaptureGroupSettings? = nil, hlsGroupSettings: HlsGroupSettings? = nil, mediaPackageGroupSettings: MediaPackageGroupSettings? = nil, msSmoothGroupSettings: MsSmoothGroupSettings? = nil, rtmpGroupSettings: RtmpGroupSettings? = nil, udpGroupSettings: UdpGroupSettings? = nil) {
             self.archiveGroupSettings = archiveGroupSettings
             self.frameCaptureGroupSettings = frameCaptureGroupSettings
@@ -6206,7 +6197,7 @@ extension MediaLive {
             AWSShapeMember(label: "DestinationRefId", location: .body(locationName: "destinationRefId"), required: false, type: .string)
         ]
         public let destinationRefId: String?
-        
+
         public init(destinationRefId: String? = nil) {
             self.destinationRefId = destinationRefId
         }
@@ -6233,7 +6224,7 @@ extension MediaLive {
         public let msSmoothOutputSettings: MsSmoothOutputSettings?
         public let rtmpOutputSettings: RtmpOutputSettings?
         public let udpOutputSettings: UdpOutputSettings?
-        
+
         public init(archiveOutputSettings: ArchiveOutputSettings? = nil, frameCaptureOutputSettings: FrameCaptureOutputSettings? = nil, hlsOutputSettings: HlsOutputSettings? = nil, mediaPackageOutputSettings: MediaPackageOutputSettings? = nil, msSmoothOutputSettings: MsSmoothOutputSettings? = nil, rtmpOutputSettings: RtmpOutputSettings? = nil, udpOutputSettings: UdpOutputSettings? = nil) {
             self.archiveOutputSettings = archiveOutputSettings
             self.frameCaptureOutputSettings = frameCaptureOutputSettings
@@ -6256,19 +6247,18 @@ extension MediaLive {
     }
 
     public struct PassThroughSettings: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct PauseStateScheduleActionSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Pipelines", location: .body(locationName: "pipelines"), required: false, type: .list)
         ]
         public let pipelines: [PipelinePauseStateSettings]?
-        
+
         public init(pipelines: [PipelinePauseStateSettings]? = nil) {
             self.pipelines = pipelines
         }
@@ -6290,7 +6280,7 @@ extension MediaLive {
         ]
         /// Pipeline ID to pause ("PIPELINE_0" or "PIPELINE_1").
         public let pipelineId: PipelineId
-        
+
         public init(pipelineId: PipelineId) {
             self.pipelineId = pipelineId
         }
@@ -6318,7 +6308,7 @@ extension MediaLive {
         public let start: String?
         /// A collection of key-value pairs
         public let tags: [String: String]?
-        
+
         public init(count: Int32, name: String? = nil, requestId: String? = nil, start: String? = nil, tags: [String: String]? = nil) {
             self.count = count
             self.name = name
@@ -6351,7 +6341,7 @@ extension MediaLive {
         public let requestId: String?
         public let start: String?
         public let tags: [String: String]?
-        
+
         public init(count: Int32, name: String? = nil, offeringId: String, requestId: String? = nil, start: String? = nil, tags: [String: String]? = nil) {
             self.count = count
             self.name = name
@@ -6376,7 +6366,7 @@ extension MediaLive {
             AWSShapeMember(label: "Reservation", location: .body(locationName: "reservation"), required: false, type: .structure)
         ]
         public let reservation: Reservation?
-        
+
         public init(reservation: Reservation? = nil) {
             self.reservation = reservation
         }
@@ -6391,7 +6381,7 @@ extension MediaLive {
             AWSShapeMember(label: "Reservation", location: .body(locationName: "reservation"), required: false, type: .structure)
         ]
         public let reservation: Reservation?
-        
+
         public init(reservation: Reservation? = nil) {
             self.reservation = reservation
         }
@@ -6414,7 +6404,7 @@ extension MediaLive {
         /// Number of output channels to be produced.
         /// Valid values: 1, 2, 4, 6, 8
         public let channelsOut: Int32?
-        
+
         public init(channelMappings: [AudioChannelMapping], channelsIn: Int32? = nil, channelsOut: Int32? = nil) {
             self.channelMappings = channelMappings
             self.channelsIn = channelsIn
@@ -6485,7 +6475,7 @@ extension MediaLive {
         public let tags: [String: String]?
         /// Recurring usage charge for each reserved resource, e.g. '157.0'
         public let usagePrice: Double?
-        
+
         public init(arn: String? = nil, count: Int32? = nil, currencyCode: String? = nil, duration: Int32? = nil, durationUnits: OfferingDurationUnits? = nil, end: String? = nil, fixedPrice: Double? = nil, name: String? = nil, offeringDescription: String? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, region: String? = nil, reservationId: String? = nil, resourceSpecification: ReservationResourceSpecification? = nil, start: String? = nil, state: ReservationState? = nil, tags: [String: String]? = nil, usagePrice: Double? = nil) {
             self.arn = arn
             self.count = count
@@ -6584,7 +6574,7 @@ extension MediaLive {
         public let specialFeature: ReservationSpecialFeature?
         /// Video quality, e.g. 'STANDARD' (Outputs only)
         public let videoQuality: ReservationVideoQuality?
-        
+
         public init(channelClass: ChannelClass? = nil, codec: ReservationCodec? = nil, maximumBitrate: ReservationMaximumBitrate? = nil, maximumFramerate: ReservationMaximumFramerate? = nil, resolution: ReservationResolution? = nil, resourceType: ReservationResourceType? = nil, specialFeature: ReservationSpecialFeature? = nil, videoQuality: ReservationVideoQuality? = nil) {
             self.channelClass = channelClass
             self.codec = codec
@@ -6641,7 +6631,7 @@ extension MediaLive {
             AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
         ]
         public let message: String?
-        
+
         public init(message: String? = nil) {
             self.message = message
         }
@@ -6656,7 +6646,7 @@ extension MediaLive {
             AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
         ]
         public let message: String?
-        
+
         public init(message: String? = nil) {
             self.message = message
         }
@@ -6680,12 +6670,11 @@ extension MediaLive {
     }
 
     public struct RtmpCaptionInfoDestinationSettings: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct RtmpGroupSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -6710,7 +6699,7 @@ extension MediaLive {
         public let inputLossAction: InputLossActionForRtmpOut?
         /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
         public let restartDelay: Int32?
-        
+
         public init(authenticationScheme: AuthenticationScheme? = nil, cacheFullBehavior: RtmpCacheFullBehavior? = nil, cacheLength: Int32? = nil, captionData: RtmpCaptionData? = nil, inputLossAction: InputLossActionForRtmpOut? = nil, restartDelay: Int32? = nil) {
             self.authenticationScheme = authenticationScheme
             self.cacheFullBehavior = cacheFullBehavior
@@ -6751,7 +6740,7 @@ extension MediaLive {
         public let destination: OutputLocationRef
         /// Number of retry attempts.
         public let numRetries: Int32?
-        
+
         public init(certificateMode: RtmpOutputCertificateMode? = nil, connectionRetryInterval: Int32? = nil, destination: OutputLocationRef, numRetries: Int32? = nil) {
             self.certificateMode = certificateMode
             self.connectionRetryInterval = connectionRetryInterval
@@ -6779,7 +6768,7 @@ extension MediaLive {
         public let scheduleActionSettings: ScheduleActionSettings
         /// The time for the action to start in the channel.
         public let scheduleActionStartSettings: ScheduleActionStartSettings
-        
+
         public init(actionName: String, scheduleActionSettings: ScheduleActionSettings, scheduleActionStartSettings: ScheduleActionStartSettings) {
             self.actionName = actionName
             self.scheduleActionSettings = scheduleActionSettings
@@ -6820,7 +6809,7 @@ extension MediaLive {
         public let staticImageActivateSettings: StaticImageActivateScheduleActionSettings?
         /// Action to deactivate a static image overlay
         public let staticImageDeactivateSettings: StaticImageDeactivateScheduleActionSettings?
-        
+
         public init(hlsTimedMetadataSettings: HlsTimedMetadataScheduleActionSettings? = nil, inputSwitchSettings: InputSwitchScheduleActionSettings? = nil, pauseStateSettings: PauseStateScheduleActionSettings? = nil, scte35ReturnToNetworkSettings: Scte35ReturnToNetworkScheduleActionSettings? = nil, scte35SpliceInsertSettings: Scte35SpliceInsertScheduleActionSettings? = nil, scte35TimeSignalSettings: Scte35TimeSignalScheduleActionSettings? = nil, staticImageActivateSettings: StaticImageActivateScheduleActionSettings? = nil, staticImageDeactivateSettings: StaticImageDeactivateScheduleActionSettings? = nil) {
             self.hlsTimedMetadataSettings = hlsTimedMetadataSettings
             self.inputSwitchSettings = inputSwitchSettings
@@ -6853,7 +6842,7 @@ extension MediaLive {
         public let fixedModeScheduleActionStartSettings: FixedModeScheduleActionStartSettings?
         /// Specifies an action to follow for scheduling this action.
         public let followModeScheduleActionStartSettings: FollowModeScheduleActionStartSettings?
-        
+
         public init(fixedModeScheduleActionStartSettings: FixedModeScheduleActionStartSettings? = nil, followModeScheduleActionStartSettings: FollowModeScheduleActionStartSettings? = nil) {
             self.fixedModeScheduleActionStartSettings = fixedModeScheduleActionStartSettings
             self.followModeScheduleActionStartSettings = followModeScheduleActionStartSettings
@@ -6866,12 +6855,11 @@ extension MediaLive {
     }
 
     public struct ScheduleDeleteResultModel: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct ScheduleDescribeResultModel: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -6882,7 +6870,7 @@ extension MediaLive {
         public let nextToken: String?
         /// The list of actions in the schedule.
         public let scheduleActions: [ScheduleAction]
-        
+
         public init(nextToken: String? = nil, scheduleActions: [ScheduleAction]) {
             self.nextToken = nextToken
             self.scheduleActions = scheduleActions
@@ -6901,12 +6889,11 @@ extension MediaLive {
     }
 
     public struct Scte20PlusEmbeddedDestinationSettings: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct Scte20SourceSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -6917,7 +6904,7 @@ extension MediaLive {
         public let convert608To708: Scte20Convert608To708?
         /// Specifies the 608/708 channel number within the video track from which to extract captions. Unused for passthrough.
         public let source608ChannelNumber: Int32?
-        
+
         public init(convert608To708: Scte20Convert608To708? = nil, source608ChannelNumber: Int32? = nil) {
             self.convert608To708 = convert608To708
             self.source608ChannelNumber = source608ChannelNumber
@@ -6930,12 +6917,11 @@ extension MediaLive {
     }
 
     public struct Scte27DestinationSettings: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct Scte27SourceSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -6947,7 +6933,7 @@ extension MediaLive {
         ///   - Omit PID and specify Language: Extracts the specified language, whichever PID that happens to be.
         ///   - Omit PID and omit Language: Valid only if source is DVB-Sub that is being passed through; all languages will be passed through.
         public let pid: Int32?
-        
+
         public init(pid: Int32? = nil) {
             self.pid = pid
         }
@@ -6990,7 +6976,7 @@ extension MediaLive {
         public let noRegionalBlackoutFlag: Scte35NoRegionalBlackoutFlag
         /// Corresponds to SCTE-35 web_delivery_allowed_flag parameter.
         public let webDeliveryAllowedFlag: Scte35WebDeliveryAllowedFlag
-        
+
         public init(archiveAllowedFlag: Scte35ArchiveAllowedFlag, deviceRestrictions: Scte35DeviceRestrictions, noRegionalBlackoutFlag: Scte35NoRegionalBlackoutFlag, webDeliveryAllowedFlag: Scte35WebDeliveryAllowedFlag) {
             self.archiveAllowedFlag = archiveAllowedFlag
             self.deviceRestrictions = deviceRestrictions
@@ -7012,7 +6998,7 @@ extension MediaLive {
         ]
         /// SCTE-35 Descriptor Settings.
         public let scte35DescriptorSettings: Scte35DescriptorSettings
-        
+
         public init(scte35DescriptorSettings: Scte35DescriptorSettings) {
             self.scte35DescriptorSettings = scte35DescriptorSettings
         }
@@ -7028,7 +7014,7 @@ extension MediaLive {
         ]
         /// SCTE-35 Segmentation Descriptor.
         public let segmentationDescriptorScte35DescriptorSettings: Scte35SegmentationDescriptor
-        
+
         public init(segmentationDescriptorScte35DescriptorSettings: Scte35SegmentationDescriptor) {
             self.segmentationDescriptorScte35DescriptorSettings = segmentationDescriptorScte35DescriptorSettings
         }
@@ -7058,7 +7044,7 @@ extension MediaLive {
         ]
         /// The splice_event_id for the SCTE-35 splice_insert, as defined in SCTE-35.
         public let spliceEventId: Int64
-        
+
         public init(spliceEventId: Int64) {
             self.spliceEventId = spliceEventId
         }
@@ -7110,7 +7096,7 @@ extension MediaLive {
         public let subSegmentNum: Int32?
         /// Corresponds to SCTE-35 sub_segments_expected. A value that is valid for the specified segmentation_type_id.
         public let subSegmentsExpected: Int32?
-        
+
         public init(deliveryRestrictions: Scte35DeliveryRestrictions? = nil, segmentationCancelIndicator: Scte35SegmentationCancelIndicator, segmentationDuration: Int64? = nil, segmentationEventId: Int64, segmentationTypeId: Int32? = nil, segmentationUpid: String? = nil, segmentationUpidType: Int32? = nil, segmentNum: Int32? = nil, segmentsExpected: Int32? = nil, subSegmentNum: Int32? = nil, subSegmentsExpected: Int32? = nil) {
             self.deliveryRestrictions = deliveryRestrictions
             self.segmentationCancelIndicator = segmentationCancelIndicator
@@ -7152,7 +7138,7 @@ extension MediaLive {
         public let noRegionalBlackoutFlag: Scte35SpliceInsertNoRegionalBlackoutBehavior?
         /// When set to ignore, Segment Descriptors with webDeliveryAllowedFlag set to 0 will no longer trigger blackouts or Ad Avail slates
         public let webDeliveryAllowedFlag: Scte35SpliceInsertWebDeliveryAllowedBehavior?
-        
+
         public init(adAvailOffset: Int32? = nil, noRegionalBlackoutFlag: Scte35SpliceInsertNoRegionalBlackoutBehavior? = nil, webDeliveryAllowedFlag: Scte35SpliceInsertWebDeliveryAllowedBehavior? = nil) {
             self.adAvailOffset = adAvailOffset
             self.noRegionalBlackoutFlag = noRegionalBlackoutFlag
@@ -7181,7 +7167,7 @@ extension MediaLive {
         public let duration: Int64?
         /// The splice_event_id for the SCTE-35 splice_insert, as defined in SCTE-35.
         public let spliceEventId: Int64
-        
+
         public init(duration: Int64? = nil, spliceEventId: Int64) {
             self.duration = duration
             self.spliceEventId = spliceEventId
@@ -7211,7 +7197,7 @@ extension MediaLive {
         public let noRegionalBlackoutFlag: Scte35AposNoRegionalBlackoutBehavior?
         /// When set to ignore, Segment Descriptors with webDeliveryAllowedFlag set to 0 will no longer trigger blackouts or Ad Avail slates
         public let webDeliveryAllowedFlag: Scte35AposWebDeliveryAllowedBehavior?
-        
+
         public init(adAvailOffset: Int32? = nil, noRegionalBlackoutFlag: Scte35AposNoRegionalBlackoutBehavior? = nil, webDeliveryAllowedFlag: Scte35AposWebDeliveryAllowedBehavior? = nil) {
             self.adAvailOffset = adAvailOffset
             self.noRegionalBlackoutFlag = noRegionalBlackoutFlag
@@ -7231,7 +7217,7 @@ extension MediaLive {
         ]
         /// The list of SCTE-35 descriptors accompanying the SCTE-35 time_signal.
         public let scte35Descriptors: [Scte35Descriptor]
-        
+
         public init(scte35Descriptors: [Scte35Descriptor]) {
             self.scte35Descriptors = scte35Descriptors
         }
@@ -7297,12 +7283,11 @@ extension MediaLive {
     }
 
     public struct SmpteTtDestinationSettings: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct StandardHlsSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -7312,7 +7297,7 @@ extension MediaLive {
         /// List all the audio groups that are used with the video output stream. Input all the audio GROUP-IDs that are associated to the video, separate by ','.
         public let audioRenditionSets: String?
         public let m3u8Settings: M3u8Settings
-        
+
         public init(audioRenditionSets: String? = nil, m3u8Settings: M3u8Settings) {
             self.audioRenditionSets = audioRenditionSets
             self.m3u8Settings = m3u8Settings
@@ -7329,7 +7314,7 @@ extension MediaLive {
             AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId"), required: true, type: .string)
         ]
         public let channelId: String
-        
+
         public init(channelId: String) {
             self.channelId = channelId
         }
@@ -7370,7 +7355,7 @@ extension MediaLive {
         public let roleArn: String?
         public let state: ChannelState?
         public let tags: [String: String]?
-        
+
         public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int32? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelClass = channelClass
@@ -7439,7 +7424,7 @@ extension MediaLive {
         public let opacity: Int32?
         /// The width of the image when inserted into the video, in pixels. The overlay will be scaled up or down to the specified width. Leave blank to use the native width of the overlay.
         public let width: Int32?
-        
+
         public init(duration: Int32? = nil, fadeIn: Int32? = nil, fadeOut: Int32? = nil, height: Int32? = nil, image: InputLocation, imageX: Int32? = nil, imageY: Int32? = nil, layer: Int32? = nil, opacity: Int32? = nil, width: Int32? = nil) {
             self.duration = duration
             self.fadeIn = fadeIn
@@ -7476,7 +7461,7 @@ extension MediaLive {
         public let fadeOut: Int32?
         /// The image overlay layer to deactivate, 0 to 7. Default is 0.
         public let layer: Int32?
-        
+
         public init(fadeOut: Int32? = nil, layer: Int32? = nil) {
             self.fadeOut = fadeOut
             self.layer = layer
@@ -7497,7 +7482,7 @@ extension MediaLive {
         public let keyProviderServer: InputLocation?
         /// Static key value as a 32 character hexadecimal string.
         public let staticKeyValue: String
-        
+
         public init(keyProviderServer: InputLocation? = nil, staticKeyValue: String) {
             self.keyProviderServer = keyProviderServer
             self.staticKeyValue = staticKeyValue
@@ -7514,7 +7499,7 @@ extension MediaLive {
             AWSShapeMember(label: "ChannelId", location: .uri(locationName: "channelId"), required: true, type: .string)
         ]
         public let channelId: String
-        
+
         public init(channelId: String) {
             self.channelId = channelId
         }
@@ -7555,7 +7540,7 @@ extension MediaLive {
         public let roleArn: String?
         public let state: ChannelState?
         public let tags: [String: String]?
-        
+
         public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int32? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelClass = channelClass
@@ -7596,7 +7581,7 @@ extension MediaLive {
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         public let tags: [String: String]?
-        
+
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -7607,12 +7592,11 @@ extension MediaLive {
     }
 
     public struct TeletextDestinationSettings: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct TeletextSourceSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -7620,7 +7604,7 @@ extension MediaLive {
         ]
         /// Specifies the teletext page number within the data stream from which to extract captions. Range of 0x100 (256) to 0x8FF (2303). Unused for passthrough. Should be specified as a hexadecimal string with no "0x" prefix.
         public let pageNumber: String?
-        
+
         public init(pageNumber: String? = nil) {
             self.pageNumber = pageNumber
         }
@@ -7642,7 +7626,7 @@ extension MediaLive {
         public let source: TimecodeConfigSource
         /// Threshold in frames beyond which output timecode is resynchronized to the input timecode. Discrepancies below this threshold are permitted to avoid unnecessary discontinuities in the output timecode. No timecode sync when this is not specified.
         public let syncThreshold: Int32?
-        
+
         public init(source: TimecodeConfigSource, syncThreshold: Int32? = nil) {
             self.source = source
             self.syncThreshold = syncThreshold
@@ -7667,7 +7651,7 @@ extension MediaLive {
         ]
         /// When set to passthrough, passes through style and position information from a TTML-like input source (TTML, SMPTE-TT, CFF-TT) to the CFF-TT output or TTML output.
         public let styleControl: TtmlDestinationStyleControl?
-        
+
         public init(styleControl: TtmlDestinationStyleControl? = nil) {
             self.styleControl = styleControl
         }
@@ -7688,7 +7672,7 @@ extension MediaLive {
             AWSShapeMember(label: "M2tsSettings", location: .body(locationName: "m2tsSettings"), required: false, type: .structure)
         ]
         public let m2tsSettings: M2tsSettings?
-        
+
         public init(m2tsSettings: M2tsSettings? = nil) {
             self.m2tsSettings = m2tsSettings
         }
@@ -7710,7 +7694,7 @@ extension MediaLive {
         public let timedMetadataId3Frame: UdpTimedMetadataId3Frame?
         /// Timed Metadata interval in seconds.
         public let timedMetadataId3Period: Int32?
-        
+
         public init(inputLossAction: InputLossActionForUdpOut? = nil, timedMetadataId3Frame: UdpTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int32? = nil) {
             self.inputLossAction = inputLossAction
             self.timedMetadataId3Frame = timedMetadataId3Frame
@@ -7738,7 +7722,7 @@ extension MediaLive {
         public let destination: OutputLocationRef
         /// Settings for enabling and adjusting Forward Error Correction on UDP outputs.
         public let fecOutputSettings: FecOutputSettings?
-        
+
         public init(bufferMsec: Int32? = nil, containerSettings: UdpContainerSettings, destination: OutputLocationRef, fecOutputSettings: FecOutputSettings? = nil) {
             self.bufferMsec = bufferMsec
             self.containerSettings = containerSettings
@@ -7784,7 +7768,7 @@ extension MediaLive {
         public let name: String?
         /// An optional Amazon Resource Name (ARN) of the role to assume when running the Channel. If you do not specify this on an update call but the role was previously set that role will be removed.
         public let roleArn: String?
-        
+
         public init(destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, roleArn: String? = nil) {
             self.destinations = destinations
             self.encoderSettings = encoderSettings
@@ -7815,7 +7799,7 @@ extension MediaLive {
         public let channelClass: ChannelClass
         /// A list of output destinations for this channel.
         public let destinations: [OutputDestination]?
-        
+
         public init(channelClass: ChannelClass, destinations: [OutputDestination]? = nil) {
             self.channelClass = channelClass
             self.destinations = destinations
@@ -7836,7 +7820,7 @@ extension MediaLive {
         public let channelClass: ChannelClass
         public let channelId: String
         public let destinations: [OutputDestination]?
-        
+
         public init(channelClass: ChannelClass, channelId: String, destinations: [OutputDestination]? = nil) {
             self.channelClass = channelClass
             self.channelId = channelId
@@ -7855,7 +7839,7 @@ extension MediaLive {
             AWSShapeMember(label: "Channel", location: .body(locationName: "channel"), required: false, type: .structure)
         ]
         public let channel: Channel?
-        
+
         public init(channel: Channel? = nil) {
             self.channel = channel
         }
@@ -7884,7 +7868,7 @@ extension MediaLive {
         public let logLevel: LogLevel?
         public let name: String?
         public let roleArn: String?
-        
+
         public init(channelId: String, destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, roleArn: String? = nil) {
             self.channelId = channelId
             self.destinations = destinations
@@ -7913,7 +7897,7 @@ extension MediaLive {
             AWSShapeMember(label: "Channel", location: .body(locationName: "channel"), required: false, type: .structure)
         ]
         public let channel: Channel?
-        
+
         public init(channel: Channel? = nil) {
             self.channel = channel
         }
@@ -7928,7 +7912,7 @@ extension MediaLive {
             AWSShapeMember(label: "Channel", location: .body(locationName: "channel"), required: false, type: .structure)
         ]
         public let channel: Channel?
-        
+
         public init(channel: Channel? = nil) {
             self.channel = channel
         }
@@ -7963,7 +7947,7 @@ extension MediaLive {
         /// exactly two source URLs for redundancy.
         /// Only specify sources for PULL type Inputs. Leave Destinations empty.
         public let sources: [InputSourceRequest]?
-        
+
         public init(destinations: [InputDestinationRequest]? = nil, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, name: String? = nil, roleArn: String? = nil, sources: [InputSourceRequest]? = nil) {
             self.destinations = destinations
             self.inputSecurityGroups = inputSecurityGroups
@@ -8000,7 +7984,7 @@ extension MediaLive {
         public let name: String?
         public let roleArn: String?
         public let sources: [InputSourceRequest]?
-        
+
         public init(destinations: [InputDestinationRequest]? = nil, inputId: String, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, name: String? = nil, roleArn: String? = nil, sources: [InputSourceRequest]? = nil) {
             self.destinations = destinations
             self.inputId = inputId
@@ -8027,7 +8011,7 @@ extension MediaLive {
             AWSShapeMember(label: "Input", location: .body(locationName: "input"), required: false, type: .structure)
         ]
         public let input: Input?
-        
+
         public init(input: Input? = nil) {
             self.input = input
         }
@@ -8042,7 +8026,7 @@ extension MediaLive {
             AWSShapeMember(label: "Input", location: .body(locationName: "input"), required: false, type: .structure)
         ]
         public let input: Input?
-        
+
         public init(input: Input? = nil) {
             self.input = input
         }
@@ -8061,7 +8045,7 @@ extension MediaLive {
         public let inputSecurityGroupId: String
         public let tags: [String: String]?
         public let whitelistRules: [InputWhitelistRuleCidr]?
-        
+
         public init(inputSecurityGroupId: String, tags: [String: String]? = nil, whitelistRules: [InputWhitelistRuleCidr]? = nil) {
             self.inputSecurityGroupId = inputSecurityGroupId
             self.tags = tags
@@ -8080,7 +8064,7 @@ extension MediaLive {
             AWSShapeMember(label: "SecurityGroup", location: .body(locationName: "securityGroup"), required: false, type: .structure)
         ]
         public let securityGroup: InputSecurityGroup?
-        
+
         public init(securityGroup: InputSecurityGroup? = nil) {
             self.securityGroup = securityGroup
         }
@@ -8095,7 +8079,7 @@ extension MediaLive {
             AWSShapeMember(label: "SecurityGroup", location: .body(locationName: "securityGroup"), required: false, type: .structure)
         ]
         public let securityGroup: InputSecurityGroup?
-        
+
         public init(securityGroup: InputSecurityGroup? = nil) {
             self.securityGroup = securityGroup
         }
@@ -8111,7 +8095,7 @@ extension MediaLive {
         ]
         /// Name of the reservation
         public let name: String?
-        
+
         public init(name: String? = nil) {
             self.name = name
         }
@@ -8128,7 +8112,7 @@ extension MediaLive {
         ]
         public let name: String?
         public let reservationId: String
-        
+
         public init(name: String? = nil, reservationId: String) {
             self.name = name
             self.reservationId = reservationId
@@ -8145,7 +8129,7 @@ extension MediaLive {
             AWSShapeMember(label: "Reservation", location: .body(locationName: "reservation"), required: false, type: .structure)
         ]
         public let reservation: Reservation?
-        
+
         public init(reservation: Reservation? = nil) {
             self.reservation = reservation
         }
@@ -8160,7 +8144,7 @@ extension MediaLive {
             AWSShapeMember(label: "Reservation", location: .body(locationName: "reservation"), required: false, type: .structure)
         ]
         public let reservation: Reservation?
-        
+
         public init(reservation: Reservation? = nil) {
             self.reservation = reservation
         }
@@ -8177,7 +8161,7 @@ extension MediaLive {
         ]
         public let elementPath: String?
         public let errorMessage: String?
-        
+
         public init(elementPath: String? = nil, errorMessage: String? = nil) {
             self.elementPath = elementPath
             self.errorMessage = errorMessage
@@ -8196,7 +8180,7 @@ extension MediaLive {
         ]
         public let frameCaptureSettings: FrameCaptureSettings?
         public let h264Settings: H264Settings?
-        
+
         public init(frameCaptureSettings: FrameCaptureSettings? = nil, h264Settings: H264Settings? = nil) {
             self.frameCaptureSettings = frameCaptureSettings
             self.h264Settings = h264Settings
@@ -8232,7 +8216,7 @@ extension MediaLive {
         public let sharpness: Int32?
         /// Output video width, in pixels. Must be an even number. For most codecs, you can leave this field and height blank in order to use the height and width (resolution) from the source. Note, however, that leaving blank is not recommended. For the Frame Capture codec, height and width are required.
         public let width: Int32?
-        
+
         public init(codecSettings: VideoCodecSettings? = nil, height: Int32? = nil, name: String, respondToAfd: VideoDescriptionRespondToAfd? = nil, scalingBehavior: VideoDescriptionScalingBehavior? = nil, sharpness: Int32? = nil, width: Int32? = nil) {
             self.codecSettings = codecSettings
             self.height = height
@@ -8279,7 +8263,7 @@ extension MediaLive {
         public let colorSpaceUsage: VideoSelectorColorSpaceUsage?
         /// The video selector settings.
         public let selectorSettings: VideoSelectorSettings?
-        
+
         public init(colorSpace: VideoSelectorColorSpace? = nil, colorSpaceUsage: VideoSelectorColorSpaceUsage? = nil, selectorSettings: VideoSelectorSettings? = nil) {
             self.colorSpace = colorSpace
             self.colorSpaceUsage = colorSpaceUsage
@@ -8312,7 +8296,7 @@ extension MediaLive {
         ]
         /// Selects a specific PID from within a video source.
         public let pid: Int32?
-        
+
         public init(pid: Int32? = nil) {
             self.pid = pid
         }
@@ -8328,7 +8312,7 @@ extension MediaLive {
         ]
         /// Selects a specific program from within a multi-program transport stream. If the program doesn't exist, the first program within the transport stream will be selected by default.
         public let programId: Int32?
-        
+
         public init(programId: Int32? = nil) {
             self.programId = programId
         }
@@ -8345,7 +8329,7 @@ extension MediaLive {
         ]
         public let videoSelectorPid: VideoSelectorPid?
         public let videoSelectorProgramId: VideoSelectorProgramId?
-        
+
         public init(videoSelectorPid: VideoSelectorPid? = nil, videoSelectorProgramId: VideoSelectorProgramId? = nil) {
             self.videoSelectorPid = videoSelectorPid
             self.videoSelectorProgramId = videoSelectorProgramId
@@ -8358,11 +8342,9 @@ extension MediaLive {
     }
 
     public struct WebvttDestinationSettings: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
-
+    }
 }

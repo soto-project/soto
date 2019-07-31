@@ -49,5 +49,4 @@ public struct DLM {
     public func updateLifecyclePolicy(_ input: UpdateLifecyclePolicyRequest) throws -> Future<UpdateLifecyclePolicyResponse> {
         return try client.send(operation: "UpdateLifecyclePolicy", path: "/policies/{policyId}", httpMethod: "PATCH", input: input)
     }
-
 }

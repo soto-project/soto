@@ -239,5 +239,4 @@ public struct AWSBackup {
     public func updateRecoveryPointLifecycle(_ input: UpdateRecoveryPointLifecycleInput) throws -> Future<UpdateRecoveryPointLifecycleOutput> {
         return try client.send(operation: "UpdateRecoveryPointLifecycle", path: "/backup-vaults/{backupVaultName}/recovery-points/{recoveryPointArn}", httpMethod: "POST", input: input)
     }
-
 }

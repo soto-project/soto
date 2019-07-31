@@ -15,7 +15,7 @@ extension ApiGatewayV2 {
         /// A single line format of the access logs of data, as specified by selected $context
         ///  variables. The format must include at least $context.requestId.
         public let format: String?
-        
+
         public init(destinationArn: String? = nil, format: String? = nil) {
             self.destinationArn = destinationArn
             self.format = format
@@ -69,7 +69,7 @@ extension ApiGatewayV2 {
         /// The warning messages reported when failonwarnings is turned on during
         ///  API import.
         public let warnings: [String]?
-        
+
         public init(apiEndpoint: String? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, createdDate: TimeStamp? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, name: String, protocolType: ProtocolType, routeSelectionExpression: String, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiId = apiId
@@ -116,7 +116,7 @@ extension ApiGatewayV2 {
         public let apiMappingKey: String?
         /// The API stage.
         public let stage: String
-        
+
         public init(apiId: String, apiMappingId: String? = nil, apiMappingKey: String? = nil, stage: String) {
             self.apiId = apiId
             self.apiMappingId = apiMappingId
@@ -142,7 +142,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of
         ///  the collection.
         public let nextToken: String?
-        
+
         public init(items: [ApiMapping]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -164,7 +164,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of
         ///  the collection.
         public let nextToken: String?
-        
+
         public init(items: [Api]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -246,7 +246,7 @@ extension ApiGatewayV2 {
         ///  REQUEST authorizer, this is not
         ///  defined.
         public let providerArns: [String]?
-        
+
         public init(authorizerCredentialsArn: String? = nil, authorizerId: String? = nil, authorizerResultTtlInSeconds: Int32? = nil, authorizerType: AuthorizerType? = nil, authorizerUri: String? = nil, identitySource: [String]? = nil, identityValidationExpression: String? = nil, name: String, providerArns: [String]? = nil) {
             self.authorizerCredentialsArn = authorizerCredentialsArn
             self.authorizerId = authorizerId
@@ -287,7 +287,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of
         ///  the collection.
         public let nextToken: String?
-        
+
         public init(items: [Authorizer]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -338,7 +338,7 @@ extension ApiGatewayV2 {
         public let tags: [String: String]?
         /// A version identifier for the API.
         public let version: String?
-        
+
         public init(apiKeySelectionExpression: String? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, name: String, protocolType: ProtocolType, routeSelectionExpression: String, tags: [String: String]? = nil, version: String? = nil) {
             self.apiKeySelectionExpression = apiKeySelectionExpression
             self.description = description
@@ -373,7 +373,7 @@ extension ApiGatewayV2 {
         public let apiMappingKey: String?
         /// The API stage.
         public let stage: String
-        
+
         public init(apiId: String, apiMappingKey: String? = nil, stage: String) {
             self.apiId = apiId
             self.apiMappingKey = apiMappingKey
@@ -398,7 +398,7 @@ extension ApiGatewayV2 {
         public let apiMappingKey: String?
         public let domainName: String
         public let stage: String
-        
+
         public init(apiId: String, apiMappingKey: String? = nil, domainName: String, stage: String) {
             self.apiId = apiId
             self.apiMappingKey = apiMappingKey
@@ -425,7 +425,7 @@ extension ApiGatewayV2 {
         public let apiMappingId: String?
         public let apiMappingKey: String?
         public let stage: String?
-        
+
         public init(apiId: String? = nil, apiMappingId: String? = nil, apiMappingKey: String? = nil, stage: String? = nil) {
             self.apiId = apiId
             self.apiMappingId = apiMappingId
@@ -458,7 +458,7 @@ extension ApiGatewayV2 {
         public let protocolType: ProtocolType
         public let routeSelectionExpression: String
         public let version: String?
-        
+
         public init(apiKeySelectionExpression: String? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, name: String, protocolType: ProtocolType, routeSelectionExpression: String, version: String? = nil) {
             self.apiKeySelectionExpression = apiKeySelectionExpression
             self.description = description
@@ -505,7 +505,7 @@ extension ApiGatewayV2 {
         public let routeSelectionExpression: String?
         public let version: String?
         public let warnings: [String]?
-        
+
         public init(apiEndpoint: String? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, createdDate: TimeStamp? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiId = apiId
@@ -595,7 +595,7 @@ extension ApiGatewayV2 {
         ///  REQUEST authorizer, this is not
         ///  defined.
         public let providerArns: [String]?
-        
+
         public init(authorizerCredentialsArn: String? = nil, authorizerResultTtlInSeconds: Int32? = nil, authorizerType: AuthorizerType, authorizerUri: String, identitySource: [String], identityValidationExpression: String? = nil, name: String, providerArns: [String]? = nil) {
             self.authorizerCredentialsArn = authorizerCredentialsArn
             self.authorizerResultTtlInSeconds = authorizerResultTtlInSeconds
@@ -640,7 +640,7 @@ extension ApiGatewayV2 {
         public let identityValidationExpression: String?
         public let name: String
         public let providerArns: [String]?
-        
+
         public init(apiId: String, authorizerCredentialsArn: String? = nil, authorizerResultTtlInSeconds: Int32? = nil, authorizerType: AuthorizerType, authorizerUri: String, identitySource: [String], identityValidationExpression: String? = nil, name: String, providerArns: [String]? = nil) {
             self.apiId = apiId
             self.authorizerCredentialsArn = authorizerCredentialsArn
@@ -687,7 +687,7 @@ extension ApiGatewayV2 {
         public let identityValidationExpression: String?
         public let name: String?
         public let providerArns: [String]?
-        
+
         public init(authorizerCredentialsArn: String? = nil, authorizerId: String? = nil, authorizerResultTtlInSeconds: Int32? = nil, authorizerType: AuthorizerType? = nil, authorizerUri: String? = nil, identitySource: [String]? = nil, identityValidationExpression: String? = nil, name: String? = nil, providerArns: [String]? = nil) {
             self.authorizerCredentialsArn = authorizerCredentialsArn
             self.authorizerId = authorizerId
@@ -723,7 +723,7 @@ extension ApiGatewayV2 {
         /// The name of the Stage resource for the Deployment
         ///  resource to create.
         public let stageName: String?
-        
+
         public init(description: String? = nil, stageName: String? = nil) {
             self.description = description
             self.stageName = stageName
@@ -744,7 +744,7 @@ extension ApiGatewayV2 {
         public let apiId: String
         public let description: String?
         public let stageName: String?
-        
+
         public init(apiId: String, description: String? = nil, stageName: String? = nil) {
             self.apiId = apiId
             self.description = description
@@ -771,7 +771,7 @@ extension ApiGatewayV2 {
         public let deploymentStatus: DeploymentStatus?
         public let deploymentStatusMessage: String?
         public let description: String?
-        
+
         public init(createdDate: TimeStamp? = nil, deploymentId: String? = nil, deploymentStatus: DeploymentStatus? = nil, deploymentStatusMessage: String? = nil, description: String? = nil) {
             self.createdDate = createdDate
             self.deploymentId = deploymentId
@@ -801,7 +801,7 @@ extension ApiGatewayV2 {
         public let domainNameConfigurations: [DomainNameConfiguration]?
         /// Tags for the DomainName.
         public let tags: [String: String]?
-        
+
         public init(domainName: String, domainNameConfigurations: [DomainNameConfiguration]? = nil, tags: [String: String]? = nil) {
             self.domainName = domainName
             self.domainNameConfigurations = domainNameConfigurations
@@ -824,7 +824,7 @@ extension ApiGatewayV2 {
         public let domainName: String
         public let domainNameConfigurations: [DomainNameConfiguration]?
         public let tags: [String: String]?
-        
+
         public init(domainName: String, domainNameConfigurations: [DomainNameConfiguration]? = nil, tags: [String: String]? = nil) {
             self.domainName = domainName
             self.domainNameConfigurations = domainNameConfigurations
@@ -849,7 +849,7 @@ extension ApiGatewayV2 {
         public let domainName: String?
         public let domainNameConfigurations: [DomainNameConfiguration]?
         public let tags: [String: String]?
-        
+
         public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, tags: [String: String]? = nil) {
             self.apiMappingSelectionExpression = apiMappingSelectionExpression
             self.domainName = domainName
@@ -964,7 +964,7 @@ extension ApiGatewayV2 {
         /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000
         ///  milliseconds or 29 seconds.
         public let timeoutInMillis: Int32?
-        
+
         public init(connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationMethod: String? = nil, integrationType: IntegrationType, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int32? = nil) {
             self.connectionId = connectionId
             self.connectionType = connectionType
@@ -1029,7 +1029,7 @@ extension ApiGatewayV2 {
         public let requestTemplates: [String: String]?
         public let templateSelectionExpression: String?
         public let timeoutInMillis: Int32?
-        
+
         public init(apiId: String, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationMethod: String? = nil, integrationType: IntegrationType, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int32? = nil) {
             self.apiId = apiId
             self.connectionId = connectionId
@@ -1103,7 +1103,7 @@ extension ApiGatewayV2 {
         public let responseTemplates: [String: String]?
         /// The template selection expression for the integration response.
         public let templateSelectionExpression: String?
-        
+
         public init(contentHandlingStrategy: ContentHandlingStrategy? = nil, integrationResponseKey: String, responseParameters: [String: String]? = nil, responseTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil) {
             self.contentHandlingStrategy = contentHandlingStrategy
             self.integrationResponseKey = integrationResponseKey
@@ -1138,7 +1138,7 @@ extension ApiGatewayV2 {
         public let responseParameters: [String: String]?
         public let responseTemplates: [String: String]?
         public let templateSelectionExpression: String?
-        
+
         public init(apiId: String, contentHandlingStrategy: ContentHandlingStrategy? = nil, integrationId: String, integrationResponseKey: String, responseParameters: [String: String]? = nil, responseTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil) {
             self.apiId = apiId
             self.contentHandlingStrategy = contentHandlingStrategy
@@ -1175,7 +1175,7 @@ extension ApiGatewayV2 {
         public let responseParameters: [String: String]?
         public let responseTemplates: [String: String]?
         public let templateSelectionExpression: String?
-        
+
         public init(contentHandlingStrategy: ContentHandlingStrategy? = nil, integrationResponseId: String? = nil, integrationResponseKey: String? = nil, responseParameters: [String: String]? = nil, responseTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil) {
             self.contentHandlingStrategy = contentHandlingStrategy
             self.integrationResponseId = integrationResponseId
@@ -1228,7 +1228,7 @@ extension ApiGatewayV2 {
         public let requestTemplates: [String: String]?
         public let templateSelectionExpression: String?
         public let timeoutInMillis: Int32?
-        
+
         public init(connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int32? = nil) {
             self.connectionId = connectionId
             self.connectionType = connectionType
@@ -1282,7 +1282,7 @@ extension ApiGatewayV2 {
         /// The schema for the model. For application/json models, this should be JSON schema
         ///  draft 4 model.
         public let schema: String
-        
+
         public init(contentType: String? = nil, description: String? = nil, name: String, schema: String) {
             self.contentType = contentType
             self.description = description
@@ -1311,7 +1311,7 @@ extension ApiGatewayV2 {
         public let description: String?
         public let name: String
         public let schema: String
-        
+
         public init(apiId: String, contentType: String? = nil, description: String? = nil, name: String, schema: String) {
             self.apiId = apiId
             self.contentType = contentType
@@ -1342,7 +1342,7 @@ extension ApiGatewayV2 {
         public let modelId: String?
         public let name: String?
         public let schema: String?
-        
+
         public init(contentType: String? = nil, description: String? = nil, modelId: String? = nil, name: String? = nil, schema: String? = nil) {
             self.contentType = contentType
             self.description = description
@@ -1403,7 +1403,7 @@ extension ApiGatewayV2 {
         public let routeResponseSelectionExpression: String?
         /// The target for the route.
         public let target: String?
-        
+
         public init(apiKeyRequired: Bool? = nil, authorizationScopes: [String]? = nil, authorizationType: AuthorizationType? = nil, authorizerId: String? = nil, modelSelectionExpression: String? = nil, operationName: String? = nil, requestModels: [String: String]? = nil, requestParameters: [String: ParameterConstraints]? = nil, routeKey: String, routeResponseSelectionExpression: String? = nil, target: String? = nil) {
             self.apiKeyRequired = apiKeyRequired
             self.authorizationScopes = authorizationScopes
@@ -1460,7 +1460,7 @@ extension ApiGatewayV2 {
         public let routeKey: String
         public let routeResponseSelectionExpression: String?
         public let target: String?
-        
+
         public init(apiId: String, apiKeyRequired: Bool? = nil, authorizationScopes: [String]? = nil, authorizationType: AuthorizationType? = nil, authorizerId: String? = nil, modelSelectionExpression: String? = nil, operationName: String? = nil, requestModels: [String: String]? = nil, requestParameters: [String: ParameterConstraints]? = nil, routeKey: String, routeResponseSelectionExpression: String? = nil, target: String? = nil) {
             self.apiId = apiId
             self.apiKeyRequired = apiKeyRequired
@@ -1507,7 +1507,7 @@ extension ApiGatewayV2 {
         public let responseParameters: [String: ParameterConstraints]?
         /// The route response key.
         public let routeResponseKey: String
-        
+
         public init(modelSelectionExpression: String? = nil, responseModels: [String: String]? = nil, responseParameters: [String: ParameterConstraints]? = nil, routeResponseKey: String) {
             self.modelSelectionExpression = modelSelectionExpression
             self.responseModels = responseModels
@@ -1538,7 +1538,7 @@ extension ApiGatewayV2 {
         public let responseParameters: [String: ParameterConstraints]?
         public let routeId: String
         public let routeResponseKey: String
-        
+
         public init(apiId: String, modelSelectionExpression: String? = nil, responseModels: [String: String]? = nil, responseParameters: [String: ParameterConstraints]? = nil, routeId: String, routeResponseKey: String) {
             self.apiId = apiId
             self.modelSelectionExpression = modelSelectionExpression
@@ -1571,7 +1571,7 @@ extension ApiGatewayV2 {
         public let responseParameters: [String: ParameterConstraints]?
         public let routeResponseId: String?
         public let routeResponseKey: String?
-        
+
         public init(modelSelectionExpression: String? = nil, responseModels: [String: String]? = nil, responseParameters: [String: ParameterConstraints]? = nil, routeResponseId: String? = nil, routeResponseKey: String? = nil) {
             self.modelSelectionExpression = modelSelectionExpression
             self.responseModels = responseModels
@@ -1616,7 +1616,7 @@ extension ApiGatewayV2 {
         public let routeKey: String?
         public let routeResponseSelectionExpression: String?
         public let target: String?
-        
+
         public init(apiKeyRequired: Bool? = nil, authorizationScopes: [String]? = nil, authorizationType: AuthorizationType? = nil, authorizerId: String? = nil, modelSelectionExpression: String? = nil, operationName: String? = nil, requestModels: [String: String]? = nil, requestParameters: [String: ParameterConstraints]? = nil, routeId: String? = nil, routeKey: String? = nil, routeResponseSelectionExpression: String? = nil, target: String? = nil) {
             self.apiKeyRequired = apiKeyRequired
             self.authorizationScopes = authorizationScopes
@@ -1680,7 +1680,7 @@ extension ApiGatewayV2 {
         public let stageVariables: [String: String]?
         /// Tags for the Stage.
         public let tags: [String: String]?
-        
+
         public init(accessLogSettings: AccessLogSettings? = nil, clientCertificateId: String? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String, stageVariables: [String: String]? = nil, tags: [String: String]? = nil) {
             self.accessLogSettings = accessLogSettings
             self.clientCertificateId = clientCertificateId
@@ -1729,7 +1729,7 @@ extension ApiGatewayV2 {
         public let stageName: String
         public let stageVariables: [String: String]?
         public let tags: [String: String]?
-        
+
         public init(accessLogSettings: AccessLogSettings? = nil, apiId: String, clientCertificateId: String? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String, stageVariables: [String: String]? = nil, tags: [String: String]? = nil) {
             self.accessLogSettings = accessLogSettings
             self.apiId = apiId
@@ -1782,7 +1782,7 @@ extension ApiGatewayV2 {
         public let stageName: String?
         public let stageVariables: [String: String]?
         public let tags: [String: String]?
-        
+
         public init(accessLogSettings: AccessLogSettings? = nil, clientCertificateId: String? = nil, createdDate: TimeStamp? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, lastUpdatedDate: TimeStamp? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String? = nil, stageVariables: [String: String]? = nil, tags: [String: String]? = nil) {
             self.accessLogSettings = accessLogSettings
             self.clientCertificateId = clientCertificateId
@@ -1819,7 +1819,7 @@ extension ApiGatewayV2 {
         ]
         public let apiMappingId: String
         public let domainName: String
-        
+
         public init(apiMappingId: String, domainName: String) {
             self.apiMappingId = apiMappingId
             self.domainName = domainName
@@ -1836,7 +1836,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string)
         ]
         public let apiId: String
-        
+
         public init(apiId: String) {
             self.apiId = apiId
         }
@@ -1853,7 +1853,7 @@ extension ApiGatewayV2 {
         ]
         public let apiId: String
         public let authorizerId: String
-        
+
         public init(apiId: String, authorizerId: String) {
             self.apiId = apiId
             self.authorizerId = authorizerId
@@ -1872,7 +1872,7 @@ extension ApiGatewayV2 {
         ]
         public let apiId: String
         public let deploymentId: String
-        
+
         public init(apiId: String, deploymentId: String) {
             self.apiId = apiId
             self.deploymentId = deploymentId
@@ -1889,7 +1889,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName"), required: true, type: .string)
         ]
         public let domainName: String
-        
+
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -1906,7 +1906,7 @@ extension ApiGatewayV2 {
         ]
         public let apiId: String
         public let integrationId: String
-        
+
         public init(apiId: String, integrationId: String) {
             self.apiId = apiId
             self.integrationId = integrationId
@@ -1927,7 +1927,7 @@ extension ApiGatewayV2 {
         public let apiId: String
         public let integrationId: String
         public let integrationResponseId: String
-        
+
         public init(apiId: String, integrationId: String, integrationResponseId: String) {
             self.apiId = apiId
             self.integrationId = integrationId
@@ -1948,7 +1948,7 @@ extension ApiGatewayV2 {
         ]
         public let apiId: String
         public let modelId: String
-        
+
         public init(apiId: String, modelId: String) {
             self.apiId = apiId
             self.modelId = modelId
@@ -1967,7 +1967,7 @@ extension ApiGatewayV2 {
         ]
         public let apiId: String
         public let routeId: String
-        
+
         public init(apiId: String, routeId: String) {
             self.apiId = apiId
             self.routeId = routeId
@@ -1988,7 +1988,7 @@ extension ApiGatewayV2 {
         public let apiId: String
         public let routeId: String
         public let routeResponseId: String
-        
+
         public init(apiId: String, routeId: String, routeResponseId: String) {
             self.apiId = apiId
             self.routeId = routeId
@@ -2009,7 +2009,7 @@ extension ApiGatewayV2 {
         ]
         public let apiId: String
         public let stageName: String
-        
+
         public init(apiId: String, stageName: String) {
             self.apiId = apiId
             self.stageName = stageName
@@ -2040,7 +2040,7 @@ extension ApiGatewayV2 {
         public let deploymentStatusMessage: String?
         /// The description for the deployment.
         public let description: String?
-        
+
         public init(createdDate: TimeStamp? = nil, deploymentId: String? = nil, deploymentStatus: DeploymentStatus? = nil, deploymentStatusMessage: String? = nil, description: String? = nil) {
             self.createdDate = createdDate
             self.deploymentId = deploymentId
@@ -2075,7 +2075,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of
         ///  the collection.
         public let nextToken: String?
-        
+
         public init(items: [Deployment]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2102,7 +2102,7 @@ extension ApiGatewayV2 {
         public let domainNameConfigurations: [DomainNameConfiguration]?
         /// Tags for the DomainName.
         public let tags: [String: String]?
-        
+
         public init(apiMappingSelectionExpression: String? = nil, domainName: String, domainNameConfigurations: [DomainNameConfiguration]? = nil, tags: [String: String]? = nil) {
             self.apiMappingSelectionExpression = apiMappingSelectionExpression
             self.domainName = domainName
@@ -2151,7 +2151,7 @@ extension ApiGatewayV2 {
         public let hostedZoneId: String?
         /// The Transport Layer Security (TLS) version of the security policy for this domain name. The valid values are TLS_1_0 and TLS_1_2.
         public let securityPolicy: SecurityPolicy?
-        
+
         public init(apiGatewayDomainName: String? = nil, certificateArn: String? = nil, certificateName: String? = nil, certificateUploadDate: TimeStamp? = nil, domainNameStatus: DomainNameStatus? = nil, domainNameStatusMessage: String? = nil, endpointType: EndpointType? = nil, hostedZoneId: String? = nil, securityPolicy: SecurityPolicy? = nil) {
             self.apiGatewayDomainName = apiGatewayDomainName
             self.certificateArn = certificateArn
@@ -2193,7 +2193,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of
         ///  the collection.
         public let nextToken: String?
-        
+
         public init(items: [DomainName]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2218,7 +2218,7 @@ extension ApiGatewayV2 {
         ]
         public let apiMappingId: String
         public let domainName: String
-        
+
         public init(apiMappingId: String, domainName: String) {
             self.apiMappingId = apiMappingId
             self.domainName = domainName
@@ -2241,7 +2241,7 @@ extension ApiGatewayV2 {
         public let apiMappingId: String?
         public let apiMappingKey: String?
         public let stage: String?
-        
+
         public init(apiId: String? = nil, apiMappingId: String? = nil, apiMappingKey: String? = nil, stage: String? = nil) {
             self.apiId = apiId
             self.apiMappingId = apiMappingId
@@ -2266,7 +2266,7 @@ extension ApiGatewayV2 {
         public let domainName: String
         public let maxResults: String?
         public let nextToken: String?
-        
+
         public init(domainName: String, maxResults: String? = nil, nextToken: String? = nil) {
             self.domainName = domainName
             self.maxResults = maxResults
@@ -2287,7 +2287,7 @@ extension ApiGatewayV2 {
         ]
         public let items: [ApiMapping]?
         public let nextToken: String?
-        
+
         public init(items: [ApiMapping]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2304,7 +2304,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string)
         ]
         public let apiId: String
-        
+
         public init(apiId: String) {
             self.apiId = apiId
         }
@@ -2341,7 +2341,7 @@ extension ApiGatewayV2 {
         public let tags: [String: String]?
         public let version: String?
         public let warnings: [String]?
-        
+
         public init(apiEndpoint: String? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, createdDate: TimeStamp? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiId = apiId
@@ -2380,7 +2380,7 @@ extension ApiGatewayV2 {
         ]
         public let maxResults: String?
         public let nextToken: String?
-        
+
         public init(maxResults: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2399,7 +2399,7 @@ extension ApiGatewayV2 {
         ]
         public let items: [Api]?
         public let nextToken: String?
-        
+
         public init(items: [Api]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2418,7 +2418,7 @@ extension ApiGatewayV2 {
         ]
         public let apiId: String
         public let authorizerId: String
-        
+
         public init(apiId: String, authorizerId: String) {
             self.apiId = apiId
             self.authorizerId = authorizerId
@@ -2451,7 +2451,7 @@ extension ApiGatewayV2 {
         public let identityValidationExpression: String?
         public let name: String?
         public let providerArns: [String]?
-        
+
         public init(authorizerCredentialsArn: String? = nil, authorizerId: String? = nil, authorizerResultTtlInSeconds: Int32? = nil, authorizerType: AuthorizerType? = nil, authorizerUri: String? = nil, identitySource: [String]? = nil, identityValidationExpression: String? = nil, name: String? = nil, providerArns: [String]? = nil) {
             self.authorizerCredentialsArn = authorizerCredentialsArn
             self.authorizerId = authorizerId
@@ -2486,7 +2486,7 @@ extension ApiGatewayV2 {
         public let apiId: String
         public let maxResults: String?
         public let nextToken: String?
-        
+
         public init(apiId: String, maxResults: String? = nil, nextToken: String? = nil) {
             self.apiId = apiId
             self.maxResults = maxResults
@@ -2507,7 +2507,7 @@ extension ApiGatewayV2 {
         ]
         public let items: [Authorizer]?
         public let nextToken: String?
-        
+
         public init(items: [Authorizer]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2526,7 +2526,7 @@ extension ApiGatewayV2 {
         ]
         public let apiId: String
         public let deploymentId: String
-        
+
         public init(apiId: String, deploymentId: String) {
             self.apiId = apiId
             self.deploymentId = deploymentId
@@ -2551,7 +2551,7 @@ extension ApiGatewayV2 {
         public let deploymentStatus: DeploymentStatus?
         public let deploymentStatusMessage: String?
         public let description: String?
-        
+
         public init(createdDate: TimeStamp? = nil, deploymentId: String? = nil, deploymentStatus: DeploymentStatus? = nil, deploymentStatusMessage: String? = nil, description: String? = nil) {
             self.createdDate = createdDate
             self.deploymentId = deploymentId
@@ -2578,7 +2578,7 @@ extension ApiGatewayV2 {
         public let apiId: String
         public let maxResults: String?
         public let nextToken: String?
-        
+
         public init(apiId: String, maxResults: String? = nil, nextToken: String? = nil) {
             self.apiId = apiId
             self.maxResults = maxResults
@@ -2599,7 +2599,7 @@ extension ApiGatewayV2 {
         ]
         public let items: [Deployment]?
         public let nextToken: String?
-        
+
         public init(items: [Deployment]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2616,7 +2616,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName"), required: true, type: .string)
         ]
         public let domainName: String
-        
+
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -2637,7 +2637,7 @@ extension ApiGatewayV2 {
         public let domainName: String?
         public let domainNameConfigurations: [DomainNameConfiguration]?
         public let tags: [String: String]?
-        
+
         public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, tags: [String: String]? = nil) {
             self.apiMappingSelectionExpression = apiMappingSelectionExpression
             self.domainName = domainName
@@ -2660,7 +2660,7 @@ extension ApiGatewayV2 {
         ]
         public let maxResults: String?
         public let nextToken: String?
-        
+
         public init(maxResults: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2679,7 +2679,7 @@ extension ApiGatewayV2 {
         ]
         public let items: [DomainName]?
         public let nextToken: String?
-        
+
         public init(items: [DomainName]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2698,7 +2698,7 @@ extension ApiGatewayV2 {
         ]
         public let apiId: String
         public let integrationId: String
-        
+
         public init(apiId: String, integrationId: String) {
             self.apiId = apiId
             self.integrationId = integrationId
@@ -2719,7 +2719,7 @@ extension ApiGatewayV2 {
         public let apiId: String
         public let integrationId: String
         public let integrationResponseId: String
-        
+
         public init(apiId: String, integrationId: String, integrationResponseId: String) {
             self.apiId = apiId
             self.integrationId = integrationId
@@ -2748,7 +2748,7 @@ extension ApiGatewayV2 {
         public let responseParameters: [String: String]?
         public let responseTemplates: [String: String]?
         public let templateSelectionExpression: String?
-        
+
         public init(contentHandlingStrategy: ContentHandlingStrategy? = nil, integrationResponseId: String? = nil, integrationResponseKey: String? = nil, responseParameters: [String: String]? = nil, responseTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil) {
             self.contentHandlingStrategy = contentHandlingStrategy
             self.integrationResponseId = integrationResponseId
@@ -2779,7 +2779,7 @@ extension ApiGatewayV2 {
         public let integrationId: String
         public let maxResults: String?
         public let nextToken: String?
-        
+
         public init(apiId: String, integrationId: String, maxResults: String? = nil, nextToken: String? = nil) {
             self.apiId = apiId
             self.integrationId = integrationId
@@ -2802,7 +2802,7 @@ extension ApiGatewayV2 {
         ]
         public let items: [IntegrationResponse]?
         public let nextToken: String?
-        
+
         public init(items: [IntegrationResponse]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2847,7 +2847,7 @@ extension ApiGatewayV2 {
         public let requestTemplates: [String: String]?
         public let templateSelectionExpression: String?
         public let timeoutInMillis: Int32?
-        
+
         public init(connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int32? = nil) {
             self.connectionId = connectionId
             self.connectionType = connectionType
@@ -2894,7 +2894,7 @@ extension ApiGatewayV2 {
         public let apiId: String
         public let maxResults: String?
         public let nextToken: String?
-        
+
         public init(apiId: String, maxResults: String? = nil, nextToken: String? = nil) {
             self.apiId = apiId
             self.maxResults = maxResults
@@ -2915,7 +2915,7 @@ extension ApiGatewayV2 {
         ]
         public let items: [Integration]?
         public let nextToken: String?
-        
+
         public init(items: [Integration]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2934,7 +2934,7 @@ extension ApiGatewayV2 {
         ]
         public let apiId: String
         public let modelId: String
-        
+
         public init(apiId: String, modelId: String) {
             self.apiId = apiId
             self.modelId = modelId
@@ -2959,7 +2959,7 @@ extension ApiGatewayV2 {
         public let modelId: String?
         public let name: String?
         public let schema: String?
-        
+
         public init(contentType: String? = nil, description: String? = nil, modelId: String? = nil, name: String? = nil, schema: String? = nil) {
             self.contentType = contentType
             self.description = description
@@ -2984,7 +2984,7 @@ extension ApiGatewayV2 {
         ]
         public let apiId: String
         public let modelId: String
-        
+
         public init(apiId: String, modelId: String) {
             self.apiId = apiId
             self.modelId = modelId
@@ -3001,7 +3001,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Value", location: .body(locationName: "value"), required: false, type: .string)
         ]
         public let value: String?
-        
+
         public init(value: String? = nil) {
             self.value = value
         }
@@ -3020,7 +3020,7 @@ extension ApiGatewayV2 {
         public let apiId: String
         public let maxResults: String?
         public let nextToken: String?
-        
+
         public init(apiId: String, maxResults: String? = nil, nextToken: String? = nil) {
             self.apiId = apiId
             self.maxResults = maxResults
@@ -3041,7 +3041,7 @@ extension ApiGatewayV2 {
         ]
         public let items: [Model]?
         public let nextToken: String?
-        
+
         public init(items: [Model]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -3060,7 +3060,7 @@ extension ApiGatewayV2 {
         ]
         public let apiId: String
         public let routeId: String
-        
+
         public init(apiId: String, routeId: String) {
             self.apiId = apiId
             self.routeId = routeId
@@ -3081,7 +3081,7 @@ extension ApiGatewayV2 {
         public let apiId: String
         public let routeId: String
         public let routeResponseId: String
-        
+
         public init(apiId: String, routeId: String, routeResponseId: String) {
             self.apiId = apiId
             self.routeId = routeId
@@ -3108,7 +3108,7 @@ extension ApiGatewayV2 {
         public let responseParameters: [String: ParameterConstraints]?
         public let routeResponseId: String?
         public let routeResponseKey: String?
-        
+
         public init(modelSelectionExpression: String? = nil, responseModels: [String: String]? = nil, responseParameters: [String: ParameterConstraints]? = nil, routeResponseId: String? = nil, routeResponseKey: String? = nil) {
             self.modelSelectionExpression = modelSelectionExpression
             self.responseModels = responseModels
@@ -3137,7 +3137,7 @@ extension ApiGatewayV2 {
         public let maxResults: String?
         public let nextToken: String?
         public let routeId: String
-        
+
         public init(apiId: String, maxResults: String? = nil, nextToken: String? = nil, routeId: String) {
             self.apiId = apiId
             self.maxResults = maxResults
@@ -3160,7 +3160,7 @@ extension ApiGatewayV2 {
         ]
         public let items: [RouteResponse]?
         public let nextToken: String?
-        
+
         public init(items: [RouteResponse]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -3199,7 +3199,7 @@ extension ApiGatewayV2 {
         public let routeKey: String?
         public let routeResponseSelectionExpression: String?
         public let target: String?
-        
+
         public init(apiKeyRequired: Bool? = nil, authorizationScopes: [String]? = nil, authorizationType: AuthorizationType? = nil, authorizerId: String? = nil, modelSelectionExpression: String? = nil, operationName: String? = nil, requestModels: [String: String]? = nil, requestParameters: [String: ParameterConstraints]? = nil, routeId: String? = nil, routeKey: String? = nil, routeResponseSelectionExpression: String? = nil, target: String? = nil) {
             self.apiKeyRequired = apiKeyRequired
             self.authorizationScopes = authorizationScopes
@@ -3240,7 +3240,7 @@ extension ApiGatewayV2 {
         public let apiId: String
         public let maxResults: String?
         public let nextToken: String?
-        
+
         public init(apiId: String, maxResults: String? = nil, nextToken: String? = nil) {
             self.apiId = apiId
             self.maxResults = maxResults
@@ -3261,7 +3261,7 @@ extension ApiGatewayV2 {
         ]
         public let items: [Route]?
         public let nextToken: String?
-        
+
         public init(items: [Route]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -3280,7 +3280,7 @@ extension ApiGatewayV2 {
         ]
         public let apiId: String
         public let stageName: String
-        
+
         public init(apiId: String, stageName: String) {
             self.apiId = apiId
             self.stageName = stageName
@@ -3317,7 +3317,7 @@ extension ApiGatewayV2 {
         public let stageName: String?
         public let stageVariables: [String: String]?
         public let tags: [String: String]?
-        
+
         public init(accessLogSettings: AccessLogSettings? = nil, clientCertificateId: String? = nil, createdDate: TimeStamp? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, lastUpdatedDate: TimeStamp? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String? = nil, stageVariables: [String: String]? = nil, tags: [String: String]? = nil) {
             self.accessLogSettings = accessLogSettings
             self.clientCertificateId = clientCertificateId
@@ -3356,7 +3356,7 @@ extension ApiGatewayV2 {
         public let apiId: String
         public let maxResults: String?
         public let nextToken: String?
-        
+
         public init(apiId: String, maxResults: String? = nil, nextToken: String? = nil) {
             self.apiId = apiId
             self.maxResults = maxResults
@@ -3377,7 +3377,7 @@ extension ApiGatewayV2 {
         ]
         public let items: [Stage]?
         public let nextToken: String?
-        
+
         public init(items: [Stage]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -3394,7 +3394,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string)
         ]
         public let resourceArn: String
-        
+
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -3409,7 +3409,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
         public let tags: [String: String]?
-        
+
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -3524,7 +3524,7 @@ extension ApiGatewayV2 {
         /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000
         ///  milliseconds or 29 seconds.
         public let timeoutInMillis: Int32?
-        
+
         public init(connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int32? = nil) {
             self.connectionId = connectionId
             self.connectionType = connectionType
@@ -3601,7 +3601,7 @@ extension ApiGatewayV2 {
         public let responseTemplates: [String: String]?
         /// The template selection expressions for the integration response.
         public let templateSelectionExpression: String?
-        
+
         public init(contentHandlingStrategy: ContentHandlingStrategy? = nil, integrationResponseId: String? = nil, integrationResponseKey: String, responseParameters: [String: String]? = nil, responseTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil) {
             self.contentHandlingStrategy = contentHandlingStrategy
             self.integrationResponseId = integrationResponseId
@@ -3631,7 +3631,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of
         ///  the collection.
         public let nextToken: String?
-        
+
         public init(items: [IntegrationResponse]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -3662,7 +3662,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of
         ///  the collection.
         public let nextToken: String?
-        
+
         public init(items: [Integration]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -3683,7 +3683,7 @@ extension ApiGatewayV2 {
         public let limitType: String?
         /// Describes the error encountered.
         public let message: String?
-        
+
         public init(limitType: String? = nil, message: String? = nil) {
             self.limitType = limitType
             self.message = message
@@ -3721,7 +3721,7 @@ extension ApiGatewayV2 {
         /// The schema for the model. For application/json models, this should be JSON schema
         ///  draft 4 model.
         public let schema: String?
-        
+
         public init(contentType: String? = nil, description: String? = nil, modelId: String? = nil, name: String, schema: String? = nil) {
             self.contentType = contentType
             self.description = description
@@ -3749,7 +3749,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of
         ///  the collection.
         public let nextToken: String?
-        
+
         public init(items: [Model]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -3767,7 +3767,7 @@ extension ApiGatewayV2 {
         ]
         /// Whether or not the parameter is required.
         public let required: Bool?
-        
+
         public init(required: Bool? = nil) {
             self.required = required
         }
@@ -3840,7 +3840,7 @@ extension ApiGatewayV2 {
         public let routeResponseSelectionExpression: String?
         /// The target for the route.
         public let target: String?
-        
+
         public init(apiKeyRequired: Bool? = nil, authorizationScopes: [String]? = nil, authorizationType: AuthorizationType? = nil, authorizerId: String? = nil, modelSelectionExpression: String? = nil, operationName: String? = nil, requestModels: [String: String]? = nil, requestParameters: [String: ParameterConstraints]? = nil, routeId: String? = nil, routeKey: String, routeResponseSelectionExpression: String? = nil, target: String? = nil) {
             self.apiKeyRequired = apiKeyRequired
             self.authorizationScopes = authorizationScopes
@@ -3890,7 +3890,7 @@ extension ApiGatewayV2 {
         public let routeResponseId: String?
         /// Represents the route response key of a route response.
         public let routeResponseKey: String
-        
+
         public init(modelSelectionExpression: String? = nil, responseModels: [String: String]? = nil, responseParameters: [String: ParameterConstraints]? = nil, routeResponseId: String? = nil, routeResponseKey: String) {
             self.modelSelectionExpression = modelSelectionExpression
             self.responseModels = responseModels
@@ -3918,7 +3918,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of
         ///  the collection.
         public let nextToken: String?
-        
+
         public init(items: [RouteResponse]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -3952,7 +3952,7 @@ extension ApiGatewayV2 {
         public let throttlingBurstLimit: Int32?
         /// Specifies the throttling rate limit.
         public let throttlingRateLimit: Double?
-        
+
         public init(dataTraceEnabled: Bool? = nil, detailedMetricsEnabled: Bool? = nil, loggingLevel: LoggingLevel? = nil, throttlingBurstLimit: Int32? = nil, throttlingRateLimit: Double? = nil) {
             self.dataTraceEnabled = dataTraceEnabled
             self.detailedMetricsEnabled = detailedMetricsEnabled
@@ -3980,7 +3980,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of
         ///  the collection.
         public let nextToken: String?
-        
+
         public init(items: [Route]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -4037,7 +4037,7 @@ extension ApiGatewayV2 {
         public let stageVariables: [String: String]?
         /// Tags for the Stage.
         public let tags: [String: String]?
-        
+
         public init(accessLogSettings: AccessLogSettings? = nil, clientCertificateId: String? = nil, createdDate: TimeStamp? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, lastUpdatedDate: TimeStamp? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String, stageVariables: [String: String]? = nil, tags: [String: String]? = nil) {
             self.accessLogSettings = accessLogSettings
             self.clientCertificateId = clientCertificateId
@@ -4077,7 +4077,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of
         ///  the collection.
         public let nextToken: String?
-        
+
         public init(items: [Stage]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -4095,7 +4095,7 @@ extension ApiGatewayV2 {
         ]
         /// Tags for the resource arn.
         public let tags: [String: String]?
-        
+
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -4112,7 +4112,7 @@ extension ApiGatewayV2 {
         ]
         public let resourceArn: String
         public let tags: [String: String]?
-        
+
         public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -4125,12 +4125,11 @@ extension ApiGatewayV2 {
     }
 
     public struct TagResourceResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct Template: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -4138,7 +4137,7 @@ extension ApiGatewayV2 {
         ]
         /// The template value.
         public let value: String?
-        
+
         public init(value: String? = nil) {
             self.value = value
         }
@@ -4155,7 +4154,7 @@ extension ApiGatewayV2 {
         ]
         public let resourceArn: String
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -4188,7 +4187,7 @@ extension ApiGatewayV2 {
         public let routeSelectionExpression: String?
         /// A version identifier for the API.
         public let version: String?
-        
+
         public init(apiKeySelectionExpression: String? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, name: String? = nil, routeSelectionExpression: String? = nil, version: String? = nil) {
             self.apiKeySelectionExpression = apiKeySelectionExpression
             self.description = description
@@ -4220,7 +4219,7 @@ extension ApiGatewayV2 {
         public let apiMappingKey: String?
         /// The API stage.
         public let stage: String?
-        
+
         public init(apiId: String? = nil, apiMappingKey: String? = nil, stage: String? = nil) {
             self.apiId = apiId
             self.apiMappingKey = apiMappingKey
@@ -4247,7 +4246,7 @@ extension ApiGatewayV2 {
         public let apiMappingKey: String?
         public let domainName: String
         public let stage: String?
-        
+
         public init(apiId: String, apiMappingId: String, apiMappingKey: String? = nil, domainName: String, stage: String? = nil) {
             self.apiId = apiId
             self.apiMappingId = apiMappingId
@@ -4276,7 +4275,7 @@ extension ApiGatewayV2 {
         public let apiMappingId: String?
         public let apiMappingKey: String?
         public let stage: String?
-        
+
         public init(apiId: String? = nil, apiMappingId: String? = nil, apiMappingKey: String? = nil, stage: String? = nil) {
             self.apiId = apiId
             self.apiMappingId = apiMappingId
@@ -4309,7 +4308,7 @@ extension ApiGatewayV2 {
         public let name: String?
         public let routeSelectionExpression: String?
         public let version: String?
-        
+
         public init(apiId: String, apiKeySelectionExpression: String? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, name: String? = nil, routeSelectionExpression: String? = nil, version: String? = nil) {
             self.apiId = apiId
             self.apiKeySelectionExpression = apiKeySelectionExpression
@@ -4356,7 +4355,7 @@ extension ApiGatewayV2 {
         public let routeSelectionExpression: String?
         public let version: String?
         public let warnings: [String]?
-        
+
         public init(apiEndpoint: String? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, createdDate: TimeStamp? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiId = apiId
@@ -4445,7 +4444,7 @@ extension ApiGatewayV2 {
         ///  REQUEST authorizer, this is not
         ///  defined.
         public let providerArns: [String]?
-        
+
         public init(authorizerCredentialsArn: String? = nil, authorizerResultTtlInSeconds: Int32? = nil, authorizerType: AuthorizerType? = nil, authorizerUri: String? = nil, identitySource: [String]? = nil, identityValidationExpression: String? = nil, name: String? = nil, providerArns: [String]? = nil) {
             self.authorizerCredentialsArn = authorizerCredentialsArn
             self.authorizerResultTtlInSeconds = authorizerResultTtlInSeconds
@@ -4492,7 +4491,7 @@ extension ApiGatewayV2 {
         public let identityValidationExpression: String?
         public let name: String?
         public let providerArns: [String]?
-        
+
         public init(apiId: String, authorizerCredentialsArn: String? = nil, authorizerId: String, authorizerResultTtlInSeconds: Int32? = nil, authorizerType: AuthorizerType? = nil, authorizerUri: String? = nil, identitySource: [String]? = nil, identityValidationExpression: String? = nil, name: String? = nil, providerArns: [String]? = nil) {
             self.apiId = apiId
             self.authorizerCredentialsArn = authorizerCredentialsArn
@@ -4541,7 +4540,7 @@ extension ApiGatewayV2 {
         public let identityValidationExpression: String?
         public let name: String?
         public let providerArns: [String]?
-        
+
         public init(authorizerCredentialsArn: String? = nil, authorizerId: String? = nil, authorizerResultTtlInSeconds: Int32? = nil, authorizerType: AuthorizerType? = nil, authorizerUri: String? = nil, identitySource: [String]? = nil, identityValidationExpression: String? = nil, name: String? = nil, providerArns: [String]? = nil) {
             self.authorizerCredentialsArn = authorizerCredentialsArn
             self.authorizerId = authorizerId
@@ -4573,7 +4572,7 @@ extension ApiGatewayV2 {
         ]
         /// The description for the deployment resource.
         public let description: String?
-        
+
         public init(description: String? = nil) {
             self.description = description
         }
@@ -4592,7 +4591,7 @@ extension ApiGatewayV2 {
         public let apiId: String
         public let deploymentId: String
         public let description: String?
-        
+
         public init(apiId: String, deploymentId: String, description: String? = nil) {
             self.apiId = apiId
             self.deploymentId = deploymentId
@@ -4619,7 +4618,7 @@ extension ApiGatewayV2 {
         public let deploymentStatus: DeploymentStatus?
         public let deploymentStatusMessage: String?
         public let description: String?
-        
+
         public init(createdDate: TimeStamp? = nil, deploymentId: String? = nil, deploymentStatus: DeploymentStatus? = nil, deploymentStatusMessage: String? = nil, description: String? = nil) {
             self.createdDate = createdDate
             self.deploymentId = deploymentId
@@ -4643,7 +4642,7 @@ extension ApiGatewayV2 {
         ]
         /// The domain name configurations.
         public let domainNameConfigurations: [DomainNameConfiguration]?
-        
+
         public init(domainNameConfigurations: [DomainNameConfiguration]? = nil) {
             self.domainNameConfigurations = domainNameConfigurations
         }
@@ -4660,7 +4659,7 @@ extension ApiGatewayV2 {
         ]
         public let domainName: String
         public let domainNameConfigurations: [DomainNameConfiguration]?
-        
+
         public init(domainName: String, domainNameConfigurations: [DomainNameConfiguration]? = nil) {
             self.domainName = domainName
             self.domainNameConfigurations = domainNameConfigurations
@@ -4681,7 +4680,7 @@ extension ApiGatewayV2 {
         public let apiMappingSelectionExpression: String?
         public let domainName: String?
         public let domainNameConfigurations: [DomainNameConfiguration]?
-        
+
         public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil) {
             self.apiMappingSelectionExpression = apiMappingSelectionExpression
             self.domainName = domainName
@@ -4794,7 +4793,7 @@ extension ApiGatewayV2 {
         /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000
         ///  milliseconds or 29 seconds.
         public let timeoutInMillis: Int32?
-        
+
         public init(connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationMethod: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int32? = nil) {
             self.connectionId = connectionId
             self.connectionType = connectionType
@@ -4861,7 +4860,7 @@ extension ApiGatewayV2 {
         public let requestTemplates: [String: String]?
         public let templateSelectionExpression: String?
         public let timeoutInMillis: Int32?
-        
+
         public init(apiId: String, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String, integrationMethod: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int32? = nil) {
             self.apiId = apiId
             self.connectionId = connectionId
@@ -4942,7 +4941,7 @@ extension ApiGatewayV2 {
         public let responseTemplates: [String: String]?
         /// The template selection expression for the integration response.
         public let templateSelectionExpression: String?
-        
+
         public init(contentHandlingStrategy: ContentHandlingStrategy? = nil, integrationResponseKey: String? = nil, responseParameters: [String: String]? = nil, responseTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil) {
             self.contentHandlingStrategy = contentHandlingStrategy
             self.integrationResponseKey = integrationResponseKey
@@ -4979,7 +4978,7 @@ extension ApiGatewayV2 {
         public let responseParameters: [String: String]?
         public let responseTemplates: [String: String]?
         public let templateSelectionExpression: String?
-        
+
         public init(apiId: String, contentHandlingStrategy: ContentHandlingStrategy? = nil, integrationId: String, integrationResponseId: String, integrationResponseKey: String? = nil, responseParameters: [String: String]? = nil, responseTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil) {
             self.apiId = apiId
             self.contentHandlingStrategy = contentHandlingStrategy
@@ -5018,7 +5017,7 @@ extension ApiGatewayV2 {
         public let responseParameters: [String: String]?
         public let responseTemplates: [String: String]?
         public let templateSelectionExpression: String?
-        
+
         public init(contentHandlingStrategy: ContentHandlingStrategy? = nil, integrationResponseId: String? = nil, integrationResponseKey: String? = nil, responseParameters: [String: String]? = nil, responseTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil) {
             self.contentHandlingStrategy = contentHandlingStrategy
             self.integrationResponseId = integrationResponseId
@@ -5071,7 +5070,7 @@ extension ApiGatewayV2 {
         public let requestTemplates: [String: String]?
         public let templateSelectionExpression: String?
         public let timeoutInMillis: Int32?
-        
+
         public init(connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int32? = nil) {
             self.connectionId = connectionId
             self.connectionType = connectionType
@@ -5125,7 +5124,7 @@ extension ApiGatewayV2 {
         /// The schema for the model. For application/json models, this should be JSON schema
         ///  draft 4 model.
         public let schema: String?
-        
+
         public init(contentType: String? = nil, description: String? = nil, name: String? = nil, schema: String? = nil) {
             self.contentType = contentType
             self.description = description
@@ -5156,7 +5155,7 @@ extension ApiGatewayV2 {
         public let modelId: String
         public let name: String?
         public let schema: String?
-        
+
         public init(apiId: String, contentType: String? = nil, description: String? = nil, modelId: String, name: String? = nil, schema: String? = nil) {
             self.apiId = apiId
             self.contentType = contentType
@@ -5189,7 +5188,7 @@ extension ApiGatewayV2 {
         public let modelId: String?
         public let name: String?
         public let schema: String?
-        
+
         public init(contentType: String? = nil, description: String? = nil, modelId: String? = nil, name: String? = nil, schema: String? = nil) {
             self.contentType = contentType
             self.description = description
@@ -5250,7 +5249,7 @@ extension ApiGatewayV2 {
         public let routeResponseSelectionExpression: String?
         /// The target for the route.
         public let target: String?
-        
+
         public init(apiKeyRequired: Bool? = nil, authorizationScopes: [String]? = nil, authorizationType: AuthorizationType? = nil, authorizerId: String? = nil, modelSelectionExpression: String? = nil, operationName: String? = nil, requestModels: [String: String]? = nil, requestParameters: [String: ParameterConstraints]? = nil, routeKey: String? = nil, routeResponseSelectionExpression: String? = nil, target: String? = nil) {
             self.apiKeyRequired = apiKeyRequired
             self.authorizationScopes = authorizationScopes
@@ -5309,7 +5308,7 @@ extension ApiGatewayV2 {
         public let routeKey: String?
         public let routeResponseSelectionExpression: String?
         public let target: String?
-        
+
         public init(apiId: String, apiKeyRequired: Bool? = nil, authorizationScopes: [String]? = nil, authorizationType: AuthorizationType? = nil, authorizerId: String? = nil, modelSelectionExpression: String? = nil, operationName: String? = nil, requestModels: [String: String]? = nil, requestParameters: [String: ParameterConstraints]? = nil, routeId: String, routeKey: String? = nil, routeResponseSelectionExpression: String? = nil, target: String? = nil) {
             self.apiId = apiId
             self.apiKeyRequired = apiKeyRequired
@@ -5358,7 +5357,7 @@ extension ApiGatewayV2 {
         public let responseParameters: [String: ParameterConstraints]?
         /// The route response key.
         public let routeResponseKey: String?
-        
+
         public init(modelSelectionExpression: String? = nil, responseModels: [String: String]? = nil, responseParameters: [String: ParameterConstraints]? = nil, routeResponseKey: String? = nil) {
             self.modelSelectionExpression = modelSelectionExpression
             self.responseModels = responseModels
@@ -5391,7 +5390,7 @@ extension ApiGatewayV2 {
         public let routeId: String
         public let routeResponseId: String
         public let routeResponseKey: String?
-        
+
         public init(apiId: String, modelSelectionExpression: String? = nil, responseModels: [String: String]? = nil, responseParameters: [String: ParameterConstraints]? = nil, routeId: String, routeResponseId: String, routeResponseKey: String? = nil) {
             self.apiId = apiId
             self.modelSelectionExpression = modelSelectionExpression
@@ -5426,7 +5425,7 @@ extension ApiGatewayV2 {
         public let responseParameters: [String: ParameterConstraints]?
         public let routeResponseId: String?
         public let routeResponseKey: String?
-        
+
         public init(modelSelectionExpression: String? = nil, responseModels: [String: String]? = nil, responseParameters: [String: ParameterConstraints]? = nil, routeResponseId: String? = nil, routeResponseKey: String? = nil) {
             self.modelSelectionExpression = modelSelectionExpression
             self.responseModels = responseModels
@@ -5471,7 +5470,7 @@ extension ApiGatewayV2 {
         public let routeKey: String?
         public let routeResponseSelectionExpression: String?
         public let target: String?
-        
+
         public init(apiKeyRequired: Bool? = nil, authorizationScopes: [String]? = nil, authorizationType: AuthorizationType? = nil, authorizerId: String? = nil, modelSelectionExpression: String? = nil, operationName: String? = nil, requestModels: [String: String]? = nil, requestParameters: [String: ParameterConstraints]? = nil, routeId: String? = nil, routeKey: String? = nil, routeResponseSelectionExpression: String? = nil, target: String? = nil) {
             self.apiKeyRequired = apiKeyRequired
             self.authorizationScopes = authorizationScopes
@@ -5529,7 +5528,7 @@ extension ApiGatewayV2 {
         ///  can have alphanumeric and underscore characters, and the values must match
         ///  [A-Za-z0-9-._~:/?#&=,]+.
         public let stageVariables: [String: String]?
-        
+
         public init(accessLogSettings: AccessLogSettings? = nil, clientCertificateId: String? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, routeSettings: [String: RouteSettings]? = nil, stageVariables: [String: String]? = nil) {
             self.accessLogSettings = accessLogSettings
             self.clientCertificateId = clientCertificateId
@@ -5572,7 +5571,7 @@ extension ApiGatewayV2 {
         public let routeSettings: [String: RouteSettings]?
         public let stageName: String
         public let stageVariables: [String: String]?
-        
+
         public init(accessLogSettings: AccessLogSettings? = nil, apiId: String, clientCertificateId: String? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String, stageVariables: [String: String]? = nil) {
             self.accessLogSettings = accessLogSettings
             self.apiId = apiId
@@ -5621,7 +5620,7 @@ extension ApiGatewayV2 {
         public let routeSettings: [String: RouteSettings]?
         public let stageName: String?
         public let stageVariables: [String: String]?
-        
+
         public init(accessLogSettings: AccessLogSettings? = nil, clientCertificateId: String? = nil, createdDate: TimeStamp? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, lastUpdatedDate: TimeStamp? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String? = nil, stageVariables: [String: String]? = nil) {
             self.accessLogSettings = accessLogSettings
             self.clientCertificateId = clientCertificateId
@@ -5648,5 +5647,4 @@ extension ApiGatewayV2 {
             case stageVariables = "stageVariables"
         }
     }
-
 }

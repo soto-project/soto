@@ -18,7 +18,7 @@ extension RoboMaker {
         ]
         /// A list of Amazon Resource Names (ARNs) of simulation jobs to describe.
         public let jobs: [String]
-        
+
         public init(jobs: [String]) {
             self.jobs = jobs
         }
@@ -37,7 +37,7 @@ extension RoboMaker {
         public let jobs: [SimulationJob]?
         /// A list of unprocessed simulation job Amazon Resource Names (ARNs).
         public let unprocessedJobs: [String]?
-        
+
         public init(jobs: [SimulationJob]? = nil, unprocessedJobs: [String]? = nil) {
             self.jobs = jobs
             self.unprocessedJobs = unprocessedJobs
@@ -55,7 +55,7 @@ extension RoboMaker {
         ]
         /// The deployment job ARN to cancel.
         public let job: String
-        
+
         public init(job: String) {
             self.job = job
         }
@@ -66,12 +66,11 @@ extension RoboMaker {
     }
 
     public struct CancelDeploymentJobResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct CancelSimulationJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -79,7 +78,7 @@ extension RoboMaker {
         ]
         /// The simulation job ARN to cancel.
         public let job: String
-        
+
         public init(job: String) {
             self.job = job
         }
@@ -90,12 +89,11 @@ extension RoboMaker {
     }
 
     public struct CancelSimulationJobResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct CreateDeploymentJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -115,7 +113,7 @@ extension RoboMaker {
         public let fleet: String
         /// A map that contains tag keys and tag values that are attached to the deployment job.
         public let tags: [String: String]?
-        
+
         public init(clientRequestToken: String, deploymentApplicationConfigs: [DeploymentApplicationConfig], deploymentConfig: DeploymentConfig? = nil, fleet: String, tags: [String: String]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.deploymentApplicationConfigs = deploymentApplicationConfigs
@@ -163,7 +161,7 @@ extension RoboMaker {
         public let status: DeploymentStatus?
         /// The list of all tags added to the deployment job.
         public let tags: [String: String]?
-        
+
         public init(arn: String? = nil, createdAt: TimeStamp? = nil, deploymentApplicationConfigs: [DeploymentApplicationConfig]? = nil, deploymentConfig: DeploymentConfig? = nil, failureCode: DeploymentJobErrorCode? = nil, failureReason: String? = nil, fleet: String? = nil, status: DeploymentStatus? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -198,7 +196,7 @@ extension RoboMaker {
         public let name: String
         /// A map that contains tag keys and tag values that are attached to the fleet.
         public let tags: [String: String]?
-        
+
         public init(name: String, tags: [String: String]? = nil) {
             self.name = name
             self.tags = tags
@@ -225,7 +223,7 @@ extension RoboMaker {
         public let name: String?
         /// The list of all tags added to the fleet.
         public let tags: [String: String]?
-        
+
         public init(arn: String? = nil, createdAt: TimeStamp? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -256,7 +254,7 @@ extension RoboMaker {
         public let sources: [SourceConfig]
         /// A map that contains tag keys and tag values that are attached to the robot application.
         public let tags: [String: String]?
-        
+
         public init(name: String, robotSoftwareSuite: RobotSoftwareSuite, sources: [SourceConfig], tags: [String: String]? = nil) {
             self.name = name
             self.robotSoftwareSuite = robotSoftwareSuite
@@ -299,7 +297,7 @@ extension RoboMaker {
         public let tags: [String: String]?
         /// The version of the robot application.
         public let version: String?
-        
+
         public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, sources: [Source]? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.arn = arn
             self.lastUpdatedAt = lastUpdatedAt
@@ -332,7 +330,7 @@ extension RoboMaker {
         public let application: String
         /// The current revision id for the robot application. If you provide a value and it matches the latest revision ID, a new version will be created.
         public let currentRevisionId: String?
-        
+
         public init(application: String, currentRevisionId: String? = nil) {
             self.application = application
             self.currentRevisionId = currentRevisionId
@@ -368,7 +366,7 @@ extension RoboMaker {
         public let sources: [Source]?
         /// The version of the robot application.
         public let version: String?
-        
+
         public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
             self.arn = arn
             self.lastUpdatedAt = lastUpdatedAt
@@ -405,7 +403,7 @@ extension RoboMaker {
         public let name: String
         /// A map that contains tag keys and tag values that are attached to the robot.
         public let tags: [String: String]?
-        
+
         public init(architecture: Architecture, greengrassGroupId: String, name: String, tags: [String: String]? = nil) {
             self.architecture = architecture
             self.greengrassGroupId = greengrassGroupId
@@ -442,7 +440,7 @@ extension RoboMaker {
         public let name: String?
         /// The list of all tags added to the robot.
         public let tags: [String: String]?
-        
+
         public init(architecture: Architecture? = nil, arn: String? = nil, createdAt: TimeStamp? = nil, greengrassGroupId: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.architecture = architecture
             self.arn = arn
@@ -483,7 +481,7 @@ extension RoboMaker {
         public let sources: [SourceConfig]
         /// A map that contains tag keys and tag values that are attached to the simulation application.
         public let tags: [String: String]?
-        
+
         public init(name: String, renderingEngine: RenderingEngine, robotSoftwareSuite: RobotSoftwareSuite, simulationSoftwareSuite: SimulationSoftwareSuite, sources: [SourceConfig], tags: [String: String]? = nil) {
             self.name = name
             self.renderingEngine = renderingEngine
@@ -536,7 +534,7 @@ extension RoboMaker {
         public let tags: [String: String]?
         /// The version of the simulation application.
         public let version: String?
-        
+
         public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.arn = arn
             self.lastUpdatedAt = lastUpdatedAt
@@ -573,7 +571,7 @@ extension RoboMaker {
         public let application: String
         /// The current revision id for the simulation application. If you provide a value and it matches the latest revision ID, a new version will be created.
         public let currentRevisionId: String?
-        
+
         public init(application: String, currentRevisionId: String? = nil) {
             self.application = application
             self.currentRevisionId = currentRevisionId
@@ -615,7 +613,7 @@ extension RoboMaker {
         public let sources: [Source]?
         /// The version of the simulation application.
         public let version: String?
-        
+
         public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
             self.arn = arn
             self.lastUpdatedAt = lastUpdatedAt
@@ -671,7 +669,7 @@ extension RoboMaker {
         public let tags: [String: String]?
         /// If your simulation job accesses resources in a VPC, you provide this parameter identifying the list of security group IDs and subnet IDs. These must belong to the same VPC. You must provide at least one security group and one subnet ID. 
         public let vpcConfig: VPCConfig?
-        
+
         public init(clientRequestToken: String? = nil, failureBehavior: FailureBehavior? = nil, iamRole: String, maxJobDurationInSeconds: Int64, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, tags: [String: String]? = nil, vpcConfig: VPCConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.failureBehavior = failureBehavior
@@ -745,7 +743,7 @@ extension RoboMaker {
         public let tags: [String: String]?
         /// Information about the vpc configuration.
         public let vpcConfig: VPCConfigResponse?
-        
+
         public init(arn: String? = nil, clientRequestToken: String? = nil, failureBehavior: FailureBehavior? = nil, failureCode: SimulationJobErrorCode? = nil, iamRole: String? = nil, lastStartedAt: TimeStamp? = nil, lastUpdatedAt: TimeStamp? = nil, maxJobDurationInSeconds: Int64? = nil, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, simulationTimeMillis: Int64? = nil, status: SimulationJobStatus? = nil, tags: [String: String]? = nil, vpcConfig: VPCConfigResponse? = nil) {
             self.arn = arn
             self.clientRequestToken = clientRequestToken
@@ -789,7 +787,7 @@ extension RoboMaker {
         ]
         /// The Amazon Resource Name (ARN) of the fleet.
         public let fleet: String
-        
+
         public init(fleet: String) {
             self.fleet = fleet
         }
@@ -800,12 +798,11 @@ extension RoboMaker {
     }
 
     public struct DeleteFleetResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteRobotApplicationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -816,7 +813,7 @@ extension RoboMaker {
         public let application: String
         /// The version of the robot application to delete.
         public let applicationVersion: String?
-        
+
         public init(application: String, applicationVersion: String? = nil) {
             self.application = application
             self.applicationVersion = applicationVersion
@@ -829,12 +826,11 @@ extension RoboMaker {
     }
 
     public struct DeleteRobotApplicationResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteRobotRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -842,7 +838,7 @@ extension RoboMaker {
         ]
         /// The Amazon Resource Name (ARN) of the robot.
         public let robot: String
-        
+
         public init(robot: String) {
             self.robot = robot
         }
@@ -853,12 +849,11 @@ extension RoboMaker {
     }
 
     public struct DeleteRobotResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeleteSimulationApplicationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -869,7 +864,7 @@ extension RoboMaker {
         public let application: String
         /// The version of the simulation application to delete.
         public let applicationVersion: String?
-        
+
         public init(application: String, applicationVersion: String? = nil) {
             self.application = application
             self.applicationVersion = applicationVersion
@@ -882,12 +877,11 @@ extension RoboMaker {
     }
 
     public struct DeleteSimulationApplicationResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct DeploymentApplicationConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -901,7 +895,7 @@ extension RoboMaker {
         public let applicationVersion: String
         /// The launch configuration.
         public let launchConfig: DeploymentLaunchConfig
-        
+
         public init(application: String, applicationVersion: String, launchConfig: DeploymentLaunchConfig) {
             self.application = application
             self.applicationVersion = applicationVersion
@@ -924,7 +918,7 @@ extension RoboMaker {
         public let concurrentDeploymentPercentage: Int32?
         /// The percentage of deployments that need to fail before stopping deployment.
         public let failureThresholdPercentage: Int32?
-        
+
         public init(concurrentDeploymentPercentage: Int32? = nil, failureThresholdPercentage: Int32? = nil) {
             self.concurrentDeploymentPercentage = concurrentDeploymentPercentage
             self.failureThresholdPercentage = failureThresholdPercentage
@@ -963,7 +957,7 @@ extension RoboMaker {
         public let fleet: String?
         /// The status of the deployment job.
         public let status: DeploymentStatus?
-        
+
         public init(arn: String? = nil, createdAt: TimeStamp? = nil, deploymentApplicationConfigs: [DeploymentApplicationConfig]? = nil, deploymentConfig: DeploymentConfig? = nil, failureCode: DeploymentJobErrorCode? = nil, failureReason: String? = nil, fleet: String? = nil, status: DeploymentStatus? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -1026,7 +1020,7 @@ extension RoboMaker {
         public let postLaunchFile: String?
         /// The deployment pre-launch file. This file will be executed prior to the launch file.
         public let preLaunchFile: String?
-        
+
         public init(environmentVariables: [String: String]? = nil, launchFile: String, packageName: String, postLaunchFile: String? = nil, preLaunchFile: String? = nil) {
             self.environmentVariables = environmentVariables
             self.launchFile = launchFile
@@ -1063,7 +1057,7 @@ extension RoboMaker {
         public let fleet: String
         /// The Amazon Resource Name (ARN) of the robot.
         public let robot: String
-        
+
         public init(fleet: String, robot: String) {
             self.fleet = fleet
             self.robot = robot
@@ -1084,7 +1078,7 @@ extension RoboMaker {
         public let fleet: String?
         /// The Amazon Resource Name (ARN) of the robot.
         public let robot: String?
-        
+
         public init(fleet: String? = nil, robot: String? = nil) {
             self.fleet = fleet
             self.robot = robot
@@ -1102,7 +1096,7 @@ extension RoboMaker {
         ]
         /// The Amazon Resource Name (ARN) of the deployment job.
         public let job: String
-        
+
         public init(job: String) {
             self.job = job
         }
@@ -1145,7 +1139,7 @@ extension RoboMaker {
         public let status: DeploymentStatus?
         /// The list of all tags added to the specified deployment job.
         public let tags: [String: String]?
-        
+
         public init(arn: String? = nil, createdAt: TimeStamp? = nil, deploymentApplicationConfigs: [DeploymentApplicationConfig]? = nil, deploymentConfig: DeploymentConfig? = nil, failureCode: DeploymentJobErrorCode? = nil, failureReason: String? = nil, fleet: String? = nil, robotDeploymentSummary: [RobotDeployment]? = nil, status: DeploymentStatus? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -1179,7 +1173,7 @@ extension RoboMaker {
         ]
         /// The Amazon Resource Name (ARN) of the fleet.
         public let fleet: String
-        
+
         public init(fleet: String) {
             self.fleet = fleet
         }
@@ -1216,7 +1210,7 @@ extension RoboMaker {
         public let robots: [Robot]?
         /// The list of all tags added to the specified fleet.
         public let tags: [String: String]?
-        
+
         public init(arn: String? = nil, createdAt: TimeStamp? = nil, lastDeploymentJob: String? = nil, lastDeploymentStatus: DeploymentStatus? = nil, lastDeploymentTime: TimeStamp? = nil, name: String? = nil, robots: [Robot]? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -1249,7 +1243,7 @@ extension RoboMaker {
         public let application: String
         /// The version of the robot application to describe.
         public let applicationVersion: String?
-        
+
         public init(application: String, applicationVersion: String? = nil) {
             self.application = application
             self.applicationVersion = applicationVersion
@@ -1288,7 +1282,7 @@ extension RoboMaker {
         public let tags: [String: String]?
         /// The version of the robot application.
         public let version: String?
-        
+
         public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, sources: [Source]? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.arn = arn
             self.lastUpdatedAt = lastUpdatedAt
@@ -1318,7 +1312,7 @@ extension RoboMaker {
         ]
         /// The Amazon Resource Name (ARN) of the robot to be described.
         public let robot: String
-        
+
         public init(robot: String) {
             self.robot = robot
         }
@@ -1361,7 +1355,7 @@ extension RoboMaker {
         public let status: RobotStatus?
         /// The list of all tags added to the specified robot.
         public let tags: [String: String]?
-        
+
         public init(architecture: Architecture? = nil, arn: String? = nil, createdAt: TimeStamp? = nil, fleetArn: String? = nil, greengrassGroupId: String? = nil, lastDeploymentJob: String? = nil, lastDeploymentTime: TimeStamp? = nil, name: String? = nil, status: RobotStatus? = nil, tags: [String: String]? = nil) {
             self.architecture = architecture
             self.arn = arn
@@ -1398,7 +1392,7 @@ extension RoboMaker {
         public let application: String
         /// The version of the simulation application to describe.
         public let applicationVersion: String?
-        
+
         public init(application: String, applicationVersion: String? = nil) {
             self.application = application
             self.applicationVersion = applicationVersion
@@ -1443,7 +1437,7 @@ extension RoboMaker {
         public let tags: [String: String]?
         /// The version of the simulation application.
         public let version: String?
-        
+
         public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.arn = arn
             self.lastUpdatedAt = lastUpdatedAt
@@ -1477,7 +1471,7 @@ extension RoboMaker {
         ]
         /// The Amazon Resource Name (ARN) of the simulation job to be described.
         public let job: String
-        
+
         public init(job: String) {
             self.job = job
         }
@@ -1541,7 +1535,7 @@ extension RoboMaker {
         public let tags: [String: String]?
         /// The VPC configuration.
         public let vpcConfig: VPCConfigResponse?
-        
+
         public init(arn: String? = nil, clientRequestToken: String? = nil, failureBehavior: FailureBehavior? = nil, failureCode: SimulationJobErrorCode? = nil, failureReason: String? = nil, iamRole: String? = nil, lastStartedAt: TimeStamp? = nil, lastUpdatedAt: TimeStamp? = nil, maxJobDurationInSeconds: Int64? = nil, name: String? = nil, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, simulationTimeMillis: Int64? = nil, status: SimulationJobStatus? = nil, tags: [String: String]? = nil, vpcConfig: VPCConfigResponse? = nil) {
             self.arn = arn
             self.clientRequestToken = clientRequestToken
@@ -1598,7 +1592,7 @@ extension RoboMaker {
         public let name: String?
         /// A list of values.
         public let values: [String]?
-        
+
         public init(name: String? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -1631,7 +1625,7 @@ extension RoboMaker {
         public let lastDeploymentTime: TimeStamp?
         /// The name of the fleet.
         public let name: String?
-        
+
         public init(arn: String? = nil, createdAt: TimeStamp? = nil, lastDeploymentJob: String? = nil, lastDeploymentStatus: DeploymentStatus? = nil, lastDeploymentTime: TimeStamp? = nil, name: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -1663,7 +1657,7 @@ extension RoboMaker {
         public let launchFile: String
         /// The package name.
         public let packageName: String
-        
+
         public init(environmentVariables: [String: String]? = nil, launchFile: String, packageName: String) {
             self.environmentVariables = environmentVariables
             self.launchFile = launchFile
@@ -1689,7 +1683,7 @@ extension RoboMaker {
         public let maxResults: Int32?
         /// The nextToken value returned from a previous paginated ListDeploymentJobs request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
-        
+
         public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1712,7 +1706,7 @@ extension RoboMaker {
         public let deploymentJobs: [DeploymentJob]?
         /// The nextToken value to include in a future ListDeploymentJobs request. When the results of a ListDeploymentJobs request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
         public let nextToken: String?
-        
+
         public init(deploymentJobs: [DeploymentJob]? = nil, nextToken: String? = nil) {
             self.deploymentJobs = deploymentJobs
             self.nextToken = nextToken
@@ -1736,7 +1730,7 @@ extension RoboMaker {
         public let maxResults: Int32?
         /// The nextToken value returned from a previous paginated ListFleets request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
-        
+
         public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1759,7 +1753,7 @@ extension RoboMaker {
         public let fleetDetails: [Fleet]?
         /// The nextToken value to include in a future ListDeploymentJobs request. When the results of a ListFleets request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
         public let nextToken: String?
-        
+
         public init(fleetDetails: [Fleet]? = nil, nextToken: String? = nil) {
             self.fleetDetails = fleetDetails
             self.nextToken = nextToken
@@ -1786,7 +1780,7 @@ extension RoboMaker {
         public let nextToken: String?
         /// The version qualifier of the robot application.
         public let versionQualifier: String?
-        
+
         public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, versionQualifier: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1811,7 +1805,7 @@ extension RoboMaker {
         public let nextToken: String?
         /// A list of robot application summaries that meet the criteria of the request.
         public let robotApplicationSummaries: [RobotApplicationSummary]?
-        
+
         public init(nextToken: String? = nil, robotApplicationSummaries: [RobotApplicationSummary]? = nil) {
             self.nextToken = nextToken
             self.robotApplicationSummaries = robotApplicationSummaries
@@ -1835,7 +1829,7 @@ extension RoboMaker {
         public let maxResults: Int32?
         /// The nextToken value returned from a previous paginated ListRobots request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
-        
+
         public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1858,7 +1852,7 @@ extension RoboMaker {
         public let nextToken: String?
         /// A list of robots that meet the criteria of the request.
         public let robots: [Robot]?
-        
+
         public init(nextToken: String? = nil, robots: [Robot]? = nil) {
             self.nextToken = nextToken
             self.robots = robots
@@ -1885,7 +1879,7 @@ extension RoboMaker {
         public let nextToken: String?
         /// The version qualifier of the simulation application.
         public let versionQualifier: String?
-        
+
         public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, versionQualifier: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1910,7 +1904,7 @@ extension RoboMaker {
         public let nextToken: String?
         /// A list of simulation application summaries that meet the criteria of the request.
         public let simulationApplicationSummaries: [SimulationApplicationSummary]?
-        
+
         public init(nextToken: String? = nil, simulationApplicationSummaries: [SimulationApplicationSummary]? = nil) {
             self.nextToken = nextToken
             self.simulationApplicationSummaries = simulationApplicationSummaries
@@ -1934,7 +1928,7 @@ extension RoboMaker {
         public let maxResults: Int32?
         /// The nextToken value returned from a previous paginated ListSimulationJobs request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
-        
+
         public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1957,7 +1951,7 @@ extension RoboMaker {
         public let nextToken: String?
         /// A list of simulation job summaries that meet the criteria of the request.
         public let simulationJobSummaries: [SimulationJobSummary]
-        
+
         public init(nextToken: String? = nil, simulationJobSummaries: [SimulationJobSummary]) {
             self.nextToken = nextToken
             self.simulationJobSummaries = simulationJobSummaries
@@ -1975,7 +1969,7 @@ extension RoboMaker {
         ]
         /// The AWS RoboMaker Amazon Resource Name (ARN) with tags to be listed.
         public let resourceArn: String
-        
+
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1991,7 +1985,7 @@ extension RoboMaker {
         ]
         /// The list of all tags added to the specified resource.
         public let tags: [String: String]?
-        
+
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -2010,7 +2004,7 @@ extension RoboMaker {
         public let s3Bucket: String?
         /// The S3 folder in the s3Bucket where output files will be placed.
         public let s3Prefix: String?
-        
+
         public init(s3Bucket: String? = nil, s3Prefix: String? = nil) {
             self.s3Bucket = s3Bucket
             self.s3Prefix = s3Prefix
@@ -2037,7 +2031,7 @@ extension RoboMaker {
         public let percentDone: Float?
         /// The Amazon Resource Name (ARN) of the deployment job.
         public let targetResource: String?
-        
+
         public init(currentProgress: RobotDeploymentStep? = nil, estimatedTimeRemainingSeconds: Int32? = nil, percentDone: Float? = nil, targetResource: String? = nil) {
             self.currentProgress = currentProgress
             self.estimatedTimeRemainingSeconds = estimatedTimeRemainingSeconds
@@ -2062,7 +2056,7 @@ extension RoboMaker {
         public let fleet: String
         /// The Amazon Resource Name (ARN) of the robot.
         public let robot: String
-        
+
         public init(fleet: String, robot: String) {
             self.fleet = fleet
             self.robot = robot
@@ -2083,7 +2077,7 @@ extension RoboMaker {
         public let fleet: String?
         /// Information about the robot registration.
         public let robot: String?
-        
+
         public init(fleet: String? = nil, robot: String? = nil) {
             self.fleet = fleet
             self.robot = robot
@@ -2104,7 +2098,7 @@ extension RoboMaker {
         public let name: RenderingEngineType?
         /// The version of the rendering engine.
         public let version: String?
-        
+
         public init(name: RenderingEngineType? = nil, version: String? = nil) {
             self.name = name
             self.version = version
@@ -2127,7 +2121,7 @@ extension RoboMaker {
         ]
         /// The Amazon Resource Name (ARN) of the simulation job.
         public let job: String
-        
+
         public init(job: String) {
             self.job = job
         }
@@ -2138,12 +2132,11 @@ extension RoboMaker {
     }
 
     public struct RestartSimulationJobResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct Robot: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2175,7 +2168,7 @@ extension RoboMaker {
         public let name: String?
         /// The status of the robot.
         public let status: RobotStatus?
-        
+
         public init(architecture: Architecture? = nil, arn: String? = nil, createdAt: TimeStamp? = nil, fleetArn: String? = nil, greenGrassGroupId: String? = nil, lastDeploymentJob: String? = nil, lastDeploymentTime: TimeStamp? = nil, name: String? = nil, status: RobotStatus? = nil) {
             self.architecture = architecture
             self.arn = arn
@@ -2213,7 +2206,7 @@ extension RoboMaker {
         public let applicationVersion: String?
         /// The launch configuration for the robot application.
         public let launchConfig: LaunchConfig
-        
+
         public init(application: String, applicationVersion: String? = nil, launchConfig: LaunchConfig) {
             self.application = application
             self.applicationVersion = applicationVersion
@@ -2245,7 +2238,7 @@ extension RoboMaker {
         public let robotSoftwareSuite: RobotSoftwareSuite?
         /// The version of the robot application.
         public let version: String?
-        
+
         public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, version: String? = nil) {
             self.arn = arn
             self.lastUpdatedAt = lastUpdatedAt
@@ -2287,7 +2280,7 @@ extension RoboMaker {
         public let progressDetail: ProgressDetail?
         /// The status of the robot deployment.
         public let status: RobotStatus?
-        
+
         public init(arn: String? = nil, deploymentFinishTime: TimeStamp? = nil, deploymentStartTime: TimeStamp? = nil, failureCode: DeploymentJobErrorCode? = nil, failureReason: String? = nil, progressDetail: ProgressDetail? = nil, status: RobotStatus? = nil) {
             self.arn = arn
             self.deploymentFinishTime = deploymentFinishTime
@@ -2328,7 +2321,7 @@ extension RoboMaker {
         public let name: RobotSoftwareSuiteType?
         /// The version of the robot software suite.
         public let version: RobotSoftwareSuiteVersionType?
-        
+
         public init(name: RobotSoftwareSuiteType? = nil, version: RobotSoftwareSuiteVersionType? = nil) {
             self.name = name
             self.version = version
@@ -2373,7 +2366,7 @@ extension RoboMaker {
         public let applicationVersion: String?
         /// The launch configuration for the simulation application.
         public let launchConfig: LaunchConfig
-        
+
         public init(application: String, applicationVersion: String? = nil, launchConfig: LaunchConfig) {
             self.application = application
             self.applicationVersion = applicationVersion
@@ -2408,7 +2401,7 @@ extension RoboMaker {
         public let simulationSoftwareSuite: SimulationSoftwareSuite?
         /// The version of the simulation application.
         public let version: String?
-        
+
         public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, version: String? = nil) {
             self.arn = arn
             self.lastUpdatedAt = lastUpdatedAt
@@ -2482,7 +2475,7 @@ extension RoboMaker {
         public let tags: [String: String]?
         /// VPC configuration information.
         public let vpcConfig: VPCConfigResponse?
-        
+
         public init(arn: String? = nil, clientRequestToken: String? = nil, failureBehavior: FailureBehavior? = nil, failureCode: SimulationJobErrorCode? = nil, failureReason: String? = nil, iamRole: String? = nil, lastStartedAt: TimeStamp? = nil, lastUpdatedAt: TimeStamp? = nil, maxJobDurationInSeconds: Int64? = nil, name: String? = nil, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, simulationTimeMillis: Int64? = nil, status: SimulationJobStatus? = nil, tags: [String: String]? = nil, vpcConfig: VPCConfigResponse? = nil) {
             self.arn = arn
             self.clientRequestToken = clientRequestToken
@@ -2580,7 +2573,7 @@ extension RoboMaker {
         public let simulationApplicationNames: [String]?
         /// The status of the simulation job.
         public let status: SimulationJobStatus?
-        
+
         public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, robotApplicationNames: [String]? = nil, simulationApplicationNames: [String]? = nil, status: SimulationJobStatus? = nil) {
             self.arn = arn
             self.lastUpdatedAt = lastUpdatedAt
@@ -2609,7 +2602,7 @@ extension RoboMaker {
         public let name: SimulationSoftwareSuiteType?
         /// The version of the simulation software suite.
         public let version: String?
-        
+
         public init(name: SimulationSoftwareSuiteType? = nil, version: String? = nil) {
             self.name = name
             self.version = version
@@ -2641,7 +2634,7 @@ extension RoboMaker {
         public let s3Bucket: String?
         /// The s3 object key.
         public let s3Key: String?
-        
+
         public init(architecture: Architecture? = nil, etag: String? = nil, s3Bucket: String? = nil, s3Key: String? = nil) {
             self.architecture = architecture
             self.etag = etag
@@ -2669,7 +2662,7 @@ extension RoboMaker {
         public let s3Bucket: String?
         /// The s3 object key.
         public let s3Key: String?
-        
+
         public init(architecture: Architecture? = nil, s3Bucket: String? = nil, s3Key: String? = nil) {
             self.architecture = architecture
             self.s3Bucket = s3Bucket
@@ -2692,7 +2685,7 @@ extension RoboMaker {
         public let clientRequestToken: String
         /// The target fleet for the synchronization.
         public let fleet: String
-        
+
         public init(clientRequestToken: String, fleet: String) {
             self.clientRequestToken = clientRequestToken
             self.fleet = fleet
@@ -2731,7 +2724,7 @@ extension RoboMaker {
         public let fleet: String?
         /// The status of the synchronization job.
         public let status: DeploymentStatus?
-        
+
         public init(arn: String? = nil, createdAt: TimeStamp? = nil, deploymentApplicationConfigs: [DeploymentApplicationConfig]? = nil, deploymentConfig: DeploymentConfig? = nil, failureCode: DeploymentJobErrorCode? = nil, failureReason: String? = nil, fleet: String? = nil, status: DeploymentStatus? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -2764,7 +2757,7 @@ extension RoboMaker {
         public let resourceArn: String
         /// A map that contains tag keys and tag values that are attached to the resource.
         public let tags: [String: String]
-        
+
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2777,12 +2770,11 @@ extension RoboMaker {
     }
 
     public struct TagResourceResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2793,7 +2785,7 @@ extension RoboMaker {
         public let resourceArn: String
         /// A map that contains tag keys and tag values that will be unattached from the resource.
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2806,12 +2798,11 @@ extension RoboMaker {
     }
 
     public struct UntagResourceResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateRobotApplicationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -2828,7 +2819,7 @@ extension RoboMaker {
         public let robotSoftwareSuite: RobotSoftwareSuite
         /// The sources of the robot application.
         public let sources: [SourceConfig]
-        
+
         public init(application: String, currentRevisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite, sources: [SourceConfig]) {
             self.application = application
             self.currentRevisionId = currentRevisionId
@@ -2868,7 +2859,7 @@ extension RoboMaker {
         public let sources: [Source]?
         /// The version of the robot application.
         public let version: String?
-        
+
         public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
             self.arn = arn
             self.lastUpdatedAt = lastUpdatedAt
@@ -2911,7 +2902,7 @@ extension RoboMaker {
         public let simulationSoftwareSuite: SimulationSoftwareSuite
         /// The sources of the simulation application.
         public let sources: [SourceConfig]
-        
+
         public init(application: String, currentRevisionId: String? = nil, renderingEngine: RenderingEngine, robotSoftwareSuite: RobotSoftwareSuite, simulationSoftwareSuite: SimulationSoftwareSuite, sources: [SourceConfig]) {
             self.application = application
             self.currentRevisionId = currentRevisionId
@@ -2961,7 +2952,7 @@ extension RoboMaker {
         public let sources: [Source]?
         /// The version of the robot application.
         public let version: String?
-        
+
         public init(arn: String? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, renderingEngine: RenderingEngine? = nil, revisionId: String? = nil, robotSoftwareSuite: RobotSoftwareSuite? = nil, simulationSoftwareSuite: SimulationSoftwareSuite? = nil, sources: [Source]? = nil, version: String? = nil) {
             self.arn = arn
             self.lastUpdatedAt = lastUpdatedAt
@@ -2999,7 +2990,7 @@ extension RoboMaker {
         public let securityGroups: [String]?
         /// A list of one or more subnet IDs in your VPC.
         public let subnets: [String]
-        
+
         public init(assignPublicIp: Bool? = nil, securityGroups: [String]? = nil, subnets: [String]) {
             self.assignPublicIp = assignPublicIp
             self.securityGroups = securityGroups
@@ -3028,7 +3019,7 @@ extension RoboMaker {
         public let subnets: [String]?
         /// The VPC ID associated with your simulation job.
         public let vpcId: String?
-        
+
         public init(assignPublicIp: Bool? = nil, securityGroups: [String]? = nil, subnets: [String]? = nil, vpcId: String? = nil) {
             self.assignPublicIp = assignPublicIp
             self.securityGroups = securityGroups
@@ -3043,5 +3034,4 @@ extension RoboMaker {
             case vpcId = "vpcId"
         }
     }
-
 }

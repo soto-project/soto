@@ -194,5 +194,4 @@ public struct ELBV2 {
     public func setSubnets(_ input: SetSubnetsInput) throws -> Future<SetSubnetsOutput> {
         return try client.send(operation: "SetSubnets", path: "/", httpMethod: "POST", input: input)
     }
-
 }

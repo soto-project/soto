@@ -260,5 +260,4 @@ public struct AppStream {
     public func updateStack(_ input: UpdateStackRequest) throws -> Future<UpdateStackResult> {
         return try client.send(operation: "UpdateStack", path: "/", httpMethod: "POST", input: input)
     }
-
 }

@@ -69,5 +69,4 @@ public struct Mobile {
     public func updateProject(_ input: UpdateProjectRequest) throws -> Future<UpdateProjectResult> {
         return try client.send(operation: "UpdateProject", path: "/update", httpMethod: "POST", input: input)
     }
-
 }

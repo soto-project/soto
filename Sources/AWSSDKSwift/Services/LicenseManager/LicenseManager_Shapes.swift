@@ -14,7 +14,7 @@ extension LicenseManager {
         public let consumedLicenses: Int64?
         /// Resource type of the resource consuming a license (instance, host, or AMI).
         public let resourceType: ResourceType?
-        
+
         public init(consumedLicenses: Int64? = nil, resourceType: ResourceType? = nil) {
             self.consumedLicenses = consumedLicenses
             self.resourceType = resourceType
@@ -50,7 +50,7 @@ extension LicenseManager {
         public let name: String
         /// The tags to apply to the resources during launch. You can only tag instances and volumes on launch. The specified tags are applied to all instances or volumes that are created during launch. To tag a resource after it has been created, see CreateTags . 
         public let tags: [Tag]?
-        
+
         public init(description: String? = nil, licenseCount: Int64? = nil, licenseCountHardLimit: Bool? = nil, licenseCountingType: LicenseCountingType, licenseRules: [String]? = nil, name: String, tags: [Tag]? = nil) {
             self.description = description
             self.licenseCount = licenseCount
@@ -78,7 +78,7 @@ extension LicenseManager {
         ]
         /// ARN of the license configuration object after its creation.
         public let licenseConfigurationArn: String?
-        
+
         public init(licenseConfigurationArn: String? = nil) {
             self.licenseConfigurationArn = licenseConfigurationArn
         }
@@ -94,7 +94,7 @@ extension LicenseManager {
         ]
         /// Unique ID of the configuration object to delete.
         public let licenseConfigurationArn: String
-        
+
         public init(licenseConfigurationArn: String) {
             self.licenseConfigurationArn = licenseConfigurationArn
         }
@@ -105,12 +105,11 @@ extension LicenseManager {
     }
 
     public struct DeleteLicenseConfigurationResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct Filter: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -121,7 +120,7 @@ extension LicenseManager {
         public let name: String?
         /// One or more filter values. Filter values are case-sensitive.
         public let values: [String]?
-        
+
         public init(name: String? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -139,7 +138,7 @@ extension LicenseManager {
         ]
         /// ARN of the license configuration being requested.
         public let licenseConfigurationArn: String
-        
+
         public init(licenseConfigurationArn: String) {
             self.licenseConfigurationArn = licenseConfigurationArn
         }
@@ -194,7 +193,7 @@ extension LicenseManager {
         public let status: String?
         /// List of tags attached to the license configuration.
         public let tags: [Tag]?
-        
+
         public init(consumedLicenses: Int64? = nil, consumedLicenseSummaryList: [ConsumedLicenseSummary]? = nil, description: String? = nil, licenseConfigurationArn: String? = nil, licenseConfigurationId: String? = nil, licenseCount: Int64? = nil, licenseCountHardLimit: Bool? = nil, licenseCountingType: LicenseCountingType? = nil, licenseRules: [String]? = nil, managedResourceSummaryList: [ManagedResourceSummary]? = nil, name: String? = nil, ownerAccountId: String? = nil, status: String? = nil, tags: [Tag]? = nil) {
             self.consumedLicenses = consumedLicenses
             self.consumedLicenseSummaryList = consumedLicenseSummaryList
@@ -231,12 +230,11 @@ extension LicenseManager {
     }
 
     public struct GetServiceSettingsRequest: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct GetServiceSettingsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -253,7 +251,7 @@ extension LicenseManager {
         public let s3BucketArn: String?
         /// SNS topic configured to receive notifications from License Manager.
         public let snsTopicArn: String?
-        
+
         public init(enableCrossAccountsDiscovery: Bool? = nil, organizationConfiguration: OrganizationConfiguration? = nil, s3BucketArn: String? = nil, snsTopicArn: String? = nil) {
             self.enableCrossAccountsDiscovery = enableCrossAccountsDiscovery
             self.organizationConfiguration = organizationConfiguration
@@ -281,7 +279,7 @@ extension LicenseManager {
         public let name: String
         /// Value of the filter.
         public let value: String?
-        
+
         public init(condition: InventoryFilterCondition, name: String, value: String? = nil) {
             self.condition = condition
             self.name = name
@@ -345,7 +343,7 @@ extension LicenseManager {
         public let ownerAccountId: String?
         /// Status of the license configuration.
         public let status: String?
-        
+
         public init(consumedLicenses: Int64? = nil, consumedLicenseSummaryList: [ConsumedLicenseSummary]? = nil, description: String? = nil, licenseConfigurationArn: String? = nil, licenseConfigurationId: String? = nil, licenseCount: Int64? = nil, licenseCountHardLimit: Bool? = nil, licenseCountingType: LicenseCountingType? = nil, licenseRules: [String]? = nil, managedResourceSummaryList: [ManagedResourceSummary]? = nil, name: String? = nil, ownerAccountId: String? = nil, status: String? = nil) {
             self.consumedLicenses = consumedLicenses
             self.consumedLicenseSummaryList = consumedLicenseSummaryList
@@ -394,7 +392,7 @@ extension LicenseManager {
         public let resourceOwnerId: String?
         /// Type of server resource.
         public let resourceType: ResourceType?
-        
+
         public init(associationTime: TimeStamp? = nil, resourceArn: String? = nil, resourceOwnerId: String? = nil, resourceType: ResourceType? = nil) {
             self.associationTime = associationTime
             self.resourceArn = resourceArn
@@ -437,7 +435,7 @@ extension LicenseManager {
         public let resourceStatus: String?
         /// Type of resource associated with athe license configuration.
         public let resourceType: ResourceType?
-        
+
         public init(associationTime: TimeStamp? = nil, consumedLicenses: Int64? = nil, resourceArn: String? = nil, resourceOwnerId: String? = nil, resourceStatus: String? = nil, resourceType: ResourceType? = nil) {
             self.associationTime = associationTime
             self.consumedLicenses = consumedLicenses
@@ -471,7 +469,7 @@ extension LicenseManager {
         ]
         /// ARN of the LicenseConfiguration object.
         public let licenseConfigurationArn: String
-        
+
         public init(licenseConfigurationArn: String) {
             self.licenseConfigurationArn = licenseConfigurationArn
         }
@@ -493,7 +491,7 @@ extension LicenseManager {
         public let maxResults: Int32?
         /// Token for the next set of results.
         public let nextToken: String?
-        
+
         public init(licenseConfigurationArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.licenseConfigurationArn = licenseConfigurationArn
             self.maxResults = maxResults
@@ -516,7 +514,7 @@ extension LicenseManager {
         public let licenseConfigurationAssociations: [LicenseConfigurationAssociation]?
         /// Token for the next set of results.
         public let nextToken: String?
-        
+
         public init(licenseConfigurationAssociations: [LicenseConfigurationAssociation]? = nil, nextToken: String? = nil) {
             self.licenseConfigurationAssociations = licenseConfigurationAssociations
             self.nextToken = nextToken
@@ -543,7 +541,7 @@ extension LicenseManager {
         public let maxResults: Int32?
         /// Token for the next set of results.
         public let nextToken: String?
-        
+
         public init(filters: [Filter]? = nil, licenseConfigurationArns: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.licenseConfigurationArns = licenseConfigurationArns
@@ -568,7 +566,7 @@ extension LicenseManager {
         public let licenseConfigurations: [LicenseConfiguration]?
         /// Token for the next set of results.
         public let nextToken: String?
-        
+
         public init(licenseConfigurations: [LicenseConfiguration]? = nil, nextToken: String? = nil) {
             self.licenseConfigurations = licenseConfigurations
             self.nextToken = nextToken
@@ -592,7 +590,7 @@ extension LicenseManager {
         public let nextToken: String?
         /// ARN of an AMI or Amazon EC2 instance that has an associated license configuration.
         public let resourceArn: String
-        
+
         public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -615,7 +613,7 @@ extension LicenseManager {
         public let licenseSpecifications: [LicenseSpecification]?
         /// Token for the next set of results.
         public let nextToken: String?
-        
+
         public init(licenseSpecifications: [LicenseSpecification]? = nil, nextToken: String? = nil) {
             self.licenseSpecifications = licenseSpecifications
             self.nextToken = nextToken
@@ -639,7 +637,7 @@ extension LicenseManager {
         public let maxResults: Int32?
         /// Token for the next set of results.
         public let nextToken: String?
-        
+
         public init(filters: [InventoryFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -662,7 +660,7 @@ extension LicenseManager {
         public let nextToken: String?
         /// The detailed list of resources.
         public let resourceInventoryList: [ResourceInventory]?
-        
+
         public init(nextToken: String? = nil, resourceInventoryList: [ResourceInventory]? = nil) {
             self.nextToken = nextToken
             self.resourceInventoryList = resourceInventoryList
@@ -680,7 +678,7 @@ extension LicenseManager {
         ]
         /// ARN for the resource.
         public let resourceArn: String
-        
+
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -696,7 +694,7 @@ extension LicenseManager {
         ]
         /// List of tags attached to the resource.
         public let tags: [Tag]?
-        
+
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -721,7 +719,7 @@ extension LicenseManager {
         public let maxResults: Int32?
         /// Token for the next set of results.
         public let nextToken: String?
-        
+
         public init(filters: [Filter]? = nil, licenseConfigurationArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.licenseConfigurationArn = licenseConfigurationArn
@@ -746,7 +744,7 @@ extension LicenseManager {
         public let licenseConfigurationUsageList: [LicenseConfigurationUsage]?
         /// Token for the next set of results.
         public let nextToken: String?
-        
+
         public init(licenseConfigurationUsageList: [LicenseConfigurationUsage]? = nil, nextToken: String? = nil) {
             self.licenseConfigurationUsageList = licenseConfigurationUsageList
             self.nextToken = nextToken
@@ -767,7 +765,7 @@ extension LicenseManager {
         public let associationCount: Int64?
         /// Type of resource associated with a license (instance, host, or AMI).
         public let resourceType: ResourceType?
-        
+
         public init(associationCount: Int64? = nil, resourceType: ResourceType? = nil) {
             self.associationCount = associationCount
             self.resourceType = resourceType
@@ -785,7 +783,7 @@ extension LicenseManager {
         ]
         /// Flag to activate AWS Organization integration.
         public let enableIntegration: Bool
-        
+
         public init(enableIntegration: Bool) {
             self.enableIntegration = enableIntegration
         }
@@ -816,7 +814,7 @@ extension LicenseManager {
         public let resourceOwningAccountId: String?
         /// The type of resource.
         public let resourceType: ResourceType?
-        
+
         public init(platform: String? = nil, platformVersion: String? = nil, resourceArn: String? = nil, resourceId: String? = nil, resourceOwningAccountId: String? = nil, resourceType: ResourceType? = nil) {
             self.platform = platform
             self.platformVersion = platformVersion
@@ -852,7 +850,7 @@ extension LicenseManager {
         public let key: String?
         /// Value for the resource tag.
         public let value: String?
-        
+
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -873,7 +871,7 @@ extension LicenseManager {
         public let resourceArn: String
         /// Names of the tags to attach to the resource.
         public let tags: [Tag]
-        
+
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -886,12 +884,11 @@ extension LicenseManager {
     }
 
     public struct TagResourceResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -902,7 +899,7 @@ extension LicenseManager {
         public let resourceArn: String
         /// List keys identifying tags to remove.
         public let tagKeys: [String]
-        
+
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -915,12 +912,11 @@ extension LicenseManager {
     }
 
     public struct UntagResourceResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateLicenseConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -946,7 +942,7 @@ extension LicenseManager {
         public let licenseRules: [String]?
         /// New name of the license configuration.
         public let name: String?
-        
+
         public init(description: String? = nil, licenseConfigurationArn: String, licenseConfigurationStatus: LicenseConfigurationStatus? = nil, licenseCount: Int64? = nil, licenseCountHardLimit: Bool? = nil, licenseRules: [String]? = nil, name: String? = nil) {
             self.description = description
             self.licenseConfigurationArn = licenseConfigurationArn
@@ -969,12 +965,11 @@ extension LicenseManager {
     }
 
     public struct UpdateLicenseConfigurationResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateLicenseSpecificationsForResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -988,7 +983,7 @@ extension LicenseManager {
         public let removeLicenseSpecifications: [LicenseSpecification]?
         /// ARN for an AWS server resource.
         public let resourceArn: String
-        
+
         public init(addLicenseSpecifications: [LicenseSpecification]? = nil, removeLicenseSpecifications: [LicenseSpecification]? = nil, resourceArn: String) {
             self.addLicenseSpecifications = addLicenseSpecifications
             self.removeLicenseSpecifications = removeLicenseSpecifications
@@ -1003,12 +998,11 @@ extension LicenseManager {
     }
 
     public struct UpdateLicenseSpecificationsForResourceResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
+    }
 
     public struct UpdateServiceSettingsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1025,7 +1019,7 @@ extension LicenseManager {
         public let s3BucketArn: String?
         /// ARN of the Amazon SNS topic used for License Manager alerts.
         public let snsTopicArn: String?
-        
+
         public init(enableCrossAccountsDiscovery: Bool? = nil, organizationConfiguration: OrganizationConfiguration? = nil, s3BucketArn: String? = nil, snsTopicArn: String? = nil) {
             self.enableCrossAccountsDiscovery = enableCrossAccountsDiscovery
             self.organizationConfiguration = organizationConfiguration
@@ -1042,11 +1036,9 @@ extension LicenseManager {
     }
 
     public struct UpdateServiceSettingsResponse: AWSShape {
-        
-        
+
         public init() {
         }
 
-        }
-
+    }
 }

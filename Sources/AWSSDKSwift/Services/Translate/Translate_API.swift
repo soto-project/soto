@@ -51,5 +51,4 @@ public struct Translate {
     public func translateText(_ input: TranslateTextRequest) throws -> Future<TranslateTextResponse> {
         return try client.send(operation: "TranslateText", path: "/", httpMethod: "POST", input: input)
     }
-
 }
