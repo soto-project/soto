@@ -9,6 +9,7 @@ extension AWSDirectoryService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SharedDirectoryId", required: true, type: .string)
         ]
+
         /// Identifier of the shared directory in the directory consumer account. This identifier is different for each directory owner account. 
         public let sharedDirectoryId: String
         
@@ -29,6 +30,7 @@ extension AWSDirectoryService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SharedDirectory", required: false, type: .structure)
         ]
+
         /// The shared directory in the directory consumer account.
         public let sharedDirectory: SharedDirectory?
         
@@ -51,6 +53,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "IpRoutes", required: true, type: .list), 
             AWSShapeMember(label: "UpdateSecurityGroupForDirectoryControllers", required: false, type: .boolean)
         ]
+
         /// Identifier (ID) of the directory to which to add the address block.
         public let directoryId: String
         /// IP address blocks, using CIDR format, of the traffic to route. This is often the IP address block of the DNS server used for your on-premises domain.
@@ -66,6 +69,9 @@ extension AWSDirectoryService {
 
         public func validate() throws {
             try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try ipRoutes.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -77,7 +83,6 @@ extension AWSDirectoryService {
 
     public struct AddIpRoutesResult: AWSShape {
         
-        
         public init() {
         }
 
@@ -88,6 +93,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "ResourceId", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
+
         /// Identifier (ID) for the directory to which to add the tag.
         public let resourceId: String
         /// The tags to be assigned to the directory.
@@ -100,6 +106,9 @@ extension AWSDirectoryService {
 
         public func validate() throws {
             try validate(resourceId, name:"resourceId", pattern: "^[d]-[0-9a-f]{10}$")
+            try tags.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -109,7 +118,6 @@ extension AWSDirectoryService {
     }
 
     public struct AddTagsToResourceResult: AWSShape {
-        
         
         public init() {
         }
@@ -121,6 +129,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// The name of the attribute.
         public let name: String?
         /// The value of the attribute.
@@ -146,6 +155,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
             AWSShapeMember(label: "SchemaExtensionId", required: true, type: .string)
         ]
+
         /// The identifier of the directory whose schema extension will be canceled.
         public let directoryId: String
         /// The identifier of the schema extension that will be canceled.
@@ -169,7 +179,6 @@ extension AWSDirectoryService {
 
     public struct CancelSchemaExtensionResult: AWSShape {
         
-        
         public init() {
         }
 
@@ -181,6 +190,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "ComputerId", required: false, type: .string), 
             AWSShapeMember(label: "ComputerName", required: false, type: .string)
         ]
+
         /// An array of Attribute objects containing the LDAP attributes that belong to the computer account.
         public let computerAttributes: [Attribute]?
         /// The identifier of the computer.
@@ -195,6 +205,9 @@ extension AWSDirectoryService {
         }
 
         public func validate() throws {
+            try computerAttributes?.forEach {
+                try $0.validate()
+            }
             try validate(computerId, name:"computerId", max: 256)
             try validate(computerId, name:"computerId", min: 1)
             try validate(computerId, name:"computerId", pattern: "[&\\w+-.@]+")
@@ -215,6 +228,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "RemoteDomainName", required: false, type: .string), 
             AWSShapeMember(label: "ReplicationScope", required: false, type: .enum)
         ]
+
         /// The IP addresses of the remote DNS server associated with RemoteDomainName. This is the IP address of the DNS server that your conditional forwarder points to.
         public let dnsIpAddrs: [String]?
         /// The fully qualified domain name (FQDN) of the remote domains pointed to by the conditional forwarder.
@@ -229,6 +243,9 @@ extension AWSDirectoryService {
         }
 
         public func validate() throws {
+            try dnsIpAddrs?.forEach {
+                try validate($0, name:"dnsIpAddrs[]", pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
+            }
             try validate(remoteDomainName, name:"remoteDomainName", pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+[.]?$")
         }
 
@@ -249,6 +266,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "Size", required: true, type: .enum), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// A DirectoryConnectSettings object that contains additional information for the operation.
         public let connectSettings: DirectoryConnectSettings
         /// A textual description for the directory.
@@ -283,6 +301,9 @@ extension AWSDirectoryService {
             try validate(password, name:"password", max: 128)
             try validate(password, name:"password", min: 1)
             try validate(shortName, name:"shortName", pattern: "^[^\\\\/:*?\\\"\\<\\>|.]+[^\\\\/:*?\\\"<>|]*$")
+            try tags?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -300,6 +321,7 @@ extension AWSDirectoryService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryId", required: false, type: .string)
         ]
+
         /// The identifier of the new directory.
         public let directoryId: String?
         
@@ -321,6 +343,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "Alias", required: true, type: .string), 
             AWSShapeMember(label: "DirectoryId", required: true, type: .string)
         ]
+
         /// The requested alias. The alias must be unique amongst all aliases in AWS. This operation throws an EntityAlreadyExistsException error if the alias already exists.
         public let alias: String
         /// The identifier of the directory for which to create the alias.
@@ -349,6 +372,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "Alias", required: false, type: .string), 
             AWSShapeMember(label: "DirectoryId", required: false, type: .string)
         ]
+
         /// The alias for the directory.
         public let alias: String?
         /// The identifier of the directory.
@@ -380,6 +404,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "OrganizationalUnitDistinguishedName", required: false, type: .string), 
             AWSShapeMember(label: "Password", required: true, type: .string)
         ]
+
         /// An array of Attribute objects that contain any LDAP attributes to apply to the computer account.
         public let computerAttributes: [Attribute]?
         /// The name of the computer account.
@@ -400,6 +425,9 @@ extension AWSDirectoryService {
         }
 
         public func validate() throws {
+            try computerAttributes?.forEach {
+                try $0.validate()
+            }
             try validate(computerName, name:"computerName", max: 15)
             try validate(computerName, name:"computerName", min: 1)
             try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
@@ -423,6 +451,7 @@ extension AWSDirectoryService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Computer", required: false, type: .structure)
         ]
+
         /// A Computer object that represents the computer account.
         public let computer: Computer?
         
@@ -445,6 +474,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "DnsIpAddrs", required: true, type: .list), 
             AWSShapeMember(label: "RemoteDomainName", required: true, type: .string)
         ]
+
         /// The directory ID of the AWS directory for which you are creating the conditional forwarder.
         public let directoryId: String
         /// The IP addresses of the remote DNS server associated with RemoteDomainName.
@@ -460,6 +490,9 @@ extension AWSDirectoryService {
 
         public func validate() throws {
             try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try dnsIpAddrs.forEach {
+                try validate($0, name:"dnsIpAddrs[]", pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
+            }
             try validate(remoteDomainName, name:"remoteDomainName", pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+[.]?$")
         }
 
@@ -471,7 +504,6 @@ extension AWSDirectoryService {
     }
 
     public struct CreateConditionalForwarderResult: AWSShape {
-        
         
         public init() {
         }
@@ -488,6 +520,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "VpcSettings", required: false, type: .structure)
         ]
+
         /// A textual description for the directory.
         public let description: String?
         /// The fully qualified name for the directory, such as corp.example.com.
@@ -520,6 +553,9 @@ extension AWSDirectoryService {
             try validate(name, name:"name", pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+$")
             try validate(password, name:"password", pattern: "(?=^.{8,64}$)((?=.*\\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[^A-Za-z0-9\\s])(?=.*[a-z])|(?=.*[^A-Za-z0-9\\s])(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9\\s]))^.*")
             try validate(shortName, name:"shortName", pattern: "^[^\\\\/:*?\\\"\\<\\>|.]+[^\\\\/:*?\\\"<>|]*$")
+            try tags?.forEach {
+                try $0.validate()
+            }
             try vpcSettings?.validate()
         }
 
@@ -538,6 +574,7 @@ extension AWSDirectoryService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryId", required: false, type: .string)
         ]
+
         /// The identifier of the directory that was created.
         public let directoryId: String?
         
@@ -559,6 +596,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
             AWSShapeMember(label: "LogGroupName", required: true, type: .string)
         ]
+
         /// Identifier (ID) of the directory to which you want to subscribe and receive real-time logs to your specified CloudWatch log group.
         public let directoryId: String
         /// The name of the CloudWatch log group where the real-time domain controller logs are forwarded.
@@ -584,7 +622,6 @@ extension AWSDirectoryService {
 
     public struct CreateLogSubscriptionResult: AWSShape {
         
-        
         public init() {
         }
 
@@ -600,6 +637,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "VpcSettings", required: true, type: .structure)
         ]
+
         /// A textual description for the directory. This label will appear on the AWS console Directory Details page after the directory is created.
         public let description: String?
         /// AWS Managed Microsoft AD is available in two editions: Standard and Enterprise. Enterprise is the default.
@@ -632,6 +670,9 @@ extension AWSDirectoryService {
             try validate(name, name:"name", pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+$")
             try validate(password, name:"password", pattern: "(?=^.{8,64}$)((?=.*\\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[^A-Za-z0-9\\s])(?=.*[a-z])|(?=.*[^A-Za-z0-9\\s])(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9\\s]))^.*")
             try validate(shortName, name:"shortName", pattern: "^[^\\\\/:*?\\\"\\<\\>|.]+[^\\\\/:*?\\\"<>|]*$")
+            try tags?.forEach {
+                try $0.validate()
+            }
             try vpcSettings.validate()
         }
 
@@ -650,6 +691,7 @@ extension AWSDirectoryService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryId", required: false, type: .string)
         ]
+
         /// The identifier of the directory that was created.
         public let directoryId: String?
         
@@ -671,6 +713,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         /// The identifier of the directory of which to take a snapshot.
         public let directoryId: String
         /// The descriptive name to apply to the snapshot.
@@ -698,6 +741,7 @@ extension AWSDirectoryService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SnapshotId", required: false, type: .string)
         ]
+
         /// The identifier of the snapshot that was created.
         public let snapshotId: String?
         
@@ -724,6 +768,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "TrustPassword", required: true, type: .string), 
             AWSShapeMember(label: "TrustType", required: false, type: .enum)
         ]
+
         /// The IP addresses of the remote DNS server associated with RemoteDomainName.
         public let conditionalForwarderIpAddrs: [String]?
         /// The Directory ID of the AWS Managed Microsoft AD directory for which to establish the trust relationship.
@@ -750,6 +795,9 @@ extension AWSDirectoryService {
         }
 
         public func validate() throws {
+            try conditionalForwarderIpAddrs?.forEach {
+                try validate($0, name:"conditionalForwarderIpAddrs[]", pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
+            }
             try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
             try validate(remoteDomainName, name:"remoteDomainName", pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+[.]?$")
             try validate(trustPassword, name:"trustPassword", max: 128)
@@ -772,6 +820,7 @@ extension AWSDirectoryService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TrustId", required: false, type: .string)
         ]
+
         /// A unique identifier for the trust relationship that was created.
         public let trustId: String?
         
@@ -793,6 +842,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
             AWSShapeMember(label: "RemoteDomainName", required: true, type: .string)
         ]
+
         /// The directory ID for which you are deleting the conditional forwarder.
         public let directoryId: String
         /// The fully qualified domain name (FQDN) of the remote domain with which you are deleting the conditional forwarder.
@@ -816,7 +866,6 @@ extension AWSDirectoryService {
 
     public struct DeleteConditionalForwarderResult: AWSShape {
         
-        
         public init() {
         }
 
@@ -826,6 +875,7 @@ extension AWSDirectoryService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryId", required: true, type: .string)
         ]
+
         /// The identifier of the directory to delete.
         public let directoryId: String
         
@@ -846,6 +896,7 @@ extension AWSDirectoryService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryId", required: false, type: .string)
         ]
+
         /// The directory identifier.
         public let directoryId: String?
         
@@ -866,6 +917,7 @@ extension AWSDirectoryService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryId", required: true, type: .string)
         ]
+
         /// Identifier (ID) of the directory whose log subscription you want to delete.
         public let directoryId: String
         
@@ -884,7 +936,6 @@ extension AWSDirectoryService {
 
     public struct DeleteLogSubscriptionResult: AWSShape {
         
-        
         public init() {
         }
 
@@ -894,6 +945,7 @@ extension AWSDirectoryService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SnapshotId", required: true, type: .string)
         ]
+
         /// The identifier of the directory snapshot to be deleted.
         public let snapshotId: String
         
@@ -914,6 +966,7 @@ extension AWSDirectoryService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SnapshotId", required: false, type: .string)
         ]
+
         /// The identifier of the directory snapshot that was deleted.
         public let snapshotId: String?
         
@@ -935,6 +988,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "DeleteAssociatedConditionalForwarder", required: false, type: .boolean), 
             AWSShapeMember(label: "TrustId", required: true, type: .string)
         ]
+
         /// Delete a conditional forwarder as part of a DeleteTrustRequest.
         public let deleteAssociatedConditionalForwarder: Bool?
         /// The Trust ID of the trust relationship to be deleted.
@@ -959,6 +1013,7 @@ extension AWSDirectoryService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TrustId", required: false, type: .string)
         ]
+
         /// The Trust ID of the trust relationship that was deleted.
         public let trustId: String?
         
@@ -980,6 +1035,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
             AWSShapeMember(label: "TopicName", required: true, type: .string)
         ]
+
         /// The Directory ID to remove as a publisher. This directory will no longer send messages to the specified SNS topic.
         public let directoryId: String
         /// The name of the SNS topic from which to remove the directory as a publisher.
@@ -1005,7 +1061,6 @@ extension AWSDirectoryService {
 
     public struct DeregisterEventTopicResult: AWSShape {
         
-        
         public init() {
         }
 
@@ -1016,6 +1071,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
             AWSShapeMember(label: "RemoteDomainNames", required: false, type: .list)
         ]
+
         /// The directory ID for which to get the list of associated conditional forwarders.
         public let directoryId: String
         /// The fully qualified domain names (FQDN) of the remote domains for which to get the list of associated conditional forwarders. If this member is null, all conditional forwarders are returned.
@@ -1028,6 +1084,9 @@ extension AWSDirectoryService {
 
         public func validate() throws {
             try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try remoteDomainNames?.forEach {
+                try validate($0, name:"remoteDomainNames[]", pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+[.]?$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1040,11 +1099,18 @@ extension AWSDirectoryService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConditionalForwarders", required: false, type: .list)
         ]
+
         /// The list of conditional forwarders that have been created.
         public let conditionalForwarders: [ConditionalForwarder]?
         
         public init(conditionalForwarders: [ConditionalForwarder]? = nil) {
             self.conditionalForwarders = conditionalForwarders
+        }
+
+        public func validate() throws {
+            try conditionalForwarders?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1058,6 +1124,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// A list of identifiers of the directories for which to obtain the information. If this member is null, all directories that belong to the current account are returned. An empty list results in an InvalidParameterException being thrown.
         public let directoryIds: [String]?
         /// The maximum number of items to return. If this value is zero, the maximum number of items is specified by the limitations of the operation.
@@ -1072,6 +1139,9 @@ extension AWSDirectoryService {
         }
 
         public func validate() throws {
+            try directoryIds?.forEach {
+                try validate($0, name:"directoryIds[]", pattern: "^d-[0-9a-f]{10}$")
+            }
             try validate(limit, name:"limit", min: 0)
         }
 
@@ -1087,6 +1157,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "DirectoryDescriptions", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The list of DirectoryDescription objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
         public let directoryDescriptions: [DirectoryDescription]?
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeDirectories to retrieve the next set of items.
@@ -1095,6 +1166,12 @@ extension AWSDirectoryService {
         public init(directoryDescriptions: [DirectoryDescription]? = nil, nextToken: String? = nil) {
             self.directoryDescriptions = directoryDescriptions
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try directoryDescriptions?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1110,6 +1187,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Identifier of the directory for which to retrieve the domain controller information.
         public let directoryId: String
         /// A list of identifiers for the domain controllers whose information will be provided.
@@ -1128,6 +1206,9 @@ extension AWSDirectoryService {
 
         public func validate() throws {
             try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try domainControllerIds?.forEach {
+                try validate($0, name:"domainControllerIds[]", pattern: "^dc-[0-9a-f]{10}$")
+            }
             try validate(limit, name:"limit", min: 0)
         }
 
@@ -1144,6 +1225,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "DomainControllers", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// List of the DomainController objects that were retrieved.
         public let domainControllers: [DomainController]?
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeDomainControllers retrieve the next set of items.
@@ -1152,6 +1234,12 @@ extension AWSDirectoryService {
         public init(domainControllers: [DomainController]? = nil, nextToken: String? = nil) {
             self.domainControllers = domainControllers
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try domainControllers?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1165,6 +1253,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
             AWSShapeMember(label: "TopicNames", required: false, type: .list)
         ]
+
         /// The Directory ID for which to get the list of associated SNS topics. If this member is null, associations for all Directory IDs are returned.
         public let directoryId: String?
         /// A list of SNS topic names for which to obtain the information. If this member is null, all associations for the specified Directory ID are returned. An empty list results in an InvalidParameterException being thrown.
@@ -1177,6 +1266,11 @@ extension AWSDirectoryService {
 
         public func validate() throws {
             try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try topicNames?.forEach {
+                try validate($0, name:"topicNames[]", max: 256)
+                try validate($0, name:"topicNames[]", min: 1)
+                try validate($0, name:"topicNames[]", pattern: "[a-zA-Z0-9_-]+")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1189,11 +1283,18 @@ extension AWSDirectoryService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventTopics", required: false, type: .list)
         ]
+
         /// A list of SNS topic names that receive status messages from the specified Directory ID.
         public let eventTopics: [EventTopic]?
         
         public init(eventTopics: [EventTopic]? = nil) {
             self.eventTopics = eventTopics
+        }
+
+        public func validate() throws {
+            try eventTopics?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1208,6 +1309,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "OwnerDirectoryId", required: true, type: .string), 
             AWSShapeMember(label: "SharedDirectoryIds", required: false, type: .list)
         ]
+
         /// The number of shared directories to return in the response object.
         public let limit: Int32?
         /// The DescribeSharedDirectoriesResult.NextToken value from a previous call to DescribeSharedDirectories. Pass null if this is the first call. 
@@ -1227,6 +1329,9 @@ extension AWSDirectoryService {
         public func validate() throws {
             try validate(limit, name:"limit", min: 0)
             try validate(ownerDirectoryId, name:"ownerDirectoryId", pattern: "^d-[0-9a-f]{10}$")
+            try sharedDirectoryIds?.forEach {
+                try validate($0, name:"sharedDirectoryIds[]", pattern: "^d-[0-9a-f]{10}$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1242,6 +1347,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "SharedDirectories", required: false, type: .list)
         ]
+
         /// If not null, token that indicates that more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeSharedDirectories to retrieve the next set of items.
         public let nextToken: String?
         /// A list of all shared directories in your account.
@@ -1250,6 +1356,12 @@ extension AWSDirectoryService {
         public init(nextToken: String? = nil, sharedDirectories: [SharedDirectory]? = nil) {
             self.nextToken = nextToken
             self.sharedDirectories = sharedDirectories
+        }
+
+        public func validate() throws {
+            try sharedDirectories?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1265,6 +1377,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "SnapshotIds", required: false, type: .list)
         ]
+
         /// The identifier of the directory for which to retrieve snapshot information.
         public let directoryId: String?
         /// The maximum number of objects to return.
@@ -1284,6 +1397,9 @@ extension AWSDirectoryService {
         public func validate() throws {
             try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
             try validate(limit, name:"limit", min: 0)
+            try snapshotIds?.forEach {
+                try validate($0, name:"snapshotIds[]", pattern: "^s-[0-9a-f]{10}$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1299,6 +1415,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Snapshots", required: false, type: .list)
         ]
+
         /// If not null, more results are available. Pass this value in the NextToken member of a subsequent call to DescribeSnapshots.
         public let nextToken: String?
         /// The list of Snapshot objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
@@ -1307,6 +1424,12 @@ extension AWSDirectoryService {
         public init(nextToken: String? = nil, snapshots: [Snapshot]? = nil) {
             self.nextToken = nextToken
             self.snapshots = snapshots
+        }
+
+        public func validate() throws {
+            try snapshots?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1322,6 +1445,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "TrustIds", required: false, type: .list)
         ]
+
         /// The Directory ID of the AWS directory that is a part of the requested trust relationship.
         public let directoryId: String?
         /// The maximum number of objects to return.
@@ -1341,6 +1465,9 @@ extension AWSDirectoryService {
         public func validate() throws {
             try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
             try validate(limit, name:"limit", min: 0)
+            try trustIds?.forEach {
+                try validate($0, name:"trustIds[]", pattern: "^t-[0-9a-f]{10}$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1356,6 +1483,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Trusts", required: false, type: .list)
         ]
+
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeTrusts to retrieve the next set of items.
         public let nextToken: String?
         /// The list of Trust objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
@@ -1364,6 +1492,12 @@ extension AWSDirectoryService {
         public init(nextToken: String? = nil, trusts: [Trust]? = nil) {
             self.nextToken = nextToken
             self.trusts = trusts
+        }
+
+        public func validate() throws {
+            try trusts?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1379,6 +1513,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "SubnetIds", required: true, type: .list), 
             AWSShapeMember(label: "VpcId", required: true, type: .string)
         ]
+
         /// A list of one or more IP addresses of DNS servers or domain controllers in the on-premises directory.
         public let customerDnsIps: [String]
         /// The user name of an account in the on-premises directory that is used to connect to the directory. This account must have the following permissions:   Read users and groups   Create computer objects   Join computers to the domain  
@@ -1396,8 +1531,14 @@ extension AWSDirectoryService {
         }
 
         public func validate() throws {
+            try customerDnsIps.forEach {
+                try validate($0, name:"customerDnsIps[]", pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
+            }
             try validate(customerUserName, name:"customerUserName", min: 1)
             try validate(customerUserName, name:"customerUserName", pattern: "[a-zA-Z0-9._-]+")
+            try subnetIds.forEach {
+                try validate($0, name:"subnetIds[]", pattern: "^(subnet-[0-9a-f]{8}|subnet-[0-9a-f]{17})$")
+            }
             try validate(vpcId, name:"vpcId", pattern: "^(vpc-[0-9a-f]{8}|vpc-[0-9a-f]{17})$")
         }
 
@@ -1418,6 +1559,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
             AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
+
         /// A list of the Availability Zones that the directory is in.
         public let availabilityZones: [String]?
         /// The IP addresses of the AD Connector servers.
@@ -1441,9 +1583,15 @@ extension AWSDirectoryService {
         }
 
         public func validate() throws {
+            try connectIps?.forEach {
+                try validate($0, name:"connectIps[]", pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
+            }
             try validate(customerUserName, name:"customerUserName", min: 1)
             try validate(customerUserName, name:"customerUserName", pattern: "[a-zA-Z0-9._-]+")
             try validate(securityGroupId, name:"securityGroupId", pattern: "^(sg-[0-9a-f]{8}|sg-[0-9a-f]{17})$")
+            try subnetIds?.forEach {
+                try validate($0, name:"subnetIds[]", pattern: "^(subnet-[0-9a-f]{8}|subnet-[0-9a-f]{17})$")
+            }
             try validate(vpcId, name:"vpcId", pattern: "^(vpc-[0-9a-f]{8}|vpc-[0-9a-f]{17})$")
         }
 
@@ -1484,6 +1632,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "Type", required: false, type: .enum), 
             AWSShapeMember(label: "VpcSettings", required: false, type: .structure)
         ]
+
         /// The access URL for the directory, such as http://&lt;alias&gt;.awsapps.com. If no alias has been created for the directory, &lt;alias&gt; is the directory identifier, such as d-XXXXXXXXXX.
         public let accessUrl: String?
         /// The alias for the directory. If no alias has been created for the directory, the alias is the directory identifier, such as d-XXXXXXXXXX.
@@ -1572,6 +1721,9 @@ extension AWSDirectoryService {
             try validate(description, name:"description", pattern: "^([a-zA-Z0-9_])[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
             try validate(desiredNumberOfDomainControllers, name:"desiredNumberOfDomainControllers", min: 2)
             try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try dnsIpAddrs?.forEach {
+                try validate($0, name:"dnsIpAddrs[]", pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
+            }
             try validate(name, name:"name", pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+$")
             try ownerDirectoryDescription?.validate()
             try radiusSettings?.validate()
@@ -1626,6 +1778,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "ConnectedDirectoriesLimit", required: false, type: .integer), 
             AWSShapeMember(label: "ConnectedDirectoriesLimitReached", required: false, type: .boolean)
         ]
+
         /// The current number of cloud directories in the region.
         public let cloudOnlyDirectoriesCurrentCount: Int32?
         /// The maximum number of cloud directories allowed in the region.
@@ -1713,6 +1866,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "SubnetIds", required: true, type: .list), 
             AWSShapeMember(label: "VpcId", required: true, type: .string)
         ]
+
         /// The identifiers of the subnets for the directory servers. The two subnets must be in different Availability Zones. AWS Directory Service creates a directory server and a DNS server in each of these subnets.
         public let subnetIds: [String]
         /// The identifier of the VPC in which to create the directory.
@@ -1724,6 +1878,9 @@ extension AWSDirectoryService {
         }
 
         public func validate() throws {
+            try subnetIds.forEach {
+                try validate($0, name:"subnetIds[]", pattern: "^(subnet-[0-9a-f]{8}|subnet-[0-9a-f]{17})$")
+            }
             try validate(vpcId, name:"vpcId", pattern: "^(vpc-[0-9a-f]{8}|vpc-[0-9a-f]{17})$")
         }
 
@@ -1740,6 +1897,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
             AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
+
         /// The list of Availability Zones that the directory is in.
         public let availabilityZones: [String]?
         /// The domain controller security group identifier for the directory.
@@ -1758,6 +1916,9 @@ extension AWSDirectoryService {
 
         public func validate() throws {
             try validate(securityGroupId, name:"securityGroupId", pattern: "^(sg-[0-9a-f]{8}|sg-[0-9a-f]{17})$")
+            try subnetIds?.forEach {
+                try validate($0, name:"subnetIds[]", pattern: "^(subnet-[0-9a-f]{8}|subnet-[0-9a-f]{17})$")
+            }
             try validate(vpcId, name:"vpcId", pattern: "^(vpc-[0-9a-f]{8}|vpc-[0-9a-f]{17})$")
         }
 
@@ -1773,6 +1934,7 @@ extension AWSDirectoryService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryId", required: true, type: .string)
         ]
+
         /// The identifier of the directory for which to disable MFA.
         public let directoryId: String
         
@@ -1791,7 +1953,6 @@ extension AWSDirectoryService {
 
     public struct DisableRadiusResult: AWSShape {
         
-        
         public init() {
         }
 
@@ -1803,6 +1964,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "Password", required: false, type: .string), 
             AWSShapeMember(label: "UserName", required: false, type: .string)
         ]
+
         /// The identifier of the directory for which to disable single-sign on.
         public let directoryId: String
         /// The password of an alternate account to use to disable single-sign on. This is only used for AD Connector directories. For more information, see the UserName parameter.
@@ -1833,7 +1995,6 @@ extension AWSDirectoryService {
 
     public struct DisableSsoResult: AWSShape {
         
-        
         public init() {
         }
 
@@ -1852,6 +2013,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "SubnetId", required: false, type: .string), 
             AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
+
         /// The Availability Zone where the domain controller is located.
         public let availabilityZone: String?
         /// Identifier of the directory where the domain controller resides.
@@ -1924,6 +2086,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
             AWSShapeMember(label: "RadiusSettings", required: true, type: .structure)
         ]
+
         /// The identifier of the directory for which to enable MFA.
         public let directoryId: String
         /// A RadiusSettings object that contains information about the RADIUS server.
@@ -1947,7 +2110,6 @@ extension AWSDirectoryService {
 
     public struct EnableRadiusResult: AWSShape {
         
-        
         public init() {
         }
 
@@ -1959,6 +2121,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "Password", required: false, type: .string), 
             AWSShapeMember(label: "UserName", required: false, type: .string)
         ]
+
         /// The identifier of the directory for which to enable single-sign on.
         public let directoryId: String
         /// The password of an alternate account to use to enable single-sign on. This is only used for AD Connector directories. For more information, see the UserName parameter.
@@ -1989,7 +2152,6 @@ extension AWSDirectoryService {
 
     public struct EnableSsoResult: AWSShape {
         
-        
         public init() {
         }
 
@@ -2003,6 +2165,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "TopicArn", required: false, type: .string), 
             AWSShapeMember(label: "TopicName", required: false, type: .string)
         ]
+
         /// The date and time of when you associated your directory with the SNS topic.
         public let createdDateTime: TimeStamp?
         /// The Directory ID of an AWS Directory Service directory that will publish status messages to an SNS topic.
@@ -2040,7 +2203,6 @@ extension AWSDirectoryService {
 
     public struct GetDirectoryLimitsRequest: AWSShape {
         
-        
         public init() {
         }
 
@@ -2050,6 +2212,7 @@ extension AWSDirectoryService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryLimits", required: false, type: .structure)
         ]
+
         /// A DirectoryLimits object that contains the directory limits for the current region.
         public let directoryLimits: DirectoryLimits?
         
@@ -2070,6 +2233,7 @@ extension AWSDirectoryService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryId", required: true, type: .string)
         ]
+
         /// Contains the identifier of the directory to obtain the limits for.
         public let directoryId: String
         
@@ -2090,6 +2254,7 @@ extension AWSDirectoryService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SnapshotLimits", required: false, type: .structure)
         ]
+
         /// A SnapshotLimits object that contains the manual snapshot limits for the specified directory.
         public let snapshotLimits: SnapshotLimits?
         
@@ -2111,6 +2276,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "CidrIp", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
+
         /// IP address block using CIDR format, for example 10.0.0.0/24. This is often the address block of the DNS server used for your on-premises domain. For a single IP address use a CIDR address block with /32. For example 10.0.0.0/32.
         public let cidrIp: String?
         /// Description of the address block.
@@ -2143,6 +2309,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "IpRouteStatusMsg", required: false, type: .enum), 
             AWSShapeMember(label: "IpRouteStatusReason", required: false, type: .string)
         ]
+
         /// The date and time the address block was added to the directory.
         public let addedDateTime: TimeStamp?
         /// IP address block in the IpRoute.
@@ -2199,6 +2366,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Identifier (ID) of the directory for which you want to retrieve the IP addresses.
         public let directoryId: String
         /// Maximum number of items to return. If this value is zero, the maximum number of items is specified by the limitations of the operation.
@@ -2229,6 +2397,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "IpRoutesInfo", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// A list of IpRoutes.
         public let ipRoutesInfo: [IpRouteInfo]?
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to ListIpRoutes to retrieve the next set of items.
@@ -2237,6 +2406,12 @@ extension AWSDirectoryService {
         public init(ipRoutesInfo: [IpRouteInfo]? = nil, nextToken: String? = nil) {
             self.ipRoutesInfo = ipRoutesInfo
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try ipRoutesInfo?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2251,6 +2426,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// If a DirectoryID is provided, lists only the log subscription associated with that directory. If no DirectoryId is provided, lists all log subscriptions associated with your AWS account. If there are no log subscriptions for the AWS account or the directory, an empty list will be returned.
         public let directoryId: String?
         /// The maximum number of items returned.
@@ -2281,6 +2457,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "LogSubscriptions", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// A list of active LogSubscription objects for calling the AWS account.
         public let logSubscriptions: [LogSubscription]?
         /// The token for the next set of items to return.
@@ -2289,6 +2466,12 @@ extension AWSDirectoryService {
         public init(logSubscriptions: [LogSubscription]? = nil, nextToken: String? = nil) {
             self.logSubscriptions = logSubscriptions
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try logSubscriptions?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2303,6 +2486,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The identifier of the directory from which to retrieve the schema extension information.
         public let directoryId: String
         /// The maximum number of items to return.
@@ -2333,6 +2517,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "SchemaExtensionsInfo", required: false, type: .list)
         ]
+
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to ListSchemaExtensions to retrieve the next set of items.
         public let nextToken: String?
         /// Information about the schema extensions applied to the directory.
@@ -2341,6 +2526,12 @@ extension AWSDirectoryService {
         public init(nextToken: String? = nil, schemaExtensionsInfo: [SchemaExtensionInfo]? = nil) {
             self.nextToken = nextToken
             self.schemaExtensionsInfo = schemaExtensionsInfo
+        }
+
+        public func validate() throws {
+            try schemaExtensionsInfo?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2355,6 +2546,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ResourceId", required: true, type: .string)
         ]
+
         /// Reserved for future use.
         public let limit: Int32?
         /// Reserved for future use.
@@ -2385,6 +2577,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// Reserved for future use.
         public let nextToken: String?
         /// List of tags returned by the ListTagsForResource operation.
@@ -2393,6 +2586,12 @@ extension AWSDirectoryService {
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try tags?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2407,6 +2606,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "LogGroupName", required: false, type: .string), 
             AWSShapeMember(label: "SubscriptionCreatedDateTime", required: false, type: .timestamp)
         ]
+
         /// Identifier (ID) of the directory that you want to associate with the log subscription.
         public let directoryId: String?
         /// The name of the log group.
@@ -2443,6 +2643,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "RadiusStatus", required: false, type: .enum), 
             AWSShapeMember(label: "VpcSettings", required: false, type: .structure)
         ]
+
         /// Identifier of the directory owner account.
         public let accountId: String?
         /// Identifier of the AWS Managed Microsoft AD directory in the directory owner account.
@@ -2468,6 +2669,9 @@ extension AWSDirectoryService {
         public func validate() throws {
             try validate(accountId, name:"accountId", pattern: "^(\\d{12})$")
             try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try dnsIpAddrs?.forEach {
+                try validate($0, name:"dnsIpAddrs[]", pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
+            }
             try radiusSettings?.validate()
             try vpcSettings?.validate()
         }
@@ -2501,6 +2705,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "SharedSecret", required: false, type: .string), 
             AWSShapeMember(label: "UseSameUsername", required: false, type: .boolean)
         ]
+
         /// The protocol specified for your RADIUS endpoints.
         public let authenticationProtocol: RadiusAuthenticationProtocol?
         /// Not currently used.
@@ -2536,6 +2741,10 @@ extension AWSDirectoryService {
             try validate(radiusPort, name:"radiusPort", min: 1025)
             try validate(radiusRetries, name:"radiusRetries", max: 10)
             try validate(radiusRetries, name:"radiusRetries", min: 0)
+            try radiusServers?.forEach {
+                try validate($0, name:"radiusServers[]", max: 256)
+                try validate($0, name:"radiusServers[]", min: 1)
+            }
             try validate(radiusTimeout, name:"radiusTimeout", max: 20)
             try validate(radiusTimeout, name:"radiusTimeout", min: 1)
             try validate(sharedSecret, name:"sharedSecret", max: 512)
@@ -2566,6 +2775,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
             AWSShapeMember(label: "TopicName", required: true, type: .string)
         ]
+
         /// The Directory ID that will publish status messages to the SNS topic.
         public let directoryId: String
         /// The SNS topic name to which the directory will publish status messages. This SNS topic must be in the same region as the specified Directory ID.
@@ -2591,7 +2801,6 @@ extension AWSDirectoryService {
 
     public struct RegisterEventTopicResult: AWSShape {
         
-        
         public init() {
         }
 
@@ -2601,6 +2810,7 @@ extension AWSDirectoryService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SharedDirectoryId", required: true, type: .string)
         ]
+
         /// Identifier of the shared directory in the directory consumer account. This identifier is different for each directory owner account.
         public let sharedDirectoryId: String
         
@@ -2621,6 +2831,7 @@ extension AWSDirectoryService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SharedDirectoryId", required: false, type: .string)
         ]
+
         /// Identifier of the shared directory in the directory consumer account.
         public let sharedDirectoryId: String?
         
@@ -2642,6 +2853,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "CidrIps", required: true, type: .list), 
             AWSShapeMember(label: "DirectoryId", required: true, type: .string)
         ]
+
         /// IP address blocks that you want to remove.
         public let cidrIps: [String]
         /// Identifier (ID) of the directory from which you want to remove the IP addresses.
@@ -2653,6 +2865,9 @@ extension AWSDirectoryService {
         }
 
         public func validate() throws {
+            try cidrIps.forEach {
+                try validate($0, name:"cidrIps[]", pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([1-9]|[1-2][0-9]|3[0-2]))$")
+            }
             try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
         }
 
@@ -2664,7 +2879,6 @@ extension AWSDirectoryService {
 
     public struct RemoveIpRoutesResult: AWSShape {
         
-        
         public init() {
         }
 
@@ -2675,6 +2889,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "ResourceId", required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
+
         /// Identifier (ID) of the directory from which to remove the tag.
         public let resourceId: String
         /// The tag key (name) of the tag to be removed.
@@ -2687,6 +2902,11 @@ extension AWSDirectoryService {
 
         public func validate() throws {
             try validate(resourceId, name:"resourceId", pattern: "^[d]-[0-9a-f]{10}$")
+            try tagKeys.forEach {
+                try validate($0, name:"tagKeys[]", max: 128)
+                try validate($0, name:"tagKeys[]", min: 1)
+                try validate($0, name:"tagKeys[]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2696,7 +2916,6 @@ extension AWSDirectoryService {
     }
 
     public struct RemoveTagsFromResourceResult: AWSShape {
-        
         
         public init() {
         }
@@ -2714,6 +2933,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "NewPassword", required: true, type: .string), 
             AWSShapeMember(label: "UserName", required: true, type: .string)
         ]
+
         /// Identifier of the AWS Managed Microsoft AD or Simple AD directory in which the user resides.
         public let directoryId: String
         /// The new password that will be reset.
@@ -2745,7 +2965,6 @@ extension AWSDirectoryService {
 
     public struct ResetUserPasswordResult: AWSShape {
         
-        
         public init() {
         }
 
@@ -2755,6 +2974,7 @@ extension AWSDirectoryService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SnapshotId", required: true, type: .string)
         ]
+
         /// The identifier of the snapshot to restore from.
         public let snapshotId: String
         
@@ -2773,7 +2993,6 @@ extension AWSDirectoryService {
 
     public struct RestoreFromSnapshotResult: AWSShape {
         
-        
         public init() {
         }
 
@@ -2789,6 +3008,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "SchemaExtensionStatusReason", required: false, type: .string), 
             AWSShapeMember(label: "StartDateTime", required: false, type: .timestamp)
         ]
+
         /// A description of the schema extension.
         public let description: String?
         /// The identifier of the directory to which the schema extension is applied.
@@ -2859,6 +3079,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "ShareNotes", required: false, type: .string), 
             AWSShapeMember(label: "ShareTarget", required: true, type: .structure)
         ]
+
         /// Identifier of the AWS Managed Microsoft AD directory that you want to share with other AWS accounts.
         public let directoryId: String
         /// The method used when sharing a directory to determine whether the directory should be shared within your AWS organization (ORGANIZATIONS) or with any AWS account by sending a directory sharing request (HANDSHAKE).
@@ -2893,6 +3114,7 @@ extension AWSDirectoryService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SharedDirectoryId", required: false, type: .string)
         ]
+
         /// Identifier of the directory that is stored in the directory consumer account that is shared from the specified directory (DirectoryId).
         public let sharedDirectoryId: String?
         
@@ -2933,6 +3155,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "Id", required: true, type: .string), 
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
+
         /// Identifier of the directory consumer account.
         public let id: String
         /// Type of identifier to be used in the Id field.
@@ -2966,6 +3189,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "ShareNotes", required: false, type: .string), 
             AWSShapeMember(label: "ShareStatus", required: false, type: .enum)
         ]
+
         /// The date and time that the shared directory was created.
         public let createdDateTime: TimeStamp?
         /// The date and time that the shared directory was last updated.
@@ -3027,6 +3251,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
+
         /// The directory identifier.
         public let directoryId: String?
         /// The descriptive name of the snapshot.
@@ -3073,6 +3298,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "ManualSnapshotsLimit", required: false, type: .integer), 
             AWSShapeMember(label: "ManualSnapshotsLimitReached", required: false, type: .boolean)
         ]
+
         /// The current number of manual snapshots of the directory.
         public let manualSnapshotsCurrentCount: Int32?
         /// The maximum number of manual snapshots allowed.
@@ -3118,6 +3344,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
             AWSShapeMember(label: "LdifContent", required: true, type: .string)
         ]
+
         /// If true, creates a snapshot of the directory before applying the schema extension.
         public let createSnapshotBeforeSchemaExtension: Bool
         /// A description of the schema extension.
@@ -3155,6 +3382,7 @@ extension AWSDirectoryService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SchemaExtensionId", required: false, type: .string)
         ]
+
         /// The identifier of the schema extension that will be applied.
         public let schemaExtensionId: String?
         
@@ -3176,6 +3404,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "Key", required: true, type: .string), 
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
+
         /// Required name of the tag. The string value can be Unicode characters and cannot be prefixed with "aws:". The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public let key: String
         /// The optional value of the tag. The string value can be Unicode characters. The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
@@ -3228,6 +3457,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "TrustStateReason", required: false, type: .string), 
             AWSShapeMember(label: "TrustType", required: false, type: .enum)
         ]
+
         /// The date and time that the trust relationship was created.
         public let createdDateTime: TimeStamp?
         /// The Directory ID of the AWS directory involved in the trust relationship.
@@ -3319,6 +3549,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
             AWSShapeMember(label: "UnshareTarget", required: true, type: .structure)
         ]
+
         /// The identifier of the AWS Managed Microsoft AD directory that you want to stop sharing.
         public let directoryId: String
         /// Identifier for the directory consumer account with whom the directory has to be unshared.
@@ -3344,6 +3575,7 @@ extension AWSDirectoryService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SharedDirectoryId", required: false, type: .string)
         ]
+
         /// Identifier of the directory stored in the directory consumer account that is to be unshared from the specified directory (DirectoryId).
         public let sharedDirectoryId: String?
         
@@ -3365,6 +3597,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "Id", required: true, type: .string), 
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
+
         /// Identifier of the directory consumer account.
         public let id: String
         /// Type of identifier to be used in the Id field.
@@ -3392,6 +3625,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "DnsIpAddrs", required: true, type: .list), 
             AWSShapeMember(label: "RemoteDomainName", required: true, type: .string)
         ]
+
         /// The directory ID of the AWS directory for which to update the conditional forwarder.
         public let directoryId: String
         /// The updated IP addresses of the remote DNS server associated with the conditional forwarder.
@@ -3407,6 +3641,9 @@ extension AWSDirectoryService {
 
         public func validate() throws {
             try validate(directoryId, name:"directoryId", pattern: "^d-[0-9a-f]{10}$")
+            try dnsIpAddrs.forEach {
+                try validate($0, name:"dnsIpAddrs[]", pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
+            }
             try validate(remoteDomainName, name:"remoteDomainName", pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+[.]?$")
         }
 
@@ -3419,7 +3656,6 @@ extension AWSDirectoryService {
 
     public struct UpdateConditionalForwarderResult: AWSShape {
         
-        
         public init() {
         }
 
@@ -3430,6 +3666,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "DesiredNumber", required: true, type: .integer), 
             AWSShapeMember(label: "DirectoryId", required: true, type: .string)
         ]
+
         /// The number of domain controllers desired in the directory.
         public let desiredNumber: Int32
         /// Identifier of the directory to which the domain controllers will be added or removed.
@@ -3453,7 +3690,6 @@ extension AWSDirectoryService {
 
     public struct UpdateNumberOfDomainControllersResult: AWSShape {
         
-        
         public init() {
         }
 
@@ -3464,6 +3700,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
             AWSShapeMember(label: "RadiusSettings", required: true, type: .structure)
         ]
+
         /// The identifier of the directory for which to update the RADIUS server information.
         public let directoryId: String
         /// A RadiusSettings object that contains information about the RADIUS server.
@@ -3487,7 +3724,6 @@ extension AWSDirectoryService {
 
     public struct UpdateRadiusResult: AWSShape {
         
-        
         public init() {
         }
 
@@ -3498,6 +3734,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "SelectiveAuth", required: false, type: .enum), 
             AWSShapeMember(label: "TrustId", required: true, type: .string)
         ]
+
         /// Updates selective authentication for the trust.
         public let selectiveAuth: SelectiveAuth?
         /// Identifier of the trust relationship.
@@ -3523,6 +3760,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "RequestId", required: false, type: .string), 
             AWSShapeMember(label: "TrustId", required: false, type: .string)
         ]
+
         public let requestId: String?
         /// Identifier of the trust relationship.
         public let trustId: String?
@@ -3547,6 +3785,7 @@ extension AWSDirectoryService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TrustId", required: true, type: .string)
         ]
+
         /// The unique Trust ID of the trust relationship to verify.
         public let trustId: String
         
@@ -3567,6 +3806,7 @@ extension AWSDirectoryService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TrustId", required: false, type: .string)
         ]
+
         /// The unique Trust ID of the trust relationship that was verified.
         public let trustId: String?
         

@@ -10,6 +10,7 @@ extension PI {
             AWSShapeMember(label: "Timestamp", required: true, type: .timestamp), 
             AWSShapeMember(label: "Value", required: true, type: .double)
         ]
+
         /// The time, in epoch format, associated with a particular Value.
         public let timestamp: TimeStamp
         /// The actual value associated with a particular Timestamp.
@@ -40,6 +41,7 @@ extension PI {
             AWSShapeMember(label: "ServiceType", required: true, type: .enum), 
             AWSShapeMember(label: "StartTime", required: true, type: .timestamp)
         ]
+
         /// The date and time specifying the end of the requested time series data. The value specified is exclusive - data points less than (but not equal to) EndTime will be returned. The value for EndTime must be later than the value for StartTime.
         public let endTime: TimeStamp
         /// One or more filters to apply in the request. Restrictions:   Any number of filters by the same dimension, as specified in the GroupBy or Partition parameters.   A single filter for any other dimension in this dimension group.  
@@ -107,6 +109,7 @@ extension PI {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "PartitionKeys", required: false, type: .list)
         ]
+
         /// The end time for the returned dimension keys, after alignment to a granular boundary (as specified by PeriodInSeconds). AlignedEndTime will be greater than or equal to the value of the user-specified Endtime.
         public let alignedEndTime: TimeStamp?
         /// The start time for the returned dimension keys, after alignment to a granular boundary (as specified by PeriodInSeconds). AlignedStartTime will be less than or equal to the value of the user-specified StartTime.
@@ -141,6 +144,7 @@ extension PI {
             AWSShapeMember(label: "Group", required: true, type: .string), 
             AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
+
         /// A list of specific dimensions from a dimension group. If this parameter is not present, then it signifies that all of the dimensions in the group were requested, or are present in the response. Valid values for elements in the Dimensions array are:   db.user.id   db.user.name   db.host.id   db.host.name   db.sql.id   db.sql.db_id   db.sql.statement   db.sql.tokenized_id   db.sql_tokenized.id   db.sql_tokenized.db_id   db.sql_tokenized.statement   db.wait_event.name   db.wait_event.type   db.wait_event_type.name  
         public let dimensions: [String]?
         /// The name of the dimension group. Valid values are:    db.user     db.host     db.sql     db.sql_tokenized     db.wait_event     db.wait_event_type   
@@ -174,6 +178,7 @@ extension PI {
             AWSShapeMember(label: "Partitions", required: false, type: .list), 
             AWSShapeMember(label: "Total", required: false, type: .double)
         ]
+
         /// A map of name-value pairs for the dimensions in the group.
         public let dimensions: [String: String]?
         /// If PartitionBy was specified, PartitionKeys contains the dimensions that were.
@@ -205,6 +210,7 @@ extension PI {
             AWSShapeMember(label: "ServiceType", required: true, type: .enum), 
             AWSShapeMember(label: "StartTime", required: true, type: .timestamp)
         ]
+
         /// The date and time specifiying the end of the requested time series data. The value specified is exclusive - data points less than (but not equal to) EndTime will be returned. The value for EndTime must be later than the value for StartTime.
         public let endTime: TimeStamp
         /// An immutable, AWS Region-unique identifier for a data source. Performance Insights gathers metrics from this data source. To use an Amazon RDS instance as a data source, you specify its DbiResourceId value - for example: db-FAIHNTYBKTGAUSUZQYPDS2GW4A 
@@ -236,6 +242,9 @@ extension PI {
         public func validate() throws {
             try validate(maxResults, name:"maxResults", max: 20)
             try validate(maxResults, name:"maxResults", min: 0)
+            try metricQueries.forEach {
+                try $0.validate()
+            }
             try validate(metricQueries, name:"metricQueries", max: 15)
             try validate(metricQueries, name:"metricQueries", min: 1)
         }
@@ -260,6 +269,7 @@ extension PI {
             AWSShapeMember(label: "MetricList", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The end time for the returned metrics, after alignment to a granular boundary (as specified by PeriodInSeconds). AlignedEndTime will be greater than or equal to the value of the user-specified Endtime.
         public let alignedEndTime: TimeStamp?
         /// The start time for the returned metrics, after alignment to a granular boundary (as specified by PeriodInSeconds). AlignedStartTime will be less than or equal to the value of the user-specified StartTime.
@@ -293,6 +303,7 @@ extension PI {
             AWSShapeMember(label: "DataPoints", required: false, type: .list), 
             AWSShapeMember(label: "Key", required: false, type: .structure)
         ]
+
         /// An array of timestamp-value pairs, representing measurements over a period of time.
         public let dataPoints: [DataPoint]?
         /// The dimension(s) to which the data points apply.
@@ -315,6 +326,7 @@ extension PI {
             AWSShapeMember(label: "GroupBy", required: false, type: .structure), 
             AWSShapeMember(label: "Metric", required: true, type: .string)
         ]
+
         /// One or more filters to apply in the request. Restrictions:   Any number of filters by the same dimension, as specified in the GroupBy parameter.   A single filter for any other dimension in this dimension group.  
         public let filter: [String: String]?
         /// A specification for how to aggregate the data points from a query result. You must specify a valid dimension group. Performance Insights will return all of the dimensions within that group, unless you provide the names of specific dimensions within that group. You can also request that Performance Insights return a limited number of values for a dimension.
@@ -343,6 +355,7 @@ extension PI {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Dimensions", required: true, type: .map)
         ]
+
         /// A dimension map that contains the dimension(s) for this partition.
         public let dimensions: [String: String]
         
@@ -360,6 +373,7 @@ extension PI {
             AWSShapeMember(label: "Dimensions", required: false, type: .map), 
             AWSShapeMember(label: "Metric", required: true, type: .string)
         ]
+
         /// The valid dimensions for the metric.
         public let dimensions: [String: String]?
         /// The name of a Performance Insights metric to be measured. Valid values for Metric are:    db.load.avg - a scaled representation of the number of active sessions for the database engine.    db.sampledload.avg - the raw number of active sessions for the database engine.  

@@ -10,6 +10,7 @@ extension Greengrass {
             AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string), 
             AWSShapeMember(label: "RoleArn", required: false, type: .string)
         ]
+
         public let groupId: String
         /// The ARN of the role you wish to associate with this group.
         public let roleArn: String?
@@ -29,6 +30,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AssociatedAt", required: false, type: .string)
         ]
+
         /// The time, in milliseconds since the epoch, when the role ARN was associated with the group.
         public let associatedAt: String?
         
@@ -45,6 +47,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RoleArn", required: false, type: .string)
         ]
+
         /// The ARN of the service role you wish to associate with your account.
         public let roleArn: String?
         
@@ -61,6 +64,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AssociatedAt", required: false, type: .string)
         ]
+
         /// The time when the service role was associated with the account.
         public let associatedAt: String?
         
@@ -79,6 +83,7 @@ extension Greengrass {
             AWSShapeMember(label: "BulkDeploymentId", required: false, type: .string), 
             AWSShapeMember(label: "CreatedAt", required: false, type: .string)
         ]
+
         /// The ARN of the bulk deployment.
         public let bulkDeploymentArn: String?
         /// The ID of the bulk deployment.
@@ -105,6 +110,7 @@ extension Greengrass {
             AWSShapeMember(label: "RecordsProcessed", required: false, type: .integer), 
             AWSShapeMember(label: "RetryAttempts", required: false, type: .integer)
         ]
+
         /// The total number of records that returned a non-retryable error. For example, this can occur if a group record from the input file uses an invalid format or specifies a nonexistent group version, or if the execution role doesn't grant permission to deploy a group or group version.
         public let invalidInputRecords: Int32?
         /// The total number of group records from the input file that have been processed so far, or attempted.
@@ -136,6 +142,7 @@ extension Greengrass {
             AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "GroupArn", required: false, type: .string)
         ]
+
         /// The time, in ISO format, when the deployment was created.
         public let createdAt: String?
         /// The ARN of the group deployment.
@@ -193,6 +200,7 @@ extension Greengrass {
             AWSShapeMember(label: "Metadata", required: false, type: .string), 
             AWSShapeMember(label: "PortNumber", required: false, type: .integer)
         ]
+
         /// The endpoint for the Greengrass core. Can be an IP address or DNS.
         public let hostAddress: String?
         /// The ID of the connectivity information.
@@ -223,6 +231,7 @@ extension Greengrass {
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Parameters", required: false, type: .map)
         ]
+
         /// The ARN of the connector.
         public let connectorArn: String?
         /// A descriptive or arbitrary ID for the connector. This value must be unique within the connector definition version. Max length is 128 characters with pattern [a-zA-Z0-9:_-]+.
@@ -247,6 +256,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Connectors", required: false, type: .list)
         ]
+
         /// A list of references to connectors in this version, with their corresponding configuration settings.
         public let connectors: [Connector]?
         
@@ -266,6 +276,7 @@ extension Greengrass {
             AWSShapeMember(label: "SyncShadow", required: false, type: .boolean), 
             AWSShapeMember(label: "ThingArn", required: false, type: .string)
         ]
+
         /// The ARN of the certificate associated with the core.
         public let certificateArn: String?
         /// A descriptive or arbitrary ID for the core. This value must be unique within the core definition version. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''.
@@ -294,6 +305,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cores", required: false, type: .list)
         ]
+
         /// A list of cores in the core definition version.
         public let cores: [Core]?
         
@@ -313,6 +325,7 @@ extension Greengrass {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         public let amznClientToken: String?
         public let initialVersion: ConnectorDefinitionVersion?
         public let name: String?
@@ -343,6 +356,7 @@ extension Greengrass {
             AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -378,6 +392,7 @@ extension Greengrass {
             AWSShapeMember(label: "ConnectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId"), required: true, type: .string), 
             AWSShapeMember(label: "Connectors", required: false, type: .list)
         ]
+
         public let amznClientToken: String?
         public let connectorDefinitionId: String
         public let connectors: [Connector]?
@@ -402,6 +417,7 @@ extension Greengrass {
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -429,6 +445,7 @@ extension Greengrass {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         public let amznClientToken: String?
         public let initialVersion: CoreDefinitionVersion?
         public let name: String?
@@ -459,6 +476,7 @@ extension Greengrass {
             AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -494,6 +512,7 @@ extension Greengrass {
             AWSShapeMember(label: "CoreDefinitionId", location: .uri(locationName: "CoreDefinitionId"), required: true, type: .string), 
             AWSShapeMember(label: "Cores", required: false, type: .list)
         ]
+
         public let amznClientToken: String?
         public let coreDefinitionId: String
         public let cores: [Core]?
@@ -518,6 +537,7 @@ extension Greengrass {
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -546,6 +566,7 @@ extension Greengrass {
             AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string), 
             AWSShapeMember(label: "GroupVersionId", required: false, type: .string)
         ]
+
         public let amznClientToken: String?
         /// The ID of the deployment if you wish to redeploy a previous deployment.
         public let deploymentId: String?
@@ -577,6 +598,7 @@ extension Greengrass {
             AWSShapeMember(label: "DeploymentArn", required: false, type: .string), 
             AWSShapeMember(label: "DeploymentId", required: false, type: .string)
         ]
+
         /// The ARN of the deployment.
         public let deploymentArn: String?
         /// The ID of the deployment.
@@ -600,6 +622,7 @@ extension Greengrass {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         public let amznClientToken: String?
         public let initialVersion: DeviceDefinitionVersion?
         public let name: String?
@@ -630,6 +653,7 @@ extension Greengrass {
             AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -665,6 +689,7 @@ extension Greengrass {
             AWSShapeMember(label: "DeviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"), required: true, type: .string), 
             AWSShapeMember(label: "Devices", required: false, type: .list)
         ]
+
         public let amznClientToken: String?
         public let deviceDefinitionId: String
         public let devices: [Device]?
@@ -689,6 +714,7 @@ extension Greengrass {
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -716,6 +742,7 @@ extension Greengrass {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         public let amznClientToken: String?
         public let initialVersion: FunctionDefinitionVersion?
         public let name: String?
@@ -746,6 +773,7 @@ extension Greengrass {
             AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -782,6 +810,7 @@ extension Greengrass {
             AWSShapeMember(label: "FunctionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"), required: true, type: .string), 
             AWSShapeMember(label: "Functions", required: false, type: .list)
         ]
+
         public let amznClientToken: String?
         public let defaultConfig: FunctionDefaultConfig?
         public let functionDefinitionId: String
@@ -809,6 +838,7 @@ extension Greengrass {
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -834,6 +864,7 @@ extension Greengrass {
             AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
             AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
         ]
+
         public let amznClientToken: String?
         public let groupId: String
         
@@ -852,6 +883,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GroupCertificateAuthorityArn", required: false, type: .string)
         ]
+
         /// The ARN of the group certificate authority.
         public let groupCertificateAuthorityArn: String?
         
@@ -871,6 +903,7 @@ extension Greengrass {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         public let amznClientToken: String?
         public let initialVersion: GroupVersion?
         public let name: String?
@@ -901,6 +934,7 @@ extension Greengrass {
             AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -942,6 +976,7 @@ extension Greengrass {
             AWSShapeMember(label: "ResourceDefinitionVersionArn", required: false, type: .string), 
             AWSShapeMember(label: "SubscriptionDefinitionVersionArn", required: false, type: .string)
         ]
+
         public let amznClientToken: String?
         public let connectorDefinitionVersionArn: String?
         public let coreDefinitionVersionArn: String?
@@ -984,6 +1019,7 @@ extension Greengrass {
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -1011,6 +1047,7 @@ extension Greengrass {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         public let amznClientToken: String?
         public let initialVersion: LoggerDefinitionVersion?
         public let name: String?
@@ -1041,6 +1078,7 @@ extension Greengrass {
             AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -1076,6 +1114,7 @@ extension Greengrass {
             AWSShapeMember(label: "LoggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"), required: true, type: .string), 
             AWSShapeMember(label: "Loggers", required: false, type: .list)
         ]
+
         public let amznClientToken: String?
         public let loggerDefinitionId: String
         public let loggers: [Logger]?
@@ -1100,6 +1139,7 @@ extension Greengrass {
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -1127,6 +1167,7 @@ extension Greengrass {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         public let amznClientToken: String?
         public let initialVersion: ResourceDefinitionVersion?
         public let name: String?
@@ -1157,6 +1198,7 @@ extension Greengrass {
             AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -1192,6 +1234,7 @@ extension Greengrass {
             AWSShapeMember(label: "ResourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId"), required: true, type: .string), 
             AWSShapeMember(label: "Resources", required: false, type: .list)
         ]
+
         public let amznClientToken: String?
         public let resourceDefinitionId: String
         public let resources: [Resource]?
@@ -1216,6 +1259,7 @@ extension Greengrass {
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -1246,6 +1290,7 @@ extension Greengrass {
             AWSShapeMember(label: "UpdateTargetsArchitecture", required: false, type: .enum), 
             AWSShapeMember(label: "UpdateTargetsOperatingSystem", required: false, type: .enum)
         ]
+
         public let amznClientToken: String?
         public let s3UrlSignerRole: String?
         public let softwareToUpdate: SoftwareToUpdate?
@@ -1280,6 +1325,7 @@ extension Greengrass {
             AWSShapeMember(label: "IotJobArn", required: false, type: .string), 
             AWSShapeMember(label: "IotJobId", required: false, type: .string)
         ]
+
         /// The IoT Job ARN corresponding to this update.
         public let iotJobArn: String?
         /// The IoT Job Id corresponding to this update.
@@ -1303,6 +1349,7 @@ extension Greengrass {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         public let amznClientToken: String?
         public let initialVersion: SubscriptionDefinitionVersion?
         public let name: String?
@@ -1333,6 +1380,7 @@ extension Greengrass {
             AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -1368,6 +1416,7 @@ extension Greengrass {
             AWSShapeMember(label: "SubscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"), required: true, type: .string), 
             AWSShapeMember(label: "Subscriptions", required: false, type: .list)
         ]
+
         public let amznClientToken: String?
         public let subscriptionDefinitionId: String
         public let subscriptions: [Subscription]?
@@ -1392,6 +1441,7 @@ extension Greengrass {
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -1423,6 +1473,7 @@ extension Greengrass {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         /// The ARN of the definition.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the definition was created.
@@ -1466,6 +1517,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConnectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId"), required: true, type: .string)
         ]
+
         public let connectorDefinitionId: String
         
         public init(connectorDefinitionId: String) {
@@ -1479,7 +1531,6 @@ extension Greengrass {
 
     public struct DeleteConnectorDefinitionResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -1489,6 +1540,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CoreDefinitionId", location: .uri(locationName: "CoreDefinitionId"), required: true, type: .string)
         ]
+
         public let coreDefinitionId: String
         
         public init(coreDefinitionId: String) {
@@ -1502,7 +1554,6 @@ extension Greengrass {
 
     public struct DeleteCoreDefinitionResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -1512,6 +1563,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"), required: true, type: .string)
         ]
+
         public let deviceDefinitionId: String
         
         public init(deviceDefinitionId: String) {
@@ -1525,7 +1577,6 @@ extension Greengrass {
 
     public struct DeleteDeviceDefinitionResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -1535,6 +1586,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FunctionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"), required: true, type: .string)
         ]
+
         public let functionDefinitionId: String
         
         public init(functionDefinitionId: String) {
@@ -1548,7 +1600,6 @@ extension Greengrass {
 
     public struct DeleteFunctionDefinitionResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -1558,6 +1609,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
         ]
+
         public let groupId: String
         
         public init(groupId: String) {
@@ -1571,7 +1623,6 @@ extension Greengrass {
 
     public struct DeleteGroupResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -1581,6 +1632,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"), required: true, type: .string)
         ]
+
         public let loggerDefinitionId: String
         
         public init(loggerDefinitionId: String) {
@@ -1594,7 +1646,6 @@ extension Greengrass {
 
     public struct DeleteLoggerDefinitionResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -1604,6 +1655,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId"), required: true, type: .string)
         ]
+
         public let resourceDefinitionId: String
         
         public init(resourceDefinitionId: String) {
@@ -1617,7 +1669,6 @@ extension Greengrass {
 
     public struct DeleteResourceDefinitionResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -1627,6 +1678,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"), required: true, type: .string)
         ]
+
         public let subscriptionDefinitionId: String
         
         public init(subscriptionDefinitionId: String) {
@@ -1639,7 +1691,6 @@ extension Greengrass {
     }
 
     public struct DeleteSubscriptionDefinitionResponse: AWSShape {
-        
         
         public init() {
         }
@@ -1654,6 +1705,7 @@ extension Greengrass {
             AWSShapeMember(label: "DeploymentType", required: false, type: .enum), 
             AWSShapeMember(label: "GroupArn", required: false, type: .string)
         ]
+
         /// The time, in milliseconds since the epoch, when the deployment was created.
         public let createdAt: String?
         /// The ARN of the deployment.
@@ -1697,6 +1749,7 @@ extension Greengrass {
             AWSShapeMember(label: "SyncShadow", required: false, type: .boolean), 
             AWSShapeMember(label: "ThingArn", required: false, type: .string)
         ]
+
         /// The ARN of the certificate associated with the device.
         public let certificateArn: String?
         /// A descriptive or arbitrary ID for the device. This value must be unique within the device definition version. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''.
@@ -1725,6 +1778,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Devices", required: false, type: .list)
         ]
+
         /// A list of devices in the definition version.
         public let devices: [Device]?
         
@@ -1741,6 +1795,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
         ]
+
         public let groupId: String
         
         public init(groupId: String) {
@@ -1756,6 +1811,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DisassociatedAt", required: false, type: .string)
         ]
+
         /// The time, in milliseconds since the epoch, when the role was disassociated from the group.
         public let disassociatedAt: String?
         
@@ -1770,7 +1826,6 @@ extension Greengrass {
 
     public struct DisassociateServiceRoleFromAccountRequest: AWSShape {
         
-        
         public init() {
         }
 
@@ -1780,6 +1835,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DisassociatedAt", required: false, type: .string)
         ]
+
         /// The time when the service role was disassociated from the account.
         public let disassociatedAt: String?
         
@@ -1793,7 +1849,6 @@ extension Greengrass {
     }
 
     public struct Empty: AWSShape {
-        
         
         public init() {
         }
@@ -1811,6 +1866,7 @@ extension Greengrass {
             AWSShapeMember(label: "DetailedErrorCode", required: false, type: .string), 
             AWSShapeMember(label: "DetailedErrorMessage", required: false, type: .string)
         ]
+
         /// A detailed error code.
         public let detailedErrorCode: String?
         /// A detailed error message.
@@ -1833,6 +1889,7 @@ extension Greengrass {
             AWSShapeMember(label: "FunctionConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
+
         /// The ARN of the Lambda function.
         public let functionArn: String?
         /// The configuration of the Lambda function.
@@ -1863,6 +1920,7 @@ extension Greengrass {
             AWSShapeMember(label: "Pinned", required: false, type: .boolean), 
             AWSShapeMember(label: "Timeout", required: false, type: .integer)
         ]
+
         /// The expected encoding type of the input payload for the function. The default is ''json''.
         public let encodingType: EncodingType?
         /// The environment configuration of the function.
@@ -1906,6 +1964,7 @@ extension Greengrass {
             AWSShapeMember(label: "ResourceAccessPolicies", required: false, type: .list), 
             AWSShapeMember(label: "Variables", required: false, type: .map)
         ]
+
         /// If true, the Lambda function is allowed to access the host's /sys folder. Use this when the Lambda function needs to read device information from /sys. This setting applies only when you run the Lambda function in a Greengrass container.
         public let accessSysfs: Bool?
         /// Configuration related to executing the Lambda function
@@ -1934,6 +1993,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Execution", required: false, type: .structure)
         ]
+
         public let execution: FunctionDefaultExecutionConfig?
         
         public init(execution: FunctionDefaultExecutionConfig? = nil) {
@@ -1950,6 +2010,7 @@ extension Greengrass {
             AWSShapeMember(label: "IsolationMode", required: false, type: .enum), 
             AWSShapeMember(label: "RunAs", required: false, type: .structure)
         ]
+
         public let isolationMode: FunctionIsolationMode?
         public let runAs: FunctionRunAsConfig?
         
@@ -1969,6 +2030,7 @@ extension Greengrass {
             AWSShapeMember(label: "DefaultConfig", required: false, type: .structure), 
             AWSShapeMember(label: "Functions", required: false, type: .list)
         ]
+
         /// The default configuration that applies to all Lambda functions in this function definition version. Individual Lambda functions can override these settings.
         public let defaultConfig: FunctionDefaultConfig?
         /// A list of Lambda functions in this function definition version.
@@ -1990,6 +2052,7 @@ extension Greengrass {
             AWSShapeMember(label: "IsolationMode", required: false, type: .enum), 
             AWSShapeMember(label: "RunAs", required: false, type: .structure)
         ]
+
         public let isolationMode: FunctionIsolationMode?
         public let runAs: FunctionRunAsConfig?
         
@@ -2015,6 +2078,7 @@ extension Greengrass {
             AWSShapeMember(label: "Gid", required: false, type: .integer), 
             AWSShapeMember(label: "Uid", required: false, type: .integer)
         ]
+
         /// The group ID whose permissions are used to run a Lambda function.
         public let gid: Int32?
         /// The user ID whose permissions are used to run a Lambda function.
@@ -2036,6 +2100,7 @@ extension Greengrass {
             AWSShapeMember(label: "ErrorDetails", required: false, type: .list), 
             AWSShapeMember(label: "Message", required: false, type: .string)
         ]
+
         /// Details about the error.
         public let errorDetails: [ErrorDetail]?
         /// A message containing information about the error.
@@ -2056,6 +2121,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
         ]
+
         public let groupId: String
         
         public init(groupId: String) {
@@ -2072,6 +2138,7 @@ extension Greengrass {
             AWSShapeMember(label: "AssociatedAt", required: false, type: .string), 
             AWSShapeMember(label: "RoleArn", required: false, type: .string)
         ]
+
         /// The time when the role was associated with the group.
         public let associatedAt: String?
         /// The ARN of the role that is associated with the group.
@@ -2092,6 +2159,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BulkDeploymentId", location: .uri(locationName: "BulkDeploymentId"), required: true, type: .string)
         ]
+
         public let bulkDeploymentId: String
         
         public init(bulkDeploymentId: String) {
@@ -2112,6 +2180,7 @@ extension Greengrass {
             AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// Relevant metrics on input records processed during bulk deployment.
         public let bulkDeploymentMetrics: BulkDeploymentMetrics?
         /// The status of the bulk deployment.
@@ -2147,6 +2216,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ThingName", location: .uri(locationName: "ThingName"), required: true, type: .string)
         ]
+
         public let thingName: String
         
         public init(thingName: String) {
@@ -2163,6 +2233,7 @@ extension Greengrass {
             AWSShapeMember(label: "ConnectivityInfo", required: false, type: .list), 
             AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
         ]
+
         /// Connectivity info list.
         public let connectivityInfo: [ConnectivityInfo]?
         /// A message about the connectivity info request.
@@ -2183,6 +2254,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConnectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId"), required: true, type: .string)
         ]
+
         public let connectorDefinitionId: String
         
         public init(connectorDefinitionId: String) {
@@ -2205,6 +2277,7 @@ extension Greengrass {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -2243,6 +2316,7 @@ extension Greengrass {
             AWSShapeMember(label: "ConnectorDefinitionVersionId", location: .uri(locationName: "ConnectorDefinitionVersionId"), required: true, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
+
         public let connectorDefinitionId: String
         public let connectorDefinitionVersionId: String
         public let nextToken: String?
@@ -2269,6 +2343,7 @@ extension Greengrass {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         /// The ARN of the connector definition version.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the connector definition version was created.
@@ -2305,6 +2380,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CoreDefinitionId", location: .uri(locationName: "CoreDefinitionId"), required: true, type: .string)
         ]
+
         public let coreDefinitionId: String
         
         public init(coreDefinitionId: String) {
@@ -2327,6 +2403,7 @@ extension Greengrass {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -2364,6 +2441,7 @@ extension Greengrass {
             AWSShapeMember(label: "CoreDefinitionId", location: .uri(locationName: "CoreDefinitionId"), required: true, type: .string), 
             AWSShapeMember(label: "CoreDefinitionVersionId", location: .uri(locationName: "CoreDefinitionVersionId"), required: true, type: .string)
         ]
+
         public let coreDefinitionId: String
         public let coreDefinitionVersionId: String
         
@@ -2387,6 +2465,7 @@ extension Greengrass {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         /// The ARN of the core definition version.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the core definition version was created.
@@ -2424,6 +2503,7 @@ extension Greengrass {
             AWSShapeMember(label: "DeploymentId", location: .uri(locationName: "DeploymentId"), required: true, type: .string), 
             AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
         ]
+
         public let deploymentId: String
         public let groupId: String
         
@@ -2446,6 +2526,7 @@ extension Greengrass {
             AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "UpdatedAt", required: false, type: .string)
         ]
+
         /// The status of the deployment: ''InProgress'', ''Building'', ''Success'', or ''Failure''.
         public let deploymentStatus: String?
         /// The type of the deployment.
@@ -2478,6 +2559,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"), required: true, type: .string)
         ]
+
         public let deviceDefinitionId: String
         
         public init(deviceDefinitionId: String) {
@@ -2500,6 +2582,7 @@ extension Greengrass {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -2538,6 +2621,7 @@ extension Greengrass {
             AWSShapeMember(label: "DeviceDefinitionVersionId", location: .uri(locationName: "DeviceDefinitionVersionId"), required: true, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
+
         public let deviceDefinitionId: String
         public let deviceDefinitionVersionId: String
         public let nextToken: String?
@@ -2564,6 +2648,7 @@ extension Greengrass {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         /// The ARN of the device definition version.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the device definition version was created.
@@ -2600,6 +2685,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FunctionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"), required: true, type: .string)
         ]
+
         public let functionDefinitionId: String
         
         public init(functionDefinitionId: String) {
@@ -2622,6 +2708,7 @@ extension Greengrass {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -2660,6 +2747,7 @@ extension Greengrass {
             AWSShapeMember(label: "FunctionDefinitionVersionId", location: .uri(locationName: "FunctionDefinitionVersionId"), required: true, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
+
         public let functionDefinitionId: String
         public let functionDefinitionVersionId: String
         public let nextToken: String?
@@ -2686,6 +2774,7 @@ extension Greengrass {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         /// The ARN of the function definition version.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the function definition version was created.
@@ -2723,6 +2812,7 @@ extension Greengrass {
             AWSShapeMember(label: "CertificateAuthorityId", location: .uri(locationName: "CertificateAuthorityId"), required: true, type: .string), 
             AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
         ]
+
         public let certificateAuthorityId: String
         public let groupId: String
         
@@ -2743,6 +2833,7 @@ extension Greengrass {
             AWSShapeMember(label: "GroupCertificateAuthorityId", required: false, type: .string), 
             AWSShapeMember(label: "PemEncodedCertificate", required: false, type: .string)
         ]
+
         /// The ARN of the certificate authority for the group.
         public let groupCertificateAuthorityArn: String?
         /// The ID of the certificate authority for the group.
@@ -2767,6 +2858,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
         ]
+
         public let groupId: String
         
         public init(groupId: String) {
@@ -2784,6 +2876,7 @@ extension Greengrass {
             AWSShapeMember(label: "CertificateExpiryInMilliseconds", required: false, type: .string), 
             AWSShapeMember(label: "GroupId", required: false, type: .string)
         ]
+
         public let certificateAuthorityExpiryInMilliseconds: String?
         public let certificateExpiryInMilliseconds: String?
         public let groupId: String?
@@ -2805,6 +2898,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
         ]
+
         public let groupId: String
         
         public init(groupId: String) {
@@ -2827,6 +2921,7 @@ extension Greengrass {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -2864,6 +2959,7 @@ extension Greengrass {
             AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string), 
             AWSShapeMember(label: "GroupVersionId", location: .uri(locationName: "GroupVersionId"), required: true, type: .string)
         ]
+
         public let groupId: String
         public let groupVersionId: String
         
@@ -2886,6 +2982,7 @@ extension Greengrass {
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         /// The ARN of the group version.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the group version was created.
@@ -2918,6 +3015,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"), required: true, type: .string)
         ]
+
         public let loggerDefinitionId: String
         
         public init(loggerDefinitionId: String) {
@@ -2940,6 +3038,7 @@ extension Greengrass {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -2978,6 +3077,7 @@ extension Greengrass {
             AWSShapeMember(label: "LoggerDefinitionVersionId", location: .uri(locationName: "LoggerDefinitionVersionId"), required: true, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
+
         public let loggerDefinitionId: String
         public let loggerDefinitionVersionId: String
         public let nextToken: String?
@@ -3003,6 +3103,7 @@ extension Greengrass {
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         /// The ARN of the logger definition version.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the logger definition version was created.
@@ -3035,6 +3136,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId"), required: true, type: .string)
         ]
+
         public let resourceDefinitionId: String
         
         public init(resourceDefinitionId: String) {
@@ -3057,6 +3159,7 @@ extension Greengrass {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -3094,6 +3197,7 @@ extension Greengrass {
             AWSShapeMember(label: "ResourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId"), required: true, type: .string), 
             AWSShapeMember(label: "ResourceDefinitionVersionId", location: .uri(locationName: "ResourceDefinitionVersionId"), required: true, type: .string)
         ]
+
         public let resourceDefinitionId: String
         public let resourceDefinitionVersionId: String
         
@@ -3116,6 +3220,7 @@ extension Greengrass {
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         /// Arn of the resource definition version.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the resource definition version was created.
@@ -3146,7 +3251,6 @@ extension Greengrass {
 
     public struct GetServiceRoleForAccountRequest: AWSShape {
         
-        
         public init() {
         }
 
@@ -3157,6 +3261,7 @@ extension Greengrass {
             AWSShapeMember(label: "AssociatedAt", required: false, type: .string), 
             AWSShapeMember(label: "RoleArn", required: false, type: .string)
         ]
+
         /// The time when the service role was associated with the account.
         public let associatedAt: String?
         /// The ARN of the role which is associated with the account.
@@ -3177,6 +3282,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"), required: true, type: .string)
         ]
+
         public let subscriptionDefinitionId: String
         
         public init(subscriptionDefinitionId: String) {
@@ -3199,6 +3305,7 @@ extension Greengrass {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -3237,6 +3344,7 @@ extension Greengrass {
             AWSShapeMember(label: "SubscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"), required: true, type: .string), 
             AWSShapeMember(label: "SubscriptionDefinitionVersionId", location: .uri(locationName: "SubscriptionDefinitionVersionId"), required: true, type: .string)
         ]
+
         public let nextToken: String?
         public let subscriptionDefinitionId: String
         public let subscriptionDefinitionVersionId: String
@@ -3263,6 +3371,7 @@ extension Greengrass {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         /// The ARN of the subscription definition version.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the subscription definition version was created.
@@ -3300,6 +3409,7 @@ extension Greengrass {
             AWSShapeMember(label: "GroupCertificateAuthorityArn", required: false, type: .string), 
             AWSShapeMember(label: "GroupCertificateAuthorityId", required: false, type: .string)
         ]
+
         /// The ARN of the certificate authority for the group.
         public let groupCertificateAuthorityArn: String?
         /// The ID of the certificate authority for the group.
@@ -3322,6 +3432,7 @@ extension Greengrass {
             AWSShapeMember(label: "CertificateExpiryInMilliseconds", required: false, type: .string), 
             AWSShapeMember(label: "GroupId", required: false, type: .string)
         ]
+
         /// The amount of time remaining before the certificate authority expires, in milliseconds.
         public let certificateAuthorityExpiryInMilliseconds: String?
         /// The amount of time remaining before the certificate expires, in milliseconds.
@@ -3352,6 +3463,7 @@ extension Greengrass {
             AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         /// The ARN of the group.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the group was created.
@@ -3393,6 +3505,7 @@ extension Greengrass {
             AWSShapeMember(label: "AutoAddGroupOwner", required: false, type: .boolean), 
             AWSShapeMember(label: "GroupOwner", required: false, type: .string)
         ]
+
         /// If true, AWS IoT Greengrass automatically adds the specified Linux OS group owner of the resource to the Lambda process privileges. Thus the Lambda process will have the file access permissions of the added Linux group.
         public let autoAddGroupOwner: Bool?
         /// The name of the Linux OS group whose privileges will be added to the Lambda process. This field is optional.
@@ -3419,6 +3532,7 @@ extension Greengrass {
             AWSShapeMember(label: "ResourceDefinitionVersionArn", required: false, type: .string), 
             AWSShapeMember(label: "SubscriptionDefinitionVersionArn", required: false, type: .string)
         ]
+
         /// The ARN of the connector definition version for this group.
         public let connectorDefinitionVersionArn: String?
         /// The ARN of the core definition version for this group.
@@ -3461,6 +3575,7 @@ extension Greengrass {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
+
         public let bulkDeploymentId: String
         public let maxResults: String?
         public let nextToken: String?
@@ -3483,6 +3598,7 @@ extension Greengrass {
             AWSShapeMember(label: "Deployments", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// A list of the individual group deployments in the bulk deployment operation.
         public let deployments: [BulkDeploymentResult]?
         /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -3504,6 +3620,7 @@ extension Greengrass {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
+
         public let maxResults: String?
         public let nextToken: String?
         
@@ -3523,6 +3640,7 @@ extension Greengrass {
             AWSShapeMember(label: "BulkDeployments", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// A list of bulk deployments.
         public let bulkDeployments: [BulkDeployment]?
         /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -3545,6 +3663,7 @@ extension Greengrass {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
+
         public let connectorDefinitionId: String
         public let maxResults: String?
         public let nextToken: String?
@@ -3567,6 +3686,7 @@ extension Greengrass {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Versions", required: false, type: .list)
         ]
+
         public let nextToken: String?
         public let versions: [VersionInformation]?
         
@@ -3586,6 +3706,7 @@ extension Greengrass {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
+
         public let maxResults: String?
         public let nextToken: String?
         
@@ -3605,6 +3726,7 @@ extension Greengrass {
             AWSShapeMember(label: "Definitions", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
         
@@ -3625,6 +3747,7 @@ extension Greengrass {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
+
         public let coreDefinitionId: String
         public let maxResults: String?
         public let nextToken: String?
@@ -3647,6 +3770,7 @@ extension Greengrass {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Versions", required: false, type: .list)
         ]
+
         public let nextToken: String?
         public let versions: [VersionInformation]?
         
@@ -3666,6 +3790,7 @@ extension Greengrass {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
+
         public let maxResults: String?
         public let nextToken: String?
         
@@ -3685,6 +3810,7 @@ extension Greengrass {
             AWSShapeMember(label: "Definitions", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
         
@@ -3704,6 +3830,7 @@ extension Greengrass {
             AWSShapeMember(label: "Definitions", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Information about a definition.
         public let definitions: [DefinitionInformation]?
         /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -3726,6 +3853,7 @@ extension Greengrass {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
+
         public let groupId: String
         public let maxResults: String?
         public let nextToken: String?
@@ -3748,6 +3876,7 @@ extension Greengrass {
             AWSShapeMember(label: "Deployments", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// A list of deployments for the requested groups.
         public let deployments: [Deployment]?
         /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -3770,6 +3899,7 @@ extension Greengrass {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
+
         public let deviceDefinitionId: String
         public let maxResults: String?
         public let nextToken: String?
@@ -3792,6 +3922,7 @@ extension Greengrass {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Versions", required: false, type: .list)
         ]
+
         public let nextToken: String?
         public let versions: [VersionInformation]?
         
@@ -3811,6 +3942,7 @@ extension Greengrass {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
+
         public let maxResults: String?
         public let nextToken: String?
         
@@ -3830,6 +3962,7 @@ extension Greengrass {
             AWSShapeMember(label: "Definitions", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
         
@@ -3850,6 +3983,7 @@ extension Greengrass {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
+
         public let functionDefinitionId: String
         public let maxResults: String?
         public let nextToken: String?
@@ -3872,6 +4006,7 @@ extension Greengrass {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Versions", required: false, type: .list)
         ]
+
         public let nextToken: String?
         public let versions: [VersionInformation]?
         
@@ -3891,6 +4026,7 @@ extension Greengrass {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
+
         public let maxResults: String?
         public let nextToken: String?
         
@@ -3910,6 +4046,7 @@ extension Greengrass {
             AWSShapeMember(label: "Definitions", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
         
@@ -3928,6 +4065,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
         ]
+
         public let groupId: String
         
         public init(groupId: String) {
@@ -3943,6 +4081,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GroupCertificateAuthorities", required: false, type: .list)
         ]
+
         /// A list of certificate authorities associated with the group.
         public let groupCertificateAuthorities: [GroupCertificateAuthorityProperties]?
         
@@ -3961,6 +4100,7 @@ extension Greengrass {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
+
         public let groupId: String
         public let maxResults: String?
         public let nextToken: String?
@@ -3983,6 +4123,7 @@ extension Greengrass {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Versions", required: false, type: .list)
         ]
+
         public let nextToken: String?
         public let versions: [VersionInformation]?
         
@@ -4002,6 +4143,7 @@ extension Greengrass {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
+
         public let maxResults: String?
         public let nextToken: String?
         
@@ -4021,6 +4163,7 @@ extension Greengrass {
             AWSShapeMember(label: "Groups", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Information about a group.
         public let groups: [GroupInformation]?
         /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -4043,6 +4186,7 @@ extension Greengrass {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
+
         public let loggerDefinitionId: String
         public let maxResults: String?
         public let nextToken: String?
@@ -4065,6 +4209,7 @@ extension Greengrass {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Versions", required: false, type: .list)
         ]
+
         public let nextToken: String?
         public let versions: [VersionInformation]?
         
@@ -4084,6 +4229,7 @@ extension Greengrass {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
+
         public let maxResults: String?
         public let nextToken: String?
         
@@ -4103,6 +4249,7 @@ extension Greengrass {
             AWSShapeMember(label: "Definitions", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
         
@@ -4123,6 +4270,7 @@ extension Greengrass {
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
             AWSShapeMember(label: "ResourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId"), required: true, type: .string)
         ]
+
         public let maxResults: String?
         public let nextToken: String?
         public let resourceDefinitionId: String
@@ -4145,6 +4293,7 @@ extension Greengrass {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Versions", required: false, type: .list)
         ]
+
         public let nextToken: String?
         public let versions: [VersionInformation]?
         
@@ -4164,6 +4313,7 @@ extension Greengrass {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
+
         public let maxResults: String?
         public let nextToken: String?
         
@@ -4183,6 +4333,7 @@ extension Greengrass {
             AWSShapeMember(label: "Definitions", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
         
@@ -4203,6 +4354,7 @@ extension Greengrass {
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
             AWSShapeMember(label: "SubscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"), required: true, type: .string)
         ]
+
         public let maxResults: String?
         public let nextToken: String?
         public let subscriptionDefinitionId: String
@@ -4225,6 +4377,7 @@ extension Greengrass {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Versions", required: false, type: .list)
         ]
+
         public let nextToken: String?
         public let versions: [VersionInformation]?
         
@@ -4244,6 +4397,7 @@ extension Greengrass {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
+
         public let maxResults: String?
         public let nextToken: String?
         
@@ -4263,6 +4417,7 @@ extension Greengrass {
             AWSShapeMember(label: "Definitions", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
         
@@ -4281,6 +4436,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string)
         ]
+
         public let resourceArn: String
         
         public init(resourceArn: String) {
@@ -4296,6 +4452,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", required: false, type: .map)
         ]
+
         public let tags: [String: String]?
         
         public init(tags: [String: String]? = nil) {
@@ -4312,6 +4469,7 @@ extension Greengrass {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Versions", required: false, type: .list)
         ]
+
         /// The token for the next set of results, or ''null'' if there are no additional results.
         public let nextToken: String?
         /// Information about a version.
@@ -4333,6 +4491,7 @@ extension Greengrass {
             AWSShapeMember(label: "GroupOwnerSetting", required: false, type: .structure), 
             AWSShapeMember(label: "SourcePath", required: false, type: .string)
         ]
+
         /// Group/owner related settings for local resources.
         public let groupOwnerSetting: GroupOwnerSetting?
         /// The local absolute path of the device resource. The source path for a device resource can refer only to a character device or block device under ''/dev''.
@@ -4355,6 +4514,7 @@ extension Greengrass {
             AWSShapeMember(label: "GroupOwnerSetting", required: false, type: .structure), 
             AWSShapeMember(label: "SourcePath", required: false, type: .string)
         ]
+
         /// The absolute local path of the resource inside the Lambda environment.
         public let destinationPath: String?
         /// Allows you to configure additional group privileges for the Lambda process. This field is optional.
@@ -4383,6 +4543,7 @@ extension Greengrass {
             AWSShapeMember(label: "Space", required: false, type: .integer), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
+
         /// The component that will be subject to logging.
         public let component: LoggerComponent?
         /// A descriptive or arbitrary ID for the logger. This value must be unique within the logger definition version. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''.
@@ -4421,6 +4582,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Loggers", required: false, type: .list)
         ]
+
         /// A list of loggers.
         public let loggers: [Logger]?
         
@@ -4460,6 +4622,7 @@ extension Greengrass {
             AWSShapeMember(label: "Force", required: false, type: .boolean), 
             AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
         ]
+
         public let amznClientToken: String?
         /// If true, performs a best-effort only core reset.
         public let force: Bool?
@@ -4483,6 +4646,7 @@ extension Greengrass {
             AWSShapeMember(label: "DeploymentArn", required: false, type: .string), 
             AWSShapeMember(label: "DeploymentId", required: false, type: .string)
         ]
+
         /// The ARN of the deployment.
         public let deploymentArn: String?
         /// The ID of the deployment.
@@ -4505,6 +4669,7 @@ extension Greengrass {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "ResourceDataContainer", required: false, type: .structure)
         ]
+
         /// The resource ID, used to refer to a resource in the Lambda function configuration. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''. This must be unique within a Greengrass group.
         public let id: String?
         /// The descriptive resource name, which is displayed on the AWS IoT Greengrass console. Max length 128 characters with pattern ''[a-zA-Z0-9:_-]+''. This must be unique within a Greengrass group.
@@ -4530,6 +4695,7 @@ extension Greengrass {
             AWSShapeMember(label: "Permission", required: false, type: .enum), 
             AWSShapeMember(label: "ResourceId", required: false, type: .string)
         ]
+
         /// The permissions that the Lambda function has to the resource. Can be one of ''rw'' (read/write) or ''ro'' (read-only).
         public let permission: Permission?
         /// The ID of the resource. (This ID is assigned to the resource when you create the resource definiton.)
@@ -4554,6 +4720,7 @@ extension Greengrass {
             AWSShapeMember(label: "SageMakerMachineLearningModelResourceData", required: false, type: .structure), 
             AWSShapeMember(label: "SecretsManagerSecretResourceData", required: false, type: .structure)
         ]
+
         /// Attributes that define the local device resource.
         public let localDeviceResourceData: LocalDeviceResourceData?
         /// Attributes that define the local volume resource.
@@ -4586,6 +4753,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Resources", required: false, type: .list)
         ]
+
         /// A list of resources.
         public let resources: [Resource]?
         
@@ -4603,6 +4771,7 @@ extension Greengrass {
             AWSShapeMember(label: "DestinationPath", required: false, type: .string), 
             AWSShapeMember(label: "S3Uri", required: false, type: .string)
         ]
+
         /// The absolute local path of the resource inside the Lambda environment.
         public let destinationPath: String?
         /// The URI of the source model in an S3 bucket. The model package must be in tar.gz or .zip format.
@@ -4624,6 +4793,7 @@ extension Greengrass {
             AWSShapeMember(label: "DestinationPath", required: false, type: .string), 
             AWSShapeMember(label: "SageMakerJobArn", required: false, type: .string)
         ]
+
         /// The absolute local path of the resource inside the Lambda environment.
         public let destinationPath: String?
         /// The ARN of the Amazon SageMaker training job that represents the source model.
@@ -4645,6 +4815,7 @@ extension Greengrass {
             AWSShapeMember(label: "AdditionalStagingLabelsToDownload", required: false, type: .list), 
             AWSShapeMember(label: "ARN", required: false, type: .string)
         ]
+
         /// Optional. The staging labels whose values you want to make available on the core, in addition to ''AWSCURRENT''.
         public let additionalStagingLabelsToDownload: [String]?
         /// The ARN of the Secrets Manager secret to make available on the core. The value of the secret's latest version (represented by the ''AWSCURRENT'' staging label) is included by default.
@@ -4674,6 +4845,7 @@ extension Greengrass {
             AWSShapeMember(label: "InputFileUri", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         public let amznClientToken: String?
         /// The ARN of the execution role to associate with the bulk deployment operation. This IAM role must allow the ''greengrass:CreateDeployment'' action for all group versions that are listed in the input file. This IAM role must have access to the S3 bucket containing the input file.
         public let executionRoleArn: String?
@@ -4701,6 +4873,7 @@ extension Greengrass {
             AWSShapeMember(label: "BulkDeploymentArn", required: false, type: .string), 
             AWSShapeMember(label: "BulkDeploymentId", required: false, type: .string)
         ]
+
         /// The ARN of the bulk deployment.
         public let bulkDeploymentArn: String?
         /// The ID of the bulk deployment.
@@ -4721,6 +4894,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BulkDeploymentId", location: .uri(locationName: "BulkDeploymentId"), required: true, type: .string)
         ]
+
         public let bulkDeploymentId: String
         
         public init(bulkDeploymentId: String) {
@@ -4734,7 +4908,6 @@ extension Greengrass {
 
     public struct StopBulkDeploymentResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -4747,6 +4920,7 @@ extension Greengrass {
             AWSShapeMember(label: "Subject", required: false, type: .string), 
             AWSShapeMember(label: "Target", required: false, type: .string)
         ]
+
         /// A descriptive or arbitrary ID for the subscription. This value must be unique within the subscription definition version. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''.
         public let id: String?
         /// The source of the subscription. Can be a thing ARN, a Lambda function ARN, a connector ARN, 'cloud' (which represents the AWS IoT cloud), or 'GGShadowService'.
@@ -4775,6 +4949,7 @@ extension Greengrass {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Subscriptions", required: false, type: .list)
         ]
+
         /// A list of subscriptions.
         public let subscriptions: [Subscription]?
         
@@ -4792,6 +4967,7 @@ extension Greengrass {
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
             AWSShapeMember(label: "tags", required: true, type: .map)
         ]
+
         public let resourceArn: String
         public let tags: [String: String]
         
@@ -4811,6 +4987,7 @@ extension Greengrass {
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
         ]
+
         public let resourceArn: String
         public let tagKeys: [String]
         
@@ -4842,6 +5019,7 @@ extension Greengrass {
             AWSShapeMember(label: "ConnectivityInfo", required: false, type: .list), 
             AWSShapeMember(label: "ThingName", location: .uri(locationName: "ThingName"), required: true, type: .string)
         ]
+
         /// A list of connectivity info.
         public let connectivityInfo: [ConnectivityInfo]?
         public let thingName: String
@@ -4862,6 +5040,7 @@ extension Greengrass {
             AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         /// A message about the connectivity info update request.
         public let message: String?
         /// The new version of the connectivity info.
@@ -4883,6 +5062,7 @@ extension Greengrass {
             AWSShapeMember(label: "ConnectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId"), required: true, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         public let connectorDefinitionId: String
         public let name: String?
         
@@ -4899,7 +5079,6 @@ extension Greengrass {
 
     public struct UpdateConnectorDefinitionResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -4910,6 +5089,7 @@ extension Greengrass {
             AWSShapeMember(label: "CoreDefinitionId", location: .uri(locationName: "CoreDefinitionId"), required: true, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         public let coreDefinitionId: String
         public let name: String?
         
@@ -4926,7 +5106,6 @@ extension Greengrass {
 
     public struct UpdateCoreDefinitionResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -4937,6 +5116,7 @@ extension Greengrass {
             AWSShapeMember(label: "DeviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"), required: true, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         public let deviceDefinitionId: String
         public let name: String?
         
@@ -4953,7 +5133,6 @@ extension Greengrass {
 
     public struct UpdateDeviceDefinitionResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -4964,6 +5143,7 @@ extension Greengrass {
             AWSShapeMember(label: "FunctionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"), required: true, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         public let functionDefinitionId: String
         public let name: String?
         
@@ -4980,7 +5160,6 @@ extension Greengrass {
 
     public struct UpdateFunctionDefinitionResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -4991,6 +5170,7 @@ extension Greengrass {
             AWSShapeMember(label: "CertificateExpiryInMilliseconds", required: false, type: .string), 
             AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
         ]
+
         /// The amount of time remaining before the certificate expires, in milliseconds.
         public let certificateExpiryInMilliseconds: String?
         public let groupId: String
@@ -5012,6 +5192,7 @@ extension Greengrass {
             AWSShapeMember(label: "CertificateExpiryInMilliseconds", required: false, type: .string), 
             AWSShapeMember(label: "GroupId", required: false, type: .string)
         ]
+
         public let certificateAuthorityExpiryInMilliseconds: String?
         public let certificateExpiryInMilliseconds: String?
         public let groupId: String?
@@ -5034,6 +5215,7 @@ extension Greengrass {
             AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         public let groupId: String
         public let name: String?
         
@@ -5050,7 +5232,6 @@ extension Greengrass {
 
     public struct UpdateGroupResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -5061,6 +5242,7 @@ extension Greengrass {
             AWSShapeMember(label: "LoggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"), required: true, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         public let loggerDefinitionId: String
         public let name: String?
         
@@ -5077,7 +5259,6 @@ extension Greengrass {
 
     public struct UpdateLoggerDefinitionResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -5088,6 +5269,7 @@ extension Greengrass {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "ResourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId"), required: true, type: .string)
         ]
+
         public let name: String?
         public let resourceDefinitionId: String
         
@@ -5104,7 +5286,6 @@ extension Greengrass {
 
     public struct UpdateResourceDefinitionResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -5115,6 +5296,7 @@ extension Greengrass {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "SubscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"), required: true, type: .string)
         ]
+
         public let name: String?
         public let subscriptionDefinitionId: String
         
@@ -5130,7 +5312,6 @@ extension Greengrass {
     }
 
     public struct UpdateSubscriptionDefinitionResponse: AWSShape {
-        
         
         public init() {
         }
@@ -5158,6 +5339,7 @@ extension Greengrass {
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         /// The ARN of the version.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the version was created.

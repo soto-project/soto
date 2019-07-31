@@ -15,6 +15,7 @@ extension SageMakerRuntime {
             AWSShapeMember(label: "CustomAttributes", location: .header(locationName: "X-Amzn-SageMaker-Custom-Attributes"), required: false, type: .string), 
             AWSShapeMember(label: "EndpointName", location: .uri(locationName: "EndpointName"), required: true, type: .string)
         ]
+
         /// The desired MIME type of the inference in the response.
         public let accept: String?
         /// Provides input data, in the format specified in the ContentType request header. Amazon SageMaker passes all of the data in the body to the model.  For information about the format of the request body, see Common Data Formats—Inference.
@@ -60,6 +61,7 @@ extension SageMakerRuntime {
             AWSShapeMember(label: "CustomAttributes", location: .header(locationName: "X-Amzn-SageMaker-Custom-Attributes"), required: false, type: .string), 
             AWSShapeMember(label: "InvokedProductionVariant", location: .header(locationName: "x-Amzn-Invoked-Production-Variant"), required: false, type: .string)
         ]
+
         /// Includes the inference provided by the model. For information about the format of the response body, see Common Data Formats—Inference.
         public let body: Data
         /// The MIME type of the inference returned in the response body.

@@ -17,6 +17,7 @@ extension S3Control {
             AWSShapeMember(label: "Report", required: true, type: .structure), 
             AWSShapeMember(label: "RoleArn", required: true, type: .string)
         ]
+
         public let accountId: String
         /// An idempotency token to ensure that you don't accidentally submit the same request twice. You can use any string up to the maximum length.
         public let clientRequestToken: String
@@ -79,6 +80,7 @@ extension S3Control {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobId", required: false, type: .string)
         ]
+
         /// The ID for this job. Amazon S3 generates this ID automatically and returns it after a successful Create Job request.
         public let jobId: String?
         
@@ -100,6 +102,7 @@ extension S3Control {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string)
         ]
+
         /// The account ID for the AWS account whose block public access configuration you want to delete.
         public let accountId: String
         
@@ -121,6 +124,7 @@ extension S3Control {
             AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string), 
             AWSShapeMember(label: "JobId", location: .uri(locationName: "id"), required: true, type: .string)
         ]
+
         public let accountId: String
         /// The ID for the job whose information you want to retrieve.
         public let jobId: String
@@ -146,6 +150,7 @@ extension S3Control {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Job", required: false, type: .structure)
         ]
+
         /// Contains the configuration parameters and status for the job specified in the Describe Job request.
         public let job: JobDescriptor?
         
@@ -168,6 +173,7 @@ extension S3Control {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PublicAccessBlockConfiguration", required: false, type: .structure)
         ]
+
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration?
         
         public init(publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil) {
@@ -183,6 +189,7 @@ extension S3Control {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string)
         ]
+
         public let accountId: String
         
         public init(accountId: String) {
@@ -218,6 +225,7 @@ extension S3Control {
             AWSShapeMember(label: "SuspendedDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "TerminationDate", required: false, type: .timestamp)
         ]
+
         /// Indicates whether confirmation is required before Amazon S3 begins running the specified job. Confirmation is required only for jobs created through the Amazon S3 console.
         public let confirmationRequired: Bool?
         /// A timestamp indicating when this job was created.
@@ -275,6 +283,9 @@ extension S3Control {
         public func validate() throws {
             try validate(description, name:"description", max: 256)
             try validate(description, name:"description", min: 1)
+            try failureReasons?.forEach {
+                try $0.validate()
+            }
             try validate(jobArn, name:"jobArn", max: 1024)
             try validate(jobArn, name:"jobArn", min: 1)
             try validate(jobId, name:"jobId", max: 36)
@@ -319,6 +330,7 @@ extension S3Control {
             AWSShapeMember(label: "FailureCode", required: false, type: .string), 
             AWSShapeMember(label: "FailureReason", required: false, type: .string)
         ]
+
         /// The failure code, if any, for the specified job.
         public let failureCode: String?
         /// The failure reason, if any, for the specified job.
@@ -353,6 +365,7 @@ extension S3Control {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "TerminationDate", required: false, type: .timestamp)
         ]
+
         /// A timestamp indicating when the specified job was created.
         public let creationTime: TimeStamp?
         /// The user-specified description that was included in the specified job's Create Job request.
@@ -408,6 +421,7 @@ extension S3Control {
             AWSShapeMember(label: "Location", required: true, type: .structure), 
             AWSShapeMember(label: "Spec", required: true, type: .structure)
         ]
+
         /// Contains the information required to locate the specified job's manifest.
         public let location: JobManifestLocation
         /// Describes the format of the specified job's manifest. If the manifest is in CSV format, also describes the columns contained within the manifest.
@@ -448,6 +462,7 @@ extension S3Control {
             AWSShapeMember(label: "ObjectArn", required: true, type: .string), 
             AWSShapeMember(label: "ObjectVersionId", required: false, type: .string)
         ]
+
         /// The ETag for the specified manifest object.
         public let eTag: String
         /// The Amazon Resource Name (ARN) for a manifest object.
@@ -482,6 +497,7 @@ extension S3Control {
             AWSShapeMember(label: "Fields", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Format", required: true, type: .enum)
         ]
+
         /// If the specified manifest object is in the S3BatchOperations_CSV_20180820 format, this element describes which columns contain the required data.
         public let fields: [JobManifestFieldName]?
         /// Indicates which of the available formats the specified manifest uses.
@@ -506,6 +522,7 @@ extension S3Control {
             AWSShapeMember(label: "S3PutObjectCopy", required: false, type: .structure), 
             AWSShapeMember(label: "S3PutObjectTagging", required: false, type: .structure)
         ]
+
         /// Directs the specified job to invoke an AWS Lambda function on each object in the manifest.
         public let lambdaInvoke: LambdaInvokeOperation?
         /// Directs the specified job to execute an Initiate Glacier Restore call on each object in the manifest.
@@ -530,6 +547,7 @@ extension S3Control {
             try s3InitiateRestoreObject?.validate()
             try s3PutObjectAcl?.validate()
             try s3PutObjectCopy?.validate()
+            try s3PutObjectTagging?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -547,6 +565,7 @@ extension S3Control {
             AWSShapeMember(label: "NumberOfTasksSucceeded", required: false, type: .long), 
             AWSShapeMember(label: "TotalNumberOfTasks", required: false, type: .long)
         ]
+
         public let numberOfTasksFailed: Int64?
         public let numberOfTasksSucceeded: Int64?
         public let totalNumberOfTasks: Int64?
@@ -578,6 +597,7 @@ extension S3Control {
             AWSShapeMember(label: "Prefix", required: false, type: .string), 
             AWSShapeMember(label: "ReportScope", required: false, type: .enum)
         ]
+
         /// The bucket where specified job-completion report will be stored.
         public let bucket: String?
         /// Indicates whether the specified job will generate a job-completion report.
@@ -645,6 +665,7 @@ extension S3Control {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FunctionArn", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) for the AWS Lambda function that the specified job will invoke for each object in the manifest.
         public let functionArn: String?
         
@@ -669,6 +690,7 @@ extension S3Control {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let accountId: String
         /// The List Jobs request returns jobs that match the statuses listed in this element.
         public let jobStatuses: [JobStatus]?
@@ -705,6 +727,7 @@ extension S3Control {
             AWSShapeMember(label: "Jobs", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The list of current jobs and jobs that have ended within the last 30 days.
         public let jobs: [JobListDescriptor]?
         /// If the List Jobs request produced more than the maximum number of results, you can pass this value into a subsequent List Jobs request in order to retrieve the next page of results.
@@ -716,6 +739,9 @@ extension S3Control {
         }
 
         public func validate() throws {
+            try jobs?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -742,6 +768,7 @@ extension S3Control {
             AWSShapeMember(label: "IgnorePublicAcls", location: .body(locationName: "IgnorePublicAcls"), required: false, type: .boolean), 
             AWSShapeMember(label: "RestrictPublicBuckets", location: .body(locationName: "RestrictPublicBuckets"), required: false, type: .boolean)
         ]
+
         public let blockPublicAcls: Bool?
         public let blockPublicPolicy: Bool?
         public let ignorePublicAcls: Bool?
@@ -770,6 +797,7 @@ extension S3Control {
             AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string), 
             AWSShapeMember(label: "PublicAccessBlockConfiguration", location: .body(locationName: "PublicAccessBlockConfiguration"), required: true, type: .structure)
         ]
+
         public let accountId: String
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration
         
@@ -799,6 +827,7 @@ extension S3Control {
             AWSShapeMember(label: "Grants", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Owner", required: true, type: .structure)
         ]
+
         public let grants: [S3Grant]?
         public let owner: S3ObjectOwner
         
@@ -808,6 +837,9 @@ extension S3Control {
         }
 
         public func validate() throws {
+            try grants?.forEach {
+                try $0.validate()
+            }
             try owner.validate()
         }
 
@@ -822,6 +854,7 @@ extension S3Control {
             AWSShapeMember(label: "AccessControlList", required: false, type: .structure), 
             AWSShapeMember(label: "CannedAccessControlList", required: false, type: .enum)
         ]
+
         public let accessControlList: S3AccessControlList?
         public let cannedAccessControlList: S3CannedAccessControlList?
         
@@ -870,6 +903,7 @@ extension S3Control {
             AWSShapeMember(label: "TargetResource", required: false, type: .string), 
             AWSShapeMember(label: "UnModifiedSinceConstraint", required: false, type: .timestamp)
         ]
+
         public let accessControlGrants: [S3Grant]?
         public let cannedAccessControlList: S3CannedAccessControlList?
         public let metadataDirective: S3MetadataDirective?
@@ -907,7 +941,13 @@ extension S3Control {
         }
 
         public func validate() throws {
+            try accessControlGrants?.forEach {
+                try $0.validate()
+            }
             try newObjectMetadata?.validate()
+            try newObjectTagging?.forEach {
+                try $0.validate()
+            }
             try validate(redirectLocation, name:"redirectLocation", max: 2048)
             try validate(redirectLocation, name:"redirectLocation", min: 1)
             try validate(sSEAwsKmsKeyId, name:"sSEAwsKmsKeyId", max: 2000)
@@ -949,6 +989,7 @@ extension S3Control {
             AWSShapeMember(label: "Grantee", required: false, type: .structure), 
             AWSShapeMember(label: "Permission", required: false, type: .enum)
         ]
+
         public let grantee: S3Grantee?
         public let permission: S3Permission?
         
@@ -973,6 +1014,7 @@ extension S3Control {
             AWSShapeMember(label: "Identifier", required: false, type: .string), 
             AWSShapeMember(label: "TypeIdentifier", required: false, type: .enum)
         ]
+
         public let displayName: String?
         public let identifier: String?
         public let typeIdentifier: S3GranteeTypeIdentifier?
@@ -1009,6 +1051,7 @@ extension S3Control {
             AWSShapeMember(label: "ExpirationInDays", required: false, type: .integer), 
             AWSShapeMember(label: "GlacierJobTier", required: false, type: .enum)
         ]
+
         public let expirationInDays: Int32?
         public let glacierJobTier: S3GlacierJobTier?
         
@@ -1059,6 +1102,7 @@ extension S3Control {
             AWSShapeMember(label: "SSEAlgorithm", required: false, type: .enum), 
             AWSShapeMember(label: "UserMetadata", required: false, type: .map, encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
+
         public let cacheControl: String?
         public let contentDisposition: String?
         public let contentEncoding: String?
@@ -1121,6 +1165,7 @@ extension S3Control {
             AWSShapeMember(label: "DisplayName", required: false, type: .string), 
             AWSShapeMember(label: "ID", required: false, type: .string)
         ]
+
         public let displayName: String?
         public let id: String?
         
@@ -1161,6 +1206,7 @@ extension S3Control {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccessControlPolicy", required: false, type: .structure)
         ]
+
         public let accessControlPolicy: S3AccessControlPolicy?
         
         public init(accessControlPolicy: S3AccessControlPolicy? = nil) {
@@ -1180,10 +1226,17 @@ extension S3Control {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TagSet", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         public let tagSet: [S3Tag]?
         
         public init(tagSet: [S3Tag]? = nil) {
             self.tagSet = tagSet
+        }
+
+        public func validate() throws {
+            try tagSet?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1206,6 +1259,7 @@ extension S3Control {
             AWSShapeMember(label: "Key", required: true, type: .string), 
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
+
         public let key: String
         public let value: String
         
@@ -1232,6 +1286,7 @@ extension S3Control {
             AWSShapeMember(label: "JobId", location: .uri(locationName: "id"), required: true, type: .string), 
             AWSShapeMember(label: "Priority", location: .querystring(locationName: "priority"), required: true, type: .integer)
         ]
+
         public let accountId: String
         /// The ID for the job whose priority you want to update.
         public let jobId: String
@@ -1264,6 +1319,7 @@ extension S3Control {
             AWSShapeMember(label: "JobId", required: true, type: .string), 
             AWSShapeMember(label: "Priority", required: true, type: .integer)
         ]
+
         /// The ID for the job whose priority Amazon S3 updated.
         public let jobId: String
         /// The new priority assigned to the specified job.
@@ -1294,6 +1350,7 @@ extension S3Control {
             AWSShapeMember(label: "RequestedJobStatus", location: .querystring(locationName: "requestedJobStatus"), required: true, type: .enum), 
             AWSShapeMember(label: "StatusUpdateReason", location: .querystring(locationName: "statusUpdateReason"), required: false, type: .string)
         ]
+
         public let accountId: String
         /// The ID of the job whose status you want to update.
         public let jobId: String
@@ -1331,6 +1388,7 @@ extension S3Control {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "StatusUpdateReason", required: false, type: .string)
         ]
+
         /// The ID for the job whose status was updated.
         public let jobId: String?
         /// The current status for the specified job.

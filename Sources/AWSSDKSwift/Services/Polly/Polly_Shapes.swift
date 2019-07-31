@@ -9,6 +9,7 @@ extension Polly {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", location: .uri(locationName: "LexiconName"), required: true, type: .string)
         ]
+
         /// The name of the lexicon to delete. Must be an existing lexicon in the region.
         public let name: String
         
@@ -27,7 +28,6 @@ extension Polly {
 
     public struct DeleteLexiconOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -39,6 +39,7 @@ extension Polly {
             AWSShapeMember(label: "LanguageCode", location: .querystring(locationName: "LanguageCode"), required: false, type: .enum), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
+
         /// Boolean value indicating whether to return any bilingual voices that use the specified language as an additional language. For instance, if you request all languages that use US English (es-US), and there is an Italian voice that speaks both Italian (it-IT) and US English, that voice will be included if you specify yes but not if you specify no.
         public let includeAdditionalLanguageCodes: Bool?
         ///  The language identification tag (ISO 639 code for the language name-ISO 3166 country code) for filtering the list of voices returned. If you don't specify this optional parameter, all available voices are returned. 
@@ -69,6 +70,7 @@ extension Polly {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Voices", required: false, type: .list)
         ]
+
         /// The pagination token to use in the next request to continue the listing of voices. NextToken is returned only if the response is truncated.
         public let nextToken: String?
         /// A list of voices with their properties.
@@ -100,6 +102,7 @@ extension Polly {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", location: .uri(locationName: "LexiconName"), required: true, type: .string)
         ]
+
         /// Name of the lexicon.
         public let name: String
         
@@ -121,6 +124,7 @@ extension Polly {
             AWSShapeMember(label: "Lexicon", required: false, type: .structure), 
             AWSShapeMember(label: "LexiconAttributes", required: false, type: .structure)
         ]
+
         /// Lexicon object that provides name and the string content of the lexicon. 
         public let lexicon: Lexicon?
         /// Metadata of the lexicon, including phonetic alphabetic used, language code, lexicon ARN, number of lexemes defined in the lexicon, and size of lexicon in bytes.
@@ -145,6 +149,7 @@ extension Polly {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TaskId", location: .uri(locationName: "TaskId"), required: true, type: .string)
         ]
+
         /// The Amazon Polly generated identifier for a speech synthesis task.
         public let taskId: String
         
@@ -165,6 +170,7 @@ extension Polly {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SynthesisTask", required: false, type: .structure)
         ]
+
         /// SynthesisTask object that provides information from the requested task, including output format, creation time, task status, and so on.
         public let synthesisTask: SynthesisTask?
         
@@ -219,6 +225,7 @@ extension Polly {
             AWSShapeMember(label: "Content", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         /// Lexicon content in string format. The content of a lexicon must be in PLS format.
         public let content: String?
         /// Name of the lexicon.
@@ -248,6 +255,7 @@ extension Polly {
             AWSShapeMember(label: "LexiconArn", required: false, type: .string), 
             AWSShapeMember(label: "Size", required: false, type: .integer)
         ]
+
         /// Phonetic alphabet used in the lexicon. Valid values are ipa and x-sampa.
         public let alphabet: String?
         /// Language code that the lexicon applies to. A lexicon with a language code such as "en" would be applied to all English languages (en-GB, en-US, en-AUS, en-WLS, and so on.
@@ -285,6 +293,7 @@ extension Polly {
             AWSShapeMember(label: "Attributes", required: false, type: .structure), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         /// Provides lexicon metadata.
         public let attributes: LexiconAttributes?
         /// Name of the lexicon.
@@ -309,6 +318,7 @@ extension Polly {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
+
         /// An opaque pagination token returned from previous ListLexicons operation. If present, indicates where to continue the list of lexicons.
         public let nextToken: String?
         
@@ -331,6 +341,7 @@ extension Polly {
             AWSShapeMember(label: "Lexicons", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// A list of lexicon names and attributes.
         public let lexicons: [LexiconDescription]?
         /// The pagination token to use in the next request to continue the listing of lexicons. NextToken is returned only if the response is truncated.
@@ -342,6 +353,9 @@ extension Polly {
         }
 
         public func validate() throws {
+            try lexicons?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 4096)
             try validate(nextToken, name:"nextToken", min: 0)
         }
@@ -358,6 +372,7 @@ extension Polly {
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
             AWSShapeMember(label: "Status", location: .querystring(locationName: "Status"), required: false, type: .enum)
         ]
+
         /// Maximum number of speech synthesis tasks returned in a List operation.
         public let maxResults: Int32?
         /// The pagination token to use in the next request to continue the listing of speech synthesis tasks. 
@@ -390,6 +405,7 @@ extension Polly {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "SynthesisTasks", required: false, type: .list)
         ]
+
         /// An opaque pagination token returned from the previous List operation in this request. If present, this indicates where to continue the listing.
         public let nextToken: String?
         /// List of SynthesisTask objects that provides information from the specified task in the list request, including output format, creation time, task status, and so on.
@@ -403,6 +419,9 @@ extension Polly {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 4096)
             try validate(nextToken, name:"nextToken", min: 0)
+            try synthesisTasks?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -424,6 +443,7 @@ extension Polly {
             AWSShapeMember(label: "Content", required: true, type: .string), 
             AWSShapeMember(label: "Name", location: .uri(locationName: "LexiconName"), required: true, type: .string)
         ]
+
         /// Content of the PLS lexicon as string data.
         public let content: String
         /// Name of the lexicon. The name must follow the regular express format [0-9A-Za-z]{1,20}. That is, the name is a case-sensitive alphanumeric string up to 20 characters long. 
@@ -445,7 +465,6 @@ extension Polly {
     }
 
     public struct PutLexiconOutput: AWSShape {
-        
         
         public init() {
         }
@@ -474,6 +493,7 @@ extension Polly {
             AWSShapeMember(label: "TextType", required: false, type: .enum), 
             AWSShapeMember(label: "VoiceId", required: true, type: .enum)
         ]
+
         /// Optional language code for the Speech Synthesis request. This is only necessary if using a bilingual voice, such as Aditi, which can be used for either Indian English (en-IN) or Hindi (hi-IN).  If a bilingual voice is used and no language code is specified, Amazon Polly will use the default language of the bilingual voice. The default language for any voice is the one returned by the DescribeVoices operation for the LanguageCode parameter. For example, if no language code is specified, Aditi will use Indian English rather than Hindi.
         public let languageCode: LanguageCode?
         /// List of one or more pronunciation lexicon names you want the service to apply during synthesis. Lexicons are applied only if the language of the lexicon is the same as the language of the voice. 
@@ -512,6 +532,9 @@ extension Polly {
         }
 
         public func validate() throws {
+            try lexiconNames?.forEach {
+                try validate($0, name:"lexiconNames[]", pattern: "[0-9A-Za-z]{1,20}")
+            }
             try validate(lexiconNames, name:"lexiconNames", max: 5)
             try validate(outputS3BucketName, name:"outputS3BucketName", pattern: "^[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]$")
             try validate(outputS3KeyPrefix, name:"outputS3KeyPrefix", pattern: "^[0-9a-zA-Z\\/\\!\\-_\\.\\*\\'\\(\\)]{0,800}$")
@@ -538,6 +561,7 @@ extension Polly {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SynthesisTask", required: false, type: .structure)
         ]
+
         /// SynthesisTask object that provides information and attributes about a newly submitted speech synthesis task.
         public let synthesisTask: SynthesisTask?
         
@@ -571,6 +595,7 @@ extension Polly {
             AWSShapeMember(label: "TextType", required: false, type: .enum), 
             AWSShapeMember(label: "VoiceId", required: false, type: .enum)
         ]
+
         /// Timestamp for the time the synthesis task was started.
         public let creationTime: TimeStamp?
         /// Optional language code for a synthesis task. This is only necessary if using a bilingual voice, such as Aditi, which can be used for either Indian English (en-IN) or Hindi (hi-IN).  If a bilingual voice is used and no language code is specified, Amazon Polly will use the default language of the bilingual voice. The default language for any voice is the one returned by the DescribeVoices operation for the LanguageCode parameter. For example, if no language code is specified, Aditi will use Indian English rather than Hindi.
@@ -618,6 +643,9 @@ extension Polly {
         }
 
         public func validate() throws {
+            try lexiconNames?.forEach {
+                try validate($0, name:"lexiconNames[]", pattern: "[0-9A-Za-z]{1,20}")
+            }
             try validate(lexiconNames, name:"lexiconNames", max: 5)
             try validate(snsTopicArn, name:"snsTopicArn", pattern: "^arn:aws(-(cn|iso(-b)?|us-gov))?:sns:[a-z0-9_-]{1,50}:\\d{12}:[a-zA-Z0-9_-]{1,256}$")
             try validate(speechMarkTypes, name:"speechMarkTypes", max: 4)
@@ -653,6 +681,7 @@ extension Polly {
             AWSShapeMember(label: "TextType", required: false, type: .enum), 
             AWSShapeMember(label: "VoiceId", required: true, type: .enum)
         ]
+
         /// Optional language code for the Synthesize Speech request. This is only necessary if using a bilingual voice, such as Aditi, which can be used for either Indian English (en-IN) or Hindi (hi-IN).  If a bilingual voice is used and no language code is specified, Amazon Polly will use the default language of the bilingual voice. The default language for any voice is the one returned by the DescribeVoices operation for the LanguageCode parameter. For example, if no language code is specified, Aditi will use Indian English rather than Hindi.
         public let languageCode: LanguageCode?
         /// List of one or more pronunciation lexicon names you want the service to apply during synthesis. Lexicons are applied only if the language of the lexicon is the same as the language of the voice. For information about storing lexicons, see PutLexicon.
@@ -682,6 +711,9 @@ extension Polly {
         }
 
         public func validate() throws {
+            try lexiconNames?.forEach {
+                try validate($0, name:"lexiconNames[]", pattern: "[0-9A-Za-z]{1,20}")
+            }
             try validate(lexiconNames, name:"lexiconNames", max: 5)
             try validate(speechMarkTypes, name:"speechMarkTypes", max: 4)
         }
@@ -706,6 +738,7 @@ extension Polly {
             AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
             AWSShapeMember(label: "RequestCharacters", location: .header(locationName: "x-amzn-RequestCharacters"), required: false, type: .integer)
         ]
+
         ///  Stream containing the synthesized speech. 
         public let audioStream: Data?
         ///  Specifies the type audio stream. This should reflect the OutputFormat parameter in your request.     If you request mp3 as the OutputFormat, the ContentType returned is audio/mpeg.     If you request ogg_vorbis as the OutputFormat, the ContentType returned is audio/ogg.     If you request pcm as the OutputFormat, the ContentType returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format.    If you request json as the OutputFormat, the ContentType returned is audio/json.    
@@ -749,6 +782,7 @@ extension Polly {
             AWSShapeMember(label: "LanguageName", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         /// Additional codes for languages available for the specified voice in addition to its default language.  For example, the default language for Aditi is Indian English (en-IN) because it was first used for that language. Since Aditi is bilingual and fluent in both Indian English and Hindi, this parameter would show the code hi-IN.
         public let additionalLanguageCodes: [LanguageCode]?
         /// Gender of the voice.

@@ -11,6 +11,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Max", required: false, type: .long), 
             AWSShapeMember(label: "Used", required: false, type: .long)
         ]
+
         /// The name of the AWS DMS quota for this AWS account.
         public let accountQuotaName: String?
         /// The maximum allowed value for the quota.
@@ -36,6 +37,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
+
         /// The Amazon Resource Name (ARN) of the AWS DMS resource the tag is to be added to. AWS DMS resources include a replication instance, endpoint, and a replication task.
         public let resourceArn: String
         /// The tag to be assigned to the DMS resource.
@@ -54,7 +56,6 @@ extension DatabaseMigrationService {
 
     public struct AddTagsToResourceResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -66,6 +67,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "OptInType", required: true, type: .string), 
             AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string)
         ]
+
         /// The pending maintenance action to apply to this resource.
         public let applyAction: String
         /// A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type immediate cannot be undone. Valid values:    immediate - Apply the maintenance action immediately.    next-maintenance - Apply the maintenance action during the next maintenance window for the resource.    undo-opt-in - Cancel any existing next-maintenance opt-in requests.  
@@ -90,6 +92,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourcePendingMaintenanceActions", required: false, type: .structure)
         ]
+
         /// The AWS DMS resource that the pending maintenance action will be applied to.
         public let resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions?
         
@@ -119,6 +122,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         /// The name of the availability zone.
         public let name: String?
         
@@ -144,6 +148,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "ValidFromDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "ValidToDate", required: false, type: .timestamp)
         ]
+
         /// The Amazon Resource Name (ARN) for the certificate.
         public let certificateArn: String?
         /// The date that the certificate was created.
@@ -207,6 +212,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "ReplicationInstanceIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String?
         /// The identifier of the endpoint. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
@@ -264,6 +270,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "Username", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) for the certificate.
         public let certificateArn: String?
         /// The name of the endpoint database.
@@ -363,6 +370,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Endpoint", required: false, type: .structure)
         ]
+
         /// The endpoint that was created.
         public let endpoint: Endpoint?
         
@@ -385,6 +393,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "SubscriptionName", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         ///  A Boolean value; set to true to activate the subscription, or set to false to create the subscription but not activate it. 
         public let enabled: Bool?
         ///  A list of event categories for a source type that you want to subscribe to. You can see a list of the categories for a given source type by calling the DescribeEventCategories action or in the topic Working with Events and Notifications in the AWS Database Migration Service User Guide. 
@@ -425,6 +434,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
         ]
+
         /// The event subscription that was created.
         public let eventSubscription: EventSubscription?
         
@@ -454,6 +464,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list)
         ]
+
         /// The amount of storage (in gigabytes) to be initially allocated for the replication instance.
         public let allocatedStorage: Int32?
         /// Indicates that minor engine upgrades will be applied automatically to the replication instance during the maintenance window. Default: true 
@@ -522,6 +533,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationInstance", required: false, type: .structure)
         ]
+
         /// The replication instance that was created.
         public let replicationInstance: ReplicationInstance?
         
@@ -541,6 +553,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "SubnetIds", required: true, type: .list), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// The description for the subnet group.
         public let replicationSubnetGroupDescription: String
         /// The name for the replication subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters, periods, spaces, underscores, or hyphens. Must not be "default". Example: mySubnetgroup 
@@ -569,6 +582,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationSubnetGroup", required: false, type: .structure)
         ]
+
         /// The replication subnet group that was created.
         public let replicationSubnetGroup: ReplicationSubnetGroup?
         
@@ -595,6 +609,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "TargetEndpointArn", required: true, type: .string)
         ]
+
         /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
         public let cdcStartPosition: String?
         /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
@@ -651,6 +666,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
         ]
+
         /// The replication task that was created.
         public let replicationTask: ReplicationTask?
         
@@ -673,6 +689,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CertificateArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the deleted certificate.
         public let certificateArn: String
         
@@ -689,6 +706,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Certificate", required: false, type: .structure)
         ]
+
         /// The Secure Sockets Layer (SSL) certificate.
         public let certificate: Certificate?
         
@@ -705,6 +723,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndpointArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String
         
@@ -721,6 +740,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Endpoint", required: false, type: .structure)
         ]
+
         /// The endpoint that was deleted.
         public let endpoint: Endpoint?
         
@@ -737,6 +757,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubscriptionName", required: true, type: .string)
         ]
+
         /// The name of the DMS event notification subscription to be deleted.
         public let subscriptionName: String
         
@@ -753,6 +774,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
         ]
+
         /// The event subscription that was deleted.
         public let eventSubscription: EventSubscription?
         
@@ -769,6 +791,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the replication instance to be deleted.
         public let replicationInstanceArn: String
         
@@ -785,6 +808,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationInstance", required: false, type: .structure)
         ]
+
         /// The replication instance that was deleted.
         public let replicationInstance: ReplicationInstance?
         
@@ -801,6 +825,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationSubnetGroupIdentifier", required: true, type: .string)
         ]
+
         /// The subnet group name of the replication instance.
         public let replicationSubnetGroupIdentifier: String
         
@@ -815,7 +840,6 @@ extension DatabaseMigrationService {
 
     public struct DeleteReplicationSubnetGroupResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -825,6 +849,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the replication task to be deleted.
         public let replicationTaskArn: String
         
@@ -841,6 +866,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
         ]
+
         /// The deleted replication task.
         public let replicationTask: ReplicationTask?
         
@@ -855,7 +881,6 @@ extension DatabaseMigrationService {
 
     public struct DescribeAccountAttributesMessage: AWSShape {
         
-        
         public init() {
         }
 
@@ -865,6 +890,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountQuotas", required: false, type: .list)
         ]
+
         /// Account quota information.
         public let accountQuotas: [AccountQuota]?
         
@@ -883,6 +909,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
+
         /// Filters applied to the certificate described in the form of key-value pairs.
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -908,6 +935,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Certificates", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// The Secure Sockets Layer (SSL) certificates associated with the replication instance.
         public let certificates: [Certificate]?
         /// The pagination token.
@@ -930,6 +958,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
+
         /// The filters applied to the connection. Valid filter names: endpoint-arn | replication-instance-arn
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -955,6 +984,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Connections", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// A description of the connections.
         public let connections: [Connection]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -977,6 +1007,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
+
         /// Filters applied to the describe action. Valid filter names: engine-name | endpoint-type
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -1002,6 +1033,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "SupportedEndpointTypes", required: false, type: .list)
         ]
+
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// The type of endpoints that are supported.
@@ -1024,6 +1056,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
+
         /// Filters applied to the describe action. Valid filter names: endpoint-arn | endpoint-type | endpoint-id | engine-name
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -1049,6 +1082,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Endpoints", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// Endpoint description.
         public let endpoints: [Endpoint]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -1070,6 +1104,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Filters", required: false, type: .list), 
             AWSShapeMember(label: "SourceType", required: false, type: .string)
         ]
+
         /// Filters applied to the action.
         public let filters: [Filter]?
         ///  The type of AWS DMS resource that generates events.  Valid values: replication-instance | migration-task
@@ -1090,6 +1125,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventCategoryGroupList", required: false, type: .list)
         ]
+
         /// A list of event categories.
         public let eventCategoryGroupList: [EventCategoryGroup]?
         
@@ -1109,6 +1145,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "SubscriptionName", required: false, type: .string)
         ]
+
         /// Filters applied to the action.
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -1138,6 +1175,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "EventSubscriptionsList", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// A list of event subscriptions.
         public let eventSubscriptionsList: [EventSubscription]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -1166,6 +1204,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "SourceType", required: false, type: .enum), 
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
         ]
+
         /// The duration of the events to be listed.
         public let duration: Int32?
         /// The end time for the events to be listed.
@@ -1215,6 +1254,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Events", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// The events described.
         public let events: [Event]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -1236,6 +1276,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
+
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
@@ -1257,6 +1298,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "OrderableReplicationInstances", required: false, type: .list)
         ]
+
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// The order-able replication instances available.
@@ -1280,6 +1322,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "ReplicationInstanceArn", required: false, type: .string)
         ]
+
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1308,6 +1351,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "PendingMaintenanceActions", required: false, type: .list)
         ]
+
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// The pending maintenance action.
@@ -1328,6 +1372,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndpointArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String
         
@@ -1344,6 +1389,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RefreshSchemasStatus", required: false, type: .structure)
         ]
+
         /// The status of the schema.
         public let refreshSchemasStatus: RefreshSchemasStatus?
         
@@ -1362,6 +1408,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string)
         ]
+
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
@@ -1388,6 +1435,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "ReplicationInstanceArn", required: false, type: .string), 
             AWSShapeMember(label: "ReplicationInstanceTaskLogs", required: false, type: .list)
         ]
+
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The Amazon Resource Name (ARN) of the replication instance.
@@ -1414,6 +1462,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
+
         /// Filters applied to the describe action. Valid filter names: replication-instance-arn | replication-instance-id | replication-instance-class | engine-version
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -1439,6 +1488,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "ReplicationInstances", required: false, type: .list)
         ]
+
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// The replication instances described.
@@ -1461,6 +1511,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
+
         /// Filters applied to the describe action.
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -1486,6 +1537,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "ReplicationSubnetGroups", required: false, type: .list)
         ]
+
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// A description of the replication subnet groups.
@@ -1508,6 +1560,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "ReplicationTaskArn", required: false, type: .string)
         ]
+
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
@@ -1534,6 +1587,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "ReplicationTaskAssessmentResults", required: false, type: .list)
         ]
+
         /// - The Amazon S3 bucket where the task assessment report is located. 
         public let bucketName: String?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -1561,6 +1615,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "WithoutSettings", required: false, type: .boolean)
         ]
+
         /// Filters applied to the describe action. Valid filter names: replication-task-arn | replication-task-id | migration-type | endpoint-arn | replication-instance-arn
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -1590,6 +1645,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "ReplicationTasks", required: false, type: .list)
         ]
+
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// A description of the replication tasks.
@@ -1612,6 +1668,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
+
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -1637,6 +1694,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "Schemas", required: false, type: .list)
         ]
+
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// The described schema.
@@ -1660,6 +1718,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string)
         ]
+
         /// Filters applied to the describe table statistics action. Valid filter names: schema-name | table-name | table-state A combination of filters creates an AND condition where each record matches all specified filters.
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -1690,6 +1749,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "ReplicationTaskArn", required: false, type: .string), 
             AWSShapeMember(label: "TableStatistics", required: false, type: .list)
         ]
+
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// The Amazon Resource Name (ARN) of the replication task.
@@ -1723,6 +1783,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "BucketName", required: false, type: .string), 
             AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string)
         ]
+
         ///  The name of the S3 bucket to use. 
         public let bucketName: String?
         ///  The IAM role that has permission to access the Amazon S3 bucket. 
@@ -1743,6 +1804,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServiceAccessRoleArn", required: true, type: .string)
         ]
+
         ///  The Amazon Resource Name (ARN) used by the service access IAM role. 
         public let serviceAccessRoleArn: String
         
@@ -1762,6 +1824,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "FullLoadErrorPercentage", required: false, type: .integer), 
             AWSShapeMember(label: "ServiceAccessRoleArn", required: true, type: .string)
         ]
+
         /// The endpoint for the ElasticSearch cluster.
         public let endpointUri: String
         /// The maximum number of seconds that DMS retries failed API requests to the Elasticsearch cluster.
@@ -1826,6 +1889,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "Username", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) used for SSL connection to the endpoint.
         public let certificateArn: String?
         /// The name of the database at the endpoint.
@@ -1938,6 +2002,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "SourceIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "SourceType", required: false, type: .enum)
         ]
+
         /// The date of the event.
         public let date: TimeStamp?
         /// The event categories available for the specified source type.
@@ -1971,6 +2036,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "EventCategories", required: false, type: .list), 
             AWSShapeMember(label: "SourceType", required: false, type: .string)
         ]
+
         ///  A list of event categories for a SourceType that you want to subscribe to. 
         public let eventCategories: [String]?
         ///  The type of AWS DMS resource that generates events.  Valid values: replication-instance | replication-server | security-group | migration-task
@@ -1999,6 +2065,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "SubscriptionCreationTime", required: false, type: .string)
         ]
+
         /// The AWS customer account associated with the AWS DMS event notification subscription.
         public let customerAwsId: String?
         /// The AWS DMS event notification subscription Id.
@@ -2048,6 +2115,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Values", required: true, type: .list)
         ]
+
         /// The name of the filter.
         public let name: String
         /// The filter value.
@@ -2071,6 +2139,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "CertificateWallet", required: false, type: .blob), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// The customer-assigned name of the certificate. Valid characters are A-z and 0-9.
         public let certificateIdentifier: String
         /// The contents of the .pem X.509 certificate file for the certificate.
@@ -2099,6 +2168,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Certificate", required: false, type: .structure)
         ]
+
         /// The certificate to be uploaded.
         public let certificate: Certificate?
         
@@ -2117,6 +2187,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "StreamArn", required: false, type: .string)
         ]
+
         /// The output format for the records created on the endpoint. The message format is JSON.
         public let messageFormat: MessageFormatValue?
         /// The Amazon Resource Name (ARN) for the IAM role that DMS uses to write to the Amazon Kinesis data stream.
@@ -2141,6 +2212,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) string that uniquely identifies the AWS DMS resource.
         public let resourceArn: String
         
@@ -2157,6 +2229,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TagList", required: false, type: .list)
         ]
+
         /// A list of tags for the resource.
         public let tagList: [Tag]?
         
@@ -2205,6 +2278,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "SslMode", required: false, type: .enum), 
             AWSShapeMember(label: "Username", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
         public let certificateArn: String?
         /// The name of the endpoint database.
@@ -2300,6 +2374,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Endpoint", required: false, type: .structure)
         ]
+
         /// The modified endpoint.
         public let endpoint: Endpoint?
         
@@ -2320,6 +2395,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "SourceType", required: false, type: .string), 
             AWSShapeMember(label: "SubscriptionName", required: true, type: .string)
         ]
+
         ///  A Boolean value; set to true to activate the subscription. 
         public let enabled: Bool?
         ///  A list of event categories for a source type that you want to subscribe to. Use the DescribeEventCategories action to see a list of event categories. 
@@ -2352,6 +2428,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
         ]
+
         /// The modified event subscription.
         public let eventSubscription: EventSubscription?
         
@@ -2378,6 +2455,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "ReplicationInstanceIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list)
         ]
+
         /// The amount of storage (in gigabytes) to be allocated for the replication instance.
         public let allocatedStorage: Int32?
         /// Indicates that major version upgrades are allowed. Changing this parameter does not result in an outage and the change is asynchronously applied as soon as possible. Constraints: This parameter must be set to true when specifying a value for the EngineVersion parameter that is a different major version than the replication instance's current version.
@@ -2434,6 +2512,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationInstance", required: false, type: .structure)
         ]
+
         /// The modified replication instance.
         public let replicationInstance: ReplicationInstance?
         
@@ -2452,6 +2531,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "ReplicationSubnetGroupIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "SubnetIds", required: true, type: .list)
         ]
+
         /// The description of the replication instance subnet group.
         public let replicationSubnetGroupDescription: String?
         /// The name of the replication instance subnet group.
@@ -2476,6 +2556,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationSubnetGroup", required: false, type: .structure)
         ]
+
         /// The modified replication subnet group.
         public let replicationSubnetGroup: ReplicationSubnetGroup?
         
@@ -2499,6 +2580,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "ReplicationTaskSettings", required: false, type: .string), 
             AWSShapeMember(label: "TableMappings", required: false, type: .string)
         ]
+
         /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
         public let cdcStartPosition: String?
         /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
@@ -2543,6 +2625,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
         ]
+
         /// The replication task that was modified.
         public let replicationTask: ReplicationTask?
         
@@ -2570,6 +2653,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "ServerName", required: false, type: .string), 
             AWSShapeMember(label: "Username", required: false, type: .string)
         ]
+
         ///  The authentication mechanism you use to access the MongoDB source endpoint. Valid values: DEFAULT, MONGODB_CR, SCRAM_SHA_1  DEFAULT – For MongoDB version 2.x, use MONGODB_CR. For MongoDB version 3.x, use SCRAM_SHA_1. This attribute is not used when authType=No.
         public let authMechanism: AuthMechanismValue?
         ///  The MongoDB database name. This attribute is not used when authType=NO.  The default is admin.
@@ -2643,6 +2727,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "ReplicationInstanceClass", required: false, type: .string), 
             AWSShapeMember(label: "StorageType", required: false, type: .string)
         ]
+
         /// List of availability zones for this replication instance.
         public let availabilityZones: [String]?
         /// The default amount of storage (in gigabytes) that is allocated for the replication instance.
@@ -2698,6 +2783,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "ForcedApplyDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "OptInStatus", required: false, type: .string)
         ]
+
         /// The type of pending maintenance action that is available for the resource.
         public let action: String?
         /// The date of the maintenance window when the action will be applied. The maintenance action will be applied to the resource during its first maintenance window after this date. If this date is specified, any next-maintenance opt-in requests are ignored.
@@ -2735,6 +2821,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "ForceFailover", required: false, type: .boolean), 
             AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string)
         ]
+
         /// If this parameter is true, the reboot is conducted through a Multi-AZ failover. (If the instance isn't configured for Multi-AZ, then you can't specify true.)
         public let forceFailover: Bool?
         /// The Amazon Resource Name (ARN) of the replication instance.
@@ -2755,6 +2842,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationInstance", required: false, type: .structure)
         ]
+
         /// The replication instance that is being rebooted. 
         public let replicationInstance: ReplicationInstance?
         
@@ -2795,6 +2883,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Username", required: false, type: .string), 
             AWSShapeMember(label: "WriteBufferSize", required: false, type: .integer)
         ]
+
         /// Allows any date format, including invalid formats such as 00/00/00 00:00:00, to be loaded without generating an error. You can choose TRUE or FALSE (default). This parameter applies only to TIMESTAMP and DATE columns. Always use ACCEPTANYDATE with the DATEFORMAT parameter. If the date format for the data does not match the DATEFORMAT specification, Amazon Redshift inserts a NULL value into that field. 
         public let acceptAnyDate: Bool?
         /// Code to run after connecting. This should be the code, not a filename.
@@ -2908,6 +2997,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "EndpointArn", required: true, type: .string), 
             AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String
         /// The Amazon Resource Name (ARN) of the replication instance.
@@ -2928,6 +3018,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RefreshSchemasStatus", required: false, type: .structure)
         ]
+
         /// The status of the refreshed schema.
         public let refreshSchemasStatus: RefreshSchemasStatus?
         
@@ -2948,6 +3039,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "ReplicationInstanceArn", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
+
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String?
         /// The last failure message for the schema.
@@ -2995,6 +3087,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string), 
             AWSShapeMember(label: "TablesToReload", required: true, type: .list)
         ]
+
         /// Options for reload. Specify data-reload to reload the data and re-validate it if validation is enabled. Specify validate-only to re-validate the table. This option applies only when validation is enabled for the task.  Valid values: data-reload, validate-only Default value is data-reload.
         public let reloadOption: ReloadOptionValue?
         /// The Amazon Resource Name (ARN) of the replication task. 
@@ -3019,6 +3112,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationTaskArn", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the replication task. 
         public let replicationTaskArn: String?
         
@@ -3036,6 +3130,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
+
         /// &gt;The Amazon Resource Name (ARN) of the AWS DMS resource the tag is to be removed from.
         public let resourceArn: String
         /// The tag key (name) of the tag to be removed.
@@ -3053,7 +3148,6 @@ extension DatabaseMigrationService {
     }
 
     public struct RemoveTagsFromResourceResponse: AWSShape {
-        
         
         public init() {
         }
@@ -3090,6 +3184,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "SecondaryAvailabilityZone", required: false, type: .string), 
             AWSShapeMember(label: "VpcSecurityGroups", required: false, type: .list)
         ]
+
         /// The amount of storage (in gigabytes) that is allocated for the replication instance.
         public let allocatedStorage: Int32?
         /// Boolean value indicating if minor version upgrades will be automatically applied to the instance.
@@ -3188,6 +3283,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "ReplicationTaskArn", required: false, type: .string), 
             AWSShapeMember(label: "ReplicationTaskName", required: false, type: .string)
         ]
+
         /// The size, in bytes, of the replication task log.
         public let replicationInstanceTaskLogSize: Int64?
         /// The Amazon Resource Name (ARN) of the replication task.
@@ -3215,6 +3311,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
             AWSShapeMember(label: "ReplicationInstanceClass", required: false, type: .string)
         ]
+
         /// The amount of storage (in gigabytes) that is allocated for the replication instance.
         public let allocatedStorage: Int32?
         /// The engine version number of the replication instance.
@@ -3247,6 +3344,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Subnets", required: false, type: .list), 
             AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
+
         /// The description of the replication subnet group.
         public let replicationSubnetGroupDescription: String?
         /// The identifier of the replication instance subnet group.
@@ -3295,6 +3393,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "TableMappings", required: false, type: .string), 
             AWSShapeMember(label: "TargetEndpointArn", required: false, type: .string)
         ]
+
         /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
         public let cdcStartPosition: String?
         /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:3018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 3018-02-09T12:12:12 “
@@ -3381,6 +3480,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "ReplicationTaskLastAssessmentDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "S3ObjectUrl", required: false, type: .string)
         ]
+
         ///  The task assessment results in JSON format. 
         public let assessmentResults: String?
         ///  The file containing the results of the task assessment. 
@@ -3426,6 +3526,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "TablesLoading", required: false, type: .integer), 
             AWSShapeMember(label: "TablesQueued", required: false, type: .integer)
         ]
+
         /// The elapsed time of the task, in milliseconds.
         public let elapsedTimeMillis: Int64?
         /// The percent complete for the full load migration task.
@@ -3463,6 +3564,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "PendingMaintenanceActionDetails", required: false, type: .list), 
             AWSShapeMember(label: "ResourceIdentifier", required: false, type: .string)
         ]
+
         /// Detailed information about the pending maintenance action.
         public let pendingMaintenanceActionDetails: [PendingMaintenanceAction]?
         /// The Amazon Resource Name (ARN) of the DMS resource that the pending maintenance action applies to. For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN) in the DMS documentation.
@@ -3499,6 +3601,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "ServerSideEncryptionKmsKeyId", required: false, type: .string), 
             AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string)
         ]
+
         ///  An optional parameter to set a folder name in the S3 bucket. If provided, tables are created in the path &lt;bucketFolder&gt;/&lt;schema_name&gt;/&lt;table_name&gt;/. If this parameter is not specified, then the path used is &lt;schema_name&gt;/&lt;table_name&gt;/. 
         public let bucketFolder: String?
         ///  The name of the S3 bucket. 
@@ -3584,6 +3687,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string)
         ]
+
         ///  The Amazon Resource Name (ARN) of the replication task. 
         public let replicationTaskArn: String
         
@@ -3600,6 +3704,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
         ]
+
         ///  The assessed replication task. 
         public let replicationTask: ReplicationTask?
         
@@ -3620,6 +3725,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string), 
             AWSShapeMember(label: "StartReplicationTaskType", required: true, type: .enum)
         ]
+
         /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
         public let cdcStartPosition: String?
         /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
@@ -3652,6 +3758,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
         ]
+
         /// The replication task started.
         public let replicationTask: ReplicationTask?
         
@@ -3675,6 +3782,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name(ARN) of the replication task to be stopped.
         public let replicationTaskArn: String
         
@@ -3691,6 +3799,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
         ]
+
         /// The replication task stopped.
         public let replicationTask: ReplicationTask?
         
@@ -3709,6 +3818,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "SubnetIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "SubnetStatus", required: false, type: .string)
         ]
+
         /// The Availability Zone of the subnet.
         public let subnetAvailabilityZone: AvailabilityZone?
         /// The subnet identifier.
@@ -3736,6 +3846,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "EngineName", required: false, type: .string), 
             AWSShapeMember(label: "SupportsCDC", required: false, type: .boolean)
         ]
+
         /// The type of endpoint.
         public let endpointType: ReplicationEndpointTypeValue?
         /// The expanded name for the engine name. For example, if the EngineName parameter is "aurora," this value would be "Amazon Aurora MySQL."
@@ -3779,6 +3890,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "ValidationStateDetails", required: false, type: .string), 
             AWSShapeMember(label: "ValidationSuspendedRecords", required: false, type: .long)
         ]
+
         /// The Data Definition Language (DDL) used to build and modify the structure of your tables.
         public let ddls: Int64?
         /// The number of delete actions performed on a table.
@@ -3856,6 +3968,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "SchemaName", required: false, type: .string), 
             AWSShapeMember(label: "TableName", required: false, type: .string)
         ]
+
         /// The schema name of the table to be reloaded.
         public let schemaName: String?
         /// The table name of the table to be reloaded.
@@ -3877,6 +3990,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and cannot be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public let key: String?
         /// A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and cannot be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
@@ -3898,6 +4012,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "EndpointArn", required: true, type: .string), 
             AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String
         /// The Amazon Resource Name (ARN) of the replication instance.
@@ -3918,6 +4033,7 @@ extension DatabaseMigrationService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Connection", required: false, type: .structure)
         ]
+
         /// The connection tested.
         public let connection: Connection?
         
@@ -3935,6 +4051,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "VpcSecurityGroupId", required: false, type: .string)
         ]
+
         /// The status of the VPC security group.
         public let status: String?
         /// The VPC security group Id.

@@ -11,6 +11,7 @@ extension PersonalizeRuntime {
             AWSShapeMember(label: "inputList", required: true, type: .list), 
             AWSShapeMember(label: "userId", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the campaign to use for generating the personalized ranking.
         public let campaignArn: String
         /// A list of items (itemId's) to rank. If an item was not included in the training dataset, the item is appended to the end of the reranked list.
@@ -27,6 +28,9 @@ extension PersonalizeRuntime {
         public func validate() throws {
             try validate(campaignArn, name:"campaignArn", max: 256)
             try validate(campaignArn, name:"campaignArn", pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try inputList.forEach {
+                try validate($0, name:"inputList[]", max: 256)
+            }
             try validate(inputList, name:"inputList", max: 100)
             try validate(userId, name:"userId", max: 256)
         }
@@ -42,6 +46,7 @@ extension PersonalizeRuntime {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "personalizedRanking", required: false, type: .list)
         ]
+
         /// A list of items in order of most likely interest to the user.
         public let personalizedRanking: [PredictedItem]?
         
@@ -50,6 +55,9 @@ extension PersonalizeRuntime {
         }
 
         public func validate() throws {
+            try personalizedRanking?.forEach {
+                try $0.validate()
+            }
             try validate(personalizedRanking, name:"personalizedRanking", max: 100)
         }
 
@@ -65,6 +73,7 @@ extension PersonalizeRuntime {
             AWSShapeMember(label: "numResults", required: false, type: .integer), 
             AWSShapeMember(label: "userId", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the campaign to use for getting recommendations.
         public let campaignArn: String
         /// The item ID to provide recommendations for. Required for RELATED_ITEMS recipe type.
@@ -102,6 +111,7 @@ extension PersonalizeRuntime {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "itemList", required: false, type: .list)
         ]
+
         /// A list of recommendations.
         public let itemList: [PredictedItem]?
         
@@ -110,6 +120,9 @@ extension PersonalizeRuntime {
         }
 
         public func validate() throws {
+            try itemList?.forEach {
+                try $0.validate()
+            }
             try validate(itemList, name:"itemList", max: 100)
         }
 
@@ -122,6 +135,7 @@ extension PersonalizeRuntime {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "itemId", required: false, type: .string)
         ]
+
         /// The recommended item ID.
         public let itemId: String?
         

@@ -10,6 +10,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "instanceNames", required: true, type: .list), 
             AWSShapeMember(label: "tags", required: true, type: .list)
         ]
+
         /// The names of the on-premises instances to which to add tags.
         public let instanceNames: [String]
         /// The tag key-value pairs to add to the on-premises instances. Keys and values are both required. Keys cannot be null or empty strings. Value-only tags are not allowed.
@@ -30,6 +31,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
+
         /// The name of the alarm. Maximum length is 255 characters. Each alarm name can be used only once in a list of alarms.
         public let name: String?
         
@@ -48,6 +50,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "enabled", required: false, type: .boolean), 
             AWSShapeMember(label: "ignorePollAlarmFailure", required: false, type: .boolean)
         ]
+
         /// A list of alarms configured for the deployment group. A maximum of 10 alarms can be added to a deployment group.
         public let alarms: [Alarm]?
         /// Indicates whether the alarm configuration is enabled.
@@ -73,6 +76,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "content", required: false, type: .string), 
             AWSShapeMember(label: "sha256", required: false, type: .string)
         ]
+
         ///  The YAML-formatted or JSON-formatted revision string.   For an AWS Lambda deployment, the content includes a Lambda function name, the alias for its original version, and the alias for its replacement version. The deployment shifts traffic from the original version of the Lambda function to the replacement version.   For an Amazon ECS deployment, the content includes the task name, information about the load balancer that serves traffic to the container, and more.   For both types of deployments, the content can specify Lambda functions that run at specified hooks, such as BeforeInstall, during a deployment. 
         public let content: String?
         ///  The SHA256 hash value of the revision content. 
@@ -98,6 +102,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "gitHubAccountName", required: false, type: .string), 
             AWSShapeMember(label: "linkedToGitHub", required: false, type: .boolean)
         ]
+
         /// The application ID.
         public let applicationId: String?
         /// The application name.
@@ -147,6 +152,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "enabled", required: false, type: .boolean), 
             AWSShapeMember(label: "events", required: false, type: .list)
         ]
+
         /// Indicates whether a defined automatic rollback configuration is currently enabled.
         public let enabled: Bool?
         /// The event type or types that trigger a rollback.
@@ -175,6 +181,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "hook", required: false, type: .string), 
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
+
         /// An Auto Scaling lifecycle event hook name.
         public let hook: String?
         /// The Auto Scaling group name.
@@ -196,6 +203,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "applicationName", required: true, type: .string), 
             AWSShapeMember(label: "revisions", required: true, type: .list)
         ]
+
         /// The name of an AWS CodeDeploy application about which to get revision information.
         public let applicationName: String
         /// An array of RevisionLocation objects that specify information to get about the application revisions, including type and location. The maximum number of RevisionLocation objects you can specify is 25.
@@ -223,6 +231,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "errorMessage", required: false, type: .string), 
             AWSShapeMember(label: "revisions", required: false, type: .list)
         ]
+
         /// The name of the application that corresponds to the revisions.
         public let applicationName: String?
         /// Information about errors that might have occurred during the API call.
@@ -239,6 +248,9 @@ extension CodeDeploy {
         public func validate() throws {
             try validate(applicationName, name:"applicationName", max: 100)
             try validate(applicationName, name:"applicationName", min: 1)
+            try revisions?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -252,11 +264,19 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "applicationNames", required: true, type: .list)
         ]
+
         /// A list of application names separated by spaces. The maximum number of application names you can specify is 25.
         public let applicationNames: [String]
         
         public init(applicationNames: [String]) {
             self.applicationNames = applicationNames
+        }
+
+        public func validate() throws {
+            try applicationNames.forEach {
+                try validate($0, name:"applicationNames[]", max: 100)
+                try validate($0, name:"applicationNames[]", min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -268,11 +288,18 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "applicationsInfo", required: false, type: .list)
         ]
+
         /// Information about the applications.
         public let applicationsInfo: [ApplicationInfo]?
         
         public init(applicationsInfo: [ApplicationInfo]? = nil) {
             self.applicationsInfo = applicationsInfo
+        }
+
+        public func validate() throws {
+            try applicationsInfo?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -285,6 +312,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "applicationName", required: true, type: .string), 
             AWSShapeMember(label: "deploymentGroupNames", required: true, type: .list)
         ]
+
         /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
         public let applicationName: String
         /// The names of the deployment groups.
@@ -298,6 +326,10 @@ extension CodeDeploy {
         public func validate() throws {
             try validate(applicationName, name:"applicationName", max: 100)
             try validate(applicationName, name:"applicationName", min: 1)
+            try deploymentGroupNames.forEach {
+                try validate($0, name:"deploymentGroupNames[]", max: 100)
+                try validate($0, name:"deploymentGroupNames[]", min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -311,6 +343,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "deploymentGroupsInfo", required: false, type: .list), 
             AWSShapeMember(label: "errorMessage", required: false, type: .string)
         ]
+
         /// Information about the deployment groups.
         public let deploymentGroupsInfo: [DeploymentGroupInfo]?
         /// Information about errors that might have occurred during the API call.
@@ -319,6 +352,12 @@ extension CodeDeploy {
         public init(deploymentGroupsInfo: [DeploymentGroupInfo]? = nil, errorMessage: String? = nil) {
             self.deploymentGroupsInfo = deploymentGroupsInfo
             self.errorMessage = errorMessage
+        }
+
+        public func validate() throws {
+            try deploymentGroupsInfo?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -332,6 +371,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "deploymentId", required: true, type: .string), 
             AWSShapeMember(label: "instanceIds", required: true, type: .list)
         ]
+
         ///  The unique ID of a deployment. 
         public let deploymentId: String
         /// The unique IDs of instances used in the deployment. The maximum number of instance IDs you can specify is 25.
@@ -353,6 +393,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "errorMessage", required: false, type: .string), 
             AWSShapeMember(label: "instancesSummary", required: false, type: .list)
         ]
+
         /// Information about errors that might have occurred during the API call.
         public let errorMessage: String?
         /// Information about the instance.
@@ -374,6 +415,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "deploymentId", required: false, type: .string), 
             AWSShapeMember(label: "targetIds", required: false, type: .list)
         ]
+
         ///  The unique ID of a deployment. 
         public let deploymentId: String?
         ///  The unique IDs of the deployment targets. The compute platform of the deployment determines the type of the targets and their formats. The maximum number of deployment target IDs you can specify is 25.    For deployments that use the EC2/On-premises compute platform, the target IDs are EC2 or on-premises instances IDs, and their target type is instanceTarget.     For deployments that use the AWS Lambda compute platform, the target IDs are the names of Lambda functions, and their target type is instanceTarget.     For deployments that use the Amazon ECS compute platform, the target IDs are pairs of Amazon ECS clusters and services specified using the format &lt;clustername&gt;:&lt;servicename&gt;. Their target type is ecsTarget.   
@@ -394,6 +436,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentTargets", required: false, type: .list)
         ]
+
         ///  A list of target objects for a deployment. Each target object contains details about the target, such as its status and lifecycle events. The type of the target objects depends on the deployment' compute platform.     EC2/On-premises: Each target object is an EC2 or on-premises instance.     AWS Lambda: The target object is a specific version of an AWS Lambda function.     Amazon ECS: The target object is an Amazon ECS service.   
         public let deploymentTargets: [DeploymentTarget]?
         
@@ -410,6 +453,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentIds", required: true, type: .list)
         ]
+
         ///  A list of deployment IDs, separated by spaces. The maximum number of deployment IDs you can specify is 25.
         public let deploymentIds: [String]
         
@@ -426,11 +470,18 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentsInfo", required: false, type: .list)
         ]
+
         ///  Information about the deployments. 
         public let deploymentsInfo: [DeploymentInfo]?
         
         public init(deploymentsInfo: [DeploymentInfo]? = nil) {
             self.deploymentsInfo = deploymentsInfo
+        }
+
+        public func validate() throws {
+            try deploymentsInfo?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -442,6 +493,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "instanceNames", required: true, type: .list)
         ]
+
         /// The names of the on-premises instances about which to get information. The maximum number of instance names you can specify is 25.
         public let instanceNames: [String]
         
@@ -458,6 +510,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "instanceInfos", required: false, type: .list)
         ]
+
         /// Information about the on-premises instances.
         public let instanceInfos: [InstanceInfo]?
         
@@ -476,6 +529,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "greenFleetProvisioningOption", required: false, type: .structure), 
             AWSShapeMember(label: "terminateBlueInstancesOnDeploymentSuccess", required: false, type: .structure)
         ]
+
         /// Information about the action to take when newly provisioned instances are ready to receive traffic in a blue/green deployment.
         public let deploymentReadyOption: DeploymentReadyOption?
         /// Information about how instances are provisioned for a replacement environment in a blue/green deployment.
@@ -501,6 +555,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "action", required: false, type: .enum), 
             AWSShapeMember(label: "terminationWaitTimeInMinutes", required: false, type: .integer)
         ]
+
         /// The action to take on instances in the original environment after a successful blue/green deployment.   TERMINATE: Instances are terminated after a specified wait time.   KEEP_ALIVE: Instances are left running after they are deregistered from the load balancer and removed from the deployment group.  
         public let action: InstanceAction?
         /// The number of minutes to wait after a successful blue/green deployment before terminating instances from the original environment. The maximum setting is 2880 minutes (2 days).
@@ -538,6 +593,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "deploymentId", required: false, type: .string), 
             AWSShapeMember(label: "deploymentWaitType", required: false, type: .enum)
         ]
+
         ///  The unique ID of a blue/green deployment for which you want to start rerouting traffic to the replacement environment. 
         public let deploymentId: String?
         ///  The status of the deployment's waiting period. READY_WAIT indicates the deployment is ready to start shifting traffic. TERMINATION_WAIT indicates the traffic is shifted, but the original target is not terminated. 
@@ -560,6 +616,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "computePlatform", required: false, type: .enum), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
+
         /// The name of the application. This name must be unique with the applicable IAM user or AWS account.
         public let applicationName: String
         ///  The destination platform type for the deployment (Lambda, Server, or ECS).
@@ -589,6 +646,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "applicationId", required: false, type: .string)
         ]
+
         /// A unique application ID.
         public let applicationId: String?
         
@@ -608,6 +666,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "minimumHealthyHosts", required: false, type: .structure), 
             AWSShapeMember(label: "trafficRoutingConfig", required: false, type: .structure)
         ]
+
         /// The destination platform type for the deployment (Lambda, Server, or ECS).
         public let computePlatform: ComputePlatform?
         /// The name of the deployment configuration to create.
@@ -641,6 +700,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentConfigId", required: false, type: .string)
         ]
+
         /// A unique deployment configuration ID.
         public let deploymentConfigId: String?
         
@@ -673,6 +733,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "triggerConfigurations", required: false, type: .list)
         ]
+
         /// Information to add about Amazon CloudWatch alarms when the deployment group is created.
         public let alarmConfiguration: AlarmConfiguration?
         /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
@@ -762,6 +823,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentGroupId", required: false, type: .string)
         ]
+
         /// A unique deployment group ID.
         public let deploymentGroupId: String?
         
@@ -787,6 +849,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "targetInstances", required: false, type: .structure), 
             AWSShapeMember(label: "updateOutdatedInstancesOnly", required: false, type: .boolean)
         ]
+
         /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
         public let applicationName: String
         /// Configuration information for an automatic rollback that is added when a deployment is created.
@@ -848,6 +911,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentId", required: false, type: .string)
         ]
+
         ///  The unique ID of a deployment. 
         public let deploymentId: String?
         
@@ -864,6 +928,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "applicationName", required: true, type: .string)
         ]
+
         /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
         public let applicationName: String
         
@@ -885,6 +950,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentConfigName", required: true, type: .string)
         ]
+
         /// The name of a deployment configuration associated with the IAM user or AWS account.
         public let deploymentConfigName: String
         
@@ -907,6 +973,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "applicationName", required: true, type: .string), 
             AWSShapeMember(label: "deploymentGroupName", required: true, type: .string)
         ]
+
         /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
         public let applicationName: String
         /// The name of a deployment group for the specified application.
@@ -934,6 +1001,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "hooksNotCleanedUp", required: false, type: .list)
         ]
+
         /// If the output contains no data, and the corresponding deployment group contained at least one Auto Scaling group, AWS CodeDeploy successfully removed all corresponding Auto Scaling lifecycle event hooks from the Amazon EC2 instances in the Auto Scaling group. If the output contains data, AWS CodeDeploy could not remove some Auto Scaling lifecycle event hooks from the Amazon EC2 instances in the Auto Scaling group.
         public let hooksNotCleanedUp: [AutoScalingGroup]?
         
@@ -950,6 +1018,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "tokenName", required: false, type: .string)
         ]
+
         /// The name of the GitHub account connection to delete.
         public let tokenName: String?
         
@@ -966,6 +1035,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "tokenName", required: false, type: .string)
         ]
+
         /// The name of the GitHub account connection that was deleted.
         public let tokenName: String?
         
@@ -979,7 +1049,6 @@ extension CodeDeploy {
     }
 
     public struct DeploymentAlreadyStartedException: AWSShape {
-        
         
         public init() {
         }
@@ -995,6 +1064,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "minimumHealthyHosts", required: false, type: .structure), 
             AWSShapeMember(label: "trafficRoutingConfig", required: false, type: .structure)
         ]
+
         /// The destination platform type for the deployment (Lambda, Server, or ECS).
         public let computePlatform: ComputePlatform?
         /// The time at which the deployment configuration was created.
@@ -1063,6 +1133,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "targetRevision", required: false, type: .structure), 
             AWSShapeMember(label: "triggerConfigurations", required: false, type: .list)
         ]
+
         /// A list of alarms associated with the deployment group.
         public let alarmConfiguration: AlarmConfiguration?
         /// The application name.
@@ -1194,6 +1265,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "targetInstances", required: false, type: .structure), 
             AWSShapeMember(label: "updateOutdatedInstancesOnly", required: false, type: .boolean)
         ]
+
         /// Provides information about the results of a deployment, such as whether instances in the original environment in a blue/green deployment were not terminated.
         public let additionalDeploymentStatusInfo: String?
         /// The application name.
@@ -1334,6 +1406,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "Skipped", required: false, type: .long), 
             AWSShapeMember(label: "Succeeded", required: false, type: .long)
         ]
+
         /// The number of instances in the deployment in a failed state.
         public let failed: Int64?
         /// The number of instances in which the deployment is in progress.
@@ -1377,6 +1450,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "actionOnTimeout", required: false, type: .enum), 
             AWSShapeMember(label: "waitTimeInMinutes", required: false, type: .integer)
         ]
+
         /// Information about when to reroute traffic from an original environment to a replacement environment in a blue/green deployment.   CONTINUE_DEPLOYMENT: Register new instances with the load balancer immediately after the new application revision is installed on the instances in the replacement environment.   STOP_DEPLOYMENT: Do not register new instances with a load balancer unless traffic rerouting is started using ContinueDeployment. If traffic rerouting is not started before the end of the specified wait period, the deployment status is changed to Stopped.  
         public let actionOnTimeout: DeploymentReadyAction?
         /// The number of minutes to wait before the status of a blue/green deployment is changed to Stopped if rerouting is not started manually. Applies only to the STOP_DEPLOYMENT option for actionOnTimeout
@@ -1409,6 +1483,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "deploymentOption", required: false, type: .enum), 
             AWSShapeMember(label: "deploymentType", required: false, type: .enum)
         ]
+
         /// Indicates whether to route deployment traffic behind a load balancer.
         public let deploymentOption: DeploymentOption?
         /// Indicates whether to run an in-place deployment or a blue/green deployment.
@@ -1432,6 +1507,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "instanceTarget", required: false, type: .structure), 
             AWSShapeMember(label: "lambdaTarget", required: false, type: .structure)
         ]
+
         ///  The deployment type that is specific to the deployment's compute platform. 
         public let deploymentTargetType: DeploymentTargetType?
         ///  Information about the target for a deployment that uses the Amazon ECS compute platform. 
@@ -1479,6 +1555,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "instanceName", required: true, type: .string)
         ]
+
         /// The name of the on-premises instance to deregister.
         public let instanceName: String
         
@@ -1498,6 +1575,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "message", required: false, type: .string), 
             AWSShapeMember(label: "scriptName", required: false, type: .string)
         ]
+
         /// The associated error code:   Success: The specified script ran.   ScriptMissing: The specified script was not found in the specified location.   ScriptNotExecutable: The specified script is not a recognized executable file type.   ScriptTimedOut: The specified script did not finish running in the specified time period.   ScriptFailed: The specified script failed to run as expected.   UnknownError: The specified script did not run for an unknown reason.  
         public let errorCode: LifecycleErrorCode?
         /// The last portion of the diagnostic log. If available, AWS CodeDeploy returns up to the last 4 KB of the diagnostic log.
@@ -1528,6 +1606,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "Type", required: false, type: .enum), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// The tag filter key.
         public let key: String?
         /// The tag filter type:   KEY_ONLY: Key only.   VALUE_ONLY: Value only.   KEY_AND_VALUE: Key and value.  
@@ -1559,6 +1638,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ec2TagSetList", required: false, type: .list)
         ]
+
         /// A list that contains other lists of EC2 instance tag groups. For an instance to be included in the deployment group, it must be identified by all of the tag groups in the list.
         public let ec2TagSetList: [[EC2TagFilter]]?
         
@@ -1576,6 +1656,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "clusterName", required: false, type: .string), 
             AWSShapeMember(label: "serviceName", required: false, type: .string)
         ]
+
         ///  The name of the cluster that the Amazon ECS service is associated with. 
         public let clusterName: String?
         ///  The name of the target Amazon ECS service. 
@@ -1602,6 +1683,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "targetId", required: false, type: .string), 
             AWSShapeMember(label: "taskSetsInfo", required: false, type: .list)
         ]
+
         ///  The unique ID of a deployment. 
         public let deploymentId: String?
         ///  The date and time when the target Amazon ECS application was updated by a deployment. 
@@ -1649,6 +1731,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "taskSetLabel", required: false, type: .enum), 
             AWSShapeMember(label: "trafficWeight", required: false, type: .double)
         ]
+
         ///  The number of tasks in a task set. During a deployment that uses the Amazon ECS compute type, CodeDeploy instructs Amazon ECS to create a new task set and uses this value to determine how many tasks to create. After the updated task set is created, CodeDeploy shifts traffic to the new task set. 
         public let desiredCount: Int64?
         ///  A unique ID of an ECSTaskSet. 
@@ -1693,6 +1776,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
+
         /// For blue/green deployments, the name of the load balancer that is used to route traffic from original instances to replacement instances in a blue/green deployment. For in-place deployments, the name of the load balancer that instances are deregistered from so they are not serving traffic during a deployment, and then re-registered with after the deployment is complete.
         public let name: String?
         
@@ -1747,6 +1831,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "code", required: false, type: .enum), 
             AWSShapeMember(label: "message", required: false, type: .string)
         ]
+
         /// For more information, see Error Codes for AWS CodeDeploy in the AWS CodeDeploy User Guide. The error code:   APPLICATION_MISSING: The application was missing. This error code is most likely raised if the application is deleted after the deployment is created, but before it is started.   DEPLOYMENT_GROUP_MISSING: The deployment group was missing. This error code is most likely raised if the deployment group is deleted after the deployment is created, but before it is started.   HEALTH_CONSTRAINTS: The deployment failed on too many instances to be successfully deployed within the instance health constraints specified.   HEALTH_CONSTRAINTS_INVALID: The revision cannot be successfully deployed within the instance health constraints specified.   IAM_ROLE_MISSING: The service role cannot be accessed.   IAM_ROLE_PERMISSIONS: The service role does not have the correct permissions.   INTERNAL_ERROR: There was an internal error.   NO_EC2_SUBSCRIPTION: The calling account is not subscribed to Amazon EC2.   NO_INSTANCES: No instances were specified, or no instances can be found.   OVER_MAX_INSTANCES: The maximum number of instances was exceeded.   THROTTLED: The operation was throttled because the calling account exceeded the throttling limits of one or more AWS services.   TIMEOUT: The deployment has timed out.   REVISION_MISSING: The revision ID was missing. This error code is most likely raised if the revision is deleted after the deployment is created, but before it is started.  
         public let code: ErrorCode?
         /// An accompanying error message.
@@ -1778,6 +1863,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "lastUsedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "registerTime", required: false, type: .timestamp)
         ]
+
         /// The deployment groups for which this is the current target revision.
         public let deploymentGroups: [String]?
         /// A comment about the revision.
@@ -1797,6 +1883,13 @@ extension CodeDeploy {
             self.registerTime = registerTime
         }
 
+        public func validate() throws {
+            try deploymentGroups?.forEach {
+                try validate($0, name:"deploymentGroups[]", max: 100)
+                try validate($0, name:"deploymentGroups[]", min: 1)
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case deploymentGroups = "deploymentGroups"
             case description = "description"
@@ -1810,6 +1903,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "applicationName", required: true, type: .string)
         ]
+
         /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
         public let applicationName: String
         
@@ -1831,6 +1925,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "application", required: false, type: .structure)
         ]
+
         /// Information about the application.
         public let application: ApplicationInfo?
         
@@ -1852,6 +1947,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "applicationName", required: true, type: .string), 
             AWSShapeMember(label: "revision", required: true, type: .structure)
         ]
+
         /// The name of the application that corresponds to the revision.
         public let applicationName: String
         /// Information about the application revision to get, including type and location.
@@ -1879,6 +1975,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "revision", required: false, type: .structure), 
             AWSShapeMember(label: "revisionInfo", required: false, type: .structure)
         ]
+
         /// The name of the application that corresponds to the revision.
         public let applicationName: String?
         /// Additional information about the revision, including type and location.
@@ -1895,6 +1992,7 @@ extension CodeDeploy {
         public func validate() throws {
             try validate(applicationName, name:"applicationName", max: 100)
             try validate(applicationName, name:"applicationName", min: 1)
+            try revisionInfo?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1908,6 +2006,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentConfigName", required: true, type: .string)
         ]
+
         /// The name of a deployment configuration associated with the IAM user or AWS account.
         public let deploymentConfigName: String
         
@@ -1929,6 +2028,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentConfigInfo", required: false, type: .structure)
         ]
+
         /// Information about the deployment configuration.
         public let deploymentConfigInfo: DeploymentConfigInfo?
         
@@ -1950,6 +2050,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "applicationName", required: true, type: .string), 
             AWSShapeMember(label: "deploymentGroupName", required: true, type: .string)
         ]
+
         /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
         public let applicationName: String
         /// The name of a deployment group for the specified application.
@@ -1977,6 +2078,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentGroupInfo", required: false, type: .structure)
         ]
+
         /// Information about the deployment group.
         public let deploymentGroupInfo: DeploymentGroupInfo?
         
@@ -1997,6 +2099,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentId", required: true, type: .string)
         ]
+
         ///  The unique ID of a deployment associated with the IAM user or AWS account. 
         public let deploymentId: String
         
@@ -2014,6 +2117,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "deploymentId", required: true, type: .string), 
             AWSShapeMember(label: "instanceId", required: true, type: .string)
         ]
+
         ///  The unique ID of a deployment. 
         public let deploymentId: String
         ///  The unique ID of an instance in the deployment group. 
@@ -2034,6 +2138,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "instanceSummary", required: false, type: .structure)
         ]
+
         ///  Information about the instance. 
         public let instanceSummary: InstanceSummary?
         
@@ -2050,6 +2155,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentInfo", required: false, type: .structure)
         ]
+
         /// Information about the deployment.
         public let deploymentInfo: DeploymentInfo?
         
@@ -2071,6 +2177,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "deploymentId", required: false, type: .string), 
             AWSShapeMember(label: "targetId", required: false, type: .string)
         ]
+
         ///  The unique ID of a deployment. 
         public let deploymentId: String?
         ///  The unique ID of a deployment target. 
@@ -2091,6 +2198,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentTarget", required: false, type: .structure)
         ]
+
         ///  A deployment target that contains information about a deployment such as its status, lifecyle events, and when it was last updated. It also contains metadata about the deployment target. The deployment target metadata depends on the deployment target's type (instanceTarget, lambdaTarget, or ecsTarget). 
         public let deploymentTarget: DeploymentTarget?
         
@@ -2107,6 +2215,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "instanceName", required: true, type: .string)
         ]
+
         ///  The name of the on-premises instance about which to get information. 
         public let instanceName: String
         
@@ -2123,6 +2232,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "instanceInfo", required: false, type: .structure)
         ]
+
         ///  Information about the on-premises instance. 
         public let instanceInfo: InstanceInfo?
         
@@ -2140,6 +2250,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "commitId", required: false, type: .string), 
             AWSShapeMember(label: "repository", required: false, type: .string)
         ]
+
         /// The SHA1 commit ID of the GitHub commit that represents the bundled artifacts for the application revision.
         public let commitId: String?
         /// The GitHub account and repository pair that stores a reference to the commit that represents the bundled artifacts for the application revision.  Specified as account/repository.
@@ -2166,6 +2277,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "action", required: false, type: .enum)
         ]
+
         /// The method used to add instances to a replacement environment.   DISCOVER_EXISTING: Use instances that already exist or will be created manually.   COPY_AUTO_SCALING_GROUP: Use settings from a specified Auto Scaling group to define and create instances in a new Auto Scaling group.  
         public let action: GreenFleetProvisioningAction?
         
@@ -2194,6 +2306,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "registerTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
+
         /// If the on-premises instance was deregistered, the time at which the on-premises instance was deregistered.
         public let deregisterTime: TimeStamp?
         /// The ARN of the IAM session associated with the on-premises instance.
@@ -2250,6 +2363,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "lifecycleEvents", required: false, type: .list), 
             AWSShapeMember(label: "status", required: false, type: .enum)
         ]
+
         ///  The unique ID of a deployment. 
         public let deploymentId: String?
         /// The instance ID.
@@ -2292,6 +2406,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "targetArn", required: false, type: .string), 
             AWSShapeMember(label: "targetId", required: false, type: .string)
         ]
+
         ///  The unique ID of a deployment. 
         public let deploymentId: String?
         ///  A label that identifies whether the instance is an original target (BLUE) or a replacement target (GREEN). 
@@ -2336,7 +2451,6 @@ extension CodeDeploy {
 
     public struct InvalidDeploymentConfigIdException: AWSShape {
         
-        
         public init() {
         }
 
@@ -2344,14 +2458,12 @@ extension CodeDeploy {
 
     public struct InvalidInstanceIdException: AWSShape {
         
-        
         public init() {
         }
 
         }
 
     public struct InvalidTargetException: AWSShape {
-        
         
         public init() {
         }
@@ -2366,6 +2478,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "targetVersion", required: false, type: .string), 
             AWSShapeMember(label: "targetVersionWeight", required: false, type: .double)
         ]
+
         ///  The version of a Lambda function that production traffic points to. 
         public let currentVersion: String?
         ///  The alias of a Lambda function. For more information, see Introduction to AWS Lambda Aliases. 
@@ -2404,6 +2517,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "targetArn", required: false, type: .string), 
             AWSShapeMember(label: "targetId", required: false, type: .string)
         ]
+
         ///  The unique ID of a deployment. 
         public let deploymentId: String?
         ///  A LambdaFunctionInfo object that describes a target Lambda function. 
@@ -2447,6 +2561,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "status", required: false, type: .enum)
         ]
+
         /// A timestamp that indicates when the most recent deployment to the deployment group started.
         public let createTime: TimeStamp?
         ///  The unique ID of a deployment. 
@@ -2489,6 +2604,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "status", required: false, type: .enum)
         ]
+
         /// Diagnostic information about the deployment lifecycle event.
         public let diagnostics: Diagnostics?
         /// A timestamp that indicates when the deployment lifecycle event ended.
@@ -2537,6 +2653,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "sortBy", required: false, type: .enum), 
             AWSShapeMember(label: "sortOrder", required: false, type: .enum)
         ]
+
         ///  The name of an AWS CodeDeploy application associated with the IAM user or AWS account. 
         public let applicationName: String
         ///  Whether to list revisions based on whether the revision is the target revision of an deployment group:    include: List revisions that are target revisions of a deployment group.   exclude: Do not list revisions that are target revisions of a deployment group.   ignore: List all revisions.  
@@ -2583,6 +2700,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "revisions", required: false, type: .list)
         ]
+
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list application revisions call to return the next set of application revisions in the list.
         public let nextToken: String?
         /// A list of locations that contain the matching revisions.
@@ -2603,6 +2721,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// An identifier returned from the previous list applications call. It can be used to return the next set of applications in the list.
         public let nextToken: String?
         
@@ -2620,6 +2739,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "applications", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// A list of application names.
         public let applications: [String]?
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list applications call to return the next set of applications in the list.
@@ -2628,6 +2748,13 @@ extension CodeDeploy {
         public init(applications: [String]? = nil, nextToken: String? = nil) {
             self.applications = applications
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try applications?.forEach {
+                try validate($0, name:"applications[]", max: 100)
+                try validate($0, name:"applications[]", min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2640,6 +2767,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// An identifier returned from the previous ListDeploymentConfigs call. It can be used to return the next set of deployment configurations in the list. 
         public let nextToken: String?
         
@@ -2657,6 +2785,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "deploymentConfigsList", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// A list of deployment configurations, including built-in configurations such as CodeDeployDefault.OneAtATime.
         public let deploymentConfigsList: [String]?
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list deployment configurations call to return the next set of deployment configurations in the list.
@@ -2665,6 +2794,13 @@ extension CodeDeploy {
         public init(deploymentConfigsList: [String]? = nil, nextToken: String? = nil) {
             self.deploymentConfigsList = deploymentConfigsList
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try deploymentConfigsList?.forEach {
+                try validate($0, name:"deploymentConfigsList[]", max: 100)
+                try validate($0, name:"deploymentConfigsList[]", min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2678,6 +2814,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "applicationName", required: true, type: .string), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
         public let applicationName: String
         /// An identifier returned from the previous list deployment groups call. It can be used to return the next set of deployment groups in the list.
@@ -2705,6 +2842,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "deploymentGroups", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The application name.
         public let applicationName: String?
         /// A list of deployment group names.
@@ -2721,6 +2859,10 @@ extension CodeDeploy {
         public func validate() throws {
             try validate(applicationName, name:"applicationName", max: 100)
             try validate(applicationName, name:"applicationName", min: 1)
+            try deploymentGroups?.forEach {
+                try validate($0, name:"deploymentGroups[]", max: 100)
+                try validate($0, name:"deploymentGroups[]", min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2737,6 +2879,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "instanceTypeFilter", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         ///  The unique ID of a deployment. 
         public let deploymentId: String
         /// A subset of instances to list by status:   Pending: Include those instances with pending deployments.   InProgress: Include those instances where deployments are still in progress.   Succeeded: Include those instances with successful deployments.   Failed: Include those instances with failed deployments.   Skipped: Include those instances with skipped deployments.   Unknown: Include those instances with deployments in an unknown state.  
@@ -2766,6 +2909,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "instancesList", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// A list of instance IDs.
         public let instancesList: [String]?
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list deployment instances call to return the next set of deployment instances in the list.
@@ -2788,6 +2932,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "targetFilters", required: false, type: .map)
         ]
+
         ///  The unique ID of a deployment. 
         public let deploymentId: String?
         ///  A token identifier returned from the previous ListDeploymentTargets call. It can be used to return the next set of deployment targets in the list. 
@@ -2813,6 +2958,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "targetIds", required: false, type: .list)
         ]
+
         ///  If a large amount of information is returned, a token identifier is also returned. It can be used in a subsequent ListDeploymentTargets call to return the next set of deployment targets in the list. 
         public let nextToken: String?
         ///  The unique IDs of deployment targets. 
@@ -2837,6 +2983,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "includeOnlyStatuses", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.  If applicationName is specified, then deploymentGroupName must be specified. If it is not specified, then deploymentGroupName must not be specified.  
         public let applicationName: String?
         /// A time range (start and end) for returning a subset of the list of deployments.
@@ -2877,6 +3024,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "deployments", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// A list of deployment IDs.
         public let deployments: [String]?
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list deployments call to return the next set of deployments in the list.
@@ -2897,6 +3045,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// An identifier returned from the previous ListGitHubAccountTokenNames call. It can be used to return the next set of names in the list. 
         public let nextToken: String?
         
@@ -2914,6 +3063,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "tokenNameList", required: false, type: .list)
         ]
+
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent ListGitHubAccountTokenNames call to return the next set of names in the list. 
         public let nextToken: String?
         /// A list of names of connections to GitHub accounts.
@@ -2936,6 +3086,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "registrationStatus", required: false, type: .enum), 
             AWSShapeMember(label: "tagFilters", required: false, type: .list)
         ]
+
         /// An identifier returned from the previous list on-premises instances call. It can be used to return the next set of on-premises instances in the list.
         public let nextToken: String?
         /// The registration status of the on-premises instances:   Deregistered: Include deregistered on-premises instances in the resulting list.   Registered: Include registered on-premises instances in the resulting list.  
@@ -2961,6 +3112,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "instanceNames", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The list of matching on-premises instance names.
         public let instanceNames: [String]?
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list on-premises instances call to return the next set of on-premises instances in the list.
@@ -2989,6 +3141,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
+
         /// An identifier returned from the previous ListTagsForResource call. It can be used to return the next set of applications in the list.
         public let nextToken: String?
         ///  The ARN of a CodeDeploy resource. ListTagsForResource returns all the tags associated with the resource that is identified by the ResourceArn. 
@@ -3015,6 +3168,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list application revisions call to return the next set of application revisions in the list.
         public let nextToken: String?
         ///  A list of tags returned by ListTagsForResource. The tags are associated with the resource identified by the input ResourceArn parameter. 
@@ -3037,6 +3191,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "targetGroupInfoList", required: false, type: .list), 
             AWSShapeMember(label: "targetGroupPairInfoList", required: false, type: .list)
         ]
+
         /// An array that contains information about the load balancer to use for load balancing in a deployment. In Elastic Load Balancing, load balancers are used with Classic Load Balancers.   Adding more than one load balancer to the array is not supported.  
         public let elbInfoList: [ELBInfo]?
         /// An array that contains information about the target group to use for load balancing in a deployment. In Elastic Load Balancing, target groups are used with Application Load Balancers.   Adding more than one target group to the array is not supported.  
@@ -3062,6 +3217,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "type", required: false, type: .enum), 
             AWSShapeMember(label: "value", required: false, type: .integer)
         ]
+
         /// The minimum healthy instance type:   HOST_COUNT: The minimum number of healthy instance as an absolute value.   FLEET_PERCENT: The minimum number of healthy instance as a percentage of the total number of instance in the deployment.   In an example of nine instance, if a HOST_COUNT of six is specified, deploy to up to three instances at a time. The deployment is successful if six or more instances are deployed to successfully. Otherwise, the deployment fails. If a FLEET_PERCENT of 40 is specified, deploy to up to five instance at a time. The deployment is successful if four or more instance are deployed to successfully. Otherwise, the deployment fails.  In a call to the GetDeploymentConfig, CodeDeployDefault.OneAtATime returns a minimum healthy instance type of MOST_CONCURRENCY and a value of 1. This means a deployment to only one instance at a time. (You cannot set the type to MOST_CONCURRENCY, only to HOST_COUNT or FLEET_PERCENT.) In addition, with CodeDeployDefault.OneAtATime, AWS CodeDeploy attempts to ensure that all instances but one are kept in a healthy state during the deployment. Although this allows one instance at a time to be taken offline for a new deployment, it also means that if the deployment to the last instance fails, the overall deployment is still successful.  For more information, see AWS CodeDeploy Instance Health in the AWS CodeDeploy User Guide.
         public let `type`: MinimumHealthyHostsType?
         /// The minimum healthy instance value.
@@ -3088,6 +3244,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "onPremisesTagSetList", required: false, type: .list)
         ]
+
         /// A list that contains other lists of on-premises instance tag groups. For an instance to be included in the deployment group, it must be identified by all of the tag groups in the list.
         public let onPremisesTagSetList: [[TagFilter]]?
         
@@ -3106,6 +3263,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "lifecycleEventHookExecutionId", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .enum)
         ]
+
         ///  The unique ID of a deployment. Pass this ID to a Lambda function that validates a deployment lifecycle event. 
         public let deploymentId: String?
         ///  The execution ID of a deployment's lifecycle hook. A deployment lifecycle hook is specified in the hooks section of the AppSpec file. 
@@ -3130,6 +3288,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "lifecycleEventHookExecutionId", required: false, type: .string)
         ]
+
         /// The execution ID of the lifecycle event hook. A hook is specified in the hooks section of the deployment's AppSpec file.
         public let lifecycleEventHookExecutionId: String?
         
@@ -3147,6 +3306,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "content", required: false, type: .string), 
             AWSShapeMember(label: "sha256", required: false, type: .string)
         ]
+
         /// The YAML-formatted or JSON-formatted revision string. It includes information about which Lambda function to update and optional Lambda functions that validate deployment lifecycle events.
         public let content: String?
         /// The SHA256 hash value of the revision content.
@@ -3169,6 +3329,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "revision", required: true, type: .structure)
         ]
+
         /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
         public let applicationName: String
         /// A comment about the revision.
@@ -3200,6 +3361,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "iamUserArn", required: false, type: .string), 
             AWSShapeMember(label: "instanceName", required: true, type: .string)
         ]
+
         /// The ARN of the IAM session to associate with the on-premises instance.
         public let iamSessionArn: String?
         /// The ARN of the IAM user to associate with the on-premises instance.
@@ -3231,6 +3393,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "instanceNames", required: true, type: .list), 
             AWSShapeMember(label: "tags", required: true, type: .list)
         ]
+
         /// The names of the on-premises instances from which to remove tags.
         public let instanceNames: [String]
         /// The tag key-value pairs to remove from the on-premises instances.
@@ -3252,6 +3415,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "genericRevisionInfo", required: false, type: .structure), 
             AWSShapeMember(label: "revisionLocation", required: false, type: .structure)
         ]
+
         /// Information about an application revision, including usage details and associated deployment groups.
         public let genericRevisionInfo: GenericRevisionInfo?
         /// Information about the location and type of an application revision.
@@ -3260,6 +3424,10 @@ extension CodeDeploy {
         public init(genericRevisionInfo: GenericRevisionInfo? = nil, revisionLocation: RevisionLocation? = nil) {
             self.genericRevisionInfo = genericRevisionInfo
             self.revisionLocation = revisionLocation
+        }
+
+        public func validate() throws {
+            try genericRevisionInfo?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3276,6 +3444,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "s3Location", required: false, type: .structure), 
             AWSShapeMember(label: "string", required: false, type: .structure)
         ]
+
         ///  The content of an AppSpec file for an AWS Lambda or Amazon ECS deployment. The content is formatted as JSON or YAML and stored as a RawString. 
         public let appSpecContent: AppSpecContent?
         /// Information about the location of application artifacts stored in GitHub.
@@ -3318,6 +3487,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "rollbackMessage", required: false, type: .string), 
             AWSShapeMember(label: "rollbackTriggeringDeploymentId", required: false, type: .string)
         ]
+
         /// The ID of the deployment rollback.
         public let rollbackDeploymentId: String?
         /// Information that describes the status of a deployment rollback (for example, whether the deployment can't be rolled back, is in progress, failed, or succeeded). 
@@ -3346,6 +3516,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "key", required: false, type: .string), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         /// The name of the Amazon S3 bucket where the application revision is stored.
         public let bucket: String?
         /// The file type of the application revision. Must be one of the following:   tar: A tar archive file.   tgz: A compressed tar archive file.   zip: A zip archive file.  
@@ -3378,6 +3549,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentId", required: false, type: .string)
         ]
+
         ///  The unique ID of a blue/green deployment for which you want to skip the instance termination wait time. 
         public let deploymentId: String?
         
@@ -3401,6 +3573,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "autoRollbackEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "deploymentId", required: true, type: .string)
         ]
+
         ///  Indicates, when a deployment is stopped, whether instances that have been updated should be rolled back to the previous version of the application revision. 
         public let autoRollbackEnabled: Bool?
         ///  The unique ID of a deployment. 
@@ -3422,6 +3595,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "statusMessage", required: false, type: .string)
         ]
+
         /// The status of the stop deployment operation:   Pending: The stop operation is pending.   Succeeded: The stop operation was successful.  
         public let status: StopStatus?
         /// An accompanying status message.
@@ -3449,6 +3623,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// The tag's key.
         public let key: String?
         /// The tag's value.
@@ -3471,6 +3646,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "Type", required: false, type: .enum), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// The on-premises instance tag filter key.
         public let key: String?
         /// The on-premises instance tag filter type:   KEY_ONLY: Key only.   VALUE_ONLY: Value only.   KEY_AND_VALUE: Key and value.  
@@ -3503,6 +3679,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
+
         ///  The ARN of a resource, such as a CodeDeploy application or deployment group. 
         public let resourceArn: String
         ///  A list of tags that TagResource associates with a resource. The resource is identified by the ResourceArn input parameter. 
@@ -3526,7 +3703,6 @@ extension CodeDeploy {
 
     public struct TagResourceOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -3542,6 +3718,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
+
         /// For blue/green deployments, the name of the target group that instances in the original environment are deregistered from, and instances in the replacement environment are registered with. For in-place deployments, the name of the target group that instances are deregistered from, so they are not serving traffic during a deployment, and then re-registered with after the deployment is complete. 
         public let name: String?
         
@@ -3560,6 +3737,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "targetGroups", required: false, type: .list), 
             AWSShapeMember(label: "testTrafficRoute", required: false, type: .structure)
         ]
+
         ///  The path used by a load balancer to route production traffic when an Amazon ECS deployment is complete. 
         public let prodTrafficRoute: TrafficRoute?
         ///  One pair of target groups. One is associated with the original task set. The second is associated with the task set that serves traffic after the deployment is complete. 
@@ -3586,6 +3764,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "ec2TagSet", required: false, type: .structure), 
             AWSShapeMember(label: "tagFilters", required: false, type: .list)
         ]
+
         /// The names of one or more Auto Scaling groups to identify a replacement environment for a blue/green deployment.
         public let autoScalingGroups: [String]?
         /// Information about the groups of EC2 instance tags that an instance must be identified by in order for it to be included in the replacement environment for a blue/green deployment. Cannot be used in the same call as tagFilters.
@@ -3628,6 +3807,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "canaryInterval", required: false, type: .integer), 
             AWSShapeMember(label: "canaryPercentage", required: false, type: .integer)
         ]
+
         /// The number of minutes between the first and second traffic shifts of a TimeBasedCanary deployment.
         public let canaryInterval: Int32?
         /// The percentage of traffic to shift in the first increment of a TimeBasedCanary deployment.
@@ -3649,6 +3829,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "linearInterval", required: false, type: .integer), 
             AWSShapeMember(label: "linearPercentage", required: false, type: .integer)
         ]
+
         /// The number of minutes between each incremental traffic shift of a TimeBasedLinear deployment.
         public let linearInterval: Int32?
         /// The percentage of traffic that is shifted at the start of each increment of a TimeBasedLinear deployment.
@@ -3670,6 +3851,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "end", required: false, type: .timestamp), 
             AWSShapeMember(label: "start", required: false, type: .timestamp)
         ]
+
         /// The end time of the time range.  Specify null to leave the end time open-ended. 
         public let end: TimeStamp?
         /// The start time of the time range.  Specify null to leave the start time open-ended. 
@@ -3690,6 +3872,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "listenerArns", required: false, type: .list)
         ]
+
         ///  The ARN of one listener. The listener identifies the route between a target group and a load balancer. This is an array of strings with a maximum size of one. 
         public let listenerArns: [String]?
         
@@ -3708,6 +3891,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "timeBasedLinear", required: false, type: .structure), 
             AWSShapeMember(label: "type", required: false, type: .enum)
         ]
+
         /// A configuration that shifts traffic from one version of a Lambda function to another in two increments. The original and target Lambda function versions are specified in the deployment's AppSpec file.
         public let timeBasedCanary: TimeBasedCanary?
         /// A configuration that shifts traffic from one version of a Lambda function to another in equal increments, with an equal number of minutes between each increment. The original and target Lambda function versions are specified in the deployment's AppSpec file.
@@ -3741,6 +3925,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "triggerName", required: false, type: .string), 
             AWSShapeMember(label: "triggerTargetArn", required: false, type: .string)
         ]
+
         /// The event type or types for which notifications are triggered.
         public let triggerEvents: [TriggerEventType]?
         /// The name of the notification trigger.
@@ -3780,6 +3965,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
+
         ///  The ARN that specifies from which resource to disassociate the tags with the keys in the TagKeys input paramter. 
         public let resourceArn: String
         ///  A list of keys of Tag objects. The Tag objects identified by the keys are disassociated from the resource specified by the ResourceArn input parameter. 
@@ -3803,7 +3989,6 @@ extension CodeDeploy {
 
     public struct UntagResourceOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -3814,6 +3999,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "applicationName", required: false, type: .string), 
             AWSShapeMember(label: "newApplicationName", required: false, type: .string)
         ]
+
         /// The current name of the application you want to change.
         public let applicationName: String?
         /// The new name to give the application.
@@ -3857,6 +4043,7 @@ extension CodeDeploy {
             AWSShapeMember(label: "serviceRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "triggerConfigurations", required: false, type: .list)
         ]
+
         /// Information to add or change about Amazon CloudWatch alarms when the deployment group is updated.
         public let alarmConfiguration: AlarmConfiguration?
         /// The application name that corresponds to the deployment group to update.
@@ -3948,6 +4135,7 @@ extension CodeDeploy {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "hooksNotCleanedUp", required: false, type: .list)
         ]
+
         /// If the output contains no data, and the corresponding deployment group contained at least one Auto Scaling group, AWS CodeDeploy successfully removed all corresponding Auto Scaling lifecycle event hooks from the AWS account. If the output contains data, AWS CodeDeploy could not remove some Auto Scaling lifecycle event hooks from the AWS account.
         public let hooksNotCleanedUp: [AutoScalingGroup]?
         

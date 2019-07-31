@@ -12,6 +12,7 @@ extension ApplicationInsights {
             AWSShapeMember(label: "ResourceType", required: false, type: .string), 
             AWSShapeMember(label: "Tier", required: false, type: .string)
         ]
+
         /// The name of the component.
         public let componentName: String?
         /// Indicates whether the application component is monitored. 
@@ -42,6 +43,7 @@ extension ApplicationInsights {
             AWSShapeMember(label: "Remarks", required: false, type: .string), 
             AWSShapeMember(label: "ResourceGroupName", required: false, type: .string)
         ]
+
         /// The lifecycle of the application. 
         public let lifeCycle: String?
         /// The issues on the user side that are blocking Application Insights from fully monitoring the application.
@@ -66,6 +68,7 @@ extension ApplicationInsights {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceGroupName", required: true, type: .string)
         ]
+
         /// The name of the resource group.
         public let resourceGroupName: String
         
@@ -82,6 +85,7 @@ extension ApplicationInsights {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationInfo", required: false, type: .structure)
         ]
+
         /// Information about the application.
         public let applicationInfo: ApplicationInfo?
         
@@ -100,6 +104,7 @@ extension ApplicationInsights {
             AWSShapeMember(label: "ResourceGroupName", required: true, type: .string), 
             AWSShapeMember(label: "ResourceList", required: true, type: .list)
         ]
+
         /// The name of the component.
         public let componentName: String
         /// The name of the resource group.
@@ -122,7 +127,6 @@ extension ApplicationInsights {
 
     public struct CreateComponentResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -132,6 +136,7 @@ extension ApplicationInsights {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceGroupName", required: true, type: .string)
         ]
+
         /// The name of the resource group.
         public let resourceGroupName: String
         
@@ -146,7 +151,6 @@ extension ApplicationInsights {
 
     public struct DeleteApplicationResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -157,6 +161,7 @@ extension ApplicationInsights {
             AWSShapeMember(label: "ComponentName", required: true, type: .string), 
             AWSShapeMember(label: "ResourceGroupName", required: true, type: .string)
         ]
+
         /// The name of the component.
         public let componentName: String
         /// The name of the resource group.
@@ -175,7 +180,6 @@ extension ApplicationInsights {
 
     public struct DeleteComponentResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -185,6 +189,7 @@ extension ApplicationInsights {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceGroupName", required: true, type: .string)
         ]
+
         /// The name of the resource group.
         public let resourceGroupName: String
         
@@ -201,6 +206,7 @@ extension ApplicationInsights {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationInfo", required: false, type: .structure)
         ]
+
         /// Information about the application.
         public let applicationInfo: ApplicationInfo?
         
@@ -219,6 +225,7 @@ extension ApplicationInsights {
             AWSShapeMember(label: "ResourceGroupName", required: true, type: .string), 
             AWSShapeMember(label: "Tier", required: true, type: .string)
         ]
+
         /// The name of the component.
         public let componentName: String
         /// The name of the resource group.
@@ -243,6 +250,7 @@ extension ApplicationInsights {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ComponentConfiguration", required: false, type: .string)
         ]
+
         /// The recommended configuration settings of the component. The value is the escaped JSON of the configuration.
         public let componentConfiguration: String?
         
@@ -260,6 +268,7 @@ extension ApplicationInsights {
             AWSShapeMember(label: "ComponentName", required: true, type: .string), 
             AWSShapeMember(label: "ResourceGroupName", required: true, type: .string)
         ]
+
         /// The name of the component.
         public let componentName: String
         /// The name of the resource group.
@@ -282,6 +291,7 @@ extension ApplicationInsights {
             AWSShapeMember(label: "Monitor", required: false, type: .boolean), 
             AWSShapeMember(label: "Tier", required: false, type: .string)
         ]
+
         /// The configuration settings of the component. The value is the escaped JSON of the configuration.
         public let componentConfiguration: String?
         /// Indicates whether the application component is monitored.
@@ -307,6 +317,7 @@ extension ApplicationInsights {
             AWSShapeMember(label: "ComponentName", required: true, type: .string), 
             AWSShapeMember(label: "ResourceGroupName", required: true, type: .string)
         ]
+
         /// The name of the component.
         public let componentName: String
         /// The name of the resource group.
@@ -328,6 +339,7 @@ extension ApplicationInsights {
             AWSShapeMember(label: "ApplicationComponent", required: false, type: .structure), 
             AWSShapeMember(label: "ResourceList", required: false, type: .list)
         ]
+
         public let applicationComponent: ApplicationComponent?
         /// The list of resource ARNs that belong to the component.
         public let resourceList: [String]?
@@ -347,6 +359,7 @@ extension ApplicationInsights {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ObservationId", required: true, type: .string)
         ]
+
         /// The ID of the observation.
         public let observationId: String
         
@@ -363,6 +376,7 @@ extension ApplicationInsights {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Observation", required: false, type: .structure)
         ]
+
         /// Information about the observation.
         public let observation: Observation?
         
@@ -379,6 +393,7 @@ extension ApplicationInsights {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProblemId", required: true, type: .string)
         ]
+
         /// The ID of the problem.
         public let problemId: String
         
@@ -395,6 +410,7 @@ extension ApplicationInsights {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RelatedObservations", required: false, type: .structure)
         ]
+
         /// Observations related to the problem.
         public let relatedObservations: RelatedObservations?
         
@@ -411,6 +427,7 @@ extension ApplicationInsights {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProblemId", required: true, type: .string)
         ]
+
         /// The ID of the problem.
         public let problemId: String
         
@@ -427,6 +444,7 @@ extension ApplicationInsights {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Problem", required: false, type: .structure)
         ]
+
         /// Information about the problem. 
         public let problem: Problem?
         
@@ -456,6 +474,7 @@ extension ApplicationInsights {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int32?
         /// The token to request the next page of results.
@@ -482,6 +501,7 @@ extension ApplicationInsights {
             AWSShapeMember(label: "ApplicationInfoList", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The list of applications.
         public let applicationInfoList: [ApplicationInfo]?
         /// The token used to retrieve the next page of results. This value is null when there are no more results to return. 
@@ -504,6 +524,7 @@ extension ApplicationInsights {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ResourceGroupName", required: true, type: .string)
         ]
+
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int32?
         /// The token to request the next page of results.
@@ -534,6 +555,7 @@ extension ApplicationInsights {
             AWSShapeMember(label: "ApplicationComponentList", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The list of application components.
         public let applicationComponentList: [ApplicationComponent]?
         /// The token to request the next page of results.
@@ -558,6 +580,7 @@ extension ApplicationInsights {
             AWSShapeMember(label: "ResourceGroupName", required: false, type: .string), 
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
         ]
+
         /// The time when the problem ended, in epoch seconds. If not specified, problems within the past seven days are returned.
         public let endTime: TimeStamp?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
@@ -596,6 +619,7 @@ extension ApplicationInsights {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ProblemList", required: false, type: .list)
         ]
+
         /// The token used to retrieve the next page of results. This value is null when there are no more results to return. 
         public let nextToken: String?
         /// The list of problems. 
@@ -635,6 +659,7 @@ extension ApplicationInsights {
             AWSShapeMember(label: "Unit", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .double)
         ]
+
         /// The time when the observation ended, in epoch seconds.
         public let endTime: TimeStamp?
         /// The ID of the observation type.
@@ -708,6 +733,7 @@ extension ApplicationInsights {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "Title", required: false, type: .string)
         ]
+
         /// The resource affected by the problem.
         public let affectedResource: String?
         /// The time when the problem ended, in epoch seconds.
@@ -760,6 +786,7 @@ extension ApplicationInsights {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ObservationList", required: false, type: .list)
         ]
+
         /// The list of observations related to the problem.
         public let observationList: [Observation]?
         
@@ -794,6 +821,7 @@ extension ApplicationInsights {
             AWSShapeMember(label: "ResourceGroupName", required: true, type: .string), 
             AWSShapeMember(label: "Tier", required: false, type: .string)
         ]
+
         /// The configuration settings of the component. The value is the escaped JSON of the configuration. For more information about the JSON format, see Working with JSON. You can send a request to DescribeComponentConfigurationRecommendation to see the recommended configuration for a component.
         public let componentConfiguration: String?
         /// The name of the component.
@@ -824,7 +852,6 @@ extension ApplicationInsights {
 
     public struct UpdateComponentConfigurationResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -837,6 +864,7 @@ extension ApplicationInsights {
             AWSShapeMember(label: "ResourceGroupName", required: true, type: .string), 
             AWSShapeMember(label: "ResourceList", required: false, type: .list)
         ]
+
         /// The name of the component.
         public let componentName: String
         /// The new name of the component.
@@ -862,7 +890,6 @@ extension ApplicationInsights {
     }
 
     public struct UpdateComponentResponse: AWSShape {
-        
         
         public init() {
         }

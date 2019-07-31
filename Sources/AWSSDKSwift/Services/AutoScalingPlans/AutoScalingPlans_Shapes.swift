@@ -10,6 +10,7 @@ extension AutoScalingPlans {
             AWSShapeMember(label: "CloudFormationStackARN", required: false, type: .string), 
             AWSShapeMember(label: "TagFilters", required: false, type: .list)
         ]
+
         /// The Amazon Resource Name (ARN) of a AWS CloudFormation stack.
         public let cloudFormationStackARN: String?
         /// A set of tags (up to 50).
@@ -22,6 +23,9 @@ extension AutoScalingPlans {
 
         public func validate() throws {
             try validate(cloudFormationStackARN, name:"cloudFormationStackARN", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try tagFilters?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -36,6 +40,7 @@ extension AutoScalingPlans {
             AWSShapeMember(label: "ScalingInstructions", required: true, type: .list), 
             AWSShapeMember(label: "ScalingPlanName", required: true, type: .string)
         ]
+
         /// A CloudFormation stack or set of tags. You can create one scaling plan per application source.
         public let applicationSource: ApplicationSource
         /// The scaling instructions.
@@ -51,6 +56,9 @@ extension AutoScalingPlans {
 
         public func validate() throws {
             try applicationSource.validate()
+            try scalingInstructions.forEach {
+                try $0.validate()
+            }
             try validate(scalingPlanName, name:"scalingPlanName", max: 128)
             try validate(scalingPlanName, name:"scalingPlanName", min: 1)
             try validate(scalingPlanName, name:"scalingPlanName", pattern: "[\\p{Print}&&[^|:/]]+")
@@ -67,6 +75,7 @@ extension AutoScalingPlans {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ScalingPlanVersion", required: true, type: .long)
         ]
+
         /// The version number of the scaling plan. This value is always 1. Currently, you cannot specify multiple scaling plan versions.
         public let scalingPlanVersion: Int64
         
@@ -87,6 +96,7 @@ extension AutoScalingPlans {
             AWSShapeMember(label: "Statistic", required: true, type: .enum), 
             AWSShapeMember(label: "Unit", required: false, type: .string)
         ]
+
         /// The dimensions of the metric. Conditional: If you published your metric with dimensions, you must specify the same dimensions in your customized load metric specification.
         public let dimensions: [MetricDimension]?
         /// The name of the metric.
@@ -123,6 +133,7 @@ extension AutoScalingPlans {
             AWSShapeMember(label: "Statistic", required: true, type: .enum), 
             AWSShapeMember(label: "Unit", required: false, type: .string)
         ]
+
         /// The dimensions of the metric. Conditional: If you published your metric with dimensions, you must specify the same dimensions in your customized scaling metric specification.
         public let dimensions: [MetricDimension]?
         /// The name of the metric.
@@ -156,6 +167,7 @@ extension AutoScalingPlans {
             AWSShapeMember(label: "Timestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "Value", required: false, type: .double)
         ]
+
         /// The time stamp for the data point in UTC format.
         public let timestamp: TimeStamp?
         /// The value of the data point.
@@ -177,6 +189,7 @@ extension AutoScalingPlans {
             AWSShapeMember(label: "ScalingPlanName", required: true, type: .string), 
             AWSShapeMember(label: "ScalingPlanVersion", required: true, type: .long)
         ]
+
         /// The name of the scaling plan.
         public let scalingPlanName: String
         /// The version number of the scaling plan.
@@ -201,7 +214,6 @@ extension AutoScalingPlans {
 
     public struct DeleteScalingPlanResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -214,6 +226,7 @@ extension AutoScalingPlans {
             AWSShapeMember(label: "ScalingPlanName", required: true, type: .string), 
             AWSShapeMember(label: "ScalingPlanVersion", required: true, type: .long)
         ]
+
         /// The maximum number of scalable resources to return. The value must be between 1 and 50. The default value is 50.
         public let maxResults: Int32?
         /// The token for the next set of results.
@@ -249,6 +262,7 @@ extension AutoScalingPlans {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ScalingPlanResources", required: false, type: .list)
         ]
+
         /// The token required to get the next set of results. This value is null if there are no more results to return.
         public let nextToken: String?
         /// Information about the scalable resources.
@@ -257,6 +271,12 @@ extension AutoScalingPlans {
         public init(nextToken: String? = nil, scalingPlanResources: [ScalingPlanResource]? = nil) {
             self.nextToken = nextToken
             self.scalingPlanResources = scalingPlanResources
+        }
+
+        public func validate() throws {
+            try scalingPlanResources?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -273,6 +293,7 @@ extension AutoScalingPlans {
             AWSShapeMember(label: "ScalingPlanNames", required: false, type: .list), 
             AWSShapeMember(label: "ScalingPlanVersion", required: false, type: .long)
         ]
+
         /// The sources for the applications (up to 10). If you specify scaling plan names, you cannot specify application sources.
         public let applicationSources: [ApplicationSource]?
         /// The maximum number of scalable resources to return. This value can be between 1 and 50. The default value is 50.
@@ -292,6 +313,17 @@ extension AutoScalingPlans {
             self.scalingPlanVersion = scalingPlanVersion
         }
 
+        public func validate() throws {
+            try applicationSources?.forEach {
+                try $0.validate()
+            }
+            try scalingPlanNames?.forEach {
+                try validate($0, name:"scalingPlanNames[]", max: 128)
+                try validate($0, name:"scalingPlanNames[]", min: 1)
+                try validate($0, name:"scalingPlanNames[]", pattern: "[\\p{Print}&&[^|:/]]+")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case applicationSources = "ApplicationSources"
             case maxResults = "MaxResults"
@@ -306,6 +338,7 @@ extension AutoScalingPlans {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ScalingPlans", required: false, type: .list)
         ]
+
         /// The token required to get the next set of results. This value is null if there are no more results to return.
         public let nextToken: String?
         /// Information about the scaling plans.
@@ -314,6 +347,12 @@ extension AutoScalingPlans {
         public init(nextToken: String? = nil, scalingPlans: [ScalingPlan]? = nil) {
             self.nextToken = nextToken
             self.scalingPlans = scalingPlans
+        }
+
+        public func validate() throws {
+            try scalingPlans?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -341,6 +380,7 @@ extension AutoScalingPlans {
             AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
             AWSShapeMember(label: "StartTime", required: true, type: .timestamp)
         ]
+
         /// The exclusive end time of the time range for the forecast data to get. The maximum time duration between the start and end time is seven days.  Although this parameter can accept a date and time that is more than two days in the future, the availability of forecast data has limits. AWS Auto Scaling only issues forecasts for periods of two days in advance.
         public let endTime: TimeStamp
         /// The type of forecast data to get.    LoadForecast: The load metric forecast.     CapacityForecast: The capacity forecast.     ScheduledActionMinCapacity: The minimum capacity for each scheduled scaling action. This data is calculated as the larger of two values: the capacity forecast or the minimum capacity in the scaling instruction.    ScheduledActionMaxCapacity: The maximum capacity for each scheduled scaling action. The calculation used is determined by the predictive scaling maximum capacity behavior setting in the scaling instruction.  
@@ -392,6 +432,7 @@ extension AutoScalingPlans {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Datapoints", required: true, type: .list)
         ]
+
         /// The data points to return.
         public let datapoints: [Datapoint]
         
@@ -417,6 +458,7 @@ extension AutoScalingPlans {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
+
         /// The name of the dimension.
         public let name: String
         /// The value of the dimension.
@@ -452,6 +494,7 @@ extension AutoScalingPlans {
             AWSShapeMember(label: "PredefinedLoadMetricType", required: true, type: .enum), 
             AWSShapeMember(label: "ResourceLabel", required: false, type: .string)
         ]
+
         /// The metric type.
         public let predefinedLoadMetricType: LoadMetricType
         /// Identifies the resource associated with the metric type. You can't specify a resource label unless the metric type is ALBRequestCountPerTarget and there is a target group for an Application Load Balancer attached to the Auto Scaling group. The format is app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt;/targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt;, where:   app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion of the load balancer ARN.   targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt; is the final portion of the target group ARN.  
@@ -478,6 +521,7 @@ extension AutoScalingPlans {
             AWSShapeMember(label: "PredefinedScalingMetricType", required: true, type: .enum), 
             AWSShapeMember(label: "ResourceLabel", required: false, type: .string)
         ]
+
         /// The metric type. The ALBRequestCountPerTarget metric type applies only to Auto Scaling groups, Spot Fleet requests, and ECS services.
         public let predefinedScalingMetricType: ScalingMetricType
         /// Identifies the resource associated with the metric type. You can't specify a resource label unless the metric type is ALBRequestCountPerTarget and there is a target group for an Application Load Balancer attached to the Auto Scaling group, Spot Fleet request, or ECS service. The format is app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt;/targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt;, where:   app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion of the load balancer ARN.   targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt; is the final portion of the target group ARN.  
@@ -541,6 +585,7 @@ extension AutoScalingPlans {
             AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
             AWSShapeMember(label: "TargetTrackingConfigurations", required: true, type: .list)
         ]
+
         /// The customized load metric to use for predictive scaling. This parameter or a PredefinedLoadMetricSpecification is required when configuring predictive scaling, and cannot be used otherwise. 
         public let customizedLoadMetricSpecification: CustomizedLoadMetricSpecification?
         /// Controls whether dynamic scaling by AWS Auto Scaling is disabled. When dynamic scaling is enabled, AWS Auto Scaling creates target tracking scaling policies based on the specified target tracking configurations.  The default is enabled (false). 
@@ -593,6 +638,9 @@ extension AutoScalingPlans {
             try validate(resourceId, name:"resourceId", min: 1)
             try validate(resourceId, name:"resourceId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try validate(scheduledActionBufferTime, name:"scheduledActionBufferTime", min: 0)
+            try targetTrackingConfigurations.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -641,6 +689,7 @@ extension AutoScalingPlans {
             AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
             AWSShapeMember(label: "StatusStartTime", required: false, type: .timestamp)
         ]
+
         /// The application source.
         public let applicationSource: ApplicationSource
         /// The Unix time stamp when the scaling plan was created.
@@ -671,6 +720,9 @@ extension AutoScalingPlans {
 
         public func validate() throws {
             try applicationSource.validate()
+            try scalingInstructions.forEach {
+                try $0.validate()
+            }
             try validate(scalingPlanName, name:"scalingPlanName", max: 128)
             try validate(scalingPlanName, name:"scalingPlanName", min: 1)
             try validate(scalingPlanName, name:"scalingPlanName", pattern: "[\\p{Print}&&[^|:/]]+")
@@ -700,6 +752,7 @@ extension AutoScalingPlans {
             AWSShapeMember(label: "ScalingStatusMessage", required: false, type: .string), 
             AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum)
         ]
+
         /// The ID of the resource. This string consists of the resource type and unique identifier.   Auto Scaling group - The resource type is autoScalingGroup and the unique identifier is the name of the Auto Scaling group. Example: autoScalingGroup/my-asg.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot Fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.  
         public let resourceId: String
         /// The scalable dimension for the resource.    autoscaling:autoScalingGroup:DesiredCapacity - The desired capacity of an Auto Scaling group.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet request.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.  
@@ -735,6 +788,9 @@ extension AutoScalingPlans {
             try validate(scalingPlanName, name:"scalingPlanName", max: 128)
             try validate(scalingPlanName, name:"scalingPlanName", min: 1)
             try validate(scalingPlanName, name:"scalingPlanName", pattern: "[\\p{Print}&&[^|:/]]+")
+            try scalingPolicies?.forEach {
+                try $0.validate()
+            }
             try validate(scalingStatusMessage, name:"scalingStatusMessage", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
@@ -768,6 +824,7 @@ extension AutoScalingPlans {
             AWSShapeMember(label: "PolicyType", required: true, type: .enum), 
             AWSShapeMember(label: "TargetTrackingConfiguration", required: false, type: .structure)
         ]
+
         /// The name of the scaling policy.
         public let policyName: String
         /// The type of scaling policy.
@@ -822,6 +879,7 @@ extension AutoScalingPlans {
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Values", required: false, type: .list)
         ]
+
         /// The tag key.
         public let key: String?
         /// The tag values (0 to 20).
@@ -836,6 +894,11 @@ extension AutoScalingPlans {
             try validate(key, name:"key", max: 128)
             try validate(key, name:"key", min: 1)
             try validate(key, name:"key", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try values?.forEach {
+                try validate($0, name:"values[]", max: 256)
+                try validate($0, name:"values[]", min: 1)
+                try validate($0, name:"values[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -854,6 +917,7 @@ extension AutoScalingPlans {
             AWSShapeMember(label: "ScaleOutCooldown", required: false, type: .integer), 
             AWSShapeMember(label: "TargetValue", required: true, type: .double)
         ]
+
         /// A customized metric. You can specify either a predefined metric or a customized metric. 
         public let customizedScalingMetricSpecification: CustomizedScalingMetricSpecification?
         /// Indicates whether scale in by the target tracking scaling policy is disabled. If the value is true, scale in is disabled and the target tracking scaling policy doesn't remove capacity from the scalable resource. Otherwise, scale in is enabled and the target tracking scaling policy can remove capacity from the scalable resource.  The default value is false.
@@ -901,6 +965,7 @@ extension AutoScalingPlans {
             AWSShapeMember(label: "ScalingPlanName", required: true, type: .string), 
             AWSShapeMember(label: "ScalingPlanVersion", required: true, type: .long)
         ]
+
         /// A CloudFormation stack or set of tags.
         public let applicationSource: ApplicationSource?
         /// The scaling instructions.
@@ -919,6 +984,9 @@ extension AutoScalingPlans {
 
         public func validate() throws {
             try applicationSource?.validate()
+            try scalingInstructions?.forEach {
+                try $0.validate()
+            }
             try validate(scalingPlanName, name:"scalingPlanName", max: 128)
             try validate(scalingPlanName, name:"scalingPlanName", min: 1)
             try validate(scalingPlanName, name:"scalingPlanName", pattern: "[\\p{Print}&&[^|:/]]+")
@@ -933,7 +1001,6 @@ extension AutoScalingPlans {
     }
 
     public struct UpdateScalingPlanResponse: AWSShape {
-        
         
         public init() {
         }

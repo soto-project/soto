@@ -10,6 +10,7 @@ extension Rekognition {
             AWSShapeMember(label: "High", required: false, type: .integer), 
             AWSShapeMember(label: "Low", required: false, type: .integer)
         ]
+
         /// The highest estimated age.
         public let high: Int32?
         /// The lowest estimated age.
@@ -42,6 +43,7 @@ extension Rekognition {
             AWSShapeMember(label: "Confidence", required: false, type: .float), 
             AWSShapeMember(label: "Value", required: false, type: .boolean)
         ]
+
         /// Level of confidence in the determination.
         public let confidence: Float?
         /// Boolean value that indicates whether the face has beard or not.
@@ -70,6 +72,7 @@ extension Rekognition {
             AWSShapeMember(label: "Top", required: false, type: .float), 
             AWSShapeMember(label: "Width", required: false, type: .float)
         ]
+
         /// Height of the bounding box as a ratio of the overall image height.
         public let height: Float?
         /// Left coordinate of the bounding box as a ratio of overall image width.
@@ -102,6 +105,7 @@ extension Rekognition {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Urls", required: false, type: .list)
         ]
+
         /// Provides information about the celebrity's face, such as its location on the image.
         public let face: ComparedFace?
         /// A unique identifier for the celebrity. 
@@ -146,6 +150,7 @@ extension Rekognition {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Urls", required: false, type: .list)
         ]
+
         /// Bounding box around the body of a celebrity.
         public let boundingBox: BoundingBox?
         /// The confidence, in percentage, that Amazon Rekognition has that the recognized face is the celebrity. 
@@ -190,6 +195,7 @@ extension Rekognition {
             AWSShapeMember(label: "Celebrity", required: false, type: .structure), 
             AWSShapeMember(label: "Timestamp", required: false, type: .long)
         ]
+
         /// Information about a recognized celebrity.
         public let celebrity: CelebrityDetail?
         /// The time, in milliseconds from the start of the video, that the celebrity was recognized.
@@ -221,6 +227,7 @@ extension Rekognition {
             AWSShapeMember(label: "Face", required: false, type: .structure), 
             AWSShapeMember(label: "Similarity", required: false, type: .float)
         ]
+
         /// Provides face metadata (bounding box and confidence that the bounding box actually contains a face).
         public let face: ComparedFace?
         /// Level of confidence that the faces match.
@@ -249,6 +256,7 @@ extension Rekognition {
             AWSShapeMember(label: "SourceImage", required: true, type: .structure), 
             AWSShapeMember(label: "TargetImage", required: true, type: .structure)
         ]
+
         /// The minimum level of confidence in the face matches that a match must meet to be included in the FaceMatches array.
         public let similarityThreshold: Float?
         /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
@@ -284,6 +292,7 @@ extension Rekognition {
             AWSShapeMember(label: "TargetImageOrientationCorrection", required: false, type: .enum), 
             AWSShapeMember(label: "UnmatchedFaces", required: false, type: .list)
         ]
+
         /// An array of faces in the target image that match the source image face. Each CompareFacesMatch object provides the bounding box, the confidence level that the bounding box contains a face, and the similarity score for the face in the bounding box and the face in the source image.
         public let faceMatches: [CompareFacesMatch]?
         /// The face in the source image that was used for comparison.
@@ -304,7 +313,13 @@ extension Rekognition {
         }
 
         public func validate() throws {
+            try faceMatches?.forEach {
+                try $0.validate()
+            }
             try sourceImageFace?.validate()
+            try unmatchedFaces?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -324,6 +339,7 @@ extension Rekognition {
             AWSShapeMember(label: "Pose", required: false, type: .structure), 
             AWSShapeMember(label: "Quality", required: false, type: .structure)
         ]
+
         /// Bounding box of the face.
         public let boundingBox: BoundingBox?
         /// Level of confidence that what the bounding box contains is a face.
@@ -363,6 +379,7 @@ extension Rekognition {
             AWSShapeMember(label: "BoundingBox", required: false, type: .structure), 
             AWSShapeMember(label: "Confidence", required: false, type: .float)
         ]
+
         /// Bounding box of the face.
         public let boundingBox: BoundingBox?
         /// Confidence level that the selected bounding box contains a face.
@@ -389,6 +406,7 @@ extension Rekognition {
             AWSShapeMember(label: "ModerationLabel", required: false, type: .structure), 
             AWSShapeMember(label: "Timestamp", required: false, type: .long)
         ]
+
         /// The moderation label detected by in the stored video.
         public let moderationLabel: ModerationLabel?
         /// Time, in milliseconds from the beginning of the video, that the moderation label was detected.
@@ -419,6 +437,7 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CollectionId", required: true, type: .string)
         ]
+
         /// ID for the collection that you are creating.
         public let collectionId: String
         
@@ -443,6 +462,7 @@ extension Rekognition {
             AWSShapeMember(label: "FaceModelVersion", required: false, type: .string), 
             AWSShapeMember(label: "StatusCode", required: false, type: .integer)
         ]
+
         /// Amazon Resource Name (ARN) of the collection. You can use this to manage permissions on your resources. 
         public let collectionArn: String?
         /// Version number of the face detection model associated with the collection you are creating.
@@ -475,6 +495,7 @@ extension Rekognition {
             AWSShapeMember(label: "RoleArn", required: true, type: .string), 
             AWSShapeMember(label: "Settings", required: true, type: .structure)
         ]
+
         /// Kinesis video stream stream that provides the source streaming video. If you are using the AWS CLI, the parameter name is StreamProcessorInput.
         public let input: StreamProcessorInput
         /// An identifier you assign to the stream processor. You can use Name to manage the stream processor. For example, you can get the current status of the stream processor by calling DescribeStreamProcessor. Name is idempotent. 
@@ -517,6 +538,7 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StreamProcessorArn", required: false, type: .string)
         ]
+
         /// ARN for the newly create stream processor.
         public let streamProcessorArn: String?
         
@@ -537,6 +559,7 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CollectionId", required: true, type: .string)
         ]
+
         /// ID of the collection to delete.
         public let collectionId: String
         
@@ -559,6 +582,7 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StatusCode", required: false, type: .integer)
         ]
+
         /// HTTP status code that indicates the result of the operation.
         public let statusCode: Int32?
         
@@ -580,6 +604,7 @@ extension Rekognition {
             AWSShapeMember(label: "CollectionId", required: true, type: .string), 
             AWSShapeMember(label: "FaceIds", required: true, type: .list)
         ]
+
         /// Collection from which to remove the specific faces.
         public let collectionId: String
         /// An array of face IDs to delete.
@@ -594,6 +619,9 @@ extension Rekognition {
             try validate(collectionId, name:"collectionId", max: 255)
             try validate(collectionId, name:"collectionId", min: 1)
             try validate(collectionId, name:"collectionId", pattern: "[a-zA-Z0-9_.\\-]+")
+            try faceIds.forEach {
+                try validate($0, name:"faceIds[]", pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            }
             try validate(faceIds, name:"faceIds", max: 4096)
             try validate(faceIds, name:"faceIds", min: 1)
         }
@@ -608,6 +636,7 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeletedFaces", required: false, type: .list)
         ]
+
         /// An array of strings (face IDs) of the faces that were deleted.
         public let deletedFaces: [String]?
         
@@ -616,6 +645,9 @@ extension Rekognition {
         }
 
         public func validate() throws {
+            try deletedFaces?.forEach {
+                try validate($0, name:"deletedFaces[]", pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            }
             try validate(deletedFaces, name:"deletedFaces", max: 4096)
             try validate(deletedFaces, name:"deletedFaces", min: 1)
         }
@@ -629,6 +661,7 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// The name of the stream processor you want to delete.
         public let name: String
         
@@ -649,7 +682,6 @@ extension Rekognition {
 
     public struct DeleteStreamProcessorResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -659,6 +691,7 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CollectionId", required: true, type: .string)
         ]
+
         /// The ID of the collection to describe.
         public let collectionId: String
         
@@ -684,6 +717,7 @@ extension Rekognition {
             AWSShapeMember(label: "FaceCount", required: false, type: .long), 
             AWSShapeMember(label: "FaceModelVersion", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the collection.
         public let collectionARN: String?
         /// The number of milliseconds since the Unix epoch time until the creation of the collection. The Unix epoch time is 00:00:00 Coordinated Universal Time (UTC), Thursday, 1 January 1970.
@@ -716,6 +750,7 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// Name of the stream processor for which you want information.
         public let name: String
         
@@ -747,6 +782,7 @@ extension Rekognition {
             AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
             AWSShapeMember(label: "StreamProcessorArn", required: false, type: .string)
         ]
+
         /// Date and time the stream processor was created
         public let creationTimestamp: TimeStamp?
         /// Kinesis video stream that provides the source streaming video.
@@ -811,6 +847,7 @@ extension Rekognition {
             AWSShapeMember(label: "Attributes", required: false, type: .list), 
             AWSShapeMember(label: "Image", required: true, type: .structure)
         ]
+
         /// An array of facial attributes you want to be returned. This can be the default list of attributes or all attributes. If you don't specify a value for Attributes or if you specify ["DEFAULT"], the API returns the following subset of facial attributes: BoundingBox, Confidence, Pose, Quality, and Landmarks. If you provide ["ALL"], all facial attributes are returned, but the operation takes longer to complete. If you provide both, ["ALL", "DEFAULT"], the service uses a logical AND operator to determine which attributes to return (in this case, all attributes). 
         public let attributes: [Attribute]?
         /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
@@ -836,6 +873,7 @@ extension Rekognition {
             AWSShapeMember(label: "FaceDetails", required: false, type: .list), 
             AWSShapeMember(label: "OrientationCorrection", required: false, type: .enum)
         ]
+
         /// Details of each face found in the image. 
         public let faceDetails: [FaceDetail]?
         /// The value of OrientationCorrection is always null. If the input image is in .jpeg format, it might contain exchangeable image file format (Exif) metadata that includes the image's orientation. Amazon Rekognition uses this orientation information to perform image correction. The bounding box coordinates are translated to represent object locations after the orientation information in the Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata. Amazon Rekognition doesn’t perform image correction for images in .png format and .jpeg images without orientation information in the image Exif metadata. The bounding box coordinates aren't translated and represent the object locations before the image is rotated. 
@@ -844,6 +882,12 @@ extension Rekognition {
         public init(faceDetails: [FaceDetail]? = nil, orientationCorrection: OrientationCorrection? = nil) {
             self.faceDetails = faceDetails
             self.orientationCorrection = orientationCorrection
+        }
+
+        public func validate() throws {
+            try faceDetails?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -858,6 +902,7 @@ extension Rekognition {
             AWSShapeMember(label: "MaxLabels", required: false, type: .integer), 
             AWSShapeMember(label: "MinConfidence", required: false, type: .float)
         ]
+
         /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes is not supported. Images stored in an S3 Bucket do not need to be base64-encoded. If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let image: Image
         /// Maximum number of labels you want the service to return in the response. The service returns the specified number of highest confidence labels. 
@@ -891,6 +936,7 @@ extension Rekognition {
             AWSShapeMember(label: "Labels", required: false, type: .list), 
             AWSShapeMember(label: "OrientationCorrection", required: false, type: .enum)
         ]
+
         /// Version number of the label detection model that was used to detect labels.
         public let labelModelVersion: String?
         /// An array of labels for the real-world objects detected. 
@@ -902,6 +948,12 @@ extension Rekognition {
             self.labelModelVersion = labelModelVersion
             self.labels = labels
             self.orientationCorrection = orientationCorrection
+        }
+
+        public func validate() throws {
+            try labels?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -916,6 +968,7 @@ extension Rekognition {
             AWSShapeMember(label: "Image", required: true, type: .structure), 
             AWSShapeMember(label: "MinConfidence", required: false, type: .float)
         ]
+
         /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let image: Image
         /// Specifies the minimum confidence level for the labels to return. Amazon Rekognition doesn't return any labels with a confidence level lower than this specified value. If you don't specify MinConfidence, the operation returns labels with confidence values greater than or equal to 50 percent.
@@ -943,6 +996,7 @@ extension Rekognition {
             AWSShapeMember(label: "ModerationLabels", required: false, type: .list), 
             AWSShapeMember(label: "ModerationModelVersion", required: false, type: .string)
         ]
+
         /// Array of detected Moderation labels and the time, in millseconds from the start of the video, they were detected.
         public let moderationLabels: [ModerationLabel]?
         /// Version number of the moderation detection model that was used to detect unsafe content.
@@ -951,6 +1005,12 @@ extension Rekognition {
         public init(moderationLabels: [ModerationLabel]? = nil, moderationModelVersion: String? = nil) {
             self.moderationLabels = moderationLabels
             self.moderationModelVersion = moderationModelVersion
+        }
+
+        public func validate() throws {
+            try moderationLabels?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -963,6 +1023,7 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Image", required: true, type: .structure)
         ]
+
         /// The input image as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Rekognition operations, you can't pass image bytes.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let image: Image
         
@@ -983,11 +1044,18 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TextDetections", required: false, type: .list)
         ]
+
         /// An array of text that was detected in the input image.
         public let textDetections: [TextDetection]?
         
         public init(textDetections: [TextDetection]? = nil) {
             self.textDetections = textDetections
+        }
+
+        public func validate() throws {
+            try textDetections?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1000,6 +1068,7 @@ extension Rekognition {
             AWSShapeMember(label: "Confidence", required: false, type: .float), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
+
         /// Level of confidence in the determination.
         public let confidence: Float?
         /// Type of emotion detected.
@@ -1038,6 +1107,7 @@ extension Rekognition {
             AWSShapeMember(label: "Confidence", required: false, type: .float), 
             AWSShapeMember(label: "Value", required: false, type: .boolean)
         ]
+
         /// Level of confidence in the determination.
         public let confidence: Float?
         /// Boolean value that indicates whether the eyes on the face are open.
@@ -1064,6 +1134,7 @@ extension Rekognition {
             AWSShapeMember(label: "Confidence", required: false, type: .float), 
             AWSShapeMember(label: "Value", required: false, type: .boolean)
         ]
+
         /// Level of confidence in the determination.
         public let confidence: Float?
         /// Boolean value that indicates whether the face is wearing eye glasses or not.
@@ -1093,6 +1164,7 @@ extension Rekognition {
             AWSShapeMember(label: "FaceId", required: false, type: .string), 
             AWSShapeMember(label: "ImageId", required: false, type: .string)
         ]
+
         /// Bounding box of the face.
         public let boundingBox: BoundingBox?
         /// Confidence level that the bounding box contains a face (and not a different object such as a tree).
@@ -1155,6 +1227,7 @@ extension Rekognition {
             AWSShapeMember(label: "Smile", required: false, type: .structure), 
             AWSShapeMember(label: "Sunglasses", required: false, type: .structure)
         ]
+
         /// The estimated age range, in years, for the face. Low represents the lowest estimated age and High represents the highest estimated age.
         public let ageRange: AgeRange?
         /// Indicates whether or not the face has a beard, and the confidence level in the determination.
@@ -1209,6 +1282,9 @@ extension Rekognition {
             try beard?.validate()
             try validate(confidence, name:"confidence", max: 100)
             try validate(confidence, name:"confidence", min: 0)
+            try emotions?.forEach {
+                try $0.validate()
+            }
             try eyeglasses?.validate()
             try eyesOpen?.validate()
             try gender?.validate()
@@ -1243,6 +1319,7 @@ extension Rekognition {
             AWSShapeMember(label: "Face", required: false, type: .structure), 
             AWSShapeMember(label: "Timestamp", required: false, type: .long)
         ]
+
         /// The face properties for the detected face.
         public let face: FaceDetail?
         /// Time, in milliseconds from the start of the video, that the face was detected.
@@ -1268,6 +1345,7 @@ extension Rekognition {
             AWSShapeMember(label: "Face", required: false, type: .structure), 
             AWSShapeMember(label: "Similarity", required: false, type: .float)
         ]
+
         /// Describes the face properties such as the bounding box, face ID, image ID of the source image, and external image ID that you assigned.
         public let face: Face?
         /// Confidence in the match of this face with the input face.
@@ -1295,6 +1373,7 @@ extension Rekognition {
             AWSShapeMember(label: "Face", required: false, type: .structure), 
             AWSShapeMember(label: "FaceDetail", required: false, type: .structure)
         ]
+
         /// Describes the face properties such as the bounding box, face ID, image ID of the input image, and external image ID that you assigned. 
         public let face: Face?
         /// Structure containing attributes of the face that the algorithm detected.
@@ -1321,6 +1400,7 @@ extension Rekognition {
             AWSShapeMember(label: "CollectionId", required: false, type: .string), 
             AWSShapeMember(label: "FaceMatchThreshold", required: false, type: .float)
         ]
+
         /// The ID of a collection that contains faces that you want to search for.
         public let collectionId: String?
         /// Minimum face match confidence score that must be met to return a result for a recognized face. Default is 70. 0 is the lowest confidence. 100 is the highest confidence.
@@ -1356,6 +1436,7 @@ extension Rekognition {
             AWSShapeMember(label: "Confidence", required: false, type: .float), 
             AWSShapeMember(label: "Value", required: false, type: .enum)
         ]
+
         /// Level of confidence in the determination.
         public let confidence: Float?
         /// Gender of the face.
@@ -1388,6 +1469,7 @@ extension Rekognition {
             AWSShapeMember(label: "BoundingBox", required: false, type: .structure), 
             AWSShapeMember(label: "Polygon", required: false, type: .list)
         ]
+
         /// An axis-aligned coarse representation of the detected text's location on the image.
         public let boundingBox: BoundingBox?
         /// Within the bounding box, a fine-grained polygon around the detected text.
@@ -1408,6 +1490,7 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", required: true, type: .string)
         ]
+
         /// The ID for the celebrity. You get the celebrity ID from a call to the RecognizeCelebrities operation, which recognizes celebrities in an image. 
         public let id: String
         
@@ -1429,6 +1512,7 @@ extension Rekognition {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Urls", required: false, type: .list)
         ]
+
         /// The name of the celebrity.
         public let name: String?
         /// An array of URLs pointing to additional celebrity information. 
@@ -1452,6 +1536,7 @@ extension Rekognition {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "SortBy", required: false, type: .enum)
         ]
+
         /// Job identifier for the required celebrity recognition analysis. You can get the job identifer from a call to StartCelebrityRecognition.
         public let jobId: String
         /// Maximum number of results to return per paginated call. The largest value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000 results is returned. The default value is 1000.
@@ -1492,6 +1577,7 @@ extension Rekognition {
             AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
             AWSShapeMember(label: "VideoMetadata", required: false, type: .structure)
         ]
+
         /// Array of celebrities recognized in the video.
         public let celebrities: [CelebrityRecognition]?
         /// The current status of the celebrity recognition job.
@@ -1512,6 +1598,9 @@ extension Rekognition {
         }
 
         public func validate() throws {
+            try celebrities?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 255)
             try videoMetadata?.validate()
         }
@@ -1532,6 +1621,7 @@ extension Rekognition {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "SortBy", required: false, type: .enum)
         ]
+
         /// The identifier for the content moderation job. Use JobId to identify the job in a subsequent call to GetContentModeration.
         public let jobId: String
         /// Maximum number of results to return per paginated call. The largest value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000 results is returned. The default value is 1000.
@@ -1573,6 +1663,7 @@ extension Rekognition {
             AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
             AWSShapeMember(label: "VideoMetadata", required: false, type: .structure)
         ]
+
         /// The current status of the content moderation job.
         public let jobStatus: VideoJobStatus?
         /// The detected moderation labels and the time(s) they were detected.
@@ -1596,6 +1687,9 @@ extension Rekognition {
         }
 
         public func validate() throws {
+            try moderationLabels?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 255)
             try videoMetadata?.validate()
         }
@@ -1616,6 +1710,7 @@ extension Rekognition {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Unique identifier for the face detection job. The JobId is returned from StartFaceDetection.
         public let jobId: String
         /// Maximum number of results to return per paginated call. The largest value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000 results is returned. The default value is 1000.
@@ -1652,6 +1747,7 @@ extension Rekognition {
             AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
             AWSShapeMember(label: "VideoMetadata", required: false, type: .structure)
         ]
+
         /// An array of faces detected in the video. Each element contains a detected face's details and the time, in milliseconds from the start of the video, the face was detected. 
         public let faces: [FaceDetection]?
         /// The current status of the face detection job.
@@ -1672,6 +1768,9 @@ extension Rekognition {
         }
 
         public func validate() throws {
+            try faces?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 255)
             try videoMetadata?.validate()
         }
@@ -1692,6 +1791,7 @@ extension Rekognition {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "SortBy", required: false, type: .enum)
         ]
+
         /// The job identifer for the search request. You get the job identifier from an initial call to StartFaceSearch.
         public let jobId: String
         /// Maximum number of results to return per paginated call. The largest value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000 results is returned. The default value is 1000.
@@ -1732,6 +1832,7 @@ extension Rekognition {
             AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
             AWSShapeMember(label: "VideoMetadata", required: false, type: .structure)
         ]
+
         /// The current status of the face search job.
         public let jobStatus: VideoJobStatus?
         /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of search results. 
@@ -1753,6 +1854,9 @@ extension Rekognition {
 
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 255)
+            try persons?.forEach {
+                try $0.validate()
+            }
             try videoMetadata?.validate()
         }
 
@@ -1772,6 +1876,7 @@ extension Rekognition {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "SortBy", required: false, type: .enum)
         ]
+
         /// Job identifier for the label detection operation for which you want results returned. You get the job identifer from an initial call to StartlabelDetection.
         public let jobId: String
         /// Maximum number of results to return per paginated call. The largest value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000 results is returned. The default value is 1000.
@@ -1813,6 +1918,7 @@ extension Rekognition {
             AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
             AWSShapeMember(label: "VideoMetadata", required: false, type: .structure)
         ]
+
         /// The current status of the label detection job.
         public let jobStatus: VideoJobStatus?
         /// Version number of the label detection model that was used to detect labels.
@@ -1836,6 +1942,9 @@ extension Rekognition {
         }
 
         public func validate() throws {
+            try labels?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 255)
             try videoMetadata?.validate()
         }
@@ -1857,6 +1966,7 @@ extension Rekognition {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "SortBy", required: false, type: .enum)
         ]
+
         /// The identifier for a job that tracks persons in a video. You get the JobId from a call to StartPersonTracking. 
         public let jobId: String
         /// Maximum number of results to return per paginated call. The largest value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000 results is returned. The default value is 1000.
@@ -1897,6 +2007,7 @@ extension Rekognition {
             AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
             AWSShapeMember(label: "VideoMetadata", required: false, type: .structure)
         ]
+
         /// The current status of the person tracking job.
         public let jobStatus: VideoJobStatus?
         /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of persons. 
@@ -1918,6 +2029,9 @@ extension Rekognition {
 
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 255)
+            try persons?.forEach {
+                try $0.validate()
+            }
             try videoMetadata?.validate()
         }
 
@@ -1935,6 +2049,7 @@ extension Rekognition {
             AWSShapeMember(label: "Bytes", required: false, type: .blob), 
             AWSShapeMember(label: "S3Object", required: false, type: .structure)
         ]
+
         /// Blob of image bytes up to 5 MBs.
         public let bytes: Data?
         /// Identifies an S3 object as the image source.
@@ -1962,6 +2077,7 @@ extension Rekognition {
             AWSShapeMember(label: "Brightness", required: false, type: .float), 
             AWSShapeMember(label: "Sharpness", required: false, type: .float)
         ]
+
         /// Value representing brightness of the face. The service returns a value between 0 and 100 (inclusive). A higher value indicates a brighter face image.
         public let brightness: Float?
         /// Value representing sharpness of the face. The service returns a value between 0 and 100 (inclusive). A higher value indicates a sharper face image.
@@ -1987,6 +2103,7 @@ extension Rekognition {
             AWSShapeMember(label: "MaxFaces", required: false, type: .integer), 
             AWSShapeMember(label: "QualityFilter", required: false, type: .enum)
         ]
+
         /// The ID of an existing collection to which you want to add the faces that are detected in the input images.
         public let collectionId: String
         /// An array of facial attributes that you want to be returned. This can be the default list of attributes or all attributes. If you don't specify a value for Attributes or if you specify ["DEFAULT"], the API returns the following subset of facial attributes: BoundingBox, Confidence, Pose, Quality, and Landmarks. If you provide ["ALL"], all facial attributes are returned, but the operation takes longer to complete. If you provide both, ["ALL", "DEFAULT"], the service uses a logical AND operator to determine which attributes to return (in this case, all attributes). 
@@ -2037,6 +2154,7 @@ extension Rekognition {
             AWSShapeMember(label: "OrientationCorrection", required: false, type: .enum), 
             AWSShapeMember(label: "UnindexedFaces", required: false, type: .list)
         ]
+
         /// The version number of the face detection model that's associated with the input collection (CollectionId).
         public let faceModelVersion: String?
         /// An array of faces detected and added to the collection. For more information, see Searching Faces in a Collection in the Amazon Rekognition Developer Guide. 
@@ -2053,6 +2171,15 @@ extension Rekognition {
             self.unindexedFaces = unindexedFaces
         }
 
+        public func validate() throws {
+            try faceRecords?.forEach {
+                try $0.validate()
+            }
+            try unindexedFaces?.forEach {
+                try $0.validate()
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case faceModelVersion = "FaceModelVersion"
             case faceRecords = "FaceRecords"
@@ -2066,6 +2193,7 @@ extension Rekognition {
             AWSShapeMember(label: "BoundingBox", required: false, type: .structure), 
             AWSShapeMember(label: "Confidence", required: false, type: .float)
         ]
+
         /// The position of the label instance on the image.
         public let boundingBox: BoundingBox?
         /// The confidence that Amazon Rekognition has in the accuracy of the bounding box.
@@ -2091,6 +2219,7 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: false, type: .string)
         ]
+
         /// ARN of the output Amazon Kinesis Data Streams stream.
         public let arn: String?
         
@@ -2111,6 +2240,7 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: false, type: .string)
         ]
+
         /// ARN of the Kinesis video stream stream that streams the source video.
         public let arn: String?
         
@@ -2134,6 +2264,7 @@ extension Rekognition {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Parents", required: false, type: .list)
         ]
+
         /// Level of confidence.
         public let confidence: Float?
         /// If Label represents an object, Instances contains the bounding boxes for each instance of the detected object. Bounding boxes are returned for common object labels such as people, cars, furniture, apparel or pets.
@@ -2153,6 +2284,9 @@ extension Rekognition {
         public func validate() throws {
             try validate(confidence, name:"confidence", max: 100)
             try validate(confidence, name:"confidence", min: 0)
+            try instances?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2168,6 +2302,7 @@ extension Rekognition {
             AWSShapeMember(label: "Label", required: false, type: .structure), 
             AWSShapeMember(label: "Timestamp", required: false, type: .long)
         ]
+
         /// Details about the detected label.
         public let label: Label?
         /// Time, in milliseconds from the start of the video, that the label was detected.
@@ -2200,6 +2335,7 @@ extension Rekognition {
             AWSShapeMember(label: "X", required: false, type: .float), 
             AWSShapeMember(label: "Y", required: false, type: .float)
         ]
+
         /// Type of landmark.
         public let `type`: LandmarkType?
         /// The x-coordinate from the top left of the landmark expressed as the ratio of the width of the image. For example, if the image is 700 x 200 and the x-coordinate of the landmark is at 350 pixels, this value is 0.5. 
@@ -2259,6 +2395,7 @@ extension Rekognition {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Maximum number of collection IDs to return. 
         public let maxResults: Int32?
         /// Pagination token from the previous response.
@@ -2287,6 +2424,7 @@ extension Rekognition {
             AWSShapeMember(label: "FaceModelVersions", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// An array of collection IDs.
         public let collectionIds: [String]?
         /// Version numbers of the face detection models associated with the collections in the array CollectionIds. For example, the value of FaceModelVersions[2] is the version number for the face detection model used by the collection in CollectionId[2].
@@ -2301,6 +2439,11 @@ extension Rekognition {
         }
 
         public func validate() throws {
+            try collectionIds?.forEach {
+                try validate($0, name:"collectionIds[]", max: 255)
+                try validate($0, name:"collectionIds[]", min: 1)
+                try validate($0, name:"collectionIds[]", pattern: "[a-zA-Z0-9_.\\-]+")
+            }
             try validate(nextToken, name:"nextToken", max: 255)
         }
 
@@ -2317,6 +2460,7 @@ extension Rekognition {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// ID of the collection from which to list the faces.
         public let collectionId: String
         /// Maximum number of faces to return.
@@ -2352,6 +2496,7 @@ extension Rekognition {
             AWSShapeMember(label: "Faces", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Version number of the face detection model associated with the input collection (CollectionId).
         public let faceModelVersion: String?
         /// An array of Face objects. 
@@ -2363,6 +2508,12 @@ extension Rekognition {
             self.faceModelVersion = faceModelVersion
             self.faces = faces
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try faces?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2377,6 +2528,7 @@ extension Rekognition {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Maximum number of stream processors you want Amazon Rekognition Video to return in the response. The default is 1000. 
         public let maxResults: Int32?
         /// If the previous response was incomplete (because there are more stream processors to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of stream processors. 
@@ -2403,6 +2555,7 @@ extension Rekognition {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "StreamProcessors", required: false, type: .list)
         ]
+
         /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of stream processors. 
         public let nextToken: String?
         /// List of stream processors that you have created.
@@ -2415,6 +2568,9 @@ extension Rekognition {
 
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 255)
+            try streamProcessors?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2429,6 +2585,7 @@ extension Rekognition {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "ParentName", required: false, type: .string)
         ]
+
         /// Specifies the confidence that Amazon Rekognition has that the label has been correctly identified. If you don't specify the MinConfidence parameter in the call to DetectModerationLabels, the operation returns labels with a confidence value greater than or equal to 50 percent.
         public let confidence: Float?
         /// The label name for the type of content detected in the image.
@@ -2459,6 +2616,7 @@ extension Rekognition {
             AWSShapeMember(label: "Confidence", required: false, type: .float), 
             AWSShapeMember(label: "Value", required: false, type: .boolean)
         ]
+
         /// Level of confidence in the determination.
         public let confidence: Float?
         /// Boolean value that indicates whether the mouth on the face is open or not.
@@ -2485,6 +2643,7 @@ extension Rekognition {
             AWSShapeMember(label: "Confidence", required: false, type: .float), 
             AWSShapeMember(label: "Value", required: false, type: .boolean)
         ]
+
         /// Level of confidence in the determination.
         public let confidence: Float?
         /// Boolean value that indicates whether the face has mustache or not.
@@ -2511,6 +2670,7 @@ extension Rekognition {
             AWSShapeMember(label: "RoleArn", required: true, type: .string), 
             AWSShapeMember(label: "SNSTopicArn", required: true, type: .string)
         ]
+
         /// The ARN of an IAM role that gives Amazon Rekognition publishing permissions to the Amazon SNS topic. 
         public let roleArn: String
         /// The Amazon SNS topic to which Amazon Rekognition to posts the completion status.
@@ -2544,6 +2704,7 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         /// The name of the parent label.
         public let name: String?
         
@@ -2562,6 +2723,7 @@ extension Rekognition {
             AWSShapeMember(label: "Face", required: false, type: .structure), 
             AWSShapeMember(label: "Index", required: false, type: .long)
         ]
+
         /// Bounding box around the detected person.
         public let boundingBox: BoundingBox?
         /// Face details for the detected person.
@@ -2591,6 +2753,7 @@ extension Rekognition {
             AWSShapeMember(label: "Person", required: false, type: .structure), 
             AWSShapeMember(label: "Timestamp", required: false, type: .long)
         ]
+
         /// Details about a person whose path was tracked in a video.
         public let person: PersonDetail?
         /// The time, in milliseconds from the start of the video, that the person's path was tracked.
@@ -2617,6 +2780,7 @@ extension Rekognition {
             AWSShapeMember(label: "Person", required: false, type: .structure), 
             AWSShapeMember(label: "Timestamp", required: false, type: .long)
         ]
+
         /// Information about the faces in the input collection that match the face of a person in the video.
         public let faceMatches: [FaceMatch]?
         /// Information about the matched person.
@@ -2631,6 +2795,9 @@ extension Rekognition {
         }
 
         public func validate() throws {
+            try faceMatches?.forEach {
+                try $0.validate()
+            }
             try person?.validate()
         }
 
@@ -2652,6 +2819,7 @@ extension Rekognition {
             AWSShapeMember(label: "X", required: false, type: .float), 
             AWSShapeMember(label: "Y", required: false, type: .float)
         ]
+
         /// The value of the X coordinate for a point on a Polygon.
         public let x: Float?
         /// The value of the Y coordinate for a point on a Polygon.
@@ -2674,6 +2842,7 @@ extension Rekognition {
             AWSShapeMember(label: "Roll", required: false, type: .float), 
             AWSShapeMember(label: "Yaw", required: false, type: .float)
         ]
+
         /// Value representing the face rotation on the pitch axis.
         public let pitch: Float?
         /// Value representing the face rotation on the roll axis.
@@ -2723,6 +2892,7 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Image", required: true, type: .structure)
         ]
+
         /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let image: Image
         
@@ -2745,6 +2915,7 @@ extension Rekognition {
             AWSShapeMember(label: "OrientationCorrection", required: false, type: .enum), 
             AWSShapeMember(label: "UnrecognizedFaces", required: false, type: .list)
         ]
+
         /// Details about each celebrity found in the image. Amazon Rekognition can detect a maximum of 15 celebrities in an image.
         public let celebrityFaces: [Celebrity]?
         /// The orientation of the input image (counterclockwise direction). If your application displays the image, you can use this value to correct the orientation. The bounding box coordinates returned in CelebrityFaces and UnrecognizedFaces represent face locations before the image orientation is corrected.   If the input image is in .jpeg format, it might contain exchangeable image (Exif) metadata that includes the image's orientation. If so, and the Exif metadata for the input image populates the orientation field, the value of OrientationCorrection is null. The CelebrityFaces and UnrecognizedFaces bounding box coordinates represent face locations after Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata.  
@@ -2756,6 +2927,15 @@ extension Rekognition {
             self.celebrityFaces = celebrityFaces
             self.orientationCorrection = orientationCorrection
             self.unrecognizedFaces = unrecognizedFaces
+        }
+
+        public func validate() throws {
+            try celebrityFaces?.forEach {
+                try $0.validate()
+            }
+            try unrecognizedFaces?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2771,6 +2951,7 @@ extension Rekognition {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         /// Name of the S3 bucket.
         public let bucket: String?
         /// S3 object key name.
@@ -2808,6 +2989,7 @@ extension Rekognition {
             AWSShapeMember(label: "Image", required: true, type: .structure), 
             AWSShapeMember(label: "MaxFaces", required: false, type: .integer)
         ]
+
         /// ID of the collection to search.
         public let collectionId: String
         /// (Optional) Specifies the minimum confidence in the face match to return. For example, don't return any matches where confidence in matches is less than 70%.
@@ -2850,6 +3032,7 @@ extension Rekognition {
             AWSShapeMember(label: "SearchedFaceBoundingBox", required: false, type: .structure), 
             AWSShapeMember(label: "SearchedFaceConfidence", required: false, type: .float)
         ]
+
         /// An array of faces that match the input face, along with the confidence in the match.
         public let faceMatches: [FaceMatch]?
         /// Version number of the face detection model associated with the input collection (CollectionId).
@@ -2867,6 +3050,9 @@ extension Rekognition {
         }
 
         public func validate() throws {
+            try faceMatches?.forEach {
+                try $0.validate()
+            }
             try validate(searchedFaceConfidence, name:"searchedFaceConfidence", max: 100)
             try validate(searchedFaceConfidence, name:"searchedFaceConfidence", min: 0)
         }
@@ -2886,6 +3072,7 @@ extension Rekognition {
             AWSShapeMember(label: "FaceMatchThreshold", required: false, type: .float), 
             AWSShapeMember(label: "MaxFaces", required: false, type: .integer)
         ]
+
         /// ID of the collection the face belongs to.
         public let collectionId: String
         /// ID of a face to find matches for in the collection.
@@ -2927,6 +3114,7 @@ extension Rekognition {
             AWSShapeMember(label: "FaceModelVersion", required: false, type: .string), 
             AWSShapeMember(label: "SearchedFaceId", required: false, type: .string)
         ]
+
         /// An array of faces that matched the input face, along with the confidence in the match.
         public let faceMatches: [FaceMatch]?
         /// Version number of the face detection model associated with the input collection (CollectionId).
@@ -2941,6 +3129,9 @@ extension Rekognition {
         }
 
         public func validate() throws {
+            try faceMatches?.forEach {
+                try $0.validate()
+            }
             try validate(searchedFaceId, name:"searchedFaceId", pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
         }
 
@@ -2956,6 +3147,7 @@ extension Rekognition {
             AWSShapeMember(label: "Confidence", required: false, type: .float), 
             AWSShapeMember(label: "Value", required: false, type: .boolean)
         ]
+
         /// Level of confidence in the determination.
         public let confidence: Float?
         /// Boolean value that indicates whether the face is smiling or not.
@@ -2984,6 +3176,7 @@ extension Rekognition {
             AWSShapeMember(label: "NotificationChannel", required: false, type: .structure), 
             AWSShapeMember(label: "Video", required: true, type: .structure)
         ]
+
         /// Idempotent token used to identify the start request. If you use the same token with multiple StartCelebrityRecognition requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once. 
         public let clientRequestToken: String?
         /// Unique identifier you specify to identify the job in the completion status published to the Amazon Simple Notification Service topic. 
@@ -3023,6 +3216,7 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobId", required: false, type: .string)
         ]
+
         /// The identifier for the celebrity recognition analysis job. Use JobId to identify the job in a subsequent call to GetCelebrityRecognition.
         public let jobId: String?
         
@@ -3049,6 +3243,7 @@ extension Rekognition {
             AWSShapeMember(label: "NotificationChannel", required: false, type: .structure), 
             AWSShapeMember(label: "Video", required: true, type: .structure)
         ]
+
         /// Idempotent token used to identify the start request. If you use the same token with multiple StartContentModeration requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once. 
         public let clientRequestToken: String?
         /// Unique identifier you specify to identify the job in the completion status published to the Amazon Simple Notification Service topic. 
@@ -3094,6 +3289,7 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobId", required: false, type: .string)
         ]
+
         /// The identifier for the content moderation analysis job. Use JobId to identify the job in a subsequent call to GetContentModeration.
         public let jobId: String?
         
@@ -3120,6 +3316,7 @@ extension Rekognition {
             AWSShapeMember(label: "NotificationChannel", required: false, type: .structure), 
             AWSShapeMember(label: "Video", required: true, type: .structure)
         ]
+
         /// Idempotent token used to identify the start request. If you use the same token with multiple StartFaceDetection requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once. 
         public let clientRequestToken: String?
         /// The face attributes you want returned.  DEFAULT - The following subset of facial attributes are returned: BoundingBox, Confidence, Pose, Quality and Landmarks.   ALL - All facial attributes are returned.
@@ -3163,6 +3360,7 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobId", required: false, type: .string)
         ]
+
         /// The identifier for the face detection job. Use JobId to identify the job in a subsequent call to GetFaceDetection.
         public let jobId: String?
         
@@ -3190,6 +3388,7 @@ extension Rekognition {
             AWSShapeMember(label: "NotificationChannel", required: false, type: .structure), 
             AWSShapeMember(label: "Video", required: true, type: .structure)
         ]
+
         /// Idempotent token used to identify the start request. If you use the same token with multiple StartFaceSearch requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once. 
         public let clientRequestToken: String?
         /// ID of the collection that contains the faces you want to search for.
@@ -3242,6 +3441,7 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobId", required: false, type: .string)
         ]
+
         /// The identifier for the search job. Use JobId to identify the job in a subsequent call to GetFaceSearch. 
         public let jobId: String?
         
@@ -3268,6 +3468,7 @@ extension Rekognition {
             AWSShapeMember(label: "NotificationChannel", required: false, type: .structure), 
             AWSShapeMember(label: "Video", required: true, type: .structure)
         ]
+
         /// Idempotent token used to identify the start request. If you use the same token with multiple StartLabelDetection requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once. 
         public let clientRequestToken: String?
         /// Unique identifier you specify to identify the job in the completion status published to the Amazon Simple Notification Service topic. 
@@ -3313,6 +3514,7 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobId", required: false, type: .string)
         ]
+
         /// The identifier for the label detection job. Use JobId to identify the job in a subsequent call to GetLabelDetection. 
         public let jobId: String?
         
@@ -3338,6 +3540,7 @@ extension Rekognition {
             AWSShapeMember(label: "NotificationChannel", required: false, type: .structure), 
             AWSShapeMember(label: "Video", required: true, type: .structure)
         ]
+
         /// Idempotent token used to identify the start request. If you use the same token with multiple StartPersonTracking requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once. 
         public let clientRequestToken: String?
         /// Unique identifier you specify to identify the job in the completion status published to the Amazon Simple Notification Service topic. 
@@ -3377,6 +3580,7 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobId", required: false, type: .string)
         ]
+
         /// The identifier for the person detection job. Use JobId to identify the job in a subsequent call to GetPersonTracking.
         public let jobId: String?
         
@@ -3399,6 +3603,7 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// The name of the stream processor to start processing.
         public let name: String
         
@@ -3419,7 +3624,6 @@ extension Rekognition {
 
     public struct StartStreamProcessorResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -3429,6 +3633,7 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// The name of a stream processor created by CreateStreamProcessor.
         public let name: String
         
@@ -3449,7 +3654,6 @@ extension Rekognition {
 
     public struct StopStreamProcessorResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -3460,6 +3664,7 @@ extension Rekognition {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
+
         /// Name of the Amazon Rekognition stream processor. 
         public let name: String?
         /// Current status of the Amazon Rekognition stream processor.
@@ -3486,6 +3691,7 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KinesisVideoStream", required: false, type: .structure)
         ]
+
         /// The Kinesis video stream input stream for the source streaming video.
         public let kinesisVideoStream: KinesisVideoStream?
         
@@ -3506,6 +3712,7 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KinesisDataStream", required: false, type: .structure)
         ]
+
         /// The Amazon Kinesis Data Streams stream to which the Amazon Rekognition stream processor streams the analysis results.
         public let kinesisDataStream: KinesisDataStream?
         
@@ -3526,6 +3733,7 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FaceSearch", required: false, type: .structure)
         ]
+
         /// Face search settings to use on a streaming video. 
         public let faceSearch: FaceSearchSettings?
         
@@ -3556,6 +3764,7 @@ extension Rekognition {
             AWSShapeMember(label: "Confidence", required: false, type: .float), 
             AWSShapeMember(label: "Value", required: false, type: .boolean)
         ]
+
         /// Level of confidence in the determination.
         public let confidence: Float?
         /// Boolean value that indicates whether the face is wearing sunglasses or not.
@@ -3586,6 +3795,7 @@ extension Rekognition {
             AWSShapeMember(label: "ParentId", required: false, type: .integer), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
+
         /// The confidence that Amazon Rekognition has in the accuracy of the detected text and the accuracy of the geometry points around the detected text.
         public let confidence: Float?
         /// The word or line of text recognized by Amazon Rekognition. 
@@ -3636,6 +3846,7 @@ extension Rekognition {
             AWSShapeMember(label: "FaceDetail", required: false, type: .structure), 
             AWSShapeMember(label: "Reasons", required: false, type: .list)
         ]
+
         /// The structure that contains attributes of a face that IndexFacesdetected, but didn't index. 
         public let faceDetail: FaceDetail?
         /// An array of reasons that specify why a face wasn't indexed.    EXTREME_POSE - The face is at a pose that can't be detected. For example, the head is turned too far away from the camera.   EXCEEDS_MAX_FACES - The number of faces detected is already higher than that specified by the MaxFaces input parameter for IndexFaces.   LOW_BRIGHTNESS - The image is too dark.   LOW_SHARPNESS - The image is too blurry.   LOW_CONFIDENCE - The face was detected with a low confidence.   SMALL_BOUNDING_BOX - The bounding box around the face is too small.  
@@ -3660,6 +3871,7 @@ extension Rekognition {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "S3Object", required: false, type: .structure)
         ]
+
         /// The Amazon S3 bucket name and file name for the video.
         public let s3Object: S3Object?
         
@@ -3692,6 +3904,7 @@ extension Rekognition {
             AWSShapeMember(label: "FrameRate", required: false, type: .float), 
             AWSShapeMember(label: "FrameWidth", required: false, type: .long)
         ]
+
         /// Type of compression used in the analyzed video. 
         public let codec: String?
         /// Length of the video in milliseconds.

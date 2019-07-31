@@ -9,6 +9,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HandshakeId", required: true, type: .string)
         ]
+
         /// The unique identifier (ID) of the handshake that you want to accept. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
         public let handshakeId: String
         
@@ -29,6 +30,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Handshake", required: false, type: .structure)
         ]
+
         /// A structure that contains details about the accepted handshake.
         public let handshake: Handshake?
         
@@ -60,6 +62,7 @@ extension Organizations {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
+
         /// The Amazon Resource Name (ARN) of the account. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
         /// The email address associated with the AWS account. The regex pattern for this parameter is a string of characters that represents a standard Internet email address.
@@ -132,6 +135,7 @@ extension Organizations {
             AWSShapeMember(label: "PolicyId", required: true, type: .string), 
             AWSShapeMember(label: "TargetId", required: true, type: .string)
         ]
+
         /// The unique identifier (ID) of the policy that you want to attach to the target. You can get the ID for the policy by calling the ListPolicies operation. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
         public let policyId: String
         /// The unique identifier (ID) of the root, OU, or account that you want to attach the policy to. You can get the ID by calling the ListRoots, ListOrganizationalUnitsForParent, or ListAccounts operations. The regex pattern for a target ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
@@ -157,6 +161,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HandshakeId", required: true, type: .string)
         ]
+
         /// The unique identifier (ID) of the handshake that you want to cancel. You can get the ID from the ListHandshakesForOrganization operation. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
         public let handshakeId: String
         
@@ -177,6 +182,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Handshake", required: false, type: .structure)
         ]
+
         /// A structure that contains details about the handshake that you canceled.
         public let handshake: Handshake?
         
@@ -198,6 +204,7 @@ extension Organizations {
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
+
         /// The unique identifier (ID) of this child entity. The regex pattern for a child ID string requires one of the following:   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
         public let id: String?
         /// The type of this child entity.
@@ -267,6 +274,7 @@ extension Organizations {
             AWSShapeMember(label: "IamUserAccessToBilling", required: false, type: .enum), 
             AWSShapeMember(label: "RoleName", required: false, type: .string)
         ]
+
         /// The friendly name of the member account.
         public let accountName: String
         /// The email address of the owner to assign to the new member account. This email address must not already be associated with another AWS account. You must use a valid email address to complete account creation. You can't access the root user of the account or remove an account that was created with an invalid email address.
@@ -305,6 +313,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreateAccountStatus", required: false, type: .structure)
         ]
+
         /// A structure that contains details about the request to create an account. This response structure might not be fully populated when you first receive it because account creation is an asynchronous process. You can pass the returned CreateAccountStatus ID as a parameter to DescribeCreateAccountStatus to get status about the progress of the request at later times. You can also check the AWS CloudTrail log for the CreateAccountResult event. For more information, see Monitoring the Activity in Your Organization in the AWS Organizations User Guide.
         public let createAccountStatus: CreateAccountStatus?
         
@@ -339,6 +348,7 @@ extension Organizations {
             AWSShapeMember(label: "RequestedTimestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "State", required: false, type: .enum)
         ]
+
         /// If the account was created successfully, the unique identifier (ID) of the new account. The regex pattern for an account ID string requires exactly 12 digits.
         public let accountId: String?
         /// The account name given to the account when it was created.
@@ -395,6 +405,7 @@ extension Organizations {
             AWSShapeMember(label: "IamUserAccessToBilling", required: false, type: .enum), 
             AWSShapeMember(label: "RoleName", required: false, type: .string)
         ]
+
         /// The friendly name of the member account.
         public let accountName: String
         /// The email address of the owner to assign to the new member account in the commercial Region. This email address must not already be associated with another AWS account. You must use a valid email address to complete account creation. You can't access the root user of the account or remove an account that was created with an invalid email address. Like all request parameters for CreateGovCloudAccount, the request for the email address for the AWS GovCloud (US) account originates from the commercial Region, not from the AWS GovCloud (US) Region.
@@ -433,6 +444,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreateAccountStatus", required: false, type: .structure)
         ]
+
         public let createAccountStatus: CreateAccountStatus?
         
         public init(createAccountStatus: CreateAccountStatus? = nil) {
@@ -452,6 +464,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FeatureSet", required: false, type: .enum)
         ]
+
         /// Specifies the feature set supported by the new organization. Each feature set supports different levels of functionality.    CONSOLIDATED_BILLING: All member accounts have their bills consolidated to and paid by the master account. For more information, see Consolidated billing in the AWS Organizations User Guide.   The consolidated billing feature subset isn't available for organizations in the AWS GovCloud (US) Region.    ALL: In addition to all the features supported by the consolidated billing feature set, the master account can also apply any type of policy to any member account in the organization. For more information, see All features in the AWS Organizations User Guide.   
         public let featureSet: OrganizationFeatureSet?
         
@@ -468,6 +481,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Organization", required: false, type: .structure)
         ]
+
         /// A structure that contains details about the newly created organization.
         public let organization: Organization?
         
@@ -489,6 +503,7 @@ extension Organizations {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "ParentId", required: true, type: .string)
         ]
+
         /// The friendly name to assign to the new OU.
         public let name: String
         /// The unique identifier (ID) of the parent root or OU that you want to create the new OU in. The regex pattern for a parent ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
@@ -515,6 +530,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OrganizationalUnit", required: false, type: .structure)
         ]
+
         /// A structure that contains details about the newly created OU.
         public let organizationalUnit: OrganizationalUnit?
         
@@ -538,6 +554,7 @@ extension Organizations {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
+
         /// The policy content to add to the new policy. For example, if you create a service control policy (SCP), this string must be JSON text that specifies the permissions that admins in attached accounts can delegate to their users, groups, and roles. For more information about the SCP syntax, see Service Control Policy Syntax in the AWS Organizations User Guide. 
         public let content: String
         /// An optional description to assign to the policy.
@@ -574,6 +591,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Policy", required: false, type: .structure)
         ]
+
         /// A structure that contains details about the newly created policy.
         public let policy: Policy?
         
@@ -594,6 +612,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HandshakeId", required: true, type: .string)
         ]
+
         /// The unique identifier (ID) of the handshake that you want to decline. You can get the ID from the ListHandshakesForAccount operation. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
         public let handshakeId: String
         
@@ -614,6 +633,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Handshake", required: false, type: .structure)
         ]
+
         /// A structure that contains details about the declined handshake. The state is updated to show the value DECLINED.
         public let handshake: Handshake?
         
@@ -634,6 +654,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OrganizationalUnitId", required: true, type: .string)
         ]
+
         /// The unique identifier (ID) of the organizational unit that you want to delete. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.
         public let organizationalUnitId: String
         
@@ -654,6 +675,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyId", required: true, type: .string)
         ]
+
         /// The unique identifier (ID) of the policy that you want to delete. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
         public let policyId: String
         
@@ -674,6 +696,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", required: true, type: .string)
         ]
+
         /// The unique identifier (ID) of the AWS account that you want information about. You can get the ID from the ListAccounts or ListAccountsForParent operations. The regex pattern for an account ID string requires exactly 12 digits.
         public let accountId: String
         
@@ -694,6 +717,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Account", required: false, type: .structure)
         ]
+
         /// A structure that contains information about the requested account.
         public let account: Account?
         
@@ -714,6 +738,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreateAccountRequestId", required: true, type: .string)
         ]
+
         /// Specifies the operationId that uniquely identifies the request. You can get the ID from the response to an earlier CreateAccount request, or from the ListCreateAccountStatus operation. The regex pattern for an create account request ID string requires "car-" followed by from 8 to 32 lower-case letters or digits.
         public let createAccountRequestId: String
         
@@ -734,6 +759,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreateAccountStatus", required: false, type: .structure)
         ]
+
         /// A structure that contains the current status of an account creation request.
         public let createAccountStatus: CreateAccountStatus?
         
@@ -754,6 +780,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HandshakeId", required: true, type: .string)
         ]
+
         /// The unique identifier (ID) of the handshake that you want information about. You can get the ID from the original call to InviteAccountToOrganization, or from a call to ListHandshakesForAccount or ListHandshakesForOrganization. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
         public let handshakeId: String
         
@@ -774,6 +801,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Handshake", required: false, type: .structure)
         ]
+
         /// A structure that contains information about the specified handshake.
         public let handshake: Handshake?
         
@@ -794,6 +822,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Organization", required: false, type: .structure)
         ]
+
         /// A structure that contains information about the organization.
         public let organization: Organization?
         
@@ -814,6 +843,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OrganizationalUnitId", required: true, type: .string)
         ]
+
         /// The unique identifier (ID) of the organizational unit that you want details about. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.
         public let organizationalUnitId: String
         
@@ -834,6 +864,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OrganizationalUnit", required: false, type: .structure)
         ]
+
         /// A structure that contains details about the specified OU.
         public let organizationalUnit: OrganizationalUnit?
         
@@ -854,6 +885,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyId", required: true, type: .string)
         ]
+
         /// The unique identifier (ID) of the policy that you want details about. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
         public let policyId: String
         
@@ -874,6 +906,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Policy", required: false, type: .structure)
         ]
+
         /// A structure that contains details about the specified policy.
         public let policy: Policy?
         
@@ -895,6 +928,7 @@ extension Organizations {
             AWSShapeMember(label: "PolicyId", required: true, type: .string), 
             AWSShapeMember(label: "TargetId", required: true, type: .string)
         ]
+
         /// The unique identifier (ID) of the policy you want to detach. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
         public let policyId: String
         /// The unique identifier (ID) of the root, OU, or account that you want to detach the policy from. You can get the ID from the ListRoots, ListOrganizationalUnitsForParent, or ListAccounts operations. The regex pattern for a target ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
@@ -920,6 +954,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServicePrincipal", required: true, type: .string)
         ]
+
         /// The service principal name of the AWS service for which you want to disable integration with your organization. This is typically in the form of a URL, such as  service-abbreviation.amazonaws.com.
         public let servicePrincipal: String
         
@@ -943,6 +978,7 @@ extension Organizations {
             AWSShapeMember(label: "PolicyType", required: true, type: .enum), 
             AWSShapeMember(label: "RootId", required: true, type: .string)
         ]
+
         /// The policy type that you want to disable in this root.
         public let policyType: PolicyType
         /// The unique identifier (ID) of the root in which you want to disable a policy type. You can get the ID from the ListRoots operation. The regex pattern for a root ID string requires "r-" followed by from 4 to 32 lower-case letters or digits.
@@ -967,6 +1003,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Root", required: false, type: .structure)
         ]
+
         /// A structure that shows the root with the updated list of enabled policy types.
         public let root: Root?
         
@@ -987,6 +1024,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServicePrincipal", required: true, type: .string)
         ]
+
         /// The service principal name of the AWS service for which you want to enable integration with your organization. This is typically in the form of a URL, such as  service-abbreviation.amazonaws.com.
         public let servicePrincipal: String
         
@@ -1007,7 +1045,6 @@ extension Organizations {
 
     public struct EnableAllFeaturesRequest: AWSShape {
         
-        
         public init() {
         }
 
@@ -1017,6 +1054,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Handshake", required: false, type: .structure)
         ]
+
         /// A structure that contains details about the handshake created to support this request to enable all features in the organization.
         public let handshake: Handshake?
         
@@ -1038,6 +1076,7 @@ extension Organizations {
             AWSShapeMember(label: "PolicyType", required: true, type: .enum), 
             AWSShapeMember(label: "RootId", required: true, type: .string)
         ]
+
         /// The policy type that you want to enable.
         public let policyType: PolicyType
         /// The unique identifier (ID) of the root in which you want to enable a policy type. You can get the ID from the ListRoots operation. The regex pattern for a root ID string requires "r-" followed by from 4 to 32 lower-case letters or digits.
@@ -1062,6 +1101,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Root", required: false, type: .structure)
         ]
+
         /// A structure that shows the root with the updated list of enabled policy types.
         public let root: Root?
         
@@ -1083,6 +1123,7 @@ extension Organizations {
             AWSShapeMember(label: "DateEnabled", required: false, type: .timestamp), 
             AWSShapeMember(label: "ServicePrincipal", required: false, type: .string)
         ]
+
         /// The date that the service principal was enabled for integration with AWS Organizations.
         public let dateEnabled: TimeStamp?
         /// The name of the service principal. This is typically in the form of a URL, such as:  servicename.amazonaws.com.
@@ -1116,6 +1157,7 @@ extension Organizations {
             AWSShapeMember(label: "Resources", required: false, type: .list), 
             AWSShapeMember(label: "State", required: false, type: .enum)
         ]
+
         /// The type of handshake, indicating what action occurs when the recipient accepts the handshake. The following handshake types are supported:    INVITE: This type of handshake represents a request to join an organization. It is always sent from the master account to only non-member accounts.    ENABLE_ALL_FEATURES: This type of handshake represents a request to enable all features in an organization. It is always sent from the master account to only invited member accounts. Created accounts do not receive this because those accounts were created by the organization's master account and approval is inferred.    APPROVE_ALL_FEATURES: This type of handshake is sent from the Organizations service when all member accounts have approved the ENABLE_ALL_FEATURES invitation. It is sent only to the master account and signals the master that it can finalize the process to enable all features.  
         public let action: ActionType?
         /// The Amazon Resource Name (ARN) of a handshake. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
@@ -1147,6 +1189,9 @@ extension Organizations {
         public func validate() throws {
             try validate(arn, name:"arn", pattern: "^arn:aws:organizations::\\d{12}:handshake\\/o-[a-z0-9]{10,32}\\/[a-z_]{1,32}\\/h-[0-9a-z]{8,32}")
             try validate(id, name:"id", pattern: "^h-[0-9a-z]{8,32}$")
+            try parties?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1178,6 +1223,7 @@ extension Organizations {
             AWSShapeMember(label: "ActionType", required: false, type: .enum), 
             AWSShapeMember(label: "ParentHandshakeId", required: false, type: .string)
         ]
+
         /// Specifies the type of handshake action. If you specify ActionType, you cannot also specify ParentHandshakeId.
         public let actionType: ActionType?
         /// Specifies the parent handshake. Only used for handshake types that are a child of another type. If you specify ParentHandshakeId, you cannot also specify ActionType. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
@@ -1203,6 +1249,7 @@ extension Organizations {
             AWSShapeMember(label: "Id", required: true, type: .string), 
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
+
         /// The unique identifier (ID) for the party. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
         public let id: String
         /// The type of party.
@@ -1237,6 +1284,7 @@ extension Organizations {
             AWSShapeMember(label: "Type", required: false, type: .enum), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// When needed, contains an additional array of HandshakeResource objects.
         public let resources: [HandshakeResource]?
         /// The type of information being passed, specifying how the value is to be interpreted by the other party:    ACCOUNT - Specifies an AWS account ID number.    ORGANIZATION - Specifies an organization ID number.    EMAIL - Specifies the email address that is associated with the account that receives the handshake.     OWNER_EMAIL - Specifies the email address associated with the master account. Included as information about an organization.     OWNER_NAME - Specifies the name associated with the master account. Included as information about an organization.     NOTES - Additional text provided by the handshake initiator and intended for the recipient to read.  
@@ -1314,6 +1362,7 @@ extension Organizations {
             AWSShapeMember(label: "Notes", required: false, type: .string), 
             AWSShapeMember(label: "Target", required: true, type: .structure)
         ]
+
         /// Additional information that you want to include in the generated email to the recipient account owner.
         public let notes: String?
         /// The identifier (ID) of the AWS account that you want to invite to join your organization. This is a JSON object that contains the following elements:   { "Type": "ACCOUNT", "Id": "&lt; account id number &gt;" }  If you use the AWS CLI, you can submit this as a single string, similar to the following example:  --target Id=123456789012,Type=ACCOUNT  If you specify "Type": "ACCOUNT", you must provide the AWS account ID number as the Id. If you specify "Type": "EMAIL", you must specify the email address that is associated with the account.  --target Id=diego@example.com,Type=EMAIL 
@@ -1339,6 +1388,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Handshake", required: false, type: .structure)
         ]
+
         /// A structure that contains details about the handshake that is created to support this invitation request.
         public let handshake: Handshake?
         
@@ -1360,6 +1410,7 @@ extension Organizations {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// (Optional) Use this to limit the number of results you want included per page in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int32?
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -1386,6 +1437,7 @@ extension Organizations {
             AWSShapeMember(label: "EnabledServicePrincipals", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// A list of the service principals for the services that are enabled to integrate with your organization. Each principal is a structure that includes the name and the date that it was enabled for integration with AWS Organizations.
         public let enabledServicePrincipals: [EnabledServicePrincipal]?
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
@@ -1394,6 +1446,12 @@ extension Organizations {
         public init(enabledServicePrincipals: [EnabledServicePrincipal]? = nil, nextToken: String? = nil) {
             self.enabledServicePrincipals = enabledServicePrincipals
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try enabledServicePrincipals?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1408,6 +1466,7 @@ extension Organizations {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ParentId", required: true, type: .string)
         ]
+
         /// (Optional) Use this to limit the number of results you want included per page in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int32?
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -1439,6 +1498,7 @@ extension Organizations {
             AWSShapeMember(label: "Accounts", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// A list of the accounts in the specified root or OU.
         public let accounts: [Account]?
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
@@ -1447,6 +1507,12 @@ extension Organizations {
         public init(accounts: [Account]? = nil, nextToken: String? = nil) {
             self.accounts = accounts
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try accounts?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1460,6 +1526,7 @@ extension Organizations {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// (Optional) Use this to limit the number of results you want included per page in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int32?
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -1486,6 +1553,7 @@ extension Organizations {
             AWSShapeMember(label: "Accounts", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// A list of objects in the organization.
         public let accounts: [Account]?
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
@@ -1494,6 +1562,12 @@ extension Organizations {
         public init(accounts: [Account]? = nil, nextToken: String? = nil) {
             self.accounts = accounts
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try accounts?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1509,6 +1583,7 @@ extension Organizations {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ParentId", required: true, type: .string)
         ]
+
         /// Filters the output to include only the specified child type.
         public let childType: ChildType
         /// (Optional) Use this to limit the number of results you want included per page in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
@@ -1544,6 +1619,7 @@ extension Organizations {
             AWSShapeMember(label: "Children", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The list of children of the specified parent container.
         public let children: [Child]?
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
@@ -1552,6 +1628,12 @@ extension Organizations {
         public init(children: [Child]? = nil, nextToken: String? = nil) {
             self.children = children
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try children?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1566,6 +1648,7 @@ extension Organizations {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "States", required: false, type: .list)
         ]
+
         /// (Optional) Use this to limit the number of results you want included per page in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int32?
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -1596,6 +1679,7 @@ extension Organizations {
             AWSShapeMember(label: "CreateAccountStatuses", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// A list of objects with details about the requests. Certain elements, such as the accountId number, are present in the output only after the account has been successfully created.
         public let createAccountStatuses: [CreateAccountStatus]?
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
@@ -1604,6 +1688,12 @@ extension Organizations {
         public init(createAccountStatuses: [CreateAccountStatus]? = nil, nextToken: String? = nil) {
             self.createAccountStatuses = createAccountStatuses
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try createAccountStatuses?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1618,6 +1708,7 @@ extension Organizations {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Filters the handshakes that you want included in the response. The default is all types. Use the ActionType element to limit the output to only a specified type, such as INVITE, ENABLE_ALL_FEATURES, or APPROVE_ALL_FEATURES. Alternatively, for the ENABLE_ALL_FEATURES handshake that generates a separate child handshake for each member account, you can specify ParentHandshakeId to see only the handshakes that were generated by that parent request.
         public let filter: HandshakeFilter?
         /// (Optional) Use this to limit the number of results you want included per page in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
@@ -1649,6 +1740,7 @@ extension Organizations {
             AWSShapeMember(label: "Handshakes", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// A list of Handshake objects with details about each of the handshakes that is associated with the specified account.
         public let handshakes: [Handshake]?
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
@@ -1657,6 +1749,12 @@ extension Organizations {
         public init(handshakes: [Handshake]? = nil, nextToken: String? = nil) {
             self.handshakes = handshakes
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try handshakes?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1671,6 +1769,7 @@ extension Organizations {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// A filter of the handshakes that you want included in the response. The default is all types. Use the ActionType element to limit the output to only a specified type, such as INVITE, ENABLE-ALL-FEATURES, or APPROVE-ALL-FEATURES. Alternatively, for the ENABLE-ALL-FEATURES handshake that generates a separate child handshake for each member account, you can specify the ParentHandshakeId to see only the handshakes that were generated by that parent request.
         public let filter: HandshakeFilter?
         /// (Optional) Use this to limit the number of results you want included per page in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
@@ -1702,6 +1801,7 @@ extension Organizations {
             AWSShapeMember(label: "Handshakes", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// A list of Handshake objects with details about each of the handshakes that are associated with an organization.
         public let handshakes: [Handshake]?
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
@@ -1710,6 +1810,12 @@ extension Organizations {
         public init(handshakes: [Handshake]? = nil, nextToken: String? = nil) {
             self.handshakes = handshakes
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try handshakes?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1724,6 +1830,7 @@ extension Organizations {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ParentId", required: true, type: .string)
         ]
+
         /// (Optional) Use this to limit the number of results you want included per page in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int32?
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -1755,6 +1862,7 @@ extension Organizations {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "OrganizationalUnits", required: false, type: .list)
         ]
+
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public let nextToken: String?
         /// A list of the OUs in the specified root or parent OU.
@@ -1763,6 +1871,12 @@ extension Organizations {
         public init(nextToken: String? = nil, organizationalUnits: [OrganizationalUnit]? = nil) {
             self.nextToken = nextToken
             self.organizationalUnits = organizationalUnits
+        }
+
+        public func validate() throws {
+            try organizationalUnits?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1777,6 +1891,7 @@ extension Organizations {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The unique identifier (ID) of the OU or account whose parent containers you want to list. Don't specify a root. The regex pattern for a child ID string requires one of the following:   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
         public let childId: String
         /// (Optional) Use this to limit the number of results you want included per page in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
@@ -1808,6 +1923,7 @@ extension Organizations {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Parents", required: false, type: .list)
         ]
+
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public let nextToken: String?
         /// A list of parents for the specified child account or OU.
@@ -1816,6 +1932,12 @@ extension Organizations {
         public init(nextToken: String? = nil, parents: [Parent]? = nil) {
             self.nextToken = nextToken
             self.parents = parents
+        }
+
+        public func validate() throws {
+            try parents?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1831,6 +1953,7 @@ extension Organizations {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "TargetId", required: true, type: .string)
         ]
+
         /// The type of policy that you want to include in the returned list.
         public let filter: PolicyType
         /// (Optional) Use this to limit the number of results you want included per page in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
@@ -1866,6 +1989,7 @@ extension Organizations {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Policies", required: false, type: .list)
         ]
+
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public let nextToken: String?
         /// The list of policies that match the criteria in the request.
@@ -1874,6 +1998,12 @@ extension Organizations {
         public init(nextToken: String? = nil, policies: [PolicySummary]? = nil) {
             self.nextToken = nextToken
             self.policies = policies
+        }
+
+        public func validate() throws {
+            try policies?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1888,6 +2018,7 @@ extension Organizations {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Specifies the type of policy that you want to include in the response.
         public let filter: PolicyType
         /// (Optional) Use this to limit the number of results you want included per page in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
@@ -1918,6 +2049,7 @@ extension Organizations {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Policies", required: false, type: .list)
         ]
+
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public let nextToken: String?
         /// A list of policies that match the filter criteria in the request. The output list doesn't include the policy contents. To see the content for a policy, see DescribePolicy.
@@ -1926,6 +2058,12 @@ extension Organizations {
         public init(nextToken: String? = nil, policies: [PolicySummary]? = nil) {
             self.nextToken = nextToken
             self.policies = policies
+        }
+
+        public func validate() throws {
+            try policies?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1939,6 +2077,7 @@ extension Organizations {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// (Optional) Use this to limit the number of results you want included per page in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int32?
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -1965,6 +2104,7 @@ extension Organizations {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Roots", required: false, type: .list)
         ]
+
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public let nextToken: String?
         /// A list of roots that are defined in an organization.
@@ -1973,6 +2113,12 @@ extension Organizations {
         public init(nextToken: String? = nil, roots: [Root]? = nil) {
             self.nextToken = nextToken
             self.roots = roots
+        }
+
+        public func validate() throws {
+            try roots?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1986,6 +2132,7 @@ extension Organizations {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ResourceId", required: true, type: .string)
         ]
+
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
         /// The ID of the resource that you want to retrieve tags for. 
@@ -2011,6 +2158,7 @@ extension Organizations {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public let nextToken: String?
         /// The tags that are assigned to the resource.
@@ -2019,6 +2167,12 @@ extension Organizations {
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try tags?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2033,6 +2187,7 @@ extension Organizations {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "PolicyId", required: true, type: .string)
         ]
+
         /// (Optional) Use this to limit the number of results you want included per page in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int32?
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -2064,6 +2219,7 @@ extension Organizations {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Targets", required: false, type: .list)
         ]
+
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public let nextToken: String?
         /// A list of structures, each of which contains details about one of the entities to which the specified policy is attached.
@@ -2072,6 +2228,12 @@ extension Organizations {
         public init(nextToken: String? = nil, targets: [PolicyTargetSummary]? = nil) {
             self.nextToken = nextToken
             self.targets = targets
+        }
+
+        public func validate() throws {
+            try targets?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2086,6 +2248,7 @@ extension Organizations {
             AWSShapeMember(label: "DestinationParentId", required: true, type: .string), 
             AWSShapeMember(label: "SourceParentId", required: true, type: .string)
         ]
+
         /// The unique identifier (ID) of the account that you want to move. The regex pattern for an account ID string requires exactly 12 digits.
         public let accountId: String
         /// The unique identifier (ID) of the root or organizational unit that you want to move the account to. The regex pattern for a parent ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
@@ -2122,6 +2285,7 @@ extension Organizations {
             AWSShapeMember(label: "MasterAccountEmail", required: false, type: .string), 
             AWSShapeMember(label: "MasterAccountId", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of an organization. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
         /// A list of policy types that are enabled for this organization. For example, if your organization has all features enabled, then service control policies (SCPs) are included in the list.  Even if a policy type is shown as available in the organization, you can separately enable and disable them at the root level by using EnablePolicyType and DisablePolicyType. Use ListRoots to see the status of a policy type in that root. 
@@ -2180,6 +2344,7 @@ extension Organizations {
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of this OU. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
         /// The unique identifier (ID) associated with this OU. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.
@@ -2212,6 +2377,7 @@ extension Organizations {
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
+
         /// The unique identifier (ID) of the parent entity. The regex pattern for a parent ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
         public let id: String?
         /// The type of the parent entity.
@@ -2243,6 +2409,7 @@ extension Organizations {
             AWSShapeMember(label: "Content", required: false, type: .string), 
             AWSShapeMember(label: "PolicySummary", required: false, type: .structure)
         ]
+
         /// The text content of the policy.
         public let content: String?
         /// A structure that contains additional details about the policy.
@@ -2274,6 +2441,7 @@ extension Organizations {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
+
         /// The Amazon Resource Name (ARN) of the policy. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
         /// A boolean value that indicates whether the specified policy is an AWS managed policy. If true, then you can attach the policy to roots, OUs, or accounts, but you cannot edit it.
@@ -2321,6 +2489,7 @@ extension Organizations {
             AWSShapeMember(label: "TargetId", required: false, type: .string), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
+
         /// The Amazon Resource Name (ARN) of the policy target. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
         /// The friendly name of the policy target. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
@@ -2369,6 +2538,7 @@ extension Organizations {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
+
         /// The status of the policy type as it relates to the associated root. To attach a policy of the specified type to a root or to an OU or account in that root, it must be available in the organization and enabled for that root.
         public let status: PolicyTypeStatus?
         /// The name of the policy type.
@@ -2389,6 +2559,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", required: true, type: .string)
         ]
+
         /// The unique identifier (ID) of the member account that you want to remove from the organization. The regex pattern for an account ID string requires exactly 12 digits.
         public let accountId: String
         
@@ -2412,6 +2583,7 @@ extension Organizations {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "PolicyTypes", required: false, type: .list)
         ]
+
         /// The Amazon Resource Name (ARN) of the root. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
         /// The unique identifier (ID) for the root. The regex pattern for a root ID string requires "r-" followed by from 4 to 32 lower-case letters or digits.
@@ -2448,6 +2620,7 @@ extension Organizations {
             AWSShapeMember(label: "Key", required: true, type: .string), 
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
+
         /// The key identifier, or name, of the tag.
         public let key: String
         /// The string value that's associated with the key of the tag. You can set the value of a tag to an empty string, but you can't set the value of a tag to null.
@@ -2478,6 +2651,7 @@ extension Organizations {
             AWSShapeMember(label: "ResourceId", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
+
         /// The ID of the resource to add a tag to.
         public let resourceId: String
         /// The tag to add to the specified resource. Specifying the tag key is required. You can set the value of a tag to an empty string, but you can't set the value of a tag to null.
@@ -2490,6 +2664,9 @@ extension Organizations {
 
         public func validate() throws {
             try validate(resourceId, name:"resourceId", pattern: "^\\d{12}$")
+            try tags.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2510,6 +2687,7 @@ extension Organizations {
             AWSShapeMember(label: "ResourceId", required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
+
         /// The ID of the resource to remove the tag from.
         public let resourceId: String
         /// The tag to remove from the specified resource.
@@ -2522,6 +2700,11 @@ extension Organizations {
 
         public func validate() throws {
             try validate(resourceId, name:"resourceId", pattern: "^\\d{12}$")
+            try tagKeys.forEach {
+                try validate($0, name:"tagKeys[]", max: 128)
+                try validate($0, name:"tagKeys[]", min: 1)
+                try validate($0, name:"tagKeys[]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2535,6 +2718,7 @@ extension Organizations {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "OrganizationalUnitId", required: true, type: .string)
         ]
+
         /// The new name that you want to assign to the OU. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public let name: String?
         /// The unique identifier (ID) of the OU that you want to rename. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.
@@ -2561,6 +2745,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OrganizationalUnit", required: false, type: .structure)
         ]
+
         /// A structure that contains the details about the specified OU, including its new name.
         public let organizationalUnit: OrganizationalUnit?
         
@@ -2584,6 +2769,7 @@ extension Organizations {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "PolicyId", required: true, type: .string)
         ]
+
         /// If provided, the new content for the policy. The text must be correctly formatted JSON that complies with the syntax for the policy's type. For more information, see Service Control Policy Syntax in the AWS Organizations User Guide. 
         public let content: String?
         /// If provided, the new description for the policy.
@@ -2621,6 +2807,7 @@ extension Organizations {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Policy", required: false, type: .structure)
         ]
+
         /// A structure that contains details about the updated policy, showing the requested changes.
         public let policy: Policy?
         

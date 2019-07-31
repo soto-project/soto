@@ -12,6 +12,7 @@ extension ApiGatewayManagementApi {
             AWSShapeMember(label: "ConnectionId", location: .uri(locationName: "connectionId"), required: true, type: .string), 
             AWSShapeMember(label: "Data", required: true, type: .blob)
         ]
+
         public let connectionId: String
         public let data: Data
         

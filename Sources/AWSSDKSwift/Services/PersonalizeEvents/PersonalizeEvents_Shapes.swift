@@ -12,6 +12,7 @@ extension PersonalizeEvents {
             AWSShapeMember(label: "properties", required: true, type: .string), 
             AWSShapeMember(label: "sentAt", required: true, type: .timestamp)
         ]
+
         /// An ID associated with the event. If an event ID is not provided, Amazon Personalize generates a unique ID for the event. An event ID is not used as an input to the model. Amazon Personalize uses the event ID to distinquish unique events. Any subsequent events after the first with the same event ID are not used in model training.
         public let eventId: String?
         /// The type of event. This property corresponds to the EVENT_TYPE field of the Interactions schema.
@@ -52,6 +53,7 @@ extension PersonalizeEvents {
             AWSShapeMember(label: "trackingId", required: true, type: .string), 
             AWSShapeMember(label: "userId", required: false, type: .string)
         ]
+
         /// A list of event data from the session.
         public let eventList: [Event]
         /// The session ID associated with the user's visit.
@@ -69,6 +71,9 @@ extension PersonalizeEvents {
         }
 
         public func validate() throws {
+            try eventList.forEach {
+                try $0.validate()
+            }
             try validate(eventList, name:"eventList", max: 10)
             try validate(eventList, name:"eventList", min: 1)
             try validate(sessionId, name:"sessionId", max: 256)

@@ -11,6 +11,7 @@ extension WorkMail {
             AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
             AWSShapeMember(label: "ResourceId", required: true, type: .string)
         ]
+
         /// The member (user or group) to associate to the resource.
         public let entityId: String
         /// The organization under which the resource exists.
@@ -40,7 +41,6 @@ extension WorkMail {
 
     public struct AssociateDelegateToResourceResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -52,6 +52,7 @@ extension WorkMail {
             AWSShapeMember(label: "MemberId", required: true, type: .string), 
             AWSShapeMember(label: "OrganizationId", required: true, type: .string)
         ]
+
         /// The group to which the member (user or group) is associated.
         public let groupId: String
         /// The member (user or group) to associate to the group.
@@ -82,7 +83,6 @@ extension WorkMail {
 
     public struct AssociateMemberToGroupResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -94,6 +94,7 @@ extension WorkMail {
             AWSShapeMember(label: "AutoDeclineConflictingRequests", required: false, type: .boolean), 
             AWSShapeMember(label: "AutoDeclineRecurringRequests", required: false, type: .boolean)
         ]
+
         /// The resource's ability to automatically reply to requests. If disabled, delegates must be associated to the resource.
         public let autoAcceptRequests: Bool?
         /// The resource's ability to automatically decline any conflicting requests.
@@ -120,6 +121,7 @@ extension WorkMail {
             AWSShapeMember(label: "EntityId", required: true, type: .string), 
             AWSShapeMember(label: "OrganizationId", required: true, type: .string)
         ]
+
         /// The alias to add to the member set.
         public let alias: String
         /// The member (user or group) to which this alias is added.
@@ -151,7 +153,6 @@ extension WorkMail {
 
     public struct CreateAliasResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -162,6 +163,7 @@ extension WorkMail {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "OrganizationId", required: true, type: .string)
         ]
+
         /// The name of the group.
         public let name: String
         /// The organization under which the group is to be created.
@@ -189,6 +191,7 @@ extension WorkMail {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GroupId", required: false, type: .string)
         ]
+
         /// The identifier of the group.
         public let groupId: String?
         
@@ -212,6 +215,7 @@ extension WorkMail {
             AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
+
         /// The name of the new resource.
         public let name: String
         /// The identifier associated with the organization for which the resource is created.
@@ -243,6 +247,7 @@ extension WorkMail {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceId", required: false, type: .string)
         ]
+
         /// The identifier of the new resource.
         public let resourceId: String?
         
@@ -266,6 +271,7 @@ extension WorkMail {
             AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
             AWSShapeMember(label: "Password", required: true, type: .string)
         ]
+
         /// The display name for the new user.
         public let displayName: String
         /// The name for the new user. Simple AD or AD Connector user names have a maximum length of 20. All others have a maximum length of 64.
@@ -304,6 +310,7 @@ extension WorkMail {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UserId", required: false, type: .string)
         ]
+
         /// The identifier for the new user.
         public let userId: String?
         
@@ -326,6 +333,7 @@ extension WorkMail {
             AWSShapeMember(label: "Id", required: true, type: .string), 
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
+
         /// The identifier for the user or group associated as the resource's delegate.
         public let id: String
         /// The type of the delegate: user or group.
@@ -352,6 +360,7 @@ extension WorkMail {
             AWSShapeMember(label: "EntityId", required: true, type: .string), 
             AWSShapeMember(label: "OrganizationId", required: true, type: .string)
         ]
+
         /// The aliases to be removed from the user's set of aliases. Duplicate entries in the list are collapsed into single entries (the list is transformed into a set).
         public let alias: String
         /// The identifier for the member (user or group) from which to have the aliases removed.
@@ -383,7 +392,6 @@ extension WorkMail {
 
     public struct DeleteAliasResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -394,6 +402,7 @@ extension WorkMail {
             AWSShapeMember(label: "GroupId", required: true, type: .string), 
             AWSShapeMember(label: "OrganizationId", required: true, type: .string)
         ]
+
         /// The identifier of the group to be deleted.
         public let groupId: String
         /// The organization that contains the group.
@@ -418,7 +427,6 @@ extension WorkMail {
 
     public struct DeleteGroupResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -430,6 +438,7 @@ extension WorkMail {
             AWSShapeMember(label: "GranteeId", required: true, type: .string), 
             AWSShapeMember(label: "OrganizationId", required: true, type: .string)
         ]
+
         /// The identifier of the member (user or group)that owns the mailbox.
         public let entityId: String
         /// The identifier of the member (user or group) for which to delete granted permissions.
@@ -460,7 +469,6 @@ extension WorkMail {
 
     public struct DeleteMailboxPermissionsResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -471,6 +479,7 @@ extension WorkMail {
             AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
             AWSShapeMember(label: "ResourceId", required: true, type: .string)
         ]
+
         /// The identifier associated with the organization from which the resource is deleted.
         public let organizationId: String
         /// The identifier of the resource to be deleted.
@@ -494,7 +503,6 @@ extension WorkMail {
 
     public struct DeleteResourceResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -505,6 +513,7 @@ extension WorkMail {
             AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
             AWSShapeMember(label: "UserId", required: true, type: .string)
         ]
+
         /// The organization that contains the user to be deleted.
         public let organizationId: String
         /// The identifier of the user to be deleted.
@@ -529,7 +538,6 @@ extension WorkMail {
 
     public struct DeleteUserResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -540,6 +548,7 @@ extension WorkMail {
             AWSShapeMember(label: "EntityId", required: true, type: .string), 
             AWSShapeMember(label: "OrganizationId", required: true, type: .string)
         ]
+
         /// The identifier for the member (user or group) to be updated.
         public let entityId: String
         /// The identifier for the organization under which the Amazon WorkMail entity exists.
@@ -564,7 +573,6 @@ extension WorkMail {
 
     public struct DeregisterFromWorkMailResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -575,6 +583,7 @@ extension WorkMail {
             AWSShapeMember(label: "GroupId", required: true, type: .string), 
             AWSShapeMember(label: "OrganizationId", required: true, type: .string)
         ]
+
         /// The identifier for the group to be described.
         public let groupId: String
         /// The identifier for the organization under which the group exists.
@@ -606,6 +615,7 @@ extension WorkMail {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "State", required: false, type: .enum)
         ]
+
         /// The date and time when a user was deregistered from WorkMail, in UNIX epoch time format.
         public let disabledDate: TimeStamp?
         /// The email of the described group.
@@ -653,6 +663,7 @@ extension WorkMail {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OrganizationId", required: true, type: .string)
         ]
+
         /// The identifier for the organization to be described.
         public let organizationId: String
         
@@ -680,6 +691,7 @@ extension WorkMail {
             AWSShapeMember(label: "OrganizationId", required: false, type: .string), 
             AWSShapeMember(label: "State", required: false, type: .string)
         ]
+
         /// The alias for an organization.
         public let alias: String?
         /// The date at which the organization became usable in the WorkMail context, in UNIX epoch time format.
@@ -737,6 +749,7 @@ extension WorkMail {
             AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
             AWSShapeMember(label: "ResourceId", required: true, type: .string)
         ]
+
         /// The identifier associated with the organization for which the resource is described.
         public let organizationId: String
         /// The identifier of the resource to be described.
@@ -769,6 +782,7 @@ extension WorkMail {
             AWSShapeMember(label: "State", required: false, type: .enum), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
+
         /// The booking options for the described resource.
         public let bookingOptions: BookingOptions?
         /// The date and time when a resource was disabled from WorkMail, in UNIX epoch time format.
@@ -824,6 +838,7 @@ extension WorkMail {
             AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
             AWSShapeMember(label: "UserId", required: true, type: .string)
         ]
+
         /// The identifier for the organization under which the user exists.
         public let organizationId: String
         /// The identifier for the user to be described.
@@ -857,6 +872,7 @@ extension WorkMail {
             AWSShapeMember(label: "UserId", required: false, type: .string), 
             AWSShapeMember(label: "UserRole", required: false, type: .enum)
         ]
+
         /// The date and time at which the user was disabled for Amazon WorkMail usage, in UNIX epoch time format.
         public let disabledDate: TimeStamp?
         /// The display name of the user.
@@ -915,6 +931,7 @@ extension WorkMail {
             AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
             AWSShapeMember(label: "ResourceId", required: true, type: .string)
         ]
+
         /// The identifier for the member (user, group) to be removed from the resource's delegates.
         public let entityId: String
         /// The identifier for the organization under which the resource exists.
@@ -944,7 +961,6 @@ extension WorkMail {
 
     public struct DisassociateDelegateFromResourceResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -956,6 +972,7 @@ extension WorkMail {
             AWSShapeMember(label: "MemberId", required: true, type: .string), 
             AWSShapeMember(label: "OrganizationId", required: true, type: .string)
         ]
+
         /// The identifier for the group from which members are removed.
         public let groupId: String
         /// The identifier for the member to be removed to the group.
@@ -986,7 +1003,6 @@ extension WorkMail {
 
     public struct DisassociateMemberFromGroupResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -1004,6 +1020,7 @@ extension WorkMail {
             AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
             AWSShapeMember(label: "UserId", required: true, type: .string)
         ]
+
         /// The identifier for the organization that contains the user whose mailbox details are being requested.
         public let organizationId: String
         /// The identifier for the user whose mailbox details are being requested.
@@ -1031,6 +1048,7 @@ extension WorkMail {
             AWSShapeMember(label: "MailboxQuota", required: false, type: .integer), 
             AWSShapeMember(label: "MailboxSize", required: false, type: .double)
         ]
+
         /// The maximum allowed mailbox size, in MB, for the specified user.
         public let mailboxQuota: Int32?
         /// The current mailbox size, in MB, for the specified user.
@@ -1061,6 +1079,7 @@ extension WorkMail {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "State", required: false, type: .enum)
         ]
+
         /// The date indicating when the group was disabled from Amazon WorkMail use.
         public let disabledDate: TimeStamp?
         /// The email of the group.
@@ -1111,6 +1130,7 @@ extension WorkMail {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "OrganizationId", required: true, type: .string)
         ]
+
         /// The identifier for the entity for which to list the aliases.
         public let entityId: String
         /// The maximum number of results to return in a single call.
@@ -1150,6 +1170,7 @@ extension WorkMail {
             AWSShapeMember(label: "Aliases", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The entity's paginated aliases.
         public let aliases: [String]?
         /// The token to use to retrieve the next page of results. The value is "null" when there are no more results to return.
@@ -1161,6 +1182,11 @@ extension WorkMail {
         }
 
         public func validate() throws {
+            try aliases?.forEach {
+                try validate($0, name:"aliases[]", max: 254)
+                try validate($0, name:"aliases[]", min: 1)
+                try validate($0, name:"aliases[]", pattern: "[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")
+            }
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -1178,6 +1204,7 @@ extension WorkMail {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "OrganizationId", required: true, type: .string)
         ]
+
         /// The identifier for the group to which the members (users or groups) are associated.
         public let groupId: String
         /// The maximum number of results to return in a single call.
@@ -1217,6 +1244,7 @@ extension WorkMail {
             AWSShapeMember(label: "Members", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The members associated to the group.
         public let members: [Member]?
         /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
@@ -1228,6 +1256,9 @@ extension WorkMail {
         }
 
         public func validate() throws {
+            try members?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -1244,6 +1275,7 @@ extension WorkMail {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "OrganizationId", required: true, type: .string)
         ]
+
         /// The maximum number of results to return in a single call.
         public let maxResults: Int32?
         /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
@@ -1277,6 +1309,7 @@ extension WorkMail {
             AWSShapeMember(label: "Groups", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The overview of groups for an organization.
         public let groups: [Group]?
         /// The token to use to retrieve the next page of results. The value is "null" when there are no more results to return.
@@ -1288,6 +1321,9 @@ extension WorkMail {
         }
 
         public func validate() throws {
+            try groups?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -1305,6 +1341,7 @@ extension WorkMail {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "OrganizationId", required: true, type: .string)
         ]
+
         /// The identifier of the user, group, or resource for which to list mailbox permissions.
         public let entityId: String
         /// The maximum number of results to return in a single call.
@@ -1344,6 +1381,7 @@ extension WorkMail {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Permissions", required: false, type: .list)
         ]
+
         /// The token to use to retrieve the next page of results. The value is "null" when there are no more results to return.
         public let nextToken: String?
         /// One page of the user, group, or resource mailbox permissions.
@@ -1357,6 +1395,9 @@ extension WorkMail {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
+            try permissions?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1370,6 +1411,7 @@ extension WorkMail {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The maximum number of results to return in a single call.
         public let maxResults: Int32?
         /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
@@ -1398,6 +1440,7 @@ extension WorkMail {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "OrganizationSummaries", required: false, type: .list)
         ]
+
         /// The token to use to retrieve the next page of results. The value is "null" when there are no more results to return.
         public let nextToken: String?
         /// The overview of owned organizations presented as a list of organization summaries.
@@ -1411,6 +1454,9 @@ extension WorkMail {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
+            try organizationSummaries?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1426,6 +1472,7 @@ extension WorkMail {
             AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
             AWSShapeMember(label: "ResourceId", required: true, type: .string)
         ]
+
         /// The number of maximum results in a page.
         public let maxResults: Int32?
         /// The token used to paginate through the delegates associated with a resource.
@@ -1465,6 +1512,7 @@ extension WorkMail {
             AWSShapeMember(label: "Delegates", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// One page of the resource's delegates.
         public let delegates: [Delegate]?
         /// The token used to paginate through the delegates associated with a resource. While results are still available, it has an associated value. When the last page is reached, the token is empty. 
@@ -1476,6 +1524,9 @@ extension WorkMail {
         }
 
         public func validate() throws {
+            try delegates?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -1492,6 +1543,7 @@ extension WorkMail {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "OrganizationId", required: true, type: .string)
         ]
+
         /// The maximum number of results to return in a single call.
         public let maxResults: Int32?
         /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
@@ -1525,6 +1577,7 @@ extension WorkMail {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Resources", required: false, type: .list)
         ]
+
         ///  The token used to paginate through all the organization's resources. While results are still available, it has an associated value. When the last page is reached, the token is empty.
         public let nextToken: String?
         /// One page of the organization's resource representation.
@@ -1538,6 +1591,9 @@ extension WorkMail {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
+            try resources?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1552,6 +1608,7 @@ extension WorkMail {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "OrganizationId", required: true, type: .string)
         ]
+
         /// The maximum number of results to return in a single call.
         public let maxResults: Int32?
         /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
@@ -1585,6 +1642,7 @@ extension WorkMail {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Users", required: false, type: .list)
         ]
+
         ///  The token to use to retrieve the next page of results. This value is `null` when there are no more results to return.
         public let nextToken: String?
         /// The overview of users for an organization.
@@ -1598,6 +1656,9 @@ extension WorkMail {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
+            try users?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1615,6 +1676,7 @@ extension WorkMail {
             AWSShapeMember(label: "State", required: false, type: .enum), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
+
         /// The date indicating when the member was disabled from Amazon WorkMail use.
         public let disabledDate: TimeStamp?
         /// The date indicating when the member was enabled for Amazon WorkMail use.
@@ -1665,6 +1727,7 @@ extension WorkMail {
             AWSShapeMember(label: "OrganizationId", required: false, type: .string), 
             AWSShapeMember(label: "State", required: false, type: .string)
         ]
+
         /// The alias associated with the organization.
         public let alias: String?
         /// The error message associated with the organization. It is only present if unexpected behavior has occurred with regards to the organization. It provides insight or solutions regarding unexpected behavior.
@@ -1704,6 +1767,7 @@ extension WorkMail {
             AWSShapeMember(label: "GranteeType", required: true, type: .enum), 
             AWSShapeMember(label: "PermissionValues", required: true, type: .list)
         ]
+
         /// The identifier of the user, group, or resource to which the permissions are granted.
         public let granteeId: String
         /// The type of user, group, or resource referred to in GranteeId.
@@ -1743,6 +1807,7 @@ extension WorkMail {
             AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
             AWSShapeMember(label: "PermissionValues", required: true, type: .list)
         ]
+
         /// The identifier of the user, group, or resource for which to update mailbox permissions.
         public let entityId: String
         /// The identifier of the user, group, or resource to which to grant the permissions.
@@ -1777,7 +1842,6 @@ extension WorkMail {
 
     public struct PutMailboxPermissionsResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -1789,6 +1853,7 @@ extension WorkMail {
             AWSShapeMember(label: "EntityId", required: true, type: .string), 
             AWSShapeMember(label: "OrganizationId", required: true, type: .string)
         ]
+
         /// The email for the user, group, or resource to be updated.
         public let email: String
         /// The identifier for the user, group, or resource to be updated.
@@ -1820,7 +1885,6 @@ extension WorkMail {
 
     public struct RegisterToWorkMailResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -1832,6 +1896,7 @@ extension WorkMail {
             AWSShapeMember(label: "Password", required: true, type: .string), 
             AWSShapeMember(label: "UserId", required: true, type: .string)
         ]
+
         /// The identifier of the organization that contains the user for which the password is reset.
         public let organizationId: String
         /// The new password for the user.
@@ -1862,7 +1927,6 @@ extension WorkMail {
 
     public struct ResetPasswordResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -1878,6 +1942,7 @@ extension WorkMail {
             AWSShapeMember(label: "State", required: false, type: .enum), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
+
         /// The date indicating when the resource was disabled from Amazon WorkMail use.
         public let disabledDate: TimeStamp?
         /// The email of the resource.
@@ -1937,6 +2002,7 @@ extension WorkMail {
             AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
             AWSShapeMember(label: "UserId", required: true, type: .string)
         ]
+
         /// The updated mailbox quota, in MB, for the specified user.
         public let mailboxQuota: Int32
         /// The identifier for the organization that contains the user for whom to update the mailbox quota.
@@ -1966,7 +2032,6 @@ extension WorkMail {
 
     public struct UpdateMailboxQuotaResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -1978,6 +2043,7 @@ extension WorkMail {
             AWSShapeMember(label: "EntityId", required: true, type: .string), 
             AWSShapeMember(label: "OrganizationId", required: true, type: .string)
         ]
+
         /// The value of the email to be updated as primary.
         public let email: String
         /// The user, group, or resource to update.
@@ -2009,7 +2075,6 @@ extension WorkMail {
 
     public struct UpdatePrimaryEmailAddressResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -2022,6 +2087,7 @@ extension WorkMail {
             AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
             AWSShapeMember(label: "ResourceId", required: true, type: .string)
         ]
+
         /// The resource's booking options to be updated.
         public let bookingOptions: BookingOptions?
         /// The name of the resource to be updated.
@@ -2056,7 +2122,6 @@ extension WorkMail {
 
     public struct UpdateResourceResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -2073,6 +2138,7 @@ extension WorkMail {
             AWSShapeMember(label: "State", required: false, type: .enum), 
             AWSShapeMember(label: "UserRole", required: false, type: .enum)
         ]
+
         /// The date indicating when the user was disabled from Amazon WorkMail use.
         public let disabledDate: TimeStamp?
         /// The display name of the user.

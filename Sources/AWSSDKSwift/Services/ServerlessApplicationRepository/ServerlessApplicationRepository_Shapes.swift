@@ -19,6 +19,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "SpdxLicenseId", location: .body(locationName: "spdxLicenseId"), required: false, type: .string), 
             AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .structure)
         ]
+
         /// The application Amazon Resource Name (ARN).
         public let applicationId: String
         /// The name of the author publishing the app.Minimum length=1. Maximum length=127.Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
@@ -76,6 +77,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "Dependencies", location: .body(locationName: "dependencies"), required: true, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// An array of application summaries nested in the application.
         public let dependencies: [ApplicationDependencySummary]
         /// The token to request the next page of results.
@@ -97,6 +99,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "ApplicationId", location: .body(locationName: "applicationId"), required: true, type: .string), 
             AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the nested application.
         public let applicationId: String
         /// The semantic version of the nested application.
@@ -118,6 +121,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "Applications", location: .body(locationName: "applications"), required: true, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// An array of application summaries.
         public let applications: [ApplicationSummary]
         /// The token to request the next page of results.
@@ -138,6 +142,7 @@ extension ServerlessApplicationRepository {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Statements", location: .body(locationName: "statements"), required: true, type: .list)
         ]
+
         /// An array of policy statements applied to the application.
         public let statements: [ApplicationPolicyStatement]
         
@@ -156,6 +161,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "Principals", location: .body(locationName: "principals"), required: true, type: .list), 
             AWSShapeMember(label: "StatementId", location: .body(locationName: "statementId"), required: false, type: .string)
         ]
+
         /// For the list of actions supported for this operation, see Application 
         ///  Permissions.
         public let actions: [String]
@@ -188,6 +194,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "SpdxLicenseId", location: .body(locationName: "spdxLicenseId"), required: false, type: .string)
         ]
+
         /// The application Amazon Resource Name (ARN).
         public let applicationId: String
         /// The name of the author publishing the app.Minimum length=1. Maximum length=127.Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
@@ -233,6 +240,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
             AWSShapeMember(label: "Versions", location: .body(locationName: "versions"), required: true, type: .list)
         ]
+
         /// The token to request the next page of results.
         public let nextToken: String?
         /// An array of version summaries for the application.
@@ -264,6 +272,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: true, type: .string), 
             AWSShapeMember(label: "StackId", location: .body(locationName: "stackId"), required: true, type: .string)
         ]
+
         /// The application Amazon Resource Name (ARN).
         public let applicationId: String
         /// The Amazon Resource Name (ARN) of the change set.Length constraints: Minimum length of 1.Pattern: ARN:[-a-zA-Z0-9:/]*
@@ -308,6 +317,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "TemplateBody", location: .body(locationName: "templateBody"), required: false, type: .string), 
             AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: false, type: .string)
         ]
+
         /// The name of the author publishing the app.Minimum length=1. Maximum length=127.Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
         public let author: String
         /// The description of the application.Minimum length=1. Maximum length=256
@@ -399,6 +409,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "TemplateBody", location: .body(locationName: "templateBody"), required: false, type: .string), 
             AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: false, type: .string)
         ]
+
         public let author: String
         public let description: String
         public let homePageUrl: String?
@@ -466,6 +477,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "SpdxLicenseId", location: .body(locationName: "spdxLicenseId"), required: false, type: .string), 
             AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .structure)
         ]
+
         public let applicationId: String?
         public let author: String?
         public let creationTime: String?
@@ -514,6 +526,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "TemplateBody", location: .body(locationName: "templateBody"), required: false, type: .string), 
             AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: false, type: .string)
         ]
+
         /// A link to the S3 object that contains the ZIP archive of the source code for this version of your application.Maximum size 50 MB
         public let sourceCodeArchiveUrl: String?
         /// A link to a public repository for the source code of your application, for example the URL of a specific GitHub commit.
@@ -547,6 +560,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "TemplateBody", location: .body(locationName: "templateBody"), required: false, type: .string), 
             AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: false, type: .string)
         ]
+
         public let applicationId: String
         public let semanticVersion: String
         public let sourceCodeArchiveUrl: String?
@@ -585,6 +599,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "SourceCodeUrl", location: .body(locationName: "sourceCodeUrl"), required: false, type: .string), 
             AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: false, type: .string)
         ]
+
         public let applicationId: String?
         public let creationTime: String?
         public let parameterDefinitions: [ParameterDefinition]?
@@ -635,6 +650,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .list), 
             AWSShapeMember(label: "TemplateId", location: .body(locationName: "templateId"), required: false, type: .string)
         ]
+
         /// A list of values that you must specify before you can deploy certain applications.
         ///  Some applications might include resources that can affect permissions in your AWS
         ///  account, for example, by creating new AWS Identity and Access Management (IAM) users.
@@ -739,6 +755,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .list), 
             AWSShapeMember(label: "TemplateId", location: .body(locationName: "templateId"), required: false, type: .string)
         ]
+
         public let applicationId: String
         public let capabilities: [String]?
         public let changeSetName: String?
@@ -793,6 +810,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: false, type: .string), 
             AWSShapeMember(label: "StackId", location: .body(locationName: "stackId"), required: false, type: .string)
         ]
+
         public let applicationId: String?
         public let changeSetId: String?
         public let semanticVersion: String?
@@ -818,6 +836,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string), 
             AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: false, type: .string)
         ]
+
         public let applicationId: String
         public let semanticVersion: String?
         
@@ -842,6 +861,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "TemplateId", location: .body(locationName: "templateId"), required: false, type: .string), 
             AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: false, type: .string)
         ]
+
         public let applicationId: String?
         public let creationTime: String?
         public let expirationTime: String?
@@ -875,6 +895,7 @@ extension ServerlessApplicationRepository {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string)
         ]
+
         public let applicationId: String
         
         public init(applicationId: String) {
@@ -890,6 +911,7 @@ extension ServerlessApplicationRepository {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string)
         ]
+
         public let applicationId: String
         
         public init(applicationId: String) {
@@ -905,6 +927,7 @@ extension ServerlessApplicationRepository {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Statements", location: .body(locationName: "statements"), required: false, type: .list)
         ]
+
         public let statements: [ApplicationPolicyStatement]?
         
         public init(statements: [ApplicationPolicyStatement]? = nil) {
@@ -921,6 +944,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string), 
             AWSShapeMember(label: "SemanticVersion", location: .querystring(locationName: "semanticVersion"), required: false, type: .string)
         ]
+
         public let applicationId: String
         public let semanticVersion: String?
         
@@ -949,6 +973,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "SpdxLicenseId", location: .body(locationName: "spdxLicenseId"), required: false, type: .string), 
             AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .structure)
         ]
+
         public let applicationId: String?
         public let author: String?
         public let creationTime: String?
@@ -995,6 +1020,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string), 
             AWSShapeMember(label: "TemplateId", location: .uri(locationName: "templateId"), required: true, type: .string)
         ]
+
         public let applicationId: String
         public let templateId: String
         
@@ -1019,6 +1045,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "TemplateId", location: .body(locationName: "templateId"), required: false, type: .string), 
             AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: false, type: .string)
         ]
+
         public let applicationId: String?
         public let creationTime: String?
         public let expirationTime: String?
@@ -1055,6 +1082,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
             AWSShapeMember(label: "SemanticVersion", location: .querystring(locationName: "semanticVersion"), required: false, type: .string)
         ]
+
         public let applicationId: String
         public let maxItems: Int32?
         public let nextToken: String?
@@ -1085,6 +1113,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "Dependencies", location: .body(locationName: "dependencies"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let dependencies: [ApplicationDependencySummary]?
         public let nextToken: String?
         
@@ -1105,6 +1134,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxItems"), required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let applicationId: String
         public let maxItems: Int32?
         public let nextToken: String?
@@ -1132,6 +1162,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
             AWSShapeMember(label: "Versions", location: .body(locationName: "versions"), required: false, type: .list)
         ]
+
         public let nextToken: String?
         public let versions: [VersionSummary]?
         
@@ -1151,6 +1182,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxItems"), required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let maxItems: Int32?
         public let nextToken: String?
         
@@ -1175,6 +1207,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "Applications", location: .body(locationName: "applications"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let applications: [ApplicationSummary]?
         public let nextToken: String?
         
@@ -1205,6 +1238,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "ReferencedByResources", location: .body(locationName: "referencedByResources"), required: true, type: .list), 
             AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .string)
         ]
+
         /// A regular expression that represents the patterns to allow for String types.
         public let allowedPattern: String?
         /// An array containing the list of values allowed for the parameter.
@@ -1287,6 +1321,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "Value", location: .body(locationName: "value"), required: true, type: .string)
         ]
+
         /// The key associated with the parameter. If you don't specify a key and value for a particular parameter, AWS CloudFormation
         ///  uses the default value that is specified in your template.
         public let name: String
@@ -1309,6 +1344,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string), 
             AWSShapeMember(label: "Statements", location: .body(locationName: "statements"), required: true, type: .list)
         ]
+
         public let applicationId: String
         public let statements: [ApplicationPolicyStatement]
         
@@ -1327,6 +1363,7 @@ extension ServerlessApplicationRepository {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Statements", location: .body(locationName: "statements"), required: false, type: .list)
         ]
+
         public let statements: [ApplicationPolicyStatement]?
         
         public init(statements: [ApplicationPolicyStatement]? = nil) {
@@ -1343,6 +1380,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "MonitoringTimeInMinutes", location: .body(locationName: "monitoringTimeInMinutes"), required: false, type: .integer), 
             AWSShapeMember(label: "RollbackTriggers", location: .body(locationName: "rollbackTriggers"), required: false, type: .list)
         ]
+
         /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackConfiguration
         ///   Data Type.
         public let monitoringTimeInMinutes: Int32?
@@ -1366,6 +1404,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: true, type: .string), 
             AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: true, type: .string)
         ]
+
         /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackTrigger
         ///   Data Type.
         public let arn: String
@@ -1396,6 +1435,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "Key", location: .body(locationName: "key"), required: true, type: .string), 
             AWSShapeMember(label: "Value", location: .body(locationName: "value"), required: true, type: .string)
         ]
+
         /// This property corresponds to the content of the same name for the AWS CloudFormation Tag
         ///   Data Type.
         public let key: String
@@ -1426,6 +1466,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "TemplateId", location: .body(locationName: "templateId"), required: true, type: .string), 
             AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: true, type: .string)
         ]
+
         /// The application Amazon Resource Name (ARN).
         public let applicationId: String
         /// The date and time this resource was created.
@@ -1476,6 +1517,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "ReadmeBody", location: .body(locationName: "readmeBody"), required: false, type: .string), 
             AWSShapeMember(label: "ReadmeUrl", location: .body(locationName: "readmeUrl"), required: false, type: .string)
         ]
+
         /// The name of the author publishing the app.Minimum length=1. Maximum length=127.Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
         public let author: String?
         /// The description of the application.Minimum length=1. Maximum length=256
@@ -1518,6 +1560,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "ReadmeBody", location: .body(locationName: "readmeBody"), required: false, type: .string), 
             AWSShapeMember(label: "ReadmeUrl", location: .body(locationName: "readmeUrl"), required: false, type: .string)
         ]
+
         public let applicationId: String
         public let author: String?
         public let description: String?
@@ -1561,6 +1604,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "SpdxLicenseId", location: .body(locationName: "spdxLicenseId"), required: false, type: .string), 
             AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .structure)
         ]
+
         public let applicationId: String?
         public let author: String?
         public let creationTime: String?
@@ -1614,6 +1658,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "SourceCodeUrl", location: .body(locationName: "sourceCodeUrl"), required: false, type: .string), 
             AWSShapeMember(label: "TemplateUrl", location: .body(locationName: "templateUrl"), required: true, type: .string)
         ]
+
         /// The application Amazon Resource Name (ARN).
         public let applicationId: String
         /// The date and time this resource was created.
@@ -1690,6 +1735,7 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "SemanticVersion", location: .body(locationName: "semanticVersion"), required: true, type: .string), 
             AWSShapeMember(label: "SourceCodeUrl", location: .body(locationName: "sourceCodeUrl"), required: false, type: .string)
         ]
+
         /// The application Amazon Resource Name (ARN).
         public let applicationId: String
         /// The date and time this resource was created.

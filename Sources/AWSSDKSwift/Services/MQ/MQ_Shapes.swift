@@ -9,6 +9,7 @@ extension MQ {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
         ]
+
         /// Id for the availability zone.
         public let name: String?
         
@@ -26,6 +27,7 @@ extension MQ {
             AWSShapeMember(label: "EngineType", location: .body(locationName: "engineType"), required: false, type: .enum), 
             AWSShapeMember(label: "EngineVersions", location: .body(locationName: "engineVersions"), required: false, type: .list)
         ]
+
         /// The type of broker engine.
         public let engineType: EngineType?
         /// The list of engine versions.
@@ -48,6 +50,7 @@ extension MQ {
             AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// List of available engine types and versions.
         public let brokerEngineTypes: [BrokerEngineType]?
         /// Required. The maximum number of engine types that can be returned per page (20 by default). This value must be an integer from 5 to 100.
@@ -79,6 +82,7 @@ extension MQ {
             AWSShapeMember(label: "Endpoints", location: .body(locationName: "endpoints"), required: false, type: .list), 
             AWSShapeMember(label: "IpAddress", location: .body(locationName: "ipAddress"), required: false, type: .string)
         ]
+
         /// The URL of the broker's ActiveMQ Web Console.
         public let consoleURL: String?
         /// The broker's wire-level protocol endpoints.
@@ -106,6 +110,7 @@ extension MQ {
             AWSShapeMember(label: "HostInstanceType", location: .body(locationName: "hostInstanceType"), required: false, type: .string), 
             AWSShapeMember(label: "SupportedEngineVersions", location: .body(locationName: "supportedEngineVersions"), required: false, type: .list)
         ]
+
         /// The list of available az.
         public let availabilityZones: [AvailabilityZone]?
         /// The type of broker engine.
@@ -136,6 +141,7 @@ extension MQ {
             AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// List of available broker instance options.
         public let brokerInstanceOptions: [BrokerInstanceOption]?
         /// Required. The maximum number of instance options that can be returned per page (20 by default). This value must be an integer from 5 to 100.
@@ -180,6 +186,7 @@ extension MQ {
             AWSShapeMember(label: "DeploymentMode", location: .body(locationName: "deploymentMode"), required: false, type: .enum), 
             AWSShapeMember(label: "HostInstanceType", location: .body(locationName: "hostInstanceType"), required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the broker.
         public let brokerArn: String?
         /// The unique ID that Amazon MQ generates for the broker.
@@ -235,6 +242,7 @@ extension MQ {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         /// Required. The ARN of the configuration.
         public let arn: String?
         /// Required. The date and time of the configuration revision.
@@ -284,6 +292,7 @@ extension MQ {
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
             AWSShapeMember(label: "Revision", location: .body(locationName: "revision"), required: false, type: .integer)
         ]
+
         /// Required. The unique ID that Amazon MQ generates for the configuration.
         public let id: String?
         /// The revision number of the configuration.
@@ -306,6 +315,7 @@ extension MQ {
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
             AWSShapeMember(label: "Revision", location: .body(locationName: "revision"), required: false, type: .integer)
         ]
+
         /// Required. The date and time of the configuration revision.
         public let created: TimeStamp?
         /// The description of the configuration revision.
@@ -332,6 +342,7 @@ extension MQ {
             AWSShapeMember(label: "History", location: .body(locationName: "history"), required: false, type: .list), 
             AWSShapeMember(label: "Pending", location: .body(locationName: "pending"), required: false, type: .structure)
         ]
+
         /// The current configuration of the broker.
         public let current: ConfigurationId?
         /// The history of configurations applied to the broker.
@@ -370,6 +381,7 @@ extension MQ {
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "Users", location: .body(locationName: "users"), required: false, type: .list)
         ]
+
         /// Required. Enables automatic upgrades to new minor versions for brokers, as Apache releases the versions. The automatic upgrades occur during the maintenance window of the broker or after a manual broker reboot.
         public let autoMinorVersionUpgrade: Bool?
         /// Required. The name of the broker. This value must be unique in your AWS account, 1-50 characters long, must contain only letters, numbers, dashes, and underscores, and must not contain whitespaces, brackets, wildcard characters, or special characters.
@@ -443,6 +455,7 @@ extension MQ {
             AWSShapeMember(label: "BrokerArn", location: .body(locationName: "brokerArn"), required: false, type: .string), 
             AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the broker.
         public let brokerArn: String?
         /// The unique ID that Amazon MQ generates for the broker.
@@ -477,6 +490,7 @@ extension MQ {
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "Users", location: .body(locationName: "users"), required: false, type: .list)
         ]
+
         public let autoMinorVersionUpgrade: Bool?
         public let brokerName: String?
         public let configuration: ConfigurationId?
@@ -535,6 +549,7 @@ extension MQ {
             AWSShapeMember(label: "BrokerArn", location: .body(locationName: "brokerArn"), required: false, type: .string), 
             AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string)
         ]
+
         public let brokerArn: String?
         public let brokerId: String?
         
@@ -556,6 +571,7 @@ extension MQ {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         /// Required. The type of broker engine. Note: Currently, Amazon MQ supports only ACTIVEMQ.
         public let engineType: EngineType?
         /// Required. The version of the broker engine. For a list of supported engine versions, see https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
@@ -588,6 +604,7 @@ extension MQ {
             AWSShapeMember(label: "LatestRevision", location: .body(locationName: "latestRevision"), required: false, type: .structure), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
         ]
+
         /// Required. The Amazon Resource Name (ARN) of the configuration.
         public let arn: String?
         /// Required. The date and time of the configuration.
@@ -623,6 +640,7 @@ extension MQ {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         public let engineType: EngineType?
         public let engineVersion: String?
         public let name: String?
@@ -651,6 +669,7 @@ extension MQ {
             AWSShapeMember(label: "LatestRevision", location: .body(locationName: "latestRevision"), required: false, type: .structure), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
         ]
+
         public let arn: String?
         public let created: TimeStamp?
         public let id: String?
@@ -679,6 +698,7 @@ extension MQ {
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         public let resourceArn: String
         public let tags: [String: String]?
         
@@ -699,6 +719,7 @@ extension MQ {
             AWSShapeMember(label: "Groups", location: .body(locationName: "groups"), required: false, type: .list), 
             AWSShapeMember(label: "Password", location: .body(locationName: "password"), required: false, type: .string)
         ]
+
         /// Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
         public let consoleAccess: Bool?
         /// The list of groups (20 maximum) to which the ActiveMQ user belongs. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
@@ -727,6 +748,7 @@ extension MQ {
             AWSShapeMember(label: "Password", location: .body(locationName: "password"), required: false, type: .string), 
             AWSShapeMember(label: "Username", location: .uri(locationName: "username"), required: true, type: .string)
         ]
+
         public let brokerId: String
         public let consoleAccess: Bool?
         public let groups: [String]?
@@ -752,7 +774,6 @@ extension MQ {
 
     public struct CreateUserResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -773,6 +794,7 @@ extension MQ {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string)
         ]
+
         /// The unique ID that Amazon MQ generates for the broker.
         public let brokerId: String?
         
@@ -789,6 +811,7 @@ extension MQ {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string)
         ]
+
         public let brokerId: String
         
         public init(brokerId: String) {
@@ -804,6 +827,7 @@ extension MQ {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string)
         ]
+
         public let brokerId: String?
         
         public init(brokerId: String? = nil) {
@@ -820,6 +844,7 @@ extension MQ {
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
         ]
+
         public let resourceArn: String
         public let tagKeys: [String]
         
@@ -839,6 +864,7 @@ extension MQ {
             AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string), 
             AWSShapeMember(label: "Username", location: .uri(locationName: "username"), required: true, type: .string)
         ]
+
         public let brokerId: String
         public let username: String
         
@@ -854,7 +880,6 @@ extension MQ {
     }
 
     public struct DeleteUserResponse: AWSShape {
-        
         
         public init() {
         }
@@ -873,6 +898,7 @@ extension MQ {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let engineType: String?
         public let maxResults: Int32?
         public let nextToken: String?
@@ -901,6 +927,7 @@ extension MQ {
             AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let brokerEngineTypes: [BrokerEngineType]?
         public let maxResults: Int32?
         public let nextToken: String?
@@ -930,6 +957,7 @@ extension MQ {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let engineType: String?
         public let hostInstanceType: String?
         public let maxResults: Int32?
@@ -961,6 +989,7 @@ extension MQ {
             AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let brokerInstanceOptions: [BrokerInstanceOption]?
         public let maxResults: Int32?
         public let nextToken: String?
@@ -1006,6 +1035,7 @@ extension MQ {
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "Users", location: .body(locationName: "users"), required: false, type: .list)
         ]
+
         /// Required. Enables automatic upgrades to new minor versions for brokers, as Apache releases the versions. The automatic upgrades occur during the maintenance window of the broker or after a manual broker reboot.
         public let autoMinorVersionUpgrade: Bool?
         /// The Amazon Resource Name (ARN) of the broker.
@@ -1098,6 +1128,7 @@ extension MQ {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string)
         ]
+
         public let brokerId: String
         
         public init(brokerId: String) {
@@ -1132,6 +1163,7 @@ extension MQ {
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "Users", location: .body(locationName: "users"), required: false, type: .list)
         ]
+
         public let autoMinorVersionUpgrade: Bool?
         public let brokerArn: String?
         public let brokerId: String?
@@ -1204,6 +1236,7 @@ extension MQ {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigurationId", location: .uri(locationName: "configuration-id"), required: true, type: .string)
         ]
+
         public let configurationId: String
         
         public init(configurationId: String) {
@@ -1227,6 +1260,7 @@ extension MQ {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         public let arn: String?
         public let created: TimeStamp?
         public let description: String?
@@ -1269,6 +1303,7 @@ extension MQ {
             AWSShapeMember(label: "Data", location: .body(locationName: "data"), required: false, type: .string), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
+
         /// Required. The unique ID that Amazon MQ generates for the configuration.
         public let configurationId: String?
         /// Required. The date and time of the configuration.
@@ -1298,6 +1333,7 @@ extension MQ {
             AWSShapeMember(label: "ConfigurationId", location: .uri(locationName: "configuration-id"), required: true, type: .string), 
             AWSShapeMember(label: "ConfigurationRevision", location: .uri(locationName: "configuration-revision"), required: true, type: .string)
         ]
+
         public let configurationId: String
         public let configurationRevision: String
         
@@ -1319,6 +1355,7 @@ extension MQ {
             AWSShapeMember(label: "Data", location: .body(locationName: "data"), required: false, type: .string), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
+
         public let configurationId: String?
         public let created: TimeStamp?
         public let data: String?
@@ -1347,6 +1384,7 @@ extension MQ {
             AWSShapeMember(label: "Pending", location: .body(locationName: "pending"), required: false, type: .structure), 
             AWSShapeMember(label: "Username", location: .body(locationName: "username"), required: false, type: .string)
         ]
+
         /// Required. The unique ID that Amazon MQ generates for the broker.
         public let brokerId: String?
         /// Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
@@ -1380,6 +1418,7 @@ extension MQ {
             AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string), 
             AWSShapeMember(label: "Username", location: .uri(locationName: "username"), required: true, type: .string)
         ]
+
         public let brokerId: String
         public let username: String
         
@@ -1402,6 +1441,7 @@ extension MQ {
             AWSShapeMember(label: "Pending", location: .body(locationName: "pending"), required: false, type: .structure), 
             AWSShapeMember(label: "Username", location: .body(locationName: "username"), required: false, type: .string)
         ]
+
         public let brokerId: String?
         public let consoleAccess: Bool?
         public let groups: [String]?
@@ -1434,6 +1474,7 @@ extension MQ {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
         ]
+
         /// Id for the version.
         public let name: String?
         
@@ -1451,6 +1492,7 @@ extension MQ {
             AWSShapeMember(label: "ErrorAttribute", location: .body(locationName: "errorAttribute"), required: false, type: .string), 
             AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
         ]
+
         /// The attribute which caused the error.
         public let errorAttribute: String?
         /// The explanation of the error.
@@ -1472,6 +1514,7 @@ extension MQ {
             AWSShapeMember(label: "BrokerSummaries", location: .body(locationName: "brokerSummaries"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// A list of information about all brokers.
         public let brokerSummaries: [BrokerSummary]?
         /// The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
@@ -1493,6 +1536,7 @@ extension MQ {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let maxResults: Int32?
         public let nextToken: String?
         
@@ -1517,6 +1561,7 @@ extension MQ {
             AWSShapeMember(label: "BrokerSummaries", location: .body(locationName: "brokerSummaries"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let brokerSummaries: [BrokerSummary]?
         public let nextToken: String?
         
@@ -1538,6 +1583,7 @@ extension MQ {
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
             AWSShapeMember(label: "Revisions", location: .body(locationName: "revisions"), required: false, type: .list)
         ]
+
         /// The unique ID that Amazon MQ generates for the configuration.
         public let configurationId: String?
         /// The maximum number of configuration revisions that can be returned per page (20 by default). This value must be an integer from 5 to 100.
@@ -1568,6 +1614,7 @@ extension MQ {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let configurationId: String
         public let maxResults: Int32?
         public let nextToken: String?
@@ -1597,6 +1644,7 @@ extension MQ {
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
             AWSShapeMember(label: "Revisions", location: .body(locationName: "revisions"), required: false, type: .list)
         ]
+
         public let configurationId: String?
         public let maxResults: Int32?
         public let nextToken: String?
@@ -1623,6 +1671,7 @@ extension MQ {
             AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// The list of all revisions for the specified configuration.
         public let configurations: [Configuration]?
         /// The maximum number of configurations that Amazon MQ can return per page (20 by default). This value must be an integer from 5 to 100.
@@ -1648,6 +1697,7 @@ extension MQ {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let maxResults: Int32?
         public let nextToken: String?
         
@@ -1673,6 +1723,7 @@ extension MQ {
             AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let configurations: [Configuration]?
         public let maxResults: Int32?
         public let nextToken: String?
@@ -1694,6 +1745,7 @@ extension MQ {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string)
         ]
+
         public let resourceArn: String
         
         public init(resourceArn: String) {
@@ -1709,6 +1761,7 @@ extension MQ {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         public let tags: [String: String]?
         
         public init(tags: [String: String]? = nil) {
@@ -1727,6 +1780,7 @@ extension MQ {
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
             AWSShapeMember(label: "Users", location: .body(locationName: "users"), required: false, type: .list)
         ]
+
         /// Required. The unique ID that Amazon MQ generates for the broker.
         public let brokerId: String?
         /// Required. The maximum number of ActiveMQ users that can be returned per page (20 by default). This value must be an integer from 5 to 100.
@@ -1762,6 +1816,7 @@ extension MQ {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let brokerId: String
         public let maxResults: Int32?
         public let nextToken: String?
@@ -1791,6 +1846,7 @@ extension MQ {
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
             AWSShapeMember(label: "Users", location: .body(locationName: "users"), required: false, type: .list)
         ]
+
         public let brokerId: String?
         public let maxResults: Int32?
         public let nextToken: String?
@@ -1821,6 +1877,7 @@ extension MQ {
             AWSShapeMember(label: "Audit", location: .body(locationName: "audit"), required: false, type: .boolean), 
             AWSShapeMember(label: "General", location: .body(locationName: "general"), required: false, type: .boolean)
         ]
+
         /// Enables audit logging. Every user management action made using JMX or the ActiveMQ Web Console is logged.
         public let audit: Bool?
         /// Enables general logging.
@@ -1845,6 +1902,7 @@ extension MQ {
             AWSShapeMember(label: "GeneralLogGroup", location: .body(locationName: "generalLogGroup"), required: false, type: .string), 
             AWSShapeMember(label: "Pending", location: .body(locationName: "pending"), required: false, type: .structure)
         ]
+
         /// Enables audit logging. Every user management action made using JMX or the ActiveMQ Web Console is logged.
         public let audit: Bool?
         /// The location of the CloudWatch Logs log group where audit logs are sent.
@@ -1878,6 +1936,7 @@ extension MQ {
             AWSShapeMember(label: "Audit", location: .body(locationName: "audit"), required: false, type: .boolean), 
             AWSShapeMember(label: "General", location: .body(locationName: "general"), required: false, type: .boolean)
         ]
+
         /// Enables audit logging. Every user management action made using JMX or the ActiveMQ Web Console is logged.
         public let audit: Bool?
         /// Enables general logging.
@@ -1898,6 +1957,7 @@ extension MQ {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string)
         ]
+
         public let brokerId: String
         
         public init(brokerId: String) {
@@ -1911,7 +1971,6 @@ extension MQ {
 
     public struct RebootBrokerResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -1923,6 +1982,7 @@ extension MQ {
             AWSShapeMember(label: "ElementName", location: .body(locationName: "elementName"), required: false, type: .string), 
             AWSShapeMember(label: "Reason", location: .body(locationName: "reason"), required: false, type: .enum)
         ]
+
         /// The name of the XML attribute that has been sanitized.
         public let attributeName: String?
         /// The name of the XML element that has been sanitized.
@@ -1954,6 +2014,7 @@ extension MQ {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         /// The key-value pair for the resource tag.
         public let tags: [String: String]?
         
@@ -1973,6 +2034,7 @@ extension MQ {
             AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
             AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure)
         ]
+
         /// Enables automatic upgrades to new minor versions for brokers, as Apache releases the versions. The automatic upgrades occur during the maintenance window of the broker or after a manual broker reboot.
         public let autoMinorVersionUpgrade: Bool?
         /// A list of information about the configuration.
@@ -2005,6 +2067,7 @@ extension MQ {
             AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
             AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure)
         ]
+
         /// The new value of automatic upgrades to new minor version for brokers.
         public let autoMinorVersionUpgrade: Bool?
         /// Required. The unique ID that Amazon MQ generates for the broker.
@@ -2041,6 +2104,7 @@ extension MQ {
             AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
             AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure)
         ]
+
         public let autoMinorVersionUpgrade: Bool?
         public let brokerId: String
         public let configuration: ConfigurationId?
@@ -2072,6 +2136,7 @@ extension MQ {
             AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
             AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure)
         ]
+
         public let autoMinorVersionUpgrade: Bool?
         public let brokerId: String?
         public let configuration: ConfigurationId?
@@ -2100,6 +2165,7 @@ extension MQ {
             AWSShapeMember(label: "Data", location: .body(locationName: "data"), required: false, type: .string), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
+
         /// Required. The base64-encoded XML configuration.
         public let data: String?
         /// The description of the configuration.
@@ -2125,6 +2191,7 @@ extension MQ {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "Warnings", location: .body(locationName: "warnings"), required: false, type: .list)
         ]
+
         /// Required. The Amazon Resource Name (ARN) of the configuration.
         public let arn: String?
         /// Required. The date and time of the configuration.
@@ -2163,6 +2230,7 @@ extension MQ {
             AWSShapeMember(label: "Data", location: .body(locationName: "data"), required: false, type: .string), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
+
         public let configurationId: String
         public let data: String?
         public let description: String?
@@ -2189,6 +2257,7 @@ extension MQ {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "Warnings", location: .body(locationName: "warnings"), required: false, type: .list)
         ]
+
         public let arn: String?
         public let created: TimeStamp?
         public let id: String?
@@ -2221,6 +2290,7 @@ extension MQ {
             AWSShapeMember(label: "Groups", location: .body(locationName: "groups"), required: false, type: .list), 
             AWSShapeMember(label: "Password", location: .body(locationName: "password"), required: false, type: .string)
         ]
+
         /// Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
         public let consoleAccess: Bool?
         /// The list of groups (20 maximum) to which the ActiveMQ user belongs. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
@@ -2249,6 +2319,7 @@ extension MQ {
             AWSShapeMember(label: "Password", location: .body(locationName: "password"), required: false, type: .string), 
             AWSShapeMember(label: "Username", location: .uri(locationName: "username"), required: true, type: .string)
         ]
+
         public let brokerId: String
         public let consoleAccess: Bool?
         public let groups: [String]?
@@ -2274,7 +2345,6 @@ extension MQ {
 
     public struct UpdateUserResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -2287,6 +2357,7 @@ extension MQ {
             AWSShapeMember(label: "Password", location: .body(locationName: "password"), required: false, type: .string), 
             AWSShapeMember(label: "Username", location: .body(locationName: "username"), required: false, type: .string)
         ]
+
         /// Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
         public let consoleAccess: Bool?
         /// The list of groups (20 maximum) to which the ActiveMQ user belongs. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
@@ -2317,6 +2388,7 @@ extension MQ {
             AWSShapeMember(label: "Groups", location: .body(locationName: "groups"), required: false, type: .list), 
             AWSShapeMember(label: "PendingChange", location: .body(locationName: "pendingChange"), required: false, type: .enum)
         ]
+
         /// Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
         public let consoleAccess: Bool?
         /// The list of groups (20 maximum) to which the ActiveMQ user belongs. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
@@ -2342,6 +2414,7 @@ extension MQ {
             AWSShapeMember(label: "PendingChange", location: .body(locationName: "pendingChange"), required: false, type: .enum), 
             AWSShapeMember(label: "Username", location: .body(locationName: "username"), required: false, type: .string)
         ]
+
         /// The type of change pending for the ActiveMQ user.
         public let pendingChange: ChangeType?
         /// Required. The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
@@ -2364,6 +2437,7 @@ extension MQ {
             AWSShapeMember(label: "TimeOfDay", location: .body(locationName: "timeOfDay"), required: false, type: .string), 
             AWSShapeMember(label: "TimeZone", location: .body(locationName: "timeZone"), required: false, type: .string)
         ]
+
         /// Required. The day of the week.
         public let dayOfWeek: DayOfWeek?
         /// Required. The time, in 24-hour format.

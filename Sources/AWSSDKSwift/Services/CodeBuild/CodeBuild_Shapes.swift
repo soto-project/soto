@@ -35,6 +35,7 @@ extension CodeBuild {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ids", required: true, type: .list)
         ]
+
         /// The IDs of the builds to delete.
         public let ids: [String]
         
@@ -43,6 +44,9 @@ extension CodeBuild {
         }
 
         public func validate() throws {
+            try ids.forEach {
+                try validate($0, name:"ids[]", min: 1)
+            }
             try validate(ids, name:"ids", max: 100)
             try validate(ids, name:"ids", min: 1)
         }
@@ -57,6 +61,7 @@ extension CodeBuild {
             AWSShapeMember(label: "buildsDeleted", required: false, type: .list), 
             AWSShapeMember(label: "buildsNotDeleted", required: false, type: .list)
         ]
+
         /// The IDs of the builds that were successfully deleted.
         public let buildsDeleted: [String]?
         /// Information about any builds that could not be successfully deleted.
@@ -68,8 +73,14 @@ extension CodeBuild {
         }
 
         public func validate() throws {
+            try buildsDeleted?.forEach {
+                try validate($0, name:"buildsDeleted[]", min: 1)
+            }
             try validate(buildsDeleted, name:"buildsDeleted", max: 100)
             try validate(buildsDeleted, name:"buildsDeleted", min: 1)
+            try buildsNotDeleted?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -82,6 +93,7 @@ extension CodeBuild {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ids", required: true, type: .list)
         ]
+
         /// The IDs of the builds.
         public let ids: [String]
         
@@ -90,6 +102,9 @@ extension CodeBuild {
         }
 
         public func validate() throws {
+            try ids.forEach {
+                try validate($0, name:"ids[]", min: 1)
+            }
             try validate(ids, name:"ids", max: 100)
             try validate(ids, name:"ids", min: 1)
         }
@@ -104,6 +119,7 @@ extension CodeBuild {
             AWSShapeMember(label: "builds", required: false, type: .list), 
             AWSShapeMember(label: "buildsNotFound", required: false, type: .list)
         ]
+
         /// Information about the requested builds.
         public let builds: [Build]?
         /// The IDs of builds for which information could not be found.
@@ -115,6 +131,12 @@ extension CodeBuild {
         }
 
         public func validate() throws {
+            try builds?.forEach {
+                try $0.validate()
+            }
+            try buildsNotFound?.forEach {
+                try validate($0, name:"buildsNotFound[]", min: 1)
+            }
             try validate(buildsNotFound, name:"buildsNotFound", max: 100)
             try validate(buildsNotFound, name:"buildsNotFound", min: 1)
         }
@@ -129,6 +151,7 @@ extension CodeBuild {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "names", required: true, type: .list)
         ]
+
         /// The names of the build projects.
         public let names: [String]
         
@@ -137,6 +160,9 @@ extension CodeBuild {
         }
 
         public func validate() throws {
+            try names.forEach {
+                try validate($0, name:"names[]", min: 1)
+            }
             try validate(names, name:"names", max: 100)
             try validate(names, name:"names", min: 1)
         }
@@ -151,6 +177,7 @@ extension CodeBuild {
             AWSShapeMember(label: "projects", required: false, type: .list), 
             AWSShapeMember(label: "projectsNotFound", required: false, type: .list)
         ]
+
         /// Information about the requested build projects.
         public let projects: [Project]?
         /// The names of build projects for which information could not be found.
@@ -162,6 +189,12 @@ extension CodeBuild {
         }
 
         public func validate() throws {
+            try projects?.forEach {
+                try $0.validate()
+            }
+            try projectsNotFound?.forEach {
+                try validate($0, name:"projectsNotFound[]", min: 1)
+            }
             try validate(projectsNotFound, name:"projectsNotFound", max: 100)
             try validate(projectsNotFound, name:"projectsNotFound", min: 1)
         }
@@ -201,6 +234,7 @@ extension CodeBuild {
             AWSShapeMember(label: "timeoutInMinutes", required: false, type: .integer), 
             AWSShapeMember(label: "vpcConfig", required: false, type: .structure)
         ]
+
         /// The Amazon Resource Name (ARN) of the build.
         public let arn: String?
         /// Information about the output artifacts for the build.
@@ -293,6 +327,9 @@ extension CodeBuild {
             try validate(resolvedSourceVersion, name:"resolvedSourceVersion", min: 1)
             try validate(secondaryArtifacts, name:"secondaryArtifacts", max: 12)
             try validate(secondaryArtifacts, name:"secondaryArtifacts", min: 0)
+            try secondarySources?.forEach {
+                try $0.validate()
+            }
             try validate(secondarySources, name:"secondarySources", max: 12)
             try validate(secondarySources, name:"secondarySources", min: 0)
             try validate(secondarySourceVersions, name:"secondarySourceVersions", max: 12)
@@ -342,6 +379,7 @@ extension CodeBuild {
             AWSShapeMember(label: "overrideArtifactName", required: false, type: .boolean), 
             AWSShapeMember(label: "sha256sum", required: false, type: .string)
         ]
+
         ///  An identifier for this artifact definition. 
         public let artifactIdentifier: String?
         ///  Information that tells you if encryption for build artifacts is disabled. 
@@ -379,6 +417,7 @@ extension CodeBuild {
             AWSShapeMember(label: "id", required: false, type: .string), 
             AWSShapeMember(label: "statusCode", required: false, type: .string)
         ]
+
         /// The ID of the build that could not be successfully deleted.
         public let id: String?
         /// Additional information about the build that could not be successfully deleted.
@@ -408,6 +447,7 @@ extension CodeBuild {
             AWSShapeMember(label: "phaseType", required: false, type: .enum), 
             AWSShapeMember(label: "startTime", required: false, type: .timestamp)
         ]
+
         /// Additional information about a build phase, especially to help troubleshoot a failed build.
         public let contexts: [PhaseContext]?
         /// How long, in seconds, between the starting and ending times of the build's phase.
@@ -475,6 +515,7 @@ extension CodeBuild {
             AWSShapeMember(label: "status", required: true, type: .enum), 
             AWSShapeMember(label: "streamName", required: false, type: .string)
         ]
+
         ///  The group name of the logs in Amazon CloudWatch Logs. For more information, see Working with Log Groups and Log Streams. 
         public let groupName: String?
         /// The current status of the logs in Amazon CloudWatch Logs for a build project. Valid values are:    ENABLED: Amazon CloudWatch Logs are enabled for this build project.    DISABLED: Amazon CloudWatch Logs are not enabled for this build project.  
@@ -523,6 +564,7 @@ extension CodeBuild {
             AWSShapeMember(label: "timeoutInMinutes", required: false, type: .integer), 
             AWSShapeMember(label: "vpcConfig", required: false, type: .structure)
         ]
+
         /// Information about the build output artifacts for the build project.
         public let artifacts: ProjectArtifacts
         /// Set this to true to generate a publicly accessible URL for your project's build badge.
@@ -593,12 +635,18 @@ extension CodeBuild {
             try validate(queuedTimeoutInMinutes, name:"queuedTimeoutInMinutes", min: 5)
             try validate(secondaryArtifacts, name:"secondaryArtifacts", max: 12)
             try validate(secondaryArtifacts, name:"secondaryArtifacts", min: 0)
+            try secondarySources?.forEach {
+                try $0.validate()
+            }
             try validate(secondarySources, name:"secondarySources", max: 12)
             try validate(secondarySources, name:"secondarySources", min: 0)
             try validate(secondarySourceVersions, name:"secondarySourceVersions", max: 12)
             try validate(secondarySourceVersions, name:"secondarySourceVersions", min: 0)
             try validate(serviceRole, name:"serviceRole", min: 1)
             try source.validate()
+            try tags?.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", max: 50)
             try validate(tags, name:"tags", min: 0)
             try validate(timeoutInMinutes, name:"timeoutInMinutes", max: 480)
@@ -632,6 +680,7 @@ extension CodeBuild {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "project", required: false, type: .structure)
         ]
+
         /// Information about the build project that was created.
         public let project: Project?
         
@@ -654,6 +703,7 @@ extension CodeBuild {
             AWSShapeMember(label: "filterGroups", required: false, type: .list), 
             AWSShapeMember(label: "projectName", required: true, type: .string)
         ]
+
         /// A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built.   It is recommended that you use filterGroups instead of branchFilter.  
         public let branchFilter: String?
         ///  An array of arrays of WebhookFilter objects used to determine which webhooks are triggered. At least one WebhookFilter in the array must specify EVENT as its type.   For a build to be triggered, at least one filter group in the filterGroups array must pass. For a filter group to pass, each of its filters must pass. 
@@ -684,6 +734,7 @@ extension CodeBuild {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "webhook", required: false, type: .structure)
         ]
+
         /// Information about a webhook that connects repository events to a build project in AWS CodeBuild.
         public let webhook: Webhook?
         
@@ -709,6 +760,7 @@ extension CodeBuild {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: true, type: .string)
         ]
+
         /// The name of the build project.
         public let name: String
         
@@ -727,7 +779,6 @@ extension CodeBuild {
 
     public struct DeleteProjectOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -737,6 +788,7 @@ extension CodeBuild {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
+
         ///  The Amazon Resource Name (ARN) of the token.
         public let arn: String
         
@@ -757,6 +809,7 @@ extension CodeBuild {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: false, type: .string)
         ]
+
         ///  The Amazon Resource Name (ARN) of the token. 
         public let arn: String?
         
@@ -777,6 +830,7 @@ extension CodeBuild {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "projectName", required: true, type: .string)
         ]
+
         /// The name of the AWS CodeBuild project.
         public let projectName: String
         
@@ -797,7 +851,6 @@ extension CodeBuild {
 
     public struct DeleteWebhookOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -809,6 +862,7 @@ extension CodeBuild {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "versions", required: false, type: .list)
         ]
+
         /// The description of the Docker image.
         public let description: String?
         /// The name of the Docker image.
@@ -834,6 +888,7 @@ extension CodeBuild {
             AWSShapeMember(label: "images", required: false, type: .list), 
             AWSShapeMember(label: "language", required: false, type: .enum)
         ]
+
         /// The list of Docker images that are related by the specified programming language.
         public let images: [EnvironmentImage]?
         /// The programming language for the Docker images.
@@ -855,6 +910,7 @@ extension CodeBuild {
             AWSShapeMember(label: "languages", required: false, type: .list), 
             AWSShapeMember(label: "platform", required: false, type: .enum)
         ]
+
         /// The list of programming languages that are available for the specified platform.
         public let languages: [EnvironmentLanguage]?
         /// The platform's name.
@@ -883,6 +939,7 @@ extension CodeBuild {
             AWSShapeMember(label: "type", required: false, type: .enum), 
             AWSShapeMember(label: "value", required: true, type: .string)
         ]
+
         /// The name or key of the environment variable.
         public let name: String
         /// The type of environment variable. Valid values include:    PARAMETER_STORE: An environment variable stored in Amazon EC2 Systems Manager Parameter Store.    PLAINTEXT: An environment variable in plaintext format.  
@@ -917,6 +974,7 @@ extension CodeBuild {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "fetchSubmodules", required: true, type: .boolean)
         ]
+
         ///  Set to true to fetch Git submodules for your AWS CodeBuild build project. 
         public let fetchSubmodules: Bool
         
@@ -942,6 +1000,7 @@ extension CodeBuild {
             AWSShapeMember(label: "token", required: true, type: .string), 
             AWSShapeMember(label: "username", required: false, type: .string)
         ]
+
         ///  The type of authentication used to connect to a GitHub, GitHub Enterprise, or Bitbucket repository. An OAUTH connection is not supported by the API and must be created using the AWS CodeBuild console. 
         public let authType: AuthType
         ///  The source provider used for this project. 
@@ -975,6 +1034,7 @@ extension CodeBuild {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: false, type: .string)
         ]
+
         ///  The Amazon Resource Name (ARN) of the token. 
         public let arn: String?
         
@@ -995,6 +1055,7 @@ extension CodeBuild {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "projectName", required: true, type: .string)
         ]
+
         /// The name of the AWS CodeBuild build project that the cache is reset for.
         public let projectName: String
         
@@ -1012,7 +1073,6 @@ extension CodeBuild {
     }
 
     public struct InvalidateProjectCacheOutput: AWSShape {
-        
         
         public init() {
         }
@@ -1039,6 +1099,7 @@ extension CodeBuild {
             AWSShapeMember(label: "projectName", required: true, type: .string), 
             AWSShapeMember(label: "sortOrder", required: false, type: .enum)
         ]
+
         /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
         public let nextToken: String?
         /// The name of the AWS CodeBuild project.
@@ -1068,6 +1129,7 @@ extension CodeBuild {
             AWSShapeMember(label: "ids", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// A list of build IDs for the specified build project, with each build ID representing a single build.
         public let ids: [String]?
         /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call.
@@ -1079,6 +1141,9 @@ extension CodeBuild {
         }
 
         public func validate() throws {
+            try ids?.forEach {
+                try validate($0, name:"ids[]", min: 1)
+            }
             try validate(ids, name:"ids", max: 100)
             try validate(ids, name:"ids", min: 1)
         }
@@ -1094,6 +1159,7 @@ extension CodeBuild {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "sortOrder", required: false, type: .enum)
         ]
+
         /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
         public let nextToken: String?
         /// The order to list build IDs. Valid values include:    ASCENDING: List the build IDs in ascending order by build ID.    DESCENDING: List the build IDs in descending order by build ID.  
@@ -1115,6 +1181,7 @@ extension CodeBuild {
             AWSShapeMember(label: "ids", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// A list of build IDs, with each build ID representing a single build.
         public let ids: [String]?
         /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call.
@@ -1126,6 +1193,9 @@ extension CodeBuild {
         }
 
         public func validate() throws {
+            try ids?.forEach {
+                try validate($0, name:"ids[]", min: 1)
+            }
             try validate(ids, name:"ids", max: 100)
             try validate(ids, name:"ids", min: 1)
         }
@@ -1138,7 +1208,6 @@ extension CodeBuild {
 
     public struct ListCuratedEnvironmentImagesInput: AWSShape {
         
-        
         public init() {
         }
 
@@ -1148,6 +1217,7 @@ extension CodeBuild {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "platforms", required: false, type: .list)
         ]
+
         /// Information about supported platforms for Docker images that are managed by AWS CodeBuild.
         public let platforms: [EnvironmentPlatform]?
         
@@ -1166,6 +1236,7 @@ extension CodeBuild {
             AWSShapeMember(label: "sortBy", required: false, type: .enum), 
             AWSShapeMember(label: "sortOrder", required: false, type: .enum)
         ]
+
         /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
         public let nextToken: String?
         /// The criterion to be used to list build project names. Valid values include:    CREATED_TIME: List based on when each build project was created.    LAST_MODIFIED_TIME: List based on when information about each build project was last changed.    NAME: List based on each build project's name.   Use sortOrder to specify in what order to list the build project names based on the preceding criteria.
@@ -1195,6 +1266,7 @@ extension CodeBuild {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "projects", required: false, type: .list)
         ]
+
         /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call.
         public let nextToken: String?
         /// The list of build project names, with each build project name representing a single build project.
@@ -1206,6 +1278,9 @@ extension CodeBuild {
         }
 
         public func validate() throws {
+            try projects?.forEach {
+                try validate($0, name:"projects[]", min: 1)
+            }
             try validate(projects, name:"projects", max: 100)
             try validate(projects, name:"projects", min: 1)
         }
@@ -1218,7 +1293,6 @@ extension CodeBuild {
 
     public struct ListSourceCredentialsInput: AWSShape {
         
-        
         public init() {
         }
 
@@ -1228,11 +1302,18 @@ extension CodeBuild {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "sourceCredentialsInfos", required: false, type: .list)
         ]
+
         ///  A list of SourceCredentialsInfo objects. Each SourceCredentialsInfo object includes the authentication type, token ARN, and type of source provider for one set of credentials. 
         public let sourceCredentialsInfos: [SourceCredentialsInfo]?
         
         public init(sourceCredentialsInfos: [SourceCredentialsInfo]? = nil) {
             self.sourceCredentialsInfos = sourceCredentialsInfos
+        }
+
+        public func validate() throws {
+            try sourceCredentialsInfos?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1245,6 +1326,7 @@ extension CodeBuild {
             AWSShapeMember(label: "cloudWatchLogs", required: false, type: .structure), 
             AWSShapeMember(label: "s3Logs", required: false, type: .structure)
         ]
+
         ///  Information about Amazon CloudWatch Logs for a build project. Amazon CloudWatch Logs are enabled by default. 
         public let cloudWatchLogs: CloudWatchLogsConfig?
         ///  Information about logs built to an S3 bucket for a build project. S3 logs are not enabled by default. 
@@ -1276,6 +1358,7 @@ extension CodeBuild {
             AWSShapeMember(label: "s3Logs", required: false, type: .structure), 
             AWSShapeMember(label: "streamName", required: false, type: .string)
         ]
+
         ///  Information about Amazon CloudWatch Logs for a build project. 
         public let cloudWatchLogs: CloudWatchLogsConfig?
         /// The URL to an individual build log in Amazon CloudWatch Logs.
@@ -1313,6 +1396,7 @@ extension CodeBuild {
             AWSShapeMember(label: "networkInterfaceId", required: false, type: .string), 
             AWSShapeMember(label: "subnetId", required: false, type: .string)
         ]
+
         /// The ID of the network interface.
         public let networkInterfaceId: String?
         /// The ID of the subnet.
@@ -1339,6 +1423,7 @@ extension CodeBuild {
             AWSShapeMember(label: "message", required: false, type: .string), 
             AWSShapeMember(label: "statusCode", required: false, type: .string)
         ]
+
         /// An explanation of the build phase's context. This might include a command ID and an exit code.
         public let message: String?
         /// The status code for the context of the build phase.
@@ -1388,6 +1473,7 @@ extension CodeBuild {
             AWSShapeMember(label: "vpcConfig", required: false, type: .structure), 
             AWSShapeMember(label: "webhook", required: false, type: .structure)
         ]
+
         /// The Amazon Resource Name (ARN) of the build project.
         public let arn: String?
         /// Information about the build output artifacts for the build project.
@@ -1470,12 +1556,18 @@ extension CodeBuild {
             try validate(queuedTimeoutInMinutes, name:"queuedTimeoutInMinutes", min: 5)
             try validate(secondaryArtifacts, name:"secondaryArtifacts", max: 12)
             try validate(secondaryArtifacts, name:"secondaryArtifacts", min: 0)
+            try secondarySources?.forEach {
+                try $0.validate()
+            }
             try validate(secondarySources, name:"secondarySources", max: 12)
             try validate(secondarySources, name:"secondarySources", min: 0)
             try validate(secondarySourceVersions, name:"secondarySourceVersions", max: 12)
             try validate(secondarySourceVersions, name:"secondarySourceVersions", min: 0)
             try validate(serviceRole, name:"serviceRole", min: 1)
             try source?.validate()
+            try tags?.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", max: 50)
             try validate(tags, name:"tags", min: 0)
             try validate(timeoutInMinutes, name:"timeoutInMinutes", max: 480)
@@ -1522,6 +1614,7 @@ extension CodeBuild {
             AWSShapeMember(label: "path", required: false, type: .string), 
             AWSShapeMember(label: "type", required: true, type: .enum)
         ]
+
         ///  An identifier for this artifact definition. 
         public let artifactIdentifier: String?
         ///  Set to true if you do not want your output artifacts encrypted. This option is valid only if your artifacts type is Amazon Simple Storage Service (Amazon S3). If this is set with another artifacts type, an invalidInputException is thrown. 
@@ -1571,6 +1664,7 @@ extension CodeBuild {
             AWSShapeMember(label: "badgeEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "badgeRequestUrl", required: false, type: .string)
         ]
+
         /// Set this to true to generate a publicly accessible URL for your project's build badge.
         public let badgeEnabled: Bool?
         /// The publicly-accessible URL through which you can access the build badge for your project.  The publicly accessible URL through which you can access the build badge for your project. 
@@ -1593,6 +1687,7 @@ extension CodeBuild {
             AWSShapeMember(label: "modes", required: false, type: .list), 
             AWSShapeMember(label: "type", required: true, type: .enum)
         ]
+
         /// Information about the cache location:     NO_CACHE or LOCAL: This value is ignored.    S3: This is the S3 bucket name/prefix.  
         public let location: String?
         ///  If you use a LOCAL cache, the local cache mode. You can use one or more local cache modes at the same time.     LOCAL_SOURCE_CACHE mode caches Git metadata for primary and secondary sources. After the cache is created, subsequent builds pull only the change between commits. This mode is a good choice for projects with a clean working directory and a source that is a large Git repository. If you choose this option and your project does not use a Git repository (GitHub, GitHub Enterprise, or Bitbucket), the option is ignored.     LOCAL_DOCKER_LAYER_CACHE mode caches existing Docker layers. This mode is a good choice for projects that build or pull large Docker images. It can prevent the performance issues caused by pulling large Docker images down from the network.      You can use a Docker layer cache in the Linux environment only.     The privileged flag must be set so that your project has the required Docker permissions.     You should consider the security implications before you use a Docker layer cache.          LOCAL_CUSTOM_CACHE mode caches directories you specify in the buildspec file. This mode is a good choice if your build scenario is not suited to one of the other three local cache modes. If you use a custom cache:     Only directories can be specified for caching. You cannot specify individual files.     Symlinks are used to reference cached directories.     Cached directories are linked to your build before it downloads its project sources. Cached items are overriden if a source item has the same name. Directories are specified using cache paths in the buildspec file.     
@@ -1624,6 +1719,7 @@ extension CodeBuild {
             AWSShapeMember(label: "registryCredential", required: false, type: .structure), 
             AWSShapeMember(label: "type", required: true, type: .enum)
         ]
+
         /// The certificate to use with this build project.
         public let certificate: String?
         /// Information about the compute resources the build project uses. Available values include:    BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 15 GB memory and 8 vCPUs for builds.  
@@ -1653,6 +1749,9 @@ extension CodeBuild {
         }
 
         public func validate() throws {
+            try environmentVariables?.forEach {
+                try $0.validate()
+            }
             try validate(image, name:"image", min: 1)
             try registryCredential?.validate()
         }
@@ -1688,6 +1787,7 @@ extension CodeBuild {
             AWSShapeMember(label: "sourceIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "type", required: true, type: .enum)
         ]
+
         /// Information about the authorization settings for AWS CodeBuild to access the source code to be built. This information is for the AWS CodeBuild console's use only. Your code should not get or set this information directly.
         public let auth: SourceAuth?
         /// The build spec declaration to use for the builds in this build project. If this value is not specified, a build spec must be included along with the source code to be built.
@@ -1741,6 +1841,7 @@ extension CodeBuild {
             AWSShapeMember(label: "sourceIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "sourceVersion", required: true, type: .string)
         ]
+
         /// An identifier for a source in the build project.
         public let sourceIdentifier: String
         /// The source version for the corresponding source identifier. If specified, must be one of:   For AWS CodeCommit: the commit ID to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example, pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.    For more information, see Source Version Sample with CodeBuild in the AWS CodeBuild User Guide. 
@@ -1762,6 +1863,7 @@ extension CodeBuild {
             AWSShapeMember(label: "credential", required: true, type: .string), 
             AWSShapeMember(label: "credentialProvider", required: true, type: .enum)
         ]
+
         ///  The Amazon Resource Name (ARN) or name of credentials created using AWS Secrets Manager.    The credential can use the name of the credentials only if they exist in your current region.  
         public let credential: String
         ///  The service that created the credentials to access a private Docker registry. The valid value, SECRETS_MANAGER, is for AWS Secrets Manager. 
@@ -1788,6 +1890,7 @@ extension CodeBuild {
             AWSShapeMember(label: "location", required: false, type: .string), 
             AWSShapeMember(label: "status", required: true, type: .enum)
         ]
+
         ///  Set to true if you do not want your S3 build log output encrypted. By default S3 build logs are encrypted. 
         public let encryptionDisabled: Bool?
         ///  The ARN of an S3 bucket and the path prefix for S3 logs. If your Amazon S3 bucket name is my-bucket, and your path prefix is build-log, then acceptable formats are my-bucket/build-log or arn:aws:s3:::my-bucket/build-log. 
@@ -1826,6 +1929,7 @@ extension CodeBuild {
             AWSShapeMember(label: "resource", required: false, type: .string), 
             AWSShapeMember(label: "type", required: true, type: .enum)
         ]
+
         /// The resource value that applies to the specified authorization type.
         public let resource: String?
         ///   This data type is deprecated and is no longer accurate or used.   The authorization type to use. The only valid value is OAUTH, which represents the OAuth authorization type.
@@ -1853,6 +1957,7 @@ extension CodeBuild {
             AWSShapeMember(label: "authType", required: false, type: .enum), 
             AWSShapeMember(label: "serverType", required: false, type: .enum)
         ]
+
         ///  The Amazon Resource Name (ARN) of the token. 
         public let arn: String?
         ///  The type of authentication used by the credentials. Valid options are OAUTH, BASIC_AUTH, or PERSONAL_ACCESS_TOKEN. 
@@ -1919,6 +2024,7 @@ extension CodeBuild {
             AWSShapeMember(label: "sourceVersion", required: false, type: .string), 
             AWSShapeMember(label: "timeoutInMinutesOverride", required: false, type: .integer)
         ]
+
         /// Build output artifact settings that override, for this build only, the latest ones already defined in the build project.
         public let artifactsOverride: ProjectArtifacts?
         /// A build spec declaration that overrides, for this build only, the latest one already defined in the build project.
@@ -2008,6 +2114,9 @@ extension CodeBuild {
         }
 
         public func validate() throws {
+            try environmentVariablesOverride?.forEach {
+                try $0.validate()
+            }
             try validate(gitCloneDepthOverride, name:"gitCloneDepthOverride", min: 0)
             try validate(imageOverride, name:"imageOverride", min: 1)
             try validate(projectName, name:"projectName", min: 1)
@@ -2016,6 +2125,9 @@ extension CodeBuild {
             try registryCredentialOverride?.validate()
             try validate(secondaryArtifactsOverride, name:"secondaryArtifactsOverride", max: 12)
             try validate(secondaryArtifactsOverride, name:"secondaryArtifactsOverride", min: 0)
+            try secondarySourcesOverride?.forEach {
+                try $0.validate()
+            }
             try validate(secondarySourcesOverride, name:"secondarySourcesOverride", max: 12)
             try validate(secondarySourcesOverride, name:"secondarySourcesOverride", min: 0)
             try validate(secondarySourcesVersionOverride, name:"secondarySourcesVersionOverride", max: 12)
@@ -2061,6 +2173,7 @@ extension CodeBuild {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "build", required: false, type: .structure)
         ]
+
         /// Information about the build to be run.
         public let build: Build?
         
@@ -2091,6 +2204,7 @@ extension CodeBuild {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "id", required: true, type: .string)
         ]
+
         /// The ID of the build.
         public let id: String
         
@@ -2111,6 +2225,7 @@ extension CodeBuild {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "build", required: false, type: .structure)
         ]
+
         /// Information about the build.
         public let build: Build?
         
@@ -2132,6 +2247,7 @@ extension CodeBuild {
             AWSShapeMember(label: "key", required: false, type: .string), 
             AWSShapeMember(label: "value", required: false, type: .string)
         ]
+
         /// The tag's key.
         public let key: String?
         /// The tag's value.
@@ -2178,6 +2294,7 @@ extension CodeBuild {
             AWSShapeMember(label: "timeoutInMinutes", required: false, type: .integer), 
             AWSShapeMember(label: "vpcConfig", required: false, type: .structure)
         ]
+
         /// Information to be changed about the build output artifacts for the build project.
         public let artifacts: ProjectArtifacts?
         /// Set this to true to generate a publicly accessible URL for your project's build badge.
@@ -2246,12 +2363,18 @@ extension CodeBuild {
             try validate(queuedTimeoutInMinutes, name:"queuedTimeoutInMinutes", min: 5)
             try validate(secondaryArtifacts, name:"secondaryArtifacts", max: 12)
             try validate(secondaryArtifacts, name:"secondaryArtifacts", min: 0)
+            try secondarySources?.forEach {
+                try $0.validate()
+            }
             try validate(secondarySources, name:"secondarySources", max: 12)
             try validate(secondarySources, name:"secondarySources", min: 0)
             try validate(secondarySourceVersions, name:"secondarySourceVersions", max: 12)
             try validate(secondarySourceVersions, name:"secondarySourceVersions", min: 0)
             try validate(serviceRole, name:"serviceRole", min: 1)
             try source?.validate()
+            try tags?.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", max: 50)
             try validate(tags, name:"tags", min: 0)
             try validate(timeoutInMinutes, name:"timeoutInMinutes", max: 480)
@@ -2285,6 +2408,7 @@ extension CodeBuild {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "project", required: false, type: .structure)
         ]
+
         /// Information about the build project that was changed.
         public let project: Project?
         
@@ -2308,6 +2432,7 @@ extension CodeBuild {
             AWSShapeMember(label: "projectName", required: true, type: .string), 
             AWSShapeMember(label: "rotateSecret", required: false, type: .boolean)
         ]
+
         /// A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built.   It is recommended that you use filterGroups instead of branchFilter.  
         public let branchFilter: String?
         ///  An array of arrays of WebhookFilter objects used to determine if a webhook event can trigger a build. A filter group must pcontain at least one EVENT WebhookFilter. 
@@ -2342,6 +2467,7 @@ extension CodeBuild {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "webhook", required: false, type: .structure)
         ]
+
         ///  Information about a repository's webhook that is associated with a project in AWS CodeBuild. 
         public let webhook: Webhook?
         
@@ -2364,6 +2490,7 @@ extension CodeBuild {
             AWSShapeMember(label: "subnets", required: false, type: .list), 
             AWSShapeMember(label: "vpcId", required: false, type: .string)
         ]
+
         /// A list of one or more security groups IDs in your Amazon VPC.
         public let securityGroupIds: [String]?
         /// A list of one or more subnet IDs in your Amazon VPC.
@@ -2378,7 +2505,13 @@ extension CodeBuild {
         }
 
         public func validate() throws {
+            try securityGroupIds?.forEach {
+                try validate($0, name:"securityGroupIds[]", min: 1)
+            }
             try validate(securityGroupIds, name:"securityGroupIds", max: 5)
+            try subnets?.forEach {
+                try validate($0, name:"subnets[]", min: 1)
+            }
             try validate(subnets, name:"subnets", max: 16)
             try validate(vpcId, name:"vpcId", min: 1)
         }
@@ -2399,6 +2532,7 @@ extension CodeBuild {
             AWSShapeMember(label: "secret", required: false, type: .string), 
             AWSShapeMember(label: "url", required: false, type: .string)
         ]
+
         /// A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built.   It is recommended that you use filterGroups instead of branchFilter.  
         public let branchFilter: String?
         ///  An array of arrays of WebhookFilter objects used to determine which webhooks are triggered. At least one WebhookFilter in the array must specify EVENT as its type.   For a build to be triggered, at least one filter group in the filterGroups array must pass. For a filter group to pass, each of its filters must pass. 
@@ -2443,6 +2577,7 @@ extension CodeBuild {
             AWSShapeMember(label: "pattern", required: true, type: .string), 
             AWSShapeMember(label: "type", required: true, type: .enum)
         ]
+
         ///  Used to indicate that the pattern determines which webhook events do not trigger a build. If true, then a webhook event that does not match the pattern triggers a build. If false, then a webhook event that matches the pattern triggers a build. 
         public let excludeMatchedPattern: Bool?
         ///  For a WebHookFilter that uses EVENT type, a comma-separated string that specifies one or more events. For example, the webhook filter PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED allows all push, pull request created, and pull request updated events to trigger a build.   For a WebHookFilter that uses any of the other filter types, a regular expression pattern. For example, a WebHookFilter that uses HEAD_REF for its type and the pattern ^refs/heads/ triggers a build when the head reference is a branch with a reference name refs/heads/branch-name. 

@@ -9,6 +9,7 @@ extension IoTDataPlane {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
         ]
+
         /// The name of the thing.
         public let thingName: String
         
@@ -33,6 +34,7 @@ extension IoTDataPlane {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "payload", required: true, type: .blob)
         ]
+
         /// The state information, in JSON format.
         public let payload: Data
         
@@ -49,6 +51,7 @@ extension IoTDataPlane {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
         ]
+
         /// The name of the thing.
         public let thingName: String
         
@@ -73,6 +76,7 @@ extension IoTDataPlane {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "payload", required: false, type: .blob)
         ]
+
         /// The state information, in JSON format.
         public let payload: Data?
         
@@ -93,6 +97,7 @@ extension IoTDataPlane {
             AWSShapeMember(label: "qos", location: .querystring(locationName: "qos"), required: false, type: .integer), 
             AWSShapeMember(label: "topic", location: .uri(locationName: "topic"), required: true, type: .string)
         ]
+
         /// The state information, in JSON format.
         public let payload: Data?
         /// The Quality of Service (QoS) level.
@@ -125,6 +130,7 @@ extension IoTDataPlane {
             AWSShapeMember(label: "payload", required: true, type: .blob), 
             AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
         ]
+
         /// The state information, in JSON format.
         public let payload: Data
         /// The name of the thing.
@@ -153,6 +159,7 @@ extension IoTDataPlane {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "payload", required: false, type: .blob)
         ]
+
         /// The state information, in JSON format.
         public let payload: Data?
         

@@ -9,6 +9,23 @@
 import Foundation
 import SwiftyJSON
 
+/*
+ List of model tags we are currently not processing:
+ exception: This appears to be used to tag errors returned by AWS
+ synthetic: not dealt with, always seems to pair up with "exception"
+ error: details http return status for error, also can include a "code" and flag "senderFault"
+ fault: not sure how this is different from "exception". Looks to be server issues, most return 5xx http status
+ sensitive: indicates sensitive data
+ wrapper: not sure what this is
+ box: not sure what this is
+ streaming:
+ eventstream:
+ event: pairs with "eventstream"
+ xmlOrder: defines order of members in xml (GetMetricStatisticsInput,PutMetricAlarmInput)
+ timestampFormat: need to deal with "unixTimestamp" for MediaConvert
+ documentation: additional documentation, only used once in apigateway
+ */
+
 enum AWSServiceError: Error {
     case eventStreamingCodeGenerationsAreUnsupported
 }

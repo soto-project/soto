@@ -10,6 +10,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "DestinationArn", location: .body(locationName: "destinationArn"), required: false, type: .string), 
             AWSShapeMember(label: "Format", location: .body(locationName: "format"), required: false, type: .string)
         ]
+
         /// The ARN of the CloudWatch Logs log group to receive access logs.
         public let destinationArn: String?
         /// A single line format of the access logs of data, as specified by selected $context
@@ -42,6 +43,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .string), 
             AWSShapeMember(label: "Warnings", location: .body(locationName: "warnings"), required: false, type: .list)
         ]
+
         /// The URI of the API, of the form {api-id}.execute-api.{region}.amazonaws.com. The
         ///  stage name is typically appended to this URI to form a complete path to a deployed
         ///  API stage.
@@ -108,6 +110,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ApiMappingKey", location: .body(locationName: "apiMappingKey"), required: false, type: .string), 
             AWSShapeMember(label: "Stage", location: .body(locationName: "stage"), required: true, type: .string)
         ]
+
         /// The API identifier.
         public let apiId: String
         /// The API mapping identifier.
@@ -137,6 +140,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// The elements from this collection.
         public let items: [ApiMapping]?
         /// The next page of elements from this collection. Not valid for the last element of
@@ -159,6 +163,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// The elements from this collection.
         public let items: [Api]?
         /// The next page of elements from this collection. Not valid for the last element of
@@ -195,6 +200,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "ProviderArns", location: .body(locationName: "providerArns"), required: false, type: .list)
         ]
+
         /// Specifies the required credentials as an IAM role for API Gateway to invoke the
         ///  authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon
         ///  Resource Name (ARN). To use resource-based permissions on the Lambda function,
@@ -287,6 +293,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// The elements from this collection.
         public let items: [Authorizer]?
         /// The next page of elements from this collection. Not valid for the last element of
@@ -296,6 +303,12 @@ extension ApiGatewayV2 {
         public init(items: [Authorizer]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try items?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -327,6 +340,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .string)
         ]
+
         /// An API key selection expression. See API Key Selection Expressions.
         public let apiKeySelectionExpression: String?
         /// The description of the API.
@@ -373,6 +387,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ApiMappingKey", location: .body(locationName: "apiMappingKey"), required: false, type: .string), 
             AWSShapeMember(label: "Stage", location: .body(locationName: "stage"), required: true, type: .string)
         ]
+
         /// The API identifier.
         public let apiId: String
         public let apiMappingKey: String?
@@ -399,6 +414,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName"), required: true, type: .string), 
             AWSShapeMember(label: "Stage", location: .body(locationName: "stage"), required: true, type: .string)
         ]
+
         public let apiId: String
         public let apiMappingKey: String?
         public let domainName: String
@@ -426,6 +442,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ApiMappingKey", location: .body(locationName: "apiMappingKey"), required: false, type: .string), 
             AWSShapeMember(label: "Stage", location: .body(locationName: "stage"), required: false, type: .string)
         ]
+
         public let apiId: String?
         public let apiMappingId: String?
         public let apiMappingKey: String?
@@ -456,6 +473,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "RouteSelectionExpression", location: .body(locationName: "routeSelectionExpression"), required: true, type: .string), 
             AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .string)
         ]
+
         public let apiKeySelectionExpression: String?
         public let description: String?
         public let disableSchemaValidation: Bool?
@@ -499,6 +517,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .string), 
             AWSShapeMember(label: "Warnings", location: .body(locationName: "warnings"), required: false, type: .list)
         ]
+
         public let apiEndpoint: String?
         public let apiId: String?
         public let apiKeySelectionExpression: String?
@@ -551,6 +570,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "ProviderArns", location: .body(locationName: "providerArns"), required: false, type: .list)
         ]
+
         /// Specifies the required credentials as an IAM role for API Gateway to invoke the
         ///  authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon
         ///  Resource Name (ARN). To use resource-based permissions on the Lambda function,
@@ -641,6 +661,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "ProviderArns", location: .body(locationName: "providerArns"), required: false, type: .list)
         ]
+
         public let apiId: String
         public let authorizerCredentialsArn: String?
         public let authorizerResultTtlInSeconds: Int32?
@@ -693,6 +714,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "ProviderArns", location: .body(locationName: "providerArns"), required: false, type: .list)
         ]
+
         public let authorizerCredentialsArn: String?
         public let authorizerId: String?
         public let authorizerResultTtlInSeconds: Int32?
@@ -738,6 +760,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
             AWSShapeMember(label: "StageName", location: .body(locationName: "stageName"), required: false, type: .string)
         ]
+
         /// The description for the deployment resource.
         public let description: String?
         /// The name of the Stage resource for the Deployment
@@ -761,6 +784,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
             AWSShapeMember(label: "StageName", location: .body(locationName: "stageName"), required: false, type: .string)
         ]
+
         public let apiId: String
         public let description: String?
         public let stageName: String?
@@ -786,6 +810,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "DeploymentStatusMessage", location: .body(locationName: "deploymentStatusMessage"), required: false, type: .string), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
+
         public let createdDate: TimeStamp?
         public let deploymentId: String?
         public let deploymentStatus: DeploymentStatus?
@@ -815,6 +840,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"), required: false, type: .list), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         /// The domain name.
         public let domainName: String
         /// The domain name configurations.
@@ -841,6 +867,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"), required: false, type: .list), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         public let domainName: String
         public let domainNameConfigurations: [DomainNameConfiguration]?
         public let tags: [String: String]?
@@ -865,6 +892,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"), required: false, type: .list), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         public let apiMappingSelectionExpression: String?
         public let domainName: String?
         public let domainNameConfigurations: [DomainNameConfiguration]?
@@ -901,6 +929,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string), 
             AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"), required: false, type: .integer)
         ]
+
         /// The connection ID.
         public let connectionId: String?
         /// The type of the network connection to the integration endpoint. Currently the only
@@ -1040,6 +1069,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string), 
             AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"), required: false, type: .integer)
         ]
+
         public let apiId: String
         public let connectionId: String?
         public let connectionType: ConnectionType?
@@ -1103,6 +1133,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ResponseTemplates", location: .body(locationName: "responseTemplates"), required: false, type: .map), 
             AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string)
         ]
+
         /// Specifies how to handle response payload content type conversions. Supported
         ///  values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the
         ///  following behaviors:
@@ -1161,6 +1192,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ResponseTemplates", location: .body(locationName: "responseTemplates"), required: false, type: .map), 
             AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string)
         ]
+
         public let apiId: String
         public let contentHandlingStrategy: ContentHandlingStrategy?
         public let integrationId: String
@@ -1199,6 +1231,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ResponseTemplates", location: .body(locationName: "responseTemplates"), required: false, type: .map), 
             AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string)
         ]
+
         public let contentHandlingStrategy: ContentHandlingStrategy?
         public let integrationResponseId: String?
         public let integrationResponseKey: String?
@@ -1243,6 +1276,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string), 
             AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"), required: false, type: .integer)
         ]
+
         public let connectionId: String?
         public let connectionType: ConnectionType?
         public let contentHandlingStrategy: ContentHandlingStrategy?
@@ -1308,6 +1342,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "Schema", location: .body(locationName: "schema"), required: true, type: .string)
         ]
+
         /// The content-type for the model, for example, "application/json".
         public let contentType: String?
         /// The description of the model.
@@ -1341,6 +1376,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "Schema", location: .body(locationName: "schema"), required: true, type: .string)
         ]
+
         public let apiId: String
         public let contentType: String?
         public let description: String?
@@ -1372,6 +1408,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "Schema", location: .body(locationName: "schema"), required: false, type: .string)
         ]
+
         public let contentType: String?
         public let description: String?
         public let modelId: String?
@@ -1409,6 +1446,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "RouteResponseSelectionExpression", location: .body(locationName: "routeResponseSelectionExpression"), required: false, type: .string), 
             AWSShapeMember(label: "Target", location: .body(locationName: "target"), required: false, type: .string)
         ]
+
         /// Specifies whether an API key is required for the route.
         public let apiKeyRequired: Bool?
         /// The authorization scopes supported by this
@@ -1483,6 +1521,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "RouteResponseSelectionExpression", location: .body(locationName: "routeResponseSelectionExpression"), required: false, type: .string), 
             AWSShapeMember(label: "Target", location: .body(locationName: "target"), required: false, type: .string)
         ]
+
         public let apiId: String
         public let apiKeyRequired: Bool?
         public let authorizationScopes: [String]?
@@ -1534,6 +1573,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ResponseParameters", location: .body(locationName: "responseParameters"), required: false, type: .map), 
             AWSShapeMember(label: "RouteResponseKey", location: .body(locationName: "routeResponseKey"), required: true, type: .string)
         ]
+
         /// The model selection expression for the route response.
         public let modelSelectionExpression: String?
         /// The response models for the route response.
@@ -1567,6 +1607,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "RouteId", location: .uri(locationName: "routeId"), required: true, type: .string), 
             AWSShapeMember(label: "RouteResponseKey", location: .body(locationName: "routeResponseKey"), required: true, type: .string)
         ]
+
         public let apiId: String
         public let modelSelectionExpression: String?
         public let responseModels: [String: String]?
@@ -1601,6 +1642,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "RouteResponseId", location: .body(locationName: "routeResponseId"), required: false, type: .string), 
             AWSShapeMember(label: "RouteResponseKey", location: .body(locationName: "routeResponseKey"), required: false, type: .string)
         ]
+
         public let modelSelectionExpression: String?
         public let responseModels: [String: String]?
         public let responseParameters: [String: ParameterConstraints]?
@@ -1639,6 +1681,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "RouteResponseSelectionExpression", location: .body(locationName: "routeResponseSelectionExpression"), required: false, type: .string), 
             AWSShapeMember(label: "Target", location: .body(locationName: "target"), required: false, type: .string)
         ]
+
         public let apiKeyRequired: Bool?
         public let authorizationScopes: [String]?
         public let authorizationType: AuthorizationType?
@@ -1695,6 +1738,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "StageVariables", location: .body(locationName: "stageVariables"), required: false, type: .map), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         /// Settings for logging access in this stage.
         public let accessLogSettings: AccessLogSettings?
         /// The identifier of a client certificate for a Stage.
@@ -1754,6 +1798,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "StageVariables", location: .body(locationName: "stageVariables"), required: false, type: .map), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         public let accessLogSettings: AccessLogSettings?
         public let apiId: String
         public let clientCertificateId: String?
@@ -1806,6 +1851,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "StageVariables", location: .body(locationName: "stageVariables"), required: false, type: .map), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         public let accessLogSettings: AccessLogSettings?
         public let clientCertificateId: String?
         public let createdDate: TimeStamp?
@@ -1852,6 +1898,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ApiMappingId", location: .uri(locationName: "apiMappingId"), required: true, type: .string), 
             AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName"), required: true, type: .string)
         ]
+
         public let apiMappingId: String
         public let domainName: String
         
@@ -1870,6 +1917,7 @@ extension ApiGatewayV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string)
         ]
+
         public let apiId: String
         
         public init(apiId: String) {
@@ -1886,6 +1934,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
             AWSShapeMember(label: "AuthorizerId", location: .uri(locationName: "authorizerId"), required: true, type: .string)
         ]
+
         public let apiId: String
         public let authorizerId: String
         
@@ -1905,6 +1954,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
             AWSShapeMember(label: "DeploymentId", location: .uri(locationName: "deploymentId"), required: true, type: .string)
         ]
+
         public let apiId: String
         public let deploymentId: String
         
@@ -1923,6 +1973,7 @@ extension ApiGatewayV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName"), required: true, type: .string)
         ]
+
         public let domainName: String
         
         public init(domainName: String) {
@@ -1939,6 +1990,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
             AWSShapeMember(label: "IntegrationId", location: .uri(locationName: "integrationId"), required: true, type: .string)
         ]
+
         public let apiId: String
         public let integrationId: String
         
@@ -1959,6 +2011,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "IntegrationId", location: .uri(locationName: "integrationId"), required: true, type: .string), 
             AWSShapeMember(label: "IntegrationResponseId", location: .uri(locationName: "integrationResponseId"), required: true, type: .string)
         ]
+
         public let apiId: String
         public let integrationId: String
         public let integrationResponseId: String
@@ -1981,6 +2034,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
             AWSShapeMember(label: "ModelId", location: .uri(locationName: "modelId"), required: true, type: .string)
         ]
+
         public let apiId: String
         public let modelId: String
         
@@ -2000,6 +2054,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
             AWSShapeMember(label: "RouteId", location: .uri(locationName: "routeId"), required: true, type: .string)
         ]
+
         public let apiId: String
         public let routeId: String
         
@@ -2020,6 +2075,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "RouteId", location: .uri(locationName: "routeId"), required: true, type: .string), 
             AWSShapeMember(label: "RouteResponseId", location: .uri(locationName: "routeResponseId"), required: true, type: .string)
         ]
+
         public let apiId: String
         public let routeId: String
         public let routeResponseId: String
@@ -2042,6 +2098,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
             AWSShapeMember(label: "StageName", location: .uri(locationName: "stageName"), required: true, type: .string)
         ]
+
         public let apiId: String
         public let stageName: String
         
@@ -2064,6 +2121,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "DeploymentStatusMessage", location: .body(locationName: "deploymentStatusMessage"), required: false, type: .string), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
+
         /// The date and time when the Deployment resource was created.
         public let createdDate: TimeStamp?
         /// The identifier for the deployment.
@@ -2105,6 +2163,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// The elements from this collection.
         public let items: [Deployment]?
         /// The next page of elements from this collection. Not valid for the last element of
@@ -2129,6 +2188,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"), required: false, type: .list), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         /// The API mapping selection expression.
         public let apiMappingSelectionExpression: String?
         /// The name of the DomainName resource.
@@ -2165,6 +2225,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "HostedZoneId", location: .body(locationName: "hostedZoneId"), required: false, type: .string), 
             AWSShapeMember(label: "SecurityPolicy", location: .body(locationName: "securityPolicy"), required: false, type: .enum)
         ]
+
         /// A domain name for the WebSocket API.
         public let apiGatewayDomainName: String?
         /// An AWS-managed certificate that will be used by the edge-optimized endpoint for
@@ -2223,6 +2284,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// The elements from this collection.
         public let items: [DomainName]?
         /// The next page of elements from this collection. Not valid for the last element of
@@ -2251,6 +2313,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ApiMappingId", location: .uri(locationName: "apiMappingId"), required: true, type: .string), 
             AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName"), required: true, type: .string)
         ]
+
         public let apiMappingId: String
         public let domainName: String
         
@@ -2272,6 +2335,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ApiMappingKey", location: .body(locationName: "apiMappingKey"), required: false, type: .string), 
             AWSShapeMember(label: "Stage", location: .body(locationName: "stage"), required: false, type: .string)
         ]
+
         public let apiId: String?
         public let apiMappingId: String?
         public let apiMappingKey: String?
@@ -2298,6 +2362,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let domainName: String
         public let maxResults: String?
         public let nextToken: String?
@@ -2320,6 +2385,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let items: [ApiMapping]?
         public let nextToken: String?
         
@@ -2338,6 +2404,7 @@ extension ApiGatewayV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string)
         ]
+
         public let apiId: String
         
         public init(apiId: String) {
@@ -2364,6 +2431,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .string), 
             AWSShapeMember(label: "Warnings", location: .body(locationName: "warnings"), required: false, type: .list)
         ]
+
         public let apiEndpoint: String?
         public let apiId: String?
         public let apiKeySelectionExpression: String?
@@ -2413,6 +2481,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let maxResults: String?
         public let nextToken: String?
         
@@ -2432,6 +2501,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let items: [Api]?
         public let nextToken: String?
         
@@ -2451,6 +2521,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
             AWSShapeMember(label: "AuthorizerId", location: .uri(locationName: "authorizerId"), required: true, type: .string)
         ]
+
         public let apiId: String
         public let authorizerId: String
         
@@ -2477,6 +2548,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "ProviderArns", location: .body(locationName: "providerArns"), required: false, type: .list)
         ]
+
         public let authorizerCredentialsArn: String?
         public let authorizerId: String?
         public let authorizerResultTtlInSeconds: Int32?
@@ -2523,6 +2595,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let apiId: String
         public let maxResults: String?
         public let nextToken: String?
@@ -2545,12 +2618,19 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let items: [Authorizer]?
         public let nextToken: String?
         
         public init(items: [Authorizer]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try items?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2564,6 +2644,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
             AWSShapeMember(label: "DeploymentId", location: .uri(locationName: "deploymentId"), required: true, type: .string)
         ]
+
         public let apiId: String
         public let deploymentId: String
         
@@ -2586,6 +2667,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "DeploymentStatusMessage", location: .body(locationName: "deploymentStatusMessage"), required: false, type: .string), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
+
         public let createdDate: TimeStamp?
         public let deploymentId: String?
         public let deploymentStatus: DeploymentStatus?
@@ -2615,6 +2697,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let apiId: String
         public let maxResults: String?
         public let nextToken: String?
@@ -2637,6 +2720,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let items: [Deployment]?
         public let nextToken: String?
         
@@ -2655,6 +2739,7 @@ extension ApiGatewayV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName"), required: true, type: .string)
         ]
+
         public let domainName: String
         
         public init(domainName: String) {
@@ -2673,6 +2758,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"), required: false, type: .list), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         public let apiMappingSelectionExpression: String?
         public let domainName: String?
         public let domainNameConfigurations: [DomainNameConfiguration]?
@@ -2698,6 +2784,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let maxResults: String?
         public let nextToken: String?
         
@@ -2717,6 +2804,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let items: [DomainName]?
         public let nextToken: String?
         
@@ -2736,6 +2824,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
             AWSShapeMember(label: "IntegrationId", location: .uri(locationName: "integrationId"), required: true, type: .string)
         ]
+
         public let apiId: String
         public let integrationId: String
         
@@ -2756,6 +2845,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "IntegrationId", location: .uri(locationName: "integrationId"), required: true, type: .string), 
             AWSShapeMember(label: "IntegrationResponseId", location: .uri(locationName: "integrationResponseId"), required: true, type: .string)
         ]
+
         public let apiId: String
         public let integrationId: String
         public let integrationResponseId: String
@@ -2782,6 +2872,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ResponseTemplates", location: .body(locationName: "responseTemplates"), required: false, type: .map), 
             AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string)
         ]
+
         public let contentHandlingStrategy: ContentHandlingStrategy?
         public let integrationResponseId: String?
         public let integrationResponseKey: String?
@@ -2815,6 +2906,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let apiId: String
         public let integrationId: String
         public let maxResults: String?
@@ -2840,6 +2932,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let items: [IntegrationResponse]?
         public let nextToken: String?
         
@@ -2872,6 +2965,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string), 
             AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"), required: false, type: .integer)
         ]
+
         public let connectionId: String?
         public let connectionType: ConnectionType?
         public let contentHandlingStrategy: ContentHandlingStrategy?
@@ -2936,6 +3030,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let apiId: String
         public let maxResults: String?
         public let nextToken: String?
@@ -2958,12 +3053,19 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let items: [Integration]?
         public let nextToken: String?
         
         public init(items: [Integration]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try items?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2977,6 +3079,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
             AWSShapeMember(label: "ModelId", location: .uri(locationName: "modelId"), required: true, type: .string)
         ]
+
         public let apiId: String
         public let modelId: String
         
@@ -2999,6 +3102,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "Schema", location: .body(locationName: "schema"), required: false, type: .string)
         ]
+
         public let contentType: String?
         public let description: String?
         public let modelId: String?
@@ -3027,6 +3131,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
             AWSShapeMember(label: "ModelId", location: .uri(locationName: "modelId"), required: true, type: .string)
         ]
+
         public let apiId: String
         public let modelId: String
         
@@ -3045,6 +3150,7 @@ extension ApiGatewayV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", location: .body(locationName: "value"), required: false, type: .string)
         ]
+
         public let value: String?
         
         public init(value: String? = nil) {
@@ -3062,6 +3168,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let apiId: String
         public let maxResults: String?
         public let nextToken: String?
@@ -3084,6 +3191,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let items: [Model]?
         public let nextToken: String?
         
@@ -3103,6 +3211,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
             AWSShapeMember(label: "RouteId", location: .uri(locationName: "routeId"), required: true, type: .string)
         ]
+
         public let apiId: String
         public let routeId: String
         
@@ -3123,6 +3232,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "RouteId", location: .uri(locationName: "routeId"), required: true, type: .string), 
             AWSShapeMember(label: "RouteResponseId", location: .uri(locationName: "routeResponseId"), required: true, type: .string)
         ]
+
         public let apiId: String
         public let routeId: String
         public let routeResponseId: String
@@ -3148,6 +3258,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "RouteResponseId", location: .body(locationName: "routeResponseId"), required: false, type: .string), 
             AWSShapeMember(label: "RouteResponseKey", location: .body(locationName: "routeResponseKey"), required: false, type: .string)
         ]
+
         public let modelSelectionExpression: String?
         public let responseModels: [String: String]?
         public let responseParameters: [String: ParameterConstraints]?
@@ -3178,6 +3289,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
             AWSShapeMember(label: "RouteId", location: .uri(locationName: "routeId"), required: true, type: .string)
         ]
+
         public let apiId: String
         public let maxResults: String?
         public let nextToken: String?
@@ -3203,6 +3315,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let items: [RouteResponse]?
         public let nextToken: String?
         
@@ -3232,6 +3345,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "RouteResponseSelectionExpression", location: .body(locationName: "routeResponseSelectionExpression"), required: false, type: .string), 
             AWSShapeMember(label: "Target", location: .body(locationName: "target"), required: false, type: .string)
         ]
+
         public let apiKeyRequired: Bool?
         public let authorizationScopes: [String]?
         public let authorizationType: AuthorizationType?
@@ -3282,6 +3396,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let apiId: String
         public let maxResults: String?
         public let nextToken: String?
@@ -3304,6 +3419,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let items: [Route]?
         public let nextToken: String?
         
@@ -3323,6 +3439,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
             AWSShapeMember(label: "StageName", location: .uri(locationName: "stageName"), required: true, type: .string)
         ]
+
         public let apiId: String
         public let stageName: String
         
@@ -3351,6 +3468,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "StageVariables", location: .body(locationName: "stageVariables"), required: false, type: .map), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         public let accessLogSettings: AccessLogSettings?
         public let clientCertificateId: String?
         public let createdDate: TimeStamp?
@@ -3398,6 +3516,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let apiId: String
         public let maxResults: String?
         public let nextToken: String?
@@ -3420,6 +3539,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         public let items: [Stage]?
         public let nextToken: String?
         
@@ -3438,6 +3558,7 @@ extension ApiGatewayV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string)
         ]
+
         public let resourceArn: String
         
         public init(resourceArn: String) {
@@ -3453,6 +3574,7 @@ extension ApiGatewayV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         public let tags: [String: String]?
         
         public init(tags: [String: String]? = nil) {
@@ -3482,6 +3604,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string), 
             AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"), required: false, type: .integer)
         ]
+
         /// The connection ID.
         public let connectionId: String?
         /// The type of the network connection to the integration endpoint. Currently the only
@@ -3621,6 +3744,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ResponseTemplates", location: .body(locationName: "responseTemplates"), required: false, type: .map), 
             AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string)
         ]
+
         /// Specifies how to handle response payload content type conversions. Supported
         ///  values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the
         ///  following behaviors:
@@ -3676,6 +3800,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// The elements from this collection.
         public let items: [IntegrationResponse]?
         /// The next page of elements from this collection. Not valid for the last element of
@@ -3707,6 +3832,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// The elements from this collection.
         public let items: [Integration]?
         /// The next page of elements from this collection. Not valid for the last element of
@@ -3716,6 +3842,12 @@ extension ApiGatewayV2 {
         public init(items: [Integration]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try items?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3729,6 +3861,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "LimitType", location: .body(locationName: "limitType"), required: false, type: .string), 
             AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
         ]
+
         /// The limit type.
         public let limitType: String?
         /// Describes the error encountered.
@@ -3760,6 +3893,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "Schema", location: .body(locationName: "schema"), required: false, type: .string)
         ]
+
         /// The content-type for the model, for example, "application/json".
         public let contentType: String?
         /// The description of the model.
@@ -3794,6 +3928,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// The elements from this collection.
         public let items: [Model]?
         /// The next page of elements from this collection. Not valid for the last element of
@@ -3815,6 +3950,7 @@ extension ApiGatewayV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Required", location: .body(locationName: "required"), required: false, type: .boolean)
         ]
+
         /// Whether or not the parameter is required.
         public let required: Bool?
         
@@ -3854,6 +3990,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "RouteResponseSelectionExpression", location: .body(locationName: "routeResponseSelectionExpression"), required: false, type: .string), 
             AWSShapeMember(label: "Target", location: .body(locationName: "target"), required: false, type: .string)
         ]
+
         /// Specifies whether an API key is required for this route.
         public let apiKeyRequired: Bool?
         /// A list of authorization scopes configured on a route. The scopes are used with a
@@ -3930,6 +4067,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "RouteResponseId", location: .body(locationName: "routeResponseId"), required: false, type: .string), 
             AWSShapeMember(label: "RouteResponseKey", location: .body(locationName: "routeResponseKey"), required: true, type: .string)
         ]
+
         /// Represents the model selection expression of a route response.
         public let modelSelectionExpression: String?
         /// Represents the response models of a route response.
@@ -3963,6 +4101,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// The elements from this collection.
         public let items: [RouteResponse]?
         /// The next page of elements from this collection. Not valid for the last element of
@@ -3988,6 +4127,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ThrottlingBurstLimit", location: .body(locationName: "throttlingBurstLimit"), required: false, type: .integer), 
             AWSShapeMember(label: "ThrottlingRateLimit", location: .body(locationName: "throttlingRateLimit"), required: false, type: .double)
         ]
+
         /// Specifies whether (true) or not (false) data trace
         ///  logging is enabled for this route. This property affects the log entries pushed to
         ///  Amazon CloudWatch Logs.
@@ -4025,6 +4165,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// The elements from this collection.
         public let items: [Route]?
         /// The next page of elements from this collection. Not valid for the last element of
@@ -4062,6 +4203,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "StageVariables", location: .body(locationName: "stageVariables"), required: false, type: .map), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         /// Settings for logging access in this stage.
         public let accessLogSettings: AccessLogSettings?
         /// The identifier of a client certificate for a Stage.
@@ -4122,6 +4264,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// The elements from this collection.
         public let items: [Stage]?
         /// The next page of elements from this collection. Not valid for the last element of
@@ -4143,6 +4286,7 @@ extension ApiGatewayV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         /// Tags for the resource arn.
         public let tags: [String: String]?
         
@@ -4160,6 +4304,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
+
         public let resourceArn: String
         public let tags: [String: String]?
         
@@ -4176,7 +4321,6 @@ extension ApiGatewayV2 {
 
     public struct TagResourceResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -4186,6 +4330,7 @@ extension ApiGatewayV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", location: .body(locationName: "value"), required: false, type: .string)
         ]
+
         /// The template value.
         public let value: String?
         
@@ -4203,6 +4348,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
         ]
+
         public let resourceArn: String
         public let tagKeys: [String]
         
@@ -4226,6 +4372,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "RouteSelectionExpression", location: .body(locationName: "routeSelectionExpression"), required: false, type: .string), 
             AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .string)
         ]
+
         /// An API key selection expression. See API Key Selection Expressions.
         public let apiKeySelectionExpression: String?
         /// The description of the API.
@@ -4264,6 +4411,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ApiMappingKey", location: .body(locationName: "apiMappingKey"), required: false, type: .string), 
             AWSShapeMember(label: "Stage", location: .body(locationName: "stage"), required: false, type: .string)
         ]
+
         /// The API identifier.
         public let apiId: String?
         /// The API mapping key.
@@ -4292,6 +4440,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName"), required: true, type: .string), 
             AWSShapeMember(label: "Stage", location: .body(locationName: "stage"), required: false, type: .string)
         ]
+
         public let apiId: String
         public let apiMappingId: String
         public let apiMappingKey: String?
@@ -4322,6 +4471,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ApiMappingKey", location: .body(locationName: "apiMappingKey"), required: false, type: .string), 
             AWSShapeMember(label: "Stage", location: .body(locationName: "stage"), required: false, type: .string)
         ]
+
         public let apiId: String?
         public let apiMappingId: String?
         public let apiMappingKey: String?
@@ -4352,6 +4502,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "RouteSelectionExpression", location: .body(locationName: "routeSelectionExpression"), required: false, type: .string), 
             AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .string)
         ]
+
         public let apiId: String
         public let apiKeySelectionExpression: String?
         public let description: String?
@@ -4395,6 +4546,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .string), 
             AWSShapeMember(label: "Warnings", location: .body(locationName: "warnings"), required: false, type: .list)
         ]
+
         public let apiEndpoint: String?
         public let apiId: String?
         public let apiKeySelectionExpression: String?
@@ -4447,6 +4599,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "ProviderArns", location: .body(locationName: "providerArns"), required: false, type: .list)
         ]
+
         /// Specifies the required credentials as an IAM role for API Gateway to invoke the
         ///  authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon
         ///  Resource Name (ARN). To use resource-based permissions on the Lambda function,
@@ -4537,6 +4690,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "ProviderArns", location: .body(locationName: "providerArns"), required: false, type: .list)
         ]
+
         public let apiId: String
         public let authorizerCredentialsArn: String?
         public let authorizerId: String
@@ -4592,6 +4746,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "ProviderArns", location: .body(locationName: "providerArns"), required: false, type: .list)
         ]
+
         public let authorizerCredentialsArn: String?
         public let authorizerId: String?
         public let authorizerResultTtlInSeconds: Int32?
@@ -4636,6 +4791,7 @@ extension ApiGatewayV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
+
         /// The description for the deployment resource.
         public let description: String?
         
@@ -4654,6 +4810,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "DeploymentId", location: .uri(locationName: "deploymentId"), required: true, type: .string), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
+
         public let apiId: String
         public let deploymentId: String
         public let description: String?
@@ -4679,6 +4836,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "DeploymentStatusMessage", location: .body(locationName: "deploymentStatusMessage"), required: false, type: .string), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
+
         public let createdDate: TimeStamp?
         public let deploymentId: String?
         public let deploymentStatus: DeploymentStatus?
@@ -4706,6 +4864,7 @@ extension ApiGatewayV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"), required: false, type: .list)
         ]
+
         /// The domain name configurations.
         public let domainNameConfigurations: [DomainNameConfiguration]?
         
@@ -4723,6 +4882,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName"), required: true, type: .string), 
             AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"), required: false, type: .list)
         ]
+
         public let domainName: String
         public let domainNameConfigurations: [DomainNameConfiguration]?
         
@@ -4743,6 +4903,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "DomainName", location: .body(locationName: "domainName"), required: false, type: .string), 
             AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"), required: false, type: .list)
         ]
+
         public let apiMappingSelectionExpression: String?
         public let domainName: String?
         public let domainNameConfigurations: [DomainNameConfiguration]?
@@ -4776,6 +4937,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string), 
             AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"), required: false, type: .integer)
         ]
+
         /// The connection ID.
         public let connectionId: String?
         /// The type of the network connection to the integration endpoint. Currently the only
@@ -4916,6 +5078,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string), 
             AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"), required: false, type: .integer)
         ]
+
         public let apiId: String
         public let connectionId: String?
         public let connectionType: ConnectionType?
@@ -4982,6 +5145,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ResponseTemplates", location: .body(locationName: "responseTemplates"), required: false, type: .map), 
             AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string)
         ]
+
         /// Specifies how to handle response payload content type conversions. Supported
         ///  values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the
         ///  following behaviors:
@@ -5046,6 +5210,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ResponseTemplates", location: .body(locationName: "responseTemplates"), required: false, type: .map), 
             AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string)
         ]
+
         public let apiId: String
         public let contentHandlingStrategy: ContentHandlingStrategy?
         public let integrationId: String
@@ -5087,6 +5252,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ResponseTemplates", location: .body(locationName: "responseTemplates"), required: false, type: .map), 
             AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string)
         ]
+
         public let contentHandlingStrategy: ContentHandlingStrategy?
         public let integrationResponseId: String?
         public let integrationResponseKey: String?
@@ -5131,6 +5297,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string), 
             AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"), required: false, type: .integer)
         ]
+
         public let connectionId: String?
         public let connectionType: ConnectionType?
         public let contentHandlingStrategy: ContentHandlingStrategy?
@@ -5196,6 +5363,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "Schema", location: .body(locationName: "schema"), required: false, type: .string)
         ]
+
         /// The content-type for the model, for example, "application/json".
         public let contentType: String?
         /// The description of the model.
@@ -5230,6 +5398,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "Schema", location: .body(locationName: "schema"), required: false, type: .string)
         ]
+
         public let apiId: String
         public let contentType: String?
         public let description: String?
@@ -5264,6 +5433,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "Schema", location: .body(locationName: "schema"), required: false, type: .string)
         ]
+
         public let contentType: String?
         public let description: String?
         public let modelId: String?
@@ -5301,6 +5471,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "RouteResponseSelectionExpression", location: .body(locationName: "routeResponseSelectionExpression"), required: false, type: .string), 
             AWSShapeMember(label: "Target", location: .body(locationName: "target"), required: false, type: .string)
         ]
+
         /// Specifies whether an API key is required for the route.
         public let apiKeyRequired: Bool?
         /// The authorization scopes supported by this
@@ -5376,6 +5547,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "RouteResponseSelectionExpression", location: .body(locationName: "routeResponseSelectionExpression"), required: false, type: .string), 
             AWSShapeMember(label: "Target", location: .body(locationName: "target"), required: false, type: .string)
         ]
+
         public let apiId: String
         public let apiKeyRequired: Bool?
         public let authorizationScopes: [String]?
@@ -5430,6 +5602,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ResponseParameters", location: .body(locationName: "responseParameters"), required: false, type: .map), 
             AWSShapeMember(label: "RouteResponseKey", location: .body(locationName: "routeResponseKey"), required: false, type: .string)
         ]
+
         /// The model selection expression for the route response.
         public let modelSelectionExpression: String?
         /// The response models for the route response.
@@ -5464,6 +5637,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "RouteResponseId", location: .uri(locationName: "routeResponseId"), required: true, type: .string), 
             AWSShapeMember(label: "RouteResponseKey", location: .body(locationName: "routeResponseKey"), required: false, type: .string)
         ]
+
         public let apiId: String
         public let modelSelectionExpression: String?
         public let responseModels: [String: String]?
@@ -5501,6 +5675,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "RouteResponseId", location: .body(locationName: "routeResponseId"), required: false, type: .string), 
             AWSShapeMember(label: "RouteResponseKey", location: .body(locationName: "routeResponseKey"), required: false, type: .string)
         ]
+
         public let modelSelectionExpression: String?
         public let responseModels: [String: String]?
         public let responseParameters: [String: ParameterConstraints]?
@@ -5539,6 +5714,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "RouteResponseSelectionExpression", location: .body(locationName: "routeResponseSelectionExpression"), required: false, type: .string), 
             AWSShapeMember(label: "Target", location: .body(locationName: "target"), required: false, type: .string)
         ]
+
         public let apiKeyRequired: Bool?
         public let authorizationScopes: [String]?
         public let authorizationType: AuthorizationType?
@@ -5593,6 +5769,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "RouteSettings", location: .body(locationName: "routeSettings"), required: false, type: .map), 
             AWSShapeMember(label: "StageVariables", location: .body(locationName: "stageVariables"), required: false, type: .map)
         ]
+
         /// Settings for logging access in this stage.
         public let accessLogSettings: AccessLogSettings?
         /// The identifier of a client certificate for a Stage.
@@ -5643,6 +5820,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "StageName", location: .uri(locationName: "stageName"), required: true, type: .string), 
             AWSShapeMember(label: "StageVariables", location: .body(locationName: "stageVariables"), required: false, type: .map)
         ]
+
         public let accessLogSettings: AccessLogSettings?
         public let apiId: String
         public let clientCertificateId: String?
@@ -5691,6 +5869,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "StageName", location: .body(locationName: "stageName"), required: false, type: .string), 
             AWSShapeMember(label: "StageVariables", location: .body(locationName: "stageVariables"), required: false, type: .map)
         ]
+
         public let accessLogSettings: AccessLogSettings?
         public let clientCertificateId: String?
         public let createdDate: TimeStamp?

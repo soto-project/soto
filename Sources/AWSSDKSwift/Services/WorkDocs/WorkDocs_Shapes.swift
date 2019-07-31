@@ -11,6 +11,7 @@ extension WorkDocs {
             AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
             AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the document.
@@ -47,6 +48,7 @@ extension WorkDocs {
             AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
             AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the user.
@@ -75,6 +77,7 @@ extension WorkDocs {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "User", required: false, type: .structure)
         ]
+
         /// The user information.
         public let user: User?
         
@@ -103,6 +106,7 @@ extension WorkDocs {
             AWSShapeMember(label: "TimeStamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
+
         /// Metadata of the commenting activity. This is an optional field and is filled for commenting activities.
         public let commentMetadata: CommentMetadata?
         /// The user who performed the action.
@@ -141,6 +145,7 @@ extension WorkDocs {
             try validate(organizationId, name:"organizationId", min: 1)
             try validate(organizationId, name:"organizationId", pattern: "[&\\w+-.@]+")
             try originalParent?.validate()
+            try participants?.validate()
             try resourceMetadata?.validate()
         }
 
@@ -201,6 +206,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Principals", required: true, type: .list), 
             AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The notification options.
@@ -221,6 +227,9 @@ extension WorkDocs {
             try validate(authenticationToken, name:"authenticationToken", max: 8199)
             try validate(authenticationToken, name:"authenticationToken", min: 1)
             try notificationOptions?.validate()
+            try principals.forEach {
+                try $0.validate()
+            }
             try validate(resourceId, name:"resourceId", max: 128)
             try validate(resourceId, name:"resourceId", min: 1)
             try validate(resourceId, name:"resourceId", pattern: "[\\w+-.@]+")
@@ -238,11 +247,18 @@ extension WorkDocs {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ShareResults", required: false, type: .list)
         ]
+
         /// The share results.
         public let shareResults: [ShareResult]?
         
         public init(shareResults: [ShareResult]? = nil) {
             self.shareResults = shareResults
+        }
+
+        public func validate() throws {
+            try shareResults?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -268,6 +284,7 @@ extension WorkDocs {
             AWSShapeMember(label: "ThreadId", required: false, type: .string), 
             AWSShapeMember(label: "Visibility", required: false, type: .enum)
         ]
+
         /// The ID of the comment.
         public let commentId: String
         /// The details of the user who made the comment.
@@ -338,6 +355,7 @@ extension WorkDocs {
             AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "RecipientId", required: false, type: .string)
         ]
+
         /// The ID of the comment.
         public let commentId: String?
         /// The status of the comment.
@@ -400,6 +418,7 @@ extension WorkDocs {
             AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string), 
             AWSShapeMember(label: "Visibility", required: false, type: .enum)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the document.
@@ -463,6 +482,7 @@ extension WorkDocs {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Comment", required: false, type: .structure)
         ]
+
         /// The comment that has been created.
         public let comment: Comment?
         
@@ -486,6 +506,7 @@ extension WorkDocs {
             AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
             AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionid"), required: false, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// Custom metadata in the form of name-value pairs.
@@ -523,7 +544,6 @@ extension WorkDocs {
 
     public struct CreateCustomMetadataResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -535,6 +555,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "ParentFolderId", required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The name of the new folder.
@@ -570,6 +591,7 @@ extension WorkDocs {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Metadata", required: false, type: .structure)
         ]
+
         /// The metadata of the folder.
         public let metadata: FolderMetadata?
         
@@ -592,6 +614,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Labels", required: true, type: .list), 
             AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// List of labels to add to the resource.
@@ -608,6 +631,11 @@ extension WorkDocs {
         public func validate() throws {
             try validate(authenticationToken, name:"authenticationToken", max: 8199)
             try validate(authenticationToken, name:"authenticationToken", min: 1)
+            try labels.forEach {
+                try validate($0, name:"labels[]", max: 32)
+                try validate($0, name:"labels[]", min: 1)
+                try validate($0, name:"labels[]", pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
+            }
             try validate(labels, name:"labels", max: 20)
             try validate(resourceId, name:"resourceId", max: 128)
             try validate(resourceId, name:"resourceId", min: 1)
@@ -623,7 +651,6 @@ extension WorkDocs {
 
     public struct CreateLabelsResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -636,6 +663,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Protocol", required: true, type: .enum), 
             AWSShapeMember(label: "SubscriptionType", required: true, type: .enum)
         ]
+
         /// The endpoint to receive the notifications. If the protocol is HTTPS, the endpoint is a URL that begins with https.
         public let endpoint: String
         /// The ID of the organization.
@@ -672,6 +700,7 @@ extension WorkDocs {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Subscription", required: false, type: .structure)
         ]
+
         /// The subscription.
         public let subscription: Subscription?
         
@@ -700,6 +729,7 @@ extension WorkDocs {
             AWSShapeMember(label: "TimeZoneId", required: false, type: .string), 
             AWSShapeMember(label: "Username", required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The email address of the user.
@@ -772,6 +802,7 @@ extension WorkDocs {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "User", required: false, type: .structure)
         ]
+
         /// The user information.
         public let user: User?
         
@@ -793,6 +824,7 @@ extension WorkDocs {
             AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
             AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the user.
@@ -824,6 +856,7 @@ extension WorkDocs {
             AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
             AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the comment.
@@ -870,6 +903,7 @@ extension WorkDocs {
             AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
             AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// Flag to indicate removal of all custom metadata properties from the specified resource.
@@ -892,6 +926,11 @@ extension WorkDocs {
         public func validate() throws {
             try validate(authenticationToken, name:"authenticationToken", max: 8199)
             try validate(authenticationToken, name:"authenticationToken", min: 1)
+            try keys?.forEach {
+                try validate($0, name:"keys[]", max: 56)
+                try validate($0, name:"keys[]", min: 1)
+                try validate($0, name:"keys[]", pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
+            }
             try validate(keys, name:"keys", max: 8)
             try validate(resourceId, name:"resourceId", max: 128)
             try validate(resourceId, name:"resourceId", min: 1)
@@ -912,7 +951,6 @@ extension WorkDocs {
 
     public struct DeleteCustomMetadataResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -923,6 +961,7 @@ extension WorkDocs {
             AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
             AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the document.
@@ -952,6 +991,7 @@ extension WorkDocs {
             AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
             AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the folder.
@@ -981,6 +1021,7 @@ extension WorkDocs {
             AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
             AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the folder.
@@ -1012,6 +1053,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Labels", location: .querystring(locationName: "labels"), required: false, type: .list), 
             AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// Flag to request removal of all labels from the specified resource.
@@ -1031,6 +1073,11 @@ extension WorkDocs {
         public func validate() throws {
             try validate(authenticationToken, name:"authenticationToken", max: 8199)
             try validate(authenticationToken, name:"authenticationToken", min: 1)
+            try labels?.forEach {
+                try validate($0, name:"labels[]", max: 32)
+                try validate($0, name:"labels[]", min: 1)
+                try validate($0, name:"labels[]", pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
+            }
             try validate(labels, name:"labels", max: 20)
             try validate(resourceId, name:"resourceId", max: 128)
             try validate(resourceId, name:"resourceId", min: 1)
@@ -1047,7 +1094,6 @@ extension WorkDocs {
 
     public struct DeleteLabelsResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -1058,6 +1104,7 @@ extension WorkDocs {
             AWSShapeMember(label: "OrganizationId", location: .uri(locationName: "OrganizationId"), required: true, type: .string), 
             AWSShapeMember(label: "SubscriptionId", location: .uri(locationName: "SubscriptionId"), required: true, type: .string)
         ]
+
         /// The ID of the organization.
         public let organizationId: String
         /// The ID of the subscription.
@@ -1088,6 +1135,7 @@ extension WorkDocs {
             AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
             AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the user.
@@ -1125,6 +1173,7 @@ extension WorkDocs {
             AWSShapeMember(label: "StartTime", location: .querystring(locationName: "startTime"), required: false, type: .timestamp), 
             AWSShapeMember(label: "UserId", location: .querystring(locationName: "userId"), required: false, type: .string)
         ]
+
         /// Specifies which activity types to include in the response. If this field is left empty, all activity types are returned.
         public let activityTypes: String?
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
@@ -1200,6 +1249,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "UserActivities", required: false, type: .list)
         ]
+
         /// The marker for the next set of results.
         public let marker: String?
         /// The list of activities for the specified user and time period.
@@ -1214,6 +1264,9 @@ extension WorkDocs {
             try validate(marker, name:"marker", max: 2048)
             try validate(marker, name:"marker", min: 1)
             try validate(marker, name:"marker", pattern: "[\\u0000-\\u00FF]+")
+            try userActivities?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1230,6 +1283,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
             AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the document.
@@ -1279,6 +1333,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Comments", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// The list of comments for the specified document version.
         public let comments: [Comment]?
         /// The marker for the next set of results. This marker was received from a previous call.
@@ -1290,6 +1345,9 @@ extension WorkDocs {
         }
 
         public func validate() throws {
+            try comments?.forEach {
+                try $0.validate()
+            }
             try validate(marker, name:"marker", max: 2048)
             try validate(marker, name:"marker", min: 1)
             try validate(marker, name:"marker", pattern: "[\\u0000-\\u00FF]+")
@@ -1310,6 +1368,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the document.
@@ -1365,6 +1424,7 @@ extension WorkDocs {
             AWSShapeMember(label: "DocumentVersions", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// The document versions.
         public let documentVersions: [DocumentVersionMetadata]?
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
@@ -1376,6 +1436,9 @@ extension WorkDocs {
         }
 
         public func validate() throws {
+            try documentVersions?.forEach {
+                try $0.validate()
+            }
             try validate(marker, name:"marker", max: 2048)
             try validate(marker, name:"marker", min: 1)
         }
@@ -1397,6 +1460,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Sort", location: .querystring(locationName: "sort"), required: false, type: .enum), 
             AWSShapeMember(label: "Type", location: .querystring(locationName: "type"), required: false, type: .enum)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the folder.
@@ -1458,6 +1522,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Folders", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// The documents in the specified folder.
         public let documents: [DocumentMetadata]?
         /// The subfolders in the specified folder.
@@ -1472,6 +1537,12 @@ extension WorkDocs {
         }
 
         public func validate() throws {
+            try documents?.forEach {
+                try $0.validate()
+            }
+            try folders?.forEach {
+                try $0.validate()
+            }
             try validate(marker, name:"marker", max: 2048)
             try validate(marker, name:"marker", min: 1)
         }
@@ -1491,6 +1562,7 @@ extension WorkDocs {
             AWSShapeMember(label: "OrganizationId", location: .querystring(locationName: "organizationId"), required: false, type: .string), 
             AWSShapeMember(label: "SearchQuery", location: .querystring(locationName: "searchQuery"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The maximum number of items to return with this call.
@@ -1539,6 +1611,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Groups", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// The list of groups.
         public let groups: [GroupMetadata]?
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
@@ -1550,6 +1623,9 @@ extension WorkDocs {
         }
 
         public func validate() throws {
+            try groups?.forEach {
+                try $0.validate()
+            }
             try validate(marker, name:"marker", max: 2048)
             try validate(marker, name:"marker", min: 1)
             try validate(marker, name:"marker", pattern: "[\\u0000-\\u00FF]+")
@@ -1567,6 +1643,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
             AWSShapeMember(label: "OrganizationId", location: .uri(locationName: "OrganizationId"), required: true, type: .string)
         ]
+
         /// The maximum number of items to return with this call.
         public let limit: Int32?
         /// The marker for the next set of results. (You received this marker from a previous call.)
@@ -1602,6 +1679,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "Subscriptions", required: false, type: .list)
         ]
+
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let marker: String?
         /// The subscriptions.
@@ -1615,6 +1693,9 @@ extension WorkDocs {
         public func validate() throws {
             try validate(marker, name:"marker", max: 2048)
             try validate(marker, name:"marker", min: 1)
+            try subscriptions?.forEach {
+                try $0.validate()
+            }
             try validate(subscriptions, name:"subscriptions", max: 256)
         }
 
@@ -1632,6 +1713,7 @@ extension WorkDocs {
             AWSShapeMember(label: "PrincipalId", location: .querystring(locationName: "principalId"), required: false, type: .string), 
             AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The maximum number of items to return with this call.
@@ -1680,6 +1762,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "Principals", required: false, type: .list)
         ]
+
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let marker: String?
         /// The principals.
@@ -1693,6 +1776,9 @@ extension WorkDocs {
         public func validate() throws {
             try validate(marker, name:"marker", max: 2048)
             try validate(marker, name:"marker", min: 1)
+            try principals?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1707,6 +1793,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String
         /// The maximum number of items to return.
@@ -1741,6 +1828,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Folders", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// The user's special folders.
         public let folders: [FolderMetadata]?
         /// The marker for the next set of results.
@@ -1752,6 +1840,9 @@ extension WorkDocs {
         }
 
         public func validate() throws {
+            try folders?.forEach {
+                try $0.validate()
+            }
             try validate(marker, name:"marker", max: 2048)
             try validate(marker, name:"marker", min: 1)
         }
@@ -1775,6 +1866,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Sort", location: .querystring(locationName: "sort"), required: false, type: .enum), 
             AWSShapeMember(label: "UserIds", location: .querystring(locationName: "userIds"), required: false, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// A comma-separated list of values. Specify "STORAGE_METADATA" to include the user storage quota and utilization information.
@@ -1849,6 +1941,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "Users", required: false, type: .list)
         ]
+
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let marker: String?
         /// The users.
@@ -1862,6 +1955,9 @@ extension WorkDocs {
         public func validate() throws {
             try validate(marker, name:"marker", max: 2048)
             try validate(marker, name:"marker", min: 1)
+            try users?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1881,6 +1977,7 @@ extension WorkDocs {
             AWSShapeMember(label: "ParentFolderId", required: false, type: .string), 
             AWSShapeMember(label: "ResourceState", required: false, type: .enum)
         ]
+
         /// The time when the document was created.
         public let createdTimestamp: TimeStamp?
         /// The ID of the creator.
@@ -1916,6 +2013,11 @@ extension WorkDocs {
             try validate(id, name:"id", max: 128)
             try validate(id, name:"id", min: 1)
             try validate(id, name:"id", pattern: "[\\w+-.@]+")
+            try labels?.forEach {
+                try validate($0, name:"labels[]", max: 32)
+                try validate($0, name:"labels[]", min: 1)
+                try validate($0, name:"labels[]", pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
+            }
             try validate(labels, name:"labels", max: 20)
             try latestVersionMetadata?.validate()
             try validate(parentFolderId, name:"parentFolderId", max: 128)
@@ -1970,6 +2072,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "Thumbnail", required: false, type: .map)
         ]
+
         /// The timestamp when the content of the document was originally created.
         public let contentCreatedTimestamp: TimeStamp?
         /// The timestamp when the content of the document was modified.
@@ -2073,6 +2176,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Signature", required: false, type: .string), 
             AWSShapeMember(label: "Size", required: false, type: .long)
         ]
+
         /// The time when the folder was created.
         public let createdTimestamp: TimeStamp?
         /// The ID of the creator.
@@ -2117,6 +2221,11 @@ extension WorkDocs {
             try validate(id, name:"id", max: 128)
             try validate(id, name:"id", min: 1)
             try validate(id, name:"id", pattern: "[\\w+-.@]+")
+            try labels?.forEach {
+                try validate($0, name:"labels[]", max: 32)
+                try validate($0, name:"labels[]", min: 1)
+                try validate($0, name:"labels[]", pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
+            }
             try validate(labels, name:"labels", max: 20)
             try validate(name, name:"name", max: 255)
             try validate(name, name:"name", min: 1)
@@ -2148,6 +2257,7 @@ extension WorkDocs {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String
         
@@ -2169,6 +2279,7 @@ extension WorkDocs {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "User", required: false, type: .structure)
         ]
+
         /// Metadata of the user.
         public let user: User?
         
@@ -2193,6 +2304,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the document.
@@ -2240,11 +2352,16 @@ extension WorkDocs {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Path", required: false, type: .structure)
         ]
+
         /// The path information.
         public let path: ResourcePath?
         
         public init(path: ResourcePath? = nil) {
             self.path = path
+        }
+
+        public func validate() throws {
+            try path?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2258,6 +2375,7 @@ extension WorkDocs {
             AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
             AWSShapeMember(label: "IncludeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata"), required: false, type: .boolean)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the document.
@@ -2291,6 +2409,7 @@ extension WorkDocs {
             AWSShapeMember(label: "CustomMetadata", required: false, type: .map), 
             AWSShapeMember(label: "Metadata", required: false, type: .structure)
         ]
+
         /// The custom metadata on the document.
         public let customMetadata: [String: String]?
         /// The metadata details of the document.
@@ -2319,6 +2438,7 @@ extension WorkDocs {
             AWSShapeMember(label: "IncludeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata"), required: false, type: .boolean), 
             AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the document.
@@ -2366,6 +2486,7 @@ extension WorkDocs {
             AWSShapeMember(label: "CustomMetadata", required: false, type: .map), 
             AWSShapeMember(label: "Metadata", required: false, type: .structure)
         ]
+
         /// The custom metadata on the document version.
         public let customMetadata: [String: String]?
         /// The version metadata.
@@ -2394,6 +2515,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// A comma-separated list of values. Specify "NAME" to include the names of the parent folders.
@@ -2441,11 +2563,16 @@ extension WorkDocs {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Path", required: false, type: .structure)
         ]
+
         /// The path information.
         public let path: ResourcePath?
         
         public init(path: ResourcePath? = nil) {
             self.path = path
+        }
+
+        public func validate() throws {
+            try path?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2459,6 +2586,7 @@ extension WorkDocs {
             AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string), 
             AWSShapeMember(label: "IncludeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata"), required: false, type: .boolean)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the folder.
@@ -2492,6 +2620,7 @@ extension WorkDocs {
             AWSShapeMember(label: "CustomMetadata", required: false, type: .map), 
             AWSShapeMember(label: "Metadata", required: false, type: .structure)
         ]
+
         /// The custom metadata on the folder.
         public let customMetadata: [String: String]?
         /// The metadata of the folder.
@@ -2520,6 +2649,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
             AWSShapeMember(label: "UserId", location: .querystring(locationName: "userId"), required: false, type: .string)
         ]
+
         /// The Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API operation using AWS credentials.
         public let authenticationToken: String?
         /// The collection type.
@@ -2566,6 +2696,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Folders", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
+
         /// The documents in the specified collection.
         public let documents: [DocumentMetadata]?
         /// The folders in the specified folder.
@@ -2580,6 +2711,12 @@ extension WorkDocs {
         }
 
         public func validate() throws {
+            try documents?.forEach {
+                try $0.validate()
+            }
+            try folders?.forEach {
+                try $0.validate()
+            }
             try validate(marker, name:"marker", max: 2048)
             try validate(marker, name:"marker", min: 1)
         }
@@ -2596,6 +2733,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         /// The ID of the user group.
         public let id: String?
         /// The name of the group.
@@ -2629,6 +2767,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "ParentFolderId", required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The timestamp when the content of the document was originally created.
@@ -2690,6 +2829,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Metadata", required: false, type: .structure), 
             AWSShapeMember(label: "UploadMetadata", required: false, type: .structure)
         ]
+
         /// The document metadata.
         public let metadata: DocumentMetadata?
         /// The upload metadata.
@@ -2731,6 +2871,7 @@ extension WorkDocs {
             AWSShapeMember(label: "EmailMessage", required: false, type: .string), 
             AWSShapeMember(label: "SendEmail", required: false, type: .boolean)
         ]
+
         /// Text value to be included in the email body.
         public let emailMessage: String?
         /// Boolean value to indicate an email notification should be sent to the receipients.
@@ -2763,6 +2904,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Groups", required: false, type: .list), 
             AWSShapeMember(label: "Users", required: false, type: .list)
         ]
+
         /// The list of user groups.
         public let groups: [GroupMetadata]?
         /// The list of users.
@@ -2771,6 +2913,15 @@ extension WorkDocs {
         public init(groups: [GroupMetadata]? = nil, users: [UserMetadata]? = nil) {
             self.groups = groups
             self.users = users
+        }
+
+        public func validate() throws {
+            try groups?.forEach {
+                try $0.validate()
+            }
+            try users?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2784,6 +2935,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Role", required: false, type: .enum), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
+
         /// The role of the user.
         public let role: RoleType?
         /// The type of permissions.
@@ -2806,6 +2958,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Roles", required: false, type: .list), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
+
         /// The ID of the resource.
         public let id: String?
         /// The permission information for the resource.
@@ -2846,6 +2999,7 @@ extension WorkDocs {
             AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
             AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the resource.
@@ -2877,6 +3031,7 @@ extension WorkDocs {
             AWSShapeMember(label: "PrincipalType", location: .querystring(locationName: "type"), required: false, type: .enum), 
             AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The principal ID of the resource.
@@ -2927,6 +3082,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Type", required: false, type: .enum), 
             AWSShapeMember(label: "VersionId", required: false, type: .string)
         ]
+
         /// The ID of the resource.
         public let id: String?
         /// The name of the resource.
@@ -2986,11 +3142,18 @@ extension WorkDocs {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Components", required: false, type: .list)
         ]
+
         /// The components of the resource path.
         public let components: [ResourcePathComponent]?
         
         public init(components: [ResourcePathComponent]? = nil) {
             self.components = components
+        }
+
+        public func validate() throws {
+            try components?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3003,6 +3166,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         /// The ID of the resource path.
         public let id: String?
         /// The name of the resource path.
@@ -3068,6 +3232,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Role", required: true, type: .enum), 
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
+
         /// The ID of the recipient.
         public let id: String
         /// The role of the recipient.
@@ -3103,6 +3268,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "StatusMessage", required: false, type: .string)
         ]
+
         /// The ID of the invited user.
         public let inviteePrincipalId: String?
         /// The ID of the principal.
@@ -3160,6 +3326,7 @@ extension WorkDocs {
             AWSShapeMember(label: "StorageAllocatedInBytes", required: false, type: .long), 
             AWSShapeMember(label: "StorageType", required: false, type: .enum)
         ]
+
         /// The amount of storage allocated, in bytes.
         public let storageAllocatedInBytes: Int64?
         /// The type of storage.
@@ -3192,6 +3359,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Protocol", required: false, type: .enum), 
             AWSShapeMember(label: "SubscriptionId", required: false, type: .string)
         ]
+
         /// The endpoint of the subscription.
         public let endPoint: String?
         /// The protocol of the subscription.
@@ -3238,6 +3406,7 @@ extension WorkDocs {
             AWSShapeMember(label: "ParentFolderId", required: false, type: .string), 
             AWSShapeMember(label: "ResourceState", required: false, type: .enum)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the document.
@@ -3287,6 +3456,7 @@ extension WorkDocs {
             AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string), 
             AWSShapeMember(label: "VersionStatus", required: false, type: .enum)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the document.
@@ -3330,6 +3500,7 @@ extension WorkDocs {
             AWSShapeMember(label: "ParentFolderId", required: false, type: .string), 
             AWSShapeMember(label: "ResourceState", required: false, type: .enum)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the folder.
@@ -3384,6 +3555,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Type", required: false, type: .enum), 
             AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
         ]
+
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The given name of the user.
@@ -3447,6 +3619,7 @@ extension WorkDocs {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "User", required: false, type: .structure)
         ]
+
         /// The user information.
         public let user: User?
         
@@ -3468,6 +3641,7 @@ extension WorkDocs {
             AWSShapeMember(label: "SignedHeaders", required: false, type: .map), 
             AWSShapeMember(label: "UploadUrl", required: false, type: .string)
         ]
+
         /// The signed headers.
         public let signedHeaders: [String: String]?
         /// The URL of the upload.
@@ -3507,6 +3681,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Type", required: false, type: .enum), 
             AWSShapeMember(label: "Username", required: false, type: .string)
         ]
+
         /// The time when the user was created.
         public let createdTimestamp: TimeStamp?
         /// The email address of the user.
@@ -3617,6 +3792,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Surname", required: false, type: .string), 
             AWSShapeMember(label: "Username", required: false, type: .string)
         ]
+
         /// The email address of the user.
         public let emailAddress: String?
         /// The given name of the user before a rename operation.
@@ -3682,6 +3858,7 @@ extension WorkDocs {
             AWSShapeMember(label: "StorageRule", required: false, type: .structure), 
             AWSShapeMember(label: "StorageUtilizedInBytes", required: false, type: .long)
         ]
+
         /// The storage for a user.
         public let storageRule: StorageRuleType?
         /// The amount of storage used, in bytes.

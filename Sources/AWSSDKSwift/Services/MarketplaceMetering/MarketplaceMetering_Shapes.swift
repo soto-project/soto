@@ -10,6 +10,7 @@ extension MarketplaceMetering {
             AWSShapeMember(label: "ProductCode", required: true, type: .string), 
             AWSShapeMember(label: "UsageRecords", required: true, type: .list)
         ]
+
         /// Product code is used to uniquely identify a product in AWS Marketplace. The product code should be the same as the one used during the publishing of a new product.
         public let productCode: String
         /// The set of UsageRecords to submit. BatchMeterUsage accepts up to 25 UsageRecords at a time.
@@ -23,6 +24,9 @@ extension MarketplaceMetering {
         public func validate() throws {
             try validate(productCode, name:"productCode", max: 255)
             try validate(productCode, name:"productCode", min: 1)
+            try usageRecords.forEach {
+                try $0.validate()
+            }
             try validate(usageRecords, name:"usageRecords", max: 25)
             try validate(usageRecords, name:"usageRecords", min: 0)
         }
@@ -38,6 +42,7 @@ extension MarketplaceMetering {
             AWSShapeMember(label: "Results", required: false, type: .list), 
             AWSShapeMember(label: "UnprocessedRecords", required: false, type: .list)
         ]
+
         /// Contains all UsageRecords processed by BatchMeterUsage. These records were either honored by AWS Marketplace Metering Service or were invalid.
         public let results: [UsageRecordResult]?
         /// Contains all UsageRecords that were not processed by BatchMeterUsage. This is a list of UsageRecords. You can retry the failed request by making another BatchMeterUsage call with this list as input in the BatchMeterUsageRequest.
@@ -49,6 +54,12 @@ extension MarketplaceMetering {
         }
 
         public func validate() throws {
+            try results?.forEach {
+                try $0.validate()
+            }
+            try unprocessedRecords?.forEach {
+                try $0.validate()
+            }
             try validate(unprocessedRecords, name:"unprocessedRecords", max: 25)
             try validate(unprocessedRecords, name:"unprocessedRecords", min: 0)
         }
@@ -67,6 +78,7 @@ extension MarketplaceMetering {
             AWSShapeMember(label: "UsageDimension", required: true, type: .string), 
             AWSShapeMember(label: "UsageQuantity", required: false, type: .integer)
         ]
+
         /// Checks whether you have the permissions required for the action, but does not make the request. If you have the permissions, the request returns DryRunOperation; otherwise, it returns UnauthorizedException. Defaults to false if not specified.
         public let dryRun: Bool?
         /// Product code is used to uniquely identify a product in AWS Marketplace. The product code should be the same as the one used during the publishing of a new product.
@@ -108,6 +120,7 @@ extension MarketplaceMetering {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MeteringRecordId", required: false, type: .string)
         ]
+
         /// Metering record id.
         public let meteringRecordId: String?
         
@@ -126,6 +139,7 @@ extension MarketplaceMetering {
             AWSShapeMember(label: "ProductCode", required: true, type: .string), 
             AWSShapeMember(label: "PublicKeyVersion", required: true, type: .integer)
         ]
+
         /// (Optional) To scope down the registration to a specific running software instance and guard against replay attacks.
         public let nonce: String?
         /// Product code is used to uniquely identify a product in AWS Marketplace. The product code should be the same as the one used during the publishing of a new product.
@@ -158,6 +172,7 @@ extension MarketplaceMetering {
             AWSShapeMember(label: "PublicKeyRotationTimestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "Signature", required: false, type: .string)
         ]
+
         /// (Optional) Only included when public key version has expired
         public let publicKeyRotationTimestamp: TimeStamp?
         /// JWT Token
@@ -182,6 +197,7 @@ extension MarketplaceMetering {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RegistrationToken", required: true, type: .string)
         ]
+
         /// When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The registration token is resolved to obtain a CustomerIdentifier and product code.
         public let registrationToken: String
         
@@ -203,6 +219,7 @@ extension MarketplaceMetering {
             AWSShapeMember(label: "CustomerIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "ProductCode", required: false, type: .string)
         ]
+
         /// The CustomerIdentifier is used to identify an individual customer in your application. Calls to BatchMeterUsage require CustomerIdentifiers for each UsageRecord.
         public let customerIdentifier: String?
         /// The product code is returned to confirm that the buyer is registering for your product. Subsequent BatchMeterUsage calls should be made using this product code.
@@ -233,6 +250,7 @@ extension MarketplaceMetering {
             AWSShapeMember(label: "Quantity", required: false, type: .integer), 
             AWSShapeMember(label: "Timestamp", required: true, type: .timestamp)
         ]
+
         /// The CustomerIdentifier is obtained through the ResolveCustomer operation and represents an individual buyer in your application.
         public let customerIdentifier: String
         /// During the process of registering a product on AWS Marketplace, up to eight dimensions are specified. These represent different units of value in your application.
@@ -272,6 +290,7 @@ extension MarketplaceMetering {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "UsageRecord", required: false, type: .structure)
         ]
+
         /// The MeteringRecordId is a unique identifier for this metering event.
         public let meteringRecordId: String?
         /// The UsageRecordResult Status indicates the status of an individual UsageRecord processed by BatchMeterUsage.    Success- The UsageRecord was accepted and honored by BatchMeterUsage.    CustomerNotSubscribed- The CustomerIdentifier specified is not subscribed to your product. The UsageRecord was not honored. Future UsageRecords for this customer will fail until the customer subscribes to your product.    DuplicateRecord- Indicates that the UsageRecord was invalid and not honored. A previously metered UsageRecord had the same customer, dimension, and time, but a different quantity.  

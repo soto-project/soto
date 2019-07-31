@@ -205,10 +205,20 @@ extension AWSService {
         var duplicate : Bool
     }
     
-    struct ValidationContext {
+    class ValidationContext {
         let name : String
         let shape : Bool
+        let required : Bool
         let reqs : [String : Any]
+        let member : ValidationContext?
+        
+        init(name: String, shape: Bool = false, required: Bool = true, reqs: [String: Any] = [:], member: ValidationContext? = nil) {
+            self.name = name
+            self.shape = shape
+            self.required = required
+            self.reqs = reqs
+            self.member = member
+        }
     }
     
     struct StructureContext {
@@ -341,19 +351,27 @@ extension AWSService {
     }
     
     /// Generate validation context
-    func generateValidationContext(_ member: Member) -> ValidationContext? {
+    func generateValidationContext(name: String, shape: Shape, required: Bool) -> ValidationContext? {
         var requirements : [String: Any] = [:]
-        switch member.shape.type {
+        switch shape.type {
         case .integer(let max, let min),
              .long(let max, let min),
              .float(let max, let min),
              .double(let max, let min):
             requirements["max"] = max
             requirements["min"] = min
-        case .blob(let max, let min),
-             .list(_, let max, let min):
+            
+        case .blob(let max, let min):
             requirements["max"] = max
             requirements["min"] = min
+            
+        case .list(let shape, let max, let min):
+            requirements["max"] = max
+            requirements["min"] = min
+            if let memberValidationContext = generateValidationContext(name: name+"[]", shape: shape, required: true) {
+                return ValidationContext(name: name.toSwiftVariableCase(), required: required, reqs: requirements, member: memberValidationContext)
+            }
+            
         case .string(let max, let min, let pattern):
             requirements["max"] = max
             requirements["min"] = min
@@ -362,15 +380,15 @@ extension AWSService {
             }
         case .structure(let shape):
             for member2 in shape.members {
-                if generateValidationContext(member2) != nil {
-                    return ValidationContext(name:  member.name.toSwiftVariableCase() + (member.required ? "" : "?"), shape: true, reqs: [:])
+                if generateValidationContext(name:member2.name, shape:member2.shape, required: member2.required) != nil {
+                    return ValidationContext(name: name.toSwiftVariableCase(), shape: true, required: required)
                 }
             }
         default:
             break
         }
         if requirements.count > 0 {
-            return ValidationContext(name: member.name.toSwiftVariableCase(), shape: false, reqs: requirements)
+            return ValidationContext(name: name.toSwiftVariableCase(), reqs: requirements)
         }
         return nil
     }
@@ -398,7 +416,7 @@ extension AWSService {
 
             memberContexts.append(memberContext)
             
-            if let validationContext = generateValidationContext(member) {
+            if let validationContext = generateValidationContext(name:member.name, shape: member.shape, required: member.required) {
                 validationContexts.append(validationContext)
             }
         }
@@ -419,6 +437,7 @@ extension AWSService {
 
         var shapeContexts : [[String : Any]] = []
         for shape in shapes {
+            // don't output error shapes
             if errorShapeNames.contains(shape.name) { continue }
 
             switch shape.type {

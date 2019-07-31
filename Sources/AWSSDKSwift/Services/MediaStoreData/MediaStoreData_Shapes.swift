@@ -9,6 +9,7 @@ extension MediaStoreData {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Path", location: .uri(locationName: "Path"), required: true, type: .string)
         ]
+
         /// The path (including the file name) where the object is stored in the container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
         public let path: String
         
@@ -29,7 +30,6 @@ extension MediaStoreData {
 
     public struct DeleteObjectResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -39,6 +39,7 @@ extension MediaStoreData {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Path", location: .uri(locationName: "Path"), required: true, type: .string)
         ]
+
         /// The path (including the file name) where the object is stored in the container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
         public let path: String
         
@@ -65,6 +66,7 @@ extension MediaStoreData {
             AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
             AWSShapeMember(label: "LastModified", location: .header(locationName: "Last-Modified"), required: false, type: .timestamp)
         ]
+
         /// An optional CacheControl header that allows the caller to control the object's cache behavior. Headers can be passed in as specified in the HTTP at https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9. Headers with a custom user-defined value are also accepted.
         public let cacheControl: String?
         /// The length of the object in bytes.
@@ -106,6 +108,7 @@ extension MediaStoreData {
             AWSShapeMember(label: "Path", location: .uri(locationName: "Path"), required: true, type: .string), 
             AWSShapeMember(label: "Range", location: .header(locationName: "Range"), required: false, type: .string)
         ]
+
         /// The path (including the file name) where the object is stored in the container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt; For example, to upload the file mlaw.avi to the folder path premium\canada in the container movies, enter the path premium/canada/mlaw.avi. Do not include the container name in this path. If the path includes any folders that don't exist yet, the service creates them. For example, suppose you have an existing premium/usa subfolder. If you specify premium/canada, the service creates a canada subfolder in the premium folder. You then have two subfolders, usa and canada, in the premium folder.  There is no correlation between the path to the source and the path (folders) in the container in AWS Elemental MediaStore. For more information about folders and how they exist in a container, see the AWS Elemental MediaStore User Guide. The file name is the name that is assigned to the file that you upload. The file can have the same name inside and outside of AWS Elemental MediaStore, or it can have the same name. The file name can include or omit an extension. 
         public let path: String
         /// The range bytes of an object to retrieve. For more information about the Range header, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35. AWS Elemental MediaStore ignores this header for partially uploaded objects that have streaming upload availability.
@@ -142,6 +145,7 @@ extension MediaStoreData {
             AWSShapeMember(label: "LastModified", location: .header(locationName: "Last-Modified"), required: false, type: .timestamp), 
             AWSShapeMember(label: "StatusCode", required: true, type: .integer)
         ]
+
         /// The bytes of the object. 
         public let body: Data?
         /// An optional CacheControl header that allows the caller to control the object's cache behavior. Headers can be passed in as specified in the HTTP spec at https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9. Headers with a custom user-defined value are also accepted.
@@ -200,6 +204,7 @@ extension MediaStoreData {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
+
         /// The length of the item in bytes.
         public let contentLength: Int64?
         /// The content type of the item.
@@ -253,6 +258,7 @@ extension MediaStoreData {
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
             AWSShapeMember(label: "Path", location: .querystring(locationName: "Path"), required: false, type: .string)
         ]
+
         /// The maximum number of results to return per API request. For example, you submit a ListItems request with MaxResults set at 500. Although 2,000 items match your request, the service returns no more than the first 500 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 1,000 results per page.
         public let maxResults: Int32?
         /// The token that identifies which batch of results that you want to see. For example, you submit a ListItems request with MaxResults set at 500. The service returns the first batch of results (up to 500) and a NextToken value. To see the next batch of results, you can submit the ListItems request a second time and specify the NextToken value. Tokens expire after 15 minutes.
@@ -286,6 +292,7 @@ extension MediaStoreData {
             AWSShapeMember(label: "Items", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The metadata entries for the folders and objects at the requested path.
         public let items: [Item]?
         /// The token that can be used in a request to view the next set of results. For example, you submit a ListItems request that matches 2,000 items with MaxResults set at 500. The service returns the first batch of results (up to 500) and a NextToken value that can be used to fetch the next batch of results.
@@ -294,6 +301,12 @@ extension MediaStoreData {
         public init(items: [Item]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try items?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -313,6 +326,7 @@ extension MediaStoreData {
             AWSShapeMember(label: "StorageClass", location: .header(locationName: "x-amz-storage-class"), required: false, type: .enum), 
             AWSShapeMember(label: "UploadAvailability", location: .header(locationName: "x-amz-upload-availability"), required: false, type: .enum)
         ]
+
         /// The bytes to be stored. 
         public let body: Data
         /// An optional CacheControl header that allows the caller to control the object's cache behavior. Headers can be passed in as specified in the HTTP at https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9. Headers with a custom user-defined value are also accepted.
@@ -358,6 +372,7 @@ extension MediaStoreData {
             AWSShapeMember(label: "ETag", required: false, type: .string), 
             AWSShapeMember(label: "StorageClass", required: false, type: .enum)
         ]
+
         /// The SHA256 digest of the object that is persisted.
         public let contentSHA256: String?
         /// Unique identifier of the object in the container.

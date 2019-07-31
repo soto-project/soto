@@ -18,6 +18,7 @@ extension Budgets {
             AWSShapeMember(label: "TimePeriod", required: false, type: .structure), 
             AWSShapeMember(label: "TimeUnit", required: true, type: .enum)
         ]
+
         /// The total amount of cost, usage, RI utilization, or RI coverage that you want to track with your budget.  BudgetLimit is required for cost or usage budgets, but optional for RI utilization or coverage budgets. RI utilization or coverage budgets default to 100, which is the only valid value for RI utilization or coverage budgets. You can't use BudgetLimit with PlannedBudgetLimits for CreateBudget and UpdateBudget actions. 
         public let budgetLimit: Spend?
         /// The name of a budget. The name must be unique within an account. The : and \ characters aren't allowed in BudgetName.
@@ -83,6 +84,7 @@ extension Budgets {
             AWSShapeMember(label: "CostTypes", required: false, type: .structure), 
             AWSShapeMember(label: "TimeUnit", required: false, type: .enum)
         ]
+
         /// A list of amounts of cost or usage that you created budgets for, compared to your actual costs or usage.
         public let budgetedAndActualAmountsList: [BudgetedAndActualAmounts]?
         public let budgetName: String?
@@ -103,6 +105,9 @@ extension Budgets {
         }
 
         public func validate() throws {
+            try budgetedAndActualAmountsList?.forEach {
+                try $0.validate()
+            }
             try validate(budgetName, name:"budgetName", max: 100)
             try validate(budgetName, name:"budgetName", min: 1)
             try validate(budgetName, name:"budgetName", pattern: "[^:\\\\]+")
@@ -132,6 +137,7 @@ extension Budgets {
             AWSShapeMember(label: "BudgetedAmount", required: false, type: .structure), 
             AWSShapeMember(label: "TimePeriod", required: false, type: .structure)
         ]
+
         /// Your actual costs or usage for a budget period.
         public let actualAmount: Spend?
         /// The amount of cost or usage that you created the budget for.
@@ -162,6 +168,7 @@ extension Budgets {
             AWSShapeMember(label: "ActualSpend", required: true, type: .structure), 
             AWSShapeMember(label: "ForecastedSpend", required: false, type: .structure)
         ]
+
         /// The amount of cost, usage, or RI units that you have used.
         public let actualSpend: Spend
         /// The amount of cost, usage, or RI units that you are forecasted to use.
@@ -204,6 +211,7 @@ extension Budgets {
             AWSShapeMember(label: "UseAmortized", required: false, type: .boolean), 
             AWSShapeMember(label: "UseBlended", required: false, type: .boolean)
         ]
+
         /// Specifies whether a budget includes credits. The default value is true.
         public let includeCredit: Bool?
         /// Specifies whether a budget includes discounts. The default value is true.
@@ -262,6 +270,7 @@ extension Budgets {
             AWSShapeMember(label: "Budget", required: true, type: .structure), 
             AWSShapeMember(label: "NotificationsWithSubscribers", required: false, type: .list)
         ]
+
         /// The accountId that is associated with the budget.
         public let accountId: String
         /// The budget object that you want to create.
@@ -280,6 +289,9 @@ extension Budgets {
             try validate(accountId, name:"accountId", min: 12)
             try validate(accountId, name:"accountId", pattern: "\\d{12}")
             try budget.validate()
+            try notificationsWithSubscribers?.forEach {
+                try $0.validate()
+            }
             try validate(notificationsWithSubscribers, name:"notificationsWithSubscribers", max: 5)
         }
 
@@ -291,7 +303,6 @@ extension Budgets {
     }
 
     public struct CreateBudgetResponse: AWSShape {
-        
         
         public init() {
         }
@@ -305,6 +316,7 @@ extension Budgets {
             AWSShapeMember(label: "Notification", required: true, type: .structure), 
             AWSShapeMember(label: "Subscribers", required: true, type: .list)
         ]
+
         /// The accountId that is associated with the budget that you want to create a notification for.
         public let accountId: String
         /// The name of the budget that you want AWS to notify you about. Budget names must be unique within an account.
@@ -329,6 +341,9 @@ extension Budgets {
             try validate(budgetName, name:"budgetName", min: 1)
             try validate(budgetName, name:"budgetName", pattern: "[^:\\\\]+")
             try notification.validate()
+            try subscribers.forEach {
+                try $0.validate()
+            }
             try validate(subscribers, name:"subscribers", max: 11)
             try validate(subscribers, name:"subscribers", min: 1)
         }
@@ -343,7 +358,6 @@ extension Budgets {
 
     public struct CreateNotificationResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -356,6 +370,7 @@ extension Budgets {
             AWSShapeMember(label: "Notification", required: true, type: .structure), 
             AWSShapeMember(label: "Subscriber", required: true, type: .structure)
         ]
+
         /// The accountId that is associated with the budget that you want to create a subscriber for.
         public let accountId: String
         /// The name of the budget that you want to subscribe to. Budget names must be unique within an account.
@@ -393,7 +408,6 @@ extension Budgets {
 
     public struct CreateSubscriberResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -404,6 +418,7 @@ extension Budgets {
             AWSShapeMember(label: "AccountId", required: true, type: .string), 
             AWSShapeMember(label: "BudgetName", required: true, type: .string)
         ]
+
         /// The accountId that is associated with the budget that you want to delete.
         public let accountId: String
         /// The name of the budget that you want to delete.
@@ -431,7 +446,6 @@ extension Budgets {
 
     public struct DeleteBudgetResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -443,6 +457,7 @@ extension Budgets {
             AWSShapeMember(label: "BudgetName", required: true, type: .string), 
             AWSShapeMember(label: "Notification", required: true, type: .structure)
         ]
+
         /// The accountId that is associated with the budget whose notification you want to delete.
         public let accountId: String
         /// The name of the budget whose notification you want to delete.
@@ -475,7 +490,6 @@ extension Budgets {
 
     public struct DeleteNotificationResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -488,6 +502,7 @@ extension Budgets {
             AWSShapeMember(label: "Notification", required: true, type: .structure), 
             AWSShapeMember(label: "Subscriber", required: true, type: .structure)
         ]
+
         /// The accountId that is associated with the budget whose subscriber you want to delete.
         public let accountId: String
         /// The name of the budget whose subscriber you want to delete.
@@ -525,7 +540,6 @@ extension Budgets {
 
     public struct DeleteSubscriberResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -539,6 +553,7 @@ extension Budgets {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "TimePeriod", required: false, type: .structure)
         ]
+
         public let accountId: String
         public let budgetName: String
         public let maxResults: Int32?
@@ -582,6 +597,7 @@ extension Budgets {
             AWSShapeMember(label: "BudgetPerformanceHistory", required: false, type: .structure), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The history of how often the budget has gone into an ALARM state. For DAILY budgets, the history saves the state of the budget for the last 60 days. For MONTHLY budgets, the history saves the state of the budget for the current month plus the last 12 months. For QUARTERLY budgets, the history saves the state of the budget for the last four quarters.
         public let budgetPerformanceHistory: BudgetPerformanceHistory?
         public let nextToken: String?
@@ -609,6 +625,7 @@ extension Budgets {
             AWSShapeMember(label: "AccountId", required: true, type: .string), 
             AWSShapeMember(label: "BudgetName", required: true, type: .string)
         ]
+
         /// The accountId that is associated with the budget that you want a description of.
         public let accountId: String
         /// The name of the budget that you want a description of.
@@ -638,6 +655,7 @@ extension Budgets {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Budget", required: false, type: .structure)
         ]
+
         /// The description of the budget.
         public let budget: Budget?
         
@@ -660,6 +678,7 @@ extension Budgets {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The accountId that is associated with the budgets that you want descriptions of.
         public let accountId: String
         /// An optional integer that represents how many entries a paginated response contains. The maximum is 100.
@@ -696,6 +715,7 @@ extension Budgets {
             AWSShapeMember(label: "Budgets", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// A list of budgets.
         public let budgets: [Budget]?
         /// The pagination token in the service response that indicates the next set of results that you can retrieve.
@@ -707,6 +727,9 @@ extension Budgets {
         }
 
         public func validate() throws {
+            try budgets?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 2147483647)
             try validate(nextToken, name:"nextToken", min: 0)
             try validate(nextToken, name:"nextToken", pattern: ".*")
@@ -725,6 +748,7 @@ extension Budgets {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The accountId that is associated with the budget whose notifications you want descriptions of.
         public let accountId: String
         /// The name of the budget whose notifications you want descriptions of.
@@ -768,6 +792,7 @@ extension Budgets {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Notifications", required: false, type: .list)
         ]
+
         /// The pagination token in the service response that indicates the next set of results that you can retrieve.
         public let nextToken: String?
         /// A list of notifications that are associated with a budget.
@@ -782,6 +807,9 @@ extension Budgets {
             try validate(nextToken, name:"nextToken", max: 2147483647)
             try validate(nextToken, name:"nextToken", min: 0)
             try validate(nextToken, name:"nextToken", pattern: ".*")
+            try notifications?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -798,6 +826,7 @@ extension Budgets {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Notification", required: true, type: .structure)
         ]
+
         /// The accountId that is associated with the budget whose subscribers you want descriptions of.
         public let accountId: String
         /// The name of the budget whose subscribers you want descriptions of.
@@ -846,6 +875,7 @@ extension Budgets {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Subscribers", required: false, type: .list)
         ]
+
         /// The pagination token in the service response that indicates the next set of results that you can retrieve.
         public let nextToken: String?
         /// A list of subscribers that are associated with a notification.
@@ -860,6 +890,9 @@ extension Budgets {
             try validate(nextToken, name:"nextToken", max: 2147483647)
             try validate(nextToken, name:"nextToken", min: 0)
             try validate(nextToken, name:"nextToken", pattern: ".*")
+            try subscribers?.forEach {
+                try $0.validate()
+            }
             try validate(subscribers, name:"subscribers", max: 11)
             try validate(subscribers, name:"subscribers", min: 1)
         }
@@ -878,6 +911,7 @@ extension Budgets {
             AWSShapeMember(label: "Threshold", required: true, type: .double), 
             AWSShapeMember(label: "ThresholdType", required: false, type: .enum)
         ]
+
         /// The comparison that is used for this notification.
         public let comparisonOperator: ComparisonOperator
         /// Whether this notification is in alarm. If a budget notification is in the ALARM state, you have passed the set threshold for the budget.
@@ -928,6 +962,7 @@ extension Budgets {
             AWSShapeMember(label: "Notification", required: true, type: .structure), 
             AWSShapeMember(label: "Subscribers", required: true, type: .list)
         ]
+
         /// The notification that is associated with a budget.
         public let notification: Notification
         /// A list of subscribers who are subscribed to this notification.
@@ -940,6 +975,9 @@ extension Budgets {
 
         public func validate() throws {
             try notification.validate()
+            try subscribers.forEach {
+                try $0.validate()
+            }
             try validate(subscribers, name:"subscribers", max: 11)
             try validate(subscribers, name:"subscribers", min: 1)
         }
@@ -955,6 +993,7 @@ extension Budgets {
             AWSShapeMember(label: "Amount", required: true, type: .string), 
             AWSShapeMember(label: "Unit", required: true, type: .string)
         ]
+
         /// The cost or usage amount that is associated with a budget forecast, actual spend, or budget threshold.
         public let amount: String
         /// The unit of measurement that is used for the budget forecast, actual spend, or budget threshold, such as dollars or GB.
@@ -985,6 +1024,7 @@ extension Budgets {
             AWSShapeMember(label: "Address", required: true, type: .string), 
             AWSShapeMember(label: "SubscriptionType", required: true, type: .enum)
         ]
+
         /// The address that AWS sends budget notifications to, either an SNS topic or an email. AWS validates the address for a CreateSubscriber request with the .* regex.
         public let address: String
         /// The type of notification that AWS sends to a subscriber.
@@ -1024,6 +1064,7 @@ extension Budgets {
             AWSShapeMember(label: "End", required: false, type: .timestamp), 
             AWSShapeMember(label: "Start", required: false, type: .timestamp)
         ]
+
         /// The end date for a budget. If you didn't specify an end date, AWS set your end date to 06/15/87 00:00 UTC. The defaults are the same for the AWS Billing and Cost Management console and the API. After the end date, AWS deletes the budget and all associated notifications and subscribers. You can change your end date with the UpdateBudget operation.
         public let end: TimeStamp?
         /// The start date for a budget. If you created your budget and didn't specify a start date, AWS defaults to the start of your chosen time period (DAILY, MONTHLY, QUARTERLY, or ANNUALLY). For example, if you created your budget on January 24, 2018, chose DAILY, and didn't set a start date, AWS set your start date to 01/24/18 00:00 UTC. If you chose MONTHLY, AWS set your start date to 01/01/18 00:00 UTC. The defaults are the same for the AWS Billing and Cost Management console and the API. You can change your start date with the UpdateBudget operation.
@@ -1053,6 +1094,7 @@ extension Budgets {
             AWSShapeMember(label: "AccountId", required: true, type: .string), 
             AWSShapeMember(label: "NewBudget", required: true, type: .structure)
         ]
+
         /// The accountId that is associated with the budget that you want to update.
         public let accountId: String
         /// The budget that you want to update your budget to.
@@ -1078,7 +1120,6 @@ extension Budgets {
 
     public struct UpdateBudgetResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -1091,6 +1132,7 @@ extension Budgets {
             AWSShapeMember(label: "NewNotification", required: true, type: .structure), 
             AWSShapeMember(label: "OldNotification", required: true, type: .structure)
         ]
+
         /// The accountId that is associated with the budget whose notification you want to update.
         public let accountId: String
         /// The name of the budget whose notification you want to update.
@@ -1128,7 +1170,6 @@ extension Budgets {
 
     public struct UpdateNotificationResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -1142,6 +1183,7 @@ extension Budgets {
             AWSShapeMember(label: "Notification", required: true, type: .structure), 
             AWSShapeMember(label: "OldSubscriber", required: true, type: .structure)
         ]
+
         /// The accountId that is associated with the budget whose subscriber you want to update.
         public let accountId: String
         /// The name of the budget whose subscriber you want to update.
@@ -1183,7 +1225,6 @@ extension Budgets {
     }
 
     public struct UpdateSubscriberResponse: AWSShape {
-        
         
         public init() {
         }

@@ -17,6 +17,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
             AWSShapeMember(label: "Subnets", required: true, type: .list)
         ]
+
         /// Specifies whether the task's elastic network interface receives a public IP address. You can specify ENABLED only when LaunchType in EcsParameters is set to FARGATE.
         public let assignPublicIp: AssignPublicIp?
         /// Specifies the security groups associated with the task. These security groups must all be in the same VPC. You can specify as many as five security groups. If you do not specify a security group, the default security group for the VPC is used.
@@ -41,6 +42,7 @@ extension CloudWatchEvents {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Size", required: false, type: .integer)
         ]
+
         /// The size of the array, if this is an array batch job. Valid values are integers between 2 and 10,000.
         public let size: Int32?
         
@@ -60,6 +62,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "JobName", required: true, type: .string), 
             AWSShapeMember(label: "RetryStrategy", required: false, type: .structure)
         ]
+
         /// The array properties for the submitted job, such as the size of the array. The array size can be between 2 and 10,000. If you specify array properties for a job, it becomes an array job. This parameter is used only if the target is an AWS Batch job.
         public let arrayProperties: BatchArrayProperties?
         /// The ARN or name of the job definition to use if the event target is an AWS Batch job. This job definition must already exist.
@@ -88,6 +91,7 @@ extension CloudWatchEvents {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Attempts", required: false, type: .integer)
         ]
+
         /// The number of times to attempt to retry, if the job fails. Valid values are 1–10.
         public let attempts: Int32?
         
@@ -106,6 +110,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "Type", required: true, type: .string), 
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
+
         /// Specifies the key for the condition. Currently the only supported key is aws:PrincipalOrgID.
         public let key: String
         /// Specifies the type of condition. Currently the only supported value is StringEquals.
@@ -131,6 +136,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "Force", required: false, type: .boolean), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// If this is a managed rule, created by an AWS service on your behalf, you must specify Force as True to delete the rule. This parameter is ignored for rules that are not managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
         public let force: Bool?
         /// The name of the rule.
@@ -155,7 +161,6 @@ extension CloudWatchEvents {
 
     public struct DescribeEventBusRequest: AWSShape {
         
-        
         public init() {
         }
 
@@ -167,6 +172,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Policy", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the account permitted to write events to the current account.
         public let arn: String?
         /// The name of the event bus. Currently, this is always default.
@@ -191,6 +197,7 @@ extension CloudWatchEvents {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// The name of the rule.
         public let name: String
         
@@ -220,6 +227,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "ScheduleExpression", required: false, type: .string), 
             AWSShapeMember(label: "State", required: false, type: .enum)
         ]
+
         /// The Amazon Resource Name (ARN) of the rule.
         public let arn: String?
         /// The description of the rule.
@@ -278,6 +286,7 @@ extension CloudWatchEvents {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// The name of the rule.
         public let name: String
         
@@ -305,6 +314,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "TaskCount", required: false, type: .integer), 
             AWSShapeMember(label: "TaskDefinitionArn", required: true, type: .string)
         ]
+
         /// Specifies an ECS task group for the task. The maximum length is 255 characters.
         public let group: String?
         /// Specifies the launch type on which your task is running. The launch type that you specify here must match one of the launch type (compatibilities) of the target task. The FARGATE value is supported only in the Regions where AWS Fargate with Amazon ECS is supported. For more information, see AWS Fargate on Amazon ECS in the Amazon Elastic Container Service Developer Guide.
@@ -347,6 +357,7 @@ extension CloudWatchEvents {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// The name of the rule.
         public let name: String
         
@@ -370,6 +381,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "InputPathsMap", required: false, type: .map), 
             AWSShapeMember(label: "InputTemplate", required: true, type: .string)
         ]
+
         /// Map of JSON paths to be extracted from the event. You can then insert these in the template in InputTemplate to produce the output you want to be sent to the target.  InputPathsMap is an array key-value pairs, where each value is a valid JSON path. You can have as many as 10 key-value pairs. You must use JSON dot notation, not bracket notation. The keys cannot start with "AWS." 
         public let inputPathsMap: [String: String]?
         /// Input template where you specify placeholders that will be filled with the values of the keys from InputPathsMap to customize the data sent to the target. Enclose each InputPathsMaps value in brackets: &lt;value&gt; The InputTemplate must be valid JSON. If InputTemplate is a JSON object (surrounded by curly braces), the following restrictions apply:   The placeholder cannot be used as an object key.   Object values cannot include quote marks.   The following example shows the syntax for using InputPathsMap and InputTemplate.   "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": "&lt;instance&gt; is in state &lt;status&gt;"   }  To have the InputTemplate include quote marks within a JSON string, escape each quote marks with a slash, as in the following example:   "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": "&lt;instance&gt; is in state \"&lt;status&gt;\""   } 
@@ -395,6 +407,7 @@ extension CloudWatchEvents {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PartitionKeyPath", required: true, type: .string)
         ]
+
         /// The JSON path to be extracted from the event and used as the partition key. For more information, see Amazon Kinesis Streams Key Concepts in the Amazon Kinesis Streams Developer Guide.
         public let partitionKeyPath: String
         
@@ -423,6 +436,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "TargetArn", required: true, type: .string)
         ]
+
         /// The maximum number of results to return.
         public let limit: Int32?
         /// The token returned by a previous call to retrieve the next set of results.
@@ -457,6 +471,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "RuleNames", required: false, type: .list)
         ]
+
         /// Indicates whether there are additional results to retrieve. If there are no more results, the value is null.
         public let nextToken: String?
         /// The names of the rules that can invoke the given target.
@@ -470,6 +485,11 @@ extension CloudWatchEvents {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 2048)
             try validate(nextToken, name:"nextToken", min: 1)
+            try ruleNames?.forEach {
+                try validate($0, name:"ruleNames[]", max: 64)
+                try validate($0, name:"ruleNames[]", min: 1)
+                try validate($0, name:"ruleNames[]", pattern: "[\\.\\-_A-Za-z0-9]+")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -484,6 +504,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "NamePrefix", required: false, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The maximum number of results to return.
         public let limit: Int32?
         /// The prefix matching the rule name.
@@ -519,6 +540,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Rules", required: false, type: .list)
         ]
+
         /// Indicates whether there are additional results to retrieve. If there are no more results, the value is null.
         public let nextToken: String?
         /// The rules that match the specified criteria.
@@ -532,6 +554,9 @@ extension CloudWatchEvents {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 2048)
             try validate(nextToken, name:"nextToken", min: 1)
+            try rules?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -544,6 +569,7 @@ extension CloudWatchEvents {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceARN", required: true, type: .string)
         ]
+
         /// The ARN of the CloudWatch Events rule for which you want to view tags.
         public let resourceARN: String
         
@@ -565,11 +591,18 @@ extension CloudWatchEvents {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// The list of tag keys and values associated with the rule you specified
         public let tags: [Tag]?
         
         public init(tags: [Tag]? = nil) {
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try tags?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -583,6 +616,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Rule", required: true, type: .string)
         ]
+
         /// The maximum number of results to return.
         public let limit: Int32?
         /// The token returned by a previous call to retrieve the next set of results.
@@ -618,6 +652,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Targets", required: false, type: .list)
         ]
+
         /// Indicates whether there are additional results to retrieve. If there are no more results, the value is null.
         public let nextToken: String?
         /// The targets assigned to the rule.
@@ -631,6 +666,9 @@ extension CloudWatchEvents {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 2048)
             try validate(nextToken, name:"nextToken", min: 1)
+            try targets?.forEach {
+                try $0.validate()
+            }
             try validate(targets, name:"targets", max: 100)
             try validate(targets, name:"targets", min: 1)
         }
@@ -645,6 +683,7 @@ extension CloudWatchEvents {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "awsvpcConfiguration", required: false, type: .structure)
         ]
+
         /// Use this structure to specify the VPC subnets and security groups for the task, and whether a public IP address is to be used. This structure is relevant only for ECS tasks that use the awsvpc network mode.
         public let awsvpcConfiguration: AwsVpcConfiguration?
         
@@ -661,6 +700,7 @@ extension CloudWatchEvents {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Entries", required: true, type: .list)
         ]
+
         /// The entry that defines an event in your system. You can specify several parameters for the entry such as the source and type of the event, resources associated with the event, and so on.
         public let entries: [PutEventsRequestEntry]
         
@@ -686,6 +726,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "Source", required: false, type: .string), 
             AWSShapeMember(label: "Time", required: false, type: .timestamp)
         ]
+
         /// A valid JSON string. There is no other schema imposed. The JSON string may contain fields and nested subobjects.
         public let detail: String?
         /// Free-form string used to decide what fields to expect in the event detail.
@@ -719,6 +760,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "Entries", required: false, type: .list), 
             AWSShapeMember(label: "FailedEntryCount", required: false, type: .integer)
         ]
+
         /// The successfully and unsuccessfully ingested events results. If the ingestion was successful, the entry has the event ID in it. Otherwise, you can use the error code and error message to identify the problem with the entry.
         public let entries: [PutEventsResultEntry]?
         /// The number of failed entries.
@@ -741,6 +783,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "EventId", required: false, type: .string)
         ]
+
         /// The error code that indicates why the event submission failed.
         public let errorCode: String?
         /// The error message that explains why the event submission failed.
@@ -768,6 +811,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "Principal", required: true, type: .string), 
             AWSShapeMember(label: "StatementId", required: true, type: .string)
         ]
+
         /// The action that you are enabling the other account to perform. Currently, this must be events:PutEvents.
         public let action: String
         /// This parameter enables you to limit the permission to accounts that fulfill a certain condition, such as being a member of a certain AWS organization. For more information about AWS Organizations, see What Is AWS Organizations in the AWS Organizations User Guide. If you specify Condition with an AWS organization ID, and specify "*" as the value for Principal, you grant permission to all the accounts in the named organization. The Condition is a JSON string which must contain Type, Key, and Value fields.
@@ -814,6 +858,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "State", required: false, type: .enum), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// A description of the rule.
         public let description: String?
         /// The event pattern. For more information, see Events and Event Patterns in the Amazon CloudWatch Events User Guide.
@@ -847,6 +892,9 @@ extension CloudWatchEvents {
             try validate(roleArn, name:"roleArn", max: 1600)
             try validate(roleArn, name:"roleArn", min: 1)
             try validate(scheduleExpression, name:"scheduleExpression", max: 256)
+            try tags?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -864,6 +912,7 @@ extension CloudWatchEvents {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RuleArn", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the rule.
         public let ruleArn: String?
         
@@ -886,6 +935,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "Rule", required: true, type: .string), 
             AWSShapeMember(label: "Targets", required: true, type: .list)
         ]
+
         /// The name of the rule.
         public let rule: String
         /// The targets to update or add to the rule.
@@ -900,6 +950,9 @@ extension CloudWatchEvents {
             try validate(rule, name:"rule", max: 64)
             try validate(rule, name:"rule", min: 1)
             try validate(rule, name:"rule", pattern: "[\\.\\-_A-Za-z0-9]+")
+            try targets.forEach {
+                try $0.validate()
+            }
             try validate(targets, name:"targets", max: 100)
             try validate(targets, name:"targets", min: 1)
         }
@@ -915,6 +968,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "FailedEntries", required: false, type: .list), 
             AWSShapeMember(label: "FailedEntryCount", required: false, type: .integer)
         ]
+
         /// The failed target entries.
         public let failedEntries: [PutTargetsResultEntry]?
         /// The number of failed entries.
@@ -923,6 +977,12 @@ extension CloudWatchEvents {
         public init(failedEntries: [PutTargetsResultEntry]? = nil, failedEntryCount: Int32? = nil) {
             self.failedEntries = failedEntries
             self.failedEntryCount = failedEntryCount
+        }
+
+        public func validate() throws {
+            try failedEntries?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -937,6 +997,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "TargetId", required: false, type: .string)
         ]
+
         /// The error code that indicates why the target addition failed. If the value is ConcurrentModificationException, too many requests were made at the same time.
         public let errorCode: String?
         /// The error message that explains why the target addition failed.
@@ -967,6 +1028,7 @@ extension CloudWatchEvents {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StatementId", required: true, type: .string)
         ]
+
         /// The statement ID corresponding to the account that is no longer allowed to put events to the default event bus.
         public let statementId: String
         
@@ -991,6 +1053,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "Ids", required: true, type: .list), 
             AWSShapeMember(label: "Rule", required: true, type: .string)
         ]
+
         /// If this is a managed rule, created by an AWS service on your behalf, you must specify Force as True to remove targets. This parameter is ignored for rules that are not managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
         public let force: Bool?
         /// The IDs of the targets to remove from the rule.
@@ -1005,6 +1068,11 @@ extension CloudWatchEvents {
         }
 
         public func validate() throws {
+            try ids.forEach {
+                try validate($0, name:"ids[]", max: 64)
+                try validate($0, name:"ids[]", min: 1)
+                try validate($0, name:"ids[]", pattern: "[\\.\\-_A-Za-z0-9]+")
+            }
             try validate(ids, name:"ids", max: 100)
             try validate(ids, name:"ids", min: 1)
             try validate(rule, name:"rule", max: 64)
@@ -1024,6 +1092,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "FailedEntries", required: false, type: .list), 
             AWSShapeMember(label: "FailedEntryCount", required: false, type: .integer)
         ]
+
         /// The failed target entries.
         public let failedEntries: [RemoveTargetsResultEntry]?
         /// The number of failed entries.
@@ -1032,6 +1101,12 @@ extension CloudWatchEvents {
         public init(failedEntries: [RemoveTargetsResultEntry]? = nil, failedEntryCount: Int32? = nil) {
             self.failedEntries = failedEntries
             self.failedEntryCount = failedEntryCount
+        }
+
+        public func validate() throws {
+            try failedEntries?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1046,6 +1121,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "TargetId", required: false, type: .string)
         ]
+
         /// The error code that indicates why the target removal failed. If the value is ConcurrentModificationException, too many requests were made at the same time.
         public let errorCode: String?
         /// The error message that explains why the target removal failed.
@@ -1083,6 +1159,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "ScheduleExpression", required: false, type: .string), 
             AWSShapeMember(label: "State", required: false, type: .enum)
         ]
+
         /// The Amazon Resource Name (ARN) of the rule.
         public let arn: String?
         /// The description of the rule.
@@ -1147,6 +1224,7 @@ extension CloudWatchEvents {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RunCommandTargets", required: true, type: .list)
         ]
+
         /// Currently, we support including only one RunCommandTarget block, which specifies either an array of InstanceIds or a tag.
         public let runCommandTargets: [RunCommandTarget]
         
@@ -1155,6 +1233,9 @@ extension CloudWatchEvents {
         }
 
         public func validate() throws {
+            try runCommandTargets.forEach {
+                try $0.validate()
+            }
             try validate(runCommandTargets, name:"runCommandTargets", max: 5)
             try validate(runCommandTargets, name:"runCommandTargets", min: 1)
         }
@@ -1169,6 +1250,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "Key", required: true, type: .string), 
             AWSShapeMember(label: "Values", required: true, type: .list)
         ]
+
         /// Can be either tag: tag-key or InstanceIds.
         public let key: String
         /// If Key is tag: tag-key, Values is a list of tag values. If Key is InstanceIds, Values is a list of Amazon EC2 instance IDs.
@@ -1183,6 +1265,10 @@ extension CloudWatchEvents {
             try validate(key, name:"key", max: 128)
             try validate(key, name:"key", min: 1)
             try validate(key, name:"key", pattern: "^[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
+            try values.forEach {
+                try validate($0, name:"values[]", max: 256)
+                try validate($0, name:"values[]", min: 1)
+            }
             try validate(values, name:"values", max: 50)
             try validate(values, name:"values", min: 1)
         }
@@ -1197,6 +1283,7 @@ extension CloudWatchEvents {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MessageGroupId", required: false, type: .string)
         ]
+
         /// The FIFO message group ID to use as the target.
         public let messageGroupId: String?
         
@@ -1214,6 +1301,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "Key", required: true, type: .string), 
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
+
         /// A string you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources.
         public let key: String
         /// The value for the specified tag key.
@@ -1242,6 +1330,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
+
         /// The ARN of the CloudWatch Events rule that you're adding tags to.
         public let resourceARN: String
         /// The list of key-value pairs to associate with the rule.
@@ -1255,6 +1344,9 @@ extension CloudWatchEvents {
         public func validate() throws {
             try validate(resourceARN, name:"resourceARN", max: 1600)
             try validate(resourceARN, name:"resourceARN", min: 1)
+            try tags.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1264,7 +1356,6 @@ extension CloudWatchEvents {
     }
 
     public struct TagResourceResponse: AWSShape {
-        
         
         public init() {
         }
@@ -1285,6 +1376,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "RunCommandParameters", required: false, type: .structure), 
             AWSShapeMember(label: "SqsParameters", required: false, type: .structure)
         ]
+
         /// The Amazon Resource Name (ARN) of the target.
         public let arn: String
         /// If the event target is an AWS Batch job, this contains the job definition, job name, and other parameters. For more information, see Jobs in the AWS Batch User Guide.
@@ -1358,6 +1450,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "Event", required: true, type: .string), 
             AWSShapeMember(label: "EventPattern", required: true, type: .string)
         ]
+
         /// The event, in JSON format, to test against the event pattern.
         public let event: String
         /// The event pattern. For more information, see Events and Event Patterns in the Amazon CloudWatch Events User Guide.
@@ -1378,6 +1471,7 @@ extension CloudWatchEvents {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Result", required: false, type: .boolean)
         ]
+
         /// Indicates whether the event matches the event pattern.
         public let result: Bool?
         
@@ -1395,6 +1489,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
+
         /// The ARN of the CloudWatch Events rule from which you are removing tags.
         public let resourceARN: String
         /// The list of tag keys to remove from the resource.
@@ -1408,6 +1503,10 @@ extension CloudWatchEvents {
         public func validate() throws {
             try validate(resourceARN, name:"resourceARN", max: 1600)
             try validate(resourceARN, name:"resourceARN", min: 1)
+            try tagKeys.forEach {
+                try validate($0, name:"tagKeys[]", max: 128)
+                try validate($0, name:"tagKeys[]", min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1417,7 +1516,6 @@ extension CloudWatchEvents {
     }
 
     public struct UntagResourceResponse: AWSShape {
-        
         
         public init() {
         }

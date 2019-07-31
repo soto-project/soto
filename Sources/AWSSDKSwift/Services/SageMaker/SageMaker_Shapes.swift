@@ -10,6 +10,7 @@ extension SageMaker {
             AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
+
         /// The Amazon Resource Name (ARN) of the resource that you want to tag.
         public let resourceArn: String
         /// An array of Tag objects. Each tag is a key-value pair. Only the key parameter is required. If you don't specify a value, Amazon SageMaker sets the value to an empty string. 
@@ -23,6 +24,9 @@ extension SageMaker {
         public func validate() throws {
             try validate(resourceArn, name:"resourceArn", max: 256)
             try validate(resourceArn, name:"resourceArn", pattern: "arn:.*")
+            try tags.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", max: 50)
             try validate(tags, name:"tags", min: 0)
         }
@@ -37,6 +41,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// A list of tags associated with the Amazon SageMaker resource.
         public let tags: [Tag]?
         
@@ -45,6 +50,9 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try tags?.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", max: 50)
             try validate(tags, name:"tags", min: 0)
         }
@@ -67,6 +75,7 @@ extension SageMaker {
             AWSShapeMember(label: "TrainingImage", required: false, type: .string), 
             AWSShapeMember(label: "TrainingInputMode", required: true, type: .enum)
         ]
+
         /// The name of the algorithm resource to use for the training job. This must be an algorithm resource that you created or subscribe to on AWS Marketplace. If you specify a value for this parameter, you can't specify a value for TrainingImage.
         public let algorithmName: String?
         /// A list of metric definition objects. Each object specifies the metric name and regular expressions used to parse algorithm logs. Amazon SageMaker publishes each metric to Amazon CloudWatch.
@@ -87,6 +96,9 @@ extension SageMaker {
             try validate(algorithmName, name:"algorithmName", max: 170)
             try validate(algorithmName, name:"algorithmName", min: 1)
             try validate(algorithmName, name:"algorithmName", pattern: "(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:[a-z\\-]*\\/)?([a-zA-Z0-9]([a-zA-Z0-9-]){0,62})(?<!-)$")
+            try metricDefinitions?.forEach {
+                try $0.validate()
+            }
             try validate(metricDefinitions, name:"metricDefinitions", max: 20)
             try validate(metricDefinitions, name:"metricDefinitions", min: 0)
             try validate(trainingImage, name:"trainingImage", max: 255)
@@ -115,6 +127,7 @@ extension SageMaker {
             AWSShapeMember(label: "ImageScanStatuses", required: false, type: .list), 
             AWSShapeMember(label: "ValidationStatuses", required: false, type: .list)
         ]
+
         /// The status of the scan of the algorithm's Docker image container.
         public let imageScanStatuses: [AlgorithmStatusItem]?
         /// The status of algorithm validation.
@@ -123,6 +136,15 @@ extension SageMaker {
         public init(imageScanStatuses: [AlgorithmStatusItem]? = nil, validationStatuses: [AlgorithmStatusItem]? = nil) {
             self.imageScanStatuses = imageScanStatuses
             self.validationStatuses = validationStatuses
+        }
+
+        public func validate() throws {
+            try imageScanStatuses?.forEach {
+                try $0.validate()
+            }
+            try validationStatuses?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -137,6 +159,7 @@ extension SageMaker {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Status", required: true, type: .enum)
         ]
+
         /// if the overall status is Failed, the reason for the failure.
         public let failureReason: String?
         /// The name of the algorithm for which the overall status is being reported.
@@ -171,6 +194,7 @@ extension SageMaker {
             AWSShapeMember(label: "AlgorithmStatus", required: true, type: .enum), 
             AWSShapeMember(label: "CreationTime", required: true, type: .timestamp)
         ]
+
         /// The Amazon Resource Name (ARN) of the algorithm.
         public let algorithmArn: String
         /// A brief description of the algorithm.
@@ -216,6 +240,7 @@ extension SageMaker {
             AWSShapeMember(label: "TrainingJobDefinition", required: true, type: .structure), 
             AWSShapeMember(label: "TransformJobDefinition", required: false, type: .structure)
         ]
+
         /// The name of the profile for the algorithm. The name must have 1 to 63 characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen).
         public let profileName: String
         /// The TrainingJobDefinition object that describes the training job that Amazon SageMaker runs to validate your algorithm.
@@ -249,6 +274,7 @@ extension SageMaker {
             AWSShapeMember(label: "ValidationProfiles", required: true, type: .list), 
             AWSShapeMember(label: "ValidationRole", required: true, type: .string)
         ]
+
         /// An array of AlgorithmValidationProfile objects, each of which specifies a training job and batch transform job that Amazon SageMaker runs to validate your algorithm.
         public let validationProfiles: [AlgorithmValidationProfile]
         /// The IAM roles that Amazon SageMaker uses to run the training jobs.
@@ -260,6 +286,9 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try validationProfiles.forEach {
+                try $0.validate()
+            }
             try validate(validationProfiles, name:"validationProfiles", max: 1)
             try validate(validationProfiles, name:"validationProfiles", min: 1)
             try validate(validationRole, name:"validationRole", max: 2048)
@@ -277,6 +306,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AnnotationConsolidationLambdaArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of a Lambda function implements the logic for annotation consolidation. For the built-in bounding box, image classification, semantic segmentation, and text classification task types, Amazon SageMaker Ground Truth provides the following Lambda functions:    Bounding box - Finds the most similar boxes from different workers based on the Jaccard index of the boxes.  arn:aws:lambda:us-east-1:432418664414:function:ACS-BoundingBox   arn:aws:lambda:us-east-2:266458841044:function:ACS-BoundingBox   arn:aws:lambda:us-west-2:081040173940:function:ACS-BoundingBox   arn:aws:lambda:eu-west-1:568282634449:function:ACS-BoundingBox   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-BoundingBox   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-BoundingBox     Image classification - Uses a variant of the Expectation Maximization approach to estimate the true class of an image based on annotations from individual workers.  arn:aws:lambda:us-east-1:432418664414:function:ACS-ImageMultiClass   arn:aws:lambda:us-east-2:266458841044:function:ACS-ImageMultiClass   arn:aws:lambda:us-west-2:081040173940:function:ACS-ImageMultiClass   arn:aws:lambda:eu-west-1:568282634449:function:ACS-ImageMultiClass   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-ImageMultiClass   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-ImageMultiClass     Semantic segmentation - Treats each pixel in an image as a multi-class classification and treats pixel annotations from workers as "votes" for the correct label.  arn:aws:lambda:us-east-1:432418664414:function:ACS-SemanticSegmentation   arn:aws:lambda:us-east-2:266458841044:function:ACS-SemanticSegmentation   arn:aws:lambda:us-west-2:081040173940:function:ACS-SemanticSegmentation   arn:aws:lambda:eu-west-1:568282634449:function:ACS-SemanticSegmentation   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-SemanticSegmentation   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-SemanticSegmentation     Text classification - Uses a variant of the Expectation Maximization approach to estimate the true class of text based on annotations from individual workers.  arn:aws:lambda:us-east-1:432418664414:function:ACS-TextMultiClass   arn:aws:lambda:us-east-2:266458841044:function:ACS-TextMultiClass   arn:aws:lambda:us-west-2:081040173940:function:ACS-TextMultiClass   arn:aws:lambda:eu-west-1:568282634449:function:ACS-TextMultiClass   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-TextMultiClass   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-TextMultiClass    For more information, see Annotation Consolidation.
         public let annotationConsolidationLambdaArn: String
         
@@ -317,6 +347,7 @@ extension SageMaker {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Values", required: true, type: .list)
         ]
+
         /// The name of the categorical hyperparameter to tune.
         public let name: String
         /// A list of the categories for the hyperparameter.
@@ -330,6 +361,10 @@ extension SageMaker {
         public func validate() throws {
             try validate(name, name:"name", max: 256)
             try validate(name, name:"name", pattern: ".*")
+            try values.forEach {
+                try validate($0, name:"values[]", max: 256)
+                try validate($0, name:"values[]", pattern: ".*")
+            }
             try validate(values, name:"values", max: 20)
             try validate(values, name:"values", min: 1)
         }
@@ -344,6 +379,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Values", required: true, type: .list)
         ]
+
         /// The allowed categories for the hyperparameter.
         public let values: [String]
         
@@ -352,6 +388,10 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try values.forEach {
+                try validate($0, name:"values[]", max: 256)
+                try validate($0, name:"values[]", pattern: ".*")
+            }
             try validate(values, name:"values", max: 20)
             try validate(values, name:"values", min: 1)
         }
@@ -371,6 +411,7 @@ extension SageMaker {
             AWSShapeMember(label: "RecordWrapperType", required: false, type: .enum), 
             AWSShapeMember(label: "ShuffleConfig", required: false, type: .structure)
         ]
+
         /// The name of the channel. 
         public let channelName: String
         /// If training data is compressed, the compression type. The default value is None. CompressionType is used only in Pipe input mode. In File mode, leave this field unset or set it to None.
@@ -425,6 +466,7 @@ extension SageMaker {
             AWSShapeMember(label: "SupportedContentTypes", required: true, type: .list), 
             AWSShapeMember(label: "SupportedInputModes", required: true, type: .list)
         ]
+
         /// A brief description of the channel.
         public let description: String?
         /// Indicates whether the channel is required by the algorithm.
@@ -453,6 +495,10 @@ extension SageMaker {
             try validate(name, name:"name", max: 64)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "[A-Za-z0-9\\.\\-_]+")
+            try supportedContentTypes.forEach {
+                try validate($0, name:"supportedContentTypes[]", max: 256)
+                try validate($0, name:"supportedContentTypes[]", pattern: ".*")
+            }
             try validate(supportedInputModes, name:"supportedInputModes", min: 1)
         }
 
@@ -487,6 +533,7 @@ extension SageMaker {
             AWSShapeMember(label: "GitConfig", required: false, type: .structure), 
             AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp)
         ]
+
         /// The Amazon Resource Name (ARN) of the Git repository.
         public let codeRepositoryArn: String
         /// The name of the Git repository.
@@ -531,6 +578,7 @@ extension SageMaker {
             AWSShapeMember(label: "UserGroup", required: true, type: .string), 
             AWSShapeMember(label: "UserPool", required: true, type: .string)
         ]
+
         /// An identifier for an application client. You must create the app client ID using Amazon Cognito.
         public let clientId: String
         /// An identifier for a user group.
@@ -584,6 +632,7 @@ extension SageMaker {
             AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
             AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp)
         ]
+
         /// The time when the model compilation job completed.
         public let compilationEndTime: TimeStamp?
         /// The Amazon Resource Name (ARN) of the model compilation job.
@@ -646,6 +695,7 @@ extension SageMaker {
             AWSShapeMember(label: "ModelDataUrl", required: false, type: .string), 
             AWSShapeMember(label: "ModelPackageName", required: false, type: .string)
         ]
+
         /// This parameter is ignored for models that contain only a PrimaryContainer. When a ContainerDefinition is part of an inference pipeline, the value of ths parameter uniquely identifies the container for the purposes of logging and metrics. For information, see Use Logs and Metrics to Monitor an Inference Pipeline. If you don't specify a value for this parameter for a ContainerDefinition that is part of an inference pipeline, a unique name is automatically assigned based on the position of the ContainerDefinition in the pipeline. If you specify a value for the ContainerHostName for any ContainerDefinition that is part of an inference pipeline, you must specify a value for the ContainerHostName parameter of every ContainerDefinition in that pipeline.
         public let containerHostname: String?
         /// The environment variables to set in the Docker container. Each key and value in the Environment string to string map can have length of up to 1024. We support up to 16 entries in the map. 
@@ -699,6 +749,7 @@ extension SageMaker {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "ScalingType", required: false, type: .enum)
         ]
+
         /// The maximum value for the hyperparameter. The tuning job uses floating-point values between MinValue value and this value for tuning.
         public let maxValue: String
         /// The minimum value for the hyperparameter. The tuning job uses floating-point values between this value and MaxValuefor tuning.
@@ -737,6 +788,7 @@ extension SageMaker {
             AWSShapeMember(label: "MaxValue", required: true, type: .string), 
             AWSShapeMember(label: "MinValue", required: true, type: .string)
         ]
+
         /// The maximum floating-point value allowed.
         public let maxValue: String
         /// The minimum floating-point value allowed.
@@ -769,6 +821,7 @@ extension SageMaker {
             AWSShapeMember(label: "TrainingSpecification", required: true, type: .structure), 
             AWSShapeMember(label: "ValidationSpecification", required: false, type: .structure)
         ]
+
         /// A description of the algorithm.
         public let algorithmDescription: String?
         /// The name of the algorithm.
@@ -816,6 +869,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AlgorithmArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the new algorithm.
         public let algorithmArn: String
         
@@ -839,6 +893,7 @@ extension SageMaker {
             AWSShapeMember(label: "CodeRepositoryName", required: true, type: .string), 
             AWSShapeMember(label: "GitConfig", required: true, type: .structure)
         ]
+
         /// The name of the Git repository. The name must have 1 to 63 characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen).
         public let codeRepositoryName: String
         /// Specifies details about the repository, including the URL where the repository is located, the default branch, and credentials to use to access the repository.
@@ -866,6 +921,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CodeRepositoryArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the new repository.
         public let codeRepositoryArn: String
         
@@ -892,6 +948,7 @@ extension SageMaker {
             AWSShapeMember(label: "RoleArn", required: true, type: .string), 
             AWSShapeMember(label: "StoppingCondition", required: true, type: .structure)
         ]
+
         /// A name for the model compilation job. The name must be unique within the AWS Region and within your AWS account. 
         public let compilationJobName: String
         /// Provides information about the location of input model artifacts, the name and shape of the expected data inputs, and the framework in which the model was trained.
@@ -936,6 +993,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CompilationJobArn", required: true, type: .string)
         ]
+
         /// If the action is successful, the service sends back an HTTP 200 response. Amazon SageMaker returns the following data in JSON format:    CompilationJobArn: The Amazon Resource Name (ARN) of the compiled job.  
         public let compilationJobArn: String
         
@@ -960,6 +1018,7 @@ extension SageMaker {
             AWSShapeMember(label: "ProductionVariants", required: true, type: .list), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// The name of the endpoint configuration. You specify this name in a CreateEndpoint request. 
         public let endpointConfigName: String
         /// The Amazon Resource Name (ARN) of a AWS Key Management Service key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance that hosts the endpoint.
@@ -981,7 +1040,13 @@ extension SageMaker {
             try validate(endpointConfigName, name:"endpointConfigName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
             try validate(kmsKeyId, name:"kmsKeyId", max: 2048)
             try validate(kmsKeyId, name:"kmsKeyId", pattern: ".*")
+            try productionVariants.forEach {
+                try $0.validate()
+            }
             try validate(productionVariants, name:"productionVariants", min: 1)
+            try tags?.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", max: 50)
             try validate(tags, name:"tags", min: 0)
         }
@@ -998,6 +1063,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndpointConfigArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the endpoint configuration. 
         public let endpointConfigArn: String
         
@@ -1022,6 +1088,7 @@ extension SageMaker {
             AWSShapeMember(label: "EndpointName", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// The name of an endpoint configuration. For more information, see CreateEndpointConfig. 
         public let endpointConfigName: String
         /// The name of the endpoint. The name must be unique within an AWS Region in your AWS account.
@@ -1040,6 +1107,9 @@ extension SageMaker {
             try validate(endpointConfigName, name:"endpointConfigName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
             try validate(endpointName, name:"endpointName", max: 63)
             try validate(endpointName, name:"endpointName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try tags?.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", max: 50)
             try validate(tags, name:"tags", min: 0)
         }
@@ -1055,6 +1125,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndpointArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the endpoint.
         public let endpointArn: String
         
@@ -1081,6 +1152,7 @@ extension SageMaker {
             AWSShapeMember(label: "TrainingJobDefinition", required: false, type: .structure), 
             AWSShapeMember(label: "WarmStartConfig", required: false, type: .structure)
         ]
+
         /// The HyperParameterTuningJobConfig object that describes the tuning job, including the search strategy, the objective metric used to evaluate training jobs, ranges of parameters to search, and resource limits for the tuning job. For more information, see automatic-model-tuning 
         public let hyperParameterTuningJobConfig: HyperParameterTuningJobConfig
         /// The name of the tuning job. This name is the prefix for the names of all training jobs that this tuning job launches. The name must be unique within the same AWS account and AWS Region. The name must have { } to { } characters. Valid characters are a-z, A-Z, 0-9, and : + = @ _ % - (hyphen). The name is not case sensitive.
@@ -1105,6 +1177,9 @@ extension SageMaker {
             try validate(hyperParameterTuningJobName, name:"hyperParameterTuningJobName", max: 32)
             try validate(hyperParameterTuningJobName, name:"hyperParameterTuningJobName", min: 1)
             try validate(hyperParameterTuningJobName, name:"hyperParameterTuningJobName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try tags?.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", max: 50)
             try validate(tags, name:"tags", min: 0)
             try trainingJobDefinition?.validate()
@@ -1124,6 +1199,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HyperParameterTuningJobArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the tuning job. Amazon SageMaker assigns an ARN to a hyperparameter tuning job when you create it.
         public let hyperParameterTuningJobArn: String
         
@@ -1154,6 +1230,7 @@ extension SageMaker {
             AWSShapeMember(label: "StoppingConditions", required: false, type: .structure), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// Configures the information required for human workers to complete a labeling task.
         public let humanTaskConfig: HumanTaskConfig
         /// Input data for the labeling job, such as the Amazon S3 location of the data objects and the location of the manifest file that describes the data objects.
@@ -1205,6 +1282,9 @@ extension SageMaker {
             try validate(roleArn, name:"roleArn", min: 20)
             try validate(roleArn, name:"roleArn", pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
             try stoppingConditions?.validate()
+            try tags?.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", max: 50)
             try validate(tags, name:"tags", min: 0)
         }
@@ -1227,6 +1307,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LabelingJobArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the labeling job. You use this ARN to identify the labeling job.
         public let labelingJobArn: String
         
@@ -1254,6 +1335,7 @@ extension SageMaker {
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
+
         /// Specifies the containers in the inference pipeline.
         public let containers: [ContainerDefinition]?
         /// Isolates the model container. No inbound or outbound network calls can be made to or from the model container.  The Semantic Segmentation built-in algorithm does not support network isolation. 
@@ -1280,6 +1362,9 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try containers?.forEach {
+                try $0.validate()
+            }
             try validate(containers, name:"containers", max: 5)
             try validate(executionRoleArn, name:"executionRoleArn", max: 2048)
             try validate(executionRoleArn, name:"executionRoleArn", min: 20)
@@ -1287,6 +1372,9 @@ extension SageMaker {
             try validate(modelName, name:"modelName", max: 63)
             try validate(modelName, name:"modelName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
             try primaryContainer?.validate()
+            try tags?.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", max: 50)
             try validate(tags, name:"tags", min: 0)
             try vpcConfig?.validate()
@@ -1307,6 +1395,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ModelArn", required: true, type: .string)
         ]
+
         /// The ARN of the model created in Amazon SageMaker.
         public let modelArn: String
         
@@ -1334,6 +1423,7 @@ extension SageMaker {
             AWSShapeMember(label: "SourceAlgorithmSpecification", required: false, type: .structure), 
             AWSShapeMember(label: "ValidationSpecification", required: false, type: .structure)
         ]
+
         /// Whether to certify the model package for listing on AWS Marketplace.
         public let certifyForMarketplace: Bool?
         /// Specifies details about inference jobs that can be run with models based on this model package, including the following:   The Amazon ECR paths of containers that contain the inference code and model artifacts.   The instance types that the model package supports for transform jobs and real-time endpoints used for inference.   The input and output content formats that the model package supports for inference.  
@@ -1381,6 +1471,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ModelPackageArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the new model package.
         public let modelPackageArn: String
         
@@ -1416,6 +1507,7 @@ extension SageMaker {
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "VolumeSizeInGB", required: false, type: .integer)
         ]
+
         /// A list of Elastic Inference (EI) instance types to associate with this notebook instance. Currently, only one instance type can be associated with a notebook instance. For more information, see Using Elastic Inference in Amazon SageMaker.
         public let acceleratorTypes: [NotebookInstanceAcceleratorType]?
         /// An array of up to three Git repositories to associate with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in AWS CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with Amazon SageMaker Notebook Instances.
@@ -1463,6 +1555,11 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try additionalCodeRepositories?.forEach {
+                try validate($0, name:"additionalCodeRepositories[]", max: 1024)
+                try validate($0, name:"additionalCodeRepositories[]", min: 1)
+                try validate($0, name:"additionalCodeRepositories[]", pattern: "^https://([^/]+)/?(.*)$|^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            }
             try validate(additionalCodeRepositories, name:"additionalCodeRepositories", max: 3)
             try validate(defaultCodeRepository, name:"defaultCodeRepository", max: 1024)
             try validate(defaultCodeRepository, name:"defaultCodeRepository", min: 1)
@@ -1476,9 +1573,16 @@ extension SageMaker {
             try validate(roleArn, name:"roleArn", max: 2048)
             try validate(roleArn, name:"roleArn", min: 20)
             try validate(roleArn, name:"roleArn", pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try securityGroupIds?.forEach {
+                try validate($0, name:"securityGroupIds[]", max: 32)
+                try validate($0, name:"securityGroupIds[]", pattern: "[-0-9a-zA-Z]+")
+            }
             try validate(securityGroupIds, name:"securityGroupIds", max: 5)
             try validate(subnetId, name:"subnetId", max: 32)
             try validate(subnetId, name:"subnetId", pattern: "[-0-9a-zA-Z]+")
+            try tags?.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", max: 50)
             try validate(tags, name:"tags", min: 0)
             try validate(volumeSizeInGB, name:"volumeSizeInGB", max: 16384)
@@ -1509,6 +1613,7 @@ extension SageMaker {
             AWSShapeMember(label: "OnCreate", required: false, type: .list), 
             AWSShapeMember(label: "OnStart", required: false, type: .list)
         ]
+
         /// The name of the lifecycle configuration.
         public let notebookInstanceLifecycleConfigName: String
         /// A shell script that runs only once, when you create a notebook instance. The shell script must be a base64-encoded string.
@@ -1525,7 +1630,13 @@ extension SageMaker {
         public func validate() throws {
             try validate(notebookInstanceLifecycleConfigName, name:"notebookInstanceLifecycleConfigName", max: 63)
             try validate(notebookInstanceLifecycleConfigName, name:"notebookInstanceLifecycleConfigName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try onCreate?.forEach {
+                try $0.validate()
+            }
             try validate(onCreate, name:"onCreate", max: 1)
+            try onStart?.forEach {
+                try $0.validate()
+            }
             try validate(onStart, name:"onStart", max: 1)
         }
 
@@ -1540,6 +1651,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NotebookInstanceLifecycleConfigArn", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the lifecycle configuration.
         public let notebookInstanceLifecycleConfigArn: String?
         
@@ -1560,6 +1672,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NotebookInstanceArn", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the notebook instance. 
         public let notebookInstanceArn: String?
         
@@ -1581,6 +1694,7 @@ extension SageMaker {
             AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string), 
             AWSShapeMember(label: "SessionExpirationDurationInSeconds", required: false, type: .integer)
         ]
+
         /// The name of the notebook instance.
         public let notebookInstanceName: String
         /// The duration of the session, in seconds. The default is 12 hours.
@@ -1608,6 +1722,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AuthorizedUrl", required: false, type: .string)
         ]
+
         /// A JSON object that contains the URL string. 
         public let authorizedUrl: String?
         
@@ -1635,6 +1750,7 @@ extension SageMaker {
             AWSShapeMember(label: "TrainingJobName", required: true, type: .string), 
             AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
+
         /// The registry path of the Docker image that contains the training algorithm and algorithm-specific metadata, including the input mode. For more information about algorithms provided by Amazon SageMaker, see Algorithms. For information about providing your own algorithms, see Using Your Own Algorithms with Amazon SageMaker. 
         public let algorithmSpecification: AlgorithmSpecification
         /// To encrypt all communications between ML compute instances in distributed training, choose True. Encryption provides greater security for distributed training, but training might take longer. How long it takes depends on the amount of communication between compute instances, especially if you use a deep learning algorithm in distributed training. For more information, see Protect Communications Between ML Compute Instances in a Distributed Training Job.
@@ -1677,6 +1793,9 @@ extension SageMaker {
 
         public func validate() throws {
             try algorithmSpecification.validate()
+            try inputDataConfig?.forEach {
+                try $0.validate()
+            }
             try validate(inputDataConfig, name:"inputDataConfig", max: 20)
             try validate(inputDataConfig, name:"inputDataConfig", min: 1)
             try outputDataConfig.validate()
@@ -1685,6 +1804,9 @@ extension SageMaker {
             try validate(roleArn, name:"roleArn", min: 20)
             try validate(roleArn, name:"roleArn", pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
             try stoppingCondition.validate()
+            try tags?.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", max: 50)
             try validate(tags, name:"tags", min: 0)
             try validate(trainingJobName, name:"trainingJobName", max: 63)
@@ -1713,6 +1835,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TrainingJobArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the training job.
         public let trainingJobArn: String
         
@@ -1744,6 +1867,7 @@ extension SageMaker {
             AWSShapeMember(label: "TransformOutput", required: true, type: .structure), 
             AWSShapeMember(label: "TransformResources", required: true, type: .structure)
         ]
+
         /// Specifies the number of records to include in a mini-batch for an HTTP inference request. A record  is a single unit of input data that inference can be made on. For example, a single line in a CSV file is a record.  To enable the batch strategy, you must set SplitType to Line, RecordIO, or TFRecord. To use only one record when making an HTTP invocation request to a container, set BatchStrategy to SingleRecord and SplitType to Line. To fit as many records in a mini-batch as can fit within the MaxPayloadInMB limit, set BatchStrategy to MultiRecord and SplitType to Line.
         public let batchStrategy: BatchStrategy?
         /// The data structure used for combining the input data and inference in the output file. For more information, see Batch Transform I/O Join.
@@ -1787,6 +1911,9 @@ extension SageMaker {
             try validate(maxPayloadInMB, name:"maxPayloadInMB", min: 0)
             try validate(modelName, name:"modelName", max: 63)
             try validate(modelName, name:"modelName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try tags?.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", max: 50)
             try validate(tags, name:"tags", min: 0)
             try transformInput.validate()
@@ -1816,6 +1943,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TransformJobArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the transform job.
         public let transformJobArn: String
         
@@ -1841,6 +1969,7 @@ extension SageMaker {
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "WorkteamName", required: true, type: .string)
         ]
+
         /// A description of the work team.
         public let description: String
         /// A list of MemberDefinition objects that contains objects that identify the Amazon Cognito user pool that makes up the work team. For more information, see Amazon Cognito User Pools. All of the CognitoMemberDefinition objects that make up the member definition must have the same ClientId and UserPool values.
@@ -1863,9 +1992,15 @@ extension SageMaker {
             try validate(description, name:"description", max: 200)
             try validate(description, name:"description", min: 1)
             try validate(description, name:"description", pattern: ".+")
+            try memberDefinitions.forEach {
+                try $0.validate()
+            }
             try validate(memberDefinitions, name:"memberDefinitions", max: 10)
             try validate(memberDefinitions, name:"memberDefinitions", min: 1)
             try notificationConfiguration?.validate()
+            try tags?.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", max: 50)
             try validate(tags, name:"tags", min: 0)
             try validate(workteamName, name:"workteamName", max: 63)
@@ -1886,6 +2021,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WorkteamArn", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the work team. You can use this ARN to identify the work team.
         public let workteamArn: String?
         
@@ -1909,6 +2045,7 @@ extension SageMaker {
             AWSShapeMember(label: "JoinSource", required: false, type: .enum), 
             AWSShapeMember(label: "OutputFilter", required: false, type: .string)
         ]
+
         /// A JSONPath expression used to select a portion of the input data to pass to the algorithm. Use the InputFilter parameter to exclude fields, such as an ID column, from the input. If you want Amazon SageMaker to pass the entire input dataset to the algorithm, accept the default value $. Examples: "$", "$[1:]", "$.features" 
         public let inputFilter: String?
         /// Specifies the source of the data to join with the transformed data. The valid values are None and Input The default value is None which specifies not to join the input with the transformed data. If you want the batch transform job to join the original input data with the transformed data, set JoinSource to Input. To join input and output, the batch transform job must satisfy the Requirements for Using Batch Transform I/O Join. For JSON or JSONLines objects, such as a JSON array, Amazon SageMaker adds the transformed data to the input JSON object in an attribute called SageMakerOutput. The joined result for JSON must be a key-value pair object. If the input is not a key-value pair object, Amazon SageMaker creates a new JSON file. In the new JSON file, and the input data is stored under the SageMakerInput key and the results are stored in SageMakerOutput. For CSV files, Amazon SageMaker combines the transformed data with the input data at the end of the input data and stores it in the output file. The joined data has the joined input data followed by the transformed data and the output is a CSV file. 
@@ -1940,6 +2077,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "S3DataSource", required: false, type: .structure)
         ]
+
         /// The S3 location of the data source that is associated with a channel.
         public let s3DataSource: S3DataSource?
         
@@ -1960,6 +2098,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AlgorithmName", required: true, type: .string)
         ]
+
         /// The name of the algorithm to delete.
         public let algorithmName: String
         
@@ -1982,6 +2121,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CodeRepositoryName", required: true, type: .string)
         ]
+
         /// The name of the Git repository to delete.
         public let codeRepositoryName: String
         
@@ -2004,6 +2144,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndpointConfigName", required: true, type: .string)
         ]
+
         /// The name of the endpoint configuration that you want to delete.
         public let endpointConfigName: String
         
@@ -2025,6 +2166,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndpointName", required: true, type: .string)
         ]
+
         /// The name of the endpoint that you want to delete.
         public let endpointName: String
         
@@ -2046,6 +2188,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ModelName", required: true, type: .string)
         ]
+
         /// The name of the model to delete.
         public let modelName: String
         
@@ -2067,6 +2210,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ModelPackageName", required: true, type: .string)
         ]
+
         /// The name of the model package. The name must have 1 to 63 characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen).
         public let modelPackageName: String
         
@@ -2089,6 +2233,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string)
         ]
+
         /// The name of the Amazon SageMaker notebook instance to delete.
         public let notebookInstanceName: String
         
@@ -2110,6 +2255,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NotebookInstanceLifecycleConfigName", required: true, type: .string)
         ]
+
         /// The name of the lifecycle configuration to delete.
         public let notebookInstanceLifecycleConfigName: String
         
@@ -2132,6 +2278,7 @@ extension SageMaker {
             AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
+
         /// The Amazon Resource Name (ARN) of the resource whose tags you want to delete.
         public let resourceArn: String
         /// An array or one or more tag keys to delete.
@@ -2145,6 +2292,11 @@ extension SageMaker {
         public func validate() throws {
             try validate(resourceArn, name:"resourceArn", max: 256)
             try validate(resourceArn, name:"resourceArn", pattern: "arn:.*")
+            try tagKeys.forEach {
+                try validate($0, name:"tagKeys[]", max: 128)
+                try validate($0, name:"tagKeys[]", min: 1)
+                try validate($0, name:"tagKeys[]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
             try validate(tagKeys, name:"tagKeys", max: 50)
             try validate(tagKeys, name:"tagKeys", min: 1)
         }
@@ -2157,7 +2309,6 @@ extension SageMaker {
 
     public struct DeleteTagsOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -2167,6 +2318,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WorkteamName", required: true, type: .string)
         ]
+
         /// The name of the work team to delete.
         public let workteamName: String
         
@@ -2189,6 +2341,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Success", required: true, type: .boolean)
         ]
+
         /// Returns true if the work team was successfully deleted; otherwise, returns false.
         public let success: Bool
         
@@ -2207,6 +2360,7 @@ extension SageMaker {
             AWSShapeMember(label: "ResolvedImage", required: false, type: .string), 
             AWSShapeMember(label: "SpecifiedImage", required: false, type: .string)
         ]
+
         /// The date and time when the image path for the model resolved to the ResolvedImage 
         public let resolutionTime: TimeStamp?
         /// The specific digest path of the image hosted in this ProductionVariant.
@@ -2238,6 +2392,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AlgorithmName", required: true, type: .string)
         ]
+
         /// The name of the algorithm to describe.
         public let algorithmName: String
         
@@ -2270,6 +2425,7 @@ extension SageMaker {
             AWSShapeMember(label: "TrainingSpecification", required: true, type: .structure), 
             AWSShapeMember(label: "ValidationSpecification", required: false, type: .structure)
         ]
+
         /// The Amazon Resource Name (ARN) of the algorithm.
         public let algorithmArn: String
         /// A brief summary about the algorithm.
@@ -2316,6 +2472,7 @@ extension SageMaker {
             try validate(algorithmName, name:"algorithmName", max: 63)
             try validate(algorithmName, name:"algorithmName", min: 1)
             try validate(algorithmName, name:"algorithmName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try algorithmStatusDetails.validate()
             try inferenceSpecification?.validate()
             try validate(productId, name:"productId", max: 256)
             try validate(productId, name:"productId", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
@@ -2342,6 +2499,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CodeRepositoryName", required: true, type: .string)
         ]
+
         /// The name of the Git repository to describe.
         public let codeRepositoryName: String
         
@@ -2368,6 +2526,7 @@ extension SageMaker {
             AWSShapeMember(label: "GitConfig", required: false, type: .structure), 
             AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp)
         ]
+
         /// The Amazon Resource Name (ARN) of the Git repository.
         public let codeRepositoryArn: String
         /// The name of the Git repository.
@@ -2410,6 +2569,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CompilationJobName", required: true, type: .string)
         ]
+
         /// The name of the model compilation job that you want information about.
         public let compilationJobName: String
         
@@ -2444,6 +2604,7 @@ extension SageMaker {
             AWSShapeMember(label: "RoleArn", required: true, type: .string), 
             AWSShapeMember(label: "StoppingCondition", required: true, type: .structure)
         ]
+
         /// The time when the model compilation job on a compilation job instance ended. For a successful or stopped job, this is when the job's model artifacts have finished uploading. For a failed job, this is when Amazon SageMaker detected that the job failed. 
         public let compilationEndTime: TimeStamp?
         /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker assumes to perform the model compilation job.
@@ -2524,6 +2685,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndpointConfigName", required: true, type: .string)
         ]
+
         /// The name of the endpoint configuration.
         public let endpointConfigName: String
         
@@ -2549,6 +2711,7 @@ extension SageMaker {
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeMember(label: "ProductionVariants", required: true, type: .list)
         ]
+
         /// A timestamp that shows when the endpoint configuration was created.
         public let creationTime: TimeStamp
         /// The Amazon Resource Name (ARN) of the endpoint configuration.
@@ -2576,6 +2739,9 @@ extension SageMaker {
             try validate(endpointConfigName, name:"endpointConfigName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
             try validate(kmsKeyId, name:"kmsKeyId", max: 2048)
             try validate(kmsKeyId, name:"kmsKeyId", pattern: ".*")
+            try productionVariants.forEach {
+                try $0.validate()
+            }
             try validate(productionVariants, name:"productionVariants", min: 1)
         }
 
@@ -2592,6 +2758,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndpointName", required: true, type: .string)
         ]
+
         /// The name of the endpoint.
         public let endpointName: String
         
@@ -2620,6 +2787,7 @@ extension SageMaker {
             AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
             AWSShapeMember(label: "ProductionVariants", required: false, type: .list)
         ]
+
         /// A timestamp that shows when the endpoint was created.
         public let creationTime: TimeStamp
         /// The Amazon Resource Name (ARN) of the endpoint.
@@ -2657,6 +2825,9 @@ extension SageMaker {
             try validate(endpointName, name:"endpointName", max: 63)
             try validate(endpointName, name:"endpointName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
             try validate(failureReason, name:"failureReason", max: 1024)
+            try productionVariants?.forEach {
+                try $0.validate()
+            }
             try validate(productionVariants, name:"productionVariants", min: 1)
         }
 
@@ -2676,6 +2847,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HyperParameterTuningJobName", required: true, type: .string)
         ]
+
         /// The name of the tuning job to describe.
         public let hyperParameterTuningJobName: String
         
@@ -2711,6 +2883,7 @@ extension SageMaker {
             AWSShapeMember(label: "TrainingJobStatusCounters", required: true, type: .structure), 
             AWSShapeMember(label: "WarmStartConfig", required: false, type: .structure)
         ]
+
         /// A TrainingJobSummary object that describes the training job that completed with the best current HyperParameterTuningJobObjective.
         public let bestTrainingJob: HyperParameterTrainingJobSummary?
         /// The date and time that the tuning job started.
@@ -2795,6 +2968,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LabelingJobName", required: true, type: .string)
         ]
+
         /// The name of the labeling job to return information for.
         public let labelingJobName: String
         
@@ -2834,6 +3008,7 @@ extension SageMaker {
             AWSShapeMember(label: "StoppingConditions", required: false, type: .structure), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         /// The date and time that the labeling job was created.
         public let creationTime: TimeStamp
         /// If the job failed, the reason that it failed. 
@@ -2916,6 +3091,9 @@ extension SageMaker {
             try validate(roleArn, name:"roleArn", min: 20)
             try validate(roleArn, name:"roleArn", pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
             try stoppingConditions?.validate()
+            try tags?.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", max: 50)
             try validate(tags, name:"tags", min: 0)
         }
@@ -2946,6 +3124,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ModelName", required: true, type: .string)
         ]
+
         /// The name of the model.
         public let modelName: String
         
@@ -2974,6 +3153,7 @@ extension SageMaker {
             AWSShapeMember(label: "PrimaryContainer", required: false, type: .structure), 
             AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
+
         /// The containers in the inference pipeline.
         public let containers: [ContainerDefinition]?
         /// A timestamp that shows when the model was created.
@@ -3003,6 +3183,9 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try containers?.forEach {
+                try $0.validate()
+            }
             try validate(containers, name:"containers", max: 5)
             try validate(executionRoleArn, name:"executionRoleArn", max: 2048)
             try validate(executionRoleArn, name:"executionRoleArn", min: 20)
@@ -3032,6 +3215,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ModelPackageName", required: true, type: .string)
         ]
+
         /// The name of the model package to describe.
         public let modelPackageName: String
         
@@ -3063,6 +3247,7 @@ extension SageMaker {
             AWSShapeMember(label: "SourceAlgorithmSpecification", required: false, type: .structure), 
             AWSShapeMember(label: "ValidationSpecification", required: false, type: .structure)
         ]
+
         /// Whether the model package is certified for listing on AWS Marketplace.
         public let certifyForMarketplace: Bool?
         /// A timestamp specifying when the model package was created.
@@ -3107,6 +3292,7 @@ extension SageMaker {
             try validate(modelPackageName, name:"modelPackageName", max: 63)
             try validate(modelPackageName, name:"modelPackageName", min: 1)
             try validate(modelPackageName, name:"modelPackageName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try modelPackageStatusDetails.validate()
             try sourceAlgorithmSpecification?.validate()
             try validationSpecification?.validate()
         }
@@ -3129,6 +3315,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string)
         ]
+
         /// The name of the notebook instance that you want information about.
         public let notebookInstanceName: String
         
@@ -3150,6 +3337,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NotebookInstanceLifecycleConfigName", required: true, type: .string)
         ]
+
         /// The name of the lifecycle configuration to describe.
         public let notebookInstanceLifecycleConfigName: String
         
@@ -3176,6 +3364,7 @@ extension SageMaker {
             AWSShapeMember(label: "OnCreate", required: false, type: .list), 
             AWSShapeMember(label: "OnStart", required: false, type: .list)
         ]
+
         /// A timestamp that tells when the lifecycle configuration was created.
         public let creationTime: TimeStamp?
         /// A timestamp that tells when the lifecycle configuration was last modified.
@@ -3202,7 +3391,13 @@ extension SageMaker {
             try validate(notebookInstanceLifecycleConfigArn, name:"notebookInstanceLifecycleConfigArn", max: 256)
             try validate(notebookInstanceLifecycleConfigName, name:"notebookInstanceLifecycleConfigName", max: 63)
             try validate(notebookInstanceLifecycleConfigName, name:"notebookInstanceLifecycleConfigName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try onCreate?.forEach {
+                try $0.validate()
+            }
             try validate(onCreate, name:"onCreate", max: 1)
+            try onStart?.forEach {
+                try $0.validate()
+            }
             try validate(onStart, name:"onStart", max: 1)
         }
 
@@ -3239,6 +3434,7 @@ extension SageMaker {
             AWSShapeMember(label: "Url", required: false, type: .string), 
             AWSShapeMember(label: "VolumeSizeInGB", required: false, type: .integer)
         ]
+
         /// A list of the Elastic Inference (EI) instance types associated with this notebook instance. Currently only one EI instance type can be associated with a notebook instance. For more information, see Using Elastic Inference in Amazon SageMaker.
         public let acceleratorTypes: [NotebookInstanceAcceleratorType]?
         /// An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in AWS CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with Amazon SageMaker Notebook Instances.
@@ -3304,6 +3500,11 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try additionalCodeRepositories?.forEach {
+                try validate($0, name:"additionalCodeRepositories[]", max: 1024)
+                try validate($0, name:"additionalCodeRepositories[]", min: 1)
+                try validate($0, name:"additionalCodeRepositories[]", pattern: "^https://([^/]+)/?(.*)$|^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            }
             try validate(additionalCodeRepositories, name:"additionalCodeRepositories", max: 3)
             try validate(defaultCodeRepository, name:"defaultCodeRepository", max: 1024)
             try validate(defaultCodeRepository, name:"defaultCodeRepository", min: 1)
@@ -3319,6 +3520,10 @@ extension SageMaker {
             try validate(roleArn, name:"roleArn", max: 2048)
             try validate(roleArn, name:"roleArn", min: 20)
             try validate(roleArn, name:"roleArn", pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try securityGroups?.forEach {
+                try validate($0, name:"securityGroups[]", max: 32)
+                try validate($0, name:"securityGroups[]", pattern: "[-0-9a-zA-Z]+")
+            }
             try validate(securityGroups, name:"securityGroups", max: 5)
             try validate(subnetId, name:"subnetId", max: 32)
             try validate(subnetId, name:"subnetId", pattern: "[-0-9a-zA-Z]+")
@@ -3354,6 +3559,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WorkteamArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the subscribed work team to describe.
         public let workteamArn: String
         
@@ -3375,6 +3581,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubscribedWorkteam", required: true, type: .structure)
         ]
+
         /// A Workteam instance that contains information about the work team.
         public let subscribedWorkteam: SubscribedWorkteam
         
@@ -3395,6 +3602,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TrainingJobName", required: true, type: .string)
         ]
+
         /// The name of the training job.
         public let trainingJobName: String
         
@@ -3440,6 +3648,7 @@ extension SageMaker {
             AWSShapeMember(label: "TuningJobArn", required: false, type: .string), 
             AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
+
         /// Information about the algorithm used for training, and algorithm metadata. 
         public let algorithmSpecification: AlgorithmSpecification
         /// A timestamp that indicates when the training job was created.
@@ -3519,8 +3728,14 @@ extension SageMaker {
         public func validate() throws {
             try algorithmSpecification.validate()
             try validate(failureReason, name:"failureReason", max: 1024)
+            try finalMetricDataList?.forEach {
+                try $0.validate()
+            }
             try validate(finalMetricDataList, name:"finalMetricDataList", max: 20)
             try validate(finalMetricDataList, name:"finalMetricDataList", min: 0)
+            try inputDataConfig?.forEach {
+                try $0.validate()
+            }
             try validate(inputDataConfig, name:"inputDataConfig", max: 20)
             try validate(inputDataConfig, name:"inputDataConfig", min: 1)
             try validate(labelingJobArn, name:"labelingJobArn", max: 2048)
@@ -3574,6 +3789,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TransformJobName", required: true, type: .string)
         ]
+
         /// The name of the transform job that you want to view details of.
         public let transformJobName: String
         
@@ -3612,6 +3828,7 @@ extension SageMaker {
             AWSShapeMember(label: "TransformResources", required: true, type: .structure), 
             AWSShapeMember(label: "TransformStartTime", required: false, type: .timestamp)
         ]
+
         /// Specifies the number of records to include in a mini-batch for an HTTP inference request. A record  is a single unit of input data that inference can be made on. For example, a single line in a CSV file is a record.  To enable the batch strategy, you must set SplitType to Line, RecordIO, or TFRecord.
         public let batchStrategy: BatchStrategy?
         /// A timestamp that shows when the transform Job was created.
@@ -3710,6 +3927,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WorkteamName", required: true, type: .string)
         ]
+
         /// The name of the work team to return a description of.
         public let workteamName: String
         
@@ -3732,6 +3950,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Workteam", required: true, type: .structure)
         ]
+
         /// A Workteam instance that contains information about the work team. 
         public let workteam: Workteam
         
@@ -3754,6 +3973,7 @@ extension SageMaker {
             AWSShapeMember(label: "DesiredWeight", required: false, type: .float), 
             AWSShapeMember(label: "VariantName", required: true, type: .string)
         ]
+
         /// The variant's capacity.
         public let desiredInstanceCount: Int32?
         /// The variant's weight.
@@ -3815,6 +4035,7 @@ extension SageMaker {
             AWSShapeMember(label: "EndpointConfigArn", required: true, type: .string), 
             AWSShapeMember(label: "EndpointConfigName", required: true, type: .string)
         ]
+
         /// A timestamp that shows when the endpoint configuration was created.
         public let creationTime: TimeStamp
         /// The Amazon Resource Name (ARN) of the endpoint configuration.
@@ -3870,6 +4091,7 @@ extension SageMaker {
             AWSShapeMember(label: "EndpointStatus", required: true, type: .enum), 
             AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp)
         ]
+
         /// A timestamp that shows when the endpoint was created.
         public let creationTime: TimeStamp
         /// The Amazon Resource Name (ARN) of the endpoint.
@@ -3912,6 +4134,7 @@ extension SageMaker {
             AWSShapeMember(label: "Operator", required: false, type: .enum), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// A property name. For example, TrainingJobName. For the list of valid property names returned in a search result for each supported resource, see TrainingJob properties. You must specify a valid property name for the resource.
         public let name: String
         /// A Boolean binary operator that is used to evaluate the filter. The operator field contains one of the following values:  Equals  The specified resource in Name equals the specified Value.  NotEquals  The specified resource in Name does not equal the specified Value.  GreaterThan  The specified resource in Name is greater than the specified Value. Not supported for text-based properties.  GreaterThanOrEqualTo  The specified resource in Name is greater than or equal to the specified Value. Not supported for text-based properties.  LessThan  The specified resource in Name is less than the specified Value. Not supported for text-based properties.  LessThanOrEqualTo  The specified resource in Name is less than or equal to the specified Value. Not supported for text-based properties.  Contains  Only supported for text-based properties. The word-list of the property contains the specified Value.   If you have specified a filter Value, the default is Equals.
@@ -3947,6 +4170,7 @@ extension SageMaker {
             AWSShapeMember(label: "Type", required: false, type: .enum), 
             AWSShapeMember(label: "Value", required: true, type: .float)
         ]
+
         /// The name of the objective metric.
         public let metricName: String
         /// Whether to minimize or maximize the objective metric. Valid values are Minimize and Maximize.
@@ -3987,6 +4211,7 @@ extension SageMaker {
             AWSShapeMember(label: "Resource", required: true, type: .enum), 
             AWSShapeMember(label: "SuggestionQuery", required: false, type: .structure)
         ]
+
         /// The name of the Amazon SageMaker resource to Search for. The only valid Resource value is TrainingJob.
         public let resource: ResourceType
         /// Limits the property names that are included in the response.
@@ -4011,11 +4236,18 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PropertyNameSuggestions", required: false, type: .list)
         ]
+
         /// A list of property names for a Resource that match a SuggestionQuery.
         public let propertyNameSuggestions: [PropertyNameSuggestion]?
         
         public init(propertyNameSuggestions: [PropertyNameSuggestion]? = nil) {
             self.propertyNameSuggestions = propertyNameSuggestions
+        }
+
+        public func validate() throws {
+            try propertyNameSuggestions?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4029,6 +4261,7 @@ extension SageMaker {
             AWSShapeMember(label: "RepositoryUrl", required: true, type: .string), 
             AWSShapeMember(label: "SecretArn", required: false, type: .string)
         ]
+
         /// The default branch for the Git repository.
         public let branch: String?
         /// The URL where the Git repository is located.
@@ -4063,6 +4296,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SecretArn", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the AWS Secrets Manager secret that contains the credentials used to access the git repository. The secret must have a staging label of AWSCURRENT and must be in the following format:  {"username": UserName, "password": Password} 
         public let secretArn: String?
         
@@ -4096,6 +4330,7 @@ extension SageMaker {
             AWSShapeMember(label: "UiConfig", required: true, type: .structure), 
             AWSShapeMember(label: "WorkteamArn", required: true, type: .string)
         ]
+
         /// Configures how labels are consolidated across human workers.
         public let annotationConsolidationConfig: AnnotationConsolidationConfig
         /// Defines the maximum number of data objects that can be labeled by human workers at the same time. Each object may have more than one worker at one time.
@@ -4150,6 +4385,11 @@ extension SageMaker {
             try validate(taskDescription, name:"taskDescription", max: 255)
             try validate(taskDescription, name:"taskDescription", min: 1)
             try validate(taskDescription, name:"taskDescription", pattern: ".+")
+            try taskKeywords?.forEach {
+                try validate($0, name:"taskKeywords[]", max: 30)
+                try validate($0, name:"taskKeywords[]", min: 1)
+                try validate($0, name:"taskKeywords[]", pattern: "^[A-Za-z0-9]+( [A-Za-z0-9]+)*$")
+            }
             try validate(taskKeywords, name:"taskKeywords", max: 5)
             try validate(taskKeywords, name:"taskKeywords", min: 1)
             try validate(taskTimeLimitInSeconds, name:"taskTimeLimitInSeconds", max: 28800)
@@ -4185,6 +4425,7 @@ extension SageMaker {
             AWSShapeMember(label: "TrainingImage", required: false, type: .string), 
             AWSShapeMember(label: "TrainingInputMode", required: true, type: .enum)
         ]
+
         /// The name of the resource algorithm to use for the hyperparameter tuning job. If you specify a value for this parameter, do not specify a value for TrainingImage.
         public let algorithmName: String?
         /// An array of MetricDefinition objects that specify the metrics that the algorithm emits.
@@ -4205,6 +4446,9 @@ extension SageMaker {
             try validate(algorithmName, name:"algorithmName", max: 170)
             try validate(algorithmName, name:"algorithmName", min: 1)
             try validate(algorithmName, name:"algorithmName", pattern: "(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:[a-z\\-]*\\/)?([a-zA-Z0-9]([a-zA-Z0-9-]){0,62})(?<!-)$")
+            try metricDefinitions?.forEach {
+                try $0.validate()
+            }
             try validate(metricDefinitions, name:"metricDefinitions", max: 20)
             try validate(metricDefinitions, name:"metricDefinitions", min: 0)
             try validate(trainingImage, name:"trainingImage", max: 255)
@@ -4237,6 +4481,7 @@ extension SageMaker {
             AWSShapeMember(label: "Range", required: false, type: .structure), 
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
+
         /// The default value for this hyperparameter. If a default value is specified, a hyperparameter cannot be required.
         public let defaultValue: String?
         /// A brief description of the hyperparameter.
@@ -4296,6 +4541,7 @@ extension SageMaker {
             AWSShapeMember(label: "StoppingCondition", required: true, type: .structure), 
             AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
+
         /// The HyperParameterAlgorithmSpecification object that specifies the resource algorithm to use for the training jobs that the tuning job launches.
         public let algorithmSpecification: HyperParameterAlgorithmSpecification
         /// To encrypt all communications between ML compute instances in distributed training, choose True. Encryption provides greater security for distributed training, but training might take longer. How long it takes depends on the amount of communication between compute instances, especially if you use a deep learning algorithm in distributed training.
@@ -4332,6 +4578,9 @@ extension SageMaker {
 
         public func validate() throws {
             try algorithmSpecification.validate()
+            try inputDataConfig?.forEach {
+                try $0.validate()
+            }
             try validate(inputDataConfig, name:"inputDataConfig", max: 20)
             try validate(inputDataConfig, name:"inputDataConfig", min: 1)
             try outputDataConfig.validate()
@@ -4371,6 +4620,7 @@ extension SageMaker {
             AWSShapeMember(label: "TunedHyperParameters", required: true, type: .map), 
             AWSShapeMember(label: "TuningJobName", required: false, type: .string)
         ]
+
         /// The date and time that the training job was created.
         public let creationTime: TimeStamp
         /// The reason that the training job failed. 
@@ -4444,6 +4694,7 @@ extension SageMaker {
             AWSShapeMember(label: "Strategy", required: true, type: .enum), 
             AWSShapeMember(label: "TrainingJobEarlyStoppingType", required: false, type: .enum)
         ]
+
         /// The HyperParameterTuningJobObjective object that specifies the objective metric for this tuning job.
         public let hyperParameterTuningJobObjective: HyperParameterTuningJobObjective?
         /// The ParameterRanges object that specifies the ranges of hyperparameters that this tuning job searches.
@@ -4483,6 +4734,7 @@ extension SageMaker {
             AWSShapeMember(label: "MetricName", required: true, type: .string), 
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
+
         /// The name of the metric to use for the objective metric.
         public let metricName: String
         /// Whether to minimize or maximize the objective metric.
@@ -4546,6 +4798,7 @@ extension SageMaker {
             AWSShapeMember(label: "Strategy", required: true, type: .enum), 
             AWSShapeMember(label: "TrainingJobStatusCounters", required: true, type: .structure)
         ]
+
         /// The date and time that the tuning job was created.
         public let creationTime: TimeStamp
         /// The date and time that the tuning job ended.
@@ -4610,6 +4863,7 @@ extension SageMaker {
             AWSShapeMember(label: "ParentHyperParameterTuningJobs", required: true, type: .list), 
             AWSShapeMember(label: "WarmStartType", required: true, type: .enum)
         ]
+
         /// An array of hyperparameter tuning jobs that are used as the starting point for the new hyperparameter tuning job. For more information about warm starting a hyperparameter tuning job, see Using a Previous Hyperparameter Tuning Job as a Starting Point. Hyperparameter tuning jobs created before October 1, 2018 cannot be used as parent jobs for warm start tuning jobs.
         public let parentHyperParameterTuningJobs: [ParentHyperParameterTuningJob]
         /// Specifies one of the following:  IDENTICAL_DATA_AND_ALGORITHM  The new hyperparameter tuning job uses the same input data and training image as the parent tuning jobs. You can change the hyperparameter ranges to search and the maximum number of training jobs that the hyperparameter tuning job launches. You cannot use a new version of the training algorithm, unless the changes in the new version do not affect the algorithm itself. For example, changes that improve logging or adding support for a different data format are allowed. You can also change hyperparameters from tunable to static, and from static to tunable, but the total number of static plus tunable hyperparameters must remain the same as it is in all parent jobs. The objective metric for the new tuning job must be the same as for all parent jobs.  TRANSFER_LEARNING  The new hyperparameter tuning job can include input data, hyperparameter ranges, maximum number of concurrent training jobs, and maximum number of training jobs that are different than those of its parent hyperparameter tuning jobs. The training image can also be a different version from the version used in the parent hyperparameter tuning job. You can also change hyperparameters from tunable to static, and from static to tunable, but the total number of static plus tunable hyperparameters must remain the same as it is in all parent jobs. The objective metric for the new tuning job must be the same as for all parent jobs.  
@@ -4621,6 +4875,9 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try parentHyperParameterTuningJobs.forEach {
+                try $0.validate()
+            }
             try validate(parentHyperParameterTuningJobs, name:"parentHyperParameterTuningJobs", max: 5)
             try validate(parentHyperParameterTuningJobs, name:"parentHyperParameterTuningJobs", min: 1)
         }
@@ -4645,6 +4902,7 @@ extension SageMaker {
             AWSShapeMember(label: "SupportedResponseMIMETypes", required: true, type: .list), 
             AWSShapeMember(label: "SupportedTransformInstanceTypes", required: true, type: .list)
         ]
+
         /// The Amazon ECR registry path of the Docker image that contains the inference code.
         public let containers: [ModelPackageContainerDefinition]
         /// The supported MIME types for the input data.
@@ -4665,8 +4923,19 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try containers.forEach {
+                try $0.validate()
+            }
             try validate(containers, name:"containers", max: 1)
             try validate(containers, name:"containers", min: 1)
+            try supportedContentTypes.forEach {
+                try validate($0, name:"supportedContentTypes[]", max: 256)
+                try validate($0, name:"supportedContentTypes[]", pattern: ".*")
+            }
+            try supportedResponseMIMETypes.forEach {
+                try validate($0, name:"supportedResponseMIMETypes[]", max: 1024)
+                try validate($0, name:"supportedResponseMIMETypes[]", pattern: "^[-\\w]+\\/.+$")
+            }
             try validate(supportedTransformInstanceTypes, name:"supportedTransformInstanceTypes", min: 1)
         }
 
@@ -4685,6 +4954,7 @@ extension SageMaker {
             AWSShapeMember(label: "Framework", required: true, type: .enum), 
             AWSShapeMember(label: "S3Uri", required: true, type: .string)
         ]
+
         /// Specifies the name and shape of the expected data inputs for your trained model with a JSON dictionary form. The data inputs are InputConfig$Framework specific.     TensorFlow: You must specify the name and shape (NHWC format) of the expected data inputs using a dictionary format for your trained model. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"input":[1,1024,1024,3]}    If using the CLI, {\"input\":[1,1024,1024,3]}      Examples for two inputs:   If using the console, {"data1": [1,28,28,1], "data2":[1,28,28,1]}    If using the CLI, {\"data1\": [1,28,28,1], \"data2\":[1,28,28,1]}         MXNET/ONNX: You must specify the name and shape (NCHW format) of the expected data inputs in order using a dictionary format for your trained model. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"data":[1,3,1024,1024]}    If using the CLI, {\"data\":[1,3,1024,1024]}      Examples for two inputs:   If using the console, {"var1": [1,1,28,28], "var2":[1,1,28,28]}     If using the CLI, {\"var1\": [1,1,28,28], \"var2\":[1,1,28,28]}         PyTorch: You can either specify the name and shape (NCHW format) of expected data inputs in order using a dictionary format for your trained model or you can specify the shape only using a list format. The dictionary formats required for the console and CLI are different. The list formats for the console and CLI are the same.   Examples for one input in dictionary format:   If using the console, {"input0":[1,3,224,224]}    If using the CLI, {\"input0\":[1,3,224,224]}      Example for one input in list format: [[1,3,224,224]]    Examples for two inputs in dictionary format:   If using the console, {"input0":[1,3,224,224], "input1":[1,3,224,224]}    If using the CLI, {\"input0\":[1,3,224,224], \"input1\":[1,3,224,224]}       Example for two inputs in list format: [[1,3,224,224], [1,3,224,224]]       XGBOOST: input data name and shape are not needed.  
         public let dataInputConfig: String
         /// Identifies the framework in which the model was trained. For example: TENSORFLOW.
@@ -4762,6 +5032,7 @@ extension SageMaker {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "ScalingType", required: false, type: .enum)
         ]
+
         /// The maximum value of the hyperparameter to search.
         public let maxValue: String
         /// The minimum value of the hyperparameter to search.
@@ -4800,6 +5071,7 @@ extension SageMaker {
             AWSShapeMember(label: "MaxValue", required: true, type: .string), 
             AWSShapeMember(label: "MinValue", required: true, type: .string)
         ]
+
         /// The maximum integer value allowed.
         public let maxValue: String
         /// The minimum integer value allowed.
@@ -4837,6 +5109,7 @@ extension SageMaker {
             AWSShapeMember(label: "TotalLabeled", required: false, type: .integer), 
             AWSShapeMember(label: "Unlabeled", required: false, type: .integer)
         ]
+
         /// The total number of objects that could not be labeled due to an error.
         public let failedNonRetryableError: Int32?
         /// The total number of objects labeled by a human worker.
@@ -4879,6 +5152,7 @@ extension SageMaker {
             AWSShapeMember(label: "PendingHuman", required: false, type: .integer), 
             AWSShapeMember(label: "Total", required: false, type: .integer)
         ]
+
         /// The total number of data objects labeled by a human worker.
         public let humanLabeled: Int32?
         /// The total number of data objects that need to be labeled by a human worker.
@@ -4911,6 +5185,7 @@ extension SageMaker {
             AWSShapeMember(label: "LabelingJobAlgorithmSpecificationArn", required: true, type: .string), 
             AWSShapeMember(label: "LabelingJobResourceConfig", required: false, type: .structure)
         ]
+
         /// At the end of an auto-label job Amazon SageMaker Ground Truth sends the Amazon Resource Nam (ARN) of the final model used for auto-labeling. You can use this model as the starting point for subsequent similar jobs by providing the ARN of the model here. 
         public let initialActiveLearningModelArn: String?
         /// Specifies the Amazon Resource Name (ARN) of the algorithm used for auto-labeling. You must select one of the following ARNs:    Image classification   arn:aws:sagemaker:region:027400017018:labeling-job-algorithm-specification/image-classification     Text classification   arn:aws:sagemaker:region:027400017018:labeling-job-algorithm-specification/text-classification     Object detection   arn:aws:sagemaker:region:027400017018:labeling-job-algorithm-specification/object-detection   
@@ -4944,6 +5219,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ContentClassifiers", required: false, type: .list)
         ]
+
         /// Declares that your content is free of personally identifiable information or adult content. Amazon SageMaker may restrict the Amazon Mechanical Turk workers that can view your task based on this information.
         public let contentClassifiers: [ContentClassifier]?
         
@@ -4964,6 +5240,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "S3DataSource", required: true, type: .structure)
         ]
+
         /// The Amazon S3 location of the input data objects.
         public let s3DataSource: LabelingJobS3DataSource
         
@@ -4989,6 +5266,7 @@ extension SageMaker {
             AWSShapeMember(label: "NumberOfHumanWorkersPerDataObject", required: false, type: .integer), 
             AWSShapeMember(label: "WorkRequesterAccountId", required: true, type: .string)
         ]
+
         /// The date and time that the labeling job was created.
         public let creationTime: TimeStamp
         /// A unique identifier for a labeling job. You can use this to refer to a specific labeling job.
@@ -5037,6 +5315,7 @@ extension SageMaker {
             AWSShapeMember(label: "DataAttributes", required: false, type: .structure), 
             AWSShapeMember(label: "DataSource", required: true, type: .structure)
         ]
+
         /// Attributes of the data specified by the customer.
         public let dataAttributes: LabelingJobDataAttributes?
         /// The location of the input data.
@@ -5063,6 +5342,7 @@ extension SageMaker {
             AWSShapeMember(label: "FinalActiveLearningModelArn", required: false, type: .string), 
             AWSShapeMember(label: "OutputDatasetS3Uri", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) for the most recent Amazon SageMaker model trained as part of automated data labeling. 
         public let finalActiveLearningModelArn: String?
         /// The Amazon S3 bucket location of the manifest file for labeled data. 
@@ -5092,6 +5372,7 @@ extension SageMaker {
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeMember(label: "S3OutputPath", required: true, type: .string)
         ]
+
         /// The AWS Key Management Service ID of the key used to encrypt the output data, if any. If you use a KMS key ID or an alias of your master key, the Amazon SageMaker execution role must include permissions to call kms:Encrypt. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. Amazon SageMaker uses server-side encryption with KMS-managed keys for LabelingJobOutputConfig. If you use a bucket policy with an s3:PutObject permission that only allows objects with server-side encryption, set the condition key of s3:x-amz-server-side-encryption to "aws:kms". For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KMS key policy must grant permission to the IAM role that you specify in your CreateLabelingJob request. For more information, see Using Key Policies in AWS KMS in the AWS Key Management Service Developer Guide.
         public let kmsKeyId: String?
         /// The Amazon S3 location to write output data.
@@ -5119,6 +5400,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeKmsKeyId", required: false, type: .string)
         ]
+
         /// The AWS Key Management Service key ID for the key used to encrypt the output data, if any.
         public let volumeKmsKeyId: String?
         
@@ -5140,6 +5422,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ManifestS3Uri", required: true, type: .string)
         ]
+
         /// The Amazon S3 location of the manifest file that describes the input data objects.
         public let manifestS3Uri: String
         
@@ -5171,6 +5454,7 @@ extension SageMaker {
             AWSShapeMember(label: "MaxHumanLabeledObjectCount", required: false, type: .integer), 
             AWSShapeMember(label: "MaxPercentageOfInputDatasetLabeled", required: false, type: .integer)
         ]
+
         /// The maximum number of objects that can be labeled by human workers.
         public let maxHumanLabeledObjectCount: Int32?
         /// The maximum number of input data objects that should be labeled.
@@ -5208,6 +5492,7 @@ extension SageMaker {
             AWSShapeMember(label: "PreHumanTaskLambdaArn", required: true, type: .string), 
             AWSShapeMember(label: "WorkteamArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the Lambda function used to consolidate the annotations from individual workers into a label for a data object. For more information, see Annotation Consolidation.
         public let annotationConsolidationLambdaArn: String?
         /// The date and time that the job was created (timestamp).
@@ -5292,6 +5577,7 @@ extension SageMaker {
             AWSShapeMember(label: "SortBy", required: false, type: .enum), 
             AWSShapeMember(label: "SortOrder", required: false, type: .enum)
         ]
+
         /// A filter that returns only algorithms created after the specified time (timestamp).
         public let creationTimeAfter: TimeStamp?
         /// A filter that returns only algorithms created before the specified time (timestamp).
@@ -5342,6 +5628,7 @@ extension SageMaker {
             AWSShapeMember(label: "AlgorithmSummaryList", required: true, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// &gt;An array of AlgorithmSummary objects, each of which lists an algorithm.
         public let algorithmSummaryList: [AlgorithmSummary]
         /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of algorithms, use it in the subsequent request.
@@ -5353,6 +5640,9 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try algorithmSummaryList.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 8192)
             try validate(nextToken, name:"nextToken", pattern: ".*")
         }
@@ -5375,6 +5665,7 @@ extension SageMaker {
             AWSShapeMember(label: "SortBy", required: false, type: .enum), 
             AWSShapeMember(label: "SortOrder", required: false, type: .enum)
         ]
+
         /// A filter that returns only Git repositories that were created after the specified time.
         public let creationTimeAfter: TimeStamp?
         /// A filter that returns only Git repositories that were created before the specified time.
@@ -5433,6 +5724,7 @@ extension SageMaker {
             AWSShapeMember(label: "CodeRepositorySummaryList", required: true, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Gets a list of summaries of the Git repositories. Each summary specifies the following values for the repository:    Name   Amazon Resource Name (ARN)   Creation time   Last modified time   Configuration information, including the URL location of the repository and the ARN of the AWS Secrets Manager secret that contains the credentials used to access the repository.  
         public let codeRepositorySummaryList: [CodeRepositorySummary]
         /// If the result of a ListCodeRepositoriesOutput request was truncated, the response includes a NextToken. To get the next set of Git repositories, use the token in the next request.
@@ -5444,6 +5736,9 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try codeRepositorySummaryList.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 8192)
             try validate(nextToken, name:"nextToken", pattern: ".*")
         }
@@ -5467,6 +5762,7 @@ extension SageMaker {
             AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
             AWSShapeMember(label: "StatusEquals", required: false, type: .enum)
         ]
+
         /// A filter that returns the model compilation jobs that were created after a specified time. 
         public let creationTimeAfter: TimeStamp?
         /// A filter that returns the model compilation jobs that were created before a specified time.
@@ -5529,6 +5825,7 @@ extension SageMaker {
             AWSShapeMember(label: "CompilationJobSummaries", required: true, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// An array of CompilationJobSummary objects, each describing a model compilation job. 
         public let compilationJobSummaries: [CompilationJobSummary]
         /// If the response is truncated, Amazon SageMaker returns this NextToken. To retrieve the next set of model compilation jobs, use this token in the next request.
@@ -5540,6 +5837,9 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try compilationJobSummaries.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 8192)
             try validate(nextToken, name:"nextToken", pattern: ".*")
         }
@@ -5567,6 +5867,7 @@ extension SageMaker {
             AWSShapeMember(label: "SortBy", required: false, type: .enum), 
             AWSShapeMember(label: "SortOrder", required: false, type: .enum)
         ]
+
         /// A filter that returns only endpoint configurations with a creation time greater than or equal to the specified time (timestamp).
         public let creationTimeAfter: TimeStamp?
         /// A filter that returns only endpoint configurations created before the specified time (timestamp).
@@ -5617,6 +5918,7 @@ extension SageMaker {
             AWSShapeMember(label: "EndpointConfigs", required: true, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// An array of endpoint configurations.
         public let endpointConfigs: [EndpointConfigSummary]
         ///  If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of endpoint configurations, use it in the subsequent request 
@@ -5628,6 +5930,9 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try endpointConfigs.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 8192)
             try validate(nextToken, name:"nextToken", pattern: ".*")
         }
@@ -5651,6 +5956,7 @@ extension SageMaker {
             AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
             AWSShapeMember(label: "StatusEquals", required: false, type: .enum)
         ]
+
         /// A filter that returns only endpoints with a creation time greater than or equal to the specified time (timestamp).
         public let creationTimeAfter: TimeStamp?
         /// A filter that returns only endpoints that were created before the specified time (timestamp).
@@ -5713,6 +6019,7 @@ extension SageMaker {
             AWSShapeMember(label: "Endpoints", required: true, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         ///  An array or endpoint objects. 
         public let endpoints: [EndpointSummary]
         ///  If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of training jobs, use it in the subsequent request. 
@@ -5724,6 +6031,9 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try endpoints.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 8192)
             try validate(nextToken, name:"nextToken", pattern: ".*")
         }
@@ -5747,6 +6057,7 @@ extension SageMaker {
             AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
             AWSShapeMember(label: "StatusEquals", required: false, type: .enum)
         ]
+
         /// A filter that returns only tuning jobs that were created after the specified time.
         public let creationTimeAfter: TimeStamp?
         /// A filter that returns only tuning jobs that were created before the specified time.
@@ -5809,6 +6120,7 @@ extension SageMaker {
             AWSShapeMember(label: "HyperParameterTuningJobSummaries", required: true, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// A list of HyperParameterTuningJobSummary objects that describe the tuning jobs that the ListHyperParameterTuningJobs request returned.
         public let hyperParameterTuningJobSummaries: [HyperParameterTuningJobSummary]
         /// If the result of this ListHyperParameterTuningJobs request was truncated, the response includes a NextToken. To retrieve the next set of tuning jobs, use the token in the next request.
@@ -5820,6 +6132,9 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try hyperParameterTuningJobSummaries.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 8192)
             try validate(nextToken, name:"nextToken", pattern: ".*")
         }
@@ -5841,6 +6156,7 @@ extension SageMaker {
             AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
             AWSShapeMember(label: "WorkteamArn", required: true, type: .string)
         ]
+
         /// A filter that returns only labeling jobs created after the specified time (timestamp).
         public let creationTimeAfter: TimeStamp?
         /// A filter that returns only labeling jobs created before the specified time (timestamp).
@@ -5898,6 +6214,7 @@ extension SageMaker {
             AWSShapeMember(label: "LabelingJobSummaryList", required: true, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// An array of LabelingJobSummary objects, each describing a labeling job.
         public let labelingJobSummaryList: [LabelingJobForWorkteamSummary]
         /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of labeling jobs, use it in the subsequent request.
@@ -5909,6 +6226,9 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try labelingJobSummaryList.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 8192)
             try validate(nextToken, name:"nextToken", pattern: ".*")
         }
@@ -5937,6 +6257,7 @@ extension SageMaker {
             AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
             AWSShapeMember(label: "StatusEquals", required: false, type: .enum)
         ]
+
         /// A filter that returns only labeling jobs created after the specified time (timestamp).
         public let creationTimeAfter: TimeStamp?
         /// A filter that returns only labeling jobs created before the specified time (timestamp).
@@ -5999,6 +6320,7 @@ extension SageMaker {
             AWSShapeMember(label: "LabelingJobSummaryList", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// An array of LabelingJobSummary objects, each describing a labeling job.
         public let labelingJobSummaryList: [LabelingJobSummary]?
         /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of labeling jobs, use it in the subsequent request.
@@ -6010,6 +6332,9 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try labelingJobSummaryList?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 8192)
             try validate(nextToken, name:"nextToken", pattern: ".*")
         }
@@ -6030,6 +6355,7 @@ extension SageMaker {
             AWSShapeMember(label: "SortBy", required: false, type: .enum), 
             AWSShapeMember(label: "SortOrder", required: false, type: .enum)
         ]
+
         /// A filter that returns only model packages created after the specified time (timestamp).
         public let creationTimeAfter: TimeStamp?
         /// A filter that returns only model packages created before the specified time (timestamp).
@@ -6080,6 +6406,7 @@ extension SageMaker {
             AWSShapeMember(label: "ModelPackageSummaryList", required: true, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// An array of ModelPackageSummary objects, each of which lists a model package.
         public let modelPackageSummaryList: [ModelPackageSummary]
         /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of model packages, use it in the subsequent request.
@@ -6091,6 +6418,9 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try modelPackageSummaryList.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 8192)
             try validate(nextToken, name:"nextToken", pattern: ".*")
         }
@@ -6111,6 +6441,7 @@ extension SageMaker {
             AWSShapeMember(label: "SortBy", required: false, type: .enum), 
             AWSShapeMember(label: "SortOrder", required: false, type: .enum)
         ]
+
         /// A filter that returns only models with a creation time greater than or equal to the specified time (timestamp).
         public let creationTimeAfter: TimeStamp?
         /// A filter that returns only models created before the specified time (timestamp).
@@ -6161,6 +6492,7 @@ extension SageMaker {
             AWSShapeMember(label: "Models", required: true, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// An array of ModelSummary objects, each of which lists a model.
         public let models: [ModelSummary]
         ///  If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of models, use it in the subsequent request. 
@@ -6172,6 +6504,9 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try models.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 8192)
             try validate(nextToken, name:"nextToken", pattern: ".*")
         }
@@ -6194,6 +6529,7 @@ extension SageMaker {
             AWSShapeMember(label: "SortBy", required: false, type: .enum), 
             AWSShapeMember(label: "SortOrder", required: false, type: .enum)
         ]
+
         /// A filter that returns only lifecycle configurations that were created after the specified time (timestamp).
         public let creationTimeAfter: TimeStamp?
         /// A filter that returns only lifecycle configurations that were created before the specified time (timestamp).
@@ -6252,6 +6588,7 @@ extension SageMaker {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "NotebookInstanceLifecycleConfigs", required: false, type: .list)
         ]
+
         /// If the response is truncated, Amazon SageMaker returns this token. To get the next set of lifecycle configurations, use it in the next request. 
         public let nextToken: String?
         /// An array of NotebookInstanceLifecycleConfiguration objects, each listing a lifecycle configuration.
@@ -6265,6 +6602,9 @@ extension SageMaker {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 8192)
             try validate(nextToken, name:"nextToken", pattern: ".*")
+            try notebookInstanceLifecycleConfigs?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6289,6 +6629,7 @@ extension SageMaker {
             AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
             AWSShapeMember(label: "StatusEquals", required: false, type: .enum)
         ]
+
         /// A filter that returns only notebook instances with associated with the specified git repository.
         public let additionalCodeRepositoryEquals: String?
         /// A filter that returns only notebook instances that were created after the specified time (timestamp).
@@ -6370,6 +6711,7 @@ extension SageMaker {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "NotebookInstances", required: false, type: .list)
         ]
+
         /// If the response to the previous ListNotebookInstances request was truncated, Amazon SageMaker returns this token. To retrieve the next set of notebook instances, use the token in the next request.
         public let nextToken: String?
         /// An array of NotebookInstanceSummary objects, one for each notebook instance.
@@ -6383,6 +6725,9 @@ extension SageMaker {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 8192)
             try validate(nextToken, name:"nextToken", pattern: ".*")
+            try notebookInstances?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6397,6 +6742,7 @@ extension SageMaker {
             AWSShapeMember(label: "NameContains", required: false, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The maximum number of work teams to return in each page of the response.
         public let maxResults: Int32?
         /// A string in the work team name. This filter returns only work teams whose name contains the specified string.
@@ -6432,6 +6778,7 @@ extension SageMaker {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "SubscribedWorkteams", required: true, type: .list)
         ]
+
         /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of work teams, use it in the subsequent request.
         public let nextToken: String?
         /// An array of Workteam objects, each describing a work team.
@@ -6445,6 +6792,9 @@ extension SageMaker {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 8192)
             try validate(nextToken, name:"nextToken", pattern: ".*")
+            try subscribedWorkteams.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6459,6 +6809,7 @@ extension SageMaker {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
+
         /// Maximum number of tags to return.
         public let maxResults: Int32?
         ///  If the response to the previous ListTags request is truncated, Amazon SageMaker returns this token. To retrieve the next set of tags, use it in the subsequent request. 
@@ -6492,6 +6843,7 @@ extension SageMaker {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
+
         ///  If response is truncated, Amazon SageMaker includes a token in the response. You can use this token in your subsequent request to fetch next set of tokens. 
         public let nextToken: String?
         /// An array of Tag objects, each with a tag key and a value.
@@ -6505,6 +6857,9 @@ extension SageMaker {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 8192)
             try validate(nextToken, name:"nextToken", pattern: ".*")
+            try tags?.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", max: 50)
             try validate(tags, name:"tags", min: 0)
         }
@@ -6524,6 +6879,7 @@ extension SageMaker {
             AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
             AWSShapeMember(label: "StatusEquals", required: false, type: .enum)
         ]
+
         /// The name of the tuning job whose training jobs you want to list.
         public let hyperParameterTuningJobName: String
         /// The maximum number of training jobs to return. The default value is 10.
@@ -6571,6 +6927,7 @@ extension SageMaker {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "TrainingJobSummaries", required: true, type: .list)
         ]
+
         /// If the result of this ListTrainingJobsForHyperParameterTuningJob request was truncated, the response includes a NextToken. To retrieve the next set of training jobs, use the token in the next request.
         public let nextToken: String?
         /// A list of TrainingJobSummary objects that describe the training jobs that the ListTrainingJobsForHyperParameterTuningJob request returned.
@@ -6584,6 +6941,9 @@ extension SageMaker {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 8192)
             try validate(nextToken, name:"nextToken", pattern: ".*")
+            try trainingJobSummaries.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6605,6 +6965,7 @@ extension SageMaker {
             AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
             AWSShapeMember(label: "StatusEquals", required: false, type: .enum)
         ]
+
         /// A filter that returns only training jobs created after the specified time (timestamp).
         public let creationTimeAfter: TimeStamp?
         /// A filter that returns only training jobs created before the specified time (timestamp).
@@ -6667,6 +7028,7 @@ extension SageMaker {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "TrainingJobSummaries", required: true, type: .list)
         ]
+
         /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of training jobs, use it in the subsequent request.
         public let nextToken: String?
         /// An array of TrainingJobSummary objects, each listing a training job.
@@ -6680,6 +7042,9 @@ extension SageMaker {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 8192)
             try validate(nextToken, name:"nextToken", pattern: ".*")
+            try trainingJobSummaries.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6701,6 +7066,7 @@ extension SageMaker {
             AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
             AWSShapeMember(label: "StatusEquals", required: false, type: .enum)
         ]
+
         /// A filter that returns only transform jobs created after the specified time.
         public let creationTimeAfter: TimeStamp?
         /// A filter that returns only transform jobs created before the specified time.
@@ -6763,6 +7129,7 @@ extension SageMaker {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "TransformJobSummaries", required: true, type: .list)
         ]
+
         /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of transform jobs, use it in the next request.
         public let nextToken: String?
         /// An array of TransformJobSummary objects.
@@ -6776,6 +7143,9 @@ extension SageMaker {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 8192)
             try validate(nextToken, name:"nextToken", pattern: ".*")
+            try transformJobSummaries.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6792,6 +7162,7 @@ extension SageMaker {
             AWSShapeMember(label: "SortBy", required: false, type: .enum), 
             AWSShapeMember(label: "SortOrder", required: false, type: .enum)
         ]
+
         /// The maximum number of work teams to return in each page of the response.
         public let maxResults: Int32?
         /// A string in the work team's name. This filter returns only work teams whose name contains the specified string.
@@ -6835,6 +7206,7 @@ extension SageMaker {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Workteams", required: true, type: .list)
         ]
+
         /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of work teams, use it in the subsequent request.
         public let nextToken: String?
         /// An array of Workteam objects, each describing a work team.
@@ -6848,6 +7220,9 @@ extension SageMaker {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 8192)
             try validate(nextToken, name:"nextToken", pattern: ".*")
+            try workteams.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6866,6 +7241,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CognitoMemberDefinition", required: false, type: .structure)
         ]
+
         /// The Amazon Cognito user group that is part of the work team.
         public let cognitoMemberDefinition: CognitoMemberDefinition?
         
@@ -6888,6 +7264,7 @@ extension SageMaker {
             AWSShapeMember(label: "Timestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "Value", required: false, type: .float)
         ]
+
         /// The name of the metric.
         public let metricName: String?
         /// The date and time that the algorithm emitted the metric.
@@ -6919,6 +7296,7 @@ extension SageMaker {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Regex", required: true, type: .string)
         ]
+
         /// The name of the metric.
         public let name: String
         /// A regular expression that searches the output of a training job and gets the value of the metric. For more information about using regular expressions to define metrics, see Defining Objective Metrics.
@@ -6948,6 +7326,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "S3ModelArtifacts", required: true, type: .string)
         ]
+
         /// The path of the S3 object that contains the model artifacts. For example, s3://bucket-name/keynameprefix/model.tar.gz.
         public let s3ModelArtifacts: String
         
@@ -6973,6 +7352,7 @@ extension SageMaker {
             AWSShapeMember(label: "ModelDataUrl", required: false, type: .string), 
             AWSShapeMember(label: "ProductId", required: false, type: .string)
         ]
+
         /// The DNS host name for the Docker container.
         public let containerHostname: String?
         /// The Amazon EC2 Container Registry (Amazon ECR) path where inference code is stored. If you are using your own custom algorithm instead of an algorithm provided by Amazon SageMaker, the inference code must meet Amazon SageMaker requirements. Amazon SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see Using Your Own Algorithms with Amazon SageMaker.
@@ -7034,6 +7414,7 @@ extension SageMaker {
             AWSShapeMember(label: "ImageScanStatuses", required: false, type: .list), 
             AWSShapeMember(label: "ValidationStatuses", required: true, type: .list)
         ]
+
         /// The status of the scan of the Docker image container for the model package.
         public let imageScanStatuses: [ModelPackageStatusItem]?
         /// The validation status of the model package.
@@ -7042,6 +7423,15 @@ extension SageMaker {
         public init(imageScanStatuses: [ModelPackageStatusItem]? = nil, validationStatuses: [ModelPackageStatusItem]) {
             self.imageScanStatuses = imageScanStatuses
             self.validationStatuses = validationStatuses
+        }
+
+        public func validate() throws {
+            try imageScanStatuses?.forEach {
+                try $0.validate()
+            }
+            try validationStatuses.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7056,6 +7446,7 @@ extension SageMaker {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Status", required: true, type: .enum)
         ]
+
         /// if the overall status is Failed, the reason for the failure.
         public let failureReason: String?
         /// The name of the model package for which the overall status is being reported.
@@ -7090,6 +7481,7 @@ extension SageMaker {
             AWSShapeMember(label: "ModelPackageName", required: true, type: .string), 
             AWSShapeMember(label: "ModelPackageStatus", required: true, type: .enum)
         ]
+
         /// A timestamp that shows when the model package was created.
         public let creationTime: TimeStamp
         /// The Amazon Resource Name (ARN) of the model package.
@@ -7134,6 +7526,7 @@ extension SageMaker {
             AWSShapeMember(label: "ProfileName", required: true, type: .string), 
             AWSShapeMember(label: "TransformJobDefinition", required: true, type: .structure)
         ]
+
         /// The name of the profile for the model package.
         public let profileName: String
         /// The TransformJobDefinition object that describes the transform job used for the validation of the model package.
@@ -7162,6 +7555,7 @@ extension SageMaker {
             AWSShapeMember(label: "ValidationProfiles", required: true, type: .list), 
             AWSShapeMember(label: "ValidationRole", required: true, type: .string)
         ]
+
         /// An array of ModelPackageValidationProfile objects, each of which specifies a batch transform job that Amazon SageMaker runs to validate your model package.
         public let validationProfiles: [ModelPackageValidationProfile]
         /// The IAM roles to be used for the validation of the model package.
@@ -7173,6 +7567,9 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try validationProfiles.forEach {
+                try $0.validate()
+            }
             try validate(validationProfiles, name:"validationProfiles", max: 1)
             try validate(validationProfiles, name:"validationProfiles", min: 1)
             try validate(validationRole, name:"validationRole", max: 2048)
@@ -7198,6 +7595,7 @@ extension SageMaker {
             AWSShapeMember(label: "ModelArn", required: true, type: .string), 
             AWSShapeMember(label: "ModelName", required: true, type: .string)
         ]
+
         /// A timestamp that indicates when the model was created.
         public let creationTime: TimeStamp
         /// The Amazon Resource Name (ARN) of the model.
@@ -7231,6 +7629,7 @@ extension SageMaker {
             AWSShapeMember(label: "Filters", required: true, type: .list), 
             AWSShapeMember(label: "NestedPropertyName", required: true, type: .string)
         ]
+
         /// A list of filters. Each filter acts on a property. Filters must contain at least one Filters value. For example, a NestedFilters call might include a filter on the PropertyName parameter of the InputDataConfig property: InputDataConfig.DataSource.S3DataSource.S3Uri.
         public let filters: [Filter]
         /// The name of the property to use in the nested filters. The value must match a listed property name, such as InputDataConfig.
@@ -7242,6 +7641,9 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try filters.forEach {
+                try $0.validate()
+            }
             try validate(filters, name:"filters", max: 20)
             try validate(filters, name:"filters", min: 1)
             try validate(nestedPropertyName, name:"nestedPropertyName", max: 255)
@@ -7282,6 +7684,7 @@ extension SageMaker {
             AWSShapeMember(label: "NotebookInstanceLifecycleConfigArn", required: true, type: .string), 
             AWSShapeMember(label: "NotebookInstanceLifecycleConfigName", required: true, type: .string)
         ]
+
         /// A timestamp that tells when the lifecycle configuration was created.
         public let creationTime: TimeStamp?
         /// A timestamp that tells when the lifecycle configuration was last modified.
@@ -7316,6 +7719,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Content", required: false, type: .string)
         ]
+
         /// A base64-encoded string that contains a shell script for a notebook instance lifecycle configuration.
         public let content: String?
         
@@ -7371,6 +7775,7 @@ extension SageMaker {
             AWSShapeMember(label: "NotebookInstanceStatus", required: false, type: .enum), 
             AWSShapeMember(label: "Url", required: false, type: .string)
         ]
+
         /// An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in AWS CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with Amazon SageMaker Notebook Instances.
         public let additionalCodeRepositories: [String]?
         /// A timestamp that shows when the notebook instance was created.
@@ -7406,6 +7811,11 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try additionalCodeRepositories?.forEach {
+                try validate($0, name:"additionalCodeRepositories[]", max: 1024)
+                try validate($0, name:"additionalCodeRepositories[]", min: 1)
+                try validate($0, name:"additionalCodeRepositories[]", pattern: "^https://([^/]+)/?(.*)$|^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            }
             try validate(additionalCodeRepositories, name:"additionalCodeRepositories", max: 3)
             try validate(defaultCodeRepository, name:"defaultCodeRepository", max: 1024)
             try validate(defaultCodeRepository, name:"defaultCodeRepository", min: 1)
@@ -7435,6 +7845,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NotificationTopicArn", required: false, type: .string)
         ]
+
         /// The ARN for the SNS topic to which notifications should be published.
         public let notificationTopicArn: String?
         
@@ -7464,6 +7875,7 @@ extension SageMaker {
             AWSShapeMember(label: "Pending", required: false, type: .integer), 
             AWSShapeMember(label: "Succeeded", required: false, type: .integer)
         ]
+
         /// The number of training jobs whose final objective metric was not evaluated and used in the hyperparameter tuning process. This typically occurs when the training job failed or did not emit an objective metric.
         public let failed: Int32?
         /// The number of training jobs that are in progress and pending evaluation of their final objective metric.
@@ -7512,6 +7924,7 @@ extension SageMaker {
             AWSShapeMember(label: "S3OutputLocation", required: true, type: .string), 
             AWSShapeMember(label: "TargetDevice", required: true, type: .enum)
         ]
+
         /// Identifies the S3 path where you want Amazon SageMaker to store the model artifacts. For example, s3://bucket-name/key-name-prefix.
         public let s3OutputLocation: String
         /// Identifies the device that you want to run your model on after it has been compiled. For example: ml_c5.
@@ -7538,6 +7951,7 @@ extension SageMaker {
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeMember(label: "S3OutputPath", required: true, type: .string)
         ]
+
         /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:    // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"    // KMS Key Alias  "alias/ExampleAlias"    // Amazon Resource Name (ARN) of a KMS Key Alias  "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"    If you use a KMS key ID or an alias of your master key, the Amazon SageMaker execution role must include permissions to call kms:Encrypt. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. Amazon SageMaker uses server-side encryption with KMS-managed keys for OutputDataConfig. If you use a bucket policy with an s3:PutObject permission that only allows objects with server-side encryption, set the condition key of s3:x-amz-server-side-encryption to "aws:kms". For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KMS key policy must grant permission to the IAM role that you specify in your CreateTrainingJob, CreateTransformJob, or CreateHyperParameterTuningJob requests. For more information, see Using Key Policies in AWS KMS in the AWS Key Management Service Developer Guide.
         public let kmsKeyId: String?
         /// Identifies the S3 path where you want Amazon SageMaker to store the model artifacts. For example, s3://bucket-name/key-name-prefix. 
@@ -7567,6 +7981,7 @@ extension SageMaker {
             AWSShapeMember(label: "ContinuousParameterRangeSpecification", required: false, type: .structure), 
             AWSShapeMember(label: "IntegerParameterRangeSpecification", required: false, type: .structure)
         ]
+
         /// A CategoricalParameterRangeSpecification object that defines the possible values for a categorical hyperparameter.
         public let categoricalParameterRangeSpecification: CategoricalParameterRangeSpecification?
         /// A ContinuousParameterRangeSpecification object that defines the possible values for a continuous hyperparameter.
@@ -7599,6 +8014,7 @@ extension SageMaker {
             AWSShapeMember(label: "ContinuousParameterRanges", required: false, type: .list), 
             AWSShapeMember(label: "IntegerParameterRanges", required: false, type: .list)
         ]
+
         /// The array of CategoricalParameterRange objects that specify ranges of categorical hyperparameters that a hyperparameter tuning job searches.
         public let categoricalParameterRanges: [CategoricalParameterRange]?
         /// The array of ContinuousParameterRange objects that specify ranges of continuous hyperparameters that a hyperparameter tuning job searches.
@@ -7613,10 +8029,19 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try categoricalParameterRanges?.forEach {
+                try $0.validate()
+            }
             try validate(categoricalParameterRanges, name:"categoricalParameterRanges", max: 20)
             try validate(categoricalParameterRanges, name:"categoricalParameterRanges", min: 0)
+            try continuousParameterRanges?.forEach {
+                try $0.validate()
+            }
             try validate(continuousParameterRanges, name:"continuousParameterRanges", max: 20)
             try validate(continuousParameterRanges, name:"continuousParameterRanges", min: 0)
+            try integerParameterRanges?.forEach {
+                try $0.validate()
+            }
             try validate(integerParameterRanges, name:"integerParameterRanges", max: 20)
             try validate(integerParameterRanges, name:"integerParameterRanges", min: 0)
         }
@@ -7640,6 +8065,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HyperParameterTuningJobName", required: false, type: .string)
         ]
+
         /// The name of the hyperparameter tuning job to be used as a starting point for a new hyperparameter tuning job.
         public let hyperParameterTuningJobName: String?
         
@@ -7667,6 +8093,7 @@ extension SageMaker {
             AWSShapeMember(label: "ModelName", required: true, type: .string), 
             AWSShapeMember(label: "VariantName", required: true, type: .string)
         ]
+
         /// The size of the Elastic Inference (EI) instance to use for the production variant. EI instances provide on-demand GPU computing for inference. For more information, see Using Elastic Inference in Amazon SageMaker. For more information, see Using Elastic Inference in Amazon SageMaker.
         public let acceleratorType: ProductionVariantAcceleratorType?
         /// Number of instances to launch initially.
@@ -7760,6 +8187,7 @@ extension SageMaker {
             AWSShapeMember(label: "DesiredWeight", required: false, type: .float), 
             AWSShapeMember(label: "VariantName", required: true, type: .string)
         ]
+
         /// The number of instances associated with the variant.
         public let currentInstanceCount: Int32?
         /// The weight associated with the variant.
@@ -7785,6 +8213,9 @@ extension SageMaker {
         public func validate() throws {
             try validate(currentInstanceCount, name:"currentInstanceCount", min: 1)
             try validate(currentWeight, name:"currentWeight", min: 0)
+            try deployedImages?.forEach {
+                try $0.validate()
+            }
             try validate(desiredInstanceCount, name:"desiredInstanceCount", min: 1)
             try validate(desiredWeight, name:"desiredWeight", min: 0)
             try validate(variantName, name:"variantName", max: 63)
@@ -7805,6 +8236,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PropertyNameHint", required: true, type: .string)
         ]
+
         /// Text that is part of a property's name. The property names of hyperparameter, metric, and tag key names that begin with the specified text in the PropertyNameHint.
         public let propertyNameHint: String
         
@@ -7827,6 +8259,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PropertyName", required: false, type: .string)
         ]
+
         /// A suggested property name based on what you entered in the search textbox in the Amazon SageMaker console.
         public let propertyName: String?
         
@@ -7849,6 +8282,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AmountInUsd", required: false, type: .structure)
         ]
+
         /// Defines the amount of money paid to a worker in United States dollars.
         public let amountInUsd: USD?
         
@@ -7877,6 +8311,7 @@ extension SageMaker {
             AWSShapeMember(label: "Task", required: true, type: .structure), 
             AWSShapeMember(label: "UiTemplate", required: true, type: .structure)
         ]
+
         /// The Amazon Resource Name (ARN) that has access to the S3 objects that are used by the template.
         public let roleArn: String
         /// A RenderableTask object containing a representative task to render.
@@ -7910,6 +8345,7 @@ extension SageMaker {
             AWSShapeMember(label: "Errors", required: true, type: .list), 
             AWSShapeMember(label: "RenderedContent", required: true, type: .string)
         ]
+
         /// A list of one or more RenderingError objects if any were encountered while rendering the template. If there were no errors, the list is empty.
         public let errors: [RenderingError]
         /// A Liquid template that renders the HTML for the worker UI.
@@ -7930,6 +8366,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Input", required: true, type: .string)
         ]
+
         /// A JSON object that contains values for the variables defined in the template. It is made available to the template under the substitution variable task.input. For example, if you define a variable task.input.text in your template, you can supply the variable in the JSON object as "text": "sample text".
         public let input: String
         
@@ -7953,6 +8390,7 @@ extension SageMaker {
             AWSShapeMember(label: "Code", required: true, type: .string), 
             AWSShapeMember(label: "Message", required: true, type: .string)
         ]
+
         /// A unique identifier for a specific class of errors.
         public let code: String
         /// A human-readable message describing the error.
@@ -7976,6 +8414,7 @@ extension SageMaker {
             AWSShapeMember(label: "VolumeKmsKeyId", required: false, type: .string), 
             AWSShapeMember(label: "VolumeSizeInGB", required: true, type: .integer)
         ]
+
         /// The number of ML compute instances to use. For distributed training, provide a value greater than 1. 
         public let instanceCount: Int32
         /// The ML compute instance type. 
@@ -8012,6 +8451,7 @@ extension SageMaker {
             AWSShapeMember(label: "MaxNumberOfTrainingJobs", required: true, type: .integer), 
             AWSShapeMember(label: "MaxParallelTrainingJobs", required: true, type: .integer)
         ]
+
         /// The maximum number of training jobs that a hyperparameter tuning job can launch.
         public let maxNumberOfTrainingJobs: Int32
         /// The maximum number of concurrent training jobs that a hyperparameter tuning job can launch.
@@ -8057,6 +8497,7 @@ extension SageMaker {
             AWSShapeMember(label: "S3DataType", required: true, type: .enum), 
             AWSShapeMember(label: "S3Uri", required: true, type: .string)
         ]
+
         /// A list of one or more attribute names to use that are found in a specified augmented manifest file.
         public let attributeNames: [String]?
         /// If you want Amazon SageMaker to replicate the entire dataset on each ML compute instance that is launched for model training, specify FullyReplicated.  If you want Amazon SageMaker to replicate a subset of data on each ML compute instance that is launched for model training, specify ShardedByS3Key. If there are n ML compute instances launched for a training job, each instance gets approximately 1/n of the number of S3 objects. In this case, model training on each machine uses only the subset of training data.  Don't choose more ML compute instances for training than available S3 objects. If you do, some nodes won't get any data and you will pay for nodes that aren't getting any training data. This applies in both File and Pipe modes. Keep this in mind when developing algorithms.  In distributed training, where you use multiple ML compute EC2 instances, you might choose ShardedByS3Key. If the algorithm requires copying training data to the ML storage volume (when TrainingInputMode is set to File), this copies 1/n of the number of objects. 
@@ -8074,6 +8515,11 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try attributeNames?.forEach {
+                try validate($0, name:"attributeNames[]", max: 256)
+                try validate($0, name:"attributeNames[]", min: 1)
+                try validate($0, name:"attributeNames[]", pattern: ".+")
+            }
             try validate(attributeNames, name:"attributeNames", max: 16)
             try validate(s3Uri, name:"s3Uri", max: 1024)
             try validate(s3Uri, name:"s3Uri", pattern: "^(https|s3)://([^/]+)/?(.*)$")
@@ -8101,6 +8547,7 @@ extension SageMaker {
             AWSShapeMember(label: "Operator", required: false, type: .enum), 
             AWSShapeMember(label: "SubExpressions", required: false, type: .list)
         ]
+
         /// A list of filter objects.
         public let filters: [Filter]?
         /// A list of nested filter objects.
@@ -8118,10 +8565,19 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try filters?.forEach {
+                try $0.validate()
+            }
             try validate(filters, name:"filters", max: 20)
             try validate(filters, name:"filters", min: 1)
+            try nestedFilters?.forEach {
+                try $0.validate()
+            }
             try validate(nestedFilters, name:"nestedFilters", max: 20)
             try validate(nestedFilters, name:"nestedFilters", min: 1)
+            try subExpressions?.forEach {
+                try $0.validate()
+            }
             try validate(subExpressions, name:"subExpressions", max: 20)
             try validate(subExpressions, name:"subExpressions", min: 1)
         }
@@ -8138,6 +8594,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TrainingJob", required: false, type: .structure)
         ]
+
         /// A TrainingJob object that is returned as part of a Search request.
         public let trainingJob: TrainingJob?
         
@@ -8163,6 +8620,7 @@ extension SageMaker {
             AWSShapeMember(label: "SortBy", required: false, type: .string), 
             AWSShapeMember(label: "SortOrder", required: false, type: .enum)
         ]
+
         /// The maximum number of results to return in a SearchResponse.
         public let maxResults: Int32?
         /// If more than MaxResults resource objects match the specified SearchExpression, the SearchResponse includes a NextToken. The NextToken can be passed to the next SearchRequest to continue retrieving results for the specified SearchExpression and Sort parameters.
@@ -8211,6 +8669,7 @@ extension SageMaker {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Results", required: false, type: .list)
         ]
+
         /// If the result of the previous Search request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request.
         public let nextToken: String?
         /// A list of SearchResult objects.
@@ -8224,6 +8683,9 @@ extension SageMaker {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 8192)
             try validate(nextToken, name:"nextToken", pattern: ".*")
+            try results?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8261,6 +8723,7 @@ extension SageMaker {
             AWSShapeMember(label: "Status", required: true, type: .enum), 
             AWSShapeMember(label: "StatusMessage", required: false, type: .string)
         ]
+
         /// A timestamp that shows when the training job transitioned out of this secondary status state into another secondary status state or when the training job has ended.
         public let endTime: TimeStamp?
         /// A timestamp that shows when the training job transitioned to the current secondary status state.
@@ -8289,6 +8752,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Seed", required: true, type: .long)
         ]
+
         /// Determines the shuffling order in ShuffleConfig value.
         public let seed: Int64
         
@@ -8319,6 +8783,7 @@ extension SageMaker {
             AWSShapeMember(label: "AlgorithmName", required: true, type: .string), 
             AWSShapeMember(label: "ModelDataUrl", required: false, type: .string)
         ]
+
         /// The name of an algorithm that was used to create the model package. The algorithm must be either an algorithm resource in your Amazon SageMaker account or an algorithm in AWS Marketplace that you are subscribed to.
         public let algorithmName: String
         /// The Amazon S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix).
@@ -8347,6 +8812,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SourceAlgorithms", required: true, type: .list)
         ]
+
         /// A list of the algorithms that were used to create a model package.
         public let sourceAlgorithms: [SourceAlgorithm]
         
@@ -8355,6 +8821,9 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try sourceAlgorithms.forEach {
+                try $0.validate()
+            }
             try validate(sourceAlgorithms, name:"sourceAlgorithms", max: 1)
             try validate(sourceAlgorithms, name:"sourceAlgorithms", min: 1)
         }
@@ -8376,6 +8845,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string)
         ]
+
         /// The name of the notebook instance to start.
         public let notebookInstanceName: String
         
@@ -8397,6 +8867,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CompilationJobName", required: true, type: .string)
         ]
+
         /// The name of the model compilation job to stop.
         public let compilationJobName: String
         
@@ -8419,6 +8890,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HyperParameterTuningJobName", required: true, type: .string)
         ]
+
         /// The name of the tuning job to stop.
         public let hyperParameterTuningJobName: String
         
@@ -8441,6 +8913,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LabelingJobName", required: true, type: .string)
         ]
+
         /// The name of the labeling job to stop.
         public let labelingJobName: String
         
@@ -8463,6 +8936,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string)
         ]
+
         /// The name of the notebook instance to terminate.
         public let notebookInstanceName: String
         
@@ -8484,6 +8958,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TrainingJobName", required: true, type: .string)
         ]
+
         /// The name of the training job to stop.
         public let trainingJobName: String
         
@@ -8506,6 +8981,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TransformJobName", required: true, type: .string)
         ]
+
         /// The name of the transform job to stop.
         public let transformJobName: String
         
@@ -8528,6 +9004,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxRuntimeInSeconds", required: false, type: .integer)
         ]
+
         /// The maximum length of time, in seconds, that the training or compilation job can run. If job does not complete during this time, Amazon SageMaker ends the job. If value is not specified, default value is 1 day. The maximum value is 28 days.
         public let maxRuntimeInSeconds: Int32?
         
@@ -8552,6 +9029,7 @@ extension SageMaker {
             AWSShapeMember(label: "SellerName", required: false, type: .string), 
             AWSShapeMember(label: "WorkteamArn", required: true, type: .string)
         ]
+
         public let listingId: String?
         /// The description of the vendor from the Amazon Marketplace.
         public let marketplaceDescription: String?
@@ -8594,6 +9072,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PropertyNameQuery", required: false, type: .structure)
         ]
+
         /// A type of SuggestionQuery. Defines a property name hint. Only property names that match the specified hint are included in the response.
         public let propertyNameQuery: PropertyNameQuery?
         
@@ -8615,6 +9094,7 @@ extension SageMaker {
             AWSShapeMember(label: "Key", required: true, type: .string), 
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
+
         /// The tag key.
         public let key: String
         /// The tag value.
@@ -8723,6 +9203,7 @@ extension SageMaker {
             AWSShapeMember(label: "TuningJobArn", required: false, type: .string), 
             AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
+
         /// Information about the algorithm used for training, and algorithm metadata.
         public let algorithmSpecification: AlgorithmSpecification?
         /// A timestamp that indicates when the training job was created.
@@ -8805,8 +9286,14 @@ extension SageMaker {
         public func validate() throws {
             try algorithmSpecification?.validate()
             try validate(failureReason, name:"failureReason", max: 1024)
+            try finalMetricDataList?.forEach {
+                try $0.validate()
+            }
             try validate(finalMetricDataList, name:"finalMetricDataList", max: 20)
             try validate(finalMetricDataList, name:"finalMetricDataList", min: 0)
+            try inputDataConfig?.forEach {
+                try $0.validate()
+            }
             try validate(inputDataConfig, name:"inputDataConfig", max: 20)
             try validate(inputDataConfig, name:"inputDataConfig", min: 1)
             try validate(labelingJobArn, name:"labelingJobArn", max: 2048)
@@ -8818,6 +9305,9 @@ extension SageMaker {
             try validate(roleArn, name:"roleArn", min: 20)
             try validate(roleArn, name:"roleArn", pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
             try stoppingCondition?.validate()
+            try tags?.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", max: 50)
             try validate(tags, name:"tags", min: 0)
             try validate(trainingJobArn, name:"trainingJobArn", max: 256)
@@ -8868,6 +9358,7 @@ extension SageMaker {
             AWSShapeMember(label: "StoppingCondition", required: true, type: .structure), 
             AWSShapeMember(label: "TrainingInputMode", required: true, type: .enum)
         ]
+
         /// The hyperparameters used for the training job.
         public let hyperParameters: [String: String]?
         /// An array of Channel objects, each of which specifies an input source.
@@ -8891,6 +9382,9 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try inputDataConfig.forEach {
+                try $0.validate()
+            }
             try validate(inputDataConfig, name:"inputDataConfig", max: 20)
             try validate(inputDataConfig, name:"inputDataConfig", min: 1)
             try outputDataConfig.validate()
@@ -8939,6 +9433,7 @@ extension SageMaker {
             AWSShapeMember(label: "RetryableError", required: false, type: .integer), 
             AWSShapeMember(label: "Stopped", required: false, type: .integer)
         ]
+
         /// The number of completed training jobs launched by the hyperparameter tuning job.
         public let completed: Int32?
         /// The number of in-progress training jobs launched by a hyperparameter tuning job.
@@ -8984,6 +9479,7 @@ extension SageMaker {
             AWSShapeMember(label: "TrainingJobName", required: true, type: .string), 
             AWSShapeMember(label: "TrainingJobStatus", required: true, type: .enum)
         ]
+
         /// A timestamp that shows when the training job was created.
         public let creationTime: TimeStamp
         ///  Timestamp when the training job was last modified. 
@@ -9035,6 +9531,7 @@ extension SageMaker {
             AWSShapeMember(label: "TrainingImage", required: true, type: .string), 
             AWSShapeMember(label: "TrainingImageDigest", required: false, type: .string)
         ]
+
         /// A list of MetricDefinition objects, which are used for parsing metrics generated by the algorithm.
         public let metricDefinitions: [MetricDefinition]?
         /// A list of the HyperParameterSpecification objects, that define the supported hyperparameters. This is required if the algorithm supports automatic model tuning.&gt;
@@ -9064,10 +9561,22 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try metricDefinitions?.forEach {
+                try $0.validate()
+            }
             try validate(metricDefinitions, name:"metricDefinitions", max: 20)
             try validate(metricDefinitions, name:"metricDefinitions", min: 0)
+            try supportedHyperParameters?.forEach {
+                try $0.validate()
+            }
             try validate(supportedHyperParameters, name:"supportedHyperParameters", max: 100)
             try validate(supportedHyperParameters, name:"supportedHyperParameters", min: 0)
+            try supportedTuningJobObjectiveMetrics?.forEach {
+                try $0.validate()
+            }
+            try trainingChannels.forEach {
+                try $0.validate()
+            }
             try validate(trainingChannels, name:"trainingChannels", max: 8)
             try validate(trainingChannels, name:"trainingChannels", min: 1)
             try validate(trainingImage, name:"trainingImage", max: 255)
@@ -9092,6 +9601,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "S3DataSource", required: true, type: .structure)
         ]
+
         /// The S3 location of the data source that is associated with a channel.
         public let s3DataSource: TransformS3DataSource
         
@@ -9115,6 +9625,7 @@ extension SageMaker {
             AWSShapeMember(label: "DataSource", required: true, type: .structure), 
             AWSShapeMember(label: "SplitType", required: false, type: .enum)
         ]
+
         /// If your transform data is compressed, specify the compression type. Amazon SageMaker automatically decompresses the data for the transform job accordingly. The default value is None.
         public let compressionType: CompressionType?
         /// The multipurpose internet mail extension (MIME) type of the data. Amazon SageMaker uses the MIME type with each http call to transfer data to the transform job.
@@ -9185,6 +9696,7 @@ extension SageMaker {
             AWSShapeMember(label: "TransformOutput", required: true, type: .structure), 
             AWSShapeMember(label: "TransformResources", required: true, type: .structure)
         ]
+
         /// A string that determines the number of records included in a single mini-batch.  SingleRecord means only one record is used per mini-batch. MultiRecord means a mini-batch is set to contain as many records that can fit within the MaxPayloadInMB limit.
         public let batchStrategy: BatchStrategy?
         /// The environment variables to set in the Docker container. We support up to 16 key and values entries in the map.
@@ -9248,6 +9760,7 @@ extension SageMaker {
             AWSShapeMember(label: "TransformJobName", required: true, type: .string), 
             AWSShapeMember(label: "TransformJobStatus", required: true, type: .enum)
         ]
+
         /// A timestamp that shows when the transform Job was created.
         public let creationTime: TimeStamp
         /// If the transform job failed, the reason it failed.
@@ -9300,6 +9813,7 @@ extension SageMaker {
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeMember(label: "S3OutputPath", required: true, type: .string)
         ]
+
         /// The MIME type used to specify the output data. Amazon SageMaker uses the MIME type with each http call to transfer data from the transform job.
         public let accept: String?
         /// Defines how to assemble the results of the transform job as a single S3 object. Choose a format that is most convenient to you. To concatenate the results in binary format, specify None. To add a newline character at the end of every transformed record, specify Line.
@@ -9339,6 +9853,7 @@ extension SageMaker {
             AWSShapeMember(label: "InstanceType", required: true, type: .enum), 
             AWSShapeMember(label: "VolumeKmsKeyId", required: false, type: .string)
         ]
+
         /// The number of ML compute instances to use in the transform job. For distributed transform jobs, specify a value greater than 1. The default value is 1.
         public let instanceCount: Int32
         /// The ML compute instance type for the transform job. If you are using built-in algorithms to transform moderately sized datasets, we recommend using ml.m4.xlarge or ml.m5.largeinstance types.
@@ -9370,6 +9885,7 @@ extension SageMaker {
             AWSShapeMember(label: "S3DataType", required: true, type: .enum), 
             AWSShapeMember(label: "S3Uri", required: true, type: .string)
         ]
+
         /// If you choose S3Prefix, S3Uri identifies a key name prefix. Amazon SageMaker uses all objects with the specified key name prefix for batch transform.  If you choose ManifestFile, S3Uri identifies an object that is a manifest file containing a list of object keys that you want Amazon SageMaker to use for batch transform.  The following values are compatible: ManifestFile, S3Prefix  The following value is not compatible: AugmentedManifestFile 
         public let s3DataType: S3DataType
         /// Depending on the value specified for the S3DataType, identifies either a key name prefix or a manifest. For example:    A key name prefix might look like this: s3://bucketname/exampleprefix.     A manifest might look like this: s3://bucketname/example.manifest   The manifest is an S3 object which is a JSON file with the following format:   [    {"prefix": "s3://customer_bucket/some/prefix/"},    "relative/path/to/custdata-1",    "relative/path/custdata-2",    ...    ]   The preceding JSON matches the following S3Uris:   s3://customer_bucket/some/prefix/relative/path/to/custdata-1   s3://customer_bucket/some/prefix/relative/path/custdata-1   ...   The complete set of S3Uris in this manifest constitutes the input data for the channel for this datasource. The object that each S3Uris points to must be readable by the IAM role that Amazon SageMaker uses to perform tasks on your behalf.  
@@ -9397,6 +9913,7 @@ extension SageMaker {
             AWSShapeMember(label: "Dollars", required: false, type: .integer), 
             AWSShapeMember(label: "TenthFractionsOfACent", required: false, type: .integer)
         ]
+
         /// The fractional portion, in cents, of the amount. 
         public let cents: Int32?
         /// The whole number of dollars in the amount.
@@ -9430,6 +9947,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UiTemplateS3Uri", required: true, type: .string)
         ]
+
         /// The Amazon S3 bucket location of the UI template. For more information about the contents of a UI template, see  Creating Your Custom Labeling Task Template.
         public let uiTemplateS3Uri: String
         
@@ -9451,6 +9969,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Content", required: true, type: .string)
         ]
+
         /// The content of the Liquid template for the worker user interface.
         public let content: String
         
@@ -9474,6 +9993,7 @@ extension SageMaker {
             AWSShapeMember(label: "CodeRepositoryName", required: true, type: .string), 
             AWSShapeMember(label: "GitConfig", required: false, type: .structure)
         ]
+
         /// The name of the Git repository to update.
         public let codeRepositoryName: String
         /// The configuration of the git repository, including the URL and the Amazon Resource Name (ARN) of the AWS Secrets Manager secret that contains the credentials used to access the repository. The secret must have a staging label of AWSCURRENT and must be in the following format:  {"username": UserName, "password": Password} 
@@ -9501,6 +10021,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CodeRepositoryArn", required: true, type: .string)
         ]
+
         /// The ARN of the Git repository.
         public let codeRepositoryArn: String
         
@@ -9524,6 +10045,7 @@ extension SageMaker {
             AWSShapeMember(label: "EndpointConfigName", required: true, type: .string), 
             AWSShapeMember(label: "EndpointName", required: true, type: .string)
         ]
+
         /// The name of the new endpoint configuration.
         public let endpointConfigName: String
         /// The name of the endpoint whose configuration you want to update.
@@ -9551,6 +10073,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndpointArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the endpoint.
         public let endpointArn: String
         
@@ -9574,6 +10097,7 @@ extension SageMaker {
             AWSShapeMember(label: "DesiredWeightsAndCapacities", required: true, type: .list), 
             AWSShapeMember(label: "EndpointName", required: true, type: .string)
         ]
+
         /// An object that provides new capacity and weight values for a variant.
         public let desiredWeightsAndCapacities: [DesiredWeightAndCapacity]
         /// The name of an existing Amazon SageMaker endpoint.
@@ -9585,6 +10109,9 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try desiredWeightsAndCapacities.forEach {
+                try $0.validate()
+            }
             try validate(desiredWeightsAndCapacities, name:"desiredWeightsAndCapacities", min: 1)
             try validate(endpointName, name:"endpointName", max: 63)
             try validate(endpointName, name:"endpointName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
@@ -9600,6 +10127,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndpointArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the updated endpoint.
         public let endpointArn: String
         
@@ -9634,6 +10162,7 @@ extension SageMaker {
             AWSShapeMember(label: "RootAccess", required: false, type: .enum), 
             AWSShapeMember(label: "VolumeSizeInGB", required: false, type: .integer)
         ]
+
         /// A list of the Elastic Inference (EI) instance types to associate with this notebook instance. Currently only one EI instance type can be associated with a notebook instance. For more information, see Using Elastic Inference in Amazon SageMaker.
         public let acceleratorTypes: [NotebookInstanceAcceleratorType]?
         /// An array of up to three Git repositories to associate with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in AWS CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with Amazon SageMaker Notebook Instances.
@@ -9678,6 +10207,11 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try additionalCodeRepositories?.forEach {
+                try validate($0, name:"additionalCodeRepositories[]", max: 1024)
+                try validate($0, name:"additionalCodeRepositories[]", min: 1)
+                try validate($0, name:"additionalCodeRepositories[]", pattern: "^https://([^/]+)/?(.*)$|^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            }
             try validate(additionalCodeRepositories, name:"additionalCodeRepositories", max: 3)
             try validate(defaultCodeRepository, name:"defaultCodeRepository", max: 1024)
             try validate(defaultCodeRepository, name:"defaultCodeRepository", min: 1)
@@ -9716,6 +10250,7 @@ extension SageMaker {
             AWSShapeMember(label: "OnCreate", required: false, type: .list), 
             AWSShapeMember(label: "OnStart", required: false, type: .list)
         ]
+
         /// The name of the lifecycle configuration.
         public let notebookInstanceLifecycleConfigName: String
         /// The shell script that runs only once, when you create a notebook instance
@@ -9732,7 +10267,13 @@ extension SageMaker {
         public func validate() throws {
             try validate(notebookInstanceLifecycleConfigName, name:"notebookInstanceLifecycleConfigName", max: 63)
             try validate(notebookInstanceLifecycleConfigName, name:"notebookInstanceLifecycleConfigName", pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try onCreate?.forEach {
+                try $0.validate()
+            }
             try validate(onCreate, name:"onCreate", max: 1)
+            try onStart?.forEach {
+                try $0.validate()
+            }
             try validate(onStart, name:"onStart", max: 1)
         }
 
@@ -9745,14 +10286,12 @@ extension SageMaker {
 
     public struct UpdateNotebookInstanceLifecycleConfigOutput: AWSShape {
         
-        
         public init() {
         }
 
         }
 
     public struct UpdateNotebookInstanceOutput: AWSShape {
-        
         
         public init() {
         }
@@ -9766,6 +10305,7 @@ extension SageMaker {
             AWSShapeMember(label: "NotificationConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "WorkteamName", required: true, type: .string)
         ]
+
         /// An updated description for the work team.
         public let description: String?
         /// A list of MemberDefinition objects that contain the updated work team members.
@@ -9786,6 +10326,9 @@ extension SageMaker {
             try validate(description, name:"description", max: 200)
             try validate(description, name:"description", min: 1)
             try validate(description, name:"description", pattern: ".+")
+            try memberDefinitions?.forEach {
+                try $0.validate()
+            }
             try validate(memberDefinitions, name:"memberDefinitions", max: 10)
             try validate(memberDefinitions, name:"memberDefinitions", min: 1)
             try notificationConfiguration?.validate()
@@ -9806,6 +10349,7 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Workteam", required: true, type: .structure)
         ]
+
         /// A Workteam object that describes the updated work team.
         public let workteam: Workteam
         
@@ -9827,6 +10371,7 @@ extension SageMaker {
             AWSShapeMember(label: "SecurityGroupIds", required: true, type: .list), 
             AWSShapeMember(label: "Subnets", required: true, type: .list)
         ]
+
         /// The VPC security group IDs, in the form sg-xxxxxxxx. Specify the security groups for the VPC that is specified in the Subnets field.
         public let securityGroupIds: [String]
         /// The ID of the subnets in the VPC to which you want to connect your training job or model.   Amazon EC2 P3 accelerated computing instances are not available in the c/d/e availability zones of region us-east-1. If you want to create endpoints with P3 instances in VPC mode in region us-east-1, create subnets in a/b/f availability zones instead. 
@@ -9838,8 +10383,16 @@ extension SageMaker {
         }
 
         public func validate() throws {
+            try securityGroupIds.forEach {
+                try validate($0, name:"securityGroupIds[]", max: 32)
+                try validate($0, name:"securityGroupIds[]", pattern: "[-0-9a-zA-Z]+")
+            }
             try validate(securityGroupIds, name:"securityGroupIds", max: 5)
             try validate(securityGroupIds, name:"securityGroupIds", min: 1)
+            try subnets.forEach {
+                try validate($0, name:"subnets[]", max: 32)
+                try validate($0, name:"subnets[]", pattern: "[-0-9a-zA-Z]+")
+            }
             try validate(subnets, name:"subnets", max: 16)
             try validate(subnets, name:"subnets", min: 1)
         }
@@ -9862,6 +10415,7 @@ extension SageMaker {
             AWSShapeMember(label: "WorkteamArn", required: true, type: .string), 
             AWSShapeMember(label: "WorkteamName", required: true, type: .string)
         ]
+
         /// The date and time that the work team was created (timestamp).
         public let createDate: TimeStamp?
         /// A description of the work team.
@@ -9896,6 +10450,9 @@ extension SageMaker {
             try validate(description, name:"description", max: 200)
             try validate(description, name:"description", min: 1)
             try validate(description, name:"description", pattern: ".+")
+            try memberDefinitions.forEach {
+                try $0.validate()
+            }
             try validate(memberDefinitions, name:"memberDefinitions", max: 10)
             try validate(memberDefinitions, name:"memberDefinitions", min: 1)
             try notificationConfiguration?.validate()

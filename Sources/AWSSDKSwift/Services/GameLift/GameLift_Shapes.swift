@@ -11,6 +11,7 @@ extension GameLift {
             AWSShapeMember(label: "PlayerIds", required: true, type: .list), 
             AWSShapeMember(label: "TicketId", required: true, type: .string)
         ]
+
         /// Player response to the proposed match.
         public let acceptanceType: AcceptanceType
         /// Unique identifier for a player delivering the response. This parameter can include one or multiple player IDs.
@@ -25,6 +26,10 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try playerIds.forEach {
+                try validate($0, name:"playerIds[]", max: 1024)
+                try validate($0, name:"playerIds[]", min: 1)
+            }
             try validate(ticketId, name:"ticketId", max: 128)
             try validate(ticketId, name:"ticketId", pattern: "[a-zA-Z0-9-\\.]*")
         }
@@ -37,7 +42,6 @@ extension GameLift {
     }
 
     public struct AcceptMatchOutput: AWSShape {
-        
         
         public init() {
         }
@@ -60,6 +64,7 @@ extension GameLift {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "RoutingStrategy", required: false, type: .structure)
         ]
+
         /// Unique identifier for an alias; alias ARNs are unique across all regions.
         public let aliasArn: String?
         /// Unique identifier for an alias; alias IDs are unique within a region.
@@ -114,6 +119,7 @@ extension GameLift {
             AWSShapeMember(label: "SDM", required: false, type: .map), 
             AWSShapeMember(label: "SL", required: false, type: .list)
         ]
+
         /// For number values, expressed as double.
         public let n: Double?
         /// For single string values. Maximum string length is 100 characters.
@@ -133,6 +139,10 @@ extension GameLift {
         public func validate() throws {
             try validate(s, name:"s", max: 1024)
             try validate(s, name:"s", min: 1)
+            try sl?.forEach {
+                try validate($0, name:"sL[]", max: 1024)
+                try validate($0, name:"sL[]", min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -149,6 +159,7 @@ extension GameLift {
             AWSShapeMember(label: "SecretAccessKey", required: false, type: .string), 
             AWSShapeMember(label: "SessionToken", required: false, type: .string)
         ]
+
         /// Temporary key allowing access to the Amazon GameLift S3 account.
         public let accessKeyId: String?
         /// Temporary secret key allowing access to the Amazon GameLift S3 account.
@@ -191,6 +202,7 @@ extension GameLift {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         /// Unique identifier for a build.
         public let buildId: String?
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
@@ -253,6 +265,7 @@ extension GameLift {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "RoutingStrategy", required: true, type: .structure)
         ]
+
         /// Human-readable description of an alias.
         public let description: String?
         /// Descriptive label that is associated with an alias. Alias names do not need to be unique.
@@ -286,6 +299,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Alias", required: false, type: .structure)
         ]
+
         /// Object that describes the newly created alias record.
         public let alias: Alias?
         
@@ -309,6 +323,7 @@ extension GameLift {
             AWSShapeMember(label: "StorageLocation", required: false, type: .structure), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         /// Descriptive label that is associated with a build. Build names do not need to be unique. You can use UpdateBuild to change this value later. 
         public let name: String?
         /// Operating system that the game server binaries are built to run on. This value determines the type of fleet resources that you can use for this build. If your game build contains multiple executables, they all must run on the same operating system. If an operating system is not specified when creating a build, Amazon GameLift uses the default value (WINDOWS_2012). This value cannot be changed later.
@@ -347,6 +362,7 @@ extension GameLift {
             AWSShapeMember(label: "StorageLocation", required: false, type: .structure), 
             AWSShapeMember(label: "UploadCredentials", required: false, type: .structure)
         ]
+
         /// The newly created build record, including a unique build ID and status. 
         public let build: Build?
         /// Amazon S3 location for your game build file, including bucket name and key.
@@ -393,6 +409,7 @@ extension GameLift {
             AWSShapeMember(label: "ServerLaunchParameters", required: false, type: .string), 
             AWSShapeMember(label: "ServerLaunchPath", required: false, type: .string)
         ]
+
         /// Unique identifier for a build to be deployed on the new fleet. The custom game server build must have been successfully uploaded to Amazon GameLift and be in a READY status. This fleet setting cannot be changed once the fleet is created.
         public let buildId: String?
         /// Human-readable description of a fleet.
@@ -452,8 +469,19 @@ extension GameLift {
             try validate(buildId, name:"buildId", pattern: "^build-\\S+")
             try validate(description, name:"description", max: 1024)
             try validate(description, name:"description", min: 1)
+            try eC2InboundPermissions?.forEach {
+                try $0.validate()
+            }
             try validate(eC2InboundPermissions, name:"eC2InboundPermissions", max: 50)
             try validate(instanceRoleArn, name:"instanceRoleArn", min: 1)
+            try logPaths?.forEach {
+                try validate($0, name:"logPaths[]", max: 1024)
+                try validate($0, name:"logPaths[]", min: 1)
+            }
+            try metricGroups?.forEach {
+                try validate($0, name:"metricGroups[]", max: 255)
+                try validate($0, name:"metricGroups[]", min: 1)
+            }
             try validate(metricGroups, name:"metricGroups", max: 1)
             try validate(name, name:"name", max: 1024)
             try validate(name, name:"name", min: 1)
@@ -495,6 +523,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FleetAttributes", required: false, type: .structure)
         ]
+
         /// Properties for the newly created fleet.
         public let fleetAttributes: FleetAttributes?
         
@@ -523,6 +552,7 @@ extension GameLift {
             AWSShapeMember(label: "MaximumPlayerSessionCount", required: true, type: .integer), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         /// Unique identifier for an alias associated with the fleet to create a game session in. Each request must reference either a fleet ID or alias ID, but not both.
         public let aliasId: String?
         /// Unique identifier for a player or entity creating the game session. This ID is used to enforce a resource protection policy (if one exists) that limits the number of concurrent active game sessions one player can have.
@@ -559,6 +589,9 @@ extension GameLift {
             try validate(creatorId, name:"creatorId", max: 1024)
             try validate(creatorId, name:"creatorId", min: 1)
             try validate(fleetId, name:"fleetId", pattern: "^fleet-\\S+")
+            try gameProperties?.forEach {
+                try $0.validate()
+            }
             try validate(gameProperties, name:"gameProperties", max: 16)
             try validate(gameSessionData, name:"gameSessionData", max: 4096)
             try validate(gameSessionData, name:"gameSessionData", min: 1)
@@ -590,6 +623,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GameSession", required: false, type: .structure)
         ]
+
         /// Object that describes the newly created game session record.
         public let gameSession: GameSession?
         
@@ -613,6 +647,7 @@ extension GameLift {
             AWSShapeMember(label: "PlayerLatencyPolicies", required: false, type: .list), 
             AWSShapeMember(label: "TimeoutInSeconds", required: false, type: .integer)
         ]
+
         /// List of fleets that can be used to fulfill game session placement requests in the queue. Fleets are identified by either a fleet ARN or a fleet alias ARN. Destinations are listed in default preference order.
         public let destinations: [GameSessionQueueDestination]?
         /// Descriptive label that is associated with game session queue. Queue names must be unique within each region.
@@ -630,9 +665,15 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try destinations?.forEach {
+                try $0.validate()
+            }
             try validate(name, name:"name", max: 128)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "[a-zA-Z0-9-]+")
+            try playerLatencyPolicies?.forEach {
+                try $0.validate()
+            }
             try validate(timeoutInSeconds, name:"timeoutInSeconds", min: 0)
         }
 
@@ -648,6 +689,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GameSessionQueue", required: false, type: .structure)
         ]
+
         /// Object that describes the newly created game session queue.
         public let gameSessionQueue: GameSessionQueue?
         
@@ -680,6 +722,7 @@ extension GameLift {
             AWSShapeMember(label: "RequestTimeoutSeconds", required: true, type: .integer), 
             AWSShapeMember(label: "RuleSetName", required: true, type: .string)
         ]
+
         /// Flag that determines whether a match that was created with this configuration must be accepted by the matched players. To require acceptance, set to TRUE.
         public let acceptanceRequired: Bool
         /// Length of time (in seconds) to wait for players to accept a proposed match. If any player rejects the match or fails to accept before the timeout, the ticket continues to look for an acceptable match.
@@ -731,9 +774,17 @@ extension GameLift {
             try validate(customEventData, name:"customEventData", min: 0)
             try validate(description, name:"description", max: 1024)
             try validate(description, name:"description", min: 1)
+            try gameProperties?.forEach {
+                try $0.validate()
+            }
             try validate(gameProperties, name:"gameProperties", max: 16)
             try validate(gameSessionData, name:"gameSessionData", max: 4096)
             try validate(gameSessionData, name:"gameSessionData", min: 1)
+            try gameSessionQueueArns.forEach {
+                try validate($0, name:"gameSessionQueueArns[]", max: 256)
+                try validate($0, name:"gameSessionQueueArns[]", min: 1)
+                try validate($0, name:"gameSessionQueueArns[]", pattern: "[a-zA-Z0-9:/-]+")
+            }
             try validate(name, name:"name", max: 128)
             try validate(name, name:"name", pattern: "[a-zA-Z0-9-\\.]*")
             try validate(notificationTarget, name:"notificationTarget", max: 300)
@@ -766,6 +817,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Configuration", required: false, type: .structure)
         ]
+
         /// Object that describes the newly created matchmaking configuration.
         public let configuration: MatchmakingConfiguration?
         
@@ -787,6 +839,7 @@ extension GameLift {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "RuleSetBody", required: true, type: .string)
         ]
+
         /// Unique identifier for a matchmaking rule set. A matchmaking configuration identifies the rule set it uses by this name value. (Note: The rule set name is different from the optional "name" field in the rule set body.) 
         public let name: String
         /// Collection of matchmaking rules, formatted as a JSON string. Comments are not allowed in JSON, but most elements support a description field.
@@ -814,6 +867,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RuleSet", required: true, type: .structure)
         ]
+
         /// Object that describes the newly created matchmaking rule set.
         public let ruleSet: MatchmakingRuleSet
         
@@ -836,6 +890,7 @@ extension GameLift {
             AWSShapeMember(label: "PlayerData", required: false, type: .string), 
             AWSShapeMember(label: "PlayerId", required: true, type: .string)
         ]
+
         /// Unique identifier for the game session to add a player to.
         public let gameSessionId: String
         /// Developer-defined information related to a player. Amazon GameLift does not use this data, so it can be formatted as needed for use in the game.
@@ -870,6 +925,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PlayerSession", required: false, type: .structure)
         ]
+
         /// Object that describes the newly created player session record.
         public let playerSession: PlayerSession?
         
@@ -892,6 +948,7 @@ extension GameLift {
             AWSShapeMember(label: "PlayerDataMap", required: false, type: .map), 
             AWSShapeMember(label: "PlayerIds", required: true, type: .list)
         ]
+
         /// Unique identifier for the game session to add players to.
         public let gameSessionId: String
         /// Map of string pairs, each specifying a player ID and a set of developer-defined information related to the player. Amazon GameLift does not use this data, so it can be formatted as needed for use in the game. Player data strings for player IDs not included in the PlayerIds parameter are ignored. 
@@ -909,6 +966,10 @@ extension GameLift {
             try validate(gameSessionId, name:"gameSessionId", max: 256)
             try validate(gameSessionId, name:"gameSessionId", min: 1)
             try validate(gameSessionId, name:"gameSessionId", pattern: "[a-zA-Z0-9:/-]+")
+            try playerIds.forEach {
+                try validate($0, name:"playerIds[]", max: 1024)
+                try validate($0, name:"playerIds[]", min: 1)
+            }
             try validate(playerIds, name:"playerIds", max: 25)
             try validate(playerIds, name:"playerIds", min: 1)
         }
@@ -924,11 +985,18 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PlayerSessions", required: false, type: .list)
         ]
+
         /// Collection of player session objects created for the added players.
         public let playerSessions: [PlayerSession]?
         
         public init(playerSessions: [PlayerSession]? = nil) {
             self.playerSessions = playerSessions
+        }
+
+        public func validate() throws {
+            try playerSessions?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -943,6 +1011,7 @@ extension GameLift {
             AWSShapeMember(label: "Version", required: false, type: .string), 
             AWSShapeMember(label: "ZipFile", required: false, type: .blob)
         ]
+
         /// Descriptive label that is associated with a script. Script names do not need to be unique. You can use UpdateScript to change this value later. 
         public let name: String?
         /// Location of the Amazon S3 bucket where a zipped file containing your Realtime scripts is stored. The storage location must specify the Amazon S3 bucket name, the zip file name (the "key"), and a role ARN that allows Amazon GameLift to access the Amazon S3 storage location. The S3 bucket must be in the same region where you want to create a new script. By default, Amazon GameLift uploads the latest version of the zip file; if you have S3 object versioning turned on, you can use the ObjectVersion parameter to specify an earlier version. 
@@ -980,6 +1049,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Script", required: false, type: .structure)
         ]
+
         /// The newly created script record with a unique script ID. The new script's storage location reflects an Amazon S3 location: (1) If the script was uploaded from an S3 bucket under your account, the storage location reflects the information that was provided in the CreateScript request; (2) If the script file was uploaded from a local zip file, the storage location reflects an S3 location controls by the Amazon GameLift service.
         public let script: Script?
         
@@ -1001,6 +1071,7 @@ extension GameLift {
             AWSShapeMember(label: "GameLiftAwsAccountId", required: true, type: .string), 
             AWSShapeMember(label: "PeerVpcId", required: true, type: .string)
         ]
+
         /// Unique identifier for the AWS account that you use to manage your Amazon GameLift fleet. You can find your Account ID in the AWS Management Console under account settings.
         public let gameLiftAwsAccountId: String
         /// Unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same region where your fleet is deployed. Look up a VPC ID using the VPC Dashboard in the AWS Management Console. Learn more about VPC peering in VPC Peering with Amazon GameLift Fleets.
@@ -1028,6 +1099,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VpcPeeringAuthorization", required: false, type: .structure)
         ]
+
         /// Details on the requested VPC peering authorization, including expiration.
         public let vpcPeeringAuthorization: VpcPeeringAuthorization?
         
@@ -1050,6 +1122,7 @@ extension GameLift {
             AWSShapeMember(label: "PeerVpcAwsAccountId", required: true, type: .string), 
             AWSShapeMember(label: "PeerVpcId", required: true, type: .string)
         ]
+
         /// Unique identifier for a fleet. This tells Amazon GameLift which GameLift VPC to peer with. 
         public let fleetId: String
         /// Unique identifier for the AWS account with the VPC that you want to peer your Amazon GameLift fleet with. You can find your Account ID in the AWS Management Console under account settings.
@@ -1080,7 +1153,6 @@ extension GameLift {
 
     public struct CreateVpcPeeringConnectionOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -1090,6 +1162,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AliasId", required: true, type: .string)
         ]
+
         /// Unique identifier for a fleet alias. Specify the alias you want to delete.
         public let aliasId: String
         
@@ -1110,6 +1183,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BuildId", required: true, type: .string)
         ]
+
         /// Unique identifier for a build to delete.
         public let buildId: String
         
@@ -1130,6 +1204,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FleetId", required: true, type: .string)
         ]
+
         /// Unique identifier for a fleet to be deleted.
         public let fleetId: String
         
@@ -1150,6 +1225,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// Descriptive label that is associated with game session queue. Queue names must be unique within each region.
         public let name: String
         
@@ -1170,7 +1246,6 @@ extension GameLift {
 
     public struct DeleteGameSessionQueueOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -1180,6 +1255,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// Unique identifier for a matchmaking configuration
         public let name: String
         
@@ -1199,7 +1275,6 @@ extension GameLift {
 
     public struct DeleteMatchmakingConfigurationOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -1209,6 +1284,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// Unique identifier for a matchmaking rule set to be deleted. (Note: The rule set name is different from the optional "name" field in the rule set body.) 
         public let name: String
         
@@ -1228,7 +1304,6 @@ extension GameLift {
 
     public struct DeleteMatchmakingRuleSetOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -1239,6 +1314,7 @@ extension GameLift {
             AWSShapeMember(label: "FleetId", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// Unique identifier for a fleet to be deleted.
         public let fleetId: String
         /// Descriptive label that is associated with a scaling policy. Policy names do not need to be unique.
@@ -1265,6 +1341,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ScriptId", required: true, type: .string)
         ]
+
         /// Unique identifier for a Realtime script to delete.
         public let scriptId: String
         
@@ -1286,6 +1363,7 @@ extension GameLift {
             AWSShapeMember(label: "GameLiftAwsAccountId", required: true, type: .string), 
             AWSShapeMember(label: "PeerVpcId", required: true, type: .string)
         ]
+
         /// Unique identifier for the AWS account that you use to manage your Amazon GameLift fleet. You can find your Account ID in the AWS Management Console under account settings.
         public let gameLiftAwsAccountId: String
         /// Unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same region where your fleet is deployed. Look up a VPC ID using the VPC Dashboard in the AWS Management Console. Learn more about VPC peering in VPC Peering with Amazon GameLift Fleets.
@@ -1311,7 +1389,6 @@ extension GameLift {
 
     public struct DeleteVpcPeeringAuthorizationOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -1322,6 +1399,7 @@ extension GameLift {
             AWSShapeMember(label: "FleetId", required: true, type: .string), 
             AWSShapeMember(label: "VpcPeeringConnectionId", required: true, type: .string)
         ]
+
         /// Unique identifier for a fleet. This value must match the fleet ID referenced in the VPC peering connection record.
         public let fleetId: String
         /// Unique identifier for a VPC peering connection. This value is included in the VpcPeeringConnection object, which can be retrieved by calling DescribeVpcPeeringConnections.
@@ -1346,7 +1424,6 @@ extension GameLift {
 
     public struct DeleteVpcPeeringConnectionOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -1356,6 +1433,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AliasId", required: true, type: .string)
         ]
+
         /// Unique identifier for a fleet alias. Specify the alias you want to retrieve.
         public let aliasId: String
         
@@ -1376,6 +1454,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Alias", required: false, type: .structure)
         ]
+
         /// Object that contains the requested alias.
         public let alias: Alias?
         
@@ -1396,6 +1475,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BuildId", required: true, type: .string)
         ]
+
         /// Unique identifier for a build to retrieve properties for.
         public let buildId: String
         
@@ -1416,6 +1496,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Build", required: false, type: .structure)
         ]
+
         /// Set of properties describing the requested build.
         public let build: Build?
         
@@ -1436,6 +1517,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EC2InstanceType", required: false, type: .enum)
         ]
+
         /// Name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Amazon GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions. Leave this parameter blank to retrieve limits for all types.
         public let eC2InstanceType: EC2InstanceType?
         
@@ -1452,11 +1534,18 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EC2InstanceLimits", required: false, type: .list)
         ]
+
         /// Object that contains the maximum number of instances for the specified instance type.
         public let eC2InstanceLimits: [EC2InstanceLimit]?
         
         public init(eC2InstanceLimits: [EC2InstanceLimit]? = nil) {
             self.eC2InstanceLimits = eC2InstanceLimits
+        }
+
+        public func validate() throws {
+            try eC2InstanceLimits?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1470,6 +1559,7 @@ extension GameLift {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Unique identifier for a fleet(s) to retrieve attributes for. To request attributes for all fleets, leave this parameter empty.
         public let fleetIds: [String]?
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. This parameter is ignored when the request specifies one or a list of fleet IDs.
@@ -1484,6 +1574,9 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try fleetIds?.forEach {
+                try validate($0, name:"fleetIds[]", pattern: "^fleet-\\S+")
+            }
             try validate(fleetIds, name:"fleetIds", min: 1)
             try validate(limit, name:"limit", min: 1)
             try validate(nextToken, name:"nextToken", max: 1024)
@@ -1502,6 +1595,7 @@ extension GameLift {
             AWSShapeMember(label: "FleetAttributes", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Collection of objects containing attribute metadata for each requested fleet ID.
         public let fleetAttributes: [FleetAttributes]?
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
@@ -1513,6 +1607,9 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try fleetAttributes?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -1529,6 +1626,7 @@ extension GameLift {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Unique identifier for a fleet(s) to retrieve capacity information for. To request capacity information for all fleets, leave this parameter empty.
         public let fleetIds: [String]?
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. This parameter is ignored when the request specifies one or a list of fleet IDs.
@@ -1543,6 +1641,9 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try fleetIds?.forEach {
+                try validate($0, name:"fleetIds[]", pattern: "^fleet-\\S+")
+            }
             try validate(fleetIds, name:"fleetIds", min: 1)
             try validate(limit, name:"limit", min: 1)
             try validate(nextToken, name:"nextToken", max: 1024)
@@ -1561,6 +1662,7 @@ extension GameLift {
             AWSShapeMember(label: "FleetCapacity", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Collection of objects containing capacity information for each requested fleet ID. Leave this parameter empty to retrieve capacity information for all fleets.
         public let fleetCapacity: [FleetCapacity]?
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
@@ -1572,6 +1674,9 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try fleetCapacity?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -1590,6 +1695,7 @@ extension GameLift {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
         ]
+
         /// Most recent date to retrieve event logs for. If no end time is specified, this call returns entries from the specified start time up to the present. Format is a number expressed in Unix time as milliseconds (ex: "1469498468.057").
         public let endTime: TimeStamp?
         /// Unique identifier for a fleet to get event logs for.
@@ -1630,6 +1736,7 @@ extension GameLift {
             AWSShapeMember(label: "Events", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Collection of objects containing event log entries for the specified fleet.
         public let events: [Event]?
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
@@ -1641,6 +1748,9 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try events?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -1655,6 +1765,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FleetId", required: true, type: .string)
         ]
+
         /// Unique identifier for a fleet to retrieve port settings for.
         public let fleetId: String
         
@@ -1675,6 +1786,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InboundPermissions", required: false, type: .list)
         ]
+
         /// Object that contains port settings for the requested fleet ID.
         public let inboundPermissions: [IpPermission]?
         
@@ -1683,6 +1795,9 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try inboundPermissions?.forEach {
+                try $0.validate()
+            }
             try validate(inboundPermissions, name:"inboundPermissions", max: 50)
         }
 
@@ -1697,6 +1812,7 @@ extension GameLift {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Unique identifier for a fleet(s) to retrieve utilization data for. To request utilization data for all fleets, leave this parameter empty.
         public let fleetIds: [String]?
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. This parameter is ignored when the request specifies one or a list of fleet IDs.
@@ -1711,6 +1827,9 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try fleetIds?.forEach {
+                try validate($0, name:"fleetIds[]", pattern: "^fleet-\\S+")
+            }
             try validate(fleetIds, name:"fleetIds", min: 1)
             try validate(limit, name:"limit", min: 1)
             try validate(nextToken, name:"nextToken", max: 1024)
@@ -1729,6 +1848,7 @@ extension GameLift {
             AWSShapeMember(label: "FleetUtilization", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Collection of objects containing utilization information for each requested fleet ID.
         public let fleetUtilization: [FleetUtilization]?
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
@@ -1740,6 +1860,9 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try fleetUtilization?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -1759,6 +1882,7 @@ extension GameLift {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "StatusFilter", required: false, type: .string)
         ]
+
         /// Unique identifier for an alias associated with the fleet to retrieve all game sessions for.
         public let aliasId: String?
         /// Unique identifier for a fleet to retrieve all game sessions active on the fleet.
@@ -1809,6 +1933,7 @@ extension GameLift {
             AWSShapeMember(label: "GameSessionDetails", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Collection of objects containing game session properties and the protection policy currently in force for each session matching the request.
         public let gameSessionDetails: [GameSessionDetail]?
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
@@ -1820,6 +1945,9 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try gameSessionDetails?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -1834,6 +1962,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PlacementId", required: true, type: .string)
         ]
+
         /// Unique identifier for a game session placement to retrieve.
         public let placementId: String
         
@@ -1856,6 +1985,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GameSessionPlacement", required: false, type: .structure)
         ]
+
         /// Object that describes the requested game session placement.
         public let gameSessionPlacement: GameSessionPlacement?
         
@@ -1878,6 +2008,7 @@ extension GameLift {
             AWSShapeMember(label: "Names", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int32?
         /// List of queue names to retrieve information for. To request settings for all queues, leave this parameter empty.
@@ -1893,6 +2024,11 @@ extension GameLift {
 
         public func validate() throws {
             try validate(limit, name:"limit", min: 1)
+            try names?.forEach {
+                try validate($0, name:"names[]", max: 128)
+                try validate($0, name:"names[]", min: 1)
+                try validate($0, name:"names[]", pattern: "[a-zA-Z0-9-]+")
+            }
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -1909,6 +2045,7 @@ extension GameLift {
             AWSShapeMember(label: "GameSessionQueues", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Collection of objects that describes the requested game session queues.
         public let gameSessionQueues: [GameSessionQueue]?
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
@@ -1920,6 +2057,9 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try gameSessionQueues?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -1939,6 +2079,7 @@ extension GameLift {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "StatusFilter", required: false, type: .string)
         ]
+
         /// Unique identifier for an alias associated with the fleet to retrieve all game sessions for. 
         public let aliasId: String?
         /// Unique identifier for a fleet to retrieve all game sessions for.
@@ -1989,6 +2130,7 @@ extension GameLift {
             AWSShapeMember(label: "GameSessions", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Collection of objects containing game session properties for each session matching the request.
         public let gameSessions: [GameSession]?
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
@@ -2000,6 +2142,9 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try gameSessions?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -2017,6 +2162,7 @@ extension GameLift {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Unique identifier for a fleet to retrieve instance information for.
         public let fleetId: String
         /// Unique identifier for an instance to retrieve. Specify an instance ID or leave blank to retrieve all instances in the fleet.
@@ -2054,6 +2200,7 @@ extension GameLift {
             AWSShapeMember(label: "Instances", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Collection of objects containing properties for each instance returned.
         public let instances: [Instance]?
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
@@ -2065,6 +2212,9 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try instances?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -2082,6 +2232,7 @@ extension GameLift {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "RuleSetName", required: false, type: .string)
         ]
+
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. This parameter is limited to 10.
         public let limit: Int32?
         /// Unique identifier for a matchmaking configuration(s) to retrieve. To request all existing configurations, leave this parameter empty.
@@ -2100,6 +2251,10 @@ extension GameLift {
 
         public func validate() throws {
             try validate(limit, name:"limit", min: 1)
+            try names?.forEach {
+                try validate($0, name:"names[]", max: 128)
+                try validate($0, name:"names[]", pattern: "[a-zA-Z0-9-\\.]*")
+            }
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
             try validate(ruleSetName, name:"ruleSetName", max: 128)
@@ -2119,6 +2274,7 @@ extension GameLift {
             AWSShapeMember(label: "Configurations", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Collection of requested matchmaking configuration objects.
         public let configurations: [MatchmakingConfiguration]?
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
@@ -2130,6 +2286,9 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try configurations?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -2144,11 +2303,19 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TicketIds", required: true, type: .list)
         ]
+
         /// Unique identifier for a matchmaking ticket. You can include up to 10 ID values. 
         public let ticketIds: [String]
         
         public init(ticketIds: [String]) {
             self.ticketIds = ticketIds
+        }
+
+        public func validate() throws {
+            try ticketIds.forEach {
+                try validate($0, name:"ticketIds[]", max: 128)
+                try validate($0, name:"ticketIds[]", pattern: "[a-zA-Z0-9-\\.]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2160,11 +2327,18 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TicketList", required: false, type: .list)
         ]
+
         /// Collection of existing matchmaking ticket objects matching the request.
         public let ticketList: [MatchmakingTicket]?
         
         public init(ticketList: [MatchmakingTicket]? = nil) {
             self.ticketList = ticketList
+        }
+
+        public func validate() throws {
+            try ticketList?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2178,6 +2352,7 @@ extension GameLift {
             AWSShapeMember(label: "Names", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int32?
         /// List of one or more matchmaking rule set names to retrieve details for. (Note: The rule set name is different from the optional "name" field in the rule set body.) 
@@ -2194,6 +2369,10 @@ extension GameLift {
         public func validate() throws {
             try validate(limit, name:"limit", max: 10)
             try validate(limit, name:"limit", min: 1)
+            try names?.forEach {
+                try validate($0, name:"names[]", max: 128)
+                try validate($0, name:"names[]", pattern: "[a-zA-Z0-9-\\.]*")
+            }
             try validate(names, name:"names", max: 10)
             try validate(names, name:"names", min: 1)
             try validate(nextToken, name:"nextToken", max: 1024)
@@ -2212,6 +2391,7 @@ extension GameLift {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "RuleSets", required: true, type: .list)
         ]
+
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
         /// Collection of requested matchmaking rule set objects. 
@@ -2225,6 +2405,9 @@ extension GameLift {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
+            try ruleSets.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2242,6 +2425,7 @@ extension GameLift {
             AWSShapeMember(label: "PlayerSessionId", required: false, type: .string), 
             AWSShapeMember(label: "PlayerSessionStatusFilter", required: false, type: .string)
         ]
+
         /// Unique identifier for the game session to retrieve player sessions for.
         public let gameSessionId: String?
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. If a player session ID is specified, this parameter is ignored.
@@ -2293,6 +2477,7 @@ extension GameLift {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "PlayerSessions", required: false, type: .list)
         ]
+
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
         /// Collection of objects containing properties for each player session that matches the request.
@@ -2306,6 +2491,9 @@ extension GameLift {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
+            try playerSessions?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2318,6 +2506,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FleetId", required: true, type: .string)
         ]
+
         /// Unique identifier for a fleet to get the run-time configuration for.
         public let fleetId: String
         
@@ -2338,6 +2527,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RuntimeConfiguration", required: false, type: .structure)
         ]
+
         /// Instructions describing how server processes should be launched and maintained on each instance in the fleet.
         public let runtimeConfiguration: RuntimeConfiguration?
         
@@ -2361,6 +2551,7 @@ extension GameLift {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "StatusFilter", required: false, type: .enum)
         ]
+
         /// Unique identifier for a fleet to retrieve scaling policies for.
         public let fleetId: String
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
@@ -2397,6 +2588,7 @@ extension GameLift {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ScalingPolicies", required: false, type: .list)
         ]
+
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
         /// Collection of objects containing the scaling policies matching the request.
@@ -2410,6 +2602,9 @@ extension GameLift {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
+            try scalingPolicies?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2422,6 +2617,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ScriptId", required: true, type: .string)
         ]
+
         /// Unique identifier for a Realtime script to retrieve properties for.
         public let scriptId: String
         
@@ -2442,6 +2638,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Script", required: false, type: .structure)
         ]
+
         /// Set of properties describing the requested script.
         public let script: Script?
         
@@ -2460,7 +2657,6 @@ extension GameLift {
 
     public struct DescribeVpcPeeringAuthorizationsInput: AWSShape {
         
-        
         public init() {
         }
 
@@ -2470,11 +2666,18 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VpcPeeringAuthorizations", required: false, type: .list)
         ]
+
         /// Collection of objects that describe all valid VPC peering operations for the current AWS account.
         public let vpcPeeringAuthorizations: [VpcPeeringAuthorization]?
         
         public init(vpcPeeringAuthorizations: [VpcPeeringAuthorization]? = nil) {
             self.vpcPeeringAuthorizations = vpcPeeringAuthorizations
+        }
+
+        public func validate() throws {
+            try vpcPeeringAuthorizations?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2486,6 +2689,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FleetId", required: false, type: .string)
         ]
+
         /// Unique identifier for a fleet.
         public let fleetId: String?
         
@@ -2506,11 +2710,18 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VpcPeeringConnections", required: false, type: .list)
         ]
+
         /// Collection of VPC peering connection records that match the request.
         public let vpcPeeringConnections: [VpcPeeringConnection]?
         
         public init(vpcPeeringConnections: [VpcPeeringConnection]? = nil) {
             self.vpcPeeringConnections = vpcPeeringConnections
+        }
+
+        public func validate() throws {
+            try vpcPeeringConnections?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2523,6 +2734,7 @@ extension GameLift {
             AWSShapeMember(label: "PlayerData", required: false, type: .string), 
             AWSShapeMember(label: "PlayerId", required: false, type: .string)
         ]
+
         /// Developer-defined information related to a player. Amazon GameLift does not use this data, so it can be formatted as needed for use in the game.
         public let playerData: String?
         /// Unique identifier for a player to associate with the player session.
@@ -2556,6 +2768,7 @@ extension GameLift {
             AWSShapeMember(label: "PENDING", required: false, type: .integer), 
             AWSShapeMember(label: "TERMINATING", required: false, type: .integer)
         ]
+
         /// Actual number of active instances in the fleet.
         public let active: Int32?
         /// Ideal number of active instances in the fleet.
@@ -2608,6 +2821,7 @@ extension GameLift {
             AWSShapeMember(label: "EC2InstanceType", required: false, type: .enum), 
             AWSShapeMember(label: "InstanceLimit", required: false, type: .integer)
         ]
+
         /// Number of instances of the specified type that are currently in use by this AWS account.
         public let currentInstances: Int32?
         /// Name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Amazon GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions.
@@ -2680,6 +2894,7 @@ extension GameLift {
             AWSShapeMember(label: "PreSignedLogUrl", required: false, type: .string), 
             AWSShapeMember(label: "ResourceId", required: false, type: .string)
         ]
+
         /// Type of event being logged. The following events are currently in use:  Fleet creation events:    FLEET_CREATED -- A fleet record was successfully created with a status of NEW. Event messaging includes the fleet ID.   FLEET_STATE_DOWNLOADING -- Fleet status changed from NEW to DOWNLOADING. The compressed build has started downloading to a fleet instance for installation.    FLEET_BINARY_DOWNLOAD_FAILED -- The build failed to download to the fleet instance.   FLEET_CREATION_EXTRACTING_BUILD – The game server build was successfully downloaded to an instance, and the build files are now being extracted from the uploaded build and saved to an instance. Failure at this stage prevents a fleet from moving to ACTIVE status. Logs for this stage display a list of the files that are extracted and saved on the instance. Access the logs by using the URL in PreSignedLogUrl.   FLEET_CREATION_RUNNING_INSTALLER – The game server build files were successfully extracted, and the Amazon GameLift is now running the build's install script (if one is included). Failure in this stage prevents a fleet from moving to ACTIVE status. Logs for this stage list the installation steps and whether or not the install completed successfully. Access the logs by using the URL in PreSignedLogUrl.    FLEET_CREATION_VALIDATING_RUNTIME_CONFIG -- The build process was successful, and the Amazon GameLift is now verifying that the game server launch paths, which are specified in the fleet's run-time configuration, exist. If any listed launch path exists, Amazon GameLift tries to launch a game server process and waits for the process to report ready. Failures in this stage prevent a fleet from moving to ACTIVE status. Logs for this stage list the launch paths in the run-time configuration and indicate whether each is found. Access the logs by using the URL in PreSignedLogUrl.    FLEET_STATE_VALIDATING -- Fleet status changed from DOWNLOADING to VALIDATING.    FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND -- Validation of the run-time configuration failed because the executable specified in a launch path does not exist on the instance.   FLEET_STATE_BUILDING -- Fleet status changed from VALIDATING to BUILDING.   FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE -- Validation of the run-time configuration failed because the executable specified in a launch path failed to run on the fleet instance.   FLEET_STATE_ACTIVATING -- Fleet status changed from BUILDING to ACTIVATING.     FLEET_ACTIVATION_FAILED - The fleet failed to successfully complete one of the steps in the fleet activation process. This event code indicates that the game build was successfully downloaded to a fleet instance, built, and validated, but was not able to start a server process. A possible reason for failure is that the game server is not reporting "process ready" to the Amazon GameLift service.   FLEET_STATE_ACTIVE -- The fleet's status changed from ACTIVATING to ACTIVE. The fleet is now ready to host game sessions.    VPC peering events:    FLEET_VPC_PEERING_SUCCEEDED -- A VPC peering connection has been established between the VPC for an Amazon GameLift fleet and a VPC in your AWS account.   FLEET_VPC_PEERING_FAILED -- A requested VPC peering connection has failed. Event details and status information (see DescribeVpcPeeringConnections) provide additional detail. A common reason for peering failure is that the two VPCs have overlapping CIDR blocks of IPv4 addresses. To resolve this, change the CIDR block for the VPC in your AWS account. For more information on VPC peering failures, see https://docs.aws.amazon.com/AmazonVPC/latest/PeeringGuide/invalid-peering-configurations.html    FLEET_VPC_PEERING_DELETED -- A VPC peering connection has been successfully deleted.    Spot instance events:     INSTANCE_INTERRUPTED -- A spot instance was interrupted by EC2 with a two-minute notification.    Other fleet events:    FLEET_SCALING_EVENT -- A change was made to the fleet's capacity settings (desired instances, minimum/maximum scaling limits). Event messaging includes the new capacity settings.   FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED -- A change was made to the fleet's game session protection policy setting. Event messaging includes both the old and new policy setting.    FLEET_DELETED -- A request to delete a fleet was initiated.    GENERIC_EVENT -- An unspecified event has occurred.  
         public let eventCode: EventCode?
         /// Unique identifier for a fleet event.
@@ -2787,6 +3002,7 @@ extension GameLift {
             AWSShapeMember(label: "StoppedActions", required: false, type: .list), 
             AWSShapeMember(label: "TerminationTime", required: false, type: .timestamp)
         ]
+
         /// Unique identifier for a build.
         public let buildId: String?
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
@@ -2860,6 +3076,14 @@ extension GameLift {
             try validate(fleetArn, name:"fleetArn", pattern: "[a-zA-Z0-9:/-]+")
             try validate(fleetId, name:"fleetId", pattern: "^fleet-\\S+")
             try validate(instanceRoleArn, name:"instanceRoleArn", min: 1)
+            try logPaths?.forEach {
+                try validate($0, name:"logPaths[]", max: 1024)
+                try validate($0, name:"logPaths[]", min: 1)
+            }
+            try metricGroups?.forEach {
+                try validate($0, name:"metricGroups[]", max: 255)
+                try validate($0, name:"metricGroups[]", min: 1)
+            }
             try validate(metricGroups, name:"metricGroups", max: 1)
             try validate(name, name:"name", max: 1024)
             try validate(name, name:"name", min: 1)
@@ -2903,6 +3127,7 @@ extension GameLift {
             AWSShapeMember(label: "InstanceCounts", required: false, type: .structure), 
             AWSShapeMember(label: "InstanceType", required: false, type: .enum)
         ]
+
         /// Unique identifier for a fleet.
         public let fleetId: String?
         /// Current status of fleet capacity.
@@ -2955,6 +3180,7 @@ extension GameLift {
             AWSShapeMember(label: "FleetId", required: false, type: .string), 
             AWSShapeMember(label: "MaximumPlayerSessionCount", required: false, type: .integer)
         ]
+
         /// Number of active game sessions currently being hosted on all instances in the fleet.
         public let activeGameSessionCount: Int32?
         /// Number of server processes in an ACTIVE status currently running across all instances in the fleet
@@ -2996,6 +3222,7 @@ extension GameLift {
             AWSShapeMember(label: "Key", required: true, type: .string), 
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
+
         /// Game property identifier.
         public let key: String
         /// Game property value.
@@ -3036,6 +3263,7 @@ extension GameLift {
             AWSShapeMember(label: "StatusReason", required: false, type: .enum), 
             AWSShapeMember(label: "TerminationTime", required: false, type: .timestamp)
         ]
+
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: TimeStamp?
         /// Unique identifier for a player. This ID is used to enforce a resource protection policy (if one exists), that limits the number of game sessions a player can create.
@@ -3093,6 +3321,9 @@ extension GameLift {
             try validate(creatorId, name:"creatorId", min: 1)
             try validate(currentPlayerSessionCount, name:"currentPlayerSessionCount", min: 0)
             try validate(fleetId, name:"fleetId", pattern: "^fleet-\\S+")
+            try gameProperties?.forEach {
+                try $0.validate()
+            }
             try validate(gameProperties, name:"gameProperties", max: 16)
             try validate(gameSessionData, name:"gameSessionData", max: 4096)
             try validate(gameSessionData, name:"gameSessionData", min: 1)
@@ -3134,6 +3365,7 @@ extension GameLift {
             AWSShapeMember(label: "MatchedPlayerSessions", required: false, type: .list), 
             AWSShapeMember(label: "Port", required: false, type: .integer)
         ]
+
         /// Amazon Resource Name (ARN) that is assigned to a game session and uniquely identifies it.
         public let gameSessionArn: String?
         /// IP address of the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number.
@@ -3154,6 +3386,9 @@ extension GameLift {
             try validate(gameSessionArn, name:"gameSessionArn", max: 256)
             try validate(gameSessionArn, name:"gameSessionArn", min: 1)
             try validate(gameSessionArn, name:"gameSessionArn", pattern: "[a-zA-Z0-9:/-]+")
+            try matchedPlayerSessions?.forEach {
+                try $0.validate()
+            }
             try validate(port, name:"port", min: 1)
         }
 
@@ -3170,6 +3405,7 @@ extension GameLift {
             AWSShapeMember(label: "GameSession", required: false, type: .structure), 
             AWSShapeMember(label: "ProtectionPolicy", required: false, type: .enum)
         ]
+
         /// Object that describes a game session.
         public let gameSession: GameSession?
         /// Current status of protection for the game session.    NoProtection -- The game session can be terminated during a scale-down event.    FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.  
@@ -3210,6 +3446,7 @@ extension GameLift {
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
+
         /// Time stamp indicating when this request was completed, canceled, or timed out.
         public let endTime: TimeStamp?
         /// Set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
@@ -3266,6 +3503,9 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try gameProperties?.forEach {
+                try $0.validate()
+            }
             try validate(gameProperties, name:"gameProperties", max: 16)
             try validate(gameSessionArn, name:"gameSessionArn", max: 1024)
             try validate(gameSessionArn, name:"gameSessionArn", min: 1)
@@ -3283,9 +3523,15 @@ extension GameLift {
             try validate(matchmakerData, name:"matchmakerData", max: 390000)
             try validate(matchmakerData, name:"matchmakerData", min: 1)
             try validate(maximumPlayerSessionCount, name:"maximumPlayerSessionCount", min: 0)
+            try placedPlayerSessions?.forEach {
+                try $0.validate()
+            }
             try validate(placementId, name:"placementId", max: 48)
             try validate(placementId, name:"placementId", min: 1)
             try validate(placementId, name:"placementId", pattern: "[a-zA-Z0-9-]+")
+            try playerLatencies?.forEach {
+                try $0.validate()
+            }
             try validate(port, name:"port", max: 60000)
             try validate(port, name:"port", min: 1)
         }
@@ -3327,6 +3573,7 @@ extension GameLift {
             AWSShapeMember(label: "PlayerLatencyPolicies", required: false, type: .list), 
             AWSShapeMember(label: "TimeoutInSeconds", required: false, type: .integer)
         ]
+
         /// List of fleets that can be used to fulfill game session placement requests in the queue. Fleets are identified by either a fleet ARN or a fleet alias ARN. Destinations are listed in default preference order.
         public let destinations: [GameSessionQueueDestination]?
         /// Amazon Resource Name (ARN) that is assigned to a game session queue and uniquely identifies it. Format is arn:aws:gamelift:&lt;region&gt;:&lt;aws account&gt;:gamesessionqueue/&lt;queue name&gt;.
@@ -3347,12 +3594,18 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try destinations?.forEach {
+                try $0.validate()
+            }
             try validate(gameSessionQueueArn, name:"gameSessionQueueArn", max: 256)
             try validate(gameSessionQueueArn, name:"gameSessionQueueArn", min: 1)
             try validate(gameSessionQueueArn, name:"gameSessionQueueArn", pattern: "[a-zA-Z0-9:/-]+")
             try validate(name, name:"name", max: 128)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "[a-zA-Z0-9-]+")
+            try playerLatencyPolicies?.forEach {
+                try $0.validate()
+            }
             try validate(timeoutInSeconds, name:"timeoutInSeconds", min: 0)
         }
 
@@ -3369,6 +3622,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DestinationArn", required: false, type: .string)
         ]
+
         /// Amazon Resource Name (ARN) assigned to fleet or fleet alias. ARNs, which include a fleet ID or alias ID and a region name, provide a unique identifier across all regions. 
         public let destinationArn: String?
         
@@ -3405,6 +3659,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GameSessionId", required: true, type: .string)
         ]
+
         /// Unique identifier for the game session to get logs for.
         public let gameSessionId: String
         
@@ -3427,6 +3682,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PreSignedUrl", required: false, type: .string)
         ]
+
         /// Location of the requested game session logs, available for download. This URL is valid for 15 minutes, after which S3 will reject any download request using this URL. You can request a new URL any time within the 14-day period that the logs are retained.
         public let preSignedUrl: String?
         
@@ -3449,6 +3705,7 @@ extension GameLift {
             AWSShapeMember(label: "FleetId", required: true, type: .string), 
             AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
+
         /// Unique identifier for a fleet that contains the instance you want access to. The fleet can be in any of the following statuses: ACTIVATING, ACTIVE, or ERROR. Fleets with an ERROR status may be accessible for a short time before they are deleted.
         public let fleetId: String
         /// Unique identifier for an instance you want to get access to. You can access an instance in any status.
@@ -3474,6 +3731,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceAccess", required: false, type: .structure)
         ]
+
         /// Object that contains connection information for a fleet instance, including IP address and access credentials.
         public let instanceAccess: InstanceAccess?
         
@@ -3500,6 +3758,7 @@ extension GameLift {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
+
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: TimeStamp?
         /// Unique identifier for a fleet that the instance is in.
@@ -3549,6 +3808,7 @@ extension GameLift {
             AWSShapeMember(label: "IpAddress", required: false, type: .string), 
             AWSShapeMember(label: "OperatingSystem", required: false, type: .enum)
         ]
+
         /// Credentials required to access the instance.
         public let credentials: InstanceCredentials?
         /// Unique identifier for a fleet containing the instance being accessed.
@@ -3588,6 +3848,7 @@ extension GameLift {
             AWSShapeMember(label: "Secret", required: false, type: .string), 
             AWSShapeMember(label: "UserName", required: false, type: .string)
         ]
+
         /// Secret string. For Windows instances, the secret is a password for use with Windows Remote Desktop. For Linux instances, it is a private key (which must be saved as a .pem file) for use with SSH.
         public let secret: String?
         /// User login string.
@@ -3623,6 +3884,7 @@ extension GameLift {
             AWSShapeMember(label: "Protocol", required: true, type: .enum), 
             AWSShapeMember(label: "ToPort", required: true, type: .integer)
         ]
+
         /// Starting value for a range of allowed port numbers.
         public let fromPort: Int32
         /// Range of allowed IP addresses. This value must be expressed in CIDR notation. Example: "000.000.000.000/[subnet mask]" or optionally the shortened version "0.0.0.0/[subnet mask]".
@@ -3668,6 +3930,7 @@ extension GameLift {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "RoutingStrategyType", required: false, type: .enum)
         ]
+
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int32?
         /// Descriptive label that is associated with an alias. Alias names do not need to be unique.
@@ -3703,6 +3966,7 @@ extension GameLift {
             AWSShapeMember(label: "Aliases", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Collection of alias records that match the list request.
         public let aliases: [Alias]?
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
@@ -3714,6 +3978,9 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try aliases?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", min: 1)
         }
 
@@ -3729,6 +3996,7 @@ extension GameLift {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
+
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int32?
         /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
@@ -3759,6 +4027,7 @@ extension GameLift {
             AWSShapeMember(label: "Builds", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Collection of build records that match the request.
         public let builds: [Build]?
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
@@ -3770,6 +4039,9 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try builds?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", min: 1)
         }
 
@@ -3786,6 +4058,7 @@ extension GameLift {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ScriptId", required: false, type: .string)
         ]
+
         /// Unique identifier for a build to return fleets for. Use this parameter to return only fleets using the specified build. To retrieve all fleets, leave this parameter empty.
         public let buildId: String?
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
@@ -3823,6 +4096,7 @@ extension GameLift {
             AWSShapeMember(label: "FleetIds", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Set of fleet IDs matching the list request. You can retrieve additional information about all returned fleets by passing this result set to a call to DescribeFleetAttributes, DescribeFleetCapacity, or DescribeFleetUtilization.
         public let fleetIds: [String]?
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
@@ -3834,6 +4108,9 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try fleetIds?.forEach {
+                try validate($0, name:"fleetIds[]", pattern: "^fleet-\\S+")
+            }
             try validate(fleetIds, name:"fleetIds", min: 1)
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
@@ -3850,6 +4127,7 @@ extension GameLift {
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int32?
         /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To start at the beginning of the result set, do not specify a value.
@@ -3876,6 +4154,7 @@ extension GameLift {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Scripts", required: false, type: .list)
         ]
+
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
         /// Set of properties describing the requested script.
@@ -3888,6 +4167,9 @@ extension GameLift {
 
         public func validate() throws {
             try validate(nextToken, name:"nextToken", min: 1)
+            try scripts?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3901,6 +4183,7 @@ extension GameLift {
             AWSShapeMember(label: "PlayerId", required: false, type: .string), 
             AWSShapeMember(label: "PlayerSessionId", required: false, type: .string)
         ]
+
         /// Unique identifier for a player 
         public let playerId: String?
         /// Unique identifier for a player session
@@ -3940,6 +4223,7 @@ extension GameLift {
             AWSShapeMember(label: "RequestTimeoutSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "RuleSetName", required: false, type: .string)
         ]
+
         /// Flag that determines whether a match that was created with this configuration must be accepted by the matched players. To require acceptance, set to TRUE.
         public let acceptanceRequired: Bool?
         /// Length of time (in seconds) to wait for players to accept a proposed match. If any player rejects the match or fails to accept before the timeout, the ticket continues to look for an acceptable match.
@@ -3994,9 +4278,17 @@ extension GameLift {
             try validate(customEventData, name:"customEventData", min: 0)
             try validate(description, name:"description", max: 1024)
             try validate(description, name:"description", min: 1)
+            try gameProperties?.forEach {
+                try $0.validate()
+            }
             try validate(gameProperties, name:"gameProperties", max: 16)
             try validate(gameSessionData, name:"gameSessionData", max: 4096)
             try validate(gameSessionData, name:"gameSessionData", min: 1)
+            try gameSessionQueueArns?.forEach {
+                try validate($0, name:"gameSessionQueueArns[]", max: 256)
+                try validate($0, name:"gameSessionQueueArns[]", min: 1)
+                try validate($0, name:"gameSessionQueueArns[]", pattern: "[a-zA-Z0-9:/-]+")
+            }
             try validate(name, name:"name", max: 128)
             try validate(name, name:"name", pattern: "[a-zA-Z0-9-\\.]*")
             try validate(notificationTarget, name:"notificationTarget", max: 300)
@@ -4044,6 +4336,7 @@ extension GameLift {
             AWSShapeMember(label: "RuleSetBody", required: true, type: .string), 
             AWSShapeMember(label: "RuleSetName", required: false, type: .string)
         ]
+
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: TimeStamp?
         /// Collection of matchmaking rules, formatted as a JSON string. Comments are not allowed in JSON, but most elements support a description field.
@@ -4084,6 +4377,7 @@ extension GameLift {
             AWSShapeMember(label: "StatusReason", required: false, type: .string), 
             AWSShapeMember(label: "TicketId", required: false, type: .string)
         ]
+
         /// Name of the MatchmakingConfiguration that is used with this ticket. Matchmaking configurations determine how players are grouped into a match and how a new game session is created for the match.
         public let configurationName: String?
         /// Time stamp indicating when this matchmaking request stopped being processed due to success, failure, or cancellation. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
@@ -4123,6 +4417,9 @@ extension GameLift {
             try validate(configurationName, name:"configurationName", pattern: "[a-zA-Z0-9-\\.]*")
             try validate(estimatedWaitTime, name:"estimatedWaitTime", min: 0)
             try gameSessionConnectionInfo?.validate()
+            try players?.forEach {
+                try $0.validate()
+            }
             try validate(ticketId, name:"ticketId", max: 128)
             try validate(ticketId, name:"ticketId", pattern: "[a-zA-Z0-9-\\.]*")
         }
@@ -4167,6 +4464,7 @@ extension GameLift {
             AWSShapeMember(label: "PlayerId", required: false, type: .string), 
             AWSShapeMember(label: "PlayerSessionId", required: false, type: .string)
         ]
+
         /// Unique identifier for a player that is associated with this player session.
         public let playerId: String?
         /// Unique identifier for a player session.
@@ -4196,6 +4494,7 @@ extension GameLift {
             AWSShapeMember(label: "PlayerId", required: false, type: .string), 
             AWSShapeMember(label: "Team", required: false, type: .string)
         ]
+
         /// Set of values, expressed in milliseconds, indicating the amount of latency that a player experiences when connected to AWS regions. If this property is present, FlexMatch considers placing the match only in regions for which latency is reported.  If a matchmaker has a rule that evaluates player latency, players must report latency in order to be matched. If no latency is reported in this scenario, FlexMatch assumes that no regions are available to the player and the ticket is not matchable. 
         public let latencyInMs: [String: Int32]?
         /// Collection of key:value pairs containing player information for use in matchmaking. Player attribute keys must match the playerAttributes used in a matchmaking rule set. Example: "PlayerAttributes": {"skill": {"N": "23"}, "gameMode": {"S": "deathmatch"}}.
@@ -4233,6 +4532,7 @@ extension GameLift {
             AWSShapeMember(label: "PlayerId", required: false, type: .string), 
             AWSShapeMember(label: "RegionIdentifier", required: false, type: .string)
         ]
+
         /// Amount of time that represents the time lag experienced by the player when connected to the specified region.
         public let latencyInMilliseconds: Float?
         /// Unique identifier for a player associated with the latency data.
@@ -4265,6 +4565,7 @@ extension GameLift {
             AWSShapeMember(label: "MaximumIndividualPlayerLatencyMilliseconds", required: false, type: .integer), 
             AWSShapeMember(label: "PolicyDurationSeconds", required: false, type: .integer)
         ]
+
         /// The maximum latency value that is allowed for any player, in milliseconds. All policies must have a value set for this property.
         public let maximumIndividualPlayerLatencyMilliseconds: Int32?
         /// The length of time, in seconds, that the policy is enforced while placing a new game session. A null value for this property means that the policy is enforced until the queue times out.
@@ -4299,6 +4600,7 @@ extension GameLift {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "TerminationTime", required: false, type: .timestamp)
         ]
+
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: TimeStamp?
         /// Unique identifier for a fleet that the player's game session is running on.
@@ -4399,6 +4701,7 @@ extension GameLift {
             AWSShapeMember(label: "TargetConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "Threshold", required: false, type: .double)
         ]
+
         /// Comparison operator to use when measuring the metric against the threshold value.
         public let comparisonOperator: ComparisonOperatorType?
         /// Length of time (in minutes) the metric must be at or beyond the threshold before a scaling event is triggered.
@@ -4458,6 +4761,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         /// Descriptive label that is associated with a scaling policy. Policy names do not need to be unique.
         public let name: String?
         
@@ -4479,6 +4783,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BuildId", required: true, type: .string)
         ]
+
         /// Unique identifier for a build to get credentials for.
         public let buildId: String
         
@@ -4500,6 +4805,7 @@ extension GameLift {
             AWSShapeMember(label: "StorageLocation", required: false, type: .structure), 
             AWSShapeMember(label: "UploadCredentials", required: false, type: .structure)
         ]
+
         /// Amazon S3 path and key, identifying where the game build files are stored.
         public let storageLocation: S3Location?
         /// AWS credentials required when uploading a game build to the storage location. These credentials have a limited lifespan and are valid only for the build they were issued for.
@@ -4525,6 +4831,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AliasId", required: true, type: .string)
         ]
+
         /// Unique identifier for the alias you want to resolve.
         public let aliasId: String
         
@@ -4545,6 +4852,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FleetId", required: false, type: .string)
         ]
+
         /// Fleet identifier that is associated with the requested alias.
         public let fleetId: String?
         
@@ -4566,6 +4874,7 @@ extension GameLift {
             AWSShapeMember(label: "NewGameSessionsPerCreator", required: false, type: .integer), 
             AWSShapeMember(label: "PolicyPeriodInMinutes", required: false, type: .integer)
         ]
+
         /// Maximum number of game sessions that an individual can create during the policy period. 
         public let newGameSessionsPerCreator: Int32?
         /// Time span used in evaluating the resource creation limit policy. 
@@ -4593,6 +4902,7 @@ extension GameLift {
             AWSShapeMember(label: "Message", required: false, type: .string), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
+
         /// Unique identifier for a fleet that the alias points to.
         public let fleetId: String?
         /// Message text to be used with a terminal routing strategy.
@@ -4629,6 +4939,7 @@ extension GameLift {
             AWSShapeMember(label: "MaxConcurrentGameSessionActivations", required: false, type: .integer), 
             AWSShapeMember(label: "ServerProcesses", required: false, type: .list)
         ]
+
         /// Maximum amount of time (in seconds) that a game session can remain in status ACTIVATING. If the game session is not active before the timeout, activation is terminated and the game session status is changed to TERMINATED.
         public let gameSessionActivationTimeoutSeconds: Int32?
         /// Maximum number of game sessions with status ACTIVATING to allow on an instance simultaneously. This setting limits the amount of instance resources that can be used for new game activations at any one time.
@@ -4647,6 +4958,9 @@ extension GameLift {
             try validate(gameSessionActivationTimeoutSeconds, name:"gameSessionActivationTimeoutSeconds", min: 1)
             try validate(maxConcurrentGameSessionActivations, name:"maxConcurrentGameSessionActivations", max: 2147483647)
             try validate(maxConcurrentGameSessionActivations, name:"maxConcurrentGameSessionActivations", min: 1)
+            try serverProcesses?.forEach {
+                try $0.validate()
+            }
             try validate(serverProcesses, name:"serverProcesses", max: 50)
             try validate(serverProcesses, name:"serverProcesses", min: 1)
         }
@@ -4665,6 +4979,7 @@ extension GameLift {
             AWSShapeMember(label: "ObjectVersion", required: false, type: .string), 
             AWSShapeMember(label: "RoleArn", required: false, type: .string)
         ]
+
         /// Amazon S3 bucket identifier. This is the name of the S3 bucket.
         public let bucket: String?
         /// Name of the zip file containing the build files or script files. 
@@ -4717,6 +5032,7 @@ extension GameLift {
             AWSShapeMember(label: "TargetConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "Threshold", required: false, type: .double)
         ]
+
         /// Comparison operator to use when measuring a metric against the threshold value.
         public let comparisonOperator: ComparisonOperatorType?
         /// Length of time (in minutes) the metric must be at or beyond the threshold before a scaling event is triggered.
@@ -4796,6 +5112,7 @@ extension GameLift {
             AWSShapeMember(label: "StorageLocation", required: false, type: .structure), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: TimeStamp?
         /// Descriptive label that is associated with a script. Script names do not need to be unique.
@@ -4846,6 +5163,7 @@ extension GameLift {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "SortExpression", required: false, type: .string)
         ]
+
         /// Unique identifier for an alias associated with the fleet to search for active game sessions. Each request must reference either a fleet ID or alias ID, but not both.
         public let aliasId: String?
         /// String containing the search criteria for the session search. If no filter expression is included, the request returns results for all game sessions in the fleet that are in ACTIVE status. A filter expression can contain one or multiple conditions. Each condition consists of the following:    Operand -- Name of a game session attribute. Valid values are gameSessionName, gameSessionId, gameSessionProperties, maximumSessions, creationTimeMillis, playerSessionCount, hasAvailablePlayerSessions.    Comparator -- Valid comparators are: =, &lt;&gt;, &lt;, &gt;, &lt;=, &gt;=.     Value -- Value to be searched for. Values may be numbers, boolean values (true/false) or strings depending on the operand. String values are case sensitive and must be enclosed in single quotes. Special characters must be escaped. Boolean and string values can only be used with the comparators = and &lt;&gt;. For example, the following filter expression searches on gameSessionName: "FilterExpression": "gameSessionName = 'Matt\\'s Awesome Game 1'".    To chain multiple conditions in a single expression, use the logical keywords AND, OR, and NOT and parentheses as needed. For example: x AND y AND NOT z, NOT (x OR y). Session search evaluates conditions from left to right using the following precedence rules:    =, &lt;&gt;, &lt;, &gt;, &lt;=, &gt;=    Parentheses   NOT   AND   OR   For example, this filter expression retrieves game sessions hosting at least ten players that have an open player slot: "maximumSessions&gt;=10 AND hasAvailablePlayerSessions=true". 
@@ -4895,6 +5213,7 @@ extension GameLift {
             AWSShapeMember(label: "GameSessions", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Collection of objects containing game session properties for each session matching the request.
         public let gameSessions: [GameSession]?
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
@@ -4906,6 +5225,9 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try gameSessions?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -4922,6 +5244,7 @@ extension GameLift {
             AWSShapeMember(label: "LaunchPath", required: true, type: .string), 
             AWSShapeMember(label: "Parameters", required: false, type: .string)
         ]
+
         /// Number of server processes using this configuration to run concurrently on an instance.
         public let concurrentExecutions: Int32
         /// Location of the server executable in a custom game build or the name of the Realtime script file that contains the Init() function. Game builds and Realtime scripts are installed on instances at the root:    Windows (for custom game builds only): C:\game. Example: "C:\game\MyGame\server.exe"    Linux: /local/game. Examples: "/local/game/MyGame/server.exe" or "/local/game/MyRealtimeScript.js"  
@@ -4955,6 +5278,7 @@ extension GameLift {
             AWSShapeMember(label: "Actions", required: true, type: .list), 
             AWSShapeMember(label: "FleetId", required: true, type: .string)
         ]
+
         /// List of actions to restart on the fleet.
         public let actions: [FleetAction]
         /// Unique identifier for a fleet
@@ -4979,7 +5303,6 @@ extension GameLift {
 
     public struct StartFleetActionsOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -4996,6 +5319,7 @@ extension GameLift {
             AWSShapeMember(label: "PlacementId", required: true, type: .string), 
             AWSShapeMember(label: "PlayerLatencies", required: false, type: .list)
         ]
+
         /// Set of information on each player to create a player session for.
         public let desiredPlayerSessions: [DesiredPlayerSession]?
         /// Set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
@@ -5025,6 +5349,12 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try desiredPlayerSessions?.forEach {
+                try $0.validate()
+            }
+            try gameProperties?.forEach {
+                try $0.validate()
+            }
             try validate(gameProperties, name:"gameProperties", max: 16)
             try validate(gameSessionData, name:"gameSessionData", max: 4096)
             try validate(gameSessionData, name:"gameSessionData", min: 1)
@@ -5037,6 +5367,9 @@ extension GameLift {
             try validate(placementId, name:"placementId", max: 48)
             try validate(placementId, name:"placementId", min: 1)
             try validate(placementId, name:"placementId", pattern: "[a-zA-Z0-9-]+")
+            try playerLatencies?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5055,6 +5388,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GameSessionPlacement", required: false, type: .structure)
         ]
+
         /// Object that describes the newly created game session placement. This object includes all the information provided in the request, as well as start/end time stamps and placement status. 
         public let gameSessionPlacement: GameSessionPlacement?
         
@@ -5078,6 +5412,7 @@ extension GameLift {
             AWSShapeMember(label: "Players", required: true, type: .list), 
             AWSShapeMember(label: "TicketId", required: false, type: .string)
         ]
+
         /// Name of the matchmaker to use for this request. The name of the matchmaker that was used with the original game session is listed in the GameSession object, MatchmakerData property. This property contains a matchmaking configuration ARN value, which includes the matchmaker name. (In the ARN value "arn:aws:gamelift:us-west-2:111122223333:matchmakingconfiguration/MM-4v4", the matchmaking configuration name is "MM-4v4".) Use only the name for this parameter.
         public let configurationName: String
         /// Amazon Resource Name (ARN) that is assigned to a game session and uniquely identifies it. 
@@ -5100,6 +5435,9 @@ extension GameLift {
             try validate(gameSessionArn, name:"gameSessionArn", max: 256)
             try validate(gameSessionArn, name:"gameSessionArn", min: 1)
             try validate(gameSessionArn, name:"gameSessionArn", pattern: "[a-zA-Z0-9:/-]+")
+            try players.forEach {
+                try $0.validate()
+            }
             try validate(ticketId, name:"ticketId", max: 128)
             try validate(ticketId, name:"ticketId", pattern: "[a-zA-Z0-9-\\.]*")
         }
@@ -5116,6 +5454,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MatchmakingTicket", required: false, type: .structure)
         ]
+
         /// Ticket representing the backfill matchmaking request. This object includes the information in the request, ticket status, and match results as generated during the matchmaking process.
         public let matchmakingTicket: MatchmakingTicket?
         
@@ -5138,6 +5477,7 @@ extension GameLift {
             AWSShapeMember(label: "Players", required: true, type: .list), 
             AWSShapeMember(label: "TicketId", required: false, type: .string)
         ]
+
         /// Name of the matchmaking configuration to use for this request. Matchmaking configurations must exist in the same region as this request.
         public let configurationName: String
         /// Information on each player to be matched. This information must include a player ID, and may contain player attributes and latency data to be used in the matchmaking process. After a successful match, Player objects contain the name of the team the player is assigned to.
@@ -5154,6 +5494,9 @@ extension GameLift {
         public func validate() throws {
             try validate(configurationName, name:"configurationName", max: 128)
             try validate(configurationName, name:"configurationName", pattern: "[a-zA-Z0-9-\\.]*")
+            try players.forEach {
+                try $0.validate()
+            }
             try validate(ticketId, name:"ticketId", max: 128)
             try validate(ticketId, name:"ticketId", pattern: "[a-zA-Z0-9-\\.]*")
         }
@@ -5169,6 +5512,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MatchmakingTicket", required: false, type: .structure)
         ]
+
         /// Ticket representing the matchmaking request. This object include the information included in the request, ticket status, and match results as generated during the matchmaking process.
         public let matchmakingTicket: MatchmakingTicket?
         
@@ -5190,6 +5534,7 @@ extension GameLift {
             AWSShapeMember(label: "Actions", required: true, type: .list), 
             AWSShapeMember(label: "FleetId", required: true, type: .string)
         ]
+
         /// List of actions to suspend on the fleet. 
         public let actions: [FleetAction]
         /// Unique identifier for a fleet
@@ -5214,7 +5559,6 @@ extension GameLift {
 
     public struct StopFleetActionsOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -5224,6 +5568,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PlacementId", required: true, type: .string)
         ]
+
         /// Unique identifier for a game session placement to cancel.
         public let placementId: String
         
@@ -5246,6 +5591,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GameSessionPlacement", required: false, type: .structure)
         ]
+
         /// Object that describes the canceled game session placement, with CANCELLED status and an end time stamp. 
         public let gameSessionPlacement: GameSessionPlacement?
         
@@ -5266,6 +5612,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TicketId", required: true, type: .string)
         ]
+
         /// Unique identifier for a matchmaking ticket.
         public let ticketId: String
         
@@ -5285,7 +5632,6 @@ extension GameLift {
 
     public struct StopMatchmakingOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -5295,6 +5641,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetValue", required: true, type: .double)
         ]
+
         /// Desired value to use with a target-based scaling policy. The value must be relevant for whatever metric the scaling policy is using. For example, in a policy using the metric PercentAvailableGameSessions, the target value should be the preferred size of the fleet's buffer (the percent of capacity that should be idle and ready for new game sessions).
         public let targetValue: Double
         
@@ -5314,6 +5661,7 @@ extension GameLift {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "RoutingStrategy", required: false, type: .structure)
         ]
+
         /// Unique identifier for a fleet alias. Specify the alias you want to update.
         public let aliasId: String
         /// Human-readable description of an alias.
@@ -5352,6 +5700,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Alias", required: false, type: .structure)
         ]
+
         /// Object that contains the updated alias configuration.
         public let alias: Alias?
         
@@ -5374,6 +5723,7 @@ extension GameLift {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         /// Unique identifier for a build to update.
         public let buildId: String
         /// Descriptive label that is associated with a build. Build names do not need to be unique. 
@@ -5406,6 +5756,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Build", required: false, type: .structure)
         ]
+
         /// Object that contains the updated build record.
         public let build: Build?
         
@@ -5431,6 +5782,7 @@ extension GameLift {
             AWSShapeMember(label: "NewGameSessionProtectionPolicy", required: false, type: .enum), 
             AWSShapeMember(label: "ResourceCreationLimitPolicy", required: false, type: .structure)
         ]
+
         /// Human-readable description of a fleet.
         public let description: String?
         /// Unique identifier for a fleet to update attribute metadata for.
@@ -5457,6 +5809,10 @@ extension GameLift {
             try validate(description, name:"description", max: 1024)
             try validate(description, name:"description", min: 1)
             try validate(fleetId, name:"fleetId", pattern: "^fleet-\\S+")
+            try metricGroups?.forEach {
+                try validate($0, name:"metricGroups[]", max: 255)
+                try validate($0, name:"metricGroups[]", min: 1)
+            }
             try validate(metricGroups, name:"metricGroups", max: 1)
             try validate(name, name:"name", max: 1024)
             try validate(name, name:"name", min: 1)
@@ -5477,6 +5833,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FleetId", required: false, type: .string)
         ]
+
         /// Unique identifier for a fleet that was updated.
         public let fleetId: String?
         
@@ -5500,6 +5857,7 @@ extension GameLift {
             AWSShapeMember(label: "MaxSize", required: false, type: .integer), 
             AWSShapeMember(label: "MinSize", required: false, type: .integer)
         ]
+
         /// Number of EC2 instances you want this fleet to host.
         public let desiredInstances: Int32?
         /// Unique identifier for a fleet to update capacity for.
@@ -5535,6 +5893,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FleetId", required: false, type: .string)
         ]
+
         /// Unique identifier for a fleet that was updated.
         public let fleetId: String?
         
@@ -5557,6 +5916,7 @@ extension GameLift {
             AWSShapeMember(label: "InboundPermissionAuthorizations", required: false, type: .list), 
             AWSShapeMember(label: "InboundPermissionRevocations", required: false, type: .list)
         ]
+
         /// Unique identifier for a fleet to update port settings for.
         public let fleetId: String
         /// Collection of port settings to be added to the fleet record.
@@ -5572,7 +5932,13 @@ extension GameLift {
 
         public func validate() throws {
             try validate(fleetId, name:"fleetId", pattern: "^fleet-\\S+")
+            try inboundPermissionAuthorizations?.forEach {
+                try $0.validate()
+            }
             try validate(inboundPermissionAuthorizations, name:"inboundPermissionAuthorizations", max: 50)
+            try inboundPermissionRevocations?.forEach {
+                try $0.validate()
+            }
             try validate(inboundPermissionRevocations, name:"inboundPermissionRevocations", max: 50)
         }
 
@@ -5587,6 +5953,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FleetId", required: false, type: .string)
         ]
+
         /// Unique identifier for a fleet that was updated.
         public let fleetId: String?
         
@@ -5611,6 +5978,7 @@ extension GameLift {
             AWSShapeMember(label: "PlayerSessionCreationPolicy", required: false, type: .enum), 
             AWSShapeMember(label: "ProtectionPolicy", required: false, type: .enum)
         ]
+
         /// Unique identifier for the game session to update.
         public let gameSessionId: String
         /// Maximum number of players that can be connected simultaneously to the game session.
@@ -5652,6 +6020,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GameSession", required: false, type: .structure)
         ]
+
         /// Object that contains the updated game session metadata.
         public let gameSession: GameSession?
         
@@ -5675,6 +6044,7 @@ extension GameLift {
             AWSShapeMember(label: "PlayerLatencyPolicies", required: false, type: .list), 
             AWSShapeMember(label: "TimeoutInSeconds", required: false, type: .integer)
         ]
+
         /// List of fleets that can be used to fulfill game session placement requests in the queue. Fleets are identified by either a fleet ARN or a fleet alias ARN. Destinations are listed in default preference order. When updating this list, provide a complete list of destinations.
         public let destinations: [GameSessionQueueDestination]?
         /// Descriptive label that is associated with game session queue. Queue names must be unique within each region.
@@ -5692,9 +6062,15 @@ extension GameLift {
         }
 
         public func validate() throws {
+            try destinations?.forEach {
+                try $0.validate()
+            }
             try validate(name, name:"name", max: 128)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "[a-zA-Z0-9-]+")
+            try playerLatencyPolicies?.forEach {
+                try $0.validate()
+            }
             try validate(timeoutInSeconds, name:"timeoutInSeconds", min: 0)
         }
 
@@ -5710,6 +6086,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GameSessionQueue", required: false, type: .structure)
         ]
+
         /// Object that describes the newly updated game session queue.
         public let gameSessionQueue: GameSessionQueue?
         
@@ -5742,6 +6119,7 @@ extension GameLift {
             AWSShapeMember(label: "RequestTimeoutSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "RuleSetName", required: false, type: .string)
         ]
+
         /// Flag that determines whether a match that was created with this configuration must be accepted by the matched players. To require acceptance, set to TRUE.
         public let acceptanceRequired: Bool?
         /// Length of time (in seconds) to wait for players to accept a proposed match. If any player rejects the match or fails to accept before the timeout, the ticket continues to look for an acceptable match.
@@ -5793,9 +6171,17 @@ extension GameLift {
             try validate(customEventData, name:"customEventData", min: 0)
             try validate(description, name:"description", max: 1024)
             try validate(description, name:"description", min: 1)
+            try gameProperties?.forEach {
+                try $0.validate()
+            }
             try validate(gameProperties, name:"gameProperties", max: 16)
             try validate(gameSessionData, name:"gameSessionData", max: 4096)
             try validate(gameSessionData, name:"gameSessionData", min: 1)
+            try gameSessionQueueArns?.forEach {
+                try validate($0, name:"gameSessionQueueArns[]", max: 256)
+                try validate($0, name:"gameSessionQueueArns[]", min: 1)
+                try validate($0, name:"gameSessionQueueArns[]", pattern: "[a-zA-Z0-9:/-]+")
+            }
             try validate(name, name:"name", max: 128)
             try validate(name, name:"name", pattern: "[a-zA-Z0-9-\\.]*")
             try validate(notificationTarget, name:"notificationTarget", max: 300)
@@ -5828,6 +6214,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Configuration", required: false, type: .structure)
         ]
+
         /// Object that describes the updated matchmaking configuration.
         public let configuration: MatchmakingConfiguration?
         
@@ -5849,6 +6236,7 @@ extension GameLift {
             AWSShapeMember(label: "FleetId", required: true, type: .string), 
             AWSShapeMember(label: "RuntimeConfiguration", required: true, type: .structure)
         ]
+
         /// Unique identifier for a fleet to update run-time configuration for.
         public let fleetId: String
         /// Instructions for launching server processes on each instance in the fleet. Server processes run either a custom game build executable or a Realtime Servers script. The run-time configuration lists the types of server processes to run on an instance and includes the following configuration settings: the server executable or launch script file, launch parameters, and the number of processes to run concurrently on each instance. A CreateFleet request must include a run-time configuration with at least one server process configuration.
@@ -5874,6 +6262,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RuntimeConfiguration", required: false, type: .structure)
         ]
+
         /// The run-time configuration currently in force. If the update was successful, this object matches the one in the request.
         public let runtimeConfiguration: RuntimeConfiguration?
         
@@ -5898,6 +6287,7 @@ extension GameLift {
             AWSShapeMember(label: "Version", required: false, type: .string), 
             AWSShapeMember(label: "ZipFile", required: false, type: .blob)
         ]
+
         /// Descriptive label that is associated with a script. Script names do not need to be unique.
         public let name: String?
         /// Unique identifier for a Realtime script to update.
@@ -5940,6 +6330,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Script", required: false, type: .structure)
         ]
+
         /// The newly created script record with a unique script ID. The new script's storage location reflects an Amazon S3 location: (1) If the script was uploaded from an S3 bucket under your account, the storage location reflects the information that was provided in the CreateScript request; (2) If the script file was uploaded from a local zip file, the storage location reflects an S3 location controls by the Amazon GameLift service.
         public let script: Script?
         
@@ -5960,6 +6351,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RuleSetBody", required: true, type: .string)
         ]
+
         /// Collection of matchmaking rules to validate, formatted as a JSON string.
         public let ruleSetBody: String
         
@@ -5981,6 +6373,7 @@ extension GameLift {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Valid", required: false, type: .boolean)
         ]
+
         /// Response indicating whether the rule set is valid.
         public let valid: Bool?
         
@@ -6001,6 +6394,7 @@ extension GameLift {
             AWSShapeMember(label: "PeerVpcAwsAccountId", required: false, type: .string), 
             AWSShapeMember(label: "PeerVpcId", required: false, type: .string)
         ]
+
         /// Time stamp indicating when this authorization was issued. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: TimeStamp?
         /// Time stamp indicating when this authorization expires (24 hours after issuance). Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
@@ -6046,6 +6440,7 @@ extension GameLift {
             AWSShapeMember(label: "Status", required: false, type: .structure), 
             AWSShapeMember(label: "VpcPeeringConnectionId", required: false, type: .string)
         ]
+
         /// Unique identifier for a fleet. This ID determines the ID of the Amazon GameLift VPC for your fleet.
         public let fleetId: String?
         /// Unique identifier for the VPC that contains the Amazon GameLift fleet for this connection. This VPC is managed by Amazon GameLift and does not appear in your AWS account. 
@@ -6096,6 +6491,7 @@ extension GameLift {
             AWSShapeMember(label: "Code", required: false, type: .string), 
             AWSShapeMember(label: "Message", required: false, type: .string)
         ]
+
         /// Code indicating the status of a VPC peering connection.
         public let code: String?
         /// Additional messaging associated with the connection status. 

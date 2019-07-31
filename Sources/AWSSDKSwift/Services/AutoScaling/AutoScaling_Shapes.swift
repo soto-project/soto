@@ -10,6 +10,7 @@ extension AutoScaling {
             AWSShapeMember(label: "Activities", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The scaling activities. Activities are sorted by start time. Activities still in progress are described first.
         public let activities: [Activity]
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
@@ -21,6 +22,9 @@ extension AutoScaling {
         }
 
         public func validate() throws {
+            try activities.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
@@ -43,6 +47,7 @@ extension AutoScaling {
             AWSShapeMember(label: "StatusCode", required: true, type: .enum), 
             AWSShapeMember(label: "StatusMessage", required: false, type: .string)
         ]
+
         /// The ID of the activity.
         public let activityId: String
         /// The name of the Auto Scaling group.
@@ -110,6 +115,7 @@ extension AutoScaling {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Activity", required: false, type: .structure)
         ]
+
         /// A scaling activity.
         public let activity: Activity?
         
@@ -130,6 +136,7 @@ extension AutoScaling {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AdjustmentType", required: false, type: .string)
         ]
+
         /// The policy adjustment type. The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity.
         public let adjustmentType: String?
         
@@ -153,6 +160,7 @@ extension AutoScaling {
             AWSShapeMember(label: "AlarmARN", required: false, type: .string), 
             AWSShapeMember(label: "AlarmName", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the alarm.
         public let alarmARN: String?
         /// The name of the alarm.
@@ -183,6 +191,7 @@ extension AutoScaling {
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
             AWSShapeMember(label: "InstanceIds", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The IDs of the instances. You can specify up to 20 instances.
@@ -197,6 +206,11 @@ extension AutoScaling {
             try validate(autoScalingGroupName, name:"autoScalingGroupName", max: 1600)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try instanceIds?.forEach {
+                try validate($0, name:"instanceIds[]", max: 19)
+                try validate($0, name:"instanceIds[]", min: 1)
+                try validate($0, name:"instanceIds[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -206,7 +220,6 @@ extension AutoScaling {
     }
 
     public struct AttachLoadBalancerTargetGroupsResultType: AWSShape {
-        
         
         public init() {
         }
@@ -218,6 +231,7 @@ extension AutoScaling {
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
             AWSShapeMember(label: "TargetGroupARNs", required: true, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The Amazon Resource Names (ARN) of the target groups. You can specify up to 10 target groups.
@@ -232,6 +246,11 @@ extension AutoScaling {
             try validate(autoScalingGroupName, name:"autoScalingGroupName", max: 1600)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try targetGroupARNs.forEach {
+                try validate($0, name:"targetGroupARNs[]", max: 511)
+                try validate($0, name:"targetGroupARNs[]", min: 1)
+                try validate($0, name:"targetGroupARNs[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -241,7 +260,6 @@ extension AutoScaling {
     }
 
     public struct AttachLoadBalancersResultType: AWSShape {
-        
         
         public init() {
         }
@@ -253,6 +271,7 @@ extension AutoScaling {
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
             AWSShapeMember(label: "LoadBalancerNames", required: true, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The names of the load balancers. You can specify up to 10 load balancers.
@@ -267,6 +286,11 @@ extension AutoScaling {
             try validate(autoScalingGroupName, name:"autoScalingGroupName", max: 1600)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try loadBalancerNames.forEach {
+                try validate($0, name:"loadBalancerNames[]", max: 255)
+                try validate($0, name:"loadBalancerNames[]", min: 1)
+                try validate($0, name:"loadBalancerNames[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -303,6 +327,7 @@ extension AutoScaling {
             AWSShapeMember(label: "TerminationPolicies", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "VPCZoneIdentifier", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the Auto Scaling group.
         public let autoScalingGroupARN: String?
         /// The name of the Auto Scaling group.
@@ -389,14 +414,30 @@ extension AutoScaling {
             try validate(autoScalingGroupName, name:"autoScalingGroupName", max: 255)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try availabilityZones.forEach {
+                try validate($0, name:"availabilityZones[]", max: 255)
+                try validate($0, name:"availabilityZones[]", min: 1)
+                try validate($0, name:"availabilityZones[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
             try validate(availabilityZones, name:"availabilityZones", min: 1)
+            try enabledMetrics?.forEach {
+                try $0.validate()
+            }
             try validate(healthCheckType, name:"healthCheckType", max: 32)
             try validate(healthCheckType, name:"healthCheckType", min: 1)
             try validate(healthCheckType, name:"healthCheckType", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try instances?.forEach {
+                try $0.validate()
+            }
             try validate(launchConfigurationName, name:"launchConfigurationName", max: 255)
             try validate(launchConfigurationName, name:"launchConfigurationName", min: 1)
             try validate(launchConfigurationName, name:"launchConfigurationName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try launchTemplate?.validate()
+            try loadBalancerNames?.forEach {
+                try validate($0, name:"loadBalancerNames[]", max: 255)
+                try validate($0, name:"loadBalancerNames[]", min: 1)
+                try validate($0, name:"loadBalancerNames[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
             try mixedInstancesPolicy?.validate()
             try validate(placementGroup, name:"placementGroup", max: 255)
             try validate(placementGroup, name:"placementGroup", min: 1)
@@ -407,6 +448,22 @@ extension AutoScaling {
             try validate(status, name:"status", max: 255)
             try validate(status, name:"status", min: 1)
             try validate(status, name:"status", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try suspendedProcesses?.forEach {
+                try $0.validate()
+            }
+            try tags?.forEach {
+                try $0.validate()
+            }
+            try targetGroupARNs?.forEach {
+                try validate($0, name:"targetGroupARNs[]", max: 511)
+                try validate($0, name:"targetGroupARNs[]", min: 1)
+                try validate($0, name:"targetGroupARNs[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
+            try terminationPolicies?.forEach {
+                try validate($0, name:"terminationPolicies[]", max: 1600)
+                try validate($0, name:"terminationPolicies[]", min: 1)
+                try validate($0, name:"terminationPolicies[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
             try validate(vPCZoneIdentifier, name:"vPCZoneIdentifier", max: 2047)
             try validate(vPCZoneIdentifier, name:"vPCZoneIdentifier", min: 1)
             try validate(vPCZoneIdentifier, name:"vPCZoneIdentifier", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -447,6 +504,7 @@ extension AutoScaling {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The names of the Auto Scaling groups. Each name can be a maximum of 1600 characters. By default, you can only specify up to 50 names. You can optionally increase this limit using the MaxRecords parameter.  If you omit this parameter, all Auto Scaling groups are described.
         public let autoScalingGroupNames: [String]?
         /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100. 
@@ -461,6 +519,11 @@ extension AutoScaling {
         }
 
         public func validate() throws {
+            try autoScalingGroupNames?.forEach {
+                try validate($0, name:"autoScalingGroupNames[]", max: 1600)
+                try validate($0, name:"autoScalingGroupNames[]", min: 1)
+                try validate($0, name:"autoScalingGroupNames[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
             try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
@@ -476,6 +539,7 @@ extension AutoScaling {
             AWSShapeMember(label: "AutoScalingGroups", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The groups.
         public let autoScalingGroups: [AutoScalingGroup]
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
@@ -487,6 +551,9 @@ extension AutoScaling {
         }
 
         public func validate() throws {
+            try autoScalingGroups.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
@@ -507,6 +574,7 @@ extension AutoScaling {
             AWSShapeMember(label: "LifecycleState", required: true, type: .string), 
             AWSShapeMember(label: "ProtectedFromScaleIn", required: true, type: .boolean)
         ]
+
         /// The name of the Auto Scaling group for the instance.
         public let autoScalingGroupName: String
         /// The Availability Zone for the instance.
@@ -574,6 +642,7 @@ extension AutoScaling {
             AWSShapeMember(label: "AutoScalingInstances", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The instances.
         public let autoScalingInstances: [AutoScalingInstanceDetails]?
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
@@ -585,6 +654,9 @@ extension AutoScaling {
         }
 
         public func validate() throws {
+            try autoScalingInstances?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
@@ -598,11 +670,18 @@ extension AutoScaling {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FailedScheduledActions", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The names of the scheduled actions that could not be deleted, including an error message. 
         public let failedScheduledActions: [FailedScheduledUpdateGroupActionRequest]?
         
         public init(failedScheduledActions: [FailedScheduledUpdateGroupActionRequest]? = nil) {
             self.failedScheduledActions = failedScheduledActions
+        }
+
+        public func validate() throws {
+            try failedScheduledActions?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -615,6 +694,7 @@ extension AutoScaling {
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
             AWSShapeMember(label: "ScheduledActionNames", required: true, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The names of the scheduled actions to delete. The maximum number allowed is 50. 
@@ -629,6 +709,11 @@ extension AutoScaling {
             try validate(autoScalingGroupName, name:"autoScalingGroupName", max: 1600)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try scheduledActionNames.forEach {
+                try validate($0, name:"scheduledActionNames[]", max: 1600)
+                try validate($0, name:"scheduledActionNames[]", min: 1)
+                try validate($0, name:"scheduledActionNames[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -641,11 +726,18 @@ extension AutoScaling {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FailedScheduledUpdateGroupActions", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The names of the scheduled actions that could not be created or updated, including an error message.
         public let failedScheduledUpdateGroupActions: [FailedScheduledUpdateGroupActionRequest]?
         
         public init(failedScheduledUpdateGroupActions: [FailedScheduledUpdateGroupActionRequest]? = nil) {
             self.failedScheduledUpdateGroupActions = failedScheduledUpdateGroupActions
+        }
+
+        public func validate() throws {
+            try failedScheduledUpdateGroupActions?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -658,6 +750,7 @@ extension AutoScaling {
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
             AWSShapeMember(label: "ScheduledUpdateGroupActions", required: true, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// One or more scheduled actions. The maximum number allowed is 50. 
@@ -672,6 +765,9 @@ extension AutoScaling {
             try validate(autoScalingGroupName, name:"autoScalingGroupName", max: 1600)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try scheduledUpdateGroupActions.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -687,6 +783,7 @@ extension AutoScaling {
             AWSShapeMember(label: "NoDevice", required: false, type: .boolean), 
             AWSShapeMember(label: "VirtualName", required: false, type: .string)
         ]
+
         /// The device name exposed to the EC2 instance (for example, /dev/sdh or xvdh). For more information, see Device Naming on Linux Instances in the Amazon EC2 User Guide for Linux Instances.
         public let deviceName: String
         /// The information about the Amazon EBS volume.
@@ -723,7 +820,6 @@ extension AutoScaling {
 
     public struct CompleteLifecycleActionAnswer: AWSShape {
         
-        
         public init() {
         }
 
@@ -737,6 +833,7 @@ extension AutoScaling {
             AWSShapeMember(label: "LifecycleActionToken", required: false, type: .string), 
             AWSShapeMember(label: "LifecycleHookName", required: true, type: .string)
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The ID of the instance.
@@ -803,6 +900,7 @@ extension AutoScaling {
             AWSShapeMember(label: "TerminationPolicies", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "VPCZoneIdentifier", required: false, type: .string)
         ]
+
         /// The name of the Auto Scaling group. This name must be unique within the scope of your AWS account.
         public let autoScalingGroupName: String
         /// One or more Availability Zones for the group. This parameter is optional if you specify one or more subnets for VPCZoneIdentifier. Conditional: If your account supports EC2-Classic and VPC, this parameter is required to launch instances into EC2-Classic.
@@ -874,6 +972,11 @@ extension AutoScaling {
             try validate(autoScalingGroupName, name:"autoScalingGroupName", max: 255)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try availabilityZones?.forEach {
+                try validate($0, name:"availabilityZones[]", max: 255)
+                try validate($0, name:"availabilityZones[]", min: 1)
+                try validate($0, name:"availabilityZones[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
             try validate(availabilityZones, name:"availabilityZones", min: 1)
             try validate(healthCheckType, name:"healthCheckType", max: 32)
             try validate(healthCheckType, name:"healthCheckType", min: 1)
@@ -885,6 +988,14 @@ extension AutoScaling {
             try validate(launchConfigurationName, name:"launchConfigurationName", min: 1)
             try validate(launchConfigurationName, name:"launchConfigurationName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try launchTemplate?.validate()
+            try lifecycleHookSpecificationList?.forEach {
+                try $0.validate()
+            }
+            try loadBalancerNames?.forEach {
+                try validate($0, name:"loadBalancerNames[]", max: 255)
+                try validate($0, name:"loadBalancerNames[]", min: 1)
+                try validate($0, name:"loadBalancerNames[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
             try mixedInstancesPolicy?.validate()
             try validate(placementGroup, name:"placementGroup", max: 255)
             try validate(placementGroup, name:"placementGroup", min: 1)
@@ -892,6 +1003,19 @@ extension AutoScaling {
             try validate(serviceLinkedRoleARN, name:"serviceLinkedRoleARN", max: 1600)
             try validate(serviceLinkedRoleARN, name:"serviceLinkedRoleARN", min: 1)
             try validate(serviceLinkedRoleARN, name:"serviceLinkedRoleARN", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try tags?.forEach {
+                try $0.validate()
+            }
+            try targetGroupARNs?.forEach {
+                try validate($0, name:"targetGroupARNs[]", max: 511)
+                try validate($0, name:"targetGroupARNs[]", min: 1)
+                try validate($0, name:"targetGroupARNs[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
+            try terminationPolicies?.forEach {
+                try validate($0, name:"terminationPolicies[]", max: 1600)
+                try validate($0, name:"terminationPolicies[]", min: 1)
+                try validate($0, name:"terminationPolicies[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
             try validate(vPCZoneIdentifier, name:"vPCZoneIdentifier", max: 2047)
             try validate(vPCZoneIdentifier, name:"vPCZoneIdentifier", min: 1)
             try validate(vPCZoneIdentifier, name:"vPCZoneIdentifier", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -943,6 +1067,7 @@ extension AutoScaling {
             AWSShapeMember(label: "SpotPrice", required: false, type: .string), 
             AWSShapeMember(label: "UserData", required: false, type: .string)
         ]
+
         /// Used for groups that launch instances into a virtual private cloud (VPC). Specifies whether to assign a public IP address to each instance. For more information, see Launching Auto Scaling Instances in a VPC in the Amazon EC2 Auto Scaling User Guide. If you specify this parameter, be sure to specify at least one subnet when you create your group. Default: If the instance is launched into a default subnet, the default is to assign a public IP address. If the instance is launched into a nondefault subnet, the default is not to assign a public IP address.
         public let associatePublicIpAddress: Bool?
         /// One or more mappings that specify how block devices are exposed to the instance. For more information, see Block Device Mapping in the Amazon EC2 User Guide for Linux Instances.
@@ -1002,9 +1127,17 @@ extension AutoScaling {
         }
 
         public func validate() throws {
+            try blockDeviceMappings?.forEach {
+                try $0.validate()
+            }
             try validate(classicLinkVPCId, name:"classicLinkVPCId", max: 255)
             try validate(classicLinkVPCId, name:"classicLinkVPCId", min: 1)
             try validate(classicLinkVPCId, name:"classicLinkVPCId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try classicLinkVPCSecurityGroups?.forEach {
+                try validate($0, name:"classicLinkVPCSecurityGroups[]", max: 255)
+                try validate($0, name:"classicLinkVPCSecurityGroups[]", min: 1)
+                try validate($0, name:"classicLinkVPCSecurityGroups[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
             try validate(iamInstanceProfile, name:"iamInstanceProfile", max: 1600)
             try validate(iamInstanceProfile, name:"iamInstanceProfile", min: 1)
             try validate(iamInstanceProfile, name:"iamInstanceProfile", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -1032,6 +1165,9 @@ extension AutoScaling {
             try validate(ramdiskId, name:"ramdiskId", max: 255)
             try validate(ramdiskId, name:"ramdiskId", min: 1)
             try validate(ramdiskId, name:"ramdiskId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try securityGroups?.forEach {
+                try validate($0, name:"securityGroups[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
             try validate(spotPrice, name:"spotPrice", max: 255)
             try validate(spotPrice, name:"spotPrice", min: 1)
             try validate(userData, name:"userData", max: 21847)
@@ -1064,11 +1200,18 @@ extension AutoScaling {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", required: true, type: .list, encoding: .list(member:"member"))
         ]
+
         /// One or more tags.
         public let tags: [Tag]
         
         public init(tags: [Tag]) {
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try tags.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1084,6 +1227,7 @@ extension AutoScaling {
             AWSShapeMember(label: "Statistic", required: true, type: .enum), 
             AWSShapeMember(label: "Unit", required: false, type: .string)
         ]
+
         /// The dimensions of the metric. Conditional: If you published your metric with dimensions, you must specify the same dimensions in your scaling policy.
         public let dimensions: [MetricDimension]?
         /// The name of the metric.
@@ -1117,6 +1261,7 @@ extension AutoScaling {
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
             AWSShapeMember(label: "ForceDelete", required: false, type: .boolean)
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// Specifies that the group is to be deleted along with all instances associated with the group, without waiting for all instances to be terminated. This parameter also deletes any lifecycle actions associated with the group.
@@ -1141,7 +1286,6 @@ extension AutoScaling {
 
     public struct DeleteLifecycleHookAnswer: AWSShape {
         
-        
         public init() {
         }
 
@@ -1152,6 +1296,7 @@ extension AutoScaling {
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
             AWSShapeMember(label: "LifecycleHookName", required: true, type: .string)
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The name of the lifecycle hook.
@@ -1182,6 +1327,7 @@ extension AutoScaling {
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
             AWSShapeMember(label: "TopicARN", required: true, type: .string)
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (Amazon SNS) topic.
@@ -1212,6 +1358,7 @@ extension AutoScaling {
             AWSShapeMember(label: "AutoScalingGroupName", required: false, type: .string), 
             AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
         /// The name or Amazon Resource Name (ARN) of the policy.
@@ -1242,6 +1389,7 @@ extension AutoScaling {
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
             AWSShapeMember(label: "ScheduledActionName", required: true, type: .string)
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The name of the action to delete.
@@ -1271,11 +1419,18 @@ extension AutoScaling {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", required: true, type: .list, encoding: .list(member:"member"))
         ]
+
         /// One or more tags.
         public let tags: [Tag]
         
         public init(tags: [Tag]) {
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try tags.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1290,6 +1445,7 @@ extension AutoScaling {
             AWSShapeMember(label: "NumberOfAutoScalingGroups", required: false, type: .integer), 
             AWSShapeMember(label: "NumberOfLaunchConfigurations", required: false, type: .integer)
         ]
+
         /// The maximum number of groups allowed for your AWS account. The default limit is 200 per region.
         public let maxNumberOfAutoScalingGroups: Int32?
         /// The maximum number of launch configurations allowed for your AWS account. The default limit is 200 per region.
@@ -1318,11 +1474,18 @@ extension AutoScaling {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AdjustmentTypes", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The policy adjustment types.
         public let adjustmentTypes: [AdjustmentType]?
         
         public init(adjustmentTypes: [AdjustmentType]? = nil) {
             self.adjustmentTypes = adjustmentTypes
+        }
+
+        public func validate() throws {
+            try adjustmentTypes?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1336,6 +1499,7 @@ extension AutoScaling {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The IDs of the instances. You can specify up to MaxRecords IDs. If you omit this parameter, all Auto Scaling instances are described. If you specify an ID that does not exist, it is ignored with no error.
         public let instanceIds: [String]?
         /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 50.
@@ -1350,6 +1514,11 @@ extension AutoScaling {
         }
 
         public func validate() throws {
+            try instanceIds?.forEach {
+                try validate($0, name:"instanceIds[]", max: 19)
+                try validate($0, name:"instanceIds[]", min: 1)
+                try validate($0, name:"instanceIds[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
             try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
@@ -1364,11 +1533,20 @@ extension AutoScaling {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoScalingNotificationTypes", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The notification types.
         public let autoScalingNotificationTypes: [String]?
         
         public init(autoScalingNotificationTypes: [String]? = nil) {
             self.autoScalingNotificationTypes = autoScalingNotificationTypes
+        }
+
+        public func validate() throws {
+            try autoScalingNotificationTypes?.forEach {
+                try validate($0, name:"autoScalingNotificationTypes[]", max: 255)
+                try validate($0, name:"autoScalingNotificationTypes[]", min: 1)
+                try validate($0, name:"autoScalingNotificationTypes[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1380,11 +1558,20 @@ extension AutoScaling {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LifecycleHookTypes", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The lifecycle hook types.
         public let lifecycleHookTypes: [String]?
         
         public init(lifecycleHookTypes: [String]? = nil) {
             self.lifecycleHookTypes = lifecycleHookTypes
+        }
+
+        public func validate() throws {
+            try lifecycleHookTypes?.forEach {
+                try validate($0, name:"lifecycleHookTypes[]", max: 255)
+                try validate($0, name:"lifecycleHookTypes[]", min: 1)
+                try validate($0, name:"lifecycleHookTypes[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1396,11 +1583,18 @@ extension AutoScaling {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LifecycleHooks", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The lifecycle hooks for the specified group.
         public let lifecycleHooks: [LifecycleHook]?
         
         public init(lifecycleHooks: [LifecycleHook]? = nil) {
             self.lifecycleHooks = lifecycleHooks
+        }
+
+        public func validate() throws {
+            try lifecycleHooks?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1413,6 +1607,7 @@ extension AutoScaling {
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
             AWSShapeMember(label: "LifecycleHookNames", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The names of one or more lifecycle hooks. If you omit this parameter, all lifecycle hooks are described.
@@ -1427,6 +1622,11 @@ extension AutoScaling {
             try validate(autoScalingGroupName, name:"autoScalingGroupName", max: 1600)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try lifecycleHookNames?.forEach {
+                try validate($0, name:"lifecycleHookNames[]", max: 255)
+                try validate($0, name:"lifecycleHookNames[]", min: 1)
+                try validate($0, name:"lifecycleHookNames[]", pattern: "[A-Za-z0-9\\-_\\/]+")
+            }
             try validate(lifecycleHookNames, name:"lifecycleHookNames", max: 50)
         }
 
@@ -1442,6 +1642,7 @@ extension AutoScaling {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The maximum number of items to return with this call. The default value is 100 and the maximum value is 100.
@@ -1474,6 +1675,7 @@ extension AutoScaling {
             AWSShapeMember(label: "LoadBalancerTargetGroups", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Information about the target groups.
         public let loadBalancerTargetGroups: [LoadBalancerTargetGroupState]?
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
@@ -1485,6 +1687,9 @@ extension AutoScaling {
         }
 
         public func validate() throws {
+            try loadBalancerTargetGroups?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
@@ -1500,6 +1705,7 @@ extension AutoScaling {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The maximum number of items to return with this call. The default value is 100 and the maximum value is 100.
@@ -1532,6 +1738,7 @@ extension AutoScaling {
             AWSShapeMember(label: "LoadBalancers", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The load balancers.
         public let loadBalancers: [LoadBalancerState]?
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
@@ -1543,6 +1750,9 @@ extension AutoScaling {
         }
 
         public func validate() throws {
+            try loadBalancers?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
@@ -1557,6 +1767,7 @@ extension AutoScaling {
             AWSShapeMember(label: "Granularities", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Metrics", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The granularities for the metrics.
         public let granularities: [MetricGranularityType]?
         /// One or more metrics.
@@ -1565,6 +1776,15 @@ extension AutoScaling {
         public init(granularities: [MetricGranularityType]? = nil, metrics: [MetricCollectionType]? = nil) {
             self.granularities = granularities
             self.metrics = metrics
+        }
+
+        public func validate() throws {
+            try granularities?.forEach {
+                try $0.validate()
+            }
+            try metrics?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1578,6 +1798,7 @@ extension AutoScaling {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "NotificationConfigurations", required: true, type: .list, encoding: .list(member:"member"))
         ]
+
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// The notification configurations.
@@ -1590,6 +1811,9 @@ extension AutoScaling {
 
         public func validate() throws {
             try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try notificationConfigurations.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1604,6 +1828,7 @@ extension AutoScaling {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupNames: [String]?
         /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
@@ -1618,6 +1843,11 @@ extension AutoScaling {
         }
 
         public func validate() throws {
+            try autoScalingGroupNames?.forEach {
+                try validate($0, name:"autoScalingGroupNames[]", max: 1600)
+                try validate($0, name:"autoScalingGroupNames[]", min: 1)
+                try validate($0, name:"autoScalingGroupNames[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
             try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
@@ -1636,6 +1866,7 @@ extension AutoScaling {
             AWSShapeMember(label: "PolicyNames", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "PolicyTypes", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
         /// The maximum number of items to be returned with each call. The default value is 50 and the maximum value is 100.
@@ -1660,6 +1891,16 @@ extension AutoScaling {
             try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try policyNames?.forEach {
+                try validate($0, name:"policyNames[]", max: 1600)
+                try validate($0, name:"policyNames[]", min: 1)
+                try validate($0, name:"policyNames[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
+            try policyTypes?.forEach {
+                try validate($0, name:"policyTypes[]", max: 64)
+                try validate($0, name:"policyTypes[]", min: 1)
+                try validate($0, name:"policyTypes[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1678,6 +1919,7 @@ extension AutoScaling {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The activity IDs of the desired scaling activities. You can specify up to 50 IDs. If you omit this parameter, all activities for the past six weeks are described. If unknown activities are requested, they are ignored with no error. If you specify an Auto Scaling group, the results are limited to that group.
         public let activityIds: [String]?
         /// The name of the Auto Scaling group.
@@ -1695,6 +1937,9 @@ extension AutoScaling {
         }
 
         public func validate() throws {
+            try activityIds?.forEach {
+                try validate($0, name:"activityIds[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
             try validate(autoScalingGroupName, name:"autoScalingGroupName", max: 1600)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -1718,6 +1963,7 @@ extension AutoScaling {
             AWSShapeMember(label: "ScheduledActionNames", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
         /// The latest scheduled start time to return. If scheduled action names are provided, this parameter is ignored.
@@ -1745,6 +1991,11 @@ extension AutoScaling {
             try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try scheduledActionNames?.forEach {
+                try validate($0, name:"scheduledActionNames[]", max: 1600)
+                try validate($0, name:"scheduledActionNames[]", min: 1)
+                try validate($0, name:"scheduledActionNames[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1763,6 +2014,7 @@ extension AutoScaling {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// One or more filters to scope the tags to return. The maximum number of filters per filter type (for example, auto-scaling-group) is 1000.
         public let filters: [Filter]?
         /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
@@ -1777,6 +2029,9 @@ extension AutoScaling {
         }
 
         public func validate() throws {
+            try filters?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
@@ -1791,11 +2046,20 @@ extension AutoScaling {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TerminationPolicyTypes", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The termination policies supported by Amazon EC2 Auto Scaling: OldestInstance, OldestLaunchConfiguration, NewestInstance, ClosestToNextInstanceHour, Default, OldestLaunchTemplate, and AllocationStrategy.
         public let terminationPolicyTypes: [String]?
         
         public init(terminationPolicyTypes: [String]? = nil) {
             self.terminationPolicyTypes = terminationPolicyTypes
+        }
+
+        public func validate() throws {
+            try terminationPolicyTypes?.forEach {
+                try validate($0, name:"terminationPolicyTypes[]", max: 1600)
+                try validate($0, name:"terminationPolicyTypes[]", min: 1)
+                try validate($0, name:"terminationPolicyTypes[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1807,11 +2071,18 @@ extension AutoScaling {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Activities", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The activities related to detaching the instances from the Auto Scaling group.
         public let activities: [Activity]?
         
         public init(activities: [Activity]? = nil) {
             self.activities = activities
+        }
+
+        public func validate() throws {
+            try activities?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1825,6 +2096,7 @@ extension AutoScaling {
             AWSShapeMember(label: "InstanceIds", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ShouldDecrementDesiredCapacity", required: true, type: .boolean)
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The IDs of the instances. You can specify up to 20 instances.
@@ -1842,6 +2114,11 @@ extension AutoScaling {
             try validate(autoScalingGroupName, name:"autoScalingGroupName", max: 1600)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try instanceIds?.forEach {
+                try validate($0, name:"instanceIds[]", max: 19)
+                try validate($0, name:"instanceIds[]", min: 1)
+                try validate($0, name:"instanceIds[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1853,7 +2130,6 @@ extension AutoScaling {
 
     public struct DetachLoadBalancerTargetGroupsResultType: AWSShape {
         
-        
         public init() {
         }
 
@@ -1864,6 +2140,7 @@ extension AutoScaling {
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
             AWSShapeMember(label: "TargetGroupARNs", required: true, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The Amazon Resource Names (ARN) of the target groups. You can specify up to 10 target groups.
@@ -1878,6 +2155,11 @@ extension AutoScaling {
             try validate(autoScalingGroupName, name:"autoScalingGroupName", max: 1600)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try targetGroupARNs.forEach {
+                try validate($0, name:"targetGroupARNs[]", max: 511)
+                try validate($0, name:"targetGroupARNs[]", min: 1)
+                try validate($0, name:"targetGroupARNs[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1887,7 +2169,6 @@ extension AutoScaling {
     }
 
     public struct DetachLoadBalancersResultType: AWSShape {
-        
         
         public init() {
         }
@@ -1899,6 +2180,7 @@ extension AutoScaling {
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
             AWSShapeMember(label: "LoadBalancerNames", required: true, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The names of the load balancers. You can specify up to 10 load balancers.
@@ -1913,6 +2195,11 @@ extension AutoScaling {
             try validate(autoScalingGroupName, name:"autoScalingGroupName", max: 1600)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try loadBalancerNames.forEach {
+                try validate($0, name:"loadBalancerNames[]", max: 255)
+                try validate($0, name:"loadBalancerNames[]", min: 1)
+                try validate($0, name:"loadBalancerNames[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1926,6 +2213,7 @@ extension AutoScaling {
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
             AWSShapeMember(label: "Metrics", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// One or more of the following metrics. If you omit this parameter, all metrics are disabled.    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances   
@@ -1940,6 +2228,11 @@ extension AutoScaling {
             try validate(autoScalingGroupName, name:"autoScalingGroupName", max: 1600)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try metrics?.forEach {
+                try validate($0, name:"metrics[]", max: 255)
+                try validate($0, name:"metrics[]", min: 1)
+                try validate($0, name:"metrics[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1957,6 +2250,7 @@ extension AutoScaling {
             AWSShapeMember(label: "VolumeSize", required: false, type: .integer), 
             AWSShapeMember(label: "VolumeType", required: false, type: .string)
         ]
+
         /// Indicates whether the volume is deleted on instance termination. The default value is true.
         public let deleteOnTermination: Bool?
         /// Specifies whether the volume should be encrypted. Encrypted EBS volumes must be attached to instances that support Amazon EBS encryption. Volumes that are created from encrypted snapshots are automatically encrypted. There is no way to create an encrypted volume from an unencrypted snapshot or an unencrypted volume from an encrypted snapshot. If your AMI uses encrypted volumes, you can only launch it on supported instance types. For more information, see Amazon EBS Encryption in the Amazon EC2 User Guide for Linux Instances.
@@ -2007,6 +2301,7 @@ extension AutoScaling {
             AWSShapeMember(label: "Granularity", required: true, type: .string), 
             AWSShapeMember(label: "Metrics", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The granularity to associate with the metrics to collect. The only valid value is 1Minute.
@@ -2027,6 +2322,11 @@ extension AutoScaling {
             try validate(granularity, name:"granularity", max: 255)
             try validate(granularity, name:"granularity", min: 1)
             try validate(granularity, name:"granularity", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try metrics?.forEach {
+                try validate($0, name:"metrics[]", max: 255)
+                try validate($0, name:"metrics[]", min: 1)
+                try validate($0, name:"metrics[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2041,6 +2341,7 @@ extension AutoScaling {
             AWSShapeMember(label: "Granularity", required: false, type: .string), 
             AWSShapeMember(label: "Metric", required: false, type: .string)
         ]
+
         /// The granularity of the metric. The only valid value is 1Minute.
         public let granularity: String?
         /// One of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances   
@@ -2070,11 +2371,18 @@ extension AutoScaling {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Activities", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The activities related to moving instances into Standby mode.
         public let activities: [Activity]?
         
         public init(activities: [Activity]? = nil) {
             self.activities = activities
+        }
+
+        public func validate() throws {
+            try activities?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2088,6 +2396,7 @@ extension AutoScaling {
             AWSShapeMember(label: "InstanceIds", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ShouldDecrementDesiredCapacity", required: true, type: .boolean)
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The IDs of the instances. You can specify up to 20 instances.
@@ -2105,6 +2414,11 @@ extension AutoScaling {
             try validate(autoScalingGroupName, name:"autoScalingGroupName", max: 1600)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try instanceIds?.forEach {
+                try validate($0, name:"instanceIds[]", max: 19)
+                try validate($0, name:"instanceIds[]", min: 1)
+                try validate($0, name:"instanceIds[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2122,6 +2436,7 @@ extension AutoScaling {
             AWSShapeMember(label: "MetricValue", required: false, type: .double), 
             AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
         /// The breach threshold for the alarm. Conditional: This parameter is required if the policy type is StepScaling and not supported otherwise.
@@ -2163,11 +2478,18 @@ extension AutoScaling {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Activities", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The activities related to moving instances out of Standby mode.
         public let activities: [Activity]?
         
         public init(activities: [Activity]? = nil) {
             self.activities = activities
+        }
+
+        public func validate() throws {
+            try activities?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2180,6 +2502,7 @@ extension AutoScaling {
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
             AWSShapeMember(label: "InstanceIds", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The IDs of the instances. You can specify up to 20 instances.
@@ -2194,6 +2517,11 @@ extension AutoScaling {
             try validate(autoScalingGroupName, name:"autoScalingGroupName", max: 1600)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try instanceIds?.forEach {
+                try validate($0, name:"instanceIds[]", max: 19)
+                try validate($0, name:"instanceIds[]", min: 1)
+                try validate($0, name:"instanceIds[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2208,6 +2536,7 @@ extension AutoScaling {
             AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "ScheduledActionName", required: true, type: .string)
         ]
+
         /// The error code.
         public let errorCode: String?
         /// The error message accompanying the error code.
@@ -2243,6 +2572,7 @@ extension AutoScaling {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Values", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The name of the filter. The valid values are: "auto-scaling-group", "key", "value", and "propagate-at-launch".
         public let name: String?
         /// The value of the filter.
@@ -2255,6 +2585,9 @@ extension AutoScaling {
 
         public func validate() throws {
             try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try values?.forEach {
+                try validate($0, name:"values[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2273,6 +2606,7 @@ extension AutoScaling {
             AWSShapeMember(label: "LifecycleState", required: true, type: .enum), 
             AWSShapeMember(label: "ProtectedFromScaleIn", required: true, type: .boolean)
         ]
+
         /// The Availability Zone in which the instance is running.
         public let availabilityZone: String
         /// The last reported health status of the instance. "Healthy" means that the instance is healthy and should remain in service. "Unhealthy" means that the instance is unhealthy and that Amazon EC2 Auto Scaling should terminate and replace it.
@@ -2329,6 +2663,7 @@ extension AutoScaling {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Enabled", required: false, type: .boolean)
         ]
+
         /// If true, detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
         public let enabled: Bool?
         
@@ -2350,6 +2685,7 @@ extension AutoScaling {
             AWSShapeMember(label: "SpotInstancePools", required: false, type: .integer), 
             AWSShapeMember(label: "SpotMaxPrice", required: false, type: .string)
         ]
+
         /// Indicates how to allocate instance types to fulfill On-Demand capacity.  The only valid value is prioritized, which is also the default value. This strategy uses the order of instance type overrides for the LaunchTemplate to define the launch priority of each instance type. The first instance type in the array is prioritized higher than the last. If all your On-Demand capacity cannot be fulfilled using your highest priority instance, then the Auto Scaling groups launches the remaining capacity using the second priority instance type, and so on. 
         public let onDemandAllocationStrategy: String?
         /// The minimum amount of the Auto Scaling group's capacity that must be fulfilled by On-Demand Instances. This base portion is provisioned first as your group scales. The default value is 0. If you leave this parameter set to 0, On-Demand Instances are launched as a percentage of the Auto Scaling group's desired capacity, per the OnDemandPercentageAboveBaseCapacity setting.
@@ -2411,6 +2747,7 @@ extension AutoScaling {
             AWSShapeMember(label: "SpotPrice", required: false, type: .string), 
             AWSShapeMember(label: "UserData", required: false, type: .string)
         ]
+
         /// [EC2-VPC] Indicates whether to assign a public IP address to each instance.
         public let associatePublicIpAddress: Bool?
         /// A block device mapping, which specifies the block devices for the instance.
@@ -2473,9 +2810,17 @@ extension AutoScaling {
         }
 
         public func validate() throws {
+            try blockDeviceMappings?.forEach {
+                try $0.validate()
+            }
             try validate(classicLinkVPCId, name:"classicLinkVPCId", max: 255)
             try validate(classicLinkVPCId, name:"classicLinkVPCId", min: 1)
             try validate(classicLinkVPCId, name:"classicLinkVPCId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try classicLinkVPCSecurityGroups?.forEach {
+                try validate($0, name:"classicLinkVPCSecurityGroups[]", max: 255)
+                try validate($0, name:"classicLinkVPCSecurityGroups[]", min: 1)
+                try validate($0, name:"classicLinkVPCSecurityGroups[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
             try validate(iamInstanceProfile, name:"iamInstanceProfile", max: 1600)
             try validate(iamInstanceProfile, name:"iamInstanceProfile", min: 1)
             try validate(iamInstanceProfile, name:"iamInstanceProfile", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -2503,6 +2848,9 @@ extension AutoScaling {
             try validate(ramdiskId, name:"ramdiskId", max: 255)
             try validate(ramdiskId, name:"ramdiskId", min: 1)
             try validate(ramdiskId, name:"ramdiskId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try securityGroups?.forEach {
+                try validate($0, name:"securityGroups[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
             try validate(spotPrice, name:"spotPrice", max: 255)
             try validate(spotPrice, name:"spotPrice", min: 1)
             try validate(userData, name:"userData", max: 21847)
@@ -2536,6 +2884,7 @@ extension AutoScaling {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LaunchConfigurationName", required: true, type: .string)
         ]
+
         /// The name of the launch configuration.
         public let launchConfigurationName: String
         
@@ -2560,6 +2909,7 @@ extension AutoScaling {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The launch configuration names. If you omit this parameter, all launch configurations are described.
         public let launchConfigurationNames: [String]?
         /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
@@ -2574,6 +2924,11 @@ extension AutoScaling {
         }
 
         public func validate() throws {
+            try launchConfigurationNames?.forEach {
+                try validate($0, name:"launchConfigurationNames[]", max: 1600)
+                try validate($0, name:"launchConfigurationNames[]", min: 1)
+                try validate($0, name:"launchConfigurationNames[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
             try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
@@ -2589,6 +2944,7 @@ extension AutoScaling {
             AWSShapeMember(label: "LaunchConfigurations", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The launch configurations.
         public let launchConfigurations: [LaunchConfiguration]
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
@@ -2600,6 +2956,9 @@ extension AutoScaling {
         }
 
         public func validate() throws {
+            try launchConfigurations.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
@@ -2614,6 +2973,7 @@ extension AutoScaling {
             AWSShapeMember(label: "LaunchTemplateSpecification", required: false, type: .structure), 
             AWSShapeMember(label: "Overrides", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The launch template to use. You must specify either the launch template ID or launch template name in the request. 
         public let launchTemplateSpecification: LaunchTemplateSpecification?
         /// Any parameters that you specify override the same parameters in the launch template. Currently, the only supported override is instance type.  You must specify between 2 and 20 overrides.
@@ -2626,6 +2986,9 @@ extension AutoScaling {
 
         public func validate() throws {
             try launchTemplateSpecification?.validate()
+            try overrides?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2638,6 +3001,7 @@ extension AutoScaling {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceType", required: false, type: .string)
         ]
+
         /// The instance type.  For information about available instance types, see Available Instance Types in the Amazon Elastic Compute Cloud User Guide. 
         public let instanceType: String?
         
@@ -2662,6 +3026,7 @@ extension AutoScaling {
             AWSShapeMember(label: "LaunchTemplateName", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         /// The ID of the launch template. You must specify either a template ID or a template name.
         public let launchTemplateId: String?
         /// The name of the launch template. You must specify either a template name or a template ID.
@@ -2706,6 +3071,7 @@ extension AutoScaling {
             AWSShapeMember(label: "NotificationTargetARN", required: false, type: .string), 
             AWSShapeMember(label: "RoleARN", required: false, type: .string)
         ]
+
         /// The name of the Auto Scaling group for the lifecycle hook.
         public let autoScalingGroupName: String?
         /// Defines the action the Auto Scaling group should take when the lifecycle hook timeout elapses or if an unexpected failure occurs. The possible values are CONTINUE and ABANDON.
@@ -2778,6 +3144,7 @@ extension AutoScaling {
             AWSShapeMember(label: "NotificationTargetARN", required: false, type: .string), 
             AWSShapeMember(label: "RoleARN", required: false, type: .string)
         ]
+
         /// Defines the action the Auto Scaling group should take when the lifecycle hook timeout elapses or if an unexpected failure occurs. The valid values are CONTINUE and ABANDON. The default value is ABANDON.
         public let defaultResult: String?
         /// The maximum time, in seconds, that can elapse before the lifecycle hook times out. If the lifecycle hook times out, Amazon EC2 Auto Scaling performs the action that you specified in the DefaultResult parameter. You can prevent the lifecycle hook from timing out by calling RecordLifecycleActionHeartbeat.
@@ -2851,6 +3218,7 @@ extension AutoScaling {
             AWSShapeMember(label: "LoadBalancerName", required: false, type: .string), 
             AWSShapeMember(label: "State", required: false, type: .string)
         ]
+
         /// The name of the load balancer.
         public let loadBalancerName: String?
         /// One of the following load balancer states:    Adding - The instances in the group are being registered with the load balancer.    Added - All instances in the group are registered with the load balancer.    InService - At least one instance in the group passed an ELB health check.    Removing - The instances in the group are being deregistered from the load balancer. If connection draining is enabled, Elastic Load Balancing waits for in-flight requests to complete before deregistering the instances.    Removed - All instances in the group are deregistered from the load balancer.  
@@ -2881,6 +3249,7 @@ extension AutoScaling {
             AWSShapeMember(label: "LoadBalancerTargetGroupARN", required: false, type: .string), 
             AWSShapeMember(label: "State", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the target group.
         public let loadBalancerTargetGroupARN: String?
         /// The state of the target group.    Adding - The Auto Scaling instances are being registered with the target group.    Added - All Auto Scaling instances are registered with the target group.    InService - At least one Auto Scaling instance passed an ELB health check.    Removing - The Auto Scaling instances are being deregistered from the target group. If connection draining is enabled, Elastic Load Balancing waits for in-flight requests to complete before deregistering the instances.    Removed - All Auto Scaling instances are deregistered from the target group.  
@@ -2910,6 +3279,7 @@ extension AutoScaling {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Metric", required: false, type: .string)
         ]
+
         /// One of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances   
         public let metric: String?
         
@@ -2933,6 +3303,7 @@ extension AutoScaling {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
+
         /// The name of the dimension.
         public let name: String
         /// The value of the dimension.
@@ -2953,6 +3324,7 @@ extension AutoScaling {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Granularity", required: false, type: .string)
         ]
+
         /// The granularity. The only valid value is 1Minute.
         public let granularity: String?
         
@@ -2993,6 +3365,7 @@ extension AutoScaling {
             AWSShapeMember(label: "InstancesDistribution", required: false, type: .structure), 
             AWSShapeMember(label: "LaunchTemplate", required: false, type: .structure)
         ]
+
         /// The instances distribution to use.  If you leave this parameter unspecified when creating the group, the default values are used.
         public let instancesDistribution: InstancesDistribution?
         /// The launch template and overrides. This parameter is required when creating an Auto Scaling group with a mixed instances policy, but is not required when updating the group.
@@ -3020,6 +3393,7 @@ extension AutoScaling {
             AWSShapeMember(label: "NotificationType", required: false, type: .string), 
             AWSShapeMember(label: "TopicARN", required: false, type: .string)
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
         /// One of the following event notification types:    autoscaling:EC2_INSTANCE_LAUNCH     autoscaling:EC2_INSTANCE_LAUNCH_ERROR     autoscaling:EC2_INSTANCE_TERMINATE     autoscaling:EC2_INSTANCE_TERMINATE_ERROR     autoscaling:TEST_NOTIFICATION   
@@ -3057,6 +3431,7 @@ extension AutoScaling {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ScalingPolicies", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// The scaling policies.
@@ -3069,6 +3444,9 @@ extension AutoScaling {
 
         public func validate() throws {
             try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try scalingPolicies?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3082,6 +3460,7 @@ extension AutoScaling {
             AWSShapeMember(label: "Alarms", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "PolicyARN", required: false, type: .string)
         ]
+
         /// The CloudWatch alarms created for the target tracking scaling policy.
         public let alarms: [Alarm]?
         /// The Amazon Resource Name (ARN) of the policy.
@@ -3093,6 +3472,9 @@ extension AutoScaling {
         }
 
         public func validate() throws {
+            try alarms?.forEach {
+                try $0.validate()
+            }
             try validate(policyARN, name:"policyARN", max: 1600)
             try validate(policyARN, name:"policyARN", min: 1)
             try validate(policyARN, name:"policyARN", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -3109,6 +3491,7 @@ extension AutoScaling {
             AWSShapeMember(label: "PredefinedMetricType", required: true, type: .enum), 
             AWSShapeMember(label: "ResourceLabel", required: false, type: .string)
         ]
+
         /// The metric type.
         public let predefinedMetricType: MetricType
         /// Identifies the resource associated with the metric type. The following predefined metrics are available:    ASGAverageCPUUtilization - Average CPU utilization of the Auto Scaling group.    ASGAverageNetworkIn - Average number of bytes received on all network interfaces by the Auto Scaling group.    ASGAverageNetworkOut - Average number of bytes sent out on all network interfaces by the Auto Scaling group.    ALBRequestCountPerTarget - Number of requests completed per target in an Application Load Balancer or a Network Load Balancer target group.   For predefined metric types ASGAverageCPUUtilization, ASGAverageNetworkIn, and ASGAverageNetworkOut, the parameter must not be specified as the resource associated with the metric type is the Auto Scaling group. For predefined metric type ALBRequestCountPerTarget, the parameter must be specified in the format: app/load-balancer-name/load-balancer-id/targetgroup/target-group-name/target-group-id , where app/load-balancer-name/load-balancer-id  is the final portion of the load balancer ARN, and targetgroup/target-group-name/target-group-id  is the final portion of the target group ARN. The target group must be attached to the Auto Scaling group.
@@ -3135,6 +3518,7 @@ extension AutoScaling {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProcessName", required: true, type: .string)
         ]
+
         /// One of the following processes:    Launch     Terminate     AddToLoadBalancer     AlarmNotification     AZRebalance     HealthCheck     ReplaceUnhealthy     ScheduledActions   
         public let processName: String
         
@@ -3157,11 +3541,18 @@ extension AutoScaling {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Processes", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The names of the process types.
         public let processes: [ProcessType]?
         
         public init(processes: [ProcessType]? = nil) {
             self.processes = processes
+        }
+
+        public func validate() throws {
+            try processes?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3170,7 +3561,6 @@ extension AutoScaling {
     }
 
     public struct PutLifecycleHookAnswer: AWSShape {
-        
         
         public init() {
         }
@@ -3188,6 +3578,7 @@ extension AutoScaling {
             AWSShapeMember(label: "NotificationTargetARN", required: false, type: .string), 
             AWSShapeMember(label: "RoleARN", required: false, type: .string)
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// Defines the action the Auto Scaling group should take when the lifecycle hook timeout elapses or if an unexpected failure occurs. This parameter can be either CONTINUE or ABANDON. The default value is ABANDON.
@@ -3252,6 +3643,7 @@ extension AutoScaling {
             AWSShapeMember(label: "NotificationTypes", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "TopicARN", required: true, type: .string)
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The type of event that causes the notification to be sent. For more information about notification types supported by Amazon EC2 Auto Scaling, see DescribeAutoScalingNotificationTypes.
@@ -3269,6 +3661,11 @@ extension AutoScaling {
             try validate(autoScalingGroupName, name:"autoScalingGroupName", max: 1600)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try notificationTypes.forEach {
+                try validate($0, name:"notificationTypes[]", max: 255)
+                try validate($0, name:"notificationTypes[]", min: 1)
+                try validate($0, name:"notificationTypes[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
             try validate(topicARN, name:"topicARN", max: 1600)
             try validate(topicARN, name:"topicARN", min: 1)
             try validate(topicARN, name:"topicARN", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -3296,6 +3693,7 @@ extension AutoScaling {
             AWSShapeMember(label: "StepAdjustments", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "TargetTrackingConfiguration", required: false, type: .structure)
         ]
+
         /// The adjustment type. The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity. This parameter is supported if the policy type is SimpleScaling or StepScaling. For more information, see Dynamic Scaling in the Amazon EC2 Auto Scaling User Guide.
         public let adjustmentType: String?
         /// The name of the Auto Scaling group.
@@ -3383,6 +3781,7 @@ extension AutoScaling {
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Time", required: false, type: .timestamp)
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The number of EC2 instances that should be running in the group.
@@ -3441,7 +3840,6 @@ extension AutoScaling {
 
     public struct RecordLifecycleActionHeartbeatAnswer: AWSShape {
         
-        
         public init() {
         }
 
@@ -3454,6 +3852,7 @@ extension AutoScaling {
             AWSShapeMember(label: "LifecycleActionToken", required: false, type: .string), 
             AWSShapeMember(label: "LifecycleHookName", required: true, type: .string)
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The ID of the instance.
@@ -3525,6 +3924,7 @@ extension AutoScaling {
             AWSShapeMember(label: "StepAdjustments", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "TargetTrackingConfiguration", required: false, type: .structure)
         ]
+
         /// The adjustment type, which specifies how ScalingAdjustment is interpreted. The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity.
         public let adjustmentType: String?
         /// The CloudWatch alarms related to the policy.
@@ -3575,6 +3975,9 @@ extension AutoScaling {
             try validate(adjustmentType, name:"adjustmentType", max: 255)
             try validate(adjustmentType, name:"adjustmentType", min: 1)
             try validate(adjustmentType, name:"adjustmentType", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try alarms?.forEach {
+                try $0.validate()
+            }
             try validate(autoScalingGroupName, name:"autoScalingGroupName", max: 255)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -3616,6 +4019,7 @@ extension AutoScaling {
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
             AWSShapeMember(label: "ScalingProcesses", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// One or more of the following processes. If you omit this parameter, all processes are specified.    Launch     Terminate     HealthCheck     ReplaceUnhealthy     AZRebalance     AlarmNotification     ScheduledActions     AddToLoadBalancer   
@@ -3630,6 +4034,11 @@ extension AutoScaling {
             try validate(autoScalingGroupName, name:"autoScalingGroupName", max: 1600)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try scalingProcesses?.forEach {
+                try validate($0, name:"scalingProcesses[]", max: 255)
+                try validate($0, name:"scalingProcesses[]", min: 1)
+                try validate($0, name:"scalingProcesses[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3643,6 +4052,7 @@ extension AutoScaling {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ScheduledUpdateGroupActions", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// The scheduled actions.
@@ -3655,6 +4065,9 @@ extension AutoScaling {
 
         public func validate() throws {
             try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try scheduledUpdateGroupActions?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3676,6 +4089,7 @@ extension AutoScaling {
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Time", required: false, type: .timestamp)
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
         /// The number of instances you prefer to maintain in the group.
@@ -3749,6 +4163,7 @@ extension AutoScaling {
             AWSShapeMember(label: "ScheduledActionName", required: true, type: .string), 
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
         ]
+
         /// The number of EC2 instances that should be running in the group.
         public let desiredCapacity: Int32?
         /// The time for the recurring schedule to end. Amazon EC2 Auto Scaling does not perform the action after this time.
@@ -3800,6 +4215,7 @@ extension AutoScaling {
             AWSShapeMember(label: "DesiredCapacity", required: true, type: .integer), 
             AWSShapeMember(label: "HonorCooldown", required: false, type: .boolean)
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The number of EC2 instances that should be running in the Auto Scaling group.
@@ -3832,6 +4248,7 @@ extension AutoScaling {
             AWSShapeMember(label: "InstanceId", required: true, type: .string), 
             AWSShapeMember(label: "ShouldRespectGracePeriod", required: false, type: .boolean)
         ]
+
         /// The health status of the instance. Set to Healthy to have the instance remain in service. Set to Unhealthy to have the instance be out of service. Amazon EC2 Auto Scaling terminates and replaces the unhealthy instance.
         public let healthStatus: String
         /// The ID of the instance.
@@ -3863,7 +4280,6 @@ extension AutoScaling {
 
     public struct SetInstanceProtectionAnswer: AWSShape {
         
-        
         public init() {
         }
 
@@ -3875,6 +4291,7 @@ extension AutoScaling {
             AWSShapeMember(label: "InstanceIds", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ProtectedFromScaleIn", required: true, type: .boolean)
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// One or more instance IDs.
@@ -3892,6 +4309,11 @@ extension AutoScaling {
             try validate(autoScalingGroupName, name:"autoScalingGroupName", max: 1600)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try instanceIds.forEach {
+                try validate($0, name:"instanceIds[]", max: 19)
+                try validate($0, name:"instanceIds[]", min: 1)
+                try validate($0, name:"instanceIds[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3907,6 +4329,7 @@ extension AutoScaling {
             AWSShapeMember(label: "MetricIntervalUpperBound", required: false, type: .double), 
             AWSShapeMember(label: "ScalingAdjustment", required: true, type: .integer)
         ]
+
         /// The lower bound for the difference between the alarm threshold and the CloudWatch metric. If the metric value is above the breach threshold, the lower bound is inclusive (the metric must be greater than or equal to the threshold plus the lower bound). Otherwise, it is exclusive (the metric must be greater than the threshold plus the lower bound). A null value indicates negative infinity.
         public let metricIntervalLowerBound: Double?
         /// The upper bound for the difference between the alarm threshold and the CloudWatch metric. If the metric value is above the breach threshold, the upper bound is exclusive (the metric must be less than the threshold plus the upper bound). Otherwise, it is inclusive (the metric must be less than or equal to the threshold plus the upper bound). A null value indicates positive infinity. The upper bound must be greater than the lower bound.
@@ -3932,6 +4355,7 @@ extension AutoScaling {
             AWSShapeMember(label: "ProcessName", required: false, type: .string), 
             AWSShapeMember(label: "SuspensionReason", required: false, type: .string)
         ]
+
         /// The name of the suspended process.
         public let processName: String?
         /// The reason that the process was suspended.
@@ -3965,6 +4389,7 @@ extension AutoScaling {
             AWSShapeMember(label: "ResourceType", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// The tag key.
         public let key: String
         /// Determines whether the tag is added to new instances as they are launched in the group.
@@ -4012,6 +4437,7 @@ extension AutoScaling {
             AWSShapeMember(label: "ResourceType", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// The tag key.
         public let key: String?
         /// Determines whether the tag is added to new instances as they are launched in the group.
@@ -4056,6 +4482,7 @@ extension AutoScaling {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// One or more tags.
@@ -4068,6 +4495,9 @@ extension AutoScaling {
 
         public func validate() throws {
             try validate(nextToken, name:"nextToken", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try tags?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4083,6 +4513,7 @@ extension AutoScaling {
             AWSShapeMember(label: "PredefinedMetricSpecification", required: false, type: .structure), 
             AWSShapeMember(label: "TargetValue", required: true, type: .double)
         ]
+
         /// A customized metric. You can specify either a predefined metric or a customized metric.
         public let customizedMetricSpecification: CustomizedMetricSpecification?
         /// Indicates whether scaling in by the target tracking scaling policy is disabled. If scaling in is disabled, the target tracking scaling policy doesn't remove instances from the Auto Scaling group. Otherwise, the target tracking scaling policy can remove instances from the Auto Scaling group. The default is disabled.
@@ -4116,6 +4547,7 @@ extension AutoScaling {
             AWSShapeMember(label: "InstanceId", required: true, type: .string), 
             AWSShapeMember(label: "ShouldDecrementDesiredCapacity", required: true, type: .boolean)
         ]
+
         /// The ID of the instance.
         public let instanceId: String
         /// Indicates whether terminating the instance also decrements the size of the Auto Scaling group.
@@ -4157,6 +4589,7 @@ extension AutoScaling {
             AWSShapeMember(label: "TerminationPolicies", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "VPCZoneIdentifier", required: false, type: .string)
         ]
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// One or more Availability Zones for the group.
@@ -4213,6 +4646,11 @@ extension AutoScaling {
             try validate(autoScalingGroupName, name:"autoScalingGroupName", max: 1600)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", min: 1)
             try validate(autoScalingGroupName, name:"autoScalingGroupName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try availabilityZones?.forEach {
+                try validate($0, name:"availabilityZones[]", max: 255)
+                try validate($0, name:"availabilityZones[]", min: 1)
+                try validate($0, name:"availabilityZones[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
             try validate(availabilityZones, name:"availabilityZones", min: 1)
             try validate(healthCheckType, name:"healthCheckType", max: 32)
             try validate(healthCheckType, name:"healthCheckType", min: 1)
@@ -4228,6 +4666,11 @@ extension AutoScaling {
             try validate(serviceLinkedRoleARN, name:"serviceLinkedRoleARN", max: 1600)
             try validate(serviceLinkedRoleARN, name:"serviceLinkedRoleARN", min: 1)
             try validate(serviceLinkedRoleARN, name:"serviceLinkedRoleARN", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try terminationPolicies?.forEach {
+                try validate($0, name:"terminationPolicies[]", max: 1600)
+                try validate($0, name:"terminationPolicies[]", min: 1)
+                try validate($0, name:"terminationPolicies[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
             try validate(vPCZoneIdentifier, name:"vPCZoneIdentifier", max: 2047)
             try validate(vPCZoneIdentifier, name:"vPCZoneIdentifier", min: 1)
             try validate(vPCZoneIdentifier, name:"vPCZoneIdentifier", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")

@@ -15,6 +15,7 @@ extension EFS {
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "ThroughputMode", required: false, type: .enum)
         ]
+
         /// A string of up to 64 ASCII characters. Amazon EFS uses this to ensure idempotent creation.
         public let creationToken: String
         /// A Boolean value that, if true, creates an encrypted file system. When creating an encrypted file system, you have the option of specifying CreateFileSystemRequest$KmsKeyId for an existing AWS Key Management Service (AWS KMS) customer master key (CMK). If you don't specify a CMK, then the default CMK for Amazon EFS, /aws/elasticfilesystem, is used to protect the encrypted file system. 
@@ -46,6 +47,9 @@ extension EFS {
             try validate(kmsKeyId, name:"kmsKeyId", max: 2048)
             try validate(kmsKeyId, name:"kmsKeyId", min: 1)
             try validate(provisionedThroughputInMibps, name:"provisionedThroughputInMibps", min: 1)
+            try tags?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -66,6 +70,7 @@ extension EFS {
             AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
             AWSShapeMember(label: "SubnetId", required: true, type: .string)
         ]
+
         /// The ID of the file system for which to create the mount target.
         public let fileSystemId: String
         /// Valid IPv4 address within the address range of the specified subnet.
@@ -99,6 +104,7 @@ extension EFS {
             AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
+
         /// The ID of the file system whose tags you want to modify (String). This operation modifies the tags only, not the file system.
         public let fileSystemId: String
         /// An array of Tag objects to add. Each Tag object is a key-value pair. 
@@ -107,6 +113,12 @@ extension EFS {
         public init(fileSystemId: String, tags: [Tag]) {
             self.fileSystemId = fileSystemId
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try tags.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -119,6 +131,7 @@ extension EFS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string)
         ]
+
         /// The ID of the file system you want to delete.
         public let fileSystemId: String
         
@@ -135,6 +148,7 @@ extension EFS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MountTargetId", location: .uri(locationName: "MountTargetId"), required: true, type: .string)
         ]
+
         /// The ID of the mount target to delete (String).
         public let mountTargetId: String
         
@@ -152,6 +166,7 @@ extension EFS {
             AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
+
         /// The ID of the file system whose tags you want to delete (String).
         public let fileSystemId: String
         /// A list of tag keys to delete.
@@ -160,6 +175,13 @@ extension EFS {
         public init(fileSystemId: String, tagKeys: [String]) {
             self.fileSystemId = fileSystemId
             self.tagKeys = tagKeys
+        }
+
+        public func validate() throws {
+            try tagKeys.forEach {
+                try validate($0, name:"tagKeys[]", max: 128)
+                try validate($0, name:"tagKeys[]", min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -175,6 +197,7 @@ extension EFS {
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer)
         ]
+
         /// (Optional) Restricts the list to the file system with this creation token (String). You specify a creation token when you create an Amazon EFS file system.
         public let creationToken: String?
         /// (Optional) ID of the file system whose description you want to retrieve (String).
@@ -211,6 +234,7 @@ extension EFS {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// An array of file system descriptions.
         public let fileSystems: [FileSystemDescription]?
         /// Present if provided by caller in the request (String).
@@ -224,6 +248,12 @@ extension EFS {
             self.nextMarker = nextMarker
         }
 
+        public func validate() throws {
+            try fileSystems?.forEach {
+                try $0.validate()
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case fileSystems = "FileSystems"
             case marker = "Marker"
@@ -235,6 +265,7 @@ extension EFS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string)
         ]
+
         /// The ID of the file system whose LifecycleConfiguration object you want to retrieve (String).
         public let fileSystemId: String
         
@@ -251,6 +282,7 @@ extension EFS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MountTargetId", location: .uri(locationName: "MountTargetId"), required: true, type: .string)
         ]
+
         /// The ID of the mount target whose security groups you want to retrieve.
         public let mountTargetId: String
         
@@ -267,6 +299,7 @@ extension EFS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SecurityGroups", required: true, type: .list)
         ]
+
         /// An array of security groups.
         public let securityGroups: [String]
         
@@ -290,6 +323,7 @@ extension EFS {
             AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer), 
             AWSShapeMember(label: "MountTargetId", location: .querystring(locationName: "MountTargetId"), required: false, type: .string)
         ]
+
         /// (Optional) ID of the file system whose mount targets you want to list (String). It must be included in your request if MountTargetId is not included.
         public let fileSystemId: String?
         /// (Optional) Opaque pagination token returned from a previous DescribeMountTargets operation (String). If present, it specifies to continue the list from where the previous returning call left off.
@@ -324,6 +358,7 @@ extension EFS {
             AWSShapeMember(label: "MountTargets", required: false, type: .list), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// If the request included the Marker, the response returns that value in this field.
         public let marker: String?
         /// Returns the file system's mount targets as an array of MountTargetDescription objects.
@@ -350,6 +385,7 @@ extension EFS {
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer)
         ]
+
         /// The ID of the file system whose tag set you want to retrieve.
         public let fileSystemId: String
         /// (Optional) An opaque pagination token returned from a previous DescribeTags operation (String). If present, it specifies to continue the list from where the previous call left off.
@@ -380,6 +416,7 @@ extension EFS {
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
+
         /// If the request included a Marker, the response returns that value in this field.
         public let marker: String?
         /// If a value is present, there are more tags to return. In a subsequent request, you can provide the value of NextMarker as the value of the Marker parameter in your next request to retrieve the next set of tags.
@@ -391,6 +428,12 @@ extension EFS {
             self.marker = marker
             self.nextMarker = nextMarker
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try tags.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -417,6 +460,7 @@ extension EFS {
             AWSShapeMember(label: "Tags", required: true, type: .list), 
             AWSShapeMember(label: "ThroughputMode", required: false, type: .enum)
         ]
+
         /// The time that the file system was created, in seconds (since 1970-01-01T00:00:00Z).
         public let creationTime: TimeStamp
         /// The opaque string specified in the request.
@@ -472,6 +516,9 @@ extension EFS {
             try validate(numberOfMountTargets, name:"numberOfMountTargets", min: 0)
             try validate(provisionedThroughputInMibps, name:"provisionedThroughputInMibps", min: 1)
             try sizeInBytes.validate()
+            try tags.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -499,6 +546,7 @@ extension EFS {
             AWSShapeMember(label: "ValueInIA", required: false, type: .long), 
             AWSShapeMember(label: "ValueInStandard", required: false, type: .long)
         ]
+
         /// The time at which the size of data, returned in the Value field, was determined. The value is the integer number of seconds since 1970-01-01T00:00:00Z.
         public let timestamp: TimeStamp?
         /// The latest known metered size (in bytes) of data stored in the file system.
@@ -542,6 +590,7 @@ extension EFS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LifecyclePolicies", required: false, type: .list)
         ]
+
         /// An array of lifecycle management policies. Currently, EFS supports a maximum of one policy per file system.
         public let lifecyclePolicies: [LifecyclePolicy]?
         
@@ -558,6 +607,7 @@ extension EFS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TransitionToIA", required: false, type: .enum)
         ]
+
         ///  A value that describes the period of time that a file is not accessed, after which it transitions to the IA storage class. Metadata operations such as listing the contents of a directory don't count as file access events.
         public let transitionToIA: TransitionToIARules?
         
@@ -575,6 +625,7 @@ extension EFS {
             AWSShapeMember(label: "MountTargetId", location: .uri(locationName: "MountTargetId"), required: true, type: .string), 
             AWSShapeMember(label: "SecurityGroups", required: false, type: .list)
         ]
+
         /// The ID of the mount target whose security groups you want to modify.
         public let mountTargetId: String
         /// An array of up to five VPC security group IDs.
@@ -605,6 +656,7 @@ extension EFS {
             AWSShapeMember(label: "OwnerId", required: false, type: .string), 
             AWSShapeMember(label: "SubnetId", required: true, type: .string)
         ]
+
         /// The ID of the file system for which the mount target is intended.
         public let fileSystemId: String
         /// Address at which the file system can be mounted by using the mount target.
@@ -652,6 +704,7 @@ extension EFS {
             AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string), 
             AWSShapeMember(label: "LifecyclePolicies", required: true, type: .list)
         ]
+
         /// The ID of the file system for which you are creating the LifecycleConfiguration object (String).
         public let fileSystemId: String
         /// An array of LifecyclePolicy objects that define the file system's LifecycleConfiguration object. A LifecycleConfiguration object tells lifecycle management when to transition files from the Standard storage class to the Infrequent Access storage class.
@@ -673,6 +726,7 @@ extension EFS {
             AWSShapeMember(label: "Key", required: true, type: .string), 
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
+
         /// The tag key (String). The key can't start with aws:.
         public let key: String
         /// The value of the tag key.
@@ -715,6 +769,7 @@ extension EFS {
             AWSShapeMember(label: "ProvisionedThroughputInMibps", required: false, type: .double), 
             AWSShapeMember(label: "ThroughputMode", required: false, type: .enum)
         ]
+
         /// The ID of the file system that you want to update.
         public let fileSystemId: String
         /// (Optional) The amount of throughput, in MiB/s, that you want to provision for your file system. Valid values are 1-1024. Required if ThroughputMode is changed to provisioned on update. If you're not updating the amount of provisioned throughput for your file system, you don't need to provide this value in your request. 

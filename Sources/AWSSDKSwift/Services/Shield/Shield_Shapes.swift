@@ -9,6 +9,7 @@ extension Shield {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LogBucket", required: true, type: .string)
         ]
+
         /// The Amazon S3 bucket that contains your flow logs.
         public let logBucket: String
         
@@ -29,7 +30,6 @@ extension Shield {
 
     public struct AssociateDRTLogBucketResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -39,6 +39,7 @@ extension Shield {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RoleArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the role the DRT will use to access your AWS account. Prior to making the AssociateDRTRole request, you must attach the AWSShieldDRTAccessPolicy managed policy to this role. For more information see Attaching and Detaching IAM Policies.
         public let roleArn: String
         
@@ -59,7 +60,6 @@ extension Shield {
 
     public struct AssociateDRTRoleResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -76,6 +76,7 @@ extension Shield {
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "SubResources", required: false, type: .list)
         ]
+
         /// List of counters that describe the attack for the specified time period.
         public let attackCounters: [SummarizedCounter]?
         /// The unique identifier (ID) of the attack.
@@ -139,6 +140,7 @@ extension Shield {
             AWSShapeMember(label: "Total", required: false, type: .long), 
             AWSShapeMember(label: "Unit", required: false, type: .enum)
         ]
+
         /// The type of DDoS event that was observed. NETWORK indicates layer 3 and layer 4 events and APPLICATION indicates layer 7 events.
         public let attackLayer: AttackLayer?
         /// Defines the DDoS attack property information that is provided.
@@ -185,6 +187,7 @@ extension Shield {
             AWSShapeMember(label: "ResourceArn", required: false, type: .string), 
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
         ]
+
         /// The unique identifier (ID) of the attack.
         public let attackId: String?
         /// The list of attacks for a specified time period.
@@ -217,6 +220,7 @@ extension Shield {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VectorType", required: true, type: .string)
         ]
+
         /// The attack type. Valid values:   UDP_TRAFFIC   UDP_FRAGMENT   GENERIC_UDP_REFLECTION   DNS_REFLECTION   NTP_REFLECTION   CHARGEN_REFLECTION   SSDP_REFLECTION   PORT_MAPPER   RIP_REFLECTION   SNMP_REFLECTION   MSSQL_REFLECTION   NET_BIOS_REFLECTION   SYN_FLOOD   ACK_FLOOD   REQUEST_FLOOD  
         public let vectorType: String
         
@@ -240,6 +244,7 @@ extension Shield {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .long)
         ]
+
         /// The name of the contributor. This is dependent on the AttackPropertyIdentifier. For example, if the AttackPropertyIdentifier is SOURCE_COUNTRY, the Name could be United States.
         public let name: String?
         /// The contribution of this contributor expressed in Protection units. For example 10,000.
@@ -261,6 +266,7 @@ extension Shield {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
+
         /// Friendly name for the Protection you are creating.
         public let name: String
         /// The ARN (Amazon Resource Name) of the resource to be protected. The ARN should be in one of the following formats:   For an Application Load Balancer: arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Elastic Load Balancer (Classic Load Balancer): arn:aws:elasticloadbalancing:region:account-id:loadbalancer/load-balancer-name     For an AWS CloudFront distribution: arn:aws:cloudfront::account-id:distribution/distribution-id     For an AWS Global Accelerator accelerator: arn:aws:globalaccelerator::account-id:accelerator/accelerator-id     For Amazon Route 53: arn:aws:route53:::hostedzone/hosted-zone-id     For an Elastic IP address: arn:aws:ec2:region:account-id:eip-allocation/allocation-id    
@@ -290,6 +296,7 @@ extension Shield {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProtectionId", required: false, type: .string)
         ]
+
         /// The unique identifier (ID) for the Protection object that is created.
         public let protectionId: String?
         
@@ -310,14 +317,12 @@ extension Shield {
 
     public struct CreateSubscriptionRequest: AWSShape {
         
-        
         public init() {
         }
 
         }
 
     public struct CreateSubscriptionResponse: AWSShape {
-        
         
         public init() {
         }
@@ -328,6 +333,7 @@ extension Shield {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProtectionId", required: true, type: .string)
         ]
+
         /// The unique identifier (ID) for the Protection object to be deleted.
         public let protectionId: String
         
@@ -348,7 +354,6 @@ extension Shield {
 
     public struct DeleteProtectionResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -356,14 +361,12 @@ extension Shield {
 
     public struct DeleteSubscriptionRequest: AWSShape {
         
-        
         public init() {
         }
 
         }
 
     public struct DeleteSubscriptionResponse: AWSShape {
-        
         
         public init() {
         }
@@ -374,6 +377,7 @@ extension Shield {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AttackId", required: true, type: .string)
         ]
+
         /// The unique identifier (ID) for the attack that to be described.
         public let attackId: String
         
@@ -396,6 +400,7 @@ extension Shield {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Attack", required: false, type: .structure)
         ]
+
         /// The attack that is described.
         public let attack: AttackDetail?
         
@@ -414,7 +419,6 @@ extension Shield {
 
     public struct DescribeDRTAccessRequest: AWSShape {
         
-        
         public init() {
         }
 
@@ -425,6 +429,7 @@ extension Shield {
             AWSShapeMember(label: "LogBucketList", required: false, type: .list), 
             AWSShapeMember(label: "RoleArn", required: false, type: .string)
         ]
+
         /// The list of Amazon S3 buckets accessed by the DRT.
         public let logBucketList: [String]?
         /// The Amazon Resource Name (ARN) of the role the DRT used to access your AWS account.
@@ -436,6 +441,11 @@ extension Shield {
         }
 
         public func validate() throws {
+            try logBucketList?.forEach {
+                try validate($0, name:"logBucketList[]", max: 63)
+                try validate($0, name:"logBucketList[]", min: 3)
+                try validate($0, name:"logBucketList[]", pattern: "^([a-z]|(\\d(?!\\d{0,2}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})))([a-z\\d]|(\\.(?!(\\.|-)))|(-(?!\\.))){1,61}[a-z\\d]$")
+            }
             try validate(logBucketList, name:"logBucketList", max: 10)
             try validate(logBucketList, name:"logBucketList", min: 0)
             try validate(roleArn, name:"roleArn", max: 2048)
@@ -451,7 +461,6 @@ extension Shield {
 
     public struct DescribeEmergencyContactSettingsRequest: AWSShape {
         
-        
         public init() {
         }
 
@@ -461,6 +470,7 @@ extension Shield {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EmergencyContactList", required: false, type: .list)
         ]
+
         /// A list of email addresses that the DRT can use to contact you during a suspected attack.
         public let emergencyContactList: [EmergencyContact]?
         
@@ -469,6 +479,9 @@ extension Shield {
         }
 
         public func validate() throws {
+            try emergencyContactList?.forEach {
+                try $0.validate()
+            }
             try validate(emergencyContactList, name:"emergencyContactList", max: 10)
             try validate(emergencyContactList, name:"emergencyContactList", min: 0)
         }
@@ -483,6 +496,7 @@ extension Shield {
             AWSShapeMember(label: "ProtectionId", required: false, type: .string), 
             AWSShapeMember(label: "ResourceArn", required: false, type: .string)
         ]
+
         /// The unique identifier (ID) for the Protection object that is described. When submitting the DescribeProtection request you must provide either the ResourceArn or the ProtectionID, but not both.
         public let protectionId: String?
         /// The ARN (Amazon Resource Name) of the AWS resource for the Protection object that is described. When submitting the DescribeProtection request you must provide either the ResourceArn or the ProtectionID, but not both.
@@ -512,6 +526,7 @@ extension Shield {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Protection", required: false, type: .structure)
         ]
+
         /// The Protection object that is described.
         public let protection: Protection?
         
@@ -530,7 +545,6 @@ extension Shield {
 
     public struct DescribeSubscriptionRequest: AWSShape {
         
-        
         public init() {
         }
 
@@ -540,6 +554,7 @@ extension Shield {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Subscription", required: false, type: .structure)
         ]
+
         /// The AWS Shield Advanced subscription details for an account.
         public let subscription: Subscription?
         
@@ -560,6 +575,7 @@ extension Shield {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LogBucket", required: true, type: .string)
         ]
+
         /// The Amazon S3 bucket that contains your flow logs.
         public let logBucket: String
         
@@ -580,7 +596,6 @@ extension Shield {
 
     public struct DisassociateDRTLogBucketResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -588,14 +603,12 @@ extension Shield {
 
     public struct DisassociateDRTRoleRequest: AWSShape {
         
-        
         public init() {
         }
 
         }
 
     public struct DisassociateDRTRoleResponse: AWSShape {
-        
         
         public init() {
         }
@@ -606,6 +619,7 @@ extension Shield {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EmailAddress", required: true, type: .string)
         ]
+
         /// An email address that the DRT can use to contact you during a suspected attack.
         public let emailAddress: String
         
@@ -626,7 +640,6 @@ extension Shield {
 
     public struct GetSubscriptionStateRequest: AWSShape {
         
-        
         public init() {
         }
 
@@ -636,6 +649,7 @@ extension Shield {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubscriptionState", required: true, type: .enum)
         ]
+
         /// The status of the subscription.
         public let subscriptionState: SubscriptionState
         
@@ -653,6 +667,7 @@ extension Shield {
             AWSShapeMember(label: "Max", required: false, type: .long), 
             AWSShapeMember(label: "Type", required: false, type: .string)
         ]
+
         /// The maximum number of protections that can be created for the specified Type.
         public let max: Int64?
         /// The type of protection.
@@ -677,6 +692,7 @@ extension Shield {
             AWSShapeMember(label: "ResourceArns", required: false, type: .list), 
             AWSShapeMember(label: "StartTime", required: false, type: .structure)
         ]
+
         /// The end of the time period for the attacks. This is a timestamp type. The sample request above indicates a number type because the default used by WAF is Unix time in seconds. However any valid timestamp format is allowed. 
         public let endTime: TimeRange?
         /// The maximum number of AttackSummary objects to be returned. If this is left blank, the first 20 results will be returned. This is a maximum value; it is possible that AWS WAF will return the results in smaller batches. That is, the number of AttackSummary objects returned could be less than MaxResults, even if there are still more AttackSummary objects yet to return. If there are more AttackSummary objects to return, AWS WAF will always also return a NextToken.
@@ -702,6 +718,11 @@ extension Shield {
             try validate(nextToken, name:"nextToken", max: 4096)
             try validate(nextToken, name:"nextToken", min: 1)
             try validate(nextToken, name:"nextToken", pattern: "^.*$")
+            try resourceArns?.forEach {
+                try validate($0, name:"resourceArns[]", max: 2048)
+                try validate($0, name:"resourceArns[]", min: 1)
+                try validate($0, name:"resourceArns[]", pattern: "^arn:aws.*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -718,6 +739,7 @@ extension Shield {
             AWSShapeMember(label: "AttackSummaries", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The attack information for the specified time range.
         public let attackSummaries: [AttackSummary]?
         /// The token returned by a previous call to indicate that there is more data available. If not null, more results are available. Pass this value for the NextMarker parameter in a subsequent call to ListAttacks to retrieve the next set of items. AWS WAF might return the list of AttackSummary objects in batches smaller than the number specified by MaxResults. If there are more AttackSummary objects to return, AWS WAF will always also return a NextToken.
@@ -745,6 +767,7 @@ extension Shield {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The maximum number of Protection objects to be returned. If this is left blank the first 20 results will be returned. This is a maximum value; it is possible that AWS WAF will return the results in smaller batches. That is, the number of Protection objects returned could be less than MaxResults, even if there are still more Protection objects yet to return. If there are more Protection objects to return, AWS WAF will always also return a NextToken.
         public let maxResults: Int32?
         /// The ListProtectionsRequest.NextToken value from a previous call to ListProtections. Pass null if this is the first call.
@@ -774,6 +797,7 @@ extension Shield {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Protections", required: false, type: .list)
         ]
+
         /// If you specify a value for MaxResults and you have more Protections than the value of MaxResults, AWS Shield Advanced returns a NextToken value in the response that allows you to list another group of Protections. For the second and subsequent ListProtections requests, specify the value of NextToken from the previous response to get information about another batch of Protections. AWS WAF might return the list of Protection objects in batches smaller than the number specified by MaxResults. If there are more Protection objects to return, AWS WAF will always also return a NextToken.
         public let nextToken: String?
         /// The array of enabled Protection objects.
@@ -788,6 +812,9 @@ extension Shield {
             try validate(nextToken, name:"nextToken", max: 4096)
             try validate(nextToken, name:"nextToken", min: 1)
             try validate(nextToken, name:"nextToken", pattern: "^.*$")
+            try protections?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -800,6 +827,7 @@ extension Shield {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MitigationName", required: false, type: .string)
         ]
+
         /// The name of the mitigation taken for this attack.
         public let mitigationName: String?
         
@@ -818,6 +846,7 @@ extension Shield {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "ResourceArn", required: false, type: .string)
         ]
+
         /// The unique identifier (ID) of the protection.
         public let id: String?
         /// The friendly name of the protection. For example, My CloudFront distributions.
@@ -857,6 +886,7 @@ extension Shield {
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
+
         /// The list of attack types and associated counters.
         public let attackVectors: [SummarizedAttackVector]?
         /// The counters that describe the details of the attack.
@@ -895,6 +925,7 @@ extension Shield {
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "TimeCommitmentInSeconds", required: false, type: .long)
         ]
+
         /// If ENABLED, the subscription will be automatically renewed at the end of the existing subscription period. When you initally create a subscription, AutoRenew is set to ENABLED. You can change this by submitting an UpdateSubscription request. If the UpdateSubscription request does not included a value for AutoRenew, the existing value for AutoRenew remains unchanged.
         public let autoRenew: AutoRenew?
         /// The date and time your subscription will end.
@@ -938,6 +969,7 @@ extension Shield {
             AWSShapeMember(label: "VectorCounters", required: false, type: .list), 
             AWSShapeMember(label: "VectorType", required: true, type: .string)
         ]
+
         /// The list of counters that describe the details of the attack.
         public let vectorCounters: [SummarizedCounter]?
         /// The attack type, for example, SNMP reflection or SYN flood.
@@ -963,6 +995,7 @@ extension Shield {
             AWSShapeMember(label: "Sum", required: false, type: .double), 
             AWSShapeMember(label: "Unit", required: false, type: .string)
         ]
+
         /// The average value of the counter for a specified time period.
         public let average: Double?
         /// The maximum value of the counter for a specified time period.
@@ -1000,6 +1033,7 @@ extension Shield {
             AWSShapeMember(label: "FromInclusive", required: false, type: .timestamp), 
             AWSShapeMember(label: "ToExclusive", required: false, type: .timestamp)
         ]
+
         /// The start time, in Unix time in seconds. For more information see timestamp.
         public let fromInclusive: TimeStamp?
         /// The end time, in Unix time in seconds. For more information see timestamp.
@@ -1028,6 +1062,7 @@ extension Shield {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EmergencyContactList", required: false, type: .list)
         ]
+
         /// A list of email addresses that the DRT can use to contact you during a suspected attack.
         public let emergencyContactList: [EmergencyContact]?
         
@@ -1036,6 +1071,9 @@ extension Shield {
         }
 
         public func validate() throws {
+            try emergencyContactList?.forEach {
+                try $0.validate()
+            }
             try validate(emergencyContactList, name:"emergencyContactList", max: 10)
             try validate(emergencyContactList, name:"emergencyContactList", min: 0)
         }
@@ -1047,7 +1085,6 @@ extension Shield {
 
     public struct UpdateEmergencyContactSettingsResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -1057,6 +1094,7 @@ extension Shield {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoRenew", required: false, type: .enum)
         ]
+
         /// When you initally create a subscription, AutoRenew is set to ENABLED. If ENABLED, the subscription will be automatically renewed at the end of the existing subscription period. You can change this by submitting an UpdateSubscription request. If the UpdateSubscription request does not included a value for AutoRenew, the existing value for AutoRenew remains unchanged.
         public let autoRenew: AutoRenew?
         
@@ -1070,7 +1108,6 @@ extension Shield {
     }
 
     public struct UpdateSubscriptionResponse: AWSShape {
-        
         
         public init() {
         }

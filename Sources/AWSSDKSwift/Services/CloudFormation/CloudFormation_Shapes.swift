@@ -10,6 +10,7 @@ extension CloudFormation {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "StatusReason", required: false, type: .string)
         ]
+
         /// The status of the account gate function.    SUCCEEDED: The account gate function has determined that the account and region passes any requirements for a stack set operation to occur. AWS CloudFormation proceeds with the stack operation in that account and region.     FAILED: The account gate function has determined that the account and region does not meet the requirements for a stack set operation to occur. AWS CloudFormation cancels the stack set operation in that account and region, and sets the stack set operation result status for that account and region to FAILED.     SKIPPED: AWS CloudFormation has skipped calling the account gate function for this account and region, for one of the following reasons:   An account gate function has not been specified for the account and region. AWS CloudFormation proceeds with the stack set operation in this account and region.   The AWSCloudFormationStackSetExecutionRole of the stack set adminstration account lacks permissions to invoke the function. AWS CloudFormation proceeds with the stack set operation in this account and region.   Either no action is necessary, or no action is possible, on the stack. AWS CloudFormation skips the stack set operation in this account and region.    
         public let status: AccountGateStatus?
         /// The reason for the account gate status assigned to this account and region for the stack set operation.
@@ -38,6 +39,7 @@ extension CloudFormation {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .integer)
         ]
+
         /// The name of the account limit.
         public let name: String?
         /// The value that is associated with the account limit name.
@@ -59,6 +61,7 @@ extension CloudFormation {
             AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
             AWSShapeMember(label: "StackName", required: true, type: .string)
         ]
+
         /// A unique identifier for this CancelUpdateStack request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to cancel an update on a stack with the same name. You might retry CancelUpdateStack requests to ensure that AWS CloudFormation successfully received them.
         public let clientRequestToken: String?
         /// The name or the unique stack ID that is associated with the stack.
@@ -93,6 +96,7 @@ extension CloudFormation {
             AWSShapeMember(label: "ResourceChange", required: false, type: .structure), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
+
         /// A ResourceChange structure that describes the resource and action that AWS CloudFormation will perform.
         public let resourceChange: ResourceChange?
         /// The type of entity that AWS CloudFormation changes. Currently, the only entity type is Resource.
@@ -141,6 +145,7 @@ extension CloudFormation {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "StatusReason", required: false, type: .string)
         ]
+
         /// The ID of the change set.
         public let changeSetId: String?
         /// The name of the change set.
@@ -222,6 +227,7 @@ extension CloudFormation {
             AWSShapeMember(label: "RoleARN", required: false, type: .string), 
             AWSShapeMember(label: "StackName", required: true, type: .string)
         ]
+
         /// A unique identifier for this ContinueUpdateRollback request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to continue the rollback to a stack with the same name. You might retry ContinueUpdateRollback requests to ensure that AWS CloudFormation successfully received them.
         public let clientRequestToken: String?
         /// A list of the logical IDs of the resources that AWS CloudFormation skips during the continue update rollback operation. You can specify only resources that are in the UPDATE_FAILED state because a rollback failed. You can't specify resources that are in the UPDATE_FAILED state for other reasons, for example, because an update was cancelled. To check why a resource update failed, use the DescribeStackResources action, and view the resource status reason.   Specify this property to skip rolling back resources that AWS CloudFormation can't successfully roll back. We recommend that you  troubleshoot resources before skipping them. AWS CloudFormation sets the status of the specified resources to UPDATE_COMPLETE and continues to roll back the stack. After the rollback is complete, the state of the skipped resources will be inconsistent with the state of the resources in the stack template. Before performing another stack update, you must update the stack or resources to be consistent with each other. If you don't, subsequent stack updates might fail, and the stack will become unrecoverable.   Specify the minimum number of resources required to successfully roll back your stack. For example, a failed resource update might cause dependent resources to fail. In this case, it might not be necessary to skip the dependent resources.  To skip resources that are part of nested stacks, use the following format: NestedStackName.ResourceLogicalID. If you want to specify the logical ID of a stack resource (Type: AWS::CloudFormation::Stack) in the ResourcesToSkip list, then its corresponding embedded stack must be in one of the following states: DELETE_IN_PROGRESS, DELETE_COMPLETE, or DELETE_FAILED.   Don't confuse a child stack's name with its corresponding logical ID defined in the parent stack. For an example of a continue update rollback operation with nested stacks, see Using ResourcesToSkip to recover a nested stacks hierarchy.  
@@ -242,6 +248,9 @@ extension CloudFormation {
             try validate(clientRequestToken, name:"clientRequestToken", max: 128)
             try validate(clientRequestToken, name:"clientRequestToken", min: 1)
             try validate(clientRequestToken, name:"clientRequestToken", pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
+            try resourcesToSkip?.forEach {
+                try validate($0, name:"resourcesToSkip[]", pattern: "[a-zA-Z0-9]+|[a-zA-Z][-a-zA-Z0-9]*\\.[a-zA-Z0-9]+")
+            }
             try validate(roleARN, name:"roleARN", max: 2048)
             try validate(roleARN, name:"roleARN", min: 20)
             try validate(stackName, name:"stackName", min: 1)
@@ -257,7 +266,6 @@ extension CloudFormation {
     }
 
     public struct ContinueUpdateRollbackOutput: AWSShape {
-        
         
         public init() {
         }
@@ -282,6 +290,7 @@ extension CloudFormation {
             AWSShapeMember(label: "TemplateURL", required: false, type: .string), 
             AWSShapeMember(label: "UsePreviousTemplate", required: false, type: .boolean)
         ]
+
         /// In some cases, you must explicity acknowledge that your stack template contains certain capabilities in order for AWS CloudFormation to create the stack.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your AWS account; for example, by creating new AWS Identity and Access Management (IAM) users. For those stacks, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.    If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.    If you don't specify either of these capabilities, AWS CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.     AWS::IAM::AccessKey      AWS::IAM::Group      AWS::IAM::InstanceProfile      AWS::IAM::Policy      AWS::IAM::Role      AWS::IAM::User      AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.    CAPABILITY_AUTO_EXPAND  Some template contain macros. Macros perform custom processing on templates; this can include simple actions like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this, users typically create a change set from the processed template, so that they can review the changes resulting from the macros before actually creating the stack. If your stack template contains one or more macros, and you choose to create a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by AWS CloudFormation.  This capacity does not apply to creating change sets, and specifying it when creating change sets has no effect. Also, change sets do not currently support nested stacks. If you want to create a stack from a stack template that contains macros and nested stacks, you must create or update the stack directly from the template using the CreateStack or UpdateStack action, and specifying this capability.  For more information on macros, see Using AWS CloudFormation Macros to Perform Custom Processing on Templates.  
         public let capabilities: [Capability]?
         /// The name of the change set. The name must be unique among all change sets that are associated with the specified stack. A change set name can contain only alphanumeric, case sensitive characters and hyphens. It must start with an alphabetic character and cannot exceed 128 characters.
@@ -340,11 +349,18 @@ extension CloudFormation {
             try validate(description, name:"description", max: 1024)
             try validate(description, name:"description", min: 1)
             try validate(notificationARNs, name:"notificationARNs", max: 5)
+            try resourceTypes?.forEach {
+                try validate($0, name:"resourceTypes[]", max: 256)
+                try validate($0, name:"resourceTypes[]", min: 1)
+            }
             try validate(roleARN, name:"roleARN", max: 2048)
             try validate(roleARN, name:"roleARN", min: 20)
             try rollbackConfiguration?.validate()
             try validate(stackName, name:"stackName", min: 1)
             try validate(stackName, name:"stackName", pattern: "([a-zA-Z][-a-zA-Z0-9]*)|(arn:\\b(aws|aws-us-gov|aws-cn)\\b:[-a-zA-Z0-9:/._+]*)")
+            try tags?.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", max: 50)
             try validate(templateBody, name:"templateBody", min: 1)
             try validate(templateURL, name:"templateURL", max: 1024)
@@ -375,6 +391,7 @@ extension CloudFormation {
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "StackId", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the change set.
         public let id: String?
         /// The unique ID of the stack.
@@ -416,6 +433,7 @@ extension CloudFormation {
             AWSShapeMember(label: "TemplateURL", required: false, type: .string), 
             AWSShapeMember(label: "TimeoutInMinutes", required: false, type: .integer)
         ]
+
         /// In some cases, you must explicity acknowledge that your stack template contains certain capabilities in order for AWS CloudFormation to create the stack.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your AWS account; for example, by creating new AWS Identity and Access Management (IAM) users. For those stacks, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.    If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.    If you don't specify either of these capabilities, AWS CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.     AWS::IAM::AccessKey      AWS::IAM::Group      AWS::IAM::InstanceProfile      AWS::IAM::Policy      AWS::IAM::Role      AWS::IAM::User      AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.    CAPABILITY_AUTO_EXPAND  Some template contain macros. Macros perform custom processing on templates; this can include simple actions like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this, users typically create a change set from the processed template, so that they can review the changes resulting from the macros before actually creating the stack. If your stack template contains one or more macros, and you choose to create a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by AWS CloudFormation. Change sets do not currently support nested stacks. If you want to create a stack from a stack template that contains macros and nested stacks, you must create the stack directly from the template using this capability.  You should only create stacks directly from a stack template that contains macros if you know what processing the macro performs. Each macro relies on an underlying Lambda service function for processing stack templates. Be aware that the Lambda function owner can update the function operation without AWS CloudFormation being notified.  For more information, see Using AWS CloudFormation Macros to Perform Custom Processing on Templates.  
         public let capabilities: [Capability]?
         /// A unique identifier for this CreateStack request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to create a stack with the same name. You might retry CreateStack requests to ensure that AWS CloudFormation successfully received them. All events triggered by a given stack operation are assigned the same client request token, which you can use to track operations. For example, if you execute a CreateStack operation with the token token1, then all the StackEvents generated by that operation will have ClientRequestToken set as token1. In the console, stack operations display the client request token on the Events tab. Stack operations that are initiated from the console use the token format Console-StackOperation-ID, which helps you easily identify the stack operation . For example, if you create a stack using the console, each stack event would be assigned the same token in the following format: Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002. 
@@ -476,6 +494,10 @@ extension CloudFormation {
             try validate(clientRequestToken, name:"clientRequestToken", min: 1)
             try validate(clientRequestToken, name:"clientRequestToken", pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
             try validate(notificationARNs, name:"notificationARNs", max: 5)
+            try resourceTypes?.forEach {
+                try validate($0, name:"resourceTypes[]", max: 256)
+                try validate($0, name:"resourceTypes[]", min: 1)
+            }
             try validate(roleARN, name:"roleARN", max: 2048)
             try validate(roleARN, name:"roleARN", min: 20)
             try rollbackConfiguration?.validate()
@@ -483,6 +505,9 @@ extension CloudFormation {
             try validate(stackPolicyBody, name:"stackPolicyBody", min: 1)
             try validate(stackPolicyURL, name:"stackPolicyURL", max: 1350)
             try validate(stackPolicyURL, name:"stackPolicyURL", min: 1)
+            try tags?.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", max: 50)
             try validate(templateBody, name:"templateBody", min: 1)
             try validate(templateURL, name:"templateURL", max: 1024)
@@ -520,6 +545,7 @@ extension CloudFormation {
             AWSShapeMember(label: "Regions", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "StackSetName", required: true, type: .string)
         ]
+
         /// The names of one or more AWS accounts that you want to create stack instances in the specified region(s) for.
         public let accounts: [String]
         /// The unique identifier for this stack set operation.  The operation ID also functions as an idempotency token, to ensure that AWS CloudFormation performs the stack set operation only once, even if you retry the request multiple times. You might retry stack set operation requests to ensure that AWS CloudFormation successfully received them. If you don't specify an operation ID, the SDK generates one automatically.  Repeating this stack set operation with a new operation ID retries all stack instances whose status is OUTDATED. 
@@ -543,6 +569,9 @@ extension CloudFormation {
         }
 
         public func validate() throws {
+            try accounts.forEach {
+                try validate($0, name:"accounts[]", pattern: "[0-9]{12}")
+            }
             try validate(operationId, name:"operationId", max: 128)
             try validate(operationId, name:"operationId", min: 1)
             try validate(operationId, name:"operationId", pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
@@ -563,6 +592,7 @@ extension CloudFormation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OperationId", required: false, type: .string)
         ]
+
         /// The unique identifier for this stack set operation.
         public let operationId: String?
         
@@ -585,6 +615,7 @@ extension CloudFormation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: false, type: .string)
         ]
+
         /// Unique identifier of the stack.
         public let stackId: String?
         
@@ -610,6 +641,7 @@ extension CloudFormation {
             AWSShapeMember(label: "TemplateBody", required: false, type: .string), 
             AWSShapeMember(label: "TemplateURL", required: false, type: .string)
         ]
+
         /// The Amazon Resource Number (ARN) of the IAM role to use to create this stack set.  Specify an IAM role only if you are using customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see Prerequisites: Granting Permissions for Stack Set Operations in the AWS CloudFormation User Guide.
         public let administrationRoleARN: String?
         /// In some cases, you must explicity acknowledge that your stack set template contains certain capabilities in order for AWS CloudFormation to create the stack set and related stack instances.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your AWS account; for example, by creating new AWS Identity and Access Management (IAM) users. For those stack sets, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.    If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.    If you don't specify either of these capabilities, AWS CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.     AWS::IAM::AccessKey      AWS::IAM::Group      AWS::IAM::InstanceProfile      AWS::IAM::Policy      AWS::IAM::Role      AWS::IAM::User      AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.    CAPABILITY_AUTO_EXPAND  Some templates contain macros. If your stack template contains one or more macros, and you choose to create a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. For more information, see Using AWS CloudFormation Macros to Perform Custom Processing on Templates.  Stack sets do not currently support macros in stack templates. (This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by AWS CloudFormation.) Even if you specify this capability, if you include a macro in your template the stack set operation will fail.   
@@ -655,6 +687,9 @@ extension CloudFormation {
             try validate(executionRoleName, name:"executionRoleName", max: 64)
             try validate(executionRoleName, name:"executionRoleName", min: 1)
             try validate(executionRoleName, name:"executionRoleName", pattern: "[a-zA-Z_0-9+=,.@-]+")
+            try tags?.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", max: 50)
             try validate(templateBody, name:"templateBody", min: 1)
             try validate(templateURL, name:"templateURL", max: 1024)
@@ -679,6 +714,7 @@ extension CloudFormation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackSetId", required: false, type: .string)
         ]
+
         /// The ID of the stack set that you're creating.
         public let stackSetId: String?
         
@@ -696,6 +732,7 @@ extension CloudFormation {
             AWSShapeMember(label: "ChangeSetName", required: true, type: .string), 
             AWSShapeMember(label: "StackName", required: false, type: .string)
         ]
+
         /// The name or Amazon Resource Name (ARN) of the change set that you want to delete.
         public let changeSetName: String
         /// If you specified the name of a change set to delete, specify the stack name or ID (ARN) that is associated with it.
@@ -722,7 +759,6 @@ extension CloudFormation {
 
     public struct DeleteChangeSetOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -735,6 +771,7 @@ extension CloudFormation {
             AWSShapeMember(label: "RoleARN", required: false, type: .string), 
             AWSShapeMember(label: "StackName", required: true, type: .string)
         ]
+
         /// A unique identifier for this DeleteStack request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to delete a stack with the same name. You might retry DeleteStack requests to ensure that AWS CloudFormation successfully received them. All events triggered by a given stack operation are assigned the same client request token, which you can use to track operations. For example, if you execute a CreateStack operation with the token token1, then all the StackEvents generated by that operation will have ClientRequestToken set as token1. In the console, stack operations display the client request token on the Events tab. Stack operations that are initiated from the console use the token format Console-StackOperation-ID, which helps you easily identify the stack operation . For example, if you create a stack using the console, each stack event would be assigned the same token in the following format: Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002. 
         public let clientRequestToken: String?
         /// For stacks in the DELETE_FAILED state, a list of resource logical IDs that are associated with the resources you want to retain. During deletion, AWS CloudFormation deletes the stack but does not delete the retained resources. Retaining resources is useful when you cannot delete a resource, such as a non-empty S3 bucket, but you want to delete the stack.
@@ -776,6 +813,7 @@ extension CloudFormation {
             AWSShapeMember(label: "RetainStacks", required: true, type: .boolean), 
             AWSShapeMember(label: "StackSetName", required: true, type: .string)
         ]
+
         /// The names of the AWS accounts that you want to delete stack instances for.
         public let accounts: [String]
         /// The unique identifier for this stack set operation.  If you don't specify an operation ID, the SDK generates one automatically.  The operation ID also functions as an idempotency token, to ensure that AWS CloudFormation performs the stack set operation only once, even if you retry the request multiple times. You can retry stack set operation requests to ensure that AWS CloudFormation successfully received them. Repeating this stack set operation with a new operation ID retries all stack instances whose status is OUTDATED. 
@@ -799,6 +837,9 @@ extension CloudFormation {
         }
 
         public func validate() throws {
+            try accounts.forEach {
+                try validate($0, name:"accounts[]", pattern: "[0-9]{12}")
+            }
             try validate(operationId, name:"operationId", max: 128)
             try validate(operationId, name:"operationId", min: 1)
             try validate(operationId, name:"operationId", pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
@@ -819,6 +860,7 @@ extension CloudFormation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OperationId", required: false, type: .string)
         ]
+
         /// The unique identifier for this stack set operation.
         public let operationId: String?
         
@@ -841,6 +883,7 @@ extension CloudFormation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackSetName", required: true, type: .string)
         ]
+
         /// The name or unique ID of the stack set that you're deleting. You can obtain this value by running ListStackSets.
         public let stackSetName: String
         
@@ -855,7 +898,6 @@ extension CloudFormation {
 
     public struct DeleteStackSetOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -865,6 +907,7 @@ extension CloudFormation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// A string that identifies the next page of limits that you want to retrieve.
         public let nextToken: String?
         
@@ -887,6 +930,7 @@ extension CloudFormation {
             AWSShapeMember(label: "AccountLimits", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// An account limit structure that contain a list of AWS CloudFormation account limits and their values.
         public let accountLimits: [AccountLimit]?
         /// If the output exceeds 1 MB in size, a string that identifies the next page of limits. If no additional page exists, this value is null.
@@ -914,6 +958,7 @@ extension CloudFormation {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "StackName", required: false, type: .string)
         ]
+
         /// The name or Amazon Resource Name (ARN) of the change set that you want to describe.
         public let changeSetName: String
         /// A string (provided by the DescribeChangeSet response output) that identifies the next page of information that you want to retrieve.
@@ -963,6 +1008,7 @@ extension CloudFormation {
             AWSShapeMember(label: "StatusReason", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// If you execute the change set, the list of capabilities that were explicitly acknowledged when the change set was created.
         public let capabilities: [Capability]?
         /// A list of Change structures that describes the resources AWS CloudFormation changes if you execute the change set.
@@ -1016,6 +1062,9 @@ extension CloudFormation {
         }
 
         public func validate() throws {
+            try changes?.forEach {
+                try $0.validate()
+            }
             try validate(changeSetId, name:"changeSetId", min: 1)
             try validate(changeSetId, name:"changeSetId", pattern: "arn:[-a-zA-Z0-9:/]*")
             try validate(changeSetName, name:"changeSetName", max: 128)
@@ -1027,6 +1076,9 @@ extension CloudFormation {
             try validate(nextToken, name:"nextToken", min: 1)
             try validate(notificationARNs, name:"notificationARNs", max: 5)
             try rollbackConfiguration?.validate()
+            try tags?.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", max: 50)
         }
 
@@ -1054,6 +1106,7 @@ extension CloudFormation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackDriftDetectionId", required: true, type: .string)
         ]
+
         /// The ID of the drift detection results of this operation.  AWS CloudFormation generates new results, with a new drift detection ID, each time this operation is run. However, the number of drift results AWS CloudFormation retains for any given stack, and for how long, may vary. 
         public let stackDriftDetectionId: String
         
@@ -1081,6 +1134,7 @@ extension CloudFormation {
             AWSShapeMember(label: "StackId", required: true, type: .string), 
             AWSShapeMember(label: "Timestamp", required: true, type: .timestamp)
         ]
+
         /// The status of the stack drift detection operation.    DETECTION_COMPLETE: The stack drift detection operation has successfully completed for all resources in the stack that support drift detection. (Resources that do not currently support stack detection remain unchecked.) If you specified logical resource IDs for AWS CloudFormation to use as a filter for the stack drift detection operation, only the resources with those logical IDs are checked for drift.    DETECTION_FAILED: The stack drift detection operation has failed for at least one resource in the stack. Results will be available for resources on which AWS CloudFormation successfully completed drift detection.    DETECTION_IN_PROGRESS: The stack drift detection operation is currently in progress.  
         public let detectionStatus: StackDriftDetectionStatus
         /// The reason the stack drift detection operation has its current status.
@@ -1127,6 +1181,7 @@ extension CloudFormation {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "StackName", required: false, type: .string)
         ]
+
         /// A string that identifies the next page of events that you want to retrieve.
         public let nextToken: String?
         /// The name or the unique stack ID that is associated with the stack, which are not always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Default: There is no default value.
@@ -1153,6 +1208,7 @@ extension CloudFormation {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "StackEvents", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// If the output exceeds 1 MB in size, a string that identifies the next page of events. If no additional page exists, this value is null.
         public let nextToken: String?
         /// A list of StackEvents structures.
@@ -1166,6 +1222,9 @@ extension CloudFormation {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
+            try stackEvents?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1180,6 +1239,7 @@ extension CloudFormation {
             AWSShapeMember(label: "StackInstanceRegion", required: true, type: .string), 
             AWSShapeMember(label: "StackSetName", required: true, type: .string)
         ]
+
         /// The ID of an AWS account that's associated with this stack instance.
         public let stackInstanceAccount: String
         /// The name of a region that's associated with this stack instance.
@@ -1208,6 +1268,7 @@ extension CloudFormation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackInstance", required: false, type: .structure)
         ]
+
         /// The stack instance that matches the specified request parameters.
         public let stackInstance: StackInstance?
         
@@ -1231,6 +1292,7 @@ extension CloudFormation {
             AWSShapeMember(label: "StackName", required: true, type: .string), 
             AWSShapeMember(label: "StackResourceDriftStatusFilters", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
         public let maxResults: Int32?
         /// A string that identifies the next page of stack resource drift results.
@@ -1271,6 +1333,7 @@ extension CloudFormation {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "StackResourceDrifts", required: true, type: .list, encoding: .list(member:"member"))
         ]
+
         /// If the request doesn't return all of the remaining results, NextToken is set to a token. To retrieve the next set of results, call DescribeStackResourceDrifts again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
         public let nextToken: String?
         /// Drift information for the resources that have been checked for drift in the specified stack. This includes actual and expected configuration values for resources where AWS CloudFormation detects drift. For a given stack, there will be one StackResourceDrift for each stack resource that has been checked for drift. Resources that have not yet been checked for drift are not included. Resources that do not currently support drift detection are not checked, and so not included. For a list of resources that support drift detection, see Resources that Support Drift Detection.
@@ -1284,6 +1347,9 @@ extension CloudFormation {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
+            try stackResourceDrifts.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1297,6 +1363,7 @@ extension CloudFormation {
             AWSShapeMember(label: "LogicalResourceId", required: true, type: .string), 
             AWSShapeMember(label: "StackName", required: true, type: .string)
         ]
+
         /// The logical name of the resource as specified in the template. Default: There is no default value.
         public let logicalResourceId: String
         /// The name or the unique stack ID that is associated with the stack, which are not always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Default: There is no default value.
@@ -1317,6 +1384,7 @@ extension CloudFormation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackResourceDetail", required: false, type: .structure)
         ]
+
         /// A StackResourceDetail structure containing the description of the specified resource in the specified stack.
         public let stackResourceDetail: StackResourceDetail?
         
@@ -1339,6 +1407,7 @@ extension CloudFormation {
             AWSShapeMember(label: "PhysicalResourceId", required: false, type: .string), 
             AWSShapeMember(label: "StackName", required: false, type: .string)
         ]
+
         /// The logical name of the resource as specified in the template. Default: There is no default value.
         public let logicalResourceId: String?
         /// The name or unique identifier that corresponds to a physical instance ID of a resource supported by AWS CloudFormation. For example, for an Amazon Elastic Compute Cloud (EC2) instance, PhysicalResourceId corresponds to the InstanceId. You can pass the EC2 InstanceId to DescribeStackResources to find which stack the instance belongs to and what other resources are part of the stack. Required: Conditional. If you do not specify PhysicalResourceId, you must specify StackName. Default: There is no default value.
@@ -1363,11 +1432,18 @@ extension CloudFormation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackResources", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// A list of StackResource structures.
         public let stackResources: [StackResource]?
         
         public init(stackResources: [StackResource]? = nil) {
             self.stackResources = stackResources
+        }
+
+        public func validate() throws {
+            try stackResources?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1379,6 +1455,7 @@ extension CloudFormation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackSetName", required: true, type: .string)
         ]
+
         /// The name or unique ID of the stack set whose description you want.
         public let stackSetName: String
         
@@ -1396,6 +1473,7 @@ extension CloudFormation {
             AWSShapeMember(label: "OperationId", required: true, type: .string), 
             AWSShapeMember(label: "StackSetName", required: true, type: .string)
         ]
+
         /// The unique ID of the stack set operation. 
         public let operationId: String
         /// The name or the unique stack ID of the stack set for the stack operation.
@@ -1422,6 +1500,7 @@ extension CloudFormation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackSetOperation", required: false, type: .structure)
         ]
+
         /// The specified stack set operation.
         public let stackSetOperation: StackSetOperation?
         
@@ -1442,6 +1521,7 @@ extension CloudFormation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackSet", required: false, type: .structure)
         ]
+
         /// The specified stack set.
         public let stackSet: StackSet?
         
@@ -1463,6 +1543,7 @@ extension CloudFormation {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "StackName", required: false, type: .string)
         ]
+
         /// A string that identifies the next page of stacks that you want to retrieve.
         public let nextToken: String?
         /// The name or the unique stack ID that is associated with the stack, which are not always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Default: There is no default value.
@@ -1489,6 +1570,7 @@ extension CloudFormation {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Stacks", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// If the output exceeds 1 MB in size, a string that identifies the next page of stacks. If no additional page exists, this value is null.
         public let nextToken: String?
         /// A list of stack structures.
@@ -1502,6 +1584,9 @@ extension CloudFormation {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
+            try stacks?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1515,6 +1600,7 @@ extension CloudFormation {
             AWSShapeMember(label: "LogicalResourceIds", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "StackName", required: true, type: .string)
         ]
+
         /// The logical names of any resources you want to use as filters.
         public let logicalResourceIds: [String]?
         /// The name of the stack for which you want to detect drift. 
@@ -1542,6 +1628,7 @@ extension CloudFormation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackDriftDetectionId", required: true, type: .string)
         ]
+
         /// The ID of the drift detection results of this operation.  AWS CloudFormation generates new results, with a new drift detection ID, each time this operation is run. However, the number of drift results AWS CloudFormation retains for any given stack, and for how long, may vary. 
         public let stackDriftDetectionId: String
         
@@ -1564,6 +1651,7 @@ extension CloudFormation {
             AWSShapeMember(label: "LogicalResourceId", required: true, type: .string), 
             AWSShapeMember(label: "StackName", required: true, type: .string)
         ]
+
         /// The logical name of the resource for which to return drift information.
         public let logicalResourceId: String
         /// The name of the stack to which the resource belongs.
@@ -1589,6 +1677,7 @@ extension CloudFormation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackResourceDrift", required: true, type: .structure)
         ]
+
         /// Information about whether the resource's actual configuration has drifted from its expected template configuration, including actual and expected property values and any differences detected.
         public let stackResourceDrift: StackResourceDrift
         
@@ -1618,6 +1707,7 @@ extension CloudFormation {
             AWSShapeMember(label: "TemplateBody", required: false, type: .string), 
             AWSShapeMember(label: "TemplateURL", required: false, type: .string)
         ]
+
         /// A list of Parameter structures that specify input parameters.
         public let parameters: [Parameter]?
         /// Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. (For more information, go to Template Anatomy in the AWS CloudFormation User Guide.) Conditional: You must pass TemplateBody or TemplateURL. If both are passed, only TemplateBody is used.
@@ -1648,6 +1738,7 @@ extension CloudFormation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Url", required: false, type: .string)
         ]
+
         /// An AWS Simple Monthly Calculator URL with a query string that describes the resources required to run the template.
         public let url: String?
         
@@ -1672,6 +1763,7 @@ extension CloudFormation {
             AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
             AWSShapeMember(label: "StackName", required: false, type: .string)
         ]
+
         /// The name or ARN of the change set that you want use to update the specified stack.
         public let changeSetName: String
         /// A unique identifier for this ExecuteChangeSet request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to execute a change set to update a stack with the same name. You might retry ExecuteChangeSet requests to ensure that AWS CloudFormation successfully received them.
@@ -1705,7 +1797,6 @@ extension CloudFormation {
 
     public struct ExecuteChangeSetOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -1727,6 +1818,7 @@ extension CloudFormation {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// The stack that contains the exported output name and value.
         public let exportingStackId: String?
         /// The name of exported output value. Use this name and the Fn::ImportValue function to import the associated value into other stacks. The name is defined in the Export field in the associated stack's Outputs section.
@@ -1751,6 +1843,7 @@ extension CloudFormation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackName", required: true, type: .string)
         ]
+
         /// The name or unique stack ID that is associated with the stack whose policy you want to get.
         public let stackName: String
         
@@ -1767,6 +1860,7 @@ extension CloudFormation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackPolicyBody", required: false, type: .string)
         ]
+
         /// Structure containing the stack policy body. (For more information, go to  Prevent Updates to Stack Resources in the AWS CloudFormation User Guide.)
         public let stackPolicyBody: String?
         
@@ -1790,6 +1884,7 @@ extension CloudFormation {
             AWSShapeMember(label: "StackName", required: false, type: .string), 
             AWSShapeMember(label: "TemplateStage", required: false, type: .enum)
         ]
+
         /// The name or Amazon Resource Name (ARN) of a change set for which AWS CloudFormation returns the associated template. If you specify a name, you must also specify the StackName.
         public let changeSetName: String?
         /// The name or the unique stack ID that is associated with the stack, which are not always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Default: There is no default value.
@@ -1821,6 +1916,7 @@ extension CloudFormation {
             AWSShapeMember(label: "StagesAvailable", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "TemplateBody", required: false, type: .string)
         ]
+
         /// The stage of the template that you can retrieve. For stacks, the Original and Processed templates are always available. For change sets, the Original template is always available. After AWS CloudFormation finishes creating the change set, the Processed template becomes available.
         public let stagesAvailable: [TemplateStage]?
         /// Structure containing the template body. (For more information, go to Template Anatomy in the AWS CloudFormation User Guide.) AWS CloudFormation returns the same template that was used when the stack was created.
@@ -1848,6 +1944,7 @@ extension CloudFormation {
             AWSShapeMember(label: "TemplateBody", required: false, type: .string), 
             AWSShapeMember(label: "TemplateURL", required: false, type: .string)
         ]
+
         /// The name or the stack ID that is associated with the stack, which are not always interchangeable. For running stacks, you can specify either the stack's name or its unique stack ID. For deleted stack, you must specify the unique stack ID. Conditional: You must specify only one of the following parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
         public let stackName: String?
         /// The name or unique ID of the stack set from which the stack was created. Conditional: You must specify only one of the following parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
@@ -1892,6 +1989,7 @@ extension CloudFormation {
             AWSShapeMember(label: "ResourceTypes", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         /// The capabilities found within the template. If your template contains IAM resources, you must specify the CAPABILITY_IAM or CAPABILITY_NAMED_IAM value for this parameter when you use the CreateStack or UpdateStack actions with your template; otherwise, those actions return an InsufficientCapabilities error. For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.
         public let capabilities: [Capability]?
         /// The list of resources that generated the values in the Capabilities response element.
@@ -1923,6 +2021,13 @@ extension CloudFormation {
         public func validate() throws {
             try validate(description, name:"description", max: 1024)
             try validate(description, name:"description", min: 1)
+            try parameters?.forEach {
+                try $0.validate()
+            }
+            try resourceTypes?.forEach {
+                try validate($0, name:"resourceTypes[]", max: 256)
+                try validate($0, name:"resourceTypes[]", min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1942,6 +2047,7 @@ extension CloudFormation {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "StackName", required: true, type: .string)
         ]
+
         /// A string (provided by the ListChangeSets response output) that identifies the next page of change sets that you want to retrieve.
         public let nextToken: String?
         /// The name or the Amazon Resource Name (ARN) of the stack for which you want to list change sets.
@@ -1970,6 +2076,7 @@ extension CloudFormation {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Summaries", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// If the output exceeds 1 MB, a string that identifies the next page of change sets. If there is no additional page, this value is null.
         public let nextToken: String?
         /// A list of ChangeSetSummary structures that provides the ID and status of each change set for the specified stack.
@@ -1983,6 +2090,9 @@ extension CloudFormation {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
+            try summaries?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1995,6 +2105,7 @@ extension CloudFormation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// A string (provided by the ListExports response output) that identifies the next page of exported output values that you asked to retrieve.
         public let nextToken: String?
         
@@ -2017,6 +2128,7 @@ extension CloudFormation {
             AWSShapeMember(label: "Exports", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The output for the ListExports action.
         public let exports: [Export]?
         /// If the output exceeds 100 exported output values, a string that identifies the next page of exports. If there is no additional page, this value is null.
@@ -2043,6 +2155,7 @@ extension CloudFormation {
             AWSShapeMember(label: "ExportName", required: true, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The name of the exported output value. AWS CloudFormation returns the stack names that are importing this value. 
         public let exportName: String
         /// A string (provided by the ListImports response output) that identifies the next page of stacks that are importing the specified exported output value. 
@@ -2069,6 +2182,7 @@ extension CloudFormation {
             AWSShapeMember(label: "Imports", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// A list of stack names that are importing the specified exported output value. 
         public let imports: [String]?
         /// A string that identifies the next page of exports. If there is no additional page, this value is null.
@@ -2098,6 +2212,7 @@ extension CloudFormation {
             AWSShapeMember(label: "StackInstanceRegion", required: false, type: .string), 
             AWSShapeMember(label: "StackSetName", required: true, type: .string)
         ]
+
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
         public let maxResults: Int32?
         /// If the previous request didn't return all of the remaining results, the response's NextToken parameter value is set to a token. To retrieve the next set of results, call ListStackInstances again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
@@ -2139,6 +2254,7 @@ extension CloudFormation {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Summaries", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// If the request doesn't return all of the remaining results, NextToken is set to a token. To retrieve the next set of results, call ListStackInstances again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
         public let nextToken: String?
         /// A list of StackInstanceSummary structures that contain information about the specified stack instances.
@@ -2152,6 +2268,9 @@ extension CloudFormation {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
+            try summaries?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2165,6 +2284,7 @@ extension CloudFormation {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "StackName", required: true, type: .string)
         ]
+
         /// A string that identifies the next page of stack resources that you want to retrieve.
         public let nextToken: String?
         /// The name or the unique stack ID that is associated with the stack, which are not always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Default: There is no default value.
@@ -2191,6 +2311,7 @@ extension CloudFormation {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "StackResourceSummaries", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// If the output exceeds 1 MB, a string that identifies the next page of stack resources. If no additional page exists, this value is null.
         public let nextToken: String?
         /// A list of StackResourceSummary structures.
@@ -2204,6 +2325,9 @@ extension CloudFormation {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
+            try stackResourceSummaries?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2219,6 +2343,7 @@ extension CloudFormation {
             AWSShapeMember(label: "OperationId", required: true, type: .string), 
             AWSShapeMember(label: "StackSetName", required: true, type: .string)
         ]
+
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
         public let maxResults: Int32?
         /// If the previous request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call ListStackSetOperationResults again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
@@ -2258,6 +2383,7 @@ extension CloudFormation {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Summaries", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// If the request doesn't return all results, NextToken is set to a token. To retrieve the next set of results, call ListOperationResults again and assign that token to the request object's NextToken parameter. If there are no remaining results, NextToken is set to null.
         public let nextToken: String?
         /// A list of StackSetOperationResultSummary structures that contain information about the specified operation results, for accounts and regions that are included in the operation.
@@ -2271,6 +2397,9 @@ extension CloudFormation {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
+            try summaries?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2285,6 +2414,7 @@ extension CloudFormation {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "StackSetName", required: true, type: .string)
         ]
+
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
         public let maxResults: Int32?
         /// If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call ListStackSetOperations again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
@@ -2317,6 +2447,7 @@ extension CloudFormation {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Summaries", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// If the request doesn't return all results, NextToken is set to a token. To retrieve the next set of results, call ListOperationResults again and assign that token to the request object's NextToken parameter. If there are no remaining results, NextToken is set to null.
         public let nextToken: String?
         /// A list of StackSetOperationSummary structures that contain summary information about operations for the specified stack set.
@@ -2330,6 +2461,9 @@ extension CloudFormation {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
+            try summaries?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2344,6 +2478,7 @@ extension CloudFormation {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
+
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
         public let maxResults: Int32?
         /// If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call ListStackSets again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
@@ -2376,6 +2511,7 @@ extension CloudFormation {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Summaries", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// If the request doesn't return all of the remaining results, NextToken is set to a token. To retrieve the next set of results, call ListStackInstances again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
         public let nextToken: String?
         /// A list of StackSetSummary structures that contain information about the user's stack sets.
@@ -2389,6 +2525,9 @@ extension CloudFormation {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 1024)
             try validate(nextToken, name:"nextToken", min: 1)
+            try summaries?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2402,6 +2541,7 @@ extension CloudFormation {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "StackStatusFilter", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// A string that identifies the next page of stacks that you want to retrieve.
         public let nextToken: String?
         /// Stack status to use as a filter. Specify one or more stack status codes to list only stacks with the specified status codes. For a complete list of stack status codes, see the StackStatus parameter of the Stack data type.
@@ -2428,6 +2568,7 @@ extension CloudFormation {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "StackSummaries", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// If the output exceeds 1 MB in size, a string that identifies the next page of stacks. If no additional page exists, this value is null.
         public let nextToken: String?
         /// A list of StackSummary structures containing information about the specified stacks.
@@ -2463,6 +2604,7 @@ extension CloudFormation {
             AWSShapeMember(label: "OutputKey", required: false, type: .string), 
             AWSShapeMember(label: "OutputValue", required: false, type: .string)
         ]
+
         /// User defined description associated with the output.
         public let description: String?
         /// The name of the export associated with the output.
@@ -2499,6 +2641,7 @@ extension CloudFormation {
             AWSShapeMember(label: "ResolvedValue", required: false, type: .string), 
             AWSShapeMember(label: "UsePreviousValue", required: false, type: .boolean)
         ]
+
         /// The key associated with the parameter. If you don't specify a key and value for a particular parameter, AWS CloudFormation uses the default value that is specified in your template.
         public let parameterKey: String?
         /// The input value associated with the parameter.
@@ -2527,6 +2670,7 @@ extension CloudFormation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AllowedValues", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// A list of values that are permitted for a parameter.
         public let allowedValues: [String]?
         
@@ -2548,6 +2692,7 @@ extension CloudFormation {
             AWSShapeMember(label: "ParameterKey", required: false, type: .string), 
             AWSShapeMember(label: "ParameterType", required: false, type: .string)
         ]
+
         /// The default value of the parameter.
         public let defaultValue: String?
         /// The description that is associate with the parameter.
@@ -2590,6 +2735,7 @@ extension CloudFormation {
             AWSShapeMember(label: "Key", required: true, type: .string), 
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
+
         /// The resource context key.
         public let key: String
         /// The resource context value.
@@ -2613,6 +2759,7 @@ extension CloudFormation {
             AWSShapeMember(label: "ExpectedValue", required: true, type: .string), 
             AWSShapeMember(label: "PropertyPath", required: true, type: .string)
         ]
+
         /// The actual property value of the resource property.
         public let actualValue: String
         /// The type of property difference.    ADD: A value has been added to a resource property that is an array or list data type.    REMOVE: The property has been removed from the current resource configuration.    NOT_EQUAL: The current property value differs from its expected value (as defined in the stack template and any values specified as template parameters).  
@@ -2671,6 +2818,7 @@ extension CloudFormation {
             AWSShapeMember(label: "ResourceType", required: false, type: .string), 
             AWSShapeMember(label: "Scope", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The action that AWS CloudFormation takes on the resource, such as Add (adds a new resource), Modify (changes a resource), or Remove (deletes a resource).
         public let action: ChangeAction?
         /// For the Modify action, a list of ResourceChangeDetail structures that describes the changes that AWS CloudFormation will make to the resource. 
@@ -2719,6 +2867,7 @@ extension CloudFormation {
             AWSShapeMember(label: "Evaluation", required: false, type: .enum), 
             AWSShapeMember(label: "Target", required: false, type: .structure)
         ]
+
         /// The identity of the entity that triggered this change. This entity is a member of the group that is specified by the ChangeSource field. For example, if you modified the value of the KeyPairName parameter, the CausingEntity is the name of the parameter (KeyPairName). If the ChangeSource value is DirectModification, no value is given for CausingEntity.
         public let causingEntity: String?
         /// The group to which the CausingEntity value belongs. There are five entity groups:    ResourceReference entities are Ref intrinsic functions that refer to resources in the template, such as { "Ref" : "MyEC2InstanceResource" }.    ParameterReference entities are Ref intrinsic functions that get template parameter values, such as { "Ref" : "MyPasswordParameter" }.    ResourceAttribute entities are Fn::GetAtt intrinsic functions that get resource attribute values, such as { "Fn::GetAtt" : [ "MyEC2InstanceResource", "PublicDnsName" ] }.    DirectModification entities are changes that are made directly to the template.    Automatic entities are AWS::CloudFormation::Stack resource types, which are also known as nested stacks. If you made no changes to the AWS::CloudFormation::Stack resource, AWS CloudFormation sets the ChangeSource to Automatic because the nested stack's template might have changed. Changes to a nested stack's template aren't visible to AWS CloudFormation until you run an update on the parent stack.  
@@ -2769,6 +2918,7 @@ extension CloudFormation {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "RequiresRecreation", required: false, type: .enum)
         ]
+
         /// Indicates which resource attribute is triggering this update, such as a change in the resource attribute's Metadata, Properties, or Tags.
         public let attribute: ResourceAttribute?
         /// If the Attribute value is Properties, the name of the property. For all other attributes, the value is null.
@@ -2794,6 +2944,7 @@ extension CloudFormation {
             AWSShapeMember(label: "MonitoringTimeInMinutes", required: false, type: .integer), 
             AWSShapeMember(label: "RollbackTriggers", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The amount of time, in minutes, during which CloudFormation should monitor all the rollback triggers after the stack creation or update operation deploys all necessary resources. The default is 0 minutes. If you specify a monitoring period but do not specify any rollback triggers, CloudFormation still waits the specified period of time before cleaning up old resources after update operations. You can use this monitoring period to perform any manual stack validation desired, and manually cancel the stack creation or update (using CancelUpdateStack, for example) as necessary. If you specify 0 for this parameter, CloudFormation still monitors the specified rollback triggers during stack creation and update operations. Then, for update operations, it begins disposing of old resources immediately once the operation completes.
         public let monitoringTimeInMinutes: Int32?
         /// The triggers to monitor during stack creation or update actions.  By default, AWS CloudFormation saves the rollback triggers specified for a stack and applies them to any subsequent update operations for the stack, unless you specify otherwise. If you do specify rollback triggers for this parameter, those triggers replace any list of triggers previously specified for the stack. This means:   To use the rollback triggers previously specified for this stack, if any, don't specify this parameter.   To specify new or updated rollback triggers, you must specify all the triggers that you want used for this stack, even triggers you've specifed before (for example, when creating the stack or during a previous stack update). Any triggers that you don't include in the updated list of triggers are no longer applied to the stack.   To remove all currently specified triggers, specify an empty list for this parameter.   If a specified trigger is missing, the entire stack operation fails and is rolled back. 
@@ -2821,6 +2972,7 @@ extension CloudFormation {
             AWSShapeMember(label: "Arn", required: true, type: .string), 
             AWSShapeMember(label: "Type", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the rollback trigger. If a specified trigger is missing, the entire stack operation fails and is rolled back. 
         public let arn: String
         /// The resource type of the rollback trigger. Currently, AWS::CloudWatch::Alarm is the only supported resource type.
@@ -2843,6 +2995,7 @@ extension CloudFormation {
             AWSShapeMember(label: "StackPolicyBody", required: false, type: .string), 
             AWSShapeMember(label: "StackPolicyURL", required: false, type: .string)
         ]
+
         /// The name or unique stack ID that you want to associate a policy with.
         public let stackName: String
         /// Structure containing the stack policy body. For more information, go to  Prevent Updates to Stack Resources in the AWS CloudFormation User Guide. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both.
@@ -2877,6 +3030,7 @@ extension CloudFormation {
             AWSShapeMember(label: "Status", required: true, type: .enum), 
             AWSShapeMember(label: "UniqueId", required: true, type: .string)
         ]
+
         /// The logical ID of the resource that you want to signal. The logical ID is the name of the resource that given in the template.
         public let logicalResourceId: String
         /// The stack name or unique stack ID that includes the resource that you want to signal.
@@ -2933,6 +3087,7 @@ extension CloudFormation {
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "TimeoutInMinutes", required: false, type: .integer)
         ]
+
         /// The capabilities allowed in the stack.
         public let capabilities: [Capability]?
         /// The unique ID of the change set.
@@ -3009,9 +3164,15 @@ extension CloudFormation {
             try validate(description, name:"description", max: 1024)
             try validate(description, name:"description", min: 1)
             try validate(notificationARNs, name:"notificationARNs", max: 5)
+            try outputs?.forEach {
+                try $0.validate()
+            }
             try validate(roleARN, name:"roleARN", max: 2048)
             try validate(roleARN, name:"roleARN", min: 20)
             try rollbackConfiguration?.validate()
+            try tags?.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", max: 50)
             try validate(timeoutInMinutes, name:"timeoutInMinutes", min: 1)
         }
@@ -3054,6 +3215,7 @@ extension CloudFormation {
             AWSShapeMember(label: "LastCheckTimestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "StackDriftStatus", required: true, type: .enum)
         ]
+
         /// Most recent time when a drift detection operation was initiated on the stack, or any of its individual resources that support drift detection.
         public let lastCheckTimestamp: TimeStamp?
         /// Status of the stack's actual configuration compared to its expected template configuration.     DRIFTED: The stack differs from its expected template configuration. A stack is considered to have drifted if one or more of its resources have drifted.    NOT_CHECKED: AWS CloudFormation has not checked if the stack differs from its expected template configuration.    IN_SYNC: The stack's actual configuration matches its expected template configuration.    UNKNOWN: This value is reserved for future use.  
@@ -3075,6 +3237,7 @@ extension CloudFormation {
             AWSShapeMember(label: "LastCheckTimestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "StackDriftStatus", required: true, type: .enum)
         ]
+
         /// Most recent time when a drift detection operation was initiated on the stack, or any of its individual resources that support drift detection.
         public let lastCheckTimestamp: TimeStamp?
         /// Status of the stack's actual configuration compared to its expected template configuration.     DRIFTED: The stack differs from its expected template configuration. A stack is considered to have drifted if one or more of its resources have drifted.    NOT_CHECKED: AWS CloudFormation has not checked if the stack differs from its expected template configuration.    IN_SYNC: The stack's actual configuration matches its expected template configuration.    UNKNOWN: This value is reserved for future use.  
@@ -3113,6 +3276,7 @@ extension CloudFormation {
             AWSShapeMember(label: "StackName", required: true, type: .string), 
             AWSShapeMember(label: "Timestamp", required: true, type: .timestamp)
         ]
+
         /// The token passed to the operation that generated this event. All events triggered by a given stack operation are assigned the same client request token, which you can use to track operations. For example, if you execute a CreateStack operation with the token token1, then all the StackEvents generated by that operation will have ClientRequestToken set as token1. In the console, stack operations display the client request token on the Events tab. Stack operations that are initiated from the console use the token format Console-StackOperation-ID, which helps you easily identify the stack operation . For example, if you create a stack using the console, each stack event would be assigned the same token in the following format: Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002. 
         public let clientRequestToken: String?
         /// The unique ID of this event.
@@ -3183,6 +3347,7 @@ extension CloudFormation {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "StatusReason", required: false, type: .string)
         ]
+
         /// The name of the AWS account that the stack instance is associated with.
         public let account: String?
         /// A list of parameters from the stack set template whose values have been overridden in this stack instance.
@@ -3239,6 +3404,7 @@ extension CloudFormation {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "StatusReason", required: false, type: .string)
         ]
+
         /// The name of the AWS account that the stack instance is associated with.
         public let account: String?
         /// The name of the AWS region that the stack instance is associated with.
@@ -3288,6 +3454,7 @@ extension CloudFormation {
             AWSShapeMember(label: "StackName", required: false, type: .string), 
             AWSShapeMember(label: "Timestamp", required: true, type: .timestamp)
         ]
+
         /// User defined description associated with the resource.
         public let description: String?
         /// Information about whether the resource's actual configuration differs, or has drifted, from its expected configuration, as defined in the stack template and any values specified as template parameters. For more information, see Detecting Unregulated Configuration Changes to Stacks and Resources.
@@ -3357,6 +3524,7 @@ extension CloudFormation {
             AWSShapeMember(label: "StackId", required: false, type: .string), 
             AWSShapeMember(label: "StackName", required: false, type: .string)
         ]
+
         /// User defined description associated with the resource.
         public let description: String?
         /// Information about whether the resource's actual configuration differs, or has drifted, from its expected configuration, as defined in the stack template and any values specified as template parameters. For more information, see Detecting Unregulated Configuration Changes to Stacks and Resources.
@@ -3429,6 +3597,7 @@ extension CloudFormation {
             AWSShapeMember(label: "StackResourceDriftStatus", required: true, type: .enum), 
             AWSShapeMember(label: "Timestamp", required: true, type: .timestamp)
         ]
+
         /// A JSON structure containing the actual property values of the stack resource. For resources whose StackResourceDriftStatus is DELETED, this structure will not be present. 
         public let actualProperties: String?
         /// A JSON structure containing the expected property values of the stack resource, as defined in the stack template and any values specified as template parameters.  For resources whose StackResourceDriftStatus is DELETED, this structure will not be present. 
@@ -3488,6 +3657,7 @@ extension CloudFormation {
             AWSShapeMember(label: "LastCheckTimestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "StackResourceDriftStatus", required: true, type: .enum)
         ]
+
         /// When AWS CloudFormation last checked if the resource had drifted from its expected configuration.
         public let lastCheckTimestamp: TimeStamp?
         /// Status of the resource's actual configuration compared to its expected configuration    DELETED: The resource differs from its expected configuration in that it has been deleted.    MODIFIED: The resource differs from its expected configuration.    NOT_CHECKED: AWS CloudFormation has not checked if the resource differs from its expected configuration. Any resources that do not currently support drift detection have a status of NOT_CHECKED. For more information, see Resources that Support Drift Detection.     IN_SYNC: The resources's actual configuration matches its expected configuration.  
@@ -3509,6 +3679,7 @@ extension CloudFormation {
             AWSShapeMember(label: "LastCheckTimestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "StackResourceDriftStatus", required: true, type: .enum)
         ]
+
         /// When AWS CloudFormation last checked if the resource had drifted from its expected configuration.
         public let lastCheckTimestamp: TimeStamp?
         /// Status of the resource's actual configuration compared to its expected configuration    DELETED: The resource differs from its expected configuration in that it has been deleted.    MODIFIED: The resource differs from its expected configuration.    NOT_CHECKED: AWS CloudFormation has not checked if the resource differs from its expected configuration. Any resources that do not currently support drift detection have a status of NOT_CHECKED. For more information, see Resources that Support Drift Detection. If you performed an ContinueUpdateRollback operation on a stack, any resources included in ResourcesToSkip will also have a status of NOT_CHECKED. For more information on skipping resources during rollback operations, see Continue Rolling Back an Update in the AWS CloudFormation User Guide.    IN_SYNC: The resources's actual configuration matches its expected configuration.  
@@ -3543,6 +3714,7 @@ extension CloudFormation {
             AWSShapeMember(label: "ResourceStatusReason", required: false, type: .string), 
             AWSShapeMember(label: "ResourceType", required: true, type: .string)
         ]
+
         /// Information about whether the resource's actual configuration differs, or has drifted, from its expected configuration, as defined in the stack template and any values specified as template parameters. For more information, see Detecting Unregulated Configuration Changes to Stacks and Resources.
         public let driftInformation: StackResourceDriftInformationSummary?
         /// Time the status was updated.
@@ -3598,6 +3770,7 @@ extension CloudFormation {
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "TemplateBody", required: false, type: .string)
         ]
+
         /// The Amazon Resource Number (ARN) of the IAM role used to create or update the stack set. Use customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see Prerequisites: Granting Permissions for Stack Set Operations in the AWS CloudFormation User Guide.
         public let administrationRoleARN: String?
         /// The capabilities that are allowed in the stack set. Some stack set templates might include resources that can affect permissions in your AWS account—for example, by creating new AWS Identity and Access Management (IAM) users. For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates. 
@@ -3643,6 +3816,9 @@ extension CloudFormation {
             try validate(executionRoleName, name:"executionRoleName", max: 64)
             try validate(executionRoleName, name:"executionRoleName", min: 1)
             try validate(executionRoleName, name:"executionRoleName", pattern: "[a-zA-Z_0-9+=,.@-]+")
+            try tags?.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", max: 50)
             try validate(templateBody, name:"templateBody", min: 1)
         }
@@ -3675,6 +3851,7 @@ extension CloudFormation {
             AWSShapeMember(label: "StackSetId", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
+
         /// The type of stack set operation: CREATE, UPDATE, or DELETE. Create and delete operations affect only the specified stack set instances that are associated with the specified stack set. Update operations affect both the stack set itself, as well as all associated stack set instances.
         public let action: StackSetOperationAction?
         /// The Amazon Resource Number (ARN) of the IAM role used to perform this stack set operation.  Use customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see Define Permissions for Multiple Administrators in the AWS CloudFormation User Guide.
@@ -3750,6 +3927,7 @@ extension CloudFormation {
             AWSShapeMember(label: "MaxConcurrentPercentage", required: false, type: .integer), 
             AWSShapeMember(label: "RegionOrder", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The number of accounts, per region, for which this operation can fail before AWS CloudFormation stops the operation in that region. If the operation is stopped in a region, AWS CloudFormation doesn't attempt the operation in any subsequent regions. Conditional: You must specify either FailureToleranceCount or FailureTolerancePercentage (but not both).
         public let failureToleranceCount: Int32?
         /// The percentage of accounts, per region, for which this stack operation can fail before AWS CloudFormation stops the operation in that region. If the operation is stopped in a region, AWS CloudFormation doesn't attempt the operation in any subsequent regions. When calculating the number of accounts based on the specified percentage, AWS CloudFormation rounds down to the next whole number. Conditional: You must specify either FailureToleranceCount or FailureTolerancePercentage, but not both.
@@ -3804,6 +3982,7 @@ extension CloudFormation {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "StatusReason", required: false, type: .string)
         ]
+
         /// The name of the AWS account for this operation result.
         public let account: String?
         /// The results of the account gate function AWS CloudFormation invokes, if present, before proceeding with stack set operations in an account
@@ -3853,6 +4032,7 @@ extension CloudFormation {
             AWSShapeMember(label: "OperationId", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
+
         /// The type of operation: CREATE, UPDATE, or DELETE. Create and delete operations affect only the specified stack instances that are associated with the specified stack set. Update operations affect both the stack set itself as well as all associated stack set instances.
         public let action: StackSetOperationAction?
         /// The time at which the operation was initiated. Note that the creation times for the stack set operation might differ from the creation time of the individual stacks themselves. This is because AWS CloudFormation needs to perform preparatory work for the operation, such as dispatching the work to the requested regions, before actually creating the first stacks.
@@ -3900,6 +4080,7 @@ extension CloudFormation {
             AWSShapeMember(label: "StackSetName", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
+
         /// A description of the stack set that you specify when the stack set is created or updated.
         public let description: String?
         /// The ID of the stack set.
@@ -3964,6 +4145,7 @@ extension CloudFormation {
             AWSShapeMember(label: "StackStatusReason", required: false, type: .string), 
             AWSShapeMember(label: "TemplateDescription", required: false, type: .string)
         ]
+
         /// The time the stack was created.
         public let creationTime: TimeStamp
         /// The time the stack was deleted.
@@ -4021,6 +4203,7 @@ extension CloudFormation {
             AWSShapeMember(label: "OperationId", required: true, type: .string), 
             AWSShapeMember(label: "StackSetName", required: true, type: .string)
         ]
+
         /// The ID of the stack operation. 
         public let operationId: String
         /// The name or unique ID of the stack set that you want to stop the operation for.
@@ -4045,7 +4228,6 @@ extension CloudFormation {
 
     public struct StopStackSetOperationOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -4056,6 +4238,7 @@ extension CloudFormation {
             AWSShapeMember(label: "Key", required: true, type: .string), 
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
+
         ///  Required. A string used to identify this tag. You can specify a maximum of 128 characters for a tag key. Tags owned by Amazon Web Services (AWS) have the reserved prefix: aws:.
         public let key: String
         ///  Required. A string containing the value for this tag. You can specify a maximum of 256 characters for a tag value.
@@ -4086,6 +4269,7 @@ extension CloudFormation {
             AWSShapeMember(label: "NoEcho", required: false, type: .boolean), 
             AWSShapeMember(label: "ParameterKey", required: false, type: .string)
         ]
+
         /// The default value associated with the parameter.
         public let defaultValue: String?
         /// User defined description associated with the parameter.
@@ -4140,6 +4324,7 @@ extension CloudFormation {
             AWSShapeMember(label: "TemplateURL", required: false, type: .string), 
             AWSShapeMember(label: "UsePreviousTemplate", required: false, type: .boolean)
         ]
+
         /// In some cases, you must explicity acknowledge that your stack template contains certain capabilities in order for AWS CloudFormation to update the stack.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your AWS account; for example, by creating new AWS Identity and Access Management (IAM) users. For those stacks, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.    If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.    If you don't specify either of these capabilities, AWS CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.     AWS::IAM::AccessKey      AWS::IAM::Group      AWS::IAM::InstanceProfile      AWS::IAM::Policy      AWS::IAM::Role      AWS::IAM::User      AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.    CAPABILITY_AUTO_EXPAND  Some template contain macros. Macros perform custom processing on templates; this can include simple actions like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this, users typically create a change set from the processed template, so that they can review the changes resulting from the macros before actually updating the stack. If your stack template contains one or more macros, and you choose to update a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by AWS CloudFormation. Change sets do not currently support nested stacks. If you want to update a stack from a stack template that contains macros and nested stacks, you must update the stack directly from the template using this capability.  You should only update stacks directly from a stack template that contains macros if you know what processing the macro performs. Each macro relies on an underlying Lambda service function for processing stack templates. Be aware that the Lambda function owner can update the function operation without AWS CloudFormation being notified.  For more information, see Using AWS CloudFormation Macros to Perform Custom Processing on Templates.  
         public let capabilities: [Capability]?
         /// A unique identifier for this UpdateStack request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to update a stack with the same name. You might retry UpdateStack requests to ensure that AWS CloudFormation successfully received them. All events triggered by a given stack operation are assigned the same client request token, which you can use to track operations. For example, if you execute a CreateStack operation with the token token1, then all the StackEvents generated by that operation will have ClientRequestToken set as token1. In the console, stack operations display the client request token on the Events tab. Stack operations that are initiated from the console use the token format Console-StackOperation-ID, which helps you easily identify the stack operation . For example, if you create a stack using the console, each stack event would be assigned the same token in the following format: Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002. 
@@ -4197,6 +4382,10 @@ extension CloudFormation {
             try validate(clientRequestToken, name:"clientRequestToken", min: 1)
             try validate(clientRequestToken, name:"clientRequestToken", pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
             try validate(notificationARNs, name:"notificationARNs", max: 5)
+            try resourceTypes?.forEach {
+                try validate($0, name:"resourceTypes[]", max: 256)
+                try validate($0, name:"resourceTypes[]", min: 1)
+            }
             try validate(roleARN, name:"roleARN", max: 2048)
             try validate(roleARN, name:"roleARN", min: 20)
             try rollbackConfiguration?.validate()
@@ -4208,6 +4397,9 @@ extension CloudFormation {
             try validate(stackPolicyDuringUpdateURL, name:"stackPolicyDuringUpdateURL", min: 1)
             try validate(stackPolicyURL, name:"stackPolicyURL", max: 1350)
             try validate(stackPolicyURL, name:"stackPolicyURL", min: 1)
+            try tags?.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", max: 50)
             try validate(templateBody, name:"templateBody", min: 1)
             try validate(templateURL, name:"templateURL", max: 1024)
@@ -4243,6 +4435,7 @@ extension CloudFormation {
             AWSShapeMember(label: "Regions", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "StackSetName", required: true, type: .string)
         ]
+
         /// The names of one or more AWS accounts for which you want to update parameter values for stack instances. The overridden parameter values will be applied to all stack instances in the specified accounts and regions.
         public let accounts: [String]
         /// The unique identifier for this stack set operation.  The operation ID also functions as an idempotency token, to ensure that AWS CloudFormation performs the stack set operation only once, even if you retry the request multiple times. You might retry stack set operation requests to ensure that AWS CloudFormation successfully received them. If you don't specify an operation ID, the SDK generates one automatically. 
@@ -4266,6 +4459,9 @@ extension CloudFormation {
         }
 
         public func validate() throws {
+            try accounts.forEach {
+                try validate($0, name:"accounts[]", pattern: "[0-9]{12}")
+            }
             try validate(operationId, name:"operationId", max: 128)
             try validate(operationId, name:"operationId", min: 1)
             try validate(operationId, name:"operationId", pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
@@ -4287,6 +4483,7 @@ extension CloudFormation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OperationId", required: false, type: .string)
         ]
+
         /// The unique identifier for this stack set operation. 
         public let operationId: String?
         
@@ -4309,6 +4506,7 @@ extension CloudFormation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: false, type: .string)
         ]
+
         /// Unique identifier of the stack.
         public let stackId: String?
         
@@ -4338,6 +4536,7 @@ extension CloudFormation {
             AWSShapeMember(label: "TemplateURL", required: false, type: .string), 
             AWSShapeMember(label: "UsePreviousTemplate", required: false, type: .boolean)
         ]
+
         /// The accounts in which to update associated stack instances. If you specify accounts, you must also specify the regions in which to update stack set instances. To update all the stack instances associated with this stack set, do not specify the Accounts or Regions properties. If the stack set update includes changes to the template (that is, if the TemplateBody or TemplateURL properties are specified), or the Parameters property, AWS CloudFormation marks all stack instances with a status of OUTDATED prior to updating the stack instances in the specified accounts and regions. If the stack set update does not include changes to the template or parameters, AWS CloudFormation updates the stack instances in the specified accounts and regions, while leaving all other stack instances with their existing stack instance status. 
         public let accounts: [String]?
         /// The Amazon Resource Number (ARN) of the IAM role to use to update this stack set. Specify an IAM role only if you are using customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see Granting Permissions for Stack Set Operations in the AWS CloudFormation User Guide. If you specified a customized administrator role when you created the stack set, you must specify a customized administrator role, even if it is the same customized administrator role used with this stack set previously.
@@ -4385,6 +4584,9 @@ extension CloudFormation {
         }
 
         public func validate() throws {
+            try accounts?.forEach {
+                try validate($0, name:"accounts[]", pattern: "[0-9]{12}")
+            }
             try validate(administrationRoleARN, name:"administrationRoleARN", max: 2048)
             try validate(administrationRoleARN, name:"administrationRoleARN", min: 20)
             try validate(description, name:"description", max: 1024)
@@ -4396,6 +4598,9 @@ extension CloudFormation {
             try validate(operationId, name:"operationId", min: 1)
             try validate(operationId, name:"operationId", pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
             try operationPreferences?.validate()
+            try tags?.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", max: 50)
             try validate(templateBody, name:"templateBody", min: 1)
             try validate(templateURL, name:"templateURL", max: 1024)
@@ -4424,6 +4629,7 @@ extension CloudFormation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OperationId", required: false, type: .string)
         ]
+
         /// The unique ID for this stack set operation.
         public let operationId: String?
         
@@ -4447,6 +4653,7 @@ extension CloudFormation {
             AWSShapeMember(label: "EnableTerminationProtection", required: true, type: .boolean), 
             AWSShapeMember(label: "StackName", required: true, type: .string)
         ]
+
         /// Whether to enable termination protection on the specified stack.
         public let enableTerminationProtection: Bool
         /// The name or unique ID of the stack for which you want to set termination protection.
@@ -4472,6 +4679,7 @@ extension CloudFormation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: false, type: .string)
         ]
+
         /// The unique ID of the stack.
         public let stackId: String?
         
@@ -4489,6 +4697,7 @@ extension CloudFormation {
             AWSShapeMember(label: "TemplateBody", required: false, type: .string), 
             AWSShapeMember(label: "TemplateURL", required: false, type: .string)
         ]
+
         /// Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. For more information, go to Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
         public let templateBody: String?
         /// Location of file containing the template body. The URL must point to a template (max size: 460,800 bytes) that is located in an Amazon S3 bucket. For more information, go to Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
@@ -4519,6 +4728,7 @@ extension CloudFormation {
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The capabilities found within the template. If your template contains IAM resources, you must specify the CAPABILITY_IAM or CAPABILITY_NAMED_IAM value for this parameter when you use the CreateStack or UpdateStack actions with your template; otherwise, those actions return an InsufficientCapabilities error. For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.
         public let capabilities: [Capability]?
         /// The list of resources that generated the values in the Capabilities response element.
@@ -4541,6 +4751,9 @@ extension CloudFormation {
         public func validate() throws {
             try validate(description, name:"description", max: 1024)
             try validate(description, name:"description", min: 1)
+            try parameters?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {

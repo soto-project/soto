@@ -12,6 +12,7 @@ extension ELB {
             AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
             AWSShapeMember(label: "S3BucketPrefix", required: false, type: .string)
         ]
+
         /// The interval for publishing the access logs. You can specify an interval of either 5 minutes or 60 minutes. Default: 60 minutes
         public let emitInterval: Int32?
         /// Specifies whether access logs are enabled for the load balancer.
@@ -41,6 +42,7 @@ extension ELB {
             AWSShapeMember(label: "AvailabilityZones", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
         ]
+
         /// The Availability Zones. These must be in the same region as the load balancer.
         public let availabilityZones: [String]
         /// The name of the load balancer.
@@ -61,6 +63,7 @@ extension ELB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZones", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The updated list of Availability Zones for the load balancer.
         public let availabilityZones: [String]?
         
@@ -78,6 +81,7 @@ extension ELB {
             AWSShapeMember(label: "LoadBalancerNames", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Tags", required: true, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The name of the load balancer. You can specify one load balancer only.
         public let loadBalancerNames: [String]
         /// The tags.
@@ -89,6 +93,9 @@ extension ELB {
         }
 
         public func validate() throws {
+            try tags.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", min: 1)
         }
 
@@ -100,7 +107,6 @@ extension ELB {
 
     public struct AddTagsOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -111,6 +117,7 @@ extension ELB {
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// This parameter is reserved.
         public let key: String?
         /// This parameter is reserved.
@@ -139,6 +146,7 @@ extension ELB {
             AWSShapeMember(label: "CookieName", required: false, type: .string), 
             AWSShapeMember(label: "PolicyName", required: false, type: .string)
         ]
+
         /// The name of the application cookie used for stickiness.
         public let cookieName: String?
         /// The mnemonic name for the policy being created. The name must be unique within a set of policies for this load balancer.
@@ -160,6 +168,7 @@ extension ELB {
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
             AWSShapeMember(label: "SecurityGroups", required: true, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The IDs of the security groups to associate with the load balancer. Note that you cannot specify the name of the security group.
@@ -180,6 +189,7 @@ extension ELB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SecurityGroups", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The IDs of the security groups associated with the load balancer.
         public let securityGroups: [String]?
         
@@ -197,6 +207,7 @@ extension ELB {
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
             AWSShapeMember(label: "Subnets", required: true, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The IDs of the subnets to add. You can add only one subnet per Availability Zone.
@@ -217,6 +228,7 @@ extension ELB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Subnets", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The IDs of the subnets attached to the load balancer.
         public let subnets: [String]?
         
@@ -234,6 +246,7 @@ extension ELB {
             AWSShapeMember(label: "InstancePort", required: false, type: .integer), 
             AWSShapeMember(label: "PolicyNames", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The port on which the EC2 instance is listening.
         public let instancePort: Int32?
         /// The names of the policies enabled for the EC2 instance.
@@ -260,6 +273,7 @@ extension ELB {
             AWSShapeMember(label: "HealthCheck", required: true, type: .structure), 
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
         ]
+
         /// The configuration information.
         public let healthCheck: HealthCheck
         /// The name of the load balancer.
@@ -284,6 +298,7 @@ extension ELB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HealthCheck", required: false, type: .structure)
         ]
+
         /// The updated health check.
         public let healthCheck: HealthCheck?
         
@@ -305,6 +320,7 @@ extension ELB {
             AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
             AWSShapeMember(label: "Timeout", required: false, type: .integer)
         ]
+
         /// Specifies whether connection draining is enabled for the load balancer.
         public let enabled: Bool
         /// The maximum time, in seconds, to keep the existing connections open before deregistering the instances.
@@ -325,6 +341,7 @@ extension ELB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdleTimeout", required: true, type: .integer)
         ]
+
         /// The time, in seconds, that the connection is allowed to be idle (no data has been sent over the connection) before it is closed by the load balancer.
         public let idleTimeout: Int32
         
@@ -352,6 +369,7 @@ extension ELB {
             AWSShapeMember(label: "Subnets", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// One or more Availability Zones from the same region as the load balancer. You must specify at least one Availability Zone. You can add more Availability Zones after you create the load balancer using EnableAvailabilityZonesForLoadBalancer.
         public let availabilityZones: [String]?
         /// The listeners. For more information, see Listeners for Your Classic Load Balancer in the Classic Load Balancers Guide.
@@ -378,6 +396,12 @@ extension ELB {
         }
 
         public func validate() throws {
+            try listeners.forEach {
+                try $0.validate()
+            }
+            try tags?.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", min: 1)
         }
 
@@ -396,6 +420,7 @@ extension ELB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DNSName", required: false, type: .string)
         ]
+
         /// The DNS name of the load balancer.
         public let dNSName: String?
         
@@ -414,6 +439,7 @@ extension ELB {
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
             AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
+
         /// The name of the application cookie used for stickiness.
         public let cookieName: String
         /// The name of the load balancer.
@@ -436,7 +462,6 @@ extension ELB {
 
     public struct CreateAppCookieStickinessPolicyOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -448,6 +473,7 @@ extension ELB {
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
             AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
+
         /// The time period, in seconds, after which the cookie should be considered stale. If you do not specify this parameter, the default value is 0, which indicates that the sticky session should last for the duration of the browser session.
         public let cookieExpirationPeriod: Int64?
         /// The name of the load balancer.
@@ -470,7 +496,6 @@ extension ELB {
 
     public struct CreateLBCookieStickinessPolicyOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -481,6 +506,7 @@ extension ELB {
             AWSShapeMember(label: "Listeners", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
         ]
+
         /// The listeners.
         public let listeners: [Listener]
         /// The name of the load balancer.
@@ -491,6 +517,12 @@ extension ELB {
             self.loadBalancerName = loadBalancerName
         }
 
+        public func validate() throws {
+            try listeners.forEach {
+                try $0.validate()
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case listeners = "Listeners"
             case loadBalancerName = "LoadBalancerName"
@@ -498,7 +530,6 @@ extension ELB {
     }
 
     public struct CreateLoadBalancerListenerOutput: AWSShape {
-        
         
         public init() {
         }
@@ -512,6 +543,7 @@ extension ELB {
             AWSShapeMember(label: "PolicyName", required: true, type: .string), 
             AWSShapeMember(label: "PolicyTypeName", required: true, type: .string)
         ]
+
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The policy attributes.
@@ -538,7 +570,6 @@ extension ELB {
 
     public struct CreateLoadBalancerPolicyOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -548,6 +579,7 @@ extension ELB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Enabled", required: true, type: .boolean)
         ]
+
         /// Specifies whether cross-zone load balancing is enabled for the load balancer.
         public let enabled: Bool
         
@@ -564,6 +596,7 @@ extension ELB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
         ]
+
         /// The name of the load balancer.
         public let loadBalancerName: String
         
@@ -578,7 +611,6 @@ extension ELB {
 
     public struct DeleteAccessPointOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -589,6 +621,7 @@ extension ELB {
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
             AWSShapeMember(label: "LoadBalancerPorts", required: true, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The client port numbers of the listeners.
@@ -607,7 +640,6 @@ extension ELB {
 
     public struct DeleteLoadBalancerListenerOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -618,6 +650,7 @@ extension ELB {
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
             AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
+
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The name of the policy.
@@ -636,7 +669,6 @@ extension ELB {
 
     public struct DeleteLoadBalancerPolicyOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -647,6 +679,7 @@ extension ELB {
             AWSShapeMember(label: "Instances", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
         ]
+
         /// The IDs of the instances.
         public let instances: [Instance]
         /// The name of the load balancer.
@@ -667,6 +700,7 @@ extension ELB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Instances", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The remaining instances registered with the load balancer.
         public let instances: [Instance]?
         
@@ -685,6 +719,7 @@ extension ELB {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "PageSize", required: false, type: .integer)
         ]
+
         /// The names of the load balancers.
         public let loadBalancerNames: [String]?
         /// The marker for the next set of results. (You received this marker from a previous call.)
@@ -715,6 +750,7 @@ extension ELB {
             AWSShapeMember(label: "LoadBalancerDescriptions", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// Information about the load balancers.
         public let loadBalancerDescriptions: [LoadBalancerDescription]?
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
@@ -723,6 +759,12 @@ extension ELB {
         public init(loadBalancerDescriptions: [LoadBalancerDescription]? = nil, nextMarker: String? = nil) {
             self.loadBalancerDescriptions = loadBalancerDescriptions
             self.nextMarker = nextMarker
+        }
+
+        public func validate() throws {
+            try loadBalancerDescriptions?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -736,6 +778,7 @@ extension ELB {
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "PageSize", required: false, type: .integer)
         ]
+
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
         /// The maximum number of results to return with this call.
@@ -762,6 +805,7 @@ extension ELB {
             AWSShapeMember(label: "Limits", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// Information about the limits.
         public let limits: [Limit]?
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
@@ -783,6 +827,7 @@ extension ELB {
             AWSShapeMember(label: "Instances", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
         ]
+
         /// The IDs of the instances.
         public let instances: [Instance]?
         /// The name of the load balancer.
@@ -803,6 +848,7 @@ extension ELB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceStates", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// Information about the health of the instances.
         public let instanceStates: [InstanceState]?
         
@@ -819,6 +865,7 @@ extension ELB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
         ]
+
         /// The name of the load balancer.
         public let loadBalancerName: String
         
@@ -835,6 +882,7 @@ extension ELB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerAttributes", required: false, type: .structure)
         ]
+
         /// Information about the load balancer attributes.
         public let loadBalancerAttributes: LoadBalancerAttributes?
         
@@ -856,6 +904,7 @@ extension ELB {
             AWSShapeMember(label: "LoadBalancerName", required: false, type: .string), 
             AWSShapeMember(label: "PolicyNames", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The name of the load balancer.
         public let loadBalancerName: String?
         /// The names of the policies.
@@ -876,6 +925,7 @@ extension ELB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyDescriptions", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// Information about the policies.
         public let policyDescriptions: [PolicyDescription]?
         
@@ -892,6 +942,7 @@ extension ELB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyTypeNames", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The names of the policy types. If no names are specified, describes all policy types defined by Elastic Load Balancing.
         public let policyTypeNames: [String]?
         
@@ -908,6 +959,7 @@ extension ELB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyTypeDescriptions", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// Information about the policy types.
         public let policyTypeDescriptions: [PolicyTypeDescription]?
         
@@ -924,6 +976,7 @@ extension ELB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerNames", required: true, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The names of the load balancers.
         public let loadBalancerNames: [String]
         
@@ -945,11 +998,18 @@ extension ELB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TagDescriptions", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// Information about the tags.
         public let tagDescriptions: [TagDescription]?
         
         public init(tagDescriptions: [TagDescription]? = nil) {
             self.tagDescriptions = tagDescriptions
+        }
+
+        public func validate() throws {
+            try tagDescriptions?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -962,6 +1022,7 @@ extension ELB {
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
             AWSShapeMember(label: "Subnets", required: true, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The IDs of the subnets.
@@ -982,6 +1043,7 @@ extension ELB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Subnets", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The IDs of the remaining subnets for the load balancer.
         public let subnets: [String]?
         
@@ -1002,6 +1064,7 @@ extension ELB {
             AWSShapeMember(label: "Timeout", required: true, type: .integer), 
             AWSShapeMember(label: "UnhealthyThreshold", required: true, type: .integer)
         ]
+
         /// The number of consecutive health checks successes required before moving the instance to the Healthy state.
         public let healthyThreshold: Int32
         /// The approximate interval, in seconds, between health checks of an individual instance.
@@ -1045,6 +1108,7 @@ extension ELB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceId", required: false, type: .string)
         ]
+
         /// The instance ID.
         public let instanceId: String?
         
@@ -1064,6 +1128,7 @@ extension ELB {
             AWSShapeMember(label: "ReasonCode", required: false, type: .string), 
             AWSShapeMember(label: "State", required: false, type: .string)
         ]
+
         /// A description of the instance state. This string can contain one or more of the following messages.    N/A     A transient error occurred. Please try again later.     Instance has failed at least the UnhealthyThreshold number of health checks consecutively.     Instance has not passed the configured HealthyThreshold number of health checks consecutively.     Instance registration is still in progress.     Instance is in the EC2 Availability Zone for which LoadBalancer is not configured to route traffic to.     Instance is not currently registered with the LoadBalancer.     Instance deregistration currently in progress.     Disable Availability Zone is currently in progress.     Instance is in pending state.     Instance is in stopped state.     Instance is in terminated state.   
         public let description: String?
         /// The ID of the instance.
@@ -1093,6 +1158,7 @@ extension ELB {
             AWSShapeMember(label: "CookieExpirationPeriod", required: false, type: .long), 
             AWSShapeMember(label: "PolicyName", required: false, type: .string)
         ]
+
         /// The time period, in seconds, after which the cookie should be considered stale. If this parameter is not specified, the stickiness session lasts for the duration of the browser session.
         public let cookieExpirationPeriod: Int64?
         /// The name of the policy. This name must be unique within the set of policies for this load balancer.
@@ -1114,6 +1180,7 @@ extension ELB {
             AWSShapeMember(label: "Max", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         /// The maximum value of the limit.
         public let max: String?
         /// The name of the limit. The possible values are:   classic-listeners   classic-load-balancers   classic-registered-instances  
@@ -1138,6 +1205,7 @@ extension ELB {
             AWSShapeMember(label: "Protocol", required: true, type: .string), 
             AWSShapeMember(label: "SSLCertificateId", required: false, type: .string)
         ]
+
         /// The port on which the instance is listening.
         public let instancePort: Int32
         /// The protocol to use for routing traffic to instances: HTTP, HTTPS, TCP, or SSL. If the front-end protocol is HTTP, HTTPS, TCP, or SSL, InstanceProtocol must be at the same protocol. If there is another listener with the same InstancePort whose InstanceProtocol is secure, (HTTPS or SSL), the listener's InstanceProtocol must also be secure. If there is another listener with the same InstancePort whose InstanceProtocol is HTTP or TCP, the listener's InstanceProtocol must be HTTP or TCP.
@@ -1176,6 +1244,7 @@ extension ELB {
             AWSShapeMember(label: "Listener", required: false, type: .structure), 
             AWSShapeMember(label: "PolicyNames", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The listener.
         public let listener: Listener?
         /// The policies. If there are no policies enabled, the list is empty.
@@ -1204,6 +1273,7 @@ extension ELB {
             AWSShapeMember(label: "ConnectionSettings", required: false, type: .structure), 
             AWSShapeMember(label: "CrossZoneLoadBalancing", required: false, type: .structure)
         ]
+
         /// If enabled, the load balancer captures detailed information of all requests and delivers the information to the Amazon S3 bucket that you specify. For more information, see Enable Access Logs in the Classic Load Balancers Guide.
         public let accessLog: AccessLog?
         /// This parameter is reserved.
@@ -1224,6 +1294,9 @@ extension ELB {
         }
 
         public func validate() throws {
+            try additionalAttributes?.forEach {
+                try $0.validate()
+            }
             try validate(additionalAttributes, name:"additionalAttributes", max: 10)
             try connectionSettings?.validate()
         }
@@ -1256,6 +1329,7 @@ extension ELB {
             AWSShapeMember(label: "Subnets", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "VPCId", required: false, type: .string)
         ]
+
         /// The Availability Zones for the load balancer.
         public let availabilityZones: [String]?
         /// Information about your EC2 instances.
@@ -1309,7 +1383,13 @@ extension ELB {
         }
 
         public func validate() throws {
+            try backendServerDescriptions?.forEach {
+                try $0.validate()
+            }
             try healthCheck?.validate()
+            try listenerDescriptions?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1337,6 +1417,7 @@ extension ELB {
             AWSShapeMember(label: "LoadBalancerAttributes", required: true, type: .structure), 
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
         ]
+
         /// The attributes for the load balancer.
         public let loadBalancerAttributes: LoadBalancerAttributes
         /// The name of the load balancer.
@@ -1362,6 +1443,7 @@ extension ELB {
             AWSShapeMember(label: "LoadBalancerAttributes", required: false, type: .structure), 
             AWSShapeMember(label: "LoadBalancerName", required: false, type: .string)
         ]
+
         /// Information about the load balancer attributes.
         public let loadBalancerAttributes: LoadBalancerAttributes?
         /// The name of the load balancer.
@@ -1388,6 +1470,7 @@ extension ELB {
             AWSShapeMember(label: "LBCookieStickinessPolicies", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "OtherPolicies", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The stickiness policies created using CreateAppCookieStickinessPolicy.
         public let appCookieStickinessPolicies: [AppCookieStickinessPolicy]?
         /// The stickiness policies created using CreateLBCookieStickinessPolicy.
@@ -1413,6 +1496,7 @@ extension ELB {
             AWSShapeMember(label: "AttributeName", required: false, type: .string), 
             AWSShapeMember(label: "AttributeValue", required: false, type: .string)
         ]
+
         /// The name of the attribute.
         public let attributeName: String?
         /// The value of the attribute.
@@ -1434,6 +1518,7 @@ extension ELB {
             AWSShapeMember(label: "AttributeName", required: false, type: .string), 
             AWSShapeMember(label: "AttributeValue", required: false, type: .string)
         ]
+
         /// The name of the attribute.
         public let attributeName: String?
         /// The value of the attribute.
@@ -1458,6 +1543,7 @@ extension ELB {
             AWSShapeMember(label: "DefaultValue", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
+
         /// The name of the attribute.
         public let attributeName: String?
         /// The type of the attribute. For example, Boolean or Integer.
@@ -1492,6 +1578,7 @@ extension ELB {
             AWSShapeMember(label: "PolicyName", required: false, type: .string), 
             AWSShapeMember(label: "PolicyTypeName", required: false, type: .string)
         ]
+
         /// The policy attributes.
         public let policyAttributeDescriptions: [PolicyAttributeDescription]?
         /// The name of the policy.
@@ -1518,6 +1605,7 @@ extension ELB {
             AWSShapeMember(label: "PolicyAttributeTypeDescriptions", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "PolicyTypeName", required: false, type: .string)
         ]
+
         /// A description of the policy type.
         public let description: String?
         /// The description of the policy attributes associated with the policies defined by Elastic Load Balancing.
@@ -1543,6 +1631,7 @@ extension ELB {
             AWSShapeMember(label: "Instances", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
         ]
+
         /// The IDs of the instances.
         public let instances: [Instance]
         /// The name of the load balancer.
@@ -1563,6 +1652,7 @@ extension ELB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Instances", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The updated list of instances for the load balancer.
         public let instances: [Instance]?
         
@@ -1580,6 +1670,7 @@ extension ELB {
             AWSShapeMember(label: "AvailabilityZones", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
         ]
+
         /// The Availability Zones.
         public let availabilityZones: [String]
         /// The name of the load balancer.
@@ -1600,6 +1691,7 @@ extension ELB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZones", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The remaining Availability Zones for the load balancer.
         public let availabilityZones: [String]?
         
@@ -1617,6 +1709,7 @@ extension ELB {
             AWSShapeMember(label: "LoadBalancerNames", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Tags", required: true, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The name of the load balancer. You can specify a maximum of one load balancer name.
         public let loadBalancerNames: [String]
         /// The list of tag keys to remove.
@@ -1628,6 +1721,9 @@ extension ELB {
         }
 
         public func validate() throws {
+            try tags.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", min: 1)
         }
 
@@ -1638,7 +1734,6 @@ extension ELB {
     }
 
     public struct RemoveTagsOutput: AWSShape {
-        
         
         public init() {
         }
@@ -1651,6 +1746,7 @@ extension ELB {
             AWSShapeMember(label: "LoadBalancerPort", required: true, type: .integer), 
             AWSShapeMember(label: "SSLCertificateId", required: true, type: .string)
         ]
+
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The port that uses the specified SSL certificate.
@@ -1673,7 +1769,6 @@ extension ELB {
 
     public struct SetLoadBalancerListenerSSLCertificateOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -1685,6 +1780,7 @@ extension ELB {
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
             AWSShapeMember(label: "PolicyNames", required: true, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The port number associated with the EC2 instance.
         public let instancePort: Int32
         /// The name of the load balancer.
@@ -1707,7 +1803,6 @@ extension ELB {
 
     public struct SetLoadBalancerPoliciesForBackendServerOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -1719,6 +1814,7 @@ extension ELB {
             AWSShapeMember(label: "LoadBalancerPort", required: true, type: .integer), 
             AWSShapeMember(label: "PolicyNames", required: true, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The external port of the load balancer.
@@ -1741,7 +1837,6 @@ extension ELB {
 
     public struct SetLoadBalancerPoliciesOfListenerOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -1752,6 +1847,7 @@ extension ELB {
             AWSShapeMember(label: "GroupName", required: false, type: .string), 
             AWSShapeMember(label: "OwnerAlias", required: false, type: .integer)
         ]
+
         /// The name of the security group.
         public let groupName: String?
         /// The owner of the security group.
@@ -1773,6 +1869,7 @@ extension ELB {
             AWSShapeMember(label: "Key", required: true, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// The key of the tag.
         public let key: String
         /// The value of the tag.
@@ -1803,6 +1900,7 @@ extension ELB {
             AWSShapeMember(label: "LoadBalancerName", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The name of the load balancer.
         public let loadBalancerName: String?
         /// The tags.
@@ -1814,6 +1912,9 @@ extension ELB {
         }
 
         public func validate() throws {
+            try tags?.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", min: 1)
         }
 
@@ -1827,6 +1928,7 @@ extension ELB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: false, type: .string)
         ]
+
         /// The name of the key.
         public let key: String?
         

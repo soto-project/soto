@@ -15,6 +15,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "PaddingPolicy", required: false, type: .string), 
             AWSShapeMember(label: "SizingPolicy", required: false, type: .string)
         ]
+
         /// The format of album art, if any. Valid formats are .jpg and .png.
         public let albumArtFormat: String?
         /// The encryption settings, if any, that you want Elastic Transcoder to apply to your artwork.
@@ -70,6 +71,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Profile", required: false, type: .string), 
             AWSShapeMember(label: "Signed", required: false, type: .string)
         ]
+
         /// You can only choose an audio bit depth when you specify flac or pcm for the value of Audio:Codec. The bit depth of a sample is how many bits of information are included in the audio samples. The higher the bit depth, the better the audio, but the larger the file. Valid values are 16 and 24. The most common bit depth is 24.
         public let bitDepth: String?
         /// You can only choose an audio bit order when you specify pcm for the value of Audio:Codec. The order the bits of a PCM sample are stored in. The supported value is LittleEndian.
@@ -110,6 +112,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "CodecOptions", required: false, type: .structure), 
             AWSShapeMember(label: "SampleRate", required: false, type: .string)
         ]
+
         /// The method of organizing audio channels and tracks. Use Audio:Channels to specify the number of channels in your output, and Audio:AudioPackingMode to specify the number of tracks and their relation to the channels. If you do not specify an Audio:AudioPackingMode, Elastic Transcoder uses SingleTrack. The following values are valid:  SingleTrack, OneChannelPerTrack, and OneChannelPerTrackWithMosTo8Tracks  When you specify SingleTrack, Elastic Transcoder creates a single track for your output. The track can have up to eight channels. Use SingleTrack for all non-mxf containers. The outputs of SingleTrack for a specific channel value and inputs are as follows:    0  channels with any input: Audio omitted from the output    1, 2, or auto  channels with no audio input: Audio omitted from the output    1  channel with any input with audio: One track with one channel, downmixed if necessary    2  channels with one track with one channel: One track with two identical channels    2 or auto  channels with two tracks with one channel each: One track with two channels    2 or auto  channels with one track with two channels: One track with two channels    2  channels with one track with multiple channels: One track with two channels    auto  channels with one track with one channel: One track with one channel    auto  channels with one track with multiple channels: One track with multiple channels   When you specify OneChannelPerTrack, Elastic Transcoder creates a new track for every channel in your output. Your output can have up to eight single-channel tracks. The outputs of OneChannelPerTrack for a specific channel value and inputs are as follows:    0  channels with any input: Audio omitted from the output    1, 2, or auto  channels with no audio input: Audio omitted from the output    1  channel with any input with audio: One track with one channel, downmixed if necessary    2  channels with one track with one channel: Two tracks with one identical channel each    2 or auto  channels with two tracks with one channel each: Two tracks with one channel each    2 or auto  channels with one track with two channels: Two tracks with one channel each    2  channels with one track with multiple channels: Two tracks with one channel each    auto  channels with one track with one channel: One track with one channel    auto  channels with one track with multiple channels: Up to eight tracks with one channel each   When you specify OneChannelPerTrackWithMosTo8Tracks, Elastic Transcoder creates eight single-channel tracks for your output. All tracks that do not contain audio data from an input channel are MOS, or Mit Out Sound, tracks. The outputs of OneChannelPerTrackWithMosTo8Tracks for a specific channel value and inputs are as follows:    0  channels with any input: Audio omitted from the output    1, 2, or auto  channels with no audio input: Audio omitted from the output    1  channel with any input with audio: One track with one channel, downmixed if necessary, plus six MOS tracks    2  channels with one track with one channel: Two tracks with one identical channel each, plus six MOS tracks    2 or auto  channels with two tracks with one channel each: Two tracks with one channel each, plus six MOS tracks    2 or auto  channels with one track with two channels: Two tracks with one channel each, plus six MOS tracks    2  channels with one track with multiple channels: Two tracks with one channel each, plus six MOS tracks    auto  channels with one track with one channel: One track with one channel, plus seven MOS tracks    auto  channels with one track with multiple channels: Up to eight tracks with one channel each, plus MOS tracks until there are eight tracks in all  
         public let audioPackingMode: String?
         /// The bit rate of the audio stream in the output file, in kilobits/second. Enter an integer between 64 and 320, inclusive.
@@ -155,6 +158,7 @@ extension ElasticTranscoder {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
+
         /// The identifier of the job that you want to cancel. To get a list of the jobs (including their jobId) that have a status of Submitted, use the ListJobsByStatus API action.
         public let id: String
         
@@ -173,7 +177,6 @@ extension ElasticTranscoder {
 
     public struct CancelJobResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -185,6 +188,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Format", required: false, type: .string), 
             AWSShapeMember(label: "Pattern", required: false, type: .string)
         ]
+
         /// The encryption settings, if any, that you want Elastic Transcoder to apply to your caption formats.
         public let encryption: Encryption?
         /// The format you specify determines whether Elastic Transcoder generates an embedded or sidecar caption for this output.    Valid Embedded Caption Formats:     for FLAC: None    For MP3: None    For MP4: mov-text    For MPEG-TS: None    For ogg: None    For webm: None      Valid Sidecar Caption Formats: Elastic Transcoder supports dfxp (first div element only), scc, srt, and webvtt. If you want ttml or smpte-tt compatible captions, specify dfxp as your output format.    For FMP4: dfxp    Non-FMP4 outputs: All sidecar types    fmp4 captions have an extension of .ismt   
@@ -219,6 +223,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Language", required: false, type: .string), 
             AWSShapeMember(label: "TimeOffset", required: false, type: .string)
         ]
+
         /// The encryption settings, if any, that Elastic Transcoder needs to decyrpt your caption sources, or that you want Elastic Transcoder to apply to your caption sources.
         public let encryption: Encryption?
         /// The name of the sidecar caption file that you want Elastic Transcoder to include in the output file.
@@ -262,6 +267,7 @@ extension ElasticTranscoder {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CaptionFormats", required: false, type: .list)
         ]
+
         /// The array of file formats for the output captions. If you leave this value blank, Elastic Transcoder returns an error.
         public let captionFormats: [CaptionFormat]?
         
@@ -270,6 +276,9 @@ extension ElasticTranscoder {
         }
 
         public func validate() throws {
+            try captionFormats?.forEach {
+                try $0.validate()
+            }
             try validate(captionFormats, name:"captionFormats", max: 4)
         }
 
@@ -282,6 +291,7 @@ extension ElasticTranscoder {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TimeSpan", required: false, type: .structure)
         ]
+
         /// Settings that determine when a clip begins and how long it lasts.
         public let timeSpan: TimeSpan?
         
@@ -311,6 +321,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "ThumbnailPattern", required: false, type: .string), 
             AWSShapeMember(label: "Watermarks", required: false, type: .list)
         ]
+
         /// Information about the album art that you want Elastic Transcoder to add to the file during transcoding. You can specify up to twenty album artworks for each output. Settings for each artwork must be defined in the job for the current output.
         public let albumArt: JobAlbumArt?
         /// You can configure Elastic Transcoder to transcode captions, or subtitles, from one format to another. All captions must be in UTF-8. Elastic Transcoder supports two types of captions:    Embedded: Embedded captions are included in the same file as the audio and video. Elastic Transcoder supports only one embedded caption per language, to a maximum of 300 embedded captions per file. Valid input values include: CEA-608 (EIA-608, first non-empty channel only), CEA-708 (EIA-708, first non-empty channel only), and mov-text  Valid outputs include: mov-text  Elastic Transcoder supports a maximum of one embedded format per output.    Sidecar: Sidecar captions are kept in a separate metadata file from the audio and video data. Sidecar captions require a player that is capable of understanding the relationship between the video file and the sidecar file. Elastic Transcoder supports only one sidecar caption per language, to a maximum of 20 sidecar captions per file. Valid input values include: dfxp (first div element only), ebu-tt, scc, smpt, srt, ttml (first div element only), and webvtt  Valid outputs include: dfxp (first div element only), scc, srt, and webvtt.   If you want ttml or smpte-tt compatible captions, specify dfxp as your output format. Elastic Transcoder does not support OCR (Optical Character Recognition), does not accept pictures as a valid input for captions, and is not available for audio-only transcoding. Elastic Transcoder does not preserve text formatting (for example, italics) during the transcoding process. To remove captions or leave the captions empty, set Captions to null. To pass through existing captions unchanged, set the MergePolicy to MergeRetain, and pass in a null CaptionSources array. For more information on embedded files, see the Subtitles Wikipedia page. For more information on sidecar files, see the Extensible Metadata Platform and Sidecar file Wikipedia pages.
@@ -356,6 +367,9 @@ extension ElasticTranscoder {
             try validate(segmentDuration, name:"segmentDuration", pattern: "^\\d{1,5}(\\.\\d{0,5})?$")
             try thumbnailEncryption?.validate()
             try validate(thumbnailPattern, name:"thumbnailPattern", pattern: "(^$)|(^.*\\{count\\}.*$)")
+            try watermarks?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -380,6 +394,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "OutputKeys", required: false, type: .list), 
             AWSShapeMember(label: "PlayReadyDrm", required: false, type: .structure)
         ]
+
         /// The format of the output playlist. Valid formats include HLSv3, HLSv4, and Smooth.
         public let format: String?
         /// The HLS content protection settings, if any, that you want Elastic Transcoder to apply to the output files associated with this playlist.
@@ -404,6 +419,10 @@ extension ElasticTranscoder {
             try hlsContentProtection?.validate()
             try validate(name, name:"name", max: 255)
             try validate(name, name:"name", min: 1)
+            try outputKeys?.forEach {
+                try validate($0, name:"outputKeys[]", max: 255)
+                try validate($0, name:"outputKeys[]", min: 1)
+            }
             try validate(outputKeys, name:"outputKeys", max: 30)
             try playReadyDrm?.validate()
         }
@@ -428,6 +447,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Playlists", required: false, type: .list), 
             AWSShapeMember(label: "UserMetadata", required: false, type: .map)
         ]
+
         /// A section of the request body that provides information about the file that is being transcoded.
         public let input: JobInput?
         /// A section of the request body that provides information about the files that are being transcoded.
@@ -458,12 +478,21 @@ extension ElasticTranscoder {
 
         public func validate() throws {
             try input?.validate()
+            try inputs?.forEach {
+                try $0.validate()
+            }
             try validate(inputs, name:"inputs", max: 200)
             try output?.validate()
             try validate(outputKeyPrefix, name:"outputKeyPrefix", max: 255)
             try validate(outputKeyPrefix, name:"outputKeyPrefix", min: 1)
+            try outputs?.forEach {
+                try $0.validate()
+            }
             try validate(outputs, name:"outputs", max: 30)
             try validate(pipelineId, name:"pipelineId", pattern: "^\\d{13}-\\w{6}$")
+            try playlists?.forEach {
+                try $0.validate()
+            }
             try validate(playlists, name:"playlists", max: 30)
         }
 
@@ -483,6 +512,7 @@ extension ElasticTranscoder {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Job", required: false, type: .structure)
         ]
+
         /// A section of the response body that provides information about the job that is created.
         public let job: Job?
         
@@ -510,6 +540,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Role", required: true, type: .string), 
             AWSShapeMember(label: "ThumbnailConfig", required: false, type: .structure)
         ]
+
         /// The AWS Key Management Service (AWS KMS) key that you want to use with this pipeline. If you use either s3 or s3-aws-kms as your Encryption:Mode, you don't need to provide a key with your job because a default key, known as an AWS-KMS key, is created for you automatically. You need to provide an AWS-KMS key only if you want to use a non-default AWS-KMS key, or if you are using an Encryption:Mode of aes-cbc-pkcs7, aes-ctr, or aes-gcm.
         public let awsKmsKeyArn: String?
         /// The optional ContentConfig object specifies information about the Amazon S3 bucket in which you want Elastic Transcoder to save transcoded files and playlists: which bucket to use, which users you want to have access to the files, the type of access you want users to have, and the storage class that you want to assign to the files. If you specify values for ContentConfig, you must also specify values for ThumbnailConfig. If you specify values for ContentConfig and ThumbnailConfig, omit the OutputBucket object.    Bucket: The Amazon S3 bucket in which you want Elastic Transcoder to save transcoded files and playlists.    Permissions (Optional): The Permissions object specifies which users you want to have access to transcoded files and the type of access you want them to have. You can grant permissions to a maximum of 30 users and/or predefined Amazon S3 groups.    Grantee Type: Specify the type of value that appears in the Grantee object:     Canonical: The value in the Grantee object is either the canonical user ID for an AWS account or an origin access identity for an Amazon CloudFront distribution. For more information about canonical user IDs, see Access Control List (ACL) Overview in the Amazon Simple Storage Service Developer Guide. For more information about using CloudFront origin access identities to require that users use CloudFront URLs instead of Amazon S3 URLs, see Using an Origin Access Identity to Restrict Access to Your Amazon S3 Content.  A canonical user ID is not the same as an AWS account number.     Email: The value in the Grantee object is the registered email address of an AWS account.    Group: The value in the Grantee object is one of the following predefined Amazon S3 groups: AllUsers, AuthenticatedUsers, or LogDelivery.      Grantee: The AWS user or group that you want to have access to transcoded files and playlists. To identify the user or group, you can specify the canonical user ID for an AWS account, an origin access identity for a CloudFront distribution, the registered email address of an AWS account, or a predefined Amazon S3 group     Access: The permission that you want to give to the AWS user that you specified in Grantee. Permissions are granted on the files that Elastic Transcoder adds to the bucket, including playlists and video files. Valid values include:     READ: The grantee can read the objects and metadata for objects that Elastic Transcoder adds to the Amazon S3 bucket.    READ_ACP: The grantee can read the object ACL for objects that Elastic Transcoder adds to the Amazon S3 bucket.    WRITE_ACP: The grantee can write the ACL for the objects that Elastic Transcoder adds to the Amazon S3 bucket.    FULL_CONTROL: The grantee has READ, READ_ACP, and WRITE_ACP permissions for the objects that Elastic Transcoder adds to the Amazon S3 bucket.      StorageClass: The Amazon S3 storage class, Standard or ReducedRedundancy, that you want Elastic Transcoder to assign to the video files and playlists that it stores in your Amazon S3 bucket.  
@@ -568,6 +599,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Pipeline", required: false, type: .structure), 
             AWSShapeMember(label: "Warnings", required: false, type: .list)
         ]
+
         /// A section of the response body that provides information about the pipeline that is created.
         public let pipeline: Pipeline?
         /// Elastic Transcoder returns a warning if the resources used by your pipeline are not in the same region as the pipeline. Using resources in the same region, such as your Amazon S3 buckets, Amazon SNS notification topics, and AWS KMS key, reduces processing time and prevents cross-regional charges.
@@ -597,6 +629,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Thumbnails", required: false, type: .structure), 
             AWSShapeMember(label: "Video", required: false, type: .structure)
         ]
+
         /// A section of the request body that specifies the audio parameters.
         public let audio: AudioParameters?
         /// The container type for the output file. Valid values include flac, flv, fmp4, gif, mp3, mp4, mpg, mxf, oga, ogg, ts, and webm.
@@ -645,6 +678,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Preset", required: false, type: .structure), 
             AWSShapeMember(label: "Warning", required: false, type: .string)
         ]
+
         /// A section of the response body that provides information about the preset that is created.
         public let preset: Preset?
         /// If the preset settings don't comply with the standards for the video codec but Elastic Transcoder created the preset, this message explains the reason the preset settings don't meet the standard. Elastic Transcoder created the preset because the settings might produce acceptable output.
@@ -669,6 +703,7 @@ extension ElasticTranscoder {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
+
         /// The identifier of the pipeline that you want to delete.
         public let id: String
         
@@ -687,7 +722,6 @@ extension ElasticTranscoder {
 
     public struct DeletePipelineResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -697,6 +731,7 @@ extension ElasticTranscoder {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
+
         /// The identifier of the preset for which you want to get detailed information.
         public let id: String
         
@@ -715,7 +750,6 @@ extension ElasticTranscoder {
 
     public struct DeletePresetResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -729,6 +763,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Height", required: false, type: .integer), 
             AWSShapeMember(label: "Width", required: false, type: .integer)
         ]
+
         /// The detected duration of the input file, in milliseconds.
         public let durationMillis: Int64?
         /// The detected file size of the input file, in bytes.
@@ -768,6 +803,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "KeyMd5", required: false, type: .string), 
             AWSShapeMember(label: "Mode", required: false, type: .string)
         ]
+
         /// The series of random bits created by a random bit generator, unique for every encryption operation, that you used to encrypt your input files or that you want Elastic Transcoder to use to encrypt your output files. The initialization vector must be base64-encoded, and it must be exactly 16 bytes long before being base64-encoded.
         public let initializationVector: String?
         /// The data encryption key that you want Elastic Transcoder to use to encrypt your output file, or that was used to encrypt your input file. The key must be base64-encoded and it must be one of the following bit lengths before being base64-encoded:  128, 192, or 256.  The key must also be encrypted by using the Amazon Key Management Service.
@@ -809,6 +845,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "LicenseAcquisitionUrl", required: false, type: .string), 
             AWSShapeMember(label: "Method", required: false, type: .string)
         ]
+
         /// If Elastic Transcoder is generating your key for you, you must leave this field blank. The series of random bits created by a random bit generator, unique for every encryption operation, that you want Elastic Transcoder to use to encrypt your output files. The initialization vector must be base64-encoded, and it must be exactly 16 bytes before being base64-encoded.
         public let initializationVector: String?
         /// If you want Elastic Transcoder to generate a key for you, leave this field blank. If you choose to supply your own key, you must encrypt the key by using AWS KMS. The key must be base64-encoded, and it must be one of the following bit lengths before being base64-encoded:  128, 192, or 256. 
@@ -857,6 +894,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "CaptionSources", required: false, type: .list), 
             AWSShapeMember(label: "MergePolicy", required: false, type: .string)
         ]
+
         /// Source files for the input sidecar captions used during the transcoding process. To omit all sidecar captions, leave CaptionSources blank.
         public let captionSources: [CaptionSource]?
         /// A policy that determines how Elastic Transcoder handles the existence of multiple captions.    MergeOverride: Elastic Transcoder transcodes both embedded and sidecar captions into outputs. If captions for a language are embedded in the input file and also appear in a sidecar file, Elastic Transcoder uses the sidecar captions and ignores the embedded captions for that language.    MergeRetain: Elastic Transcoder transcodes both embedded and sidecar captions into outputs. If captions for a language are embedded in the input file and also appear in a sidecar file, Elastic Transcoder uses the embedded captions and ignores the sidecar captions for that language. If CaptionSources is empty, Elastic Transcoder omits all sidecar captions from the output files.    Override: Elastic Transcoder transcodes only the sidecar captions that you specify in CaptionSources.    MergePolicy cannot be null.
@@ -868,6 +906,9 @@ extension ElasticTranscoder {
         }
 
         public func validate() throws {
+            try captionSources?.forEach {
+                try $0.validate()
+            }
             try validate(captionSources, name:"captionSources", max: 20)
             try validate(mergePolicy, name:"mergePolicy", pattern: "(^MergeOverride$)|(^MergeRetain$)|(^Override$)")
         }
@@ -893,6 +934,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Timing", required: false, type: .structure), 
             AWSShapeMember(label: "UserMetadata", required: false, type: .map)
         ]
+
         /// The Amazon Resource Name (ARN) for the job.
         public let arn: String?
         /// The identifier that Elastic Transcoder assigned to the job. You use this value to get settings for the job or to delete the job.
@@ -936,11 +978,20 @@ extension ElasticTranscoder {
         public func validate() throws {
             try validate(id, name:"id", pattern: "^\\d{13}-\\w{6}$")
             try input?.validate()
+            try inputs?.forEach {
+                try $0.validate()
+            }
             try validate(inputs, name:"inputs", max: 200)
             try output?.validate()
             try validate(outputKeyPrefix, name:"outputKeyPrefix", max: 255)
             try validate(outputKeyPrefix, name:"outputKeyPrefix", min: 1)
+            try outputs?.forEach {
+                try $0.validate()
+            }
             try validate(pipelineId, name:"pipelineId", pattern: "^\\d{13}-\\w{6}$")
+            try playlists?.forEach {
+                try $0.validate()
+            }
             try validate(status, name:"status", pattern: "(^Submitted$)|(^Progressing$)|(^Complete$)|(^Canceled$)|(^Error$)")
         }
 
@@ -965,6 +1016,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Artwork", required: false, type: .list), 
             AWSShapeMember(label: "MergePolicy", required: false, type: .string)
         ]
+
         /// The file to be used as album art. There can be multiple artworks associated with an audio file, to a maximum of 20. Valid formats are .jpg and .png 
         public let artwork: [Artwork]?
         /// A policy that determines how Elastic Transcoder handles the existence of multiple album artwork files.    Replace: The specified album art replaces any existing album art.    Prepend: The specified album art is placed in front of any existing album art.    Append: The specified album art is placed after any existing album art.    Fallback: If the original input file contains artwork, Elastic Transcoder uses that artwork for the output. If the original input does not contain artwork, Elastic Transcoder uses the specified album art file.  
@@ -976,6 +1028,9 @@ extension ElasticTranscoder {
         }
 
         public func validate() throws {
+            try artwork?.forEach {
+                try $0.validate()
+            }
             try validate(mergePolicy, name:"mergePolicy", pattern: "(^Replace$)|(^Prepend$)|(^Append$)|(^Fallback$)")
         }
 
@@ -998,6 +1053,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Resolution", required: false, type: .string), 
             AWSShapeMember(label: "TimeSpan", required: false, type: .structure)
         ]
+
         ///  The aspect ratio of the input file. If you want Elastic Transcoder to automatically detect the aspect ratio of the input file, specify auto. If you want to specify the aspect ratio for the output file, enter one of the following values:   1:1, 4:3, 3:2, 16:9   If you specify a value other than auto, Elastic Transcoder disables automatic detection of the aspect ratio. 
         public let aspectRatio: String?
         /// The container type for the input file. If you want Elastic Transcoder to automatically detect the container type of the input file, specify auto. If you want to specify the container type for the input file, enter one of the following values:   3gp, aac, asf, avi, divx, flv, m4a, mkv, mov, mp3, mp4, mpeg, mpeg-ps, mpeg-ts, mxf, ogg, vob, wav, webm 
@@ -1083,6 +1139,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Watermarks", required: false, type: .list), 
             AWSShapeMember(label: "Width", required: false, type: .integer)
         ]
+
         /// The album art to be associated with the output file, if any.
         public let albumArt: JobAlbumArt?
         /// If Elastic Transcoder used a preset with a ColorSpaceConversionMode to transcode the output file, the AppliedColorSpaceConversion parameter shows the conversion used. If no ColorSpaceConversionMode was defined in the preset, this parameter is not be included in the job response.
@@ -1162,6 +1219,9 @@ extension ElasticTranscoder {
             try validate(statusDetail, name:"statusDetail", min: 0)
             try thumbnailEncryption?.validate()
             try validate(thumbnailPattern, name:"thumbnailPattern", pattern: "(^$)|(^.*\\{count\\}.*$)")
+            try watermarks?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1194,6 +1254,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "InputKey", required: false, type: .string), 
             AWSShapeMember(label: "PresetWatermarkId", required: false, type: .string)
         ]
+
         /// The encryption settings, if any, that you want Elastic Transcoder to apply to your watermarks.
         public let encryption: Encryption?
         ///  The name of the .png or .jpg file that you want to use for the watermark. To determine which Amazon S3 bucket contains the specified file, Elastic Transcoder checks the pipeline specified by Pipeline; the Input Bucket object in that pipeline identifies the bucket.  If the file name includes a prefix, for example, logos/128x64.png, include the prefix in the key. If the file isn't in the specified bucket, Elastic Transcoder returns an error. 
@@ -1229,6 +1290,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "PageToken", location: .querystring(locationName: "PageToken"), required: false, type: .string), 
             AWSShapeMember(label: "PipelineId", location: .uri(locationName: "PipelineId"), required: true, type: .string)
         ]
+
         ///  To list jobs in chronological order by the date and time that they were submitted, enter true. To list jobs in reverse chronological order, enter false. 
         public let ascending: String?
         ///  When Elastic Transcoder returns more than one page of results, use pageToken in subsequent GET requests to get each successive page of results. 
@@ -1260,6 +1322,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Jobs", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
+
         /// An array of Job objects that are in the specified pipeline.
         public let jobs: [Job]?
         ///  A value that you use to access the second and subsequent pages of results, if any. When the jobs in the specified pipeline fit on one page or when you've reached the last page of results, the value of NextPageToken is null. 
@@ -1271,6 +1334,9 @@ extension ElasticTranscoder {
         }
 
         public func validate() throws {
+            try jobs?.forEach {
+                try $0.validate()
+            }
             try validate(nextPageToken, name:"nextPageToken", pattern: "^\\d{13}-\\w{6}$")
         }
 
@@ -1286,6 +1352,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "PageToken", location: .querystring(locationName: "PageToken"), required: false, type: .string), 
             AWSShapeMember(label: "Status", location: .uri(locationName: "Status"), required: true, type: .string)
         ]
+
         ///  To list jobs in chronological order by the date and time that they were submitted, enter true. To list jobs in reverse chronological order, enter false. 
         public let ascending: String?
         ///  When Elastic Transcoder returns more than one page of results, use pageToken in subsequent GET requests to get each successive page of results. 
@@ -1317,6 +1384,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Jobs", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
+
         /// An array of Job objects that have the specified status.
         public let jobs: [Job]?
         ///  A value that you use to access the second and subsequent pages of results, if any. When the jobs in the specified pipeline fit on one page or when you've reached the last page of results, the value of NextPageToken is null. 
@@ -1328,6 +1396,9 @@ extension ElasticTranscoder {
         }
 
         public func validate() throws {
+            try jobs?.forEach {
+                try $0.validate()
+            }
             try validate(nextPageToken, name:"nextPageToken", pattern: "^\\d{13}-\\w{6}$")
         }
 
@@ -1342,6 +1413,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Ascending", location: .querystring(locationName: "Ascending"), required: false, type: .string), 
             AWSShapeMember(label: "PageToken", location: .querystring(locationName: "PageToken"), required: false, type: .string)
         ]
+
         /// To list pipelines in chronological order by the date and time that they were created, enter true. To list pipelines in reverse chronological order, enter false.
         public let ascending: String?
         /// When Elastic Transcoder returns more than one page of results, use pageToken in subsequent GET requests to get each successive page of results. 
@@ -1368,6 +1440,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
             AWSShapeMember(label: "Pipelines", required: false, type: .list)
         ]
+
         /// A value that you use to access the second and subsequent pages of results, if any. When the pipelines fit on one page or when you've reached the last page of results, the value of NextPageToken is null.
         public let nextPageToken: String?
         /// An array of Pipeline objects.
@@ -1380,6 +1453,9 @@ extension ElasticTranscoder {
 
         public func validate() throws {
             try validate(nextPageToken, name:"nextPageToken", pattern: "^\\d{13}-\\w{6}$")
+            try pipelines?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1393,6 +1469,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Ascending", location: .querystring(locationName: "Ascending"), required: false, type: .string), 
             AWSShapeMember(label: "PageToken", location: .querystring(locationName: "PageToken"), required: false, type: .string)
         ]
+
         /// To list presets in chronological order by the date and time that they were created, enter true. To list presets in reverse chronological order, enter false.
         public let ascending: String?
         /// When Elastic Transcoder returns more than one page of results, use pageToken in subsequent GET requests to get each successive page of results. 
@@ -1419,6 +1496,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
             AWSShapeMember(label: "Presets", required: false, type: .list)
         ]
+
         /// A value that you use to access the second and subsequent pages of results, if any. When the presets fit on one page or when you've reached the last page of results, the value of NextPageToken is null.
         public let nextPageToken: String?
         /// An array of Preset objects.
@@ -1431,6 +1509,9 @@ extension ElasticTranscoder {
 
         public func validate() throws {
             try validate(nextPageToken, name:"nextPageToken", pattern: "^\\d{13}-\\w{6}$")
+            try presets?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1446,6 +1527,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Progressing", required: false, type: .string), 
             AWSShapeMember(label: "Warning", required: false, type: .string)
         ]
+
         /// The Amazon SNS topic that you want to notify when Elastic Transcoder has finished processing the job.
         public let completed: String?
         /// The Amazon SNS topic that you want to notify when Elastic Transcoder encounters an error condition.
@@ -1483,6 +1565,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Grantee", required: false, type: .string), 
             AWSShapeMember(label: "GranteeType", required: false, type: .string)
         ]
+
         ///  The permission that you want to give to the AWS user that is listed in Grantee. Valid values include:     READ: The grantee can read the thumbnails and metadata for thumbnails that Elastic Transcoder adds to the Amazon S3 bucket.    READ_ACP: The grantee can read the object ACL for thumbnails that Elastic Transcoder adds to the Amazon S3 bucket.    WRITE_ACP: The grantee can write the ACL for the thumbnails that Elastic Transcoder adds to the Amazon S3 bucket.    FULL_CONTROL: The grantee has READ, READ_ACP, and WRITE_ACP permissions for the thumbnails that Elastic Transcoder adds to the Amazon S3 bucket.  
         public let access: [String]?
         /// The AWS user or group that you want to have access to transcoded files and playlists. To identify the user or group, you can specify the canonical user ID for an AWS account, an origin access identity for a CloudFront distribution, the registered email address of an AWS account, or a predefined Amazon S3 group.
@@ -1497,6 +1580,9 @@ extension ElasticTranscoder {
         }
 
         public func validate() throws {
+            try access?.forEach {
+                try validate($0, name:"access[]", pattern: "(^FullControl$)|(^Read$)|(^ReadAcp$)|(^WriteAcp$)")
+            }
             try validate(access, name:"access", max: 30)
             try validate(grantee, name:"grantee", max: 255)
             try validate(grantee, name:"grantee", min: 1)
@@ -1524,6 +1610,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "ThumbnailConfig", required: false, type: .structure)
         ]
+
         /// The Amazon Resource Name (ARN) for the pipeline.
         public let arn: String?
         /// The AWS Key Management Service (AWS KMS) key that you want to use with this pipeline. If you use either s3 or s3-aws-kms as your Encryption:Mode, you don't need to provide a key with your job because a default key, known as an AWS-KMS key, is created for you automatically. You need to provide an AWS-KMS key only if you want to use a non-default AWS-KMS key, or if you are using an Encryption:Mode of aes-cbc-pkcs7, aes-ctr, or aes-gcm.
@@ -1597,6 +1684,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Permissions", required: false, type: .list), 
             AWSShapeMember(label: "StorageClass", required: false, type: .string)
         ]
+
         ///  The Amazon S3 bucket in which you want Elastic Transcoder to save the transcoded files. Specify this value when all of the following are true:   You want to save transcoded files, thumbnails (if any), and playlists (if any) together in one bucket.   You do not want to specify the users or groups who have access to the transcoded files, thumbnails, and playlists.   You do not want to specify the permissions that Elastic Transcoder grants to the files.   You want to associate the transcoded files and thumbnails with the Amazon S3 Standard storage class.   If you want to save transcoded files and playlists in one bucket and thumbnails in another bucket, specify which users can access the transcoded files or the permissions the users have, or change the Amazon S3 storage class, omit OutputBucket and specify values for ContentConfig and ThumbnailConfig instead. 
         public let bucket: String?
         /// Optional. The Permissions object specifies which users and/or predefined Amazon S3 groups you want to have access to transcoded files and playlists, and the type of access you want them to have. You can grant permissions to a maximum of 30 users and/or predefined Amazon S3 groups. If you include Permissions, Elastic Transcoder grants only the permissions that you specify. It does not grant full permissions to the owner of the role specified by Role. If you want that user to have full control, you must explicitly grant full control to the user.  If you omit Permissions, Elastic Transcoder grants full control over the transcoded files and playlists to the owner of the role specified by Role, and grants no other permissions to any other user or group.
@@ -1612,6 +1700,9 @@ extension ElasticTranscoder {
 
         public func validate() throws {
             try validate(bucket, name:"bucket", pattern: "^(\\w|\\.|-){1,255}$")
+            try permissions?.forEach {
+                try $0.validate()
+            }
             try validate(permissions, name:"permissions", max: 30)
             try validate(storageClass, name:"storageClass", pattern: "(^ReducedRedundancy$)|(^Standard$)")
         }
@@ -1632,6 +1723,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "KeyMd5", required: false, type: .string), 
             AWSShapeMember(label: "LicenseAcquisitionUrl", required: false, type: .string)
         ]
+
         /// The type of DRM, if any, that you want Elastic Transcoder to apply to the output files associated with this playlist.
         public let format: String?
         /// The series of random bits created by a random bit generator, unique for every encryption operation, that you want Elastic Transcoder to use to encrypt your files. The initialization vector must be base64-encoded, and it must be exactly 8 bytes long before being base64-encoded. If no initialization vector is provided, Elastic Transcoder generates one for you.
@@ -1685,6 +1777,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "StatusDetail", required: false, type: .string)
         ]
+
         /// The format of the output playlist. Valid formats include HLSv3, HLSv4, and Smooth.
         public let format: String?
         /// The HLS content protection settings, if any, that you want Elastic Transcoder to apply to the output files associated with this playlist.
@@ -1715,6 +1808,10 @@ extension ElasticTranscoder {
             try hlsContentProtection?.validate()
             try validate(name, name:"name", max: 255)
             try validate(name, name:"name", min: 1)
+            try outputKeys?.forEach {
+                try validate($0, name:"outputKeys[]", max: 255)
+                try validate($0, name:"outputKeys[]", min: 1)
+            }
             try validate(outputKeys, name:"outputKeys", max: 30)
             try playReadyDrm?.validate()
             try validate(status, name:"status", pattern: "(^Submitted$)|(^Progressing$)|(^Complete$)|(^Canceled$)|(^Error$)")
@@ -1745,6 +1842,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Type", required: false, type: .string), 
             AWSShapeMember(label: "Video", required: false, type: .structure)
         ]
+
         /// The Amazon Resource Name (ARN) for the preset.
         public let arn: String?
         /// A section of the response body that provides information about the audio preset values.
@@ -1815,6 +1913,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "VerticalAlign", required: false, type: .string), 
             AWSShapeMember(label: "VerticalOffset", required: false, type: .string)
         ]
+
         /// The horizontal position of the watermark unless you specify a non-zero value for HorizontalOffset:     Left: The left edge of the watermark is aligned with the left border of the video.    Right: The right edge of the watermark is aligned with the right border of the video.    Center: The watermark is centered between the left and right borders.  
         public let horizontalAlign: String?
         /// The amount by which you want the horizontal position of the watermark to be offset from the position specified by HorizontalAlign:    number of pixels (px): The minimum value is 0 pixels, and the maximum value is the value of MaxWidth.   integer percentage (%): The range of valid values is 0 to 100.   For example, if you specify Left for HorizontalAlign and 5px for HorizontalOffset, the left side of the watermark appears 5 pixels from the left border of the output video.  HorizontalOffset is only valid when the value of HorizontalAlign is Left or Right. If you specify an offset that causes the watermark to extend beyond the left or right border and Elastic Transcoder has not added black bars, the watermark is cropped. If Elastic Transcoder has added black bars, the watermark extends into the black bars. If the watermark extends beyond the black bars, it is cropped. Use the value of Target to specify whether you want to include the black bars that are added by Elastic Transcoder, if any, in the offset calculation.
@@ -1881,6 +1980,7 @@ extension ElasticTranscoder {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
+
         /// The identifier of the job for which you want to get detailed information.
         public let id: String
         
@@ -1901,6 +2001,7 @@ extension ElasticTranscoder {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Job", required: false, type: .structure)
         ]
+
         /// A section of the response body that provides information about the job.
         public let job: Job?
         
@@ -1921,6 +2022,7 @@ extension ElasticTranscoder {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
+
         /// The identifier of the pipeline to read.
         public let id: String
         
@@ -1942,6 +2044,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Pipeline", required: false, type: .structure), 
             AWSShapeMember(label: "Warnings", required: false, type: .list)
         ]
+
         /// A section of the response body that provides information about the pipeline.
         public let pipeline: Pipeline?
         /// Elastic Transcoder returns a warning if the resources used by your pipeline are not in the same region as the pipeline. Using resources in the same region, such as your Amazon S3 buckets, Amazon SNS notification topics, and AWS KMS key, reduces processing time and prevents cross-regional charges.
@@ -1966,6 +2069,7 @@ extension ElasticTranscoder {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
+
         /// The identifier of the preset for which you want to get detailed information.
         public let id: String
         
@@ -1986,6 +2090,7 @@ extension ElasticTranscoder {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Preset", required: false, type: .structure)
         ]
+
         /// A section of the response body that provides information about the preset.
         public let preset: Preset?
         
@@ -2009,6 +2114,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Role", required: true, type: .string), 
             AWSShapeMember(label: "Topics", required: true, type: .list)
         ]
+
         /// The Amazon S3 bucket that contains media files to be transcoded. The action attempts to read from this bucket.
         public let inputBucket: String
         /// The Amazon S3 bucket that Elastic Transcoder writes transcoded media files to. The action attempts to read from this bucket.
@@ -2029,6 +2135,9 @@ extension ElasticTranscoder {
             try validate(inputBucket, name:"inputBucket", pattern: "^(\\w|\\.|-){1,255}$")
             try validate(outputBucket, name:"outputBucket", pattern: "^(\\w|\\.|-){1,255}$")
             try validate(role, name:"role", pattern: "^arn:aws:iam::\\w{12}:role/.+$")
+            try topics.forEach {
+                try validate($0, name:"topics[]", pattern: "(^$)|(^arn:aws:sns:.*:\\w{12}:.+$)")
+            }
             try validate(topics, name:"topics", max: 30)
         }
 
@@ -2045,6 +2154,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Messages", required: false, type: .list), 
             AWSShapeMember(label: "Success", required: false, type: .string)
         ]
+
         /// If the Success element contains false, this value is an array of one or more error messages that were generated during the test process.
         public let messages: [String]?
         /// If the operation is successful, this value is true; otherwise, the value is false.
@@ -2076,6 +2186,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Resolution", required: false, type: .string), 
             AWSShapeMember(label: "SizingPolicy", required: false, type: .string)
         ]
+
         ///  To better control resolution and aspect ratio of thumbnails, we recommend that you use the values MaxWidth, MaxHeight, SizingPolicy, and PaddingPolicy instead of Resolution and AspectRatio. The two groups of settings are mutually exclusive. Do not use them together.  The aspect ratio of thumbnails. Valid values include:  auto, 1:1, 4:3, 3:2, 16:9  If you specify auto, Elastic Transcoder tries to preserve the aspect ratio of the video in the output file.
         public let aspectRatio: String?
         /// The format of thumbnails, if any. Valid values are jpg and png.  You specify whether you want Elastic Transcoder to create thumbnails when you create a job.
@@ -2132,6 +2243,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Duration", required: false, type: .string), 
             AWSShapeMember(label: "StartTime", required: false, type: .string)
         ]
+
         /// The duration of the clip. The format can be either HH:mm:ss.SSS (maximum value: 23:59:59.999; SSS is thousandths of a second) or sssss.SSS (maximum value: 86399.999). If you don't specify a value, Elastic Transcoder creates an output file from StartTime to the end of the file. If you specify a value longer than the duration of the input file, Elastic Transcoder transcodes the file and returns a warning message.
         public let duration: String?
         /// The place in the input file where you want a clip to start. The format can be either HH:mm:ss.SSS (maximum value: 23:59:59.999; SSS is thousandths of a second) or sssss.SSS (maximum value: 86399.999). If you don't specify a value, Elastic Transcoder starts at the beginning of the input file.
@@ -2159,6 +2271,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "StartTimeMillis", required: false, type: .long), 
             AWSShapeMember(label: "SubmitTimeMillis", required: false, type: .long)
         ]
+
         /// The time the job finished transcoding, in epoch milliseconds.
         public let finishTimeMillis: Int64?
         /// The time the job began transcoding, in epoch milliseconds.
@@ -2184,6 +2297,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
             AWSShapeMember(label: "Notifications", required: true, type: .structure)
         ]
+
         /// The identifier of the pipeline for which you want to change notification settings.
         public let id: String
         /// The topic ARN for the Amazon Simple Notification Service (Amazon SNS) topic that you want to notify to report job status.  To receive notifications, you must also subscribe to the new topic in the Amazon SNS console.     Progressing: The topic ARN for the Amazon Simple Notification Service (Amazon SNS) topic that you want to notify when Elastic Transcoder has started to process jobs that are added to this pipeline. This is the ARN that Amazon SNS returned when you created the topic.    Complete: The topic ARN for the Amazon SNS topic that you want to notify when Elastic Transcoder has finished processing a job. This is the ARN that Amazon SNS returned when you created the topic.    Warning: The topic ARN for the Amazon SNS topic that you want to notify when Elastic Transcoder encounters a warning condition. This is the ARN that Amazon SNS returned when you created the topic.    Error: The topic ARN for the Amazon SNS topic that you want to notify when Elastic Transcoder encounters an error condition. This is the ARN that Amazon SNS returned when you created the topic.  
@@ -2209,6 +2323,7 @@ extension ElasticTranscoder {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Pipeline", required: false, type: .structure)
         ]
+
         /// A section of the response body that provides information about the pipeline associated with this notification.
         public let pipeline: Pipeline?
         
@@ -2236,6 +2351,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Role", required: false, type: .string), 
             AWSShapeMember(label: "ThumbnailConfig", required: false, type: .structure)
         ]
+
         /// The AWS Key Management Service (AWS KMS) key that you want to use with this pipeline. If you use either s3 or s3-aws-kms as your Encryption:Mode, you don't need to provide a key with your job because a default key, known as an AWS-KMS key, is created for you automatically. You need to provide an AWS-KMS key only if you want to use a non-default AWS-KMS key, or if you are using an Encryption:Mode of aes-cbc-pkcs7, aes-ctr, or aes-gcm.
         public let awsKmsKeyArn: String?
         /// The optional ContentConfig object specifies information about the Amazon S3 bucket in which you want Elastic Transcoder to save transcoded files and playlists: which bucket to use, which users you want to have access to the files, the type of access you want users to have, and the storage class that you want to assign to the files. If you specify values for ContentConfig, you must also specify values for ThumbnailConfig. If you specify values for ContentConfig and ThumbnailConfig, omit the OutputBucket object.    Bucket: The Amazon S3 bucket in which you want Elastic Transcoder to save transcoded files and playlists.    Permissions (Optional): The Permissions object specifies which users you want to have access to transcoded files and the type of access you want them to have. You can grant permissions to a maximum of 30 users and/or predefined Amazon S3 groups.    Grantee Type: Specify the type of value that appears in the Grantee object:    Canonical: The value in the Grantee object is either the canonical user ID for an AWS account or an origin access identity for an Amazon CloudFront distribution. For more information about canonical user IDs, see Access Control List (ACL) Overview in the Amazon Simple Storage Service Developer Guide. For more information about using CloudFront origin access identities to require that users use CloudFront URLs instead of Amazon S3 URLs, see Using an Origin Access Identity to Restrict Access to Your Amazon S3 Content.  A canonical user ID is not the same as an AWS account number.     Email: The value in the Grantee object is the registered email address of an AWS account.    Group: The value in the Grantee object is one of the following predefined Amazon S3 groups: AllUsers, AuthenticatedUsers, or LogDelivery.      Grantee: The AWS user or group that you want to have access to transcoded files and playlists. To identify the user or group, you can specify the canonical user ID for an AWS account, an origin access identity for a CloudFront distribution, the registered email address of an AWS account, or a predefined Amazon S3 group     Access: The permission that you want to give to the AWS user that you specified in Grantee. Permissions are granted on the files that Elastic Transcoder adds to the bucket, including playlists and video files. Valid values include:     READ: The grantee can read the objects and metadata for objects that Elastic Transcoder adds to the Amazon S3 bucket.    READ_ACP: The grantee can read the object ACL for objects that Elastic Transcoder adds to the Amazon S3 bucket.     WRITE_ACP: The grantee can write the ACL for the objects that Elastic Transcoder adds to the Amazon S3 bucket.    FULL_CONTROL: The grantee has READ, READ_ACP, and WRITE_ACP permissions for the objects that Elastic Transcoder adds to the Amazon S3 bucket.      StorageClass: The Amazon S3 storage class, Standard or ReducedRedundancy, that you want Elastic Transcoder to assign to the video files and playlists that it stores in your Amazon S3 bucket.  
@@ -2294,6 +2410,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Pipeline", required: false, type: .structure), 
             AWSShapeMember(label: "Warnings", required: false, type: .list)
         ]
+
         /// The pipeline updated by this UpdatePipelineResponse call.
         public let pipeline: Pipeline?
         /// Elastic Transcoder returns a warning if the resources used by your pipeline are not in the same region as the pipeline. Using resources in the same region, such as your Amazon S3 buckets, Amazon SNS notification topics, and AWS KMS key, reduces processing time and prevents cross-regional charges.
@@ -2319,6 +2436,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
             AWSShapeMember(label: "Status", required: true, type: .string)
         ]
+
         /// The identifier of the pipeline to update.
         public let id: String
         /// The desired status of the pipeline:    Active: The pipeline is processing jobs.    Paused: The pipeline is not currently processing jobs.  
@@ -2344,6 +2462,7 @@ extension ElasticTranscoder {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Pipeline", required: false, type: .structure)
         ]
+
         /// A section of the response body that provides information about the pipeline.
         public let pipeline: Pipeline?
         
@@ -2378,6 +2497,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "SizingPolicy", required: false, type: .string), 
             AWSShapeMember(label: "Watermarks", required: false, type: .list)
         ]
+
         ///  To better control resolution and aspect ratio of output videos, we recommend that you use the values MaxWidth, MaxHeight, SizingPolicy, PaddingPolicy, and DisplayAspectRatio instead of Resolution and AspectRatio. The two groups of settings are mutually exclusive. Do not use them together.  The display aspect ratio of the video in the output file. Valid values include:  auto, 1:1, 4:3, 3:2, 16:9  If you specify auto, Elastic Transcoder tries to preserve the aspect ratio of the input file. If you specify an aspect ratio for the output file that differs from aspect ratio of the input file, Elastic Transcoder adds pillarboxing (black bars on the sides) or letterboxing (black bars on the top and bottom) to maintain the aspect ratio of the active region of the video.
         public let aspectRatio: String?
         /// The bit rate of the video stream in the output file, in kilobits/second. Valid values depend on the values of Level and Profile. If you specify auto, Elastic Transcoder uses the detected bit rate of the input source. If you specify a value other than auto, we recommend that you specify a value less than or equal to the maximum H.264-compliant value listed for your level and profile:  Level - Maximum video bit rate in kilobits/second (baseline and main Profile) : maximum video bit rate in kilobits/second (high Profile)    1 - 64 : 80   1b - 128 : 160   1.1 - 192 : 240   1.2 - 384 : 480   1.3 - 768 : 960   2 - 2000 : 2500   3 - 10000 : 12500   3.1 - 14000 : 17500   3.2 - 20000 : 25000   4 - 20000 : 25000   4.1 - 50000 : 62500  
@@ -2441,6 +2561,9 @@ extension ElasticTranscoder {
             try validate(paddingPolicy, name:"paddingPolicy", pattern: "(^Pad$)|(^NoPad$)")
             try validate(resolution, name:"resolution", pattern: "(^auto$)|(^\\d{1,5}x\\d{1,5}$)")
             try validate(sizingPolicy, name:"sizingPolicy", pattern: "(^Fit$)|(^Fill$)|(^Stretch$)|(^Keep$)|(^ShrinkToFit$)|(^ShrinkToFill$)")
+            try watermarks?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2467,6 +2590,7 @@ extension ElasticTranscoder {
             AWSShapeMember(label: "Code", required: false, type: .string), 
             AWSShapeMember(label: "Message", required: false, type: .string)
         ]
+
         /// The code of the cross-regional warning.
         public let code: String?
         /// The message explaining what resources are in a different region from the pipeline.  AWS KMS keys must be in the same region as the pipeline. 

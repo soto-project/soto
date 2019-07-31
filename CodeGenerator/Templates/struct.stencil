@@ -4,8 +4,9 @@
         {%endif %}{%if struct.namespace %}public static let _xmlNamespace: String? = "{{struct.namespace}}"
         {%endif %}{%if struct.members.count > 0%}public static var _members: [AWSShapeMember] = [
         {%for member in struct.members %}    AWSShapeMember(label: "{{member.name}}", {%if member.location %}location: {{member.location}}, {%endif %}required: {{member.required}}, type: .{{member.typeEnum}}{%if member.encoding %}, encoding: {{member.encoding}}{%endif %}){%if not forloop.last %}, {%endif %}
-        {%endfor %}]{%endif %}
-        {%for member in struct.members %}{%for comment in member.comment %}/// {{comment}}
+        {%endfor %}]
+
+        {%endif %}{%for member in struct.members %}{%for comment in member.comment %}/// {{comment}}
         {%endfor %}public let {{member.variable}}: {{member.type}}
         {%endfor %}
         public init({%for member in struct.members %}{{member.parameter}}: {{member.type}}{%if member.default %} = {{member.default}}{%endif %}{%if not forloop.last %}, {%endif %}{%endfor %}) {
@@ -13,7 +14,11 @@
         {%endfor %}}
 
         {%if struct.validation.count > 0 %}public func validate() throws {
-        {%for v in struct.validation %}{%if v.shape %}    try {{v.name}}.validate()
+        {%for v in struct.validation %}{%if v.shape %}    try {{v.name}}{%if not v.required %}?{%endif %}.validate()
+        {%endif %}{%if v.member %}    try {{v.name}}{%if not v.required %}?{%endif %}.forEach {
+            {%if v.member.shape %}    try $0.validate()
+            {%endif %}{%for key,value in v.member.reqs %}    try validate($0, name:"{{v.member.name}}", {{key}}: {{value}})
+            {%endfor %}}
         {%endif %}{%for key,value in v.reqs %}    try validate({{v.name}}, name:"{{v.name}}", {{key}}: {{value}})
         {%endfor %}{%endfor %}}
 

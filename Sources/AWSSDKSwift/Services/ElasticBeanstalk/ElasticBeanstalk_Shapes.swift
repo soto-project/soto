@@ -10,6 +10,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "EnvironmentId", required: false, type: .string), 
             AWSShapeMember(label: "EnvironmentName", required: false, type: .string)
         ]
+
         /// This specifies the ID of the environment with the in-progress update that you want to cancel.
         public let environmentId: String?
         /// This specifies the name of the environment with the in-progress update that you want to cancel.
@@ -64,6 +65,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "ResourceLifecycleConfig", required: false, type: .structure), 
             AWSShapeMember(label: "Versions", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationArn: String?
         /// The name of the application.
@@ -95,7 +97,15 @@ extension ElasticBeanstalk {
         public func validate() throws {
             try validate(applicationName, name:"applicationName", max: 100)
             try validate(applicationName, name:"applicationName", min: 1)
+            try configurationTemplates?.forEach {
+                try validate($0, name:"configurationTemplates[]", max: 100)
+                try validate($0, name:"configurationTemplates[]", min: 1)
+            }
             try validate(description, name:"description", max: 200)
+            try versions?.forEach {
+                try validate($0, name:"versions[]", max: 100)
+                try validate($0, name:"versions[]", min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -114,6 +124,7 @@ extension ElasticBeanstalk {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Application", required: false, type: .structure)
         ]
+
         ///  The ApplicationDescription of the application. 
         public let application: ApplicationDescription?
         
@@ -134,11 +145,18 @@ extension ElasticBeanstalk {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Applications", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// This parameter contains a list of ApplicationDescription.
         public let applications: [ApplicationDescription]?
         
         public init(applications: [ApplicationDescription]? = nil) {
             self.applications = applications
+        }
+
+        public func validate() throws {
+            try applications?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -153,6 +171,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "RequestCount", required: false, type: .integer), 
             AWSShapeMember(label: "StatusCodes", required: false, type: .structure)
         ]
+
         /// The amount of time that the metrics cover (usually 10 seconds). For example, you might have 5 requests (request_count) within the most recent time slice of 10 seconds (duration).
         public let duration: Int32?
         /// Represents the average latency for the slowest X percent of requests over the last 10 seconds. Latencies are in seconds with one millisecond resolution.
@@ -182,6 +201,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "ServiceRole", required: false, type: .string), 
             AWSShapeMember(label: "VersionLifecycleConfig", required: false, type: .structure)
         ]
+
         /// The ARN of an IAM service role that Elastic Beanstalk has permission to assume. The ServiceRole property is required the first time that you provide a VersionLifecycleConfig for the application in one of the supporting calls (CreateApplication or UpdateApplicationResourceLifecycle). After you provide it once, in either one of the calls, Elastic Beanstalk persists the Service Role with the application, and you don't need to specify it again in subsequent UpdateApplicationResourceLifecycle calls. You can, however, specify it in subsequent calls to change the Service Role to another value.
         public let serviceRole: String?
         /// The application version lifecycle configuration.
@@ -203,6 +223,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
             AWSShapeMember(label: "ResourceLifecycleConfig", required: false, type: .structure)
         ]
+
         /// The name of the application.
         public let applicationName: String?
         /// The lifecycle configuration.
@@ -237,6 +258,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "VersionLabel", required: false, type: .string)
         ]
+
         /// The name of the application to which the application version belongs.
         public let applicationName: String?
         /// The Amazon Resource Name (ARN) of the application version.
@@ -299,6 +321,7 @@ extension ElasticBeanstalk {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationVersion", required: false, type: .structure)
         ]
+
         ///  The ApplicationVersionDescription of the application version. 
         public let applicationVersion: ApplicationVersionDescription?
         
@@ -320,6 +343,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "ApplicationVersions", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// List of ApplicationVersionDescription objects sorted in order of creation.
         public let applicationVersions: [ApplicationVersionDescription]?
         /// In a paginated request, the token that you can pass in a subsequent request to get the next response page.
@@ -328,6 +352,12 @@ extension ElasticBeanstalk {
         public init(applicationVersions: [ApplicationVersionDescription]? = nil, nextToken: String? = nil) {
             self.applicationVersions = applicationVersions
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try applicationVersions?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -341,6 +371,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "MaxAgeRule", required: false, type: .structure), 
             AWSShapeMember(label: "MaxCountRule", required: false, type: .structure)
         ]
+
         /// Specify a max age rule to restrict the length of time that application versions are retained for an application.
         public let maxAgeRule: MaxAgeRule?
         /// Specify a max count rule to restrict the number of application versions that are retained for an application.
@@ -372,6 +403,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "EnvironmentId", required: false, type: .string), 
             AWSShapeMember(label: "EnvironmentName", required: false, type: .string)
         ]
+
         /// The action ID of the scheduled managed action to execute.
         public let actionId: String
         /// The environment ID of the target environment.
@@ -399,6 +431,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "ActionType", required: false, type: .enum), 
             AWSShapeMember(label: "Status", required: false, type: .string)
         ]
+
         /// A description of the managed action.
         public let actionDescription: String?
         /// The action ID of the managed action.
@@ -427,6 +460,7 @@ extension ElasticBeanstalk {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         /// The name of the AutoScalingGroup . 
         public let name: String?
         
@@ -447,6 +481,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "Image", required: true, type: .string), 
             AWSShapeMember(label: "TimeoutInMinutes", required: false, type: .integer)
         ]
+
         /// The name of the artifact of the CodeBuild build. If provided, Elastic Beanstalk stores the build artifact in the S3 location S3-bucket/resources/application-name/codebuild/codebuild-version-label-artifact-name.zip. If not provided, Elastic Beanstalk stores the build artifact in the S3 location S3-bucket/resources/application-name/codebuild/codebuild-version-label.zip. 
         public let artifactName: String?
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
@@ -484,6 +519,7 @@ extension ElasticBeanstalk {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ARN", required: false, type: .string)
         ]
+
         /// The ARN of the builder.
         public let arn: String?
         
@@ -507,6 +543,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "System", required: false, type: .double), 
             AWSShapeMember(label: "User", required: false, type: .double)
         ]
+
         /// Percentage of time that the CPU has spent in the Idle state over the last 10 seconds.
         public let idle: Double?
         /// Available on Linux environments only. Percentage of time that the CPU has spent in the I/O Wait state over the last 10 seconds.
@@ -551,6 +588,7 @@ extension ElasticBeanstalk {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CNAMEPrefix", required: true, type: .string)
         ]
+
         /// The prefix used when this CNAME is reserved.
         public let cNAMEPrefix: String
         
@@ -573,6 +611,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "Available", required: false, type: .boolean), 
             AWSShapeMember(label: "FullyQualifiedCNAME", required: false, type: .string)
         ]
+
         /// Indicates if the specified CNAME is available:    true : The CNAME is available.    false : The CNAME is not available.  
         public let available: Bool?
         /// The fully qualified CNAME to reserve when CreateEnvironment is called with the provided prefix.
@@ -600,6 +639,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "GroupName", required: false, type: .string), 
             AWSShapeMember(label: "VersionLabels", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The name of the application to which the specified source bundles belong.
         public let applicationName: String?
         /// The name of the group to which the target environments belong. Specify a group name only if the environment name defined in each target environment's manifest ends with a + (plus) character. See Environment Manifest (env.yaml) for details.
@@ -618,6 +658,10 @@ extension ElasticBeanstalk {
             try validate(applicationName, name:"applicationName", min: 1)
             try validate(groupName, name:"groupName", max: 19)
             try validate(groupName, name:"groupName", min: 1)
+            try versionLabels?.forEach {
+                try validate($0, name:"versionLabels[]", max: 100)
+                try validate($0, name:"versionLabels[]", min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -655,6 +699,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "ValueOptions", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ValueType", required: false, type: .enum)
         ]
+
         /// An indication of which action is required if the value for this configuration option changes:    NoInterruption : There is no interruption to the environment or application availability.    RestartEnvironment : The environment is entirely restarted, all AWS resources are deleted and recreated, and the environment is unavailable during the process.    RestartApplicationServer : The environment is available the entire time. However, a short application outage occurs when the application servers on the running Amazon EC2 instances are restarted.  
         public let changeSeverity: String?
         /// The default value for this configuration option.
@@ -714,6 +759,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "ResourceName", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// A unique namespace identifying the option's associated AWS resource.
         public let namespace: String?
         /// The name of the configuration option.
@@ -755,6 +801,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "PlatformArn", required: false, type: .string), 
             AWSShapeMember(label: "SolutionStackName", required: false, type: .string)
         ]
+
         ///  A list of ConfigurationOptionDescription. 
         public let options: [ConfigurationOptionDescription]?
         /// The ARN of the platform.
@@ -788,6 +835,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "SolutionStackName", required: false, type: .string), 
             AWSShapeMember(label: "TemplateName", required: false, type: .string)
         ]
+
         /// The name of the application associated with this configuration set.
         public let applicationName: String?
         /// The date (in UTC time) when this configuration set was created.
@@ -828,6 +876,9 @@ extension ElasticBeanstalk {
             try validate(description, name:"description", max: 200)
             try validate(environmentName, name:"environmentName", max: 40)
             try validate(environmentName, name:"environmentName", min: 4)
+            try optionSettings?.forEach {
+                try $0.validate()
+            }
             try validate(templateName, name:"templateName", max: 100)
             try validate(templateName, name:"templateName", min: 1)
         }
@@ -850,11 +901,18 @@ extension ElasticBeanstalk {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigurationSettings", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         ///  A list of ConfigurationSettingsDescription. 
         public let configurationSettings: [ConfigurationSettingsDescription]?
         
         public init(configurationSettings: [ConfigurationSettingsDescription]? = nil) {
             self.configurationSettings = configurationSettings
+        }
+
+        public func validate() throws {
+            try configurationSettings?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -866,6 +924,7 @@ extension ElasticBeanstalk {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Messages", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         ///  A list of ValidationMessage. 
         public let messages: [ValidationMessage]?
         
@@ -885,6 +944,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "ResourceLifecycleConfig", required: false, type: .structure), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The name of the application. Constraint: This name must be unique within your account. If the specified name already exists, the action returns an InvalidParameterValue error.
         public let applicationName: String
         /// Describes the application.
@@ -905,6 +965,9 @@ extension ElasticBeanstalk {
             try validate(applicationName, name:"applicationName", max: 100)
             try validate(applicationName, name:"applicationName", min: 1)
             try validate(description, name:"description", max: 200)
+            try tags?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -927,6 +990,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "VersionLabel", required: true, type: .string)
         ]
+
         ///  The name of the application. If no application is found with this name, and AutoCreateApplication is false, returns an InvalidParameterValue error. 
         public let applicationName: String
         /// Set to true to create an application with the specified name if it doesn't already exist.
@@ -965,6 +1029,9 @@ extension ElasticBeanstalk {
             try validate(description, name:"description", max: 200)
             try sourceBuildInformation?.validate()
             try sourceBundle?.validate()
+            try tags?.forEach {
+                try $0.validate()
+            }
             try validate(versionLabel, name:"versionLabel", max: 100)
             try validate(versionLabel, name:"versionLabel", min: 1)
         }
@@ -994,6 +1061,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "TemplateName", required: true, type: .string)
         ]
+
         /// The name of the application to associate with this configuration template. If no application is found with this name, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
         public let applicationName: String
         /// Describes this configuration.
@@ -1029,7 +1097,13 @@ extension ElasticBeanstalk {
             try validate(applicationName, name:"applicationName", max: 100)
             try validate(applicationName, name:"applicationName", min: 1)
             try validate(description, name:"description", max: 200)
+            try optionSettings?.forEach {
+                try $0.validate()
+            }
             try sourceConfiguration?.validate()
+            try tags?.forEach {
+                try $0.validate()
+            }
             try validate(templateName, name:"templateName", max: 100)
             try validate(templateName, name:"templateName", min: 1)
         }
@@ -1063,6 +1137,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "Tier", required: false, type: .structure), 
             AWSShapeMember(label: "VersionLabel", required: false, type: .string)
         ]
+
         /// The name of the application that contains the version to be deployed.  If no application is found with this name, CreateEnvironment returns an InvalidParameterValue error. 
         public let applicationName: String
         /// If specified, the environment attempts to use this value as the prefix for the CNAME. If not specified, the CNAME is generated automatically by appending a random alphanumeric string to the environment name.
@@ -1116,6 +1191,15 @@ extension ElasticBeanstalk {
             try validate(environmentName, name:"environmentName", min: 4)
             try validate(groupName, name:"groupName", max: 19)
             try validate(groupName, name:"groupName", min: 1)
+            try optionSettings?.forEach {
+                try $0.validate()
+            }
+            try optionsToRemove?.forEach {
+                try $0.validate()
+            }
+            try tags?.forEach {
+                try $0.validate()
+            }
             try validate(templateName, name:"templateName", max: 100)
             try validate(templateName, name:"templateName", min: 1)
             try validate(versionLabel, name:"versionLabel", max: 100)
@@ -1148,6 +1232,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "PlatformVersion", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The name of the builder environment.
         public let environmentName: String?
         /// The configuration option settings to apply to the builder environment.
@@ -1173,7 +1258,13 @@ extension ElasticBeanstalk {
         public func validate() throws {
             try validate(environmentName, name:"environmentName", max: 40)
             try validate(environmentName, name:"environmentName", min: 4)
+            try optionSettings?.forEach {
+                try $0.validate()
+            }
             try platformDefinitionBundle.validate()
+            try tags?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1191,6 +1282,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "Builder", required: false, type: .structure), 
             AWSShapeMember(label: "PlatformSummary", required: false, type: .structure)
         ]
+
         /// The builder used to create the custom platform.
         public let builder: Builder?
         /// Detailed information about the new version of the custom platform.
@@ -1211,6 +1303,7 @@ extension ElasticBeanstalk {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "S3Bucket", required: false, type: .string)
         ]
+
         /// The name of the Amazon S3 bucket created.
         public let s3Bucket: String?
         
@@ -1232,6 +1325,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "ImageId", required: false, type: .string), 
             AWSShapeMember(label: "VirtualizationType", required: false, type: .string)
         ]
+
         /// THe ID of the image used to create the custom AMI.
         public let imageId: String?
         /// The type of virtualization used to create the custom AMI.
@@ -1253,6 +1347,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
             AWSShapeMember(label: "TerminateEnvByForce", required: false, type: .boolean)
         ]
+
         /// The name of the application to delete.
         public let applicationName: String
         /// When set to true, running environments will be terminated before deleting the application.
@@ -1280,6 +1375,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "DeleteSourceBundle", required: false, type: .boolean), 
             AWSShapeMember(label: "VersionLabel", required: true, type: .string)
         ]
+
         /// The name of the application to which the version belongs.
         public let applicationName: String
         /// Set to true to delete the source bundle from your storage bucket. Otherwise, the application version is deleted only from Elastic Beanstalk and the source bundle remains in Amazon S3.
@@ -1312,6 +1408,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
             AWSShapeMember(label: "TemplateName", required: true, type: .string)
         ]
+
         /// The name of the application to delete the configuration template from.
         public let applicationName: String
         /// The name of the configuration template to delete.
@@ -1340,6 +1437,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
             AWSShapeMember(label: "EnvironmentName", required: true, type: .string)
         ]
+
         /// The name of the application the environment is associated with.
         public let applicationName: String
         /// The name of the environment to delete the draft configuration from.
@@ -1367,6 +1465,7 @@ extension ElasticBeanstalk {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PlatformArn", required: false, type: .string)
         ]
+
         /// The ARN of the version of the custom platform.
         public let platformArn: String?
         
@@ -1383,6 +1482,7 @@ extension ElasticBeanstalk {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PlatformSummary", required: false, type: .structure)
         ]
+
         /// Detailed information about the version of the custom platform.
         public let platformSummary: PlatformSummary?
         
@@ -1402,6 +1502,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "VersionLabel", required: false, type: .string)
         ]
+
         /// The ID of the deployment. This number increases by one each time that you deploy source code or change instance configuration settings.
         public let deploymentId: Int64?
         /// For in-progress deployments, the time that the deployment started. For completed deployments, the time that the deployment ended.
@@ -1430,6 +1531,7 @@ extension ElasticBeanstalk {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceQuotas", required: false, type: .structure)
         ]
+
         /// The Elastic Beanstalk resource quotas associated with the calling AWS account.
         public let resourceQuotas: ResourceQuotas?
         
@@ -1449,6 +1551,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "VersionLabels", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// Specify an application name to show only application versions for that application.
         public let applicationName: String?
         /// For a paginated request. Specify a maximum number of application versions to include in each response. If no MaxRecords is specified, all available application versions are retrieved in a single response.
@@ -1470,6 +1573,10 @@ extension ElasticBeanstalk {
             try validate(applicationName, name:"applicationName", min: 1)
             try validate(maxRecords, name:"maxRecords", max: 1000)
             try validate(maxRecords, name:"maxRecords", min: 1)
+            try versionLabels?.forEach {
+                try validate($0, name:"versionLabels[]", max: 100)
+                try validate($0, name:"versionLabels[]", min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1484,11 +1591,19 @@ extension ElasticBeanstalk {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationNames", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to only include those with the specified names.
         public let applicationNames: [String]?
         
         public init(applicationNames: [String]? = nil) {
             self.applicationNames = applicationNames
+        }
+
+        public func validate() throws {
+            try applicationNames?.forEach {
+                try validate($0, name:"applicationNames[]", max: 100)
+                try validate($0, name:"applicationNames[]", min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1505,6 +1620,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "SolutionStackName", required: false, type: .string), 
             AWSShapeMember(label: "TemplateName", required: false, type: .string)
         ]
+
         /// The name of the application associated with the configuration template or environment. Only needed if you want to describe the configuration options associated with either the configuration template or environment.
         public let applicationName: String?
         /// The name of the environment whose configuration options you want to describe.
@@ -1532,6 +1648,9 @@ extension ElasticBeanstalk {
             try validate(applicationName, name:"applicationName", min: 1)
             try validate(environmentName, name:"environmentName", max: 40)
             try validate(environmentName, name:"environmentName", min: 4)
+            try options?.forEach {
+                try $0.validate()
+            }
             try validate(templateName, name:"templateName", max: 100)
             try validate(templateName, name:"templateName", min: 1)
         }
@@ -1552,6 +1671,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
             AWSShapeMember(label: "TemplateName", required: false, type: .string)
         ]
+
         /// The application for the environment or configuration template.
         public let applicationName: String
         /// The name of the environment to describe.  Condition: You must specify either this or a TemplateName, but not both. If you specify both, AWS Elastic Beanstalk returns an InvalidParameterCombination error. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
@@ -1587,6 +1707,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "EnvironmentId", required: false, type: .string), 
             AWSShapeMember(label: "EnvironmentName", required: false, type: .string)
         ]
+
         /// Specify the response elements to return. To retrieve all attributes, set to All. If no attribute names are specified, returns the name of the environment.
         public let attributeNames: [EnvironmentHealthAttribute]?
         /// Specify the environment by ID. You must specify either this or an EnvironmentName, or both.
@@ -1623,6 +1744,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "RefreshedAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
+
         /// Application request metrics for the environment.
         public let applicationMetrics: ApplicationMetrics?
         /// Descriptions of the data that contributed to the environment's current health status.
@@ -1652,6 +1774,10 @@ extension ElasticBeanstalk {
         }
 
         public func validate() throws {
+            try causes?.forEach {
+                try validate($0, name:"causes[]", max: 255)
+                try validate($0, name:"causes[]", min: 1)
+            }
             try validate(environmentName, name:"environmentName", max: 40)
             try validate(environmentName, name:"environmentName", min: 4)
         }
@@ -1675,6 +1801,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The environment ID of the target environment.
         public let environmentId: String?
         /// The name of the target environment.
@@ -1709,6 +1836,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "ManagedActionHistoryItems", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// A list of completed and failed managed actions.
         public let managedActionHistoryItems: [ManagedActionHistoryItem]?
         /// A pagination token that you pass to DescribeEnvironmentManagedActionHistory to get the next page of results.
@@ -1736,6 +1864,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
+
         /// The environment ID of the target environment.
         public let environmentId: String?
         /// The name of the target environment.
@@ -1760,6 +1889,7 @@ extension ElasticBeanstalk {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ManagedActions", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// A list of upcoming and in-progress managed actions.
         public let managedActions: [ManagedAction]?
         
@@ -1782,6 +1912,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "EnvironmentId", required: false, type: .string), 
             AWSShapeMember(label: "EnvironmentName", required: false, type: .string)
         ]
+
         /// The ID of the environment to retrieve AWS resource usage data.  Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
         public let environmentId: String?
         /// The name of the environment to retrieve AWS resource usage data.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
@@ -1814,6 +1945,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "VersionLabel", required: false, type: .string)
         ]
+
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application.
         public let applicationName: String?
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that have the specified IDs.
@@ -1845,6 +1977,10 @@ extension ElasticBeanstalk {
         public func validate() throws {
             try validate(applicationName, name:"applicationName", max: 100)
             try validate(applicationName, name:"applicationName", min: 1)
+            try environmentNames?.forEach {
+                try validate($0, name:"environmentNames[]", max: 40)
+                try validate($0, name:"environmentNames[]", min: 4)
+            }
             try validate(maxRecords, name:"maxRecords", max: 1000)
             try validate(maxRecords, name:"maxRecords", min: 1)
             try validate(versionLabel, name:"versionLabel", max: 100)
@@ -1878,6 +2014,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "TemplateName", required: false, type: .string), 
             AWSShapeMember(label: "VersionLabel", required: false, type: .string)
         ]
+
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those associated with this application.
         public let applicationName: String?
         ///  If specified, AWS Elastic Beanstalk restricts the returned descriptions to those that occur up to, but not including, the EndTime. 
@@ -1954,6 +2091,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Specifies the response elements you wish to receive. To retrieve all attributes, set to All. If no attribute names are specified, returns a list of instances.
         public let attributeNames: [InstancesHealthAttribute]?
         /// Specify the AWS Elastic Beanstalk environment by ID.
@@ -1991,6 +2129,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "RefreshedAt", required: false, type: .timestamp)
         ]
+
         /// Detailed health information about each instance. The output differs slightly between Linux and Windows environments. There is a difference in the members that are supported under the &lt;CPUUtilization&gt; type.
         public let instanceHealthList: [SingleInstanceHealth]?
         /// Pagination token for the next page of results, if available.
@@ -2005,6 +2144,9 @@ extension ElasticBeanstalk {
         }
 
         public func validate() throws {
+            try instanceHealthList?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 100)
             try validate(nextToken, name:"nextToken", min: 1)
         }
@@ -2020,6 +2162,7 @@ extension ElasticBeanstalk {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PlatformArn", required: false, type: .string)
         ]
+
         /// The ARN of the version of the platform.
         public let platformArn: String?
         
@@ -2036,6 +2179,7 @@ extension ElasticBeanstalk {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PlatformDescription", required: false, type: .structure)
         ]
+
         /// Detailed information about the version of the platform.
         public let platformDescription: PlatformDescription?
         
@@ -2075,6 +2219,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "Tier", required: false, type: .structure), 
             AWSShapeMember(label: "VersionLabel", required: false, type: .string)
         ]
+
         /// Indicates if there is an in-progress environment configuration update or application version deployment that you can cancel.  true: There is an update in progress.   false: There are no updates currently in progress. 
         public let abortableOperationInProgress: Bool?
         /// The name of the application associated with this environment.
@@ -2182,6 +2327,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "Environments", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         ///  Returns an EnvironmentDescription list. 
         public let environments: [EnvironmentDescription]?
         /// In a paginated request, the token that you can pass in a subsequent request to get the next response page.
@@ -2190,6 +2336,12 @@ extension ElasticBeanstalk {
         public init(environments: [EnvironmentDescription]? = nil, nextToken: String? = nil) {
             self.environments = environments
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try environments?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2238,6 +2390,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "Message", required: false, type: .string), 
             AWSShapeMember(label: "SampleTimestamp", required: false, type: .timestamp)
         ]
+
         /// The Amazon EC2 Instance ID for this information.
         public let ec2InstanceId: String?
         /// The type of information retrieved.
@@ -2273,6 +2426,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
             AWSShapeMember(label: "LinkName", required: false, type: .string)
         ]
+
         /// The name of the linked environment (the dependency).
         public let environmentName: String?
         /// The name of the link.
@@ -2300,6 +2454,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "Queues", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Triggers", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         ///  The AutoScalingGroups used by this environment. 
         public let autoScalingGroups: [AutoScalingGroup]?
         /// The name of the environment.
@@ -2349,6 +2504,7 @@ extension ElasticBeanstalk {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EnvironmentResources", required: false, type: .structure)
         ]
+
         ///  A list of EnvironmentResourceDescription. 
         public let environmentResources: EnvironmentResourceDescription?
         
@@ -2369,6 +2525,7 @@ extension ElasticBeanstalk {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancer", required: false, type: .structure)
         ]
+
         /// Describes the LoadBalancer.
         public let loadBalancer: LoadBalancerDescription?
         
@@ -2396,6 +2553,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "Type", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         /// The name of this environment tier. Valid values:   For Web server tier – WebServer    For Worker tier – Worker   
         public let name: String?
         /// The type of this environment tier. Valid values:   For Web server tier – Standard    For Worker tier – SQS/HTTP   
@@ -2428,6 +2586,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "TemplateName", required: false, type: .string), 
             AWSShapeMember(label: "VersionLabel", required: false, type: .string)
         ]
+
         /// The application associated with the event.
         public let applicationName: String?
         /// The name of the environment associated with this event.
@@ -2488,6 +2647,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "Events", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         ///  A list of EventDescription. 
         public let events: [EventDescription]?
         ///  If returned, this indicates that there are more results to obtain. Use this token in the next DescribeEvents call to get the next batch of events. 
@@ -2496,6 +2656,12 @@ extension ElasticBeanstalk {
         public init(events: [EventDescription]? = nil, nextToken: String? = nil) {
             self.events = events
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try events?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2529,6 +2695,7 @@ extension ElasticBeanstalk {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
+
         /// The ID of the Amazon EC2 instance.
         public let id: String?
         
@@ -2552,6 +2719,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "Unknown", required: false, type: .integer), 
             AWSShapeMember(label: "Warning", required: false, type: .integer)
         ]
+
         ///  Red. The health agent is reporting a high number of request failures or other issues for an instance or environment.
         public let degraded: Int32?
         ///  Green. An operation is in progress on an instance.
@@ -2618,6 +2786,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "P99", required: false, type: .double), 
             AWSShapeMember(label: "P999", required: false, type: .double)
         ]
+
         /// The average latency for the slowest 90 percent of requests over the last 10 seconds.
         public let p10: Double?
         /// The average latency for the slowest 50 percent of requests over the last 10 seconds.
@@ -2662,6 +2831,7 @@ extension ElasticBeanstalk {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         /// The name of the launch configuration.
         public let name: String?
         
@@ -2678,6 +2848,7 @@ extension ElasticBeanstalk {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
+
         /// The ID of the launch template.
         public let id: String?
         
@@ -2695,6 +2866,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "SolutionStackDetails", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "SolutionStacks", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         ///  A list of available solution stacks and their SolutionStackDescription. 
         public let solutionStackDetails: [SolutionStackDescription]?
         /// A list of available solution stacks.
@@ -2703,6 +2875,12 @@ extension ElasticBeanstalk {
         public init(solutionStackDetails: [SolutionStackDescription]? = nil, solutionStacks: [String]? = nil) {
             self.solutionStackDetails = solutionStackDetails
             self.solutionStacks = solutionStacks
+        }
+
+        public func validate() throws {
+            try solutionStackDetails?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2717,6 +2895,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// List only the platforms where the platform member value relates to one of the supplied values.
         public let filters: [PlatformFilter]?
         /// The maximum number of platform values returned in one call.
@@ -2746,6 +2925,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "PlatformSummaryList", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The starting index into the remaining list of platforms. if this value is not null, you can use it in a subsequent ListPlatformVersion call. 
         public let nextToken: String?
         /// Detailed information about the platforms.
@@ -2766,6 +2946,7 @@ extension ElasticBeanstalk {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the resouce for which a tag list is requested. Must be the ARN of an Elastic Beanstalk environment.
         public let resourceArn: String
         
@@ -2783,6 +2964,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "Port", required: false, type: .integer), 
             AWSShapeMember(label: "Protocol", required: false, type: .string)
         ]
+
         /// The port that is used by the Listener.
         public let port: Int32?
         /// The protocol that is used by the Listener.
@@ -2803,6 +2985,7 @@ extension ElasticBeanstalk {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         /// The name of the LoadBalancer.
         public let name: String?
         
@@ -2821,6 +3004,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "Listeners", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "LoadBalancerName", required: false, type: .string)
         ]
+
         /// The domain name of the LoadBalancer.
         public let domain: String?
         /// A list of Listeners used by the LoadBalancer.
@@ -2849,6 +3033,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "WindowStartTime", required: false, type: .timestamp)
         ]
+
         /// A description of the managed action.
         public let actionDescription: String?
         /// A unique identifier for the managed action.
@@ -2888,6 +3073,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "FinishedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
+
         /// A description of the managed action.
         public let actionDescription: String?
         /// A unique identifier for the managed action.
@@ -2934,6 +3120,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
             AWSShapeMember(label: "MaxAgeInDays", required: false, type: .integer)
         ]
+
         /// Set to true to delete a version's source bundle from Amazon S3 when Elastic Beanstalk deletes the application version.
         public let deleteSourceFromS3: Bool?
         /// Specify true to apply the rule, or false to disable it.
@@ -2960,6 +3147,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
             AWSShapeMember(label: "MaxCount", required: false, type: .integer)
         ]
+
         /// Set to true to delete a version's source bundle from Amazon S3 when Elastic Beanstalk deletes the application version.
         public let deleteSourceFromS3: Bool?
         /// Specify true to apply the rule, or false to disable it.
@@ -2985,6 +3173,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "Label", required: false, type: .string), 
             AWSShapeMember(label: "Pattern", required: false, type: .string)
         ]
+
         /// A unique name representing this regular expression.
         public let label: String?
         /// The regular expression pattern that a string configuration option value with this restriction must match.
@@ -3007,6 +3196,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "OptionName", required: false, type: .string), 
             AWSShapeMember(label: "ResourceName", required: false, type: .string)
         ]
+
         /// A unique namespace identifying the option's associated AWS resource.
         public let namespace: String?
         /// The name of the configuration option.
@@ -3053,6 +3243,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "SupportedAddonList", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "SupportedTierList", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The custom AMIs supported by the platform.
         public let customAmiList: [CustomAmi]?
         /// The date when the platform was created.
@@ -3143,6 +3334,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "Type", required: false, type: .string), 
             AWSShapeMember(label: "Values", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The operator to apply to the Type with each of the Values.  Valid Values: = (equal to) | != (not equal to) | &lt; (less than) | &lt;= (less than or equal to) | &gt; (greater than) | &gt;= (greater than or equal to) | contains | begins_with | ends_with 
         public let `operator`: String?
         /// The custom platform attribute to which the filter values are applied. Valid Values: PlatformName | PlatformVersion | PlatformStatus | PlatformOwner 
@@ -3168,6 +3360,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         /// The name of the framework.
         public let name: String?
         /// The version of the framework.
@@ -3189,6 +3382,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
+
         /// The name of the programming language.
         public let name: String?
         /// The version of the programming language.
@@ -3225,6 +3419,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "SupportedAddonList", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "SupportedTierList", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The operating system used by the platform.
         public let operatingSystemName: String?
         /// The version of the operating system used by the platform.
@@ -3270,6 +3465,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "URL", required: false, type: .string)
         ]
+
         /// The name of the queue.
         public let name: String?
         /// The URL of the queue.
@@ -3291,6 +3487,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "EnvironmentId", required: false, type: .string), 
             AWSShapeMember(label: "EnvironmentName", required: false, type: .string)
         ]
+
         /// The ID of the environment to rebuild.  Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
         public let environmentId: String?
         /// The name of the environment to rebuild.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
@@ -3318,6 +3515,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
             AWSShapeMember(label: "InfoType", required: true, type: .enum)
         ]
+
         /// The ID of the environment of the requested data. If no such environment is found, RequestEnvironmentInfo returns an InvalidParameterValue error.  Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
         public let environmentId: String?
         /// The name of the environment of the requested data. If no such environment is found, RequestEnvironmentInfo returns an InvalidParameterValue error.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
@@ -3347,6 +3545,7 @@ extension ElasticBeanstalk {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Maximum", required: false, type: .integer)
         ]
+
         /// The maximum number of instances of this Elastic Beanstalk resource type that an AWS account can use.
         public let maximum: Int32?
         
@@ -3367,6 +3566,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "CustomPlatformQuota", required: false, type: .structure), 
             AWSShapeMember(label: "EnvironmentQuota", required: false, type: .structure)
         ]
+
         /// The quota for applications in the AWS account.
         public let applicationQuota: ResourceQuota?
         /// The quota for application versions in the AWS account.
@@ -3400,6 +3600,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "ResourceArn", required: false, type: .string), 
             AWSShapeMember(label: "ResourceTags", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The Amazon Resource Name (ARN) of the resouce for which a tag list was requested.
         public let resourceArn: String?
         /// A list of tag key-value pairs.
@@ -3408,6 +3609,12 @@ extension ElasticBeanstalk {
         public init(resourceArn: String? = nil, resourceTags: [Tag]? = nil) {
             self.resourceArn = resourceArn
             self.resourceTags = resourceTags
+        }
+
+        public func validate() throws {
+            try resourceTags?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3421,6 +3628,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "EnvironmentId", required: false, type: .string), 
             AWSShapeMember(label: "EnvironmentName", required: false, type: .string)
         ]
+
         /// The ID of the environment to restart the server for.  Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
         public let environmentId: String?
         /// The name of the environment to restart the server for.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
@@ -3448,6 +3656,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
             AWSShapeMember(label: "InfoType", required: true, type: .enum)
         ]
+
         /// The ID of the data's environment. If no such environment is found, returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
         public let environmentId: String?
         /// The name of the data's environment.  If no such environment is found, returns an InvalidParameterValue error.   Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
@@ -3477,6 +3686,7 @@ extension ElasticBeanstalk {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EnvironmentInfo", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         ///  The EnvironmentInfoDescription of the environment. 
         public let environmentInfo: [EnvironmentInfoDescription]?
         
@@ -3494,6 +3704,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "S3Bucket", required: false, type: .string), 
             AWSShapeMember(label: "S3Key", required: false, type: .string)
         ]
+
         /// The Amazon S3 bucket where the data is located.
         public let s3Bucket: String?
         /// The Amazon S3 key where the data is located.
@@ -3528,6 +3739,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "LaunchedAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "System", required: false, type: .structure)
         ]
+
         /// Request metrics from your application.
         public let applicationMetrics: ApplicationMetrics?
         /// The availability zone in which the instance runs.
@@ -3563,6 +3775,10 @@ extension ElasticBeanstalk {
         }
 
         public func validate() throws {
+            try causes?.forEach {
+                try validate($0, name:"causes[]", max: 255)
+                try validate($0, name:"causes[]", min: 1)
+            }
             try validate(instanceId, name:"instanceId", max: 255)
             try validate(instanceId, name:"instanceId", min: 1)
         }
@@ -3586,6 +3802,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "PermittedFileTypes", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "SolutionStackName", required: false, type: .string)
         ]
+
         /// The permitted file types allowed for a solution stack.
         public let permittedFileTypes: [String]?
         /// The name of the solution stack.
@@ -3594,6 +3811,13 @@ extension ElasticBeanstalk {
         public init(permittedFileTypes: [String]? = nil, solutionStackName: String? = nil) {
             self.permittedFileTypes = permittedFileTypes
             self.solutionStackName = solutionStackName
+        }
+
+        public func validate() throws {
+            try permittedFileTypes?.forEach {
+                try validate($0, name:"permittedFileTypes[]", max: 100)
+                try validate($0, name:"permittedFileTypes[]", min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3608,6 +3832,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "SourceRepository", required: true, type: .enum), 
             AWSShapeMember(label: "SourceType", required: true, type: .enum)
         ]
+
         /// The location of the source code, as a formatted string, depending on the value of SourceRepository    For CodeCommit, the format is the repository name and commit ID, separated by a forward slash. For example, my-git-repo/265cfa0cf6af46153527f55d6503ec030551f57a.   For S3, the format is the S3 bucket name and object key, separated by a forward slash. For example, my-s3-bucket/Folders/my-source-file.  
         public let sourceLocation: String
         /// Location where the repository is stored.    CodeCommit     S3   
@@ -3639,6 +3864,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
             AWSShapeMember(label: "TemplateName", required: false, type: .string)
         ]
+
         /// The name of the application associated with the configuration.
         public let applicationName: String?
         /// The name of the configuration template.
@@ -3681,6 +3907,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "Status4xx", required: false, type: .integer), 
             AWSShapeMember(label: "Status5xx", required: false, type: .integer)
         ]
+
         /// The percentage of requests over the last 10 seconds that resulted in a 2xx (200, 201, etc.) status code.
         public let status2xx: Int32?
         /// The percentage of requests over the last 10 seconds that resulted in a 3xx (300, 301, etc.) status code.
@@ -3712,6 +3939,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "SourceEnvironmentId", required: false, type: .string), 
             AWSShapeMember(label: "SourceEnvironmentName", required: false, type: .string)
         ]
+
         /// The ID of the destination environment.  Condition: You must specify at least the DestinationEnvironmentID or the DestinationEnvironmentName. You may also specify both. You must specify the SourceEnvironmentId with the DestinationEnvironmentId. 
         public let destinationEnvironmentId: String?
         /// The name of the destination environment.  Condition: You must specify at least the DestinationEnvironmentID or the DestinationEnvironmentName. You may also specify both. You must specify the SourceEnvironmentName with the DestinationEnvironmentName. 
@@ -3748,6 +3976,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "CPUUtilization", required: false, type: .structure), 
             AWSShapeMember(label: "LoadAverage", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// CPU utilization metrics for the instance.
         public let cPUUtilization: CPUUtilization?
         /// Load average in the last 1-minute, 5-minute, and 15-minute periods. For more information, see Operating System Metrics.
@@ -3769,6 +3998,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// The key of the tag.
         public let key: String?
         /// The value of the tag.
@@ -3799,6 +4029,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "ForceTerminate", required: false, type: .boolean), 
             AWSShapeMember(label: "TerminateResources", required: false, type: .boolean)
         ]
+
         /// The ID of the environment to terminate.  Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
         public let environmentId: String?
         /// The name of the environment to terminate.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
@@ -3832,6 +4063,7 @@ extension ElasticBeanstalk {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         /// The name of the trigger.
         public let name: String?
         
@@ -3849,6 +4081,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
+
         /// The name of the application to update. If no such application is found, UpdateApplication returns an InvalidParameterValue error. 
         public let applicationName: String
         /// A new description for the application. Default: If not specified, AWS Elastic Beanstalk does not update the description.
@@ -3876,6 +4109,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
             AWSShapeMember(label: "ResourceLifecycleConfig", required: true, type: .structure)
         ]
+
         /// The name of the application.
         public let applicationName: String
         /// The lifecycle configuration.
@@ -3903,6 +4137,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "VersionLabel", required: true, type: .string)
         ]
+
         /// The name of the application associated with this version.  If no application is found with this name, UpdateApplication returns an InvalidParameterValue error.
         public let applicationName: String
         /// A new description for this version.
@@ -3939,6 +4174,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "OptionsToRemove", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "TemplateName", required: true, type: .string)
         ]
+
         /// The name of the application associated with the configuration template to update.  If no application is found with this name, UpdateConfigurationTemplate returns an InvalidParameterValue error. 
         public let applicationName: String
         /// A new description for the configuration.
@@ -3962,6 +4198,12 @@ extension ElasticBeanstalk {
             try validate(applicationName, name:"applicationName", max: 100)
             try validate(applicationName, name:"applicationName", min: 1)
             try validate(description, name:"description", max: 200)
+            try optionSettings?.forEach {
+                try $0.validate()
+            }
+            try optionsToRemove?.forEach {
+                try $0.validate()
+            }
             try validate(templateName, name:"templateName", max: 100)
             try validate(templateName, name:"templateName", min: 1)
         }
@@ -3990,6 +4232,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "Tier", required: false, type: .structure), 
             AWSShapeMember(label: "VersionLabel", required: false, type: .string)
         ]
+
         /// The name of the application with which the environment is associated.
         public let applicationName: String?
         /// If this parameter is specified, AWS Elastic Beanstalk updates the description of this environment.
@@ -4038,6 +4281,12 @@ extension ElasticBeanstalk {
             try validate(environmentName, name:"environmentName", min: 4)
             try validate(groupName, name:"groupName", max: 19)
             try validate(groupName, name:"groupName", min: 1)
+            try optionSettings?.forEach {
+                try $0.validate()
+            }
+            try optionsToRemove?.forEach {
+                try $0.validate()
+            }
             try validate(templateName, name:"templateName", max: 100)
             try validate(templateName, name:"templateName", min: 1)
             try validate(versionLabel, name:"versionLabel", max: 100)
@@ -4066,6 +4315,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "TagsToAdd", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "TagsToRemove", required: false, type: .list, encoding: .list(member:"member"))
         ]
+
         /// The Amazon Resource Name (ARN) of the resouce to be updated. Must be the ARN of an Elastic Beanstalk environment.
         public let resourceArn: String
         /// A list of tags to add or update. If a key of an existing tag is added, the tag's value is updated.
@@ -4077,6 +4327,16 @@ extension ElasticBeanstalk {
             self.resourceArn = resourceArn
             self.tagsToAdd = tagsToAdd
             self.tagsToRemove = tagsToRemove
+        }
+
+        public func validate() throws {
+            try tagsToAdd?.forEach {
+                try $0.validate()
+            }
+            try tagsToRemove?.forEach {
+                try validate($0, name:"tagsToRemove[]", max: 128)
+                try validate($0, name:"tagsToRemove[]", min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4093,6 +4353,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "OptionSettings", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "TemplateName", required: false, type: .string)
         ]
+
         /// The name of the application that the configuration template or environment belongs to.
         public let applicationName: String
         /// The name of the environment to validate the settings against. Condition: You cannot specify both this and a configuration template name.
@@ -4114,6 +4375,9 @@ extension ElasticBeanstalk {
             try validate(applicationName, name:"applicationName", min: 1)
             try validate(environmentName, name:"environmentName", max: 40)
             try validate(environmentName, name:"environmentName", min: 4)
+            try optionSettings.forEach {
+                try $0.validate()
+            }
             try validate(templateName, name:"templateName", max: 100)
             try validate(templateName, name:"templateName", min: 1)
         }
@@ -4133,6 +4397,7 @@ extension ElasticBeanstalk {
             AWSShapeMember(label: "OptionName", required: false, type: .string), 
             AWSShapeMember(label: "Severity", required: false, type: .enum)
         ]
+
         /// A message describing the error or warning.
         public let message: String?
         /// The namespace to which the option belongs.

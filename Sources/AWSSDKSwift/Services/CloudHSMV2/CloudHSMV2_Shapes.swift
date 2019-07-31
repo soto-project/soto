@@ -17,6 +17,7 @@ extension CloudHSMV2 {
             AWSShapeMember(label: "SourceCluster", required: false, type: .string), 
             AWSShapeMember(label: "SourceRegion", required: false, type: .string)
         ]
+
         /// The identifier (ID) of the backup.
         public let backupId: String
         /// The state of the backup.
@@ -86,6 +87,7 @@ extension CloudHSMV2 {
             AWSShapeMember(label: "HsmCertificate", required: false, type: .string), 
             AWSShapeMember(label: "ManufacturerHardwareCertificate", required: false, type: .string)
         ]
+
         /// The HSM hardware certificate issued (signed) by AWS CloudHSM.
         public let awsHardwareCertificate: String?
         /// The cluster certificate issued (signed) by the issuing certificate authority (CA) of the cluster's owner.
@@ -143,6 +145,7 @@ extension CloudHSMV2 {
             AWSShapeMember(label: "SubnetMapping", required: false, type: .map), 
             AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
+
         /// The cluster's backup policy.
         public let backupPolicy: BackupPolicy?
         /// Contains one or more certificates or a certificate signing request (CSR).
@@ -189,6 +192,9 @@ extension CloudHSMV2 {
         public func validate() throws {
             try certificates?.validate()
             try validate(clusterId, name:"clusterId", pattern: "cluster-[2-7a-zA-Z]{11,16}")
+            try hsms?.forEach {
+                try $0.validate()
+            }
             try validate(hsmType, name:"hsmType", pattern: "(hsm1\\.medium)")
             try validate(preCoPassword, name:"preCoPassword", max: 32)
             try validate(preCoPassword, name:"preCoPassword", min: 7)
@@ -234,6 +240,7 @@ extension CloudHSMV2 {
             AWSShapeMember(label: "BackupId", required: true, type: .string), 
             AWSShapeMember(label: "DestinationRegion", required: true, type: .string)
         ]
+
         /// The ID of the backup that will be copied to the destination region. 
         public let backupId: String
         /// The AWS region that will contain your copied CloudHSM cluster backup.
@@ -259,6 +266,7 @@ extension CloudHSMV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DestinationBackup", required: false, type: .structure)
         ]
+
         /// Information on the backup that will be copied to the destination region, including CreateTimestamp, SourceBackup, SourceCluster, and Source Region. CreateTimestamp of the destination backup will be the same as that of the source backup. You will need to use the sourceBackupID returned in this operation to use the DescribeBackups operation on the backup that will be copied to the destination region.
         public let destinationBackup: DestinationBackup?
         
@@ -281,6 +289,7 @@ extension CloudHSMV2 {
             AWSShapeMember(label: "SourceBackupId", required: false, type: .string), 
             AWSShapeMember(label: "SubnetIds", required: true, type: .list)
         ]
+
         /// The type of HSM to use in the cluster. Currently the only allowed value is hsm1.medium.
         public let hsmType: String
         /// The identifier (ID) of the cluster backup to restore. Use this value to restore the cluster from a backup instead of creating a new cluster. To find the backup ID, use DescribeBackups.
@@ -297,6 +306,9 @@ extension CloudHSMV2 {
         public func validate() throws {
             try validate(hsmType, name:"hsmType", pattern: "(hsm1\\.medium)")
             try validate(sourceBackupId, name:"sourceBackupId", pattern: "backup-[2-7a-zA-Z]{11,16}")
+            try subnetIds.forEach {
+                try validate($0, name:"subnetIds[]", pattern: "subnet-[0-9a-fA-F]{8,17}")
+            }
             try validate(subnetIds, name:"subnetIds", max: 10)
             try validate(subnetIds, name:"subnetIds", min: 1)
         }
@@ -312,6 +324,7 @@ extension CloudHSMV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
+
         /// Information about the cluster that was created.
         public let cluster: Cluster?
         
@@ -334,6 +347,7 @@ extension CloudHSMV2 {
             AWSShapeMember(label: "ClusterId", required: true, type: .string), 
             AWSShapeMember(label: "IpAddress", required: false, type: .string)
         ]
+
         /// The Availability Zone where you are creating the HSM. To find the cluster's Availability Zones, use DescribeClusters.
         public let availabilityZone: String
         /// The identifier (ID) of the HSM's cluster. To find the cluster ID, use DescribeClusters.
@@ -364,6 +378,7 @@ extension CloudHSMV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Hsm", required: false, type: .structure)
         ]
+
         /// Information about the HSM that was created.
         public let hsm: Hsm?
         
@@ -384,6 +399,7 @@ extension CloudHSMV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BackupId", required: true, type: .string)
         ]
+
         /// The ID of the backup to be deleted. To find the ID of a backup, use the DescribeBackups operation.
         public let backupId: String
         
@@ -404,6 +420,7 @@ extension CloudHSMV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Backup", required: false, type: .structure)
         ]
+
         /// Information on the Backup object deleted.
         public let backup: Backup?
         
@@ -424,6 +441,7 @@ extension CloudHSMV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterId", required: true, type: .string)
         ]
+
         /// The identifier (ID) of the cluster that you are deleting. To find the cluster ID, use DescribeClusters.
         public let clusterId: String
         
@@ -444,6 +462,7 @@ extension CloudHSMV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
+
         /// Information about the cluster that was deleted.
         public let cluster: Cluster?
         
@@ -467,6 +486,7 @@ extension CloudHSMV2 {
             AWSShapeMember(label: "EniIp", required: false, type: .string), 
             AWSShapeMember(label: "HsmId", required: false, type: .string)
         ]
+
         /// The identifier (ID) of the cluster that contains the HSM that you are deleting.
         public let clusterId: String
         /// The identifier (ID) of the elastic network interface (ENI) of the HSM that you are deleting.
@@ -502,6 +522,7 @@ extension CloudHSMV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HsmId", required: false, type: .string)
         ]
+
         /// The identifier (ID) of the HSM that was deleted.
         public let hsmId: String?
         
@@ -525,6 +546,7 @@ extension CloudHSMV2 {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "SortAscending", required: false, type: .boolean)
         ]
+
         /// One or more filters to limit the items returned in the response. Use the backupIds filter to return only the specified backups. Specify backups by their backup identifier (ID). Use the sourceBackupIds filter to return only the backups created from a source backup. The sourceBackupID of a source backup is returned by the CopyBackupToRegion operation. Use the clusterIds filter to return only the backups for the specified clusters. Specify clusters by their cluster identifier (ID). Use the states filter to return only backups that match the specified state.
         public let filters: [String: [String]]?
         /// The maximum number of backups to return in the response. When there are more backups than the number you specify, the response contains a NextToken value.
@@ -560,6 +582,7 @@ extension CloudHSMV2 {
             AWSShapeMember(label: "Backups", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// A list of backups.
         public let backups: [Backup]?
         /// An opaque string that indicates that the response contains only a subset of backups. Use this value in a subsequent DescribeBackups request to get more backups.
@@ -571,6 +594,9 @@ extension CloudHSMV2 {
         }
 
         public func validate() throws {
+            try backups?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 256)
             try validate(nextToken, name:"nextToken", pattern: ".*")
         }
@@ -587,6 +613,7 @@ extension CloudHSMV2 {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// One or more filters to limit the items returned in the response. Use the clusterIds filter to return only the specified clusters. Specify clusters by their cluster identifier (ID). Use the vpcIds filter to return only the clusters in the specified virtual private clouds (VPCs). Specify VPCs by their VPC identifier (ID). Use the states filter to return only clusters that match the specified state.
         public let filters: [String: [String]]?
         /// The maximum number of clusters to return in the response. When there are more clusters than the number you specify, the response contains a NextToken value.
@@ -619,6 +646,7 @@ extension CloudHSMV2 {
             AWSShapeMember(label: "Clusters", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// A list of clusters.
         public let clusters: [Cluster]?
         /// An opaque string that indicates that the response contains only a subset of clusters. Use this value in a subsequent DescribeClusters request to get more clusters.
@@ -630,6 +658,9 @@ extension CloudHSMV2 {
         }
 
         public func validate() throws {
+            try clusters?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", max: 256)
             try validate(nextToken, name:"nextToken", pattern: ".*")
         }
@@ -647,6 +678,7 @@ extension CloudHSMV2 {
             AWSShapeMember(label: "SourceCluster", required: false, type: .string), 
             AWSShapeMember(label: "SourceRegion", required: false, type: .string)
         ]
+
         public let createTimestamp: TimeStamp?
         public let sourceBackup: String?
         public let sourceCluster: String?
@@ -684,6 +716,7 @@ extension CloudHSMV2 {
             AWSShapeMember(label: "StateMessage", required: false, type: .string), 
             AWSShapeMember(label: "SubnetId", required: false, type: .string)
         ]
+
         /// The Availability Zone that contains the HSM.
         public let availabilityZone: String?
         /// The identifier (ID) of the cluster that contains the HSM.
@@ -748,6 +781,7 @@ extension CloudHSMV2 {
             AWSShapeMember(label: "SignedCert", required: true, type: .string), 
             AWSShapeMember(label: "TrustAnchor", required: true, type: .string)
         ]
+
         /// The identifier (ID) of the cluster that you are claiming. To find the cluster ID, use DescribeClusters.
         public let clusterId: String
         /// The cluster certificate issued (signed) by your issuing certificate authority (CA). The certificate must be in PEM format and can contain a maximum of 5000 characters.
@@ -781,6 +815,7 @@ extension CloudHSMV2 {
             AWSShapeMember(label: "State", required: false, type: .enum), 
             AWSShapeMember(label: "StateMessage", required: false, type: .string)
         ]
+
         /// The cluster's state.
         public let state: ClusterState?
         /// A description of the cluster's state.
@@ -808,6 +843,7 @@ extension CloudHSMV2 {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ResourceId", required: true, type: .string)
         ]
+
         /// The maximum number of tags to return in the response. When there are more tags than the number you specify, the response contains a NextToken value.
         public let maxResults: Int32?
         /// The NextToken value that you received in the previous response. Use this value to get more tags.
@@ -841,6 +877,7 @@ extension CloudHSMV2 {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "TagList", required: true, type: .list)
         ]
+
         /// An opaque string that indicates that the response contains only a subset of tags. Use this value in a subsequent ListTags request to get more tags.
         public let nextToken: String?
         /// A list of tags.
@@ -854,6 +891,9 @@ extension CloudHSMV2 {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 256)
             try validate(nextToken, name:"nextToken", pattern: ".*")
+            try tagList.forEach {
+                try $0.validate()
+            }
             try validate(tagList, name:"tagList", max: 50)
             try validate(tagList, name:"tagList", min: 1)
         }
@@ -868,6 +908,7 @@ extension CloudHSMV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BackupId", required: true, type: .string)
         ]
+
         /// The ID of the backup to be restored. To find the ID of a backup, use the DescribeBackups operation.
         public let backupId: String
         
@@ -888,6 +929,7 @@ extension CloudHSMV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Backup", required: false, type: .structure)
         ]
+
         /// Information on the Backup object created.
         public let backup: Backup?
         
@@ -909,6 +951,7 @@ extension CloudHSMV2 {
             AWSShapeMember(label: "Key", required: true, type: .string), 
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
+
         /// The key of the tag.
         public let key: String
         /// The value of the tag.
@@ -939,6 +982,7 @@ extension CloudHSMV2 {
             AWSShapeMember(label: "ResourceId", required: true, type: .string), 
             AWSShapeMember(label: "TagList", required: true, type: .list)
         ]
+
         /// The cluster identifier (ID) for the cluster that you are tagging. To find the cluster ID, use DescribeClusters.
         public let resourceId: String
         /// A list of one or more tags.
@@ -951,6 +995,9 @@ extension CloudHSMV2 {
 
         public func validate() throws {
             try validate(resourceId, name:"resourceId", pattern: "cluster-[2-7a-zA-Z]{11,16}")
+            try tagList.forEach {
+                try $0.validate()
+            }
             try validate(tagList, name:"tagList", max: 50)
             try validate(tagList, name:"tagList", min: 1)
         }
@@ -963,7 +1010,6 @@ extension CloudHSMV2 {
 
     public struct TagResourceResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -974,6 +1020,7 @@ extension CloudHSMV2 {
             AWSShapeMember(label: "ResourceId", required: true, type: .string), 
             AWSShapeMember(label: "TagKeyList", required: true, type: .list)
         ]
+
         /// The cluster identifier (ID) for the cluster whose tags you are removing. To find the cluster ID, use DescribeClusters.
         public let resourceId: String
         /// A list of one or more tag keys for the tags that you are removing. Specify only the tag keys, not the tag values.
@@ -986,6 +1033,11 @@ extension CloudHSMV2 {
 
         public func validate() throws {
             try validate(resourceId, name:"resourceId", pattern: "cluster-[2-7a-zA-Z]{11,16}")
+            try tagKeyList.forEach {
+                try validate($0, name:"tagKeyList[]", max: 128)
+                try validate($0, name:"tagKeyList[]", min: 1)
+                try validate($0, name:"tagKeyList[]", pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
             try validate(tagKeyList, name:"tagKeyList", max: 50)
             try validate(tagKeyList, name:"tagKeyList", min: 1)
         }
@@ -997,7 +1049,6 @@ extension CloudHSMV2 {
     }
 
     public struct UntagResourceResponse: AWSShape {
-        
         
         public init() {
         }

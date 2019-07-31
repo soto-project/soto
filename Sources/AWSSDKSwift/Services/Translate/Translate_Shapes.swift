@@ -10,6 +10,7 @@ extension Translate {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Terms", required: false, type: .list)
         ]
+
         /// The name of the custom terminology applied to the input text by Amazon Translate for the translated text response.
         public let name: String?
         /// The specific terms of the custom terminology applied to the input text by Amazon Translate for the translated text response. A maximum of 250 terms will be returned, and the specific terms applied will be the first 250 terms in the source text. 
@@ -24,6 +25,9 @@ extension Translate {
             try validate(name, name:"name", max: 256)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "^([A-Za-z0-9-]_?)+$")
+            try terms?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -36,6 +40,7 @@ extension Translate {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// The name of the custom terminology being deleted. 
         public let name: String
         
@@ -59,6 +64,7 @@ extension Translate {
             AWSShapeMember(label: "Id", required: true, type: .string), 
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
+
         /// The Amazon Resource Name (ARN) of the encryption key being used to encrypt the custom terminology.
         public let id: String
         /// The type of encryption key used by Amazon Translate to encrypt custom terminologies.
@@ -91,6 +97,7 @@ extension Translate {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "TerminologyDataFormat", required: true, type: .enum)
         ]
+
         /// The name of the custom terminology being retrieved.
         public let name: String
         /// The data format of the custom terminology being retrieved, either CSV or TMX.
@@ -118,6 +125,7 @@ extension Translate {
             AWSShapeMember(label: "TerminologyDataLocation", required: false, type: .structure), 
             AWSShapeMember(label: "TerminologyProperties", required: false, type: .structure)
         ]
+
         /// The data location of the custom terminology being retrieved. The custom terminology file is returned in a presigned url that has a 30 minute expiration.
         public let terminologyDataLocation: TerminologyDataLocation?
         /// The properties of the custom terminology being retrieved.
@@ -147,6 +155,7 @@ extension Translate {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "TerminologyData", required: true, type: .structure)
         ]
+
         /// The description of the custom terminology being imported.
         public let description: String?
         /// The encryption key for the custom terminology being imported.
@@ -189,6 +198,7 @@ extension Translate {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TerminologyProperties", required: false, type: .structure)
         ]
+
         /// The properties of the custom terminology being imported.
         public let terminologyProperties: TerminologyProperties?
         
@@ -210,6 +220,7 @@ extension Translate {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The maximum number of custom terminologies returned per list request.
         public let maxResults: Int32?
         /// If the result of the request to ListTerminologies was truncated, include the NextToken to fetch the next group of custom terminologies. 
@@ -238,6 +249,7 @@ extension Translate {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "TerminologyPropertiesList", required: false, type: .list)
         ]
+
         ///  If the response to the ListTerminologies was truncated, the NextToken fetches the next group of custom terminologies. 
         public let nextToken: String?
         /// The properties list of the custom terminologies returned on the list request.
@@ -251,6 +263,9 @@ extension Translate {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 8192)
             try validate(nextToken, name:"nextToken", pattern: "\\p{ASCII}{0,8192}")
+            try terminologyPropertiesList?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -269,6 +284,7 @@ extension Translate {
             AWSShapeMember(label: "SourceText", required: false, type: .string), 
             AWSShapeMember(label: "TargetText", required: false, type: .string)
         ]
+
         /// The source text of the term being translated by the custom terminology.
         public let sourceText: String?
         /// The target text of the term being translated by the custom terminology.
@@ -297,6 +313,7 @@ extension Translate {
             AWSShapeMember(label: "File", required: true, type: .blob), 
             AWSShapeMember(label: "Format", required: true, type: .enum)
         ]
+
         /// The file containing the custom terminology data.
         public let file: Data
         /// The data format of the custom terminology. Either CSV or TMX.
@@ -328,6 +345,7 @@ extension Translate {
             AWSShapeMember(label: "Location", required: true, type: .string), 
             AWSShapeMember(label: "RepositoryType", required: true, type: .string)
         ]
+
         /// The location of the custom terminology data.
         public let location: String
         /// The repository type for the custom terminology data.
@@ -364,6 +382,7 @@ extension Translate {
             AWSShapeMember(label: "TargetLanguageCodes", required: false, type: .list), 
             AWSShapeMember(label: "TermCount", required: false, type: .integer)
         ]
+
         ///  The Amazon Resource Name (ARN) of the custom terminology. 
         public let arn: String?
         /// The time at which the custom terminology was created, based on the timestamp.
@@ -408,6 +427,10 @@ extension Translate {
             try validate(name, name:"name", pattern: "^([A-Za-z0-9-]_?)+$")
             try validate(sourceLanguageCode, name:"sourceLanguageCode", max: 5)
             try validate(sourceLanguageCode, name:"sourceLanguageCode", min: 2)
+            try targetLanguageCodes?.forEach {
+                try validate($0, name:"targetLanguageCodes[]", max: 5)
+                try validate($0, name:"targetLanguageCodes[]", min: 2)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -431,6 +454,7 @@ extension Translate {
             AWSShapeMember(label: "TerminologyNames", required: false, type: .list), 
             AWSShapeMember(label: "Text", required: true, type: .string)
         ]
+
         /// The language code for the language of the source text. The language must be a language supported by Amazon Translate.  To have Amazon Translate determine the source language of your text, you can specify auto in the SourceLanguageCode field. If you specify auto, Amazon Translate will call Amazon Comprehend to determine the source language.
         public let sourceLanguageCode: String
         /// The language code requested for the language of the target text. The language must be a language supported by Amazon Translate.
@@ -452,6 +476,11 @@ extension Translate {
             try validate(sourceLanguageCode, name:"sourceLanguageCode", min: 2)
             try validate(targetLanguageCode, name:"targetLanguageCode", max: 5)
             try validate(targetLanguageCode, name:"targetLanguageCode", min: 2)
+            try terminologyNames?.forEach {
+                try validate($0, name:"terminologyNames[]", max: 256)
+                try validate($0, name:"terminologyNames[]", min: 1)
+                try validate($0, name:"terminologyNames[]", pattern: "^([A-Za-z0-9-]_?)+$")
+            }
             try validate(text, name:"text", max: 5000)
             try validate(text, name:"text", min: 1)
             try validate(text, name:"text", pattern: "[\\P{M}\\p{M}]{1,5000}")
@@ -472,6 +501,7 @@ extension Translate {
             AWSShapeMember(label: "TargetLanguageCode", required: true, type: .string), 
             AWSShapeMember(label: "TranslatedText", required: true, type: .string)
         ]
+
         /// The names of the custom terminologies applied to the input text by Amazon Translate for the translated text response.
         public let appliedTerminologies: [AppliedTerminology]?
         /// The language code for the language of the source text. 
@@ -489,6 +519,9 @@ extension Translate {
         }
 
         public func validate() throws {
+            try appliedTerminologies?.forEach {
+                try $0.validate()
+            }
             try validate(sourceLanguageCode, name:"sourceLanguageCode", max: 5)
             try validate(sourceLanguageCode, name:"sourceLanguageCode", min: 2)
             try validate(targetLanguageCode, name:"targetLanguageCode", max: 5)

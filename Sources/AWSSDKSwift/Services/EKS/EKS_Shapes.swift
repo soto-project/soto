@@ -9,6 +9,7 @@ extension EKS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "data", required: false, type: .string)
         ]
+
         /// The Base64-encoded certificate data required to communicate with your cluster. Add this to the certificate-authority-data section of the kubeconfig file for your cluster.
         public let data: String?
         
@@ -36,6 +37,7 @@ extension EKS {
             AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of the cluster.
         public let arn: String?
         /// The certificate-authority-data for your cluster.
@@ -109,6 +111,7 @@ extension EKS {
             AWSShapeMember(label: "roleArn", required: true, type: .string), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
         /// Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS Cluster Control Plane Logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see Amazon CloudWatch Pricing. 
@@ -151,6 +154,7 @@ extension EKS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "cluster", required: false, type: .structure)
         ]
+
         /// The full description of your new cluster.
         public let cluster: Cluster?
         
@@ -167,6 +171,7 @@ extension EKS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
         ]
+
         /// The name of the cluster to delete.
         public let name: String
         
@@ -183,6 +188,7 @@ extension EKS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "cluster", required: false, type: .structure)
         ]
+
         /// The full description of the cluster to delete.
         public let cluster: Cluster?
         
@@ -199,6 +205,7 @@ extension EKS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
         ]
+
         /// The name of the cluster to describe.
         public let name: String
         
@@ -215,6 +222,7 @@ extension EKS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "cluster", required: false, type: .structure)
         ]
+
         /// The full description of your specified cluster.
         public let cluster: Cluster?
         
@@ -232,6 +240,7 @@ extension EKS {
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "updateId", location: .uri(locationName: "updateId"), required: true, type: .string)
         ]
+
         /// The name of the Amazon EKS cluster to update.
         public let name: String
         /// The ID of the update to describe.
@@ -252,6 +261,7 @@ extension EKS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "update", required: false, type: .structure)
         ]
+
         /// The full description of the specified update.
         public let update: Update?
         
@@ -282,6 +292,7 @@ extension EKS {
             AWSShapeMember(label: "errorMessage", required: false, type: .string), 
             AWSShapeMember(label: "resourceIds", required: false, type: .list)
         ]
+
         /// A brief description of the error.     SubnetNotFound: We couldn't find one of the subnets associated with the cluster.    SecurityGroupNotFound: We couldn't find one of the security groups associated with the cluster.    EniLimitReached: You have reached the elastic network interface limit for your account.    IpNotAvailable: A subnet associated with the cluster doesn't have any free IP addresses.    AccessDenied: You don't have permissions to perform the specified operation.    OperationNotPermitted: The service role associated with the cluster doesn't have the required access permissions for Amazon EKS.    VpcIdNotFound: We couldn't find the VPC associated with the cluster.  
         public let errorCode: ErrorCode?
         /// A more complete description of the error.
@@ -307,6 +318,7 @@ extension EKS {
             AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// The maximum number of cluster results returned by ListClusters in paginated output. When you use this parameter, ListClusters returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListClusters request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListClusters returns up to 100 results and a nextToken value if applicable.
         public let maxResults: Int32?
         /// The nextToken value returned from a previous paginated ListClusters request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes. 
@@ -333,6 +345,7 @@ extension EKS {
             AWSShapeMember(label: "clusters", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// A list of all of the clusters for your account in the specified Region.
         public let clusters: [String]?
         /// The nextToken value to include in a future ListClusters request. When the results of a ListClusters request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
@@ -355,6 +368,7 @@ extension EKS {
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// The maximum number of update results returned by ListUpdates in paginated output. When you use this parameter, ListUpdates returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListUpdates request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListUpdates returns up to 100 results and a nextToken value if applicable.
         public let maxResults: Int32?
         /// The name of the Amazon EKS cluster to list updates for.
@@ -385,6 +399,7 @@ extension EKS {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "updateIds", required: false, type: .list)
         ]
+
         /// The nextToken value to include in a future ListUpdates request. When the results of a ListUpdates request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// A list of all the updates for the specified cluster and Region.
@@ -406,6 +421,7 @@ extension EKS {
             AWSShapeMember(label: "enabled", required: false, type: .boolean), 
             AWSShapeMember(label: "types", required: false, type: .list)
         ]
+
         /// If a log type is enabled, that log type exports its control plane logs to CloudWatch Logs. If a log type isn't enabled, that log type doesn't export its control plane logs. Each individual log type can be enabled or disabled independently.
         public let enabled: Bool?
         /// The available cluster control plane log types.
@@ -435,6 +451,7 @@ extension EKS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "clusterLogging", required: false, type: .list)
         ]
+
         /// The cluster control plane logging configuration for your cluster.
         public let clusterLogging: [LogSetup]?
         
@@ -456,6 +473,7 @@ extension EKS {
             AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "type", required: false, type: .enum)
         ]
+
         /// The Unix epoch timestamp in seconds for when the update was created.
         public let createdAt: TimeStamp?
         /// Any errors associated with a Failed update.
@@ -495,6 +513,7 @@ extension EKS {
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "resourcesVpcConfig", required: false, type: .structure)
         ]
+
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
         /// Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS Cluster Control Plane Logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see Amazon CloudWatch Pricing. 
@@ -522,6 +541,7 @@ extension EKS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "update", required: false, type: .structure)
         ]
+
         public let update: Update?
         
         public init(update: Update? = nil) {
@@ -539,6 +559,7 @@ extension EKS {
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "version", required: true, type: .string)
         ]
+
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
         /// The name of the Amazon EKS cluster to update.
@@ -563,6 +584,7 @@ extension EKS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "update", required: false, type: .structure)
         ]
+
         /// The full description of the specified update
         public let update: Update?
         
@@ -580,6 +602,7 @@ extension EKS {
             AWSShapeMember(label: "type", required: false, type: .enum), 
             AWSShapeMember(label: "value", required: false, type: .string)
         ]
+
         /// The keys associated with an update request.
         public let `type`: UpdateParamType?
         /// The value of the keys submitted as part of an update request.
@@ -627,6 +650,7 @@ extension EKS {
             AWSShapeMember(label: "securityGroupIds", required: false, type: .list), 
             AWSShapeMember(label: "subnetIds", required: false, type: .list)
         ]
+
         /// Set this value to true to enable private access for your cluster's Kubernetes API server endpoint. If you enable private access, Kubernetes API requests from within your cluster's VPC use the private VPC endpoint. The default value for this parameter is false, which disables private access for your Kubernetes API server. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .
         public let endpointPrivateAccess: Bool?
         /// Set this value to false to disable public access for your cluster's Kubernetes API server endpoint. If you disable public access, your cluster's Kubernetes API server can receive only requests from within the cluster VPC. The default value for this parameter is true, which enables public access for your Kubernetes API server. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .
@@ -659,6 +683,7 @@ extension EKS {
             AWSShapeMember(label: "subnetIds", required: false, type: .list), 
             AWSShapeMember(label: "vpcId", required: false, type: .string)
         ]
+
         /// This parameter indicates whether the Amazon EKS private API server endpoint is enabled. If the Amazon EKS private API server endpoint is enabled, Kubernetes API requests that originate from within your cluster's VPC use the private VPC endpoint instead of traversing the internet.
         public let endpointPrivateAccess: Bool?
         /// This parameter indicates whether the Amazon EKS public API server endpoint is enabled. If the Amazon EKS public API server endpoint is disabled, your cluster's Kubernetes API server can receive only requests that originate from within the cluster VPC. 

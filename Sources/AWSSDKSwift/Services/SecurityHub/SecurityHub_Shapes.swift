@@ -10,6 +10,7 @@ extension SecurityHub {
             AWSShapeMember(label: "InvitationId", required: false, type: .string), 
             AWSShapeMember(label: "MasterId", required: false, type: .string)
         ]
+
         /// The ID of the invitation sent from the Security Hub master account.
         public let invitationId: String?
         /// The account ID of the Security Hub master account that sent the invitation.
@@ -33,7 +34,6 @@ extension SecurityHub {
 
     public struct AcceptInvitationResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -44,6 +44,7 @@ extension SecurityHub {
             AWSShapeMember(label: "AccountId", required: false, type: .string), 
             AWSShapeMember(label: "Email", required: false, type: .string)
         ]
+
         /// The ID of an AWS account.
         public let accountId: String?
         /// The email of an AWS account.
@@ -70,6 +71,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Description", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// The ARN for the target action.
         public let actionTargetArn: String
         /// The description of the target action.
@@ -108,6 +110,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Type", required: false, type: .string), 
             AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
+
         /// The IAM profile ARN of the instance.
         public let iamInstanceProfileArn: String?
         /// The Amazon Machine Image (AMI) ID of the instance.
@@ -142,6 +145,12 @@ extension SecurityHub {
         public func validate() throws {
             try validate(iamInstanceProfileArn, name:"iamInstanceProfileArn", pattern: ".*\\S.*")
             try validate(imageId, name:"imageId", pattern: ".*\\S.*")
+            try ipV4Addresses?.forEach {
+                try validate($0, name:"ipV4Addresses[]", pattern: ".*\\S.*")
+            }
+            try ipV6Addresses?.forEach {
+                try validate($0, name:"ipV6Addresses[]", pattern: ".*\\S.*")
+            }
             try validate(keyName, name:"keyName", pattern: ".*\\S.*")
             try validate(launchedAt, name:"launchedAt", pattern: ".*\\S.*")
             try validate(subnetId, name:"subnetId", pattern: ".*\\S.*")
@@ -168,6 +177,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "UserName", required: false, type: .string)
         ]
+
         /// The creation date/time of the IAM access key related to a finding.
         public let createdAt: String?
         /// The status of the IAM access key related to a finding.
@@ -204,6 +214,7 @@ extension SecurityHub {
             AWSShapeMember(label: "OwnerId", required: false, type: .string), 
             AWSShapeMember(label: "OwnerName", required: false, type: .string)
         ]
+
         /// The canonical user ID of the owner of the S3 bucket.
         public let ownerId: String?
         /// The display name of the owner of the S3 bucket.
@@ -258,6 +269,7 @@ extension SecurityHub {
             AWSShapeMember(label: "VerificationState", required: false, type: .enum), 
             AWSShapeMember(label: "WorkflowState", required: false, type: .enum)
         ]
+
         /// The AWS account ID that a finding is generated in.
         public let awsAccountId: String
         /// This data type is exclusive to findings that are generated as the result of a check run against a specific rule in a supported standard (for example, CIS AWS Foundations). Contains compliance-related finding details.
@@ -360,14 +372,29 @@ extension SecurityHub {
             try validate(generatorId, name:"generatorId", pattern: ".*\\S.*")
             try validate(id, name:"id", pattern: ".*\\S.*")
             try validate(lastObservedAt, name:"lastObservedAt", pattern: ".*\\S.*")
+            try malware?.forEach {
+                try $0.validate()
+            }
             try network?.validate()
             try note?.validate()
             try process?.validate()
             try validate(productArn, name:"productArn", pattern: ".*\\S.*")
+            try relatedFindings?.forEach {
+                try $0.validate()
+            }
             try remediation?.validate()
+            try resources.forEach {
+                try $0.validate()
+            }
             try validate(schemaVersion, name:"schemaVersion", pattern: ".*\\S.*")
             try validate(sourceUrl, name:"sourceUrl", pattern: ".*\\S.*")
+            try threatIntelIndicators?.forEach {
+                try $0.validate()
+            }
             try validate(title, name:"title", pattern: ".*\\S.*")
+            try types.forEach {
+                try validate($0, name:"types[]", pattern: ".*\\S.*")
+            }
             try validate(updatedAt, name:"updatedAt", pattern: ".*\\S.*")
         }
 
@@ -491,6 +518,7 @@ extension SecurityHub {
             AWSShapeMember(label: "VerificationState", required: false, type: .list), 
             AWSShapeMember(label: "WorkflowState", required: false, type: .list)
         ]
+
         /// The AWS account ID that a finding is generated in.
         public let awsAccountId: [StringFilter]?
         /// The name of the findings provider (company) that owns the solution (product) that generates findings.
@@ -744,6 +772,234 @@ extension SecurityHub {
             self.workflowState = workflowState
         }
 
+        public func validate() throws {
+            try awsAccountId?.forEach {
+                try $0.validate()
+            }
+            try companyName?.forEach {
+                try $0.validate()
+            }
+            try complianceStatus?.forEach {
+                try $0.validate()
+            }
+            try createdAt?.forEach {
+                try $0.validate()
+            }
+            try description?.forEach {
+                try $0.validate()
+            }
+            try firstObservedAt?.forEach {
+                try $0.validate()
+            }
+            try generatorId?.forEach {
+                try $0.validate()
+            }
+            try id?.forEach {
+                try $0.validate()
+            }
+            try keyword?.forEach {
+                try $0.validate()
+            }
+            try lastObservedAt?.forEach {
+                try $0.validate()
+            }
+            try malwareName?.forEach {
+                try $0.validate()
+            }
+            try malwarePath?.forEach {
+                try $0.validate()
+            }
+            try malwareState?.forEach {
+                try $0.validate()
+            }
+            try malwareType?.forEach {
+                try $0.validate()
+            }
+            try networkDestinationDomain?.forEach {
+                try $0.validate()
+            }
+            try networkDestinationIpV4?.forEach {
+                try $0.validate()
+            }
+            try networkDestinationIpV6?.forEach {
+                try $0.validate()
+            }
+            try networkDirection?.forEach {
+                try $0.validate()
+            }
+            try networkProtocol?.forEach {
+                try $0.validate()
+            }
+            try networkSourceDomain?.forEach {
+                try $0.validate()
+            }
+            try networkSourceIpV4?.forEach {
+                try $0.validate()
+            }
+            try networkSourceIpV6?.forEach {
+                try $0.validate()
+            }
+            try networkSourceMac?.forEach {
+                try $0.validate()
+            }
+            try noteText?.forEach {
+                try $0.validate()
+            }
+            try noteUpdatedAt?.forEach {
+                try $0.validate()
+            }
+            try noteUpdatedBy?.forEach {
+                try $0.validate()
+            }
+            try processLaunchedAt?.forEach {
+                try $0.validate()
+            }
+            try processName?.forEach {
+                try $0.validate()
+            }
+            try processPath?.forEach {
+                try $0.validate()
+            }
+            try processTerminatedAt?.forEach {
+                try $0.validate()
+            }
+            try productArn?.forEach {
+                try $0.validate()
+            }
+            try productFields?.forEach {
+                try $0.validate()
+            }
+            try productName?.forEach {
+                try $0.validate()
+            }
+            try recommendationText?.forEach {
+                try $0.validate()
+            }
+            try recordState?.forEach {
+                try $0.validate()
+            }
+            try relatedFindingsId?.forEach {
+                try $0.validate()
+            }
+            try relatedFindingsProductArn?.forEach {
+                try $0.validate()
+            }
+            try resourceAwsEc2InstanceIamInstanceProfileArn?.forEach {
+                try $0.validate()
+            }
+            try resourceAwsEc2InstanceImageId?.forEach {
+                try $0.validate()
+            }
+            try resourceAwsEc2InstanceIpV4Addresses?.forEach {
+                try $0.validate()
+            }
+            try resourceAwsEc2InstanceIpV6Addresses?.forEach {
+                try $0.validate()
+            }
+            try resourceAwsEc2InstanceKeyName?.forEach {
+                try $0.validate()
+            }
+            try resourceAwsEc2InstanceLaunchedAt?.forEach {
+                try $0.validate()
+            }
+            try resourceAwsEc2InstanceSubnetId?.forEach {
+                try $0.validate()
+            }
+            try resourceAwsEc2InstanceType?.forEach {
+                try $0.validate()
+            }
+            try resourceAwsEc2InstanceVpcId?.forEach {
+                try $0.validate()
+            }
+            try resourceAwsIamAccessKeyCreatedAt?.forEach {
+                try $0.validate()
+            }
+            try resourceAwsIamAccessKeyStatus?.forEach {
+                try $0.validate()
+            }
+            try resourceAwsIamAccessKeyUserName?.forEach {
+                try $0.validate()
+            }
+            try resourceAwsS3BucketOwnerId?.forEach {
+                try $0.validate()
+            }
+            try resourceAwsS3BucketOwnerName?.forEach {
+                try $0.validate()
+            }
+            try resourceContainerImageId?.forEach {
+                try $0.validate()
+            }
+            try resourceContainerImageName?.forEach {
+                try $0.validate()
+            }
+            try resourceContainerLaunchedAt?.forEach {
+                try $0.validate()
+            }
+            try resourceContainerName?.forEach {
+                try $0.validate()
+            }
+            try resourceDetailsOther?.forEach {
+                try $0.validate()
+            }
+            try resourceId?.forEach {
+                try $0.validate()
+            }
+            try resourcePartition?.forEach {
+                try $0.validate()
+            }
+            try resourceRegion?.forEach {
+                try $0.validate()
+            }
+            try resourceTags?.forEach {
+                try $0.validate()
+            }
+            try resourceType?.forEach {
+                try $0.validate()
+            }
+            try severityLabel?.forEach {
+                try $0.validate()
+            }
+            try sourceUrl?.forEach {
+                try $0.validate()
+            }
+            try threatIntelIndicatorCategory?.forEach {
+                try $0.validate()
+            }
+            try threatIntelIndicatorLastObservedAt?.forEach {
+                try $0.validate()
+            }
+            try threatIntelIndicatorSource?.forEach {
+                try $0.validate()
+            }
+            try threatIntelIndicatorSourceUrl?.forEach {
+                try $0.validate()
+            }
+            try threatIntelIndicatorType?.forEach {
+                try $0.validate()
+            }
+            try threatIntelIndicatorValue?.forEach {
+                try $0.validate()
+            }
+            try title?.forEach {
+                try $0.validate()
+            }
+            try `type`?.forEach {
+                try $0.validate()
+            }
+            try updatedAt?.forEach {
+                try $0.validate()
+            }
+            try userDefinedFields?.forEach {
+                try $0.validate()
+            }
+            try verificationState?.forEach {
+                try $0.validate()
+            }
+            try workflowState?.forEach {
+                try $0.validate()
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case awsAccountId = "AwsAccountId"
             case companyName = "CompanyName"
@@ -835,6 +1091,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StandardsSubscriptionArns", required: true, type: .list)
         ]
+
         /// The ARNs of the standards subscriptions to disable.
         public let standardsSubscriptionArns: [String]
         
@@ -843,6 +1100,9 @@ extension SecurityHub {
         }
 
         public func validate() throws {
+            try standardsSubscriptionArns.forEach {
+                try validate($0, name:"standardsSubscriptionArns[]", pattern: ".*\\S.*")
+            }
             try validate(standardsSubscriptionArns, name:"standardsSubscriptionArns", max: 25)
             try validate(standardsSubscriptionArns, name:"standardsSubscriptionArns", min: 1)
         }
@@ -856,11 +1116,18 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StandardsSubscriptions", required: false, type: .list)
         ]
+
         /// The details of the standards subscriptions that were disabled.
         public let standardsSubscriptions: [StandardsSubscription]?
         
         public init(standardsSubscriptions: [StandardsSubscription]? = nil) {
             self.standardsSubscriptions = standardsSubscriptions
+        }
+
+        public func validate() throws {
+            try standardsSubscriptions?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -872,6 +1139,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StandardsSubscriptionRequests", required: true, type: .list)
         ]
+
         /// The list of standards compliance checks to enable.  In this release, Security Hub supports only the CIS AWS Foundations standard. The ARN for the standard is arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0. 
         public let standardsSubscriptionRequests: [StandardsSubscriptionRequest]
         
@@ -880,6 +1148,9 @@ extension SecurityHub {
         }
 
         public func validate() throws {
+            try standardsSubscriptionRequests.forEach {
+                try $0.validate()
+            }
             try validate(standardsSubscriptionRequests, name:"standardsSubscriptionRequests", max: 25)
             try validate(standardsSubscriptionRequests, name:"standardsSubscriptionRequests", min: 1)
         }
@@ -893,11 +1164,18 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StandardsSubscriptions", required: false, type: .list)
         ]
+
         /// The details of the standards subscriptions that were enabled.
         public let standardsSubscriptions: [StandardsSubscription]?
         
         public init(standardsSubscriptions: [StandardsSubscription]? = nil) {
             self.standardsSubscriptions = standardsSubscriptions
+        }
+
+        public func validate() throws {
+            try standardsSubscriptions?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -909,11 +1187,18 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Findings", required: true, type: .list)
         ]
+
         /// A list of findings to import. To successfully import a finding, it must follow the AWS Security Finding Format.
         public let findings: [AwsSecurityFinding]
         
         public init(findings: [AwsSecurityFinding]) {
             self.findings = findings
+        }
+
+        public func validate() throws {
+            try findings.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -927,6 +1212,7 @@ extension SecurityHub {
             AWSShapeMember(label: "FailedFindings", required: false, type: .list), 
             AWSShapeMember(label: "SuccessCount", required: true, type: .integer)
         ]
+
         /// The number of findings that failed to import.
         public let failedCount: Int32
         /// The list of the findings that failed to import.
@@ -940,6 +1226,12 @@ extension SecurityHub {
             self.successCount = successCount
         }
 
+        public func validate() throws {
+            try failedFindings?.forEach {
+                try $0.validate()
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case failedCount = "FailedCount"
             case failedFindings = "FailedFindings"
@@ -951,6 +1243,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
+
         /// The result of a compliance check.
         public let status: ComplianceStatus?
         
@@ -978,6 +1271,7 @@ extension SecurityHub {
             AWSShapeMember(label: "LaunchedAt", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         /// The identifier of the image related to a finding.
         public let imageId: String?
         /// The name of the image related to a finding.
@@ -1015,6 +1309,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Id", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// The description for the custom action target.
         public let description: String
         /// The ID for the custom action target.
@@ -1045,6 +1340,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ActionTargetArn", required: true, type: .string)
         ]
+
         /// The ARN for the custom action target.
         public let actionTargetArn: String
         
@@ -1067,6 +1363,7 @@ extension SecurityHub {
             AWSShapeMember(label: "GroupByAttribute", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// One or more attributes used to filter the findings included in the insight. Only findings that match the criteria defined in the filters are included in the insight.
         public let filters: AwsSecurityFindingFilters
         /// The attribute used as the aggregator to group related findings for the insight.
@@ -1081,6 +1378,7 @@ extension SecurityHub {
         }
 
         public func validate() throws {
+            try filters.validate()
             try validate(groupByAttribute, name:"groupByAttribute", pattern: ".*\\S.*")
             try validate(name, name:"name", pattern: ".*\\S.*")
         }
@@ -1096,6 +1394,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InsightArn", required: true, type: .string)
         ]
+
         /// The ARN of the insight created.
         public let insightArn: String
         
@@ -1116,11 +1415,18 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountDetails", required: false, type: .list)
         ]
+
         /// A list of account ID and email address pairs of the accounts to associate with the Security Hub master account.
         public let accountDetails: [AccountDetails]?
         
         public init(accountDetails: [AccountDetails]? = nil) {
             self.accountDetails = accountDetails
+        }
+
+        public func validate() throws {
+            try accountDetails?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1132,11 +1438,18 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
         ]
+
         /// A list of account ID and email address pairs of the AWS accounts that weren't processed.
         public let unprocessedAccounts: [Result]?
         
         public init(unprocessedAccounts: [Result]? = nil) {
             self.unprocessedAccounts = unprocessedAccounts
+        }
+
+        public func validate() throws {
+            try unprocessedAccounts?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1150,6 +1463,7 @@ extension SecurityHub {
             AWSShapeMember(label: "End", required: false, type: .string), 
             AWSShapeMember(label: "Start", required: false, type: .string)
         ]
+
         /// A date range for the date filter.
         public let dateRange: DateRange?
         /// An end date for the date filter.
@@ -1180,6 +1494,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Unit", required: false, type: .enum), 
             AWSShapeMember(label: "Value", required: false, type: .integer)
         ]
+
         /// A date range unit for the date filter.
         public let unit: DateRangeUnit?
         /// A date range value for the date filter.
@@ -1205,11 +1520,18 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountIds", required: false, type: .list)
         ]
+
         /// A list of account IDs that specify the accounts that invitations to Security Hub are declined from.
         public let accountIds: [String]?
         
         public init(accountIds: [String]? = nil) {
             self.accountIds = accountIds
+        }
+
+        public func validate() throws {
+            try accountIds?.forEach {
+                try validate($0, name:"accountIds[]", pattern: ".*\\S.*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1221,11 +1543,18 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
         ]
+
         /// A list of account ID and email address pairs of the AWS accounts that weren't processed.
         public let unprocessedAccounts: [Result]?
         
         public init(unprocessedAccounts: [Result]? = nil) {
             self.unprocessedAccounts = unprocessedAccounts
+        }
+
+        public func validate() throws {
+            try unprocessedAccounts?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1237,6 +1566,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ActionTargetArn", location: .uri(locationName: "ActionTargetArn"), required: true, type: .string)
         ]
+
         /// The ARN of the custom action target to delete.
         public let actionTargetArn: String
         
@@ -1257,6 +1587,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ActionTargetArn", required: true, type: .string)
         ]
+
         /// The ARN of the custom action target that was deleted.
         public let actionTargetArn: String
         
@@ -1277,6 +1608,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InsightArn", location: .uri(locationName: "InsightArn"), required: true, type: .string)
         ]
+
         /// The ARN of the insight to delete.
         public let insightArn: String
         
@@ -1297,6 +1629,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InsightArn", required: true, type: .string)
         ]
+
         /// The ARN of the insight that was deleted.
         public let insightArn: String
         
@@ -1317,11 +1650,18 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountIds", required: false, type: .list)
         ]
+
         /// A list of the account IDs that sent the invitations to delete.
         public let accountIds: [String]?
         
         public init(accountIds: [String]? = nil) {
             self.accountIds = accountIds
+        }
+
+        public func validate() throws {
+            try accountIds?.forEach {
+                try validate($0, name:"accountIds[]", pattern: ".*\\S.*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1333,11 +1673,18 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
         ]
+
         /// A list of account ID and email address pairs of the AWS accounts that invitations weren't deleted for.
         public let unprocessedAccounts: [Result]?
         
         public init(unprocessedAccounts: [Result]? = nil) {
             self.unprocessedAccounts = unprocessedAccounts
+        }
+
+        public func validate() throws {
+            try unprocessedAccounts?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1349,11 +1696,18 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountIds", required: false, type: .list)
         ]
+
         /// A list of account IDs of the member accounts to delete.
         public let accountIds: [String]?
         
         public init(accountIds: [String]? = nil) {
             self.accountIds = accountIds
+        }
+
+        public func validate() throws {
+            try accountIds?.forEach {
+                try validate($0, name:"accountIds[]", pattern: ".*\\S.*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1365,11 +1719,18 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
         ]
+
         /// A list of account ID and email address pairs of the AWS accounts that weren't deleted.
         public let unprocessedAccounts: [Result]?
         
         public init(unprocessedAccounts: [Result]? = nil) {
             self.unprocessedAccounts = unprocessedAccounts
+        }
+
+        public func validate() throws {
+            try unprocessedAccounts?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1383,6 +1744,7 @@ extension SecurityHub {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// A list of custom action target ARNs for the custom action targets to retrieve.
         public let actionTargetArns: [String]?
         /// The maximum number of results to return.
@@ -1397,6 +1759,9 @@ extension SecurityHub {
         }
 
         public func validate() throws {
+            try actionTargetArns?.forEach {
+                try validate($0, name:"actionTargetArns[]", pattern: ".*\\S.*")
+            }
             try validate(maxResults, name:"maxResults", max: 100)
             try validate(maxResults, name:"maxResults", min: 1)
         }
@@ -1413,6 +1778,7 @@ extension SecurityHub {
             AWSShapeMember(label: "ActionTargets", required: true, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// A list of ActionTarget objects. Each object includes the ActionTargetArn, Description, and Name of a custom action target available in Security Hub.
         public let actionTargets: [ActionTarget]
         /// The token that is required for pagination.
@@ -1421,6 +1787,12 @@ extension SecurityHub {
         public init(actionTargets: [ActionTarget], nextToken: String? = nil) {
             self.actionTargets = actionTargets
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try actionTargets.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1433,6 +1805,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HubArn", required: false, type: .string)
         ]
+
         /// The ARN of the Hub resource to retrieve.
         public let hubArn: String?
         
@@ -1454,6 +1827,7 @@ extension SecurityHub {
             AWSShapeMember(label: "HubArn", required: false, type: .string), 
             AWSShapeMember(label: "SubscribedAt", required: false, type: .string)
         ]
+
         /// The ARN of the Hub resource retrieved.
         public let hubArn: String?
         /// The date and time when Security Hub was enabled in the account.
@@ -1480,6 +1854,7 @@ extension SecurityHub {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
+
         /// The maximum number of results to return.
         public let maxResults: Int32?
         /// The token that is required for pagination.
@@ -1506,6 +1881,7 @@ extension SecurityHub {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Products", required: true, type: .list)
         ]
+
         /// The token that is required for pagination.
         public let nextToken: String?
         /// A list of products, including details for each product.
@@ -1514,6 +1890,12 @@ extension SecurityHub {
         public init(nextToken: String? = nil, products: [Product]) {
             self.nextToken = nextToken
             self.products = products
+        }
+
+        public func validate() throws {
+            try products.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1526,6 +1908,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProductSubscriptionArn", location: .uri(locationName: "ProductSubscriptionArn"), required: true, type: .string)
         ]
+
         /// The ARN of the integrated product to disable the integration for.
         public let productSubscriptionArn: String
         
@@ -1544,14 +1927,12 @@ extension SecurityHub {
 
     public struct DisableImportFindingsForProductResponse: AWSShape {
         
-        
         public init() {
         }
 
         }
 
     public struct DisableSecurityHubRequest: AWSShape {
-        
         
         public init() {
         }
@@ -1560,7 +1941,6 @@ extension SecurityHub {
 
     public struct DisableSecurityHubResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -1568,14 +1948,12 @@ extension SecurityHub {
 
     public struct DisassociateFromMasterAccountRequest: AWSShape {
         
-        
         public init() {
         }
 
         }
 
     public struct DisassociateFromMasterAccountResponse: AWSShape {
-        
         
         public init() {
         }
@@ -1586,11 +1964,18 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountIds", required: false, type: .list)
         ]
+
         /// The account IDs of the member accounts to disassociate from the master account.
         public let accountIds: [String]?
         
         public init(accountIds: [String]? = nil) {
             self.accountIds = accountIds
+        }
+
+        public func validate() throws {
+            try accountIds?.forEach {
+                try validate($0, name:"accountIds[]", pattern: ".*\\S.*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1599,7 +1984,6 @@ extension SecurityHub {
     }
 
     public struct DisassociateMembersResponse: AWSShape {
-        
         
         public init() {
         }
@@ -1610,6 +1994,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProductArn", required: true, type: .string)
         ]
+
         /// The ARN of the product to enable the integration for.
         public let productArn: String
         
@@ -1630,6 +2015,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProductSubscriptionArn", required: false, type: .string)
         ]
+
         /// The ARN of your subscription to the product to enable integrations for.
         public let productSubscriptionArn: String?
         
@@ -1650,6 +2036,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", required: false, type: .map)
         ]
+
         /// The tags to add to the Hub resource when you enable Security Hub.
         public let tags: [String: String]?
         
@@ -1664,7 +2051,6 @@ extension SecurityHub {
 
     public struct EnableSecurityHubResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -1676,6 +2062,7 @@ extension SecurityHub {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "StandardsSubscriptionArns", required: false, type: .list)
         ]
+
         /// The maximum number of results to return in the response.
         public let maxResults: Int32?
         /// Paginates results. On your first call to the GetEnabledStandards operation, set the value of this parameter to NULL. For subsequent calls to the operation, fill nextToken in the request with the value of nextToken from the previous response to continue listing data.
@@ -1692,6 +2079,9 @@ extension SecurityHub {
         public func validate() throws {
             try validate(maxResults, name:"maxResults", max: 100)
             try validate(maxResults, name:"maxResults", min: 1)
+            try standardsSubscriptionArns?.forEach {
+                try validate($0, name:"standardsSubscriptionArns[]", pattern: ".*\\S.*")
+            }
             try validate(standardsSubscriptionArns, name:"standardsSubscriptionArns", max: 25)
             try validate(standardsSubscriptionArns, name:"standardsSubscriptionArns", min: 1)
         }
@@ -1708,6 +2098,7 @@ extension SecurityHub {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "StandardsSubscriptions", required: false, type: .list)
         ]
+
         /// The token that is required for pagination.
         public let nextToken: String?
         /// A list of StandardsSubscriptions objects that include information about the enabled standards.
@@ -1716,6 +2107,12 @@ extension SecurityHub {
         public init(nextToken: String? = nil, standardsSubscriptions: [StandardsSubscription]? = nil) {
             self.nextToken = nextToken
             self.standardsSubscriptions = standardsSubscriptions
+        }
+
+        public func validate() throws {
+            try standardsSubscriptions?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1731,6 +2128,7 @@ extension SecurityHub {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "SortCriteria", required: false, type: .list)
         ]
+
         /// The findings attributes used to define a condition to filter the findings returned.
         public let filters: AwsSecurityFindingFilters?
         /// The maximum number of findings to return.
@@ -1748,8 +2146,12 @@ extension SecurityHub {
         }
 
         public func validate() throws {
+            try filters?.validate()
             try validate(maxResults, name:"maxResults", max: 100)
             try validate(maxResults, name:"maxResults", min: 1)
+            try sortCriteria?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1765,6 +2167,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Findings", required: true, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The findings that matched the filters specified in the request.
         public let findings: [AwsSecurityFinding]
         /// The token that is required for pagination.
@@ -1773,6 +2176,12 @@ extension SecurityHub {
         public init(findings: [AwsSecurityFinding], nextToken: String? = nil) {
             self.findings = findings
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try findings.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1785,6 +2194,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InsightArn", location: .uri(locationName: "InsightArn"), required: true, type: .string)
         ]
+
         /// The ARN of the insight whose results you want to see.
         public let insightArn: String
         
@@ -1805,6 +2215,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InsightResults", required: true, type: .structure)
         ]
+
         /// The insight results returned by the operation.
         public let insightResults: InsightResults
         
@@ -1827,6 +2238,7 @@ extension SecurityHub {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The ARNs of the insights that you want to describe.
         public let insightArns: [String]?
         /// The maximum number of items that you want in the response.
@@ -1841,6 +2253,9 @@ extension SecurityHub {
         }
 
         public func validate() throws {
+            try insightArns?.forEach {
+                try validate($0, name:"insightArns[]", pattern: ".*\\S.*")
+            }
             try validate(maxResults, name:"maxResults", max: 100)
             try validate(maxResults, name:"maxResults", min: 1)
         }
@@ -1857,6 +2272,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Insights", required: true, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The insights returned by the operation.
         public let insights: [Insight]
         /// The token that is required for pagination.
@@ -1867,6 +2283,12 @@ extension SecurityHub {
             self.nextToken = nextToken
         }
 
+        public func validate() throws {
+            try insights.forEach {
+                try $0.validate()
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case insights = "Insights"
             case nextToken = "NextToken"
@@ -1874,7 +2296,6 @@ extension SecurityHub {
     }
 
     public struct GetInvitationsCountRequest: AWSShape {
-        
         
         public init() {
         }
@@ -1885,6 +2306,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InvitationsCount", required: false, type: .integer)
         ]
+
         /// The number of all membership invitations sent to this Security Hub member account, not including the currently accepted invitation. 
         public let invitationsCount: Int32?
         
@@ -1899,7 +2321,6 @@ extension SecurityHub {
 
     public struct GetMasterAccountRequest: AWSShape {
         
-        
         public init() {
         }
 
@@ -1909,6 +2330,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Master", required: false, type: .structure)
         ]
+
         /// A list of details about the Security Hub master account for the current member account. 
         public let master: Invitation?
         
@@ -1929,11 +2351,18 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountIds", required: true, type: .list)
         ]
+
         /// A list of account IDs for the Security Hub member accounts that you want to return the details for. 
         public let accountIds: [String]
         
         public init(accountIds: [String]) {
             self.accountIds = accountIds
+        }
+
+        public func validate() throws {
+            try accountIds.forEach {
+                try validate($0, name:"accountIds[]", pattern: ".*\\S.*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1946,6 +2375,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Members", required: false, type: .list), 
             AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
         ]
+
         /// A list of details about the Security Hub member accounts.
         public let members: [Member]?
         /// A list of account ID and email address pairs of the AWS accounts that couldn't be processed.
@@ -1954,6 +2384,15 @@ extension SecurityHub {
         public init(members: [Member]? = nil, unprocessedAccounts: [Result]? = nil) {
             self.members = members
             self.unprocessedAccounts = unprocessedAccounts
+        }
+
+        public func validate() throws {
+            try members?.forEach {
+                try $0.validate()
+            }
+            try unprocessedAccounts?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1968,6 +2407,7 @@ extension SecurityHub {
             AWSShapeMember(label: "ErrorMessage", required: true, type: .string), 
             AWSShapeMember(label: "Id", required: true, type: .string)
         ]
+
         /// The code of the error made during the BatchImportFindings operation.
         public let errorCode: String
         /// The message of the error made during the BatchImportFindings operation.
@@ -2001,6 +2441,7 @@ extension SecurityHub {
             AWSShapeMember(label: "InsightArn", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
+
         /// One or more attributes used to filter the findings included in the insight. Only findings that match the criteria defined in the filters are included in the insight.
         public let filters: AwsSecurityFindingFilters
         /// The attribute that the insight's findings are grouped by. This attribute is used as a findings aggregator for the purposes of viewing and managing multiple related findings under a single operand.
@@ -2018,6 +2459,7 @@ extension SecurityHub {
         }
 
         public func validate() throws {
+            try filters.validate()
             try validate(groupByAttribute, name:"groupByAttribute", pattern: ".*\\S.*")
             try validate(insightArn, name:"insightArn", pattern: ".*\\S.*")
             try validate(name, name:"name", pattern: ".*\\S.*")
@@ -2036,6 +2478,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Count", required: true, type: .integer), 
             AWSShapeMember(label: "GroupByAttributeValue", required: true, type: .string)
         ]
+
         /// The number of findings returned for each GroupByAttributeValue.
         public let count: Int32
         /// The value of the attribute that the findings are grouped by for the insight whose results are returned by the GetInsightResults operation.
@@ -2062,6 +2505,7 @@ extension SecurityHub {
             AWSShapeMember(label: "InsightArn", required: true, type: .string), 
             AWSShapeMember(label: "ResultValues", required: true, type: .list)
         ]
+
         /// The attribute that the findings are grouped by for the insight whose results are returned by the GetInsightResults operation.
         public let groupByAttribute: String
         /// The ARN of the insight whose results are returned by the GetInsightResults operation.
@@ -2078,6 +2522,9 @@ extension SecurityHub {
         public func validate() throws {
             try validate(groupByAttribute, name:"groupByAttribute", pattern: ".*\\S.*")
             try validate(insightArn, name:"insightArn", pattern: ".*\\S.*")
+            try resultValues.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2094,6 +2541,7 @@ extension SecurityHub {
             AWSShapeMember(label: "InvitedAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "MemberStatus", required: false, type: .string)
         ]
+
         /// The account ID of the Security Hub master account that the invitation was sent from.
         public let accountId: String?
         /// The ID of the invitation sent to the member account.
@@ -2127,11 +2575,18 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountIds", required: false, type: .list)
         ]
+
         /// A list of IDs of the AWS accounts that you want to invite to Security Hub as members. 
         public let accountIds: [String]?
         
         public init(accountIds: [String]? = nil) {
             self.accountIds = accountIds
+        }
+
+        public func validate() throws {
+            try accountIds?.forEach {
+                try validate($0, name:"accountIds[]", pattern: ".*\\S.*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2143,11 +2598,18 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
         ]
+
         /// A list of account ID and email address pairs of the AWS accounts that couldn't be processed. 
         public let unprocessedAccounts: [Result]?
         
         public init(unprocessedAccounts: [Result]? = nil) {
             self.unprocessedAccounts = unprocessedAccounts
+        }
+
+        public func validate() throws {
+            try unprocessedAccounts?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2159,6 +2621,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cidr", required: false, type: .string)
         ]
+
         /// A finding's CIDR value.
         public let cidr: String?
         
@@ -2179,6 +2642,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// A value for the keyword.
         public let value: String?
         
@@ -2200,6 +2664,7 @@ extension SecurityHub {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
+
         /// The maximum number of items that you want in the response.
         public let maxResults: Int32?
         /// Paginates results. On your first call to the ListEnabledProductsForImport operation, set the value of this parameter to NULL. For subsequent calls to the operation, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
@@ -2226,6 +2691,7 @@ extension SecurityHub {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ProductSubscriptions", required: false, type: .list)
         ]
+
         /// The token that is required for pagination.
         public let nextToken: String?
         /// A list of ARNs for the resources that represent your subscriptions to products. 
@@ -2234,6 +2700,12 @@ extension SecurityHub {
         public init(nextToken: String? = nil, productSubscriptions: [String]? = nil) {
             self.nextToken = nextToken
             self.productSubscriptions = productSubscriptions
+        }
+
+        public func validate() throws {
+            try productSubscriptions?.forEach {
+                try validate($0, name:"productSubscriptions[]", pattern: ".*\\S.*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2247,6 +2719,7 @@ extension SecurityHub {
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
+
         /// The maximum number of items that you want in the response. 
         public let maxResults: Int32?
         /// Paginates results. On your first call to the ListInvitations operation, set the value of this parameter to NULL. For subsequent calls to the operation, fill nextToken in the request with the value of NextToken from the previous response to continue listing data. 
@@ -2273,6 +2746,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Invitations", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// The details of the invitations returned by the operation.
         public let invitations: [Invitation]?
         /// The token that is required for pagination.
@@ -2284,6 +2758,9 @@ extension SecurityHub {
         }
 
         public func validate() throws {
+            try invitations?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", pattern: ".*\\S.*")
         }
 
@@ -2299,6 +2776,7 @@ extension SecurityHub {
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
             AWSShapeMember(label: "OnlyAssociated", location: .querystring(locationName: "OnlyAssociated"), required: false, type: .boolean)
         ]
+
         /// The maximum number of items that you want in the response. 
         public let maxResults: Int32?
         /// Paginates results. Set the value of this parameter to NULL on your first call to the ListMembers operation. For subsequent calls to the operation, fill nextToken in the request with the value of nextToken from the previous response to continue listing data. 
@@ -2329,6 +2807,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Members", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// Member details returned by the operation.
         public let members: [Member]?
         /// The token that is required for pagination.
@@ -2340,6 +2819,9 @@ extension SecurityHub {
         }
 
         public func validate() throws {
+            try members?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", pattern: ".*\\S.*")
         }
 
@@ -2353,6 +2835,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn"), required: true, type: .string)
         ]
+
         /// The ARN of the resource to retrieve tags for.
         public let resourceArn: String
         
@@ -2373,6 +2856,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", required: false, type: .map)
         ]
+
         /// The tags associated with a resource.
         public let tags: [String: String]?
         
@@ -2392,6 +2876,7 @@ extension SecurityHub {
             AWSShapeMember(label: "State", required: false, type: .enum), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
+
         /// The name of the malware that was observed.
         public let name: String
         /// The file system path of the malware that was observed.
@@ -2453,6 +2938,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// The condition to apply to a key value when querying for findings with a map filter.
         public let comparison: MapFilterComparison?
         /// The key of the map filter.
@@ -2492,6 +2978,7 @@ extension SecurityHub {
             AWSShapeMember(label: "MemberStatus", required: false, type: .string), 
             AWSShapeMember(label: "UpdatedAt", required: false, type: .timestamp)
         ]
+
         /// The AWS account ID of the member account.
         public let accountId: String?
         /// The email address of the member account.
@@ -2544,6 +3031,7 @@ extension SecurityHub {
             AWSShapeMember(label: "SourceMac", required: false, type: .string), 
             AWSShapeMember(label: "SourcePort", required: false, type: .integer)
         ]
+
         /// The destination domain of network-related information about a finding.
         public let destinationDomain: String?
         /// The destination IPv4 address of network-related information about a finding.
@@ -2619,6 +3107,7 @@ extension SecurityHub {
             AWSShapeMember(label: "UpdatedAt", required: true, type: .string), 
             AWSShapeMember(label: "UpdatedBy", required: true, type: .string)
         ]
+
         /// The text of a note.
         public let text: String
         /// The timestamp of when the note was updated.
@@ -2650,6 +3139,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Text", required: true, type: .string), 
             AWSShapeMember(label: "UpdatedBy", required: true, type: .string)
         ]
+
         /// The updated note text.
         public let text: String
         /// The principal that updated the note.
@@ -2677,6 +3167,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Gte", required: false, type: .double), 
             AWSShapeMember(label: "Lte", required: false, type: .double)
         ]
+
         /// The equal-to condition to be applied to a single field when querying for findings.
         public let eq: Double?
         /// The greater-than-equal condition to be applied to a single field when querying for findings. 
@@ -2713,6 +3204,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Pid", required: false, type: .integer), 
             AWSShapeMember(label: "TerminatedAt", required: false, type: .string)
         ]
+
         /// The date/time that the process was launched.
         public let launchedAt: String?
         /// The name of the process.
@@ -2763,6 +3255,7 @@ extension SecurityHub {
             AWSShapeMember(label: "ProductName", required: false, type: .string), 
             AWSShapeMember(label: "ProductSubscriptionResourcePolicy", required: false, type: .string)
         ]
+
         /// The URL used to activate the product.
         public let activationUrl: String?
         /// The categories assigned to the product.
@@ -2793,6 +3286,9 @@ extension SecurityHub {
 
         public func validate() throws {
             try validate(activationUrl, name:"activationUrl", pattern: ".*\\S.*")
+            try categories?.forEach {
+                try validate($0, name:"categories[]", pattern: ".*\\S.*")
+            }
             try validate(companyName, name:"companyName", pattern: ".*\\S.*")
             try validate(description, name:"description", pattern: ".*\\S.*")
             try validate(marketplaceUrl, name:"marketplaceUrl", pattern: ".*\\S.*")
@@ -2818,6 +3314,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Text", required: false, type: .string), 
             AWSShapeMember(label: "Url", required: false, type: .string)
         ]
+
         /// Describes the recommended steps to take to remediate an issue identified in a finding.
         public let text: String?
         /// A URL to a page or site that contains information about how to remediate a finding.
@@ -2850,6 +3347,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Id", required: true, type: .string), 
             AWSShapeMember(label: "ProductArn", required: true, type: .string)
         ]
+
         /// The product-generated identifier for a related finding.
         public let id: String
         /// The ARN of the product that generated a related finding.
@@ -2875,6 +3373,7 @@ extension SecurityHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Recommendation", required: false, type: .structure)
         ]
+
         /// A recommendation on the steps to take to remediate the issue identified by a finding.
         public let recommendation: Recommendation?
         
@@ -2900,6 +3399,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Tags", required: false, type: .map), 
             AWSShapeMember(label: "Type", required: true, type: .string)
         ]
+
         /// Additional details about the resource related to a finding.
         public let details: ResourceDetails?
         /// The canonical identifier for the given resource type.
@@ -2947,6 +3447,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Container", required: false, type: .structure), 
             AWSShapeMember(label: "Other", required: false, type: .map)
         ]
+
         /// Details about an Amazon EC2 instance related to a finding.
         public let awsEc2Instance: AwsEc2InstanceDetails?
         /// Details about an IAM access key related to a finding.
@@ -2987,6 +3488,7 @@ extension SecurityHub {
             AWSShapeMember(label: "AccountId", required: false, type: .string), 
             AWSShapeMember(label: "ProcessingResult", required: false, type: .string)
         ]
+
         /// An AWS account ID of the account that wasn't be processed.
         public let accountId: String?
         /// The reason that the account wasn't be processed.
@@ -3012,6 +3514,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Normalized", required: true, type: .integer), 
             AWSShapeMember(label: "Product", required: false, type: .double)
         ]
+
         /// The normalized severity of a finding.
         public let normalized: Int32
         /// The native severity as defined by the AWS service or integrated partner product that generated the finding.
@@ -3033,6 +3536,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Field", required: false, type: .string), 
             AWSShapeMember(label: "SortOrder", required: false, type: .enum)
         ]
+
         /// The finding attribute used to sort findings.
         public let field: String?
         /// The order used to sort findings.
@@ -3075,6 +3579,7 @@ extension SecurityHub {
             AWSShapeMember(label: "StandardsStatus", required: true, type: .enum), 
             AWSShapeMember(label: "StandardsSubscriptionArn", required: true, type: .string)
         ]
+
         /// The ARN of a standard. In this release, Security Hub supports only the CIS AWS Foundations standard, which uses the following ARN: arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0. 
         public let standardsArn: String
         /// A key-value pair of input for the standard.
@@ -3109,6 +3614,7 @@ extension SecurityHub {
             AWSShapeMember(label: "StandardsArn", required: true, type: .string), 
             AWSShapeMember(label: "StandardsInput", required: false, type: .map)
         ]
+
         /// The ARN of the standard that you want to enable.  In this release, Security Hub only supports the CIS AWS Foundations standard.  Its ARN is arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0. 
         public let standardsArn: String
         /// A key-value pair of input for the standard.
@@ -3134,6 +3640,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Comparison", required: false, type: .enum), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// The condition to be applied to a string value when querying for findings. 
         public let comparison: StringFilterComparison?
         /// The string filter value.
@@ -3165,6 +3672,7 @@ extension SecurityHub {
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn"), required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .map)
         ]
+
         /// The ARN of the resource to apply the tags to.
         public let resourceArn: String
         /// The tags to add to the resource.
@@ -3187,7 +3695,6 @@ extension SecurityHub {
 
     public struct TagResourceResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -3202,6 +3709,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Type", required: false, type: .enum), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
+
         /// The category of a threat intel indicator.
         public let category: ThreatIntelIndicatorCategory?
         /// The date and time when the most recent instance of a threat intel indicator was observed.
@@ -3271,6 +3779,7 @@ extension SecurityHub {
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn"), required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
         ]
+
         /// The ARN of the resource to remove the tags from.
         public let resourceArn: String
         /// The tag keys associated with the tags to remove from the resource.
@@ -3283,6 +3792,11 @@ extension SecurityHub {
 
         public func validate() throws {
             try validate(resourceArn, name:"resourceArn", pattern: "^arn:aws:securityhub:.*")
+            try tagKeys.forEach {
+                try validate($0, name:"tagKeys[]", max: 128)
+                try validate($0, name:"tagKeys[]", min: 1)
+                try validate($0, name:"tagKeys[]", pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+            }
             try validate(tagKeys, name:"tagKeys", max: 50)
             try validate(tagKeys, name:"tagKeys", min: 1)
         }
@@ -3295,7 +3809,6 @@ extension SecurityHub {
 
     public struct UntagResourceResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -3307,6 +3820,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         /// The ARN of the custom action target to update.
         public let actionTargetArn: String
         /// The updated description for the custom action target.
@@ -3335,7 +3849,6 @@ extension SecurityHub {
 
     public struct UpdateActionTargetResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -3347,6 +3860,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Note", required: false, type: .structure), 
             AWSShapeMember(label: "RecordState", required: false, type: .enum)
         ]
+
         /// A collection of attributes that specify which findings you want to update.
         public let filters: AwsSecurityFindingFilters
         /// The updated note for the finding.
@@ -3361,6 +3875,7 @@ extension SecurityHub {
         }
 
         public func validate() throws {
+            try filters.validate()
             try note?.validate()
         }
 
@@ -3372,7 +3887,6 @@ extension SecurityHub {
     }
 
     public struct UpdateFindingsResponse: AWSShape {
-        
         
         public init() {
         }
@@ -3386,6 +3900,7 @@ extension SecurityHub {
             AWSShapeMember(label: "InsightArn", location: .uri(locationName: "InsightArn"), required: true, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
+
         /// The updated filters that define this insight.
         public let filters: AwsSecurityFindingFilters?
         /// The updated GroupBy attribute that defines this insight.
@@ -3403,6 +3918,7 @@ extension SecurityHub {
         }
 
         public func validate() throws {
+            try filters?.validate()
             try validate(groupByAttribute, name:"groupByAttribute", pattern: ".*\\S.*")
             try validate(insightArn, name:"insightArn", pattern: ".*\\S.*")
             try validate(name, name:"name", pattern: ".*\\S.*")
@@ -3417,7 +3933,6 @@ extension SecurityHub {
     }
 
     public struct UpdateInsightResponse: AWSShape {
-        
         
         public init() {
         }

@@ -12,6 +12,7 @@ extension EC2InstanceConnect {
             AWSShapeMember(label: "InstanceOSUser", required: true, type: .string), 
             AWSShapeMember(label: "SSHPublicKey", required: true, type: .string)
         ]
+
         /// The availability zone the EC2 instance was launched in.
         public let availabilityZone: String
         /// The EC2 instance you wish to publish the SSH key to.
@@ -55,6 +56,7 @@ extension EC2InstanceConnect {
             AWSShapeMember(label: "RequestId", required: false, type: .string), 
             AWSShapeMember(label: "Success", required: false, type: .boolean)
         ]
+
         /// The request ID as logged by EC2 Connect. Please provide this when contacting AWS Support.
         public let requestId: String?
         /// Indicates request success.

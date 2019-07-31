@@ -16,6 +16,7 @@ extension Health {
             AWSShapeMember(label: "statusCode", required: false, type: .enum), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// The 12-digit AWS account number that contains the affected entity.
         public let awsAccountId: String?
         /// The unique identifier for the entity. Format: arn:aws:health:entity-region:aws-account:entity/entity-id . Example: arn:aws:health:us-east-1:111222333444:entity/AVh5GGT7ul1arKr1sE1K 
@@ -69,6 +70,7 @@ extension Health {
             AWSShapeMember(label: "from", required: false, type: .timestamp), 
             AWSShapeMember(label: "to", required: false, type: .timestamp)
         ]
+
         /// The starting date and time of a time range.
         public let from: TimeStamp?
         /// The ending date and time of a time range.
@@ -92,6 +94,7 @@ extension Health {
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// Values to narrow the results returned. At least one event ARN is required. 
         public let filter: EntityFilter
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
@@ -130,6 +133,7 @@ extension Health {
             AWSShapeMember(label: "entities", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The entities that match the filter criteria.
         public let entities: [AffectedEntity]?
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -141,6 +145,9 @@ extension Health {
         }
 
         public func validate() throws {
+            try entities?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9=/+_.-]{4,512}")
         }
 
@@ -154,6 +161,7 @@ extension Health {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "eventArns", required: false, type: .list)
         ]
+
         /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101" 
         public let eventArns: [String]?
         
@@ -162,6 +170,10 @@ extension Health {
         }
 
         public func validate() throws {
+            try eventArns?.forEach {
+                try validate($0, name:"eventArns[]", max: 1600)
+                try validate($0, name:"eventArns[]", pattern: "arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\\w-]+){3}")
+            }
             try validate(eventArns, name:"eventArns", max: 50)
             try validate(eventArns, name:"eventArns", min: 1)
         }
@@ -175,11 +187,18 @@ extension Health {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "entityAggregates", required: false, type: .list)
         ]
+
         /// The number of entities that are affected by each of the specified events.
         public let entityAggregates: [EntityAggregate]?
         
         public init(entityAggregates: [EntityAggregate]? = nil) {
             self.entityAggregates = entityAggregates
+        }
+
+        public func validate() throws {
+            try entityAggregates?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -194,6 +213,7 @@ extension Health {
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The only currently supported value is eventTypeCategory.
         public let aggregateField: EventAggregateField
         /// Values to narrow the results returned.
@@ -230,6 +250,7 @@ extension Health {
             AWSShapeMember(label: "eventAggregates", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The number of events in each category that meet the optional filter criteria.
         public let eventAggregates: [EventAggregate]?
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -255,6 +276,7 @@ extension Health {
             AWSShapeMember(label: "eventArns", required: true, type: .list), 
             AWSShapeMember(label: "locale", required: false, type: .string)
         ]
+
         /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101" 
         public let eventArns: [String]
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
@@ -266,6 +288,10 @@ extension Health {
         }
 
         public func validate() throws {
+            try eventArns.forEach {
+                try validate($0, name:"eventArns[]", max: 1600)
+                try validate($0, name:"eventArns[]", pattern: "arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\\w-]+){3}")
+            }
             try validate(eventArns, name:"eventArns", max: 10)
             try validate(eventArns, name:"eventArns", min: 1)
             try validate(locale, name:"locale", max: 256)
@@ -283,6 +309,7 @@ extension Health {
             AWSShapeMember(label: "failedSet", required: false, type: .list), 
             AWSShapeMember(label: "successfulSet", required: false, type: .list)
         ]
+
         /// Error messages for any events that could not be retrieved.
         public let failedSet: [EventDetailsErrorItem]?
         /// Information about the events that could be retrieved.
@@ -291,6 +318,15 @@ extension Health {
         public init(failedSet: [EventDetailsErrorItem]? = nil, successfulSet: [EventDetails]? = nil) {
             self.failedSet = failedSet
             self.successfulSet = successfulSet
+        }
+
+        public func validate() throws {
+            try failedSet?.forEach {
+                try $0.validate()
+            }
+            try successfulSet?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -306,6 +342,7 @@ extension Health {
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// Values to narrow the results returned.
         public let filter: EventTypeFilter?
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
@@ -344,6 +381,7 @@ extension Health {
             AWSShapeMember(label: "eventTypes", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// A list of event types that match the filter criteria. Event types have a category (issue, accountNotification, or scheduledChange), a service (for example, EC2, RDS, DATAPIPELINE, BILLING), and a code (in the format AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT).
         public let eventTypes: [EventType]?
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -355,6 +393,9 @@ extension Health {
         }
 
         public func validate() throws {
+            try eventTypes?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9=/+_.-]{4,512}")
         }
 
@@ -371,6 +412,7 @@ extension Health {
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// Values to narrow the results returned.
         public let filter: EventFilter?
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
@@ -409,6 +451,7 @@ extension Health {
             AWSShapeMember(label: "events", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The events that match the specified filter criteria.
         public let events: [Event]?
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -420,6 +463,9 @@ extension Health {
         }
 
         public func validate() throws {
+            try events?.forEach {
+                try $0.validate()
+            }
             try validate(nextToken, name:"nextToken", pattern: "[a-zA-Z0-9=/+_.-]{4,512}")
         }
 
@@ -434,6 +480,7 @@ extension Health {
             AWSShapeMember(label: "count", required: false, type: .integer), 
             AWSShapeMember(label: "eventArn", required: false, type: .string)
         ]
+
         /// The number entities that match the criteria for the specified events.
         public let count: Int32?
         /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 
@@ -464,6 +511,7 @@ extension Health {
             AWSShapeMember(label: "statusCodes", required: false, type: .list), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
+
         /// A list of entity ARNs (unique identifiers).
         public let entityArns: [String]?
         /// A list of IDs for affected entities.
@@ -487,10 +535,20 @@ extension Health {
         }
 
         public func validate() throws {
+            try entityArns?.forEach {
+                try validate($0, name:"entityArns[]", max: 1600)
+            }
             try validate(entityArns, name:"entityArns", max: 100)
             try validate(entityArns, name:"entityArns", min: 1)
+            try entityValues?.forEach {
+                try validate($0, name:"entityValues[]", max: 256)
+            }
             try validate(entityValues, name:"entityValues", max: 100)
             try validate(entityValues, name:"entityValues", min: 1)
+            try eventArns.forEach {
+                try validate($0, name:"eventArns[]", max: 1600)
+                try validate($0, name:"eventArns[]", pattern: "arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\\w-]+){3}")
+            }
             try validate(eventArns, name:"eventArns", max: 10)
             try validate(eventArns, name:"eventArns", min: 1)
             try validate(lastUpdatedTimes, name:"lastUpdatedTimes", max: 10)
@@ -523,6 +581,7 @@ extension Health {
             AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "statusCode", required: false, type: .enum)
         ]
+
         /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 
         public let arn: String?
         /// The AWS Availability Zone of the event. For example, us-east-1a.
@@ -587,6 +646,7 @@ extension Health {
             AWSShapeMember(label: "aggregateValue", required: false, type: .string), 
             AWSShapeMember(label: "count", required: false, type: .integer)
         ]
+
         /// The issue type for the associated count.
         public let aggregateValue: String?
         /// The number of events of the associated issue type.
@@ -607,6 +667,7 @@ extension Health {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "latestDescription", required: false, type: .string)
         ]
+
         /// The most recent description of the event.
         public let latestDescription: String?
         
@@ -625,6 +686,7 @@ extension Health {
             AWSShapeMember(label: "eventDescription", required: false, type: .structure), 
             AWSShapeMember(label: "eventMetadata", required: false, type: .map)
         ]
+
         /// Summary information about the event.
         public let event: Event?
         /// The most recent description of the event.
@@ -655,6 +717,7 @@ extension Health {
             AWSShapeMember(label: "errorName", required: false, type: .string), 
             AWSShapeMember(label: "eventArn", required: false, type: .string)
         ]
+
         /// A message that describes the error.
         public let errorMessage: String?
         /// The name of the error.
@@ -696,6 +759,7 @@ extension Health {
             AWSShapeMember(label: "startTimes", required: false, type: .list), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
+
         /// A list of AWS availability zones.
         public let availabilityZones: [String]?
         /// A list of dates and times that the event ended.
@@ -740,24 +804,48 @@ extension Health {
         }
 
         public func validate() throws {
+            try availabilityZones?.forEach {
+                try validate($0, name:"availabilityZones[]", pattern: "[a-z]{2}\\-[0-9a-z\\-]{4,16}")
+            }
             try validate(endTimes, name:"endTimes", max: 10)
             try validate(endTimes, name:"endTimes", min: 1)
+            try entityArns?.forEach {
+                try validate($0, name:"entityArns[]", max: 1600)
+            }
             try validate(entityArns, name:"entityArns", max: 100)
             try validate(entityArns, name:"entityArns", min: 1)
+            try entityValues?.forEach {
+                try validate($0, name:"entityValues[]", max: 256)
+            }
             try validate(entityValues, name:"entityValues", max: 100)
             try validate(entityValues, name:"entityValues", min: 1)
+            try eventArns?.forEach {
+                try validate($0, name:"eventArns[]", max: 1600)
+                try validate($0, name:"eventArns[]", pattern: "arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\\w-]+){3}")
+            }
             try validate(eventArns, name:"eventArns", max: 10)
             try validate(eventArns, name:"eventArns", min: 1)
             try validate(eventStatusCodes, name:"eventStatusCodes", max: 6)
             try validate(eventStatusCodes, name:"eventStatusCodes", min: 1)
             try validate(eventTypeCategories, name:"eventTypeCategories", max: 10)
             try validate(eventTypeCategories, name:"eventTypeCategories", min: 1)
+            try eventTypeCodes?.forEach {
+                try validate($0, name:"eventTypeCodes[]", max: 100)
+                try validate($0, name:"eventTypeCodes[]", min: 3)
+            }
             try validate(eventTypeCodes, name:"eventTypeCodes", max: 10)
             try validate(eventTypeCodes, name:"eventTypeCodes", min: 1)
             try validate(lastUpdatedTimes, name:"lastUpdatedTimes", max: 10)
             try validate(lastUpdatedTimes, name:"lastUpdatedTimes", min: 1)
+            try regions?.forEach {
+                try validate($0, name:"regions[]", pattern: "[^:/]{2,25}")
+            }
             try validate(regions, name:"regions", max: 10)
             try validate(regions, name:"regions", min: 1)
+            try services?.forEach {
+                try validate($0, name:"services[]", max: 30)
+                try validate($0, name:"services[]", min: 2)
+            }
             try validate(services, name:"services", max: 10)
             try validate(services, name:"services", min: 1)
             try validate(startTimes, name:"startTimes", max: 10)
@@ -788,6 +876,7 @@ extension Health {
             AWSShapeMember(label: "code", required: false, type: .string), 
             AWSShapeMember(label: "service", required: false, type: .string)
         ]
+
         /// A list of event type category codes (issue, scheduledChange, or accountNotification).
         public let category: EventTypeCategory?
         /// The unique identifier for the event type. The format is AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT.
@@ -821,6 +910,7 @@ extension Health {
             AWSShapeMember(label: "eventTypeCodes", required: false, type: .list), 
             AWSShapeMember(label: "services", required: false, type: .list)
         ]
+
         /// A list of event type category codes (issue, scheduledChange, or accountNotification).
         public let eventTypeCategories: [EventTypeCategory]?
         /// A list of event type codes.
@@ -837,8 +927,16 @@ extension Health {
         public func validate() throws {
             try validate(eventTypeCategories, name:"eventTypeCategories", max: 10)
             try validate(eventTypeCategories, name:"eventTypeCategories", min: 1)
+            try eventTypeCodes?.forEach {
+                try validate($0, name:"eventTypeCodes[]", max: 100)
+                try validate($0, name:"eventTypeCodes[]", min: 3)
+            }
             try validate(eventTypeCodes, name:"eventTypeCodes", max: 10)
             try validate(eventTypeCodes, name:"eventTypeCodes", min: 1)
+            try services?.forEach {
+                try validate($0, name:"services[]", max: 30)
+                try validate($0, name:"services[]", min: 2)
+            }
             try validate(services, name:"services", max: 10)
             try validate(services, name:"services", min: 1)
         }

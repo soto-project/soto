@@ -10,6 +10,7 @@ extension LexRuntimeService {
             AWSShapeMember(label: "text", required: true, type: .string), 
             AWSShapeMember(label: "value", required: true, type: .string)
         ]
+
         /// Text that is visible to the user on the button.
         public let text: String
         /// The value sent to Amazon Lex when a user chooses the button. For example, consider button text "NYC." When the user chooses the button, the value sent can be "New York City."
@@ -56,6 +57,7 @@ extension LexRuntimeService {
             AWSShapeMember(label: "subTitle", required: false, type: .string), 
             AWSShapeMember(label: "title", required: false, type: .string)
         ]
+
         /// The URL of an attachment to the response card.
         public let attachmentLinkUrl: String?
         /// The list of options to show to the user.
@@ -78,6 +80,9 @@ extension LexRuntimeService {
         public func validate() throws {
             try validate(attachmentLinkUrl, name:"attachmentLinkUrl", max: 2048)
             try validate(attachmentLinkUrl, name:"attachmentLinkUrl", min: 1)
+            try buttons?.forEach {
+                try $0.validate()
+            }
             try validate(buttons, name:"buttons", max: 5)
             try validate(buttons, name:"buttons", min: 0)
             try validate(imageUrl, name:"imageUrl", max: 2048)
@@ -118,6 +123,7 @@ extension LexRuntimeService {
             AWSShapeMember(label: "sessionAttributes", location: .header(locationName: "x-amz-lex-session-attributes"), required: false, type: .string), 
             AWSShapeMember(label: "userId", location: .uri(locationName: "userId"), required: true, type: .string)
         ]
+
         ///  You pass this value as the Accept HTTP header.   The message Amazon Lex returns in the response can be either text or speech based on the Accept HTTP header value in the request.     If the value is text/plain; charset=utf-8, Amazon Lex returns text in the response.     If the value begins with audio/, Amazon Lex returns speech in the response. Amazon Lex uses Amazon Polly to generate the speech (using the configuration you specified in the Accept header). For example, if you specify audio/mpeg as the value, Amazon Lex returns speech in the MPEG format. The following are the accepted values:   audio/mpeg   audio/ogg   audio/pcm   text/plain; charset=utf-8   audio/* (defaults to mpeg)    
         public let accept: String?
         /// Alias of the Amazon Lex bot.
@@ -179,6 +185,7 @@ extension LexRuntimeService {
             AWSShapeMember(label: "slots", location: .header(locationName: "x-amz-lex-slots"), required: false, type: .string), 
             AWSShapeMember(label: "slotToElicit", location: .header(locationName: "x-amz-lex-slot-to-elicit"), required: false, type: .string)
         ]
+
         /// The prompt (or statement) to convey to the user. This is based on the bot configuration and context. For example, if Amazon Lex did not understand the user intent, it sends the clarificationPrompt configured for the bot. If the intent requires confirmation before taking the fulfillment action, it sends the confirmationPrompt. Another example: Suppose that the Lambda function successfully fulfilled the intent, and sent a message to convey to the user. Then Amazon Lex sends that message in the response. 
         public let audioStream: Data?
         /// Content type as specified in the Accept HTTP header in the request.
@@ -241,6 +248,7 @@ extension LexRuntimeService {
             AWSShapeMember(label: "sessionAttributes", required: false, type: .map), 
             AWSShapeMember(label: "userId", location: .uri(locationName: "userId"), required: true, type: .string)
         ]
+
         /// The alias of the Amazon Lex bot.
         public let botAlias: String
         /// The name of the Amazon Lex bot.
@@ -292,6 +300,7 @@ extension LexRuntimeService {
             AWSShapeMember(label: "slots", required: false, type: .map), 
             AWSShapeMember(label: "slotToElicit", required: false, type: .string)
         ]
+
         ///  Identifies the current state of the user interaction. Amazon Lex returns one of the following values as dialogState. The client can optionally use this information to customize the user interface.     ElicitIntent - Amazon Lex wants to elicit user intent.  For example, a user might utter an intent ("I want to order a pizza"). If Amazon Lex cannot infer the user intent from this utterance, it will return this dialogState.    ConfirmIntent - Amazon Lex is expecting a "yes" or "no" response.   For example, Amazon Lex wants user confirmation before fulfilling an intent.  Instead of a simple "yes" or "no," a user might respond with additional information. For example, "yes, but make it thick crust pizza" or "no, I want to order a drink". Amazon Lex can process such additional information (in these examples, update the crust type slot value, or change intent from OrderPizza to OrderDrink).    ElicitSlot - Amazon Lex is expecting a slot value for the current intent.  For example, suppose that in the response Amazon Lex sends this message: "What size pizza would you like?". A user might reply with the slot value (e.g., "medium"). The user might also provide additional information in the response (e.g., "medium thick crust pizza"). Amazon Lex can process such additional information appropriately.     Fulfilled - Conveys that the Lambda function configured for the intent has successfully fulfilled the intent.     ReadyForFulfillment - Conveys that the client has to fulfill the intent.     Failed - Conveys that the conversation with the user failed.   This can happen for various reasons including that the user did not provide an appropriate response to prompts from the service (you can configure how many times Amazon Lex can prompt a user for specific information), or the Lambda function failed to fulfill the intent.   
         public let dialogState: DialogState?
         /// The current user intent that Amazon Lex is aware of.
@@ -344,6 +353,7 @@ extension LexRuntimeService {
             AWSShapeMember(label: "genericAttachments", required: false, type: .list), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         /// The content type of the response.
         public let contentType: ContentType?
         /// An array of attachment objects representing options.
@@ -358,6 +368,9 @@ extension LexRuntimeService {
         }
 
         public func validate() throws {
+            try genericAttachments?.forEach {
+                try $0.validate()
+            }
             try validate(genericAttachments, name:"genericAttachments", max: 10)
             try validate(genericAttachments, name:"genericAttachments", min: 0)
         }

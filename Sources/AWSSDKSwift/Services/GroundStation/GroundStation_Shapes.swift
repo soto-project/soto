@@ -15,6 +15,7 @@ extension GroundStation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "spectrumConfig", required: true, type: .structure)
         ]
+
         /// Object that describes a spectral Config.
         public let spectrumConfig: SpectrumConfig
         
@@ -33,6 +34,7 @@ extension GroundStation {
             AWSShapeMember(label: "demodulationConfig", required: true, type: .structure), 
             AWSShapeMember(label: "spectrumConfig", required: true, type: .structure)
         ]
+
         /// Information about the decode Config.
         public let decodeConfig: DecodeConfig
         /// Information about the demodulation Config.
@@ -63,6 +65,7 @@ extension GroundStation {
             AWSShapeMember(label: "spectrumConfig", required: true, type: .structure), 
             AWSShapeMember(label: "targetEirp", required: true, type: .structure)
         ]
+
         /// Information about the uplink spectral Config.
         public let spectrumConfig: UplinkSpectrumConfig
         /// EIRP of the target.
@@ -90,6 +93,7 @@ extension GroundStation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "contactId", location: .uri(locationName: "contactId"), required: true, type: .string)
         ]
+
         /// UUID of a contact.
         public let contactId: String
         
@@ -118,6 +122,7 @@ extension GroundStation {
             AWSShapeMember(label: "configId", required: false, type: .string), 
             AWSShapeMember(label: "configType", required: false, type: .enum)
         ]
+
         /// ARN of a Config.
         public let configArn: String?
         /// UUID of a Config.
@@ -145,6 +150,7 @@ extension GroundStation {
             AWSShapeMember(label: "configType", required: false, type: .enum), 
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
+
         /// ARN of a Config.
         public let configArn: String?
         /// UUID of a Config.
@@ -178,6 +184,7 @@ extension GroundStation {
             AWSShapeMember(label: "trackingConfig", required: false, type: .structure), 
             AWSShapeMember(label: "uplinkEchoConfig", required: false, type: .structure)
         ]
+
         /// Information about how AWS Ground Station should configure an antenna for downlink during a contact.
         public let antennaDownlinkConfig: AntennaDownlinkConfig?
         /// Information about how AWS Ground Station should conﬁgure an antenna for downlink demod decode during a contact.
@@ -230,6 +237,7 @@ extension GroundStation {
             AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// UUID of a contact.
         public let contactId: String?
         /// Status of a contact.
@@ -290,6 +298,7 @@ extension GroundStation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "contactId", required: false, type: .string)
         ]
+
         /// UUID of a contact.
         public let contactId: String?
         
@@ -323,6 +332,7 @@ extension GroundStation {
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// Parameters of a Config.
         public let configData: ConfigTypeData
         /// Name of a Config.
@@ -355,6 +365,7 @@ extension GroundStation {
             AWSShapeMember(label: "endpointDetails", required: true, type: .list), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// Endpoint details of each endpoint in the dataflow endpoint group.
         public let endpointDetails: [EndpointDetails]
         /// Tags of a dataflow endpoint group.
@@ -363,6 +374,12 @@ extension GroundStation {
         public init(endpointDetails: [EndpointDetails], tags: [String: String]? = nil) {
             self.endpointDetails = endpointDetails
             self.tags = tags
+        }
+
+        public func validate() throws {
+            try endpointDetails.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -381,6 +398,7 @@ extension GroundStation {
             AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "trackingConfigArn", required: true, type: .string)
         ]
+
         /// Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.
         public let contactPostPassDurationSeconds: Int32?
         /// Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.
@@ -412,6 +430,10 @@ extension GroundStation {
             try validate(contactPostPassDurationSeconds, name:"contactPostPassDurationSeconds", min: 1)
             try validate(contactPrePassDurationSeconds, name:"contactPrePassDurationSeconds", max: 21600)
             try validate(contactPrePassDurationSeconds, name:"contactPrePassDurationSeconds", min: 1)
+            try dataflowEdges.forEach {
+                try validate($0, name:"dataflowEdges[]", max: 2)
+                try validate($0, name:"dataflowEdges[]", min: 2)
+            }
             try validate(minimumViableContactDurationSeconds, name:"minimumViableContactDurationSeconds", max: 21600)
             try validate(minimumViableContactDurationSeconds, name:"minimumViableContactDurationSeconds", min: 1)
             try validate(name, name:"name", max: 256)
@@ -443,6 +465,7 @@ extension GroundStation {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .enum)
         ]
+
         /// Socket address of a dataflow endpoint.
         public let address: SocketAddress?
         /// Name of a dataflow endpoint.
@@ -473,6 +496,7 @@ extension GroundStation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "dataflowEndpointName", required: true, type: .string)
         ]
+
         /// Name of a dataflow endpoint.
         public let dataflowEndpointName: String
         
@@ -489,6 +513,7 @@ extension GroundStation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "dataflowEndpointGroupId", required: false, type: .string)
         ]
+
         /// ID of a dataflow endpoint group.
         public let dataflowEndpointGroupId: String?
         
@@ -506,6 +531,7 @@ extension GroundStation {
             AWSShapeMember(label: "dataflowEndpointGroupArn", required: false, type: .string), 
             AWSShapeMember(label: "dataflowEndpointGroupId", required: false, type: .string)
         ]
+
         /// ARN of a dataflow endpoint group.
         public let dataflowEndpointGroupArn: String?
         /// UUID of a dataflow endpoint group.
@@ -526,6 +552,7 @@ extension GroundStation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "unvalidatedJSON", required: true, type: .string)
         ]
+
         /// Unvalidated JSON of a decode Config.
         public let unvalidatedJSON: String
         
@@ -548,6 +575,7 @@ extension GroundStation {
             AWSShapeMember(label: "configId", location: .uri(locationName: "configId"), required: true, type: .string), 
             AWSShapeMember(label: "configType", location: .uri(locationName: "configType"), required: true, type: .enum)
         ]
+
         /// UUID of a Config.
         public let configId: String
         /// Type of a Config.
@@ -568,6 +596,7 @@ extension GroundStation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "dataflowEndpointGroupId", location: .uri(locationName: "dataflowEndpointGroupId"), required: true, type: .string)
         ]
+
         /// ID of a dataflow endpoint group.
         public let dataflowEndpointGroupId: String
         
@@ -584,6 +613,7 @@ extension GroundStation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "missionProfileId", location: .uri(locationName: "missionProfileId"), required: true, type: .string)
         ]
+
         /// UUID of a mission profile.
         public let missionProfileId: String
         
@@ -600,6 +630,7 @@ extension GroundStation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "unvalidatedJSON", required: true, type: .string)
         ]
+
         /// Unvalidated JSON of a demodulation Config.
         public let unvalidatedJSON: String
         
@@ -621,6 +652,7 @@ extension GroundStation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "contactId", location: .uri(locationName: "contactId"), required: true, type: .string)
         ]
+
         /// UUID of a contact.
         public let contactId: String
         
@@ -648,6 +680,7 @@ extension GroundStation {
             AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// UUID of a contact.
         public let contactId: String?
         /// Status of a contact.
@@ -709,6 +742,7 @@ extension GroundStation {
             AWSShapeMember(label: "units", required: true, type: .enum), 
             AWSShapeMember(label: "value", required: true, type: .double)
         ]
+
         /// Units of an EIRP.
         public let units: EirpUnits
         /// Value of an EIRP.
@@ -735,6 +769,7 @@ extension GroundStation {
             AWSShapeMember(label: "unit", required: true, type: .enum), 
             AWSShapeMember(label: "value", required: true, type: .double)
         ]
+
         /// Elevation angle units.
         public let unit: AngleUnits
         /// Elevation angle value.
@@ -756,6 +791,7 @@ extension GroundStation {
             AWSShapeMember(label: "endpoint", required: false, type: .structure), 
             AWSShapeMember(label: "securityDetails", required: false, type: .structure)
         ]
+
         /// A dataflow endpoint.
         public let endpoint: DataflowEndpoint?
         /// Endpoint security details.
@@ -790,6 +826,7 @@ extension GroundStation {
             AWSShapeMember(label: "units", required: true, type: .enum), 
             AWSShapeMember(label: "value", required: true, type: .double)
         ]
+
         /// Frequency units.
         public let units: FrequencyUnits
         /// Frequency value.
@@ -811,6 +848,7 @@ extension GroundStation {
             AWSShapeMember(label: "units", required: true, type: .enum), 
             AWSShapeMember(label: "value", required: true, type: .double)
         ]
+
         /// Frequency bandwidth units.
         public let units: BandwidthUnits
         /// Frequency bandwidth value.
@@ -839,6 +877,7 @@ extension GroundStation {
             AWSShapeMember(label: "configId", location: .uri(locationName: "configId"), required: true, type: .string), 
             AWSShapeMember(label: "configType", location: .uri(locationName: "configType"), required: true, type: .enum)
         ]
+
         /// UUID of a Config.
         public let configId: String
         /// Type of a Config.
@@ -864,6 +903,7 @@ extension GroundStation {
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// ARN of a Config
         ///          
         public let configArn: String
@@ -905,6 +945,7 @@ extension GroundStation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "dataflowEndpointGroupId", location: .uri(locationName: "dataflowEndpointGroupId"), required: true, type: .string)
         ]
+
         /// UUID of a dataflow endpoint group.
         public let dataflowEndpointGroupId: String
         
@@ -924,6 +965,7 @@ extension GroundStation {
             AWSShapeMember(label: "endpointsDetails", required: false, type: .list), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// ARN of a dataflow endpoint group.
         public let dataflowEndpointGroupArn: String?
         /// UUID of a dataflow endpoint group.
@@ -940,6 +982,12 @@ extension GroundStation {
             self.tags = tags
         }
 
+        public func validate() throws {
+            try endpointsDetails?.forEach {
+                try $0.validate()
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dataflowEndpointGroupArn = "dataflowEndpointGroupArn"
             case dataflowEndpointGroupId = "dataflowEndpointGroupId"
@@ -953,6 +1001,7 @@ extension GroundStation {
             AWSShapeMember(label: "month", required: true, type: .integer), 
             AWSShapeMember(label: "year", required: true, type: .integer)
         ]
+
         /// The month being requested, with a value of 1-12.
         public let month: Int32
         /// The year being requested, in the format of YYYY.
@@ -977,6 +1026,7 @@ extension GroundStation {
             AWSShapeMember(label: "totalScheduledMinutes", required: false, type: .integer), 
             AWSShapeMember(label: "upcomingMinutesScheduled", required: false, type: .integer)
         ]
+
         /// Estimated number of minutes remaining for an account, specific to the month being requested.
         public let estimatedMinutesRemaining: Int32?
         /// Returns whether or not an account has signed up for the reserved minutes pricing plan, specific to the month being requested.
@@ -1009,6 +1059,7 @@ extension GroundStation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "missionProfileId", location: .uri(locationName: "missionProfileId"), required: true, type: .string)
         ]
+
         /// UUID of a mission profile.
         public let missionProfileId: String
         
@@ -1034,6 +1085,7 @@ extension GroundStation {
             AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "trackingConfigArn", required: false, type: .string)
         ]
+
         /// Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.
         public let contactPostPassDurationSeconds: Int32?
         /// Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.
@@ -1074,6 +1126,10 @@ extension GroundStation {
             try validate(contactPostPassDurationSeconds, name:"contactPostPassDurationSeconds", min: 1)
             try validate(contactPrePassDurationSeconds, name:"contactPrePassDurationSeconds", max: 21600)
             try validate(contactPrePassDurationSeconds, name:"contactPrePassDurationSeconds", min: 1)
+            try dataflowEdges?.forEach {
+                try validate($0, name:"dataflowEdges[]", max: 2)
+                try validate($0, name:"dataflowEdges[]", min: 2)
+            }
             try validate(minimumViableContactDurationSeconds, name:"minimumViableContactDurationSeconds", max: 21600)
             try validate(minimumViableContactDurationSeconds, name:"minimumViableContactDurationSeconds", min: 1)
         }
@@ -1096,6 +1152,7 @@ extension GroundStation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "satelliteId", location: .uri(locationName: "satelliteId"), required: true, type: .string)
         ]
+
         /// UUID of a satellite.
         public let satelliteId: String
         
@@ -1117,6 +1174,7 @@ extension GroundStation {
             AWSShapeMember(label: "satelliteId", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// When a satellite was created.
         public let dateCreated: TimeStamp?
         /// When a satellite was last updated.
@@ -1163,6 +1221,7 @@ extension GroundStation {
             AWSShapeMember(label: "groundStationName", required: false, type: .string), 
             AWSShapeMember(label: "region", required: false, type: .string)
         ]
+
         /// ID of a ground station.
         public let groundStationId: String?
         /// Name of a ground station.
@@ -1188,6 +1247,7 @@ extension GroundStation {
             AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// Maximum number of Configs returned.
         public let maxResults: Int32?
         /// Next token returned in the request of a previous ListConfigs call. Used to get the next page of results.
@@ -1209,6 +1269,7 @@ extension GroundStation {
             AWSShapeMember(label: "configList", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// List of Config items.
         public let configList: [ConfigListItem]?
         /// Next token returned in the response of a previous ListConfigs call. Used to get the next page of results.
@@ -1236,6 +1297,7 @@ extension GroundStation {
             AWSShapeMember(label: "startTime", required: true, type: .timestamp), 
             AWSShapeMember(label: "statusList", required: true, type: .list)
         ]
+
         /// End time of a contact.
         public let endTime: TimeStamp
         /// Name of a ground station.
@@ -1281,6 +1343,7 @@ extension GroundStation {
             AWSShapeMember(label: "contactList", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// List of contacts.
         public let contactList: [ContactData]?
         /// Next token returned in the response of a previous ListContacts call. Used to get the next page of results.
@@ -1302,6 +1365,7 @@ extension GroundStation {
             AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// Maximum number of dataflow endpoint groups returned.
         public let maxResults: Int32?
         /// Next token returned in the request of a previous ListDataflowEndpointGroups call. Used to get the next page of results.
@@ -1323,6 +1387,7 @@ extension GroundStation {
             AWSShapeMember(label: "dataflowEndpointGroupList", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// A list of dataflow endpoint groups.
         public let dataflowEndpointGroupList: [DataflowEndpointListItem]?
         /// Next token returned in the response of a previous ListDataflowEndpointGroups call. Used to get the next page of results.
@@ -1344,6 +1409,7 @@ extension GroundStation {
             AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// Maximum number of ground stations returned.
         public let maxResults: Int32?
         /// Next token that can be supplied in the next call to get the next page of ground stations.
@@ -1365,6 +1431,7 @@ extension GroundStation {
             AWSShapeMember(label: "groundStationList", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// List of ground stations.
         public let groundStationList: [GroundStationData]?
         /// Next token that can be supplied in the next call to get the next page of ground stations.
@@ -1386,6 +1453,7 @@ extension GroundStation {
             AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// Maximum number of mission profiles returned.
         public let maxResults: Int32?
         /// Next token returned in the request of a previous ListMissionProfiles call. Used to get the next page of results.
@@ -1407,6 +1475,7 @@ extension GroundStation {
             AWSShapeMember(label: "missionProfileList", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// List of mission profiles
         public let missionProfileList: [MissionProfileListItem]?
         /// Next token returned in the response of a previous ListMissionProfiles call. Used to get the next page of results.
@@ -1428,6 +1497,7 @@ extension GroundStation {
             AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
+
         /// Maximum number of satellites returned.
         public let maxResults: Int32?
         /// Next token that can be supplied in the next call to get the next page of satellites.
@@ -1449,6 +1519,7 @@ extension GroundStation {
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "satellites", required: false, type: .list)
         ]
+
         /// Next token that can be supplied in the next call to get the next page of satellites.
         public let nextToken: String?
         /// List of satellites.
@@ -1457,6 +1528,12 @@ extension GroundStation {
         public init(nextToken: String? = nil, satellites: [SatelliteListItem]? = nil) {
             self.nextToken = nextToken
             self.satellites = satellites
+        }
+
+        public func validate() throws {
+            try satellites?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1469,6 +1546,7 @@ extension GroundStation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string)
         ]
+
         /// ARN of a resource.
         public let resourceArn: String
         
@@ -1485,6 +1563,7 @@ extension GroundStation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// Tags assigned to a resource.
         public let tags: [String: String]?
         
@@ -1501,6 +1580,7 @@ extension GroundStation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "missionProfileId", required: false, type: .string)
         ]
+
         /// ID of a mission profile.
         public let missionProfileId: String?
         
@@ -1520,6 +1600,7 @@ extension GroundStation {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "region", required: false, type: .string)
         ]
+
         /// ARN of a mission profile.
         public let missionProfileArn: String?
         /// ID of a mission profile.
@@ -1560,6 +1641,7 @@ extension GroundStation {
             AWSShapeMember(label: "startTime", required: true, type: .timestamp), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// End time of a contact.
         public let endTime: TimeStamp
         /// Name of a ground station.
@@ -1598,6 +1680,7 @@ extension GroundStation {
             AWSShapeMember(label: "satelliteArn", required: false, type: .string), 
             AWSShapeMember(label: "satelliteId", required: false, type: .string)
         ]
+
         /// NORAD satellite ID number.
         public let noradSatelliteID: Int32?
         /// ARN of a satellite.
@@ -1632,6 +1715,7 @@ extension GroundStation {
             AWSShapeMember(label: "securityGroupIds", required: true, type: .list), 
             AWSShapeMember(label: "subnetIds", required: true, type: .list)
         ]
+
         /// ARN to a role needed for connecting streams to your instances. 
         public let roleArn: String
         /// The security groups to attach to the elastic network interfaces.
@@ -1657,6 +1741,7 @@ extension GroundStation {
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "port", required: true, type: .integer)
         ]
+
         /// Name of a socket address.
         public let name: String
         /// Port of a socket address.
@@ -1679,6 +1764,7 @@ extension GroundStation {
             AWSShapeMember(label: "centerFrequency", required: true, type: .structure), 
             AWSShapeMember(label: "polarization", required: false, type: .enum)
         ]
+
         /// Bandwidth of a spectral Config.
         public let bandwidth: FrequencyBandwidth
         /// Center frequency of a spectral Config.
@@ -1704,6 +1790,7 @@ extension GroundStation {
             AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
+
         /// ARN of a resource tag.
         public let resourceArn: String
         /// Tags assigned to a resource.
@@ -1722,7 +1809,6 @@ extension GroundStation {
 
     public struct TagResourceResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -1732,6 +1818,7 @@ extension GroundStation {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "autotrack", required: true, type: .enum)
         ]
+
         /// Current setting for autotrack.
         public let autotrack: Criticality
         
@@ -1749,6 +1836,7 @@ extension GroundStation {
             AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
             AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
         ]
+
         /// ARN of a resource.
         public let resourceArn: String
         /// Keys of a resource tag.
@@ -1767,7 +1855,6 @@ extension GroundStation {
 
     public struct UntagResourceResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -1780,6 +1867,7 @@ extension GroundStation {
             AWSShapeMember(label: "configType", location: .uri(locationName: "configType"), required: true, type: .enum), 
             AWSShapeMember(label: "name", required: true, type: .string)
         ]
+
         /// Parameters for a Config.
         public let configData: ConfigTypeData
         /// UUID of a Config.
@@ -1821,6 +1909,7 @@ extension GroundStation {
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "trackingConfigArn", required: false, type: .string)
         ]
+
         /// Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.
         public let contactPostPassDurationSeconds: Int32?
         /// Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.
@@ -1852,6 +1941,10 @@ extension GroundStation {
             try validate(contactPostPassDurationSeconds, name:"contactPostPassDurationSeconds", min: 1)
             try validate(contactPrePassDurationSeconds, name:"contactPrePassDurationSeconds", max: 21600)
             try validate(contactPrePassDurationSeconds, name:"contactPrePassDurationSeconds", min: 1)
+            try dataflowEdges?.forEach {
+                try validate($0, name:"dataflowEdges[]", max: 2)
+                try validate($0, name:"dataflowEdges[]", min: 2)
+            }
             try validate(minimumViableContactDurationSeconds, name:"minimumViableContactDurationSeconds", max: 21600)
             try validate(minimumViableContactDurationSeconds, name:"minimumViableContactDurationSeconds", min: 1)
             try validate(name, name:"name", max: 256)
@@ -1875,6 +1968,7 @@ extension GroundStation {
             AWSShapeMember(label: "antennaUplinkConfigArn", required: true, type: .string), 
             AWSShapeMember(label: "enabled", required: true, type: .boolean)
         ]
+
         /// ARN of an uplink Config.
         public let antennaUplinkConfigArn: String
         /// Whether or not an uplink Config is enabled.
@@ -1896,6 +1990,7 @@ extension GroundStation {
             AWSShapeMember(label: "centerFrequency", required: true, type: .structure), 
             AWSShapeMember(label: "polarization", required: false, type: .enum)
         ]
+
         /// Center frequency of an uplink spectral Config.
         public let centerFrequency: Frequency
         /// Polarization of an uplink spectral Config.

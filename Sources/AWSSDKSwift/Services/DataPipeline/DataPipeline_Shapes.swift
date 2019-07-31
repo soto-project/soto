@@ -11,6 +11,7 @@ extension DataPipeline {
             AWSShapeMember(label: "pipelineId", required: true, type: .string), 
             AWSShapeMember(label: "startTimestamp", required: false, type: .timestamp)
         ]
+
         /// A list of parameter values to pass to the pipeline at activation.
         public let parameterValues: [ParameterValue]?
         /// The ID of the pipeline.
@@ -25,6 +26,9 @@ extension DataPipeline {
         }
 
         public func validate() throws {
+            try parameterValues?.forEach {
+                try $0.validate()
+            }
             try validate(pipelineId, name:"pipelineId", max: 1024)
             try validate(pipelineId, name:"pipelineId", min: 1)
             try validate(pipelineId, name:"pipelineId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -39,7 +43,6 @@ extension DataPipeline {
 
     public struct ActivatePipelineOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -50,6 +53,7 @@ extension DataPipeline {
             AWSShapeMember(label: "pipelineId", required: true, type: .string), 
             AWSShapeMember(label: "tags", required: true, type: .list)
         ]
+
         /// The ID of the pipeline.
         public let pipelineId: String
         /// The tags to add, as key/value pairs.
@@ -64,6 +68,9 @@ extension DataPipeline {
             try validate(pipelineId, name:"pipelineId", max: 1024)
             try validate(pipelineId, name:"pipelineId", min: 1)
             try validate(pipelineId, name:"pipelineId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try tags.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", max: 10)
             try validate(tags, name:"tags", min: 0)
         }
@@ -75,7 +82,6 @@ extension DataPipeline {
     }
 
     public struct AddTagsOutput: AWSShape {
-        
         
         public init() {
         }
@@ -89,6 +95,7 @@ extension DataPipeline {
             AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "uniqueId", required: true, type: .string)
         ]
+
         /// The description for the pipeline.
         public let description: String?
         /// The name for the pipeline. You can use the same name for multiple pipelines associated with your AWS account, because AWS Data Pipeline assigns each pipeline a unique pipeline identifier.
@@ -112,6 +119,9 @@ extension DataPipeline {
             try validate(name, name:"name", max: 1024)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try tags?.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", max: 10)
             try validate(tags, name:"tags", min: 0)
             try validate(uniqueId, name:"uniqueId", max: 1024)
@@ -131,6 +141,7 @@ extension DataPipeline {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "pipelineId", required: true, type: .string)
         ]
+
         /// The ID that AWS Data Pipeline assigns the newly created pipeline. For example, df-06372391ZG65EXAMPLE.
         public let pipelineId: String
         
@@ -154,6 +165,7 @@ extension DataPipeline {
             AWSShapeMember(label: "cancelActive", required: false, type: .boolean), 
             AWSShapeMember(label: "pipelineId", required: true, type: .string)
         ]
+
         /// Indicates whether to cancel any running objects. The default is true, which sets the state of any running objects to CANCELED. If this value is false, the pipeline is deactivated after all running objects finish.
         public let cancelActive: Bool?
         /// The ID of the pipeline.
@@ -178,7 +190,6 @@ extension DataPipeline {
 
     public struct DeactivatePipelineOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -188,6 +199,7 @@ extension DataPipeline {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "pipelineId", required: true, type: .string)
         ]
+
         /// The ID of the pipeline.
         public let pipelineId: String
         
@@ -213,6 +225,7 @@ extension DataPipeline {
             AWSShapeMember(label: "objectIds", required: true, type: .list), 
             AWSShapeMember(label: "pipelineId", required: true, type: .string)
         ]
+
         /// Indicates whether any expressions in the object should be evaluated when the object descriptions are returned.
         public let evaluateExpressions: Bool?
         /// The starting point for the results to be returned. For the first call, this value should be empty. As long as there are more results, continue to call DescribeObjects with the marker value from the previous call to retrieve the next set of results.
@@ -233,6 +246,11 @@ extension DataPipeline {
             try validate(marker, name:"marker", max: 1024)
             try validate(marker, name:"marker", min: 0)
             try validate(marker, name:"marker", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try objectIds.forEach {
+                try validate($0, name:"objectIds[]", max: 1024)
+                try validate($0, name:"objectIds[]", min: 1)
+                try validate($0, name:"objectIds[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
             try validate(pipelineId, name:"pipelineId", max: 1024)
             try validate(pipelineId, name:"pipelineId", min: 1)
             try validate(pipelineId, name:"pipelineId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -252,6 +270,7 @@ extension DataPipeline {
             AWSShapeMember(label: "marker", required: false, type: .string), 
             AWSShapeMember(label: "pipelineObjects", required: true, type: .list)
         ]
+
         /// Indicates whether there are more results to return.
         public let hasMoreResults: Bool?
         /// The starting point for the next page of results. To view the next page of results, call DescribeObjects again with this marker value. If the value is null, there are no more results.
@@ -269,6 +288,9 @@ extension DataPipeline {
             try validate(marker, name:"marker", max: 1024)
             try validate(marker, name:"marker", min: 0)
             try validate(marker, name:"marker", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try pipelineObjects.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -282,11 +304,20 @@ extension DataPipeline {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "pipelineIds", required: true, type: .list)
         ]
+
         /// The IDs of the pipelines to describe. You can pass as many as 25 identifiers in a single call. To obtain pipeline IDs, call ListPipelines.
         public let pipelineIds: [String]
         
         public init(pipelineIds: [String]) {
             self.pipelineIds = pipelineIds
+        }
+
+        public func validate() throws {
+            try pipelineIds.forEach {
+                try validate($0, name:"pipelineIds[]", max: 1024)
+                try validate($0, name:"pipelineIds[]", min: 1)
+                try validate($0, name:"pipelineIds[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -298,11 +329,18 @@ extension DataPipeline {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "pipelineDescriptionList", required: true, type: .list)
         ]
+
         /// An array of descriptions for the specified pipelines.
         public let pipelineDescriptionList: [PipelineDescription]
         
         public init(pipelineDescriptionList: [PipelineDescription]) {
             self.pipelineDescriptionList = pipelineDescriptionList
+        }
+
+        public func validate() throws {
+            try pipelineDescriptionList.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -316,6 +354,7 @@ extension DataPipeline {
             AWSShapeMember(label: "objectId", required: true, type: .string), 
             AWSShapeMember(label: "pipelineId", required: true, type: .string)
         ]
+
         /// The expression to evaluate.
         public let expression: String
         /// The ID of the object.
@@ -352,6 +391,7 @@ extension DataPipeline {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "evaluatedExpression", required: true, type: .string)
         ]
+
         /// The evaluated expression.
         public let evaluatedExpression: String
         
@@ -376,6 +416,7 @@ extension DataPipeline {
             AWSShapeMember(label: "refValue", required: false, type: .string), 
             AWSShapeMember(label: "stringValue", required: false, type: .string)
         ]
+
         /// The field identifier.
         public let key: String
         /// The field value, expressed as the identifier of another object.
@@ -413,6 +454,7 @@ extension DataPipeline {
             AWSShapeMember(label: "pipelineId", required: true, type: .string), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
+
         /// The ID of the pipeline.
         public let pipelineId: String
         /// The version of the pipeline definition to retrieve. Set this parameter to latest (default) to use the last definition saved to the pipeline or active to use the last definition that was activated.
@@ -444,6 +486,7 @@ extension DataPipeline {
             AWSShapeMember(label: "parameterValues", required: false, type: .list), 
             AWSShapeMember(label: "pipelineObjects", required: false, type: .list)
         ]
+
         /// The parameter objects used in the pipeline definition.
         public let parameterObjects: [ParameterObject]?
         /// The parameter values used in the pipeline definition.
@@ -455,6 +498,18 @@ extension DataPipeline {
             self.parameterObjects = parameterObjects
             self.parameterValues = parameterValues
             self.pipelineObjects = pipelineObjects
+        }
+
+        public func validate() throws {
+            try parameterObjects?.forEach {
+                try $0.validate()
+            }
+            try parameterValues?.forEach {
+                try $0.validate()
+            }
+            try pipelineObjects?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -469,6 +524,7 @@ extension DataPipeline {
             AWSShapeMember(label: "document", required: false, type: .string), 
             AWSShapeMember(label: "signature", required: false, type: .string)
         ]
+
         /// A description of an EC2 instance that is generated when the instance is launched and exposed to the instance via the instance metadata service in the form of a JSON representation of an object.
         public let document: String?
         /// A signature which can be used to verify the accuracy and authenticity of the information provided in the instance identity document.
@@ -498,6 +554,7 @@ extension DataPipeline {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "marker", required: false, type: .string)
         ]
+
         /// The starting point for the results to be returned. For the first call, this value should be empty. As long as there are more results, continue to call ListPipelines with the marker value from the previous call to retrieve the next set of results.
         public let marker: String?
         
@@ -522,6 +579,7 @@ extension DataPipeline {
             AWSShapeMember(label: "marker", required: false, type: .string), 
             AWSShapeMember(label: "pipelineIdList", required: true, type: .list)
         ]
+
         /// Indicates whether there are more results that can be obtained by a subsequent call.
         public let hasMoreResults: Bool?
         /// The starting point for the next page of results. To view the next page of results, call ListPipelinesOutput again with this marker value. If the value is null, there are no more results.
@@ -539,6 +597,9 @@ extension DataPipeline {
             try validate(marker, name:"marker", max: 1024)
             try validate(marker, name:"marker", min: 0)
             try validate(marker, name:"marker", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try pipelineIdList.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -553,6 +614,7 @@ extension DataPipeline {
             AWSShapeMember(label: "type", required: false, type: .enum), 
             AWSShapeMember(label: "values", required: false, type: .list)
         ]
+
         ///  The logical operation to be performed: equal (EQ), equal reference (REF_EQ), less than or equal (LE), greater than or equal (GE), or between (BETWEEN). Equal reference (REF_EQ) can be used only with reference fields. The other comparison types can be used only with String fields. The comparison types you can use apply only to certain object fields, as detailed below.   The comparison operators EQ and REF_EQ act on the following fields:   name @sphere parent @componentParent @instanceParent @status @scheduledStartTime @scheduledEndTime @actualStartTime @actualEndTime   The comparison operators GE, LE, and BETWEEN act on the following fields:   @scheduledStartTime @scheduledEndTime @actualStartTime @actualEndTime  Note that fields beginning with the at sign (@) are read-only and set by the web service. When you name fields, you should choose names containing only alpha-numeric values, as symbols may be reserved by AWS Data Pipeline. User-defined fields that you add to a pipeline should prefix their name with the string "my".
         public let `type`: OperatorType?
         /// The value that the actual field value will be compared with.
@@ -561,6 +623,14 @@ extension DataPipeline {
         public init(type: OperatorType? = nil, values: [String]? = nil) {
             self.`type` = `type`
             self.values = values
+        }
+
+        public func validate() throws {
+            try values?.forEach {
+                try validate($0, name:"values[]", max: 1024)
+                try validate($0, name:"values[]", min: 0)
+                try validate($0, name:"values[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -583,6 +653,7 @@ extension DataPipeline {
             AWSShapeMember(label: "key", required: true, type: .string), 
             AWSShapeMember(label: "stringValue", required: true, type: .string)
         ]
+
         /// The field identifier.
         public let key: String
         /// The field value, expressed as a String.
@@ -613,6 +684,7 @@ extension DataPipeline {
             AWSShapeMember(label: "attributes", required: true, type: .list), 
             AWSShapeMember(label: "id", required: true, type: .string)
         ]
+
         /// The attributes of the parameter object.
         public let attributes: [ParameterAttribute]
         /// The ID of the parameter object. 
@@ -624,6 +696,9 @@ extension DataPipeline {
         }
 
         public func validate() throws {
+            try attributes.forEach {
+                try $0.validate()
+            }
             try validate(id, name:"id", max: 256)
             try validate(id, name:"id", min: 1)
             try validate(id, name:"id", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -640,6 +715,7 @@ extension DataPipeline {
             AWSShapeMember(label: "id", required: true, type: .string), 
             AWSShapeMember(label: "stringValue", required: true, type: .string)
         ]
+
         /// The ID of the parameter value.
         public let id: String
         /// The field value, expressed as a String.
@@ -673,6 +749,7 @@ extension DataPipeline {
             AWSShapeMember(label: "pipelineId", required: true, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
+
         /// Description of the pipeline.
         public let description: String?
         /// A list of read-only fields that contain metadata about the pipeline: @userId, @accountId, and @pipelineState.
@@ -696,12 +773,18 @@ extension DataPipeline {
             try validate(description, name:"description", max: 1024)
             try validate(description, name:"description", min: 0)
             try validate(description, name:"description", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try fields.forEach {
+                try $0.validate()
+            }
             try validate(name, name:"name", max: 1024)
             try validate(name, name:"name", min: 1)
             try validate(name, name:"name", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try validate(pipelineId, name:"pipelineId", max: 1024)
             try validate(pipelineId, name:"pipelineId", min: 1)
             try validate(pipelineId, name:"pipelineId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try tags?.forEach {
+                try $0.validate()
+            }
             try validate(tags, name:"tags", max: 10)
             try validate(tags, name:"tags", min: 0)
         }
@@ -720,6 +803,7 @@ extension DataPipeline {
             AWSShapeMember(label: "id", required: false, type: .string), 
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
+
         /// The ID of the pipeline that was assigned by AWS Data Pipeline. This is a string of the form df-297EG78HU43EEXAMPLE.
         public let id: String?
         /// The name of the pipeline.
@@ -751,6 +835,7 @@ extension DataPipeline {
             AWSShapeMember(label: "id", required: true, type: .string), 
             AWSShapeMember(label: "name", required: true, type: .string)
         ]
+
         /// Key-value pairs that define the properties of the object.
         public let fields: [Field]
         /// The ID of the object.
@@ -765,6 +850,9 @@ extension DataPipeline {
         }
 
         public func validate() throws {
+            try fields.forEach {
+                try $0.validate()
+            }
             try validate(id, name:"id", max: 1024)
             try validate(id, name:"id", min: 1)
             try validate(id, name:"id", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -786,6 +874,7 @@ extension DataPipeline {
             AWSShapeMember(label: "instanceIdentity", required: false, type: .structure), 
             AWSShapeMember(label: "workerGroup", required: true, type: .string)
         ]
+
         /// The public DNS name of the calling task runner.
         public let hostname: String?
         /// Identity information for the EC2 instance that is hosting the task runner. You can get this value from the instance using http://169.254.169.254/latest/meta-data/instance-id. For more information, see Instance Metadata in the Amazon Elastic Compute Cloud User Guide. Passing in this value proves that your task runner is running on an EC2 instance, and ensures the proper AWS Data Pipeline service charges are applied to your pipeline.
@@ -820,6 +909,7 @@ extension DataPipeline {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "taskObject", required: false, type: .structure)
         ]
+
         /// The information needed to complete the task that is being assigned to the task runner. One of the fields returned in this object is taskId, which contains an identifier for the task being assigned. The calling task runner uses taskId in subsequent calls to ReportTaskProgress and SetTaskStatus.
         public let taskObject: TaskObject?
         
@@ -843,6 +933,7 @@ extension DataPipeline {
             AWSShapeMember(label: "pipelineId", required: true, type: .string), 
             AWSShapeMember(label: "pipelineObjects", required: true, type: .list)
         ]
+
         /// The parameter objects used with the pipeline.
         public let parameterObjects: [ParameterObject]?
         /// The parameter values used with the pipeline.
@@ -860,9 +951,18 @@ extension DataPipeline {
         }
 
         public func validate() throws {
+            try parameterObjects?.forEach {
+                try $0.validate()
+            }
+            try parameterValues?.forEach {
+                try $0.validate()
+            }
             try validate(pipelineId, name:"pipelineId", max: 1024)
             try validate(pipelineId, name:"pipelineId", min: 1)
             try validate(pipelineId, name:"pipelineId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try pipelineObjects.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -879,6 +979,7 @@ extension DataPipeline {
             AWSShapeMember(label: "validationErrors", required: false, type: .list), 
             AWSShapeMember(label: "validationWarnings", required: false, type: .list)
         ]
+
         /// Indicates whether there were validation errors, and the pipeline definition is stored but cannot be activated until you correct the pipeline and call PutPipelineDefinition to commit the corrected pipeline.
         public let errored: Bool
         /// The validation errors that are associated with the objects defined in pipelineObjects.
@@ -892,6 +993,15 @@ extension DataPipeline {
             self.validationWarnings = validationWarnings
         }
 
+        public func validate() throws {
+            try validationErrors?.forEach {
+                try $0.validate()
+            }
+            try validationWarnings?.forEach {
+                try $0.validate()
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case errored = "errored"
             case validationErrors = "validationErrors"
@@ -903,11 +1013,18 @@ extension DataPipeline {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "selectors", required: false, type: .list)
         ]
+
         /// List of selectors that define the query. An object must satisfy all of the selectors to match the query.
         public let selectors: [Selector]?
         
         public init(selectors: [Selector]? = nil) {
             self.selectors = selectors
+        }
+
+        public func validate() throws {
+            try selectors?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -923,6 +1040,7 @@ extension DataPipeline {
             AWSShapeMember(label: "query", required: false, type: .structure), 
             AWSShapeMember(label: "sphere", required: true, type: .string)
         ]
+
         /// The maximum number of object names that QueryObjects will return in a single call. The default value is 100. 
         public let limit: Int32?
         /// The starting point for the results to be returned. For the first call, this value should be empty. As long as there are more results, continue to call QueryObjects with the marker value from the previous call to retrieve the next set of results.
@@ -949,6 +1067,7 @@ extension DataPipeline {
             try validate(pipelineId, name:"pipelineId", max: 1024)
             try validate(pipelineId, name:"pipelineId", min: 1)
             try validate(pipelineId, name:"pipelineId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try query?.validate()
             try validate(sphere, name:"sphere", max: 1024)
             try validate(sphere, name:"sphere", min: 0)
             try validate(sphere, name:"sphere", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -969,6 +1088,7 @@ extension DataPipeline {
             AWSShapeMember(label: "ids", required: false, type: .list), 
             AWSShapeMember(label: "marker", required: false, type: .string)
         ]
+
         /// Indicates whether there are more results that can be obtained by a subsequent call.
         public let hasMoreResults: Bool?
         /// The identifiers that match the query selectors.
@@ -983,6 +1103,11 @@ extension DataPipeline {
         }
 
         public func validate() throws {
+            try ids?.forEach {
+                try validate($0, name:"ids[]", max: 1024)
+                try validate($0, name:"ids[]", min: 1)
+                try validate($0, name:"ids[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
             try validate(marker, name:"marker", max: 1024)
             try validate(marker, name:"marker", min: 0)
             try validate(marker, name:"marker", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -1000,6 +1125,7 @@ extension DataPipeline {
             AWSShapeMember(label: "pipelineId", required: true, type: .string), 
             AWSShapeMember(label: "tagKeys", required: true, type: .list)
         ]
+
         /// The ID of the pipeline.
         public let pipelineId: String
         /// The keys of the tags to remove.
@@ -1014,6 +1140,11 @@ extension DataPipeline {
             try validate(pipelineId, name:"pipelineId", max: 1024)
             try validate(pipelineId, name:"pipelineId", min: 1)
             try validate(pipelineId, name:"pipelineId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try tagKeys.forEach {
+                try validate($0, name:"tagKeys[]", max: 1024)
+                try validate($0, name:"tagKeys[]", min: 0)
+                try validate($0, name:"tagKeys[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1023,7 +1154,6 @@ extension DataPipeline {
     }
 
     public struct RemoveTagsOutput: AWSShape {
-        
         
         public init() {
         }
@@ -1035,6 +1165,7 @@ extension DataPipeline {
             AWSShapeMember(label: "fields", required: false, type: .list), 
             AWSShapeMember(label: "taskId", required: true, type: .string)
         ]
+
         /// Key-value pairs that define the properties of the ReportTaskProgressInput object.
         public let fields: [Field]?
         /// The ID of the task assigned to the task runner. This value is provided in the response for PollForTask.
@@ -1046,6 +1177,9 @@ extension DataPipeline {
         }
 
         public func validate() throws {
+            try fields?.forEach {
+                try $0.validate()
+            }
             try validate(taskId, name:"taskId", max: 2048)
             try validate(taskId, name:"taskId", min: 1)
             try validate(taskId, name:"taskId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -1061,6 +1195,7 @@ extension DataPipeline {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "canceled", required: true, type: .boolean)
         ]
+
         /// If true, the calling task runner should cancel processing of the task. The task runner does not need to call SetTaskStatus for canceled tasks.
         public let canceled: Bool
         
@@ -1079,6 +1214,7 @@ extension DataPipeline {
             AWSShapeMember(label: "taskrunnerId", required: true, type: .string), 
             AWSShapeMember(label: "workerGroup", required: false, type: .string)
         ]
+
         /// The public DNS name of the task runner.
         public let hostname: String?
         /// The ID of the task runner. This value should be unique across your AWS account. In the case of AWS Data Pipeline Task Runner launched on a resource managed by AWS Data Pipeline, the web service provides a unique identifier when it launches the application. If you have written a custom task runner, you should assign a unique identifier for the task runner.
@@ -1115,6 +1251,7 @@ extension DataPipeline {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "terminate", required: true, type: .boolean)
         ]
+
         /// Indicates whether the calling task runner should terminate.
         public let terminate: Bool
         
@@ -1132,6 +1269,7 @@ extension DataPipeline {
             AWSShapeMember(label: "fieldName", required: false, type: .string), 
             AWSShapeMember(label: "operator", required: false, type: .structure)
         ]
+
         /// The name of the field that the operator will be applied to. The field name is the "key" portion of the field definition in the pipeline definition syntax that is used by the AWS Data Pipeline API. If the field is not set on the object, the condition fails.
         public let fieldName: String?
         public let `operator`: Operator?
@@ -1145,6 +1283,7 @@ extension DataPipeline {
             try validate(fieldName, name:"fieldName", max: 1024)
             try validate(fieldName, name:"fieldName", min: 0)
             try validate(fieldName, name:"fieldName", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try `operator`?.validate()
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1159,6 +1298,7 @@ extension DataPipeline {
             AWSShapeMember(label: "pipelineId", required: true, type: .string), 
             AWSShapeMember(label: "status", required: true, type: .string)
         ]
+
         /// The IDs of the objects. The corresponding objects can be either physical or components, but not a mix of both types.
         public let objectIds: [String]
         /// The ID of the pipeline that contains the objects.
@@ -1173,6 +1313,11 @@ extension DataPipeline {
         }
 
         public func validate() throws {
+            try objectIds.forEach {
+                try validate($0, name:"objectIds[]", max: 1024)
+                try validate($0, name:"objectIds[]", min: 1)
+                try validate($0, name:"objectIds[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
             try validate(pipelineId, name:"pipelineId", max: 1024)
             try validate(pipelineId, name:"pipelineId", min: 1)
             try validate(pipelineId, name:"pipelineId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -1196,6 +1341,7 @@ extension DataPipeline {
             AWSShapeMember(label: "taskId", required: true, type: .string), 
             AWSShapeMember(label: "taskStatus", required: true, type: .enum)
         ]
+
         /// If an error occurred during the task, this value specifies the error code. This value is set on the physical attempt object. It is used to display error information to the user. It should not start with string "Service_" which is reserved by the system.
         public let errorId: String?
         /// If an error occurred during the task, this value specifies a text description of the error. This value is set on the physical attempt object. It is used to display error information to the user. The web service does not parse this value.
@@ -1238,7 +1384,6 @@ extension DataPipeline {
 
     public struct SetTaskStatusOutput: AWSShape {
         
-        
         public init() {
         }
 
@@ -1249,6 +1394,7 @@ extension DataPipeline {
             AWSShapeMember(label: "key", required: true, type: .string), 
             AWSShapeMember(label: "value", required: true, type: .string)
         ]
+
         /// The key name of a tag defined by a user. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide.
         public let key: String
         /// The optional value portion of a tag defined by a user. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide.
@@ -1279,6 +1425,7 @@ extension DataPipeline {
             AWSShapeMember(label: "pipelineId", required: false, type: .string), 
             AWSShapeMember(label: "taskId", required: false, type: .string)
         ]
+
         /// The ID of the pipeline task attempt object. AWS Data Pipeline uses this value to track how many times a task is attempted.
         public let attemptId: String?
         /// Connection information for the location where the task runner will publish the output of the task.
@@ -1329,6 +1476,7 @@ extension DataPipeline {
             AWSShapeMember(label: "pipelineId", required: true, type: .string), 
             AWSShapeMember(label: "pipelineObjects", required: true, type: .list)
         ]
+
         /// The parameter objects used with the pipeline.
         public let parameterObjects: [ParameterObject]?
         /// The parameter values used with the pipeline.
@@ -1346,9 +1494,18 @@ extension DataPipeline {
         }
 
         public func validate() throws {
+            try parameterObjects?.forEach {
+                try $0.validate()
+            }
+            try parameterValues?.forEach {
+                try $0.validate()
+            }
             try validate(pipelineId, name:"pipelineId", max: 1024)
             try validate(pipelineId, name:"pipelineId", min: 1)
             try validate(pipelineId, name:"pipelineId", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try pipelineObjects.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1365,6 +1522,7 @@ extension DataPipeline {
             AWSShapeMember(label: "validationErrors", required: false, type: .list), 
             AWSShapeMember(label: "validationWarnings", required: false, type: .list)
         ]
+
         /// Indicates whether there were validation errors.
         public let errored: Bool
         /// Any validation errors that were found.
@@ -1376,6 +1534,15 @@ extension DataPipeline {
             self.errored = errored
             self.validationErrors = validationErrors
             self.validationWarnings = validationWarnings
+        }
+
+        public func validate() throws {
+            try validationErrors?.forEach {
+                try $0.validate()
+            }
+            try validationWarnings?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1390,6 +1557,7 @@ extension DataPipeline {
             AWSShapeMember(label: "errors", required: false, type: .list), 
             AWSShapeMember(label: "id", required: false, type: .string)
         ]
+
         /// A description of the validation error.
         public let errors: [String]?
         /// The identifier of the object that contains the validation error.
@@ -1401,6 +1569,11 @@ extension DataPipeline {
         }
 
         public func validate() throws {
+            try errors?.forEach {
+                try validate($0, name:"errors[]", max: 10000)
+                try validate($0, name:"errors[]", min: 0)
+                try validate($0, name:"errors[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
             try validate(id, name:"id", max: 1024)
             try validate(id, name:"id", min: 1)
             try validate(id, name:"id", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -1417,6 +1590,7 @@ extension DataPipeline {
             AWSShapeMember(label: "id", required: false, type: .string), 
             AWSShapeMember(label: "warnings", required: false, type: .list)
         ]
+
         /// The identifier of the object that contains the validation warning.
         public let id: String?
         /// A description of the validation warning.
@@ -1431,6 +1605,11 @@ extension DataPipeline {
             try validate(id, name:"id", max: 1024)
             try validate(id, name:"id", min: 1)
             try validate(id, name:"id", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try warnings?.forEach {
+                try validate($0, name:"warnings[]", max: 10000)
+                try validate($0, name:"warnings[]", min: 0)
+                try validate($0, name:"warnings[]", pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {

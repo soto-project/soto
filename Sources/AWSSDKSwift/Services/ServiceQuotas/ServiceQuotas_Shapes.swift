@@ -7,14 +7,12 @@ extension ServiceQuotas {
 
     public struct AssociateServiceQuotaTemplateRequest: AWSShape {
         
-        
         public init() {
         }
 
         }
 
     public struct AssociateServiceQuotaTemplateResponse: AWSShape {
-        
         
         public init() {
         }
@@ -27,6 +25,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "QuotaCode", required: true, type: .string), 
             AWSShapeMember(label: "ServiceCode", required: true, type: .string)
         ]
+
         /// Specifies the AWS Region for the quota that you want to delete.
         public let awsRegion: String
         /// Specifies the code for the quota that you want to delete.
@@ -61,7 +60,6 @@ extension ServiceQuotas {
 
     public struct DeleteServiceQuotaIncreaseRequestFromTemplateResponse: AWSShape {
         
-        
         public init() {
         }
 
@@ -69,14 +67,12 @@ extension ServiceQuotas {
 
     public struct DisassociateServiceQuotaTemplateRequest: AWSShape {
         
-        
         public init() {
         }
 
         }
 
     public struct DisassociateServiceQuotaTemplateResponse: AWSShape {
-        
         
         public init() {
         }
@@ -96,6 +92,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "ErrorCode", required: false, type: .enum), 
             AWSShapeMember(label: "ErrorMessage", required: false, type: .string)
         ]
+
         /// Service Quotas returns the following error values.   DEPENDENCY_ACCESS_DENIED_ERROR is returned when the caller does not have permission to call the service or service quota. To resolve the error, you need permission to access the service or service quota.  DEPENDENCY_THROTTLING_ERROR is returned when the service being called is throttling Service Quotas.  DEPENDENCY_SERVICE_ERROR is returned when the service being called has availability issues.  SERVICE_QUOTA_NOT_AVAILABLE_ERROR is returned when there was an error in Service Quotas.
         public let errorCode: ErrorCode?
         /// The error message that provides more detail.
@@ -117,6 +114,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "QuotaCode", required: true, type: .string), 
             AWSShapeMember(label: "ServiceCode", required: true, type: .string)
         ]
+
         /// Identifies the service quota you want to select.
         public let quotaCode: String
         /// Specifies the service that you want to use.
@@ -146,6 +144,7 @@ extension ServiceQuotas {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Quota", required: false, type: .structure)
         ]
+
         /// Returns the ServiceQuota object which contains all values for a quota.
         public let quota: ServiceQuota?
         
@@ -164,7 +163,6 @@ extension ServiceQuotas {
 
     public struct GetAssociationForServiceQuotaTemplateRequest: AWSShape {
         
-        
         public init() {
         }
 
@@ -174,6 +172,7 @@ extension ServiceQuotas {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServiceQuotaTemplateAssociationStatus", required: false, type: .enum)
         ]
+
         /// Specifies whether the template is ASSOCIATED or DISASSOCIATED. If the template is ASSOCIATED, then it requests service quota increases for all new accounts created in your organization. 
         public let serviceQuotaTemplateAssociationStatus: ServiceQuotaTemplateAssociationStatus?
         
@@ -190,6 +189,7 @@ extension ServiceQuotas {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RequestId", required: true, type: .string)
         ]
+
         /// Identifies the quota increase request.
         public let requestId: String
         
@@ -212,6 +212,7 @@ extension ServiceQuotas {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RequestedQuota", required: false, type: .structure)
         ]
+
         /// Returns the RequestedServiceQuotaChange object for the specific increase request.
         public let requestedQuota: RequestedServiceQuotaChange?
         
@@ -234,6 +235,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "QuotaCode", required: true, type: .string), 
             AWSShapeMember(label: "ServiceCode", required: true, type: .string)
         ]
+
         /// Specifies the AWS Region for the quota that you want to use.
         public let awsRegion: String
         /// Specifies the quota you want.
@@ -270,6 +272,7 @@ extension ServiceQuotas {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServiceQuotaIncreaseRequestInTemplate", required: false, type: .structure)
         ]
+
         /// This object contains the details about the quota increase request.
         public let serviceQuotaIncreaseRequestInTemplate: ServiceQuotaIncreaseRequestInTemplate?
         
@@ -291,6 +294,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "QuotaCode", required: true, type: .string), 
             AWSShapeMember(label: "ServiceCode", required: true, type: .string)
         ]
+
         /// Identifies the service quota you want to select.
         public let quotaCode: String
         /// Specifies the service that you want to use.
@@ -320,6 +324,7 @@ extension ServiceQuotas {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Quota", required: false, type: .structure)
         ]
+
         /// Returns the ServiceQuota object which contains all values for a quota.
         public let quota: ServiceQuota?
         
@@ -342,6 +347,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ServiceCode", required: true, type: .string)
         ]
+
         /// (Optional) Limits the number of results that you want to include in the response. If you don't include this parameter, the response defaults to a value that's specific to the operation. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int32?
         /// (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
@@ -377,6 +383,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Quotas", required: false, type: .list)
         ]
+
         /// (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
         /// A list of the quotas in the account with the AWS default values. 
@@ -390,6 +397,9 @@ extension ServiceQuotas {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 2048)
             try validate(nextToken, name:"nextToken", pattern: "^[a-zA-Z0-9/+]*={0,2}$")
+            try quotas?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -406,6 +416,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "ServiceCode", required: true, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
+
         /// (Optional) Limits the number of results that you want to include in the response. If you don't include this parameter, the response defaults to a value that's specific to the operation. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int32?
         /// (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -452,6 +463,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "RequestedQuotas", required: false, type: .list)
         ]
+
         /// If present in the response, this value indicates there's more output available that what's included in the current response. This can occur even when the response includes no values at all, such as when you ask for a filtered view of a very long list. Use this value in the NextToken request parameter in a subsequent call to the operation to continue processing and get the next part of the output. You should repeat this until the NextToken response element comes back empty (as null).
         public let nextToken: String?
         /// Returns a list of service quota requests.
@@ -465,6 +477,9 @@ extension ServiceQuotas {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 2048)
             try validate(nextToken, name:"nextToken", pattern: "^[a-zA-Z0-9/+]*={0,2}$")
+            try requestedQuotas?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -480,6 +495,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "ServiceCode", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
+
         /// (Optional) Limits the number of results that you want to include in the response. If you don't include this parameter, the response defaults to a value that's specific to the operation. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int32?
         /// (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -519,6 +535,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "RequestedQuotas", required: false, type: .list)
         ]
+
         /// If present in the response, this value indicates there's more output available that what's included in the current response. This can occur even when the response includes no values at all, such as when you ask for a filtered view of a very long list. Use this value in the NextToken request parameter in a subsequent call to the operation to continue processing and get the next part of the output. You should repeat this until the NextToken response element comes back empty (as null).
         public let nextToken: String?
         /// Returns a list of service quota requests.
@@ -532,6 +549,9 @@ extension ServiceQuotas {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 2048)
             try validate(nextToken, name:"nextToken", pattern: "^[a-zA-Z0-9/+]*={0,2}$")
+            try requestedQuotas?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -547,6 +567,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ServiceCode", required: false, type: .string)
         ]
+
         /// Specifies the AWS Region for the quota that you want to use.
         public let awsRegion: String?
         /// (Optional) Limits the number of results that you want to include in the response. If you don't include this parameter, the response defaults to a value that's specific to the operation. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
@@ -589,6 +610,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ServiceQuotaIncreaseRequestInTemplateList", required: false, type: .list)
         ]
+
         /// If present in the response, this value indicates there's more output available that what's included in the current response. This can occur even when the response includes no values at all, such as when you ask for a filtered view of a very long list. Use this value in the NextToken request parameter in a subsequent call to the operation to continue processing and get the next part of the output. You should repeat this until the NextToken response element comes back empty (as null).
         public let nextToken: String?
         /// Returns the list of values of the quota increase request in the template.
@@ -602,6 +624,9 @@ extension ServiceQuotas {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 2048)
             try validate(nextToken, name:"nextToken", pattern: "^[a-zA-Z0-9/+]*={0,2}$")
+            try serviceQuotaIncreaseRequestInTemplateList?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -616,6 +641,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ServiceCode", required: true, type: .string)
         ]
+
         /// (Optional) Limits the number of results that you want to include in the response. If you don't include this parameter, the response defaults to a value that's specific to the operation. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int32?
         /// (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -651,6 +677,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Quotas", required: false, type: .list)
         ]
+
         /// If present in the response, this value indicates there's more output available that what's included in the current response. This can occur even when the response includes no values at all, such as when you ask for a filtered view of a very long list. Use this value in the NextToken request parameter in a subsequent call to the operation to continue processing and get the next part of the output. You should repeat this until the NextToken response element comes back empty (as null).
         public let nextToken: String?
         /// The response information for a quota lists all attribute information for the quota. 
@@ -664,6 +691,9 @@ extension ServiceQuotas {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 2048)
             try validate(nextToken, name:"nextToken", pattern: "^[a-zA-Z0-9/+]*={0,2}$")
+            try quotas?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -677,6 +707,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         /// (Optional) Limits the number of results that you want to include in the response. If you don't include this parameter, the response defaults to a value that's specific to the operation. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int32?
         /// (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -705,6 +736,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Services", required: false, type: .list)
         ]
+
         /// If present in the response, this value indicates there's more output available that what's included in the current response. This can occur even when the response includes no values at all, such as when you ask for a filtered view of a very long list. Use this value in the NextToken request parameter in a subsequent call to the operation to continue processing and get the next part of the output. You should repeat this until the NextToken response element comes back empty (as null).
         public let nextToken: String?
         /// Returns a list of services. 
@@ -718,6 +750,9 @@ extension ServiceQuotas {
         public func validate() throws {
             try validate(nextToken, name:"nextToken", max: 2048)
             try validate(nextToken, name:"nextToken", pattern: "^[a-zA-Z0-9/+]*={0,2}$")
+            try services?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -733,6 +768,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "MetricNamespace", required: false, type: .string), 
             AWSShapeMember(label: "MetricStatisticRecommendation", required: false, type: .string)
         ]
+
         /// A dimension is a name/value pair that is part of the identity of a metric. Every metric has specific characteristics that describe it, and you can think of dimensions as categories for those characteristics. These dimensions are part of the CloudWatch Metric Identity that measures usage against a particular service quota.
         public let metricDimensions: [String: String]?
         /// The name of the CloudWatch metric that measures usage of a service quota. This is a required field.
@@ -781,6 +817,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "QuotaCode", required: true, type: .string), 
             AWSShapeMember(label: "ServiceCode", required: true, type: .string)
         ]
+
         /// Specifies the AWS Region for the quota. 
         public let awsRegion: String
         /// Specifies the new, increased value for the quota. 
@@ -823,6 +860,7 @@ extension ServiceQuotas {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServiceQuotaIncreaseRequestInTemplate", required: false, type: .structure)
         ]
+
         /// A structure that contains information about one service quota increase request.
         public let serviceQuotaIncreaseRequestInTemplate: ServiceQuotaIncreaseRequestInTemplate?
         
@@ -844,6 +882,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "PeriodUnit", required: false, type: .enum), 
             AWSShapeMember(label: "PeriodValue", required: false, type: .integer)
         ]
+
         /// The time unit of a period.
         public let periodUnit: PeriodUnit?
         /// The value of a period.
@@ -866,6 +905,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "QuotaCode", required: true, type: .string), 
             AWSShapeMember(label: "ServiceCode", required: true, type: .string)
         ]
+
         /// Specifies the value submitted in the service quota increase request. 
         public let desiredValue: Double
         /// Specifies the service quota that you want to use.
@@ -901,6 +941,7 @@ extension ServiceQuotas {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RequestedQuota", required: false, type: .structure)
         ]
+
         /// Returns a list of service quota requests.
         public let requestedQuota: RequestedServiceQuotaChange?
         
@@ -943,6 +984,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "Unit", required: false, type: .string)
         ]
+
         /// The case Id for the service quota increase request.
         public let caseId: String?
         /// The date and time when the service quota increase request was received and the case Id was created. 
@@ -1026,6 +1068,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "ServiceCode", required: false, type: .string), 
             AWSShapeMember(label: "ServiceName", required: false, type: .string)
         ]
+
         /// Specifies the service that you want to use.
         public let serviceCode: String?
         /// The name of the AWS service specified in the increase request. 
@@ -1063,6 +1106,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "UsageMetric", required: false, type: .structure), 
             AWSShapeMember(label: "Value", required: false, type: .double)
         ]
+
         /// Specifies if the quota value can be increased.
         public let adjustable: Bool?
         /// Specifies the ErrorCode and ErrorMessage when success isn't achieved.
@@ -1142,6 +1186,7 @@ extension ServiceQuotas {
             AWSShapeMember(label: "ServiceName", required: false, type: .string), 
             AWSShapeMember(label: "Unit", required: false, type: .string)
         ]
+
         /// The AWS Region where the increase request occurs.
         public let awsRegion: String?
         /// Identifies the new, increased value of the service quota in the increase request. 

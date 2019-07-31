@@ -15,6 +15,7 @@ extension Cloud9 {
             AWSShapeMember(label: "ownerArn", required: false, type: .string), 
             AWSShapeMember(label: "subnetId", required: false, type: .string)
         ]
+
         /// The number of minutes until the running instance is shut down after the environment has last been used.
         public let automaticStopTimeMinutes: Int32?
         /// A unique, case-sensitive string that helps AWS Cloud9 to ensure this operation completes no more than one time. For more information, see Client Tokens in the Amazon EC2 API Reference.
@@ -69,6 +70,7 @@ extension Cloud9 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "environmentId", required: false, type: .string)
         ]
+
         /// The ID of the environment that was created.
         public let environmentId: String?
         
@@ -91,6 +93,7 @@ extension Cloud9 {
             AWSShapeMember(label: "permissions", required: true, type: .enum), 
             AWSShapeMember(label: "userArn", required: true, type: .string)
         ]
+
         /// The ID of the environment that contains the environment member you want to add.
         public let environmentId: String
         /// The type of environment member permissions you want to associate with this environment member. Available values include:    read-only: Has read-only access to the environment.    read-write: Has read-write access to the environment.  
@@ -120,6 +123,7 @@ extension Cloud9 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "membership", required: false, type: .structure)
         ]
+
         /// Information about the environment member that was added.
         public let membership: EnvironmentMember?
         
@@ -141,6 +145,7 @@ extension Cloud9 {
             AWSShapeMember(label: "environmentId", required: true, type: .string), 
             AWSShapeMember(label: "userArn", required: true, type: .string)
         ]
+
         /// The ID of the environment to delete the environment member from.
         public let environmentId: String
         /// The Amazon Resource Name (ARN) of the environment member to delete from the environment.
@@ -164,7 +169,6 @@ extension Cloud9 {
 
     public struct DeleteEnvironmentMembershipResult: AWSShape {
         
-        
         public init() {
         }
 
@@ -174,6 +178,7 @@ extension Cloud9 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "environmentId", required: true, type: .string)
         ]
+
         /// The ID of the environment to delete.
         public let environmentId: String
         
@@ -192,7 +197,6 @@ extension Cloud9 {
 
     public struct DeleteEnvironmentResult: AWSShape {
         
-        
         public init() {
         }
 
@@ -206,6 +210,7 @@ extension Cloud9 {
             AWSShapeMember(label: "permissions", required: false, type: .list), 
             AWSShapeMember(label: "userArn", required: false, type: .string)
         ]
+
         /// The ID of the environment to get environment member information about.
         public let environmentId: String?
         /// The maximum number of environment members to get information about.
@@ -246,6 +251,7 @@ extension Cloud9 {
             AWSShapeMember(label: "memberships", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// Information about the environment members for the environment.
         public let memberships: [EnvironmentMember]?
         /// If there are more than 25 items in the list, only the first 25 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call.
@@ -254,6 +260,12 @@ extension Cloud9 {
         public init(memberships: [EnvironmentMember]? = nil, nextToken: String? = nil) {
             self.memberships = memberships
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try memberships?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -266,6 +278,7 @@ extension Cloud9 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "environmentId", required: true, type: .string)
         ]
+
         /// The ID of the environment to get status information about.
         public let environmentId: String
         
@@ -287,6 +300,7 @@ extension Cloud9 {
             AWSShapeMember(label: "message", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .enum)
         ]
+
         /// Any informational message about the status of the environment.
         public let message: String?
         /// The status of the environment. Available values include:    connecting: The environment is connecting.    creating: The environment is being created.    deleting: The environment is being deleted.    error: The environment is in an error state.    ready: The environment is ready.    stopped: The environment is stopped.    stopping: The environment is stopping.  
@@ -307,6 +321,7 @@ extension Cloud9 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "environmentIds", required: true, type: .list)
         ]
+
         /// The IDs of individual environments to get information about.
         public let environmentIds: [String]
         
@@ -315,6 +330,9 @@ extension Cloud9 {
         }
 
         public func validate() throws {
+            try environmentIds.forEach {
+                try validate($0, name:"environmentIds[]", pattern: "^[a-zA-Z0-9]{8,32}$")
+            }
             try validate(environmentIds, name:"environmentIds", max: 25)
             try validate(environmentIds, name:"environmentIds", min: 1)
         }
@@ -328,11 +346,18 @@ extension Cloud9 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "environments", required: false, type: .list)
         ]
+
         /// Information about the environments that are returned.
         public let environments: [Environment]?
         
         public init(environments: [Environment]? = nil) {
             self.environments = environments
+        }
+
+        public func validate() throws {
+            try environments?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -350,6 +375,7 @@ extension Cloud9 {
             AWSShapeMember(label: "ownerArn", required: false, type: .string), 
             AWSShapeMember(label: "type", required: false, type: .enum)
         ]
+
         /// The Amazon Resource Name (ARN) of the environment.
         public let arn: String?
         /// The description for the environment.
@@ -399,6 +425,7 @@ extension Cloud9 {
             AWSShapeMember(label: "reason", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .enum)
         ]
+
         /// If the environment failed to delete, the Amazon Resource Name (ARN) of the related AWS resource.
         public let failureResource: String?
         /// Any informational message about the lifecycle state of the environment.
@@ -434,6 +461,7 @@ extension Cloud9 {
             AWSShapeMember(label: "userArn", required: false, type: .string), 
             AWSShapeMember(label: "userId", required: false, type: .string)
         ]
+
         /// The ID of the environment for the environment member.
         public let environmentId: String?
         /// The time, expressed in epoch time format, when the environment member last opened the environment.
@@ -489,6 +517,7 @@ extension Cloud9 {
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The maximum number of environments to get identifiers for.
         public let maxResults: Int32?
         /// During a previous call, if there are more than 25 items in the list, only the first 25 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
@@ -515,6 +544,7 @@ extension Cloud9 {
             AWSShapeMember(label: "environmentIds", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
+
         /// The list of environment identifiers.
         public let environmentIds: [String]?
         /// If there are more than 25 items in the list, only the first 25 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call.
@@ -523,6 +553,12 @@ extension Cloud9 {
         public init(environmentIds: [String]? = nil, nextToken: String? = nil) {
             self.environmentIds = environmentIds
             self.nextToken = nextToken
+        }
+
+        public func validate() throws {
+            try environmentIds?.forEach {
+                try validate($0, name:"environmentIds[]", pattern: "^[a-zA-Z0-9]{8,32}$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -550,6 +586,7 @@ extension Cloud9 {
             AWSShapeMember(label: "permissions", required: true, type: .enum), 
             AWSShapeMember(label: "userArn", required: true, type: .string)
         ]
+
         /// The ID of the environment for the environment member whose settings you want to change.
         public let environmentId: String
         /// The replacement type of environment member permissions you want to associate with this environment member. Available values include:    read-only: Has read-only access to the environment.    read-write: Has read-write access to the environment.  
@@ -579,6 +616,7 @@ extension Cloud9 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "membership", required: false, type: .structure)
         ]
+
         /// Information about the environment member whose settings were changed.
         public let membership: EnvironmentMember?
         
@@ -601,6 +639,7 @@ extension Cloud9 {
             AWSShapeMember(label: "environmentId", required: true, type: .string), 
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
+
         /// Any new or replacement description for the environment.
         public let description: String?
         /// The ID of the environment to change settings.
@@ -629,7 +668,6 @@ extension Cloud9 {
     }
 
     public struct UpdateEnvironmentResult: AWSShape {
-        
         
         public init() {
         }

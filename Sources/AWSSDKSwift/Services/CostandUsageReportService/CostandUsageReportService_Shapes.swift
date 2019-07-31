@@ -37,6 +37,7 @@ extension CostandUsageReportService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReportName", required: false, type: .string)
         ]
+
         public let reportName: String?
         
         public init(reportName: String? = nil) {
@@ -57,6 +58,7 @@ extension CostandUsageReportService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResponseMessage", required: false, type: .string)
         ]
+
         public let responseMessage: String?
         
         public init(responseMessage: String? = nil) {
@@ -73,6 +75,7 @@ extension CostandUsageReportService {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+
         public let maxResults: Int32?
         public let nextToken: String?
         
@@ -97,6 +100,7 @@ extension CostandUsageReportService {
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ReportDefinitions", required: false, type: .list)
         ]
+
         public let nextToken: String?
         /// A list of AWS Cost and Usage reports owned by the account.
         public let reportDefinitions: [ReportDefinition]?
@@ -104,6 +108,12 @@ extension CostandUsageReportService {
         public init(nextToken: String? = nil, reportDefinitions: [ReportDefinition]? = nil) {
             self.nextToken = nextToken
             self.reportDefinitions = reportDefinitions
+        }
+
+        public func validate() throws {
+            try reportDefinitions?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -116,6 +126,7 @@ extension CostandUsageReportService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReportDefinition", required: true, type: .structure)
         ]
+
         /// Represents the output of the PutReportDefinition operation. The content consists of the detailed metadata and data file information. 
         public let reportDefinition: ReportDefinition
         
@@ -133,7 +144,6 @@ extension CostandUsageReportService {
     }
 
     public struct PutReportDefinitionResponse: AWSShape {
-        
         
         public init() {
         }
@@ -154,6 +164,7 @@ extension CostandUsageReportService {
             AWSShapeMember(label: "S3Region", required: true, type: .enum), 
             AWSShapeMember(label: "TimeUnit", required: true, type: .enum)
         ]
+
         /// A list of manifests that you want Amazon Web Services to create for this report.
         public let additionalArtifacts: [AdditionalArtifact]?
         /// A list of strings that indicate additional content that Amazon Web Services includes in the report, such as individual resource IDs. 

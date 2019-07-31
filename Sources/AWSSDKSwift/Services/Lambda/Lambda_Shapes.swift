@@ -13,6 +13,7 @@ extension Lambda {
             AWSShapeMember(label: "TotalCodeSize", required: false, type: .long), 
             AWSShapeMember(label: "UnreservedConcurrentExecutions", required: false, type: .integer)
         ]
+
         /// The maximum size of your function's code and layers when they're extracted.
         public let codeSizeUnzipped: Int64?
         /// The maximum size of a deployment package when it's uploaded directly to AWS Lambda. Use Amazon S3 for larger files.
@@ -50,6 +51,7 @@ extension Lambda {
             AWSShapeMember(label: "FunctionCount", required: false, type: .long), 
             AWSShapeMember(label: "TotalCodeSize", required: false, type: .long)
         ]
+
         /// The number of Lambda functions.
         public let functionCount: Int64?
         /// The amount of storage space, in bytes, that's being used by deployment packages and layer archives.
@@ -76,6 +78,7 @@ extension Lambda {
             AWSShapeMember(label: "StatementId", required: true, type: .string), 
             AWSShapeMember(label: "VersionNumber", location: .uri(locationName: "VersionNumber"), required: true, type: .long)
         ]
+
         /// The API action that grants access to the layer. For example, lambda:GetLayerVersion.
         public let action: String
         /// The name or Amazon Resource Name (ARN) of the layer.
@@ -129,6 +132,7 @@ extension Lambda {
             AWSShapeMember(label: "RevisionId", required: false, type: .string), 
             AWSShapeMember(label: "Statement", required: false, type: .string)
         ]
+
         /// A unique identifier for the current revision of the policy.
         public let revisionId: String?
         /// The permission statement.
@@ -157,6 +161,7 @@ extension Lambda {
             AWSShapeMember(label: "SourceArn", required: false, type: .string), 
             AWSShapeMember(label: "StatementId", required: true, type: .string)
         ]
+
         /// The action that the principal can use on the function. For example, lambda:InvokeFunction or lambda:GetFunction.
         public let action: String
         /// For Alexa Smart Home functions, a token that must be supplied by the invoker.
@@ -224,6 +229,7 @@ extension Lambda {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Statement", required: false, type: .string)
         ]
+
         /// The permission statement that's added to the function policy.
         public let statement: String?
         
@@ -245,6 +251,7 @@ extension Lambda {
             AWSShapeMember(label: "RevisionId", required: false, type: .string), 
             AWSShapeMember(label: "RoutingConfig", required: false, type: .structure)
         ]
+
         /// The Amazon Resource Name (ARN) of the alias.
         public let aliasArn: String?
         /// A description of the alias.
@@ -293,6 +300,7 @@ extension Lambda {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AdditionalVersionWeights", required: false, type: .map)
         ]
+
         /// The name of the second alias, and the percentage of traffic that's routed to it.
         public let additionalVersionWeights: [String: Double]?
         
@@ -309,6 +317,7 @@ extension Lambda {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReservedConcurrentExecutions", required: false, type: .integer)
         ]
+
         /// The number of concurrent executions that are reserved for this function. For more information, see Managing Concurrency.
         public let reservedConcurrentExecutions: Int32?
         
@@ -333,6 +342,7 @@ extension Lambda {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "RoutingConfig", required: false, type: .structure)
         ]
+
         /// A description of the alias.
         public let description: String?
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -384,6 +394,7 @@ extension Lambda {
             AWSShapeMember(label: "StartingPosition", required: false, type: .enum), 
             AWSShapeMember(label: "StartingPositionTimestamp", required: false, type: .timestamp)
         ]
+
         /// The maximum number of items to retrieve in a single batch.    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.    Amazon Simple Queue Service - Default 10. Max 10.  
         public let batchSize: Int32?
         /// Disables the event source mapping to pause polling and invocation.
@@ -444,6 +455,7 @@ extension Lambda {
             AWSShapeMember(label: "TracingConfig", required: false, type: .structure), 
             AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
+
         /// The code for the function.
         public let code: FunctionCode
         /// A dead letter queue configuration that specifies the queue or topic where Lambda sends asynchronous events when they fail processing. For more information, see Dead Letter Queues.
@@ -507,6 +519,11 @@ extension Lambda {
             try validate(handler, name:"handler", max: 128)
             try validate(handler, name:"handler", pattern: "[^\\s]+")
             try validate(kMSKeyArn, name:"kMSKeyArn", pattern: "(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()")
+            try layers?.forEach {
+                try validate($0, name:"layers[]", max: 140)
+                try validate($0, name:"layers[]", min: 1)
+                try validate($0, name:"layers[]", pattern: "arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+")
+            }
             try validate(memorySize, name:"memorySize", max: 3008)
             try validate(memorySize, name:"memorySize", min: 128)
             try validate(role, name:"role", pattern: "arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
@@ -538,6 +555,7 @@ extension Lambda {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetArn", required: false, type: .string)
         ]
+
         /// The Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic.
         public let targetArn: String?
         
@@ -559,6 +577,7 @@ extension Lambda {
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
             AWSShapeMember(label: "Name", location: .uri(locationName: "Name"), required: true, type: .string)
         ]
+
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// The name of the alias.
@@ -588,6 +607,7 @@ extension Lambda {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UUID", location: .uri(locationName: "UUID"), required: true, type: .string)
         ]
+
         /// The identifier of the event source mapping.
         public let uuid: String
         
@@ -604,6 +624,7 @@ extension Lambda {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string)
         ]
+
         /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         
@@ -627,6 +648,7 @@ extension Lambda {
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
             AWSShapeMember(label: "Qualifier", location: .querystring(locationName: "Qualifier"), required: false, type: .string)
         ]
+
         /// The name of the Lambda function or version.  Name formats     Function name - my-function (name-only), my-function:1 (with version).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// Specify a version to delete. You can't delete a version that's referenced by an alias.
@@ -657,6 +679,7 @@ extension Lambda {
             AWSShapeMember(label: "LayerName", location: .uri(locationName: "LayerName"), required: true, type: .string), 
             AWSShapeMember(label: "VersionNumber", location: .uri(locationName: "VersionNumber"), required: true, type: .long)
         ]
+
         /// The name or Amazon Resource Name (ARN) of the layer.
         public let layerName: String
         /// The version number.
@@ -683,6 +706,7 @@ extension Lambda {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Variables", required: false, type: .map)
         ]
+
         /// Environment variable key-value pairs.
         public let variables: [String: String]?
         
@@ -700,6 +724,7 @@ extension Lambda {
             AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
             AWSShapeMember(label: "Message", required: false, type: .string)
         ]
+
         /// The error code.
         public let errorCode: String?
         /// The error message.
@@ -721,6 +746,7 @@ extension Lambda {
             AWSShapeMember(label: "Error", required: false, type: .structure), 
             AWSShapeMember(label: "Variables", required: false, type: .map)
         ]
+
         /// Error messages for environment variables that couldn't be applied.
         public let error: EnvironmentError?
         /// Environment variable key-value pairs.
@@ -748,6 +774,7 @@ extension Lambda {
             AWSShapeMember(label: "StateTransitionReason", required: false, type: .string), 
             AWSShapeMember(label: "UUID", required: false, type: .string)
         ]
+
         /// The maximum number of items to retrieve in a single batch.
         public let batchSize: Int32?
         /// The Amazon Resource Name (ARN) of the event source.
@@ -809,6 +836,7 @@ extension Lambda {
             AWSShapeMember(label: "S3ObjectVersion", required: false, type: .string), 
             AWSShapeMember(label: "ZipFile", required: false, type: .blob)
         ]
+
         /// An Amazon S3 bucket in the same AWS Region as your function. The bucket can be in a different AWS account.
         public let s3Bucket: String?
         /// The Amazon S3 key of the deployment package.
@@ -848,6 +876,7 @@ extension Lambda {
             AWSShapeMember(label: "Location", required: false, type: .string), 
             AWSShapeMember(label: "RepositoryType", required: false, type: .string)
         ]
+
         /// A presigned URL that you can use to download the deployment package.
         public let location: String?
         /// The service that's hosting the file.
@@ -887,6 +916,7 @@ extension Lambda {
             AWSShapeMember(label: "Version", required: false, type: .string), 
             AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
+
         /// The SHA256 hash of the function's deployment package.
         public let codeSha256: String?
         /// The size of the function's deployment package, in bytes.
@@ -962,6 +992,9 @@ extension Lambda {
             try validate(handler, name:"handler", max: 128)
             try validate(handler, name:"handler", pattern: "[^\\s]+")
             try validate(kMSKeyArn, name:"kMSKeyArn", pattern: "(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()")
+            try layers?.forEach {
+                try $0.validate()
+            }
             try validate(masterArn, name:"masterArn", pattern: "arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
             try validate(memorySize, name:"memorySize", max: 3008)
             try validate(memorySize, name:"memorySize", min: 128)
@@ -1004,7 +1037,6 @@ extension Lambda {
 
     public struct GetAccountSettingsRequest: AWSShape {
         
-        
         public init() {
         }
 
@@ -1015,6 +1047,7 @@ extension Lambda {
             AWSShapeMember(label: "AccountLimit", required: false, type: .structure), 
             AWSShapeMember(label: "AccountUsage", required: false, type: .structure)
         ]
+
         /// Limits that are related to concurrency and code storage.
         public let accountLimit: AccountLimit?
         /// The number of functions and amount of storage in use.
@@ -1040,6 +1073,7 @@ extension Lambda {
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
             AWSShapeMember(label: "Name", location: .uri(locationName: "Name"), required: true, type: .string)
         ]
+
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// The name of the alias.
@@ -1069,6 +1103,7 @@ extension Lambda {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UUID", location: .uri(locationName: "UUID"), required: true, type: .string)
         ]
+
         /// The identifier of the event source mapping.
         public let uuid: String
         
@@ -1086,6 +1121,7 @@ extension Lambda {
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
             AWSShapeMember(label: "Qualifier", location: .querystring(locationName: "Qualifier"), required: false, type: .string)
         ]
+
         /// The name of the Lambda function, version, or alias.  Name formats     Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// Specify a version or alias to get details about a published version of the function.
@@ -1116,6 +1152,7 @@ extension Lambda {
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
             AWSShapeMember(label: "Qualifier", location: .querystring(locationName: "Qualifier"), required: false, type: .string)
         ]
+
         /// The name of the Lambda function, version, or alias.  Name formats     Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// Specify a version or alias to get details about a published version of the function.
@@ -1148,6 +1185,7 @@ extension Lambda {
             AWSShapeMember(label: "Configuration", required: false, type: .structure), 
             AWSShapeMember(label: "Tags", required: false, type: .map)
         ]
+
         /// The deployment package of the function or version.
         public let code: FunctionCodeLocation?
         /// The function's reserved concurrency.
@@ -1181,6 +1219,7 @@ extension Lambda {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", location: .querystring(locationName: "Arn"), required: true, type: .string)
         ]
+
         /// The ARN of the layer version.
         public let arn: String
         
@@ -1204,6 +1243,7 @@ extension Lambda {
             AWSShapeMember(label: "LayerName", location: .uri(locationName: "LayerName"), required: true, type: .string), 
             AWSShapeMember(label: "VersionNumber", location: .uri(locationName: "VersionNumber"), required: true, type: .long)
         ]
+
         /// The name or Amazon Resource Name (ARN) of the layer.
         public let layerName: String
         /// The version number.
@@ -1231,6 +1271,7 @@ extension Lambda {
             AWSShapeMember(label: "Policy", required: false, type: .string), 
             AWSShapeMember(label: "RevisionId", required: false, type: .string)
         ]
+
         /// The policy document.
         public let policy: String?
         /// A unique identifier for the current revision of the policy.
@@ -1252,6 +1293,7 @@ extension Lambda {
             AWSShapeMember(label: "LayerName", location: .uri(locationName: "LayerName"), required: true, type: .string), 
             AWSShapeMember(label: "VersionNumber", location: .uri(locationName: "VersionNumber"), required: true, type: .long)
         ]
+
         /// The name or Amazon Resource Name (ARN) of the layer.
         public let layerName: String
         /// The version number.
@@ -1285,6 +1327,7 @@ extension Lambda {
             AWSShapeMember(label: "LicenseInfo", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .long)
         ]
+
         /// The layer's compatible runtimes.
         public let compatibleRuntimes: [Runtime]?
         /// Details about the layer version.
@@ -1343,6 +1386,7 @@ extension Lambda {
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
             AWSShapeMember(label: "Qualifier", location: .querystring(locationName: "Qualifier"), required: false, type: .string)
         ]
+
         /// The name of the Lambda function, version, or alias.  Name formats     Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// Specify a version or alias to get the policy for that resource.
@@ -1373,6 +1417,7 @@ extension Lambda {
             AWSShapeMember(label: "Policy", required: false, type: .string), 
             AWSShapeMember(label: "RevisionId", required: false, type: .string)
         ]
+
         /// The resource-based policy.
         public let policy: String?
         /// A unique identifier for the current revision of the policy.
@@ -1400,6 +1445,7 @@ extension Lambda {
             AWSShapeMember(label: "Payload", required: false, type: .blob), 
             AWSShapeMember(label: "Qualifier", location: .querystring(locationName: "Qualifier"), required: false, type: .string)
         ]
+
         /// Up to 3583 bytes of base64-encoded data about the invoking client to pass to the function in the context object.
         public let clientContext: String?
         /// The name of the Lambda function, version, or alias.  Name formats     Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -1451,6 +1497,7 @@ extension Lambda {
             AWSShapeMember(label: "Payload", required: false, type: .blob), 
             AWSShapeMember(label: "StatusCode", required: false, type: .integer)
         ]
+
         /// The version of the function that executed. When you invoke a function with an alias, this indicates which version the alias resolved to.
         public let executedVersion: String?
         /// If present, indicates that an error occurred during function execution. Details about the error are included in the response payload.    Handled - The runtime caught an error thrown by the function and formatted it into a JSON document.    Unhandled - The runtime didn't handle the error. For example, the function ran out of memory or timed out.  
@@ -1499,6 +1546,7 @@ extension Lambda {
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
             AWSShapeMember(label: "InvokeArgs", required: true, type: .blob)
         ]
+
         /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// The JSON that you want to provide to your Lambda function as input.
@@ -1525,6 +1573,7 @@ extension Lambda {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .integer)
         ]
+
         /// The status code.
         public let status: Int32?
         
@@ -1542,6 +1591,7 @@ extension Lambda {
             AWSShapeMember(label: "Arn", required: false, type: .string), 
             AWSShapeMember(label: "CodeSize", required: false, type: .long)
         ]
+
         /// The Amazon Resource Name (ARN) of the function layer.
         public let arn: String?
         /// The size of the layer archive in bytes.
@@ -1571,6 +1621,7 @@ extension Lambda {
             AWSShapeMember(label: "S3ObjectVersion", required: false, type: .string), 
             AWSShapeMember(label: "ZipFile", required: false, type: .blob)
         ]
+
         /// The Amazon S3 bucket of the layer archive.
         public let s3Bucket: String?
         /// The Amazon S3 key of the layer archive.
@@ -1611,6 +1662,7 @@ extension Lambda {
             AWSShapeMember(label: "CodeSize", required: false, type: .long), 
             AWSShapeMember(label: "Location", required: false, type: .string)
         ]
+
         /// The SHA-256 hash of the layer archive.
         public let codeSha256: String?
         /// The size of the layer archive in bytes.
@@ -1640,6 +1692,7 @@ extension Lambda {
             AWSShapeMember(label: "LicenseInfo", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .long)
         ]
+
         /// The layer's compatible runtimes.
         public let compatibleRuntimes: [Runtime]?
         /// The date that the version was created, in ISO 8601 format. For example, 2018-11-27T15:10:45.123+0000.
@@ -1688,6 +1741,7 @@ extension Lambda {
             AWSShapeMember(label: "LayerArn", required: false, type: .string), 
             AWSShapeMember(label: "LayerName", required: false, type: .string)
         ]
+
         /// The newest version of the layer.
         public let latestMatchingVersion: LayerVersionsListItem?
         /// The Amazon Resource Name (ARN) of the function layer.
@@ -1725,6 +1779,7 @@ extension Lambda {
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer)
         ]
+
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// Specify a function version to only list aliases that invoke that version.
@@ -1765,6 +1820,7 @@ extension Lambda {
             AWSShapeMember(label: "Aliases", required: false, type: .list), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// A list of aliases.
         public let aliases: [AliasConfiguration]?
         /// The pagination token that's included if more results are available.
@@ -1773,6 +1829,12 @@ extension Lambda {
         public init(aliases: [AliasConfiguration]? = nil, nextMarker: String? = nil) {
             self.aliases = aliases
             self.nextMarker = nextMarker
+        }
+
+        public func validate() throws {
+            try aliases?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1788,6 +1850,7 @@ extension Lambda {
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer)
         ]
+
         /// The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis - The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams - The ARN of the stream.    Amazon Simple Queue Service - The ARN of the queue.  
         public let eventSourceArn: String?
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
@@ -1826,6 +1889,7 @@ extension Lambda {
             AWSShapeMember(label: "EventSourceMappings", required: false, type: .list), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// A list of event source mappings.
         public let eventSourceMappings: [EventSourceMappingConfiguration]?
         /// A pagination token that's returned when the response doesn't contain all event source mappings.
@@ -1834,6 +1898,12 @@ extension Lambda {
         public init(eventSourceMappings: [EventSourceMappingConfiguration]? = nil, nextMarker: String? = nil) {
             self.eventSourceMappings = eventSourceMappings
             self.nextMarker = nextMarker
+        }
+
+        public func validate() throws {
+            try eventSourceMappings?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1849,6 +1919,7 @@ extension Lambda {
             AWSShapeMember(label: "MasterRegion", location: .querystring(locationName: "MasterRegion"), required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer)
         ]
+
         /// Set to ALL to include entries for all published versions of each function.
         public let functionVersion: FunctionVersion?
         /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
@@ -1884,6 +1955,7 @@ extension Lambda {
             AWSShapeMember(label: "Functions", required: false, type: .list), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// A list of Lambda functions.
         public let functions: [FunctionConfiguration]?
         /// The pagination token that's included if more results are available.
@@ -1892,6 +1964,12 @@ extension Lambda {
         public init(functions: [FunctionConfiguration]? = nil, nextMarker: String? = nil) {
             self.functions = functions
             self.nextMarker = nextMarker
+        }
+
+        public func validate() throws {
+            try functions?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1907,6 +1985,7 @@ extension Lambda {
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer)
         ]
+
         /// A runtime identifier. For example, go1.x.
         public let compatibleRuntime: Runtime?
         /// The name or Amazon Resource Name (ARN) of the layer.
@@ -1944,6 +2023,7 @@ extension Lambda {
             AWSShapeMember(label: "LayerVersions", required: false, type: .list), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// A list of versions.
         public let layerVersions: [LayerVersionsListItem]?
         /// A pagination token returned when the response doesn't contain all versions.
@@ -1952,6 +2032,12 @@ extension Lambda {
         public init(layerVersions: [LayerVersionsListItem]? = nil, nextMarker: String? = nil) {
             self.layerVersions = layerVersions
             self.nextMarker = nextMarker
+        }
+
+        public func validate() throws {
+            try layerVersions?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1966,6 +2052,7 @@ extension Lambda {
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer)
         ]
+
         /// A runtime identifier. For example, go1.x.
         public let compatibleRuntime: Runtime?
         /// A pagination token returned by a previous call.
@@ -1996,6 +2083,7 @@ extension Lambda {
             AWSShapeMember(label: "Layers", required: false, type: .list), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
+
         /// A list of function layers.
         public let layers: [LayersListItem]?
         /// A pagination token returned when the response doesn't contain all layers.
@@ -2004,6 +2092,12 @@ extension Lambda {
         public init(layers: [LayersListItem]? = nil, nextMarker: String? = nil) {
             self.layers = layers
             self.nextMarker = nextMarker
+        }
+
+        public func validate() throws {
+            try layers?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2016,6 +2110,7 @@ extension Lambda {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Resource", location: .uri(locationName: "ARN"), required: true, type: .string)
         ]
+
         /// The function's Amazon Resource Name (ARN).
         public let resource: String
         
@@ -2036,6 +2131,7 @@ extension Lambda {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", required: false, type: .map)
         ]
+
         /// The function's tags.
         public let tags: [String: String]?
         
@@ -2054,6 +2150,7 @@ extension Lambda {
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer)
         ]
+
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
@@ -2087,6 +2184,7 @@ extension Lambda {
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
             AWSShapeMember(label: "Versions", required: false, type: .list)
         ]
+
         /// The pagination token that's included if more results are available.
         public let nextMarker: String?
         /// A list of Lambda function versions.
@@ -2095,6 +2193,12 @@ extension Lambda {
         public init(nextMarker: String? = nil, versions: [FunctionConfiguration]? = nil) {
             self.nextMarker = nextMarker
             self.versions = versions
+        }
+
+        public func validate() throws {
+            try versions?.forEach {
+                try $0.validate()
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2117,6 +2221,7 @@ extension Lambda {
             AWSShapeMember(label: "LayerName", location: .uri(locationName: "LayerName"), required: true, type: .string), 
             AWSShapeMember(label: "LicenseInfo", required: false, type: .string)
         ]
+
         /// A list of compatible function runtimes. Used for filtering with ListLayers and ListLayerVersions.
         public let compatibleRuntimes: [Runtime]?
         /// The function layer archive.
@@ -2167,6 +2272,7 @@ extension Lambda {
             AWSShapeMember(label: "LicenseInfo", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .long)
         ]
+
         /// The layer's compatible runtimes.
         public let compatibleRuntimes: [Runtime]?
         /// Details about the layer version.
@@ -2227,6 +2333,7 @@ extension Lambda {
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
             AWSShapeMember(label: "RevisionId", required: false, type: .string)
         ]
+
         /// Only publish a version if the hash value matches the value that's specified. Use this option to avoid publishing a version if the function code has changed since you last updated it. You can get the hash for the version that you uploaded from the output of UpdateFunctionCode.
         public let codeSha256: String?
         /// A description for the version to override the description in the function configuration.
@@ -2264,6 +2371,7 @@ extension Lambda {
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
             AWSShapeMember(label: "ReservedConcurrentExecutions", required: true, type: .integer)
         ]
+
         /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// The number of simultaneous executions to reserve for the function.
@@ -2294,6 +2402,7 @@ extension Lambda {
             AWSShapeMember(label: "StatementId", location: .uri(locationName: "StatementId"), required: true, type: .string), 
             AWSShapeMember(label: "VersionNumber", location: .uri(locationName: "VersionNumber"), required: true, type: .long)
         ]
+
         /// The name or Amazon Resource Name (ARN) of the layer.
         public let layerName: String
         /// Only update the policy if the revision ID matches the ID specified. Use this option to avoid modifying a policy that has changed since you last read it.
@@ -2334,6 +2443,7 @@ extension Lambda {
             AWSShapeMember(label: "RevisionId", location: .querystring(locationName: "RevisionId"), required: false, type: .string), 
             AWSShapeMember(label: "StatementId", location: .uri(locationName: "StatementId"), required: true, type: .string)
         ]
+
         /// The name of the Lambda function, version, or alias.  Name formats     Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// Specify a version or alias to remove permissions from a published version of the function.
@@ -2395,6 +2505,7 @@ extension Lambda {
             AWSShapeMember(label: "Resource", location: .uri(locationName: "ARN"), required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .map)
         ]
+
         /// The function's Amazon Resource Name (ARN).
         public let resource: String
         /// A list of tags to apply to the function.
@@ -2428,6 +2539,7 @@ extension Lambda {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Mode", required: false, type: .enum)
         ]
+
         /// The tracing mode.
         public let mode: TracingMode?
         
@@ -2444,6 +2556,7 @@ extension Lambda {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Mode", required: false, type: .enum)
         ]
+
         /// The tracing mode.
         public let mode: TracingMode?
         
@@ -2467,6 +2580,7 @@ extension Lambda {
             AWSShapeMember(label: "Resource", location: .uri(locationName: "ARN"), required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
         ]
+
         /// The function's Amazon Resource Name (ARN).
         public let resource: String
         /// A list of tag keys to remove from the function.
@@ -2496,6 +2610,7 @@ extension Lambda {
             AWSShapeMember(label: "RevisionId", required: false, type: .string), 
             AWSShapeMember(label: "RoutingConfig", required: false, type: .structure)
         ]
+
         /// A description of the alias.
         public let description: String?
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -2549,6 +2664,7 @@ extension Lambda {
             AWSShapeMember(label: "FunctionName", required: false, type: .string), 
             AWSShapeMember(label: "UUID", location: .uri(locationName: "UUID"), required: true, type: .string)
         ]
+
         /// The maximum number of items to retrieve in a single batch.    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.    Amazon Simple Queue Service - Default 10. Max 10.  
         public let batchSize: Int32?
         /// Disables the event source mapping to pause polling and invocation.
@@ -2592,6 +2708,7 @@ extension Lambda {
             AWSShapeMember(label: "S3ObjectVersion", required: false, type: .string), 
             AWSShapeMember(label: "ZipFile", required: false, type: .blob)
         ]
+
         /// Set to true to validate the request parameters and access permissions without modifying the function code.
         public let dryRun: Bool?
         /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -2662,6 +2779,7 @@ extension Lambda {
             AWSShapeMember(label: "TracingConfig", required: false, type: .structure), 
             AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
+
         /// A dead letter queue configuration that specifies the queue or topic where Lambda sends asynchronous events when they fail processing. For more information, see Dead Letter Queues.
         public let deadLetterConfig: DeadLetterConfig?
         /// A description of the function.
@@ -2718,6 +2836,11 @@ extension Lambda {
             try validate(handler, name:"handler", max: 128)
             try validate(handler, name:"handler", pattern: "[^\\s]+")
             try validate(kMSKeyArn, name:"kMSKeyArn", pattern: "(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()")
+            try layers?.forEach {
+                try validate($0, name:"layers[]", max: 140)
+                try validate($0, name:"layers[]", min: 1)
+                try validate($0, name:"layers[]", pattern: "arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+")
+            }
             try validate(memorySize, name:"memorySize", max: 3008)
             try validate(memorySize, name:"memorySize", min: 128)
             try validate(role, name:"role", pattern: "arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
@@ -2748,6 +2871,7 @@ extension Lambda {
             AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
             AWSShapeMember(label: "SubnetIds", required: false, type: .list)
         ]
+
         /// A list of VPC security groups IDs.
         public let securityGroupIds: [String]?
         /// A list of VPC subnet IDs.
@@ -2775,6 +2899,7 @@ extension Lambda {
             AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
             AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
+
         /// A list of VPC security groups IDs.
         public let securityGroupIds: [String]?
         /// A list of VPC subnet IDs.
